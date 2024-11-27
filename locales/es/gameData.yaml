@@ -1,613 +1,563 @@
 Characters:
   "1001":
     Name: Siete de Marzo
+    LongName: Siete de Marzo (Conservación)
   "1002":
     Name: Dan Heng
+    LongName: Dan Heng
   "1003":
     Name: Himeko
+    LongName: Himeko
   "1004":
     Name: Welt
+    LongName: Welt
   "1005":
     Name: Kafka
+    LongName: Kafka
   "1006":
     Name: Silver Wolf
+    LongName: Silver Wolf
   "1008":
     Name: Arlan
+    LongName: Arlan
   "1009":
     Name: Asta
+    LongName: Asta
   "1013":
     Name: Herta
+    LongName: Herta
   "1101":
     Name: Bronya
+    LongName: Bronya
   "1102":
     Name: Seele
+    LongName: Seele
   "1103":
     Name: Serval
+    LongName: Serval
   "1104":
     Name: Gepard
+    LongName: Gepard
   "1105":
     Name: Natasha
+    LongName: Natasha
   "1106":
     Name: Pela
+    LongName: Pela
   "1107":
     Name: Clara
+    LongName: Clara
   "1108":
     Name: Sampo
+    LongName: Sampo
   "1109":
     Name: Hook
+    LongName: Hook
   "1110":
     Name: Lynx
+    LongName: Lynx
   "1111":
     Name: Luka
+    LongName: Luka
   "1112":
     Name: Topaz y Conti
+    LongName: Topaz y Conti
   "1201":
     Name: Qingque
+    LongName: Qingque
   "1202":
     Name: Tingyun
+    LongName: Tingyun
   "1203":
     Name: Luocha
+    LongName: Luocha
   "1204":
     Name: Jing Yuan
+    LongName: Jing Yuan
   "1205":
     Name: Blade
+    LongName: Blade
   "1206":
     Name: Sushang
+    LongName: Sushang
   "1207":
     Name: Yukong
+    LongName: Yukong
   "1208":
     Name: Fu Xuan
+    LongName: Fu Xuan
   "1209":
     Name: Yanqing
+    LongName: Yanqing
   "1210":
     Name: Guinaifen
+    LongName: Guinaifen
   "1211":
     Name: Bailu
+    LongName: Bailu
   "1212":
     Name: Jingliu
+    LongName: Jingliu
   "1213":
-    Name: Dan Heng - Imbibitor Lunae
+    Name: Imbibitor Lunae
+    LongName: Dan Heng - Imbibitor Lunae
   "1214":
     Name: Xueyi
+    LongName: Xueyi
   "1215":
     Name: Hanya
+    LongName: Hanya
   "1217":
     Name: Huohuo
+    LongName: Huohuo
   "1218":
     Name: Jiaoqiu
+    LongName: Jiaoqiu
   "1220":
     Name: Feixiao
+    LongName: Feixiao
   "1221":
     Name: Yunli
+    LongName: Yunli
   "1222":
     Name: Lingsha
+    LongName: Lingsha
   "1223":
     Name: Moze
+    LongName: Moze
   "1224":
     Name: Siete de Marzo
+    LongName: Siete de Marzo (Cacería)
   "1301":
     Name: Gallagher
+    LongName: Gallagher
   "1302":
     Name: Argenti
+    LongName: Argenti
   "1303":
     Name: Ruan Mei
+    LongName: Ruan Mei
   "1304":
     Name: Aventurino
+    LongName: Aventurino
   "1305":
     Name: Dr. Ratio
+    LongName: Dr. Ratio
   "1306":
     Name: Sparkle
+    LongName: Sparkle
   "1307":
     Name: Cisne Negro
+    LongName: Cisne Negro
   "1308":
     Name: Acheron
+    LongName: Acheron
   "1309":
     Name: Robin
+    LongName: Robin
   "1310":
     Name: Luciérnaga
+    LongName: Luciérnaga
   "1312":
     Name: Misha
+    LongName: Misha
   "1314":
     Name: Jade
+    LongName: Jade
   "1315":
     Name: Boothill
+    LongName: Boothill
   "1317":
     Name: Rappa
+    LongName: Rappa
   "8001":
-    Name: Caelus (Destrucción)
+    Name: Caelus
+    LongName: Caelus (Destrucción)
   "8002":
-    Name: Stelle (Destrucción)
+    Name: Stelle
+    LongName: Stelle (Destrucción)
   "8003":
-    Name: Caelus (Conservación)
+    Name: Caelus
+    LongName: Caelus (Conservación)
   "8004":
-    Name: Stelle (Conservación)
+    Name: Stelle
+    LongName: Stelle (Conservación)
   "8005":
-    Name: Caelus (Armonía)
+    Name: Caelus
+    LongName: Caelus (Armonía)
   "8006":
-    Name: Stelle (Armonía)
+    Name: Stelle
+    LongName: Stelle (Armonía)
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
-    Description2pc: "<span>Curación realizada +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Al entrar en combate, el equipo recupera inmediatamente 1\_pt. de habilidad básica.</span>"
+    Description2pc: Curación realizada +10%.
+    Description4pc: "Al entrar en combate, el equipo recupera inmediatamente 1\_pt. de habilidad básica."
   "102":
     Name: Pistolera de la espiga silvestre
-    Description2pc: "<span>ATQ +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>La VEL del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>6%</span> y el daño de sus ATQ básicos aumenta en un <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: ATQ +12%.
+    Description4pc: La VEL del portador aumenta en un 6% y el daño de sus ATQ básicos aumenta en un 10%.
   "103":
     Name: Paladina de la Iglesia de la Corte Inmaculada
-    Description2pc: "<span>DEF +<span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
-    Description4pc: "<span>El efecto de escudo otorgado por el portador aumenta en un <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: DEF +15%.
+    Description4pc: El efecto de escudo otorgado por el portador aumenta en un 20%.
   "104":
     Name: Cazador del bosque glacial
-    Description2pc: "<span>Daño de Hielo +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Cuando el portador usa la habilidad definitiva, el Daño CRIT aumenta en un <span style='whiteSpace: \"nowrap\"'>25%</span> durante <span style='whiteSpace: \"nowrap\"'>2</span> turnos.</span>"
+    Description2pc: Daño de Hielo +10%.
+    Description4pc: Cuando el portador usa la habilidad definitiva, el Daño CRIT aumenta en un 25% durante 2 turnos.
   "105":
     Name: Campeona de boxeo callejero
-    Description2pc: "<span>Daño Físico +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Cuando el portador ataca o recibe un ataque, su ATQ aumenta en un <span style='whiteSpace: \"nowrap\"'>5%</span> durante la batalla actual. Puede acumularse hasta <span style='whiteSpace: \"nowrap\"'>5</span> veces.</span>"
+    Description2pc: Daño Físico +10%.
+    Description4pc: Cuando el portador ataca o recibe un ataque, su ATQ aumenta en un 5% durante la batalla actual. Puede acumularse hasta 5 veces.
   "106":
     Name: Guardia de la nieve borrascosa
-    Description2pc: "<span>Daño recibido -<span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Al comienzo del turno, si el portador tiene un porcentaje de PV igual o inferior al <span style='whiteSpace: \"nowrap\"'>50%</span>, regenera una cantidad de PV equivalente al <span style='whiteSpace: \"nowrap\"'>8%</span> de sus PV máx. y recupera <span style='whiteSpace: \"nowrap\"'>5</span> pts. de energía.</span>"
+    Description2pc: Daño recibido -8%.
+    Description4pc: Al comienzo del turno, si el portador tiene un porcentaje de PV igual o inferior al 50%, regenera una cantidad de PV equivalente al 8% de sus PV máx. y recupera 5 pts. de energía.
   "107":
     Name: Forjador de lava
-    Description2pc: "<span>Daño de Fuego +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>El daño que inflige la habilidad básica del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span>. Además, tras usar la habilidad definitiva, el Daño de Fuego que inflija en el siguiente ataque aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Daño de Fuego +10%.
+    Description4pc: El daño que inflige la habilidad básica del portador aumenta en un 12%. Además, tras usar la habilidad definitiva, el Daño de Fuego que inflija en el siguiente ataque aumenta en un 12%.
   "108":
     Name: Genio de las estrellas relucientes
-    Description2pc: "<span>Daño Cuántico +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Cuando el portador inflige daño a un objetivo enemigo, ignora el <span style='whiteSpace: \"nowrap\"'>10%</span> de su DEF. Si el objetivo tiene Debilidad Cuántica, ignora un <span style='whiteSpace: \"nowrap\"'>10%</span> adicional de su DEF.</span>"
+    Description2pc: Daño Cuántico +10%.
+    Description4pc: Cuando el portador inflige daño a un objetivo enemigo, ignora el 10% de su DEF. Si el objetivo tiene Debilidad Cuántica, ignora un 10% adicional de su DEF.
   "109":
     Name: Banda del trueno crepitante
-    Description2pc: "<span>Daño de Rayo +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Cuando el portador utiliza la habilidad básica, su ATQ aumenta en un <span style='whiteSpace: \"nowrap\"'>20%</span> durante <span style='whiteSpace: \"nowrap\"'>1</span> turno.</span>"
+    Description2pc: Daño de Rayo +10%.
+    Description4pc: Cuando el portador utiliza la habilidad básica, su ATQ aumenta en un 20% durante 1 turno.
   "110":
     Name: Águila del crepúsculo
-    Description2pc: "<span>Daño de Viento +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Cuando el portador utiliza la habilidad definitiva, su acción se adelanta un <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Daño de Viento +10%.
+    Description4pc: Cuando el portador utiliza la habilidad definitiva, su acción se adelanta un 25%.
   "111":
     Name: Ladrón del rastro meteórico
-    Description2pc: "<span>Efecto de Ruptura +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>El efecto de Ruptura del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>16%</span>. Cuando rompe la Debilidad del enemigo, recupera <span style='whiteSpace: \"nowrap\"'>3</span> pts. de energía.</span>"
+    Description2pc: Efecto de Ruptura +16%.
+    Description4pc: El efecto de Ruptura del portador aumenta en un 16%. Cuando rompe la Debilidad del enemigo, recupera 3 pts. de energía.
   "112":
     Name: Habitante del yermo de los bandidos
-    Description2pc: "<span>Daño Imaginario +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Al infligir daño a enemigos afectados por estados negativos, la Prob. CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>10%</span>. Si el objetivo está afectado por Prisión, el Daño CRIT aumenta en un <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: Daño Imaginario +10%.
+    Description4pc: Al infligir daño a enemigos afectados por estados negativos, la Prob. CRIT del portador aumenta en un 10%. Si el objetivo está afectado por Prisión, el Daño CRIT aumenta en un 20%.
   "113":
     Name: Discípula longeva
-    Description2pc: "<span>PV máx. +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Cuando el portador recibe un ataque o un aliado (incluyendo el portador) consume PV del portador, la Prob. CRIT aumenta en un <span style='whiteSpace: \"nowrap\"'>8%</span> durante <span style='whiteSpace: \"nowrap\"'>2</span> turnos. Este efecto se puede acumular hasta <span style='whiteSpace: \"nowrap\"'>2</span> veces.</span>"
+    Description2pc: PV máx. +12%.
+    Description4pc: Cuando el portador recibe un ataque o un aliado (incluyendo el portador) consume PV del portador, la Prob. CRIT aumenta en un 8% durante 2 turnos. Este efecto se puede acumular hasta 2 veces.
   "114":
     Name: Mensajero del espacio hackeado
-    Description2pc: "<span>VEL +<span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Cuando el portador usa su habilidad definitiva sobre un aliado, la VEL de todos los aliados aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span> durante <span style='whiteSpace: \"nowrap\"'>1</span> turno. Este efecto no se puede acumular.</span>"
+    Description2pc: VEL +6%.
+    Description4pc: Cuando el portador usa su habilidad definitiva sobre un aliado, la VEL de todos los aliados aumenta en un 12% durante 1 turno. Este efecto no se puede acumular.
   "115":
     Name: Gran duque incinerador
-    Description2pc: "<span>Daño de los ataques adicionales +<span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
-    Description4pc: "<span>Cuando el portador lanza un ataque adicional, el ATQ del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>6%</span> por cada vez que haya infligido daño con el ataque adicional. Se puede acumular hasta <span style='whiteSpace: \"nowrap\"'>8</span> veces y dura <span style='whiteSpace: \"nowrap\"'>3</span> turnos. Este efecto se disipa la siguiente vez que el portador lance un ataque adicional.</span>"
+    Description2pc: Daño de los ataques adicionales +20%.
+    Description4pc: Cuando el portador lanza un ataque adicional, el ATQ del portador aumenta en un 6% por cada vez que haya infligido daño con el ataque adicional. Se puede acumular hasta 8 veces y dura 3 turnos. Este efecto se disipa la siguiente vez que el portador lance un ataque adicional.
   "116":
     Name: Prisionero aislado
-    Description2pc: "<span>ATQ +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Por cada estado de Daño con el tiempo que tenga el objetivo, el portador ignora un <span style='whiteSpace: \"nowrap\"'>6%</span> de su DEF cuando le inflige daño, hasta un máximo de <span style='whiteSpace: \"nowrap\"'>3</span> estados de Daño con el tiempo.</span>"
+    Description2pc: ATQ +12%.
+    Description4pc: Por cada estado de Daño con el tiempo que tenga el objetivo, el portador ignora un 6% de su DEF cuando le inflige daño, hasta un máximo de 3 estados de Daño con el tiempo.
   "117":
     Name: Buceadora pionera del agua muerta
-    Description2pc: "<span>El daño infligido a los enemigos afectados por estados negativos aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>La Prob. CRIT aumenta en un <span style='whiteSpace: \"nowrap\"'>4%</span>. El Daño CRIT que el portador inflige a los enemigos que tengan al menos <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> estados negativos aumenta en un <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span>. Cuando el portador aplica un estado negativo a un enemigo, los efectos mencionados aumentan en un <span style='whiteSpace: \"nowrap\"'>100%</span> durante <span style='whiteSpace: \"nowrap\"'>1</span> turno.</span>"
+    Description2pc: El daño infligido a los enemigos afectados por estados negativos aumenta en un 12%.
+    Description4pc: La Prob. CRIT aumenta en un 4%. El Daño CRIT que el portador inflige a los enemigos que tengan al menos 2/3 estados negativos aumenta en un 8%/12%. Cuando el portador aplica un estado negativo a un enemigo, los efectos mencionados aumentan en un 100% durante 1 turno.
   "118":
     Name: Relojero de maquinaciones oníricas
-    Description2pc: "<span>Efecto de Ruptura +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Cuando el portador usa su habilidad definitiva sobre un aliado, el efecto de Ruptura de todos los aliados aumenta en un <span style='whiteSpace: \"nowrap\"'>30%</span> durante <span style='whiteSpace: \"nowrap\"'>2</span> turnos. Este efecto no se puede acumular.</span>"
+    Description2pc: Efecto de Ruptura +16%.
+    Description4pc: Cuando el portador usa su habilidad definitiva sobre un aliado, el efecto de Ruptura de todos los aliados aumenta en un 30% durante 2 turnos. Este efecto no se puede acumular.
   "119":
     Name: Caballería de hierro plaguicida
-    Description2pc: "<span>Efecto de Ruptura +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Cuando el efecto de Ruptura del portador es igual o superior al <span style='whiteSpace: \"nowrap\"'>150%</span>, al causar Daño de Ruptura al objetivo enemigo, ignora un <span style='whiteSpace: \"nowrap\"'>10%</span> de su DEF. Cuando el efecto de Ruptura del portador es igual o superior al <span style='whiteSpace: \"nowrap\"'>250%</span>, el Daño de Ultrarruptura que inflige al enemigo ignora adicionalmente un <span style='whiteSpace: \"nowrap\"'>15%</span> de su DEF.</span>"
+    Description2pc: Efecto de Ruptura +16%.
+    Description4pc: Cuando el efecto de Ruptura del portador es igual o superior al 150%, al causar Daño de Ruptura al objetivo enemigo, ignora un 10% de su DEF. Cuando el efecto de Ruptura del portador es igual o superior al 250%, el Daño de Ultrarruptura que inflige al enemigo ignora adicionalmente un 15% de su DEF.
   "120":
     Name: Intrépida cabalgavientos
-    Description2pc: "<span>ATQ +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>La Prob. CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>6%</span>. Cuando el portador lanza un ataque adicional, el daño que inflige la habilidad definitiva aumenta en un <span style='whiteSpace: \"nowrap\"'>36%</span> durante <span style='whiteSpace: \"nowrap\"'>1</span> turno.</span>"
+    Description2pc: ATQ +12%.
+    Description4pc: La Prob. CRIT del portador aumenta en un 6%. Cuando el portador lanza un ataque adicional, el daño que inflige la habilidad definitiva aumenta en un 36% durante 1 turno.
   "121":
     Name: Sacerdote del calvario revivido
-    Description2pc: "<span>VEL +<span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Al lanzar la habilidad básica o la habilidad definitiva a un aliado, el Daño CRIT del objetivo de la habilidad aumenta en un <span style='whiteSpace: \"nowrap\"'>18%</span> durante <span style='whiteSpace: \"nowrap\"'>2</span> turnos. Este efecto se puede acumular hasta <span style='whiteSpace: \"nowrap\"'>2</span> veces.</span>"
+    Description2pc: VEL +6%.
+    Description4pc: Al lanzar la habilidad básica o la habilidad definitiva a un aliado, el Daño CRIT del objetivo de la habilidad aumenta en un 18% durante 2 turnos. Este efecto se puede acumular hasta 2 veces.
   "122":
     Name: Eruditos perdidos en el mar del conocimiento
-    Description2pc: "<span>Prob. CRIT +<span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>El daño que infligen la habilidad básica y la habilidad definitiva aumenta en un <span style='whiteSpace: \"nowrap\"'>20%</span>. Tras lanzar la habilidad definitiva, el daño que inflige la siguiente habilidad básica aumenta en un <span style='whiteSpace: \"nowrap\"'>25%</span> adicional.</span>"
+    Description2pc: Prob. CRIT +8%.
+    Description4pc: El daño que infligen la habilidad básica y la habilidad definitiva aumenta en un 20%. Tras lanzar la habilidad definitiva, el daño que inflige la siguiente habilidad básica aumenta en un 25% adicional.
   "301":
     Name: Estación sellaespacios
-    Description2pc: "<span>El ATQ del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span>. Cuando su VEL es igual o superior a <span style='whiteSpace: \"nowrap\"'>120</span>, el ATQ aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span> adicional.</span>"
+    Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
   "302":
     Name: Flota de los eternos
-    Description2pc: "<span>Los PV máx. del portador aumentan en un <span style='whiteSpace: \"nowrap\"'>12%</span>. Cuando su VEL es igual o superior a <span style='whiteSpace: \"nowrap\"'>120</span>, el ATQ de todos los aliados aumenta en un <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
+    Description2pc: Los PV máx. del portador aumentan en un 12%. Cuando su VEL es igual o superior a 120, el ATQ de todos los aliados aumenta en un 8%.
   "303":
     Name: Entidad comercial pangaláctica
-    Description2pc: "<span>El acierto de efecto del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>10%</span> y su ATQ aumenta en una cantidad equivalente al <span style='whiteSpace: \"nowrap\"'>25%</span> del acierto de efecto actual, hasta un máximo de un <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: El acierto de efecto del portador aumenta en un 10% y su ATQ aumenta en una cantidad equivalente al 25% del acierto de efecto actual, hasta un máximo de un 25%.
   "304":
     Name: La Belobog de los Arquitectos
-    Description2pc: "<span>La DEF del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>15%</span>. Cuando su acierto de efecto es igual o superior al <span style='whiteSpace: \"nowrap\"'>50%</span>, la DEF aumenta en un <span style='whiteSpace: \"nowrap\"'>15%</span> adicional.</span>"
+    Description2pc: La DEF del portador aumenta en un 15%. Cuando su acierto de efecto es igual o superior al 50%, la DEF aumenta en un 15% adicional.
   "305":
     Name: Diferenciador celestial
-    Description2pc: "<span>El Daño CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>16%</span>. Cuando su Daño CRIT es igual o superior al <span style='whiteSpace: \"nowrap\"'>120%</span>, tras entrar en combate su Prob. CRIT aumenta en un <span style='whiteSpace: \"nowrap\"'>60%</span> hasta que termine su primer ataque.</span>"
+    Description2pc: El Daño CRIT del portador aumenta en un 16%. Cuando su Daño CRIT es igual o superior al 120%, tras entrar en combate su Prob. CRIT aumenta en un 60% hasta que termine su primer ataque.
   "306":
     Name: Salsotto inerte
-    Description2pc: "<span>La Prob. CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>8%</span>. Cuando su Prob. CRIT es igual o superior al <span style='whiteSpace: \"nowrap\"'>50%</span>, el daño que infligen su habilidad definitiva y sus ataques adicionales aumenta en un <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
+    Description2pc: La Prob. CRIT del portador aumenta en un 8%. Cuando su Prob. CRIT es igual o superior al 50%, el daño que infligen su habilidad definitiva y sus ataques adicionales aumenta en un 15%.
   "307":
     Name: Talia, paraíso de los forajidos
-    Description2pc: "<span>El efecto de Ruptura del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>16%</span>. Cuando su VEL es igual o superior a <span style='whiteSpace: \"nowrap\"'>145</span>, el efecto especial de Ruptura aumenta en un <span style='whiteSpace: \"nowrap\"'>20%</span> adicional.</span>"
+    Description2pc: El efecto de Ruptura del portador aumenta en un 16%. Cuando su VEL es igual o superior a 145, el efecto especial de Ruptura aumenta en un 20% adicional.
   "308":
     Name: Vonwacq el vivaz
-    Description2pc: "<span>La recuperación de energía del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>5%</span>. Cuando su VEL es igual o superior a <span style='whiteSpace: \"nowrap\"'>120</span>, su acción se adelanta un <span style='whiteSpace: \"nowrap\"'>40%</span> al entrar en combate.</span>"
+    Description2pc: La recuperación de energía del portador aumenta en un 5%. Cuando su VEL es igual o superior a 120, su acción se adelanta un 40% al entrar en combate.
   "309":
     Name: Arena rutilante
-    Description2pc: "<span>La Prob. CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>8%</span>. Cuando su Prob. CRIT es igual o superior al <span style='whiteSpace: \"nowrap\"'>70%</span>, el daño que infligen su ATQ básico y su habilidad básica aumenta en un <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
+    Description2pc: La Prob. CRIT del portador aumenta en un 8%. Cuando su Prob. CRIT es igual o superior al 70%, el daño que infligen su ATQ básico y su habilidad básica aumenta en un 20%.
   "310":
     Name: Quilla rota
-    Description2pc: "<span>La RES a efecto del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>10%</span>. Cuando su RES a efecto es igual o superior al <span style='whiteSpace: \"nowrap\"'>30%</span>, el Daño CRIT de todos los aliados aumenta en un <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: La RES a efecto del portador aumenta en un 10%. Cuando su RES a efecto es igual o superior al 30%, el Daño CRIT de todos los aliados aumenta en un 10%.
   "311":
     Name: Glamoth, frente del firmamento
-    Description2pc: "<span>El ATQ del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span>. Cuando su VEL es igual o superior a <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, el daño que inflige aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>.</span>"
+    Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 135/160, el daño que inflige aumenta en un 12%/18%.
   "312":
     Name: Colonipenal, la tierra de los sueños
-    Description2pc: "<span>La recuperación de energía del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>5%</span>. Aumenta en un <span style='whiteSpace: \"nowrap\"'>10%</span> el daño que infligen los demás aliados que sean del mismo tipo que el portador.</span>"
+    Description2pc: La recuperación de energía del portador aumenta en un 5%. Aumenta en un 10% el daño que infligen los demás aliados que sean del mismo tipo que el portador.
   "313":
     Name: Sigonia, desolación sin dueño
-    Description2pc: "<span>Aumenta la Prob. CRIT del portador en un <span style='whiteSpace: \"nowrap\"'>4%</span>. Al eliminar a un enemigo, el Daño CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>4%</span>. Se puede acumular hasta <span style='whiteSpace: \"nowrap\"'>10</span> veces.</span>"
+    Description2pc: Aumenta la Prob. CRIT del portador en un 4%. Al eliminar a un enemigo, el Daño CRIT del portador aumenta en un 4%. Se puede acumular hasta 10 veces.
   "314":
     Name: Izumo gensei y reino divino de Takama
-    Description2pc: "<span>Aumenta el ATQ del portador en un <span style='whiteSpace: \"nowrap\"'>12%</span>. Al entrar en combate, si hay al menos un aliado de la misma Vía que el portador, la Prob. CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Aumenta el ATQ del portador en un 12%. Al entrar en combate, si hay al menos un aliado de la misma Vía que el portador, la Prob. CRIT del portador aumenta en un 12%.
   "315":
     Name: Duran, dinastía de lobos raudos
-    Description2pc: "<span>Cuando un aliado lanza un ataque adicional, el portador obtiene una acumulación de Mérito, hasta un máximo de <span style='whiteSpace: \"nowrap\"'>5</span> acumulaciones. Por cada acumulación, el daño que infligen los ataques adicionales del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>5%</span>. Cuando se alcanza el máximo de <span style='whiteSpace: \"nowrap\"'>5</span> acumulaciones, el Daño CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Cuando un aliado lanza un ataque adicional, el portador obtiene una acumulación de Mérito, hasta un máximo de 5 acumulaciones. Por cada acumulación, el daño que infligen los ataques adicionales del portador aumenta en un 5%. Cuando se alcanza el máximo de 5 acumulaciones, el Daño CRIT del portador aumenta en un 25%.
   "316":
     Name: Fragua de la linterna Kalpagni
-    Description2pc: "<span>La VEL del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>6%</span>. Cuando el portador golpea a un enemigo con Debilidad de Fuego, el efecto de Ruptura aumenta en un <span style='whiteSpace: \"nowrap\"'>40%</span> durante <span style='whiteSpace: \"nowrap\"'>1</span> turno.</span>"
+    Description2pc: La VEL del portador aumenta en un 6%. Cuando el portador golpea a un enemigo con Debilidad de Fuego, el efecto de Ruptura aumenta en un 40% durante 1 turno.
   "317":
     Name: Lushaka, sumergido bajo el mar
-    Description2pc: "<span>La recuperación de energía del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>5%</span>. Si el portador no es el primer personaje de la formación, aumenta en un <span style='whiteSpace: \"nowrap\"'>12%</span> el ATQ del primer personaje de la formación.</span>"
+    Description2pc: La recuperación de energía del portador aumenta en un 5%. Si el portador no es el primer personaje de la formación, aumenta en un 12% el ATQ del primer personaje de la formación.
   "318":
     Name: Parque de Platanolandia
-    Description2pc: "<span>El Daño CRIT del portador aumenta en un <span style='whiteSpace: \"nowrap\"'>16%</span>. Cuando hay un objetivo invocado por el portador, el Daño CRIT aumenta en un <span style='whiteSpace: \"nowrap\"'>32%</span> adicional.</span>"
+    Description2pc: El Daño CRIT del portador aumenta en un 16%. Cuando hay un objetivo invocado por el portador, el Daño CRIT aumenta en un 32% adicional.
 Lightcones:
   "20000":
     Name: Flechas
-    SkillName: Crisis
   "20001":
     Name: Cornucopia
-    SkillName: Prosperidad
   "20002":
     Name: Colapso celeste
-    SkillName: Hecatombe
   "20003":
     Name: Ámbar
-    SkillName: Inmovilidad
   "20004":
     Name: Vacío
-    SkillName: Caída
   "20005":
     Name: Coro
-    SkillName: Sinergia
   "20006":
     Name: Archivos
-    SkillName: Conocimiento
   "20007":
     Name: Flecha voladora
-    SkillName: Grito de guerra
   "20008":
     Name: Fruto excelente
-    SkillName: Degustación
   "20009":
     Name: Hogar destrozado
-    SkillName: Erradicación
   "20010":
     Name: Blindaje
-    SkillName: Revitalización
   "20011":
     Name: Bucle
-    SkillName: Persecución
   "20012":
     Name: Rueda mecánica
-    SkillName: Triunfo rápido
   "20013":
     Name: Llave maestra
-    SkillName: Epifanía
   "20014":
     Name: Antagonista
-    SkillName: Alianza
   "20015":
     Name: Multiplicación
-    SkillName: Moradores de la Abundancia
   "20016":
     Name: Final mutuo
-    SkillName: Legión
   "20017":
     Name: Colonización
-    SkillName: Corporación
   "20018":
     Name: Sombra oculta
-    SkillName: Mecanismo
   "20019":
     Name: Mediación
-    SkillName: La Familia
   "20020":
     Name: Sagacidad
-    SkillName: Genio
   "21000":
     Name: Conversación en el postoperatorio
-    SkillName: Curación mutua
   "21001":
     Name: Buenas noches, que duermas bien
-    SkillName: Infatigable
   "21002":
     Name: El primer día del resto de mi vida
-    SkillName: En este mismo momento
   "21003":
     Name: Solo queda silencio
-    SkillName: Registro
   "21004":
     Name: Imagen en el recuerdo
-    SkillName: Foto vieja
   "21005":
     Name: Los Topos te dan la bienvenida
-    SkillName: Aventura fantástica
   "21006":
     Name: El nacimiento del yo
-    SkillName: La joven del cuadro
   "21007":
     Name: Sentimiento compartido
-    SkillName: Curación y arreglo
   "21008":
     Name: Visión de presa
-    SkillName: Confianza
   "21009":
     Name: La elección de Landau
-    SkillName: El tiempo vuela
   "21010":
     Name: Juego de espadas
-    SkillName: Sus propias respuestas
   "21011":
     Name: Encuentro planetario
-    SkillName: Salida
   "21012":
     Name: Juramento secreto
-    SkillName: Esfuerzo total
   "21013":
     Name: Que el mundo clame
-    SkillName: El poder del sonido
   "21014":
     Name: El momento oportuno
-    SkillName: Vista refractada
   "21015":
     Name: Determinación reluciente
-    SkillName: Retrospectiva
   "21016":
     Name: Tendencias del mercado universal
-    SkillName: Nueva partida
   "21017":
     Name: ¡Suscríbanse a mi canal!
-    SkillName: ¡No se vayan sin darme un like!
   "21018":
     Name: ¡A bailar!
-    SkillName: ¡No puedo detenerme!
   "21019":
     Name: Bajo el cielo azul
-    SkillName: Olas de trigo al sol
   "21020":
     Name: El reposo de los genios
-    SkillName: Cada uno tiene su papel
   "21021":
     Name: Intercambio equivalente
-    SkillName: Alegría apropiada
   "21022":
     Name: Calderón
-    SkillName: Silencio de redonda
   "21023":
     Name: Somos Llamarada
-    SkillName: Entre lágrimas
   "21024":
     Name: El río nace en primavera
-    SkillName: El frío se disipa
   "21025":
     Name: El pasado y el futuro
-    SkillName: Cometas antiguas
   "21026":
     Name: ¡Guau! ¡Hora de pasear!
-    SkillName: ¡Corre!
   "21027":
     Name: La solemnidad del desayuno
-    SkillName: A sus puestos
   "21028":
     Name: Las noches cálidas no duran
-    SkillName: Luz diminuta
   "21029":
     Name: Volveremos a encontrarnos
-    SkillName: El discurso de las armas
   "21030":
     Name: ¡Así soy yo!
-    SkillName: Nuevo capítulo
   "21031":
     Name: Regreso a la oscuridad
-    SkillName: Olas turbulentas
   "21032":
     Name: Esculpir la luna y tejer las nubes
-    SkillName: Secreto
   "21033":
     Name: Sin escapatoria
-    SkillName: En un aprieto
   "21034":
     Name: Hoy es otro día tranquilo
-    SkillName: Se avecina tormenta
   "21035":
     Name: Cuestión de verdad
-    SkillName: Hipótesis
   "21036":
     Name: Aventuras en Villa Ensueño
-    SkillName: Cohesión
   "21037":
     Name: Ganador final
-    SkillName: Órdago
   "21038":
     Name: Lejos del fuego
-    SkillName: Deflagración
   "21039":
     Name: Los hilos del destino
-    SkillName: Cognición
   "21040":
     Name: Día del colapso cósmico
-    SkillName: Estratagema
   "21041":
     Name: Arriba el telón
-    SkillName: Entretenimiento personal
   "21042":
     Name: Promesa grabada
-    SkillName: Legado
   "21043":
     Name: Concierto para dos
-    SkillName: Motivación
   "21044":
     Name: Tango ilimitado
-    SkillName: Escrutinio
   "21045":
     Name: Tras el silencio de La Armonía
-    SkillName: Silencio
   "21046":
     Name: Juventud por florecer
-    SkillName: Nunca perdido ni olvidado
   "21047":
     Name: La sombra de la noche
-    SkillName: Ocultación
   "21048":
     Name: Montaje de sueños
-    SkillName: Montaje de estilo académico
   "22000":
     Name: Antes de que comience la misión del tutorial
-    SkillName: Mano rápida
   "22001":
     Name: Ey, estoy aquí
-    SkillName: ¡No tengo miedo!
   "22002":
     Name: Para el viaje de mañana
-    SkillName: Ataduras
   "22003":
     Name: "Grabación ninja: Cacería del Sonido"
-    SkillName: Empieza el espectáculo
   "23000":
     Name: Noche en la Vía Láctea
-    SkillName: Lluvia de meteoros
   "23001":
     Name: En la noche
-    SkillName: Flores y mariposas
   "23002":
     Name: Algo insustituible
-    SkillName: Familia
   "23003":
     Name: La batalla no ha terminado
-    SkillName: Sucesión
   "23004":
     Name: En nombre del mundo
-    SkillName: Herencia
   "23005":
     Name: El momento de la victoria
-    SkillName: Veredicto
   "23006":
     Name: Solo hay que esperar
-    SkillName: Telaraña
   "23007":
     Name: Lluvia incesante
-    SkillName: Espejismo de la realidad
   "23008":
     Name: Ecos del ataúd
-    SkillName: Espinas
   "23009":
     Name: Orilla inalcanzable
-    SkillName: Anhelo insatisfecho
   "23010":
     Name: Antes del amanecer
-    SkillName: Noche larga
   "23011":
     Name: Ya ha cerrado los ojos
-    SkillName: Horizonte cosmológico
   "23012":
     Name: Dormir como un tronco
-    SkillName: Dulces sueños
   "23013":
     Name: El tiempo no espera
-    SkillName: Mañana, tarde y noche
   "23014":
     Name: Yo seré mi propia espada
-    SkillName: Con este jade nocturno
   "23015":
     Name: Más brillante que el sol
-    SkillName: Desafiante hasta la muerte
   "23016":
     Name: Preocupaciones y felicidad
-    SkillName: De uno en uno
   "23017":
     Name: Noche terrorífica
-    SkillName: Respiración profunda
   "23018":
     Name: Instante grabado a fuego
-    SkillName: Peregrinación del caballero
   "23019":
     Name: Mi pasado en el espejo
-    SkillName: Fragancia de ciruela en mis huesos
   "23020":
     Name: El bautismo del pensamiento puro
-    SkillName: Entrenamiento mental
   "23021":
     Name: Mundo de juegos
-    SkillName: Veleidad
   "23022":
     Name: Recuerdos reconstruidos
-    SkillName: Cristalización
   "23023":
     Name: El destino nunca es justo
-    SkillName: Con todo
   "23024":
     Name: En las orillas transitorias
-    SkillName: Navegante
   "23025":
     Name: A donde regresan los sueños
-    SkillName: Metamorfosis
   "23026":
     Name: Luces de la noche
-    SkillName: Consuelo
   "23027":
     Name: Hacia una segunda vida
-    SkillName: Mar bravo
   "23028":
     Name: La esperanza no tiene precio
-    SkillName: Promesa
   "23029":
     Name: Esas incontables primaveras
-    SkillName: Los asuntos mundanos no dejan huella
   "23030":
     Name: Danza crepuscular
-    SkillName: Fascinación profunda
   "23031":
     Name: Me voy de caza
-    SkillName: Intimidación
   "23032":
     Name: Solo la fragancia perdura
-    SkillName: Alivio
   "23033":
     Name: "Pergamino ninja: Azote deslumbrante del mal"
-    SkillName: Exorcismo
   "24000":
     Name: Sobre la caída de un Eón
-    SkillName: Polilla a la luz
   "24001":
     Name: Crucero estelar
-    SkillName: Batida
   "24002":
     Name: La textura de los recuerdos
-    SkillName: Depósito de tesoros
   "24003":
     Name: Sanación solitaria
-    SkillName: Elixir del caos
   "24004":
     Name: Cálculo interminable
-    SkillName: Pensamiento infinito
 Paths:
   Warrior: Destrucción
   Rogue: Cacería

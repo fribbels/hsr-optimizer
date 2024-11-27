@@ -26,10 +26,7 @@ CharacterMenu:
     Options:
       SortByScore: Sort all characters by score
       MoveToTop: Move character to top
-Confirm: '$t(common:Confirm, {"capitalizeLength": 1})'
-Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-CopyScreenshot: Copy screenshot
-SearchPlaceholder: Search character name
+SearchPlaceholder: Search
 GridHeaders:
   Icon: Icon
   Priority: Priority
@@ -38,18 +35,23 @@ Messages:
   RemoveSuccess: Successfully removed character
   UnequipSuccess: Successfully unequipped character
   NoSelectedCharacter: No selected character
-  SwitchSuccess: Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)
-  SortByScoreWarning: >-
-    Are you sure you want to sort all characters?
-    You will lose any custom rankings you have set.
-  SaveSuccess: 'Successfully saved build: {{name}}'
-  UnequipWarning: Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?
-  DeleteWarning: Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?
+  SwitchSuccess: "Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)"
+  SortByScoreWarning: Are you sure you want to sort all characters? You will lose any custom rankings you have set.
+  SaveSuccess: "Successfully saved build: {{name}}"
+  UnequipWarning: "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
-  ArtBy: Art by {{artistName}}
+  CustomizationSidebar:
+    Label: Customization
+    Modes:
+      Auto: Auto
+      Custom: Custom
+      Standard: Standard
+    PaletteLabel: Portrait color palette
+  ArtBy: "Art by {{artistName}}"
   EditCharacter: Edit character
   EditPortrait: Edit portrait
-  CharacterScore: 'Character Score: {{score}} {{grade}}'
+  CharacterScore: "Character Score: {{score}} {{grade}}"
   Messages:
     AddedRelic: Successfully added relic
     SavedPortrait: Successfully saved portrait
@@ -57,15 +59,15 @@ CharacterPreview:
     NoSelectedCharacter: No selected character
   ScoreHeader:
     Title: Combat Sim
-    Score: DPS Score {{score}}% {{grade}}
+    Score: "DPS Score {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: 'Scoring algorithm:'
+    Title: "Scoring algorithm:"
     Labels:
       CombatScore: Combat Score
       CombatScoreTBD: Combat Score (TBD)
       StatScore: Stat Score
   DetailsSlider:
-    Title: 'Combat score details:'
+    Title: "Combat score details:"
     Labels:
       CombatStats: Combat Stats
       DMGUpgrades: Damage Upgrades
@@ -73,7 +75,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons
     Roll: roll
-    Score: Score
     Damage: Damage
   BuildAnalysis:
     Header: Character build analysis
@@ -85,16 +86,16 @@ CharacterPreview:
       SKILL: SKILL
       ULT: ULT
       FUA: FUA
-      DOT: DOT
-      BREAK: BREAK
+      DOTS: "DOTS:"
+      BREAKS: "BREAKS:"
     CombatResults:
       Header: Combat damage results
-      Primary: 'Primary ability:     '
-      Character: 'Character DMG:       '
-      Benchmark: 'Benchmark DMG:       '
-      Baseline: 'Baseline DMG:        '
-      Maximum: 'Maximum DMG:         '
-      Score: 'DPS score %:         '
+      Primary: "Primary ability:"
+      Character: "Character DMG:"
+      Benchmark: "Benchmark DMG:"
+      Baseline: "Baseline DMG:"
+      Maximum: "Maximum DMG:"
+      Score: "DPS score %:"
       Abilities:
         BASIC: BASIC DMG
         SKILL: SKILL DMG
@@ -105,45 +106,25 @@ CharacterPreview:
         COMBO: COMBO DMG
   ScoringColumn:
     Character:
-      Header: Character build ({{score}}%)
+      Header: "Character build ({{score}}%)"
       BasicStats: Character basic stats
       CombatStats: Character <1>combat stats</1>
       Substats: Character subs (min rolls)
       Mainstats: Character main stats
       Abilities: Character ability damage
     Benchmark:
-      Header: Benchmark build ({{score}}%)
+      Header: "Benchmark build ({{score}}%)"
       BasicStats: 100% benchmark basic stats
       CombatStats: 100% benchmark <1>combat stats</1>
       Substats: 100% benchmark subs (min rolls)
       Mainstats: 100% benchmark main stats
       Abilities: 100% benchmark ability damage
     Perfect:
-      Header: Perfect build ({{score}}%)
+      Header: "Perfect build ({{score}}%)"
       BasicStats: 200% perfect basic stats
       CombatStats: 200% perfect <1>combat stats</1>
       Substats: 200% perfect subs (max rolls)
       Mainstats: 200% perfect main stats
       Abilities: 200% perfect ability damage
-    PaddedStatLabels:
-      ATKP: 'ATK%: '
-      ATK: 'ATK:  '
-      HPP: 'HP%:  '
-      HP: 'HP:   '
-      DEFP: 'DEF%: '
-      DEF: 'DEF:  '
-      SPD: 'SPD:  '
-      CR: 'CR:   '
-      CD: 'CD:   '
-      EHR: 'EHR:  '
-      RES: 'RES:  '
-      BE: 'BE:   '
-    PaddedDMGLabels:
-      Basic: 'Basic DMG:           '
-      Skill: 'Skill DMG:           '
-      Ult: 'Ult DMG:             '
-      Fua: 'Fua DMG:             '
-      Dot: 'Dot DMG:             '
-      Break: 'Break DMG:           '
   ScoringDetails:
     Header: How is DPS Score calculated?

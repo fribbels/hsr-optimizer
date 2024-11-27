@@ -1,613 +1,563 @@
 Characters:
   "1001":
     Name: March 7th
+    LongName: March 7th (Preservation)
   "1002":
     Name: Dan Heng
+    LongName: Dan Heng
   "1003":
     Name: Himeko
+    LongName: Himeko
   "1004":
     Name: Welt
+    LongName: Welt
   "1005":
     Name: Kafka
+    LongName: Kafka
   "1006":
     Name: Silver Wolf
+    LongName: Silver Wolf
   "1008":
     Name: Arlan
+    LongName: Arlan
   "1009":
     Name: Asta
+    LongName: Asta
   "1013":
     Name: Herta
+    LongName: Herta
   "1101":
     Name: Bronya
+    LongName: Bronya
   "1102":
     Name: Seele
+    LongName: Seele
   "1103":
     Name: Serval
+    LongName: Serval
   "1104":
     Name: Gepard
+    LongName: Gepard
   "1105":
     Name: Natasha
+    LongName: Natasha
   "1106":
     Name: Pela
+    LongName: Pela
   "1107":
     Name: Clara
+    LongName: Clara
   "1108":
     Name: Sampo
+    LongName: Sampo
   "1109":
     Name: Hook
+    LongName: Hook
   "1110":
     Name: Lynx
+    LongName: Lynx
   "1111":
     Name: Luka
+    LongName: Luka
   "1112":
     Name: Topaz & Numby
+    LongName: Topaz & Numby
   "1201":
     Name: Qingque
+    LongName: Qingque
   "1202":
     Name: Tingyun
+    LongName: Tingyun
   "1203":
     Name: Luocha
+    LongName: Luocha
   "1204":
     Name: Jing Yuan
+    LongName: Jing Yuan
   "1205":
     Name: Blade
+    LongName: Blade
   "1206":
     Name: Sushang
+    LongName: Sushang
   "1207":
     Name: Yukong
+    LongName: Yukong
   "1208":
     Name: Fu Xuan
+    LongName: Fu Xuan
   "1209":
     Name: Yanqing
+    LongName: Yanqing
   "1210":
     Name: Guinaifen
+    LongName: Guinaifen
   "1211":
     Name: Bailu
+    LongName: Bailu
   "1212":
     Name: Jingliu
+    LongName: Jingliu
   "1213":
     Name: Dan Heng · Imbibitor Lunae
+    LongName: Dan Heng · Imbibitor Lunae
   "1214":
     Name: Xueyi
+    LongName: Xueyi
   "1215":
     Name: Hanya
+    LongName: Hanya
   "1217":
     Name: Huohuo
+    LongName: Huohuo
   "1218":
     Name: Jiaoqiu
+    LongName: Jiaoqiu
   "1220":
     Name: Feixiao
+    LongName: Feixiao
   "1221":
     Name: Yunli
+    LongName: Yunli
   "1222":
     Name: Lingsha
+    LongName: Lingsha
   "1223":
     Name: Moze
+    LongName: Moze
   "1224":
     Name: March 7th
+    LongName: March 7th (Hunt)
   "1301":
     Name: Gallagher
+    LongName: Gallagher
   "1302":
     Name: Argenti
+    LongName: Argenti
   "1303":
     Name: Ruan Mei
+    LongName: Ruan Mei
   "1304":
     Name: Aventurine
+    LongName: Aventurine
   "1305":
     Name: Dr. Ratio
+    LongName: Dr. Ratio
   "1306":
     Name: Sparkle
+    LongName: Sparkle
   "1307":
     Name: Black Swan
+    LongName: Black Swan
   "1308":
     Name: Acheron
+    LongName: Acheron
   "1309":
     Name: Robin
+    LongName: Robin
   "1310":
     Name: Firefly
+    LongName: Firefly
   "1312":
     Name: Misha
+    LongName: Misha
   "1314":
     Name: Jade
+    LongName: Jade
   "1315":
     Name: Boothill
+    LongName: Boothill
   "1317":
     Name: Rappa
+    LongName: Rappa
   "8001":
-    Name: Caelus (Destruction)
+    Name: Caelus
+    LongName: Caelus (Destruction)
   "8002":
-    Name: Stelle (Destruction)
+    Name: Stelle
+    LongName: Stelle (Destruction)
   "8003":
-    Name: Caelus (Preservation)
+    Name: Caelus
+    LongName: Caelus (Preservation)
   "8004":
-    Name: Stelle (Preservation)
+    Name: Stelle
+    LongName: Stelle (Preservation)
   "8005":
-    Name: Caelus (Harmony)
+    Name: Caelus
+    LongName: Caelus (Harmony)
   "8006":
-    Name: Stelle (Harmony)
+    Name: Stelle
+    LongName: Stelle (Harmony)
 RelicSets:
   "101":
     Name: Passerby of Wandering Cloud
-    Description2pc: "<span>Outgoing Healing +<span style='whiteSpace: \"nowrap\"'>10%</span></span>"
-    Description4pc: <span>Segera memulihkan 1 Poin Skill saat pertempuran dimulai.</span>
+    Description2pc: Outgoing Healing +10%
+    Description4pc: Segera memulihkan 1 Poin Skill saat pertempuran dimulai.
   "102":
     Name: Musketeer of Wild Wheat
-    Description2pc: "<span>ATK +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>SPD pengguna +<span style='whiteSpace: \"nowrap\"'>6%</span>, DMG yang diakibatkan Basic Attack pengguna +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: ATK +12%.
+    Description4pc: SPD pengguna +6%, DMG yang diakibatkan Basic Attack pengguna +10%.
   "103":
     Name: Knight of Purity Palace
-    Description2pc: "<span>DEF +<span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
-    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> kekuatan Shield yang dibuat oleh pengguna.</span>"
+    Description2pc: DEF +15%.
+    Description4pc: Meningkatkan 20% kekuatan Shield yang dibuat oleh pengguna.
   "104":
     Name: Hunter of Glacial Forest
-    Description2pc: "<span>Ice DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Saat melancarkan Ultimate, CRIT DMG meningkat <span style='whiteSpace: \"nowrap\"'>25%</span> selama <span style='whiteSpace: \"nowrap\"'>2</span> giliran.</span>"
+    Description2pc: Ice DMG +10%.
+    Description4pc: Saat melancarkan Ultimate, CRIT DMG meningkat 25% selama 2 giliran.
   "105":
     Name: Champion of Streetwise Boxing
-    Description2pc: "<span>Physical DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Setelah pengguna melancarkan atau menerima serangan, ATK pengguna meningkat <span style='whiteSpace: \"nowrap\"'>5%</span> selama pertempuran, dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>5</span> lapis.</span>"
+    Description2pc: Physical DMG +10%.
+    Description4pc: Setelah pengguna melancarkan atau menerima serangan, ATK pengguna meningkat 5% selama pertempuran, dapat ditumpuk hingga 5 lapis.
   "106":
     Name: Guard of Wuthering Snow
-    Description2pc: "<span>DMG yang diterima -<span style='whiteSpace: \"nowrap\"'>8%</span></span>"
-    Description4pc: "<span>Saat giliran dimulai, jika HP pengguna saat ini kurang dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>50%</span>, maka HP pengguna akan dipulihkan sebesar <span style='whiteSpace: \"nowrap\"'>8%</span> Max HP-nya dan memulihkan <span style='whiteSpace: \"nowrap\"'>5</span> Energy.</span>"
+    Description2pc: DMG yang diterima -8%
+    Description4pc: Saat giliran dimulai, jika HP pengguna saat ini kurang dari atau sama dengan 50%, maka HP pengguna akan dipulihkan sebesar 8% Max HP-nya dan memulihkan 5 Energy.
   "107":
     Name: Firesmith of Lava-Forging
-    Description2pc: "<span>Fire DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> DMG yang diakibatkan oleh Skill pengguna. Setelah melancarkan Ultimate, Fire DMG pengguna untuk serangan berikutnya meningkat <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Fire DMG +10%.
+    Description4pc: Meningkatkan 12% DMG yang diakibatkan oleh Skill pengguna. Setelah melancarkan Ultimate, Fire DMG pengguna untuk serangan berikutnya meningkat 12%.
   "108":
     Name: Genius of Brilliant Stars
-    Description2pc: "<span>Quantum DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Saat pengguna mengakibatkan DMG pada target musuh, <span style='whiteSpace: \"nowrap\"'>10%</span> DEF target tersebut akan diabaikan. Jika target memiliki Quantum Weakness, maka jumlah DEF yang diabaikan bertambah <span style='whiteSpace: \"nowrap\"'>10%</span> lagi.</span>"
+    Description2pc: Quantum DMG +10%.
+    Description4pc: Saat pengguna mengakibatkan DMG pada target musuh, 10% DEF target tersebut akan diabaikan. Jika target memiliki Quantum Weakness, maka jumlah DEF yang diabaikan bertambah 10% lagi.
   "109":
     Name: Band of Sizzling Thunder
-    Description2pc: "<span>Lightning DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Saat pengguna melancarkan Skill, meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> ATK pengguna selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+    Description2pc: Lightning DMG +10%.
+    Description4pc: Saat pengguna melancarkan Skill, meningkatkan 20% ATK pengguna selama 1 giliran.
   "110":
     Name: Eagle of Twilight Line
-    Description2pc: "<span>Wind DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Setelah pengguna melancarkan Ultimate, aksinya akan didahulukan <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Wind DMG +10%.
+    Description4pc: Setelah pengguna melancarkan Ultimate, aksinya akan didahulukan 25%.
   "111":
     Name: Thief of Shooting Meteor
-    Description2pc: "<span>Break Effect +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> Break Effect pengguna. Memulihkan <span style='whiteSpace: \"nowrap\"'>3</span> Energy setelah pengguna mengakibatkan Weakness Break pada musuh.</span>"
+    Description2pc: Break Effect +16%.
+    Description4pc: Meningkatkan 16% Break Effect pengguna. Memulihkan 3 Energy setelah pengguna mengakibatkan Weakness Break pada musuh.
   "112":
     Name: Wastelander of Banditry Desert
-    Description2pc: "<span>Imaginary DMG +<span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> CRIT Rate pengguna saat menyerang target musuh yang memiliki efek Debuff dan meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> CRIT DMG pengguna saat menyerang target musuh berstatus Imprisonment.</span>"
+    Description2pc: Imaginary DMG +10%.
+    Description4pc: Meningkatkan 10% CRIT Rate pengguna saat menyerang target musuh yang memiliki efek Debuff dan meningkatkan 20% CRIT DMG pengguna saat menyerang target musuh berstatus Imprisonment.
   "113":
     Name: Longevous Disciple
-    Description2pc: "<span>Max HP +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Setelah pengguna terkena serangan atau HP-nya dikonsumsi oleh rekan tim (termasuk pengguna sendiri), CRIT Rate akan meningkat <span style='whiteSpace: \"nowrap\"'>8%</span> selama <span style='whiteSpace: \"nowrap\"'>2</span> giliran. Efek ini dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>2</span> lapis.</span>"
+    Description2pc: Max HP +12%.
+    Description4pc: Setelah pengguna terkena serangan atau HP-nya dikonsumsi oleh rekan tim (termasuk pengguna sendiri), CRIT Rate akan meningkat 8% selama 2 giliran. Efek ini dapat ditumpuk hingga 2 lapis.
   "114":
     Name: Messenger Traversing Hackerspace
-    Description2pc: "<span>SPD +<span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), SPD seluruh rekan tim meningkat <span style='whiteSpace: \"nowrap\"'>12%</span> selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran. Efek ini tidak dapat ditumpuk.</span>"
+    Description2pc: SPD +6%.
+    Description4pc: Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), SPD seluruh rekan tim meningkat 12% selama 1 giliran. Efek ini tidak dapat ditumpuk.
   "115":
     Name: The Ashblazing Grand Duke
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> DMG yang diakibatkan Serangan Lanjutan.</span>"
-    Description4pc: "<span>Saat pengguna melancarkan Serangan Lanjutan, meningkatkan <span style='whiteSpace: \"nowrap\"'>6%</span> ATK pengguna setiap kali Serangan Lanjutan tersebut mengakibatkan DMG. Efek ini dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>8</span> kali dan berlangsung selama <span style='whiteSpace: \"nowrap\"'>3</span> giliran. Efek ini akan dihapus saat pengguna melancarkan Serangan Lanjutan yang berikutnya.</span>"
+    Description2pc: Meningkatkan 20% DMG yang diakibatkan Serangan Lanjutan.
+    Description4pc: Saat pengguna melancarkan Serangan Lanjutan, meningkatkan 6% ATK pengguna setiap kali Serangan Lanjutan tersebut mengakibatkan DMG. Efek ini dapat ditumpuk hingga 8 kali dan berlangsung selama 3 giliran. Efek ini akan dihapus saat pengguna melancarkan Serangan Lanjutan yang berikutnya.
   "116":
     Name: Prisoner in Deep Confinement
-    Description2pc: "<span>ATK +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Untuk setiap 1 efek DoT yang dimiliki target musuh, saat pengguna mengakibatkan DMG pada target tersebut, akan mengabaikan <span style='whiteSpace: \"nowrap\"'>6%</span> DEF-nya. Berlaku untuk maksimal <span style='whiteSpace: \"nowrap\"'>3</span> DoT.</span>"
+    Description2pc: ATK +12%.
+    Description4pc: Untuk setiap 1 efek DoT yang dimiliki target musuh, saat pengguna mengakibatkan DMG pada target tersebut, akan mengabaikan 6% DEF-nya. Berlaku untuk maksimal 3 DoT.
   "117":
     Name: Pioneer Diver of Dead Waters
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> DMG yang diakibatkan pada musuh yang terkena pengaruh status Debuff.</span>"
-    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>4%</span> CRIT Rate. Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> CRIT DMG pengguna pada target musuh yang memiliki setidaknya <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> efek Debuff. Setelah pengguna menambahkan efek debuff pada target musuh, efek peningkatan di atas meningkat <span style='whiteSpace: \"nowrap\"'>100%</span> selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+    Description2pc: Meningkatkan 12% DMG yang diakibatkan pada musuh yang terkena pengaruh status Debuff.
+    Description4pc: Meningkatkan 4% CRIT Rate. Meningkatkan 8%/12% CRIT DMG pengguna pada target musuh yang memiliki setidaknya 2/3 efek Debuff. Setelah pengguna menambahkan efek debuff pada target musuh, efek peningkatan di atas meningkat 100% selama 1 giliran.
   "118":
     Name: Watchmaker, Master of Dream Machinations
-    Description2pc: "<span>Break Effect +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), Break Effect seluruh rekan tim akan meningkat <span style='whiteSpace: \"nowrap\"'>30%</span> selama <span style='whiteSpace: \"nowrap\"'>2</span> giliran. Efek ini tidak dapat ditumpuk.</span>"
+    Description2pc: Break Effect +16%.
+    Description4pc: Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), Break Effect seluruh rekan tim akan meningkat 30% selama 2 giliran. Efek ini tidak dapat ditumpuk.
   "119":
     Name: Iron Cavalry Against the Scourge
-    Description2pc: "<span>Break Effect +<span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Saat Break Effect pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>150%</span>, Break DMG yang diakibatkan pada target musuh akan mengabaikan <span style='whiteSpace: \"nowrap\"'>10%</span> DEF. Saat Break Effect pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>250%</span>, Super Break DMG yang diakibatkan pada target musuh akan mengabaikan ekstra <span style='whiteSpace: \"nowrap\"'>15%</span> DEF.</span>"
+    Description2pc: Break Effect +16%.
+    Description4pc: Saat Break Effect pengguna lebih dari atau sama dengan 150%, Break DMG yang diakibatkan pada target musuh akan mengabaikan 10% DEF. Saat Break Effect pengguna lebih dari atau sama dengan 250%, Super Break DMG yang diakibatkan pada target musuh akan mengabaikan ekstra 15% DEF.
   "120":
     Name: The Wind-Soaring Valorous
-    Description2pc: "<span>ATK +<span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>6%</span> CRIT Rate pengguna. Saat pengguna melancarkan Serangan Lanjutan, DMG yang diakibatkan Ultimate meningkat <span style='whiteSpace: \"nowrap\"'>36%</span>, berlangsung selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+    Description2pc: ATK +12%.
+    Description4pc: Meningkatkan 6% CRIT Rate pengguna. Saat pengguna melancarkan Serangan Lanjutan, DMG yang diakibatkan Ultimate meningkat 36%, berlangsung selama 1 giliran.
   "121":
     Name: Sacerdos' Relived Ordeal
-    Description2pc: "<span>SPD +<span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Saat melancarkan Skill atau Ultimate pada 1 rekan tim, akan meningkatkan <span style='whiteSpace: \"nowrap\"'>18%</span> CRIT DMG target kemampuan tersebut selama <span style='whiteSpace: \"nowrap\"'>2</span> giliran. Efek ini dapat ditumpuk <span style='whiteSpace: \"nowrap\"'>2</span> kali.</span>"
+    Description2pc: SPD +6%.
+    Description4pc: Saat melancarkan Skill atau Ultimate pada 1 rekan tim, akan meningkatkan 18% CRIT DMG target kemampuan tersebut selama 2 giliran. Efek ini dapat ditumpuk 2 kali.
   "122":
     Name: Scholar Lost in Erudition
-    Description2pc: "<span>CRIT Rate +<span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> DMG yang diakibatkan Skill dan Ultimate. Setelah melancarkan Ultimate, DMG yang diakibatkan pelancaran Skill berikutnya akan meningkat ekstra <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: CRIT Rate +8%.
+    Description4pc: Meningkatkan 20% DMG yang diakibatkan Skill dan Ultimate. Setelah melancarkan Ultimate, DMG yang diakibatkan pelancaran Skill berikutnya akan meningkat ekstra 25%.
   "301":
     Name: Space Sealing Station
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK tambahan ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120</span>.</span>"
+    Description2pc: Meningkatkan 12% ATK pengguna. Meningkatkan 12% ATK tambahan ketika SPD pengguna lebih dari atau sama dengan 120.
   "302":
     Name: Fleet of the Ageless
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> Max HP pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span> ATK seluruh rekan tim ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120</span>.</span>"
+    Description2pc: Meningkatkan 12% Max HP pengguna. Meningkatkan 8% ATK seluruh rekan tim ketika SPD pengguna lebih dari atau sama dengan 120.
   "303":
     Name: Pan-Cosmic Commercial Enterprise
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> Effect Hit Rate pengguna. Pada saat yang sama, ATK pengguna meningkat sebesar <span style='whiteSpace: \"nowrap\"'>25%</span> Effect Hit Rate saat ini, maks. hingga <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Meningkatkan 10% Effect Hit Rate pengguna. Pada saat yang sama, ATK pengguna meningkat sebesar 25% Effect Hit Rate saat ini, maks. hingga 25%.
   "304":
     Name: Belobog of the Architects
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>15%</span> DEF pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>15%</span> DEF tambahan ketika Effect Hit Rate pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>50%</span>.</span>"
+    Description2pc: Meningkatkan 15% DEF pengguna. Meningkatkan 15% DEF tambahan ketika Effect Hit Rate pengguna lebih dari atau sama dengan 50%.
   "305":
     Name: Celestial Differentiator
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> CRIT DMG pengguna. Saat CRIT DMG pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120%</span>, CRIT Rate pengguna akan meningkat <span style='whiteSpace: \"nowrap\"'>60%</span> setelah memasuki pertempuran, efek ini akan hilang setelah pengguna melancarkan serangan pertamanya dalam pertempuran.</span>"
+    Description2pc: Meningkatkan 16% CRIT DMG pengguna. Saat CRIT DMG pengguna lebih dari atau sama dengan 120%, CRIT Rate pengguna akan meningkat 60% setelah memasuki pertempuran, efek ini akan hilang setelah pengguna melancarkan serangan pertamanya dalam pertempuran.
   "306":
     Name: Inert Salsotto
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span> CRIT Rate pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>15%</span> DMG yang diakibatkan Ultimate dan Serangan Lanjutan ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>50%</span>.</span>"
+    Description2pc: Meningkatkan 8% CRIT Rate pengguna. Meningkatkan 15% DMG yang diakibatkan Ultimate dan Serangan Lanjutan ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan 50%.
   "307":
     Name: "Talia: Kingdom of Banditry"
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> Break Effect pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> Break Effect tambahan ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>145</span>.</span>"
+    Description2pc: Meningkatkan 16% Break Effect pengguna. Meningkatkan 20% Break Effect tambahan ketika SPD pengguna lebih dari atau sama dengan 145.
   "308":
     Name: Sprightly Vonwacq
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>5%</span> Energy Regeneration Rate pengguna. Ketika SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>120</span>, segera mendahulukan <span style='whiteSpace: \"nowrap\"'>40%</span> aksi saat memasuki pertempuran.</span>"
+    Description2pc: Meningkatkan 5% Energy Regeneration Rate pengguna. Ketika SPD pengguna lebih dari atau sama dengan 120, segera mendahulukan 40% aksi saat memasuki pertempuran.
   "309":
     Name: Rutilant Arena
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>8%</span> CRIT Rate pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>20%</span> DMG yang diakibatkan Basic Attack dan Skill ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>70%</span>.</span>"
+    Description2pc: Meningkatkan 8% CRIT Rate pengguna. Meningkatkan 20% DMG yang diakibatkan Basic Attack dan Skill ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan 70%.
   "310":
     Name: Broken Keel
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> Effect RES pengguna. Saat Effect RES pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>30%</span>, CRIT DMG seluruh rekan tim meningkat <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
+    Description2pc: Meningkatkan 10% Effect RES pengguna. Saat Effect RES pengguna lebih dari atau sama dengan 30%, CRIT DMG seluruh rekan tim meningkat 10%.
   "311":
     Name: "Firmament Frontline: Glamoth"
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK pengguna. Saat SPD pengguna lebih dari atau sama dengan <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, DMG yang diakibatkan pengguna meningkat <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>.</span>"
+    Description2pc: Meningkatkan 12% ATK pengguna. Saat SPD pengguna lebih dari atau sama dengan 135/160, DMG yang diakibatkan pengguna meningkat 12%/18%.
   "312":
     Name: Penacony, Land of the Dreams
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>5%</span> Energy Regeneration Rate pengguna. Meningkatkan <span style='whiteSpace: \"nowrap\"'>10%</span> DMG yang diakibatkan rekan lain yang Tipenya sama dengan pengguna.</span>"
+    Description2pc: Meningkatkan 5% Energy Regeneration Rate pengguna. Meningkatkan 10% DMG yang diakibatkan rekan lain yang Tipenya sama dengan pengguna.
   "313":
     Name: Sigonia, the Unclaimed Desolation
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>4%</span> CRIT Rate pengguna. Saat target musuh dikalahkan, CRIT DMG pengguna akan meningkat <span style='whiteSpace: \"nowrap\"'>4%</span>, dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>10</span> lapis.</span>"
+    Description2pc: Meningkatkan 4% CRIT Rate pengguna. Saat target musuh dikalahkan, CRIT DMG pengguna akan meningkat 4%, dapat ditumpuk hingga 10 lapis.
   "314":
     Name: Izumo Gensei and Takama Divine Realm
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK pengguna. Saat memasuki pertempuran, jika setidaknya ada 1 rekan tim pengguna dengan Path yang sama dengan pengguna, maka CRIT Rate pengguna akan meningkat <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Meningkatkan 12% ATK pengguna. Saat memasuki pertempuran, jika setidaknya ada 1 rekan tim pengguna dengan Path yang sama dengan pengguna, maka CRIT Rate pengguna akan meningkat 12%.
   "315":
     Name: Duran, Dynasty of Running Wolves
-    Description2pc: "<span>Saat rekan tim melancarkan Serangan Lanjutan, pengguna akan memperoleh 1 lapis \"Merit\", yang dapat ditumpuk hingga <span style='whiteSpace: \"nowrap\"'>5</span> lapis. Setiap lapis \"Merit\" akan meningkatkan DMG yang diakibatkan Serangan Lanjutan pengguna sebesar <span style='whiteSpace: \"nowrap\"'>5%</span>. Saat mencapai <span style='whiteSpace: \"nowrap\"'>5</span> lapis, CRIT DMG pengguna akan meningkat sebesar <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Saat rekan tim melancarkan Serangan Lanjutan, pengguna akan memperoleh 1 lapis "Merit", yang dapat ditumpuk hingga 5 lapis. Setiap lapis "Merit" akan meningkatkan DMG yang diakibatkan Serangan Lanjutan pengguna sebesar 5%. Saat mencapai 5 lapis, CRIT DMG pengguna akan meningkat sebesar 25%.
   "316":
     Name: Forge of the Kalpagni Lantern
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>6%</span> SPD pengguna. Saat serangan pengguna mengenai target musuh dengan Fire Weakness, Break Effect akan meningkat <span style='whiteSpace: \"nowrap\"'>40%</span> selama <span style='whiteSpace: \"nowrap\"'>1</span> giliran.</span>"
+    Description2pc: Meningkatkan 6% SPD pengguna. Saat serangan pengguna mengenai target musuh dengan Fire Weakness, Break Effect akan meningkat 40% selama 1 giliran.
   "317":
     Name: Lushaka, the Sunken Seas
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>5%</span> Energy Regeneration Rate pengguna. Jika pengguna bukan karakter pertama dalam lineup tim, maka akan meningkatkan <span style='whiteSpace: \"nowrap\"'>12%</span> ATK karakter pertama dalam lineup tim.</span>"
+    Description2pc: Meningkatkan 5% Energy Regeneration Rate pengguna. Jika pengguna bukan karakter pertama dalam lineup tim, maka akan meningkatkan 12% ATK karakter pertama dalam lineup tim.
   "318":
     Name: The Wondrous BananAmusement Park
-    Description2pc: "<span>Meningkatkan <span style='whiteSpace: \"nowrap\"'>16%</span> CRIT DMG pengguna. Saat terdapat target yang dipanggil oleh pengguna, CRIT DMG meningkat ekstra <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+    Description2pc: Meningkatkan 16% CRIT DMG pengguna. Saat terdapat target yang dipanggil oleh pengguna, CRIT DMG meningkat ekstra 32%.
 Lightcones:
   "20000":
     Name: Arrows
-    SkillName: Crisis
   "20001":
     Name: Cornucopia
-    SkillName: Prosperity
   "20002":
     Name: Collapsing Sky
-    SkillName: Havoc
   "20003":
     Name: Amber
-    SkillName: Stasis
   "20004":
     Name: Void
-    SkillName: Fallen
   "20005":
     Name: Chorus
-    SkillName: Concerted
   "20006":
     Name: Data Bank
-    SkillName: Learned
   "20007":
     Name: Darting Arrow
-    SkillName: War Cry
   "20008":
     Name: Fine Fruit
-    SkillName: Savor
   "20009":
     Name: Shattered Home
-    SkillName: Eradication
   "20010":
     Name: Defense
-    SkillName: Revitalization
   "20011":
     Name: Loop
-    SkillName: Pursuit
   "20012":
     Name: Meshing Cogs
-    SkillName: Fleet Triumph
   "20013":
     Name: Passkey
-    SkillName: Epiphany
   "20014":
     Name: Adversarial
-    SkillName: Alliance
   "20015":
     Name: Multiplication
-    SkillName: Denizens of Abundance
   "20016":
     Name: Mutual Demise
-    SkillName: Legion
   "20017":
     Name: Pioneering
-    SkillName: IPC
   "20018":
     Name: Hidden Shadow
-    SkillName: Mechanism
   "20019":
     Name: Mediation
-    SkillName: Family
   "20020":
     Name: Sagacity
-    SkillName: Genius
   "21000":
     Name: Post-Op Conversation
-    SkillName: Mutual Healing
   "21001":
     Name: Good Night and Sleep Well
-    SkillName: Toiler
   "21002":
     Name: Day One of My New Life
-    SkillName: At This Very Moment
   "21003":
     Name: Only Silence Remains
-    SkillName: Record
   "21004":
     Name: Memories of the Past
-    SkillName: Old Photo
   "21005":
     Name: The Moles Welcome You
-    SkillName: Fantastic Adventure
   "21006":
     Name: The Birth of the Self
-    SkillName: The Maiden in the Painting
   "21007":
     Name: Shared Feeling
-    SkillName: Cure and Repair
   "21008":
     Name: Eyes of the Prey
-    SkillName: Self-Confidence
   "21009":
     Name: Landau's Choice
-    SkillName: Time Fleets Away
   "21010":
     Name: Swordplay
-    SkillName: Answers of Their Own
   "21011":
     Name: Planetary Rendezvous
-    SkillName: Departure
   "21012":
     Name: A Secret Vow
-    SkillName: Spare No Effort
   "21013":
     Name: Make the World Clamor
-    SkillName: The Power of Sound
   "21014":
     Name: Perfect Timing
-    SkillName: Refraction of Sightline
   "21015":
     Name: Resolution Shines As Pearls of Sweat
-    SkillName: Glance Back
   "21016":
     Name: Trend of the Universal Market
-    SkillName: A New Round of Shuffling
   "21017":
     Name: Subscribe for More!
-    SkillName: Like Before You Leave!
   "21018":
     Name: Dance! Dance! Dance!
-    SkillName: Cannot Stop It!
   "21019":
     Name: Under the Blue Sky
-    SkillName: Rye Under the Sun
   "21020":
     Name: Geniuses' Repose
-    SkillName: Each Now Has a Role to Play
   "21021":
     Name: Quid Pro Quo
-    SkillName: Enjoy With Rapture
   "21022":
     Name: Fermata
-    SkillName: Semibreve Rest
   "21023":
     Name: We Are Wildfire
-    SkillName: Teary-Eyed
   "21024":
     Name: River Flows in Spring
-    SkillName: Stave Off the Lingering Cold
   "21025":
     Name: Past and Future
-    SkillName: Kites From the Past
   "21026":
     Name: Woof! Walk Time!
-    SkillName: Run!
   "21027":
     Name: The Seriousness of Breakfast
-    SkillName: Get Ready
   "21028":
     Name: Warmth Shortens Cold Nights
-    SkillName: Tiny Light
   "21029":
     Name: We Will Meet Again
-    SkillName: A Discourse in Arms
   "21030":
     Name: This Is Me!
-    SkillName: New Chapter
   "21031":
     Name: Return to Darkness
-    SkillName: Raging Waves
   "21032":
     Name: Carve the Moon, Weave the Clouds
-    SkillName: Secret
   "21033":
     Name: Nowhere to Run
-    SkillName: Desperate Times
   "21034":
     Name: Today Is Another Peaceful Day
-    SkillName: A Storm Is Coming
   "21035":
     Name: What Is Real?
-    SkillName: Hypothesis
   "21036":
     Name: Dreamville Adventure
-    SkillName: Solidarity
   "21037":
     Name: Final Victor
-    SkillName: Wager
   "21038":
     Name: Flames Afar
-    SkillName: Deflagration
   "21039":
     Name: Destiny's Threads Forewoven
-    SkillName: Insight
   "21040":
     Name: The Day The Cosmos Fell
-    SkillName: Stratagem
   "21041":
     Name: It's Showtime
-    SkillName: Self-Amusement
   "21042":
     Name: Indelible Promise
-    SkillName: Inheritance
   "21043":
     Name: Concert for Two
-    SkillName: Inspire
   "21044":
     Name: Boundless Choreo
-    SkillName: Scrutinize
   "21045":
     Name: After the Charmony Fall
-    SkillName: Quiescence
   "21046":
     Name: Poised to Bloom
-    SkillName: Lose Not, Forget Not
   "21047":
     Name: Shadowed by Night
-    SkillName: Concealment
   "21048":
     Name: Dream's Montage
-    SkillName: Academy-Style Edit
   "22000":
     Name: Before the Tutorial Mission Starts
-    SkillName: Quick on the Draw
   "22001":
     Name: Hey, Over Here
-    SkillName: I'm Not Afraid!
   "22002":
     Name: For Tomorrow's Journey
-    SkillName: Bonds
   "22003":
     Name: "Ninja Record: Sound Hunt"
-    SkillName: Curtains Up!
   "23000":
     Name: Night on the Milky Way
-    SkillName: Meteor Swarm
   "23001":
     Name: In the Night
-    SkillName: Flowers and Butterflies
   "23002":
     Name: Something Irreplaceable
-    SkillName: Kinship
   "23003":
     Name: But the Battle Isn't Over
-    SkillName: Heir
   "23004":
     Name: In the Name of the World
-    SkillName: Inheritor
   "23005":
     Name: Moment of Victory
-    SkillName: Verdict
   "23006":
     Name: Patience Is All You Need
-    SkillName: Spider Web
   "23007":
     Name: Incessant Rain
-    SkillName: Mirage of Reality
   "23008":
     Name: Echoes of the Coffin
-    SkillName: Thorns
   "23009":
     Name: The Unreachable Side
-    SkillName: Unfulfilled Yearning
   "23010":
     Name: Before Dawn
-    SkillName: Long Night
   "23011":
     Name: She Already Shut Her Eyes
-    SkillName: Visioscape
   "23012":
     Name: Sleep Like the Dead
-    SkillName: Sweet Dreams
   "23013":
     Name: Time Waits for No One
-    SkillName: Morn, Noon, Dusk, and Night
   "23014":
     Name: I Shall Be My Own Sword
-    SkillName: With This Evening Jade
   "23015":
     Name: Brighter Than the Sun
-    SkillName: Defiant Till Death
   "23016":
     Name: Worrisome, Blissful
-    SkillName: One At A Time
   "23017":
     Name: Night of Fright
-    SkillName: Deep, Deep Breaths
   "23018":
     Name: An Instant Before A Gaze
-    SkillName: A Knight's Pilgrimage
   "23019":
     Name: Past Self in Mirror
-    SkillName: The Plum Fragrance In My Bones
   "23020":
     Name: Baptism of Pure Thought
-    SkillName: Mental Training
   "23021":
     Name: Earthly Escapade
-    SkillName: Capriciousness
   "23022":
     Name: Reforged Remembrance
-    SkillName: Crystallize
   "23023":
     Name: Inherently Unjust Destiny
-    SkillName: All-In
   "23024":
     Name: Along the Passing Shore
-    SkillName: Steerer
   "23025":
     Name: Whereabouts Should Dreams Rest
-    SkillName: Metamorphosis
   "23026":
     Name: Flowing Nightglow
-    SkillName: Pacify
   "23027":
     Name: Sailing Towards a Second Life
-    SkillName: Rough Water
   "23028":
     Name: Yet Hope Is Priceless
-    SkillName: Promise
   "23029":
     Name: Those Many Springs
-    SkillName: Worldly Affairs Leave No Mark
   "23030":
     Name: Dance at Sunset
-    SkillName: Deeply Engrossed
   "23031":
     Name: I Venture Forth to Hunt
-    SkillName: Intimidation
   "23032":
     Name: Scent Alone Stays True
-    SkillName: Contentment
   "23033":
     Name: "Ninjutsu Inscription: Dazzling Evilbreaker"
-    SkillName: Exorcism
   "24000":
     Name: On the Fall of an Aeon
-    SkillName: Moth To Flames
   "24001":
     Name: Cruising in the Stellar Sea
-    SkillName: Chase
   "24002":
     Name: Texture of Memories
-    SkillName: Treasure
   "24003":
     Name: Solitary Healing
-    SkillName: Chaos Elixir
   "24004":
     Name: Eternal Calculus
-    SkillName: Boundless Thought
 Paths:
   Warrior: Destruction
   Rogue: Hunt

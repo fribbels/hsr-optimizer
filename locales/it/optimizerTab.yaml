@@ -1,0 +1,5 @@
+CharacterSelector:
+  Character: Personaggi
+StatSimulation:
+  ModeSelector:
+    Off: Off

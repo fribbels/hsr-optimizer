@@ -4,15 +4,12 @@ Scoring:
   WeightMethodology:
     Header: How is Stat Score calculated?
   Footer:
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-    Reset: 'Reset to default'
-    ResetAll: 'Reset all characters'
-    Save: 'Save changes'
+    Reset: Reset to default
+    ResetAll: Reset all characters
+    Save: Save changes
   ResetAllConfirm:
-    Title: 'Reset the scoring algorithm for all characters?'
+    Title: Reset the scoring algorithm for all characters?
     Description: You will lose any custom scoring settings you have set on any character.
-    'Yes': '$t(common:Yes, {"capitalizeLength": 1})'
-    'No': '$t(common:No, {"capitalizeLength": 1})'
 0Perms:
   Title: Search generated 0 permutations
   Description: This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.
@@ -22,21 +19,21 @@ Scoring:
       ButtonText: Navigate to Importer tab
       SuccessMessage: Choose an import method and import your relics and characters
     Body_MAIN:
-      Description: The main stat for the $t(common:Parts.Body) filter might be too restrictive
-      ButtonText: Clear $t(common:Parts.Body) main stat filters
-      SuccessMessage: Cleared $t(common:Parts.Body) main stat filters
+      Description: "The main stat for the $t(common:Parts.Body) filter might be too restrictive"
+      ButtonText: "Clear $t(common:Parts.Body) main stat filters"
+      SuccessMessage: "Cleared $t(common:Parts.Body) main stat filters"
     Feet_MAIN:
-      Description: The main stat for the $t(common:Parts.Feet) filter might be too restrictive
-      ButtonText: Clear $t(common:Parts.Feet) main stat filters
-      SuccessMessage: Cleared $t(common:Parts.Feet) main stat filters
+      Description: "The main stat for the $t(common:Parts.Feet) filter might be too restrictive"
+      ButtonText: "Clear $t(common:Parts.Feet) main stat filters"
+      SuccessMessage: "Cleared $t(common:Parts.Feet) main stat filters"
     PlanarSphere_MAIN:
-      Description: The main stat for the $t(common:Parts.PlanarSphere) filter might be too restrictive
-      ButtonText: Clear $t(common:Parts.PlanarSphere) main stat filters
-      SuccessMessage: Cleared $t(common:Parts.PlanarSphere) main stat filters
+      Description: "The main stat for the $t(common:Parts.PlanarSphere) filter might be too restrictive"
+      ButtonText: "Clear $t(common:Parts.PlanarSphere) main stat filters"
+      SuccessMessage: "Cleared $t(common:Parts.PlanarSphere) main stat filters"
     LinkRope_MAIN:
-      Description: The main stat for the $t(common:Parts.LinkRope) filter might be too restrictive
-      ButtonText: Clear $t(common:Parts.LinkRope) main stat filters
-      SuccessMessage: Cleared $t(common:Parts.LinkRope) main stat filters
+      Description: "The main stat for the $t(common:Parts.LinkRope) filter might be too restrictive"
+      ButtonText: "Clear $t(common:Parts.LinkRope) main stat filters"
+      SuccessMessage: "Cleared $t(common:Parts.LinkRope) main stat filters"
     RELIC_SETS:
       Description: The selected relic set filters might be too restrictive
       ButtonText: Clear Relic set filters
@@ -51,8 +48,8 @@ Scoring:
       SuccessMessage: Disabled "Keep current relics"
     PRIORITY:
       Description: The character is ranked below other characters on the priority list. When the "Character priority filter" is enabled, characters may only take lower priority characters' relics
-      ButtonText: 'Move character to priority #1'
-      SuccessMessage: 'Moved character to priority #1'
+      ButtonText: "Move character to priority #1"
+      SuccessMessage: "Moved character to priority #1"
     EXCLUDE_ENABLED:
       Description: The "Exclude" filter has some selected characters, which means this character cannot take relics from the selected characters
       ButtonText: Clear excluded characters
@@ -68,172 +65,187 @@ Scoring:
 0Results:
   Title: Search generated 0 results
   ResetAll:
-    ButtonText: 'Reset all filters'
+    ButtonText: Reset all filters
     SuccessMessage: Cleared all filters
     Description: This means your stat and/or rating filters are too restrictive.
   RootCauses:
     StatView:
-      SuccessMessage: Switched to Combat stats view
-      Description: Your stat filters are configured for basic stats, which does not include buffs. The Combat stats view will show buffed stats from abilities / teammates / relics / etc.
-      ButtonText: Switch to Combat stats view
+      SuccessMessage: "Switched to Combat stats view"
+      Description: "Your stat filters are configured for basic stats, which does not include buffs. The Combat stats view will show buffed stats from abilities / teammates / relics / etc."
+      ButtonText: "Switch to Combat stats view"
     MAX_HP:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.HP) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.HP) filter"
+      Description: "Maximum $t(common:Stats.HP) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.HP) filter"
     MIN_HP:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.HP) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.HP) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.HP) filter"
+      Description: "Minimum $t(common:Stats.HP) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.HP) filter"
     MAX_ATK:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.ATK) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.ATK) filter"
+      Description: "Maximum $t(common:Stats.ATK) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.ATK) filter"
     MIN_ATK:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.ATK) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.ATK) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.ATK) filter"
+      Description: "Minimum $t(common:Stats.ATK) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.ATK) filter"
     MAX_DEF:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.DEF) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.DEF) filter"
+      Description: "Maximum $t(common:Stats.DEF) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.DEF) filter"
     MIN_DEF:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.DEF) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.DEF) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.DEF) filter"
+      Description: "Minimum $t(common:Stats.DEF) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.DEF) filter"
     MAX_SPD:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.SPD) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.SPD) filter"
+      Description: "Maximum $t(common:Stats.SPD) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.SPD) filter"
     MIN_SPD:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.SPD) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.SPD) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.SPD) filter"
+      Description: "Minimum $t(common:Stats.SPD) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.SPD) filter"
     MAX_CR:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.CRIT Rate) filter"
+      Description: "Maximum $t(common:Stats.CRIT Rate) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.CRIT Rate) filter"
     MIN_CR:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT Rate) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.CRIT Rate) filter"
+      Description: "Minimum $t(common:Stats.CRIT Rate) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.CRIT Rate) filter"
     MAX_CD:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.CRIT DMG) filter"
+      Description: "Maximum $t(common:Stats.CRIT DMG) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.CRIT DMG) filter"
     MIN_CD:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.CRIT DMG) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.CRIT DMG) filter"
+      Description: "Minimum $t(common:Stats.CRIT DMG) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.CRIT DMG) filter"
     MAX_EHR:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.Effect Hit Rate) filter"
+      Description: "Maximum $t(common:Stats.Effect Hit Rate) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.Effect Hit Rate) filter"
     MIN_EHR:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect Hit Rate) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.Effect Hit Rate) filter"
+      Description: "Minimum $t(common:Stats.Effect Hit Rate) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.Effect Hit Rate) filter"
     MAX_RES:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.Effect RES) filter"
+      Description: "Maximum $t(common:Stats.Effect RES) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.Effect RES) filter"
     MIN_RES:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Effect RES) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.Effect RES) filter"
+      Description: "Minimum $t(common:Stats.Effect RES) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.Effect RES) filter"
     MAX_BE:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.Break Effect) filter"
+      Description: "Maximum $t(common:Stats.Break Effect) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.Break Effect) filter"
     MIN_BE:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Break Effect) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.Break Effect) filter"
+      Description: "Minimum $t(common:Stats.Break Effect) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.Break Effect) filter"
     MAX_ERR:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
+      SuccessMessage: "Reset Maximum $t(common:Stats.Energy Regeneration Rate) filter"
+      Description: "Maximum $t(common:Stats.Energy Regeneration Rate) may be too low"
+      ButtonText: "Reset Maximum $t(common:Stats.Energy Regeneration Rate) filter"
     MIN_ERR:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) $t(common:Stats.Energy Regeneration Rate) filter'
+      SuccessMessage: "Reset Minimum $t(common:Stats.Energy Regeneration Rate) filter"
+      Description: "Minimum $t(common:Stats.Energy Regeneration Rate) may be too high"
+      ButtonText: "Reset Minimum $t(common:Stats.Energy Regeneration Rate) filter"
     MAX_EHP:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) EHP filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) EHP may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) EHP filter'
+      SuccessMessage: "Reset Maximum EHP filter"
+      Description: "Maximum EHP may be too low"
+      ButtonText: "Reset Maximum EHP filter"
     MIN_EHP:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) EHP filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) EHP may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) EHP filter'
+      SuccessMessage: "Reset Minimum EHP filter"
+      Description: "Minimum EHP may be too high"
+      ButtonText: "Reset Minimum EHP filter"
     MAX_BASIC:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Basic filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) basic attack damage may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Basic filter'
+      SuccessMessage: "Reset Maximum Basic filter"
+      Description: "Maximum basic attack damage may be too low"
+      ButtonText: "Reset Maximum Basic filter"
     MIN_BASIC:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Basic filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) basic attack damage may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Basic filter'
+      SuccessMessage: "Reset Minimum Basic filter"
+      Description: "Minimum basic attack damage may be too high"
+      ButtonText: "Reset Minimum Basic filter"
     MAX_SKILL:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Skill filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) skill damage may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Skill filter'
+      SuccessMessage: "Reset Maximum Skill filter"
+      Description: "Maximum skill damage may be too low"
+      ButtonText: "Reset Maximum Skill filter"
     MIN_SKILL:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Skill filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) skill damage may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Skill filter'
+      SuccessMessage: "Reset Minimum Skill filter"
+      Description: "Minimum skill damage may be too high"
+      ButtonText: "Reset Minimum Skill filter"
     MAX_ULT:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) ULT filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) ultimate damage may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) ULT filter'
+      SuccessMessage: "Reset Maximum ULT filter"
+      Description: "Maximum ultimate damage may be too low"
+      ButtonText: "Reset Maximum ULT filter"
     MIN_ULT:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) ULT filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) ultimate damage may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) ULT filter'
+      SuccessMessage: "Reset Minimum ULT filter"
+      Description: "Minimum ultimate damage may be too high"
+      ButtonText: "Reset Minimum ULT filter"
     MAX_FUA:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) FUA filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) follow-up attack damage may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) FUA filter'
+      SuccessMessage: "Reset Maximum FUA filter"
+      Description: "Maximum follow-up attack damage may be too low"
+      ButtonText: "Reset Maximum FUA filter"
     MIN_FUA:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) FUA filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) follow-up attack damage may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) FUA filter'
+      SuccessMessage: "Reset Minimum FUA filter"
+      Description: "Minimum follow-up attack damage may be too high"
+      ButtonText: "Reset Minimum FUA filter"
     MAX_DOT:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) DOT filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) DOT damage may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) DOT filter'
+      SuccessMessage: "Reset Maximum DOT filter"
+      Description: "Maximum DOT damage may be too low"
+      ButtonText: "Reset Maximum DOT filter"
     MIN_DOT:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) DOT filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) DOT damage may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) DOT filter'
+      SuccessMessage: "Reset Minimum DOT filter"
+      Description: "Minimum DOT damage may be too high"
+      ButtonText: "Reset Minimum DOT filter"
     MAX_BREAK:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Break filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) break damage may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Break filter'
+      SuccessMessage: "Reset Maximum Break filter"
+      Description: "Maximum break damage may be too low"
+      ButtonText: "Reset Maximum Break filter"
     MIN_BREAK:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Break filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) break damage may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Break filter'
+      SuccessMessage: "Reset Minimum Break filter"
+      Description: "Minimum break damage may be too high"
+      ButtonText: "Reset Minimum Break filter"
+    MAX_HEAL:
+      SuccessMessage: "Reset Maximum HEAL filter"
+      Description: "Maximum HEAL may be too low"
+      ButtonText: "Reset Maximum HEAL filter"
+    MIN_HEAL:
+      SuccessMessage: "Reset Minimum HEAL filter"
+      Description: "Minimum HEAL may be too high"
+      ButtonText: "Reset Minimum HEAL filter"
+    MAX_SHIELD:
+      SuccessMessage: "Reset Maximum SHIELD filter"
+      Description: "Maximum SHIELD may be too low"
+      ButtonText: "Reset Maximum SHIELD filter"
+    MIN_SHIELD:
+      SuccessMessage: "Reset Minimum SHIELD filter"
+      Description: "Minimum SHIELD may be too high"
+      ButtonText: "Reset Minimum SHIELD filter"
     MAX_COMBO:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Combo filter'
-      Description: '$t(common:Maximum, {"capitalizeLength": 1}) combo damage may be too low'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Maximum, {"capitalizeLength": 1}) Combo filter'
+      SuccessMessage: "Reset Maximum Combo filter"
+      Description: "Maximum combo damage may be too low"
+      ButtonText: "Reset Maximum Combo filter"
     MIN_COMBO:
-      SuccessMessage: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Combo filter'
-      Description: '$t(common:Minimum, {"capitalizeLength": 1}) combo damage may be too high'
-      ButtonText: '$t(common:Reset, {"capitalizeLength": 1}) $t(common:Minimum, {"capitalizeLength": 1}) Combo filter'
+      SuccessMessage: "Reset Minimum Combo filter"
+      Description: "Minimum combo damage may be too high"
+      ButtonText: "Reset Minimum Combo filter"
 ManyPerms:
   Title: Very large search requested
   Text: >-
-    This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the
-    Substat weight filter to reduce the number of permutations.
-  Cancel: 'Cancel search'
+    This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.
+  Cancel: Cancel search
   Proceed: Proceed with search
 EditCharacter:
-  EidolonButton: $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
-  SuperimpositionButton: $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
-  Character: '$t(common:Character, {"count": 1, "capitalizeLength": 1})'
-  Lightcone: '$t(common:Lightcone, {"count": 1, "capitalizeLength": 1})'
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-  Save: '$t(common:Save, {"capitalizeLength": 1})'
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
+  Character: Character
+  Lightcone: Light cone
 Relic:
   Part: Part
   Wearer: Equipped by
@@ -244,7 +256,7 @@ Relic:
   Upgrades: Substat upgrades
   Messages:
     SubmitFail: Submit failed!
-    EditSuccess: 'Successfully edited relic'
+    EditSuccess: Successfully edited relic
     Error:
       PartMissing: Part field is missing
       MainstatMissing: Main stat is missing
@@ -256,8 +268,8 @@ Relic:
       EnhanceTooHigh: Enhance value is too high for this grade
       SetInvalid: Set value is invalid
       SetNotOrnament: The selected set is not an ornament set
-      SetNotRelic: 'The selected set is not a relic set'
-      SubNInvalid: Substat {{number}} is invalid
+      SetNotRelic: The selected set is not a relic set
+      SubNInvalid: "Substat {{number}} is invalid"
       SubsOutOfOrder: Substats are out of order
       DuplicateSubs: Duplicate substats, only one of each type is allowed
       MainAsSub: Substat type is the same as the main stat
@@ -275,7 +287,7 @@ EditImage:
       Default: Use default image
     Upload:
       Method: Click or drag image file to this area to upload
-      Limit: 'Accepts .jpg .jpeg .png .gif (Max: 20MB)'
+      Limit: "Accepts .jpg .jpeg .png .gif (Max: 20MB)"
     Url:
       Label: Image
       Rule: Please input a valid image URL
@@ -284,48 +296,35 @@ EditImage:
     Zoom: Zoom
     Drag: Drag to move
     Pinch: Pinch or scroll to zoom
-    ArtBy: '(Optional) Art by:'
+    ArtBy: "(Optional) Art by:"
     CreditPlaceholder: Credit the artist if possible
   Footer:
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
     Change: Change image
     Previous: Previous
     Next: Next
-    Submit: '$t(common:Submit, {"capitalizeLength": 1})'
 SaveBuild:
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-  Save: '$t(common:Save, {"capitalizeLength": 1})'
   Label: Build name
   Rule: Please input a name
 SwitchRelics:
   Title: Switch relics with character
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
-  Save: '$t(common:Save, {"capitalizeLength": 1})'
 Builds:
   DeleteAll: Delete All
-  Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
   Equip: Equip
-  Score: '$t(common:Score, {"capitalizeLength": 1})'
-  ConfirmModal:
-    ConfirmButton: '$t(common:Confirm, {"capitalizeLength": 1})'
-    CancelButton: '$t(common:Cancel, {"capitalizeLength": 1})'
-    Title: '$t(common:Confirm, {"capitalizeLength": 1})'
   ConfirmEquip:
     Content: Equipping this will unequip characters that use the relics in this build
-    SuccessMessage: 'Successfully equipped build: {{buildName}}'
+    SuccessMessage: "Successfully equipped build: {{buildName}}"
   ConfirmDelete:
     DeleteAll: Are you sure you want to delete all builds?
-    DeleteSingle: Are you sure you want to delete {{name}}?
-    SuccessMessageAll: Successfully deleted all builds for {{characterName}}
-    SuccessMessageSingle: 'Successfully deleted build: {{name}}'
+    DeleteSingle: "Are you sure you want to delete {{name}}?"
+    SuccessMessageAll: "Successfully deleted all builds for {{characterName}}"
+    SuccessMessageSingle: "Successfully deleted build: {{name}}"
   NoBuilds:
-    Ok: '$t(common:Ok, {"capitalizeLength": 1})'
-    Cancel: '$t(common:Cancel, {"capitalizeLength": 1})'
     NoneSaved: No saved builds
 ScoreFooter:
   ModalTitle: Combat sim scoring settings
-  ResetButtonText: 'Reset custom team to default'
-  ResetSuccessMsg: 'Reset to default teams'
+  OkText: OK
+  ResetButtonText: Reset custom team to default
+  ResetSuccessMsg: Reset to default teams
   SyncButtonText: Sync imported eidolons / light cones
   SyncSuccessMsg: Synced teammates
   TeamOptions:
@@ -333,16 +332,16 @@ ScoreFooter:
     Custom: Custom
 CharacterSelect:
   MultiSelect:
-    Placeholder: 'Customize characters'
-    MaxTagPlaceholderSome: '{{count}} characters excluded'
-    MaxTagPlaceholderNone: 'All characters enabled'
-    ModalTitle: 'Select characters to exclude'
+    Placeholder: Customize characters
+    MaxTagPlaceholderSome: "{{count}} characters excluded"
+    MaxTagPlaceholderNone: All characters enabled
+    ModalTitle: Select characters to exclude
   SingleSelect:
-    Placeholder: '$t(common:Character, {"count": 1, "capitalizeLength": 1})'
-    ModalTitle: 'Select a $t(common:Character, {"count": 1, "capitalizeLength": 0})'
-  SearchPlaceholder: 'Search $t(common:Character, {"count": 1, "capitalizeLength": 0}) name'
+    Placeholder: Character
+    ModalTitle: Select a character
+  SearchPlaceholder: Search character name
   ExcludeButton: Exclude all
   ClearButton: Clear
 LightconeSelect:
-  Placeholder: '$t(common:Lightcone, {"count": 1, "capitalizeLength": 1})'
-  Title: 'Select a $t(common:Lightcone, {"count": 1, "capitalizeLength": 0})'
+  Placeholder: Light cone
+  Title: Select a light cone

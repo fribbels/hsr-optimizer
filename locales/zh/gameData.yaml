@@ -1,613 +1,563 @@
 Characters:
   "1001":
     Name: 三月七
+    LongName: 三月七 (存护)
   "1002":
     Name: 丹恒
+    LongName: 丹恒
   "1003":
     Name: 姬子
+    LongName: 姬子
   "1004":
     Name: 瓦尔特
+    LongName: 瓦尔特
   "1005":
     Name: 卡芙卡
+    LongName: 卡芙卡
   "1006":
     Name: 银狼
+    LongName: 银狼
   "1008":
     Name: 阿兰
+    LongName: 阿兰
   "1009":
     Name: 艾丝妲
+    LongName: 艾丝妲
   "1013":
     Name: 黑塔
+    LongName: 黑塔
   "1101":
     Name: 布洛妮娅
+    LongName: 布洛妮娅
   "1102":
     Name: 希儿
+    LongName: 希儿
   "1103":
     Name: 希露瓦
+    LongName: 希露瓦
   "1104":
     Name: 杰帕德
+    LongName: 杰帕德
   "1105":
     Name: 娜塔莎
+    LongName: 娜塔莎
   "1106":
     Name: 佩拉
+    LongName: 佩拉
   "1107":
     Name: 克拉拉
+    LongName: 克拉拉
   "1108":
     Name: 桑博
+    LongName: 桑博
   "1109":
     Name: 虎克
+    LongName: 虎克
   "1110":
     Name: 玲可
+    LongName: 玲可
   "1111":
     Name: 卢卡
+    LongName: 卢卡
   "1112":
     Name: 托帕&账账
+    LongName: 托帕&账账
   "1201":
     Name: 青雀
+    LongName: 青雀
   "1202":
     Name: 停云
+    LongName: 停云
   "1203":
     Name: 罗刹
+    LongName: 罗刹
   "1204":
     Name: 景元
+    LongName: 景元
   "1205":
     Name: 刃
+    LongName: 刃
   "1206":
     Name: 素裳
+    LongName: 素裳
   "1207":
     Name: 驭空
+    LongName: 驭空
   "1208":
     Name: 符玄
+    LongName: 符玄
   "1209":
     Name: 彦卿
+    LongName: 彦卿
   "1210":
     Name: 桂乃芬
+    LongName: 桂乃芬
   "1211":
     Name: 白露
+    LongName: 白露
   "1212":
     Name: 镜流
+    LongName: 镜流
   "1213":
     Name: 丹恒•饮月
+    LongName: 丹恒•饮月
   "1214":
     Name: 雪衣
+    LongName: 雪衣
   "1215":
     Name: 寒鸦
+    LongName: 寒鸦
   "1217":
     Name: 藿藿
+    LongName: 藿藿
   "1218":
     Name: 椒丘
+    LongName: 椒丘
   "1220":
     Name: 飞霄
+    LongName: 飞霄
   "1221":
     Name: 云璃
+    LongName: 云璃
   "1222":
     Name: 灵砂
+    LongName: 灵砂
   "1223":
     Name: 貊泽
+    LongName: 貊泽
   "1224":
     Name: 三月七
+    LongName: 三月七 (巡猎)
   "1301":
     Name: 加拉赫
+    LongName: 加拉赫
   "1302":
     Name: 银枝
+    LongName: 银枝
   "1303":
     Name: 阮•梅
+    LongName: 阮•梅
   "1304":
     Name: 砂金
+    LongName: 砂金
   "1305":
     Name: 真理医生
+    LongName: 真理医生
   "1306":
     Name: 花火
+    LongName: 花火
   "1307":
     Name: 黑天鹅
+    LongName: 黑天鹅
   "1308":
     Name: 黄泉
+    LongName: 黄泉
   "1309":
     Name: 知更鸟
+    LongName: 知更鸟
   "1310":
     Name: 流萤
+    LongName: 流萤
   "1312":
     Name: 米沙
+    LongName: 米沙
   "1314":
     Name: 翡翠
+    LongName: 翡翠
   "1315":
     Name: 波提欧
+    LongName: 波提欧
   "1317":
     Name: 乱破
+    LongName: 乱破
   "8001":
-    Name: Caelus (毁灭)
+    Name: 穹
+    LongName: 穹 (毁灭)
   "8002":
-    Name: Stelle (毁灭)
+    Name: 星
+    LongName: 星 (毁灭)
   "8003":
-    Name: Caelus (存护)
+    Name: 穹
+    LongName: 穹 (存护)
   "8004":
-    Name: Stelle (存护)
+    Name: 星
+    LongName: 星 (存护)
   "8005":
-    Name: Caelus (同谐)
+    Name: 穹
+    LongName: 穹 (同谐)
   "8006":
-    Name: Stelle (同谐)
+    Name: 星
+    LongName: 星 (同谐)
 RelicSets:
   "101":
     Name: 云无留迹的过客
-    Description2pc: "<span>治疗量提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: <span>在战斗开始时，立即为我方恢复1个战技点。</span>
+    Description2pc: 治疗量提高10%。
+    Description4pc: 在战斗开始时，立即为我方恢复1个战技点。
   "102":
     Name: 野穗伴行的快枪手
-    Description2pc: "<span>攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>使装备者的速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>，普攻造成的伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 攻击力提高12%。
+    Description4pc: 使装备者的速度提高6%，普攻造成的伤害提高10%。
   "103":
     Name: 净庭教宗的圣骑士
-    Description2pc: "<span>防御力提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
-    Description4pc: "<span>使装备者提供的护盾量提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 防御力提高15%。
+    Description4pc: 使装备者提供的护盾量提高20%。
   "104":
     Name: 密林卧雪的猎人
-    Description2pc: "<span>冰属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放终结技时，暴击伤害提高<span style='whiteSpace: \"nowrap\"'>25%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合。</span>"
+    Description2pc: 冰属性伤害提高10%。
+    Description4pc: 当装备者施放终结技时，暴击伤害提高25%，持续2回合。
   "105":
     Name: 街头出身的拳王
-    Description2pc: "<span>物理属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放攻击或受到攻击后，其在本场战斗中攻击力提高<span style='whiteSpace: \"nowrap\"'>5%</span>，最多叠加<span style='whiteSpace: \"nowrap\"'>5</span>层。</span>"
+    Description2pc: 物理属性伤害提高10%。
+    Description4pc: 当装备者施放攻击或受到攻击后，其在本场战斗中攻击力提高5%，最多叠加5层。
   "106":
     Name: 戍卫风雪的铁卫
-    Description2pc: "<span>受到伤害降低<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
-    Description4pc: "<span>回合开始时，如果装备者当前生命值百分比小于等于<span style='whiteSpace: \"nowrap\"'>50%</span>，则回复等同于自身生命上限<span style='whiteSpace: \"nowrap\"'>8%</span>的生命值，并恢复<span style='whiteSpace: \"nowrap\"'>5</span>点能量。</span>"
+    Description2pc: 受到伤害降低8%。
+    Description4pc: 回合开始时，如果装备者当前生命值百分比小于等于50%，则回复等同于自身生命上限8%的生命值，并恢复5点能量。
   "107":
     Name: 熔岩锻铸的火匠
-    Description2pc: "<span>火属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>使装备者战技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>，并使施放终结技后的下一次攻击造成的火属性伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 火属性伤害提高10%。
+    Description4pc: 使装备者战技造成的伤害提高12%，并使施放终结技后的下一次攻击造成的火属性伤害提高12%。
   "108":
     Name: 繁星璀璨的天才
-    Description2pc: "<span>量子属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者对敌方目标造成伤害时，无视其<span style='whiteSpace: \"nowrap\"'>10%</span>的防御力。若目标拥有量子属性弱点，额外无视其<span style='whiteSpace: \"nowrap\"'>10%</span>的防御力。</span>"
+    Description2pc: 量子属性伤害提高10%。
+    Description4pc: 当装备者对敌方目标造成伤害时，无视其10%的防御力。若目标拥有量子属性弱点，额外无视其10%的防御力。
   "109":
     Name: 激奏雷电的乐队
-    Description2pc: "<span>雷属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放战技时，使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>20%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 雷属性伤害提高10%。
+    Description4pc: 当装备者施放战技时，使装备者的攻击力提高20%，持续1回合。
   "110":
     Name: 晨昏交界的翔鹰
-    Description2pc: "<span>风属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>当装备者施放终结技后，使其行动提前<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 风属性伤害提高10%。
+    Description4pc: 当装备者施放终结技后，使其行动提前25%。
   "111":
     Name: 流星追迹的怪盗
-    Description2pc: "<span>击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>使装备者的击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者击破敌方目标弱点后，恢复<span style='whiteSpace: \"nowrap\"'>3</span>点能量。</span>"
+    Description2pc: 击破特攻提高16%。
+    Description4pc: 使装备者的击破特攻提高16%。当装备者击破敌方目标弱点后，恢复3点能量。
   "112":
     Name: 盗匪荒漠的废土客
-    Description2pc: "<span>虚数属性伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
-    Description4pc: "<span>装备者对陷入负面效果的敌方目标造成伤害时暴击率提高<span style='whiteSpace: \"nowrap\"'>10%</span>，对陷入禁锢状态的敌方目标造成伤害时暴击伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 虚数属性伤害提高10%。
+    Description4pc: 装备者对陷入负面效果的敌方目标造成伤害时暴击率提高10%，对陷入禁锢状态的敌方目标造成伤害时暴击伤害提高20%。
   "113":
     Name: 宝命长存的莳者
-    Description2pc: "<span>生命上限提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>当装备者受到攻击或被我方目标消耗生命值后，暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合，该效果最多叠加<span style='whiteSpace: \"nowrap\"'>2</span>层。</span>"
+    Description2pc: 生命上限提高12%。
+    Description4pc: 当装备者受到攻击或被我方目标消耗生命值后，暴击率提高8%，持续2回合，该效果最多叠加2层。
   "114":
     Name: 骇域漫游的信使
-    Description2pc: "<span>速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>。</span>"
-    Description4pc: "<span>当装备者对我方目标施放终结技时，我方全体速度提高<span style='whiteSpace: \"nowrap\"'>12%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合，该效果无法叠加。</span>"
+    Description2pc: 速度提高6%。
+    Description4pc: 当装备者对我方目标施放终结技时，我方全体速度提高12%，持续1回合，该效果无法叠加。
   "115":
     Name: 毁烬焚骨的大公
-    Description2pc: "<span>追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
-    Description4pc: "<span>装备者施放追加攻击时，根据追加攻击造成伤害的次数，每次造成伤害时使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>6%</span>，最多叠加<span style='whiteSpace: \"nowrap\"'>8</span>次，持续<span style='whiteSpace: \"nowrap\"'>3</span>回合。该效果在装备者下一次施放追加攻击时移除。</span>"
+    Description2pc: 追加攻击造成的伤害提高20%。
+    Description4pc: 装备者施放追加攻击时，根据追加攻击造成伤害的次数，每次造成伤害时使装备者的攻击力提高6%，最多叠加8次，持续3回合。该效果在装备者下一次施放追加攻击时移除。
   "116":
     Name: 幽锁深牢的系囚
-    Description2pc: "<span>攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>敌方目标每承受1个持续伤害效果，装备者对其造成伤害时就无视其<span style='whiteSpace: \"nowrap\"'>6%</span>的防御力，最多计入<span style='whiteSpace: \"nowrap\"'>3</span>个持续伤害效果。</span>"
+    Description2pc: 攻击力提高12%。
+    Description4pc: 敌方目标每承受1个持续伤害效果，装备者对其造成伤害时就无视其6%的防御力，最多计入3个持续伤害效果。
   "117":
     Name: 死水深潜的先驱
-    Description2pc: "<span>对受负面状态影响的敌人造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>暴击率提高<span style='whiteSpace: \"nowrap\"'>4%</span>，装备者对陷入不少于<span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span>个负面效果的敌方目标造成的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span>。装备者对敌方目标施加负面效果后，上述效果提高<span style='whiteSpace: \"nowrap\"'>100%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 对受负面状态影响的敌人造成的伤害提高12%。
+    Description4pc: 暴击率提高4%，装备者对陷入不少于2/3个负面效果的敌方目标造成的暴击伤害提高8%/12%。装备者对敌方目标施加负面效果后，上述效果提高100%，持续1回合。
   "118":
     Name: 机心戏梦的钟表匠
-    Description2pc: "<span>击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>当装备者对我方目标施放终结技时，我方全体击破特攻提高<span style='whiteSpace: \"nowrap\"'>30%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合，该效果无法叠加。</span>"
+    Description2pc: 击破特攻提高16%。
+    Description4pc: 当装备者对我方目标施放终结技时，我方全体击破特攻提高30%，持续2回合，该效果无法叠加。
   "119":
     Name: 荡除蠹灾的铁骑
-    Description2pc: "<span>击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。</span>"
-    Description4pc: "<span>当装备者的击破特攻大于等于<span style='whiteSpace: \"nowrap\"'>150%</span>时，对敌方目标造成的击破伤害无视其<span style='whiteSpace: \"nowrap\"'>10%</span>的防御力。当装备者的击破特攻大于等于<span style='whiteSpace: \"nowrap\"'>250%</span>时，对敌方目标造成的超击破伤害额外无视其<span style='whiteSpace: \"nowrap\"'>15%</span>的防御力。</span>"
+    Description2pc: 击破特攻提高16%。
+    Description4pc: 当装备者的击破特攻大于等于150%时，对敌方目标造成的击破伤害无视其10%的防御力。当装备者的击破特攻大于等于250%时，对敌方目标造成的超击破伤害额外无视其15%的防御力。
   "120":
     Name: 风举云飞的勇烈
-    Description2pc: "<span>攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
-    Description4pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>6%</span>，装备者施放追加攻击时，使终结技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>36%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 攻击力提高12%。
+    Description4pc: 使装备者的暴击率提高6%，装备者施放追加攻击时，使终结技造成的伤害提高36%，持续1回合。
   "121":
     Name: 重循苦旅的司铎
-    Description2pc: "<span>速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>。</span>"
-    Description4pc: "<span>对我方单体目标施放战技或终结技时，使技能目标的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>18%</span>，持续<span style='whiteSpace: \"nowrap\"'>2</span>回合，该效果最多叠加<span style='whiteSpace: \"nowrap\"'>2</span>次。</span>"
+    Description2pc: 速度提高6%。
+    Description4pc: 对我方单体目标施放战技或终结技时，使技能目标的暴击伤害提高18%，持续2回合，该效果最多叠加2次。
   "122":
     Name: 识海迷坠的学者
-    Description2pc: "<span>暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
-    Description4pc: "<span>战技和终结技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>，施放终结技后，下一次施放战技时造成的伤害额外提高<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 暴击率提高8%。
+    Description4pc: 战技和终结技造成的伤害提高20%，施放终结技后，下一次施放战技时造成的伤害额外提高25%。
   "301":
     Name: 太空封印站
-    Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>120</span>时，攻击力额外提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。
   "302":
     Name: 不老者的仙舟
-    Description2pc: "<span>使装备者的生命上限提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>120</span>时，我方全体攻击力提高<span style='whiteSpace: \"nowrap\"'>8%</span>。</span>"
+    Description2pc: 使装备者的生命上限提高12%。当装备者的速度大于等于120时，我方全体攻击力提高8%。
   "303":
     Name: 泛银河商业公司
-    Description2pc: "<span>使装备者的效果命中提高<span style='whiteSpace: \"nowrap\"'>10%</span>。同时提高装备者等同于当前效果命中<span style='whiteSpace: \"nowrap\"'>25%</span>的攻击力，最多提高<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 使装备者的效果命中提高10%。同时提高装备者等同于当前效果命中25%的攻击力，最多提高25%。
   "304":
     Name: 筑城者的贝洛伯格
-    Description2pc: "<span>使装备者的防御力提高<span style='whiteSpace: \"nowrap\"'>15%</span>。当装备者的效果命中大于等于<span style='whiteSpace: \"nowrap\"'>50%</span>时，防御力额外提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
+    Description2pc: 使装备者的防御力提高15%。当装备者的效果命中大于等于50%时，防御力额外提高15%。
   "305":
     Name: 星体差分机
-    Description2pc: "<span>使装备者的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者的暴击伤害大于等于<span style='whiteSpace: \"nowrap\"'>120%</span>时，进入战斗后装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>60%</span>，持续到施放首次攻击后结束。</span>"
+    Description2pc: 使装备者的暴击伤害提高16%。当装备者的暴击伤害大于等于120%时，进入战斗后装备者的暴击率提高60%，持续到施放首次攻击后结束。
   "306":
     Name: 停转的萨尔索图
-    Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。当装备者当前暴击率大于等于<span style='whiteSpace: \"nowrap\"'>50%</span>时，终结技和追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>15%</span>。</span>"
+    Description2pc: 使装备者的暴击率提高8%。当装备者当前暴击率大于等于50%时，终结技和追加攻击造成的伤害提高15%。
   "307":
     Name: 盗贼公国塔利亚
-    Description2pc: "<span>使装备者的击破特攻提高<span style='whiteSpace: \"nowrap\"'>16%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>145</span>时，击破特攻额外提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 使装备者的击破特攻提高16%。当装备者的速度大于等于145时，击破特攻额外提高20%。
   "308":
     Name: 生命的翁瓦克
-    Description2pc: "<span>使装备者的能量恢复效率提高<span style='whiteSpace: \"nowrap\"'>5%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>120</span>时，进入战斗时立刻使行动提前<span style='whiteSpace: \"nowrap\"'>40%</span>。</span>"
+    Description2pc: 使装备者的能量恢复效率提高5%。当装备者的速度大于等于120时，进入战斗时立刻使行动提前40%。
   "309":
     Name: 繁星竞技场
-    Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>8%</span>。当装备者的当前暴击率大于等于<span style='whiteSpace: \"nowrap\"'>70%</span>时，普攻和战技造成的伤害提高<span style='whiteSpace: \"nowrap\"'>20%</span>。</span>"
+    Description2pc: 使装备者的暴击率提高8%。当装备者的当前暴击率大于等于70%时，普攻和战技造成的伤害提高20%。
   "310":
     Name: 折断的龙骨
-    Description2pc: "<span>使装备者的效果抵抗提高<span style='whiteSpace: \"nowrap\"'>10%</span>。当装备者的效果抵抗大于等于<span style='whiteSpace: \"nowrap\"'>30%</span>时，我方全体暴击伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 使装备者的效果抵抗提高10%。当装备者的效果抵抗大于等于30%时，我方全体暴击伤害提高10%。
   "311":
     Name: 苍穹战线格拉默
-    Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。当装备者的速度大于等于<span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>时，使装备者造成的伤害提高<span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span>。</span>"
+    Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于135/160时，使装备者造成的伤害提高12%/18%。
   "312":
     Name: 梦想之地匹诺康尼
-    Description2pc: "<span>使装备者的能量恢复效率提高<span style='whiteSpace: \"nowrap\"'>5%</span>。使队伍中与装备者属性相同的我方其他角色造成的伤害提高<span style='whiteSpace: \"nowrap\"'>10%</span>。</span>"
+    Description2pc: 使装备者的能量恢复效率提高5%。使队伍中与装备者属性相同的我方其他角色造成的伤害提高10%。
   "313":
     Name: 无主荒星茨冈尼亚
-    Description2pc: "<span>使装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>4%</span>。当敌方目标被消灭时，装备者暴击伤害提高<span style='whiteSpace: \"nowrap\"'>4%</span>，最多叠加<span style='whiteSpace: \"nowrap\"'>10</span>层。</span>"
+    Description2pc: 使装备者的暴击率提高4%。当敌方目标被消灭时，装备者暴击伤害提高4%，最多叠加10层。
   "314":
     Name: 出云显世与高天神国
-    Description2pc: "<span>使装备者的攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。进入战斗时，若至少存在一名与装备者命途相同的队友，装备者的暴击率提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 使装备者的攻击力提高12%。进入战斗时，若至少存在一名与装备者命途相同的队友，装备者的暴击率提高12%。
   "315":
     Name: 奔狼的都蓝王朝
-    Description2pc: "<span>我方角色施放追加攻击时，装备者获得一层【功勋】，最多叠加<span style='whiteSpace: \"nowrap\"'>5</span>层，每层【功勋】使装备者追加攻击造成的伤害提高<span style='whiteSpace: \"nowrap\"'>5%</span>，叠满<span style='whiteSpace: \"nowrap\"'>5</span>层时，额外使装备者的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>25%</span>。</span>"
+    Description2pc: 我方角色施放追加攻击时，装备者获得一层【功勋】，最多叠加5层，每层【功勋】使装备者追加攻击造成的伤害提高5%，叠满5层时，额外使装备者的暴击伤害提高25%。
   "316":
     Name: 劫火莲灯铸炼宫
-    Description2pc: "<span>使装备者的速度提高<span style='whiteSpace: \"nowrap\"'>6%</span>。当装备者击中拥有火属性弱点的敌方目标时，击破特攻提高<span style='whiteSpace: \"nowrap\"'>40%</span>，持续<span style='whiteSpace: \"nowrap\"'>1</span>回合。</span>"
+    Description2pc: 使装备者的速度提高6%。当装备者击中拥有火属性弱点的敌方目标时，击破特攻提高40%，持续1回合。
   "317":
     Name: 沉陆海域露莎卡
-    Description2pc: "<span>使装备者的能量恢复效率提高<span style='whiteSpace: \"nowrap\"'>5%</span>，如果装备者不是编队中的第一位角色，使编队中的第一位角色攻击力提高<span style='whiteSpace: \"nowrap\"'>12%</span>。</span>"
+    Description2pc: 使装备者的能量恢复效率提高5%，如果装备者不是编队中的第一位角色，使编队中的第一位角色攻击力提高12%。
   "318":
     Name: 奇想蕉乐园
-    Description2pc: "<span>使装备者的暴击伤害提高<span style='whiteSpace: \"nowrap\"'>16%</span>，当存在装备者召唤的目标时，暴击伤害额外提高<span style='whiteSpace: \"nowrap\"'>32%</span>。</span>"
+    Description2pc: 使装备者的暴击伤害提高16%，当存在装备者召唤的目标时，暴击伤害额外提高32%。
 Lightcones:
   "20000":
     Name: 锋镝
-    SkillName: 危机
   "20001":
     Name: 物穰
-    SkillName: 繁盛
   "20002":
     Name: 天倾
-    SkillName: 破灭
   "20003":
     Name: 琥珀
-    SkillName: 静滞
   "20004":
     Name: 幽邃
-    SkillName: 沉沦
   "20005":
     Name: 齐颂
-    SkillName: 协力
   "20006":
     Name: 智库
-    SkillName: 博识
   "20007":
     Name: 离弦
-    SkillName: 鸣角
   "20008":
     Name: 嘉果
-    SkillName: 甘美
   "20009":
     Name: 乐圮
-    SkillName: 诛讨
   "20010":
     Name: 戍御
-    SkillName: 兴复
   "20011":
     Name: 渊环
-    SkillName: 追逼
   "20012":
     Name: 轮契
-    SkillName: 速决
   "20013":
     Name: 灵钥
-    SkillName: 顿悟
   "20014":
     Name: 相抗
-    SkillName: 联盟
   "20015":
     Name: 蕃息
-    SkillName: 丰饶民
   "20016":
     Name: 俱殁
-    SkillName: 军团
   "20017":
     Name: 开疆
-    SkillName: 公司
   "20018":
     Name: 匿影
-    SkillName: 机关
   "20019":
     Name: 调和
-    SkillName: 家族
   "20020":
     Name: 睿见
-    SkillName: 天才
   "21000":
     Name: 一场术后对话
-    SkillName: 互相治愈
   "21001":
     Name: 晚安与睡颜
-    SkillName: 劳碌者
   "21002":
     Name: 余生的第一天
-    SkillName: 此刻定格
   "21003":
     Name: 唯有沉默
-    SkillName: 记录
   "21004":
     Name: 记忆中的模样
-    SkillName: 老相片
   "21005":
     Name: 鼹鼠党欢迎你
-    SkillName: 奇妙冒险
   "21006":
     Name: 「我」的诞生
-    SkillName: 画像少女
   "21007":
     Name: 同一种心情
-    SkillName: 救治与维修
   "21008":
     Name: 猎物的视线
-    SkillName: 自信
   "21009":
     Name: 朗道的选择
-    SkillName: 时光如梭
   "21010":
     Name: 论剑
-    SkillName: 各自的答案
   "21011":
     Name: 与行星相会
-    SkillName: 启程
   "21012":
     Name: 秘密誓心
-    SkillName: 竭力而为
   "21013":
     Name: 别让世界静下来
-    SkillName: 声音的力量
   "21014":
     Name: 此时恰好
-    SkillName: 折射的视线
   "21015":
     Name: 决心如汗珠般闪耀
-    SkillName: 回眸
   "21016":
     Name: 宇宙市场趋势
-    SkillName: 新一轮洗牌
   "21017":
     Name: 点个关注吧！
-    SkillName: 不赞不许走！
   "21018":
     Name: 舞！舞！舞！
-    SkillName: 停不下来啦！
   "21019":
     Name: 在蓝天下
-    SkillName: 暖阳麦浪
   "21020":
     Name: 天才们的休憩
-    SkillName: 各得其所
   "21021":
     Name: 等价交换
-    SkillName: 酣适
   "21022":
     Name: 延长记号
-    SkillName: 休止符
   "21023":
     Name: 我们是地火
-    SkillName: 泪中人
   "21024":
     Name: 春水初生
-    SkillName: 驱散余寒
   "21025":
     Name: 过往未来
-    SkillName: 旧日纸鸢
   "21026":
     Name: 汪！散步时间！
-    SkillName: 快溜
   "21027":
     Name: 早餐的仪式感
-    SkillName: 各就其位
   "21028":
     Name: 暖夜不会漫长
-    SkillName: 小小灯火
   "21029":
     Name: 后会有期
-    SkillName: 交手如交谈
   "21030":
     Name: 这就是我啦！
-    SkillName: 新篇章
   "21031":
     Name: 重返幽冥
-    SkillName: 汹涌
   "21032":
     Name: 镂月裁云之意
-    SkillName: 秘密
   "21033":
     Name: 无处可逃
-    SkillName: 绝境
   "21034":
     Name: 今日亦是和平的一日
-    SkillName: 风雨将至
   "21035":
     Name: 何物为真
-    SkillName: 假设
   "21036":
     Name: 美梦小镇大冒险
-    SkillName: 团结
   "21037":
     Name: 最后的赢家
-    SkillName: 下注
   "21038":
     Name: 在火的远处
-    SkillName: 爆燃
   "21039":
     Name: 织造命运之线
-    SkillName: 洞见
   "21040":
     Name: 银河沦陷日
-    SkillName: 攻略
   "21041":
     Name: 好戏开演
-    SkillName: 自娱自乐
   "21042":
     Name: 铭记于心的约定
-    SkillName: 传承
   "21043":
     Name: 两个人的演唱会
-    SkillName: 鼓舞
   "21044":
     Name: 无边曼舞
-    SkillName: 试探
   "21045":
     Name: 谐乐静默之后
-    SkillName: 沉寂
   "21046":
     Name: 芳华待灼
-    SkillName: 莫失莫忘
   "21047":
     Name: 黑夜如影随行
-    SkillName: 隐匿
   "21048":
     Name: 梦的蒙太奇
-    SkillName: 学院式剪接
   "22000":
     Name: 新手任务开始前
-    SkillName: 眼疾手快
   "22001":
     Name: 嘿，我在这儿
-    SkillName: 不怕不怕啦
   "22002":
     Name: 为了明日的旅途
-    SkillName: 联结
   "22003":
     Name: 忍事录•音律狩猎
-    SkillName: 开演！
   "23000":
     Name: 银河铁道之夜
-    SkillName: 流星群
   "23001":
     Name: 于夜色中
-    SkillName: 花与蝶
   "23002":
     Name: 无可取代的东西
-    SkillName: 家人
   "23003":
     Name: 但战斗还未结束
-    SkillName: 继承人
   "23004":
     Name: 以世界之名
-    SkillName: 传承者
   "23005":
     Name: 制胜的瞬间
-    SkillName: 决断
   "23006":
     Name: 只需等待
-    SkillName: 蜘蛛的网
   "23007":
     Name: 雨一直下
-    SkillName: 幻影现实
   "23008":
     Name: 棺的回响
-    SkillName: 荆棘
   "23009":
     Name: 到不了的彼岸
-    SkillName: 不得
   "23010":
     Name: 拂晓之前
-    SkillName: 长夜
   "23011":
     Name: 她已闭上双眼
-    SkillName: 视界
   "23012":
     Name: 如泥酣眠
-    SkillName: 美梦
   "23013":
     Name: 时节不居
-    SkillName: 日有四时
   "23014":
     Name: 此身为剑
-    SkillName: 执此宵玉
   "23015":
     Name: 比阳光更明亮的
-    SkillName: 抵死
   "23016":
     Name: 烦恼着，幸福着
-    SkillName: 一个一个来
   "23017":
     Name: 惊魂夜
-    SkillName: 深度深呼吸
   "23018":
     Name: 片刻，留在眼底
-    SkillName: 骑士巡礼
   "23019":
     Name: 镜中故我
-    SkillName: 彻骨梅香
   "23020":
     Name: 纯粹思维的洗礼
-    SkillName: 思想训练
   "23021":
     Name: 游戏尘寰
-    SkillName: 善变
   "23022":
     Name: 重塑时光之忆
-    SkillName: 结晶
   "23023":
     Name: 命运从未公平
-    SkillName: 全下
   "23024":
     Name: 行于流逝的岸
-    SkillName: 司渡
   "23025":
     Name: 梦应归于何处
-    SkillName: 蜕变
   "23026":
     Name: 夜色流光溢彩
-    SkillName: 抚慰
   "23027":
     Name: 驶向第二次生命
-    SkillName: 苦航
   "23028":
     Name: 偏偏希望无价
-    SkillName: 承诺
   "23029":
     Name: 那无数个春天
-    SkillName: 世事无痕
   "23030":
     Name: 落日时起舞
-    SkillName: 沉酣
   "23031":
     Name: 我将，巡征追猎
-    SkillName: 震慑
   "23032":
     Name: 唯有香如故
-    SkillName: 安心
   "23033":
     Name: 忍法帖•缭乱破魔
-    SkillName: 除邪
   "24000":
     Name: 记一位星神的陨落
-    SkillName: 扑火
   "24001":
     Name: 星海巡航
-    SkillName: 猎逐
   "24002":
     Name: 记忆的质料
-    SkillName: 珍存
   "24003":
     Name: 孤独的疗愈
-    SkillName: 混沌灵药
   "24004":
     Name: 不息的演算
-    SkillName: 无界之思
 Paths:
   Warrior: 毁灭
   Rogue: 巡猎

@@ -1,0 +1,130 @@
+ScreenshotMessages:
+  ScreenshotSuccess: Captura de tela copiada para a área de transferência
+  ScreenshotFailed: Não é possível salvar a captura de tela na área de transferência, tente o botão de baixar à direita
+  DownloadSuccess: Baixar captura de tela
+CharacterMenu:
+  ButtonText: Menu de personagens
+  Character:
+    Label: Personagem 
+    Options:
+      Add: Adicionar novo personagem
+      Edit: Editar personagem / cone de luz
+      Switch: Substituir relíquias com
+      Unequip: Desequipar personagem
+      Delete: Deletar personagem
+  Build:
+    Label: Builds
+    Options:
+      Save: Salvar build atual
+      View: Ver builds salvas
+  Scoring:
+    Label: Pontuação
+    Options:
+      ScoringModal: Algoritmo de Pontos
+  Priority:
+    Label: Prioridade
+    Options:
+      SortByScore: Organizar todos os personagens por pontuação
+      MoveToTop: Mover personagem para o topo
+SearchPlaceholder: Buscar
+GridHeaders:
+  Icon: Ícone
+  Priority: Prioridade
+  Character: Personagem 
+Messages:
+  RemoveSuccess: Personagem removido com sucesso
+  UnequipSuccess: Personagem desequipado com sucesso
+  NoSelectedCharacter: Não há personagem selecionado
+  SwitchSuccess: "Troca de relíquias com $t(gameData:Characters.{{charId}}.Name) bem sucedida"
+  SortByScoreWarning: Você tem certeza que quer organizar todos os personagens? Você perderá todo o ranking personalizado.
+  SaveSuccess: "Build salva com sucesso: {{name}}"
+  UnequipWarning: "Você tem certeza que quer desequipar $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Você tem certeza que quer deletar $t(gameData:Characters.{{charId}}.Name)?"
+CharacterPreview:
+  CustomizationSidebar:
+    Label: Personalização
+    Modes:
+      Auto: Auto
+      Custom: Customizado
+      Standard: Padrão
+    PaletteLabel: Paleta de cores do retrato
+  ArtBy: "Arte por {{artistName}}"
+  EditCharacter: Editar personagem
+  EditPortrait: Editar retrato
+  CharacterScore: "Pontuação do char: {{score}} {{grade}}"
+  Messages:
+    AddedRelic: Relíquia adicionada com sucesso
+    SavedPortrait: Retrato salvo com sucesso
+    RevertedPortrait: Retrato revertido com sucesso
+    NoSelectedCharacter: Não há personagem selecionado
+  ScoreHeader:
+    Title: Simulação de combate
+    Score: "Pontuação DPS {{score}}% {{grade}}"
+  AlgorithmSlider:
+    Title: "Algorítimo pontuação:"
+    Labels:
+      CombatScore: Pontuação Combate
+      CombatScoreTBD: Pontuação Combate (TBD)
+      StatScore: Pontuação de Atributo
+  DetailsSlider:
+    Title: "Detalhes da pontuação:"
+    Labels:
+      CombatStats: Atributos de combate
+      DMGUpgrades: Melhorias para o dano
+  DMGUpgrades: Melhorias para o dano
+  SubstatUpgradeComparisons:
+    Header: Comparação de melhoria de subatributos
+    Roll: roll
+    Damage: Dano
+  BuildAnalysis:
+    Header: Análise de build do personagem
+    SimulationTeammates: Equipe de simulação
+    SimulationSets: Conjuntos de simulação
+    Rotation:
+      Header: Rotação do combo de dano
+      BASIC: BÁSICO
+      SKILL: PERÍCIA
+      ULT: PER. SUP.
+      FUA: ATQ. EXT.
+      DOTS: "DOTS:"
+      BREAKS: "QUEBRAS:"
+    CombatResults:
+      Header: Resultados do dano de combate
+      Primary: "Habilidade primária:"
+      Character: "Dano do personagem:"
+      Benchmark: "Dano do benchmark:"
+      Baseline: "Dano base:"
+      Maximum: "Dano máximo:"
+      Score: "Pontuação de DPS %:"
+      Abilities:
+        BASIC: Dano básico
+        SKILL: Dano perícia
+        ULT: Dano de ULT
+        FUA: Dano FUA
+        DOT: Dano de DOT
+        BREAK: DANO BREAK
+        COMBO: Dano do combo
+  ScoringColumn:
+    Character:
+      Header: "Build do personagem ({{score}}%)"
+      BasicStats: Atributos básicos do personagem
+      CombatStats: <1>Atributos de combate</1> do personagem
+      Substats: Subatributos do personagem (roll mínimo)
+      Mainstats: Atributos principais do personagem
+      Abilities: Dano de habilidade do personagem
+    Benchmark:
+      Header: "Build de benchmark ({{score}}%)"
+      BasicStats: 100% benchmark atributos básicos
+      CombatStats: 100% benchmark <1>atributos de combate</1>
+      Substats: 100% benchmark subs (roll mínimo)
+      Mainstats: 100% benchmark atributos principais
+      Abilities: 100% benchmark dano de habilidade
+    Perfect:
+      Header: "Build perfeita ({{score}}%)"
+      BasicStats: 200% perfeito atributos base
+      CombatStats: 200% perfeito <1>atributos de combate</1>
+      Substats: 200% perfeito subs (roll máximo)
+      Mainstats: 200% perfeito atributos principais
+      Abilities: 200% perfeito dano de habilidade
+  ScoringDetails:
+    Header: Como o placar de DPS é calculado?

@@ -1,0 +1,497 @@
+CharacterSelector:
+  Character: Personagem 
+  Lightcone: Cone de luz
+  Presets: Predefinições
+  Target: Meta de otimização
+  ResultsPlaceholder: Achar melhores resultados
+  TargetPlaceholder: Organizado por
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
+LightconePassives: Passivas do cone de luz
+CharacterPassives: Passivas do personagem
+NoConditionals: Sem passivas condicionais
+NoTeamConditionals: Sem passivas coondicionais da equipe
+ResultLimitN: "Achar os {{limit}} melhores"
+MainStats: Atributos principais
+Sets: Sets
+RelicSetSelector:
+  Placeholder: Set de Relíquia
+  4pcLabel: 4 Pedaços
+  2+2pcLabel: 2 + 2 Pedaços
+  2pcLabel: 2 + Qualquer
+OrnamentSetSelector:
+  Placeholder: Set de Ornamento
+SortOptions:
+  DMGLabel: Cálculo de dano
+  StatLabel: Atributos
+  COMBO: Organizado por Combo DMG
+  BASIC: Organizado por Dano Básico
+  SKILL: Organizado por Dano de Perícia
+  ULT: Organizado por Ult DMG
+  FUA: Organizado por Dano FuA
+  DOT: Organizado por Dano DoT
+  BREAK: Organizado  por Break DMG
+  HEAL: Organizado por Cura
+  SHIELD: Organizado por Escudo
+  HP: "Organizado por $t(common:ReadableStats.HP)"
+  ATK: "Organizado por $t(common:ReadableStats.ATK)"
+  DEF: "Organizado por $t(common:ReadableStats.DEF)"
+  SPD: "Organizado por $t(common:ReadableStats.SPD)"
+  CR: "Organizado por $t(common:ReadableStats.CRIT Rate)"
+  CD: "Organizado por $t(common:ReadableStats.CRIT DMG)"
+  EHR: "Organizado por $t(common:ReadableStats.Effect Hit Rate)"
+  RES: "Organizado por $t(common:ReadableStats.Effect RES)"
+  BE: "Organizado por $t(common:ReadableStats.Break Effect)"
+  OHB: "Organizado por $t(common:ReadableStats.Outgoing Healing Boost)"
+  ERR: "Organizado por $t(common:ReadableStats.Energy Regeneration Rate)"
+  DMG: Organizado por Dano Elemental
+  EHP: Organizado por HP Efetivo
+OptimizerOptions:
+  Header: Opções do otimizador
+  PriorityFilter: Filtro de prioridade
+  Priority:
+    Header: Prioridade
+    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
+    Name: "# {{rank}}"
+  AllowEquipped: Permitir relics equipadas
+  KeepCurrent: Manter as relíquias atuais
+  Exclude: Excluir
+  MinEnhance:
+    Header: Melhoria mín.
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+  MinRarity:
+    Header: Raridade min.
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4 ★ +
+    Label5: 5 ★ +
+  BoostMain:
+    Header: Melhorar atributo principal
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+AdvancedOptions:
+  Header: Opções avançadas
+  EnemyConfigButtonText: Configurações de inimigo
+  CombatBuffsButtonTextNone: Buffs extras de combate
+  CombatBuffsButtonText: "Buffs extras de combate ({{activeCount}})"
+Grid:
+  To: para
+  Of: de
+  Page: Página
+  PageSelectorLabel: "Tamanho da Página:"
+  Headers:
+    Basic:
+      Set: Set
+      ATK: ATQ
+      DEF: DEF
+      HP: PV
+      SPD: VEL
+      CR: CR
+      CD: CD
+      EHR: EHR
+      RES: RES
+      BE: BE
+      OHB: OHB
+      ERR: ERR
+      DMG: DANO
+      EHP: EHP
+      WEIGHT: |-
+        PESO
+        ATR.
+      HEAL: CURA
+      SHIELD: ESCUDO
+      BASIC: |-
+        DANO
+        BÁSICO
+      SKILL: |-
+        DANO
+        PERÍCIA
+      ULT: |-
+        DANO
+        PER. SUP.
+      FUA: |-
+        DANO
+        ATQ. EXT.
+      DOT: |-
+        DANO
+        DOT
+      BREAK: |-
+        DANO
+        QUEBRA
+      COMBO: |-
+        DANO
+        COMBO
+    Combat:
+      Set: Set
+      ATK: Σ ATQ
+      DEF: Σ DEF
+      HP: Σ PV
+      SPD: Σ VEL
+      CR: Σ CR
+      CD: Σ CD
+      EHR: Σ EHR
+      RES: Σ RES
+      BE: Σ BR
+      OHB: Σ OHB
+      ERR: Σ ERR
+      DMG: Σ DANO
+      EHP: EHP
+      WEIGHT: |-
+        PESO
+        ATR.
+      HEAL: CURA
+      SHIELD: ESCUDO
+      BASIC: |-
+        DANO
+        BÁSICO
+      SKILL: |-
+        DANO
+        PERÍCIA
+      ULT: |-
+        DANO
+        PER. SUP.
+      FUA: |-
+        DANO
+        ATQ. EXT.
+      DOT: |-
+        DANO
+        DOT
+      BREAK: |-
+        DANO
+        QUEBRA
+      COMBO: |-
+        DANO
+        COMBO
+Sidebar:
+  GPUOptions:
+    Experimental: Aceleração de GPU habilitada (experimental)
+    Stable: Aceleração de GPU habilitada (estável)
+    CPU: Somente CPU
+    EngineSwitchSuccessMsg:
+      CPU: Mecanismo de computação alterador para CPU
+      Stable: Mecanismo de computação alterador para GPU (Estável)
+      Experimental: Mecanismo de computação alterador para GPU (Experimental)
+    Display:
+      GPU Experimental: "Aceleração de GPU: Ativado"
+      GPU Stable: "Aceleração de GPU: Ativado"
+      CPU: "Aceleração de GPU: Desativado"
+  Pinning:
+    Messages:
+      NoneSelected: Nenhuma linha selecionada
+      SimSelected: ' As linhas de simulação personalizadas não podem ser fixadas'
+      AlreadyPinned: Essa build já está fixada
+  Permutations: Permutações
+  Perms: Perms
+  Searched: Buscado
+  Results: Resultados
+  ProgressText:
+    Progress: Progresso
+    CalculatingETA: Progresso (calculando ETA..)
+    TimeRemaining: "{{rate}} / seg — {{timeRemaining}} restante"
+    Finished: "{{rate}} / seg — Finalizado"
+  ControlsGroup:
+    Header: Controles
+    Start: Iniciar otimizador
+    ResetConfirm:
+      Title: Resetar todos os filtros?
+      Description: Todos os filtros vão resetar para o valor padrão
+  StatViewGroup:
+    Header: Visualização de atributo e filtro
+    CombatStats: Stats combate
+    BasicStats: Stats básicos
+  ResultsGroup:
+    Header: Resultados
+    Equip: Equipar
+    Filter: Filtro
+    Pin: Builds fixadas
+    Clear: Limpar fixados
+TeammateRow:
+  Header: "Membros de equipe {{teammateCount}}"
+FormRowLabels:
+  Character options: Opções do personagem
+  Relic & stat filters: Filtros de relíquias e atributos
+  Teammates: Membros de equipe
+  Character custom stats simulation: Simulação de atributos personalizados de personagens
+SetConditionals:
+  Title: Efeitos condicionais de set
+  DescriptionHeader: Definir descrição
+  EffectHeader: Efeito habilitado
+  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
+  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
+  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SelectOptions:
+    Streetwise:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ATQ)"
+    Wastelander:
+      Off:
+        Display: "Desligado"
+        Label: "Desligado"
+      Debuffed:
+        Display: CR
+        Label: Debufado (+10% CR)
+      Imprisoned:
+        Display: CR + CD
+        Label: Emprisionado (+10% CR | +20% CD)
+    Longevous:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CR)"
+    Ashblazing:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ATQ)"
+    Prisoner:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ignorar DEF)"
+    Diver:
+      Off:
+        Display: 0x
+        Label: 0 debuffs (+4% CR)
+      1Debuff:
+        Display: 1x
+        Label: 1 debuff (+12% DMG | +4% CR)
+      2Debuff:
+        Display: 2x
+        Label: 2 debuffs (+12% DMG | +4% CR | +8% CD)
+      3Debuff:
+        Display: 3x
+        Label: 3 debuffs (+12% DMG | +4% CR | +12% CD)
+      2+Debuff:
+        Display: 2x+
+        Label: 2 debuffs, aprimorado (+12% DMG | +4% CR | +4% CR em combate | +16% CD)
+      3+Debuff:
+        Display: 3x+
+        Label: 3 debuffs, aprimorado (+12% DMG | +4% CR | +4% CR em combate | +24% CD)
+    Sigonia:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CD)"
+    Duran:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% DMG ATQ EXTRA)"
+      Label5: 5 acúmulos (+25% DMG ATQ EXTRA +25% CD)
+    Sacerdos:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CD)"
+  Conditionals:
+    DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
+    Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"
+    Streetwise: ' O bônus de ATQ% selecionado é aplicado aos cálculos de atributos de combate com base no número de acúmulos.'
+    Firesmith: ' O aumento do dano de habilidade está sempre ativo por padrão. Quando ativado, o bônus de dano de fogo é aplicado aos cálculos de atributos de combate.'
+    Genius: ' O aumento de 10% de penetração de defesa está sempre ativo por padrão. Quando ativado, trata o inimigo como tendo fraqueza à Quantum e penetra 10% a mais de DEF.'
+    Thunder: ' Quando ativado, o bônus de ATQ% é aplicado aos cálculos de atributos de combate.'
+    Wastelander: Aplica os buffs selecionados aos cálculos de estatísticas de combate.
+    Longevous: O buff de CR selecionado é aplicado aos cálculos de estatísticas de combate com base no número de acúmulos.
+    Messenger: Quando ativado, o bônus de SPD% é aplicado aos cálculos de estatísticas de combate.
+    Ashblazing: >-
+      O bônus de ATQ% selecionado é aplicado a todos os cálculos, exceto aos ataques extras. Em vez disso, os cálculos de ataques extras começarão com 0% de bônus de ATQ e se acumularão com base no número de acertos realizados pelo ataque. Os acertos aumentarão com base na contagem de inimigos e pressupõem que o alvo esteja posicionado no centro para ataques blast/aoe.
+    Prisoner: O bônus de penetração de DEF% selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
+    Diver: O efeito de 2 peças pode ser desativado selecionando a opção 0x. Para 4 peças, diferentes buffs CRIT são aplicados aos cálculos de estatísticas de combate, dependendo da opção selecionada.
+    Watchmaker: Quando ativado, o bônus de Efeito de Quebra é aplicado aos cálculos de estatísticas de combate.
+    Valorous: O bônus de Chance de Crítico está sempre ativado por padrão. O bônus selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
+    Differentiator: Quando ativado, o bônus de Chance de Crítico é aplicado aos cálculos de estatísticas de combate.
+    Sigonia: O bônus de Dano Crítico selecionado é aplicado aos cálculos de estatísticas de combate, presumindo que o personagem tenha derrotado esse número de inimigos.
+    Izumo: Quando ativado, presume que há outro aliado com o mesmo caminho e aplica o bônus de 12% de Chance de Crítico aos cálculos de estatísticas de combate.
+    Duran: O buff selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
+    Kalpagni: Quando ativado, aplica o bônus de Efeito de Quebra aos cálculos de estatísticas de combate.
+    Lushaka: O buff selecionado é aplicado aos cálculos de dano.
+    Banana: O buff selecionado é aplicado aos cálculos de dano.
+    Sacerdos: O buff selecionado é aplicado aos cálculos de dano. Os personagens que se buffam podem acionar esse efeito.
+Presets:
+  SpdValues:
+    SPD0: Sem velocidade mínima
+    SPD111: 111,112 SPD - 5 ações nos primeiros quatro ciclos
+    SPD114: 114,286 SPD - 4 ações nos três primeiros ciclos
+    SPD120: 120,000 SPD - 3 ações nos dois primeiros ciclos
+    SPD133: 133,334 SPD - 2 ações no primeiro ciclo, 6 ações nos primeiros quatro ciclos
+    SPD142: 142,858 SPD - 5 ações nos primeiros três turnos
+    SPD155: 155,556 SPD - 7 ações nos primeiros quatro ciclos
+    SPD160: 160,000 DPS - 4 ações nos dois primeiros ciclos
+    SPD171: 171,429 DPS - 6 ações nos três primeiros ciclos
+    SPD177: 177,778 SPD - 8 ações nos primeiros quatro ciclos
+    SPD200: 200,000 DPS - 3 ações no primeiro ciclo
+  StandardLabel: "Padrão $t(gameData:Characters.{{id}}.Name)"
+  RecommendedPresets: Predefinições recomendadas
+  PresetNotAvailable: Predefinição não disponível, selecione outra opção
+CombatBuffs:
+  ATK: ATQ
+  ATK_P: ATQ %
+  HP: PV
+  HP_P: PV %
+  DEF: DEF
+  DEF_P: DEF %
+  CR: Chance de Crítico %
+  CD: Dano Crítico %
+  SPD: VEL
+  SPD_P: VEL %
+  BE: BE %
+  DMG_BOOST: Aum. de Dano %
+  DEF_PEN: Pen Def %
+  RES_PEN: PEN RES Dano %
+  EFFECT_RES_PEN: PEN RES Efeito %
+  VULNERABILITY: Vulnerabilidade %
+  BREAK_EFFICIENCY: Eficiência de Quebra %
+  Title: Buffs extras de combate
+Target_one: alvo
+Target_other: alvos
+EnemyConfiguration:
+  LevelOptionLabel: "Nv. {{level}} - {{defense}} DEF"
+  CountOptionLabel: >-
+    {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
+  EffResOptionLabel: "{{resistance}}% RES Efeito"
+  DmgResOptionLabel: "{{resistance}}% RES Dano"
+  ToughnessOptionLabel: "{{toughness}} resistência máxima"
+  Title: Configurações de inimigo
+  StatHeader: Opções de atributos do inimigo
+  WeaknessLabel: Fraqueza elemental
+  BrokenLabel: Resistência quebrada
+WeightFilter:
+  WeightFilterHeader: Filtro de peso de subatributo
+  RollFilterHeader: Peso de rolls por relíquia
+  HPFilterText: PV
+  ATKFilterText: ATQ
+  DEFFilterText: DEF
+  SPDFilterText: VEL
+  CRFilterText: CR
+  CDFilterText: CD
+  EHRFilterText: EHR
+  RESFilterText: RES
+  BEFilterText: BE
+MinMaxFilters:
+  StatHeader: Filtro atributo min / max
+  RatingHeader: Filtro nota min / max
+  HPLabel: PV
+  ATKLabel: ATQ
+  DEFLabel: DEF
+  SPDLabel: VEL
+  CRLabel: CR
+  CDLabel: CD
+  EHRLabel: EHR
+  RESLabel: RES
+  BELabel: BE
+  ERRLabel: ERR
+  WEIGHTLabel: PESO
+  EHPLabel: EHP
+  BASICLabel: BÁSICO
+  SKILLLabel: PERÍCIA
+  ULTLabel: PER. SUP.
+  FUALabel: ATQ. EXT.
+  DOTLabel: DOT
+  BREAKLabel: QUEBRA
+  HEALLabel: CURA
+  SHIELDLabel: ESCUDO
+  COMBOLabel: COMBO
+ComboFilter:
+  Header: Rotação para Dano Combo
+  ModeSelector:
+    Simple: Simples
+    Advanced: Avançado
+  RowControls:
+    Add: +
+    Remove: "-"
+    ResetConfirm:
+      Description: Redefinir todas as configurações de rotação simples/avançadas para o padrão?
+  CounterLabels:
+    Dot: DOTs
+    Break: Quebras
+  ComboOptions:
+    Basic: Basic
+    Skill: Skill
+    Ult: Ult
+    Fua: FuA
+  RotationButton: Rotação avançada
+ComboDrawer:
+  NoConditionals: Sem passivas condicionais
+  Title: Guia do Usuário de Rotação Avançada
+  Placeholders:
+    Sets: Condicionais de set de relíquia
+    Ornaments: Condicionais de set de ornamento
+  GroupHeaders:
+    Sets: Condicionais de set Relíquia / Ornamento
+    Teammate1: Condicionais membro 1
+    Teammate2: Condicionais membro 2
+    Teammate3: Condicionais membro 3
+TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  EidolonPlaceholder: Eidolon
+  SuperimpositionPlaceholder: Sobreposição
+  RelicsPlaceholder: Relíquias
+  OrnamentsPlaceholder: Ornamentos
+  TeammateSyncSuccessMessage: Informações sincronizadas de membro
+  TeammateSets:
+    Messenger:
+      Desc: "4 Peças: $t(gameData:RelicSets.114.Name) (+12% SPD)"
+      Set: "$t(gameData:RelicSets.114.Name)"
+      Text: 12% SPD
+    Watchmaker:
+      Desc: "4 Peças: $t(gameData:RelicSets.118.Name) (+30% BE)"
+      Set: "$t(gameData:RelicSets.118.Name)"
+      Text: 30% BE
+    Sacerdos1Stack:
+      Desc: "4 Peças: $t(gameData:RelicSets.121.Name) (+18% CD)"
+      Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 18% CD
+    Sacerdos2Stack:
+      Desc: "4 Peças: $t(gameData:RelicSets.121.Name) (+36% CD)"
+      Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 36% CD
+    Keel:
+      Desc: "$t(gameData:RelicSets.310.Name) (+10% CD)"
+      Set: "$t(gameData:RelicSets.310.Name)"
+      Text: 10% CD
+    Ageless:
+      Desc: "$t(gameData:RelicSets.302.Name) (+8% ATQ)"
+      Set: "$t(gameData:RelicSets.302.Name)"
+      Text: 8% ATQ
+    Penacony:
+      Desc: "$t(gameData:RelicSets.312.Name) (+10% DMG para mesmo elemento)"
+      Set: "$t(gameData:RelicSets.312.Name)"
+      Text: 10% DMG
+    Lushaka:
+      Desc: "$t(gameData:RelicSets.317.Name) (+12% ATQ)"
+      Set: "$t(gameData:RelicSets.317.Name)"
+      Text: 12% ATQ
+StatSimulation:
+  DuplicateSimMessage: Já existe uma simulação de atributos idêntica
+  MissingMainstatsMessage: Atributos principais de simulação ausentes
+  BuildAlreadyImported: A build de otimização selecionada já é uma simulação
+  NothingToImport: Execute o otimizador primeiro e, em seguida, selecione uma linha dos resultados do otimizador para importar
+  NoStatSimulations: Nenhuma simulação de atributos personalizadas foi seleciona
+  SetSelection:
+    Header: Sets
+    RelicPlaceholder: Set de Relíquia
+    OrnamentPlaceholder: Set de Ornamento
+  TotalRolls: Total de rolls
+  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  ModeSelector:
+    Off: Off
+    RollCount: Simular rolls de subs personalizados
+    Totals: Simular totais de subs personalizados
+  FooterLabels:
+    Simulate: Simular build
+    Import: Importar build do otimizador
+    Conditionals: Efeitos condicionais de set
+  DeletePopup:
+    Title: Apagar simulação de atributos
+    Description: Tem certeza de que deseja limpar todas as simulações salvas desse personagem?
+  SimulationNamePlaceholder: Nome da simulação (Opcional)
+  OptionsHeader: Opções
+  RollsHeader: Roll max de subatributos
+  TotalsHeader: Valor total de subatributo
+  MainStatsSelection:
+    Header: Atributos principais
+    BodyPlaceholder: Corpo
+    FeetPlaceholder: Pés
+    SpherePlaceholder: Esfera
+    RopePlaceholder: Corda
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
+    LabelStat: "$t(common:ReadableStats.{{stat}})"

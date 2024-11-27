@@ -1,613 +1,563 @@
 Characters:
   "1001":
     Name: 7 de Março
+    LongName: 7 de Março (A Preservação)
   "1002":
     Name: Dan Heng
+    LongName: Dan Heng
   "1003":
     Name: Himeko
+    LongName: Himeko
   "1004":
     Name: Welt
+    LongName: Welt
   "1005":
     Name: Kafka
+    LongName: Kafka
   "1006":
     Name: Loba Prateada
+    LongName: Loba Prateada
   "1008":
     Name: Arlan
+    LongName: Arlan
   "1009":
     Name: Asta
+    LongName: Asta
   "1013":
     Name: Herta
+    LongName: Herta
   "1101":
     Name: Bronya
+    LongName: Bronya
   "1102":
     Name: Seele
+    LongName: Seele
   "1103":
     Name: Serval
+    LongName: Serval
   "1104":
     Name: Gepard
+    LongName: Gepard
   "1105":
     Name: Natasha
+    LongName: Natasha
   "1106":
     Name: Pela
+    LongName: Pela
   "1107":
     Name: Clara
+    LongName: Clara
   "1108":
     Name: Sampo
+    LongName: Sampo
   "1109":
     Name: Hook
+    LongName: Hook
   "1110":
     Name: Lynx
+    LongName: Lynx
   "1111":
     Name: Luka
+    LongName: Luka
   "1112":
     Name: Topaz e Dinheirinho
+    LongName: Topaz e Dinheirinho
   "1201":
     Name: Qingque
+    LongName: Qingque
   "1202":
     Name: Tingyun
+    LongName: Tingyun
   "1203":
     Name: Luocha
+    LongName: Luocha
   "1204":
     Name: Jing Yuan
+    LongName: Jing Yuan
   "1205":
     Name: Blade
+    LongName: Blade
   "1206":
     Name: Sushang
+    LongName: Sushang
   "1207":
     Name: Yukong
+    LongName: Yukong
   "1208":
     Name: Fu Xuan
+    LongName: Fu Xuan
   "1209":
     Name: Yanqing
+    LongName: Yanqing
   "1210":
     Name: Guinaifen
+    LongName: Guinaifen
   "1211":
     Name: Bailu
+    LongName: Bailu
   "1212":
     Name: Jingliu
+    LongName: Jingliu
   "1213":
-    Name: Dan Heng - Embebidor Lunae
+    Name: Embebidor Lunae
+    LongName: Dan Heng - Embebidor Lunae
   "1214":
     Name: Xueyi
+    LongName: Xueyi
   "1215":
     Name: Hanya
+    LongName: Hanya
   "1217":
     Name: Huohuo
+    LongName: Huohuo
   "1218":
     Name: Jiaoqiu
+    LongName: Jiaoqiu
   "1220":
     Name: Feixiao
+    LongName: Feixiao
   "1221":
     Name: Yunli
+    LongName: Yunli
   "1222":
     Name: Lingsha
+    LongName: Lingsha
   "1223":
     Name: Moze
+    LongName: Moze
   "1224":
     Name: 7 de Março
+    LongName: 7 de Março (A Caça)
   "1301":
     Name: Gallagher
+    LongName: Gallagher
   "1302":
     Name: Argenti
+    LongName: Argenti
   "1303":
     Name: Ruan Mei
+    LongName: Ruan Mei
   "1304":
     Name: Aventurine
+    LongName: Aventurine
   "1305":
     Name: Dr. Ratio
+    LongName: Dr. Ratio
   "1306":
     Name: Sparkle
+    LongName: Sparkle
   "1307":
     Name: Cisne Negro
+    LongName: Cisne Negro
   "1308":
     Name: Acheron
+    LongName: Acheron
   "1309":
     Name: Robin
+    LongName: Robin
   "1310":
     Name: Vaga-lume
+    LongName: Vaga-lume
   "1312":
     Name: Misha
+    LongName: Misha
   "1314":
     Name: Jade
+    LongName: Jade
   "1315":
     Name: Boothill
+    LongName: Boothill
   "1317":
     Name: Rappa
+    LongName: Rappa
   "8001":
-    Name: Caelus (A Destruição)
+    Name: Caelus
+    LongName: Caelus (A Destruição)
   "8002":
-    Name: Stelle (A Destruição)
+    Name: Stelle
+    LongName: Stelle (A Destruição)
   "8003":
-    Name: Caelus (A Preservação)
+    Name: Caelus
+    LongName: Caelus (A Preservação)
   "8004":
-    Name: Stelle (A Preservação)
+    Name: Stelle
+    LongName: Stelle (A Preservação)
   "8005":
-    Name: Caelus (A Harmonia)
+    Name: Caelus
+    LongName: Caelus (A Harmonia)
   "8006":
-    Name: Stelle (A Harmonia)
+    Name: Stelle
+    LongName: Stelle (A Harmonia)
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante
-    Description2pc: "<span>Aumenta Cura Realizada em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: <span>No início da batalha, regenera imediatamente 1 Ponto de Perícia.</span>
+    Description2pc: Aumenta Cura Realizada em 10%.
+    Description4pc: No início da batalha, regenera imediatamente 1 Ponto de Perícia.
   "102":
     Name: Mosqueteira do Trigo Selvagem
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ.</span>"
-    Description4pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>6%</span> a VEL e em <span style='whiteSpace: \"nowrap\"'>10%</span> o Dano causado pelo ATQ Básico do usuário.</span>"
+    Description2pc: Aumenta em 12% o ATQ.
+    Description4pc: Aumenta em 6% a VEL e em 10% o Dano causado pelo ATQ Básico do usuário.
   "103":
     Name: Cavaleira do Palácio da Pureza
-    Description2pc: "<span>Aumenta a DEF em <span style='whiteSpace: \"nowrap\"'>15%</span>.</span>"
-    Description4pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>20%</span> o Dano máximo que pode ser absorvido pelo Escudo criado pelo usuário.</span>"
+    Description2pc: Aumenta a DEF em 15%.
+    Description4pc: Aumenta em 20% o Dano máximo que pode ser absorvido pelo Escudo criado pelo usuário.
   "104":
     Name: Caçador da Floresta Glacial
-    Description2pc: "<span>Aumenta o Dano de Gelo em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Após o usuário utilizar sua Perícia Suprema, aumenta em <span style='whiteSpace: \"nowrap\"'>25%</span> o Dano CRIT por <span style='whiteSpace: \"nowrap\"'>2</span> rodada(s).</span>"
+    Description2pc: Aumenta o Dano de Gelo em 10%.
+    Description4pc: Após o usuário utilizar sua Perícia Suprema, aumenta em 25% o Dano CRIT por 2 rodada(s).
   "105":
     Name: Campeã de Boxe de Rua
-    Description2pc: "<span>Aumenta o Dano Físico em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Depois que o usuário ataca ou é atingido, aumenta em <span style='whiteSpace: \"nowrap\"'>5%</span> seu ATQ durante todo o resto da batalha. Este efeito pode acumular até <span style='whiteSpace: \"nowrap\"'>5</span> vez(es).</span>"
+    Description2pc: Aumenta o Dano Físico em 10%.
+    Description4pc: Depois que o usuário ataca ou é atingido, aumenta em 5% seu ATQ durante todo o resto da batalha. Este efeito pode acumular até 5 vez(es).
   "106":
     Name: Guarda da Neve Uivante
-    Description2pc: "<span>Reduz o Dano recebido em <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>No início da rodada, se a porcentagem dos PV do usuário for igual ou inferior a <span style='whiteSpace: \"nowrap\"'>50%</span>, restaura PV igual a <span style='whiteSpace: \"nowrap\"'>8%</span> de seus PV máximos e regenera <span style='whiteSpace: \"nowrap\"'>5</span> de Energia.</span>"
+    Description2pc: Reduz o Dano recebido em 8%.
+    Description4pc: No início da rodada, se a porcentagem dos PV do usuário for igual ou inferior a 50%, restaura PV igual a 8% de seus PV máximos e regenera 5 de Energia.
   "107":
     Name: Artesão de Fogo da Forja de Lava
-    Description2pc: "<span>Aumenta o Dano de Fogo em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Aumenta o Dano da Perícia do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>. Após usar a Perícia Suprema, aumenta o Dano de Fogo do próximo ataque do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Aumenta o Dano de Fogo em 10%.
+    Description4pc: Aumenta o Dano da Perícia do usuário em 12%. Após usar a Perícia Suprema, aumenta o Dano de Fogo do próximo ataque do usuário em 12%.
   "108":
     Name: Gênio das Estrelas Brilhantes
-    Description2pc: "<span>Aumenta o Dano Quântico em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Quando o usuário causa Dano ao inimigo-alvo, ignora <span style='whiteSpace: \"nowrap\"'>10%</span> de DEF. Se o inimigo-alvo tiver Fraqueza contra Quântico, o usuário ignora adicionalmente <span style='whiteSpace: \"nowrap\"'>10%</span> de DEF.</span>"
+    Description2pc: Aumenta o Dano Quântico em 10%.
+    Description4pc: Quando o usuário causa Dano ao inimigo-alvo, ignora 10% de DEF. Se o inimigo-alvo tiver Fraqueza contra Quântico, o usuário ignora adicionalmente 10% de DEF.
   "109":
     Name: Banda Trovão Crepitante
-    Description2pc: "<span>Aumenta o Dano de Raio em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Quando o usuário usa a Perícia, aumenta o ATQ em <span style='whiteSpace: \"nowrap\"'>20%</span> por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+    Description2pc: Aumenta o Dano de Raio em 10%.
+    Description4pc: Quando o usuário usa a Perícia, aumenta o ATQ em 20% por 1 rodada(s).
   "110":
     Name: Águia da Linha do Crepúsculo
-    Description2pc: "<span>Aumenta o Dano de Vento em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Após o usuário usar a Perícia Suprema, sua ação é Avançada Adiante em <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Aumenta o Dano de Vento em 10%.
+    Description4pc: Após o usuário usar a Perícia Suprema, sua ação é Avançada Adiante em 25%.
   "111":
     Name: Ladrão da Chuva de Meteoros
-    Description2pc: "<span>Aumenta o Efeito de Quebra em <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>16%</span> o Efeito de Quebra do usuário. Depois que o usuário inflige Quebra de Fraqueza em um inimigo, regenera <span style='whiteSpace: \"nowrap\"'>3</span> de Energia.</span>"
+    Description2pc: Aumenta o Efeito de Quebra em 16%.
+    Description4pc: Aumenta em 16% o Efeito de Quebra do usuário. Depois que o usuário inflige Quebra de Fraqueza em um inimigo, regenera 3 de Energia.
   "112":
     Name: Andarilho do Deserto da Bandidagem
-    Description2pc: "<span>Aumenta o Dano Imaginário em <span style='whiteSpace: \"nowrap\"'>10%</span>.</span>"
-    Description4pc: "<span>Ao atacar inimigos com penalidades, a Chance de CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span>, e seu Dano CRIT aumenta em <span style='whiteSpace: \"nowrap\"'>20%</span> contra inimigos Aprisionados.</span>"
+    Description2pc: Aumenta o Dano Imaginário em 10%.
+    Description4pc: Ao atacar inimigos com penalidades, a Chance de CRIT do usuário aumenta em 10%, e seu Dano CRIT aumenta em 20% contra inimigos Aprisionados.
   "113":
     Name: Discípula Longeva
-    Description2pc: "<span>Aumenta os PV máximos em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Quando o usuário recebe um golpe ou tem seus PV consumidos por um aliado ou por si próprio, a Chance de CRIT dele aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> por <span style='whiteSpace: \"nowrap\"'>2</span> rodada(s) e até <span style='whiteSpace: \"nowrap\"'>2</span> acúmulos.</span>"
+    Description2pc: Aumenta os PV máximos em 12%.
+    Description4pc: Quando o usuário recebe um golpe ou tem seus PV consumidos por um aliado ou por si próprio, a Chance de CRIT dele aumenta em 8% por 2 rodada(s) e até 2 acúmulos.
   "114":
     Name: Mensageira Atravessando o Hackerspace
-    Description2pc: "<span>Aumenta a VEL em <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Quando o usuário usa a sua Perícia Suprema em um aliado, a VEL de todos os aliados aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s). Este efeito não pode acumular.</span>"
+    Description2pc: Aumenta a VEL em 6%.
+    Description4pc: Quando o usuário usa a sua Perícia Suprema em um aliado, a VEL de todos os aliados aumenta em 12% por 1 rodada(s). Este efeito não pode acumular.
   "115":
     Name: Grão-Duque em Brasas
-    Description2pc: "<span>Aumenta o Dano causado pelos Ataques Extras em <span style='whiteSpace: \"nowrap\"'>20%</span>.</span>"
-    Description4pc: "<span>Quando o usuário usa um Ataque Extra, aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>6%</span> a cada vez que o Ataque Extra causa Dano. Este efeito pode ser chegar até um máximo de <span style='whiteSpace: \"nowrap\"'>8</span> acúmulo(s) e dura por <span style='whiteSpace: \"nowrap\"'>3</span> rodada(s). Este efeito é removido na próxima vez que o usuário utilizar um Ataque Extra.</span>"
+    Description2pc: Aumenta o Dano causado pelos Ataques Extras em 20%.
+    Description4pc: Quando o usuário usa um Ataque Extra, aumenta o ATQ do usuário em 6% a cada vez que o Ataque Extra causa Dano. Este efeito pode ser chegar até um máximo de 8 acúmulo(s) e dura por 3 rodada(s). Este efeito é removido na próxima vez que o usuário utilizar um Ataque Extra.
   "116":
     Name: Prisioneiro em Confinamento Profundo
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ.</span>"
-    Description4pc: "<span>Para cada Dano Contínuo aplicado ao inimigo-alvo, o usuário ignorará <span style='whiteSpace: \"nowrap\"'>6%</span> de sua DEF ao causar Dano. Este efeito é válido por um máximo de <span style='whiteSpace: \"nowrap\"'>3</span> Danos Contínuos.</span>"
+    Description2pc: Aumenta em 12% o ATQ.
+    Description4pc: Para cada Dano Contínuo aplicado ao inimigo-alvo, o usuário ignorará 6% de sua DEF ao causar Dano. Este efeito é válido por um máximo de 3 Danos Contínuos.
   "117":
     Name: Mergulhadora Pioneira de Águas Mortas
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o Dano causado a inimigos com penalidades.</span>"
-    Description4pc: "<span>Aumenta a Chance de CRIT em <span style='whiteSpace: \"nowrap\"'>4%</span>. O usuário causa <span style='whiteSpace: \"nowrap\"'>8%</span>/<span style='whiteSpace: \"nowrap\"'>12%</span> de Dano CRIT aumentado em inimigos com pelo menos <span style='whiteSpace: \"nowrap\"'>2</span>/<span style='whiteSpace: \"nowrap\"'>3</span> penalidades. Após o usuário infligir uma penalidade nos inimigos-alvo, os efeitos mencionados anteriormente aumentam em <span style='whiteSpace: \"nowrap\"'>100%</span>, durando por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+    Description2pc: Aumenta em 12% o Dano causado a inimigos com penalidades.
+    Description4pc: Aumenta a Chance de CRIT em 4%. O usuário causa 8%/12% de Dano CRIT aumentado em inimigos com pelo menos 2/3 penalidades. Após o usuário infligir uma penalidade nos inimigos-alvo, os efeitos mencionados anteriormente aumentam em 100%, durando por 1 rodada(s).
   "118":
     Name: Relojoeiro, Mestre de Maquinações de Sonhos
-    Description2pc: "<span>Aumenta o Efeito de Quebra em <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Quando o usuário usa sua Perícia Suprema em um aliado, o Efeito de Quebra de todos os aliados aumenta em <span style='whiteSpace: \"nowrap\"'>30%</span> por <span style='whiteSpace: \"nowrap\"'>2</span> rodada(s). Esse efeito não pode ser acumulado.</span>"
+    Description2pc: Aumenta o Efeito de Quebra em 16%.
+    Description4pc: Quando o usuário usa sua Perícia Suprema em um aliado, o Efeito de Quebra de todos os aliados aumenta em 30% por 2 rodada(s). Esse efeito não pode ser acumulado.
   "119":
     Name: Cavalaria de Ferro Contra a Praga
-    Description2pc: "<span>Aumenta o Efeito de Quebra em <span style='whiteSpace: \"nowrap\"'>16%</span>.</span>"
-    Description4pc: "<span>Se o Efeito de Quebra do usuário for <span style='whiteSpace: \"nowrap\"'>150%</span> ou maior, o Dano de Quebra causado ao inimigo ignora <span style='whiteSpace: \"nowrap\"'>10%</span> da sua DEF. Se o Efeito de Quebra do usuário for <span style='whiteSpace: \"nowrap\"'>250%</span> ou maior, o Super Dano de Quebra causado ao inimigo-alvo ignora adicionalmente <span style='whiteSpace: \"nowrap\"'>15%</span> de sua DEF.</span>"
+    Description2pc: Aumenta o Efeito de Quebra em 16%.
+    Description4pc: Se o Efeito de Quebra do usuário for 150% ou maior, o Dano de Quebra causado ao inimigo ignora 10% da sua DEF. Se o Efeito de Quebra do usuário for 250% ou maior, o Super Dano de Quebra causado ao inimigo-alvo ignora adicionalmente 15% de sua DEF.
   "120":
     Name: Coragem Como Vento e Nuvem
-    Description2pc: "<span>Aumenta o ATQ em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
-    Description4pc: "<span>Aumenta a Chance de CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>6%</span>. Depois que o usuário utiliza um Ataque Extra, aumenta o Dano causado pela Perícia Suprema em <span style='whiteSpace: \"nowrap\"'>36%</span>, durando por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+    Description2pc: Aumenta o ATQ em 12%.
+    Description4pc: Aumenta a Chance de CRIT do usuário em 6%. Depois que o usuário utiliza um Ataque Extra, aumenta o Dano causado pela Perícia Suprema em 36%, durando por 1 rodada(s).
   "121":
     Name: O Ordálio Revivido de Sacerdos
-    Description2pc: "<span>Aumenta a VEL em <span style='whiteSpace: \"nowrap\"'>6%</span>.</span>"
-    Description4pc: "<span>Ao usar uma Perícia ou Perícia Suprema em um aliado-alvo, aumenta o Dano CRIT do alvo em <span style='whiteSpace: \"nowrap\"'>18%</span>, durando por <span style='whiteSpace: \"nowrap\"'>2</span> rodada(s). Esse efeito pode acumular até <span style='whiteSpace: \"nowrap\"'>2</span> vez(es).</span>"
+    Description2pc: Aumenta a VEL em 6%.
+    Description4pc: Ao usar uma Perícia ou Perícia Suprema em um aliado-alvo, aumenta o Dano CRIT do alvo em 18%, durando por 2 rodada(s). Esse efeito pode acumular até 2 vez(es).
   "122":
     Name: Uma Erudita Perdida na Erudição
-    Description2pc: "<span>Aumenta a Chance de CRIT em <span style='whiteSpace: \"nowrap\"'>8%</span>.</span>"
-    Description4pc: "<span>Aumenta o Dano causado pela Perícia e pela Perícia Suprema em <span style='whiteSpace: \"nowrap\"'>20%</span>. Após usar a Perícia Suprema, aumenta adicionalmente o Dano causado pela próxima Perícia em <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Aumenta a Chance de CRIT em 8%.
+    Description4pc: Aumenta o Dano causado pela Perícia e pela Perícia Suprema em 20%. Após usar a Perícia Suprema, aumenta adicionalmente o Dano causado pela próxima Perícia em 25%.
   "301":
     Name: Estação de Vedação Espacial
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>120</span> ou mais, aumenta em um extra de <span style='whiteSpace: \"nowrap\"'>12%</span> o ATQ do usuário.</span>"
+    Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
   "302":
     Name: Frota dos Eternos
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span> os PV máximos do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>120</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> o ATQ de todos os aliados.</span>"
+    Description2pc: Aumenta em 12% os PV máximos do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em 8% o ATQ de todos os aliados.
   "303":
     Name: Empresa Mercantil Pan-Cósmica
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> a Taxa de Acerto de Efeito do usuário. Além disso, aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>25%</span> da Taxa de Acerto de Efeito atual, até um máximo de <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Aumenta em 10% a Taxa de Acerto de Efeito do usuário. Além disso, aumenta o ATQ do usuário em 25% da Taxa de Acerto de Efeito atual, até um máximo de 25%.
   "304":
     Name: Belobog dos Arquitetos
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>15%</span> a DEF do usuário. Quando a Taxa de Acerto de Efeito do usuário é de <span style='whiteSpace: \"nowrap\"'>50%</span> ou maior, ele ganha mais <span style='whiteSpace: \"nowrap\"'>15%</span> de DEF.</span>"
+    Description2pc: Aumenta em 15% a DEF do usuário. Quando a Taxa de Acerto de Efeito do usuário é de 50% ou maior, ele ganha mais 15% de DEF.
   "305":
     Name: Diferenciador Celestial
-    Description2pc: "<span>Aumenta o Dano CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>16%</span>. Quando o Dano CRIT atual do usuário atingir <span style='whiteSpace: \"nowrap\"'>120%</span> ou mais, após entrar na batalha, a Chance de CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>60%</span> até o fim de seu primeiro ataque.</span>"
+    Description2pc: Aumenta o Dano CRIT do usuário em 16%. Quando o Dano CRIT atual do usuário atingir 120% ou mais, após entrar na batalha, a Chance de CRIT do usuário aumenta em 60% até o fim de seu primeiro ataque.
   "306":
     Name: Salsotto Inerte
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> a Chance de CRIT do usuário. Quando a Chance de CRIT atual chegar a <span style='whiteSpace: \"nowrap\"'>50%</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>15%</span> o Dano causado pelo Ataque Extra e pela Perícia Suprema do usuário.</span>"
+    Description2pc: Aumenta em 8% a Chance de CRIT do usuário. Quando a Chance de CRIT atual chegar a 50% ou mais, aumenta em 15% o Dano causado pelo Ataque Extra e pela Perícia Suprema do usuário.
   "307":
     Name: "Talia: Reino do Banditismo"
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>16%</span> o Efeito de Quebra do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>145</span> ou mais, aumenta em mais <span style='whiteSpace: \"nowrap\"'>20%</span> o Efeito de Quebra do usuário.</span>"
+    Description2pc: Aumenta em 16% o Efeito de Quebra do usuário. Quando a VEL do usuário chegar a 145 ou mais, aumenta em mais 20% o Efeito de Quebra do usuário.
   "308":
     Name: Vonwacq Vivaz
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>5%</span> a Taxa de Regeneração de Energia do usuário. Quando a VEL do usuário chegar a <span style='whiteSpace: \"nowrap\"'>120</span> ou mais, a ação do usuário é Avançada Adiante em <span style='whiteSpace: \"nowrap\"'>40%</span> imediatamente ao entrar na batalha.</span>"
+    Description2pc: Aumenta em 5% a Taxa de Regeneração de Energia do usuário. Quando a VEL do usuário chegar a 120 ou mais, a ação do usuário é Avançada Adiante em 40% imediatamente ao entrar na batalha.
   "309":
     Name: Arena Rutilante
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>8%</span> a Chance de CRIT do usuário. Quando a Chance de CRIT chegar a <span style='whiteSpace: \"nowrap\"'>70%</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>20%</span> o Dano causado pelo ATQ Básico e pela Perícia do usuário.</span>"
+    Description2pc: Aumenta em 8% a Chance de CRIT do usuário. Quando a Chance de CRIT chegar a 70% ou mais, aumenta em 20% o Dano causado pelo ATQ Básico e pela Perícia do usuário.
   "310":
     Name: Quilha Quebrada
-    Description2pc: "<span>Aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> a RES a Efeito do usuário. Quando a RES a Efeito do usuário chegar em <span style='whiteSpace: \"nowrap\"'>30%</span> ou mais, aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> o Dano CRIT de todos os aliados.</span>"
+    Description2pc: Aumenta em 10% a RES a Efeito do usuário. Quando a RES a Efeito do usuário chegar em 30% ou mais, aumenta em 10% o Dano CRIT de todos os aliados.
   "311":
     Name: "Linha de Frente: Firmamento de Glamoth"
-    Description2pc: "<span>Aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>. Quando a VEL é igual ou maior a <span style='whiteSpace: \"nowrap\"'>135</span>/<span style='whiteSpace: \"nowrap\"'>160</span>, o usuário causa <span style='whiteSpace: \"nowrap\"'>12%</span>/<span style='whiteSpace: \"nowrap\"'>18%</span> a mais de Dano.</span>"
+    Description2pc: Aumenta o ATQ do usuário em 12%. Quando a VEL é igual ou maior a 135/160, o usuário causa 12%/18% a mais de Dano.
   "312":
     Name: Penacony, Terra dos Sonhos
-    Description2pc: "<span>Aumenta a Taxa de Regeneração de Energia do usuário em <span style='whiteSpace: \"nowrap\"'>5%</span>. Aumenta em <span style='whiteSpace: \"nowrap\"'>10%</span> o Dano para todos os outros aliados com o mesmo Tipo de Dano que o usuário.</span>"
+    Description2pc: Aumenta a Taxa de Regeneração de Energia do usuário em 5%. Aumenta em 10% o Dano para todos os outros aliados com o mesmo Tipo de Dano que o usuário.
   "313":
     Name: Sigonia, a Desolação Abandonada
-    Description2pc: "<span>Aumenta a Chance de CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>4%</span>. Quando um inimigo-alvo é derrotado, o Dano CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>4%</span>, acumulando até <span style='whiteSpace: \"nowrap\"'>10</span> vez(es).</span>"
+    Description2pc: Aumenta a Chance de CRIT do usuário em 4%. Quando um inimigo-alvo é derrotado, o Dano CRIT do usuário aumenta em 4%, acumulando até 10 vez(es).
   "314":
     Name: Izumo Gensei e Reino Divino de Takama
-    Description2pc: "<span>Aumenta o ATQ do usuário em <span style='whiteSpace: \"nowrap\"'>12%</span>. Ao entrar em batalha, se ao menos um outro aliado seguir o mesmo Caminho que o usuário, a Chance de CRIT do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Aumenta o ATQ do usuário em 12%. Ao entrar em batalha, se ao menos um outro aliado seguir o mesmo Caminho que o usuário, a Chance de CRIT do usuário aumenta em 12%.
   "315":
     Name: Duran, Dinastia dos Lobos Errantes
-    Description2pc: "<span>Quando um aliado utiliza um Ataque Extra, o usuário recebe 1 acúmulo de Mérito, acumulando até <span style='whiteSpace: \"nowrap\"'>5</span> vez(es). Cada acúmulo de Mérito aumenta o Dano causado pelos Ataques Extras do usuário em <span style='whiteSpace: \"nowrap\"'>5%</span>. Com <span style='whiteSpace: \"nowrap\"'>5</span> acúmulos, aumenta adicionalmente o Dano CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>25%</span>.</span>"
+    Description2pc: Quando um aliado utiliza um Ataque Extra, o usuário recebe 1 acúmulo de Mérito, acumulando até 5 vez(es). Cada acúmulo de Mérito aumenta o Dano causado pelos Ataques Extras do usuário em 5%. Com 5 acúmulos, aumenta adicionalmente o Dano CRIT do usuário em 25%.
   "316":
     Name: Forja da Lanterna Kalpagni
-    Description2pc: "<span>Aumenta a VEL do usuário em <span style='whiteSpace: \"nowrap\"'>6%</span>. Quando o usuário atinge um inimigo-alvo com Fraqueza contra Fogo, o Efeito de Quebra do usuário aumenta em <span style='whiteSpace: \"nowrap\"'>40%</span>, durando por <span style='whiteSpace: \"nowrap\"'>1</span> rodada(s).</span>"
+    Description2pc: Aumenta a VEL do usuário em 6%. Quando o usuário atinge um inimigo-alvo com Fraqueza contra Fogo, o Efeito de Quebra do usuário aumenta em 40%, durando por 1 rodada(s).
   "317":
     Name: Lushaka, os Mares Submersos
-    Description2pc: "<span>Aumenta a Taxa de Regeneração de Energia do usuário em <span style='whiteSpace: \"nowrap\"'>5%</span>. Se o usuário não for o primeiro personagem na Formação de Equipe, então aumenta o ATQ do primeiro personagem na Formação de Equipe em <span style='whiteSpace: \"nowrap\"'>12%</span>.</span>"
+    Description2pc: Aumenta a Taxa de Regeneração de Energia do usuário em 5%. Se o usuário não for o primeiro personagem na Formação de Equipe, então aumenta o ATQ do primeiro personagem na Formação de Equipe em 12%.
   "318":
     Name: O Maravilhoso Parque Bananalândia
-    Description2pc: "<span>Aumenta o Dano CRIT do usuário em <span style='whiteSpace: \"nowrap\"'>16%</span>. Quando um alvo invocado pelo usuário está em campo, o Dano CRIT aumenta adicionalmente em <span style='whiteSpace: \"nowrap\"'>32%</span>.</span>"
+    Description2pc: Aumenta o Dano CRIT do usuário em 16%. Quando um alvo invocado pelo usuário está em campo, o Dano CRIT aumenta adicionalmente em 32%.
 Lightcones:
   "20000":
     Name: Flechas
-    SkillName: Crise
   "20001":
     Name: Cornucópia
-    SkillName: Prosperidade
   "20002":
     Name: Céu Colapsado
-    SkillName: Devastação
   "20003":
     Name: Âmbar
-    SkillName: Estase
   "20004":
     Name: Vazio
-    SkillName: Caído
   "20005":
     Name: Refrão
-    SkillName: Sinergia
   "20006":
     Name: Banco de Dados
-    SkillName: Aprendizado
   "20007":
     Name: Flecha Veloz
-    SkillName: Grito de Guerra
   "20008":
     Name: Fruta Delicada
-    SkillName: Saborear
   "20009":
     Name: Casa Destruída
-    SkillName: Erradicação
   "20010":
     Name: Defesa
-    SkillName: Revitalização
   "20011":
     Name: Loop
-    SkillName: Busca
   "20012":
     Name: Rede de Engrenagens
-    SkillName: Triunfo da Frota
   "20013":
     Name: Chave Mestra
-    SkillName: Epifania
   "20014":
     Name: Antagonista
-    SkillName: Aliança
   "20015":
     Name: Multiplicação
-    SkillName: Cidadãos da Abundância
   "20016":
     Name: Morte Mútua
-    SkillName: Legião
   "20017":
     Name: Pioneirismo
-    SkillName: CPI
   "20018":
     Name: Sombra Oculta
-    SkillName: Mecanismo
   "20019":
     Name: Mediação
-    SkillName: Família
   "20020":
     Name: Sagacidade
-    SkillName: Gênio
   "21000":
     Name: Conversa Pós-Operatória
-    SkillName: Cura Mútua
   "21001":
     Name: Boa Noite e Durma Bem
-    SkillName: Diligente
   "21002":
     Name: Primeiro Dia da Minha Vida Nova
-    SkillName: Neste Exato Momento
   "21003":
     Name: Apenas o Silêncio Sobrou
-    SkillName: Registro
   "21004":
     Name: Memórias do Passado
-    SkillName: Foto Antiga
   "21005":
     Name: As Toupeiras Te Dão Boas-vindas
-    SkillName: Aventura Fantástica
   "21006":
     Name: Meu Próprio Nascimento
-    SkillName: A Donzela no Retrato
   "21007":
     Name: Sentimento Compartilhado
-    SkillName: Cura e Reparação
   "21008":
     Name: Olhos da Presa
-    SkillName: Autoconfiança
   "21009":
     Name: A Escolha dos Landau
-    SkillName: O Tempo Voa
   "21010":
     Name: Jogo de Espadas
-    SkillName: Suas Próprias Respostas
   "21011":
     Name: Encontro Planetário
-    SkillName: Partida
   "21012":
     Name: Um Voto Secreto
-    SkillName: Não Poupe Esforços
   "21013":
     Name: Faça o Mundo Clamar
-    SkillName: O Poder do Som
   "21014":
     Name: Momento Perfeito
-    SkillName: Refração da Visão
   "21015":
     Name: A Determinação Brilha Como Gotas de Suor
-    SkillName: Olhe Para Trás
   "21016":
     Name: Tendência do Mercado Universal
-    SkillName: Um Novo Embaralhamento
   "21017":
     Name: Inscreva-se Para Mais!
-    SkillName: Curta Antes de Sair!
   "21018":
     Name: Dance! Dance! Dance!
-    SkillName: Impossível Parar!
   "21019":
     Name: Sob o Céu Azul
-    SkillName: Centeio Sob o Sol
   "21020":
     Name: Repouso dos Gênios
-    SkillName: Cada Um Tem Um Papel a Ser Feito
   "21021":
     Name: Quid Pro Quo
-    SkillName: Desfrute com Euforia
   "21022":
     Name: Fermata
-    SkillName: Descanso Semibreve
   "21023":
     Name: Somos Fogo Vivo
-    SkillName: Olhos Lacrimejantes
   "21024":
     Name: O Rio Corre na Primavera
-    SkillName: Combata o Frio Persistente
   "21025":
     Name: Passado e Futuro
-    SkillName: Pipas do Passado
   "21026":
     Name: Au! Hora de Passear!
-    SkillName: Corra!
   "21027":
     Name: A Solenidade do Café da Manhã
-    SkillName: Prepare-se
   "21028":
     Name: O Calor Encurta as Noites Geladas
-    SkillName: Luz Minúscula
   "21029":
     Name: Ainda nos Veremos de Novo
-    SkillName: A Luta é um Diálogo
   "21030":
     Name: Essa Sou Eu!
-    SkillName: Capítulo Novo
   "21031":
     Name: Retorno à Escuridão
-    SkillName: Ondas Furiosas
   "21032":
     Name: Esculpindo a Lua, Tecendo as Nuvens
-    SkillName: Segredo
   "21033":
     Name: Sem Escapatória
-    SkillName: Tempos Desesperados
   "21034":
     Name: Hoje é Mais um Dia de Paz
-    SkillName: Uma Tempestade se Aproxima
   "21035":
     Name: O Que É Real?
-    SkillName: Hipótese
   "21036":
     Name: Aventura de Sonhópolis
-    SkillName: Solidariedade
   "21037":
     Name: O Último Vencedor
-    SkillName: Apostar
   "21038":
     Name: Chamas Distantes
-    SkillName: Deflagração
   "21039":
     Name: Fios Forjados do Destino
-    SkillName: Conhecimento
   "21040":
     Name: O Dia em que o Cosmos Caiu
-    SkillName: Artimanha
   "21041":
     Name: É Hora do Show
-    SkillName: Auto-entretenimento
   "21042":
     Name: Promessa Indelével
-    SkillName: Herança
   "21043":
     Name: Concerto para Dois
-    SkillName: Inspirar
   "21044":
     Name: Dança Ilimitada
-    SkillName: Escrutinar
   "21045":
     Name: Depois que a Harmonia se Dissipa
-    SkillName: Quietude
   "21046":
     Name: Prestes a Florescer
-    SkillName: Não Perder, Não Esquecer
   "21047":
     Name: Sombreado pela Noite
-    SkillName: Ocultação
   "21048":
     Name: Montagem do Sonho
-    SkillName: Edição Acadêmica
   "22000":
     Name: Antes do Início da Missão do Tutorial
-    SkillName: Rápido no Gatilho
   "22001":
     Name: Ei, Estou Aqui!
-    SkillName: Não Tenho Medo!
   "22002":
     Name: Pela Jornada do Amanhã
-    SkillName: Laços
   "22003":
     Name: "Registro Ninja: Caça ao Som"
-    SkillName: Ação!
   "23000":
     Name: Noite na Via Láctea
-    SkillName: Enxame de Meteoros
   "23001":
     Name: Na Noite
-    SkillName: Flores e Borboletas
   "23002":
     Name: Algo Insubstituível
-    SkillName: Afinidade
   "23003":
     Name: Mas a Batalha Não Acabou
-    SkillName: Sucessão
   "23004":
     Name: Em Nome do Mundo
-    SkillName: Herança
   "23005":
     Name: Momento de Vitória
-    SkillName: Veredito
   "23006":
     Name: Você Só Precisa de Paciência
-    SkillName: Teia de Aranha
   "23007":
     Name: Chuva Constante
-    SkillName: Miragem da Realidade
   "23008":
     Name: Ecos do Caixão
-    SkillName: Espinhos
   "23009":
     Name: O Lado Inacessível
-    SkillName: Desejo Não Realizado
   "23010":
     Name: Antes do Amanhecer
-    SkillName: Longa Noite
   "23011":
     Name: Ela Já Fechou Seus Olhos
-    SkillName: Visioscape
   "23012":
     Name: Sono Profundo
-    SkillName: Bons Sonhos
   "23013":
     Name: O Tempo Não Espera por Ninguém
-    SkillName: Manhã, Tarde, Crepúsculo e Noite
   "23014":
     Name: Eu Serei Minha Própria Espada
-    SkillName: Com Este Jade Vespertino
   "23015":
     Name: Mais Claro do que o Sol
-    SkillName: Petulante Até a Morte
   "23016":
     Name: Inquietante, Extasiante
-    SkillName: Um De Cada Vez
   "23017":
     Name: Noite Aterrorizante
-    SkillName: Respirações Profundas
   "23018":
     Name: Um Instante Eternamente Adorado
-    SkillName: Peregrinação de um Cavaleiro
   "23019":
     Name: Meu Passado no Espelho
-    SkillName: A Fragrância de Ameixa em Meus Ossos
   "23020":
     Name: O Batismo de Pensamento Puro
-    SkillName: Treinamento Mental
   "23021":
     Name: Fuga Terrena
-    SkillName: Caprichosidade
   "23022":
     Name: Recordação Reforjada
-    SkillName: Cristalização
   "23023":
     Name: Destino Inerentemente Injusto
-    SkillName: Vale Tudo
   "23024":
     Name: Ao Longo da Margem Transitória
-    SkillName: Navegante
   "23025":
     Name: Onde os Sonhos Deveriam Repousar
-    SkillName: Metamorfose
   "23026":
     Name: Luzes Noturnas
-    SkillName: Pacificar
   "23027":
     Name: Velejando em Direção a uma Segunda Vida
-    SkillName: Mar Bravo
   "23028":
     Name: A Esperança é Inestimável
-    SkillName: Promessa
   "23029":
     Name: Aquelas Incontáveis Primaveras
-    SkillName: Assuntos Mundanos Não Deixam Marcas
   "23030":
     Name: Dança ao Pôr do Sol
-    SkillName: Profundamente Absorvido
   "23031":
     Name: Eu Me Aventuro para Caçar
-    SkillName: Intimidação
   "23032":
     Name: Só a Fragrância Permanece
-    SkillName: Contentamento
   "23033":
     Name: "Inscrição do Ninjutsu: Destruição Deslumbrante do Mal"
-    SkillName: Exorcismo
   "24000":
     Name: Na Queda de Um Aeon
-    SkillName: Mariposa às Chamas
   "24001":
     Name: Percorrendo o Mar Estelar
-    SkillName: Perseguição
   "24002":
     Name: Textura de Memórias
-    SkillName: Tesouro
   "24003":
     Name: Cura Solitária
-    SkillName: Elixir do Caos
   "24004":
     Name: Cálculo Ininterrupto
-    SkillName: Pensamento Irrefreável
 Paths:
   Warrior: A Destruição
   Rogue: A Caça

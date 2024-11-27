@@ -125,7 +125,7 @@ export default function CharacterTab() {
 
   const [characterFilters, setCharacterFilters] = useState(defaultFilters)
 
-  const { t } = useTranslation(['charactersTab', ' common', 'gameData'])
+  const { t } = useTranslation(['charactersTab', 'common', 'gameData'])
 
   console.log('======================================================================= RENDER CharacterTab')
 

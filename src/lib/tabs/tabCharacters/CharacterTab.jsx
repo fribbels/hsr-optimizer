@@ -66,8 +66,8 @@ function cellNameRenderer(params) {
     ? characterNameString.split(' (')
       .map((section) => section.trim())
       .map((section, index) => index === 1 ? ` (${section} ` : section)
-    : characterNameString.includes('-')
-      ? characterNameString.split('-')// some languages use a dash instead of a dot
+    : characterNameString.includes(' - ')
+      ? characterNameString.split(' - ')// some languages use a dash instead of a dot
       : characterNameString.split('•')
 
   const nameSectionRender = nameSections

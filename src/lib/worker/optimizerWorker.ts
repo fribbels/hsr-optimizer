@@ -107,6 +107,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
+  const failsRatingStatsFilter = ratingStatsFilter(request)
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -189,9 +190,13 @@ self.onmessage = function (e: MessageEvent) {
       }
     }
 
-    // Combat filters
+    // Combat / rating filters
     const a = x.a
     if (combatDisplay && (failsCombatThresholdFilter(a) || failsCombatStatsFilter(a))) {
+      continue
+    }
+
+    if (failsRatingStatsFilter(a)) {
       continue
     }
 
@@ -248,6 +253,12 @@ function combatStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.RES, request.minRes, request.maxRes)
   addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
   addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
+
+  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+}
+
+function ratingStatsFilter(request: Form) {
+  const conditions: ((stats: Record<number, number>) => boolean)[] = []
 
   addConditionIfNeeded(conditions, Key.EHP, request.minEhp, request.maxEhp)
   addConditionIfNeeded(conditions, Key.BASIC_DMG, request.minBasic, request.maxBasic)

@@ -24,7 +24,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { Suspense, useCallback, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 const { useToken } = theme
@@ -510,18 +510,16 @@ export default function CharacterTab() {
             />
           </Flex>
         </Flex>
-        <Flex style={{ height: '100%' }}>
-          <Flex vertical>
-            <CharacterPreview
-              id='characterTabPreview'
-              source={ShowcaseSource.CHARACTER_TAB}
-              character={selectedCharacter}
-              setOriginalCharacterModalOpen={setCharacterModalOpen}
-              setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-              setCharacterModalAdd={setCharacterModalAdd}
-            />
-          </Flex>
-        </Flex>
+        <Suspense>
+          <CharacterPreview
+            id='characterTabPreview'
+            source={ShowcaseSource.CHARACTER_TAB}
+            character={selectedCharacter}
+            setOriginalCharacterModalOpen={setCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+            setCharacterModalAdd={setCharacterModalAdd}
+          />
+        </Suspense>
       </Flex>
       <CharacterModal
         onOk={onCharacterModalOk}

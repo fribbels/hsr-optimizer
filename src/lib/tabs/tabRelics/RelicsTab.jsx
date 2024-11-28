@@ -669,7 +669,7 @@ export default function RelicsTab() {
           </div>
         )}
         {gridDestroyed && (
-          <div style={{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' }}/>
+          <div style={{ width: 1350, height: 500 }}/>
         )}
         <Flex gap={10}>
           <Button

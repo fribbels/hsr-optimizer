@@ -26,6 +26,8 @@ interface ShowcaseBuildAnalysisProps {
 export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
+  console.log('======================================================================= RENDER ShowcaseBuildAnalysis')
+
   const {
     token,
     simScoringResult,

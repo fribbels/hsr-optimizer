@@ -94,6 +94,7 @@ void i18next
       'optimizerTab',
       'notifications',
       'conditionals',
+      'hometab',
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],

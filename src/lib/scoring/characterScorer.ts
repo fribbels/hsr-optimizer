@@ -191,6 +191,8 @@ export function scoreCharacterSimulation(
   displayRelics: RelicBuild,
   teamSelection: string,
 ): SimulationScore | null {
+  console.time('🚨 Getting metadata')
+
   const originalForm = character.form
   const characterId = originalForm.characterId
   const characterEidolon = originalForm.characterEidolon
@@ -198,22 +200,20 @@ export function scoreCharacterSimulation(
   const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
   const characterMetadata: CharacterMetadata = DB.getMetadata().characters[characterId]
-  if (!characterMetadata) return null
-
-  const defaultScoringMetadata: ScoringMetadata = characterMetadata.scoringMetadata
-  const customScoringMetadata: ScoringMetadata = DB.getScoringMetadata(characterId)
-
-  const defaultMetadata: SimulationMetadata = TsUtils.clone(defaultScoringMetadata.simulation)
-  const customMetadata: SimulationMetadata = TsUtils.clone(customScoringMetadata.simulation)
-
-  if (!defaultMetadata) {
+  if (!characterMetadata?.scoringMetadata.simulation) {
     console.log('No scoring sim defined for this character')
     return null
   }
 
+  const defaultScoringMetadata: ScoringMetadata = characterMetadata.scoringMetadata
+  const customScoringMetadata: ScoringMetadata = DB.getScoringMetadata(characterId)
+  const defaultMetadata: SimulationMetadata = TsUtils.clone(defaultScoringMetadata.simulation!)
+  const customMetadata: SimulationMetadata = TsUtils.clone(customScoringMetadata.simulation!)
+
   if (teamSelection == CUSTOM_TEAM) {
     defaultMetadata.teammates = customMetadata.teammates
   }
+
   const metadata = defaultMetadata
   const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
 
@@ -227,7 +227,6 @@ export function scoreCharacterSimulation(
   })
 
   if (cachedSims[cacheKey]) {
-    // console.log('Using cached bestSims')
     return cachedSims[cacheKey]
   }
 
@@ -341,6 +340,9 @@ export function scoreCharacterSimulation(
   const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
   const candidateBenchmarkSims: Simulation[] = []
 
+  console.timeEnd('🚨 Getting metadata')
+  console.time('🚨 Run sims')
+
   // Run sims
   for (const partialSimulationWrapper of partialSimulationWrappers) {
     const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
@@ -389,6 +391,9 @@ export function scoreCharacterSimulation(
     }
   }
 
+  console.timeEnd('🚨 Run sims')
+  console.time('🚨 Run max sims')
+
   // Try to minimize the penalty modifier before optimizing sim score
   candidateBenchmarkSims.sort(simSorter)
   const benchmarkSim = candidateBenchmarkSims[0]
@@ -409,6 +414,9 @@ export function scoreCharacterSimulation(
   )
   const maximumSimResult = maximumSim.result
   applyScoringFunction(maximumSimResult)
+
+  console.timeEnd('🚨 Run max sims')
+  console.time('🚨 Return')
 
   // ===== Calculate percentage values =====
 
@@ -476,6 +484,9 @@ export function scoreCharacterSimulation(
   cachedSims[cacheKey] = simScoringResult
 
   console.log('simScoringResult', simScoringResult)
+
+  console.timeEnd('🚨 Return')
+
   return simScoringResult
 }
 
@@ -771,10 +782,12 @@ function computeOptimalSimulation(
       const newSimulation: Simulation = TsUtils.clone(currentSimulation)
       newSimulation.request.stats[stat] -= 1
 
+      console.time('⚠️ Single sim')
       const newSimResult = runSimulations(simulationForm, context, [newSimulation], {
         ...scoringParams,
         substatRollsModifier: scoringParams.substatRollsModifier,
       })[0]
+      console.timeEnd('⚠️ Single sim')
       simulationRuns++
 
       if (breakpointsCap && breakpoints?.[stat]) {

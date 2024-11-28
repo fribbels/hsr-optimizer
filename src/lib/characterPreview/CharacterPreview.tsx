@@ -38,7 +38,7 @@ import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsU
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
@@ -89,8 +89,9 @@ export function CharacterPreview(props: {
   const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
     window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
+  const activeKey = window.store((s) => s.activeKey)
 
-  if (!character) {
+  if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
       <div
         style={{

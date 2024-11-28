@@ -34,7 +34,7 @@ export const GettingStartedDrawer = () => {
         <ColorizedLinkWithIcon
           text={t('TryOut.DocumentationTitle')/* See full guide */}
           linkIcon={true}
-          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/getting-started.md'
+          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
         />
 
         <Popconfirm

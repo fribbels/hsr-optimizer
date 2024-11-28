@@ -244,8 +244,6 @@ export const CharacterScoringSummary = (props: {
           diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
         }
       }
-
-      console.log(diminishingReturns)
     }
 
     const stats = request.stats

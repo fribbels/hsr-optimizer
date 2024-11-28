@@ -70,8 +70,8 @@ export default function RelicsTab() {
 
   useEffect(() => {
     setGridDestroyed(true) // locale updates require the grid to be destroyed and reconstructed in order to take effect
-    setTimeout(() => setGridDestroyed(false))
-  }, [i18n.resolvedLanguage])
+    setTimeout(() => setGridDestroyed(false), 50) // 0 delay doesn't seem to work
+  }, [i18n.resolvedLanguage]) // manually decrease until minimum found? is minimum delay consistent across users?
 
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return

@@ -28,6 +28,10 @@ export const languages = {
     nativeName: 'Italiano',
     shortName: 'Italiano',
   },
+  ja: {
+    locale: 'ja',
+    nativeName: '日本語',
+  },
   pt: {
     locale: 'pt',
     nativeName: 'Português (BR)',
@@ -46,10 +50,6 @@ export const languages = {
       id: {
         locale: 'id',
         nativeName: 'Bahasa Indonesia',
-      },
-      ja: {
-        locale: 'ja',
-        nativeName: '日本語',
       },
       ko: {
         locale: 'ko',

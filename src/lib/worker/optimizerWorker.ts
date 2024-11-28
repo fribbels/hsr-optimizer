@@ -221,10 +221,10 @@ function addConditionIfNeeded(
 function basicStatsFilter(request: Form) {
   const conditions: ((stats: Record<string, number>) => boolean)[] = []
 
-  addConditionIfNeeded(conditions, Stats.SPD, request.minHp, request.maxHp)
-  addConditionIfNeeded(conditions, Stats.HP, request.minAtk, request.maxAtk)
-  addConditionIfNeeded(conditions, Stats.ATK, request.minDef, request.maxDef)
-  addConditionIfNeeded(conditions, Stats.DEF, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Stats.HP, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Stats.ATK, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Stats.DEF, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Stats.SPD, request.minSpd, request.maxSpd)
   addConditionIfNeeded(conditions, Stats.CR, request.minCr, request.maxCr)
   addConditionIfNeeded(conditions, Stats.CD, request.minCd, request.maxCd)
   addConditionIfNeeded(conditions, Stats.EHR, request.minEhr, request.maxEhr)
@@ -263,7 +263,6 @@ function combatStatsFilter(request: Form) {
 }
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {
-  // @ts-ignore
   const filter = request.resultMinFilter
   // @ts-ignore
   const sortOption = SortOption[request.resultSort] as SortOptionProperties

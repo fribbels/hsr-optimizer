@@ -31,6 +31,7 @@ export const languages = {
   ja: {
     locale: 'ja',
     nativeName: '日本語',
+    shortName: '日本語',
   },
   pt: {
     locale: 'pt',

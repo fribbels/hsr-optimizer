@@ -26,7 +26,6 @@ CharacterMenu:
     Options:
       SortByScore: 按评分排序所有角色
       MoveToTop: 将角色移至顶部
-CopyScreenshot: 复制截图
 SearchPlaceholder: 搜索
 GridHeaders:
   Icon: 图标
@@ -42,6 +41,13 @@ Messages:
   UnequipWarning: "你确定要卸下$t(gameData:Characters.{{charId}}.Name)的遗器吗?"
   DeleteWarning: "你确定要删除$t(gameData:Characters.{{charId}}.Name)吗?"
 CharacterPreview:
+  CustomizationSidebar:
+    Label: 自定义
+    Modes:
+      Auto: 自动
+      Custom: 自定义
+      Standard: 标准
+    PaletteLabel: 头像色调
   ArtBy: "{{artistName}}的作品"
   EditCharacter: 编辑角色
   EditPortrait: 编辑角色图像

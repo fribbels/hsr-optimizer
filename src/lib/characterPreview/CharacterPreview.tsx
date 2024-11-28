@@ -10,7 +10,6 @@ import {
   getShowcaseStats,
   handleTeamSelection,
   ShowcaseDisplayDimensions,
-  showcaseIsInactive,
   showcaseOnAddOk,
   showcaseOnEditOk,
   showcaseOnEditPortraitOk,
@@ -23,7 +22,6 @@ import {
   defaultShowcasePreferences,
   getDefaultColor,
   getOverrideColorMode,
-  ShowcaseColorMode,
   ShowcaseCustomizationSidebar,
   ShowcaseCustomizationSidebarRef,
   standardShowcasePreferences,
@@ -34,7 +32,7 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSm
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { COMBAT_STATS, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, ShowcaseColorMode, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
@@ -80,7 +78,6 @@ export function CharacterPreview(props: {
 
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
   const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
-  const activeKey = window.store((s) => s.activeKey)
   const prevCharId = useRef<string | undefined>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
@@ -93,7 +90,7 @@ export function CharacterPreview(props: {
     window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
 
-  if (!character || showcaseIsInactive(source, activeKey)) {
+  if (!character) {
     return (
       <div
         style={{
@@ -230,6 +227,7 @@ export function CharacterPreview(props: {
         {/* Showcase full card */}
         <Flex
           id={props.id}
+          className='characterPreview'
           style={{
             position: 'relative',
             display: character ? 'flex' : 'none',

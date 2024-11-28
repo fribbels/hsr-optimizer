@@ -143,7 +143,7 @@ function CardImage(props: { id: string }) {
       <img
         style={{
           width: '100%',
-          height: '100%',
+          height: 593,
           objectFit: 'cover',
           borderRadius: 8,
           outline: 'rgba(255, 255, 255, 0.15) solid 1px',
@@ -179,7 +179,7 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
       hoverable={true}
       cover={<CardImage id={props.id}/>}
     >
-      <Flex align='center' gap={10}>
+      <Flex align='center' gap={10} justify='space-between'>
         <span>
           {props.content}
         </span>
@@ -200,6 +200,7 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
 
 function FeaturesCollapse() {
   const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
+
   return (
     <Flex style={{ maxWidth: headerWidth, minWidth: 1000, width: '100%', padding: '0px 20px' }}>
       <Flex vertical style={{ width: '100%' }} gap={cardGap}>
@@ -211,7 +212,7 @@ function FeaturesCollapse() {
               t('Showcase.Content')
               // Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.
             }
-            url='https://github.com/fribbels/hsr-optimizer'
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
           />
           <FeatureCard
             title={t('Optimizer.Title')/* Relic Optimizer */}
@@ -220,7 +221,7 @@ function FeaturesCollapse() {
               t('Optimizer.Content')
               // Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.
             }
-            url='https://github.com/fribbels/hsr-optimizer'
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
           />
         </Flex>
         <Flex gap={cardGap} style={{ width: '100%' }}>
@@ -231,7 +232,7 @@ function FeaturesCollapse() {
               t('Calculator.Content')
               // Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.
             }
-            url='https://github.com/fribbels/hsr-optimizer'
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
           />
           <FeatureCard
             title={t('Organizer.Title')/* Inventory Organizer */}
@@ -240,7 +241,7 @@ function FeaturesCollapse() {
               t('Organizer.Content')
               // Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.
             }
-            url='https://github.com/fribbels/hsr-optimizer'
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/relics-tab.md'
           />
         </Flex>
       </Flex>

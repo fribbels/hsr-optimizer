@@ -53,7 +53,7 @@ Stats:
   SPD: VEL
   CRIT Rate: Taxa Crítica
   CRIT DMG: Dano Crítico
-  Effect Hit Rate: Acerto de Efeito
+  Effect Hit Rate: Acerto Efeito
   Effect RES: RES a Efeito
   Break Effect: Efeito Quebra
   Energy Regeneration Rate: Taxa de Regen de Energia
@@ -122,7 +122,7 @@ ReadableStats:
   SPD: VEL
   CRIT Rate: Taxa Crítica
   CRIT DMG: Dano Crítico
-  Effect Hit Rate: Acerto de Efeito
+  Effect Hit Rate: Acerto Efeito
   Effect RES: RES a Efeito
   Break Effect: Efeito Quebra
   Energy Regeneration Rate: Regen de Energia

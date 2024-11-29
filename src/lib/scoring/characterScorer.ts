@@ -338,8 +338,6 @@ export function scoreCharacterSimulation(
   const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
   const candidateBenchmarkSims: Simulation[] = []
 
-  console.time('🚨 Run sims')
-
   // Run sims
   for (const partialSimulationWrapper of partialSimulationWrappers) {
     const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
@@ -388,9 +386,6 @@ export function scoreCharacterSimulation(
     }
   }
 
-  console.timeEnd('🚨 Run sims')
-  console.time('🚨 Run max sims')
-
   // Try to minimize the penalty modifier before optimizing sim score
   candidateBenchmarkSims.sort(simSorter)
   const benchmarkSim = candidateBenchmarkSims[0]
@@ -411,8 +406,6 @@ export function scoreCharacterSimulation(
   )
   const maximumSimResult = maximumSim.result
   applyScoringFunction(maximumSimResult)
-
-  console.timeEnd('🚨 Run max sims')
 
   // ===== Calculate percentage values =====
 
@@ -755,6 +748,7 @@ function computeOptimalSimulation(
 
   while (sum > goal) {
     let bestSim: Simulation = undefined
+    let bestSimStats: SimulationStats = undefined
     let bestSimResult: SimulationResult = undefined
     let reducedStat: string = undefined
 
@@ -793,10 +787,10 @@ function computeOptimalSimulation(
       }
 
       applyScoringFunction(newSimResult)
-      applyScoringFunction(bestSimResult)
 
       if (!bestSim || newSimResult.simScore > bestSimResult.simScore) {
         bestSim = newSimulation
+        bestSimStats = Object.assign({}, newSimulation.request.stats)
         bestSimResult = newSimResult
         reducedStat = stat
       }
@@ -826,11 +820,11 @@ function computeOptimalSimulation(
     //   console.log(debug)
     // }
 
-    if (scoringParams.enforcePossibleDistribution && bestSim.request.stats[reducedStat] < 6) {
+    if (scoringParams.enforcePossibleDistribution && bestSimStats[reducedStat] < 6) {
       const stat = reducedStat
 
       // How many stats the sim's iteration is attempting
-      const simStatCount = bestSim.request.stats[stat]
+      const simStatCount = bestSimStats[stat]
       // How many slots are open for the stat in question
       const statSlotCount = possibleDistributionTracker
         .parts
@@ -864,6 +858,7 @@ function computeOptimalSimulation(
 
     currentSimulation = bestSim
     currentSimulationResult = bestSimResult
+    currentSimulation.request.stats = bestSimStats
     sum -= 1
   }
 

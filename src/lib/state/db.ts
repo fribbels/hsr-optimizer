@@ -99,6 +99,7 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
+  [SavedSessionKeys.showcaseDarkMode]: false,
 }
 
 function getDefaultActiveKey() {

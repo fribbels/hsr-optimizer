@@ -198,22 +198,20 @@ export function scoreCharacterSimulation(
   const lightConeSuperimposition = originalForm.lightConeSuperimposition
 
   const characterMetadata: CharacterMetadata = DB.getMetadata().characters[characterId]
-  if (!characterMetadata) return null
-
-  const defaultScoringMetadata: ScoringMetadata = characterMetadata.scoringMetadata
-  const customScoringMetadata: ScoringMetadata = DB.getScoringMetadata(characterId)
-
-  const defaultMetadata: SimulationMetadata = TsUtils.clone(defaultScoringMetadata.simulation)
-  const customMetadata: SimulationMetadata = TsUtils.clone(customScoringMetadata.simulation)
-
-  if (!defaultMetadata) {
+  if (!characterMetadata?.scoringMetadata.simulation) {
     console.log('No scoring sim defined for this character')
     return null
   }
 
+  const defaultScoringMetadata: ScoringMetadata = characterMetadata.scoringMetadata
+  const customScoringMetadata: ScoringMetadata = DB.getScoringMetadata(characterId)
+  const defaultMetadata: SimulationMetadata = TsUtils.clone(defaultScoringMetadata.simulation!)
+  const customMetadata: SimulationMetadata = TsUtils.clone(customScoringMetadata.simulation!)
+
   if (teamSelection == CUSTOM_TEAM) {
     defaultMetadata.teammates = customMetadata.teammates
   }
+
   const metadata = defaultMetadata
   const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
 
@@ -227,7 +225,6 @@ export function scoreCharacterSimulation(
   })
 
   if (cachedSims[cacheKey]) {
-    // console.log('Using cached bestSims')
     return cachedSims[cacheKey]
   }
 
@@ -476,6 +473,7 @@ export function scoreCharacterSimulation(
   cachedSims[cacheKey] = simScoringResult
 
   console.log('simScoringResult', simScoringResult)
+
   return simScoringResult
 }
 
@@ -750,6 +748,7 @@ function computeOptimalSimulation(
 
   while (sum > goal) {
     let bestSim: Simulation = undefined
+    let bestSimStats: SimulationStats = undefined
     let bestSimResult: SimulationResult = undefined
     let reducedStat: string = undefined
 
@@ -767,8 +766,11 @@ function computeOptimalSimulation(
       if (stat == Stats.SPD && currentSimulation.request.stats[Stats.SPD] <= Math.ceil(partialSimulationWrapper.speedRollsDeduction)) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
 
+      // Cache the value so we can undo a modification
+      const undo = currentSimulation.request.stats[stat]
+
       // Try reducing this stat
-      const newSimulation: Simulation = TsUtils.clone(currentSimulation)
+      const newSimulation: Simulation = currentSimulation
       newSimulation.request.stats[stat] -= 1
 
       const newSimResult = runSimulations(simulationForm, context, [newSimulation], {
@@ -779,18 +781,21 @@ function computeOptimalSimulation(
 
       if (breakpointsCap && breakpoints?.[stat]) {
         if (newSimResult.x[stat] < breakpoints[stat]) {
+          currentSimulation.request.stats[stat] = undo
           continue
         }
       }
 
       applyScoringFunction(newSimResult)
-      applyScoringFunction(bestSimResult)
 
       if (!bestSim || newSimResult.simScore > bestSimResult.simScore) {
         bestSim = newSimulation
+        bestSimStats = Object.assign({}, newSimulation.request.stats)
         bestSimResult = newSimResult
         reducedStat = stat
       }
+
+      currentSimulation.request.stats[stat] = undo
     }
 
     if (!bestSimResult) {
@@ -815,11 +820,11 @@ function computeOptimalSimulation(
     //   console.log(debug)
     // }
 
-    if (scoringParams.enforcePossibleDistribution && bestSim.request.stats[reducedStat] < 6) {
+    if (scoringParams.enforcePossibleDistribution && bestSimStats[reducedStat] < 6) {
       const stat = reducedStat
 
       // How many stats the sim's iteration is attempting
-      const simStatCount = bestSim.request.stats[stat]
+      const simStatCount = bestSimStats[stat]
       // How many slots are open for the stat in question
       const statSlotCount = possibleDistributionTracker
         .parts
@@ -853,6 +858,7 @@ function computeOptimalSimulation(
 
     currentSimulation = bestSim
     currentSimulationResult = bestSimResult
+    currentSimulation.request.stats = bestSimStats
     sum -= 1
   }
 

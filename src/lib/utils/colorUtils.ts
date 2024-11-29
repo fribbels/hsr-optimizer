@@ -1,10 +1,10 @@
-import chroma from 'chroma-js'
+import chroma, { Color } from 'chroma-js'
 import { scaleTowardsRange } from 'lib/utils/mathUtils'
 import { PaletteResponse } from 'lib/utils/vibrantFork'
 
-export function showcaseCardBackgroundColor(color: string) {
+export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
   const scaleFactor = 0.95
-  const minSaturation = 0.15
+  const minSaturation = 0.20
   const maxSaturation = 0.30
   const chromaColor = chroma(color)
 
@@ -14,17 +14,26 @@ export function showcaseCardBackgroundColor(color: string) {
   const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
 
   const finalColor = adjustedColor
-    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.025, 0.98))
-    .alpha(0.875)
+    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0275, 0.97))
+    .alpha(0.85)
 
   // console.log(finalColor.luminance())
   // console.log(finalColor.hsl())
 
-  return finalColor.css()
+  return darkModeModifier(finalColor, darkMode).css()
 }
 
-export function showcaseCardBorderColor(color: string) {
-  return chroma(color).saturate(0.9).luminance(0.125).alpha(0.75).css()
+export function darkModeModifier(color: Color, darkMode: boolean) {
+  return !darkMode
+    ? color
+    : color
+      .darken(0.2)
+      .desaturate(0.05)
+}
+
+export function showcaseCardBorderColor(color: string, darkMode: boolean) {
+  const finalColor = chroma(color).saturate(0.9).luminance(0.125).alpha(0.75)
+  return darkModeModifier(finalColor, darkMode).css()
 }
 
 export function showcaseBackgroundColor(color: string) {

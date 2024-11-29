@@ -165,6 +165,7 @@ export type SavedSession = {
   combatScoreDetails: string
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
+  showcaseDarkMode: boolean
 }
 
 export type UserSettings = {

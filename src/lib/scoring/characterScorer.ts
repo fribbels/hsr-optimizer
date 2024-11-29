@@ -191,8 +191,6 @@ export function scoreCharacterSimulation(
   displayRelics: RelicBuild,
   teamSelection: string,
 ): SimulationScore | null {
-  console.time('🚨 Getting metadata')
-
   const originalForm = character.form
   const characterId = originalForm.characterId
   const characterEidolon = originalForm.characterEidolon
@@ -340,7 +338,6 @@ export function scoreCharacterSimulation(
   const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
   const candidateBenchmarkSims: Simulation[] = []
 
-  console.timeEnd('🚨 Getting metadata')
   console.time('🚨 Run sims')
 
   // Run sims
@@ -416,7 +413,6 @@ export function scoreCharacterSimulation(
   applyScoringFunction(maximumSimResult)
 
   console.timeEnd('🚨 Run max sims')
-  console.time('🚨 Return')
 
   // ===== Calculate percentage values =====
 
@@ -484,8 +480,6 @@ export function scoreCharacterSimulation(
   cachedSims[cacheKey] = simScoringResult
 
   console.log('simScoringResult', simScoringResult)
-
-  console.timeEnd('🚨 Return')
 
   return simScoringResult
 }

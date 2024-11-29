@@ -4,7 +4,7 @@ import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import chroma from 'chroma-js'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { ShowcaseBrightnessMode, ShowcaseColorMode } from 'lib/constants/constants'
+import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -212,7 +212,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, color: string) {
   setLoading(true)
   setTimeout(() => {
-    Utils.screenshotElementById(elementId, action, color).finally(() => {
+    Utils.screenshotElementById(elementId, action/*, color*/).finally(() => {
       setLoading(false)
     })
   }, 100)
@@ -270,18 +270,6 @@ export function getOverrideColorMode(
   }
 
   return savedColorMode
-}
-
-export function getOverrideBrightnessMode(
-  brightnessMode: ShowcaseBrightnessMode,
-  globalShowcasePreferences: Record<string, ShowcasePreferences>,
-  character: Character,
-) {
-  if (brightnessMode == ShowcaseBrightnessMode.DARK) {
-    return ShowcaseBrightnessMode.DARK
-  }
-
-  return globalShowcasePreferences[character.id]?.brightnessMode ?? ShowcaseBrightnessMode.LIGHT
 }
 
 export function getDefaultColor(characterId: string, portraitUrl: string, colorMode: ShowcaseColorMode) {

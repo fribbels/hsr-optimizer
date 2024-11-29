@@ -1,11 +1,10 @@
-import { ShowcaseBrightnessMode, ShowcaseColorMode } from 'lib/constants/constants'
+import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 
 export type ShowcasePreferences = {
   color?: string
   colorMode?: ShowcaseColorMode
-  brightnessMode?: ShowcaseBrightnessMode
 }
 
 export type ScoringMetadata = {

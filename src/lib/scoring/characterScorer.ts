@@ -370,7 +370,7 @@ export function scoreCharacterSimulation(
 
     // Define min/max limits
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, minSubstatRollCounts, simulationFlags)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, simulationFlags)
 
     // Start the sim search at the max then iterate downwards
     Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
@@ -519,7 +519,7 @@ function simulateMaximumBuild(
     }
 
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, minSubstatRollCounts, simulationFlags)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, simulationFlags)
     Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
     const maxSim = computeOptimalSimulation(
       partialSimulationWrapper,
@@ -932,13 +932,9 @@ function spdRollsCap(
   const spdBoots = isSpdBoots(simulation)
 
   if (scoringParams.substatGoal == 48) {
-    return spdBoots
-      ? 25
-      : 26
+    return spdBoots ? 25 : 26
   } else {
-    return spdBoots
-      ? 30
-      : 36
+    return spdBoots ? 30 : 36
   }
 }
 
@@ -947,7 +943,6 @@ function calculateMaxSubstatRollCounts(
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
   baselineSimResult: SimulationResult,
-  minSubstatRollCounts: SimulationStats,
   simulationFlags: SimulationFlags,
 ): SimulationStats {
   const request = partialSimulationWrapper.simulation.request

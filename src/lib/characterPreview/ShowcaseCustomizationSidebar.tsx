@@ -1,5 +1,5 @@
 import { CameraOutlined, DownloadOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
-import { Button, ColorPicker, Flex, Segmented, theme, ThemeConfig } from 'antd'
+import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import chroma from 'chroma-js'
@@ -10,7 +10,7 @@ import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { colorTransparent, organizeColors, selectColor, showcaseSegmentedColor } from 'lib/utils/colorUtils'
+import { organizeColors, selectColor } from 'lib/utils/colorUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
@@ -60,7 +60,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       onPortraitLoad: (img: string, characterId: string) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
+            const primary = selectColor(palette.LightMuted, palette.LightVibrant)
 
             setSeedColor(primary)
             urlToColorCache[img] = primary
@@ -216,22 +216,6 @@ function clipboardClicked(elementId: string, action: string, setLoading: (b: boo
       setLoading(false)
     })
   }, 100)
-}
-
-function setTheme(color: string, setOverrideTheme: (overrideTheme: ThemeConfig) => void) {
-  setOverrideTheme({
-    algorithm: theme.darkAlgorithm,
-    token: {
-      colorBgLayout: color,
-      colorPrimary: color,
-    },
-    components: {
-      Segmented: {
-        trackBg: colorTransparent(),
-        itemSelectedBg: showcaseSegmentedColor(color),
-      },
-    },
-  })
 }
 
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'

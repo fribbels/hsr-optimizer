@@ -15,9 +15,8 @@ import { EnemyConfigurationsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/c
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import OptimizerOptionsDisplay from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerOptionsDisplay'
 import { OptimizerTabCharacterPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
-import { RelicLockExcludeFilter } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicLockExcludeFilter'
 import RelicMainSetFilters from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters'
-import { MinMaxFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
+import { MinMaxStatFilters, MinMaxRatingFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
 import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
@@ -187,11 +186,11 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard>
-              <MinMaxFilters/>
+              <MinMaxStatFilters/>
             </FormCard>
 
             <FormCard>
-              <RelicLockExcludeFilter/>
+              <MinMaxRatingFilters/>
             </FormCard>
 
             <FormCard>

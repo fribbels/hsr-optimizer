@@ -1,6 +1,5 @@
-import { SettingOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
-import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Typography } from 'antd'
+import { Button, Flex, Popconfirm, Select, theme } from 'antd'
 import { Constants, Stats } from 'lib/constants/constants'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Hint } from 'lib/interactions/hint'
@@ -15,9 +14,8 @@ import { getGridTheme } from 'lib/rendering/theme'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
-
+import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -723,97 +721,7 @@ export default function RelicsTab() {
             {t('Toolbar.AddRelic')/* Add New Relic */}
           </Button>
 
-          <Popover
-            trigger='click'
-            onOpenChange={(open) => {
-              if (!open) {
-                SaveState.delayedSave()
-              }
-            }}
-            content={(
-              <Flex gap={8} style={{ width: 260 }}>
-                <Flex vertical>
-                  <Flex justify='space-between' align='center'>
-                    <HeaderText>{t('Toolbar.RelicLocator.Width')/* Inventory width */}</HeaderText>
-                  </Flex>
-                  <InputNumber
-                    defaultValue={window.store.getState().inventoryWidth}
-                    style={{ width: 'auto' }}
-                    min={1}
-                    onChange={(e) => {
-                      setInventoryWidth(e)
-                    }}
-                  />
-                </Flex>
-
-                <Flex vertical>
-                  <Flex justify='space-between' align='center' gap={10}>
-                    <HeaderText>{t('Toolbar.RelicLocator.Filter')/* Auto filter rows */}</HeaderText>
-                    <TooltipImage type={Hint.locatorParams()}/>
-                  </Flex>
-                  <InputNumber
-                    defaultValue={window.store.getState().rowLimit}
-                    style={{ width: 'auto' }}
-                    min={1}
-                    onChange={(e) => {
-                      setRowLimit(e)
-                    }}
-                  />
-                </Flex>
-              </Flex>
-            )}
-          >
-            <Flex
-              justify='space-between'
-              align='center'
-              style={{
-                cursor: 'pointer',
-                paddingLeft: 8,
-                paddingRight: 10,
-                width: 285,
-                marginTop: 1,
-                borderRadius: 5,
-                height: 30,
-                background: 'rgba(36, 51, 86)',
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-                outline: '1px solid rgba(63, 90, 150)',
-              }}
-            >
-              {
-                selectedRelic && (
-                  <Flex align='center' justify='space-between' style={{ width: '100%' }}>
-                    <Flex gap={5} style={{ minWidth: 10 }} justify='flex-start'>
-                      {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ height: 25 }}/>}
-                      {locatorFilters.set
-                      && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
-                      {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
-                    </Flex>
-                    <Typography>
-                      {/* Location - Row {{rowIndex}} / Col {{columnIndex}} */}
-                      {!selectedRelic
-                        ? ''
-                        : t('Toolbar.RelicLocator.Location', {
-                          columnIndex: relicPositionIndex % inventoryWidth + 1,
-                          rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
-                        })}
-                    </Typography>
-                    <SettingOutlined/>
-                  </Flex>
-
-                )
-              }
-              {
-                !selectedRelic && (
-                  <Flex style={{ width: '100%', paddingBottom: 2 }} justify='space-between'>
-                    <div style={{ width: 10 }}></div>
-                    {/* Select a relic to locate */}
-                    <div>{t('Toolbar.RelicLocator.NoneSelected')}</div>
-                    <SettingOutlined/>
-                  </Flex>
-                )
-              }
-            </Flex>
-          </Popover>
+          <RelicLocator selectedRelic={selectedRelic}/>
 
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicLocation()}/>

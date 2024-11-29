@@ -1,16 +1,23 @@
-import { AimOutlined, LineChartOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
-import { Button, Card, Divider, Flex } from 'antd'
+import { AimOutlined, LineChartOutlined, LockOutlined, SettingOutlined, StopOutlined } from '@ant-design/icons'
+import { Button, Card, Divider, Flex, InputNumber, Modal, Popover, Typography } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { Parts, Sets } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
+import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
+import DB from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
+import { HeaderText } from 'lib/ui/HeaderText'
+import { TooltipImage } from 'lib/ui/TooltipImage'
 import { showcaseTransition } from 'lib/utils/colorUtils'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
@@ -57,6 +64,7 @@ export function RelicPreview(props: {
 
   const [hovered, setHovered] = useState(false)
   const [buttonHovered, setButtonHovered] = useState(false)
+  const [locatorOpen, setLocatorOpen] = useState(false)
 
   const relicSrc = relic.set ? Assets.getSetImage(relic.set, relic.part) : Assets.getBlank()
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
@@ -84,7 +92,7 @@ export function RelicPreview(props: {
       rootClassName='RelicPreviewCard'
       size='small'
       hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
-      onClick={cardClicked}
+      onClick={locatorOpen ? () => {} : cardClicked}
       style={{
         width: cardWidth,
         height: 280,
@@ -194,7 +202,11 @@ export function RelicPreview(props: {
             />
             <HoverButton
               label={<AimOutlined/>}
-              onClick={() => Message.success('Locate clicked')}
+              onClick={() => {
+                setLocatorOpen(true)
+                setHovered(false)
+                setButtonHovered(false)
+              }}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}
               borderColor={showcaseTheme?.cardBorderColor}
@@ -207,6 +219,7 @@ export function RelicPreview(props: {
               borderColor={showcaseTheme?.cardBorderColor}
             />
           </Flex>
+          <LocatorModal selectedRelic={relic} open={locatorOpen} setOpen={setLocatorOpen}/>
         </div>
       </Flex>
     </Card>
@@ -238,5 +251,20 @@ function HoverButton(props: {
     >
       {props.label}
     </Button>
+  )
+}
+
+function LocatorModal(props: { selectedRelic: Relic; open: boolean; setOpen: (open: boolean) => void }) {
+  return (
+    <Modal
+      centered
+      destroyOnClose
+      open={props.open}
+      width={380}
+      onCancel={() => props.setOpen(false)}
+      footer={[]}
+    >
+      <RelicLocator selectedRelic={props.selectedRelic}/>
+    </Modal>
   )
 }

@@ -60,7 +60,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       onPortraitLoad: (img: string, characterId: string) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectColor(palette.DarkVibrant, palette.DarkMuted)
+            const primary = selectColor(palette.LightMuted, palette.LightVibrant)
 
             setSeedColor(primary)
             urlToColorCache[img] = primary

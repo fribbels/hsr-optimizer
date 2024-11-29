@@ -43,13 +43,88 @@ Messages:
 CharacterPreview:
   CustomizationSidebar:
     Label: カスタマイズ
+    Modes:
+      Auto: オート
+      Custom: カスタム
+      Standard: スタンダード
     PaletteLabel: カラーパレット
   ArtBy: "出典 {{artistName}}"
   EditCharacter: キャラクターを編集
   EditPortrait: 画像を変更
-  CharacterScore: "キャラクター スコア {{score}} {{grade}}"
+  CharacterScore: "キャラクタースコア\n {{score}} {{grade}}"
   Messages:
     AddedRelic: 遺物を追加しました
     SavedPortrait: 画像を変更しました
     RevertedPortrait: 画像を復元しました
     NoSelectedCharacter: キャラクターが選択されていません
+  ScoreHeader:
+    Title: 戦闘シュミレーション
+    Score: "DPSスコア {{score}}% {{grade}}"
+  AlgorithmSlider:
+    Title: "スコアリング方法"
+    Labels:
+      CombatScore: 戦闘スコア
+      CombatScoreTBD: 戦闘スコア（TBD）
+      StatScore: ステータススコア
+  DetailsSlider:
+    Title: "戦闘スコアの詳細"
+    Labels:
+      CombatStats: 戦闘中のステータス
+      DMGUpgrades: 与ダメージ強化
+  DMGUpgrades: 与ダメージ強化
+  SubstatUpgradeComparisons:
+    Header: サブステータス強化の比較
+    Roll: サブステ
+    Damage: ダメージ
+  BuildAnalysis:
+    Header: ビルド分析
+    SimulationTeammates: パーティー編成
+    SimulationSets: 遺物
+    Rotation:
+      Header: ローテーション
+      BASIC: 通常攻撃
+      SKILL: 戦闘スキル
+      ULT: 必殺技
+      FUA: 追加攻撃
+      DOTS: "持続 "
+      BREAKS: "撃破 "
+    CombatResults:
+      Header: 結果
+      Primary: "主に使うアビリティ"
+      Character: "与ダメージ（現在）"
+      Benchmark: "与ダメージ（Benchmark）"
+      Baseline: "与ダメージ（Baseline）"
+      Maximum: "与ダメージ（Maximum）"
+      Score: "スコア比率%"
+      Abilities:
+        BASIC: 通常攻撃
+        SKILL: 戦闘スキル
+        ULT: 必殺技
+        FUA: 追加攻撃
+        DOT: 持続
+        BREAK: 弱点撃破
+        COMBO: コンボ
+  ScoringColumn:
+    Character:
+      Header: "現在のビルド（{{score}}％）"
+      BasicStats: 非戦闘時のステータス（現在）
+      CombatStats: <1>戦闘中の</1>ステータス（現在）
+      Substats: サブステータス数（最小）
+      Mainstats: メインステータス（現在）
+      Abilities: 与ダメージ（現在）
+    Benchmark:
+      Header: "Benchmark ビルド（{{score}}%）"
+      BasicStats: 非戦闘時のステータス（Benchmark）
+      CombatStats: <1>戦闘中の</1>ステータス（Benchmark）
+      Substats: サブステータス数（最小）
+      Mainstats: メインステータス（Benchmark）
+      Abilities: 与ダメージ（Benchmark）
+    Perfect:
+      Header: "Perfect ビルド（{{score}}%）"
+      BasicStats: 非戦闘時のステータス（Perfect）
+      CombatStats: <1>戦闘中の</1>ステータス（Perfect）
+      Substats: サブステータス数（最大）
+      Mainstats: メインステータス（Perfect）
+      Abilities: 与ダメージ（Perfect）
+  ScoringDetails:
+    Header: DPSスコアはどのように計算されますか？

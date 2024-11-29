@@ -778,20 +778,22 @@ function computeOptimalSimulation(
       if (stat == Stats.SPD && currentSimulation.request.stats[Stats.SPD] <= Math.ceil(partialSimulationWrapper.speedRollsDeduction)) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
 
+      // Cache the value so we can undo a modification
+      const undo = currentSimulation.request.stats[stat]
+
       // Try reducing this stat
-      const newSimulation: Simulation = TsUtils.clone(currentSimulation)
+      const newSimulation: Simulation = currentSimulation
       newSimulation.request.stats[stat] -= 1
 
-      console.time('⚠️ Single sim')
       const newSimResult = runSimulations(simulationForm, context, [newSimulation], {
         ...scoringParams,
         substatRollsModifier: scoringParams.substatRollsModifier,
       })[0]
-      console.timeEnd('⚠️ Single sim')
       simulationRuns++
 
       if (breakpointsCap && breakpoints?.[stat]) {
         if (newSimResult.x[stat] < breakpoints[stat]) {
+          currentSimulation.request.stats[stat] = undo
           continue
         }
       }
@@ -804,6 +806,8 @@ function computeOptimalSimulation(
         bestSimResult = newSimResult
         reducedStat = stat
       }
+
+      currentSimulation.request.stats[stat] = undo
     }
 
     if (!bestSimResult) {

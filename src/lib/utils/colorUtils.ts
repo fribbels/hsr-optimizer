@@ -4,7 +4,7 @@ import { PaletteResponse } from 'lib/utils/vibrantFork'
 
 export function showcaseCardBackgroundColor(color: string) {
   const scaleFactor = 0.95
-  const minSaturation = 0.15
+  const minSaturation = 0.20
   const maxSaturation = 0.30
   const chromaColor = chroma(color)
 
@@ -14,11 +14,11 @@ export function showcaseCardBackgroundColor(color: string) {
   const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
 
   const finalColor = adjustedColor
-    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.025, 0.98))
-    .alpha(0.875)
+    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0275, 0.97))
+    .alpha(0.85)
 
-  // console.log(finalColor.luminance())
-  // console.log(finalColor.hsl())
+  console.log(finalColor.luminance())
+  console.log(finalColor.hsl())
 
   return finalColor.css()
 }

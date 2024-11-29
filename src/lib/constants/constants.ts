@@ -729,3 +729,8 @@ export enum ShowcaseColorMode {
   CUSTOM = 'CUSTOM',
   STANDARD = 'STANDARD',
 }
+
+export enum ShowcaseBrightnessMode {
+  LIGHT = 'LIGHT',
+  DARK = 'DARK',
+}

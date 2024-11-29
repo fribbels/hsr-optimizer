@@ -1,10 +1,11 @@
-import { CameraOutlined, DownloadOutlined } from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { Button, ColorPicker, Flex, Segmented, theme, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import chroma from 'chroma-js'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { ShowcaseColorMode } from 'lib/constants/constants'
+import { ShowcaseBrightnessMode, ShowcaseColorMode } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -53,6 +54,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
     const [loading, setLoading] = useState<boolean>(false)
+    const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -109,6 +111,12 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       setColorMode(newColorMode)
     }
 
+    function onBrightnessModeChange(darkMode: boolean) {
+      console.log('Set dark mode to', darkMode)
+
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
+    }
+
     const presets = [
       {
         label: t('PaletteLabel'),
@@ -138,6 +146,21 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           {t('Label')}
         </HeaderText>
 
+        <ColorPicker
+          presets={presets}
+          defaultValue='#1677ff'
+          value={seedColor}
+          onChangeComplete={(value: AggregationColor) => {
+            const color = value.toHexString()
+            onColorSelectorChange(color)
+          }}
+          disabledAlpha
+          disabledFormat
+          showText
+        />
+
+        <HorizontalDivider/>
+
         <Segmented
           vertical
           options={[
@@ -151,17 +174,14 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
         <HorizontalDivider/>
 
-        <ColorPicker
-          presets={presets}
-          defaultValue='#1677ff'
-          value={seedColor}
-          onChangeComplete={(value: AggregationColor) => {
-            const color = value.toHexString()
-            onColorSelectorChange(color)
-          }}
-          disabledAlpha
-          disabledFormat
-          showText
+        <Segmented
+          options={[
+            { value: false, label: <SunOutlined/> },
+            { value: true, label: <MoonOutlined/> },
+          ]}
+          block
+          value={showcaseDarkMode}
+          onChange={onBrightnessModeChange}
         />
 
         <HorizontalDivider/>
@@ -252,6 +272,18 @@ export function getOverrideColorMode(
   return savedColorMode
 }
 
+export function getOverrideBrightnessMode(
+  brightnessMode: ShowcaseBrightnessMode,
+  globalShowcasePreferences: Record<string, ShowcasePreferences>,
+  character: Character,
+) {
+  if (brightnessMode == ShowcaseBrightnessMode.DARK) {
+    return ShowcaseBrightnessMode.DARK
+  }
+
+  return globalShowcasePreferences[character.id]?.brightnessMode ?? ShowcaseBrightnessMode.LIGHT
+}
+
 export function getDefaultColor(characterId: string, portraitUrl: string, colorMode: ShowcaseColorMode) {
   if (colorMode == ShowcaseColorMode.STANDARD) {
     return STANDARD_COLOR
@@ -284,8 +316,8 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1111: ['#e9858e'], // luka
     1112: ['#1d3f9c'], // topaz
     1201: ['#a99dd1'], // qingque
-    1202: ['#e6d3d4'], // tingyun
-    1203: ['#6b9199'], // luocha
+    1202: ['#d1c6c7'], // tingyun
+    1203: ['#88c6d2'], // luocha
     1204: ['#dfdad7'], // jingyuan
     1205: ['#4d69be'], // blade
     1206: ['#154da1'], // sushang
@@ -313,12 +345,12 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
     1307: ['#7f58d6'], // blackswan
-    1308: ['#271e85'], // acheron
+    1308: ['#625ca9'], // acheron
     1309: ['#9e79b7'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#4160d2'], // sunday
-    1314: ['#4e2cc9'], // jade
+    1314: ['#8a74dc'], // jade
     1315: ['#a49ed2'], // boothill
     1317: ['#7789e2'], // rappa
     8001: ['#5f81f4'], // trailblazerdestruction

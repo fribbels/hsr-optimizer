@@ -90,6 +90,7 @@ export function CharacterPreview(props: {
     window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
   const activeKey = window.store((s) => s.activeKey)
+  const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
@@ -183,8 +184,8 @@ export function CharacterPreview(props: {
 
   const seedToken = getDesignToken(seedTheme)
   const derivedShowcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: showcaseCardBackgroundColor(seedToken.colorPrimaryActive),
-    cardBorderColor: showcaseCardBorderColor(seedToken.colorPrimaryActive),
+    cardBackgroundColor: showcaseCardBackgroundColor(seedToken.colorPrimaryActive, darkMode),
+    cardBorderColor: showcaseCardBorderColor(seedToken.colorPrimaryActive, darkMode),
   }
 
   // ===== Display =====

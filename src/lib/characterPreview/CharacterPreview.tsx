@@ -177,7 +177,7 @@ export function CharacterPreview(props: {
     components: {
       Segmented: {
         trackBg: colorTransparent(),
-        itemSelectedBg: showcaseSegmentedColor(overrideSeedColor),
+        itemSelectedBg: showcaseSegmentedColor(overrideSeedColor, darkMode),
       },
     },
   }
@@ -234,7 +234,7 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            background: showcaseBackgroundColor(token.colorBgLayout),
+            background: showcaseBackgroundColor(token.colorBgLayout, darkMode),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
             borderRadius: 7,

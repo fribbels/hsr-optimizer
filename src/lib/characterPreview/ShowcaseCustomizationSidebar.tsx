@@ -273,7 +273,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1005: ['#d6849e'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
-    1009: ['#796bc9'], // asta
+    1009: ['#a092ef'], // asta
     1013: ['#653ae9'], // herta
     1101: ['#375ee1'], // bronya
     1102: ['#5f55eb'], // seele
@@ -283,45 +283,45 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1106: ['#4b88e0'], // pela
     1107: ['#a99dd1'], // clara
     1108: ['#7777c9'], // sampo
-    1109: ['#f2d7c0'], // hook
+    1109: ['#c8d0f0'], // hook
     1110: ['#2e93c6'], // lynx
     1111: ['#e9858e'], // luka
     1112: ['#1d3f9c'], // topaz
-    1201: ['#a99dd1'], // qingque
-    1202: ['#d1c6c7'], // tingyun
-    1203: ['#88c6d2'], // luocha
-    1204: ['#dfdad7'], // jingyuan
+    1201: ['#8fdde6'], // qingque
+    1202: ['#ecd5da'], // tingyun
+    1203: ['#97e0ef'], // luocha
+    1204: ['#b7dde2'], // jingyuan
     1205: ['#4d69be'], // blade
     1206: ['#154da1'], // sushang
-    1207: ['#687093'], // yukong
-    1208: ['#9e58bf'], // fuxuan
-    1209: ['#4da0e9'], // yanqing
-    1210: ['#edaa97'], // guinaifen
+    1207: ['#90a0e6'], // yukong
+    1208: ['#da91f2'], // fuxuan
+    1209: ['#6db1f4'], // yanqing
+    1210: ['#f9f5f2'], // guinaifen
     1211: ['#2a415c'], // bailu
-    1212: ['#0e24cc'], // jingliu
-    1213: ['#66b0c9'], // imbibitorlunae
-    1214: ['#2d67da'], // xueyi
-    1215: ['#69629f'], // hanya
+    1212: ['#0e37cc'], // jingliu
+    1213: ['#72c3de'], // imbibitorlunae
+    1214: ['#3571e7'], // xueyi
+    1215: ['#9a90e6'], // hanya
     1217: ['#81bad1'], // huohuo
-    1218: ['#e6dad5'], // jiaoqiu
+    1218: ['#f4dfe7'], // jiaoqiu
     1220: ['#7ed3da'], // feixiao
     1221: ['#e9d7d2'], // yunli
-    1222: ['#e2dbd8'], // lingsha
+    1222: ['#f5e6ed'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#eacbea'], // march7thImaginary
-    1225: ['#f7ddf1'], // fugue
-    1301: ['#f4e3e1'], // gallagher
+    1225: ['#fce4f7'], // fugue
+    1301: ['#f9efee'], // gallagher
     1302: ['#d6616c'], // argenti
     1303: ['#1a48ba'], // ruanmei
-    1304: ['#ead29e'], // aventurine
+    1304: ['#7cbcea'], // aventurine
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
     1307: ['#7f58d6'], // blackswan
-    1308: ['#625ca9'], // acheron
-    1309: ['#9e79b7'], // robin
+    1308: ['#8982d6'], // acheron
+    1309: ['#9b93cf'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
-    1313: ['#4160d2'], // sunday
+    1313: ['#7e95e9'], // sunday
     1314: ['#8a74dc'], // jade
     1315: ['#a49ed2'], // boothill
     1317: ['#7789e2'], // rappa

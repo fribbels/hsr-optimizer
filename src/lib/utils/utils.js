@@ -129,7 +129,10 @@ export const Utils = {
 
       while (i < maxAttempts) {
         i++
-        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true })
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), {
+          pixelRatio: 1.5,
+          skipFonts: true,
+        })
 
         if (blob.size > minDataLength) {
           break
@@ -138,7 +141,10 @@ export const Utils = {
 
       if (isMobile) {
         // Render again
-        blob = await htmlToImage.toBlob(document.getElementById(elementId), { pixelRatio: 1.5, skipFonts: true })
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), {
+          pixelRatio: 1.5,
+          skipFonts: true,
+        })
       }
 
       return blob

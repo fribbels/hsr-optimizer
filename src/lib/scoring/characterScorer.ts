@@ -92,7 +92,7 @@ function substatRollsModifier(rolls: number,
     .filter((x) => x.augmentedStats!.mainStat == stat)
     .length
 
-  return diminishingReturnsFormula(mainsCount, rolls)
+  return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
 }
 
 export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
@@ -107,13 +107,25 @@ export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   return lowerLimit + diminishedExcess
 }
 
-export function invertDiminishingReturnsFormula(mainsCount: number, target: number, rollValue: number) {
+export function spdDiminishingReturnsFormula(mainsCount: number, rolls: number) {
+  const lowerLimit = 12 - 2 * mainsCount
+  if (rolls <= lowerLimit) {
+    return rolls
+  }
+
+  const excess = Math.max(0, rolls - (lowerLimit))
+  const diminishedExcess = excess / (Math.pow(excess, 0.10))
+
+  return lowerLimit + diminishedExcess
+}
+
+export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: number, rollValue: number) {
   let current = 0
   let rolls = 0
 
   while (current < target) {
     rolls++
-    current = diminishingReturnsFormula(mainsCount, rolls) * rollValue
+    current = spdDiminishingReturnsFormula(mainsCount, rolls) * rollValue
   }
 
   return rolls
@@ -359,7 +371,7 @@ export function scoreCharacterSimulation(
     partialSimulationWrapper.finalSpeed = finalSpeed
 
     const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
-    const rolls = invertDiminishingReturnsFormula(mainsCount, originalFinalSpeed - finalSpeed, benchmarkScoringParams.speedRollValue)
+    const rolls = invertDiminishingReturnsSpdFormula(mainsCount, originalFinalSpeed - finalSpeed, benchmarkScoringParams.speedRollValue)
 
     partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, benchmarkScoringParams))
 

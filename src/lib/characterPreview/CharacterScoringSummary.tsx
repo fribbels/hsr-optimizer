@@ -8,7 +8,7 @@ import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { diminishingReturnsFormula, SimulationScore, SimulationStatUpgrade } from 'lib/scoring/characterScorer'
+import { diminishingReturnsFormula, SimulationScore, SimulationStatUpgrade, spdDiminishingReturnsFormula } from 'lib/scoring/characterScorer'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -239,6 +239,8 @@ export const CharacterScoringSummary = (props: {
           Stats.HP,
         ].filter((x) => x == stat).length
         if (stat == Stats.SPD) {
+          diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
+        } else {
           diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
         }
       }

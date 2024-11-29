@@ -85,7 +85,7 @@ function substatRollsModifier(rolls: number,
   relics: {
     [key: string]: Relic
   }) {
-  if (stat == Stats.SPD) return rolls
+  // if (stat == Stats.SPD) return rolls
   // Diminishing returns
 
   const mainsCount = Object.values(relics)
@@ -105,6 +105,18 @@ export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   const diminishedExcess = excess / (Math.pow(excess, 0.25))
 
   return lowerLimit + diminishedExcess
+}
+
+export function invertDiminishingReturnsFormula(mainsCount: number, target: number, rollValue: number) {
+  let current = 0
+  let rolls = 0
+
+  while (current < target) {
+    rolls++
+    current = diminishingReturnsFormula(mainsCount, rolls) * rollValue
+  }
+
+  return rolls
 }
 
 export type SimulationResult = ComputedStatsObjectExternal & {
@@ -175,7 +187,7 @@ export type RelicBuild = {
 
 type ScoringFunction = (result: SimulationResult, penalty?: boolean) => void
 
-type PartialSimulationWrapper = {
+export type PartialSimulationWrapper = {
   simulation: Simulation
   finalSpeed: number
   speedRollsDeduction: number
@@ -343,11 +355,15 @@ export function scoreCharacterSimulation(
     const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
 
     // Find the speed deduction
-    const finalSpeed = simulationResult.xSPD
+    const finalSpeed = simulationResult.x[Stats.SPD]
     partialSimulationWrapper.finalSpeed = finalSpeed
+
+    const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
+    const rolls = invertDiminishingReturnsFormula(mainsCount, originalFinalSpeed - finalSpeed, benchmarkScoringParams.speedRollValue)
+
     partialSimulationWrapper.speedRollsDeduction = Math.max(
       0,
-      TsUtils.precisionRound((originalFinalSpeed - finalSpeed) / benchmarkScoringParams.speedRollValue),
+      rolls,
     )
 
     if (partialSimulationWrapper.speedRollsDeduction > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
@@ -357,7 +373,7 @@ export function scoreCharacterSimulation(
 
     // Define min/max limits
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, simulationFlags)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, minSubstatRollCounts, simulationFlags)
 
     // Start the sim search at the max then iterate downwards
     Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
@@ -397,6 +413,7 @@ export function scoreCharacterSimulation(
 
   const maximumSim = simulateMaximumBuild(
     benchmarkSim,
+    originalSim,
     metadata,
     simulationForm,
     context,
@@ -479,6 +496,7 @@ export function scoreCharacterSimulation(
 
 function simulateMaximumBuild(
   bestSim: Simulation,
+  originalSim: Simulation,
   metadata: SimulationMetadata,
   simulationForm: Form,
   context: OptimizerContext,
@@ -487,7 +505,8 @@ function simulateMaximumBuild(
   simulationFlags: SimulationFlags,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
-  const spdRolls = TsUtils.precisionRound(bestSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue, 3)
+  const spdRolls = Math.ceil(originalSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue)
+
   const maximumSimulations: Simulation[] = []
 
   // Spheres with DMG % are unique because they can alter a build due to DMG % not being a substat.
@@ -503,7 +522,7 @@ function simulateMaximumBuild(
     }
 
     const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams)
-    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, simulationFlags)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, minSubstatRollCounts, simulationFlags)
     Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
     const maxSim = computeOptimalSimulation(
       partialSimulationWrapper,
@@ -910,6 +929,7 @@ function calculateMaxSubstatRollCounts(
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
   baselineSimResult: SimulationResult,
+  minSubstatRollCounts: SimulationStats,
   simulationFlags: SimulationFlags,
 ): SimulationStats {
   const request = partialSimulationWrapper.simulation.request
@@ -1000,7 +1020,7 @@ function calculateMaxSubstatRollCounts(
   const nonSpeedSubsCapDeduction = Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 6
   for (const stat of SubStats) {
     if (stat == Stats.SPD) continue
-    maxCounts[stat] = Math.min(maxCounts[stat], 36 - nonSpeedSubsCapDeduction)
+    maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - nonSpeedSubsCapDeduction))
   }
   return maxCounts
 }

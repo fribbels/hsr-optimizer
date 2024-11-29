@@ -92,7 +92,6 @@ CharacterPreview:
       Header: 結果
       Primary: "主に使うアビリティ"
       Character: "与ダメージ（現在）"
-      Benchmark: "与ダメージ（Benchmark）"
       Baseline: "与ダメージ（Baseline）"
       Maximum: "与ダメージ（Maximum）"
       Score: "スコア比率%"
@@ -112,19 +111,12 @@ CharacterPreview:
       Substats: サブステータス数（最小）
       Mainstats: メインステータス（現在）
       Abilities: 与ダメージ（現在）
-    Benchmark:
-      Header: "Benchmark ビルド（{{score}}%）"
-      BasicStats: 非戦闘時のステータス（Benchmark）
-      CombatStats: <1>戦闘中の</1>ステータス（Benchmark）
-      Substats: サブステータス数（最小）
-      Mainstats: メインステータス（Benchmark）
-      Abilities: 与ダメージ（Benchmark）
     Perfect:
-      Header: "Perfect ビルド（{{score}}%）"
-      BasicStats: 非戦闘時のステータス（Perfect）
-      CombatStats: <1>戦闘中の</1>ステータス（Perfect）
+      Header: "完璧なビルド（{{score}}%）"
+      BasicStats: 非戦闘時のステータス（完璧）
+      CombatStats: <1>戦闘中の</1>ステータス（完璧）
       Substats: サブステータス数（最大）
-      Mainstats: メインステータス（Perfect）
-      Abilities: 与ダメージ（Perfect）
+      Mainstats: メインステータス（完璧）
+      Abilities: 与ダメージ（完璧）
   ScoringDetails:
     Header: DPSスコアはどのように計算されますか？

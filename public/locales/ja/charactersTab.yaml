@@ -1,0 +1,55 @@
+ScreenshotMessages:
+  ScreenshotSuccess: スクリーンショットをクリップボードにコピーしました
+  ScreenshotFailed: クリップボードにコピーできませんでした。右側のダウンロードボタンをお試しください。
+  DownloadSuccess: スクリーンショットをダウンロードしました
+CharacterMenu:
+  ButtonText: キャラクター メニュー
+  Character:
+    Label: キャラクター
+    Options:
+      Add: 新しいキャラクターを追加
+      Edit: キャラクター/光円錐を編集
+      Switch: 遺物を交換
+      Unequip: 全ての遺物を外す
+      Delete: キャラクターを削除
+  Build:
+    Label: ビルド
+    Options:
+      Save: 現在のビルドを保存
+      View: 保存されたビルドを表示
+  Scoring:
+    Label: スコアリング
+    Options:
+      ScoringModal: スコアリング方法の編集
+  Priority:
+    Label: 優先順位
+    Options:
+      SortByScore: スコア順にキャラクターを並べ替え
+      MoveToTop: キャラクターを先頭に移動
+SearchPlaceholder: 検索
+GridHeaders:
+  Icon: アイコン
+  Priority: 優先順位
+  Character: キャラクター
+Messages:
+  RemoveSuccess: キャラクターを削除しました
+  UnequipSuccess: キャラクターの遺物を外しました
+  NoSelectedCharacter: キャラクターが選択されていません
+  SwitchSuccess: "$t(gameData:Characters.{{charId}}.Name) と遺物を交換しました"
+  SortByScoreWarning: 本当にすべてのキャラクターを並び替えますか？以前の設定内容はすべて失われます。
+  SaveSuccess: "ビルドを保存しました: {{name}}"
+  UnequipWarning: "本当に $t(gameData:Characters.{{charId}}.Name) の遺物を全て外しますか？"
+  DeleteWarning: "本当に $t(gameData:Characters.{{charId}}.Name) を削除しますか？"
+CharacterPreview:
+  CustomizationSidebar:
+    Label: カスタマイズ
+    PaletteLabel: カラーパレット
+  ArtBy: "出典 {{artistName}}"
+  EditCharacter: キャラクターを編集
+  EditPortrait: 画像を変更
+  CharacterScore: "キャラクター スコア {{score}} {{grade}}"
+  Messages:
+    AddedRelic: 遺物を追加しました
+    SavedPortrait: 画像を変更しました
+    RevertedPortrait: 画像を復元しました
+    NoSelectedCharacter: キャラクターが選択されていません

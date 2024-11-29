@@ -1,23 +1,17 @@
-import { AimOutlined, LineChartOutlined, LockOutlined, SettingOutlined, StopOutlined } from '@ant-design/icons'
-import { Button, Card, Divider, Flex, InputNumber, Modal, Popover, Typography } from 'antd'
+import { AimOutlined, LineChartOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
+import { Button, Card, Divider, Flex, Modal } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { Parts, Sets } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
-import DB from 'lib/state/db'
-import { SaveState } from 'lib/state/saveState'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
-import { HeaderText } from 'lib/ui/HeaderText'
-import { TooltipImage } from 'lib/ui/TooltipImage'
 import { showcaseTransition } from 'lib/utils/colorUtils'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
@@ -70,6 +64,7 @@ export function RelicPreview(props: {
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
   const scored = score !== undefined
   const cardWidth = 200
+  const hoverable = source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL
 
   const cardClicked = () => {
     if ((!relic.id && !characterId) || source == ShowcaseSource.SHOWCASE_TAB || source == ShowcaseSource.BUILDS_MODAL) return
@@ -91,13 +86,13 @@ export function RelicPreview(props: {
     <Card
       rootClassName='RelicPreviewCard'
       size='small'
-      hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
+      hoverable={hoverable}
       onClick={locatorOpen ? () => {} : cardClicked}
       style={{
         width: cardWidth,
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
-        borderColor: hovered && !buttonHovered ? 'rgba(255, 255, 255, 0.40)' : showcaseTheme?.cardBorderColor,
+        borderColor: hovered && !buttonHovered && hoverable ? 'rgba(255, 255, 255, 0.40)' : showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
       }}
       onMouseEnter={() => setHovered(true)}
@@ -187,21 +182,21 @@ export function RelicPreview(props: {
             }}
           >
             <HoverButton
-              label={<LockOutlined/>}
+              label={<LockOutlined title='reserve relic'/>}
               onClick={() => Message.success('Reserve clicked')}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}
               borderColor={showcaseTheme?.cardBorderColor}
             />
             <HoverButton
-              label={<StopOutlined/>}
+              label={<StopOutlined title='exclude relic'/>}
               onClick={() => Message.success('Exclude clicked')}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}
               borderColor={showcaseTheme?.cardBorderColor}
             />
             <HoverButton
-              label={<AimOutlined/>}
+              label={<AimOutlined title='find in inventory'/>}
               onClick={() => {
                 setLocatorOpen(true)
                 setHovered(false)
@@ -212,7 +207,7 @@ export function RelicPreview(props: {
               borderColor={showcaseTheme?.cardBorderColor}
             />
             <HoverButton
-              label={<LineChartOutlined/>}
+              label={<LineChartOutlined title='view in relics tab'/>}
               onClick={() => window.viewRelicInGrid(relic.id)}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}

@@ -201,7 +201,7 @@ export function RelicPreview(props: {
             />
             <HoverButton
               label={<LineChartOutlined/>}
-              onClick={() => Message.success('GoTo clicked')}
+              onClick={() => window.viewRelicInGrid(relic.id)}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}
               borderColor={showcaseTheme?.cardBorderColor}

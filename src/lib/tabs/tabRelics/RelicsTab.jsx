@@ -12,7 +12,7 @@ import { Assets } from 'lib/rendering/assets'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 
@@ -609,6 +609,34 @@ export default function RelicsTab() {
       setScoreBuckets(sb)
     }
   }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters, t])
+
+  function viewRelicInGrid(id) {
+    const api = gridRef.current.api
+    if (!api) {
+      Message.error('Error: relic grid api does not exist')
+      return
+    }
+    if (window.store.getState().activeKey !== AppPages.RELICS) {
+      window.store.getState().setActiveKey(AppPages.RELICS)
+    }
+    setTimeout(() => { // we need to wait for the grid to render before scrolling
+      api.ensureNodeVisible(
+        (rowNode) => {
+          if (rowNode.data.id === id) {
+            rowNode.setSelected(true)
+            setSelectedRelic(rowNode.data)
+            return true
+          }
+          rowNode.setSelected(false)
+          return false
+        },
+        'middle',
+      )
+      window.scrollTo({ top: 400, left: 0, behavior: 'smooth' })
+    })
+  }
+
+  window.viewRelicInGrid = viewRelicInGrid
 
   return (
     <Flex style={{ width: 1350, marginBottom: 100 }}>

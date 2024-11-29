@@ -37,6 +37,11 @@ export const AdvancedOptionsPanel = () => {
       >
         {t('EnemyConfigButtonText')/* Enemy configurations */}
       </Button>
+      <Button
+        icon={<SettingOutlined/>}
+      >
+        Reserved / Excluded relics (0)
+      </Button>
     </Flex>
   )
 }

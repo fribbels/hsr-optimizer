@@ -1,5 +1,5 @@
 import { CaretDownOutlined } from '@ant-design/icons'
-import { Flex } from 'antd'
+import { Button, Flex } from 'antd'
 import { Hint } from 'lib/interactions/hint'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import FilterRow from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterRow'

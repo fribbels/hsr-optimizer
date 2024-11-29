@@ -1,6 +1,8 @@
-import { Card, Divider, Flex } from 'antd'
+import { AimOutlined, LineChartOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
+import { Button, Card, Divider, Flex } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { iconSize } from 'lib/constants/constantsUi'
+import { Message } from 'lib/interactions/message'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
@@ -8,7 +10,7 @@ import { Renderer } from 'lib/rendering/renderer'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
-import React from 'react'
+import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
@@ -26,6 +28,7 @@ export function RelicPreview(props: {
   setAddModalOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
   showcaseTheme?: ShowcaseTheme
+  withHoverButtons?: boolean
 }) {
   const { t } = useTranslation('common')
   const {
@@ -36,6 +39,7 @@ export function RelicPreview(props: {
     setAddModalOpen,
     setSelectedRelic,
     showcaseTheme,
+    withHoverButtons,
   } = props
   const placeholderRelic: Partial<Relic> = {
     enhance: 0,
@@ -51,9 +55,13 @@ export function RelicPreview(props: {
     ...props.relic,
   } as Relic
 
+  const [hovered, setHovered] = useState(false)
+  const [buttonHovered, setButtonHovered] = useState(false)
+
   const relicSrc = relic.set ? Assets.getSetImage(relic.set, relic.part) : Assets.getBlank()
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
   const scored = score !== undefined
+  const cardWidth = 200
 
   const cardClicked = () => {
     if ((!relic.id && !characterId) || source == ShowcaseSource.SHOWCASE_TAB || source == ShowcaseSource.BUILDS_MODAL) return
@@ -73,16 +81,19 @@ export function RelicPreview(props: {
 
   return (
     <Card
+      rootClassName='RelicPreviewCard'
       size='small'
       hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
       onClick={cardClicked}
       style={{
-        width: 200,
+        width: cardWidth,
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
-        borderColor: showcaseTheme?.cardBorderColor,
+        borderColor: hovered && !buttonHovered ? 'rgba(255, 255, 255, 0.40)' : showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <Flex vertical justify='space-between' style={{ height: 255 }}>
         <Flex justify='space-between' align='center'>
@@ -130,19 +141,102 @@ export function RelicPreview(props: {
         </Flex>
 
         <Divider style={{ margin: '6px 0px 6px 0px' }}/>
-
-        <Flex justify='space-between'>
-          <Flex>
-            <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
+        <div style={{ height: 22, overflowX: 'clip', width: cardWidth, paddingRight: 12, paddingLeft: 12, position: 'relative', right: 12 }}>
+          <Flex
+            aria-hidden={!relic.id || (hovered && withHoverButtons)}
+            justify='space-between'
+            style={{
+              height: 22,
+              position: 'relative',
+              zIndex: 1,
+              opacity: !(hovered && withHoverButtons) ? 1 : 0,
+              transition: 'opacity 0.5s cubic-bezier(.23,1,.32,1)',
+            }}
+          >
+            <Flex gap={2}>
+              <img
+                src={(scored) ? Assets.getStarBw() : Assets.getBlank()}
+                style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
+              >
+              </img>
+              <RelicStatText>
+                {(scored) ? t('Score') : ''}
+              </RelicStatText>
+            </Flex>
             <RelicStatText>
-              {(scored) ? t('Score') : ''}
+              {(scored) ? `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}` : ''}
             </RelicStatText>
           </Flex>
-          <RelicStatText>
-            {(scored) ? `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}` : ''}
-          </RelicStatText>
-        </Flex>
+          <Flex
+            aria-hidden={!hovered || !withHoverButtons || !relic.id}
+            justify='space-between'
+            style={{
+              bottom: 28,
+              position: 'relative',
+              zIndex: 2,
+              transform: `translateX(${hovered && withHoverButtons && relic.id ? 0 : 190}px)`,
+              transition: 'transform 0.5s cubic-bezier(.23,1,.32,1)',
+            }}
+          >
+            <HoverButton
+              label={<LockOutlined/>}
+              onClick={() => Message.success('Reserve clicked')}
+              setButtonHovered={setButtonHovered}
+              backgroundColor={showcaseTheme?.cardBackgroundColor}
+              borderColor={showcaseTheme?.cardBorderColor}
+            />
+            <HoverButton
+              label={<StopOutlined/>}
+              onClick={() => Message.success('Exclude clicked')}
+              setButtonHovered={setButtonHovered}
+              backgroundColor={showcaseTheme?.cardBackgroundColor}
+              borderColor={showcaseTheme?.cardBorderColor}
+            />
+            <HoverButton
+              label={<AimOutlined/>}
+              onClick={() => Message.success('Locate clicked')}
+              setButtonHovered={setButtonHovered}
+              backgroundColor={showcaseTheme?.cardBackgroundColor}
+              borderColor={showcaseTheme?.cardBorderColor}
+            />
+            <HoverButton
+              label={<LineChartOutlined/>}
+              onClick={() => Message.success('GoTo clicked')}
+              setButtonHovered={setButtonHovered}
+              backgroundColor={showcaseTheme?.cardBackgroundColor}
+              borderColor={showcaseTheme?.cardBorderColor}
+            />
+          </Flex>
+        </div>
       </Flex>
     </Card>
+  )
+}
+
+function HoverButton(props: {
+  label: string | number | ReactElement
+  onClick: () => void
+  setButtonHovered: (hovered: boolean) => void
+  backgroundColor?: React.CSSProperties['backgroundColor']
+  borderColor?: React.CSSProperties['color']
+}) {
+  return (
+    <Button
+      style={{
+        padding: 2,
+        height: 30,
+        width: 30,
+        backgroundColor: props?.backgroundColor,
+        borderColor: props?.borderColor,
+      }}
+      onClick={(e) => {
+        e.stopPropagation()
+        props.onClick()
+      }}
+      onMouseEnter={() => props.setButtonHovered(true)}
+      onMouseLeave={() => props.setButtonHovered(false)}
+    >
+      {props.label}
+    </Button>
   )
 }

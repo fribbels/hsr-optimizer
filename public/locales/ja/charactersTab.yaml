@@ -18,9 +18,9 @@ CharacterMenu:
       Save: 現在のビルドを保存
       View: 保存されたビルドを表示
   Scoring:
-    Label: スコアリング
+    Label: スコア計算
     Options:
-      ScoringModal: スコアリング方法の編集
+      ScoringModal: スコア計算方法
   Priority:
     Label: 優先順位
     Options:
@@ -61,7 +61,7 @@ CharacterPreview:
     Title: 戦闘シュミレーション
     Score: "DPSスコア {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: "スコアリング方法"
+    Title: "スコア計算方法"
     Labels:
       CombatScore: 戦闘スコア
       CombatScoreTBD: 戦闘スコア（TBD）
@@ -75,7 +75,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: サブステータス強化の比較
     Roll: サブステ
-    Damage: ダメージ
   BuildAnalysis:
     Header: ビルド分析
     SimulationTeammates: パーティー編成

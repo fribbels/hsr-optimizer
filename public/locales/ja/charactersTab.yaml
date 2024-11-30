@@ -75,7 +75,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: サブステータス強化の比較
     Roll: サブステ
-    Damage: ダメージ
   BuildAnalysis:
     Header: ビルド分析
     SimulationTeammates: パーティー編成

@@ -473,7 +473,7 @@ StatSimulation:
   TotalRolls: Total de rolls
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
-    Off: Off
+    Off: "Desligado"
     RollCount: Simular rolls de subs personalizados
     Totals: Simular totais de subs personalizados
   FooterLabels:

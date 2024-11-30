@@ -202,6 +202,7 @@ export const Renderer = {
         : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
     )
   },
+  renderRestricted: (relic: Relic) => { return },
 }
 
 const gradeToColor = {

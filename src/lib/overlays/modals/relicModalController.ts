@@ -10,6 +10,7 @@ import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { partIsOrnament, partIsRelic } from 'lib/utils/relicUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import { CharacterId } from 'types/character'
 import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
 
 export type RelicUpgradeValues = {
@@ -39,6 +40,8 @@ export type RelicForm = {
   substatValue2: string
   substatValue3: string
   equippedBy: string
+  reserved: CharacterId | undefined
+  excluded: CharacterId[]
 }
 
 export const RelicModalController = {
@@ -162,9 +165,11 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
       stat: relicForm.mainStatType,
       value: relicForm.mainStatValue,
     },
+    excluded: relicForm.excluded,
+    reserved: relicForm.reserved,
   } as Relic
 
-  const substats: Stat[] = []
+  const substats: { stat: SubStats; value: number }[] = []
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
     substats.push({
       stat: relicForm.substatType0,
@@ -226,7 +231,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
       const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
-      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat as SubStats][relicForm.grade])
+      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat as SubStats][relicForm.grade as 5 | 4 | 3 | 2])
 
       if (Utils.isFlat(stat)) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)

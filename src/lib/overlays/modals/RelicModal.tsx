@@ -7,6 +7,9 @@ import { Message } from 'lib/interactions/message'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
+import CharacterSelect, {
+  CharacterSelectValueOut,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -14,7 +17,7 @@ import PropTypes from 'prop-types'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Relic, Stat } from 'types/relic'
 
 // FIXME MED
@@ -459,6 +462,7 @@ export default function RelicModal(props: {
               />
             </Flex>
           </Flex>
+          <RelicRestriction form={relicForm} relic={props.selectedRelic}/>
         </Flex>
       </Modal>
     </Form>
@@ -483,7 +487,7 @@ function SubstatInput(props: {
     }
   }
 
-  function upgradeClicked(quality: string) {
+  function upgradeClicked(quality: 'low' | 'mid' | 'high') {
     console.log(props, quality)
 
     props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality])
@@ -513,7 +517,7 @@ function SubstatInput(props: {
   }, [i18next.resolvedLanguage])
 
   function UpgradeButton(subProps: {
-    quality: string
+    quality: 'low' | 'mid' | 'high'
   }) {
     const value = props.upgrades?.[props.index]?.[subProps.quality]
 
@@ -571,6 +575,65 @@ function SubstatInput(props: {
         <UpgradeButton quality='mid'/>
         <UpgradeButton quality='high'/>
       </Flex>
+    </Flex>
+  )
+}
+
+function RelicRestriction(props: { form: FormInstance; relic?: Relic }) {
+  const [singleSelectOpen, setSingleSelectOpen] = useState(false)
+  const [multiSelectOpen, setMultiSelectOpen] = useState(false)
+  useEffect(() => {
+    props.form.setFieldValue('reserved', props?.relic?.reserved)
+    props.form.setFieldValue('excluded', props?.relic?.excluded ?? [])
+  }, [props])
+  function openReserve() {
+    setSingleSelectOpen(true)
+  }
+  function openExclude() {
+    setMultiSelectOpen(true)
+  }
+  function handleChange(x: CharacterSelectValueOut<'any'>) {
+    if (typeof x === 'string') {
+      props.form.setFieldValue('reserved', x)
+      props.form.setFieldValue('excluded', [])
+    } else {
+      const excludedIds = (
+        Array.from(x || new Map<CharacterId, boolean>())
+          .filter((entry) => entry[1])
+          .map((entry) => entry[0])
+      )
+      props.form.setFieldValue('excluded', excludedIds)
+      props.form.setFieldValue('reserved', undefined)
+    }
+  }
+  if (!props.relic) return
+  return (
+    <Flex gap={8}>
+      <Form.Item name='excluded'>
+        <CharacterSelect
+          selectStyle={{ display: 'none' }}
+          value={undefined} // value assigned at load by useEffect
+          externalOpen={multiSelectOpen}
+          setExternalOpen={setMultiSelectOpen}
+          onChange={handleChange}
+          multipleSelect
+        />
+      </Form.Item>
+      <Form.Item name='reserved'>
+        <CharacterSelect
+          selectStyle={{ display: 'none' }}
+          value={undefined} // value assigned at load by useEffect
+          externalOpen={singleSelectOpen}
+          setExternalOpen={setSingleSelectOpen}
+          onChange={handleChange}
+        />
+      </Form.Item>
+      <Button onClick={openReserve}>
+        reserve ({props?.relic?.reserved})
+      </Button>
+      <Button onClick={openExclude}>
+        exclude
+      </Button>
     </Flex>
   )
 }

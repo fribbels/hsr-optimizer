@@ -5,11 +5,12 @@ import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
 
 // FIXME HIGH
 
 interface CharacterSelectProps {
-  value
+  value: CharacterId | CharacterId[] | undefined
   onChange?: (id) => void
   selectStyle?: React.CSSProperties
   multipleSelect?: boolean
@@ -41,7 +42,6 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
   const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
-  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
   const labelledOptions: { value: string; label }[] = []
   for (const option of characterOptions) {
@@ -64,7 +64,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       setTimeout(() => inputRef?.current?.focus(), 100)
 
       if (multipleSelect) {
-        const newSelected = new Map<string, boolean>(excludedRelicPotentialCharacters.map((characterId: string) => [characterId, true]))
+        const newSelected = new Map<string, boolean>((value as CharacterId[] ?? []).map((characterId: string) => [characterId, true]))
         setSelected(newSelected)
       }
     }
@@ -123,8 +123,8 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         maxTagPlaceholder={() => (
           <span>
             {
-              excludedRelicPotentialCharacters.length
-                ? t('MultiSelect.MaxTagPlaceholderSome', { count: excludedRelicPotentialCharacters.length })
+              value?.length
+                ? t('MultiSelect.MaxTagPlaceholderSome', { count: value?.length })
                 : t('MultiSelect.MaxTagPlaceholderNone')
               /* {count} characters excluded | all characters enabled */
             }
@@ -153,6 +153,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         title={multipleSelect ? t('MultiSelect.ModalTitle')/* select characters to exclude */ : t('SingleSelect.ModalTitle')/* select a character */}
         onCancel={() => {
           if (multipleSelect) {
+            console.log('selected: ', selected)
             if (onChange) onChange(selected)
           }
 
@@ -259,5 +260,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     </>
   )
 }
+
+export type CharacterSelectValueOut<T extends 'singleSelect' | 'multipleSelect' | 'any'> = T extends 'singleSelect'
+  ? CharacterId
+  : T extends 'multipleSelect'
+    ? Map<CharacterId, true>
+    : CharacterId | Map<CharacterId, true>
 
 export default CharacterSelect

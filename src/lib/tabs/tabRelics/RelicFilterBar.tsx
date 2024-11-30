@@ -230,6 +230,7 @@ export default function RelicFilterBar(props: {
       grade: [],
       verified: [],
       equippedBy: [],
+      restricted: [],
     })
   }
 

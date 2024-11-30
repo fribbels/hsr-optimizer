@@ -1,4 +1,4 @@
 RelicFilterBar:
-  ScoringButton: スコアリング方法の編集
+  ScoringButton: スコア計算方法
 Messages:
   AddRelicSuccess: 遺物を追加しました

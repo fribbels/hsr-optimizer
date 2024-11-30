@@ -91,9 +91,6 @@ CharacterPreview:
     CombatResults:
       Header: 結果
       Primary: "主に使うアビリティ"
-      Character: "与ダメージ（現在）"
-      Baseline: "与ダメージ（Baseline）"
-      Maximum: "与ダメージ（Maximum）"
       Score: "スコア比率%"
       Abilities:
         BASIC: 通常攻撃
@@ -105,9 +102,6 @@ CharacterPreview:
         COMBO: コンボ
   ScoringColumn:
     Character:
-      Header: "現在のビルド（{{score}}％）"
       Substats: サブステータス数（最小）
-    Perfect:
-      Header: "完璧なビルド（{{score}}%）"
   ScoringDetails:
     Header: DPSスコアはどのように計算されますか？

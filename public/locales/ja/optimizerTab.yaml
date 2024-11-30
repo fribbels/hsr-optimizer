@@ -8,6 +8,3 @@ MinMaxFilters:
   SKILLLabel: 戦闘スキル
   ULTLabel: 必殺技
   FUALabel: 追加攻撃
-StatSimulation:
-  ModeSelector:
-    Off: Off

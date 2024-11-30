@@ -1,3 +1,10 @@
-StatSimulation:
-  ModeSelector:
-    Off: Off
+CharacterSelector:
+  Character: キャラクター
+OptimizerOptions:
+  Priority:
+    Header: 優先順位
+MinMaxFilters:
+  BASICLabel: 通常攻撃
+  SKILLLabel: 戦闘スキル
+  ULTLabel: 必殺技
+  FUALabel: 追加攻撃

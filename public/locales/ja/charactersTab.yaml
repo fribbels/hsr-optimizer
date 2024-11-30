@@ -106,17 +106,8 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: "現在のビルド（{{score}}％）"
-      BasicStats: 非戦闘時のステータス（現在）
-      CombatStats: <1>戦闘中の</1>ステータス（現在）
       Substats: サブステータス数（最小）
-      Mainstats: メインステータス（現在）
-      Abilities: 与ダメージ（現在）
     Perfect:
       Header: "完璧なビルド（{{score}}%）"
-      BasicStats: 非戦闘時のステータス（完璧）
-      CombatStats: <1>戦闘中の</1>ステータス（完璧）
-      Substats: サブステータス数（最大）
-      Mainstats: メインステータス（完璧）
-      Abilities: 与ダメージ（完璧）
   ScoringDetails:
     Header: DPSスコアはどのように計算されますか？

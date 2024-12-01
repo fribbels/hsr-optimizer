@@ -10,8 +10,11 @@ OptimizerOptions:
   Priority:
     Header: Ưu tiên
 Grid:
+  To: tới
+  Of: của
   Headers:
     Basic:
+      Set: Bộ
       ATK: Tấn Công
       DEF: Phòng Thủ
       HP: HP
@@ -23,10 +26,15 @@ Grid:
       BE: BE
       OHB: OHB
       ERR: ERR
+    Combat:
+      Set: Bộ
 Sidebar:
   StatViewGroup:
     Header: Xem chỉ số và bộ lọc
 SetConditionals:
+  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
+  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
+  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
   SelectOptions:
     Wastelander:
       Debuffed:
@@ -67,13 +75,37 @@ MinMaxFilters:
   ULTLabel: Tuyệt kỹ
   FUALabel: Đòn Đánh Theo Sau
 TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
   RelicsPlaceholder: Di vật
+  TeammateSets:
+    Messenger:
+      Set: "$t(gameData:RelicSets.114.Name)"
+    Watchmaker:
+      Set: "$t(gameData:RelicSets.118.Name)"
+    Sacerdos1Stack:
+      Set: "$t(gameData:RelicSets.121.Name)"
+    Sacerdos2Stack:
+      Set: "$t(gameData:RelicSets.121.Name)"
+    Keel:
+      Set: "$t(gameData:RelicSets.310.Name)"
+    Ageless:
+      Set: "$t(gameData:RelicSets.302.Name)"
+    Penacony:
+      Set: "$t(gameData:RelicSets.312.Name)"
+    Lushaka:
+      Set: "$t(gameData:RelicSets.317.Name)"
 StatSimulation:
   SetSelection:
     Header: Bộ
+  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   MainStatsSelection:
     Header: Dòng Chính
     BodyPlaceholder: Thân
     FeetPlaceholder: Chân
     SpherePlaceholder: Quả Cầu Vi Diện
     RopePlaceholder: Dây Liên Kết
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
+    LabelStat: "$t(common:ReadableStats.{{stat}})"

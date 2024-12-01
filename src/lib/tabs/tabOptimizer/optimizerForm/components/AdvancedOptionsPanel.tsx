@@ -1,12 +1,13 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form } from 'antd'
+import { RelicRestrictionModal } from 'lib/overlays/modals/RelicRestrictionModal'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
 
-export const AdvancedOptionsPanel = () => {
+export function AdvancedOptionsPanel() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
   const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
   const setEnemyConfigurationsDrawerOpen = window.store((s) => s.setEnemyConfigurationsDrawerOpen)
@@ -37,11 +38,42 @@ export const AdvancedOptionsPanel = () => {
       >
         {t('EnemyConfigButtonText')/* Enemy configurations */}
       </Button>
-      <Button
-        icon={<SettingOutlined/>}
-      >
-        Reserved / Excluded relics (0)
-      </Button>
+      <RestrictionButton/>
     </Flex>
+  )
+}
+
+function RestrictionButton() {
+  const state = window.store() // window.store((s) => s.relicsById) doesn't update properly
+  const relics = Object.values(state.relicsById)
+  const characterId = state.optimizerTabFocusCharacter
+  const [restrictionModalOpen, setRestrictionModalOpen] = useState(false)
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          if (characterId) setRestrictionModalOpen(true)
+        }}
+      >
+        Reserved / Excluded relics (
+        {
+          !characterId
+            ? 0
+            : relics
+              .filter((x) => {
+                if (x.excluded.includes(characterId)) return true
+                return !!x.reserved
+              })
+              .length
+        }
+        )
+      </Button>
+      <RelicRestrictionModal
+        characterId={characterId}
+        relics={relics}
+        open={restrictionModalOpen}
+        setOpen={setRestrictionModalOpen}
+      />
+    </div>
   )
 }

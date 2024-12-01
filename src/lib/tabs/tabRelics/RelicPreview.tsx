@@ -7,6 +7,7 @@ import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
+import DB from 'lib/state/db'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
@@ -84,23 +85,32 @@ export function RelicPreview(props: {
 
   function reserveRelic() {
     if (!props.relic || !props.characterId) return
-    props.relic.excluded = []
-    props.relic.reserved = props.characterId
-    props.relic.filterMode = 'reserve'
+    const newRelic: Relic = props.relic
+    newRelic.excluded = []
+    newRelic.reserved = props.characterId
+    newRelic.filterMode = 'reserve'
+    DB.setRelic(newRelic)
+    window.setRelicRows(DB.getRelics()) // need to manually trigger a re-render of the grid to update restriction icons
   }
 
   function excludeRelic() {
     if (!props.relic || !props.characterId) return
-    props.relic.excluded.push(props.characterId)
-    props.relic.reserved = undefined
-    props.relic.filterMode = 'exclude'
+    const newRelic: Relic = props.relic
+    newRelic.excluded.push(props.characterId)
+    newRelic.reserved = undefined
+    newRelic.filterMode = 'exclude'
+    DB.setRelic(newRelic)
+    window.setRelicRows(DB.getRelics())
   }
 
   function clearRestrictions() {
     if (!props.relic || !props.characterId) return
-    props.relic.excluded = []
-    props.relic.reserved = undefined
-    props.relic.filterMode = 'none'
+    const newRelic: Relic = props.relic
+    newRelic.excluded = []
+    newRelic.reserved = undefined
+    newRelic.filterMode = 'none'
+    DB.setRelic(newRelic)
+    window.setRelicRows(DB.getRelics())
   }
 
   return (

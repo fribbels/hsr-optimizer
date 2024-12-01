@@ -40,14 +40,56 @@ export default function OptimizerBuildPreview() {
   return (
     <div>
       <Flex gap={5} id='optimizerBuildPreviewContainer'>
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={headRelic} score={headScore} withHoverButtons/>
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={handsRelic} score={handsScore} withHoverButtons/>
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={bodyRelic} score={bodyScore} withHoverButtons/>
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={feetRelic} score={feetScore} withHoverButtons/>
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={planarSphereRelic} score={planarSphereScore} withHoverButtons/>
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={linkRopeRelic} score={linkRopeScore} withHoverButtons/>
+        <RelicPreview
+          setEditModalOpen={setEditModalOpen}
+          setSelectedRelic={setSelectedRelic}
+          relic={headRelic}
+          score={headScore}
+          withHoverButtons
+        />
+        <RelicPreview
+          setEditModalOpen={setEditModalOpen}
+          setSelectedRelic={setSelectedRelic}
+          relic={handsRelic}
+          score={handsScore}
+          withHoverButtons
+        />
+        <RelicPreview
+          setEditModalOpen={setEditModalOpen}
+          setSelectedRelic={setSelectedRelic}
+          relic={bodyRelic}
+          score={bodyScore}
+          withHoverButtons
+        />
+        <RelicPreview
+          setEditModalOpen={setEditModalOpen}
+          setSelectedRelic={setSelectedRelic}
+          relic={feetRelic}
+          score={feetScore}
+          withHoverButtons
+        />
+        <RelicPreview
+          setEditModalOpen={setEditModalOpen}
+          setSelectedRelic={setSelectedRelic}
+          relic={planarSphereRelic}
+          score={planarSphereScore}
+          withHoverButtons
+        />
+        <RelicPreview
+          setEditModalOpen={setEditModalOpen}
+          setSelectedRelic={setSelectedRelic}
+          relic={linkRopeRelic}
+          score={linkRopeScore}
+          withHoverButtons
+        />
       </Flex>
-      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
+      <RelicModal
+        selectedRelic={selectedRelic}
+        type='edit'
+        onOk={onEditOk}
+        setOpen={setEditModalOpen}
+        open={editModalOpen}
+      />
     </div>
   )
 }

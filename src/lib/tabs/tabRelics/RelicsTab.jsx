@@ -49,12 +49,6 @@ export default function RelicsTab() {
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
 
-  const inventoryWidth = window.store((s) => s.inventoryWidth)
-  const setInventoryWidth = window.store((s) => s.setInventoryWidth)
-
-  const rowLimit = window.store((s) => s.rowLimit)
-  const setRowLimit = window.store((s) => s.setRowLimit)
-
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
   const relicInsightOptions = [
@@ -192,42 +186,6 @@ export default function RelicsTab() {
     // Apply to grid
     window.relicsGrid.current.api.setFilterModel(filterModel)
   }, [relicTabFilters])
-
-  const [relicPositionIndex, setRelicPositionIndex] = useState(0)
-  const [locatorFilters, setLocatorFilters] = useState({ set: undefined, part: undefined })
-
-  useEffect(() => {
-    if (!selectedRelic) return
-    const indexLimit = Math.max(1, rowLimit) * Math.max(1, inventoryWidth)
-    const newerRelics = DB.getRelics().filter((x) => x.ageIndex <= selectedRelic.ageIndex)
-
-    // No filter
-    // if (selectedRelic.ageIndex < indexLimit) {
-    //   setRelicPositionIndex(selectedRelic.ageIndex)
-    //   setLocatorFilters({ set: undefined, part: undefined })
-    //   return
-    // }
-
-    // Part-only filter
-    const partFilteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part).length - 1
-    if (partFilteredIndex < indexLimit) {
-      setRelicPositionIndex(partFilteredIndex)
-      setLocatorFilters({ set: undefined, part: selectedRelic.part })
-      return
-    }
-
-    // Set-only filter
-    // const setFilteredIndex = newerRelics.filter((x) => selectedRelic.set == x.set).length - 1
-    // if (setFilteredIndex < indexLimit) {
-    //   setRelicPositionIndex(setFilteredIndex)
-    //   setLocatorFilters({ set: selectedRelic.set, part: undefined })
-    //   return
-    // }
-
-    const filteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part && selectedRelic.set == x.set).length - 1
-    setRelicPositionIndex(filteredIndex)
-    setLocatorFilters({ set: selectedRelic.set, part: selectedRelic.part })
-  }, [selectedRelic, inventoryWidth, rowLimit])
 
   const valueColumnOptions = useMemo(() => [
     {
@@ -736,9 +694,7 @@ export default function RelicsTab() {
           <Button type='primary' onClick={addClicked} style={{ width: 170 }}>
             {t('Toolbar.AddRelic')/* Add New Relic */}
           </Button>
-
           <RelicLocator selectedRelic={selectedRelic}/>
-
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicLocation()}/>
           </Flex>

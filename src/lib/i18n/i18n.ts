@@ -33,10 +33,20 @@ export const languages = {
     nativeName: '日本語',
     shortName: '日本語',
   },
+  ko: {
+    locale: 'ko',
+    nativeName: '한국인',
+    shortName: '한국인',
+  },
   pt: {
     locale: 'pt',
     nativeName: 'Português (BR)',
     shortName: 'Português',
+  },
+  vi: {
+    locale: 'vi',
+    nativeName: 'tiếng việt',
+    shortName: 'tiếng việt',
   },
   zh: {
     locale: 'zh',
@@ -52,10 +62,6 @@ export const languages = {
         locale: 'id',
         nativeName: 'Bahasa Indonesia',
       },
-      ko: {
-        locale: 'ko',
-        nativeName: '한국인',
-      },
       ru: {
         locale: 'ru',
         nativeName: 'русский',
@@ -63,10 +69,6 @@ export const languages = {
       th: {
         locale: 'th',
         nativeName: ' ไทย',
-      },
-      vi: {
-        locale: 'vi',
-        nativeName: 'tiếng việt',
       },
   */
 } as const

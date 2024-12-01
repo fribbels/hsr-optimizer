@@ -1,4 +1,4 @@
-import { AimOutlined, LineChartOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
+import { AimOutlined, ClearOutlined, LineChartOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
 import { Button, Card, Divider, Flex, Modal } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { iconSize } from 'lib/constants/constantsUi'
@@ -82,6 +82,27 @@ export function RelicPreview(props: {
     }
   }
 
+  function reserveRelic() {
+    if (!props.relic || !props.characterId) return
+    props.relic.excluded = []
+    props.relic.reserved = props.characterId
+    props.relic.filterMode = 'reserve'
+  }
+
+  function excludeRelic() {
+    if (!props.relic || !props.characterId) return
+    props.relic.excluded.push(props.characterId)
+    props.relic.reserved = undefined
+    props.relic.filterMode = 'exclude'
+  }
+
+  function clearRestrictions() {
+    if (!props.relic || !props.characterId) return
+    props.relic.excluded = []
+    props.relic.reserved = undefined
+    props.relic.filterMode = 'none'
+  }
+
   return (
     <Card
       rootClassName='RelicPreviewCard'
@@ -144,13 +165,14 @@ export function RelicPreview(props: {
         </Flex>
 
         <Divider style={{ margin: '6px 0px 6px 0px' }}/>
-        <div style={{ height: 22, overflowX: 'clip', width: cardWidth, paddingRight: 12, paddingLeft: 12, position: 'relative', right: 12 }}>
+        <div style={{ height: 22, overflowX: 'clip', width: 188, position: 'relative' }}>
           <Flex
             aria-hidden={!relic.id || (hovered && withHoverButtons)}
             justify='space-between'
             style={{
               height: 22,
               position: 'relative',
+              paddingRight: 12,
               zIndex: 1,
               opacity: !(hovered && withHoverButtons) ? 1 : 0,
               transition: 'opacity 0.5s cubic-bezier(.23,1,.32,1)',
@@ -176,27 +198,39 @@ export function RelicPreview(props: {
             style={{
               bottom: 28,
               position: 'relative',
+              paddingRight: 12,
               zIndex: 2,
               transform: `translateX(${hovered && withHoverButtons && relic.id ? 0 : 190}px)`,
               transition: 'transform 0.5s cubic-bezier(.23,1,.32,1)',
             }}
           >
             <HoverButton
-              label={<LockOutlined title='reserve relic'/>}
-              onClick={() => Message.success('Reserve clicked')}
+              title='reserve relic'
+              label={<LockOutlined/>}
+              onClick={reserveRelic}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}
               borderColor={showcaseTheme?.cardBorderColor}
             />
             <HoverButton
-              label={<StopOutlined title='exclude relic'/>}
-              onClick={() => Message.success('Exclude clicked')}
+              title='exclude relic'
+              label={<StopOutlined/>}
+              onClick={excludeRelic}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}
               borderColor={showcaseTheme?.cardBorderColor}
             />
             <HoverButton
-              label={<AimOutlined title='find in inventory'/>}
+              title='remove restrictions'
+              label={<ClearOutlined/>}
+              onClick={clearRestrictions}
+              setButtonHovered={setButtonHovered}
+              backgroundColor={showcaseTheme?.cardBackgroundColor}
+              borderColor={showcaseTheme?.cardBorderColor}
+            />
+            <HoverButton
+              title='find in inventory'
+              label={<AimOutlined/>}
               onClick={() => {
                 setLocatorOpen(true)
                 setHovered(false)
@@ -207,7 +241,8 @@ export function RelicPreview(props: {
               borderColor={showcaseTheme?.cardBorderColor}
             />
             <HoverButton
-              label={<LineChartOutlined title='view in relics tab'/>}
+              title='view in relics tab'
+              label={<LineChartOutlined/>}
               onClick={() => window.viewRelicInGrid(relic.id)}
               setButtonHovered={setButtonHovered}
               backgroundColor={showcaseTheme?.cardBackgroundColor}
@@ -225,11 +260,13 @@ function HoverButton(props: {
   label: string | number | ReactElement
   onClick: () => void
   setButtonHovered: (hovered: boolean) => void
+  title?: string
   backgroundColor?: React.CSSProperties['backgroundColor']
   borderColor?: React.CSSProperties['color']
 }) {
   return (
     <Button
+      title={props.title}
       style={{
         padding: 2,
         height: 30,

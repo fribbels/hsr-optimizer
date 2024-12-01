@@ -153,7 +153,6 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         title={multipleSelect ? t('MultiSelect.ModalTitle')/* select characters to exclude */ : t('SingleSelect.ModalTitle')/* select a character */}
         onCancel={() => {
           if (multipleSelect) {
-            console.log('selected: ', selected)
             if (onChange) onChange(selected)
           }
 

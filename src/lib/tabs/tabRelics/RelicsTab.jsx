@@ -178,6 +178,15 @@ export default function RelicsTab() {
       operator: 'OR',
     }
 
+    filterModel.filterMode = {
+      conditions: relicTabFilters.filterMode.map((x) => ({
+        filterType: 'text',
+        type: 'equals',
+        filter: x,
+      })),
+      operator: 'OR',
+    }
+
     console.log('FilterModel', filterModel)
 
     // Apply to grid
@@ -305,6 +314,13 @@ export default function RelicsTab() {
 
   const columnDefs = useMemo(() => [
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
+    {
+      field: 'filterMode',
+      headerName: 'Wearer',
+      width: 40,
+      cellRenderer: Renderer.renderFilterModeCell,
+      filter: 'agTextColumnFilter',
+    },
     {
       field: 'equippedBy',
       headerName: t('RelicGrid.Headers.EquippedBy')/* Owner */,

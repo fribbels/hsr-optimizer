@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
+import { Button, Divider, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
 import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
@@ -24,7 +24,7 @@ import { Relic, Stat } from 'types/relic'
 
 const { useToken } = theme
 
-function RadioIcon(props) {
+function RadioIcon(props: { value: string; src: string }) {
   return (
     <Radio.Button value={props.value} style={{ height: 35, width: 50, paddingLeft: 10 }}>
       <Image
@@ -34,11 +34,6 @@ function RadioIcon(props) {
       />
     </Radio.Button>
   )
-}
-
-RadioIcon.propTypes = {
-  value: PropTypes.string,
-  src: PropTypes.string,
 }
 
 const InputNumberStyled = styled(InputNumber)`
@@ -64,7 +59,7 @@ function renderSubstat(relic: Relic, index: number): Stat {
   return renderStat(stat, value, relic)
 }
 
-function renderStat(stat: string, value: number, relic?: Relic): Stat {
+function renderStat<T>(stat: T, value: number, relic?: Relic): { stat: T; value: string | number } {
   if (stat == Stats.SPD) {
     if (relic?.verified) {
       return {
@@ -132,13 +127,13 @@ export default function RelicModal(props: {
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
   useEffect(() => {
-    let defaultValues = {
+    let defaultValues: RelicForm = {
       grade: 5,
       enhance: 15,
       part: Constants.Parts.Head,
       mainStatType: Constants.Stats.HP,
       mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
-    }
+    } as RelicForm
 
     const relic = props.selectedRelic
     if (!relic || props.type != 'edit') {
@@ -160,6 +155,9 @@ export default function RelicModal(props: {
         substatValue2: renderSubstat(relic, 2).value,
         substatType3: renderSubstat(relic, 3).stat,
         substatValue3: renderSubstat(relic, 3).value,
+        reserved: relic.reserved,
+        excluded: relic.excluded,
+        filterMode: relic.filterMode,
       }
     }
     onValuesChange(defaultValues)
@@ -462,6 +460,7 @@ export default function RelicModal(props: {
               />
             </Flex>
           </Flex>
+          <Divider style={{ margin: 8 }}/>
           <RelicRestriction form={relicForm} relic={props.selectedRelic}/>
         </Flex>
       </Modal>
@@ -580,22 +579,24 @@ function SubstatInput(props: {
 }
 
 function RelicRestriction(props: { form: FormInstance; relic?: Relic }) {
+  const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const [singleSelectOpen, setSingleSelectOpen] = useState(false)
   const [multiSelectOpen, setMultiSelectOpen] = useState(false)
-  useEffect(() => {
-    props.form.setFieldValue('reserved', props?.relic?.reserved)
-    props.form.setFieldValue('excluded', props?.relic?.excluded ?? [])
-  }, [props])
+  const [state, setState] = useState(false)
   function openReserve() {
     setSingleSelectOpen(true)
   }
   function openExclude() {
     setMultiSelectOpen(true)
   }
+  function updateState() {
+    setState(!state)
+  }
   function handleChange(x: CharacterSelectValueOut<'any'>) {
     if (typeof x === 'string') {
       props.form.setFieldValue('reserved', x)
       props.form.setFieldValue('excluded', [])
+      props.form.setFieldValue('filterMode', 'reserve')
     } else {
       const excludedIds = (
         Array.from(x || new Map<CharacterId, boolean>())
@@ -604,36 +605,61 @@ function RelicRestriction(props: { form: FormInstance; relic?: Relic }) {
       )
       props.form.setFieldValue('excluded', excludedIds)
       props.form.setFieldValue('reserved', undefined)
+      props.form.setFieldValue('filterMode', excludedIds.length ? 'exclude' : 'none')
     }
   }
   if (!props.relic) return
   return (
-    <Flex gap={8}>
-      <Form.Item name='excluded'>
-        <CharacterSelect
-          selectStyle={{ display: 'none' }}
-          value={undefined} // value assigned at load by useEffect
-          externalOpen={multiSelectOpen}
-          setExternalOpen={setMultiSelectOpen}
-          onChange={handleChange}
-          multipleSelect
-        />
-      </Form.Item>
-      <Form.Item name='reserved'>
-        <CharacterSelect
-          selectStyle={{ display: 'none' }}
-          value={undefined} // value assigned at load by useEffect
-          externalOpen={singleSelectOpen}
-          setExternalOpen={setSingleSelectOpen}
-          onChange={handleChange}
-        />
-      </Form.Item>
-      <Button onClick={openReserve}>
-        reserve ({props?.relic?.reserved})
-      </Button>
-      <Button onClick={openExclude}>
-        exclude
-      </Button>
+    <Flex>
+      <div style={{ width: 0, height: 30 }}>
+        <Form.Item name='excluded'>
+          <CharacterSelect
+            selectStyle={{ display: 'none' }}
+            value={undefined}
+            externalOpen={multiSelectOpen}
+            setExternalOpen={setMultiSelectOpen}
+            onChange={handleChange}
+            multipleSelect
+          />
+        </Form.Item>
+        <Form.Item name='reserved'>
+          <CharacterSelect
+            selectStyle={{ display: 'none' }}
+            value={undefined}
+            externalOpen={singleSelectOpen}
+            setExternalOpen={setSingleSelectOpen}
+            onChange={handleChange}
+          />
+        </Form.Item>
+        <Form.Item name='filterMode'>
+          <Select options={[{ value: 'exclude' }, { value: 'reserve' }, { value: 'none' }]} style={{ display: 'none' }}/>
+        </Form.Item>
+      </div>
+      <Flex gap={8} style={{ height: 30 }} align='center'>
+        <Button onClick={openReserve}>
+          reserve
+        </Button>
+        <Button onClick={openExclude}>
+          exclude
+        </Button>
+        <Button onClick={() => {
+          props.form.setFieldValue('reserved', undefined)
+          props.form.setFieldValue('excluded', [])
+          props.form.setFieldValue('filterMode', 'none')
+          updateState()
+        }}
+        >
+          clear
+        </Button>
+        {
+          props.form.getFieldValue('reserved')
+          // @ts-ignore
+            ? `Relic reserved for ${t(`${props.form.getFieldValue('reserved')}.LongName`)}`
+            : (props.form.getFieldValue('excluded') as CharacterId[]).length
+              ? `Relic excluded for ${(props.form.getFieldValue('excluded') as CharacterId[]).length} characters`
+              : ''
+        }
+      </Flex>
     </Flex>
   )
 }

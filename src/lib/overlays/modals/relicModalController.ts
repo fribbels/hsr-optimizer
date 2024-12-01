@@ -11,7 +11,7 @@ import { partIsOrnament, partIsRelic } from 'lib/utils/relicUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
-import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
+import { FilterMode, Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
 
 export type RelicUpgradeValues = {
   low: number | undefined
@@ -42,6 +42,7 @@ export type RelicForm = {
   equippedBy: string
   reserved: CharacterId | undefined
   excluded: CharacterId[]
+  filterMode: FilterMode
 }
 
 export const RelicModalController = {
@@ -167,6 +168,7 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     },
     excluded: relicForm.excluded,
     reserved: relicForm.reserved,
+    filterMode: relicForm.filterMode,
   } as Relic
 
   const substats: { stat: SubStats; value: number }[] = []

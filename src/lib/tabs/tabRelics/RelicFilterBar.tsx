@@ -1,4 +1,4 @@
-import { ClearOutlined } from '@ant-design/icons'
+import { ClearOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
 import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { useSubscribe } from 'hooks/useSubscribe'
@@ -19,7 +19,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 import { DBMetadataCharacter } from 'types/metadata'
-import { Relic } from 'types/relic'
+import { FilterMode, Relic } from 'types/relic'
 import { RelicTabFilters } from 'types/store'
 
 const { useToken } = theme
@@ -128,6 +128,28 @@ export default function RelicFilterBar(props: {
     })
   }
 
+  function generateFilterModeTags(arr: FilterMode[]) {
+    return arr.map((x) => {
+      switch (x) {
+        case 'reserve':
+          return {
+            key: x,
+            display: <LockOutlined style={{ fontSize: '16px', color: 'white' }}/>,
+          }
+        case 'exclude':
+          return {
+            key: x,
+            display: <StopOutlined style={{ fontSize: '16px', color: 'white' }}/>,
+          }
+        case 'none':
+          return {
+            key: x,
+            display: <ClearOutlined style={{ fontSize: '16px', color: 'white' }}/>,
+          }
+      }
+    })
+  }
+
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags(['true', 'false'])
   const setsData = generateImageTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]),
@@ -137,6 +159,7 @@ export default function RelicFilterBar(props: {
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
   const equippedByData = generateEquippedByTags(['true', 'false'])
+  const restrictedData = generateFilterModeTags(['reserve', 'exclude', 'none'])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -230,7 +253,7 @@ export default function RelicFilterBar(props: {
       grade: [],
       verified: [],
       equippedBy: [],
-      restricted: [],
+      filterMode: [],
     })
   }
 
@@ -272,6 +295,10 @@ export default function RelicFilterBar(props: {
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Equipped')/* Equipped */}</HeaderText>
           <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%'/>
+        </Flex>
+        <Flex vertical flex={0.40}>
+          <HeaderText>Restricted</HeaderText>
+          <FilterRow name='filterMode' tags={restrictedData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear')/* Clear */}</HeaderText>

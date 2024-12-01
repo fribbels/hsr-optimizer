@@ -1,0 +1,13 @@
+GPU:
+  Message: WebGPU không được hỗ trợ trên trình duyệt này!
+  Description:
+    l1: "Vui lòng sử dụng một trong các trình duyệt hỗ trợ sau để kích hoạt tăng tốc GPU:"
+    l2: "Windows & Mac — Chrome, Opera, Edge"
+    l3: >-
+      Linux — <CustomLink text="Behind a flag"/>
+    l4: "Nếu bạn đang sử dụng một trong các trình duyệt được hỗ trợ mà vẫn không hoạt động, hãy thử sử dụng trình duyệt khác hoặc chuyển trình duyệt của bạn sang sử dụng card đồ họa rời thay vì tích hợp."
+Changelog:
+  View: Xem nhật ký thay đổi
+  Dismiss: Bỏ qua
+  Message: Bản cập nhật mới!
+  Description: Hãy xem nhật ký thay đổi để cập nhật các tối ưu hóa mới nhất.

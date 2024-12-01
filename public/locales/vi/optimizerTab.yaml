@@ -1,0 +1,79 @@
+CharacterSelector:
+  Character: Nhân vật
+  Lightcone: Nón Ánh Sáng
+LightconePassives: Kỹ Năng Nón Ánh Sáng
+CharacterPassives: Nội tại nhân vật
+MainStats: Dòng Chính
+Sets: Bộ
+OptimizerOptions:
+  Header: Tùy chọn tối ưu hóa
+  Priority:
+    Header: Ưu tiên
+Grid:
+  Headers:
+    Basic:
+      ATK: Tấn Công
+      DEF: Phòng Thủ
+      HP: HP
+      SPD: Tốc Độ
+      CR: CR
+      CD: CD
+      EHR: EHR
+      RES: RES
+      BE: BE
+      OHB: OHB
+      ERR: ERR
+Sidebar:
+  StatViewGroup:
+    Header: Xem chỉ số và bộ lọc
+SetConditionals:
+  SelectOptions:
+    Wastelander:
+      Debuffed:
+        Display: CR
+CombatBuffs:
+  ATK: Tấn Công
+  ATK_P: ATK %
+  HP: HP
+  HP_P: HP %
+  DEF: Phòng Thủ
+  DEF_P: DEF %
+  SPD: Tốc Độ
+  SPD_P: SPD %
+WeightFilter:
+  WeightFilterHeader: Bộ lọc trọng thuộc tính phụ.
+  HPFilterText: HP
+  ATKFilterText: Tấn Công
+  DEFFilterText: Phòng Thủ
+  SPDFilterText: Tốc Độ
+  CRFilterText: CR
+  CDFilterText: CD
+  EHRFilterText: EHR
+  RESFilterText: RES
+  BEFilterText: BE
+MinMaxFilters:
+  HPLabel: HP
+  ATKLabel: Tấn Công
+  DEFLabel: Phòng Thủ
+  SPDLabel: Tốc Độ
+  CRLabel: CR
+  CDLabel: CD
+  EHRLabel: EHR
+  RESLabel: RES
+  BELabel: BE
+  ERRLabel: ERR
+  BASICLabel: Đánh Đơn
+  SKILLLabel: Chiến kỹ
+  ULTLabel: Tuyệt kỹ
+  FUALabel: Đòn Đánh Theo Sau
+TeammateCard:
+  RelicsPlaceholder: Di vật
+StatSimulation:
+  SetSelection:
+    Header: Bộ
+  MainStatsSelection:
+    Header: Dòng Chính
+    BodyPlaceholder: Thân
+    FeetPlaceholder: Chân
+    SpherePlaceholder: Quả Cầu Vi Diện
+    RopePlaceholder: Dây Liên Kết

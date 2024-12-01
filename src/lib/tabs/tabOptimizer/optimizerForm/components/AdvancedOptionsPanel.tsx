@@ -54,6 +54,7 @@ function RestrictionButton() {
         onClick={() => {
           if (characterId) setRestrictionModalOpen(true)
         }}
+        style={{ width: '100%' }}
       >
         Reserved / Excluded relics (
         {
@@ -68,12 +69,14 @@ function RestrictionButton() {
         }
         )
       </Button>
-      <RelicRestrictionModal
-        characterId={characterId}
-        relics={relics}
-        open={restrictionModalOpen}
-        setOpen={setRestrictionModalOpen}
-      />
+      {characterId && (
+        <RelicRestrictionModal
+          characterId={characterId}
+          relics={relics}
+          open={restrictionModalOpen}
+          setOpen={setRestrictionModalOpen}
+        />
+      )}
     </div>
   )
 }

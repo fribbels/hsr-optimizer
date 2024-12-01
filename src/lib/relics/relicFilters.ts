@@ -266,6 +266,19 @@ export const RelicFilters = {
     return relics
   },
 
+  applyReserveExcludeFilter: (request: Form, relics: Relic[]) => {
+    return relics.filter((relic) => {
+      switch (relic.filterMode) {
+        case 'none':
+          return true
+        case 'reserve':
+          return relic.reserved === request.characterId
+        case 'exclude':
+          return !relic.excluded.includes(request.characterId)
+      }
+    })
+  },
+
   condenseRelicSubstatsForOptimizerSingle: (relics: Relic[]) => {
     for (const relic of relics) {
       relic.condensedStats = []

@@ -46,7 +46,7 @@ export function RelicRestrictionModal(props: RelicRestrictionModalProps) {
       onCancel={() => props.setOpen(false)}
       onOk={() => props.setOpen(false)}
     >
-      <div style={{ height: '100%', width: '100%' }}>
+      <Flex vertical style={{ height: '100%', width: '100%' }}>
         <HeaderText>Excluded relics ({excludedRelics.length}):</HeaderText>
         <Flex gap={16} style={{ overflowX: 'clip', overflow: 'scroll', height: 300 }}>
           {...(excludedRelics.map((x) => {
@@ -90,7 +90,7 @@ export function RelicRestrictionModal(props: RelicRestrictionModalProps) {
           }))}
         </Flex>
         <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen}/>
-      </div>
+      </Flex>
     </Modal>
   )
 }

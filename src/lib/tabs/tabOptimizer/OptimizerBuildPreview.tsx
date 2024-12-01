@@ -41,6 +41,7 @@ export default function OptimizerBuildPreview() {
     <div>
       <Flex gap={5} id='optimizerBuildPreviewContainer'>
         <RelicPreview
+          characterId={characterId}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           relic={headRelic}
@@ -48,6 +49,7 @@ export default function OptimizerBuildPreview() {
           withHoverButtons
         />
         <RelicPreview
+          characterId={characterId}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           relic={handsRelic}
@@ -55,6 +57,7 @@ export default function OptimizerBuildPreview() {
           withHoverButtons
         />
         <RelicPreview
+          characterId={characterId}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           relic={bodyRelic}
@@ -62,6 +65,7 @@ export default function OptimizerBuildPreview() {
           withHoverButtons
         />
         <RelicPreview
+          characterId={characterId}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           relic={feetRelic}
@@ -69,6 +73,7 @@ export default function OptimizerBuildPreview() {
           withHoverButtons
         />
         <RelicPreview
+          characterId={characterId}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           relic={planarSphereRelic}
@@ -76,6 +81,7 @@ export default function OptimizerBuildPreview() {
           withHoverButtons
         />
         <RelicPreview
+          characterId={characterId}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           relic={linkRopeRelic}

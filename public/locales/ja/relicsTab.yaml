@@ -13,6 +13,7 @@ RelicFilterBar:
   ScoringButton: スコア計算方法の変更
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
+  CustomCharsHeader: ポテンシャル評価の対象のカスタマイズ
 Messages:
   AddRelicSuccess: 遺物を追加しました
   NoRelicSelected: 遺物が選択されていません
@@ -73,6 +74,8 @@ RelicGrid:
         Header: |-
           選択キャラの最
           大ポテンシャル
+    CustomCharacters:
+      Label: カスタマイズされたポテンシャル評価の対象
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:

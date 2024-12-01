@@ -16,8 +16,6 @@ CharacterMenu:
       View: 保存されたビルドを表示
   Scoring:
     Label: スコア計算
-    Options:
-      ScoringModal: スコア計算方法
   Priority:
     Label: 優先順位
     Options:

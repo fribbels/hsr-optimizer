@@ -3,11 +3,8 @@ ScreenshotMessages:
   ScreenshotFailed: クリップボードにコピーできませんでした。右側のダウンロードボタンをお試しください。
   DownloadSuccess: スクリーンショットをダウンロードしました
 CharacterMenu:
-  ButtonText: キャラクター メニュー
   Character:
-    Label: キャラクター
     Options:
-      Add: 新しいキャラクターを追加
       Edit: キャラクター/光円錐を編集
       Switch: 遺物を交換
       Unequip: 全ての遺物を外す
@@ -30,7 +27,6 @@ SearchPlaceholder: 検索
 GridHeaders:
   Icon: アイコン
   Priority: 優先順位
-  Character: キャラクター
 Messages:
   RemoveSuccess: キャラクターを削除しました
   UnequipSuccess: キャラクターの遺物を外しました
@@ -74,7 +70,6 @@ CharacterPreview:
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
     Header: サブステータス強化の比較
-    Roll: サブステ
   BuildAnalysis:
     Header: ビルド分析
     SimulationTeammates: パーティー編成

@@ -1,5 +1,3 @@
-CharacterSelector:
-  Character: キャラクター
 OptimizerOptions:
   Priority:
     Header: 優先順位

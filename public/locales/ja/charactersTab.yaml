@@ -70,7 +70,6 @@ CharacterPreview:
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
     Header: サブステータス強化の比較
-    Roll: サブステ
   BuildAnalysis:
     Header: ビルド分析
     SimulationTeammates: パーティー編成

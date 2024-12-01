@@ -74,7 +74,7 @@ RelicGrid:
           選択キャラの最
           大ポテンシャル
     AllCharacters:
-      Label: すべてのキャラクター
+      Label: 全キャラクター
       AvgPotCol:
         Label: "全キャラクターの平均ポテンシャル"
         Header: |-

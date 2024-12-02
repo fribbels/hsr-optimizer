@@ -106,14 +106,14 @@ Toolbar:
   RelicLocator:
     Width: インベントリの幅
     Filter: 行のしきい値
-    NoneSelected: 遺物を選択して場所を確認
+    NoneSelected: 場所を確認するには遺物を選択してください
     Location: "場所 - 行 {{rowIndex}} / 列 {{columnIndex}}"
   InsightOptions:
     Buckets: "遺物インサイト：バケツ"
     Top10: "遺物インサイト：トップ10"
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
-    PlotCustom: カスタム評価対象を表示
+    PlotCustom: カスタム評価対象のみ表示
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除

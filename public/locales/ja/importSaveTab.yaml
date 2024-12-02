@@ -58,7 +58,7 @@ Import:
 LoadData:
   Stage1:
     Label: ファイルからオプティマイザーのデータを読み込みます。
-    ButtonText: セーブデータを読み込む
+    ButtonText: データを読み込む
   Stage2:
     ErrorMsg: 無効な保存ファイルです。別のファイルで試してください。遺物スキャナーからインポートするつもりでしたか？
     Label: >-
@@ -68,7 +68,7 @@ LoadData:
     SuccessMessage: 完了！
 SaveData:
   Label: オプティマイザーのデータをファイルに保存します。
-  ButtonText: 保存する
+  ButtonText: データを保存する
   SuccessMessage: 完了
 ClearData:
   Label: オプティマイザーのすべてのデータを消去します。

@@ -16,7 +16,7 @@ import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import OptimizerOptionsDisplay from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerOptionsDisplay'
 import { OptimizerTabCharacterPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import RelicMainSetFilters from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters'
-import { MinMaxRatingFilters, MinMaxStatFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
+import { MinMaxStatFilters, MinMaxRatingFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
 import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'

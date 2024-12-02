@@ -444,7 +444,7 @@ a {
     transition: box-shadow 0.25s, border-color 0.25s !important;
 }
 
-.ant-card-hoverable:hover {
+.ant-card-hoverable:hover:not(.RelicPreviewCard) {
     border-color: rgba(255, 255, 255, 0.40) !important;
 }
 

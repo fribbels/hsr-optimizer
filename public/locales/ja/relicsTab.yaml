@@ -10,7 +10,7 @@ RelicFilterBar:
   Mainstat: メインステータス
   Substat: サブステータス
   ReapplyButton: スコアを更新
-  ScoringButton: スコア計算方法の変更
+  ScoringButton: スコア計算方法の編集
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
   CustomCharsHeader: ポテンシャル評価の対象のカスタマイズ
@@ -106,7 +106,7 @@ Toolbar:
   RelicLocator:
     Width: インベントリの幅
     Filter: 行のしきい値
-    NoneSelected: 場所を確認するには遺物を選択してください
+    NoneSelected: 遺物を選択して場所を確認
     Location: "場所 - 行 {{rowIndex}} / 列 {{columnIndex}}"
   InsightOptions:
     Buckets: "遺物インサイト：バケツ"

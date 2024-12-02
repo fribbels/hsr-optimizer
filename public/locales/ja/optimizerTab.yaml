@@ -176,7 +176,7 @@ Sidebar:
       NoneSelected: 行が選択されていません
       SimSelected: カスタムシミュレーションされた行はピン留めできません
       AlreadyPinned: 既にピン留めされています
-  Permutations: 順列
+  Permutations: 組み合わせ
   Perms: 合計
   Searched: 検索済み
   Results: 結果

@@ -108,16 +108,12 @@ CharacterPreview:
       Header: "現在のビルド（{{score}}％）"
       BasicStats: 現在の非戦闘時のステータス
       CombatStats: 現在の<1>戦闘中の</1>ステータス
-      Substats: サブステータス数（最小）
       Mainstats: 現在のメインステータス
       Abilities: 現在の与ダメージ
-    Benchmark:
-      Substats: サブステータス数（最小）
     Perfect:
       Header: "完璧なビルド（{{score}}%）"
       BasicStats: 完璧な非戦闘時のステータス
       CombatStats: 完璧な<1>戦闘中の</1>ステータス
-      Substats: サブステータス数（最大）
       Mainstats: 完璧なメインステータス
       Abilities: 完璧な与ダメージ
   ScoringDetails:

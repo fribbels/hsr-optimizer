@@ -53,7 +53,7 @@ OptimizerOptions:
     Header: Priorité
     Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
     Name: "# {{rank}}"
-  AllowEquipped: Permettre dreliques équipées
+  AllowEquipped: Permettre reliques équipées
   KeepCurrent: Garder reliques courantes
   Exclude: Exclure
   MinEnhance:

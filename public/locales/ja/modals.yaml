@@ -1,5 +1,8 @@
 EditCharacter:
   Character: キャラクター
+  Lightcone: 光円錐
 CharacterSelect:
   SingleSelect:
     Placeholder: キャラクター
+LightconeSelect:
+  Placeholder: 光円錐

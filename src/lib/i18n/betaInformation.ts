@@ -4,14 +4,14 @@ export const betaInformation: betaInformation = {
   en: {
     Characters: [
       {
-        id: '???',
+        id: 1401,
         value: {
           Name: 'The Herta',
           LongName: 'The Herta',
         },
       },
       {
-        id: '???',
+        id: 1402,
         value: {
           Name: 'Aglaea',
           LongName: 'Aglaea',
@@ -34,43 +34,43 @@ export const betaInformation: betaInformation = {
     ],
     Lightcones: [
       {
-        id: '????',
+        id: 23037,
         value: {
-          Name: 'Into the Unreachable',
+          Name: 'Into the Unreachable Veil',
         },
       },
       {
-        id: '????',
+        id: 23036,
         value: {
           Name: 'Time Woven Into Gold',
         },
       },
       {
-        id: '????',
+        id: 21051,
         value: {
-          Name: "Geniuses' Greetings",
+          Name: 'Geniuses\' Greetings',
         },
       },
       {
-        id: '????',
+        id: 21050,
         value: {
           Name: 'Sweat Now, Cry Less',
         },
       },
       {
-        id: '????',
+        id: 21052,
         value: {
           Name: 'Victory In a Blink',
         },
       },
       {
-        id: '????',
+        id: 20021,
         value: {
           Name: 'Shadowburn',
         },
       },
       {
-        id: '????',
+        id: 20022,
         value: {
           Name: 'Reminiscence',
         },
@@ -78,28 +78,28 @@ export const betaInformation: betaInformation = {
     ],
     RelicSets: [
       {
-        id: '????',
+        id: 123,
         value: {
           Name: 'Hero of Triumphant Song',
           Description2pc: 'Increases ATK by 12%.',
-          Description4pc: "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%."
-          + " When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by 30% for 2 turn(s).",
+          Description4pc: 'While the wearer\'s memosprite is on the field, increases the wearer\'s SPD by 6%.'
+            + ' When the wearer\'s memosprite attacks, increases the wearer and memosprite\'s CRIT DMG by 30% for 2 turn(s).',
         },
       },
       {
-        id: '????',
+        id: 124,
         value: {
           Name: 'Poet of Mourning Collapse',
           Description2pc: 'Increases Quantum DMG dealt by 10%.',
-          Description4pc: "Decreases the wearer's SPD by 12%. When entering battle, if the wearer's SPD is less than 110/95,"
-          + " increases the wearer's CRIT Rate by 20%/40%. This effect also applies to the wearer's memosprite.",
+          Description4pc: 'Decreases the wearer\'s SPD by 12%. When entering battle, if the wearer\'s SPD is less than 110/95,'
+            + ' increases the wearer\'s CRIT Rate by 20%/40%. This effect also applies to the wearer\'s memosprite.',
         },
       },
     ],
   },
 }
 
-type betaInformation = Partial<Record<InputLocale, { Characters: Character[];Lightcones: LightCone[];RelicSets: RelicSet[] }>>
+type betaInformation = Partial<Record<InputLocale, { Characters: Character[]; Lightcones: LightCone[]; RelicSets: RelicSet[] }>>
 type Character = { id: number; value: { Name: string; LongName: string } }
 type LightCone = { id: number; value: { Name: string } }
 type RelicSet = { id: number; value: { Name: string; Description2pc: string; Description4pc?: string } }

@@ -13,13 +13,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0.87, 0.87) // TODO
-  const enhancedSkillScaling = skill(e, 1.00, 1.00) // TODO
-  const enhancedSkillAoeScaling = skill(e, 0.50, 0.50) // TODO
-  const talentStackScaling = talent(e, 0.10, 0.10) // TODO
+  const skillScaling = skill(e, 0.70, 0.77)
+  const enhancedSkillScaling = skill(e, 0.80, 0.88)
+  const enhancedSkillAoeScaling = skill(e, 0.40, 0.44)
+  const talentStackScaling = talent(e, 0.08, 0.088)
 
-  const ultScaling = ult(e, 2.50, 2.50) // TODO
-  const ultAtkBuffScaling = ult(e, 0.80, 0.80) // TODO
+  const ultScaling = ult(e, 2.00, 2.20)
+  const ultAtkBuffScaling = ult(e, 0.64, 0.704)
 
   const defaults = {
     enhancedSkill: true,
@@ -118,11 +118,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const enhancedSkillStackScaling = talentStackScaling
         * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.60)
         * (r.eruditionTeammate ? 2 : 1)
-      x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling) * 3, Source.NONE)
+      x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 4 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 4), Source.NONE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(0, Source.NONE) // TODO
-      x.SKILL_TOUGHNESS_DMG.buff(0, Source.NONE) // TODO
-      x.ULT_TOUGHNESS_DMG.buff(0, Source.NONE) // TODO
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedSkill) ? 75 : 60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

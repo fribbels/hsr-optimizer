@@ -165,6 +165,8 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
     20018: {},
     20019: {},
     20020: {},
+    20021: {},
+    20022: {},
     21000: {
       1: { [Stats.ERR]: 0.08 },
       2: { [Stats.ERR]: 0.10 },
@@ -369,6 +371,27 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       3: { [Constants.Stats.SPD_P]: 0.10 },
       4: { [Constants.Stats.SPD_P]: 0.11 },
       5: { [Constants.Stats.SPD_P]: 0.12 },
+    },
+    21050: {
+      1: { [Constants.Stats.CD]: 0.12 },
+      2: { [Constants.Stats.CD]: 0.15 },
+      3: { [Constants.Stats.CD]: 0.18 },
+      4: { [Constants.Stats.CD]: 0.21 },
+      5: { [Constants.Stats.CD]: 0.24 },
+    },
+    21051: {
+      1: { [Constants.Stats.ATK_P]: 0.16 },
+      2: { [Constants.Stats.ATK_P]: 0.20 },
+      3: { [Constants.Stats.ATK_P]: 0.24 },
+      4: { [Constants.Stats.ATK_P]: 0.28 },
+      5: { [Constants.Stats.ATK_P]: 0.32 },
+    },
+    21052: {
+      1: { [Stats.CR]: 0.12 },
+      2: { [Stats.CR]: 0.14 },
+      3: { [Stats.CR]: 0.16 },
+      4: { [Stats.CR]: 0.18 },
+      5: { [Stats.CR]: 0.20 },
     },
     22000: {
       1: { [Stats.EHR]: 0.20 },
@@ -620,6 +643,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.BE]: 0.90 },
       5: { [Constants.Stats.BE]: 1.00 },
     },
+    23036: {
+      1: { [Constants.Stats.SPD]: 12 },
+      2: { [Constants.Stats.SPD]: 14 },
+      3: { [Constants.Stats.SPD]: 16 },
+      4: { [Constants.Stats.SPD]: 18 },
+      5: { [Constants.Stats.SPD]: 20 },
+    },
+    23037: {
+      1: { [Constants.Stats.CR]: 0.12 },
+      2: { [Constants.Stats.CR]: 0.14 },
+      3: { [Constants.Stats.CR]: 0.16 },
+      4: { [Constants.Stats.CR]: 0.18 },
+      5: { [Constants.Stats.CR]: 0.20 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -769,6 +806,16 @@ function getLightConeOverrideCenter(): Record<string, number> {
     24002: 170,
     24003: 250,
     24004: 270,
+
+    // TODO
+
+    23037: 170,
+    23036: 170,
+    21052: 170,
+    21051: 170,
+    21050: 170,
+    20022: 170,
+    20021: 170,
   }
 }
 
@@ -1089,6 +1136,16 @@ function getOverrideTraces(): Record<string, Record<string, number>> {
       [Stats.Imaginary_DMG]: 0.144,
       [Stats.RES]: 0.10,
     },
+    8007: { // Remembrance Trailblazer
+      [Stats.CD]: 0.373,
+      [Stats.ATK_P]: 0.14,
+      [Stats.HP_P]: 0.14,
+    },
+    8008: { // Remembrance Trailblazer
+      [Stats.CD]: 0.373,
+      [Stats.ATK_P]: 0.14,
+      [Stats.HP_P]: 0.14,
+    },
     1225: { // Fugue
       [Stats.SPD]: 14,
       [Stats.BE]: 0.24,
@@ -1097,6 +1154,16 @@ function getOverrideTraces(): Record<string, Record<string, number>> {
     1313: { // Sunday
       [Stats.CD]: 0.373,
       [Stats.RES]: 0.18,
+      [Stats.DEF_P]: 0.125,
+    },
+    1401: { // The Herta
+      [Stats.Ice_DMG]: 0.224,
+      [Stats.ATK_P]: 0.18,
+      [Stats.SPD]: 5,
+    },
+    1402: { // Aglaea
+      [Stats.Lightning_DMG]: 0.224,
+      [Stats.CR]: 0.12,
       [Stats.DEF_P]: 0.125,
     },
   }
@@ -1423,6 +1490,16 @@ function getOverrideImageCenter(): Record<string, {
       y: 1000,
       z: 1.1,
     },
+    8007: { // Imaginary Trailblazer M
+      x: 1024,
+      y: 1024,
+      z: 1.1,
+    },
+    8008: { // Imaginary Trailblazer F
+      x: 1024,
+      y: 1024,
+      z: 1.1,
+    },
     1225: { // Fugue
       x: 875,
       y: 1125,
@@ -1432,6 +1509,16 @@ function getOverrideImageCenter(): Record<string, {
       x: 1000,
       y: 950,
       z: 1.075,
+    },
+    1401: { // The Herta
+      x: 1024,
+      y: 1024,
+      z: 1.1,
+    },
+    1402: { // Aglaea
+      x: 1024,
+      y: 1024,
+      z: 1.1,
     },
   }
 }
@@ -6692,52 +6779,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
     },
-    9000: { // Aglaea
-      stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
-        [Stats.DEF]: 0,
-        [Stats.DEF_P]: 0,
-        [Stats.HP]: 0,
-        [Stats.HP_P]: 0,
-        [Stats.SPD]: 1,
-        [Stats.CR]: 1,
-        [Stats.CD]: 1,
-        [Stats.EHR]: 0,
-        [Stats.RES]: 0,
-        [Stats.BE]: 0,
-        [Stats.ERR]: 0,
-        [Stats.OHB]: 0,
-        [Stats.Physical_DMG]: 0,
-        [Stats.Fire_DMG]: 0,
-        [Stats.Ice_DMG]: 0,
-        [Stats.Lightning_DMG]: 1,
-        [Stats.Wind_DMG]: 0,
-        [Stats.Quantum_DMG]: 0,
-        [Stats.Imaginary_DMG]: 0,
-      },
-      parts: {
-        [Parts.Body]: [
-          Stats.CR,
-          Stats.CD,
-        ],
-        [Parts.Feet]: [
-          Stats.ATK_P,
-          Stats.SPD,
-        ],
-        [Parts.PlanarSphere]: [
-          Stats.ATK_P,
-          Stats.Lightning_DMG,
-        ],
-        [Parts.LinkRope]: [
-          Stats.ATK_P,
-        ],
-      },
-      presets: [],
-      sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
-    },
-    9001: { // The Herta
+    1401: { // The Herta
       stats: {
         [Stats.ATK]: 0.75,
         [Stats.ATK_P]: 0.75,
@@ -6805,39 +6847,83 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK,
         ],
         errRopeEidolon: 0,
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.RutilantArena,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: '1314', // Jade
+            lightCone: '23028', // Yet hope
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
         ],
       },
+    },
+    1402: { // Aglaea
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 1,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Lightning_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
     },
   }
 }

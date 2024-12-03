@@ -16,7 +16,9 @@ import Multiplication from 'lib/conditionals/lightcone/3star/Multiplication'
 import MutualDemise from 'lib/conditionals/lightcone/3star/MutualDemise'
 import Passkey from 'lib/conditionals/lightcone/3star/Passkey'
 import Pioneering from 'lib/conditionals/lightcone/3star/Pioneering'
+import Reminiscence from 'lib/conditionals/lightcone/3star/Reminiscence'
 import Sagacity from 'lib/conditionals/lightcone/3star/Sagacity'
+import Shadowburn from 'lib/conditionals/lightcone/3star/Shadowburn'
 import ShatteredHome from 'lib/conditionals/lightcone/3star/ShatteredHome'
 import Void from 'lib/conditionals/lightcone/3star/Void'
 import AfterTheCharmonyFall from 'lib/conditionals/lightcone/4star/AfterTheCharmonyFall'
@@ -35,6 +37,7 @@ import Fermata from 'lib/conditionals/lightcone/4star/Fermata'
 import FinalVictor from 'lib/conditionals/lightcone/4star/FinalVictor'
 import FlamesAfar from 'lib/conditionals/lightcone/4star/FlamesAfar'
 import ForTomorrowsJourney from 'lib/conditionals/lightcone/4star/ForTomorrowsJourney'
+import GeniusesGreetings from 'lib/conditionals/lightcone/4star/GeniusesGreetings'
 import GeniusesRepose from 'lib/conditionals/lightcone/4star/GeniusesRepose'
 import GoodNightAndSleepWell from 'lib/conditionals/lightcone/4star/GoodNightAndSleepWell'
 import HeyOverHere from 'lib/conditionals/lightcone/4star/HeyOverHere'
@@ -58,6 +61,7 @@ import RiverFlowsInSpring from 'lib/conditionals/lightcone/4star/RiverFlowsInSpr
 import ShadowedByNight from 'lib/conditionals/lightcone/4star/ShadowedByNight'
 import SharedFeeling from 'lib/conditionals/lightcone/4star/SharedFeeling'
 import SubscribeForMore from 'lib/conditionals/lightcone/4star/SubscribeForMore'
+import SweatNowCryLess from 'lib/conditionals/lightcone/4star/SweatNowCryLess'
 import Swordplay from 'lib/conditionals/lightcone/4star/Swordplay'
 import TheBirthOfTheSelf from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf'
 import TheDayTheCosmosFell from 'lib/conditionals/lightcone/4star/TheDayTheCosmosFell'
@@ -67,6 +71,7 @@ import ThisIsMe from 'lib/conditionals/lightcone/4star/ThisIsMe'
 import TodayIsAnotherPeacefulDay from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay'
 import TrendOfTheUniversalMarket from 'lib/conditionals/lightcone/4star/TrendOfTheUniversalMarket'
 import UnderTheBlueSky from 'lib/conditionals/lightcone/4star/UnderTheBlueSky'
+import VictoryInABlink from 'lib/conditionals/lightcone/4star/VictoryInABlink'
 import WarmthShortensColdNights from 'lib/conditionals/lightcone/4star/WarmthShortensColdNights'
 import WeAreWildfire from 'lib/conditionals/lightcone/4star/WeAreWildfire'
 import WeWillMeetAgain from 'lib/conditionals/lightcone/4star/WeWillMeetAgain'
@@ -89,6 +94,7 @@ import IncessantRain from 'lib/conditionals/lightcone/5star/IncessantRain'
 import InherentlyUnjustDestiny from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import InTheNameOfTheWorld from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
 import InTheNight from 'lib/conditionals/lightcone/5star/InTheNight'
+import IntotheUnreachableVeil from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import IShallBeMyOwnSword from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import IVentureForthToHunt from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import LongRoadLeadsHome from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
@@ -110,6 +116,7 @@ import TextureOfMemories from 'lib/conditionals/lightcone/5star/TextureOfMemorie
 import TheUnreachableSide from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import ThoseManySprings from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
+import TimeWovenIntoGold from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
@@ -161,6 +168,9 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   24002: TextureOfMemories,
   24003: SolitaryHealing,
   24004: EternalCalculus,
+
+  23037: IntotheUnreachableVeil,
+  23036: TimeWovenIntoGold,
 }
 
 const fourStar: Record<string, LightConeConditionalFunction> = {
@@ -218,6 +228,10 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   22001: HeyOverHere,
   22002: ForTomorrowsJourney,
   22003: NinjaRecordSoundHunt,
+
+  21051: GeniusesGreetings,
+  21050: SweatNowCryLess,
+  21052: VictoryInABlink,
 }
 
 const threeStar: Record<string, LightConeConditionalFunction> = {
@@ -242,6 +256,9 @@ const threeStar: Record<string, LightConeConditionalFunction> = {
   20018: HiddenShadow,
   20019: Mediation,
   20020: Sagacity,
+
+  20021: Shadowburn,
+  20022: Reminiscence,
 }
 
 export const lightConeOptionMapping: Record<string, LightConeConditionalFunction> = {

@@ -4,14 +4,14 @@ export const betaInformation: betaInformation = {
   en: {
     Characters: [
       {
-        id: '???',
+        id: 1401,
         value: {
           Name: 'The Herta',
           LongName: 'The Herta',
         },
       },
       {
-        id: '???',
+        id: 1402,
         value: {
           Name: 'Aglaea',
           LongName: 'Aglaea',
@@ -34,43 +34,43 @@ export const betaInformation: betaInformation = {
     ],
     Lightcones: [
       {
-        id: '????',
+        id: 23037,
         value: {
           Name: 'Into the Unreachable',
         },
       },
       {
-        id: '????',
+        id: 23036,
         value: {
           Name: 'Time Woven Into Gold',
         },
       },
       {
-        id: '????',
+        id: 21051,
         value: {
           Name: "Geniuses' Greetings",
         },
       },
       {
-        id: '????',
+        id: 21050,
         value: {
           Name: 'Sweat Now, Cry Less',
         },
       },
       {
-        id: '????',
+        id: 21052,
         value: {
           Name: 'Victory In a Blink',
         },
       },
       {
-        id: '????',
+        id: 20021,
         value: {
           Name: 'Shadowburn',
         },
       },
       {
-        id: '????',
+        id: 20022,
         value: {
           Name: 'Reminiscence',
         },
@@ -78,7 +78,7 @@ export const betaInformation: betaInformation = {
     ],
     RelicSets: [
       {
-        id: '????',
+        id: 123,
         value: {
           Name: 'Hero of Triumphant Song',
           Description2pc: 'Increases ATK by 12%.',
@@ -87,7 +87,7 @@ export const betaInformation: betaInformation = {
         },
       },
       {
-        id: '????',
+        id: 124,
         value: {
           Name: 'Poet of Mourning Collapse',
           Description2pc: 'Increases Quantum DMG dealt by 10%.',

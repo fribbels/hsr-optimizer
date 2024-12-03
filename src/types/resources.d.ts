@@ -2871,6 +2871,14 @@ interface Resources {
         "Name": "Rappa",
         "LongName": "Rappa"
       },
+      "1401": {
+        "Name": "The Herta",
+        "LongName": "The Herta"
+      },
+      "1402": {
+        "Name": "Aglaea",
+        "LongName": "Aglaea"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -2894,6 +2902,14 @@ interface Resources {
       "8006": {
         "Name": "Stelle",
         "LongName": "Stelle (Harmony)"
+      },
+      "8007": {
+        "Name": "Caelus",
+        "LongName": "Caelus (Remembrance)"
+      },
+      "8008": {
+        "Name": "Stelle",
+        "LongName": "Stelle (Remembrance)"
       }
     },
     "RelicSets": {
@@ -3006,6 +3022,16 @@ interface Resources {
         "Name": "Scholar Lost in Erudition",
         "Description2pc": "Increases CRIT Rate by 8%.",
         "Description4pc": "Increases DMG dealt by Skill and Ultimate by 20%. After using Ultimate, additionally increases the DMG dealt by the next Skill by 25%."
+      },
+      "123": {
+        "Name": "Hero of Triumphant Song",
+        "Description2pc": "Increases ATK by 12%.",
+        "Description4pc": "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by 30% for 2 turn(s)."
+      },
+      "124": {
+        "Name": "Poet of Mourning Collapse",
+        "Description2pc": "Increases Quantum DMG dealt by 10%.",
+        "Description4pc": "Decreases the wearer's SPD by 12%. When entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/40%. This effect also applies to the wearer's memosprite."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -3143,6 +3169,12 @@ interface Resources {
       },
       "20020": {
         "Name": "Sagacity"
+      },
+      "20021": {
+        "Name": "Shadowburn"
+      },
+      "20022": {
+        "Name": "Reminiscence"
       },
       "21000": {
         "Name": "Post-Op Conversation"
@@ -3291,6 +3323,15 @@ interface Resources {
       "21048": {
         "Name": "Dream's Montage"
       },
+      "21050": {
+        "Name": "Sweat Now, Cry Less"
+      },
+      "21051": {
+        "Name": "Geniuses' Greetings"
+      },
+      "21052": {
+        "Name": "Victory In a Blink"
+      },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
       },
@@ -3410,6 +3451,12 @@ interface Resources {
       },
       "23035": {
         "Name": "Long Road Leads Home"
+      },
+      "23036": {
+        "Name": "Time Woven Into Gold"
+      },
+      "23037": {
+        "Name": "Into the Unreachable"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"

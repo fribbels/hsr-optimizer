@@ -16,7 +16,8 @@ export function LanguageSelector() {
       display: (
         <Flex align='center' gap={10}>
           <img style={{ width: 22 }} src={Assets.getGlobe()}/>
-          {shortName + isBeta ? ` - ${locale}` : ''}
+          {shortName}
+          {isBeta ? ` - ${locale}` : ''}
         </Flex>
       ),
       label: (

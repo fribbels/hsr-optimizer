@@ -30,8 +30,10 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
   return [
-    { characterId: char('Fugue'), lightConeId: lc('Long Road Leads Home') },
-    { characterId: char('Sunday'), lightConeId: lc('A Grounded Ascent') },
+    { characterId: 1401, lightConeId: 23037 },
+    { characterId: 1402, lightConeId: 23036 },
+    { characterId: 8007, lightConeId: 21050, lightConeSuperimposition: 5 },
+    { characterId: 8008, lightConeId: 21050, lightConeSuperimposition: 5 },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }

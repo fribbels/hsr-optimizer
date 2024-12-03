@@ -1,0 +1,5 @@
+EditCharacter:
+  Character: 캐릭터
+CharacterSelect:
+  SingleSelect:
+    Placeholder: 캐릭터

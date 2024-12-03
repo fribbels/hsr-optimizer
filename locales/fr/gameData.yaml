@@ -128,6 +128,9 @@ Characters:
   "1224":
     Name: "March\_7th"
     LongName: "March\_7th (La Chasse)"
+  "1225":
+    Name: Pérégrine
+    LongName: Pérégrine
   "1301":
     Name: Gallagher
     LongName: Gallagher
@@ -161,6 +164,9 @@ Characters:
   "1312":
     Name: Micha
     LongName: Micha
+  "1313":
+    Name: Sunday
+    LongName: Sunday
   "1314":
     Name: Jade
     LongName: Jade
@@ -548,6 +554,10 @@ Lightcones:
     Name: Essence de l'encens
   "23033":
     Name: "Écritures ninjutsu\_: Justice éblouissante"
+  "23034":
+    Name: Ascension terrestre
+  "23035":
+    Name: Long est le chemin retour
   "24000":
     Name: La chute d'un Aiôn
   "24001":

@@ -128,6 +128,9 @@ Characters:
   "1224":
     Name: March 7th
     LongName: March 7th (Hunt)
+  "1225":
+    Name: Fugue
+    LongName: Fugue
   "1301":
     Name: Gallagher
     LongName: Gallagher
@@ -161,6 +164,9 @@ Characters:
   "1312":
     Name: Misha
     LongName: Misha
+  "1313":
+    Name: Sunday
+    LongName: Sunday
   "1314":
     Name: Jade
     LongName: Jade
@@ -548,6 +554,10 @@ Lightcones:
     Name: Scent Alone Stays True
   "23033":
     Name: "Ninjutsu Inscription: Dazzling Evilbreaker"
+  "23034":
+    Name: A Grounded Ascent
+  "23035":
+    Name: Long Road Leads Home
   "24000":
     Name: On the Fall of an Aeon
   "24001":

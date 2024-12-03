@@ -128,6 +128,9 @@ Characters:
   "1224":
     Name: "Mar.\_7th"
     LongName: "Mar.\_7th (수렵)"
+  "1225":
+    Name: 망귀인
+    LongName: 망귀인
   "1301":
     Name: 갤러거
     LongName: 갤러거
@@ -161,6 +164,9 @@ Characters:
   "1312":
     Name: 미샤
     LongName: 미샤
+  "1313":
+    Name: 선데이
+    LongName: 선데이
   "1314":
     Name: 제이드
     LongName: 제이드
@@ -171,23 +177,23 @@ Characters:
     Name: 라파
     LongName: 라파
   "8001":
-    Name: Caelus
-    LongName: Caelus (파멸)
+    Name: 카일루스
+    LongName: 카일루스 (파멸)
   "8002":
-    Name: Stelle
-    LongName: Stelle (파멸)
+    Name: 스텔레
+    LongName: 스텔레 (파멸)
   "8003":
-    Name: Caelus
-    LongName: Caelus (보존)
+    Name: 카일루스
+    LongName: 카일루스 (보존)
   "8004":
-    Name: Stelle
-    LongName: Stelle (보존)
+    Name: 스텔레
+    LongName: 스텔레 (보존)
   "8005":
-    Name: Caelus
-    LongName: Caelus (화합)
+    Name: 카일루스
+    LongName: 카일루스 (화합)
   "8006":
-    Name: Stelle
-    LongName: Stelle (화합)
+    Name: 스텔레
+    LongName: 스텔레 (화합)
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"
@@ -548,6 +554,10 @@ Lightcones:
     Name: "오직\_향만이\_변함없이"
   "23033":
     Name: "인법첩•요란\_파마"
+  "23034":
+    Name: "대지로\_돌아온\_비행"
+  "23035":
+    Name: "먼\_길\_끝의\_귀로"
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":

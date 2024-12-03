@@ -238,8 +238,8 @@ async function generateTranslations() {
       }
       if (betaInformation[locale]?.Characters) {
         for (const character of betaInformation[locale].Characters) {
-          if (output.Characters[character.key]) continue
-          output.Characters[character.key] = character.value
+          if (output.Characters[character.id]) continue
+          output.Characters[character.id] = character.value
         }
       }
     }

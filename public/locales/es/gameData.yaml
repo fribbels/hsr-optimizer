@@ -128,6 +128,9 @@ Characters:
   "1224":
     Name: Siete de Marzo
     LongName: Siete de Marzo (Cacería)
+  "1225":
+    Name: Fugue
+    LongName: Fugue
   "1301":
     Name: Gallagher
     LongName: Gallagher
@@ -161,6 +164,9 @@ Characters:
   "1312":
     Name: Misha
     LongName: Misha
+  "1313":
+    Name: Sunday
+    LongName: Sunday
   "1314":
     Name: Jade
     LongName: Jade
@@ -174,20 +180,20 @@ Characters:
     Name: Caelus
     LongName: Caelus (Destrucción)
   "8002":
-    Name: Stelle
-    LongName: Stelle (Destrucción)
+    Name: Estela
+    LongName: Estela (Destrucción)
   "8003":
     Name: Caelus
     LongName: Caelus (Conservación)
   "8004":
-    Name: Stelle
-    LongName: Stelle (Conservación)
+    Name: Estela
+    LongName: Estela (Conservación)
   "8005":
     Name: Caelus
     LongName: Caelus (Armonía)
   "8006":
-    Name: Stelle
-    LongName: Stelle (Armonía)
+    Name: Estela
+    LongName: Estela (Armonía)
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
@@ -548,6 +554,10 @@ Lightcones:
     Name: Solo la fragancia perdura
   "23033":
     Name: "Pergamino ninja: Azote deslumbrante del mal"
+  "23034":
+    Name: De vuelta a la tierra
+  "23035":
+    Name: El largo camino a casa
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

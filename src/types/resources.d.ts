@@ -3607,7 +3607,7 @@ interface Resources {
         "Content": "Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output."
       },
       "Organizer": {
-        "Title": "Relics Organizer",
+        "Title": "Relic Organizer",
         "Content": "Organize your relics by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character."
       }
     },

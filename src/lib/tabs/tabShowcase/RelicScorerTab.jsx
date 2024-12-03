@@ -27,13 +27,15 @@ const { useToken } = theme
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
 function presetCharacters() {
-  const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.displayName == name)?.id || null
-  const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.displayName == name)?.id || null
+  const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.id == name)?.id || null
+  const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.id == name)?.id || null
   return [
-    { characterId: 1401, lightConeId: 23037 },
-    { characterId: 1402, lightConeId: 23036 },
-    { characterId: 8007, lightConeId: 21050, lightConeSuperimposition: 5 },
-    { characterId: 8008, lightConeId: 21050, lightConeSuperimposition: 5 },
+    { characterId: char(1401), lightConeId: lc(23037) },
+    { characterId: char(1402), lightConeId: lc(23036) },
+    { characterId: char(8007), lightConeId: lc(21050), lightConeSuperimposition: 5 },
+    { characterId: char(8008), lightConeId: lc(21050), lightConeSuperimposition: 5 },
+    { characterId: char(1313), lightConeId: lc(23034) },
+    { characterId: char(1225), lightConeId: lc(23035) },
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }

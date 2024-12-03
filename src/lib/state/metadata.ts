@@ -809,13 +809,13 @@ function getLightConeOverrideCenter(): Record<string, number> {
 
     // TODO
 
-    23037: 170,
-    23036: 170,
-    21052: 170,
-    21051: 170,
+    23037: 150,
+    23036: 180,
+    21052: 270,
+    21051: 180,
     21050: 170,
-    20022: 170,
-    20021: 170,
+    20022: 305,
+    20021: 320,
   }
 }
 
@@ -1512,8 +1512,8 @@ function getOverrideImageCenter(): Record<string, {
     },
     1401: { // The Herta
       x: 1000,
-      y: 1060,
-      z: 1.25,
+      y: 1085,
+      z: 1.275,
     },
     1402: { // Aglaea
       x: 1215,

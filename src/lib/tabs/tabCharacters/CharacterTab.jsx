@@ -1,11 +1,9 @@
 import { DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
-import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
 
 import { Button, Dropdown, Flex, Input, Modal, theme, Typography } from 'antd'
 import { useSubscribe } from 'hooks/useSubscribe'
-import i18next from 'i18next'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
@@ -15,10 +13,10 @@ import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import NameBuild from 'lib/overlays/modals/SaveBuildModal'
 import SwitchRelicsModal from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import { Assets } from 'lib/rendering/assets'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { cellImageRenderer, CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import {
   generateElementTags,
   generatePathTags,
@@ -26,82 +24,11 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import PropTypes from 'prop-types'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { Suspense, useCallback, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 const { Text } = Typography
-
-function cellImageRenderer(params) {
-  const data = params.data
-  const characterIconSrc = Assets.getCharacterAvatarById(data.id)
-
-  return (
-    <img
-      src={characterIconSrc}
-      style={{ flex: '0 0 auto', maxWidth: '100%', width: 48 }}
-    />
-  )
-}
-
-function cellRankRenderer(params) {
-  const data = params.data
-  const character = DB.getCharacters().find((x) => x.id == data.id)
-
-  return (
-    <Text style={{ height: '100%' }}>
-      {character.rank + 1}
-    </Text>
-  )
-}
-
-function cellNameRenderer(params) {
-  const t = i18next.getFixedT(null, 'gameData', 'Characters')
-  const data = params.data
-  const characterNameString = t(`${data.id}.LongName`)
-
-  // Separate the path parens for multipath characters or handle dots so they render on separate lines if overflow
-  const nameSections = characterNameString.includes(' (')
-    ? characterNameString.split(' (')
-      .map((section) => section.trim())
-      .map((section, index) => index === 1 ? ` (${section} ` : section)
-    : characterNameString.split(/ - |•/) // some languages use a dash instead of a dot
-      .map((section) => section.trim())
-
-  const nameSectionRender = nameSections
-    .map((section, index) => (
-      <span key={index} style={{ display: 'inline-block' }}>{section}</span>
-    ))
-
-  const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
-  let color = '#81d47e'
-  if (equippedNumber < 6) color = 'rgb(229, 135, 66)'
-  if (equippedNumber < 1) color = '#d72f2f'
-
-  return (
-    <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
-      <Text
-        style={{
-          margin: 'auto',
-          padding: '0px 5px',
-          textAlign: 'center',
-          overflow: 'hidden',
-          whiteSpace: 'break-spaces',
-          textWrap: 'wrap',
-          fontSize: 14,
-          width: '100%',
-          lineHeight: '18px',
-        }}
-      >
-        {nameSectionRender}
-      </Text>
-      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
-
-      </Flex>
-    </Flex>
-  )
-}
 
 const defaultFilters = {
   path: [],
@@ -135,6 +62,27 @@ export default function CharacterTab() {
       window.forceCharacterTabUpdate()
     }, 100)
   })
+
+  const characterGrid = useRef() // Optional - for accessing Grid's API
+  window.characterGrid = characterGrid
+
+  const characterTabFocusCharacter = window.store((s) => s.characterTabFocusCharacter)
+  const setCharacterTabFocusCharacter = window.store((s) => s.setCharacterTabFocusCharacter)
+  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
+  const selectedCharacter = window.store.getState().charactersById[characterTabFocusCharacter]
+
+  const [, forceUpdate] = React.useReducer((o) => !o)
+  window.forceCharacterTabUpdate = () => {
+    console.log('__________ CharacterTab forceCharacterTabUpdate')
+    forceUpdate()
+
+    // no charGrid in scorer tab
+    if (characterGrid?.current?.api?.redrawRows) {
+      characterGrid.current.api.redrawRows()
+    } else {
+      console.log('@forceCharacterTabUpdate: No characterGrid.current.api')
+    }
+  }
 
   const items = [
     {
@@ -206,56 +154,6 @@ export default function CharacterTab() {
       ],
     },
   ]
-
-  const characterGrid = useRef() // Optional - for accessing Grid's API
-  window.characterGrid = characterGrid
-
-  const [characterRows, setCharacterRows] = React.useState(DB.getCharacters())
-  window.setCharacterRows = setCharacterRows
-
-  const characterTabFocusCharacter = window.store((s) => s.characterTabFocusCharacter)
-  const setCharacterTabFocusCharacter = window.store((s) => s.setCharacterTabFocusCharacter)
-  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
-  const charactersById = window.store((s) => s.charactersById)
-  const selectedCharacter = charactersById[characterTabFocusCharacter]
-
-  const [, forceUpdate] = React.useReducer((o) => !o)
-  window.forceCharacterTabUpdate = () => {
-    console.log('__________ CharacterTab forceCharacterTabUpdate')
-    forceUpdate()
-
-    // no charGrid in scorer tab
-    if (characterGrid?.current?.api?.redrawRows) {
-      characterGrid.current.api.redrawRows()
-    } else {
-      console.log('@forceCharacterTabUpdate: No characterGrid.current.api')
-    }
-  }
-
-  const columnDefs = useMemo(() => [
-    { field: '', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
-    {
-      field: '',
-      headerName: t('GridHeaders.Priority')/* Priority */,
-      cellRenderer: cellRankRenderer,
-      width: 60,
-      rowDrag: true,
-    },
-    { field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
-  ], [t])
-
-  const gridOptions = useMemo(() => ({
-    rowHeight: 46,
-    rowDragManaged: true,
-    animateRows: true,
-    suppressDragLeaveHidesColumns: true,
-    suppressScrollOnNewData: true,
-  }), [])
-
-  const defaultColDef = useMemo(() => ({
-    sortable: false,
-    cellStyle: { display: 'flex' },
-  }), [])
 
   const externalFilterChanged = useCallback(() => {
     characterGrid.current.api.onFilterChanged()
@@ -560,27 +458,15 @@ export default function CharacterTab() {
             ...getGridTheme(token),
           }}
           >
-            <AgGridReact
-              ref={characterGrid}
-
-              rowData={characterRows}
-              gridOptions={gridOptions}
-              getRowNodeId={(data) => data.id}
-
-              columnDefs={columnDefs}
-              defaultColDef={defaultColDef}
-              deltaRowDataMode={true}
-
-              headerHeight={24}
-
-              onCellClicked={cellClickedListener}
-              onCellDoubleClicked={cellDoubleClickedListener}
+            <CharacterGrid
+              characterGrid={characterGrid}
+              cellClickedListener={cellClickedListener}
+              cellDoubleClickedListener={cellDoubleClickedListener}
               onRowDragEnd={onRowDragEnd}
               onRowDragLeave={onRowDragLeave}
               navigateToNextCell={navigateToNextCell}
               isExternalFilterPresent={isExternalFilterPresent}
               doesExternalFilterPass={doesExternalFilterPass}
-              rowSelection='single'
             />
           </div>
         </Flex>
@@ -606,7 +492,7 @@ export default function CharacterTab() {
             <SegmentedFilterRow
               name='path'
               tags={generatePathTags()}
-              flexBasis='14.2%'
+              flexBasis='12.5%'
               currentFilters={characterFilters}
               setCurrentFilters={setCharacterFilters}
             />
@@ -624,18 +510,16 @@ export default function CharacterTab() {
             />
           </Flex>
         </Flex>
-        <Flex style={{ height: '100%' }}>
-          <Flex vertical>
-            <CharacterPreview
-              id='characterTabPreview'
-              source={ShowcaseSource.CHARACTER_TAB}
-              character={selectedCharacter}
-              setOriginalCharacterModalOpen={setCharacterModalOpen}
-              setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-              setCharacterModalAdd={setCharacterModalAdd}
-            />
-          </Flex>
-        </Flex>
+        <Suspense>
+          <CharacterPreview
+            id='characterTabPreview'
+            source={ShowcaseSource.CHARACTER_TAB}
+            character={selectedCharacter}
+            setOriginalCharacterModalOpen={setCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+            setCharacterModalAdd={setCharacterModalAdd}
+          />
+        </Suspense>
       </Flex>
       <CharacterModal
         onOk={onCharacterModalOk}
@@ -657,7 +541,4 @@ export default function CharacterTab() {
       {contextHolder}
     </Flex>
   )
-}
-CharacterTab.propTypes = {
-  active: PropTypes.bool,
 }

@@ -1,0 +1,111 @@
+CharacterSelector:
+  Character: Nhân vật
+  Lightcone: Nón Ánh Sáng
+LightconePassives: Kỹ Năng Nón Ánh Sáng
+CharacterPassives: Nội tại nhân vật
+MainStats: Dòng Chính
+Sets: Bộ
+OptimizerOptions:
+  Header: Tùy chọn tối ưu hóa
+  Priority:
+    Header: Ưu tiên
+Grid:
+  To: tới
+  Of: của
+  Headers:
+    Basic:
+      Set: Bộ
+      ATK: Tấn Công
+      DEF: Phòng Thủ
+      HP: HP
+      SPD: Tốc Độ
+      CR: CR
+      CD: CD
+      EHR: EHR
+      RES: RES
+      BE: BE
+      OHB: OHB
+      ERR: ERR
+    Combat:
+      Set: Bộ
+Sidebar:
+  StatViewGroup:
+    Header: Xem chỉ số và bộ lọc
+SetConditionals:
+  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
+  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
+  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SelectOptions:
+    Wastelander:
+      Debuffed:
+        Display: CR
+CombatBuffs:
+  ATK: Tấn Công
+  ATK_P: ATK %
+  HP: HP
+  HP_P: HP %
+  DEF: Phòng Thủ
+  DEF_P: DEF %
+  SPD: Tốc Độ
+  SPD_P: SPD %
+WeightFilter:
+  WeightFilterHeader: Bộ lọc trọng thuộc tính phụ.
+  HPFilterText: HP
+  ATKFilterText: Tấn Công
+  DEFFilterText: Phòng Thủ
+  SPDFilterText: Tốc Độ
+  CRFilterText: CR
+  CDFilterText: CD
+  EHRFilterText: EHR
+  RESFilterText: RES
+  BEFilterText: BE
+MinMaxFilters:
+  HPLabel: HP
+  ATKLabel: Tấn Công
+  DEFLabel: Phòng Thủ
+  SPDLabel: Tốc Độ
+  CRLabel: CR
+  CDLabel: CD
+  EHRLabel: EHR
+  RESLabel: RES
+  BELabel: BE
+  ERRLabel: ERR
+  BASICLabel: Đánh Đơn
+  SKILLLabel: Chiến kỹ
+  ULTLabel: Tuyệt kỹ
+  FUALabel: Đòn Đánh Theo Sau
+TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  RelicsPlaceholder: Di vật
+  TeammateSets:
+    Messenger:
+      Set: "$t(gameData:RelicSets.114.Name)"
+    Watchmaker:
+      Set: "$t(gameData:RelicSets.118.Name)"
+    Sacerdos1Stack:
+      Set: "$t(gameData:RelicSets.121.Name)"
+    Sacerdos2Stack:
+      Set: "$t(gameData:RelicSets.121.Name)"
+    Keel:
+      Set: "$t(gameData:RelicSets.310.Name)"
+    Ageless:
+      Set: "$t(gameData:RelicSets.302.Name)"
+    Penacony:
+      Set: "$t(gameData:RelicSets.312.Name)"
+    Lushaka:
+      Set: "$t(gameData:RelicSets.317.Name)"
+StatSimulation:
+  SetSelection:
+    Header: Bộ
+  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  MainStatsSelection:
+    Header: Dòng Chính
+    BodyPlaceholder: Thân
+    FeetPlaceholder: Chân
+    SpherePlaceholder: Quả Cầu Vi Diện
+    RopePlaceholder: Dây Liên Kết
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
+    LabelStat: "$t(common:ReadableStats.{{stat}})"

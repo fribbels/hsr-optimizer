@@ -64,6 +64,7 @@ function SubstatWeightDashboard() {
       <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Hunt'), sets)}/>
       <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Erudition'), sets)}/>
       <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Nihility'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Remembrance'), sets)}/>
       <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Preservation'), sets)}/>
       <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Harmony'), sets)}/>
       <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Abundance'), sets)}/>
@@ -147,6 +148,7 @@ function ConditionalSetsPresetsDashboard() {
       <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Hunt'), sets)}/>
       <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Erudition'), sets)}/>
       <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Nihility'), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Remembrance'), sets)}/>
       <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Preservation'), sets)}/>
       <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Harmony'), sets)}/>
       <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Abundance'), sets)}/>
@@ -200,6 +202,7 @@ function SimulationEquivalentSetsDashboard() {
       <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Hunt'), sets)}/>
       <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Erudition'), sets)}/>
       <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Nihility'), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Remembrance'), sets)}/>
       <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Preservation'), sets)}/>
       <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Harmony'), sets)}/>
       <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Abundance'), sets)}/>
@@ -274,33 +277,33 @@ function GridDisplay(props: {
   return (
     <table style={{ borderCollapse: 'collapse', width: 'fit-content', lineHeight: '0px' }}>
       <tbody>
-        {props.grid.map((row, rowIndex) => (
-          <tr
-            key={rowIndex}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
-          >
-            {row.map((cell, colIndex) => (
-              <td
-                key={`${rowIndex}-${colIndex}`}
-                style={{
-                  height: iconSize,
-                  width: iconSize,
-                  border: '1px solid #464d6bc4',
-                  padding: 0,
-                  textAlign: 'center',
-                  backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
-                }}
-                onMouseEnter={() => setHoveredColumn(colIndex)}
-                onMouseLeave={() => setHoveredColumn(null)}
-              >
-                <div>
-                  {cell || ''}
-                </div>
-              </td>
-            ))}
-          </tr>
-        ))}
+      {props.grid.map((row, rowIndex) => (
+        <tr
+          key={rowIndex}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
+        >
+          {row.map((cell, colIndex) => (
+            <td
+              key={`${rowIndex}-${colIndex}`}
+              style={{
+                height: iconSize,
+                width: iconSize,
+                border: '1px solid #464d6bc4',
+                padding: 0,
+                textAlign: 'center',
+                backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
+              }}
+              onMouseEnter={() => setHoveredColumn(colIndex)}
+              onMouseLeave={() => setHoveredColumn(null)}
+            >
+              <div>
+                {cell || ''}
+              </div>
+            </td>
+          ))}
+        </tr>
+      ))}
       </tbody>
     </table>
   )

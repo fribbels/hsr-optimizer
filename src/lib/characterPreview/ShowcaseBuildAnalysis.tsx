@@ -23,8 +23,11 @@ interface ShowcaseBuildAnalysisProps {
 }
 
 // !! NOTE - Props are manually memoized for performance, remember to update the comparator
+// Currently the memo doesn't actually help if the component is unmounted
 export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+
+  console.log('======================================================================= RENDER ShowcaseBuildAnalysis')
 
   const {
     token,

@@ -28,6 +28,7 @@ export function calculateBuild(
   request: Form,
   relics: SingleRelicByPart,
   cachedContext: OptimizerContext | null,
+  cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
   internal: boolean = false) {
@@ -69,7 +70,7 @@ export function calculateBuild(
     ornamentSetIndex: ornamentSetIndex,
   } as BasicStatsObject
 
-  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const x = cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false) as ComputedStatsArray
   x.setBasic(c)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)

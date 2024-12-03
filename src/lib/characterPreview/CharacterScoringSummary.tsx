@@ -8,7 +8,7 @@ import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { diminishingReturnsFormula, SimulationScore, SimulationStatUpgrade } from 'lib/scoring/characterScorer'
+import { diminishingReturnsFormula, SimulationScore, SimulationStatUpgrade, spdDiminishingReturnsFormula } from 'lib/scoring/characterScorer'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -239,13 +239,11 @@ export const CharacterScoringSummary = (props: {
           Stats.HP,
         ].filter((x) => x == stat).length
         if (stat == Stats.SPD) {
-          diminishingReturns[stat] = 0
+          diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
         } else {
           diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
         }
       }
-
-      console.log(diminishingReturns)
     }
 
     const stats = request.stats
@@ -303,7 +301,7 @@ export const CharacterScoringSummary = (props: {
             </Flex>
             <VerticalDivider/>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={2}/>
+              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={precision}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={stats[Stats.CR]} parens={diminishingReturns[Stats.CR]} precision={precision}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={stats[Stats.CD]} parens={diminishingReturns[Stats.CD]} precision={precision}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={stats[Stats.EHR]} parens={diminishingReturns[Stats.EHR]} precision={precision}/>

@@ -3,6 +3,7 @@ import i18next from 'i18next'
 import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
+import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimization/optimizer'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -268,6 +269,8 @@ export type RunSimulationsParams = {
   substatRollsModifier: (num: number, stat: string, relics: { [key: Parts]: Relic }) => number
 }
 
+const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
+
 export function runSimulations(
   form: Form,
   context: OptimizerContext,
@@ -359,7 +362,9 @@ export function runSimulations(
         let substatCount = Utils.precisionRound((sim.request.stats[substat] || 0))
         substatCount = params.substatRollsModifier(substatCount, substat, relics)
 
-        value = substatCount * substatValue
+        value = substat == Stats.SPD
+          ? substatCount * substatValue
+          : substatCount * substatValue
       }
 
       if (value) {
@@ -374,7 +379,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const { c } = calculateBuild(form, relics, context, true, true)
+    const { c } = calculateBuild(form, relics, context, cachedComputedStatsArray, true, true)
 
     renameFields(c)
     // For optimizer grid syncing with sim table

@@ -1,0 +1,83 @@
+TabLabels:
+  Import: 遺物スキャナーからインポート
+  Load: データの読み込み
+  Save: データを保存
+  Clear: データを消去
+Import:
+  ErrorMsg:
+    Unknown: 不明なエラー
+    InvalidFile: 無効なファイルです
+    InvalidJson: 無効なJSONです
+    Fragment: "ファイルのインポート中にエラーが発生しました： "
+  Stage1:
+    Header: "以下の遺物スキャナーのいずれかをインストールして実行してください"
+    ReliquaryDesc:
+      Title: '（推奨）IceDynamix Reliquary Archiver'
+      Link: GitHub
+      OnlineMsg: "ステータス：バージョン{{version}}に対応 - 新たにダウンロードする必要があります"
+      OfflineMsg: "***** ステータス: バージョン{{version}}適用後、メンテナンス中です。 *****"
+      l1: 正確な速度サブステータス、即時スキャン
+      l2: インベントリ内とキャラクター全てをインポート
+    KelzDesc:
+      Title: Kel-Z HSR Scanner
+      Link: GitHub
+      l1: 不正確な速度サブステータス、5-10分のOCRスキャン
+      l2: インベントリ内とキャラクター全てをインポート
+    ScorerDesc:
+      Title: 遺物スコア計算からインポート
+      Link: 遺物スコア計算
+      l1: 正確な速度サブステータス、即時スキャン
+      l2: ダウンロードは必要ありませんが、遺物はショーケース上の8キャラクターのものに限定されます
+    HoyolabDesc:
+      Title: HoyoLabからインポート
+      Link: 手順
+      l1: 不正確な速度サブステータス、即時スキャン
+      l2: ダウンロードは必要ありませんが、遺物は装備したゲーム内キャラクターのものに限定されます
+    ButtonText: jsonファイルをアップロードする
+    Or: または
+    Placeholder: jsonファイルの内容を貼り付ける
+  Stage2:
+    Or: または
+    FileInfo: >-
+      ファイルには$t(common:RelicWithCount, {"count": {{relicCount}}})と$t(common:CharacterWithCount, {"count": {{characterCount}}})のキャラクターが含まれています。
+    NoRelics: 無効なファイルです。別のファイルで試してください。
+    RelicsImport:
+      Label: >-
+        $t(common:Relic, {"count": {{relicCount}}})のみをインポートします。$t(common:Relic, {"count": {{relicCount}}})は更新されますが、ビルドは上書きされません。
+      ButtonText: >-
+        $t(common:Relic, {"count": {{relicCount}}})をインポート
+    CharactersImport:
+      Label: >-
+        $t(common:Relic, {"count": {{relicCount}}})と$t(common:Character, {"count": {{characterCount}}})をインポートします。オプティマイザーのビルドをゲーム内のビルドに置き換えます。
+      ButtonText: >-
+        $t(common:Relic, {"count": {{relicCount}}})と$t(common:Character, {"count": {{characterCount}}})をインポート
+      WarningTitle: オプティマイザーのビルドを上書き
+      WarningDescription: 本当にオプティマイザーのビルドをゲーム内のビルドに置き換えますか？
+  Stage3:
+    SuccessMessage: 完了！
+LoadData:
+  Stage1:
+    Label: ファイルからオプティマイザーのデータを読み込みます。
+    ButtonText: データを読み込む
+  Stage2:
+    ErrorMsg: 無効な保存ファイルです。別のファイルで試してください。遺物スキャナーからインポートするつもりでしたか？
+    Label: >-
+      ファイルには$t(common:RelicWithCount, {"count": {{relicCount}}})と$t(common:CharacterWithCount, {"count": {{characterCount}}})のキャラクターが含まれています。現在のデータをアップロードしたデータで置き換えますか？
+    ButtonText: アップロードしたデータを使用
+  Stage3:
+    SuccessMessage: 完了！
+SaveData:
+  Label: オプティマイザーのデータをファイルに保存します。
+  ButtonText: データを保存する
+  SuccessMessage: 完了
+ClearData:
+  Label: オプティマイザーのすべてのデータを消去します。
+  ButtonText: データを消去する
+  SuccessMessage: データを消去しました
+  WarningTitle: すべてのデータを消去
+  WarningDescription: 遺物とキャラクターをすべて消去しますか？
+PartialImport:
+  OldRelics: >-
+    {{count}}個の既存の$t(common:Relic, {"count": {{count}}})のステータスを更新しました。
+  NewRelics: >-
+    {{count}}個の新しい$t(common:Relic, {"count": {{count}}})を追加しました

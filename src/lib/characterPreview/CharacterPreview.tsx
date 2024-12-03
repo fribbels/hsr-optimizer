@@ -38,7 +38,7 @@ import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsU
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/characterScorer'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
@@ -89,8 +89,10 @@ export function CharacterPreview(props: {
   const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
     window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
+  const activeKey = window.store((s) => s.activeKey)
+  const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
-  if (!character) {
+  if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
       <div
         style={{
@@ -175,15 +177,15 @@ export function CharacterPreview(props: {
     components: {
       Segmented: {
         trackBg: colorTransparent(),
-        itemSelectedBg: showcaseSegmentedColor(overrideSeedColor),
+        itemSelectedBg: showcaseSegmentedColor(overrideSeedColor, darkMode),
       },
     },
   }
 
   const seedToken = getDesignToken(seedTheme)
   const derivedShowcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: showcaseCardBackgroundColor(seedToken.colorPrimaryActive),
-    cardBorderColor: showcaseCardBorderColor(seedToken.colorPrimaryActive),
+    cardBackgroundColor: showcaseCardBackgroundColor(seedToken.colorPrimaryActive, darkMode),
+    cardBorderColor: showcaseCardBorderColor(seedToken.colorPrimaryActive, darkMode),
   }
 
   // ===== Display =====
@@ -232,7 +234,7 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            background: showcaseBackgroundColor(token.colorBgLayout),
+            background: showcaseBackgroundColor(token.colorBgLayout, darkMode),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
             borderRadius: 7,
@@ -254,8 +256,8 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: 'blur(20px) brightness(0.75) saturate(0.8)',
-              WebkitFilter: 'blur(20px) brightness(0.75) saturate(0.8)',
+              filter: `blur(20px) brightness(${darkMode ? 0.65 : 0.75}) saturate(0.8)`,
+              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.65 : 0.75}) saturate(0.8)`,
             }}
           />
 

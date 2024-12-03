@@ -58,7 +58,7 @@ const multiPathIdToPath: Record<typeof multiPathIds[number], Path> = {
 
 const tbNames: Record<InputLocale, { stelle: string; caelus: string }> = {
   de: {
-    stelle: 'Stelle',
+    stelle: 'Stella',
     caelus: 'Caelus',
   },
   en: {
@@ -66,7 +66,7 @@ const tbNames: Record<InputLocale, { stelle: string; caelus: string }> = {
     caelus: 'Caelus',
   },
   es: {
-    stelle: 'Stelle',
+    stelle: 'Estela',
     caelus: 'Caelus',
   },
   fr: {
@@ -78,20 +78,20 @@ const tbNames: Record<InputLocale, { stelle: string; caelus: string }> = {
     caelus: 'Caelus',
   },
   ja: {
-    stelle: 'Stelle',
-    caelus: 'Caelus',
+    stelle: '星',
+    caelus: '穹',
   },
   ko: {
-    stelle: 'Stelle',
-    caelus: 'Caelus',
+    stelle: '스텔레',
+    caelus: '카일루스',
   },
   pt: {
     stelle: 'Stelle',
     caelus: 'Caelus',
   },
   ru: {
-    stelle: 'Stelle',
-    caelus: 'Caelus',
+    stelle: 'Стелла',
+    caelus: 'Келус',
   },
   zh: {
     stelle: '星',
@@ -238,8 +238,8 @@ async function generateTranslations() {
       }
       if (betaInformation[locale]?.Characters) {
         for (const character of betaInformation[locale].Characters) {
-          if (output.Characters[character.key]) continue
-          output.Characters[character.key] = character.value
+          if (output.Characters[character.id]) continue
+          output.Characters[character.id] = character.value
         }
       }
     }

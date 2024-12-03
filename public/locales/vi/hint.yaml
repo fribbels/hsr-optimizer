@@ -1,0 +1,116 @@
+RatingFilter:
+  Title: 'Lọc Điểm Số:'
+  p1: >-
+    Ehp - HP hiệu quả, đo lường mức độ chống chịu của một nhân vật cấp tối đa. Được tính bằng HP, phòng thủ và các nội tại giảm sát thương
+  p2: >-
+    Đánh Thường / Chiến Kỹ / Tuyệt Kỹ / Fua (Đòn đánh Theo Sau) / Dot (Sát thương theo thời gian) / Tấn Công Kích Phá - Các tính toán sát thương dựa trên các yếu tố trong nội tại nhân vật / nội tại nón ánh sáng / các tùy chọn của kẻ địch.
+  p3: >-
+    Trị Liệu / Lá Chắn - Các tính toán kĩ năng khác, dựa trên các yếu tố trong nội tại nhân vật / nội tại nón ánh sáng / các tùy chọn của kẻ địch.
+CombatBuffs:
+  Title: Buffs trong combat
+  p1: Các buff thêm từ đội để áp dụng vào việc tính toán. Lưu ý rằng các buff từ nón ánh sáng, nội tại và dấu vết của nhân vật đã được tự động thêm vào sẵn.
+StatFilters:
+  Title: Lọc chỉ số
+  p1: Min (trái) / Max (phải) lọc các chỉ số của nhân vật được cho. Trình tối ưu hóa sẽ chỉ hiển thị kết quả trong các khoảng giá trị này.
+  p2: Chỉ số được viết tắt là ATK / HP / DEF / SPD / Tỉ Lệ Bạo Kích / Sát Thương Bạo Kích / Chính Xác Hiệu Ứng / Kháng Hiệu Ứng / Tấn Công Kích Phá / Hiệu Suất Hồi Năng Lượng
+  p3: "LƯU Ý: Các số thập phân tốc độ trong game đã bị cắt bớt, do vậy bạn có thể thấy giá trị tốc độ trong game cao hơn so với những gì hiển thị ở đây. Điều này là do công cụ nhập OCR không thể phát hiện các chữ số thập phân ẩn."
+Mainstats:
+  Title: Dòng Chính
+  p1: Chọn chỉ số chính để sử dụng cho việc tối ưu hóa tìm kiếm. Có thể chọn nhiều giá trị để có thêm lựa chọn.
+Sets:
+  Title: Bộ
+  p1: Chọn bộ di vật và phụ kiện để lọc kết quả. Có thể chọn nhiều bộ để có thêm lựa chọn
+  p2: Các hiệu ứng bộ sẽ được tính vào các phép tính, sử dụng menu điều kiện Hiệu Ứng Bộ để tùy chỉnh các hiệu ứng nào đang hoạt động.
+Character:
+  Title: Nhân vật
+  p1: Chọn nhân vật và tinh hồn. Nhân vật sẽ được cho là đã lên cấp 80 với các vết tích được nâng tối đa.
+CharacterPassives:
+  Title: Nội tại nhân vật
+  p1: Chọn các hiệu ứng điều kiện thêm để áp dụng cho nhân vật.
+  p2: Các hiệu ứng phụ thuộc vào chỉ số combat hoặc trạng thái sẽ được áp dụng theo mặc định, vì vậy các tùy chọn yêu cầu nhập liệu từ người dùng liệt kê ở đây.
+LightconePassives:
+  Title: Kỹ Năng Nón Ánh Sáng
+  p1: Chọn các hiệu ứng điều kiện để áp dụng cho nón ánh sáng.
+  p2: Các hiệu ứng phụ thuộc vào chỉ số combat hoặc trạng thái sẽ được áp dụng theo mặc định, vì vậy các tùy chọn yêu cầu nhập liệu từ người dùng liệt kê ở đây.
+Lightcone:
+  Title: Nón Ánh Sáng
+  p1: Chọn nón ánh sáng và tích tầng. Nón ánh sáng mặc định sẽ được cho là đã lên cấp 80.
+  p2: Các hiệu ứng nội tại được áp dụng ở dưới bảng nội tại nón ánh sáng.
+Actions:
+  Title: Tác vụ
+  p1: Trang bị - Trang bị các di vật đã chọn từ lưới vào nhân vật
+  p2: Lọc - Áp dụng lại bộ lọc tìm kiếm cho các kết quả hiện có. Sử dụng tính năng này để lọc kết quả mà không cần phải tìm kiếm lại
+  p3: Ghim - Ghim hàng đã chọn hiện tại lên đầu lưới. Sử dụng tính năng này để so sánh nhiều lối lên đồ dễ dàng hơn.
+  p4: Xóa ghim - Gỡ tất cả các lối lên đồ đã ghim ở đầu lưới.
+OptimizerOptions:
+  Title: Tùy chọn tối ưu hóa
+  p1: >-
+    <0>Lọc nhân vật ưu tiên</0> - Khi tùy chọn này được bật, nhân vật chỉ có thể cướp di vật từ những nhân vật có ưu tiên thấp hơn. Trình tối ưu hóa sẽ bỏ qua các di vật đã được trang bị bởi những nhân vật có ưu tiên cao hơn trong danh sách. Thay đổi thứ hạng nhân vật từ bộ chọn ưu tiên hoặc bằng cách kéo chúng trên trang Nhân vật.
+  p2: >-
+    <0>Tăng thuộc tính chính</0> - Tính toán thuộc tính chính của di vật như thể chúng ở cấp độ này (hoặc cấp tối đa nếu không thể đạt được cấp độ này) nếu hiện tại di vật thấp hơn cấp độ đó. Các thuộc tính phụ sẽ không được thay đổi tương ứng, vì vậy các lối lên đồ với di vật cấp thấp hơn có thể sẽ mạnh hơn sau khi bạn nâng cấp chúng.
+  p3: <0>Giữ di vật hiện tại</0> - Nhân vật phải sử dụng các vật phẩm hiện tại đang trang bị, và trình tối ưu hóa sẽ cố gắng tìm vào các chỗ trống
+  p4: <0>Bao gồm di vật đã trang bị</0> - Khi bật, trình tối ưu hóa sẽ cho phép tìm kiếm các di vật hiện tại đang được trang bị bởi một nhân vật khác. Ngược lại, khi tắt các di vật đã được trang bị sẽ không được tìm
+  p5: "<0>Ưu tiên</0> - Xem: Lọc nhân vật ưu tiên. Thay đổi cài đặt này sẽ thay đổi mức độ ưu tiên của nhân vật"
+  p6: <0>Loại trừ</0> - Chọn các di vật đã trang bị của nhân vật cụ thể để loại trừ khỏi tìm kiếm. Cài đặt này sẽ ghi đè lên lọc ưu tiên nhân vật
+  p7: <0>Cấp / độ hiếm</0> - Chọn cấp độ tối thiểu để tìm kiếm và độ hiếm tối thiểu của các di vật để bao gồm.
+Relics:
+  Title: Di vật
+  p1: >-
+    Lưu ý - Tiềm năng là một điểm số phần trăm so sánh di vật với di vật +15 tốt nhất có thể cho nhân vật hiện tại ở vị trí đó. Điểm số này dựa trên trọng số của thuật toán tính điểm. Có nghĩa là các di vật chưa được nâng cấp ở cấp +0 đôi khi có tiềm năng cao hơn di vật đã được +15, vì các chỉ số phụ có thể được mở và nâng cấp vào các chỉ số mong muốn của nhân vật.
+  p2: "Nhân vật đã chọn: Điểm - Điểm số hiện tại của di vật, được xác định bởi thuật toán tính điểm của nhân vật đã chọn"
+  p3: "Nhân vật đã chọn: Tiềm năng trung bình - Tiềm năng của di vật ở cấp độ tối đa, tính trung bình dựa vào tất cả các chỉ số phụ có thể rơi vào khi nâng cấp lên +15."
+  p4: "Nhân vật đã chọn: Tiềm năng tối đa - Tiềm năng tối đa của di vật nếu tất cả các chỉ số phụ được nâng cấp vào các đúng nơi nhân vật mong muốn"
+  p5: "Tất cả nhân vật: Tiềm năng tối đa - Giá trị tiềm năng cao nhất có thể của di vật, cho tất cả các nhân vật trong game."
+OptimizationDetails:
+  Title: Chi tiết tối ưu hóa
+  p1: Hiển thị số lượng di vật đang được sử dụng trong tìm kiếm tối ưu hóa, sau khi tất cả bộ lọc được áp dụng.
+  p2: Khả năng - Số lượng lối lên đồ có thể tìm kiếm được. Thu hẹp bộ lọc của bạn để giảm thời gian tìm kiếm và tăng độ chính xác.
+  p3: Đã tìm kiếm - Số lượng lối lên đồ đã được tìm kiếm.
+  p4: Kết quả - Số lượng lối lên đồ mà có thể thỏa mãn yêu cầu của bộ lọc
+EnemyOptions:
+  Title: Tùy chọn kẻ địch
+  p1: Cấp độ - Cấp độ của quái địch, ảnh hưởng đến các phép tính phòng ngự của quái địch.
+  p2: Kháng hiệu ứng - Kháng hiệu ứng của quái địch. Kháng hiệu ứng được dùng để tính những chỉ số liên quan đến sát thương theo thời gian
+  p3: Kháng sát thương - Kháng sát thương thuộc tính của quái địch. Kháng sát thương sẽ được cho là 0 khi điểm yếu thuộc tính của địch được bật.
+  p4: Sức bền tối đa - Sức bền tối đa của quái địch. Được dùng để tính những chỉ số liên quan đến sát thương phá vỡ.
+  p5: Số mục tiêu - Số lượng mục tiêu trong trận đấu. Quái địch mục tiêu luôn được giả định là ở giữa, và các phép tính sát thương chỉ áp dụng cho mục tiêu chính duy nhất.
+  p6: Điểm yếu thuộc tính - Cho biết rằng quái địch có yếu với thuộc tính nhân vật không. Khi bật tùy chọn này kháng sát thương thuộc tính của quái được cho là 0%.
+  p7: Trạng thái phá vỡ điểm yếu - Khi thanh Sức Bền của quái địch bị phá hủy. Ảnh hưởng đến việc tính toán sát thương một số hiệu ứng cụ thể của vài nhân vật
+SubstatWeightFilter:
+  Title: Bộ lọc trọng thuộc tính phụ.
+  p1: Bộ lọc này được sử dụng để giảm số lượng lối lên đồ mà trình tối ưu hóa phải xử lý.
+  p2: Nó hoạt động bằng cách đánh giá từng di vật theo mỗi vị trí dựa trên trọng số đã được cho, sau đó lọc theo số lần roll tối thiểu mà di vật đó có.
+  p3: Chỉ những di vật có số lượng trọng vượt quá số lượng đã chỉ định mới được sử dụng để tìm kiếm tối ưu hóa
+  p4: >-
+    Lưu ý rằng việc đặt số roll tối thiểu quá cao có thể dẫn đến việc một số lối lên đồ không được hiển thị, dẫn đến bộ lọc loại trừ một di vật quan trọng. Hãy sử dụng bộ lọc này một cách cẩn thận, nhưng nó có thể giảm thời gian tìm kiếm cho các lần tìm kiếm lớn.
+StatDisplay:
+  Title: Xem chỉ số và bộ lọc
+  p1: Điều này cho phép chuyển đổi giữa việc xem kết quả dưới dạng chỉ số Cơ Bản và chỉ số Combat. Các bộ lọc chỉ số cũng sẽ được áp dụng cho chế độ xem đã chọn.
+  p2: Chỉ số cơ bản - Các chỉ số như hiển thị trên màn hình chi tiết nhân vật trong game, không có buff từ combat
+  p3: "Chỉ số Combat - Chỉ số của nhân vật với tất cả các điều chỉnh chỉ số trong combat bao gồm: buff kỹ năng, buff nhân vật và nội tại nón ánh sáng, nhân vật, đồng đội, v.v."
+ValueColumns:
+  Title: Giá trị cột
+  p1: Bạn có thể hiển thị tùy chọn một số cột có "giá trị" tương đối của một di vật.
+  p2: Tiềm năng
+  p3: Tiềm năng là tỷ lệ phần trăm đặc trưng của nhân vật về mức độ tốt của di vật có thể đạt được (hoặc là "di vật cấp tối đa"), so với các chỉ số của di vật "hoàn hảo" đã được nâng cấp hoàn toàn ở vị trí đó.
+  p4: Tiềm năng có thể nhìn vào tất cả nhân vật hoặc chỉ nhân vật đã sở hữu. Sau đó tính tỉ lệ phần trăm tối đa cho các nhân vật đó.
+  p5: Tiềm năng rất hữu ích trong việc tìm các di vật không hợp với bất kỳ nhân vật nào hoặc một dị vật tiềm ẩn rất khỏe sau khi được lên cấp
+  p6: "Lưu ý: Việc sắp xếp theo tiềm năng có thể không khớp với trọng số, do phép tính trọng số ưu tiên các thuộc tính chính có trọng số thấp hơn."
+RelicInsights:
+  Title: Chi tiết dị vật
+  p1: Khi một di vật được chọn trong bảng trên, bạn có thể chọn xem phân tích di vật đó.
+  p2: >-
+    'Phân loại' đánh giá mức độ hoàn hảo mà di vật này có thể đạt được (với các nâng cấp tốt nhất có thể) cho mỗi nhân vật, và phân loại chúng thành các tỷ lệ phần trăm. <1/>Nếu bạn di chuột qua ảnh đại diện của nhân vật, bạn sẽ thấy các chỉ số mới và/hoặc các roll cần thiết để đạt được tiềm năng tối đa của di vật này. <3/>⚠️ Các di vật thiếu chỉ số phụ có thể có các phân loại tỷ lệ phần trăm cao một cách sai lệch, vì phân tích nâng cấp tốt nhất giả định chỉ số phụ mới tốt nhất cho mỗi nhân vật.  
+  p3: "Top 10 hiển thị 10 nhân vật phù hợp nhất với di vật này và hiển thị % \"hoàn hảo\" mà di vật này có thể đạt được khi được nâng cấp."
+RelicLocation:
+  Title: Vị trí dị vật
+  p1: Khi một di vật được chọn trong lưới, vị trí của nó trong Túi sẽ được hiển thị ở đây.
+  p2: Nếu lọc bộ đang hoạt động, hãy áp dụng những bộ lọc đó trong y vậy trong game và sau đó sắp xếp theo Thứ Tự Nhận (mới nhất ưu tiên) để tìm di vật.
+  p3: '⚠️ Ghi chú sử dụng ⚠️'
+  p4: Mục này chỉ được hỗ trợ với nhập từ Reliquary Archiver
+  p5: Nếu có di vật mới bị xóa hoặc nhận được kể từ lần nhập trước, bạn phải quét lại và nhập lại.
+  p6: Chọn cài đặt chiều rộng thanh đồ phù hợp để có vị trí chính xác. Chiều rộng phụ thuộc vào màn hình và menu trong game
+LocatorParams:
+  Title: Tùy chọn định vị di vật
+  p1: <0>Chiều rộng túi đồ</0> - Chọn số cột trong túi đồ của game để bộ định vị di vật có thể tìm chính xác di vật của bạn.
+  p2: <0>Lọc hàng tự động</0> - Số hàng tối đa trước khi bộ định vị di vật áp dụng bộ lọc bộ, nhằm cố gắng đưa di vật tìm kiếm gần với phần trên cùng của túi đồ của bạn.

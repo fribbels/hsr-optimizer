@@ -34,7 +34,7 @@ export function calculateCurrentlyEquippedRow(request) {
   RelicFilters.condenseRelicSubstatsForOptimizer(relics)
   Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
-  const { c } = calculateBuild(request, relics)
+  const { c } = calculateBuild(request, relics, null, null)
   renameFields(c)
   OptimizerTabController.setTopRow(c, true)
 }

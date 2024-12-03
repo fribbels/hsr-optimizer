@@ -53,7 +53,7 @@ OptimizerOptions:
     Header: Priorité
     Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
     Name: "# {{rank}}"
-  AllowEquipped: Permettre dreliques équipées
+  AllowEquipped: Permettre reliques équipées
   KeepCurrent: Garder reliques courantes
   Exclude: Exclure
   MinEnhance:
@@ -473,7 +473,7 @@ StatSimulation:
   TotalRolls: Rolls totaux
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
-    Off: Off
+    Off: "Inactif"
     RollCount: Simuler rolls custom de substats
     Totals: Simuler total custom de substats
   FooterLabels:

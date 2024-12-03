@@ -28,10 +28,25 @@ export const languages = {
     nativeName: 'Italiano',
     shortName: 'Italiano',
   },
+  ja: {
+    locale: 'ja',
+    nativeName: '日本語',
+    shortName: '日本語',
+  },
+  ko: {
+    locale: 'ko',
+    nativeName: '한국인',
+    shortName: '한국인',
+  },
   pt: {
     locale: 'pt',
     nativeName: 'Português (BR)',
     shortName: 'Português',
+  },
+  vi: {
+    locale: 'vi',
+    nativeName: 'tiếng việt',
+    shortName: 'tiếng việt',
   },
   zh: {
     locale: 'zh',
@@ -47,14 +62,6 @@ export const languages = {
         locale: 'id',
         nativeName: 'Bahasa Indonesia',
       },
-      ja: {
-        locale: 'ja',
-        nativeName: '日本語',
-      },
-      ko: {
-        locale: 'ko',
-        nativeName: '한국인',
-      },
       ru: {
         locale: 'ru',
         nativeName: 'русский',
@@ -62,10 +69,6 @@ export const languages = {
       th: {
         locale: 'th',
         nativeName: ' ไทย',
-      },
-      vi: {
-        locale: 'vi',
-        nativeName: 'tiếng việt',
       },
   */
 } as const
@@ -94,6 +97,7 @@ void i18next
       'optimizerTab',
       'notifications',
       'conditionals',
+      'hometab',
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],

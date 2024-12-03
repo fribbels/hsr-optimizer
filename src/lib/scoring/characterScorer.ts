@@ -514,7 +514,8 @@ function simulateMaximumBuild(
   simulationFlags: SimulationFlags,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
-  const spdRolls = Math.ceil(originalSim.request.stats[Stats.SPD] * benchmarkScoringParams.speedRollValue / maximumScoringParams.speedRollValue)
+  const spdDiff = originalSim.result.x[Stats.SPD] - baselineSimResult.x[Stats.SPD]
+  const spdRolls = Math.ceil(TsUtils.precisionRound((spdDiff - (bestSim.request.simFeet == Stats.SPD ? 25.032 : 0)) / maximumScoringParams.speedRollValue, 3))
 
   const maximumSimulations: Simulation[] = []
 

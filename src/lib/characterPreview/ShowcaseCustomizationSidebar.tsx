@@ -331,6 +331,11 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8004: ['#dfafa4'], // trailblazerpreservation
     8005: ['#8d7abc'], // trailblazerharmony
     8006: ['#8d7abc'], // trailblazerharmony
+
+    1401: ['#851cf5'], // the herta
+    1402: ['#fff9eb'], // aglaea
+    8007: ['#f0a4fa'], // trailblazerremembrance
+    8008: ['#f0a4fa'], // trailblazerremembrance
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

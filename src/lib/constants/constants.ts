@@ -2,9 +2,9 @@
 import gameData from 'data/game_data.json'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v2.7.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.0.1'
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '2.7v5'
+export const CURRENT_DATA_VERSION = '3.0v1'
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -496,7 +496,7 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
-// TODO: This shouldn't be used anymore
+// TODO: This shouldn't be used anymore?
 export const PathNames = {
   Abundance: 'Abundance',
   Destruction: 'Destruction',
@@ -505,6 +505,7 @@ export const PathNames = {
   Hunt: 'Hunt',
   Nihility: 'Nihility',
   Preservation: 'Preservation',
+  Remembrance: 'Remembrance',
 }
 
 export const ElementToDamage = {

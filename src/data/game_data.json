@@ -746,7 +746,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1301": {
       "id": "1301",
@@ -950,7 +950,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1314": {
       "id": "1314",
@@ -1002,6 +1002,40 @@
         "CRIT DMG": 0.5
       },
       "unreleased": false
+    },
+    "1401": {
+      "id": "1401",
+      "name": "The Herta",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Ice",
+      "max_sp": 220,
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 679.14,
+        "DEF": 485.1,
+        "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1402": {
+      "id": "1402",
+      "name": "Aglaea",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Lightning",
+      "max_sp": 350,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 698.544,
+        "DEF": 485.1,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
     },
     "8001": {
       "id": "8001",
@@ -1104,6 +1138,40 @@
         "CRIT DMG": 0.5
       },
       "unreleased": false
+    },
+    "8007": {
+      "id": "8007",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Ice",
+      "max_sp": 150,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 543.312,
+        "DEF": 630.63,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "8008": {
+      "id": "8008",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Ice",
+      "max_sp": 150,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 543.312,
+        "DEF": 630.63,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
     }
   },
   "lightCones": {
@@ -1358,6 +1426,30 @@
         "DEF": 264.6
       },
       "unreleased": false
+    },
+    "20021": {
+      "id": "20021",
+      "name": "Shadowburn",
+      "rarity": 3,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": true
+    },
+    "20022": {
+      "id": "20022",
+      "name": "Reminiscence",
+      "rarity": 3,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 635.04,
+        "ATK": 423.36,
+        "DEF": 264.6
+      },
+      "unreleased": true
     },
     "21000": {
       "id": "21000",
@@ -1947,6 +2039,42 @@
       },
       "unreleased": false
     },
+    "21050": {
+      "id": "21050",
+      "name": "Sweat Now, Cry Less",
+      "rarity": 4,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "21051": {
+      "id": "21051",
+      "name": "Geniuses' Greetings",
+      "rarity": 4,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": true
+    },
+    "21052": {
+      "id": "21052",
+      "name": "Victory In a Blink",
+      "rarity": 4,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 198.45
+      },
+      "unreleased": true
+    },
     "22000": {
       "id": "22000",
       "name": "Before the Tutorial Mission Starts",
@@ -2413,7 +2541,7 @@
         "ATK": 476.28,
         "DEF": 529.2
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23035": {
       "id": "23035",
@@ -2424,6 +2552,30 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 661.5
+      },
+      "unreleased": false
+    },
+    "23036": {
+      "id": "23036",
+      "name": "Time Woven Into Gold",
+      "rarity": 5,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 635.04,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "23037": {
+      "id": "23037",
+      "name": "Into the Unreachable Veil",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
       },
       "unreleased": true
     },
@@ -2580,6 +2732,16 @@
       "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's SPD reaches <b>120</b> or higher, the wearer's ATK increases by an extra <b>12%</b>."
     },
     {
+      "id": "124",
+      "name": "Poet of Mourning Collapse",
+      "skills": "Increases Quantum DMG dealt by <b>10%</b>.,Decreases the wearer's SPD by <b>12%</b>. When entering battle, if the wearer's SPD is less than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>40%</b>. This effect also applies to the wearer's memosprite."
+    },
+    {
+      "id": "123",
+      "name": "Hero of Triumphant Song",
+      "skills": "Increases ATK by <b>12%</b>.,While the wearer's memosprite is on the field, increases the wearer's SPD by <b>6%</b>. When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by <b>30%</b> for <b>2</b> turn(s)."
+    },
+    {
       "id": "122",
       "name": "Scholar Lost in Erudition",
       "skills": "Increases CRIT Rate by <b>8%</b>.,Increases DMG dealt by Skill and Ultimate by <b>20%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25%</b>."
@@ -2632,7 +2794,7 @@
     {
       "id": "112",
       "name": "Wastelander of Banditry Desert",
-      "skills": "Increases Imaginary DMG by <b>10%</b>.,When attacking debuffed enemies, the wearer's CRIT Rate increases by <b>10%</b>, and their CRIT DMG increases by <b>20%</b> against Imprisoned enemies."
+      "skills": "Increases Imaginary DMG by <b>10%</b>.,When dealing DMG to debuffed enemy targets, the wearer has their CRIT Rate increased by <b>10%</b>. And when they deal DMG to Imprisoned enemy targets, their CRIT DMG increases by <b>20%</b>."
     },
     {
       "id": "111",

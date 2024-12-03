@@ -6848,7 +6848,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        errRopeEidolon: 0,
         comboAbilities: [NULL, ULT, SKILL],
         comboDot: 0,
         comboBreak: 0,

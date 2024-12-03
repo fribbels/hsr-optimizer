@@ -4893,6 +4893,105 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
+    1225: { // Fugue
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 1,
+        [Stats.RES]: 0,
+        [Stats.BE]: 1,
+        [Stats.ERR]: 1,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 1,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+          Stats.BE,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.ATK_P,
+            Stats.EHR,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+            Stats.ATK_P,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Fire_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+          Stats.EHR,
+        ],
+        errRopeEidolon: 0,
+        breakpoints: {
+          [Stats.EHR]: 0.67,
+        },
+        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
+        comboDot: 0,
+        comboBreak: 3,
+        relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+        ],
+        ornamentSets: [
+          Sets.ForgeOfTheKalpagniLantern,
+        ],
+        teammates: [
+          {
+            characterId: '1310', // Firefly
+            lightCone: '23025', // Whereabouts
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
     1301: { // Gallagher
       stats: {
         [Stats.ATK]: 0,
@@ -5792,6 +5891,46 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
+    1313: { // Sunday
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0.5,
+        [Stats.DEF_P]: 0.5,
+        [Stats.HP]: 0.5,
+        [Stats.HP_P]: 0.5,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.75,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 1,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.CD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+    },
     1314: { // Jade
       stats: {
         [Constants.Stats.ATK]: 0.75,
@@ -6463,87 +6602,225 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       sortOption: SortOption.BE,
       hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
-    1225: { // Fugue
+    8007: { // Remembrance Trailblazer M
       stats: {
-        [Stats.ATK]: 0,
-        [Stats.ATK_P]: 0,
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0,
-        [Stats.CD]: 0,
-        [Stats.EHR]: 1,
-        [Stats.RES]: 0,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.5,
         [Stats.BE]: 1,
         [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
-        [Stats.Fire_DMG]: 1,
-        [Stats.Ice_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 1,
         [Stats.Lightning_DMG]: 0,
         [Stats.Wind_DMG]: 0,
         [Stats.Quantum_DMG]: 0,
         [Stats.Imaginary_DMG]: 0,
       },
       parts: {
-        [Parts.Body]: [],
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
         [Parts.Feet]: [
+          Stats.ATK_P,
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Ice_DMG,
+        ],
         [Parts.LinkRope]: [
-          Stats.ERR,
-          Stats.BE,
+          Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.CD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+    },
+    8008: { // Remembrance Trailblazer F
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.5,
+        [Stats.BE]: 1,
+        [Stats.ERR]: 1,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 1,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Ice_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.CD,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+    },
+    9000: { // Aglaea
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 1,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Lightning_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
         ],
       },
       presets: [],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+    },
+    9001: { // The Herta
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 1,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Ice_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
-            Stats.CR,
-            Stats.ATK_P,
-            Stats.EHR,
+            Stats.CD,
           ],
           [Parts.Feet]: [
-            Stats.SPD,
             Stats.ATK_P,
+            Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
             Stats.ATK_P,
-            Stats.Fire_DMG,
+            Stats.Ice_DMG,
           ],
           [Parts.LinkRope]: [
-            Stats.BE,
+            Stats.ATK_P,
           ],
         },
         substats: [
-          Stats.BE,
-          Stats.ATK_P,
-          Stats.CR,
           Stats.CD,
-          Stats.EHR,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
         ],
         errRopeEidolon: 0,
-        breakpoints: {
-          [Stats.EHR]: 0.67,
-        },
-        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
-        comboBreak: 3,
+        comboBreak: 0,
         relicSets: [
-          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.ForgeOfTheKalpagniLantern,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
           {
-            characterId: '1310', // Firefly
-            lightCone: '23025', // Whereabouts
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6554,53 +6831,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
         ],
       },
-    },
-    1313: { // Sunday
-      stats: {
-        [Stats.ATK]: 0,
-        [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.5,
-        [Stats.DEF_P]: 0.5,
-        [Stats.HP]: 0.5,
-        [Stats.HP_P]: 0.5,
-        [Stats.SPD]: 1,
-        [Stats.CR]: 0,
-        [Stats.CD]: 1,
-        [Stats.EHR]: 0,
-        [Stats.RES]: 0.75,
-        [Stats.BE]: 0,
-        [Stats.ERR]: 1,
-        [Stats.OHB]: 0,
-        [Stats.Physical_DMG]: 0,
-        [Stats.Fire_DMG]: 0,
-        [Stats.Ice_DMG]: 0,
-        [Stats.Lightning_DMG]: 0,
-        [Stats.Wind_DMG]: 0,
-        [Stats.Quantum_DMG]: 0,
-        [Stats.Imaginary_DMG]: 1,
-      },
-      parts: {
-        [Parts.Body]: [
-          Stats.CD,
-        ],
-        [Parts.Feet]: [
-          Stats.SPD,
-        ],
-        [Parts.PlanarSphere]: [],
-        [Parts.LinkRope]: [
-          Stats.ERR,
-        ],
-      },
-      presets: [],
-      sortOption: SortOption.CD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
   }
 }

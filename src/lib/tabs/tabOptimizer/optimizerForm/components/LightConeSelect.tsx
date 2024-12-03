@@ -157,7 +157,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                 <SegmentedFilterRow
                   name='path'
                   tags={generatePathTags()}
-                  flexBasis='14.2%'
+                  flexBasis='12.5%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />

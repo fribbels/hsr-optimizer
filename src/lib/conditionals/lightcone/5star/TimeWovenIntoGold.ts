@@ -11,7 +11,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValues = [0.00, 0.00, 0.00, 0.00, 0.00]
 
-  const defaults = {}
+  const defaults = {
+    WIP: true,
+  }
 
   const content: ContentDefinition<typeof defaults> = {
     WIP: {

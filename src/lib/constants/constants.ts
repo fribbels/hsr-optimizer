@@ -505,7 +505,7 @@ export const PathNames = {
   Hunt: 'Hunt',
   Nihility: 'Nihility',
   Preservation: 'Preservation',
-  Memory: 'Remembrance',
+  Remembrance: 'Remembrance',
 }
 
 export const ElementToDamage = {

@@ -10,7 +10,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const memoTalentCdBuffScaling = talent(e, 0.168, 0.168) // TODO
   const memoTalentCdBuffFlat = talent(e, 0.252, 0.252) // TODO
@@ -24,7 +24,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const content: ContentDefinition<typeof defaults> = {
     WIP: {
-      lc: true,
       id: 'WIP',
       formItem: 'switch',
       text: 'WIP',
@@ -43,7 +42,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       percent: true,
     },
     e1CrBuff: {
-      lc: true,
       id: 'e1CrBuff',
       formItem: 'switch',
       text: 'E1 CR buff',

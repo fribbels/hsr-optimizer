@@ -10,7 +10,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.70, 0.77)
@@ -113,10 +113,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((r.ultAtkBuff) ? ultAtkBuffScaling : 0, Source.NONE)
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling + r.interpretationStacks * (e >= 6 && r.e6MultiplierBuff ? 0.05 : 0.01), Source.NONE)
+      x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * (e >= 6 && r.e6MultiplierBuff ? 0.05 : 0.01), Source.NONE)
 
       const enhancedSkillStackScaling = talentStackScaling
-        * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.60)
+        * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.30)
         * (r.eruditionTeammate ? 2 : 1)
       x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 4 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 4), Source.NONE)
 

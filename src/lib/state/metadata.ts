@@ -1491,14 +1491,14 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.1,
     },
     8007: { // Imaginary Trailblazer M
-      x: 1024,
-      y: 1024,
-      z: 1.1,
+      x: 955,
+      y: 975,
+      z: 0.95,
     },
     8008: { // Imaginary Trailblazer F
-      x: 1024,
-      y: 1024,
-      z: 1.1,
+      x: 955,
+      y: 975,
+      z: 0.95,
     },
     1225: { // Fugue
       x: 875,
@@ -1511,14 +1511,14 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.075,
     },
     1401: { // The Herta
-      x: 1024,
-      y: 1024,
-      z: 1.1,
+      x: 1000,
+      y: 1060,
+      z: 1.25,
     },
     1402: { // Aglaea
-      x: 1024,
-      y: 1024,
-      z: 1.1,
+      x: 1215,
+      y: 750,
+      z: 1.15,
     },
   }
 }
@@ -6701,9 +6701,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.CR]: 1,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.5,
-        [Stats.BE]: 1,
-        [Stats.ERR]: 1,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
         [Stats.Fire_DMG]: 0,
@@ -6746,9 +6746,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.CR]: 1,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.5,
-        [Stats.BE]: 1,
-        [Stats.ERR]: 1,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
         [Stats.Fire_DMG]: 0,
@@ -6818,6 +6818,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
@@ -6838,6 +6839,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
           [Parts.LinkRope]: [
             Stats.ATK_P,
+            Stats.ERR,
           ],
         },
         substats: [

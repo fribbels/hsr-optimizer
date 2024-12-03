@@ -12,7 +12,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
-  const defaults = {}
+  const defaults = {
+    WIP: true,
+  }
 
   const teammateDefaults = {
     e4Vulnerability: true,
@@ -20,7 +22,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const content: ContentDefinition<typeof defaults> = {
     WIP: {
-      lc: true,
       id: 'WIP',
       formItem: 'switch',
       text: 'WIP',

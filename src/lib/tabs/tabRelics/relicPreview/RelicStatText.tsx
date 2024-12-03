@@ -17,6 +17,7 @@ function generateStyling(language?: string) {
         white-space: nowrap;
         letter-spacing: -0.2px;
         font-size: 13px;
+        line-height: 22px;
       `
     default:
       return `

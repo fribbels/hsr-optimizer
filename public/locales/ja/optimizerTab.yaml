@@ -390,7 +390,7 @@ ComboFilter:
     Break: 撃破
   ComboOptions:
     Basic: 基礎
-    Skill: スキル
+    Skill: ｽｷﾙ
     Ult: 必殺
     Fua: 追加
   RotationButton: 高度なスキル回しの設定

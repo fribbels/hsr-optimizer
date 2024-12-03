@@ -201,6 +201,10 @@ async function generateTranslations() {
       }
     })(locale)
 
+    const characterBetaInfo = betaInformation[locale]?.Characters ?? betaInformation.en?.Characters
+    const lightConeBetaInfo = betaInformation[locale]?.Lightcones ?? betaInformation.en?.Lightcones
+    const relicBetaInfo = betaInformation[locale]?.RelicSets ?? betaInformation.en?.RelicSets
+
     const setEffects: Record<number, { effect2pc: string; effect4pc?: string }> = {}
     for (const effect of relicEffectConfig) {
       if (!setEffects[effect.SetID]) {
@@ -225,6 +229,7 @@ async function generateTranslations() {
     for (const path of pathConfig) {
       output.Paths[path.ID ?? 'Unknown'] = cleanString(locale, textmap[path.BaseTypeText.Hash])
     }
+    output.Paths.Remembrance = 'Remembrance'
 
     for (const avatar of AvatarConfig) {
       const name = avatar.AvatarID > 8000
@@ -236,8 +241,8 @@ async function generateTranslations() {
           ? name + ` (${output.Paths[multiPathIdToPath[avatar.AvatarID as typeof multiPathIds[number]]]})`
           : name,
       }
-      if (betaInformation[locale]?.Characters) {
-        for (const character of betaInformation[locale].Characters) {
+      if (characterBetaInfo) {
+        for (const character of characterBetaInfo) {
           if (output.Characters[character.id]) continue
           output.Characters[character.id] = character.value
         }
@@ -254,8 +259,8 @@ async function generateTranslations() {
         delete output.RelicSets[set.SetID].Description4pc
       }
     }
-    if (betaInformation[locale]?.RelicSets) {
-      for (const set of betaInformation[locale].RelicSets) {
+    if (relicBetaInfo) {
+      for (const set of relicBetaInfo) {
         if (output.RelicSets[set.id]) continue
         output.RelicSets[set.id] = set.value
       }
@@ -266,8 +271,8 @@ async function generateTranslations() {
         Name: cleanString(locale, textmap[lightcone.EquipmentName.Hash]),
       }
     }
-    if (betaInformation[locale]?.Lightcones) {
-      for (const lightcone of betaInformation[locale].Lightcones) {
+    if (lightConeBetaInfo) {
+      for (const lightcone of lightConeBetaInfo) {
         if (output.Lightcones[lightcone.id]) continue
         output.Lightcones[lightcone.id] = lightcone.value
       }

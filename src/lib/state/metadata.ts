@@ -6840,7 +6840,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
           [Parts.LinkRope]: [
             Stats.ATK_P,
-            Stats.ERR,
           ],
         },
         substats: [
@@ -6853,6 +6852,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,

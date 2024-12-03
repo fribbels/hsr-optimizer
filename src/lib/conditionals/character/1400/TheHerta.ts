@@ -118,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const enhancedSkillStackScaling = talentStackScaling
         * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.30)
         * (r.eruditionTeammate ? 2 : 1)
-      x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 4 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 4), Source.NONE)
+      x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff((r.enhancedSkill) ? 75 : 60, Source.NONE)

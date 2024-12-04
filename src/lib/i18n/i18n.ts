@@ -43,6 +43,11 @@ export const languages = {
     nativeName: 'Português (BR)',
     shortName: 'Português',
   },
+  ru: {
+    locale: 'ru',
+    nativeName: 'русский',
+    shortName: 'русский',
+  },
   vi: {
     locale: 'vi',
     nativeName: 'tiếng việt',
@@ -61,10 +66,6 @@ export const languages = {
       id: {
         locale: 'id',
         nativeName: 'Bahasa Indonesia',
-      },
-      ru: {
-        locale: 'ru',
-        nativeName: 'русский',
       },
       th: {
         locale: 'th',

@@ -35,8 +35,8 @@ export const languages = {
   },
   ko: {
     locale: 'ko',
-    nativeName: '한국인',
-    shortName: '한국인',
+    nativeName: '한국어',
+    shortName: '한국어',
   },
   pt: {
     locale: 'pt',

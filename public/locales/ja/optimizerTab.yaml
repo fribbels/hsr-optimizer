@@ -187,7 +187,7 @@ Sidebar:
     Finished: "{{rate}} / 秒 — 完了"
   ControlsGroup:
     Header: 制御
-    Start: 開始
+    Start: オプティマイザーを開始
     ResetConfirm:
       Title: すべてのフィルターをリセットしますか？
       Description: すべてのフィルターは既定値にリセットされます

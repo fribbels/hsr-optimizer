@@ -12,7 +12,7 @@ export type Build = {
 
 // store.getState().characters[0]
 export type Character = {
-  id: string
+  id: CharacterId
   equipped: Build
   form: Form
   rank: number // order in character tab

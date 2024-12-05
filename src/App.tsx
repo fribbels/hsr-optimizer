@@ -1,4 +1,5 @@
 import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
+import { Languages } from 'lib/i18n/i18n'
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
 import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'

@@ -1,6 +1,10 @@
 import i18next, { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
 import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
+import DB from 'lib/state/db'
+import { CharacterId, ExactCharacterId } from 'types/character'
+import { LightConeId } from 'types/lightCone'
+import { DBMetadataCharacter, DBMetadataLightCone } from 'types/metadata'
 import { v4 as uuidv4 } from 'uuid'
 
 export const TsUtils = {
@@ -76,6 +80,39 @@ export const TsUtils = {
     const trimmedUuid = uuid.trim()
     return /^\d{9}$/.test(trimmedUuid) ? trimmedUuid : null
   },
+
+  generateCharacterOptions: () => {
+    const t = i18next.getFixedT(null, 'gameData', 'Characters')
+    const characterData: CharacterOptions = TsUtils.clone(DB.getMetadata().characters) as CharacterOptions
+
+    for (const value of Object.values(characterData)) {
+      value.value = value.id
+      value.label = t(`${value.id}.LongName`)
+    }
+
+    return Object.values(characterData).sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage))
+  },
+
+  // Light cone selector options from current db metadata
+  generateLightConeOptions: (characterId?: CharacterId) => {
+    const t = i18next.getFixedT(null, 'gameData', 'Lightcones')
+    const lcData: LcOptions = TsUtils.clone(DB.getMetadata().lightCones) as LcOptions
+
+    let pathFilter = null
+    if (characterId) {
+      const character = DB.getMetadata().characters[characterId]
+      pathFilter = character.path
+    }
+
+    for (const value of Object.values(lcData)) {
+      value.value = value.id
+      value.label = t(`${value.id}.Name`)
+    }
+
+    return Object.values(lcData)
+      .filter((lc) => !pathFilter || lc.path === pathFilter)
+      .sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage))
+  },
 }
 
 const getEmptyT = <
@@ -87,3 +124,7 @@ const getEmptyT = <
     return ''
   }) as TFunction<ActualNs, TKPrefix>
 }
+
+type LcOptions = Record<string, DBMetadataLightCone & { value: string; label: string; id: LightConeId }>
+
+type CharacterOptions = Record<string, DBMetadataCharacter & { value: string; label: string; id: ExactCharacterId }>

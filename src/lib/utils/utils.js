@@ -270,38 +270,6 @@ export const Utils = {
     return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere
   },
 
-  // Character selector options from current db metadata
-  generateCharacterOptions: () => {
-    const characterData = JSON.parse(JSON.stringify(DB.getMetadata().characters))
-
-    for (const value of Object.values(characterData)) {
-      value.value = value.id
-      value.label = i18next.t(`gameData:Characters.${value.id}.LongName`)
-    }
-
-    return Object.values(characterData).sort((a, b) => a.displayName.localeCompare(b.displayName))
-  },
-
-  // Light cone selector options from current db metadata
-  generateLightConeOptions: (characterId) => {
-    const lcData = JSON.parse(JSON.stringify(DB.getMetadata().lightCones))
-
-    let pathFilter = null
-    if (characterId) {
-      const character = DB.getMetadata().characters[characterId]
-      pathFilter = character.path
-    }
-
-    for (const value of Object.values(lcData)) {
-      value.value = value.id
-      value.label = i18next.t(`gameData:Lightcones.${value.id}.Name`)
-    }
-
-    return Object.values(lcData)
-      .filter((lc) => !pathFilter || lc.path === pathFilter)
-      .sort((a, b) => a.label.localeCompare(b.label, window.locale))
-  },
-
   // Used to convert output formats for relic scorer, snake-case to camelCase
   recursiveToCamel: (item) => {
     if (Array.isArray(item)) {

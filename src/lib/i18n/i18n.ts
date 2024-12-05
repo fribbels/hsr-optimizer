@@ -73,7 +73,7 @@ export const languages = {
       },
   */
 } as const
-type Languages = keyof typeof languages
+export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en', 'fr', 'pt', 'zh'] as const
 
 // @ts-ignore

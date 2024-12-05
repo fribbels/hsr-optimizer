@@ -6009,9 +6009,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CD,
         ],
-        [Parts.Feet]: [
-          Stats.SPD,
-        ],
+        [Parts.Feet]: [],
         [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,

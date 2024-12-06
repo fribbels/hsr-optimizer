@@ -95,12 +95,10 @@ Grid:
       HP: HP
       SPD: 速度
       CR: 会心率
-      CD: 会心ダメージ
       EHR: 効果命中
       RES: 効果抵抗
       BE: 撃破特効
       OHB: 治癒量
-      ERR: EP回復効率
       DMG: ダメージ
       EHP: EHP
       WEIGHT: |-
@@ -167,10 +165,6 @@ Sidebar:
       CPU: エンジンをCPUに切り替えました
       Stable: エンジンをGPU（安定版）に切り替えました
       Experimental: エンジンをGPU（実験的）に切り替えました
-    Display:
-      GPU Experimental: "GPUアクセラレーション：有効"
-      GPU Stable: "GPUアクセラレーション：有効"
-      CPU: "GPUアクセラレーション：無効"
   Pinning:
     Messages:
       NoneSelected: 行が選択されていません
@@ -192,7 +186,6 @@ Sidebar:
       Title: すべてのフィルターをリセットしますか？
       Description: すべてのフィルターは既定値にリセットされます
   StatViewGroup:
-    Header: ステータスとフィルターの表示
     CombatStats: 戦闘
     BasicStats: 非戦闘
   ResultsGroup:
@@ -200,7 +193,7 @@ Sidebar:
     Equip: 装備
     Filter: フィルター
     Pin: ピン留め
-    Clear: ピン留めを消去
+    Clear: ピン解除
 TeammateRow:
   Header: "チームメイト {{teammateCount}}"
 FormRowLabels:
@@ -347,7 +340,6 @@ WeightFilter:
   DEFFilterText: 防御力
   SPDFilterText: 速度
   CRFilterText: 会心率
-  CDFilterText: 会心ダメージ
   EHRFilterText: 効果命中
   RESFilterText: 効果抵抗
   BEFilterText: 撃破特効
@@ -359,11 +351,9 @@ MinMaxFilters:
   DEFLabel: 防御力
   SPDLabel: 速度
   CRLabel: 会心率
-  CDLabel: 会心ダメージ
   EHRLabel: 効果命中
   RESLabel: 効果抵抗
   BELabel: 撃破特効
-  ERRLabel: EP回復効率
   WEIGHTLabel: 重み
   EHPLabel: EHP
   BASICLabel: 通常攻撃

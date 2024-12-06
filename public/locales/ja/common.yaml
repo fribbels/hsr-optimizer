@@ -75,7 +75,7 @@ ShortStats:
   "SPD%": 速度割合
   SPD: 速度
   CRIT Rate: 会心率
-  CRIT DMG: 会心ダメージ
+  CRIT DMG: 会心ダメ
   Effect Hit Rate: 効果命中
   Effect RES: 効果抵抗
   Break Effect: 撃破特効
@@ -98,11 +98,11 @@ ShortSpacedStats:
   "SPD%": 速度
   SPD: 速度
   CRIT Rate: 会心率
-  CRIT DMG: 会心ダメージ
+  CRIT DMG: 会心ダメ
   Effect Hit Rate: 効果命中
   Effect RES: 効果抵抗
   Break Effect: 撃破特効
-  Energy Regeneration Rate: EP回復効率
+  Energy Regeneration Rate: EP回復
   Outgoing Healing Boost: 治癒量
   Physical DMG Boost: "$t(gameData:Elements.Physical)"
   Fire DMG Boost: "$t(gameData:Elements.Fire)"

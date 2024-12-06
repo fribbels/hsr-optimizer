@@ -1,6 +1,218 @@
 BetaMessage: "現在のバージョン: {{Version}} - 計算結果は変更される場合があります。"
+Common:
+  HealAbility:
+    Text: "治癒"
+    Content: "回復計算のためのアビリティを選択"
+    Basic: "治癒：基礎"
+    Skill: "治癒：スキル"
+    Ult: "治癒：必殺"
+    Talent: "治癒：追加能力"
+    Trace: "治癒：軌跡"
+  ShieldAbility:
+    Text: "シールド"
+    Content: "シールド計算のためのアビリティを選択"
+    Basic: "シールド：基礎"
+    Skill: "シールド：スキル"
+    Ult: "シールド：必殺"
+    Talent: "シールド：追加能力"
+    Trace: "シールド：軌跡"
 Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: 層数
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: '「着火」状態'
+        content: >-
+          装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: 最大EP
+        content: 装備キャラが必殺技を発動する時、装備キャラの最大EPに応じて装備キャラの必殺技によるダメージをアップする、1EPにつき+{{DmgStep}}%、最大で180までカウントされる。
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: 会心ダメ層数
+        content: 敵にあるデバフ1つにつき、その敵に対する装備キャラの会心ダメージ+{{DmgStep}}%、最大で3層累積できる。
+      postUltBuff:
+        text: '「論弁」効果'
+        content: >-
+          必殺技で敵を攻撃する時、装備キャラは「論弁」効果を獲得し、与ダメージ+{{DmgStep}}%、追加攻撃が敵の防御力を{{DefIgnore}}%無視する、この効果は2ターン継続する。
+  BeforeDawn:
+    Content:
+      fuaDmgBoost:
+        text: '「夢身」効果'
+        content: >-
+          装備キャラが戦闘スキル、または必殺技を発動した後、「夢身」効果を獲得する。追加攻撃を行う時、「夢身」を消費し、追加攻撃ダメージ+{{DmgBuff}}%。
+  ButTheBattleIsntOver:
+    Content:
+      postSkillDmgBuff:
+        text: 戦闘スキル発動後のダメージバフ
+        content: 味方に対して必殺技を発動した時、SPを1回復する、この効果は必殺技を2回発動するたびに1回発動できる。装備キャラが戦闘スキルを発動した後、次に行動する他の味方の与ダメージ+{{DmgBuff}}%、1ターン継続。
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: 必殺技後の速度バフ
+        content: >-
+          装備キャラが攻撃を行った後、異なる敵に攻撃が命中するごとにEPを{{EnergyRecovered}}回復する。1回の攻撃で、この効果を通して最大で3回EPを回復できる。装備キャラが必殺技を発動した後、味方全体の速度+{{SpdBuff}}、1ターン継続。
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: デバフが3つ以上ある敵に対する会心率増加
+        content: デバフが3つ以上ある敵にダメージを与える時、装備キャラの会心率+{{CritBuff}}%。
+      targetCodeDebuff:
+        text: '「エーテルコード」状態'
+        content: >-
+          装備キャラが通常攻撃、戦闘スキルまたは必殺技を発動した後、100%の基礎確率で攻撃を受けた敵の中から、「エーテルコード」を付与されてないランダムな敵1体に「エーテルコード」を付与する。「エーテルコード」を付与された敵の受けるダメージ+{{DmgIncrease}}%、1ターン継続。
+  InTheNameOfTheWorld:
+    Content:
+      enemyDebuffedDmgBoost:
+        text: デバフ状態の敵
+        content: デバフ状態の敵に対して、装備キャラの与ダメージ+{{DmgBuff}}%。
+      skillAtkBoost:
+        text: スキル発動時の攻撃力増加（未実装）
+        content: 装備キャラが戦闘スキルを発動した時、その攻撃の効果命中+{{EhrBuff}}%、攻撃力+{{AtkBuff}}%。
+  InTheNight:
+    Content:
+      spdScalingBuffs:
+        text: 超過速度バフ
+        content: >-
+          戦闘中に装備キャラの速度が100を超えた時、超過した速度10につき、通常攻撃と戦闘スキルによるダメージ+{{DmgBuff}}%、必殺技ダメージの会心ダメージ+{{CritBuff}}%、最大で6層累積できる。
+  MomentOfVictory:
+    Content:
+      selfAttackedDefBuff:
+        text: 攻撃を受けた後の防御力バフ
+        content: 自身が攻撃を受ける確率がアップする。装備キャラが攻撃を受けた後、さらに防御力+{{DefBuff}}%、効果は自身のターンが終了するまで継続。
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: 攻撃力バフ層数
+  NightOnTheMilkyWay:
+    Content:
+      enemyCountAtkBuff:
+        text: 敵数バフ
+      enemyWeaknessBreakDmgBuff:
+        text: 弱点撃破ダメージバフ
+  PatienceIsAllYouNeed:
+    Content:
+      spdStacks:
+        text: 速度バフ層数
+        content: 装備キャラが攻撃を行った後、速度+{{SpdBuff}}%、最大で3層累積できる。
+      dotEffect:
+        text: '「遊糸」状態（未実装）'
+        content: >-
+          装備キャラの攻撃が敵に命中する時、その敵が「遊糸」状態でない場合、100%の基礎確率で敵を「遊糸」状態にする。敵が「遊糸」状態の時、感電状態と見なされる。「遊糸」状態の敵はターンが回ってくるたびに、装備キャラの攻撃力{{Multiplier}}%分の雷属性持続ダメージを受ける、1ターン継続。
   SheAlreadyShutHerEyes:
     Content:
       hpLostDmgBuff:
-        text: HP減少時の与ダメージバフ
+        text: HP減少時のダメージバフ
+        content: 装備キャラのHPが減った時、味方全体の与ダメージ+{{DmgBuff}}%、2ターン継続。
+  SomethingIrreplaceable:
+    Content:
+      dmgBuff:
+        text: 敵を倒す・攻撃を受けたときのダメージバフ
+        content: >-
+          装備キャラの攻撃力+24%。装備キャラが敵を倒す、または攻撃を受けた後、装備キャラの攻撃力{{Multiplier}}%分のHPを回復し、与ダメージ+{{DmgBuff}}%、効果は自身の次のターンが終了するまで継続。この効果は累積できず、ターンが回ってくるたびに1回まで発動できる。
+  TheUnreachableSide:
+    Content:
+      dmgBuff:
+        text: HP消費・被弾時のダメージバフ
+        content: 装備キャラが攻撃を受ける、または自身のHPを消費すると、与ダメージ+{{DmgBuff}}%、この効果は装備キャラが攻撃を行った後に解除される。
+  PastAndFuture:
+    Content:
+      postSkillDmgBuff:
+        text: 戦闘スキル発動後のダメージバフ
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyStacks:
+        text: 最大EP
+  Amber:
+    Content:
+      hp50DefBuff:
+        text: HP < 50%時の防御力バフ
+        content: 装備キャラの残りHPが50%未満の場合、さらに防御力+{{DefBuff}}%。
+  Arrows:
+    Content:
+      critBuff:
+        text: 会心率バフ
+        content: 戦闘開始時、装備キャラの会心率+{{CritBuff}}%、3ターン継続。
+  Chorus:
+    Content:
+      inBattleAtkBuff:
+        text: 攻撃力バフ
+        content: 戦闘に入った後、味方全体の攻撃力+{{AtkBuff}}%。同系統のスキルは重ね掛け不可。
+  CollapsingSky:
+    Content:
+      basicSkillDmgBuff:
+        text: 通常攻撃・戦闘スキルのダメージバフ
+        content: 装備キャラの通常攻撃と戦闘スキルによるダメージ+{{DmgBuff}}%。
+  Cornucopia:
+    Content:
+      healingBuff:
+        text: 治癒量バフ
+        content: 装備キャラが戦闘スキル、または必殺技を発動した時、治癒量+{{HealingBuff}}%。
+  DartingArrow:
+    Content:
+      defeatedEnemyAtkBuff:
+        text: 敵を倒した後の攻撃力バフ
+        content: 装備キャラが敵を倒した後、攻撃力+{{AtkBuff}}%、3ターン持続。
+  DataBank:
+    Content:
+      ultDmgBuff:
+        text: 必殺技ダメージバフ
+        content: 装備キャラの必殺技によるダメージ+{{DmgBuff}}%。
+  Void:
+    Content:
+      initialEhrBuff:
+        text: 効果命中バフ
+        content: 戦闘開始時、装備キャラの効果命中+{{EhrBuff}}%、3ターン継続。
+Characters:
+  Seele:
+    Content:
+      buffedState:
+        text: '「増幅」状態'
+        content: >-
+          通常攻撃、戦闘スキル、必殺技で敵を倒すと追加ターンを1獲得し、増幅状態に入る。増幅状態のゼーレの与ダメージ+{{buffedStateDmgBuff}}%、1ターン継続。::BR::増幅状態の時、ゼーレの量子属性耐性貫通+20%。
+      speedBoostStacks:
+        text: 速度バフ層数
+        content: 一層ごとに、ゼーレの速度+25%、2ターン継続。最大{{speedBoostStacksMax}}回蓄積できる。
+      e1EnemyHp80CrBoost:
+        text: 敵HP ≤ 80%時の会心率バフ（1凸）
+        content: "残りHPが80%以下の敵にダメージを与える時、会心率+15%。"
+      e6UltTargetDebuff:
+        text: '「乱れ蝶」状態（6凸）'
+        content: >-
+          必殺技を発動した後、攻撃を受けた敵単体を「乱れ蝶」状態にする、1ターン継続。乱れ蝶状態の敵が攻撃を受けた後、ゼーレの必殺技ダメージ15%分の量子属性付加ダメージを1回受ける。その敵が、他の味方に「乱れ蝶」の付加ダメージを触発され倒された時、ゼーレの天賦は発動しない。
+  Tingyun:
+    Content:
+      skillSpdBuff:
+        text: スキル速度バフ
+      ultDmgBuff:
+        text: 必殺技ダメージバフ
+  Welt:
+    Content:
+      enemySlowed:
+        text: 敵の減速
+      e1EnhancedState:
+        text: 1凸強化状態
+  Xueyi:
+    Content:
+      toughnessReductionDmgBoost:
+        text: 必殺技与ダメージ増加
+      fuaHits:
+        text: 追加攻撃ヒット数
+  Yanqing:
+    Content:
+      ultBuffActive:
+        text: 必殺技バフ
+      critSpdBuff:
+        text: 速度バフ
+      e1TargetFrozen:
+        text: 1凸弱点撃破済み
+  Yunli:
+    Content:
+      e6Buffs:
+        text: 完凸バフ

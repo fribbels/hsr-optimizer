@@ -25,12 +25,12 @@ SortOptions:
   DMGLabel: ダメージ計算
   StatLabel: ステータス
   COMBO: コンボダメージで並べ替え
-  BASIC: 通常攻撃ダメージで並べ替え
-  SKILL: 戦闘スキルダメージで並べ替え
-  ULT: 必殺技ダメージで並べ替え
-  FUA: 追加攻撃ダメージで並べ替え
+  BASIC: 通常攻撃で並べ替え
+  SKILL: 戦闘スキルで並べ替え
+  ULT: 必殺技で並べ替え
+  FUA: 追加攻撃で並べ替え
   DOT: 持続ダメージで並べ替え
-  BREAK: 弱点撃破ダメージで並べ替え
+  BREAK: 撃破ダメージで並べ替え
   HEAL: 治癒量で並べ替え
   SHIELD: シールド量で並べ替え
   HP: "$t(common:ReadableStats.HP)で並べ替え"
@@ -95,10 +95,12 @@ Grid:
       HP: HP
       SPD: 速度
       CR: 会心率
+      CD: 会心ダメ
       EHR: 効果命中
       RES: 効果抵抗
       BE: 撃破特効
       OHB: 治癒量
+      ERR: EP回復効率
       DMG: ダメージ
       EHP: EHP
       WEIGHT: |-
@@ -165,6 +167,10 @@ Sidebar:
       CPU: エンジンをCPUに切り替えました
       Stable: エンジンをGPU（安定版）に切り替えました
       Experimental: エンジンをGPU（実験的）に切り替えました
+    Display:
+      GPU Experimental: "アクセラレーション：有効"
+      GPU Stable: "アクセラレーション：有効"
+      CPU: "アクセラレーション：無効"
   Pinning:
     Messages:
       NoneSelected: 行が選択されていません
@@ -186,6 +192,7 @@ Sidebar:
       Title: すべてのフィルターをリセットしますか？
       Description: すべてのフィルターは既定値にリセットされます
   StatViewGroup:
+    Header: ステータス表示の切り替え
     CombatStats: 戦闘
     BasicStats: 非戦闘
   ResultsGroup:
@@ -340,6 +347,7 @@ WeightFilter:
   DEFFilterText: 防御力
   SPDFilterText: 速度
   CRFilterText: 会心率
+  CDFilterText: 会心ダメ
   EHRFilterText: 効果命中
   RESFilterText: 効果抵抗
   BEFilterText: 撃破特効
@@ -351,9 +359,11 @@ MinMaxFilters:
   DEFLabel: 防御力
   SPDLabel: 速度
   CRLabel: 会心率
+  CDLabel: 会心ダメ
   EHRLabel: 効果命中
   RESLabel: 効果抵抗
   BELabel: 撃破特効
+  ERRLabel: EP回復効率
   WEIGHTLabel: 重み
   EHPLabel: EHP
   BASICLabel: 通常攻撃

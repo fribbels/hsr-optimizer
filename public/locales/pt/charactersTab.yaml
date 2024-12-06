@@ -51,7 +51,7 @@ CharacterPreview:
   ArtBy: "Arte por {{artistName}}"
   EditCharacter: Editar personagem
   EditPortrait: Editar retrato
-  CharacterScore: "Pontuação do char: {{score}} {{grade}}"
+  CharacterScore: "Pontuação: {{score}} {{grade}}"
   Messages:
     AddedRelic: Relíquia adicionada com sucesso
     SavedPortrait: Retrato salvo com sucesso

@@ -10,7 +10,7 @@ RelicFilterBar:
   Mainstat: メインステータス
   Substat: サブステータス
   ReapplyButton: スコアを更新
-  ScoringButton: スコア計算方法の変更
+  ScoringButton: スコア計算方法の編集
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
   CustomCharsHeader: ポテンシャル評価の対象のカスタマイズ
@@ -113,7 +113,7 @@ Toolbar:
     Top10: "遺物インサイト：トップ10"
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
-    PlotCustom: カスタム評価対象を表示
+    PlotCustom: カスタム評価対象のみ表示
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除

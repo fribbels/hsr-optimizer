@@ -59,9 +59,43 @@ CharacterPreview:
     Labels:
       CombatStats: 전투 스탯
       DMGUpgrades: 대미지 강화
-  DMGUpgrades: 대미지 강화
+  DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교
-    Damage: 대미지
+    Damage: 피해량
   BuildAnalysis:
     Header: 캐릭터 빌드 분석
+    SimulationTeammates: 시뮬레이션 파티
+    Rotation:
+      Header: 사이클
+      BASIC: 일반 공격
+      SKILL: 전투 스킬
+      ULT: 필살기
+      FUA: 추가 공격
+      DOTS: "지속 피해:"
+      BREAKS: "격파 피해:"
+    CombatResults:
+      Header: 전투 중 피해량 집계
+      Character: "캐릭터 피해:"
+      Benchmark: "벤치마크 피해:"
+      Maximum: "최고 피해:"
+      Score: "DPS 점수(%):"
+      Abilities:
+        SKILL: 전투 스킬 피해량
+        ULT: 필살기 피해량
+        FUA: 추가 공격 피해량
+        DOT: 지속 피해량
+        BREAK: 격파 피해량
+        COMBO: 사이클 총 피해량
+  ScoringColumn:
+    Character:
+      Header: "캐릭터 빌드({{score}}%)"
+    Benchmark:
+      Mainstats: 100% 벤치마크 주옵
+      Abilities: 100% 벤치마크 피해량
+    Perfect:
+      Header: "종결 빌드({{score}}%)"
+      Mainstats: 200% 종결 주옵
+      Abilities: 200% 종결 피해량
+  ScoringDetails:
+    Header: DPS 점수 계산법

@@ -176,7 +176,7 @@ Sidebar:
       NoneSelected: 行が選択されていません
       SimSelected: カスタムシミュレーションされた行はピン留めできません
       AlreadyPinned: 既にピン留めされています
-  Permutations: 順列
+  Permutations: 組み合わせ
   Perms: 合計
   Searched: 検索済み
   Results: 結果
@@ -187,7 +187,7 @@ Sidebar:
     Finished: "{{rate}} / 秒 — 完了"
   ControlsGroup:
     Header: 制御
-    Start: 開始
+    Start: オプティマイザーを開始
     ResetConfirm:
       Title: すべてのフィルターをリセットしますか？
       Description: すべてのフィルターは既定値にリセットされます
@@ -390,7 +390,7 @@ ComboFilter:
     Break: 撃破
   ComboOptions:
     Basic: 基礎
-    Skill: スキル
+    Skill: ｽｷﾙ
     Ult: 必殺
     Fua: 追加
   RotationButton: 高度なスキル回しの設定

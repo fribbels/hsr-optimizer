@@ -143,6 +143,6 @@ function RadioButton(props: {
   value: number
 }) {
   return (
-    <Radio.Button value={props.value} style={{ flex: 1, textAlign: 'center' }}>{props.text}</Radio.Button>
+    <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
   )
 }

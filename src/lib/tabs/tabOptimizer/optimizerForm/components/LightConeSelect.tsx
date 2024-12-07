@@ -1,8 +1,8 @@
 import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Assets } from 'lib/rendering/assets'
+import { generateLightConeOptions } from 'lib/rendering/optionGenerator'
 import DB from 'lib/state/db'
 import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
 import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
@@ -51,7 +51,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
 
   const inputRef = useRef<InputRef>(null)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
-  const lightConeOptions = useMemo(() => TsUtils.generateLightConeOptions(), [t])
+  const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
   const labelledOptions = useMemo(() => {
     const labelledOptions: { value: string; label: ReactElement }[] = []

@@ -130,12 +130,12 @@ self.onmessage = function (e: MessageEvent) {
     const planarSphere = relics.PlanarSphere[p]
     const linkRope = relics.LinkRope[l]
 
-    const setH = RelicSetToIndex[head.set]
-    const setG = RelicSetToIndex[hands.set]
-    const setB = RelicSetToIndex[body.set]
-    const setF = RelicSetToIndex[feet.set]
-    const setP = OrnamentSetToIndex[planarSphere.set]
-    const setL = OrnamentSetToIndex[linkRope.set]
+    const setH = RelicSetToIndex[head.set as SetsRelics]
+    const setG = RelicSetToIndex[hands.set as SetsRelics]
+    const setB = RelicSetToIndex[body.set as SetsRelics]
+    const setF = RelicSetToIndex[feet.set as SetsRelics]
+    const setP = OrnamentSetToIndex[planarSphere.set as SetsOrnaments]
+    const setL = OrnamentSetToIndex[linkRope.set as SetsOrnaments]
 
     const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
     const ornamentSetIndex = setP + setL * ornamentSetCount

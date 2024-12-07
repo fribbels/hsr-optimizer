@@ -458,7 +458,7 @@ StatSimulation:
     Header: セット
     RelicPlaceholder: 遺物セット
     OrnamentPlaceholder: オーナメントセット
-  TotalRolls: 合計サブステータス出現回数
+  TotalRolls: 合計
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: "無効"

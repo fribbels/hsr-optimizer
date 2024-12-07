@@ -91,7 +91,7 @@ ShortStats:
 ShortSpacedStats:
   "HP%": HP
   HP: HP
-  "ATK%": 攻撃力
+  "ATK%": 攻撃力割合
   ATK: 攻撃力
   "DEF%": 防御力
   DEF: 防御力
@@ -121,23 +121,23 @@ ReadableStats:
   "SPD%": 速度
   SPD: 速度
   CRIT Rate: 会心率
-  CRIT DMG: 会心ダメージ
+  CRIT DMG: 会心ダメ
   Effect Hit Rate: 効果命中
   Effect RES: 効果抵抗
   Break Effect: 撃破特効
   Energy Regeneration Rate: EP回復効率
   Outgoing Healing Boost: 治癒量
-  Physical DMG Boost: "$t(gameData:Elements.Physical)属性"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)属性"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)属性"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)属性"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)属性"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)属性"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)属性"
+  Physical DMG Boost: "$t(gameData:Elements.Physical)ダメージ"
+  Fire DMG Boost: "$t(gameData:Elements.Fire)ダメージ"
+  Ice DMG Boost: "$t(gameData:Elements.Ice)ダメージ"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder)ダメージ"
+  Wind DMG Boost: "$t(gameData:Elements.Wind)ダメージ"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum)ダメージ"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)ダメージ"
 ShortReadableStats:
   "HP%": HP
   HP: HP
-  "ATK%": 攻撃力
+  "ATK%": 攻撃力割合
   ATK: 攻撃力
   "DEF%": 防御力
   DEF: 防御力

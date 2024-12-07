@@ -52,6 +52,11 @@ Lightcones:
       postSkillDmgBuff:
         text: 戦闘スキル発動後のダメージバフ
         content: 味方に対して必殺技を発動した時、SPを1回復する、この効果は必殺技を2回発動するたびに1回発動できる。装備キャラが戦闘スキルを発動した後、次に行動する他の味方の与ダメージ+{{DmgBuff}}%、1ターン継続。
+  CruisingInTheStellarSea:
+    Content:
+      enemyDefeatedAtkBuff:
+        text: 敵キル後の攻撃力バフ
+        content: 装備キャラが敵を倒した後、攻撃力+{{AtkBuff}}%、2ターン継続。
   EchoesOfTheCoffin:
     Content:
       postUltSpdBuff:
@@ -61,7 +66,7 @@ Lightcones:
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
-        text: デバフが3つ以上ある敵に対する会心率増加
+        text: デバフが3つ以上ある敵に対する会心率バフ
         content: デバフが3つ以上ある敵にダメージを与える時、装備キャラの会心率+{{CritBuff}}%。
       targetCodeDebuff:
         text: '「エーテルコード」状態'
@@ -73,7 +78,7 @@ Lightcones:
         text: デバフ状態の敵
         content: デバフ状態の敵に対して、装備キャラの与ダメージ+{{DmgBuff}}%。
       skillAtkBoost:
-        text: スキル発動時の攻撃力増加（未実装）
+        text: スキル発動時の攻撃力バフ（未実装）
         content: 装備キャラが戦闘スキルを発動した時、その攻撃の効果命中+{{EhrBuff}}%、攻撃力+{{AtkBuff}}%。
   InTheNight:
     Content:
@@ -157,7 +162,7 @@ Lightcones:
   DartingArrow:
     Content:
       defeatedEnemyAtkBuff:
-        text: 敵を倒した後の攻撃力バフ
+        text: 敵キル後の攻撃力バフ
         content: 装備キャラが敵を倒した後、攻撃力+{{AtkBuff}}%、3ターン持続。
   DataBank:
     Content:
@@ -201,7 +206,7 @@ Characters:
   Xueyi:
     Content:
       toughnessReductionDmgBoost:
-        text: 必殺技与ダメージ増加
+        text: 必殺技与ダメージバフ
       fuaHits:
         text: 追加攻撃ヒット数
   Yanqing:

@@ -92,7 +92,7 @@ CharacterPreview:
       Header: 結果
       Primary: "主に使うアビリティ"
       Character: "現在の与ダメージ"
-      Benchmark: "標準的な与ダメージ"
+      Benchmark: "基準となる与ダメージ"
       Baseline: "素の与ダメージ"
       Maximum: "完璧な与ダメージ"
       Score: "スコア比率%"
@@ -113,12 +113,12 @@ CharacterPreview:
       Mainstats: 現在のメインステータス
       Abilities: 現在の与ダメージ
     Benchmark:
-      Header: "標準的なビルド（{{score}}%）"
-      BasicStats: 標準的な非戦闘時のステータス
-      CombatStats: 標準的な<1>戦闘中の</1>ステータス
-      Substats: 標準的なサブステータス出現回数（最小）
-      Mainstats: 標準的なメインステータス
-      Abilities: 標準的な与ダメージ
+      Header: "基準となるビルド（{{score}}%）"
+      BasicStats: 基準となる非戦闘時のステータス
+      CombatStats: 基準となる<1>戦闘中の</1>ステータス
+      Substats: 基準となるサブステータス出現回数（最小）
+      Mainstats: 基準となるメインステータス
+      Abilities: 基準となる与ダメージ
     Perfect:
       Header: "完璧なビルド（{{score}}%）"
       BasicStats: 完璧な非戦闘時のステータス

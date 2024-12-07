@@ -309,7 +309,7 @@ Presets:
   PresetNotAvailable: プリセットは利用できません。別のオプションを選択してください。
 CombatBuffs:
   ATK: 攻撃力
-  ATK_P: 攻撃力
+  ATK_P: 攻撃力割合
   HP: HP
   HP_P: HP
   DEF: 防御力

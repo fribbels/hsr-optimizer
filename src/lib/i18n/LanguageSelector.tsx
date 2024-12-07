@@ -1,5 +1,5 @@
 import { Button, Flex, Select } from 'antd'
-import { languages, completedLocales } from 'lib/i18n/i18n'
+import { completedLocales, languages } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/state/db'
 import React from 'react'
@@ -17,13 +17,12 @@ export function LanguageSelector() {
         <Flex align='center' gap={10}>
           <img style={{ width: 22 }} src={Assets.getGlobe()}/>
           {shortName}
-          {isBeta ? ` - ${locale}` : ''}
         </Flex>
       ),
       label: (
         <Flex gap={8}>
           {nativeName}
-          {isBeta ? ` - ${locale}` : ''}
+          {isBeta ? ` (${locale})` : ''}
           {completedLocales.includes(locale) ? '' : ' - (WIP)'}
         </Flex>
       ),

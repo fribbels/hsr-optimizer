@@ -81,7 +81,7 @@ CharacterPreview:
     SimulationTeammates: パーティー編成
     SimulationSets: 遺物
     Rotation:
-      Header: ローテーション
+      Header: スキル回し
       BASIC: 通常攻撃
       SKILL: 戦闘スキル
       ULT: 必殺技

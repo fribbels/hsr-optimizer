@@ -33,7 +33,7 @@ RelicGrid:
       メインステ
       の値
     HPP: HP
-    ATKP: 攻撃力
+    ATKP: 攻撃力割合
     DEFP: 防御力
     HP: HP
     ATK: 攻撃力

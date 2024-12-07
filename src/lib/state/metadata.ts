@@ -123,6 +123,8 @@ const displayNameMapping: Record<string, string> = {
   8004: 'Stelle (Preservation)',
   8005: 'Caelus (Harmony)',
   8006: 'Stelle (Harmony)',
+  8007: 'Caelus (Remembrance)',
+  8008: 'Stelle (Remembrance)',
   1213: 'Imbibitor Lunae',
   1224: 'March 7th (Hunt)',
 } as const

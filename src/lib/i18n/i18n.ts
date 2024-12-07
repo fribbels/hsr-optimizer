@@ -10,51 +10,61 @@ window.yaml = yaml
 export const languages = {
   en: {
     locale: 'en',
+    localeCode: 'en_US',
     nativeName: 'English',
     shortName: 'English',
   },
   es: {
     locale: 'es',
+    localeCode: 'es_ES',
     nativeName: 'Español',
     shortName: 'Español',
   },
   fr: {
     locale: 'fr',
+    localeCode: 'fr_FR',
     nativeName: 'Français',
     shortName: 'Français',
   },
   it: {
     locale: 'it',
+    localeCode: 'it_IT',
     nativeName: 'Italiano',
     shortName: 'Italiano',
   },
   ja: {
     locale: 'ja',
+    localeCode: 'ja_JP',
     nativeName: '日本語',
     shortName: '日本語',
   },
   ko: {
     locale: 'ko',
-    nativeName: '한국인',
-    shortName: '한국인',
+    localeCode: 'ko_KR',
+    nativeName: '한국어',
+    shortName: '한국어',
   },
   pt: {
     locale: 'pt',
-    nativeName: 'Português (BR)',
+    localeCode: 'pt_BR',
+    nativeName: 'Português',
     shortName: 'Português',
   },
   ru: {
     locale: 'ru',
+    localeCode: 'ru_RU',
     nativeName: 'русский',
     shortName: 'русский',
   },
   vi: {
     locale: 'vi',
+    localeCode: 'vi_VN',
     nativeName: 'tiếng việt',
     shortName: 'tiếng việt',
   },
   zh: {
     locale: 'zh',
+    localeCode: 'zh_CN',
     nativeName: '中文',
     shortName: '中文',
   },
@@ -73,8 +83,8 @@ export const languages = {
       },
   */
 } as const
-type Languages = keyof typeof languages
-export const completedLocales: Languages[] = ['en', 'fr', 'pt', 'zh'] as const
+export type Languages = keyof typeof languages
+export const completedLocales: Languages[] = ['en', 'fr', 'ja', 'pt', 'zh'] as const
 
 // @ts-ignore
 export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales

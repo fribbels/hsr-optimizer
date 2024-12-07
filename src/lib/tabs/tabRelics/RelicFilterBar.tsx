@@ -45,8 +45,8 @@ export default function RelicFilterBar(props: {
 
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
-  const characterOptions: DBMetadataCharacter[] = useMemo(() => {
-    return Utils.generateCharacterOptions()
+  const characterOptions = useMemo(() => {
+    return TsUtils.generateCharacterOptions()
   }, [])
 
   function generateImageTags(arr: string[], srcFn: (s: string) => string, tooltip: boolean) {

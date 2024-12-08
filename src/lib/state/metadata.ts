@@ -3527,6 +3527,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
+          [Sets.TheWondrousBananAmusementPark, Sets.TheWondrousBananAmusementPark],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],

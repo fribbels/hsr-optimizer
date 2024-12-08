@@ -555,7 +555,7 @@ export function CharacterCardCombatStats(props: {
     rows.push(
       <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <Flex gap={3} align='center'>
+        <Flex gap={1} align='center'>
           <StatTextSm>
             {t(`ReadableStats.${stat as StatsValues}`)}
           </StatTextSm>

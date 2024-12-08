@@ -3224,6 +3224,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.TheWondrousBananAmusementPark,
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
@@ -3527,15 +3528,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
-          [Sets.TheWondrousBananAmusementPark, Sets.TheWondrousBananAmusementPark],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.TheWondrousBananAmusementPark,
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          Sets.RutilantArena,
         ],
         teammates: [
           {

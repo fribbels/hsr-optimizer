@@ -8,6 +8,7 @@ import { Trans } from 'react-i18next'
 import semver from 'semver'
 
 export function checkForUpdatesNotification(version: string) {
+  const t = i18next.getFixedT(null, 'notifications', 'Changelog')
   // Errors checking for versions shouldn't crash the app
   try {
     const isOutOfDate = !version || semver.lt(version, CURRENT_OPTIMIZER_VERSION)
@@ -19,19 +20,21 @@ export function checkForUpdatesNotification(version: string) {
     const btn = (
       <Space>
         <Button
-          type='primary' icon={<UnorderedListOutlined/>} onClick={() => {
-          window.notificationApi.destroy()
-          window.store.getState().setActiveKey(AppPages.CHANGELOG)
-        }}
+          type='primary'
+          icon={<UnorderedListOutlined/>}
+          onClick={() => {
+            window.notificationApi.destroy()
+            window.store.getState().setActiveKey(AppPages.CHANGELOG)
+          }}
         >
           {
-            i18next.t('notifications:Changelog.View')
+            t('View')
             // View changelog
           }
         </Button>
         <Button type='default' onClick={() => window.notificationApi.destroy()}>
           {
-            i18next.t('notifications:Changelog.Dismiss')
+            t('Dismiss')
             // Dismiss/
           }
         </Button>
@@ -39,8 +42,8 @@ export function checkForUpdatesNotification(version: string) {
     )
 
     window.notificationApi.success({
-      message: i18next.t('notifications:Changelog.Message'), // 'New updates!',
-      description: i18next.t('notifications:Changelog.Description'), // 'Check out the changelog for the latest optimizer updates.',
+      message: t('Message'), // 'New updates!',
+      description: t('Description'), // 'Check out the changelog for the latest optimizer updates.',
       btn,
       duration: 30,
     })
@@ -50,26 +53,27 @@ export function checkForUpdatesNotification(version: string) {
 }
 
 export function webgpuNotSupportedNotification() {
+  const t = i18next.getFixedT(null, 'notifications', 'GPU')
   // Errors checking for versions shouldn't crash the app
   try {
     window.notificationApi.warning({
-      message: 'WebGPU is not supported on this browser!',
+      message: t('Message'), // 'WebGPU is not supported on this browser!',
       description: (
         <Flex vertical>
           <div>
             {
-              i18next.t('notifications:GPU.Description.l1')
+              t('Description.l1')
               // Please use one of the following supported environments in order to enable GPU acceleration:
             }
           </div>
           <div>
             <ul>
-              <li>{i18next.t('notifications:GPU.Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
+              <li>{t('Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
               <li>
                 {/* @ts-ignore colorized link takes text prop from translation */}
                 <Trans
-                  t={i18next.t}
-                  i18nKey='notifications:GPU.Description.l3'
+                  t={t}
+                  i18nKey='Description.l3'
                   // @ts-ignore
                   components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true}/> }}
                 />
@@ -80,7 +84,7 @@ export function webgpuNotSupportedNotification() {
 
           <div>
             {
-              i18next.t('notifications:GPU.Description.l4')
+              t('Description.l4')
               // If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated.
             }
           </div>

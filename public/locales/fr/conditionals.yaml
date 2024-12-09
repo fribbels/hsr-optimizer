@@ -21,6 +21,10 @@ Lightcones:
     Content:
       dmgBuffStacks:
         text: Cumuls de bonus de DGT
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: Malus Bulle du vide
   AnInstantBeforeAGaze:
     Content:
       maxEnergyUltDmgStacks:

@@ -230,75 +230,75 @@ SetConditionals:
   SelectOptions:
     Streetwise:
       Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% ATQ)"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% ATQ)"
     Wastelander:
       Off:
         Display: "Inactif"
         Label: "Inactif"
       Debuffed:
         Display: TC
-        Label: débuffé (+10 TC)
+        Label: Malussé (+10 TC)
       Imprisoned:
         Display: TC + DC
         Label: Emprisonné (+10% TC | +20% DC)
     Longevous:
       Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% TC)"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% TC)"
     Ashblazing:
       Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% ATQ)"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% ATQ)"
     Prisoner:
       Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% DEF ignorée)"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DEF ignorée)"
     Diver:
       Off:
         Display: 0x
-        Label: 0 débuffs (+4% TC de base)
+        Label: 0 malus (+4% TC de base)
       1Debuff:
         Display: 1x
-        Label: 1 débuff (+12% DGT | +4% TC de base)
+        Label: 1 malus (+12% DGT | +4% TC de base)
       2Debuff:
         Display: 2x
-        Label: 2 débuffs (+12% DGT | +4% TC de base | +8% DC)
+        Label: 2 malus (+12% DGT | +4% TC de base | +8% DC)
       3Debuff:
         Display: 3x
-        Label: 3 débuffs (+12% DGT | +4% TC de base | +12% DC)
+        Label: 3 malus (+12% DGT | +4% TC de base | +12% DC)
       2+Debuff:
         Display: 2x+
-        Label: 2 débuffs, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +16% DC)
+        Label: 2 malus, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +16% DC)
       3+Debuff:
         Display: 3x+
-        Label: 3 débuffs, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +24% DC)
+        Label: 3 malus, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +24% DC)
     Sigonia:
       Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% DC)"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DC)"
     Duran:
       Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% DGT ADS)"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DGT ADS)"
       Label5: 5 piles (+25% DGT ADS, +25% DC)
     Sacerdos:
       Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% DC)"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DC)"
   Conditionals:
     DefaultMessage: Activé par défaut - les effets s'appliqueront aux calculs de combat.
     Hunter: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat.
-    Streetwise: Le buff d'ATQ% sélectionné est appliqué au calcul des stats de combat en fonction du nombre de stacks.
+    Streetwise: Le buff d'ATQ% sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
     Firesmith: L'augmentation des DGT de compétence est toujours active par défaut. Lorsque cette option est sélectionnée, le buff de DGT de Feu est appliqué au calcul des stats de combat.
     Genius: L'augmentation de pénétration de DEF de 10% est toujours active par défaut. Lorsque cette option est sélectionnée, l'ennemi sera considéré comme étant faible aux DGT Quantique et la pénétration de DEF sera additionnellement augmentée de 10%.
     Thunder: Lorsque cette option est sélectionnée, le buff d'ATQ% sera appliqué au calcul des stats de combat.
     Wastelander: Applique le buff sélectionné au calcul des stats de combat
-    Longevous: Le buff de TC sélectionné est appliqué au calcul des stats de combat en fonction du nombre de stacks.
+    Longevous: Le buff de TC sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
     Messenger: Lorsque cette option est sélectionnée, le buff de VIT% sera appliqué au calcul des stats de combat.
     Ashblazing: >-
       Le buff d'ATQ% sélectionné sera appliqué à tous les calculs hormis celui des attaques de suivi. Le calcul pour les attaques de suivi commencera avec un buff de 0% et s'accumulera en fonction du nombre de coups délivrés par l'attaque. Le nombre de coups augmentera en fonction du nombre d'ennemis et supposera que la cible est située au milieu pour les attaques a plusieurs cibles.
-    Prisoner: Le buff de pénétration de def% sera appliqué au calcul de dégâts en fonction du nombre de stacks.
+    Prisoner: Le buff de pénétration de def% sera appliqué au calcul de dégâts en fonction du nombre de cumuls.
     Diver: L'effet 2 pièces peut être désactivé en sélectionnant l'option 0x. Pour l'effet 4 pièces, divers buffs de crit sont appliqués en fonction de l'option sélectionnée.
     Watchmaker: Lorsque cette option est sélectionnée, le buff d'effet Rupture sera appliqué au calcul des stats de combat.
-    Valorous: Le buff de Taux de CRIT est toujours activée par défaut. Le buff sélectionné est appliqué au calcul de dégâts en fonction du nombre de stacks
+    Valorous: Le buff de Taux de CRIT est toujours activée par défaut. Le buff sélectionné est appliqué au calcul de dégâts en fonction du nombre de cumuls.
     Differentiator: Lorsque cette option est sélectionnée, le buff de Taux de CRIT sera appliqué au calcul des stats de combat.
     Sigonia: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat, en supposant que le personnage ait vaincu ce nombre d'ennemis.
     Izumo: Lorsque cette option est sélectionnée, suppose qu'il existe un allié du même chemin dans l'équipe, et applique un buff de Taux de Crit de 12% lors du calcul des stats de combat.
-    Duran: Le buff sélectionné est appliqué au calcul des stats de combat en fonction du nombre de stacks.
+    Duran: Le buff sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
     Kalpagni: Lorsque cette option est activée, applique le buff d'Effet de Rupture au calcul des stats de combat.
     Lushaka: Le buff sélectionné est appliqué au calcul des stats de combat.
     Banana: Le buff sélectionné est appliqué au calcul des stats de combat.

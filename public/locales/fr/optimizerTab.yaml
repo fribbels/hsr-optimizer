@@ -237,6 +237,7 @@ SetConditionals:
         Label: "Inactif"
       Debuffed:
         Display: TC
+        Label: Malussé (+10 TC)
       Imprisoned:
         Display: TC + DC
         Label: Emprisonné (+10% TC | +20% DC)
@@ -252,16 +253,22 @@ SetConditionals:
     Diver:
       Off:
         Display: 0x
+        Label: 0 malus (+4% TC de base)
       1Debuff:
         Display: 1x
+        Label: 1 malus (+12% DGT | +4% TC de base)
       2Debuff:
         Display: 2x
+        Label: 2 malus (+12% DGT | +4% TC de base | +8% DC)
       3Debuff:
         Display: 3x
+        Label: 3 malus (+12% DGT | +4% TC de base | +12% DC)
       2+Debuff:
         Display: 2x+
+        Label: 2 malus, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +16% DC)
       3+Debuff:
         Display: 3x+
+        Label: 3 malus, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +24% DC)
     Sigonia:
       Display: "{{stackCount}}x"
       Label: "{{stackCount}} cumuls (+{{buffValue}}% DC)"

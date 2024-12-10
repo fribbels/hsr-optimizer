@@ -1,5 +1,5 @@
 GPU:
-  Message: このブラウザではWebGPUはサポートされていません！
+  Message: このブラウザはWebGPU非対応です！
   Description:
     l1: "GPUアクセラレーションを有効にするには、以下のサポートされている環境を使用してください。"
     l2: "Windows & Mac — Chrome, Opera, Edge"

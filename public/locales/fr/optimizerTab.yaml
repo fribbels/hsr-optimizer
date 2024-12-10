@@ -346,11 +346,10 @@ EnemyConfiguration:
     {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
   EffResOptionLabel: "Rés aux effets: {{resistance}}%"
   DmgResOptionLabel: "Rés aux dégâts: {{resistance}}%"
-  ToughnessOptionLabel: "Endurance maximale: {{toughness}}"
   Title: Configuration des ennemis
   StatHeader: Configuration des stats des ennemis
   WeaknessLabel: Faiblesse élémentaire
-  BrokenLabel: Faiblesse brisée
+  BrokenLabel: État de rupture de faiblesse
 WeightFilter:
   WeightFilterHeader: Filtre de poids de substats
   RollFilterHeader: Rolls pondérés par relique

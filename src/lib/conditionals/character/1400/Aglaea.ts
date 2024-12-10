@@ -12,6 +12,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
+  const enhancedBasicScaling = basic(e, 2.20, 2.42)
+
   const defaults = {
     WIP: true,
   }
@@ -47,6 +49,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.BASIC_SCALING.buff(enhancedBasicScaling, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

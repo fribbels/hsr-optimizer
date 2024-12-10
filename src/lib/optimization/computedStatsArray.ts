@@ -41,11 +41,13 @@ export class ComputedStatsArrayCore {
   precomputedStatsArray = baseComputedStatsArray()
   a = baseComputedStatsArray()
   c: BasicStatsObject
+  m: ComputedStatsArrayCore
   buffs: Buff[]
   trace: boolean
 
   constructor(trace: boolean = false) {
     this.c = {} as BasicStatsObject
+    this.m = this
     this.buffs = []
     this.trace = trace
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
@@ -97,6 +99,10 @@ export class ComputedStatsArrayCore {
 
   setBasic(c: BasicStatsObject) {
     this.c = c
+  }
+
+  setMemo(m: ComputedStatsArray) {
+    this.m = m
   }
 
   buff(key: number, value: number, source?: string) {

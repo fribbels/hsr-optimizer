@@ -104,6 +104,9 @@ self.onmessage = function (e: MessageEvent) {
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const m = new ComputedStatsArrayCore(false) as ComputedStatsArray
+
+  x.setMemo(m)
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
@@ -158,6 +161,7 @@ self.onmessage = function (e: MessageEvent) {
     calculateElementalStats(c, context)
 
     x.setBasic(c)
+    true && m.setBasic(c)
 
     // Exit early on base display filters failing
     if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {

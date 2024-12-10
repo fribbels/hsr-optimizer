@@ -6925,6 +6925,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],

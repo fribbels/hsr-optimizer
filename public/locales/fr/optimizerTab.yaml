@@ -346,6 +346,7 @@ EnemyConfiguration:
     {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
   EffResOptionLabel: "Rés aux effets: {{resistance}}%"
   DmgResOptionLabel: "Rés aux dégâts: {{resistance}}%"
+  ToughnessOptionLabel: "Robustesse maximale: {{toughness}}"
   Title: Configuration des ennemis
   StatHeader: Configuration des stats des ennemis
   WeaknessLabel: Faiblesse élémentaire

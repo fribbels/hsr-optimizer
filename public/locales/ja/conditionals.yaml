@@ -115,7 +115,7 @@ Lightcones:
   SomethingIrreplaceable:
     Content:
       dmgBuff:
-        text: 敵を倒す・攻撃を受けたときのダメバフ
+        text: 敵キル・攻撃を受けた時のダメバフ
         content: >-
           装備キャラの攻撃力+24%。装備キャラが敵を倒す、または攻撃を受けた後、装備キャラの攻撃力{{Multiplier}}%分のHPを回復し、与ダメージ+{{DmgBuff}}%、効果は自身の次のターンが終了するまで継続。この効果は累積できず、ターンが回ってくるたびに1回まで発動できる。
   TheUnreachableSide:

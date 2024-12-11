@@ -1066,6 +1066,8 @@ Characters:
         text: Bonus d'ER de Soutien sur scène
       superBreakDmg:
         text: Rupture extrême (force l'état de rupture)
+      skillHitsOnTarget:
+        text: Coups supplémentaires sur cible de compétence
       e2EnergyRegenBuff:
         text: 'E2: Bonus de TRE'
     TeammateContent:
@@ -1087,6 +1089,8 @@ Characters:
         text: Bonus de vulnérabilité de l'ULT
       enemySlowed:
         text: Ennemi ralenti
+      skillExtraHits:
+        text: Coups supplémentaires sur cible yde compétence
       e1EnhancedState:
         text: 'E1: État amélioré'
   Xueyi:

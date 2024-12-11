@@ -24,7 +24,6 @@ Lightcones:
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
-        text: '「泡影」状態'
         content: >-
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
@@ -69,7 +68,6 @@ Lightcones:
         text: デバフが3つ以上ある敵への会心率バフ
         content: デバフが3つ以上ある敵にダメージを与える時、装備キャラの会心率+{{CritBuff}}%。
       targetCodeDebuff:
-        text: '「エーテルコード」状態'
         content: >-
           装備キャラが通常攻撃、戦闘スキルまたは必殺技を発動した後、100%の基礎確率で攻撃を受けた敵の中から、「エーテルコード」を付与されてないランダムな敵1体に「エーテルコード」を付与する。「エーテルコード」を付与された敵の受けるダメージ+{{DmgIncrease}}%、1ターン継続。
   InTheNameOfTheWorld:
@@ -107,7 +105,6 @@ Lightcones:
         text: 速度バフ層数
         content: 装備キャラが攻撃を行った後、速度+{{SpdBuff}}%、最大で3層累積できる。
       dotEffect:
-        text: '「遊糸」状態（未実装）'
         content: >-
           装備キャラの攻撃が敵に命中する時、その敵が「遊糸」状態でない場合、100%の基礎確率で敵を「遊糸」状態にする。敵が「遊糸」状態の時、感電状態と見なされる。「遊糸」状態の敵はターンが回ってくるたびに、装備キャラの攻撃力{{Multiplier}}%分の雷属性持続ダメージを受ける、1ターン継続。
   SheAlreadyShutHerEyes:

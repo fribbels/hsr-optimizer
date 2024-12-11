@@ -532,15 +532,15 @@ Characters:
       beToCritBoost:
         text: Conversion d'ER à TC/DC
       talentBreakDmgScaling:
-        text: DGT de Rupture du Talent (force l'état de rupture de faiblesse)
+        text: DGT de Rupture du Talent (force l'état de rupture)
       e1DefShred:
         text: 'E1: PÉN de DÉF'
       e2BeBuff:
         text: 'E2: Bonus d''ER'
       e4TargetStandoffVulnerability:
-        text: 'E4: Vulnérabilité de Compétence'
+        text: 'E4: Vulnérabilité'
       e6AdditionalBreakDmg:
-        text: 'E6: Augmentation des DGT de rupture'
+        text: 'E6: DGT de rupture bonus'
   Bronya:
     Content:
       teamDmgBuff:
@@ -585,7 +585,7 @@ Characters:
   Feixiao:
     Content:
       weaknessBrokenUlt:
-        text: ULT contre ennemi rupturé (force l'état de rupture de faiblesse)
+        text: ULT contre ennemi rupturé (force l'état de rupture)
       talentDmgBuff:
         text: Bonus de DGT du Talent
       skillAtkBuff:
@@ -601,9 +601,9 @@ Characters:
       enhancedStateActive:
         text: État amélioré
       enhancedStateSpdBuff:
-        text: Bonus de VIT de l'état amélioré
+        text: Bonus de VIT état amélioré
       superBreakDmg:
-        text: Rupture extrême activée (force l'état de rupture de faiblesse)
+        text: Rupture extrême activée (force l'état de rupture)
       atkToBeConversion:
         text: Conversion d'ATQ à ER
       talentDmgReductionBuff:
@@ -611,7 +611,7 @@ Characters:
       e1DefShred:
         text: 'E1: PÉN de DÉF'
       e4ResBuff:
-        text: 'E4: Bonus de RÉS aux Effets'
+        text: 'E4: Bonus de RAE'
       e6Buffs:
         text: 'E6: Divers bonus'
   Fugue:
@@ -623,7 +623,7 @@ Characters:
       defReduction:
         text: Réduction de DÉF de la compétence
       superBreakDmg:
-        text: Rupture extrême (force l'état de rupture de faiblesse)
+        text: Rupture extrême (force l'état de rupture)
       e4BreakDmg:
         text: 'E4: Bonus de DGT de rupture'
       e6BreakEfficiency:
@@ -653,15 +653,15 @@ Characters:
       targetBesotted:
         text: Cible Ivre
       e1ResBuff:
-        text: 'E1: Bonus de RÉS aux effets'
+        text: 'E1: Bonus de RAE'
       e2ResBuff:
-        text: 'E2: Bonus de RÉS aux effets'
+        text: 'E2: Bonus de RAE'
       e6BeBuff:
         text: 'E6: Bonus d''ER'
   Gepard:
     Content:
       e4TeamResBuff:
-        text: 'E4: Bonus d''équipe de RÉS aux effets'
+        text: 'E4: Bonus d''équipe de RAE'
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -671,7 +671,7 @@ Characters:
       skillDot:
         text: Utiliser la chance de DSD de la compétence
       e1EffectResShred:
-        text: 'E1: Réduction de RÉS aux effets'
+        text: 'E1: Réduction de RAE'
       e2BurnMultiBoost:
         text: 'E2: Bonus de multiplicateur de brulure'
   Hanya:
@@ -690,11 +690,11 @@ Characters:
   Herta:
     Content:
       fuaStacks:
-        text: Nombre de coups de l'ADS
+        text: Coups de l'ADS
       targetFrozen:
         text: Cible gelée
       enemyHpGte50:
-        text: Bonus de DGT de Compétence
+        text: Bonus de DGT Compétence
       techniqueBuff:
         text: Bonus d'ATQ de la Technique
       enemyHpLte50:
@@ -899,7 +899,7 @@ Characters:
   Rappa:
     Content:
       sealformActive:
-        text: Forme du sceau (force l'état de rupture de faiblesse)
+        text: Forme du sceau (force l'état de rupture)
       atkToBreakVulnerability:
         text: Conversion d'ATQ à vulnérabilité de rupture
       chargeStacks:
@@ -926,7 +926,7 @@ Characters:
       e1UltResPen:
         text: 'E1: PÉN de RÉS de l''ULT'
       e4TeamResBuff:
-        text: 'E4: Bonus d''équipe de RÉS aux effets'
+        text: 'E4: Bonus d''équipe de RAE'
       e6UltCDBoost:
         text: 'E6: Bonus de DC aux dégâts de l''ULT'
     TeammateContent:
@@ -1065,7 +1065,7 @@ Characters:
       backupDancer:
         text: Bonus d'ER de Soutien sur scène
       superBreakDmg:
-        text: Rupture extrême (force l'état de rupture de faiblesse)
+        text: Rupture extrême (force l'état de rupture)
       skillHitsOnTarget:
         text: Coups supplémentaires sur la cible de la compétence
       e2EnergyRegenBuff:
@@ -1142,6 +1142,6 @@ Characters:
       e2DefShred:
         text: 'E2: PÉN de DÉF d''ADS'
       e4ResBuff:
-        text: 'E4: Bonus de RÉS aux Effets'
+        text: 'E4: Bonus de RAE'
       e6Buffs:
         text: 'E6: Divers bonus'

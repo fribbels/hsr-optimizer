@@ -1090,7 +1090,7 @@ Characters:
       enemySlowed:
         text: Ennemi ralenti
       skillExtraHits:
-        text: Coups supplémentaires sur cible yde compétence
+        text: Coups supplémentaires sur cible de compétence
       e1EnhancedState:
         text: 'E1: État amélioré'
   Xueyi:

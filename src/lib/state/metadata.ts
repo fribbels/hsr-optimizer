@@ -6009,9 +6009,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CD,
         ],
-        [Parts.Feet]: [
-          Stats.SPD,
-        ],
+        [Parts.Feet]: [],
         [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ERR,
@@ -6899,7 +6897,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
-        [Stats.ERR]: 0,
+        [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
         [Stats.Fire_DMG]: 0,
@@ -6924,6 +6922,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],

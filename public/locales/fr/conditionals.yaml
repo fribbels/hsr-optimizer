@@ -1,1 +1,67 @@
 BetaMessage: "Version actuelle : {{Version}} - Les calculs sont susceptibles de changer."
+Common:
+  HealAbility:
+    Text: "Capacité de soins"
+    Content: "Sélectionnez la capacité pour les calculs de soins"
+    Basic: "Capacité de soins: Basique"
+    Skill: "Capacité de soins: Compétence"
+    Ult: "Capacité de soins: Ult"
+    Talent: "Capacité de soins: Talent"
+    Trace: "Capacité de soins: Trace"
+  ShieldAbility:
+    Text: "Capacité de bouclier"
+    Content: "Sélectionnez la capacité pour les calculs de bouclier"
+    Basic: "Capacité de bouclier: Basique"
+    Skill: "Capacité de bouclier Compétence"
+    Ult: "Capacité de bouclier: Ult"
+    Talent: "Capacité de bouclier: Talent"
+    Trace: "Capacité de bouclier: Trace"
+Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: Cumuls de bonus de DGT
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: Malus Bulle du vide
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: Énergie maximale
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: Cumuls de malus de DC
+  BrighterThanTheSun:
+    Content:
+      dragonsCallStacks:
+        text: Cumuls d'Appel du dragon
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: Cumuls de bonus de DGT d'ADS
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+  FlowingNightglow:
+    Content:
+      cantillationStacks:
+        text: Cumuls de Cantique
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: Cumuls de bonus d'ATQ
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyStacks:
+        text: Énergie maximale

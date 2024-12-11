@@ -64,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((t.e1CrBuff) ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, Source.NONE)
+      x.CD.buff(memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat, Source.NONE)
       x.CR.buff((e >= 1 && t.e1CrBuff) ? 0.10 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

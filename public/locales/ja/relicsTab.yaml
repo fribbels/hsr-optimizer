@@ -79,11 +79,11 @@ RelicGrid:
       AvgPotCol:
         Label: "指定した対象の平均ポテンシャル"
         Header: |-
-          指定した対象の平均ポテンシャル
+          指定対象の平均ポテンシャル
       MaxPotCol:
         Label: "指定した対象の最大ポテンシャル"
         Header: |-
-          指定した対象の最大ポテンシャル
+          指定対象の最大ポテンシャル
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:

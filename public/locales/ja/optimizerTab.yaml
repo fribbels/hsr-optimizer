@@ -17,8 +17,8 @@ Sets: セット
 RelicSetSelector:
   Placeholder: 遺物セット
   4pcLabel: 4セット
-  2+2pcLabel: 2 + 2セット
-  2pcLabel: 2セット + 何でも
+  2+2pcLabel: 2+2セット
+  2pcLabel: 2セット+任意
 OrnamentSetSelector:
   Placeholder: オーナメントセット
 SortOptions:

@@ -86,8 +86,8 @@ CharacterPreview:
       SKILL: COMPÉTENCE
       ULT: ULT
       FUA: ADS
-      DOTS: "DSD"
-      BREAKS: "RUPTURE"
+      DOTS: "DSD:"
+      BREAKS: "RUPTURES:"
     CombatResults:
       Header: Résultats des dégâts de combat
       Primary: "Capacité principale:"

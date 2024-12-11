@@ -13,7 +13,7 @@ RelicFilterBar:
   ScoringButton: スコア計算方法の編集
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
-  CustomCharsHeader: ポテンシャル評価の対象のカスタマイズ
+  CustomCharsHeader: 評価対象の複数指定
 Messages:
   AddRelicSuccess: 遺物を追加しました
   NoRelicSelected: 遺物が選択されていません
@@ -75,15 +75,15 @@ RelicGrid:
           選択キャラの最
           大ポテンシャル
     CustomCharacters:
-      Label: カスタマイズされたポテンシャル評価の対象
+      Label: 指定したキャラクター
       AvgPotCol:
-        Label: "カスタム評価対象の平均ポテンシャル"
+        Label: "指定した対象の平均ポテンシャル"
         Header: |-
-          カスタム対象平均ポテンシャル
+          指定対象の平均ポテンシャル
       MaxPotCol:
-        Label: "カスタム評価対象の最大ポテンシャル"
+        Label: "指定した対象の最大ポテンシャル"
         Header: |-
-          カスタム対象最大ポテンシャル
+          指定対象の最大ポテンシャル
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:
@@ -113,7 +113,7 @@ Toolbar:
     Top10: "遺物インサイト：トップ10"
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
-    PlotCustom: カスタム評価対象のみ表示
+    PlotCustom: 指定した対象のみ表示
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除

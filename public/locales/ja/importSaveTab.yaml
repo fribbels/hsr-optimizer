@@ -33,9 +33,9 @@ Import:
       Link: 手順
       l1: 不正確な速度サブステータス、即時スキャン
       l2: ダウンロードは必要ありませんが、遺物は装備したゲーム内キャラクターのものに限定されます
-    ButtonText: jsonファイルをアップロードする
+    ButtonText: jsonファイルをアップロード
     Or: または
-    Placeholder: jsonファイルの内容を貼り付ける
+    Placeholder: jsonファイルの内容を貼り付け
   Stage2:
     Or: または
     FileInfo: >-
@@ -68,11 +68,11 @@ LoadData:
     SuccessMessage: 完了！
 SaveData:
   Label: オプティマイザーのデータをファイルに保存します。
-  ButtonText: データを保存する
+  ButtonText: データを保存
   SuccessMessage: 完了
 ClearData:
   Label: オプティマイザーのすべてのデータを消去します。
-  ButtonText: データを消去する
+  ButtonText: データを消去
   SuccessMessage: データを消去しました
   WarningTitle: すべてのデータを消去
   WarningDescription: 遺物とキャラクターをすべて消去しますか？

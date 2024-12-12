@@ -4080,6 +4080,7 @@ interface Resources {
       "Enhance": "Enhance / Grade",
       "Mainstat": "Main stat",
       "Substat": "Substats",
+      "SubstatPlaceholder": "Substat",
       "Upgrades": "Substat upgrades",
       "Messages": {
         "SubmitFail": "Submit failed!",

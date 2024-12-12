@@ -6,6 +6,7 @@ import { ElementalDamageType, ElementalResPenType } from 'types/metadata'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray
+  precomputedM: ComputedStatsArray
 
   characterConditionals: ConditionalValueMap
   lightConeConditionals: ConditionalValueMap

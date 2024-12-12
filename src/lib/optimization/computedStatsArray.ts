@@ -22,6 +22,7 @@ type StatMethods = {
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
+  memoGet: () => number
 }
 
 type ComputedStatsArrayStatExtensions = {
@@ -41,11 +42,14 @@ export class ComputedStatsArrayCore {
   precomputedStatsArray = baseComputedStatsArray()
   a = baseComputedStatsArray()
   c: BasicStatsObject
+  m: ComputedStatsArray
   buffs: Buff[]
   trace: boolean
 
-  constructor(trace: boolean = false) {
+  constructor(trace: boolean = false, memosprite = false) {
     this.c = {} as BasicStatsObject
+    // @ts-ignore
+    this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true)
     this.buffs = []
     this.trace = trace
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
@@ -74,6 +78,7 @@ export class ComputedStatsArrayCore {
             this.a[index] = value
           },
           get: () => this.a[index],
+          memoGet: () => this.m.a[index],
         },
         writable: false,
         enumerable: true,
@@ -97,6 +102,10 @@ export class ComputedStatsArrayCore {
 
   setBasic(c: BasicStatsObject) {
     this.c = c
+  }
+
+  setMemo(m: ComputedStatsArray) {
+    this.m = m
   }
 
   buff(key: number, value: number, source?: string) {

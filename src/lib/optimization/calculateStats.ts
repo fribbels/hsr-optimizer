@@ -196,6 +196,20 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.ERR] += c[Stats.ERR]
   a[Key.OHB] += c[Stats.OHB]
 
+  if (x.m) {
+    x.m.a[Key.ATK] += c[Stats.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
+    x.m.a[Key.DEF] += c[Stats.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
+    x.m.a[Key.HP] += c[Stats.HP] + buffs.HP + buffs.HP_P * context.baseHP
+    x.m.a[Key.SPD] += c[Stats.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
+    x.m.a[Key.CD] += c[Stats.CD] + buffs.CD
+    x.m.a[Key.CR] += c[Stats.CR] + buffs.CR
+    x.m.a[Key.BE] += c[Stats.BE] + buffs.BE
+    x.m.a[Key.EHR] += c[Stats.EHR]
+    x.m.a[Key.RES] += c[Stats.RES]
+    x.m.a[Key.ERR] += c[Stats.ERR]
+    x.m.a[Key.OHB] += c[Stats.OHB]
+  }
+
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
   a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
   a[Key.VULNERABILITY] += buffs.VULNERABILITY

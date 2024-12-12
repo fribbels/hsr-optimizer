@@ -12,6 +12,8 @@ export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerActi
 }
 
 export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  if (x.m) calculateDamage(x.m, action, context)
+
   const eLevel = context.enemyLevel
   const a = x.a
 
@@ -103,6 +105,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.BASIC_ADDITIONAL_DMG],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.BASIC_DMG] : 0,
     )
   }
 
@@ -133,6 +136,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.SKILL_ADDITIONAL_DMG],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.SKILL_DMG] : 0,
     )
   }
 
@@ -163,6 +167,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.ULT_ADDITIONAL_DMG],
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.ULT_DMG] : 0,
     )
   }
 
@@ -193,6 +198,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.FUA_ADDITIONAL_DMG],
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.FUA_DMG] : 0,
     )
   }
 }
@@ -255,6 +261,7 @@ function calculateAbilityDmg(
   abilityAdditionalDmg: number,
   abilityAdditionalCrOverride: number,
   abilityAdditionalCdOverride: number,
+  abilityMemoJointDamage: number,
 ) {
   const a = x.a
   const eLevel = context.enemyLevel
@@ -320,10 +327,18 @@ function calculateAbilityDmg(
     )
   }
 
+  // === Memo Joint DMG ===
+
+  let memoJointDmgOutput = 0
+  if (abilityMemoJointDamage > 0) {
+    memoJointDmgOutput += abilityMemoJointDamage
+  }
+
   return abilityCritDmgOutput
     + abilityBreakDmgOutput
     + abilitySuperBreakDmgOutput
     + abilityAdditionalDmgOutput
+    + memoJointDmgOutput
 }
 
 function calculateSuperBreakDmg(

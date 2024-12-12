@@ -1466,7 +1466,7 @@ Characters:
         content: >-
           Permite que um personagem aliado designado e sua invocação entrem em ação imediatamente e aumentam o DMG causado em {{DmgBoost}}%. Se o alvo tiver uma invocação, o efeito de aumento de DMG também será aumentado em {{SummonDmgBoost}}%
       talentCrBuffStacks:
-        text: Buff de CR de talento acumula
+        text: Stacks do talento de CR
         content: Ao usar a Perícia, aumenta a taxa de CRIT do alvo em {{CritRateBoost}}%, com duração de 3 turnos.
       techniqueDmgBuff:
         text: DMG buff da técnica

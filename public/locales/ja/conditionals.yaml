@@ -24,7 +24,6 @@ Lightcones:
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
-        text: '「着火」状態'
         content: >-
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
@@ -50,7 +49,7 @@ Lightcones:
   ButTheBattleIsntOver:
     Content:
       postSkillDmgBuff:
-        text: 戦闘スキル発動後のダメージバフ
+        text: スキル発動後のダメージバフ
         content: 味方に対して必殺技を発動した時、SPを1回復する、この効果は必殺技を2回発動するたびに1回発動できる。装備キャラが戦闘スキルを発動した後、次に行動する他の味方の与ダメージ+{{DmgBuff}}%、1ターン継続。
   CruisingInTheStellarSea:
     Content:
@@ -66,10 +65,9 @@ Lightcones:
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
-        text: デバフが3つ以上ある敵に対する会心率バフ
+        text: デバフが3つ以上ある敵への会心率バフ
         content: デバフが3つ以上ある敵にダメージを与える時、装備キャラの会心率+{{CritBuff}}%。
       targetCodeDebuff:
-        text: '「エーテルコード」状態'
         content: >-
           装備キャラが通常攻撃、戦闘スキルまたは必殺技を発動した後、100%の基礎確率で攻撃を受けた敵の中から、「エーテルコード」を付与されてないランダムな敵1体に「エーテルコード」を付与する。「エーテルコード」を付与された敵の受けるダメージ+{{DmgIncrease}}%、1ターン継続。
   InTheNameOfTheWorld:
@@ -100,36 +98,39 @@ Lightcones:
       enemyCountAtkBuff:
         text: 敵数バフ
       enemyWeaknessBreakDmgBuff:
-        text: 弱点撃破ダメージバフ
+        text: 弱点撃破ダメバフ
   PatienceIsAllYouNeed:
     Content:
       spdStacks:
         text: 速度バフ層数
         content: 装備キャラが攻撃を行った後、速度+{{SpdBuff}}%、最大で3層累積できる。
       dotEffect:
-        text: '「遊糸」状態（未実装）'
         content: >-
           装備キャラの攻撃が敵に命中する時、その敵が「遊糸」状態でない場合、100%の基礎確率で敵を「遊糸」状態にする。敵が「遊糸」状態の時、感電状態と見なされる。「遊糸」状態の敵はターンが回ってくるたびに、装備キャラの攻撃力{{Multiplier}}%分の雷属性持続ダメージを受ける、1ターン継続。
   SheAlreadyShutHerEyes:
     Content:
       hpLostDmgBuff:
-        text: HP減少時のダメージバフ
+        text: HP減少時のダメバフ
         content: 装備キャラのHPが減った時、味方全体の与ダメージ+{{DmgBuff}}%、2ターン継続。
   SomethingIrreplaceable:
     Content:
       dmgBuff:
-        text: 敵を倒す・攻撃を受けたときのダメージバフ
+        text: 敵キル・攻撃を受けた時のダメバフ
         content: >-
           装備キャラの攻撃力+24%。装備キャラが敵を倒す、または攻撃を受けた後、装備キャラの攻撃力{{Multiplier}}%分のHPを回復し、与ダメージ+{{DmgBuff}}%、効果は自身の次のターンが終了するまで継続。この効果は累積できず、ターンが回ってくるたびに1回まで発動できる。
   TheUnreachableSide:
     Content:
       dmgBuff:
-        text: HP消費・被弾時のダメージバフ
+        text: HP消費・被弾時のダメバフ
         content: 装備キャラが攻撃を受ける、または自身のHPを消費すると、与ダメージ+{{DmgBuff}}%、この効果は装備キャラが攻撃を行った後に解除される。
+  ForTomorrowsJourney:
+    Content:
+      ultDmgBuff:
+        text: 必殺技後のダメバフ
   PastAndFuture:
     Content:
       postSkillDmgBuff:
-        text: 戦闘スキル発動後のダメージバフ
+        text: スキル発動後のダメバフ
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyStacks:
@@ -152,7 +153,7 @@ Lightcones:
   CollapsingSky:
     Content:
       basicSkillDmgBuff:
-        text: 通常攻撃・戦闘スキルのダメージバフ
+        text: 通常・スキルのダメバフ
         content: 装備キャラの通常攻撃と戦闘スキルによるダメージ+{{DmgBuff}}%。
   Cornucopia:
     Content:
@@ -167,7 +168,7 @@ Lightcones:
   DataBank:
     Content:
       ultDmgBuff:
-        text: 必殺技ダメージバフ
+        text: 必殺技ダメバフ
         content: 装備キャラの必殺技によるダメージ+{{DmgBuff}}%。
   Void:
     Content:
@@ -196,7 +197,7 @@ Characters:
       skillSpdBuff:
         text: スキル速度バフ
       ultDmgBuff:
-        text: 必殺技ダメージバフ
+        text: 必殺技ダメバフ
   Welt:
     Content:
       enemySlowed:
@@ -205,8 +206,6 @@ Characters:
         text: 1凸強化状態
   Xueyi:
     Content:
-      toughnessReductionDmgBoost:
-        text: 必殺技与ダメージバフ
       fuaHits:
         text: 追加攻撃ヒット数
   Yanqing:

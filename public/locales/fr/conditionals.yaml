@@ -175,7 +175,7 @@ Lightcones:
   SomethingIrreplaceable:
     Content:
       dmgBuff:
-        text: Bonus DGT ennemi vaincu/porteur attaqué
+        text: Bonus de DGT ennemi vaincu/porteur attaqué
   TextureOfMemories:
     Content:
       activeShieldDmgDecrease:
@@ -460,7 +460,7 @@ Characters:
       talentStacks:
         text: Cumuls d'Ascension
       ultEnhancedExtraHits:
-        text: ULT améliorée coups supplémentaires sur cible
+        text: Coups supplémentaires sur cible d'Ult améliorée
       e2UltAtkBuff:
         text: 'E2: Bonus d''ATQ post-ULT'
   Arlan:
@@ -532,21 +532,21 @@ Characters:
       beToCritBoost:
         text: Conversion d'ER à TC/DC
       talentBreakDmgScaling:
-        text: DGT de Rupture du Talent (force l'état de rupture de faiblesse)
+        text: DGT de Rupture du Talent (force l'état de rupture)
       e1DefShred:
         text: 'E1: PÉN de DÉF'
       e2BeBuff:
         text: 'E2: Bonus d''ER'
       e4TargetStandoffVulnerability:
-        text: 'E4: Vulnérabilité de Compétence'
+        text: 'E4: Vulnérabilité'
       e6AdditionalBreakDmg:
-        text: 'E6: Augmentation des DGT de rupture'
+        text: 'E6: DGT de rupture bonus'
   Bronya:
     Content:
       teamDmgBuff:
-        text: Bonus de DGT pour l'équipe
+        text: Bonus d'équipe de DGT
       skillBuff:
-        text: Bonus de DGT de la Compétence
+        text: Bonus de DGT
       ultBuff:
         text: Bonus d'ATQ/DC de l'ULT
       battleStartDefBuff:
@@ -554,7 +554,7 @@ Characters:
       techniqueBuff:
         text: Bonus d'ATQ de la Technique
       e2SkillSpdBuff:
-        text: 'E2: Bonus de Vitesse de la Compétence'
+        text: 'E2: Bonus de Vitesse'
     TeammateContent:
       teammateCDValue:
         text: DC en combat de Bronya
@@ -585,7 +585,7 @@ Characters:
   Feixiao:
     Content:
       weaknessBrokenUlt:
-        text: ULT contre ennemi rupturé (force l'état de rupture de faiblesse)
+        text: ULT contre ennemi rupturé (force l'état de rupture)
       talentDmgBuff:
         text: Bonus de DGT du Talent
       skillAtkBuff:
@@ -601,9 +601,9 @@ Characters:
       enhancedStateActive:
         text: État amélioré
       enhancedStateSpdBuff:
-        text: Bonus de VIT de l'état amélioré
+        text: Bonus de VIT état amélioré
       superBreakDmg:
-        text: Rupture extrême activée (force l'état de rupture de faiblesse)
+        text: Rupture extrême activée (force l'état de rupture)
       atkToBeConversion:
         text: Conversion d'ATQ à ER
       talentDmgReductionBuff:
@@ -611,7 +611,7 @@ Characters:
       e1DefShred:
         text: 'E1: PÉN de DÉF'
       e4ResBuff:
-        text: 'E4: Bonus de RÉS aux Effets'
+        text: 'E4: Bonus de RAE'
       e6Buffs:
         text: 'E6: Divers bonus'
   Fugue:
@@ -621,9 +621,9 @@ Characters:
       foxianPrayer:
         text: Prière foxienne
       defReduction:
-        text: Réduction de DÉF de la compétence
+        text: Réduction de DÉF
       superBreakDmg:
-        text: Rupture extrême (force l'état de rupture de faiblesse)
+        text: Rupture extrême (force l'état de rupture)
       e4BreakDmg:
         text: 'E4: Bonus de DGT de rupture'
       e6BreakEfficiency:
@@ -653,15 +653,15 @@ Characters:
       targetBesotted:
         text: Cible Ivre
       e1ResBuff:
-        text: 'E1: Bonus de RÉS aux effets'
+        text: 'E1: Bonus de RAE'
       e2ResBuff:
-        text: 'E2: Bonus de RÉS aux effets'
+        text: 'E2: Bonus de RAE'
       e6BeBuff:
         text: 'E6: Bonus d''ER'
   Gepard:
     Content:
       e4TeamResBuff:
-        text: 'E4: Bonus d''équipe de RÉS aux effets'
+        text: 'E4: Bonus d''équipe de RAE'
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -671,9 +671,9 @@ Characters:
       skillDot:
         text: Utiliser la chance de DSD de la compétence
       e1EffectResShred:
-        text: 'E1: Réduction de RÉS aux effets'
+        text: 'E1: Réduction de RAE'
       e2BurnMultiBoost:
-        text: 'E2: Bonus de multiplicateur de brulure'
+        text: 'E2: Brulure renforcée'
   Hanya:
     Content:
       ultBuff:
@@ -683,18 +683,18 @@ Characters:
       burdenAtkBuff:
         text: Bonus d'ATQ de Fardeau
       e2SkillSpdBuff:
-        text: 'E2: Bonus de Vitesse de la Compétence'
+        text: 'E2: Bonus de Vitesse'
     TeammateContent:
       teammateSPDValue:
         text: Vitesse en combat de Hanya
   Herta:
     Content:
       fuaStacks:
-        text: Nombre de coups de l'ADS
+        text: Coups de l'ADS
       targetFrozen:
         text: Cible gelée
       enemyHpGte50:
-        text: Bonus de DGT de Compétence
+        text: Bonus de DGT Compétence
       techniqueBuff:
         text: Bonus d'ATQ de la Technique
       enemyHpLte50:
@@ -783,7 +783,7 @@ Characters:
   JingYuan:
     Content:
       skillCritBuff:
-        text: Bonus de TC de la Compétence
+        text: Bonus de TC
       talentHitsPerAction:
         text: Cumuls du Seigneur de la foudre
       talentAttacks:
@@ -805,7 +805,7 @@ Characters:
       befogState:
         text: État Embrumé
       e1DefShred:
-        text: 'E1: Bonus de rupture de faiblesse'
+        text: 'E1: Bonus de rupture'
       e2BeBuff:
         text: 'E2: Bonus d''ER'
       e6ResShred:
@@ -831,7 +831,7 @@ Characters:
   Lynx:
     Content:
       skillBuff:
-        text: Bonus de PV max de la Compétence
+        text: Bonus de PV max
     TeammateContent:
       teammateHPValue:
         text: PV en combat de Lynx
@@ -846,7 +846,7 @@ Characters:
       masterToughnessRedBuff:
         text: Bonus de Maitre support
       talentDmgBuff:
-        text: Bonus de DGT Basique du talent
+        text: Bonus de DGT Basique
       selfSpdBuff:
         text: 'E1: Bonus de VIT'
       e6CdBuff:
@@ -893,13 +893,13 @@ Characters:
       basicEnhanced:
         text: Basique améliorée
       basicEnhancedSpdBuff:
-        text: Bonus de VIT de la compétence améliorée
+        text: Bonus de VIT
       skillDmgIncreaseStacks:
         text: Cumuls de bonus de DGT de la compétence
   Rappa:
     Content:
       sealformActive:
-        text: Forme du sceau (force l'état de rupture de faiblesse)
+        text: Forme du sceau (force l'état de rupture)
       atkToBreakVulnerability:
         text: Conversion d'ATQ à vulnérabilité de rupture
       chargeStacks:
@@ -920,15 +920,15 @@ Characters:
       concertoActive:
         text: Concerto actif
       skillDmgBuff:
-        text: Bonus de DGT de la Compétence
+        text: Bonus de DGT
       talentCdBuff:
         text: Bonus de DC du Talent
       e1UltResPen:
         text: 'E1: PÉN de RÉS de l''ULT'
       e4TeamResBuff:
-        text: 'E4: Bonus d''équipe de RÉS aux effets'
+        text: 'E4: Bonus d''équipe de RAE'
       e6UltCDBoost:
-        text: 'E6: Bonus de DC aux dégâts de l''ULT'
+        text: 'E6: Bonus de DC'
     TeammateContent:
       teammateATKValue:
         text: ATQ en combat de Robin
@@ -945,7 +945,7 @@ Characters:
       ultFieldActive:
         text: Zone d'ULT active
       e2AtkBoost:
-        text: 'E2: Bonus d''ATQ contre cibles rupturées'
+        text: 'E2: Bonus d''ATQ'
       e4BeBuff:
         text: 'E4: Bonus d''ER'
     TeammateContent:
@@ -992,7 +992,7 @@ Characters:
   Sparkle:
     Content:
       skillCdBuff:
-        text: Bonus de DC de la compétence
+        text: Bonus de DC
       cipherBuff:
         text: Bonus Énigme
       talentStacks:
@@ -1005,7 +1005,7 @@ Characters:
   Sunday:
     Content:
       skillDmgBuff:
-        text: Bonus de DGT de la Compétence
+        text: Bonus de DGT
       talentCrBuffStacks:
         text: Cumuls de bonus de TC du talent
       techniqueDmgBuff:
@@ -1065,9 +1065,9 @@ Characters:
       backupDancer:
         text: Bonus d'ER de Soutien sur scène
       superBreakDmg:
-        text: Rupture extrême (force l'état de rupture de faiblesse)
+        text: Rupture extrême (force l'état de rupture)
       skillHitsOnTarget:
-        text: Coups supplémentaires sur la cible de la compétence
+        text: Coups supplémentaires sur cible de compétence
       e2EnergyRegenBuff:
         text: 'E2: Bonus de TRE'
     TeammateContent:
@@ -1090,7 +1090,7 @@ Characters:
       enemySlowed:
         text: Ennemi ralenti
       skillExtraHits:
-        text: Coups supplémentaires sur la cible de la compétence
+        text: Coups supplémentaires sur cible de compétence
       e1EnhancedState:
         text: 'E1: État amélioré'
   Xueyi:
@@ -1142,6 +1142,6 @@ Characters:
       e2DefShred:
         text: 'E2: PÉN de DÉF d''ADS'
       e4ResBuff:
-        text: 'E4: Bonus de RÉS aux Effets'
+        text: 'E4: Bonus de RAE'
       e6Buffs:
         text: 'E6: Divers bonus'

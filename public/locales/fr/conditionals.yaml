@@ -585,7 +585,7 @@ Characters:
   Feixiao:
     Content:
       weaknessBrokenUlt:
-        text: ULT contre ennemi rupturé (force l'état de rupture)
+        text: ULT ennemi rupturé (force l'état de rupture)
       talentDmgBuff:
         text: Bonus de DGT du Talent
       skillAtkBuff:
@@ -1007,7 +1007,7 @@ Characters:
       skillDmgBuff:
         text: Bonus de DGT
       talentCrBuffStacks:
-        text: Cumuls de bonus de TC du talent
+        text: Cumuls de bonus de TC
       techniqueDmgBuff:
         text: Bonus de DGT de la technique
       e1DefPen:

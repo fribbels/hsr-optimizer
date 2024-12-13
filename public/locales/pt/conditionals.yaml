@@ -748,7 +748,7 @@ Characters:
         text: BE para buff de CR / CD
         content: Aumenta a Taxa de CRIT / CRIT DMG deste personagem em uma quantidade igual a 10% / 50% do Efeito de Quebra, até um aumento máximo de 30% / 150%.
       talentBreakDmgScaling:
-        text: DMG de Quebra de Talento (quebra de fraqueza forçada)
+        text: DMG Quebra de Talento (quebra forçada)
         content: >-
           Se o alvo estiver com Fraqueza Quebrada enquanto o ATK Básico Aprimorado estiver sendo usado, com base no número de acúmulos de Truque de Bolso, causa DMG de Quebra a este alvo com base no DMG de Quebra Física de Boothill. A resistência máxima levada em conta para este DMG não pode exceder 16 vezes a Redução de Resistência base do Ataque Básico Esporas Esmagadoras de Crânios.
       e1DefShred:
@@ -763,7 +763,7 @@ Characters:
         content: >-
           Quando o alvo inimigo no Impasse é atacado por Boothill, o DMG que recebe aumenta adicionalmente em 12%. Quando Boothill é atacado pelo alvo inimigo no Impasse, o efeito de receber DMG aumentado é compensado em 12%.
       e6AdditionalBreakDmg:
-        text: Boost de DMG de Quebra E6
+        text: DMG Boost de Quebra E6
         content: >-
           Ao ativar o DMG de Quebra do Talento, causa adicionalmente DMG de Quebra ao alvo igual a 40% do multiplicador de DMG original e causa adicionalmente DMG de Quebra aos alvos adjacentes igual a 70% do multiplicador de DMG original.
   Bronya:
@@ -1466,7 +1466,7 @@ Characters:
         content: >-
           Permite que um personagem aliado designado e sua invocação entrem em ação imediatamente e aumentam o DMG causado em {{DmgBoost}}%. Se o alvo tiver uma invocação, o efeito de aumento de DMG também será aumentado em {{SummonDmgBoost}}%
       talentCrBuffStacks:
-        text: Buff de CR de talento acumula
+        text: Stacks do talento de CR
         content: Ao usar a Perícia, aumenta a taxa de CRIT do alvo em {{CritRateBoost}}%, com duração de 3 turnos.
       techniqueDmgBuff:
         text: DMG buff da técnica

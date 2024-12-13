@@ -20,7 +20,7 @@ Lightcones:
   AGroundedAscent:
     Content:
       dmgBuffStacks:
-        text: 層数
+        text: '「聖なる詠唱」層数'
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
@@ -87,7 +87,7 @@ Lightcones:
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
-        text: 攻撃を受けた後の防御力バフ
+        text: 被弾後防御力バフ
         content: 自身が攻撃を受ける確率がアップする。装備キャラが攻撃を受けた後、さらに防御力+{{DefBuff}}%、効果は自身のターンが終了するまで継続。
   NightOfFright:
     Content:
@@ -186,7 +186,7 @@ Characters:
         text: 速度バフ層数
         content: 一層ごとに、ゼーレの速度+25%、2ターン継続。最大{{speedBoostStacksMax}}回蓄積できる。
       e1EnemyHp80CrBoost:
-        text: 敵HP ≤ 80%時の会心率バフ（1凸）
+        text: 敵HP ≤ 80%での会心率バフ（1凸）
         content: "残りHPが80%以下の敵にダメージを与える時、会心率+15%。"
       e6UltTargetDebuff:
         text: '「乱れ蝶」状態（6凸）'
@@ -203,7 +203,7 @@ Characters:
       enemySlowed:
         text: 敵の減速
       e1EnhancedState:
-        text: 1凸強化状態
+        text: 強化状態（1凸）
   Xueyi:
     Content:
       fuaHits:
@@ -215,7 +215,7 @@ Characters:
       critSpdBuff:
         text: 速度バフ
       e1TargetFrozen:
-        text: 1凸弱点撃破済み
+        text: 敵凍結状態時の付加ダメージ（1凸）
   Yunli:
     Content:
       e6Buffs:

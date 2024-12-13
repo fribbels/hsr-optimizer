@@ -113,7 +113,7 @@ Grid:
         NORMALE
       SKILL: |-
         DGT
-        COMPÉTENCE
+        COMP
       ULT: |-
         DGT
         ULT
@@ -154,7 +154,7 @@ Grid:
         NORMALE
       SKILL: |-
         DGT
-        COMPÉTENCE
+        COMP
       ULT: |-
         DGT
         ULT
@@ -194,7 +194,7 @@ Sidebar:
   Results: Résultats
   ProgressText:
     Progress: Progrès
-    CalculatingETA: Progrès (calcul du temps de recherche)
+    CalculatingETA: Recherche en progrès
     TimeRemaining: "{{rate}} / sec — {{timeRemaining}} restantes"
     Finished: "{{rate}} / sec — Terminée"
   ControlsGroup:

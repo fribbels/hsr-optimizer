@@ -97,8 +97,6 @@ Lightcones:
     Content:
       enemyCountAtkBuff:
         text: 敵数バフ
-      enemyWeaknessBreakDmgBuff:
-        text: 弱点撃破ダメバフ
   PatienceIsAllYouNeed:
     Content:
       spdStacks:
@@ -215,7 +213,7 @@ Characters:
       critSpdBuff:
         text: 速度バフ
       e1TargetFrozen:
-        text: 敵凍結状態時の付加ダメージ（1凸）
+        text: 敵凍結時の付加ダメージ（1凸）
   Yunli:
     Content:
       e6Buffs:

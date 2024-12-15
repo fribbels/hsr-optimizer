@@ -1,5 +1,22 @@
 BetaMessage: "現在のバージョン: {{Version}} - 計算結果は変更される場合があります。"
 Characters:
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: 強化状態の必殺技
+        content: >-
+          EPを180消費し、敵全体にアルジェンティの攻撃力{{ultEnhancedScaling}}%分の物理属性ダメージを与え、さらに6ヒットする。1ヒットごとに、ランダムな敵単体にアルジェンティの攻撃力{{ultEnhancedExtraHitScaling}}%分の物理属性ダメージを与える。
+      enemyHp50:
+        text: 敵HP≤50%時のダメバフ
+        content: 残りHPが50%以下の敵に対して与ダメージ+15%。
+      talentStacks:
+        text: '「栄達」層数'
+        content: '「栄達」1層につき、アルジェンティの会心率+{{talentCrStackValue}}%、この効果は最大で{{talentMaxStacks}}層累積できる。'
+      ultEnhancedExtraHits:
+        content: 1ヒットごとに、ランダムな敵単体にアルジェンティの攻撃力{{ultEnhancedExtraHitScaling}}%分の物理属性ダメージを与える。
+      e2UltAtkBuff:
+        text: 必殺技時の攻撃力バフ
+        content: "2凸：必殺技を発動した時、フィールド上の敵が3体以上の場合、攻撃力+40%、1ターン継続。"
   Aventurine:
     Content:
       defToCrBoost:
@@ -25,6 +42,10 @@ Characters:
       e6ShieldStacks:
         text: 6凸 味方バリア所持数
         content: "6凸：バリアを持つ自身以外の味方1名につき、アベンチュリンの与ダメージ+50%、最大で+150%。"
+  Clara:
+    Content:
+      e2UltAtkBuff:
+        text: 必殺技時の攻撃力バフ
   DrRatio:
     Content:
       summationStacks:
@@ -34,3 +55,33 @@ Characters:
         text: 敵デバフ数
         content: >-
           戦闘スキルを発動する時、40%の固定確率でターゲットに追加攻撃を1回行い、Dr.レイシオの攻撃力{{FuaScaling}}%分の虚数属性ダメージを与える。敵にあるデバフ1つにつき、追加攻撃を行う固定確率+20%。追加攻撃を行う前にターゲットが倒された場合、ランダムな敵単体に追加攻撃を行う。::BR::ダメージを与える時、敵にあるデバフが3つ以上の場合、デバフ1つにつき、その敵に対するDr.レイシオの与ダメージ+10%、最大で+50%。::BR::2凸：天賦の追加攻撃が命中した時、敵にあるデバフ1つにつき、さらにDr.レイシオの攻撃力20%の虚数属性付加ダメージを与える。この効果は1回の追加攻撃で4回まで発動できる。
+  Gallagher:
+    Content:
+      basicEnhanced:
+        text: 強化通常攻撃
+  Luka:
+    Content:
+      basicEnhanced:
+        text: 強化通常攻撃
+      targetUltDebuffed:
+        content: 必殺技を発動した時、確率で指定した敵単体の受けるダメージ+{{targetUltDebuffDmgTakenValue}}%、3ターン継続。
+      basicEnhancedExtraHits:
+        text: 強化通常攻撃ヒット数
+      e1TargetBleeding:
+        text: 1凸 敵裂創時のダメバフ
+        content: "1凸：ルカが行動する時、指定した敵が裂創状態の場合、ルカの与ダメージ+15%、2ターン継続。"
+      e4TalentStacks:
+        text: 4凸 「闘志」層数
+        content: "4凸：「闘志」を1層獲得するごとに、攻撃力+5%。この効果は最大で4層累積できる。"
+  March7thImaginary:
+    Content:
+      enhancedBasic:
+        text: 強化通常攻撃
+  Qingque:
+    Content:
+      basicEnhanced:
+        text: 強化通常攻撃
+  TrailblazerPreservation:
+    Content:
+      enhancedBasic:
+        text: 強化通常攻撃

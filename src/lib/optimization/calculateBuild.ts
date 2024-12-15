@@ -85,6 +85,7 @@ export function calculateBuild(
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
     x.setPrecompute(action.precomputedX.a)
+    m.setPrecompute(action.precomputedM.a)
 
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)

@@ -65,6 +65,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
 
   action.precomputedX = new ComputedStatsArrayCore(false) as ComputedStatsArray
   action.precomputedX.setPrecompute(baseComputedStatsArray())
+  action.precomputedM = action.precomputedX.m
   action.precomputedM.setPrecompute(baseComputedStatsArray())
 
   if (comboState.comboTeammate0) {

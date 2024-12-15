@@ -98,7 +98,7 @@ self.onmessage = function (e: MessageEvent) {
 
     // Reconstruct arrays after transfer
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
-    action.precomputedX.precomputedStatsArray = new Float32Array(Object.values(action.precomputedX.precomputedStatsArray))
+    action.precomputedX.m.a = new Float32Array(Object.values(action.precomputedX.m.a))
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)

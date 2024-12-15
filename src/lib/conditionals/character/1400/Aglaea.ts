@@ -57,7 +57,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buff((e >= 4 && m.e4Vulnerability) ? 0.08 : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam((e >= 4 && m.e4Vulnerability) ? 0.08 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
@@ -68,9 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.ATK], Source.NONE)
       x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
 
-      if (x.m) {
-        x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], Source.NONE)
-      }
+      x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return `

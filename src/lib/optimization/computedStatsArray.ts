@@ -18,6 +18,7 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 
 type StatMethods = {
   buff: (value: number, source: string) => void
+  buffTeam: (value: number, source: string) => void
   multiply: (value: number, source: string) => void
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
@@ -39,7 +40,6 @@ export type ComputedStatsArray =
   & ComputedStatsArrayStatDirectAccess
 
 export class ComputedStatsArrayCore {
-  precomputedStatsArray = baseComputedStatsArray()
   a = baseComputedStatsArray()
   c: BasicStatsObject
   m: ComputedStatsArray
@@ -58,6 +58,18 @@ export class ComputedStatsArrayCore {
           buff: (value: number, source: string) => {
             if (value == 0) return
             this.a[index] += value
+          },
+          buffMemo: (value: number, source: string) => {
+            if (value == 0) return
+            this.m.a[index] += value
+          },
+          buffTeam: (value: number, source: string) => {
+            if (value == 0) return
+            this.a[index] += value
+
+            if (this.m) {
+              this.m.a[index] += value
+            }
           },
           multiply: (value: number, source: string) => {
             this.a[index] *= value
@@ -78,7 +90,6 @@ export class ComputedStatsArrayCore {
             this.a[index] = value
           },
           get: () => this.a[index],
-          memoGet: () => this.m.a[index],
         },
         writable: false,
         enumerable: true,
@@ -94,7 +105,6 @@ export class ComputedStatsArrayCore {
   }
 
   setPrecompute(precompute: Float32Array) {
-    this.precomputedStatsArray = precompute
     this.a.set(precompute)
     this.buffs = []
     this.trace = false
@@ -148,6 +158,11 @@ export function fromComputedStatsObject(x: ComputedStatsObject) {
 
 export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
+}
+
+export function baseMemoComputedStatsArray() {
+  const values = Object.values(baseComputedStatsObject)
+  return Float32Array.from([...values, ...values])
 }
 
 export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {

@@ -1,5 +1,3 @@
-import { Assets } from 'lib/rendering/assets'
-
 const parentW = 233
 const parentH = 350
 const innerW = 350
@@ -12,7 +10,7 @@ export const OptimizerTabCharacterPanel = () => {
     <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px', position: 'relative' }}>
       <img
         width={innerW}
-        src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter!)}
+        // src={Assets.getCharacterPreviewById(optimizerTabFocusCharacter!)}
         style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`, cursor: 'pointer' }}
         onClick={() => {
           window.store.getState().setOptimizerTabFocusCharacterSelectModalOpen(true)

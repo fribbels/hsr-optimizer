@@ -18,10 +18,12 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 
 type StatMethods = {
   buff: (value: number, source: string) => void
+  buffTeam: (value: number, source: string) => void
   multiply: (value: number, source: string) => void
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
+  memoGet: () => number
 }
 
 type ComputedStatsArrayStatExtensions = {
@@ -38,14 +40,16 @@ export type ComputedStatsArray =
   & ComputedStatsArrayStatDirectAccess
 
 export class ComputedStatsArrayCore {
-  precomputedStatsArray = baseComputedStatsArray()
   a = baseComputedStatsArray()
   c: BasicStatsObject
+  m: ComputedStatsArray
   buffs: Buff[]
   trace: boolean
 
-  constructor(trace: boolean = false) {
+  constructor(trace: boolean = false, memosprite = false) {
     this.c = {} as BasicStatsObject
+    // @ts-ignore
+    this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true)
     this.buffs = []
     this.trace = trace
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
@@ -54,6 +58,18 @@ export class ComputedStatsArrayCore {
           buff: (value: number, source: string) => {
             if (value == 0) return
             this.a[index] += value
+          },
+          buffMemo: (value: number, source: string) => {
+            if (value == 0) return
+            this.m.a[index] += value
+          },
+          buffTeam: (value: number, source: string) => {
+            if (value == 0) return
+            this.a[index] += value
+
+            if (this.m) {
+              this.m.a[index] += value
+            }
           },
           multiply: (value: number, source: string) => {
             this.a[index] *= value
@@ -89,7 +105,6 @@ export class ComputedStatsArrayCore {
   }
 
   setPrecompute(precompute: Float32Array) {
-    this.precomputedStatsArray = precompute
     this.a.set(precompute)
     this.buffs = []
     this.trace = false
@@ -97,6 +112,10 @@ export class ComputedStatsArrayCore {
 
   setBasic(c: BasicStatsObject) {
     this.c = c
+  }
+
+  setMemo(m: ComputedStatsArray) {
+    this.m = m
   }
 
   buff(key: number, value: number, source?: string) {
@@ -139,6 +158,11 @@ export function fromComputedStatsObject(x: ComputedStatsObject) {
 
 export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
+}
+
+export function baseMemoComputedStatsArray() {
+  const values = Object.values(baseComputedStatsObject)
+  return Float32Array.from([...values, ...values])
 }
 
 export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {

@@ -70,8 +70,11 @@ export function calculateBuild(
     ornamentSetIndex: ornamentSetIndex,
   } as BasicStatsObject
 
-  const x = cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
+  const m = x.m
+
   x.setBasic(c)
+  m.setBasic(c)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
@@ -82,6 +85,7 @@ export function calculateBuild(
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
     x.setPrecompute(action.precomputedX.a)
+    m.setPrecompute(action.precomputedM.a)
 
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)

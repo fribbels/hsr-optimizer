@@ -98,12 +98,13 @@ self.onmessage = function (e: MessageEvent) {
 
     // Reconstruct arrays after transfer
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
-    action.precomputedX.precomputedStatsArray = new Float32Array(Object.values(action.precomputedX.precomputedStatsArray))
+    action.precomputedX.m.a = new Float32Array(Object.values(action.precomputedX.m.a))
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const m = x.m
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
@@ -158,6 +159,7 @@ self.onmessage = function (e: MessageEvent) {
     calculateElementalStats(c, context)
 
     x.setBasic(c)
+    m.setBasic(c)
 
     // Exit early on base display filters failing
     if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
@@ -172,6 +174,8 @@ self.onmessage = function (e: MessageEvent) {
 
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
+
+      calculateDamage(x.m, action, context)
       calculateDamage(x, action, context)
 
       if (action.actionType === 'BASIC') {

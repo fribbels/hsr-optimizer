@@ -32,6 +32,11 @@ export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags
   // No super break
 }
 
+export function buffTeamAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
+  buffAbilityVulnerability(x, abilityTypeFlags, value, source)
+  if (x.m) buffAbilityVulnerability(x.m, abilityTypeFlags, value, source)
+}
+
 export function buffAbilityResPen(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string) {
   if (value == 0) return
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) x.BASIC_RES_PEN.buff(value, source)

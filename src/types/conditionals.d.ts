@@ -36,6 +36,10 @@ export interface ConditionalsController {
   // No changes to stats should occur at this stage
   finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
 
+  // Multipliers that can be evaluated after all stat modifications are complete
+  // No changes to stats should occur at this stage
+  finalizeMemoCalculations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+
   // WGSL implementation of finalizeCalculations to run on GPU
   gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string
 

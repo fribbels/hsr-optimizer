@@ -253,6 +253,7 @@ Relic:
   Enhance: 強化・レア度
   Mainstat: メインステータス
   Substat: サブステータス
+  SubstatPlaceholder: サブステータス
   Upgrades: アップグレード
   Messages:
     SubmitFail: 送信できませんでした！

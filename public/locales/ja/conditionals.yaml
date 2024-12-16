@@ -32,7 +32,7 @@ Characters:
       ultEnhancedExtraHits:
         content: 1ヒットごとに、ランダムな敵単体にアルジェンティの攻撃力{{ultEnhancedExtraHitScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
-        text: 必殺技時の攻撃力バフ
+        text: 必殺技の攻撃力バフ
         content: "2凸：必殺技を発動した時、フィールド上の敵が3体以上の場合、攻撃力+40%、1ターン継続。"
   Aventurine:
     Content:
@@ -99,7 +99,7 @@ Characters:
         text: '「反撃の印」付与済み'
         content: スヴァローグに「反撃の印」を付与された敵に対し、さらにクラーラの攻撃力{{skillScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
-        text: 必殺技時の攻撃力バフ
+        text: 必殺技の攻撃力バフ
         content: "2凸：必殺技を発動した後、攻撃力+30%、2ターン継続。"
   DrRatio:
     Content:
@@ -123,6 +123,21 @@ Characters:
       e4TeamResBuff:
         text: 4凸 味方効果抵抗アップ
         content: "4凸 ジェパードがフィールド上にいる時、味方全体の効果抵抗+20%。"
+  Himeko:
+    Content:
+      e1TalentSpdBuff:
+        text: 1凸 速度バフ
+  Huohuo:
+    Content:
+      ultBuff:
+        text: 必殺技時の攻撃力バフ
+        content: 自身以外の味方の攻撃力+{{ultBuffValue}}%、2ターン継続。
+      skillBuff:
+        text: 1凸 味方速度バフ
+        content: "1凸：天賦による「厄払い」の継続時間+1ターン。フォフォに「厄払い」がある時、味方全体の速度+12%。"
+      e6DmgBuff:
+        text: 6凸 治癒時のダメバフ
+        content: "6凸：味方に治癒を行った時、その味方の与ダメージ+50%、2ターン継続。"
   Jade:
     Content:
       enhancedFollowUp:
@@ -180,6 +195,8 @@ Characters:
     Content:
       enhancedBasic:
         text: 強化通常攻撃
+      selfSpdBuff:
+        text: 1凸 速度バフ
   Qingque:
     Content:
       basicEnhanced:

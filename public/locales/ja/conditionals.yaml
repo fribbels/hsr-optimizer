@@ -82,6 +82,37 @@ Characters:
     Content:
       basicEnhanced:
         text: 強化通常攻撃
+  Gepard:
+    Content:
+      e4TeamResBuff:
+        text: 4凸 味方効果抵抗アップ
+        content: "4凸 ジェパードがフィールド上にいる時、味方全体の効果抵抗+20%。"
+  Jade:
+    Content:
+      enhancedFollowUp:
+        text: 強化追加攻撃
+        content: ジェイドの天賦の追加攻撃を強化し、追加攻撃のダメージ倍率+80%、この強化追加攻撃は2回まで発動できる。
+      pawnedAssetStacks:
+        text: '「質草」層数'
+        content: >-
+          ジェイドが天賦の追加攻撃を行う時、即座に「質草」を5層獲得する。「質草」1層につき、会心ダメージ+{{pawnedAssetCdScaling}}%、最大で50層累積できる。「質草」1層につき、ジェイドの攻撃力+0.5%。
+      e1FuaDmgBoost:
+        text: 1凸 追加攻撃ダメアップ
+        content: >-
+          1凸：ジェイドの天賦による追加攻撃ダメージ+32%。「債権回収者」状態の味方キャラが攻撃を行い、命中した敵の数が2体/1体の時、ジェイドはチャージを追加で1/2獲得する。
+      e2CrBuff:
+        text: 2凸 会心率アップ
+        content: "2凸：「質草」が15層以上の時、ジェイドの会心率+18%。"
+      e4DefShredBuff:
+        text: 4凸 必殺時の防御力無視
+        content: "必殺技を発動する時、ジェイドの与えるダメージが敵の防御力を12%無視する、3ターン継続。"
+      e6ResShredBuff:
+        text: 6凸 量子耐性貫通バフ
+        content: "6凸 フィールド上に「債権回収者」状態のキャラがいる時、ジェイドの量子属性耐性貫通+20%。同時にジェイドも「債権回収者」状態を獲得する。"
+    TeammateContent:
+      debtCollectorSpdBuff:
+        text: '「債権回収者」有効'
+        content: 指定した味方単体を「債権回収者」状態にし、その味方の速度+30、3ターン継続。
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
@@ -113,6 +144,26 @@ Characters:
     Content:
       basicEnhanced:
         text: 強化通常攻撃
+  Robin:
+    Content:
+      e4TeamResBuff:
+        text: 4凸 味方効果抵抗アップ
+  Seele:
+    Content:
+      buffedState:
+        text: '「増幅」状態'
+        content: >-
+          通常攻撃、戦闘スキル、必殺技で敵を倒すと追加ターンを1獲得し、増幅状態に入る。増幅状態のゼーレの与ダメージ+{{buffedStateDmgBuff}}%、1ターン継続。::BR::増幅状態の時、ゼーレの量子属性耐性貫通+20%。
+      speedBoostStacks:
+        text: 速度バフ層数
+        content: 一層ごとに、ゼーレの速度+25%、2ターン継続。最大{{speedBoostStacksMax}}回蓄積できる。
+      e1EnemyHp80CrBoost:
+        text: 1凸 敵HP≤80%時会心率アップ
+        content: "残りHPが80%以下の敵にダメージを与える時、会心率+15%。"
+      e6UltTargetDebuff:
+        text: 6凸 「乱れ蝶」付与済み
+        content: >-
+          必殺技を発動した後、攻撃を受けた敵単体を「乱れ蝶」状態にする、1ターン継続。乱れ蝶状態の敵が攻撃を受けた後、ゼーレの必殺技ダメージ15%分の量子属性付加ダメージを1回受ける。その敵が、他の味方に「乱れ蝶」の付加ダメージを触発され倒された時、ゼーレの天賦は発動しない。
   Sunday:
     Content:
       skillDmgBuff:
@@ -123,8 +174,40 @@ Characters:
         text: 天賦の会心率バフ数
         content: 戦闘スキルを発動する時、ターゲットの会心率+{{CritRateBoost}}%、3ターン継続。
       techniqueDmgBuff:
-        text: 秘技使用後のダメバフ
+        text: 秘技によるスキル強化
         content: 秘技を使用した後、次の戦闘でサンデーが初めて味方にスキルを発動する時、ターゲットの与ダメージ+50%、2ターン継続。
+      e1DefPen:
+        text: 1凸 スキル時防御力無視
+        content: >-
+          サンデーが戦闘スキルを発動する時、スキルターゲットに以下の効果を付与する。キャラがダメージを与える時、敵の防御力を16%無視する。召喚物がダメージを与える時、敵の防御力を40%無視する。2ターン継続。
+      e2DmgBuff:
+        text: 2凸 味方の与ダメ増加
+        content: '「祝福されし者」状態の味方の与ダメージ+30%。'
+    TeammateContent:
+      beatified:
+        text: 必殺技の会心ダメバフ
+        content: >-
+          「祝福されし者」状態の味方の会心ダメージが、サンデーの会心ダメージ{{CritBuffScaling}}%分+{{CritBuffFlat}}%アップする。
+      teammateCDValue:
+        text: 会心ダメージ（戦闘時）
+        content: >-
+          「祝福されし者」状態の味方の会心ダメージが、サンデーの会心ダメージ{{CritBuffScaling}}%分+{{CritBuffFlat}}%アップする。
+      e6CrToCdConversion:
+        text: 6凸 会心率と会心ダメの変換
+        content: >-
+          また、天賦による会心率アップ効果が発動する時、ターゲットの会心率が100%を超えている場合、1%超過するごとに会心ダメージが2%アップする。
+  Topaz:
+    Content:
+      enemyProofOfDebtDebuff:
+        text: '「負債証明」付与済み'
+        content: 指定した敵単体に「負債証明」状態を付与し、その敵が受ける追加攻撃ダメージを{{proofOfDebtFuaVulnerability}}%アップさせる。
+      numbyEnhancedState:
+        text: カブ強化状態
+        content: カブが「心躍る上昇幅！」状態に入り、ダメージ倍率+{{enhancedStateFuaScalingBoost}}%、会心ダメージ+{{enhancedStateFuaCdBoost}}%。
+      e1DebtorStacks:
+        text: 1凸 「強制執行」付与数
+        content: >-
+          1凸：「負債証明」状態の敵が追加攻撃ダメージを受ける時、「強制執行」状態を付与される。この効果は1回の攻撃で1回まで付与できる。「強制執行」状態の敵が受ける追加攻撃ダメージの会心ダメージ+25%、最大で2層累積できる。「負債証明」が解除される時、「強制執行」も解除される。
   TrailblazerPreservation:
     Content:
       enhancedBasic:
@@ -132,7 +215,7 @@ Characters:
   Welt:
     Content:
       enemyDmgTakenDebuff:
-        text: 必殺技時の敵被ダメ増加
+        text: 必殺技被ダメ増加デバフ
         content: 必殺技を発動する時、100%の基礎確率で敵の受けるダメージ+12%、2ターン継続。
       enemySlowed:
         text: 敵減速状態

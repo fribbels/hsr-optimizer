@@ -59,6 +59,25 @@ Characters:
       e6ShieldStacks:
         text: 6凸 味方バリア所持数
         content: "6凸：バリアを持つ自身以外の味方1名につき、アベンチュリンの与ダメージ+50%、最大で+150%。"
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: 効果命中での与ダメバフ
+        content: 自身の与ダメージが、効果命中の60%分アップする。最大で与ダメージ+72%。
+      epiphanyDebuff:
+        text: '「開示」付与済み'
+        content: '「開示」状態の敵は、自身のターンでの受けるダメージ+{{epiphanyDmgTakenBoost}}%。'
+      defDecreaseDebuff:
+        text: 敵防御力デバフ
+        content: 隣接する敵の防御力-{{defShredValue}}%。
+      arcanaStacks:
+        text: '「アルカナ」付与数'
+        content: >-
+          「アルカナ」状態の敵はターンが回ってくるたびにブラックスワンの攻撃力{{dotScaling}}%分の風属性持続ダメージを受ける、「アルカナ」1層につき、ダメージ倍率+{{arcanaStackMultiplier}}%。持続ダメージが発生した後、「アルカナ」は1層にリセットされる。「アルカナ」は最大で50層累積できる。::BR::3層以上：隣接する敵にブラックスワンの攻撃力180%分の風属性持続ダメージを与え、65%の基礎確率で「アルカナ」を1層付与する。7層以上：今回発生する持続ダメージが、ターゲットおよび隣接する敵の防御力を20%無視する。
+      e1ResReduction:
+        text: 1凸 敵属性耐性ダウン
+        content: >-
+          1凸：ブラックスワンが戦闘可能状態の時、風化、裂創、燃焼、感電状態の敵の対応する風、物理、炎、雷属性の耐性がそれぞれ25%ダウンする。
   Boothill:
     Content:
       standoffActive:
@@ -91,6 +110,30 @@ Characters:
         text: 6凸 撃破バフ
         content: >-
           天賦を触発して弱点撃破ダメージを与える時、ターゲットに対してさらに本来のダメージ倍率40%分の弱点撃破ダメージを与え、隣接する敵に本来のダメージ倍率70%分の弱点撃破ダメージを与える。
+  Bronya:
+    Content:
+      teamDmgBuff:
+        text: 味方全体のダメバフ
+        content: ブローニャがフィールド上にいる時、味方全体の与ダメージ+10%。
+      skillBuff:
+        text: スキルバフ
+        content: 指定した味方単体のデバフを1つ解除し、その味方を即座に行動させ、与ダメージ+{{skillDmgBoostValue}}%、1ターン継続。
+      ultBuff:
+        text: 必殺技時の攻撃力/会心ダメバフ
+        content: 味方全体の攻撃力+{{ultAtkBoostValue}}%、会心ダメージがブローニャの会心ダメージ{{ultCdBoostValue}}%分+{{ultCdBoostBaseValue}}%アップする、2ターン継続。
+      battleStartDefBuff:
+        text: 戦闘開始時の防御力バフ
+        content: 戦闘開始時、味方全体の防御力+20%、2ターン継続。
+      techniqueBuff:
+        text: 秘技による攻撃力バフ
+        content: 秘技を使用した後、次の戦闘開始時、味方全体の攻撃力+15%、2ターン継続。
+      e2SkillSpdBuff:
+        text: 2凸 スキル時の速度バフ
+        content: 戦闘スキルを発動した時、指定された味方は行動した後に速度+30%、1ターン継続。
+    TeammateContent:
+      teammateCDValue:
+        text: 会心ダメージ（戦闘時）
+        content: 味方全体の攻撃力+{{ultAtkBoostValue}}%、会心ダメージがブローニャの会心ダメージ{{ultCdBoostValue}}%分+{{ultCdBoostBaseValue}}%アップする、2ターン継続。
   Clara:
     Content:
       ultBuff:
@@ -112,6 +155,19 @@ Characters:
           戦闘スキルを発動する時、40%の固定確率でターゲットに追加攻撃を1回行い、Dr.レイシオの攻撃力{{FuaScaling}}%分の虚数属性ダメージを与える。敵にあるデバフ1つにつき、追加攻撃を行う固定確率+20%。追加攻撃を行う前にターゲットが倒された場合、ランダムな敵単体に追加攻撃を行う。::BR::ダメージを与える時、敵にあるデバフが3つ以上の場合、デバフ1つにつき、その敵に対するDr.レイシオの与ダメージ+10%、最大で+50%。::BR::2凸：天賦の追加攻撃が命中した時、敵にあるデバフ1つにつき、さらにDr.レイシオの攻撃力20%の虚数属性付加ダメージを与える。この効果は1回の追加攻撃で4回まで発動できる。
   Firefly:
     Content:
+      enhancedStateActive:
+        text: '「完全燃焼」状態'
+        content: '「完全燃焼」状態に入り、自身の行動順を100%早める。また、通常攻撃が「ファイアフライ-IV-底火斬撃」に、戦闘スキルが「ファイアフライ-IV-死星オーバーロード」に強化される。'
+      enhancedStateSpdBuff:
+        text: '「完全燃焼」による速度バフ'
+        content: '「完全燃焼」状態の時、速度+60。'
+      superBreakDmg:
+        text: 超撃破ダメージ有効
+        content: >-
+          「完全燃焼」状態の時、装甲「サム」の撃破特効が200%/360%以上の場合、弱点撃破状態の敵に攻撃を行った後、その回の攻撃の削靭値を35%/50%分の超撃破ダメージに転換する。
+      atkToBeConversion:
+        text: 攻撃力での撃破特効バフ
+        content: 装甲「サム」の攻撃力が1800を超えた場合、超過した攻撃力10につき、自身の撃破特効+0.8%。
       e1DefShred:
         text: 1凸 敵防御力無視
   Gallagher:
@@ -123,6 +179,14 @@ Characters:
       e4TeamResBuff:
         text: 4凸 味方効果抵抗アップ
         content: "4凸 ジェパードがフィールド上にいる時、味方全体の効果抵抗+20%。"
+  Hanya:
+    Content:
+      e2SkillSpdBuff:
+        text: 2凸 スキル時の速度バフ
+  Herta:
+    Content:
+      techniqueBuff:
+        text: 秘技による攻撃力バフ
   Himeko:
     Content:
       e1TalentSpdBuff:
@@ -164,6 +228,10 @@ Characters:
       debtCollectorSpdBuff:
         text: '「債権回収者」有効'
         content: 指定した味方単体を「債権回収者」状態にし、その味方の速度+30、3ターン継続。
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: '「完全燃焼」状態'
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
@@ -207,6 +275,8 @@ Characters:
         text: 1凸 敵防御力無視
   Robin:
     Content:
+      skillDmgBuff:
+        text: スキルバフ
       e4TeamResBuff:
         text: 4凸 味方効果抵抗アップ
   Seele:

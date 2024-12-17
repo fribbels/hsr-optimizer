@@ -6689,19 +6689,19 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     8007: { // Remembrance Trailblazer M
       stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
+        [Stats.ATK]: 0.25,
+        [Stats.ATK_P]: 0.25,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 1,
+        [Stats.CR]: 0,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
-        [Stats.ERR]: 0,
+        [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
         [Stats.Fire_DMG]: 0,
@@ -6713,7 +6713,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       parts: {
         [Parts.Body]: [
-          Stats.CR,
           Stats.CD,
         ],
         [Parts.Feet]: [
@@ -6726,6 +6725,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
@@ -6734,19 +6734,19 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     8008: { // Remembrance Trailblazer F
       stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
+        [Stats.ATK]: 0.25,
+        [Stats.ATK_P]: 0.25,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 1,
+        [Stats.CR]: 0,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
-        [Stats.ERR]: 0,
+        [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
         [Stats.Fire_DMG]: 0,
@@ -6758,7 +6758,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       parts: {
         [Parts.Body]: [
-          Stats.CR,
           Stats.CD,
         ],
         [Parts.Feet]: [
@@ -6771,6 +6770,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
@@ -6918,6 +6918,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.Lightning_DMG,
         ],
         [Parts.LinkRope]: [
+          Stats.ERR,
           Stats.ATK_P,
           Stats.ERR,
         ],

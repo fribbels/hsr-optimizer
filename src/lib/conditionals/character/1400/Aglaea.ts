@@ -17,7 +17,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
-    e4Vulnerability: true,
+    e2Vulnerability: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -30,13 +30,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    e4Vulnerability: {
+    e2Vulnerability: {
       lc: true,
-      id: 'e4Vulnerability',
+      id: 'e2Vulnerability',
       formItem: 'switch',
-      text: 'E4 vulnerability',
+      text: 'E2 vulnerability',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 4,
+      disabled: e < 2,
     },
   }
 
@@ -51,7 +51,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buff((e >= 4 && m.e4Vulnerability) ? 0.08 : 0, Source.NONE)
+      x.VULNERABILITY.buff((e >= 4 && m.e2Vulnerability) ? 0.08 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },

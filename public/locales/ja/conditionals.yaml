@@ -571,6 +571,21 @@ Lightcones:
       selfHp80CrBuff:
         text: HP < 80%時の会心率バフ
         content: 装備キャラの残りHPが80%未満の場合、会心率+{{CritBuff}}%。
+  Sagacity:
+    Content:
+      postUltAtkBuff:
+        text: 必殺技後の攻撃力バフ
+        content: 装備キャラが必殺技を発動した時、攻撃力+{{AtkBuff}}%、2ターン継続。
+  ShatteredHome:
+    Content:
+      enemyHp50Buff:
+        text: 敵HP>50%時のダメバフ
+        content: 残りHPが50%を超える敵に対する、装備キャラの与ダメージ+{{DmgBuff}}%。
+  Void:
+    Content:
+      initialEhrBuff:
+        text: 戦闘開始時の効果命中バフ
+        content: 戦闘開始時、装備キャラの効果命中+{{EhrBuff}}%、3ターン継続。
 Characters:
   Acheron:
     Content:
@@ -612,6 +627,7 @@ Characters:
         text: '「栄達」層数'
         content: '「栄達」1層につき、アルジェンティの会心率+{{talentCrStackValue}}%、この効果は最大で{{talentMaxStacks}}層累積できる。'
       ultEnhancedExtraHits:
+        text: 強化必殺技の追加ヒット
         content: 1ヒットごとに、ランダムな敵単体にアルジェンティの攻撃力{{ultEnhancedExtraHitScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
         text: 必殺技の攻撃力バフ
@@ -763,13 +779,17 @@ Characters:
   Clara:
     Content:
       ultBuff:
+        text: 必殺技時のバフ
         content: スヴァローグのカウンターを強化。任意の味方が攻撃を受けた後、スヴァローグが攻撃者にカウンターを行い、カウンターのダメージ倍率+{{ultFuaExtraScaling}}%。必殺技を発動した後、さらにクラーラの受けるダメージ-{{ultDmgReductionValue}}%、2ターン継続。
       talentEnemyMarked:
         text: '「反撃の印」付与済み'
         content: スヴァローグに「反撃の印」を付与された敵に対し、さらにクラーラの攻撃力{{skillScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
-        text: 必殺技の攻撃力バフ
+        text: 2凸 必殺後の攻撃力バフ
         content: "2凸：必殺技を発動した後、攻撃力+30%、2ターン継続。"
+      e4DmgReductionBuff:
+        text: 4凸 自身被ダメージ軽減
+        content: "4凸：攻撃を受けた後、クラーラの受けるダメージ-30%、次のターンが回ってくるまで継続。"
   DanHeng:
     Content:
       talentPenBuff:
@@ -1119,6 +1139,7 @@ Characters:
         text: 1凸 敵持続ダメアップ
         content: "1凸：天賦効果により追加攻撃を行った時、100%の基礎確率でターゲットの受ける持続ダメージ+30%、2ターン継続。"
       e2TeamDotBoost:
+        text: 2凸 味方の持続ダメバフ
         content: "2凸：カフカがフィールド上にいる時、味方全体の持続ダメージ+25%。"
   Lingsha:
     Content:
@@ -1266,6 +1287,7 @@ Characters:
   Rappa:
     Content:
       sealformActive:
+        text: '「結印」状態'
         content: >-
           「結印」状態に入り、即座に追加ターンを1ターン、「彩墨」を3獲得する。同時に弱点撃破効率+50%、撃破特効+{{ultBeBuff}}%。
       atkToBreakVulnerability:

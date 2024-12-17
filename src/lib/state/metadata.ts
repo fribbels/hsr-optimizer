@@ -6696,7 +6696,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0,
+        [Stats.CR]: 0.25,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
@@ -6741,7 +6741,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0,
+        [Stats.CR]: 0.25,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
@@ -6837,6 +6837,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             Stats.Ice_DMG,
           ],
           [Parts.LinkRope]: [
+            Stats.ERR,
             Stats.ATK_P,
           ],
         },
@@ -6856,6 +6857,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.IzumoGenseiAndTakamaDivineRealm,
+          Sets.RutilantArena,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -6920,7 +6922,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
           Stats.ATK_P,
-          Stats.ERR,
         ],
       },
       presets: [],

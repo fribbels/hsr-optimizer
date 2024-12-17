@@ -19,7 +19,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentStackScaling = talent(e, 0.08, 0.088)
 
   const ultScaling = ult(e, 2.00, 2.20)
-  const ultAtkBuffScaling = ult(e, 0.64, 0.704)
+  const ultAtkBuffScaling = ult(e, 0.80, 0.88)
 
   const defaults = {
     enhancedSkill: true,
@@ -29,7 +29,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     totalInterpretationStacks: 99,
     e1AdjacentStacks: 21,
     e4EruditionSpdBuff: true,
-    e6MultiplierBuff: true,
+    e6Buffs: true,
   }
 
   const teammateDefaults = {
@@ -88,10 +88,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
-    e6MultiplierBuff: {
-      id: 'e6MultiplierBuff',
+    e6Buffs: {
+      id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 Ult multiplier boost',
+      text: 'E6 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },
@@ -113,12 +113,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((r.ultAtkBuff) ? ultAtkBuffScaling : 0, Source.NONE)
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * (e >= 6 && r.e6MultiplierBuff ? 0.05 : 0.01), Source.NONE)
+
+      const e6DamageMultiplier = context.enemyCount == 1 ? 4.00 : 1.40
+      x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01 + (e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), Source.NONE)
 
       const enhancedSkillStackScaling = talentStackScaling
         * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.30)
         * (r.eruditionTeammate ? 2 : 1)
       x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), Source.NONE)
+      x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= 42) ? 0.50 : 0, Source.NONE)
+      x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff((r.enhancedSkill) ? 75 : 60, Source.NONE)
@@ -128,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CD.buff((m.eruditionTeammate ? 0.80 : 0), Source.NONE)
-      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.10 : 0, Source.NONE)
+      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.12 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },

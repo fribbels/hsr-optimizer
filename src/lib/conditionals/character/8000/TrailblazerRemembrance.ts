@@ -10,10 +10,10 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5 // TODO: memo abilities
 
-  const memoTalentCdBuffScaling = talent(e, 0.168, 0.168) // TODO
-  const memoTalentCdBuffFlat = talent(e, 0.252, 0.252) // TODO
+  const memoTalentCdBuffScaling = talent(e, 0.12, 0.144)
+  const memoTalentCdBuffFlat = talent(e, 0.24, 0.288)
 
   const defaults = {}
 
@@ -64,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff(memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat, Source.NONE)
+      x.CD.buff(memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat, Source.NONE) // Affects both master + memo
       x.CR.buff((e >= 1 && t.e1CrBuff) ? 0.10 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

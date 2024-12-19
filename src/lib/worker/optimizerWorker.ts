@@ -107,6 +107,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
+  const failsRatingStatsFilter = ratingStatsFilter(request)
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -129,12 +130,12 @@ self.onmessage = function (e: MessageEvent) {
     const planarSphere = relics.PlanarSphere[p]
     const linkRope = relics.LinkRope[l]
 
-    const setH = RelicSetToIndex[head.set]
-    const setG = RelicSetToIndex[hands.set]
-    const setB = RelicSetToIndex[body.set]
-    const setF = RelicSetToIndex[feet.set]
-    const setP = OrnamentSetToIndex[planarSphere.set]
-    const setL = OrnamentSetToIndex[linkRope.set]
+    const setH = RelicSetToIndex[head.set as SetsRelics]
+    const setG = RelicSetToIndex[hands.set as SetsRelics]
+    const setB = RelicSetToIndex[body.set as SetsRelics]
+    const setF = RelicSetToIndex[feet.set as SetsRelics]
+    const setP = OrnamentSetToIndex[planarSphere.set as SetsOrnaments]
+    const setL = OrnamentSetToIndex[linkRope.set as SetsOrnaments]
 
     const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
     const ornamentSetIndex = setP + setL * ornamentSetCount
@@ -189,9 +190,13 @@ self.onmessage = function (e: MessageEvent) {
       }
     }
 
-    // Combat filters
+    // Combat / rating filters
     const a = x.a
     if (combatDisplay && (failsCombatThresholdFilter(a) || failsCombatStatsFilter(a))) {
+      continue
+    }
+
+    if (failsRatingStatsFilter(a)) {
       continue
     }
 
@@ -221,10 +226,10 @@ function addConditionIfNeeded(
 function basicStatsFilter(request: Form) {
   const conditions: ((stats: Record<string, number>) => boolean)[] = []
 
-  addConditionIfNeeded(conditions, Stats.SPD, request.minHp, request.maxHp)
-  addConditionIfNeeded(conditions, Stats.HP, request.minAtk, request.maxAtk)
-  addConditionIfNeeded(conditions, Stats.ATK, request.minDef, request.maxDef)
-  addConditionIfNeeded(conditions, Stats.DEF, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Stats.HP, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Stats.ATK, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Stats.DEF, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Stats.SPD, request.minSpd, request.maxSpd)
   addConditionIfNeeded(conditions, Stats.CR, request.minCr, request.maxCr)
   addConditionIfNeeded(conditions, Stats.CD, request.minCd, request.maxCd)
   addConditionIfNeeded(conditions, Stats.EHR, request.minEhr, request.maxEhr)
@@ -249,6 +254,12 @@ function combatStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
   addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
 
+  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+}
+
+function ratingStatsFilter(request: Form) {
+  const conditions: ((stats: Record<number, number>) => boolean)[] = []
+
   addConditionIfNeeded(conditions, Key.EHP, request.minEhp, request.maxEhp)
   addConditionIfNeeded(conditions, Key.BASIC_DMG, request.minBasic, request.maxBasic)
   addConditionIfNeeded(conditions, Key.SKILL_DMG, request.minSkill, request.maxSkill)
@@ -263,7 +274,6 @@ function combatStatsFilter(request: Form) {
 }
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {
-  // @ts-ignore
   const filter = request.resultMinFilter
   // @ts-ignore
   const sortOption = SortOption[request.resultSort] as SortOptionProperties

@@ -473,7 +473,7 @@ StatSimulation:
   TotalRolls: 总升级次数
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
-    Off: Off
+    Off: "关闭"
     RollCount: 模拟自定义副词条升级次数
     Totals: 模拟自定义副词条属性值总和
   FooterLabels:

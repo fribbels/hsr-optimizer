@@ -1,11 +1,11 @@
-import chroma from 'chroma-js'
+import chroma, { Color } from 'chroma-js'
 import { scaleTowardsRange } from 'lib/utils/mathUtils'
 import { PaletteResponse } from 'lib/utils/vibrantFork'
 
-export function showcaseCardBackgroundColor(color: string) {
-  const scaleFactor = 0.98
+export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
+  const scaleFactor = 0.95
   const minSaturation = 0.20
-  const maxSaturation = 0.275
+  const maxSaturation = 0.30
   const chromaColor = chroma(color)
 
   const currentSaturation = chromaColor.get('hsl.s')
@@ -14,25 +14,36 @@ export function showcaseCardBackgroundColor(color: string) {
   const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
 
   const finalColor = adjustedColor
-    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.025, 0.98))
-    .alpha(0.89)
+    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0275, 0.97))
+    .alpha(0.875)
 
   // console.log(finalColor.luminance())
   // console.log(finalColor.hsl())
 
-  return finalColor.css()
+  return darkModeModifier(finalColor, darkMode).css()
 }
 
-export function showcaseCardBorderColor(color: string) {
-  return chroma(color).saturate(0.9).luminance(0.125).alpha(0.75).css()
+export function darkModeModifier(color: Color, darkMode: boolean) {
+  return !darkMode
+    ? color
+    : color
+      .darken(0.10)
+      .saturate(0.05)
 }
 
-export function showcaseBackgroundColor(color: string) {
-  return chroma(color).desaturate(0.2).luminance(0.02).css()
+export function showcaseCardBorderColor(color: string, darkMode: boolean) {
+  const finalColor = chroma(color).saturate(0.9).luminance(0.125).alpha(0.85)
+  return darkModeModifier(finalColor, darkMode).css()
 }
 
-export function showcaseSegmentedColor(color: string) {
-  return chroma(color).luminance(0.1).alpha(0.5).css()
+export function showcaseBackgroundColor(color: string, darkMode: boolean) {
+  const finalColor = chroma(color).desaturate(0.2).luminance(0.02)
+  return darkModeModifier(finalColor, darkMode).css()
+}
+
+export function showcaseSegmentedColor(color: string, darkMode: boolean) {
+  const finalColor = chroma(color).desaturate(0.5).luminance(0.1).alpha(0.6)
+  return darkModeModifier(finalColor, darkMode).css()
 }
 
 export function colorTransparent() {

@@ -57,9 +57,12 @@ import robin from 'lib/conditionals/character/1300/Robin'
 import ruanmei from 'lib/conditionals/character/1300/RuanMei'
 import sparkle from 'lib/conditionals/character/1300/Sparkle'
 import sunday from 'lib/conditionals/character/1300/Sunday'
+import aglaea from 'lib/conditionals/character/1400/Aglaea'
+import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
 import trailblazerharmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
+import trailblazerRemembrance from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -126,12 +129,16 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   1314: jade,
   1315: boothill,
   1317: rappa,
+  1401: theHerta,
+  1402: aglaea,
   8001: trailblazerdestruction,
   8002: trailblazerdestruction,
   8003: trailblazerpreservation,
   8004: trailblazerpreservation,
   8005: trailblazerharmony,
   8006: trailblazerharmony,
+  8007: trailblazerRemembrance,
+  8008: trailblazerRemembrance,
 }
 
 /**

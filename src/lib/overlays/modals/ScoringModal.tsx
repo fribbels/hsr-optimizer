@@ -31,7 +31,6 @@ export default function ScoringModal() {
 
   const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
-  const charactersById = window.store((s) => s.charactersById)
 
   const setScoringModalOpen = window.store((s) => s.setScoringModalOpen)
   const scoringModalOpen = window.store((s) => s.scoringModalOpen)
@@ -130,6 +129,7 @@ export default function ScoringModal() {
   function ResetAllCharactersButton() {
     const resetAllCharacters = () => {
       console.log('Reset the scoring algorithm for all characters')
+      const charactersById = window.store.getState().charactersById
       for (const character of Object.keys(charactersById)) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
         DB.updateCharacterScoreOverrides(character, defaultScoringMetadata)

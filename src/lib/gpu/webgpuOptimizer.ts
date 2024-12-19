@@ -6,6 +6,7 @@ import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
+import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { renameFields } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -180,6 +181,8 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const optimizerContext = gpuContext.context
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: OptimizerDisplayData[] = []
+  const computedStatsArrayCore = new ComputedStatsArrayCore(false) as ComputedStatsArray
+
   for (let i = 0; i < resultArray.length; i++) {
     const index = resultArray[i].index
 
@@ -201,6 +204,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
         LinkRope: relics.LinkRope[l],
       },
       optimizerContext,
+      computedStatsArrayCore,
       true,
       true,
     )

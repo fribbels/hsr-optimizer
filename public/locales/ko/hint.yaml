@@ -1,0 +1,4 @@
+Character:
+  Title: 캐릭터
+EnemyOptions:
+  p4: 최대 강인성 - 적의 최대 강인성 값입니다. 격파 피해 계산에 적용합니다.

@@ -306,7 +306,9 @@ function SearchBar() {
         allowClear
         size='large'
         defaultValue={scorerId}
-        onSearch={(uuid: string) => {
+        onSearch={(uuid: string, event, info) => {
+          if (info?.source == 'clear') return
+
           const validated = TsUtils.validateUuid(uuid)
           if (!validated) {
             return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)

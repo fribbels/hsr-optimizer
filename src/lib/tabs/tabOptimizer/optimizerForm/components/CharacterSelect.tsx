@@ -1,9 +1,10 @@
 import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Assets } from 'lib/rendering/assets'
+import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 
@@ -40,10 +41,10 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [t])
+  const characterOptions = useMemo(() => generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
 
-  const labelledOptions: { value: string; label }[] = []
+  const labelledOptions: { value: string; label: ReactElement }[] = []
   for (const option of characterOptions) {
     labelledOptions.push({
       value: option.value,
@@ -215,7 +216,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 <SegmentedFilterRow
                   name='path'
                   tags={generatePathTags()}
-                  flexBasis='14.2%'
+                  flexBasis='12.5%'
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />
@@ -239,11 +240,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                         height: `${parentH}px`,
                       },
                       ...(selected.get(option.id)
-                        ? {
-                          opacity: 0.25,
-                          background: 'grey',
-                        }
-                        : {}
+                          ? {
+                            opacity: 0.25,
+                            background: 'grey',
+                          }
+                          : {}
                       ),
                     }}
                     styles={{ body: { padding: 1 } }}

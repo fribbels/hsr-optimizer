@@ -328,7 +328,7 @@ export default function RelicModal(props: {
                   style={{
                     width: 300,
                   }}
-                  placeholder='Sets'
+                  placeholder={t('Relic.Set')/* Set */}
                   options={setOptions}
                   maxTagCount='responsive'
                 >
@@ -374,7 +374,6 @@ export default function RelicModal(props: {
                     style={{
                       width: 210,
                     }}
-                    placeholder='Main Stat'
                     maxTagCount='responsive'
                     options={mainStatOptions}
                     disabled={mainStatOptions.length <= 1}
@@ -479,6 +478,7 @@ function SubstatInput(props: {
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`
+  const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
 
   const handleFocus = () => {
     if (inputRef.current) {
@@ -544,7 +544,7 @@ function SubstatInput(props: {
             style={{
               width: 210,
             }}
-            placeholder='Substat'
+            placeholder={t('SubstatPlaceholder')}
             maxTagCount='responsive'
             options={substatOptionsMemoized}
             listHeight={750}

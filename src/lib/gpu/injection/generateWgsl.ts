@@ -21,6 +21,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
+  wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
 
   return wgsl
@@ -50,8 +51,8 @@ function filterFn(request: Form) {
   }
 }
 
-function format(text: string) {
-  return indent((text.length > 0 ? text : 'false'), 2)
+function format(text: string, levels: number = 2) {
+  return indent((text.length > 0 ? text : 'false'), levels)
 }
 
 function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
@@ -168,6 +169,43 @@ ${format(combatFilters)}
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
     break;
   }
+}
+  `, 4))
+
+  return wgsl
+}
+
+function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
+  const filter = filterFn(request)
+
+  const ratingFilters = [
+    filter('x.EHP < minEhp'),
+    filter('x.EHP > maxEhp'),
+    filter('x.BASIC_DMG < minBasic'),
+    filter('x.BASIC_DMG > maxBasic'),
+    filter('x.SKILL_DMG < minSkill'),
+    filter('x.SKILL_DMG > maxSkill'),
+    filter('x.ULT_DMG < minUlt'),
+    filter('x.ULT_DMG > maxUlt'),
+    filter('x.FUA_DMG < minFua'),
+    filter('x.FUA_DMG > maxFua'),
+    filter('x.DOT_DMG < minDot'),
+    filter('x.DOT_DMG > maxDot'),
+    filter('x.BREAK_DMG < minBreak'),
+    filter('x.BREAK_DMG > maxBreak'),
+    filter('x.HEAL_VALUE < minHeal'),
+    filter('x.HEAL_VALUE > maxHeal'),
+    filter('x.SHIELD_VALUE < minShield'),
+    filter('x.SHIELD_VALUE > maxShield'),
+  ].filter((str) => str.length > 0).join(' ||\n')
+
+  // CTRL+ F: RESULTS ASSIGNMENT
+  wgsl = wgsl.replace('/* INJECT RATING STAT FILTERS */', indent(`
+if (
+${format(ratingFilters, 1)}
+) {
+  results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+  break;
 }
   `, 4))
 

@@ -3,6 +3,7 @@ import i18next from 'i18next'
 import { RightIcon } from 'icons/RightIcon'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
+import { Languages } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
@@ -50,7 +51,7 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) 
           style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
         >
         </img>
-        <RelicStatText language={i18next.resolvedLanguage}>{t(`ReadableStats.${stat.stat}`)}</RelicStatText>
+        <RelicStatText language={i18next.resolvedLanguage as Languages}>{t(`ReadableStats.${stat.stat}`)}</RelicStatText>
       </Flex>
       {!main
         ? (

@@ -247,4 +247,4 @@ export const SortOption: {
     optimizerKey: Key.SHIELD_VALUE,
     isComputedRating: true,
   },
-}
+} as const

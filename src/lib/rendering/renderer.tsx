@@ -1,4 +1,4 @@
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
+import { CheckCircleFilled, CheckOutlined, CloseCircleFilled, LockOutlined, StopOutlined } from '@ant-design/icons'
 import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
@@ -201,6 +201,16 @@ export const Renderer = {
         ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }}/>
         : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
     )
+  },
+  renderFilterModeCell: (x: { data: Relic }) => {
+    switch (x.data.filterMode) {
+      case 'none':
+        return <CheckOutlined title='not restricted'/>
+      case 'reserve':
+        return <LockOutlined title='reserved for cerrtain characters'/>
+      case 'exclude':
+        return <StopOutlined title="certain characters won't be able to wear this relic"/>
+    }
   },
 }
 

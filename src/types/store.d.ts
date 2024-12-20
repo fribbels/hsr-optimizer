@@ -6,7 +6,7 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/Sta
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { ScoringMetadata, ShowcasePreferences } from 'types/metadata'
-import { FilterMode, Relic } from 'types/relic'
+import { Relic } from 'types/relic'
 
 type PermutationDetails = {
   Head: number
@@ -32,7 +32,7 @@ type RelicTabFilters = {
   grade: (string | number)[]
   verified: (string | number)[]
   equippedBy: (string | number)[]
-  filterMode: FilterMode[]
+  excluded: ('unrestricted' | 'reserved' | 'excluded')[]
 }
 
 export type HsrOptimizerStore = {

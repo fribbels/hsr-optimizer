@@ -1,4 +1,4 @@
-import { ClearOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
+import { CheckOutlined, ClearOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
 import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { useSubscribe } from 'hooks/useSubscribe'
@@ -18,7 +18,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
-import { FilterMode, Relic } from 'types/relic'
+import { Relic } from 'types/relic'
 import { RelicTabFilters } from 'types/store'
 
 const { useToken } = theme
@@ -127,23 +127,23 @@ export default function RelicFilterBar(props: {
     })
   }
 
-  function generateFilterModeTags(arr: FilterMode[]) {
+  function generateExcludedTags(arr: Array<'unrestricted' | 'reserved' | 'excluded'>) {
     return arr.map((x) => {
       switch (x) {
-        case 'reserve':
+        case 'unrestricted':
           return {
             key: x,
-            display: <LockOutlined style={{ fontSize: '16px', color: 'white' }}/>,
+            display: <CheckOutlined style={{ fontSize: '16px', color: 'white' }} title='not restricted'/>,
           }
-        case 'exclude':
+        case 'reserved':
           return {
             key: x,
-            display: <StopOutlined style={{ fontSize: '16px', color: 'white' }}/>,
+            display: <LockOutlined style={{ fontSize: '16px', color: 'white' }} title='reserved for certain characters'/>,
           }
-        case 'none':
+        case 'excluded':
           return {
             key: x,
-            display: <ClearOutlined style={{ fontSize: '16px', color: 'white' }}/>,
+            display: <StopOutlined style={{ fontSize: '16px', color: 'white' }} title="certain characters won't be able to wear this relic"/>,
           }
       }
     })
@@ -158,7 +158,7 @@ export default function RelicFilterBar(props: {
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
   const equippedByData = generateEquippedByTags(['true', 'false'])
-  const restrictedData = generateFilterModeTags(['reserve', 'exclude', 'none'])
+  const excludedData = generateExcludedTags(['unrestricted', 'reserved', 'excluded'])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -252,7 +252,7 @@ export default function RelicFilterBar(props: {
       grade: [],
       verified: [],
       equippedBy: [],
-      filterMode: [],
+      excluded: [],
     })
   }
 
@@ -297,7 +297,7 @@ export default function RelicFilterBar(props: {
         </Flex>
         <Flex vertical flex={0.40}>
           <HeaderText>Restricted</HeaderText>
-          <FilterRow name='filterMode' tags={restrictedData} flexBasis='15%'/>
+          <FilterRow name='excluded' tags={excludedData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear')/* Clear */}</HeaderText>

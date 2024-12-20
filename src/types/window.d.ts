@@ -49,6 +49,7 @@ declare global {
     setOptimizerBuild: (build?: Build) => void
     setSelectedRelic: (relic: Partial<Relic>) => void
     setEditModalOpen: (open: boolean) => void
+    setRestrictionModalOpen: (open: boolean) => void
     viewRelicInGrid: (id: RelicId) => void
 
     // TODO see OptimizerForm

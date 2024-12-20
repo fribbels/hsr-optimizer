@@ -187,7 +187,7 @@ window.store = create((set) => {
       grade: [],
       verified: [],
       equippedBy: [],
-      filterMode: [],
+      excluded: [],
     },
     characterTabFilters: {
       name: '',
@@ -529,15 +529,7 @@ export const DB = {
       }
       if (!relic.excluded) {
         relic.excluded = []
-      }
-      if (!relic.filterMode) {
-        if (relic.reserved) {
-          relic.filterMode = 'reserve'
-        } else if (relic.excluded.length > 0) {
-          relic.filterMode = 'exclude'
-        } else {
-          relic.filterMode = 'none'
-        }
+        relic.excludedCount = 0
       }
     }
     indexRelics(saveData.relics)

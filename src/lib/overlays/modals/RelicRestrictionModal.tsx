@@ -2,6 +2,7 @@ import { Flex, Modal } from 'antd'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import DB from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useState } from 'react'
@@ -28,13 +29,13 @@ export function RelicRestrictionModal(props: RelicRestrictionModalProps) {
     setSelectedRelic(updatedRelic)
   }
   for (const relic of props.relics) {
-    switch (relic.filterMode) {
-      case 'none':
+    switch (relic.excludedCount) {
+      case 0:
         break
-      case 'reserve':
-        relic.reserved === props.characterId ? reservedRelics.push(relic) : excludedRelics.push(relic)
+      case Object.keys(DB.getMetadata().characters).length - 1:
+        relic.excluded.includes(props.characterId) ? excludedRelics.push(relic) : reservedRelics.push(relic)
         break
-      case 'exclude':
+      default:
         if (relic.excluded.includes(props.characterId)) excludedRelics.push(relic)
     }
   }
@@ -48,7 +49,7 @@ export function RelicRestrictionModal(props: RelicRestrictionModalProps) {
     >
       <Flex vertical style={{ height: '100%', width: '100%' }}>
         <HeaderText>Excluded relics ({excludedRelics.length}):</HeaderText>
-        <Flex gap={16} style={{ overflowX: 'clip', overflow: 'scroll', height: 300 }}>
+        <Flex gap={16} style={{ overflowX: 'scroll', overflowY: 'hidden', height: 300 }}>
           {...(excludedRelics.map((x) => {
             return (
               <Flex key={x.id} style={{ height: 280 }} vertical>
@@ -62,10 +63,16 @@ export function RelicRestrictionModal(props: RelicRestrictionModalProps) {
                 />
                 <Flex align='center' justify='center'>
                   {
-                    x.reserved
-                      // @ts-ignore
-                      ? `reserved for ${t(`${x.reserved}.Name`)}`
-                      : ''
+                    x.excluded.length === 0
+                      ? ''
+                      : x.excluded.length === Object.keys(DB.getMetadata().characters).length - 1
+                        ? `Relic reserved for ${
+                          t(`${
+                            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                            Object.keys(DB.getMetadata().characters).filter((id) => !x.excluded.includes(id))
+                          }.Name` as never) as string
+                        }`
+                        : `Relic excluded for ${x.excluded.length} characters`
                   }
                 </Flex>
               </Flex>
@@ -73,7 +80,7 @@ export function RelicRestrictionModal(props: RelicRestrictionModalProps) {
           }))}
         </Flex>
         <HeaderText>Reserved relics ({reservedRelics.length}):</HeaderText>
-        <Flex gap={16} style={{ overflowX: 'clip', overflow: 'scroll', height: 300 }}>
+        <Flex gap={16} style={{ overflowX: 'scroll', overflowY: 'hidden', height: 300 }}>
           {...(reservedRelics.map((x) => {
             return (
               <Flex key={x.id} style={{ height: 280 }}>

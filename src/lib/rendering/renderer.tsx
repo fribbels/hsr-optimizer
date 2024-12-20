@@ -3,6 +3,7 @@ import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import { Relic, Stat } from 'types/relic'
 
@@ -202,15 +203,14 @@ export const Renderer = {
         : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
     )
   },
-  renderFilterModeCell: (x: { data: Relic }) => {
-    switch (x.data.filterMode) {
-      case 'none':
-        return <CheckOutlined title='not restricted'/>
-      case 'reserve':
-        return <LockOutlined title='reserved for cerrtain characters'/>
-      case 'exclude':
-        return <StopOutlined title="certain characters won't be able to wear this relic"/>
+  renderExcludedCell: (x: { data: Relic }) => {
+    if (!x.data.excludedCount) {
+      return <CheckOutlined title='not restricted'/>
     }
+    if (x.data.excludedCount === Object.keys(DB.getMetadata().characters).length - 1) {
+      return <LockOutlined title='reserved for certain characters'/>
+    }
+    return <StopOutlined title="certain characters won't be able to wear this relic"/>
   },
 }
 

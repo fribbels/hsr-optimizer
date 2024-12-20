@@ -48,6 +48,7 @@ function RestrictionButton() {
   const relics = Object.values(state.relicsById)
   const characterId = state.optimizerTabFocusCharacter
   const [restrictionModalOpen, setRestrictionModalOpen] = useState(false)
+  window.setRestrictionModalOpen = setRestrictionModalOpen
   return (
     <div>
       <Button
@@ -61,10 +62,7 @@ function RestrictionButton() {
           !characterId
             ? 0
             : relics
-              .filter((x) => {
-                if (x.excluded.includes(characterId)) return true
-                return !!x.reserved
-              })
+              .filter((x) => x.excludedCount)
               .length
         }
         )

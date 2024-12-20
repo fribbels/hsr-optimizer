@@ -43,7 +43,7 @@ export function calculateCurrentlyEquippedRow(request: Form) {
 }
 
 export const Optimizer = {
-  cancel: (id) => {
+  cancel: (id: string) => {
     CANCEL = true
     WorkerPool.cancel(id)
   },
@@ -52,7 +52,7 @@ export const Optimizer = {
     let relics = TsUtils.clone(DB.getRelics())
     RelicFilters.calculateWeightScore(request, relics)
 
-    relics = RelicFilters.applyReserveExcludeFilter(request, relics)
+    relics = RelicFilters.applyRelicExcludeFilter(request, relics)
     relics = RelicFilters.applyEquippedFilter(request, relics) // will reduce iterations if "off" is selected
     relics = RelicFilters.applyEnhanceFilter(request, relics)
     relics = RelicFilters.applyGradeFilter(request, relics)

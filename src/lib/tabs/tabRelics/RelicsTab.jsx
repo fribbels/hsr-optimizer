@@ -172,12 +172,28 @@ export default function RelicsTab() {
       operator: 'OR',
     }
 
-    filterModel.filterMode = {
-      conditions: relicTabFilters.filterMode.map((x) => ({
-        filterType: 'text',
-        type: 'equals',
-        filter: x,
-      })),
+    filterModel.excludedCount = {
+      conditions: relicTabFilters.excluded.map((x) => {
+        if (x === 'unrestricted') {
+          return {
+            filterType: 'number',
+            type: 'equals',
+            filter: 0,
+          }
+        }
+        if (x === 'reserved') {
+          return {
+            filterType: 'number',
+            type: 'equals',
+            filter: Object.keys(DB.getMetadata().characters).length - 1,
+          }
+        }
+        return {
+          filterType: 'number',
+          type: 'notEqual',
+          filter: 0,
+        }
+      }),
       operator: 'OR',
     }
 
@@ -273,11 +289,11 @@ export default function RelicsTab() {
   const columnDefs = useMemo(() => [
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
     {
-      field: 'filterMode',
+      field: 'excludedCount',
       headerName: 'Wearer',
       width: 40,
-      cellRenderer: Renderer.renderFilterModeCell,
-      filter: 'agTextColumnFilter',
+      cellRenderer: Renderer.renderExcludedCell,
+      filter: 'agNumberColumnFilter',
     },
     {
       field: 'equippedBy',
@@ -595,17 +611,17 @@ export default function RelicsTab() {
       api.ensureNodeVisible(
         (rowNode) => {
           if (rowNode.data.id === id) {
-            rowNode.setSelected(true)
+            rowNode.setSelected(true, true)
             setSelectedRelic(rowNode.data)
             return true
           }
-          rowNode.setSelected(false)
           return false
         },
         'middle',
       )
       window.scrollTo({ top: 400, left: 0, behavior: 'smooth' })
     })
+    window.setRestrictionModalOpen(false)
   }
 
   window.viewRelicInGrid = viewRelicInGrid

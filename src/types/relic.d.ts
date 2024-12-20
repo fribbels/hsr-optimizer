@@ -36,9 +36,8 @@ export type Relic = {
     rolls?: StatRolls
     addedRolls?: number
   }[]
-  reserved: CharacterId | undefined
-  excluded: CharacterId[]
-  filterMode: FilterMode
+  excluded: Array<CharacterId>
+  excludedCount: number
 }
 
 type StatRolls = {
@@ -51,5 +50,3 @@ export type Stat = {
   stat: StatsValues
   value: number
 }
-
-type FilterMode = 'exclude' | 'reserve' | 'none'

@@ -2,7 +2,6 @@ import { AimOutlined, ClearOutlined, LineChartOutlined, LockOutlined, StopOutlin
 import { Button, Card, Divider, Flex, Modal } from 'antd'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { iconSize } from 'lib/constants/constantsUi'
-import { Message } from 'lib/interactions/message'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
@@ -86,9 +85,10 @@ export function RelicPreview(props: {
   function reserveRelic() {
     if (!props.relic || !props.characterId) return
     const newRelic: Relic = props.relic
-    newRelic.excluded = []
-    newRelic.reserved = props.characterId
-    newRelic.filterMode = 'reserve'
+    newRelic.excluded = Object.values(DB.getMetadata().characters)
+      .map((x) => x.id)
+      .filter((x) => x !== props.characterId)
+    newRelic.excludedCount = 1
     DB.setRelic(newRelic)
     window.setRelicRows(DB.getRelics()) // need to manually trigger a re-render of the grid to update restriction icons
   }
@@ -96,9 +96,9 @@ export function RelicPreview(props: {
   function excludeRelic() {
     if (!props.relic || !props.characterId) return
     const newRelic: Relic = props.relic
+    if (newRelic.excluded.includes(props.characterId)) return
     newRelic.excluded.push(props.characterId)
-    newRelic.reserved = undefined
-    newRelic.filterMode = 'exclude'
+    newRelic.excludedCount++
     DB.setRelic(newRelic)
     window.setRelicRows(DB.getRelics())
   }
@@ -107,8 +107,7 @@ export function RelicPreview(props: {
     if (!props.relic || !props.characterId) return
     const newRelic: Relic = props.relic
     newRelic.excluded = []
-    newRelic.reserved = undefined
-    newRelic.filterMode = 'none'
+    newRelic.excludedCount = 0
     DB.setRelic(newRelic)
     window.setRelicRows(DB.getRelics())
   }

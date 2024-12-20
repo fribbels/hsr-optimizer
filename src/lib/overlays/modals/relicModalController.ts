@@ -164,8 +164,8 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
       stat: relicForm.mainStatType,
       value: relicForm.mainStatValue,
     },
-    excluded: relicForm.excluded,
-    excludedCount: relicForm.excluded.length,
+    excluded: relicForm.excluded ?? [],
+    excludedCount: relicForm.excluded?.length ?? 0,
   } as Relic
 
   const substats: { stat: SubStats; value: number }[] = []

@@ -64,7 +64,7 @@ export function RelicPreview(props: {
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
   const scored = score !== undefined
   const cardWidth = 200
-  const hoverable = source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL
+  const hoverable = !source // CHARACTER_TAB == 0 so no need to check separately from undefined
 
   const cardClicked = () => {
     if ((!relic.id && !characterId) || source == ShowcaseSource.SHOWCASE_TAB || source == ShowcaseSource.BUILDS_MODAL) return

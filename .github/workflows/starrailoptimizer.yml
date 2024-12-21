@@ -36,6 +36,12 @@ jobs:
           find: "const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'"
           replace: "const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'"
           include: "src/lib/tabs/tabShowcase/RelicScorerTab.jsx"
+      - name: Find and Replace Beta header
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "Fribbels Honkai Star Rail Optimizer"
+          replace: "Fribbels Honkai Star Rail Optimizer (No leaks)"
+          include: "src/lib/layout/LayoutHeader.tsx"
       - name: Find and Replace officialOnly
         uses: jacobtomlinson/gha-find-replace@v3
         with:

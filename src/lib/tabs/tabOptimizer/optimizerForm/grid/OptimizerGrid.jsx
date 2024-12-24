@@ -6,6 +6,8 @@ import DB from 'lib/state/db'
 import {
   getBasicColumnDefs,
   getCombatColumnDefs,
+  getMemoBasicColumnDefs,
+  getMemoCombatColumnDefs,
   optimizerGridDefaultColDef,
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -31,23 +33,24 @@ export function OptimizerGrid() {
   }, [])
 
   const statDisplay = window.store((s) => s.statDisplay)
+  const memoDisplay = window.store((s) => s.memoDisplay)
   const columnDefs = useMemo(() => {
     let columnDefinitions = statDisplay == 'combat'
-      ? getCombatColumnDefs(t)
-      : getBasicColumnDefs(t)
+      ? (memoDisplay == 'memo' ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
+      : (memoDisplay == 'memo' ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
 
     if (optimizerTabFocusCharacter) {
       const hiddenColumns = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata.hiddenColumns ?? []
       const hiddenFields = hiddenColumns.map((column) => statDisplay == 'combat'
-        ? column.combatGridColumn
-        : column.basicGridColumn,
+        ? (memoDisplay == 'memo' ? column.memoCombatGridColumn : column.combatGridColumn)
+        : (memoDisplay == 'memo' ? column.memoBasicGridColumn : column.basicGridColumn),
       )
 
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }
 
     return columnDefinitions
-  }, [optimizerTabFocusCharacter, statDisplay, t])
+  }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, t])
 
   optimizerGridOptions.datasource = datasource
 

@@ -345,31 +345,3 @@ export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
 }
-
-export function augmentExternalStats(x: ComputedStatsObject): ComputedStatsObjectExternal {
-  return {
-    ...x,
-    ['HP%']: x.HP_P,
-    ['ATK%']: x.ATK_P,
-    ['DEF%']: x.DEF_P,
-    ['SPD%']: x.SPD_P,
-    ['HP']: x.HP,
-    ['ATK']: x.ATK,
-    ['DEF']: x.DEF,
-    ['SPD']: x.SPD,
-    ['CRIT Rate']: x.CD,
-    ['CRIT DMG']: x.CR,
-    ['Effect Hit Rate']: x.EHR,
-    ['Effect RES']: x.RES,
-    ['Break Effect']: x.BE,
-    ['Energy Regeneration Rate']: x.ERR,
-    ['Outgoing Healing Boost']: x.OHB,
-    ['Physical DMG Boost']: x.PHYSICAL_DMG_BOOST,
-    ['Fire DMG Boost']: x.FIRE_DMG_BOOST,
-    ['Ice DMG Boost']: x.ICE_DMG_BOOST,
-    ['Lightning DMG Boost']: x.LIGHTNING_DMG_BOOST,
-    ['Wind DMG Boost']: x.WIND_DMG_BOOST,
-    ['Quantum DMG Boost']: x.QUANTUM_DMG_BOOST,
-    ['Imaginary DMG Boost']: x.IMAGINARY_DMG_BOOST,
-  }
-}

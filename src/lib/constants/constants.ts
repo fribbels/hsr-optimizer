@@ -556,6 +556,7 @@ export const RelicSetFilterOptions = {
 }
 
 export const DEFAULT_STAT_DISPLAY = 'combat'
+export const DEFAULT_MEMO_DISPLAY = 'summoner'
 
 export const CombatBuffs = {
   ATK: {

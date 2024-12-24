@@ -89,6 +89,7 @@ export function calculateBuild(
 
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
+
     calculateDamage(x, action, context)
 
     if (action.actionType === 'BASIC') {

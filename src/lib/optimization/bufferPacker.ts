@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants/constants'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
-const SIZE = 40
+const SIZE = 64
 
 export type OptimizerDisplayData = {
   'id': number
@@ -47,6 +47,31 @@ export type OptimizerDisplayData = {
   'ornamentSetIndex': number
   'low': number
   'high': number
+
+  'mHP': number
+  'mATK': number
+  'mDEF': number
+  'mSPD': number
+  'mCR': number
+  'mCD': number
+  'mEHR': number
+  'mRES': number
+  'mBE': number
+  'mERR': number
+  'mOHB': number
+  'mELEMENTAL_DMG': number
+  'mxHP': number
+  'mxATK': number
+  'mxDEF': number
+  'mxSPD': number
+  'mxCR': number
+  'mxCD': number
+  'mxEHR': number
+  'mxRES': number
+  'mxBE': number
+  'mxERR': number
+  'mxOHB': number
+  'mxELEMENTAL_DMG': number
 }
 
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
@@ -99,6 +124,30 @@ export const BufferPacker = {
       'ornamentSetIndex': arr[offset + 37],
       'low': arr[offset + 38],
       'high': arr[offset + 39],
+      'mHP': arr[offset + 40],
+      'mATK': arr[offset + 41],
+      'mDEF': arr[offset + 42],
+      'mSPD': arr[offset + 43],
+      'mCR': arr[offset + 44],
+      'mCD': arr[offset + 45],
+      'mEHR': arr[offset + 46],
+      'mRES': arr[offset + 47],
+      'mBE': arr[offset + 48], // 32
+      'mERR': arr[offset + 49],
+      'mOHB': arr[offset + 50],
+      'mELEMENTAL_DMG': arr[offset + 51],
+      'mxHP': arr[offset + 52],
+      'mxATK': arr[offset + 53],
+      'mxDEF': arr[offset + 54],
+      'mxSPD': arr[offset + 55],
+      'mxCR': arr[offset + 56],
+      'mxCD': arr[offset + 57],
+      'mxEHR': arr[offset + 58],
+      'mxRES': arr[offset + 59],
+      'mxBE': arr[offset + 60], // 32
+      'mxERR': arr[offset + 61],
+      'mxOHB': arr[offset + 62],
+      'mxELEMENTAL_DMG': arr[offset + 63],
     }
   },
 
@@ -159,6 +208,35 @@ export const BufferPacker = {
     arr[offset + 37] = c.ornamentSetIndex
     arr[offset + 38] = c.low
     arr[offset + 39] = c.high
+    if (x.m) {
+      const c = x.m.c
+      arr[offset + 40] = c[Stats.HP]
+      arr[offset + 41] = c[Stats.ATK]
+      arr[offset + 42] = c[Stats.DEF]
+      arr[offset + 43] = c[Stats.SPD]
+      arr[offset + 44] = c[Stats.CR]
+      arr[offset + 45] = c[Stats.CD]
+      arr[offset + 46] = c[Stats.EHR]
+      arr[offset + 47] = c[Stats.RES]
+      arr[offset + 48] = c[Stats.BE]
+      arr[offset + 49] = c[Stats.ERR]
+      arr[offset + 50] = c[Stats.OHB]
+      arr[offset + 51] = c.ELEMENTAL_DMG
+
+      const a = x.m.a
+      arr[offset + 52] = a[Key.HP]
+      arr[offset + 53] = a[Key.ATK]
+      arr[offset + 54] = a[Key.DEF]
+      arr[offset + 55] = a[Key.SPD]
+      arr[offset + 56] = a[Key.CR]
+      arr[offset + 57] = a[Key.CD]
+      arr[offset + 58] = a[Key.EHR]
+      arr[offset + 59] = a[Key.RES]
+      arr[offset + 60] = a[Key.BE]
+      arr[offset + 61] = a[Key.ERR]
+      arr[offset + 62] = a[Key.OHB]
+      arr[offset + 63] = a[Key.ELEMENTAL_DMG]
+    }
   },
 
   cleanFloatBuffer: (buffer: ArrayBuffer) => {

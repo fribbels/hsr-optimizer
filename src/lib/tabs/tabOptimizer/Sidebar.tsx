@@ -278,7 +278,7 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
               borderRadius: 5,
               backgroundColor: token.colorBgContainer,
               padding: defaultPadding,
-              height: 635,
+              height: 'fit-content',
               width: 233,
               boxShadow: shadow,
               gap: defaultPadding,
@@ -384,6 +384,9 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   const statDisplay = window.store((s) => s.statDisplay)
   const setStatDisplay = window.store((s) => s.setStatDisplay)
 
+  const memoDisplay = window.store((s) => s.memoDisplay)
+  const setMemoDisplay = window.store((s) => s.setMemoDisplay)
+
   const permutations = window.store((s) => s.permutations)
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
@@ -484,6 +487,27 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
             defaultChecked
           >
             {t('StatViewGroup.BasicStats')/* Basic stats */}
+          </Radio>
+        </Radio.Group>
+        <Radio.Group
+          onChange={(e) => {
+            const { target: { value } } = e
+            setMemoDisplay(value as string)
+          }}
+          optionType='button'
+          buttonStyle='solid'
+          value={memoDisplay}
+          style={{ width: '100%', display: 'flex' }}
+        >
+          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='summoner'>
+            Summoner
+          </Radio>
+          <Radio
+            style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+            value='memo'
+            defaultChecked
+          >
+            Memosprite
           </Radio>
         </Radio.Group>
         {!props.isFullSize && (<ComputeEngineSelect/>)}

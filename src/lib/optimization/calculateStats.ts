@@ -216,6 +216,9 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
 
   buffElementalDamageType(x, context.elementalDamageType, c.ELEMENTAL_DMG)
+  if (x.m) {
+    buffElementalDamageType(x.m, context.elementalDamageType, c.ELEMENTAL_DMG)
+  }
 
   // SPD
 

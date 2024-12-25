@@ -321,9 +321,12 @@ fn main(
 
     var combo = 0.0;
 
+    var mc = c;
+
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
       let action = actions[actionIndex];
       var x = action.x;
+      var m = action.m;
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
@@ -473,6 +476,20 @@ fn main(
 
       addElementalDmg(&c, &x);
 
+      m.ATK += mc.ATK;
+      m.DEF += mc.DEF;
+      m.HP  += mc.HP;
+      m.SPD += mc.SPD;
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
       x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
       x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
       x.VULNERABILITY += combatBuffsVULNERABILITY;
@@ -484,6 +501,13 @@ fn main(
       x.DEF += x.DEF_P * baseDEF;
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
+
+
+      x.ATK += m.ATK_P * baseATK * m.MEMO_ATK_SCALING;
+      x.DEF += m.DEF_P * baseDEF * m.MEMO_DEF_SCALING;
+      x.HP += m.HP_P * baseHP * m.MEMO_HP_SCALING;
+      x.SPD += m.SPD_P * baseSPD * m.MEMO_SPD_SCALING;
+
 
       evaluateDependenciesSPD(p_x, p_state);
       evaluateDependenciesBE(p_x, p_state);
@@ -520,185 +544,10 @@ fn main(
 
 
       // Calculate damage
-      let eLevel: f32 = f32(enemyLevel);
 
       addComputedElementalDmg(&x);
 
-      let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
-      let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
-      let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-      let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(&x);
-      let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
-
-      // === Super / Break ===
-
-      x.BREAK_DMG
-        = baseUniversalMulti
-        * 3767.5533
-        * ELEMENTAL_BREAK_SCALING
-        * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN)
-        * (0.5 + enemyMaxToughness / 120)
-        * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
-        * (1 - baseResistance)
-        * (1 + x.BE)
-        * (1 + x.BREAK_BOOST);
-
-      let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
-
-      let baseSuperBreakInstanceDmg
-        = baseUniversalMulti
-        * 3767.5533
-        * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-        * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
-        * (1 - baseResistance)
-        * (1 + x.BE)
-        * (1 + x.BREAK_BOOST)
-        * (0.03333333333f);
-
-      if (actionIndex == 0) {
-        let dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST;
-        let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
-        let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
-        let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
-        let dotEhrMulti = calculateEhrMulti(p_x);
-
-        if (x.DOT_DMG > 0) {
-          x.DOT_DMG = x.DOT_DMG
-            * (baseUniversalMulti)
-            * (dotDmgBoostMulti)
-            * (dotDefMulti)
-            * (dotVulnerabilityMulti)
-            * (dotResMulti)
-            * (dotEhrMulti);
-        }
-
-        if (x.HEAL_VALUE > 0) {
-          x.HEAL_VALUE = x.HEAL_VALUE * (
-            1
-            + x.OHB
-            + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
-            + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_TYPE)
-          );
-        }
-
-        if (x.SHIELD_VALUE > 0) {
-          x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
-        }
-
-        x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
-      }
-
-      if (action.abilityType == 1 || actionIndex == 0) {
-        x.BASIC_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.BASIC_DMG,
-          x.BASIC_BOOST,
-          x.BASIC_VULNERABILITY,
-          x.BASIC_DEF_PEN,
-          x.BASIC_RES_PEN,
-          x.BASIC_CR_BOOST,
-          x.BASIC_CD_BOOST,
-          x.BASIC_ORIGINAL_DMG_BOOST,
-          x.BASIC_BREAK_EFFICIENCY_BOOST,
-          x.BASIC_SUPER_BREAK_MODIFIER,
-          x.BASIC_BREAK_DMG_MODIFIER,
-          x.BASIC_TOUGHNESS_DMG,
-          x.BASIC_ADDITIONAL_DMG,
-          0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
-          0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
-
-      if (action.abilityType == 2 || actionIndex == 0) {
-        x.SKILL_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.SKILL_DMG,
-          x.SKILL_BOOST,
-          x.SKILL_VULNERABILITY,
-          x.SKILL_DEF_PEN,
-          x.SKILL_RES_PEN,
-          x.SKILL_CR_BOOST,
-          x.SKILL_CD_BOOST,
-          x.SKILL_ORIGINAL_DMG_BOOST,
-          0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
-          0, // x.SKILL_SUPER_BREAK_MODIFIER,
-          0, // x.SKILL_BREAK_DMG_MODIFIER,
-          x.SKILL_TOUGHNESS_DMG,
-          x.SKILL_ADDITIONAL_DMG,
-          0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
-          0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
-
-      if (action.abilityType == 4 || actionIndex == 0) {
-        x.ULT_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.ULT_DMG,
-          x.ULT_BOOST,
-          x.ULT_VULNERABILITY,
-          x.ULT_DEF_PEN,
-          x.ULT_RES_PEN,
-          x.ULT_CR_BOOST,
-          x.ULT_CD_BOOST,
-          x.ULT_ORIGINAL_DMG_BOOST,
-          x.ULT_BREAK_EFFICIENCY_BOOST,
-          0, // x.ULT_SUPER_BREAK_MODIFIER,
-          0, // x.ULT_BREAK_DMG_MODIFIER,
-          x.ULT_TOUGHNESS_DMG,
-          x.ULT_ADDITIONAL_DMG,
-          x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
-          x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
-
-      if (action.abilityType == 8 || actionIndex == 0) {
-        x.FUA_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.FUA_DMG,
-          x.FUA_BOOST,
-          x.FUA_VULNERABILITY,
-          x.FUA_DEF_PEN,
-          x.FUA_RES_PEN,
-          x.FUA_CR_BOOST,
-          x.FUA_CD_BOOST,
-          0, // x.FUA_ORIGINAL_DMG_BOOST,
-          0, // x.FUA_BREAK_EFFICIENCY_BOOST,
-          0, // x.FUA_SUPER_BREAK_MODIFIER,
-          0, // x.FUA_BREAK_DMG_MODIFIER,
-          x.FUA_TOUGHNESS_DMG,
-          x.FUA_ADDITIONAL_DMG,
-          0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
-          0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
+      calculateDamage(&x, actionIndex);
 
       if (actionIndex > 0) {
         if (action.abilityType == 1) {
@@ -742,6 +591,190 @@ fn main(
         // END RETURN VALUE
       }
     }
+  }
+}
+
+fn calculateDamage(
+  p_x: ptr<function, ComputedStats>,
+  actionIndex: i32
+) {
+  var x = *p_x;
+  let eLevel: f32 = f32(enemyLevel);
+  let action = actions[actionIndex];
+  let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
+  let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
+  let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
+  let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(&x);
+  let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
+
+  // === Super / Break ===
+
+  x.BREAK_DMG
+    = baseUniversalMulti
+    * 3767.5533
+    * ELEMENTAL_BREAK_SCALING
+    * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN)
+    * (0.5 + enemyMaxToughness / 120)
+    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * (1 - baseResistance)
+    * (1 + x.BE)
+    * (1 + x.BREAK_BOOST);
+
+  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
+
+  let baseSuperBreakInstanceDmg
+    = baseUniversalMulti
+    * 3767.5533
+    * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * (1 - baseResistance)
+    * (1 + x.BE)
+    * (1 + x.BREAK_BOOST)
+    * (0.03333333333f);
+
+  if (actionIndex == 0) {
+    let dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST;
+    let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
+    let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
+    let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
+    let dotEhrMulti = calculateEhrMulti(p_x);
+
+    if (x.DOT_DMG > 0) {
+      x.DOT_DMG = x.DOT_DMG
+        * (baseUniversalMulti)
+        * (dotDmgBoostMulti)
+        * (dotDefMulti)
+        * (dotVulnerabilityMulti)
+        * (dotResMulti)
+        * (dotEhrMulti);
+    }
+
+    if (x.HEAL_VALUE > 0) {
+      x.HEAL_VALUE = x.HEAL_VALUE * (
+        1
+        + x.OHB
+        + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
+        + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_TYPE)
+      );
+    }
+
+    if (x.SHIELD_VALUE > 0) {
+      x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+    }
+
+    x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+  }
+
+  if (action.abilityType == 1 || actionIndex == 0) {
+    x.BASIC_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.BASIC_DMG,
+      x.BASIC_BOOST,
+      x.BASIC_VULNERABILITY,
+      x.BASIC_DEF_PEN,
+      x.BASIC_RES_PEN,
+      x.BASIC_CR_BOOST,
+      x.BASIC_CD_BOOST,
+      x.BASIC_ORIGINAL_DMG_BOOST,
+      x.BASIC_BREAK_EFFICIENCY_BOOST,
+      x.BASIC_SUPER_BREAK_MODIFIER,
+      x.BASIC_BREAK_DMG_MODIFIER,
+      x.BASIC_TOUGHNESS_DMG,
+      x.BASIC_ADDITIONAL_DMG,
+      0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
+    );
+  }
+
+  if (action.abilityType == 2 || actionIndex == 0) {
+    x.SKILL_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.SKILL_DMG,
+      x.SKILL_BOOST,
+      x.SKILL_VULNERABILITY,
+      x.SKILL_DEF_PEN,
+      x.SKILL_RES_PEN,
+      x.SKILL_CR_BOOST,
+      x.SKILL_CD_BOOST,
+      x.SKILL_ORIGINAL_DMG_BOOST,
+      0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
+      0, // x.SKILL_SUPER_BREAK_MODIFIER,
+      0, // x.SKILL_BREAK_DMG_MODIFIER,
+      x.SKILL_TOUGHNESS_DMG,
+      x.SKILL_ADDITIONAL_DMG,
+      0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+    );
+  }
+
+  if (action.abilityType == 4 || actionIndex == 0) {
+    x.ULT_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.ULT_DMG,
+      x.ULT_BOOST,
+      x.ULT_VULNERABILITY,
+      x.ULT_DEF_PEN,
+      x.ULT_RES_PEN,
+      x.ULT_CR_BOOST,
+      x.ULT_CD_BOOST,
+      x.ULT_ORIGINAL_DMG_BOOST,
+      x.ULT_BREAK_EFFICIENCY_BOOST,
+      0, // x.ULT_SUPER_BREAK_MODIFIER,
+      0, // x.ULT_BREAK_DMG_MODIFIER,
+      x.ULT_TOUGHNESS_DMG,
+      x.ULT_ADDITIONAL_DMG,
+      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
+      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
+    );
+  }
+
+  if (action.abilityType == 8 || actionIndex == 0) {
+    x.FUA_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.FUA_DMG,
+      x.FUA_BOOST,
+      x.FUA_VULNERABILITY,
+      x.FUA_DEF_PEN,
+      x.FUA_RES_PEN,
+      x.FUA_CR_BOOST,
+      x.FUA_CD_BOOST,
+      0, // x.FUA_ORIGINAL_DMG_BOOST,
+      0, // x.FUA_BREAK_EFFICIENCY_BOOST,
+      0, // x.FUA_SUPER_BREAK_MODIFIER,
+      0, // x.FUA_BREAK_DMG_MODIFIER,
+      x.FUA_TOUGHNESS_DMG,
+      x.FUA_ADDITIONAL_DMG,
+      0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
+    );
   }
 }
 

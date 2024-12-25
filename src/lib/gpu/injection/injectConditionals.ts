@@ -92,7 +92,9 @@ const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
       ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
       ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
     ),
-    ComputedStats(${injectPrecomputedStatsContext(action, gpuParams)}
+    ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
+    ),
+    ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
     ),
     ConditionalState(
     ),

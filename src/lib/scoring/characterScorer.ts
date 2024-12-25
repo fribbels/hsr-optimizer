@@ -1077,7 +1077,7 @@ function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild
     // Find 2p matches
     // A single array will contain all the 2p options
     if (equivalent[0] != equivalent[1]) {
-      if (relicSetNames[0] in equivalent && relicSetNames[1] in equivalent) {
+      if (equivalent.includes(relicSetNames[0]) && equivalent.includes(relicSetNames[1])) {
         relicSet1 = relicSetNames[0]
         relicSet2 = relicSetNames[1]
         break

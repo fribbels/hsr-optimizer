@@ -1,5 +1,6 @@
+import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
@@ -18,8 +19,7 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
   debugPinOptimizerWebgpuArray(array)
 }
 
-export function debugExportWebgpuResult(array: Float32Array) {
-  return {
+/*
     ED: array[22],
     BASIC: array[69],
     SKILL: array[70],
@@ -43,6 +43,36 @@ export function debugExportWebgpuResult(array: Float32Array) {
     xERR: array[13],
     xOHB: array[14],
     xELEMENTAL_DMG: array[22],
+ */
+
+export function debugExportWebgpuResult(array: Float32Array) {
+  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  x.setPrecompute(array.slice(0, Object.keys(baseComputedStatsObject).length))
+  console.log(x)
+  return {
+    ED: x.$ELEMENTAL_DMG,
+    BASIC: x.$BASIC_DMG,
+    SKILL: x.$SKILL_DMG,
+    ULT: x.$ULT_DMG,
+    FUA: x.$FUA_DMG,
+    DOT: x.$DOT_DMG,
+    BREAK: x.$BREAK_DMG,
+    COMBO: x.$COMBO_DMG,
+    EHP: x.$EHP,
+    HEAL: x.$HEAL_VALUE,
+    SHIELD: x.$SHIELD_VALUE,
+    xHP: x.$HP,
+    xATK: x.$ATK,
+    xDEF: x.$DEF,
+    xSPD: x.$SPD,
+    xCR: x.$CR,
+    xCD: x.$CD,
+    xEHR: x.$EHR,
+    xRES: x.$RES,
+    xBE: x.$BE,
+    xERR: x.$ERR,
+    xOHB: x.$OHB,
+    xELEMENTAL_DMG: x.$ELEMENTAL_DMG,
   }
 }
 

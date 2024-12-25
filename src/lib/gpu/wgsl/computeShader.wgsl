@@ -598,18 +598,18 @@ fn calculateDamage(
   p_x: ptr<function, ComputedStats>,
   actionIndex: i32
 ) {
-  var x = *p_x;
+  let x = *p_x;
   let eLevel: f32 = f32(enemyLevel);
   let action = actions[actionIndex];
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-  let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(&x);
+  let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
 
   // === Super / Break ===
 
-  x.BREAK_DMG
+  (*p_x).BREAK_DMG
     = baseUniversalMulti
     * 3767.5533
     * ELEMENTAL_BREAK_SCALING
@@ -640,7 +640,7 @@ fn calculateDamage(
     let dotEhrMulti = calculateEhrMulti(p_x);
 
     if (x.DOT_DMG > 0) {
-      x.DOT_DMG = x.DOT_DMG
+      (*p_x).DOT_DMG = x.DOT_DMG
         * (baseUniversalMulti)
         * (dotDmgBoostMulti)
         * (dotDefMulti)
@@ -650,7 +650,7 @@ fn calculateDamage(
     }
 
     if (x.HEAL_VALUE > 0) {
-      x.HEAL_VALUE = x.HEAL_VALUE * (
+      (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
         1
         + x.OHB
         + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
@@ -659,14 +659,14 @@ fn calculateDamage(
     }
 
     if (x.SHIELD_VALUE > 0) {
-      x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
     }
 
-    x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
   }
 
   if (action.abilityType == 1 || actionIndex == 0) {
-    x.BASIC_DMG = calculateAbilityDmg(
+    (*p_x).BASIC_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
       baseDmgBoost,
@@ -694,7 +694,7 @@ fn calculateDamage(
   }
 
   if (action.abilityType == 2 || actionIndex == 0) {
-    x.SKILL_DMG = calculateAbilityDmg(
+    (*p_x).SKILL_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
       baseDmgBoost,
@@ -722,7 +722,7 @@ fn calculateDamage(
   }
 
   if (action.abilityType == 4 || actionIndex == 0) {
-    x.ULT_DMG = calculateAbilityDmg(
+    (*p_x).ULT_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
       baseDmgBoost,
@@ -750,7 +750,7 @@ fn calculateDamage(
   }
 
   if (action.abilityType == 8 || actionIndex == 0) {
-    x.FUA_DMG = calculateAbilityDmg(
+    (*p_x).FUA_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
       baseDmgBoost,

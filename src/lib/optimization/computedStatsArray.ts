@@ -95,6 +95,12 @@ export class ComputedStatsArrayCore {
         enumerable: true,
         configurable: true,
       })
+
+      Object.defineProperty(this, `$${key}`, {
+        get: () => this.a[index],
+        enumerable: true,
+        configurable: true,
+      })
     })
 
     Object.defineProperty(this, `#show`, {

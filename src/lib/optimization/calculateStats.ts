@@ -197,17 +197,25 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.OHB] += c[Stats.OHB]
 
   if (x.m) {
-    x.m.a[Key.ATK] += c[Stats.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
-    x.m.a[Key.DEF] += c[Stats.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
-    x.m.a[Key.HP] += c[Stats.HP] + buffs.HP + buffs.HP_P * context.baseHP
-    x.m.a[Key.SPD] += c[Stats.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
-    x.m.a[Key.CD] += c[Stats.CD] + buffs.CD
-    x.m.a[Key.CR] += c[Stats.CR] + buffs.CR
-    x.m.a[Key.BE] += c[Stats.BE] + buffs.BE
-    x.m.a[Key.EHR] += c[Stats.EHR]
-    x.m.a[Key.RES] += c[Stats.RES]
-    x.m.a[Key.ERR] += c[Stats.ERR]
-    x.m.a[Key.OHB] += c[Stats.OHB]
+    const xmc = x.m.c
+    const xma = x.m.a
+    xmc.ATK = x.a[Key.MEMO_ATK_SCALING] * c.ATK + x.a[Key.MEMO_ATK_FLAT]
+    xmc.DEF = x.a[Key.MEMO_DEF_SCALING] * c.DEF + x.a[Key.MEMO_DEF_FLAT]
+    xmc.HP = x.a[Key.MEMO_HP_SCALING] * c.HP + x.a[Key.MEMO_HP_FLAT]
+    xmc.SPD = x.a[Key.MEMO_SPD_SCALING] * c.SPD + x.a[Key.MEMO_SPD_FLAT]
+
+    xma[Key.ATK] += xmc[Stats.ATK]
+    xma[Key.DEF] += xmc[Stats.DEF]
+    xma[Key.HP] += xmc[Stats.HP]
+    xma[Key.SPD] += xmc[Stats.SPD]
+
+    xma[Key.CD] += c[Stats.CD]
+    xma[Key.CR] += c[Stats.CR]
+    xma[Key.BE] += c[Stats.BE]
+    xma[Key.EHR] += c[Stats.EHR]
+    xma[Key.RES] += c[Stats.RES]
+    xma[Key.ERR] += c[Stats.ERR]
+    xma[Key.OHB] += c[Stats.OHB]
   }
 
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
@@ -344,6 +352,14 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.ATK] += a[Key.ATK_P] * context.baseATK
   a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
   a[Key.HP] += a[Key.HP_P] * context.baseHP
+
+  if (x.m) {
+    const xma = x.m.a
+    xma[Key.SPD] += xma[Key.SPD_P] * (context.baseSPD * x.a[Key.MEMO_SPD_SCALING])
+    xma[Key.ATK] += xma[Key.ATK_P] * (context.baseATK * x.a[Key.MEMO_ATK_SCALING])
+    xma[Key.DEF] += xma[Key.DEF_P] * (context.baseDEF * x.a[Key.MEMO_DEF_SCALING])
+    xma[Key.HP] += xma[Key.HP_P] * (context.baseHP * x.a[Key.MEMO_HP_SCALING])
+  }
 
   // Dynamic - still need implementing
 

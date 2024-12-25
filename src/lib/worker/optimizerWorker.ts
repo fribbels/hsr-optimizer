@@ -159,7 +159,9 @@ self.onmessage = function (e: MessageEvent) {
     calculateElementalStats(c, context)
 
     x.setBasic(c)
-    m.setBasic(c)
+    if (x.m) {
+      m.setBasic({ ...c })
+    }
 
     // Exit early on base display filters failing
     if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {

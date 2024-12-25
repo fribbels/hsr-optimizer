@@ -73,13 +73,15 @@ export function calculateBuild(
   const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
   const m = x.m
 
-  x.setBasic(c)
-  m.setBasic(c)
-
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
+
+  x.setBasic(c)
+  if (x.m) {
+    m.setBasic({ ...c })
+  }
 
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {

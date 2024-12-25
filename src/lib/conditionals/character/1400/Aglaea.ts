@@ -54,7 +54,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.m.BASIC_SCALING.buff(enhancedBasicScaling, Source.NONE)
 
-      x.m.ATK.buff(1000, Source.NONE)
+      x.MEMO_HP_SCALING.buff(0.66, Source.NONE)
+      x.MEMO_HP_FLAT.buff(720, Source.NONE)
+      x.MEMO_SPD_SCALING.buff(0.35, Source.NONE)
+      x.MEMO_DEF_SCALING.buff(1, Source.NONE)
+      x.MEMO_ATK_SCALING.buff(1, Source.NONE)
+
+      x.m.HP_P.buff(1.00, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

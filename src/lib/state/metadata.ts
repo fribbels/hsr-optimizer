@@ -6725,10 +6725,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-          Stats.ATK_P,
-          Stats.Ice_DMG,
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ATK_P,
           Stats.ERR,
@@ -6770,10 +6767,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-          Stats.ATK_P,
-          Stats.Ice_DMG,
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ATK_P,
           Stats.ERR,

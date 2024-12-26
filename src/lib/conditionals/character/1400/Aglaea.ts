@@ -85,6 +85,8 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
 x.FUA_DMG += x.FUA_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
+
+m.BASIC_DMG += m.BASIC_SCALING * m.ATK;
 `
     },
   }

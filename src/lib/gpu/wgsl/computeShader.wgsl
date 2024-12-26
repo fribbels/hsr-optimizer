@@ -83,6 +83,8 @@ fn main(
 
   var failures: f32 = 1;
 
+  var emptyComputedStats = ComputedStats();
+
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
 
     // Calculate global_invocation_index
@@ -547,7 +549,8 @@ fn main(
 
       addComputedElementalDmg(&x);
 
-      calculateDamage(&x, actionIndex);
+      calculateDamage(&m, &emptyComputedStats, actionIndex);
+      calculateDamage(&x, &m, actionIndex);
 
       if (actionIndex > 0) {
         if (action.abilityType == 1) {
@@ -596,9 +599,11 @@ fn main(
 
 fn calculateDamage(
   p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
   actionIndex: i32
 ) {
   let x = *p_x;
+  let m = *p_m;
   let eLevel: f32 = f32(enemyLevel);
   let action = actions[actionIndex];
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
@@ -690,6 +695,7 @@ fn calculateDamage(
       x.BASIC_ADDITIONAL_DMG,
       0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
+      m.BASIC_DMG,
     );
   }
 
@@ -718,6 +724,7 @@ fn calculateDamage(
       x.SKILL_ADDITIONAL_DMG,
       0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // m.SKILL_DMG,
     );
   }
 
@@ -746,6 +753,7 @@ fn calculateDamage(
       x.ULT_ADDITIONAL_DMG,
       x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
       x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // m.ULT_DMG,
     );
   }
 
@@ -774,6 +782,7 @@ fn calculateDamage(
       x.FUA_ADDITIONAL_DMG,
       0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // m.FUA_DMG,
     );
   }
 }
@@ -820,6 +829,7 @@ fn calculateAbilityDmg(
   abilityAdditionalDmg: f32,
   abilityAdditionalCrOverride: f32,
   abilityAdditionalCdOverride: f32,
+  abilityMemoJointDamage: f32,
 ) -> f32 {
   let x = *p_x;
 
@@ -876,10 +886,18 @@ fn calculateAbilityDmg(
       * (1 - baseResistance);
   }
 
+  // === Memo Joint DMG ===
+
+  var memoJointDmgOutput: f32 = 0;
+  if (abilityMemoJointDamage > 0) {
+    memoJointDmgOutput = abilityMemoJointDamage;
+  }
+
   return abilityCritDmgOutput
     + abilityBreakDmgOutput
     + abilitySuperBreakDmgOutput
-    + abilityAdditionalDmgOutput;
+    + abilityAdditionalDmgOutput
+    + memoJointDmgOutput;
 }
 
 fn p2(n: i32) -> f32 {

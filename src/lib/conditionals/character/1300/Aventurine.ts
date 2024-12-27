@@ -150,10 +150,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buff((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
-      x.CD.buff((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
-      x.CD.buff((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, Source.NONE)
-      x.RES_PEN.buff((e >= 2 && m.e2ResShred) ? 0.12 : 0, Source.NONE)
+      x.RES.buffTeam((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
+      x.CD.buffTeam((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
+      x.CD.buffTeam((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardDefFinalizer(x)

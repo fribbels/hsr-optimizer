@@ -16,10 +16,14 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
   return acc
 }, {} as Record<KeysType, number>)
 
-type StatMethods = {
+export type StatController = {
   buff: (value: number, source: string) => void
+  buffDefer: (value: number, source: string) => void
+  buffMemo: (value: number, source: string) => void
   buffTeam: (value: number, source: string) => void
+  buffDual: (value: number, source: string) => void
   multiply: (value: number, source: string) => void
+  multiplyTeam: (value: number, source: string) => void
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
@@ -27,7 +31,7 @@ type StatMethods = {
 }
 
 type ComputedStatsArrayStatExtensions = {
-  [K in keyof typeof baseComputedStatsObject]: StatMethods;
+  [K in keyof typeof baseComputedStatsObject]: StatController;
 }
 
 type ComputedStatsArrayStatDirectAccess = {
@@ -59,9 +63,27 @@ export class ComputedStatsArrayCore {
             if (value == 0) return
             this.a[index] += value
           },
+          buffDefer: (value: number, source: string) => {
+            if (value == 0) return
+            if (this.m) {
+              this.m.a[index] += value
+            } else {
+              this.a[index] += value
+            }
+          },
           buffMemo: (value: number, source: string) => {
             if (value == 0) return
-            this.m.a[index] += value
+            if (this.m) {
+              this.m.a[index] += value
+            }
+          },
+          buffDual: (value: number, source: string) => {
+            if (value == 0) return
+            this.a[index] += value
+
+            if (this.m) {
+              this.m.a[index] += value
+            }
           },
           buffTeam: (value: number, source: string) => {
             if (value == 0) return
@@ -73,6 +95,12 @@ export class ComputedStatsArrayCore {
           },
           multiply: (value: number, source: string) => {
             this.a[index] *= value
+          },
+          multiplyTeam: (value: number, source: string) => {
+            this.a[index] *= value
+            if (this.m) {
+              this.m.a[index] *= value
+            }
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             // Infinite loop guard so self buffing stats will asymptotically reach 0
@@ -124,10 +152,6 @@ export class ComputedStatsArrayCore {
     this.m = m
   }
 
-  buff(key: number, value: number, source?: string) {
-    this.a[key] += value
-  }
-
   set(key: number, value: number, source?: string) {
     this.a[key] = value
   }
@@ -169,10 +193,6 @@ export function baseComputedStatsArray() {
 export function baseMemoComputedStatsArray() {
   const values = Object.values(baseComputedStatsObject)
   return Float32Array.from([...values, ...values])
-}
-
-export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {
-  x.buff(key, value, source)
 }
 
 export const InternalKeyToExternal: Record<string, string> = {

@@ -291,6 +291,7 @@ export function renameFields(c: BasicStatsObject, x: ComputedStatsArray) {
     d.mxERR = m.ERR.get()
     d.mxOHB = m.OHB.get()
     d.mxELEMENTAL_DMG = m.ELEMENTAL_DMG.get()
+    d.mxEHP = m.EHP.get()
   }
 
   return d as OptimizerDisplayData

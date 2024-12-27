@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants/constants'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
-const SIZE = 64
+const SIZE = 65
 
 export type OptimizerDisplayData = {
   'id': number
@@ -72,6 +72,8 @@ export type OptimizerDisplayData = {
   'mxERR': number
   'mxOHB': number
   'mxELEMENTAL_DMG': number
+
+  'mxEHP': number
 }
 
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
@@ -148,6 +150,7 @@ export const BufferPacker = {
       'mxERR': arr[offset + 61],
       'mxOHB': arr[offset + 62],
       'mxELEMENTAL_DMG': arr[offset + 63],
+      'mxEHP': arr[offset + 64],
     }
   },
 
@@ -236,6 +239,7 @@ export const BufferPacker = {
       arr[offset + 61] = a[Key.ERR]
       arr[offset + 62] = a[Key.OHB]
       arr[offset + 63] = a[Key.ELEMENTAL_DMG]
+      arr[offset + 64] = a[Key.EHP]
     }
   },
 

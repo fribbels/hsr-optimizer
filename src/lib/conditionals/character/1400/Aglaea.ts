@@ -11,7 +11,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
-  const enhancedBasicScaling = basic(e, 2.20, 2.42)
+  const enhancedBasicScaling = basic(e, 1.00, 2.42)
 
   const defaults = {
     WIP: true,

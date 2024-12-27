@@ -341,7 +341,7 @@ export function getMemoBasicColumnDefs(t: TFunction<'optimizerTab', undefined>) 
       headerName: t('Grid.Headers.Basic.DMG') + memo, // 'DMG',
     },
     {
-      field: 'EHP',
+      field: 'mxEHP',
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_4,
       flex: 10,
@@ -719,7 +719,7 @@ export function getMemoCombatColumnDefs(t: TFunction<'optimizerTab', undefined>)
       headerName: t('Grid.Headers.Combat.DMG') + memo, // 'Σ DMG',
     },
     {
-      field: 'EHP',
+      field: 'mxEHP',
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_4,
       flex: 10,

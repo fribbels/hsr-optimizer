@@ -105,6 +105,7 @@ const columnsToAggregateMap = {
   mxERR: true,
   mxOHB: true,
   mxELEMENTAL_DMG: true,
+  mxEHP: true,
 }
 const columnsToAggregate = Object.keys(columnsToAggregateMap)
 
@@ -524,6 +525,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('mxERR')
   setMinMax('mxOHB')
   setMinMax('mxELEMENTAL_DMG')
+  setMinMax('mxEHP')
 
   for (const row of subArray) {
     for (const column of OptimizerTabController.getColumnsToAggregate()) {

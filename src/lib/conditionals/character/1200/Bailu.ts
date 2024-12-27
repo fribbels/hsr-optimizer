@@ -129,10 +129,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP_P.buff((m.healingMaxHpBuff) ? 0.10 : 0, Source.NONE)
+      x.HP_P.buffTeam((m.healingMaxHpBuff) ? 0.10 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG.buff((e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, Source.NONE)
-      x.DMG_RED_MULTI.multiply((m.talentDmgReductionBuff) ? (1 - 0.10) : 1, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((m.talentDmgReductionBuff) ? (1 - 0.10) : 1, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)

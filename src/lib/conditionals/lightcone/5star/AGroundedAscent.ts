@@ -44,7 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buff(m.dmgBuffStacks * sValuesDmg[s], Source.NONE)
+      x.ELEMENTAL_DMG.buffDual(m.dmgBuffStacks * sValuesDmg[s], Source.NONE) // TODO: MEMO
     },
     finalizeCalculations: () => {
     },

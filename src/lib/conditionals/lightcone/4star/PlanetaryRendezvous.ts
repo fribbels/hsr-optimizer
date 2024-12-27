@@ -40,7 +40,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((r.alliesSameElement) ? sValues[s] : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((r.alliesSameElement) ? sValues[s] : 0, Source.NONE) // TODO: MEMO
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>

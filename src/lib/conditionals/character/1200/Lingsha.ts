@@ -4,7 +4,7 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -159,13 +159,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       if (x.a[Key.ENEMY_WEAKNESS_BROKEN]) {
-        x.DEF_PEN.buff((e >= 1 && m.e1DefShred) ? 0.20 : 0, Source.NONE)
+        x.DEF_PEN.buffTeam((e >= 1 && m.e1DefShred) ? 0.20 : 0, Source.NONE)
       }
 
-      buffAbilityVulnerability(x, BREAK_TYPE, (m.befogState) ? ultBreakVulnerability : 0, Source.NONE)
+      buffAbilityVulnerability(x, BREAK_TYPE, (m.befogState) ? ultBreakVulnerability : 0, Source.NONE, Target.TEAM)
 
-      x.BE.buff((e >= 2 && m.e2BeBuff) ? 0.40 : 0, Source.NONE)
-      x.RES_PEN.buff((e >= 6 && m.e6ResShred) ? 0.20 : 0, Source.NONE)
+      x.BE.buffTeam((e >= 2 && m.e2BeBuff) ? 0.40 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? 0.20 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])

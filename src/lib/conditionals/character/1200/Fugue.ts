@@ -128,18 +128,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buff((m.foxianPrayer) ? skillBeValue : 0, Source.NONE)
+      x.BE.buff((m.foxianPrayer) ? skillBeValue : 0, Source.NONE) // TODO: MEMO
 
-      x.SUPER_BREAK_MODIFIER.buff((m.superBreakDmg) ? superBreakScaling : 0, Source.NONE)
-      x.DEF_PEN.buff((m.defReduction) ? skillDefPenValue : 0, Source.NONE)
+      x.SUPER_BREAK_MODIFIER.buffTeam((m.superBreakDmg) ? superBreakScaling : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.defReduction) ? skillDefPenValue : 0, Source.NONE)
 
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 1 && m.foxianPrayer) ? 0.50 : 0, Source.NONE)
-      buffAbilityDmg(x, BREAK_TYPE, (e >= 4 && m.e4BreakDmg) ? 0.20 : 0, Source.NONE)
+      x.BREAK_EFFICIENCY_BOOST.buff((e >= 1 && m.foxianPrayer) ? 0.50 : 0, Source.NONE) // TODO: MEMO
+      buffAbilityDmg(x, BREAK_TYPE, (e >= 4 && m.e4BreakDmg) ? 0.20 : 0, Source.NONE) // TODO: MEMO
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buff(t.weaknessBreakBeStacks * (0.06 + (t.be220Buff ? 0.12 : 0)), Source.NONE)
+      x.BE.buffTeam(t.weaknessBreakBeStacks * (0.06 + (t.be220Buff ? 0.12 : 0)), Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

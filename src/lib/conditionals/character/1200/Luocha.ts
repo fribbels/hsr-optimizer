@@ -107,9 +107,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buff((e >= 1 && m.fieldActive) ? 0.20 : 0, Source.NONE)
+      x.ATK_P.buffTeam((e >= 1 && m.fieldActive) ? 0.20 : 0, Source.NONE)
 
-      x.RES_PEN.buff((e >= 6 && m.e6ResReduction) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResReduction) ? 0.20 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)

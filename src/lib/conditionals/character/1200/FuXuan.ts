@@ -105,16 +105,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CR.buff((m.skillActive) ? skillCrBuffValue : 0, Source.NONE)
-      x.CD.buff((e >= 1 && m.skillActive) ? 0.30 : 0, Source.NONE)
+      x.CR.buffTeam((m.skillActive) ? skillCrBuffValue : 0, Source.NONE)
+      x.CD.buffTeam((e >= 1 && m.skillActive) ? 0.30 : 0, Source.NONE)
 
       // Talent ehp buff is shared
-      x.DMG_RED_MULTI.multiply((m.talentActive) ? (1 - talentDmgReductionValue) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((m.talentActive) ? (1 - talentDmgReductionValue) : 1, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP.buff((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, Source.NONE)
 
       // Skill ehp buff only applies to teammates
       x.DMG_RED_MULTI.multiply((t.skillActive) ? (1 - 0.65) : 1, Source.NONE)

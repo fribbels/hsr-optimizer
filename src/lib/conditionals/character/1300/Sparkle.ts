@@ -117,19 +117,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Main damage type
-      x.ATK_P.buff(
-        0.15 + (context.elementalDamageType == Stats.Quantum_DMG
+      x.ATK_P.buffTeam(0.15, Source.NONE)
+      x.ATK_P.buff(context.elementalDamageType == Stats.Quantum_DMG
           ? (atkBoostByQuantumAllies[m.quantumAllies] || 0)
-          : 0),
+          : 0,
         Source.NONE)
-      x.ATK_P.buff((e >= 1 && m.cipherBuff) ? 0.40 : 0, Source.NONE)
+      x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG.buff(
+      x.ELEMENTAL_DMG.buffTeam(
         (m.cipherBuff)
           ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost)
           : m.talentStacks * talentBaseStackBoost,
         Source.NONE)
-      x.DEF_PEN.buff((e >= 2) ? 0.08 * m.talentStacks : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((e >= 2) ? 0.08 * m.talentStacks : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -138,7 +138,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,
-        Source.NONE)
+        Source.NONE) // TODO: MEMO
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

@@ -116,17 +116,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buff((e >= 6 && m.skillBuff) ? 0.30 : 0, Source.NONE)
+      x.RES.buffTeam((e >= 6 && m.skillBuff) ? 0.30 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP.buff((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, Source.NONE)
-      x.HP.buff((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, Source.NONE)
-      x.HP.buff((t.skillBuff) ? skillHpFlatBuff : 0, Source.NONE)
+      x.HP.buffTeam((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buffTeam((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buffTeam((t.skillBuff) ? skillHpFlatBuff : 0, Source.NONE)
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
-      x.ATK.buff(atkBuffValue, Source.NONE)
+      x.ATK.buffTeam(atkBuffValue, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)

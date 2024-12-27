@@ -1,6 +1,6 @@
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
@@ -136,21 +136,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CR.buff(m.talentCrBuffStacks * talentCrBuffValue, Source.NONE)
-      x.ELEMENTAL_DMG.buff((m.skillDmgBuff) ? skillDmgBoostValue : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((m.techniqueDmgBuff) ? 0.50 : 0, Source.NONE)
+      x.CR.buffDual(m.talentCrBuffStacks * talentCrBuffValue, Source.NONE)
+      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff) ? skillDmgBoostValue : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffDual((m.techniqueDmgBuff) ? 0.50 : 0, Source.NONE)
 
-      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, Source.NONE)
-      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, Source.NONE)
+      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, Source.NONE)
+      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG.buff((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffDual((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
-      x.CD.buff((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.CD.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.CD.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

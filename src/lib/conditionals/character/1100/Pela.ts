@@ -102,10 +102,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.EHR.buff((m.teamEhrBuff) ? 0.10 : 0, Source.NONE)
+      x.EHR.buffTeam((m.teamEhrBuff) ? 0.10 : 0, Source.NONE)
 
-      x.DEF_PEN.buff((m.ultDefPenDebuff) ? ultDefPenValue : 0, Source.NONE)
-      x.ICE_RES_PEN.buff((e >= 4 && m.e4SkillResShred) ? 0.12 : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.ultDefPenDebuff) ? ultDefPenValue : 0, Source.NONE)
+      x.ICE_RES_PEN.buffTeam((e >= 4 && m.e4SkillResShred) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)

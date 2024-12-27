@@ -4,7 +4,7 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { buffAbilityDefPen, buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityDefPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -113,13 +113,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
-      buffAbilityVulnerability(x, DOT_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, Source.NONE)
+      buffAbilityVulnerability(x, DOT_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, Source.NONE, Target.TEAM)
 
-      x.DEF_PEN.buff((m.defDecreaseDebuff) ? defShredValue : 0, Source.NONE)
-      x.WIND_RES_PEN.buff((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
-      x.FIRE_RES_PEN.buff((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
-      x.PHYSICAL_RES_PEN.buff((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
-      x.LIGHTNING_RES_PEN.buff((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.defDecreaseDebuff) ? defShredValue : 0, Source.NONE)
+      x.WIND_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
+      x.FIRE_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
+      x.PHYSICAL_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
+      x.LIGHTNING_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

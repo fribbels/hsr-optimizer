@@ -127,8 +127,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((m.eruditionTeammate ? 0.80 : 0), Source.NONE)
-      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.10 : 0, Source.NONE)
+      x.CD.buff((m.eruditionTeammate ? 0.80 : 0), Source.NONE) // TODO: MEMO
+      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.10 : 0, Source.NONE) // TODO: MEMO
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

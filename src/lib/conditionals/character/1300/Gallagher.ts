@@ -3,7 +3,7 @@ import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinal
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -129,7 +129,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, BREAK_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, Source.NONE)
+      buffAbilityVulnerability(x, BREAK_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, Source.NONE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)

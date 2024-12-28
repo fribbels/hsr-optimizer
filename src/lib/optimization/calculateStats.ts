@@ -231,7 +231,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   // SPD
 
   if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
-    x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
+    x.SPD_P.buffTeam(0.12, Source.MessengerTraversingHackerspace)
   }
 
   // ATK
@@ -292,7 +292,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   // BE
 
   if (p4(sets.WatchmakerMasterOfDreamMachinations) && setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
-    x.BE.buff(0.30, Source.WatchmakerMasterOfDreamMachinations)
+    x.BE.buffTeam(0.30, Source.WatchmakerMasterOfDreamMachinations)
   }
   if (p2(sets.ForgeOfTheKalpagniLantern) && setConditionals.enabledForgeOfTheKalpagniLantern) {
     x.BE.buff(0.40, Source.ForgeOfTheKalpagniLantern)

@@ -1,4 +1,5 @@
 import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Sets } from 'lib/constants/constants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
 import { ComputedStatsArray, ComputedStatsArrayCore, ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -47,8 +48,14 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
 
 export function debugExportWebgpuResult(array: Float32Array) {
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  x.setPrecompute(array.slice(0, Object.keys(baseComputedStatsObject).length))
+  const m = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const len = Object.keys(baseComputedStatsObject).length
+  const setsLen = Object.keys(Sets).length
+  x.setPrecompute(array.slice(0, len))
+  m.setPrecompute(array.slice(len + setsLen, len * 2 + setsLen))
+
   console.log(x)
+  console.log(m)
   return {
     ED: x.$ELEMENTAL_DMG,
     BASIC: x.$BASIC_DMG,
@@ -73,6 +80,31 @@ export function debugExportWebgpuResult(array: Float32Array) {
     xERR: x.$ERR,
     xOHB: x.$OHB,
     xELEMENTAL_DMG: x.$ELEMENTAL_DMG,
+    // mHP: x.y,
+    // mATK: x.y,
+    // mDEF: x.y,
+    // mSPD: x.y,
+    // mCR: x.y,
+    // mCD: x.y,
+    // mEHR: x.y,
+    // mRES: x.y,
+    // mBE: x.y,
+    // mERR: x.y,
+    // mOHB: x.y,
+    // mELEMENTAL_DMG: x.y,
+    mxHP: m.$HP,
+    mxATK: m.$ATK,
+    mxDEF: m.$DEF,
+    mxSPD: m.$SPD,
+    mxCR: m.$CR,
+    mxCD: m.$CD,
+    mxEHR: m.$EHR,
+    mxRES: m.$RES,
+    mxBE: m.$BE,
+    mxERR: m.$ERR,
+    mxOHB: m.$OHB,
+    mxELEMENTAL_DMG: m.$ELEMENTAL_DMG,
+    mxEHP: m.$EHP,
   }
 }
 

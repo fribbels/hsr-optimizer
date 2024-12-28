@@ -334,7 +334,10 @@ fn main(
       state.actionIndex = actionIndex;
 
       let p_x = &x;
+      let p_m = &m;
       let p_state = &state;
+
+
       x.sets = sets;
 
       if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
@@ -478,10 +481,10 @@ fn main(
 
       addElementalDmg(&c, &x);
 
-      m.ATK += mc.ATK;
-      m.DEF += mc.DEF;
-      m.HP  += mc.HP;
-      m.SPD += mc.SPD;
+//      m.ATK += mc.ATK;
+//      m.DEF += mc.DEF;
+//      m.HP  += mc.HP;
+//      m.SPD += mc.SPD;
       m.CD  += mc.CD;
       m.CR  += mc.CR;
       m.EHR += mc.EHR;
@@ -505,38 +508,37 @@ fn main(
       x.SPD += x.SPD_P * baseSPD;
 
 
-      x.ATK += m.ATK_P * baseATK * m.MEMO_ATK_SCALING;
-      x.DEF += m.DEF_P * baseDEF * m.MEMO_DEF_SCALING;
-      x.HP += m.HP_P * baseHP * m.MEMO_HP_SCALING;
-      x.SPD += m.SPD_P * baseSPD * m.MEMO_SPD_SCALING;
+      m.ATK += (m.ATK_P * baseATK + mc.ATK) * x.MEMO_ATK_SCALING + x.MEMO_ATK_FLAT;
+      m.DEF += (m.DEF_P * baseDEF + mc.DEF) * x.MEMO_DEF_SCALING + x.MEMO_DEF_FLAT;
+      m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_HP_SCALING + x.MEMO_HP_FLAT;
+      m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_SPD_SCALING + x.MEMO_SPD_FLAT;
 
 
-      evaluateDependenciesSPD(p_x, p_state);
-      evaluateDependenciesBE(p_x, p_state);
+      evaluateDependenciesSPD(p_x, p_m, p_state);
+      evaluateDependenciesBE(p_x, p_m, p_state);
 
-      evaluateDependenciesHP(p_x, p_state);
-      evaluateDependenciesATK(p_x, p_state);
-      evaluateDependenciesDEF(p_x, p_state);
-      evaluateDependenciesCR(p_x, p_state);
-      evaluateDependenciesCD(p_x, p_state);
-      evaluateDependenciesEHR(p_x, p_state);
-      evaluateDependenciesRES(p_x, p_state);
-      evaluateDependenciesOHB(p_x, p_state);
-      evaluateDependenciesERR(p_x, p_state);
+      evaluateDependenciesHP(p_x, p_m, p_state);
+      evaluateDependenciesATK(p_x, p_m, p_state);
+      evaluateDependenciesDEF(p_x, p_m, p_state);
+      evaluateDependenciesCR(p_x, p_m, p_state);
+      evaluateDependenciesCD(p_x, p_m, p_state);
+      evaluateDependenciesEHR(p_x, p_m, p_state);
+      evaluateDependenciesRES(p_x, p_m, p_state);
+      evaluateDependenciesOHB(p_x, p_m, p_state);
+      evaluateDependenciesERR(p_x, p_m, p_state);
 
-      evaluateDependenciesSPD(p_x, p_state);
-      evaluateDependenciesBE(p_x, p_state);
+      evaluateDependenciesSPD(p_x, p_m, p_state);
+      evaluateDependenciesBE(p_x, p_m, p_state);
 
-      evaluateDependenciesHP(p_x, p_state);
-      evaluateDependenciesATK(p_x, p_state);
-      evaluateDependenciesDEF(p_x, p_state);
-      evaluateDependenciesCR(p_x, p_state);
-      evaluateDependenciesCD(p_x, p_state);
-      evaluateDependenciesEHR(p_x, p_state);
-      evaluateDependenciesRES(p_x, p_state);
-      evaluateDependenciesOHB(p_x, p_state);
-      evaluateDependenciesERR(p_x, p_state);
-
+      evaluateDependenciesHP(p_x, p_m, p_state);
+      evaluateDependenciesATK(p_x, p_m, p_state);
+      evaluateDependenciesDEF(p_x, p_m, p_state);
+      evaluateDependenciesCR(p_x, p_m, p_state);
+      evaluateDependenciesCD(p_x, p_m, p_state);
+      evaluateDependenciesEHR(p_x, p_m, p_state);
+      evaluateDependenciesRES(p_x, p_m, p_state);
+      evaluateDependenciesOHB(p_x, p_m, p_state);
+      evaluateDependenciesERR(p_x, p_m, p_state);
 
       // START ACTION CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

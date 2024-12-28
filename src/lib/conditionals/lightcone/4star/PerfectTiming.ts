@@ -60,7 +60,7 @@ if (
   (*p_state).PerfectTimingConditional = 1.0;
   
   let boost = min(${sMaxValues[s]}, ${sValues[s]} * x.RES);
-  buffDynamicOHB(boost, p_x, p_state);
+  buffDynamicOHB(boost, p_x, p_m, p_state);
 }
     `)
         },

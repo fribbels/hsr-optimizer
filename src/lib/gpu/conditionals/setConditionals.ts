@@ -77,7 +77,7 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).SpaceSealingStationConditional = 1.0;
-  buffNonDynamicATK_P(0.12, p_x, p_state);
+  buffNonDynamicATK_P(0.12, p_x, p_m, p_state);
 }
     `)
   },
@@ -102,7 +102,7 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
-  buffNonDynamicATK_P(0.08, p_x, p_state);
+  buffNonDynamicATK_P(0.08, p_x, p_m, p_state);
 }
     `)
   },
@@ -127,7 +127,7 @@ if (
   (*p_x).EHR >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional = 1.0;
-  buffNonDynamicDEF_P(0.15, p_x, p_state);
+  buffNonDynamicDEF_P(0.15, p_x, p_m, p_state);
 }
     `)
   },
@@ -209,7 +209,7 @@ if (
   let buffValue: f32 = min(0.25, 0.25 * (*p_x).EHR) * baseATK;
 
   (*p_state).PanCosmicCommercialEnterpriseConditional = buffValue;
-  buffNonDynamicATK(buffValue - stateValue, p_x, p_state);
+  buffNonDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
 }
     `)
   },
@@ -234,7 +234,7 @@ if (
   (*p_x).RES >= 0.30
 ) {
   (*p_state).BrokenKeelConditional = 1.0;
-  buffNonDynamicCD(0.10, p_x, p_state);
+  buffNonDynamicCD(0.10, p_x, p_m, p_state);
 }
     `)
   },
@@ -260,7 +260,7 @@ if (
   (*p_x).CD >= 1.20
 ) {
   (*p_state).CelestialDifferentiatorConditional = 1.0;
-  buffNonDynamicCR(0.60, p_x, p_state);
+  buffNonDynamicCR(0.60, p_x, p_m, p_state);
 }
     `)
   },
@@ -285,7 +285,7 @@ if (
   (*p_x).SPD >= 145
 ) {
   (*p_state).TaliaKingdomOfBanditryConditional = 1.0;
-  buffNonDynamicBE(0.20, p_x, p_state);
+  buffNonDynamicBE(0.20, p_x, p_m, p_state);
 }
     `)
   },

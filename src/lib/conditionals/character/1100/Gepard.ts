@@ -90,7 +90,7 @@ let stateValue: f32 = (*p_state).GepardConversionConditional;
 let buffValue: f32 = 0.35 * def;
 
 (*p_state).GepardConversionConditional = buffValue;
-buffDynamicATK(buffValue - stateValue, p_x, p_state);
+buffDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

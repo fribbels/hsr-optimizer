@@ -195,7 +195,7 @@ if (cr > 1.00) {
   let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
 
   (*p_state).SundayCrConditional = buffValue;
-  buffDynamicCD(buffValue - stateValue, p_x, p_state);
+  buffDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
 }
     `)
         },

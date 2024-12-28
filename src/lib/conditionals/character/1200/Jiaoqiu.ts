@@ -167,7 +167,7 @@ let stateValue: f32 = (*p_state).JiaoqiuConversionConditional;
 let buffValue: f32 = min(2.40, 0.60 * floor(((*p_x).EHR - 0.80) / 0.15));
 
 (*p_state).JiaoqiuConversionConditional = buffValue;
-buffDynamicATK_P(buffValue - stateValue, p_x, p_state);
+buffDynamicATK_P(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

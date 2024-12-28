@@ -194,7 +194,7 @@ if (def > 1600) {
   let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
 
   (*p_state).AventurineConversionConditional = buffValue;
-  buffDynamicCR(buffValue - stateValue, p_x, p_state);
+  buffDynamicCR(buffValue - stateValue, p_x, p_m, p_state);
 }
     `)
       },

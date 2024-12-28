@@ -224,8 +224,8 @@ let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
 let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
 let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);
 
-buffDynamicATK(finalBuffAtk, p_x, p_state);
-buffDynamicOHB(finalBuffOhb, p_x, p_state);
+buffDynamicATK(finalBuffAtk, p_x, p_m, p_state);
+buffDynamicOHB(finalBuffOhb, p_x, p_m, p_state);
     `)
       },
     }],

@@ -202,7 +202,7 @@ var stateBuffATK: f32 = ${skillAtkBoostMax} * stateValue;
 let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
 (*p_x).RATIO_BASED_ATK_BUFF += finalBuffAtk;
 
-buffNonRatioDynamicATK(finalBuffAtk, p_x, p_state);
+buffNonRatioDynamicATK(finalBuffAtk, p_x, p_m, p_state);
     `)
         },
       },

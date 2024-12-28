@@ -212,8 +212,8 @@ let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
 let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
 (*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
 
-buffNonRatioDynamicHP(finalBuffHp, p_x, p_state);
-buffDynamicATK(finalBuffAtk, p_x, p_state);
+buffNonRatioDynamicHP(finalBuffHp, p_x, p_m, p_state);
+buffDynamicATK(finalBuffAtk, p_x, p_m, p_state);
     `)
       },
     }],

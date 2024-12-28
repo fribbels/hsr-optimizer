@@ -163,7 +163,7 @@ let stateValue: f32 = (*p_state).GallagherConversionConditional;
 let buffValue: f32 = min(0.75, 0.50 * (*p_x).BE);
 
 (*p_state).GallagherConversionConditional = buffValue;
-buffDynamicOHB(buffValue - stateValue, p_x, p_state);
+buffDynamicOHB(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

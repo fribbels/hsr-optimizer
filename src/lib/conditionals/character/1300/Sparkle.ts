@@ -193,7 +193,7 @@ var stateBuffCD: f32 = ${buffScalingValue} * stateValue + ${skillCdBuffBase};
 let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
 (*p_x).RATIO_BASED_CD_BUFF += finalBuffCd;
 
-buffNonRatioDynamicCD(finalBuffCd, p_x, p_state);
+buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
     `)
         },
       },

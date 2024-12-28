@@ -174,7 +174,7 @@ var stateBuffSPD: f32 = ${ultSpdBuffValue} * stateValue;
 let finalBuffSpd = buffSPD - select(0, stateBuffSPD, stateValue > 0);
 (*p_x).RATIO_BASED_SPD_BUFF += finalBuffSpd;
 
-buffNonRatioDynamicSPD(finalBuffSpd, p_x, p_state);
+buffNonRatioDynamicSPD(finalBuffSpd, p_x, p_m, p_state);
     `)
         },
       },

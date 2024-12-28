@@ -174,7 +174,7 @@ var stateBuffHP: f32 = ${skillHpBuffValue} * stateValue;
 let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
 (*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
 
-buffNonRatioDynamicHP(finalBuffHp, p_x, p_state);
+buffNonRatioDynamicHP(finalBuffHp, p_x, p_m, p_state);
     `)
         },
       },

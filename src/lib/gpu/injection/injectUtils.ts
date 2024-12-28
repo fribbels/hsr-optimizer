@@ -5,13 +5,14 @@ export function injectUtils(wgsl: string) {
 fn buffDynamic${stat}_P(
   value: f32,
   p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>
 ) {
   if (value < 0.0001) {
     return;
   }
   (*p_x).${stat} += value * base${stat};
-  evaluateDependencies${stat}(p_x, p_state);
+  evaluateDependencies${stat}(p_x, p_m, p_state);
 }
       `
 
@@ -19,6 +20,7 @@ fn buffDynamic${stat}_P(
 fn buffNonDynamic${stat}_P(
   value: f32,
   p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>
 ) {
   if (value < 0.0001) {
@@ -33,13 +35,14 @@ fn buffNonDynamic${stat}_P(
 fn buffDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>
 ) {
   if (value < 0.0001) {
     return;
   }
   (*p_x).${stat} += value;
-  evaluateDependencies${stat}(p_x, p_state);
+  evaluateDependencies${stat}(p_x, p_m, p_state);
 }
     `
 
@@ -47,6 +50,7 @@ fn buffDynamic${stat}(
 fn buffNonDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>
 ) {
   if (value < 0.0001) {
@@ -60,13 +64,14 @@ fn buffNonDynamic${stat}(
 fn buffNonRatioDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
   p_state: ptr<function, ConditionalState>
 ) {
   if (value < 0.0001) {
     return;
   }
   (*p_x).${stat} += value;
-  evaluateNonRatioDependencies${stat}(p_x, p_state);
+  evaluateNonRatioDependencies${stat}(p_x, p_m, p_state);
 }
     `
   }

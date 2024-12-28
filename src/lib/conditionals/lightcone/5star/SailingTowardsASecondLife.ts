@@ -67,7 +67,7 @@ if (
   (*p_x).BE >= 1.50
 ) {
   (*p_state).SailingTowardsASecondLifeConditional = 1.0;
-  buffDynamicSPD_P(${sValuesSpdBuff[s]}, p_x, p_state);
+  buffDynamicSPD_P(${sValuesSpdBuff[s]}, p_x, p_m, p_state);
 }
     `)
         },

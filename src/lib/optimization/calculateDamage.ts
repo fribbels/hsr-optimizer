@@ -201,6 +201,41 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       x.m ? x.m.a[Key.FUA_DMG] : 0,
     )
   }
+
+  if (action.actionType == 'MEMO_SKILL' || action.actionType == 'DEFAULT') {
+    if (x.m) {
+      a[Key.MEMO_SKILL_DMG] += x.m.a[Key.MEMO_SKILL_DMG]
+    } else {
+      a[Key.MEMO_SKILL_DMG] = calculateAbilityDmg(
+        x,
+        action,
+        context,
+        baseUniversalMulti,
+        baseDmgBoost,
+        baseDefPen,
+        baseResistance,
+        baseSuperBreakInstanceDmg,
+        baseSuperBreakModifier,
+        baseBreakEfficiencyBoost,
+        a[Key.MEMO_SKILL_DMG],
+        0, // a[Key.MEMO_SKILL_BOOST],
+        0, // a[Key.MEMO_SKILL_VULNERABILITY],
+        0, // a[Key.MEMO_SKILL_DEF_PEN],
+        0, // a[Key.MEMO_SKILL_RES_PEN],
+        0, // a[Key.MEMO_SKILL_CR_BOOST],
+        0, // a[Key.MEMO_SKILL_CD_BOOST],
+        0, // a[Key.MEMO_SKILL_ORIGINAL_DMG_BOOST],
+        0, // a[Key.MEMO_SKILL_BREAK_EFFICIENCY_BOOST],
+        0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
+        0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
+        0, // a[Key.MEMO_SKILL_TOUGHNESS_DMG],
+        0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
+        0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
+        0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
+        0, // No memo joint
+      )
+    }
+  }
 }
 
 const cLevelConst = 20 + 80

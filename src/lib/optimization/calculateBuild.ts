@@ -102,6 +102,8 @@ export function calculateBuild(
       combo += x.get(Key.ULT_DMG)
     } else if (action.actionType === 'FUA') {
       combo += x.get(Key.FUA_DMG)
+    } else if (action.actionType === 'MEMO_SKILL') {
+      combo += x.get(Key.MEMO_SKILL_DMG)
     }
 
     if (i === 0) {

@@ -208,6 +208,13 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       headerName: t('Grid.Headers.Basic.FUA'), // 'FUA\nDMG',
     },
     {
+      field: 'MEMO_SKILL',
+      valueFormatter: Renderer.floor,
+      minWidth: DIGITS_5,
+      flex: 12,
+      headerName: t('Grid.Headers.Basic.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
+    },
+    {
       field: 'DOT',
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_5,
@@ -396,6 +403,13 @@ export function getMemoBasicColumnDefs(t: TFunction<'optimizerTab', undefined>) 
       minWidth: DIGITS_5,
       flex: 12,
       headerName: t('Grid.Headers.Basic.FUA'), // 'FUA\nDMG',
+    },
+    {
+      field: 'MEMO_SKILL',
+      valueFormatter: Renderer.floor,
+      minWidth: DIGITS_5,
+      flex: 12,
+      headerName: t('Grid.Headers.Basic.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
     },
     {
       field: 'DOT',
@@ -587,6 +601,13 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       headerName: t('Grid.Headers.Combat.FUA'), // 'FUA\nDMG',
     },
     {
+      field: 'MEMO_SKILL',
+      valueFormatter: Renderer.floor,
+      minWidth: DIGITS_5,
+      flex: 12,
+      headerName: t('Grid.Headers.Combat.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
+    },
+    {
       field: 'DOT',
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_5,
@@ -774,6 +795,13 @@ export function getMemoCombatColumnDefs(t: TFunction<'optimizerTab', undefined>)
       minWidth: DIGITS_5,
       flex: 12,
       headerName: t('Grid.Headers.Combat.FUA'), // 'FUA\nDMG',
+    },
+    {
+      field: 'MEMO_SKILL',
+      valueFormatter: Renderer.floor,
+      minWidth: DIGITS_5,
+      flex: 12,
+      headerName: t('Grid.Headers.Combat.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
     },
     {
       field: 'DOT',

@@ -1,6 +1,7 @@
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, theme } from 'antd'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
 import {
@@ -16,6 +17,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
+
+const defaultHiddenColumns = [
+  SortOption.OHB,
+  SortOption.HEAL,
+  SortOption.SHIELD,
+  SortOption.MEMO_SKILL,
+]
 
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
@@ -35,15 +43,18 @@ export function OptimizerGrid() {
   const statDisplay = window.store((s) => s.statDisplay)
   const memoDisplay = window.store((s) => s.memoDisplay)
   const columnDefs = useMemo(() => {
-    let columnDefinitions = statDisplay == 'combat'
-      ? (memoDisplay == 'memo' ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
-      : (memoDisplay == 'memo' ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
+    let columnDefinitions = statDisplay === 'combat'
+      ? (memoDisplay === 'memo' ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
+      : (memoDisplay === 'memo' ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
 
     if (optimizerTabFocusCharacter) {
-      const hiddenColumns = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata.hiddenColumns ?? []
-      const hiddenFields = hiddenColumns.map((column) => statDisplay == 'combat'
-        ? (memoDisplay == 'memo' ? column.memoCombatGridColumn : column.combatGridColumn)
-        : (memoDisplay == 'memo' ? column.memoBasicGridColumn : column.basicGridColumn),
+      const scoringMetadata = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata
+      const hiddenColumns = new Set([...(scoringMetadata.hiddenColumns ?? []), ...defaultHiddenColumns])
+      const addedColumns = new Set(scoringMetadata.addedColumns ?? [])
+
+      const hiddenFields = Array.from(hiddenColumns.difference(addedColumns)).map((column) => statDisplay == 'combat'
+        ? (memoDisplay === 'memo' ? column.memoCombatGridColumn : column.combatGridColumn)
+        : (memoDisplay === 'memo' ? column.memoBasicGridColumn : column.basicGridColumn),
       )
 
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))

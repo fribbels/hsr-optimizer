@@ -62,6 +62,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
     SKILL: x.$SKILL_DMG,
     ULT: x.$ULT_DMG,
     FUA: x.$FUA_DMG,
+    MEMO_SKILL: x.$MEMO_SKILL_DMG,
     DOT: x.$DOT_DMG,
     BREAK: x.$BREAK_DMG,
     COMBO: x.$COMBO_DMG,

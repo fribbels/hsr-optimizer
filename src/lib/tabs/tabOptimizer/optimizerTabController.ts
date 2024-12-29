@@ -61,6 +61,7 @@ const columnsToAggregateMap = {
   SKILL: true,
   ULT: true,
   FUA: true,
+  MEMO_SKILL: true,
   DOT: true,
   BREAK: true,
   COMBO: true,
@@ -484,6 +485,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('SKILL')
   setMinMax('ULT')
   setMinMax('FUA')
+  setMinMax('MEMO_SKILL')
   setMinMax('DOT')
   setMinMax('BREAK')
   setMinMax('COMBO')

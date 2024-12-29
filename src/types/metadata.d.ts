@@ -17,6 +17,7 @@ export type ScoringMetadata = {
   presets: PresetDefinition[]
   sortOption: SortOptionProperties
   hiddenColumns: SortOptionProperties[]
+  addedColumns?: SortOptionProperties[]
   simulation?: SimulationMetadata
   modified?: boolean
 }

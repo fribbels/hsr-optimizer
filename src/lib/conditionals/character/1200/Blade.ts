@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -80,7 +80,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Boost
       x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, Source.NONE)
-      buffAbilityDmg(x, FUA_TYPE, 0.20, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 60 : 30, Source.NONE)
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)

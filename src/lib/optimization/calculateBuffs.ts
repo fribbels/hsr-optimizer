@@ -5,10 +5,10 @@ import { ComputedStatsArray, Key, StatController } from 'lib/optimization/comput
  * can be both ULT and FUA dmg so buffs must be applied to both without overlapping.
  *
  * The flags are bitwise, so the usage should be:
- * buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 1.00, condition)
+ * buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 1.00, condition)
  *
  * And changing characters ability type should be:
- * x.BASIC_DMG_TYPE = BASIC_TYPE | FUA_TYPE
+ * x.BASIC_DMG_TYPE = BASIC_DMG_TYPE | FUA_DMG_TYPE
  */
 
 export enum Target {

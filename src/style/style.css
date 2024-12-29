@@ -638,5 +638,9 @@ a {
 .select-no-padding .ant-select-arrow {
     padding-left: 0 !important;
     padding-right: 0 !important;
-    inset-inline-end: 0px !important;
+    inset-inline-end: 0 !important;
+}
+
+.select-no-padding .ant-select-arrow {
+    font-size: 10px !important;
 }

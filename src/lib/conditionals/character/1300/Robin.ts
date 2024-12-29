@@ -1,4 +1,4 @@
-import { FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCd, Target } from 'lib/optimization/calculateBuffs'
@@ -152,7 +152,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SPD_P.buffTeam((e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0, Source.NONE)
 
-      buffAbilityCd(x, FUA_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, Source.NONE, Target.TEAM)
+      buffAbilityCd(x, FUA_DMG_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, Source.NONE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

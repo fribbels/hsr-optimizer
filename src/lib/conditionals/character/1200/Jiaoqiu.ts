@@ -1,4 +1,4 @@
-import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -128,7 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, ULT_TYPE, (m.ultFieldActive) ? ultVulnerabilityScaling : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, ULT_DMG_TYPE, (m.ultFieldActive) ? ultVulnerabilityScaling : 0, Source.NONE, Target.TEAM)
 
       x.VULNERABILITY.buffTeam((m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0, Source.NONE)
       x.VULNERABILITY.buffTeam(Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, Source.NONE)

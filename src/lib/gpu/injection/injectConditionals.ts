@@ -1,4 +1,4 @@
-import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
@@ -223,10 +223,11 @@ ${indent(conditionalStateDefinition, 1)}
 }
 
 const actionTypeToWgslMapping: StringToNumberMap = {
-  BASIC: BASIC_TYPE,
-  SKILL: SKILL_TYPE,
-  ULT: ULT_TYPE,
-  FUA: FUA_TYPE,
+  BASIC: BASIC_ABILITY_TYPE,
+  SKILL: SKILL_ABILITY_TYPE,
+  ULT: ULT_ABILITY_TYPE,
+  FUA: FUA_ABILITY_TYPE,
+  MEMO_SKILL: MEMO_SKILL_ABILITY_TYPE,
 }
 
 function getActionTypeToWgslMapping(actionType: string) {

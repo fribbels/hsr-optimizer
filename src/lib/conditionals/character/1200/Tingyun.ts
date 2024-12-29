@@ -1,4 +1,4 @@
-import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -107,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, BASIC_TYPE, 0.40, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE, 0.40, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 

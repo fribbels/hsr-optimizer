@@ -1,4 +1,4 @@
-import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -32,7 +32,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const traceShieldFlat = 96
 
   const defaults = {
-    shieldAbility: SKILL_TYPE,
+    shieldAbility: SKILL_DMG_TYPE,
     defToCrBoost: true,
     fuaHitsOnTarget: fuaHits,
     fortifiedWagerBuff: true,
@@ -55,7 +55,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tShield('Text'),
       content: tShield('Content'),
       options: [
-        { display: tShield('Skill'), value: SKILL_TYPE, label: tShield('Skill') },
+        { display: tShield('Skill'), value: SKILL_DMG_TYPE, label: tShield('Skill') },
         { display: tShield('Trace'), value: NONE_TYPE, label: tShield('Trace') },
       ],
       fullWidth: true,
@@ -136,7 +136,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
       x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, Source.NONE)
 
-      if (r.shieldAbility == SKILL_TYPE) {
+      if (r.shieldAbility == SKILL_DMG_TYPE) {
         x.SHIELD_SCALING.buff(skillShieldScaling, Source.NONE)
         x.SHIELD_FLAT.buff(skillShieldFlat, Source.NONE)
       }

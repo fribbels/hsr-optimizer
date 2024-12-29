@@ -1,4 +1,4 @@
-import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -116,7 +116,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.ATK_P.buff((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE) // TODO: MEMO
 
-      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE, Target.MAIN)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE, Target.MAIN)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>

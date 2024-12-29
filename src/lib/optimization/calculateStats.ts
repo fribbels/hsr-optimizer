@@ -1,4 +1,4 @@
-import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, BasicStatsObject, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
@@ -302,28 +302,28 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // Basic boost
   if (p4(sets.MusketeerOfWildWheat)) {
-    buffAbilityDmg(x, BASIC_TYPE, 0.10, Source.MusketeerOfWildWheat)
+    buffAbilityDmg(x, BASIC_DMG_TYPE, 0.10, Source.MusketeerOfWildWheat)
   }
 
   // Skill boost
   if (p4(sets.FiresmithOfLavaForging)) {
-    buffAbilityDmg(x, SKILL_TYPE, 0.12, Source.FiresmithOfLavaForging)
+    buffAbilityDmg(x, SKILL_DMG_TYPE, 0.12, Source.FiresmithOfLavaForging)
   }
 
   // Fua boost
   if (p2(sets.TheAshblazingGrandDuke)) {
-    buffAbilityDmg(x, FUA_TYPE, 0.20, Source.TheAshblazingGrandDuke)
+    buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.TheAshblazingGrandDuke)
   }
   if (p2(sets.DuranDynastyOfRunningWolves)) {
-    buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
+    buffAbilityDmg(x, FUA_DMG_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
   }
 
   // Ult boost
   if (p4(sets.TheWindSoaringValorous) && setConditionals.enabledTheWindSoaringValorous) {
-    buffAbilityDmg(x, ULT_TYPE, 0.36, Source.TheWindSoaringValorous)
+    buffAbilityDmg(x, ULT_DMG_TYPE, 0.36, Source.TheWindSoaringValorous)
   }
   if (p4(sets.ScholarLostInErudition)) {
-    buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20, Source.ScholarLostInErudition)
+    buffAbilityDmg(x, ULT_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.ScholarLostInErudition)
   }
 
   if (p4(sets.GeniusOfBrilliantStars)) {
@@ -345,7 +345,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   }
 
   if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
-    buffAbilityDmg(x, SKILL_TYPE, 0.25, Source.ScholarLostInErudition)
+    buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, Source.ScholarLostInErudition)
   }
 
   a[Key.SPD] += a[Key.SPD_P] * context.baseSPD

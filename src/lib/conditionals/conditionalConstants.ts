@@ -5,13 +5,20 @@ export const ASHBLAZING_ATK_STACK = 0.06
 
 // Ability types
 export const NONE_TYPE = 0
-export const BASIC_TYPE = 1
-export const SKILL_TYPE = 2
-export const ULT_TYPE = 4
-export const FUA_TYPE = 8
-export const DOT_TYPE = 16
-export const BREAK_TYPE = 32
-export const SUPER_BREAK_TYPE = 64
+export const BASIC_DMG_TYPE = 1
+export const SKILL_DMG_TYPE = 2
+export const ULT_DMG_TYPE = 4
+export const FUA_DMG_TYPE = 8
+export const DOT_DMG_TYPE = 16
+export const BREAK_DMG_TYPE = 32
+export const SUPER_BREAK_DMG_TYPE = 64
+export const MEMO_DMG_TYPE = 128
+
+export const BASIC_ABILITY_TYPE = 1
+export const SKILL_ABILITY_TYPE = 2
+export const ULT_ABILITY_TYPE = 4
+export const FUA_ABILITY_TYPE = 8
+export const MEMO_SKILL_ABILITY_TYPE = 16
 
 export const baseComputedStatsObject = {
   HP_P: 0,
@@ -187,13 +194,13 @@ export const baseComputedStatsObject = {
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
-  BASIC_DMG_TYPE: BASIC_TYPE,
-  SKILL_DMG_TYPE: SKILL_TYPE,
-  ULT_DMG_TYPE: ULT_TYPE,
-  FUA_DMG_TYPE: FUA_TYPE,
-  DOT_DMG_TYPE: DOT_TYPE,
-  BREAK_DMG_TYPE: BREAK_TYPE,
-  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
+  BASIC_DMG_TYPE: BASIC_DMG_TYPE,
+  SKILL_DMG_TYPE: SKILL_DMG_TYPE,
+  ULT_DMG_TYPE: ULT_DMG_TYPE,
+  FUA_DMG_TYPE: FUA_DMG_TYPE,
+  DOT_DMG_TYPE: DOT_DMG_TYPE,
+  BREAK_DMG_TYPE: BREAK_DMG_TYPE,
+  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_DMG_TYPE,
 }
 
 export type SetsType = {

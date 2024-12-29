@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      buffAbilityCr(x, BASIC_TYPE, 1.00, Source.NONE)
+      buffAbilityCr(x, BASIC_DMG_TYPE, 1.00, Source.NONE)
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.FUA_SCALING.buff((e >= 4) ? fuaScaling : 0, Source.NONE)

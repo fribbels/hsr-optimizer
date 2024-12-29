@@ -26,13 +26,20 @@
 // END ACTIONS DEFINITION
 
 
-const BASIC_TYPE = 1;
-const SKILL_TYPE = 2;
-const ULT_TYPE = 4;
-const FUA_TYPE = 8;
-const DOT_TYPE = 16;
-const BREAK_TYPE = 32;
-const SUPER_BREAK_TYPE = 64;
+const BASIC_DMG_TYPE = 1;
+const SKILL_DMG_TYPE = 2;
+const ULT_DMG_TYPE = 4;
+const FUA_DMG_TYPE = 8;
+const DOT_DMG_TYPE = 16;
+const BREAK_DMG_TYPE = 32;
+const SUPER_BREAK_DMG_TYPE = 64;
+const MEMO_DMG_TYPE = 128;
+
+const BASIC_ABILITY_TYPE = 1;
+const SKILL_ABILITY_TYPE = 2;
+const ULT_ABILITY_TYPE = 4;
+const FUA_ABILITY_TYPE = 8;
+const MEMO_SKILL_ABILITY_TYPE = 16;
 
 @group(0) @binding(0) var<storage> params : Params;
 
@@ -414,32 +421,32 @@ fn main(
 
       // Basic boost
       if (p4(sets.MusketeerOfWildWheat) >= 1) {
-        buffAbilityDmg(&x, BASIC_TYPE, 0.10, 1);
+        buffAbilityDmg(&x, BASIC_DMG_TYPE, 0.10, 1);
       }
 
       // Skill boost
       if (p4(sets.FiresmithOfLavaForging) >= 1) {
-        buffAbilityDmg(&x, SKILL_TYPE, 0.12, 1);
+        buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.12, 1);
       }
 
       // Fua boost
       if (p2(sets.TheAshblazingGrandDuke) >= 1) {
-        buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.20, 1);
       }
       if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
-        buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
       }
 
       // Ult boost
       if (p4(sets.TheWindSoaringValorous) >= 1) {
-        buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+        buffAbilityDmg(&x, ULT_DMG_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
       }
 
       if (p4(sets.ScholarLostInErudition) >= 1) {
-        buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.20, 1);
+        buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
 
         if (setConditionals.enabledScholarLostInErudition == true) {
-          buffAbilityDmg(&x, SKILL_TYPE, 0.25, 1);
+          buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
         }
       }
 
@@ -555,14 +562,16 @@ fn main(
       calculateDamage(&x, &m, actionIndex);
 
       if (actionIndex > 0) {
-        if (action.abilityType == 1) {
+        if (action.abilityType == BASIC_ABILITY_TYPE) {
           combo += x.BASIC_DMG;
-        } else if (action.abilityType == 2) {
+        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
           combo += x.SKILL_DMG;
-        } else if (action.abilityType == 4) {
+        } else if (action.abilityType == ULT_ABILITY_TYPE) {
           combo += x.ULT_DMG;
-        } else if (action.abilityType == 8) {
+        } else if (action.abilityType == FUA_ABILITY_TYPE) {
           combo += x.FUA_DMG;
+        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+          combo += x.MEMO_SKILL_DMG;
         }
       } else {
         x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
@@ -660,8 +669,8 @@ fn calculateDamage(
       (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
         1
         + x.OHB
-        + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
-        + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_TYPE)
+        + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
+        + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
       );
     }
 
@@ -786,6 +795,37 @@ fn calculateDamage(
       0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
       0, // m.FUA_DMG,
     );
+  }
+
+  if (action.abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
+    (*p_x).MEMO_SKILL_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.MEMO_SKILL_DMG,
+      0, // x.MEMO_SKILL_BOOST,
+      0, // x.MEMO_SKILL_VULNERABILITY,
+      0, // x.MEMO_SKILL_DEF_PEN,
+      0, // x.MEMO_SKILL_RES_PEN,
+      0, // x.MEMO_SKILL_CR_BOOST,
+      0, // x.MEMO_SKILL_CD_BOOST,
+      0, // x.MEMO_SKILL_ORIGINAL_DMG_BOOST,
+      0, // x.MEMO_SKILL_BREAK_EFFICIENCY_BOOST,
+      0, // x.MEMO_SKILL_SUPER_BREAK_MODIFIER,
+      0, // x.MEMO_SKILL_BREAK_DMG_MODIFIER,
+      0, // x.MEMO_SKILL_TOUGHNESS_DMG,
+      0, // x.MEMO_SKILL_ADDITIONAL_DMG,
+      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // m.FUA_DMG,
+    );
+
+    (*p_x).MEMO_SKILL_DMG += (p_m).MEMO_SKILL_DMG;
   }
 }
 

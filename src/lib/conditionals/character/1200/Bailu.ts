@@ -1,4 +1,4 @@
-import { NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardHpHealFinalizer, standardAtkFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
@@ -28,7 +28,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentHealFlat = talent(e, 144, 160.2)
 
   const defaults = {
-    healAbility: ULT_TYPE,
+    healAbility: ULT_DMG_TYPE,
     healingMaxHpBuff: true,
     talentDmgReductionBuff: true,
     e2UltHealingBuff: true,
@@ -48,8 +48,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
         { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
@@ -106,13 +106,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+      if (r.healAbility == SKILL_DMG_TYPE) {
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
-      if (r.healAbility == ULT_TYPE) {
-        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+      if (r.healAbility == ULT_DMG_TYPE) {
+        x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
       }

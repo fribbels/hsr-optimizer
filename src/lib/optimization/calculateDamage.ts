@@ -1,4 +1,4 @@
-import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
 import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -258,8 +258,8 @@ function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
   a[Key.HEAL_VALUE] = a[Key.HEAL_VALUE] * (
     1
     + a[Key.OHB]
-    + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_TYPE ? 1 : 0)
-    + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_TYPE ? 1 : 0)
+    + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
+    + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
   )
 }
 

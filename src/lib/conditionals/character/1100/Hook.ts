@@ -1,4 +1,4 @@
-import { SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -60,7 +60,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DOT_SCALING.buff(dotScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, SKILL_TYPE, (e >= 1 && r.enhancedSkill) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 1 && r.enhancedSkill) ? 0.20 : 0, Source.NONE)
       x.ELEMENTAL_DMG.buff((e >= 6 && r.targetBurned) ? 0.20 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)

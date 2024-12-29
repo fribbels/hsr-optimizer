@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -93,9 +93,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_SCALING.buff(fuaScaling * (r.fuaHits), Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, ULT_TYPE, r.toughnessReductionDmgBoost, Source.NONE)
-      buffAbilityDmg(x, ULT_TYPE, (r.enemyToughness50) ? 0.10 : 0, Source.NONE)
-      buffAbilityDmg(x, FUA_TYPE, (e >= 1) ? 0.40 : 0, Source.NONE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, r.toughnessReductionDmgBoost, Source.NONE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (r.enemyToughness50) ? 0.10 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1) ? 0.40 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)

@@ -1,4 +1,4 @@
-import { BASIC_TYPE, BREAK_TYPE, FUA_TYPE, SKILL_TYPE, SUPER_BREAK_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -15,7 +15,7 @@ export const RutilantArenaConditional: DynamicConditional = {
     return p2(x.c.sets.RutilantArena) && x.a[Key.CR] >= 0.70
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, 0.20, Source.RutilantArena)
+    buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -26,7 +26,7 @@ if (
 ) {
   (*p_state).RutilantArenaConditional = 1.0;
 
-  buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, 0.20, 1);
+  buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
 }
     `)
   },
@@ -41,7 +41,7 @@ export const InertSalsottoConditional: DynamicConditional = {
     return p2(x.c.sets.InertSalsotto) && x.a[Key.CR] >= 0.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    buffAbilityDmg(x, ULT_TYPE | FUA_TYPE, 0.15, Source.InertSalsotto)
+    buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -52,7 +52,7 @@ if (
 ) {
   (*p_state).InertSalsottoConditional = 1.0;
 
-  buffAbilityDmg(p_x, ULT_TYPE | FUA_TYPE, 0.15, 1);
+  buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
 }
     `)
   },
@@ -142,7 +142,7 @@ export const IronCavalryAgainstTheScourge150Conditional: DynamicConditional = {
     return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 1.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    buffAbilityDefPen(x, BREAK_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
+    buffAbilityDefPen(x, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -152,7 +152,7 @@ if (
   (*p_x).BE >= 1.50
 ) {
   (*p_state).IronCavalryAgainstTheScourge150Conditional = 1.0;
-  buffAbilityDefShred(p_x, BREAK_TYPE, 0.10, 1);
+  buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
 }
     `)
   },
@@ -167,7 +167,7 @@ export const IronCavalryAgainstTheScourge250Conditional: DynamicConditional = {
     return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 2.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    buffAbilityDefPen(x, SUPER_BREAK_TYPE, 0.15, Source.IronCavalryAgainstTheScourge)
+    buffAbilityDefPen(x, SUPER_BREAK_DMG_TYPE, 0.15, Source.IronCavalryAgainstTheScourge)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -177,7 +177,7 @@ if (
   (*p_x).BE >= 2.50
 ) {
   (*p_state).IronCavalryAgainstTheScourge250Conditional = 1.0;
-  buffAbilityDefShred(p_x, SUPER_BREAK_TYPE, 0.15, 1);
+  buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, 0.15, 1);
 }
     `)
   },

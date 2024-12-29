@@ -1,4 +1,4 @@
-import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -90,7 +90,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, (r.skillRemovedBuff) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillRemovedBuff) ? 0.20 : 0, Source.NONE)
       x.ELEMENTAL_DMG.buff((r.enemyDebuffed) ? 0.20 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)

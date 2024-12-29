@@ -1,4 +1,4 @@
-import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -40,8 +40,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const r = action.lightConeConditionals as Conditionals<typeof content>
       const stacks = Math.max(0, Math.min(6, Math.floor((x.a[Key.SPD] - 100) / 10)))
 
-      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE, (r.spdScalingBuffs) ? stacks * sValuesDmg[s] : 0, Source.NONE)
-      buffAbilityCd(x, ULT_TYPE, (r.spdScalingBuffs) ? stacks * sValuesCd[s] : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, (r.spdScalingBuffs) ? stacks * sValuesDmg[s] : 0, Source.NONE)
+      buffAbilityCd(x, ULT_DMG_TYPE, (r.spdScalingBuffs) ? stacks * sValuesCd[s] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
@@ -50,8 +50,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 if (${wgslTrue(r.spdScalingBuffs)}) {
   let stacks = max(0, min(6, floor((x.SPD - 100) / 10)));
 
-  buffAbilityDmg(p_x, BASIC_TYPE | SKILL_TYPE, stacks * ${sValuesDmg[s]}, 1);
-  buffAbilityCd(p_x, ULT_TYPE, stacks * ${sValuesCd[s]}, 1);
+  buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, stacks * ${sValuesDmg[s]}, 1);
+  buffAbilityCd(p_x, ULT_DMG_TYPE, stacks * ${sValuesCd[s]}, 1);
 }
     `
     },

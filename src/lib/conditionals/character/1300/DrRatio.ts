@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -86,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Boost
       x.ELEMENTAL_DMG.buff((r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0, Source.NONE)
-      buffAbilityDmg(x, FUA_TYPE, (e >= 6) ? 0.50 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 6) ? 0.50 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)

@@ -1,4 +1,4 @@
-import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -96,7 +96,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
-      x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+      x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
       x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
       x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
 

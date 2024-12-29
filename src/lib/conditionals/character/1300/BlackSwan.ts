@@ -1,4 +1,4 @@
-import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
       x.DOT_SCALING.buff(dotScaling + arcanaStackMultiplier * r.arcanaStacks, Source.NONE)
 
-      buffAbilityDefPen(x, DOT_TYPE, (r.arcanaStacks >= 7) ? 0.20 : 0, Source.NONE)
+      buffAbilityDefPen(x, DOT_DMG_TYPE, (r.arcanaStacks >= 7) ? 0.20 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
@@ -113,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
-      buffAbilityVulnerability(x, DOT_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, DOT_DMG_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, Source.NONE, Target.TEAM)
 
       x.DEF_PEN.buffTeam((m.defDecreaseDebuff) ? defShredValue : 0, Source.NONE)
       x.WIND_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)

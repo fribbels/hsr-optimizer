@@ -1,4 +1,4 @@
-import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardAtkHealFinalizer, standardAtkFinalizer, standardAtkHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
@@ -43,7 +43,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       options: [
         {
           display: tHeal('Skill'),
-          value: SKILL_TYPE,
+          value: SKILL_DMG_TYPE,
           label: tHeal('Skill'),
         },
         {
@@ -91,8 +91,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
-      if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+      if (r.healAbility == SKILL_DMG_TYPE) {
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }

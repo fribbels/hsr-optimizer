@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
@@ -79,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.ULT_DMG_TYPE.set(ULT_TYPE | FUA_TYPE, Source.NONE)
+      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -102,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, FUA_TYPE, (m.preyMark) ? 0.25 : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.preyMark) ? 0.25 : 0, Source.NONE, Target.TEAM)
 
       x.CD.buffTeam((e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0, Source.NONE)
     },

@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -124,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_SCALING.buff(fuaScaling, Source.NONE)
       x.FUA_SCALING.buff((r.enhancedFollowUp) ? ultFuaScalingBuff : 0, Source.NONE)
 
-      buffAbilityDmg(x, FUA_TYPE, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, Source.NONE)
       x.DEF_PEN.buff((e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, Source.NONE)
       x.QUANTUM_RES_PEN.buff((e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, Source.NONE)
 

@@ -1,4 +1,4 @@
-import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
@@ -32,7 +32,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, ULT_TYPE, (r.ultDmgBuff) ? sValues[s] : 0, Source.NONE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (r.ultDmgBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

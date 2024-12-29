@@ -102,7 +102,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_DEF_SCALING.buff(1, Source.NONE)
       x.MEMO_ATK_SCALING.buff(1, Source.NONE)
 
-      // TODO: MEMO SKILL DMG
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.supremeStanceState) ? talentAdditionalDmg : 0, Source.NONE)
 
       x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, Source.NONE)
@@ -198,6 +197,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
 
           action.conditionalState[this.id] = buffValue
           x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          x.m.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -213,6 +213,7 @@ let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
 (*p_state).AglaeaConversionConditional = buffValue;
 buffDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
+buffMemoDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

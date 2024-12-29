@@ -47,6 +47,21 @@ fn buffDynamic${stat}(
     `
 
     wgsl += `
+fn buffMemoDynamic${stat}(
+  value: f32,
+  p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  if (value < 0.0001) {
+    return;
+  }
+  (*p_m).${stat} += value;
+  evaluateDependencies${stat}(p_x, p_m, p_state);
+}
+    `
+
+    wgsl += `
 fn buffNonDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,

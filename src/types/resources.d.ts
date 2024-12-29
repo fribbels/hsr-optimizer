@@ -109,6 +109,7 @@ interface Resources {
           "SKILL": "SKILL",
           "ULT": "ULT",
           "FUA": "FUA",
+          "MEMO_SKILL": "SKILLᴹ",
           "DOTS": "DOTS:",
           "BREAKS": "BREAKS:"
         },
@@ -335,6 +336,7 @@ interface Resources {
       "SKILL": "Skill Damage",
       "ULT": "Ult Damage",
       "FUA": "Fua Damage",
+      "MEMO_SKILL": "Memo Skill Damage",
       "DOT": "Dot Damage",
       "BREAK": "Break Damage",
       "CV": "CV"
@@ -344,6 +346,7 @@ interface Resources {
       "Skill": "Skill DMG",
       "Ult": "Ult DMG",
       "Fua": "Fua DMG",
+      "Memo_Skill": "Skillᴹ DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
@@ -4335,6 +4338,7 @@ interface Resources {
           "SKILL": "SKILL\nDMG",
           "ULT": "ULT\nDMG",
           "FUA": "FUA\nDMG",
+          "MEMO_SKILL": "SKILLᴹ\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "COMBO": "COMBO\nDMG"
@@ -4361,6 +4365,7 @@ interface Resources {
           "SKILL": "SKILL\nDMG",
           "ULT": "ULT\nDMG",
           "FUA": "FUA\nDMG",
+          "MEMO_SKILL": "SKILLᴹ\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "COMBO": "COMBO\nDMG"
@@ -4643,7 +4648,8 @@ interface Resources {
         "Basic": "Basic",
         "Skill": "Skill",
         "Ult": "Ult",
-        "Fua": "Fua"
+        "Fua": "Fua",
+        "MemoSkill": "Skillᴹ"
       },
       "RotationButton": "Advanced rotation"
     },

@@ -77,4 +77,12 @@ export const AbilityEidolon = {
     memoTalent: ability(3),
     memoSkill: ability(5),
   },
+  SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5: {
+    basic: ability(5),
+    skill: ability(3),
+    ult: ability(5),
+    talent: ability(3),
+    memoTalent: ability(3),
+    memoSkill: ability(5),
+  },
 }

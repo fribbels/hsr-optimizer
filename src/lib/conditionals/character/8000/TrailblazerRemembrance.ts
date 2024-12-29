@@ -10,10 +10,24 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
 
-  const memoTalentCdBuffScaling = talent(e, 0.168, 0.168) // TODO
-  const memoTalentCdBuffFlat = talent(e, 0.252, 0.252) // TODO
+  const basicScaling = basic(e, 1.00, 1.10)
+
+  const ultScaling = ult(e, 2.40, 2.64)
+
+  const memoHpScaling = talent(e, 0.80, 0.86)
+  const memoHpFlat = talent(e, 640, 688)
+
+  const memoSkillHitScaling = memoSkill(e, 0.36, 0.396)
+  const memoSkillFinalScaling = memoSkill(e, 0.90, 0.99)
+
+  const memoTalentCdBuffScaling = memoTalent(e, 0.12, 0.132)
+  const memoTalentCdBuffFlat = memoTalent(e, 0.24, 0.264)
+
+  const trueDmgScaling = memoSkill(e, 0.28, 0.30)
+  // When the Max Energy of the ally target that has "Mem's Support" exceeds 100, for every 10 excess Energy,
+  // additionally increases the multiplier of the True DMG dealt via "Mem's Support" by 2%, up to a max increase of 20%.
 
   const defaults = {}
 

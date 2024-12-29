@@ -14,7 +14,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const enhancedBasicScaling = basic(e, 1.00, 2.20) // TODO 2.00
+  const enhancedBasicScaling = basic(e, 2.00, 2.20)
 
   const ultSpdBoost = ult(e, 0.15, 0.16)
 

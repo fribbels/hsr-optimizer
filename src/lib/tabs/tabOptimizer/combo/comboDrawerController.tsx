@@ -682,27 +682,6 @@ export function updateFormState(comboState: ComboState) {
   SaveState.delayedSave(1000)
 }
 
-type ChangeEvent = {
-  characterConditionals: {
-    [key: string]: object
-  }
-  lightConeConditionals: {
-    [key: string]: object
-  }
-  setConditionals: {
-    [key: string]: object
-  }
-  teammate0: {
-    [key: string]: object
-  }
-  teammate1: {
-    [key: string]: object
-  }
-  teammate2: {
-    [key: string]: object
-  }
-}
-
 function change(changeConditional: {
   // eslint-disable-next-line
   [key: string]: any

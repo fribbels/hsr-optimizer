@@ -201,6 +201,7 @@ export const baseComputedStatsObject = {
   DOT_DMG_TYPE: DOT_DMG_TYPE,
   BREAK_DMG_TYPE: BREAK_DMG_TYPE,
   SUPER_BREAK_DMG_TYPE: SUPER_BREAK_DMG_TYPE,
+  MEMO_DMG_TYPE: MEMO_DMG_TYPE,
 }
 
 export type SetsType = {

@@ -202,22 +202,22 @@ export const abilitySelectOptions = [
   {
     value: 'BASIC',
     label: 'Basic',
-    display: 'Basic',
   },
   {
     value: 'SKILL',
     label: 'Skill',
-    display: 'Skill',
   },
   {
     value: 'ULT',
     label: 'Ult',
-    display: 'Ult',
   },
   {
     value: 'FUA',
     label: 'Fua',
-    display: 'Fua',
+  },
+  {
+    value: 'MEMO_SKILL',
+    label: 'MemoSkill',
   },
 ] as const
 
@@ -236,8 +236,8 @@ function ComboHeader(props: {
       selectOptions.push(
         {
           value: option.value,
-          label: t(`${option.label}`),
-          display: t(`${option.label}`),
+          label: t(`${option.label}` as never),
+          display: t(`${option.label}` as never),
         },
       )
     }

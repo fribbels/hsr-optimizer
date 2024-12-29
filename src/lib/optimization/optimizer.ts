@@ -244,6 +244,7 @@ export function renameFields(c: BasicStatsObject, x: ComputedStatsArray) {
   d.SKILL = x.SKILL_DMG.get()
   d.ULT = x.ULT_DMG.get()
   d.FUA = x.FUA_DMG.get()
+  d.MEMO_SKILL = x.MEMO_SKILL_DMG.get()
   d.DOT = x.DOT_DMG.get()
   d.BREAK = x.BREAK_DMG.get()
   d.COMBO = x.COMBO_DMG.get()

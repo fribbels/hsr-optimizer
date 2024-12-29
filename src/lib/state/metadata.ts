@@ -12,6 +12,7 @@ const BASIC = 'BASIC'
 const SKILL = 'SKILL'
 const ULT = 'ULT'
 const FUA = 'FUA'
+const MEMO_SKILL = 'MEMO_SKILL'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -6928,6 +6929,63 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboAbilities: [NULL, ULT, BASIC, MEMO_SKILL, MEMO_SKILL, BASIC, MEMO_SKILL],
+        comboDot: 0,
+        comboBreak: 0,
+        errRopeEidolon: 0,
+        relicSets: [
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TheWondrousBananAmusementPark,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1313', // Sunday
+            lightCone: '23034', // Grounded
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
   }
 }

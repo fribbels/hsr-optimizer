@@ -39,7 +39,7 @@ export const optimizerGridDefaultColDef = {
   autoHeaderHeight: true,
 }
 
-const memo = 'ᵐ'
+const memo = 'ᴹ'
 
 export function getBasicColumnDefs(t: TFunction<'optimizerTab', undefined>) {
   return [

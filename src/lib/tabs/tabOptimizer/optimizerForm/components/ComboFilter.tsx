@@ -28,7 +28,7 @@ export const ComboFilters = () => {
     { label: 'SKILL', value: 'SKILL' },
     { label: 'ULT', value: 'ULT' },
     { label: 'FUA', value: 'FUA' },
-    { label: 'SKILL ᴹ', value: 'MEMO_SKILL' },
+    { label: 'SKILLᴹ', value: 'MEMO_SKILL' },
   ], [t])
 
   return (

@@ -5052,7 +5052,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 3,
         relicSets: [
-          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           RELICS_2P_BREAK_EFFECT_SPEED,
         ],

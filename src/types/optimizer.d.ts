@@ -105,6 +105,7 @@ export type OptimizerContext = {
   baseATK: number
   baseDEF: number
   baseSPD: number
+  baseEnergy: number
 
   // Enemy data
   enemyLevel: number

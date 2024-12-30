@@ -33,21 +33,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     memoSkillHits: 4,
-    memoCdBuff: true,
+    teamCdBuff: true,
     memsSupport: false,
-    energyTrueDmgValue: 0.20,
+    energyTrueDmgValue: false,
     e1CrBuff: false,
     e4TrueDmgBoost: false,
     e6UltCrBoost: true,
   }
 
   const teammateDefaults = {
+    teamCdBuff: true,
     memCDValue: 2.50,
     memsSupport: true,
-    energyTrueDmgValue: 0.20,
+    energyTrueDmgValue: true,
     e1CrBuff: true,
     e4TrueDmgBoost: false,
-    e6UltCrBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -59,10 +59,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: 4,
     },
-    memoCdBuff: {
-      id: 'memoCdBuff',
+    teamCdBuff: {
+      id: 'teamCdBuff',
       formItem: 'switch',
-      text: 'Memo CD buff',
+      text: 'Team CD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     memsSupport: {
@@ -73,12 +73,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     energyTrueDmgValue: {
       id: 'energyTrueDmgValue',
-      formItem: 'slider',
-      text: 'Target max energy extra True DMG %',
+      formItem: 'switch',
+      text: 'Max energy True DMG',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 0.20,
-      percent: true,
     },
     e1CrBuff: {
       id: 'e1CrBuff',
@@ -104,6 +101,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    teamCdBuff: content.teamCdBuff,
     memCDValue: {
       id: 'memCDValue',
       formItem: 'slider',
@@ -117,7 +115,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     energyTrueDmgValue: content.energyTrueDmgValue,
     e1CrBuff: content.e1CrBuff,
     e4TrueDmgBoost: content.e4TrueDmgBoost,
-    e6UltCrBoost: content.e6UltCrBoost,
   }
 
   return {
@@ -146,18 +143,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       if (m.memsSupport) {
+        const energyTrueDmg = Math.min(0.20, (m.energyTrueDmgValue ? Math.max((context.baseEnergy - 100) / 10, 0) * 2 * 0.01 : 0))
+        const trueDmg = trueDmgScaling
+          + energyTrueDmg
+          + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0)
+
         if (e >= 1) {
           x.CR.buffDual((m.e1CrBuff) ? 0.10 : 0, Source.NONE)
-          x.TRUE_DMG_MODIFIER.buffDual(trueDmgScaling + m.energyTrueDmgValue + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0), Source.NONE)
+          x.TRUE_DMG_MODIFIER.buffDual(trueDmg, Source.NONE)
         } else {
-          x.TRUE_DMG_MODIFIER.buff(trueDmgScaling + m.energyTrueDmgValue + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0), Source.NONE)
+          x.TRUE_DMG_MODIFIER.buff(trueDmg, Source.NONE)
         }
       }
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff(memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat, Source.NONE)
+      x.CD.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
@@ -189,7 +191,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.memoCdBuff) {
+          if (!r.teamCdBuff) {
             return
           }
 
@@ -211,7 +213,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.memoCdBuff)}) {
+if (${wgslFalse(r.teamCdBuff)}) {
   return;
 }
 

@@ -46,6 +46,8 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
     TheWindSoaringValorous: (1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)),
     SacerdosRelivedOrdeal: (1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)),
     ScholarLostInErudition: (1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)),
+    HeroOfTriumphantSong: (1 >> (setH ^ 22)) + (1 >> (setG ^ 22)) + (1 >> (setB ^ 22)) + (1 >> (setF ^ 22)),
+    PoetOfMourningCollapse: (1 >> (setH ^ 23)) + (1 >> (setG ^ 23)) + (1 >> (setB ^ 23)) + (1 >> (setF ^ 23)),
 
     SpaceSealingStation: (1 >> (setP ^ 0)) + (1 >> (setL ^ 0)),
     FleetOfTheAgeless: (1 >> (setP ^ 1)) + (1 >> (setL ^ 1)),

@@ -247,7 +247,7 @@ fn main(
     c.Ice_DMG       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);
     c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(sets.BandOfSizzlingThunder);
     c.Wind_DMG      += traceWind_DMG + 0.10 * p2(sets.EagleOfTwilightLine);
-    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars);
+    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse);
     c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(sets.WastelanderOfBanditryDesert);
 
     // Calculate set effects
@@ -256,7 +256,8 @@ fn main(
       0.06 * p2(sets.MessengerTraversingHackerspace) +
       0.06 * p2(sets.ForgeOfTheKalpagniLantern) +
       0.06 * p4(sets.MusketeerOfWildWheat) +
-      0.06 * p2(sets.SacerdosRelivedOrdeal)
+      0.06 * p2(sets.SacerdosRelivedOrdeal) -
+      0.08 * p4(sets.PoetOfMourningCollapse)
     );
 
     c.HP += (baseHP) * (
@@ -270,7 +271,8 @@ fn main(
       0.12 * p2(sets.MusketeerOfWildWheat) +
       0.12 * p2(sets.PrisonerInDeepConfinement) +
       0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm) +
-      0.12 * p2(sets.TheWindSoaringValorous)
+      0.12 * p2(sets.TheWindSoaringValorous) +
+      0.12 * p2(sets.HeroOfTriumphantSong)
     );
 
     c.DEF += (baseDEF) * (
@@ -352,6 +354,11 @@ fn main(
       if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
         x.SPD_P += 0.12;
       }
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == true) {
+        x.SPD_P += 0.06;
+        x.CD += 0.30;
+        m.CD += 0.30;
+      }
 
       // ATK
 
@@ -408,6 +415,11 @@ fn main(
       }
       if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true) {
         x.CR += 0.12;
+      }
+      if (p4(sets.PoetOfMourningCollapse) >= 1) {
+        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        x.CR += crValue;
+        m.CR += crValue;
       }
 
       // BE

@@ -311,6 +311,7 @@ export function FormSetConditionals() {
             set={Constants.Sets.PoetOfMourningCollapse}
             description={t('RelicDescription', { id: 124 })}
             conditional={t('Conditionals.DefaultMessage')}
+            p4Checked
           />
         </Flex>
 

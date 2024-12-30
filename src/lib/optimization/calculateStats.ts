@@ -97,7 +97,7 @@ export function calculateElementalStats(c: BasicStatsObject, context: OptimizerC
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine))
       break
     case Stats.Quantum_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars))
+      c.ELEMENTAL_DMG = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse))
       break
     case Stats.Imaginary_DMG:
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert))
@@ -115,7 +115,8 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
     + 0.06 * p4(sets.MusketeerOfWildWheat)
-    + 0.06 * p2(sets.SacerdosRelivedOrdeal),
+    + 0.06 * p2(sets.SacerdosRelivedOrdeal)
+    - 0.08 * p4(sets.PoetOfMourningCollapse),
   )
 
   c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c,
@@ -129,7 +130,8 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     + 0.12 * p2(sets.MusketeerOfWildWheat)
     + 0.12 * p2(sets.PrisonerInDeepConfinement)
     + 0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm)
-    + 0.12 * p2(sets.TheWindSoaringValorous),
+    + 0.12 * p2(sets.TheWindSoaringValorous)
+    + 0.12 * p2(sets.HeroOfTriumphantSong),
   )
 
   c[Stats.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c,
@@ -236,6 +238,11 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     x.SPD_P.buffTeam(0.12, Source.MessengerTraversingHackerspace)
   }
 
+  if (p4(sets.HeroOfTriumphantSong) && setConditionals.enabledHeroOfTriumphantSong) {
+    x.SPD_P.buffTeam(0.06, Source.HeroOfTriumphantSong)
+    x.CD.buffDual(0.30, Source.HeroOfTriumphantSong)
+  }
+
   // ATK
 
   if (p4(sets.ChampionOfStreetwiseBoxing)) {
@@ -289,6 +296,9 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   }
   if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
     x.CR.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
+  }
+  if (p4(sets.PoetOfMourningCollapse)) {
+    x.CR.buffDual((c[Stats.SPD] < 110 ? 0.20 : 0) + (c[Stats.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
   }
 
   // BE

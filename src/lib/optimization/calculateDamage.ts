@@ -362,6 +362,17 @@ function calculateAbilityDmg(
     )
   }
 
+  // === Primary DMG ===
+
+  const primaryDmgOutput = abilityCritDmgOutput
+    + abilityBreakDmgOutput
+    + abilitySuperBreakDmgOutput
+    + abilityAdditionalDmgOutput
+
+  // === True DMG ===
+
+  const trueDmgOutput = a[Key.TRUE_DMG_MODIFIER] * primaryDmgOutput
+
   // === Memo Joint DMG ===
 
   let memoJointDmgOutput = 0
@@ -369,11 +380,7 @@ function calculateAbilityDmg(
     memoJointDmgOutput += abilityMemoJointDamage
   }
 
-  return abilityCritDmgOutput
-    + abilityBreakDmgOutput
-    + abilitySuperBreakDmgOutput
-    + abilityAdditionalDmgOutput
-    + memoJointDmgOutput
+  return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput
 }
 
 function calculateSuperBreakDmg(

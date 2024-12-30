@@ -764,7 +764,7 @@ fn calculateDamage(
       x.ULT_ADDITIONAL_DMG,
       x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
       x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
-      0, // m.ULT_DMG,
+      m.ULT_DMG,
     );
   }
 
@@ -928,6 +928,17 @@ fn calculateAbilityDmg(
       * (1 - baseResistance);
   }
 
+  // === Primary DMG ===
+
+  let primaryDmgOutput = abilityCritDmgOutput
+    + abilityBreakDmgOutput
+    + abilitySuperBreakDmgOutput
+    + abilityAdditionalDmgOutput;
+
+  // === True DMG ===
+
+  let trueDmgOutput = x.TRUE_DMG_MODIFIER * primaryDmgOutput;
+
   // === Memo Joint DMG ===
 
   var memoJointDmgOutput: f32 = 0;
@@ -935,11 +946,7 @@ fn calculateAbilityDmg(
     memoJointDmgOutput = abilityMemoJointDamage;
   }
 
-  return abilityCritDmgOutput
-    + abilityBreakDmgOutput
-    + abilitySuperBreakDmgOutput
-    + abilityAdditionalDmgOutput
-    + memoJointDmgOutput;
+  return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput;
 }
 
 fn p2(n: i32) -> f32 {

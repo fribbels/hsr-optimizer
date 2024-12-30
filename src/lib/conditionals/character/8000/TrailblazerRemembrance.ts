@@ -1,8 +1,10 @@
 import i18next from 'i18next'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -29,19 +31,75 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // When the Max Energy of the ally target that has "Mem's Support" exceeds 100, for every 10 excess Energy,
   // additionally increases the multiplier of the True DMG dealt via "Mem's Support" by 2%, up to a max increase of 20%.
 
-  const defaults = {}
+  const defaults = {
+    memoSkillHits: 4,
+    memoCdBuff: true,
+    memsSupport: false,
+    energyTrueDmgValue: 0.20,
+    e1CrBuff: false,
+    e4TrueDmgBoost: false,
+    e6UltCrBoost: true,
+  }
 
   const teammateDefaults = {
-    e1CrBuff: true,
     memCDValue: 2.50,
+    memsSupport: true,
+    energyTrueDmgValue: 0.20,
+    e1CrBuff: true,
+    e4TrueDmgBoost: false,
+    e6UltCrBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    WIP: {
-      id: 'WIP',
-      formItem: 'switch',
-      text: 'WIP',
+    memoSkillHits: {
+      id: 'memoSkillHits',
+      formItem: 'slider',
+      text: 'Memo Skill hits',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 4,
+    },
+    memoCdBuff: {
+      id: 'memoCdBuff',
+      formItem: 'switch',
+      text: 'Memo CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    memsSupport: {
+      id: 'memsSupport',
+      formItem: 'switch',
+      text: `Mem's Support True DMG`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    energyTrueDmgValue: {
+      id: 'energyTrueDmgValue',
+      formItem: 'slider',
+      text: 'Target max energy extra True DMG %',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 0.20,
+      percent: true,
+    },
+    e1CrBuff: {
+      id: 'e1CrBuff',
+      formItem: 'switch',
+      text: 'E1 CR buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 1,
+    },
+    e4TrueDmgBoost: {
+      id: 'e4TrueDmgBoost',
+      formItem: 'switch',
+      text: `E4 True DMG boost`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 4,
+    },
+    e6UltCrBoost: {
+      id: 'e6UltCrBoost',
+      formItem: 'switch',
+      text: `E6 Ult CR boost`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 6,
     },
   }
 
@@ -55,13 +113,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       max: 3.00,
       percent: true,
     },
-    e1CrBuff: {
-      id: 'e1CrBuff',
-      formItem: 'switch',
-      text: 'E1 CR buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1,
-    },
+    memsSupport: content.memsSupport,
+    energyTrueDmgValue: content.energyTrueDmgValue,
+    e1CrBuff: content.e1CrBuff,
+    e4TrueDmgBoost: content.e4TrueDmgBoost,
+    e6UltCrBoost: content.e6UltCrBoost,
   }
 
   return {
@@ -71,21 +127,110 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+
+      x.MEMO_HP_SCALING.buff(memoHpScaling, Source.NONE)
+      x.MEMO_HP_FLAT.buff(memoHpFlat, Source.NONE)
+      x.MEMO_SPD_SCALING.buff(0, Source.NONE)
+      x.MEMO_SPD_FLAT.buff(130, Source.NONE)
+      x.MEMO_DEF_SCALING.buff(1, Source.NONE)
+      x.MEMO_ATK_SCALING.buff(1, Source.NONE)
+
+      x.m.MEMO_SKILL_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, Source.NONE)
+      x.m.ULT_SCALING.buff(ultScaling, Source.NONE)
+
+      x.m.ULT_CR_BOOST.buff((e >= 6 && r.e6UltCrBoost) ? 1.00 : 0, Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      if (m.memsSupport) {
+        if (e >= 1) {
+          x.CR.buffDual((m.e1CrBuff) ? 0.10 : 0, Source.NONE)
+          x.TRUE_DMG_MODIFIER.buffDual(trueDmgScaling + m.energyTrueDmgValue + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0), Source.NONE)
+        } else {
+          x.TRUE_DMG_MODIFIER.buff(trueDmgScaling + m.energyTrueDmgValue + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0), Source.NONE)
+        }
+      }
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CD.buff(memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat, Source.NONE)
-      x.CR.buff((e >= 1 && t.e1CrBuff) ? 0.10 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
+
+      x.m.ULT_DMG.buff(x.m.a[Key.ULT_SCALING] * x.m.a[Key.ATK], Source.NONE)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardAtkFinalizer()
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
+x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
+x.ULT_DMG += x.ULT_SCALING * x.ATK;
+x.FUA_DMG += x.FUA_SCALING * x.ATK;
+x.DOT_DMG += x.DOT_SCALING * x.ATK;
+
+m.ULT_DMG += m.ULT_SCALING * m.ATK;
+m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
+`
     },
+    dynamicConditionals: [
+      {
+        id: 'TrailblazerRemembranceCdConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.CD],
+        ratioConversion: true,
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return true
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          if (!r.memoCdBuff) {
+            return
+          }
+
+          const stateValue = action.conditionalState[this.id] || 0
+          const convertibleCdValue = x.m.a[Key.CD] - x.m.a[Key.RATIO_BASED_CD_BUFF]
+
+          const buffCD = memoTalentCdBuffScaling * convertibleCdValue + memoTalentCdBuffFlat
+          const stateBuffCD = memoTalentCdBuffScaling * stateValue + memoTalentCdBuffFlat
+
+          action.conditionalState[this.id] = x.m.a[Key.CD]
+
+          const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
+          x.RATIO_BASED_CD_BUFF.buff(finalBuffCd, Source.NONE)
+
+          x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
+          x.m.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.memoCdBuff)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).TrailblazerRemembranceCdConditional;
+let convertibleCdValue: f32 = (*p_m).CD - (*p_m).RATIO_BASED_CD_BUFF;
+
+var buffCD: f32 = ${memoTalentCdBuffScaling} * convertibleCdValue + ${memoTalentCdBuffFlat};
+var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdBuffFlat};
+
+(*p_state).TrailblazerRemembranceCdConditional = (*p_m).CD;
+
+let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
+(*p_m).RATIO_BASED_CD_BUFF += finalBuffCd;
+
+buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
+buffMemoNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
+    `)
+        },
+      },
+    ],
   }
 }

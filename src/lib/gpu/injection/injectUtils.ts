@@ -89,6 +89,21 @@ fn buffNonRatioDynamic${stat}(
   evaluateNonRatioDependencies${stat}(p_x, p_m, p_state);
 }
     `
+
+    wgsl += `
+fn buffMemoNonRatioDynamic${stat}(
+  value: f32,
+  p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  if (value < 0.0001) {
+    return;
+  }
+  (*p_m).${stat} += value;
+  evaluateNonRatioDependencies${stat}(p_x, p_m, p_state);
+}
+    `
   }
 
   return wgsl

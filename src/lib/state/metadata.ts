@@ -6747,7 +6747,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.CD,
-      hiddenColumns: [],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.MEMO_SKILL],
     },
     8008: { // Remembrance Trailblazer F
       stats: {
@@ -6792,7 +6793,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.CD,
-      hiddenColumns: [],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.MEMO_SKILL],
     },
     1401: { // The Herta
       stats: {

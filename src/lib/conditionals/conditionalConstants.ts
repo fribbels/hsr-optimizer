@@ -134,6 +134,9 @@ export const baseComputedStatsObject = {
   ULT_TOUGHNESS_DMG: 0,
   FUA_TOUGHNESS_DMG: 0,
 
+  // RMC
+  TRUE_DMG_MODIFIER: 0,
+
   // e.g. Acheron multiplier
   BASIC_ORIGINAL_DMG_BOOST: 0,
   SKILL_ORIGINAL_DMG_BOOST: 0,

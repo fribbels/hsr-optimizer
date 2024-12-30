@@ -1145,7 +1145,7 @@
       "rarity": 5,
       "path": "Remembrance",
       "element": "Ice",
-      "max_sp": 150,
+      "max_sp": 160,
       "stats": {
         "HP": 1047.816,
         "ATK": 543.312,
@@ -1162,7 +1162,7 @@
       "rarity": 5,
       "path": "Remembrance",
       "element": "Ice",
-      "max_sp": 150,
+      "max_sp": 160,
       "stats": {
         "HP": 1047.816,
         "ATK": 543.312,
@@ -2041,7 +2041,7 @@
     },
     "21050": {
       "id": "21050",
-      "name": "Sweat Now, Cry Less",
+      "name": "Victory In a Blink",
       "rarity": 4,
       "path": "Remembrance",
       "stats": {
@@ -2065,7 +2065,7 @@
     },
     "21052": {
       "id": "21052",
-      "name": "Victory In a Blink",
+      "name": "Sweat Now, Cry Less",
       "rarity": 4,
       "path": "Remembrance",
       "stats": {
@@ -2734,7 +2734,7 @@
     {
       "id": "124",
       "name": "Poet of Mourning Collapse",
-      "skills": "Increases Quantum DMG dealt by <b>10%</b>.,Decreases the wearer's SPD by <b>12%</b>. When entering battle, if the wearer's SPD is less than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>40%</b>. This effect also applies to the wearer's memosprite."
+      "skills": "Increases Quantum DMG dealt by <b>10%</b>.,Decreases the wearer's SPD by <b>8%</b>. Before entering battle, if the wearer's SPD is less than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>32%</b>. This effect also applies to the wearer's memosprite."
     },
     {
       "id": "123",

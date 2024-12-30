@@ -688,6 +688,7 @@ function change(changeConditional: {
 }, originalConditional: ComboConditionals, set: boolean = false) {
   for (const [key, value] of Object.entries(changeConditional)) {
     const comboCategory = originalConditional[key]
+    if (!comboCategory) continue
     if (comboCategory.type == ConditionalDataType.BOOLEAN) {
       for (let i = 0; i <= 8; i++) {
         if (set) {

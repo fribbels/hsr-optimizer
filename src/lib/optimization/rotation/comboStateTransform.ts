@@ -177,10 +177,10 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       }
       switch (key) {
         case Sets.BrokenKeel:
-          x.CD.buff(0.10, Source.BrokenKeel)
+          x.CD.buffTeam(0.10, Source.BrokenKeel)
           break
         case Sets.FleetOfTheAgeless:
-          x.ATK_P.buff(0.08, Source.FleetOfTheAgeless)
+          x.ATK_P.buffTeam(0.08, Source.FleetOfTheAgeless)
           break
         case Sets.PenaconyLandOfTheDreams:
           if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
@@ -191,17 +191,25 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           break
         case Sets.MessengerTraversingHackerspace:
           if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
-          x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
+          x.SPD_P.buffTeam(0.12, Source.MessengerTraversingHackerspace)
           break
         case Sets.WatchmakerMasterOfDreamMachinations:
           if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
-          x.BE.buff(0.30, Source.WatchmakerMasterOfDreamMachinations)
+          x.BE.buffTeam(0.30, Source.WatchmakerMasterOfDreamMachinations)
           break
         case SACERDOS_RELIVED_ORDEAL_1_STACK:
-          x.CD.buff(0.18, Source.SacerdosRelivedOrdeal)
+          if (teammateAction.actorId == '1313') {
+            x.CD.buffDual(0.18, Source.SacerdosRelivedOrdeal)
+          } else {
+            x.CD.buff(0.18, Source.SacerdosRelivedOrdeal)
+          }
           break
         case SACERDOS_RELIVED_ORDEAL_2_STACK:
-          x.CD.buff(0.36, Source.SacerdosRelivedOrdeal)
+          if (teammateAction.actorId == '1313') {
+            x.CD.buffDual(0.36, Source.SacerdosRelivedOrdeal)
+          } else {
+            x.CD.buff(0.36, Source.SacerdosRelivedOrdeal)
+          }
           break
         default:
       }

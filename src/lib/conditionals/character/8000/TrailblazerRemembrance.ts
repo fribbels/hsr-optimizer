@@ -194,20 +194,21 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
           if (!r.teamCdBuff) {
             return
           }
+          if (x.m) return
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleCdValue = x.m.a[Key.CD] - x.m.a[Key.RATIO_BASED_CD_BUFF]
+          const convertibleCdValue = x.a[Key.CD] - x.a[Key.RATIO_BASED_CD_BUFF]
 
           const buffCD = memoTalentCdBuffScaling * convertibleCdValue + memoTalentCdBuffFlat
           const stateBuffCD = memoTalentCdBuffScaling * stateValue + memoTalentCdBuffFlat
 
-          action.conditionalState[this.id] = x.m.a[Key.CD]
+          action.conditionalState[this.id] = x.a[Key.CD]
 
-          const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
+          const finalBuffCd = Math.max(0, buffCD - (stateValue ? stateBuffCD : 0))
           x.RATIO_BASED_CD_BUFF.buff(finalBuffCd, Source.NONE)
 
           x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
-          x.m.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
+          x.summoner().CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -225,11 +226,11 @@ var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdB
 
 (*p_state).TrailblazerRemembranceCdConditional = (*p_m).CD;
 
-let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
+let finalBuffCd = max(0, buffCD - select(0, stateBuffCD, stateValue > 0));
 (*p_m).RATIO_BASED_CD_BUFF += finalBuffCd;
 
-buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
 buffMemoNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
+buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
     `)
         },
       },

@@ -151,6 +151,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.CD.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
       x.CD.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
@@ -159,6 +161,47 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuStandardAtkFinalizer()
     },
     teammateDynamicConditionals: [
+      {
+        id: 'SundayMemoCrConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.CR],
+        ratioConversion: true,
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return x.m.a[Key.CR] > 1.00
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof teammateContent>
+          if (!(e >= 6 && r.e6CrToCdConversion)) {
+            return
+          }
+
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = Math.floor((x.m.a[Key.CR] - 1.00) / 0.01) * 2.00 * 0.01
+
+          action.conditionalState[this.id] = buffValue
+          x.m.CD.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof teammateContent>
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
+  return;
+}
+
+let cr = (*p_m).CR;
+
+if (cr > 1.00) {
+  let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
+  let stateValue: f32 = (*p_state).SundayMemoCrConditional;
+
+  (*p_state).SundayMemoCrConditional = buffValue;
+  buffMemoDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
+}
+          `)
+        },
+      },
       {
         id: 'SundayCrConditional',
         type: ConditionalType.ABILITY,
@@ -189,10 +232,10 @@ if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
 }
 
 let cr = (*p_x).CR;
-let stateValue: f32 = (*p_state).SundayCrConditional;
 
 if (cr > 1.00) {
   let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
+  let stateValue: f32 = (*p_state).SundayCrConditional;
 
   (*p_state).SundayCrConditional = buffValue;
   buffDynamicCD(buffValue - stateValue, p_x, p_m, p_state);

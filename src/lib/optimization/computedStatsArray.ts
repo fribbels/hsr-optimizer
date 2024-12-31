@@ -47,13 +47,16 @@ export class ComputedStatsArrayCore {
   a = baseComputedStatsArray()
   c: BasicStatsObject
   m: ComputedStatsArray
+  summoner: () => ComputedStatsArray
   buffs: Buff[]
   trace: boolean
 
-  constructor(trace: boolean = false, memosprite = false) {
+  constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
     this.c = {} as BasicStatsObject
     // @ts-ignore
-    this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true)
+    this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true, () => this)
+    // @ts-ignore
+    this.summoner = memosprite ? summonerFn : null
     this.buffs = []
     this.trace = trace
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
@@ -148,10 +151,6 @@ export class ComputedStatsArrayCore {
     this.c = c
   }
 
-  setMemo(m: ComputedStatsArray) {
-    this.m = m
-  }
-
   set(key: number, value: number, source?: string) {
     this.a[key] = value
   }
@@ -221,28 +220,28 @@ export const InternalKeyToExternal: Record<string, string> = {
 }
 
 export const KeyToStat: Record<string, string> = {
-  [Key.ATK_P]: Stats.ATK_P,
-  [Key.ATK]: Stats.ATK,
-  [Key.BE]: Stats.BE,
-  [Key.CD]: Stats.CD,
-  [Key.CR]: Stats.CR,
-  [Key.DEF_P]: Stats.DEF_P,
-  [Key.DEF]: Stats.DEF,
-  [Key.EHR]: Stats.EHR,
-  [Key.ERR]: Stats.ERR,
-  [Key.FIRE_DMG_BOOST]: Stats.Fire_DMG,
-  [Key.HP_P]: Stats.HP_P,
-  [Key.HP]: Stats.HP,
-  [Key.ICE_DMG_BOOST]: Stats.Ice_DMG,
-  [Key.IMAGINARY_DMG_BOOST]: Stats.Imaginary_DMG,
-  [Key.LIGHTNING_DMG_BOOST]: Stats.Lightning_DMG,
-  [Key.OHB]: Stats.OHB,
-  [Key.PHYSICAL_DMG_BOOST]: Stats.Physical_DMG,
-  [Key.QUANTUM_DMG_BOOST]: Stats.Quantum_DMG,
-  [Key.RES]: Stats.RES,
-  [Key.SPD_P]: Stats.SPD_P,
-  [Key.SPD]: Stats.SPD,
-  [Key.WIND_DMG_BOOST]: Stats.Wind_DMG,
+  ATK_P: Stats.ATK_P,
+  ATK: Stats.ATK,
+  BE: Stats.BE,
+  CD: Stats.CD,
+  CR: Stats.CR,
+  DEF_P: Stats.DEF_P,
+  DEF: Stats.DEF,
+  EHR: Stats.EHR,
+  ERR: Stats.ERR,
+  FIRE_DMG_BOOST: Stats.Fire_DMG,
+  HP_P: Stats.HP_P,
+  HP: Stats.HP,
+  ICE_DMG_BOOST: Stats.Ice_DMG,
+  IMAGINARY_DMG_BOOST: Stats.Imaginary_DMG,
+  LIGHTNING_DMG_BOOST: Stats.Lightning_DMG,
+  OHB: Stats.OHB,
+  PHYSICAL_DMG_BOOST: Stats.Physical_DMG,
+  QUANTUM_DMG_BOOST: Stats.Quantum_DMG,
+  RES: Stats.RES,
+  SPD_P: Stats.SPD_P,
+  SPD: Stats.SPD,
+  WIND_DMG_BOOST: Stats.Wind_DMG,
 }
 
 export const Source = {

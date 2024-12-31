@@ -394,6 +394,8 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
 
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
@@ -418,6 +420,8 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
     console.log('Reset clicked')
     OptimizerTabController.resetFilters()
   }
+
+  const hasMemo = isRemembrance(optimizerTabFocusCharacter)
 
   return (
     <Flex
@@ -496,8 +500,9 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
           }}
           optionType='button'
           buttonStyle='solid'
-          value={memoDisplay}
-          style={{ width: '100%', display: 'flex' }}
+          disabled={!hasMemo}
+          value={hasMemo ? memoDisplay : 'summoner'}
+          style={{ width: '100%', display: hasMemo ? 'flex' : 'none' }}
         >
           <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='summoner'>
             Summoner
@@ -514,4 +519,9 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       </Flex>
     </Flex>
   )
+}
+
+function isRemembrance(characterId?: string) {
+  if (!characterId) return false
+  return DB.getMetadata().characters[characterId].path == 'Remembrance'
 }

@@ -17,6 +17,7 @@ export type OptimizerAction = {
     [key: string]: number
   }
 
+  actorId: string
   actionType: string
   actionIndex: number
 
@@ -28,6 +29,7 @@ export type OptimizerAction = {
 }
 
 export type TeammateAction = {
+  actorId: string
   characterConditionals: ConditionalValueMap
   lightConeConditionals: ConditionalValueMap
 }

@@ -301,13 +301,8 @@ function PermutationsGroup(props: { isFullSize: boolean }) {
   const permutations = window.store((s) => s.permutations)
   const permutationsSearched = window.store((s) => s.permutationsSearched)
   const permutationsResults = window.store((s) => s.permutationsResults)
-  const optimizerStartTime = window.store((s) => s.optimizerStartTime)
-  const optimizerEndTime = window.store((s) => s.optimizerEndTime)
-  const optimizerRunningEngine = window.store((s) => s.optimizerRunningEngine)
-  const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ReadableParts' })
-  const { token } = useToken()
   return (
     <Flex vertical gap={props.isFullSize ? 10 : 5} style={{ minWidth: 211 }}>
       <Flex justify='space-between' align='center'>
@@ -333,18 +328,32 @@ function PermutationsGroup(props: { isFullSize: boolean }) {
       </Flex>
 
       {props.isFullSize && (
-        <Flex vertical>
-          <HeaderText>
-            {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
-          </HeaderText>
-          <Progress
-            strokeColor={token.colorPrimary}
-            steps={17}
-            size={[8, 5]}
-            percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
-          />
-        </Flex>
+        <ProgressDisplay/>
       )}
+    </Flex>
+  )
+}
+
+function ProgressDisplay() {
+  const permutations = window.store((s) => s.permutations)
+  const permutationsSearched = window.store((s) => s.permutationsSearched)
+  const optimizerStartTime = window.store((s) => s.optimizerStartTime)
+  const optimizerEndTime = window.store((s) => s.optimizerEndTime)
+  const optimizerRunningEngine = window.store((s) => s.optimizerRunningEngine)
+  const optimizationInProgress = window.store((s) => s.optimizationInProgress)
+  const { token } = useToken()
+
+  return (
+    <Flex vertical>
+      <HeaderText>
+        {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
+      </HeaderText>
+      <Progress
+        strokeColor={token.colorPrimary}
+        steps={17}
+        size={[8, 5]}
+        percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
+      />
     </Flex>
   )
 }
@@ -381,20 +390,12 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
 
-  const statDisplay = window.store((s) => s.statDisplay)
-  const setStatDisplay = window.store((s) => s.setStatDisplay)
-
-  const memoDisplay = window.store((s) => s.memoDisplay)
-  const setMemoDisplay = window.store((s) => s.setMemoDisplay)
-
   const permutations = window.store((s) => s.permutations)
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
   const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
   const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
-
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   function cancelClicked() {
     console.log('Cancel clicked')
@@ -420,8 +421,6 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
     console.log('Reset clicked')
     OptimizerTabController.resetFilters()
   }
-
-  const hasMemo = isRemembrance(optimizerTabFocusCharacter)
 
   return (
     <Flex
@@ -472,52 +471,83 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
           <HeaderText>{t('StatViewGroup.Header')/* Stat and filter view */}</HeaderText>
           <TooltipImage type={Hint.statDisplay()}/>
         </Flex>
-        <Radio.Group
-          onChange={(e) => {
-            const { target: { value } } = e
-            setStatDisplay(value as string)
-          }}
-          optionType='button'
-          buttonStyle='solid'
-          value={statDisplay}
-          style={{ width: '100%', display: 'flex' }}
-        >
-          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='combat'>
-            {t('StatViewGroup.CombatStats')/* Combat stats */}
-          </Radio>
-          <Radio
-            style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-            value='base'
-            defaultChecked
-          >
-            {t('StatViewGroup.BasicStats')/* Basic stats */}
-          </Radio>
-        </Radio.Group>
-        <Radio.Group
-          onChange={(e) => {
-            const { target: { value } } = e
-            setMemoDisplay(value as string)
-          }}
-          optionType='button'
-          buttonStyle='solid'
-          disabled={!hasMemo}
-          value={hasMemo ? memoDisplay : 'summoner'}
-          style={{ width: '100%', display: hasMemo ? 'flex' : 'none' }}
-        >
-          <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='summoner'>
-            Summoner
-          </Radio>
-          <Radio
-            style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-            value='memo'
-            defaultChecked
-          >
-            Memosprite
-          </Radio>
-        </Radio.Group>
+
+        <StatsViewSelect/>
+
+        <MemoViewSelect isFullSize={props.isFullSize}/>
+      </Flex>
+
+      <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+        <HeaderText>Compute engine</HeaderText>
         {!props.isFullSize && (<ComputeEngineSelect/>)}
+        {!props.isFullSize && (<ProgressDisplay/>)}
       </Flex>
     </Flex>
+  )
+}
+
+function StatsViewSelect() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
+  const statDisplay = window.store((s) => s.statDisplay)
+  const setStatDisplay = window.store((s) => s.setStatDisplay)
+
+  return (
+    <Radio.Group
+      onChange={(e) => {
+        const { target: { value } } = e
+        setStatDisplay(value as string)
+      }}
+      optionType='button'
+      buttonStyle='solid'
+      value={statDisplay}
+      style={{ width: '100%', display: 'flex' }}
+    >
+      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='combat'>
+        {t('StatViewGroup.CombatStats')/* Combat stats */}
+      </Radio>
+      <Radio
+        style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+        value='base'
+        defaultChecked
+      >
+        {t('StatViewGroup.BasicStats')/* Basic stats */}
+      </Radio>
+    </Radio.Group>
+  )
+}
+
+function MemoViewSelect(props: { isFullSize: boolean }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
+
+  const memoDisplay = window.store((s) => s.memoDisplay)
+  const setMemoDisplay = window.store((s) => s.setMemoDisplay)
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+
+  const hasMemo = isRemembrance(optimizerTabFocusCharacter)
+
+  return (
+    <Radio.Group
+      onChange={(e) => {
+        const { target: { value } } = e
+        setMemoDisplay(value as string)
+      }}
+      optionType='button'
+      buttonStyle='solid'
+      disabled={!hasMemo}
+      value={hasMemo ? memoDisplay : 'summoner'}
+      style={{ width: '100%', display: hasMemo || !props.isFullSize ? 'flex' : 'none' }}
+    >
+      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='summoner'>
+        Summoner
+      </Radio>
+      <Radio
+        style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+        value='memo'
+        defaultChecked
+      >
+        Memosprite
+      </Radio>
+    </Radio.Group>
   )
 }
 

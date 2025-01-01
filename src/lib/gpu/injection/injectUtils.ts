@@ -1,7 +1,8 @@
 export function injectUtils(wgsl: string) {
+  let inject = ''
   for (const stat of ['ATK', 'DEF', 'HP', 'SPD', 'CR', 'CD', 'EHR', 'BE', 'OHB', 'ERR']) {
     if (stat == 'ATK' || stat == 'DEF' || stat == 'HP' || stat == 'SPD') {
-      wgsl += `
+      inject += `
 fn buffDynamic${stat}_P(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -16,7 +17,7 @@ fn buffDynamic${stat}_P(
 }
       `
 
-      wgsl += `
+      inject += `
 fn buffNonDynamic${stat}_P(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -29,7 +30,7 @@ fn buffNonDynamic${stat}_P(
   (*p_x).${stat} += value * base${stat};
 }
       `
-      wgsl += `
+      inject += `
 fn buffMemoNonDynamic${stat}_P(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -44,7 +45,7 @@ fn buffMemoNonDynamic${stat}_P(
       `
     }
 
-    wgsl += `
+    inject += `
 fn buffDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -59,7 +60,7 @@ fn buffDynamic${stat}(
 }
     `
 
-    wgsl += `
+    inject += `
 fn buffMemoDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -74,7 +75,7 @@ fn buffMemoDynamic${stat}(
 }
     `
 
-    wgsl += `
+    inject += `
 fn buffNonDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -88,7 +89,7 @@ fn buffNonDynamic${stat}(
 }
     `
 
-    wgsl += `
+    inject += `
 fn buffMemoNonDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -102,7 +103,7 @@ fn buffMemoNonDynamic${stat}(
 }
     `
 
-    wgsl += `
+    inject += `
 fn buffNonRatioDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -117,7 +118,7 @@ fn buffNonRatioDynamic${stat}(
 }
     `
 
-    wgsl += `
+    inject += `
 fn buffMemoNonRatioDynamic${stat}(
   value: f32,
   p_x: ptr<function, ComputedStats>,
@@ -133,5 +134,5 @@ fn buffMemoNonRatioDynamic${stat}(
     `
   }
 
-  return wgsl
+  return wgsl + inject
 }

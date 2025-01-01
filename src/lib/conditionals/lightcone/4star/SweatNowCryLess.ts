@@ -20,7 +20,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: 'DMG boost',
+      text: 'Summoner / Memosprite DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
   }

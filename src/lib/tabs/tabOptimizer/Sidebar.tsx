@@ -477,11 +477,15 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
         <MemoViewSelect isFullSize={props.isFullSize}/>
       </Flex>
 
-      <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-        <HeaderText>Compute engine</HeaderText>
-        {!props.isFullSize && (<ComputeEngineSelect/>)}
-        {!props.isFullSize && (<ProgressDisplay/>)}
-      </Flex>
+      {!props.isFullSize &&
+        (
+          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+            <HeaderText>Compute engine</HeaderText>
+            <ComputeEngineSelect/>
+            <ProgressDisplay/>
+          </Flex>
+        )
+      }
     </Flex>
   )
 }

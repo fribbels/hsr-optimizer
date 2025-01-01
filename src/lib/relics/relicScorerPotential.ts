@@ -1,15 +1,5 @@
 import i18next from 'i18next'
-import {
-  Constants,
-  MainStats,
-  MainStatsValues,
-  Parts,
-  PartsMainStats,
-  Stats,
-  StatsValues,
-  SubStats,
-  SubStatValues,
-} from 'lib/constants/constants'
+import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -787,7 +777,9 @@ function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata: Scorin
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
     const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]
     // @ts-ignore
-    return mainStatBonuses[part][mainStat] * minRollValue * multiplier
+    // return mainStatBonuses[part][mainStat] * minRollValue * multiplier
+    // Main stat free roll == 1
+    return 1 * minRollValue * multiplier
   }
   return 0
 }

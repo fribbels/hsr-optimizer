@@ -92,9 +92,9 @@ the baseline.
 The resulting formula is:
 
 * If DMG < 100% benchmark
-    * `DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)`
+  * `DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)`
 * If DMG ≥ 100% benchmark
-    * `DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)`
+  * `DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)`
 
 ## What are the grade thresholds?
 
@@ -102,11 +102,11 @@ Grading is based on the benchmark as 100% and perfection as 200%.
 
 ```
 * 150% - AEON  [Verified relics only]
-* 135% - WTF+  ↑ 9%
-* 126% - WTF   ↑ 8%
-* 118% - SSS+  ↑ 7%
-* 111% - SSS   ↑ 6%
-* 105% - SS+   ↑ 5%
+* 140% - WTF+  ↑ 10%
+* 130% - WTF   ↑ 9%
+* 121% - SSS+  ↑ 8%
+* 113% - SSS   ↑ 7%
+* 106% - SS+   ↑ 6%
 * 100% - SS    [Benchmark]
 * 95% - S+
 * 90% - S

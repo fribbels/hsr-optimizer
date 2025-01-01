@@ -1461,13 +1461,13 @@ function simSorter(a: Simulation, b: Simulation) {
 
 // Gradual scale
 const SimScoreGrades = {
-  'AEON': 150, // +15
-  'WTF+': 135, // +10
-  'WTF': 126, // +9
-  'SSS+': 118, // +8
-  'SSS': 111, // +7
-  'SS+': 105, // +6
-  'SS': 100, // +5
+  'AEON': 150, // Verified only
+  'WTF+': 140, // +10
+  'WTF': 130, // +9
+  'SSS+': 121, // +8
+  'SSS': 113, // +7
+  'SS+': 106, // +6
+  'SS': 100, // Benchmark
   'S+': 95,
   'S': 90,
   'A+': 85,

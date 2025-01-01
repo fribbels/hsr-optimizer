@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buff((t.postSkillDmgBuff) ? sValuesDmg[s] : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((t.postSkillDmgBuff) ? sValuesDmg[s] : 0, Source.NONE) // TODO: MEMO
     },
     finalizeCalculations: () => {
     },

@@ -136,6 +136,7 @@ export type SimulationResult = ComputedStatsObjectExternal & {
   SKILL: number
   ULT: number
   FUA: number
+  MEMO_SKILL: number
   DOT: number
   BREAK: number
   unpenalizedSimScore: number

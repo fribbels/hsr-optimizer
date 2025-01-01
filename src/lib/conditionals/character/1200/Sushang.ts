@@ -1,4 +1,4 @@
-import { SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, SKILL_TYPE, r.skillTriggerStacks * 0.025 * stanceScalingProportion, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, r.skillTriggerStacks * 0.025 * stanceScalingProportion, Source.NONE)
       x.DMG_RED_MULTI.multiply((e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
@@ -107,8 +107,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

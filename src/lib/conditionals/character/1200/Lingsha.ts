@@ -1,10 +1,10 @@
-import { ASHBLAZING_ATK_STACK, BREAK_TYPE, NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkHealFinalizer, gpuStandardFuaAtkFinalizer, standardAtkHealFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -62,8 +62,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
         { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
@@ -139,13 +139,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_TOUGHNESS_DMG.buff(30 * 2, Source.NONE)
       x.FUA_TOUGHNESS_DMG.buff((e >= 6) ? 15 : 0, Source.NONE)
 
-      if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+      if (r.healAbility == SKILL_DMG_TYPE) {
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
-      if (r.healAbility == ULT_TYPE) {
-        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+      if (r.healAbility == ULT_DMG_TYPE) {
+        x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
       }
@@ -159,13 +159,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       if (x.a[Key.ENEMY_WEAKNESS_BROKEN]) {
-        x.DEF_PEN.buff((e >= 1 && m.e1DefShred) ? 0.20 : 0, Source.NONE)
+        x.DEF_PEN.buffTeam((e >= 1 && m.e1DefShred) ? 0.20 : 0, Source.NONE)
       }
 
-      buffAbilityVulnerability(x, BREAK_TYPE, (m.befogState) ? ultBreakVulnerability : 0, Source.NONE)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.befogState) ? ultBreakVulnerability : 0, Source.NONE, Target.TEAM)
 
-      x.BE.buff((e >= 2 && m.e2BeBuff) ? 0.40 : 0, Source.NONE)
-      x.RES_PEN.buff((e >= 6 && m.e6ResShred) ? 0.20 : 0, Source.NONE)
+      x.BE.buffTeam((e >= 2 && m.e2BeBuff) ? 0.40 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? 0.20 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
@@ -224,8 +224,8 @@ let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
 let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
 let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);
 
-buffDynamicATK(finalBuffAtk, p_x, p_state);
-buffDynamicOHB(finalBuffOhb, p_x, p_state);
+buffDynamicATK(finalBuffAtk, p_x, p_m, p_state);
+buffDynamicOHB(finalBuffOhb, p_x, p_m, p_state);
     `)
       },
     }],

@@ -6,7 +6,7 @@ import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { Message } from 'lib/interactions/message'
 import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
@@ -34,8 +34,8 @@ export function calculateCurrentlyEquippedRow(request) {
   RelicFilters.condenseRelicSubstatsForOptimizer(relics)
   Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
-  const { c } = calculateBuild(request, relics, null, null)
-  renameFields(c)
+  const { c, computedStatsArray } = calculateBuild(request, relics, null, null)
+  renameFields(c, computedStatsArray)
   OptimizerTabController.setTopRow(c, true)
 }
 
@@ -236,33 +236,64 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-export function renameFields(c: BasicStatsObject) {
-  const x = c.x as ComputedStatsObjectExternal
+export function renameFields(c: BasicStatsObject, x: ComputedStatsArray) {
   const d: Partial<OptimizerDisplayData> = c
 
   d.ED = c.ELEMENTAL_DMG
-  d.BASIC = x.BASIC_DMG
-  d.SKILL = x.SKILL_DMG
-  d.ULT = x.ULT_DMG
-  d.FUA = x.FUA_DMG
-  d.DOT = x.DOT_DMG
-  d.BREAK = x.BREAK_DMG
-  d.COMBO = x.COMBO_DMG
-  d.EHP = x.EHP
-  d.HEAL = x.HEAL_VALUE
-  d.SHIELD = x.SHIELD_VALUE
-  d.xHP = x.HP
-  d.xATK = x.ATK
-  d.xDEF = x.DEF
-  d.xSPD = x.SPD
-  d.xCR = x[Stats.CR]
-  d.xCD = x[Stats.CD]
-  d.xEHR = x[Stats.EHR]
-  d.xRES = x[Stats.RES]
-  d.xBE = x[Stats.BE]
-  d.xERR = x[Stats.ERR]
-  d.xOHB = x[Stats.OHB]
+  d.BASIC = x.BASIC_DMG.get()
+  d.SKILL = x.SKILL_DMG.get()
+  d.ULT = x.ULT_DMG.get()
+  d.FUA = x.FUA_DMG.get()
+  d.MEMO_SKILL = x.MEMO_SKILL_DMG.get()
+  d.DOT = x.DOT_DMG.get()
+  d.BREAK = x.BREAK_DMG.get()
+  d.COMBO = x.COMBO_DMG.get()
+  d.EHP = x.EHP.get()
+  d.HEAL = x.HEAL_VALUE.get()
+  d.SHIELD = x.SHIELD_VALUE.get()
+  d.xHP = x.HP.get()
+  d.xATK = x.ATK.get()
+  d.xDEF = x.DEF.get()
+  d.xSPD = x.SPD.get()
+  d.xCR = x.CR.get()
+  d.xCD = x.CD.get()
+  d.xEHR = x.EHR.get()
+  d.xRES = x.RES.get()
+  d.xBE = x.BE.get()
+  d.xERR = x.ERR.get()
+  d.xOHB = x.OHB.get()
   d.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
+
+  d.mELEMENTAL_DMG = c.ELEMENTAL_DMG
+  if (x.m) {
+    const c = x.m.c
+    d.mHP = c[Stats.HP]
+    d.mATK = c[Stats.ATK]
+    d.mDEF = c[Stats.DEF]
+    d.mSPD = c[Stats.SPD]
+    d.mCR = c[Stats.CR]
+    d.mCD = c[Stats.CD]
+    d.mEHR = c[Stats.EHR]
+    d.mRES = c[Stats.RES]
+    d.mBE = c[Stats.BE]
+    d.mERR = c[Stats.ERR]
+    d.mOHB = c[Stats.OHB]
+
+    const m = x.m
+    d.mxHP = m.HP.get()
+    d.mxATK = m.ATK.get()
+    d.mxDEF = m.DEF.get()
+    d.mxSPD = m.SPD.get()
+    d.mxCR = m.CR.get()
+    d.mxCD = m.CD.get()
+    d.mxEHR = m.EHR.get()
+    d.mxRES = m.RES.get()
+    d.mxBE = m.BE.get()
+    d.mxERR = m.ERR.get()
+    d.mxOHB = m.OHB.get()
+    d.mxELEMENTAL_DMG = m.ELEMENTAL_DMG.get()
+    d.mxEHP = m.EHP.get()
+  }
 
   return d as OptimizerDisplayData
 }

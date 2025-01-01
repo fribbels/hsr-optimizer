@@ -1,4 +1,4 @@
-import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityResPen } from 'lib/optimization/calculateBuffs'
@@ -96,14 +96,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Boost
       x.ELEMENTAL_DMG.buff(r.talentRighteousHeartStacks * righteousHeartDmgValue, Source.NONE)
-      buffAbilityResPen(x, BASIC_TYPE, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, Source.NONE)
+      buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30 + 30 * r.basicEnhanced, Source.NONE)
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

@@ -114,22 +114,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buff((m.teamBEBuff) ? 0.20 : 0, Source.NONE)
+      x.BE.buffTeam((m.teamBEBuff) ? 0.20 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG.buff((m.skillOvertoneBuff) ? skillScaling : 0, Source.NONE)
-      x.BREAK_EFFICIENCY_BOOST.buff((m.skillOvertoneBuff) ? 0.50 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((m.skillOvertoneBuff) ? skillScaling : 0, Source.NONE)
+      x.BREAK_EFFICIENCY_BOOST.buffTeam((m.skillOvertoneBuff) ? 0.50 : 0, Source.NONE)
 
-      x.RES_PEN.buff((m.ultFieldActive) ? fieldResPenValue : 0, Source.NONE)
-      x.DEF_PEN.buff((e >= 1 && m.ultFieldActive) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((m.ultFieldActive) ? fieldResPenValue : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((e >= 1 && m.ultFieldActive) ? 0.20 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buff((t.teamSpdBuff) ? talentSpdScaling : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff(t.teamDmgBuff, Source.NONE)
+      x.SPD_P.buffTeam((t.teamSpdBuff) ? talentSpdScaling : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam(t.teamDmgBuff, Source.NONE)
 
-      x.ATK_P.buff((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
-      x.RATIO_BASED_ATK_P_BUFF.buff((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
+      x.ATK_P.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
+      x.RATIO_BASED_ATK_P_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

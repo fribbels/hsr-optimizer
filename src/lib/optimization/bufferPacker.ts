@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants/constants'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
-const SIZE = 40
+const SIZE = 66
 
 export type OptimizerDisplayData = {
   'id': number
@@ -28,6 +28,7 @@ export type OptimizerDisplayData = {
   'SKILL': number
   'ULT': number
   'FUA': number
+  'MEMO_SKILL': number
   'DOT': number
   'BREAK': number
   'COMBO': number
@@ -47,6 +48,33 @@ export type OptimizerDisplayData = {
   'ornamentSetIndex': number
   'low': number
   'high': number
+
+  'mHP': number
+  'mATK': number
+  'mDEF': number
+  'mSPD': number
+  'mCR': number
+  'mCD': number
+  'mEHR': number
+  'mRES': number
+  'mBE': number
+  'mERR': number
+  'mOHB': number
+  'mELEMENTAL_DMG': number
+  'mxHP': number
+  'mxATK': number
+  'mxDEF': number
+  'mxSPD': number
+  'mxCR': number
+  'mxCD': number
+  'mxEHR': number
+  'mxRES': number
+  'mxBE': number
+  'mxERR': number
+  'mxOHB': number
+  'mxELEMENTAL_DMG': number
+
+  'mxEHP': number
 }
 
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
@@ -80,25 +108,51 @@ export const BufferPacker = {
       'SKILL': arr[offset + 18],
       'ULT': arr[offset + 19],
       'FUA': arr[offset + 20],
-      'DOT': arr[offset + 21],
-      'BREAK': arr[offset + 22], // 22
-      'COMBO': arr[offset + 23],
-      'xHP': arr[offset + 24],
-      'xATK': arr[offset + 25],
-      'xDEF': arr[offset + 26],
-      'xSPD': arr[offset + 27],
-      'xCR': arr[offset + 28],
-      'xCD': arr[offset + 29],
-      'xEHR': arr[offset + 30],
-      'xRES': arr[offset + 31],
-      'xBE': arr[offset + 32], // 32
-      'xERR': arr[offset + 33],
-      'xOHB': arr[offset + 34],
-      'xELEMENTAL_DMG': arr[offset + 35],
-      'relicSetIndex': arr[offset + 36],
-      'ornamentSetIndex': arr[offset + 37],
-      'low': arr[offset + 38],
-      'high': arr[offset + 39],
+      'MEMO_SKILL': arr[offset + 21],
+      'DOT': arr[offset + 22],
+      'BREAK': arr[offset + 23], // 22
+      'COMBO': arr[offset + 24],
+      'xHP': arr[offset + 25],
+      'xATK': arr[offset + 26],
+      'xDEF': arr[offset + 27],
+      'xSPD': arr[offset + 28],
+      'xCR': arr[offset + 29],
+      'xCD': arr[offset + 30],
+      'xEHR': arr[offset + 31],
+      'xRES': arr[offset + 32],
+      'xBE': arr[offset + 33], // 32
+      'xERR': arr[offset + 34],
+      'xOHB': arr[offset + 35],
+      'xELEMENTAL_DMG': arr[offset + 36],
+      'relicSetIndex': arr[offset + 37],
+      'ornamentSetIndex': arr[offset + 38],
+      'low': arr[offset + 39],
+      'high': arr[offset + 40],
+      'mHP': arr[offset + 41],
+      'mATK': arr[offset + 42],
+      'mDEF': arr[offset + 43],
+      'mSPD': arr[offset + 44],
+      'mCR': arr[offset + 45],
+      'mCD': arr[offset + 46],
+      'mEHR': arr[offset + 47],
+      'mRES': arr[offset + 48],
+      'mBE': arr[offset + 49], // 32
+      'mERR': arr[offset + 50],
+      'mOHB': arr[offset + 51],
+      'mELEMENTAL_DMG': arr[offset + 52],
+      'mxHP': arr[offset + 53],
+      'mxATK': arr[offset + 54],
+      'mxDEF': arr[offset + 55],
+      'mxSPD': arr[offset + 56],
+      'mxCR': arr[offset + 57],
+      'mxCD': arr[offset + 58],
+      'mxEHR': arr[offset + 59],
+      'mxRES': arr[offset + 60],
+      'mxBE': arr[offset + 61], // 32
+      'mxERR': arr[offset + 62],
+      'mxOHB': arr[offset + 63],
+      'mxELEMENTAL_DMG': arr[offset + 64],
+      'mxEHP': arr[offset + 65],
     }
   },
 
@@ -140,25 +194,56 @@ export const BufferPacker = {
     arr[offset + 18] = a[Key.SKILL_DMG]
     arr[offset + 19] = a[Key.ULT_DMG]
     arr[offset + 20] = a[Key.FUA_DMG]
-    arr[offset + 21] = a[Key.DOT_DMG]
-    arr[offset + 22] = a[Key.BREAK_DMG] // 22
-    arr[offset + 23] = a[Key.COMBO_DMG]
-    arr[offset + 24] = a[Key.HP]
-    arr[offset + 25] = a[Key.ATK]
-    arr[offset + 26] = a[Key.DEF]
-    arr[offset + 27] = a[Key.SPD]
-    arr[offset + 28] = a[Key.CR]
-    arr[offset + 29] = a[Key.CD]
-    arr[offset + 30] = a[Key.EHR]
-    arr[offset + 31] = a[Key.RES]
-    arr[offset + 32] = a[Key.BE]
-    arr[offset + 33] = a[Key.ERR] // 33
-    arr[offset + 34] = a[Key.OHB]
-    arr[offset + 35] = a[Key.ELEMENTAL_DMG]
-    arr[offset + 36] = c.relicSetIndex
-    arr[offset + 37] = c.ornamentSetIndex
-    arr[offset + 38] = c.low
-    arr[offset + 39] = c.high
+    arr[offset + 21] = a[Key.MEMO_SKILL_DMG]
+    arr[offset + 22] = a[Key.DOT_DMG]
+    arr[offset + 23] = a[Key.BREAK_DMG] // 22
+    arr[offset + 24] = a[Key.COMBO_DMG]
+    arr[offset + 25] = a[Key.HP]
+    arr[offset + 26] = a[Key.ATK]
+    arr[offset + 27] = a[Key.DEF]
+    arr[offset + 28] = a[Key.SPD]
+    arr[offset + 29] = a[Key.CR]
+    arr[offset + 30] = a[Key.CD]
+    arr[offset + 31] = a[Key.EHR]
+    arr[offset + 32] = a[Key.RES]
+    arr[offset + 33] = a[Key.BE]
+    arr[offset + 34] = a[Key.ERR] // 33
+    arr[offset + 35] = a[Key.OHB]
+    arr[offset + 36] = a[Key.ELEMENTAL_DMG]
+    arr[offset + 37] = c.relicSetIndex
+    arr[offset + 38] = c.ornamentSetIndex
+    arr[offset + 39] = c.low
+    arr[offset + 40] = c.high
+    if (x.m) {
+      const c = x.m.c
+      arr[offset + 41] = c[Stats.HP]
+      arr[offset + 42] = c[Stats.ATK]
+      arr[offset + 43] = c[Stats.DEF]
+      arr[offset + 44] = c[Stats.SPD]
+      arr[offset + 45] = c[Stats.CR]
+      arr[offset + 46] = c[Stats.CD]
+      arr[offset + 47] = c[Stats.EHR]
+      arr[offset + 48] = c[Stats.RES]
+      arr[offset + 49] = c[Stats.BE]
+      arr[offset + 50] = c[Stats.ERR]
+      arr[offset + 51] = c[Stats.OHB]
+      arr[offset + 52] = c.ELEMENTAL_DMG
+
+      const a = x.m.a
+      arr[offset + 53] = a[Key.HP]
+      arr[offset + 54] = a[Key.ATK]
+      arr[offset + 55] = a[Key.DEF]
+      arr[offset + 56] = a[Key.SPD]
+      arr[offset + 57] = a[Key.CR]
+      arr[offset + 58] = a[Key.CD]
+      arr[offset + 59] = a[Key.EHR]
+      arr[offset + 60] = a[Key.RES]
+      arr[offset + 61] = a[Key.BE]
+      arr[offset + 62] = a[Key.ERR]
+      arr[offset + 63] = a[Key.OHB]
+      arr[offset + 64] = a[Key.ELEMENTAL_DMG]
+      arr[offset + 65] = a[Key.EHP]
+    }
   },
 
   cleanFloatBuffer: (buffer: ArrayBuffer) => {

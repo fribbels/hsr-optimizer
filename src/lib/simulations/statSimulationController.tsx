@@ -379,9 +379,9 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const { c } = calculateBuild(form, relics, context, cachedComputedStatsArray, true, true)
+    const { c, computedStatsArray } = calculateBuild(form, relics, context, cachedComputedStatsArray, true, true)
 
-    renameFields(c)
+    renameFields(c, computedStatsArray)
     // For optimizer grid syncing with sim table
     c.statSim = {
       key: sim.key,

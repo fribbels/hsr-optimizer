@@ -42,14 +42,15 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
       //
     }
   } else {
+    const primaryAction = context.actions[action.actionIndex]
     if (conditional.activation == ConditionalActivation.SINGLE) {
-      if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
-        action.conditionalState[conditional.id] = 1
-        conditional.effect(x, action, context)
+      if (!primaryAction.conditionalState[conditional.id] && conditional.condition(x, primaryAction, context)) {
+        primaryAction.conditionalState[conditional.id] = 1
+        conditional.effect(x, primaryAction, context)
       }
     } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-      if (conditional.condition(x, action, context)) {
-        conditional.effect(x, action, context)
+      if (conditional.condition(x, primaryAction, context)) {
+        conditional.effect(x, primaryAction, context)
       }
     } else {
       //
@@ -59,7 +60,7 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
 
 export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string) {
   return `
-fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
   let x = *p_x;
 ${indent(wgsl.trim(), 1)}
 }

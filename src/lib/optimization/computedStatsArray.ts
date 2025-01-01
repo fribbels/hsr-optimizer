@@ -16,16 +16,22 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
   return acc
 }, {} as Record<KeysType, number>)
 
-type StatMethods = {
+export type StatController = {
   buff: (value: number, source: string) => void
+  buffDefer: (value: number, source: string) => void
+  buffMemo: (value: number, source: string) => void
+  buffTeam: (value: number, source: string) => void
+  buffDual: (value: number, source: string) => void
   multiply: (value: number, source: string) => void
+  multiplyTeam: (value: number, source: string) => void
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
+  memoGet: () => number
 }
 
 type ComputedStatsArrayStatExtensions = {
-  [K in keyof typeof baseComputedStatsObject]: StatMethods;
+  [K in keyof typeof baseComputedStatsObject]: StatController;
 }
 
 type ComputedStatsArrayStatDirectAccess = {
@@ -38,14 +44,19 @@ export type ComputedStatsArray =
   & ComputedStatsArrayStatDirectAccess
 
 export class ComputedStatsArrayCore {
-  precomputedStatsArray = baseComputedStatsArray()
   a = baseComputedStatsArray()
   c: BasicStatsObject
+  m: ComputedStatsArray
+  summoner: () => ComputedStatsArray
   buffs: Buff[]
   trace: boolean
 
-  constructor(trace: boolean = false) {
+  constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
     this.c = {} as BasicStatsObject
+    // @ts-ignore
+    this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true, () => this)
+    // @ts-ignore
+    this.summoner = memosprite ? summonerFn : null
     this.buffs = []
     this.trace = trace
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
@@ -55,8 +66,44 @@ export class ComputedStatsArrayCore {
             if (value == 0) return
             this.a[index] += value
           },
+          buffDefer: (value: number, source: string) => {
+            if (value == 0) return
+            if (this.m) {
+              this.m.a[index] += value
+            } else {
+              this.a[index] += value
+            }
+          },
+          buffMemo: (value: number, source: string) => {
+            if (value == 0) return
+            if (this.m) {
+              this.m.a[index] += value
+            }
+          },
+          buffDual: (value: number, source: string) => {
+            if (value == 0) return
+            this.a[index] += value
+
+            if (this.m) {
+              this.m.a[index] += value
+            }
+          },
+          buffTeam: (value: number, source: string) => {
+            if (value == 0) return
+            this.a[index] += value
+
+            if (this.m) {
+              this.m.a[index] += value
+            }
+          },
           multiply: (value: number, source: string) => {
             this.a[index] *= value
+          },
+          multiplyTeam: (value: number, source: string) => {
+            this.a[index] *= value
+            if (this.m) {
+              this.m.a[index] *= value
+            }
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             // Infinite loop guard so self buffing stats will asymptotically reach 0
@@ -79,6 +126,12 @@ export class ComputedStatsArrayCore {
         enumerable: true,
         configurable: true,
       })
+
+      Object.defineProperty(this, `$${key}`, {
+        get: () => this.a[index],
+        enumerable: true,
+        configurable: true,
+      })
     })
 
     Object.defineProperty(this, `#show`, {
@@ -89,7 +142,6 @@ export class ComputedStatsArrayCore {
   }
 
   setPrecompute(precompute: Float32Array) {
-    this.precomputedStatsArray = precompute
     this.a.set(precompute)
     this.buffs = []
     this.trace = false
@@ -97,10 +149,6 @@ export class ComputedStatsArrayCore {
 
   setBasic(c: BasicStatsObject) {
     this.c = c
-  }
-
-  buff(key: number, value: number, source?: string) {
-    this.a[key] += value
   }
 
   set(key: number, value: number, source?: string) {
@@ -141,8 +189,9 @@ export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
 }
 
-export function buff(x: ComputedStatsArray, key: number, value: number, source?: string) {
-  x.buff(key, value, source)
+export function baseMemoComputedStatsArray() {
+  const values = Object.values(baseComputedStatsObject)
+  return Float32Array.from([...values, ...values])
 }
 
 export const InternalKeyToExternal: Record<string, string> = {
@@ -171,28 +220,28 @@ export const InternalKeyToExternal: Record<string, string> = {
 }
 
 export const KeyToStat: Record<string, string> = {
-  [Key.ATK_P]: Stats.ATK_P,
-  [Key.ATK]: Stats.ATK,
-  [Key.BE]: Stats.BE,
-  [Key.CD]: Stats.CD,
-  [Key.CR]: Stats.CR,
-  [Key.DEF_P]: Stats.DEF_P,
-  [Key.DEF]: Stats.DEF,
-  [Key.EHR]: Stats.EHR,
-  [Key.ERR]: Stats.ERR,
-  [Key.FIRE_DMG_BOOST]: Stats.Fire_DMG,
-  [Key.HP_P]: Stats.HP_P,
-  [Key.HP]: Stats.HP,
-  [Key.ICE_DMG_BOOST]: Stats.Ice_DMG,
-  [Key.IMAGINARY_DMG_BOOST]: Stats.Imaginary_DMG,
-  [Key.LIGHTNING_DMG_BOOST]: Stats.Lightning_DMG,
-  [Key.OHB]: Stats.OHB,
-  [Key.PHYSICAL_DMG_BOOST]: Stats.Physical_DMG,
-  [Key.QUANTUM_DMG_BOOST]: Stats.Quantum_DMG,
-  [Key.RES]: Stats.RES,
-  [Key.SPD_P]: Stats.SPD_P,
-  [Key.SPD]: Stats.SPD,
-  [Key.WIND_DMG_BOOST]: Stats.Wind_DMG,
+  ATK_P: Stats.ATK_P,
+  ATK: Stats.ATK,
+  BE: Stats.BE,
+  CD: Stats.CD,
+  CR: Stats.CR,
+  DEF_P: Stats.DEF_P,
+  DEF: Stats.DEF,
+  EHR: Stats.EHR,
+  ERR: Stats.ERR,
+  FIRE_DMG_BOOST: Stats.Fire_DMG,
+  HP_P: Stats.HP_P,
+  HP: Stats.HP,
+  ICE_DMG_BOOST: Stats.Ice_DMG,
+  IMAGINARY_DMG_BOOST: Stats.Imaginary_DMG,
+  LIGHTNING_DMG_BOOST: Stats.Lightning_DMG,
+  OHB: Stats.OHB,
+  PHYSICAL_DMG_BOOST: Stats.Physical_DMG,
+  QUANTUM_DMG_BOOST: Stats.Quantum_DMG,
+  RES: Stats.RES,
+  SPD_P: Stats.SPD_P,
+  SPD: Stats.SPD,
+  WIND_DMG_BOOST: Stats.Wind_DMG,
 }
 
 export const Source = {
@@ -320,32 +369,4 @@ export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,
   ['Wind DMG Boost']: number
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
-}
-
-export function augmentExternalStats(x: ComputedStatsObject): ComputedStatsObjectExternal {
-  return {
-    ...x,
-    ['HP%']: x.HP_P,
-    ['ATK%']: x.ATK_P,
-    ['DEF%']: x.DEF_P,
-    ['SPD%']: x.SPD_P,
-    ['HP']: x.HP,
-    ['ATK']: x.ATK,
-    ['DEF']: x.DEF,
-    ['SPD']: x.SPD,
-    ['CRIT Rate']: x.CD,
-    ['CRIT DMG']: x.CR,
-    ['Effect Hit Rate']: x.EHR,
-    ['Effect RES']: x.RES,
-    ['Break Effect']: x.BE,
-    ['Energy Regeneration Rate']: x.ERR,
-    ['Outgoing Healing Boost']: x.OHB,
-    ['Physical DMG Boost']: x.PHYSICAL_DMG_BOOST,
-    ['Fire DMG Boost']: x.FIRE_DMG_BOOST,
-    ['Ice DMG Boost']: x.ICE_DMG_BOOST,
-    ['Lightning DMG Boost']: x.LIGHTNING_DMG_BOOST,
-    ['Wind DMG Boost']: x.WIND_DMG_BOOST,
-    ['Quantum DMG Boost']: x.QUANTUM_DMG_BOOST,
-    ['Imaginary DMG Boost']: x.IMAGINARY_DMG_BOOST,
-  }
 }

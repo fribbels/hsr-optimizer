@@ -163,6 +163,7 @@ DMGTypes:
   SKILL: Skill Damage
   ULT: Ult Damage
   FUA: Fua Damage
+  MEMO_SKILL: Memo Skill Damage
   DOT: Dot Damage
   BREAK: Break Damage
   CV: CV
@@ -171,6 +172,7 @@ ShortDMGTypes:
   Skill: Skill DMG
   Ult: Ult DMG
   Fua: Fua DMG
+  Memo_Skill: Skillᴹ DMG
   Dot: Dot DMG
   Break: Break DMG
   CV: CV

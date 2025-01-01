@@ -1,4 +1,4 @@
-import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
@@ -40,7 +40,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
       x.ATK_P.buff(r.prophetStacks * sValuesAtk[s], Source.NONE)
 
-      buffAbilityDefPen(x, DOT_TYPE, r.prophetStacks * sValuesDotPen[s], Source.NONE)
+      buffAbilityDefPen(x, DOT_DMG_TYPE, r.prophetStacks * sValuesDotPen[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

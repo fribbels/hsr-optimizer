@@ -139,6 +139,7 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
   context.baseATK = sumCharacterBase(Stats.ATK, statsBreakdown.base, statsBreakdown.lightCone)
   context.baseDEF = sumCharacterBase(Stats.DEF, statsBreakdown.base, statsBreakdown.lightCone)
   context.baseSPD = sumCharacterBase(Stats.SPD, statsBreakdown.base, statsBreakdown.lightCone)
+  context.baseEnergy = characterMetadata.max_sp
 }
 
 function sumCharacterBase(stat: string, base: { [key: string]: number }, lc: { [key: string]: number }) {

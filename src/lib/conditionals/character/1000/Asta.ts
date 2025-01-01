@@ -100,10 +100,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buff((m.ultSpdBuff) ? ultSpdBuffValue : 0, Source.NONE)
-      x.ATK_P.buff((m.talentBuffStacks) * talentStacksAtkBuff, Source.NONE)
+      x.SPD.buffTeam((m.ultSpdBuff) ? ultSpdBuffValue : 0, Source.NONE)
+      x.ATK_P.buffTeam((m.talentBuffStacks) * talentStacksAtkBuff, Source.NONE)
 
-      x.FIRE_DMG_BOOST.buff((m.fireDmgBoost) ? 0.18 : 0, Source.NONE)
+      x.FIRE_DMG_BOOST.buffTeam((m.fireDmgBoost) ? 0.18 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

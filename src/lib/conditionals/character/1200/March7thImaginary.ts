@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -112,9 +112,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.SPD_P.buff((e >= 1 && r.selfSpdBuff) ? 0.10 : 0, Source.NONE)
-      buffAbilityDmg(x, BASIC_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, Source.NONE)
 
-      buffAbilityCd(x, BASIC_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, Source.NONE)
+      buffAbilityCd(x, BASIC_DMG_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, Source.NONE)
 
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff)
         ? basicExtraScalingMasterBuff * r.basicAttackHits
@@ -131,15 +131,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buff((t.masterBuff) ? skillSpdScaling : 0, Source.NONE)
+      x.SPD_P.buff((t.masterBuff) ? skillSpdScaling : 0, Source.NONE) // TODO: MEMO
 
-      x.CD.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, Source.NONE)
-      x.BE.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, Source.NONE)
+      x.CD.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, Source.NONE) // TODO: MEMO
+      x.BE.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, Source.NONE) // TODO: MEMO
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)

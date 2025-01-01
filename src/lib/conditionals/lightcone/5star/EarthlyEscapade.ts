@@ -46,8 +46,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.CR.buff((t.maskActive) ? sValuesCr[s] : 0, Source.NONE)
-      x.CD.buff((t.maskActive) ? sValuesCd[s] : 0, Source.NONE)
+      x.CR.buffTeam((t.maskActive) ? sValuesCr[s] : 0, Source.NONE)
+      x.CD.buffTeam((t.maskActive) ? sValuesCd[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

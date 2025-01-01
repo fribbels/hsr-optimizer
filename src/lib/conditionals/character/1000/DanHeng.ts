@@ -1,4 +1,4 @@
-import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -67,7 +67,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Boost
       x.RES_PEN.buff((r.talentPenBuff) ? extraPenValue : 0, Source.NONE)
-      buffAbilityDmg(x, BASIC_TYPE, (r.enemySlowed) ? 0.40 : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE, (r.enemySlowed) ? 0.40 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)

@@ -1,9 +1,9 @@
-import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -128,16 +128,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, ULT_TYPE, (m.ultFieldActive) ? ultVulnerabilityScaling : 0, Source.NONE)
+      buffAbilityVulnerability(x, ULT_DMG_TYPE, (m.ultFieldActive) ? ultVulnerabilityScaling : 0, Source.NONE, Target.TEAM)
 
-      x.VULNERABILITY.buff((m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0, Source.NONE)
-      x.VULNERABILITY.buff(Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, Source.NONE)
+      x.VULNERABILITY.buffTeam((m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam(Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, Source.NONE)
 
-      x.ELEMENTAL_DMG.buff((e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, Source.NONE)
 
-      x.RES_PEN.buff((e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, Source.NONE)
-    },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
@@ -169,7 +167,7 @@ let stateValue: f32 = (*p_state).JiaoqiuConversionConditional;
 let buffValue: f32 = min(2.40, 0.60 * floor(((*p_x).EHR - 0.80) / 0.15));
 
 (*p_state).JiaoqiuConversionConditional = buffValue;
-buffDynamicATK_P(buffValue - stateValue, p_x, p_state);
+buffDynamicATK_P(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

@@ -12,11 +12,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValuesHealing = [0.3, 0.35, 0.4, 0.45, 0.5]
 
   const defaults = {
-    initialDmgReductionBuff: true,
+    initialDmgReductionBuff: false,
   }
 
   const teammateDefaults = {
-    initialDmgReductionBuff: true,
+    initialDmgReductionBuff: false,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -46,7 +46,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.DMG_RED_MULTI.multiply((m.initialDmgReductionBuff) ? (1 - sValues[s]) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((m.initialDmgReductionBuff) ? (1 - sValues[s]) : 1, Source.NONE)
     },
     finalizeCalculations: () => {
     },

@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -148,11 +148,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
       x.FUA_SCALING.buff(fuaScaling * r.fuaStacks, Source.NONE)
 
-      buffAbilityDmg(x, SKILL_TYPE, (r.enemyHpGte50) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, (r.enemyHpGte50) ? 0.20 : 0, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, ULT_TYPE, (r.targetFrozen) ? 0.20 : 0, Source.NONE)
-      buffAbilityDmg(x, FUA_TYPE, (e >= 4) ? 0.10 : 0, Source.NONE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (r.targetFrozen) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 4) ? 0.10 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)

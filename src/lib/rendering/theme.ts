@@ -58,7 +58,7 @@ export function getGlobalThemeConfigFromColorTheme(colorTheme: ColorThemeOverrid
     },
     components: {
       Cascader: {
-        dropdownHeight: 700,
+        dropdownHeight: 730,
         controlItemWidth: 100,
         controlWidth: 100,
         optionPadding: '2px 12px',

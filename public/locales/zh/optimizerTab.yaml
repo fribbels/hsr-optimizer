@@ -120,6 +120,9 @@ Grid:
       FUA: |-
         追击
         伤害
+      MEMO_SKILL: |-
+        忆灵战技
+        伤害 
       DOT: |-
         持续
         伤害
@@ -161,6 +164,9 @@ Grid:
       FUA: |-
         追击
         伤害
+      MEMO_SKILL: |-
+        忆灵战技
+        伤害 
       DOT: |-
         持续
         伤害
@@ -405,6 +411,7 @@ ComboFilter:
     Skill: 战技
     Ult: 终结技
     Fua: 追加攻击
+    MemoSkill: 忆灵战技
   RotationButton: 高级技能循环
 ComboDrawer:
   NoConditionals: 无可应用的条件触发被动技能

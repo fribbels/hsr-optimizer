@@ -93,6 +93,9 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.ATK.buffDynamic(0.08 * context.baseATK, Source.FleetOfTheAgeless, action, context)
+    if (x.m) {
+      x.m.ATK.buffDynamic(0.08 * (context.baseATK * x.a[Key.MEMO_ATK_SCALING]), Source.FleetOfTheAgeless, action, context)
+    }
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -103,6 +106,7 @@ if (
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
   buffNonDynamicATK_P(0.08, p_x, p_m, p_state);
+  buffMemoNonDynamicATK_P(0.08, p_x, p_m, p_state);
 }
     `)
   },
@@ -225,6 +229,9 @@ export const BrokenKeelConditional: DynamicConditional = {
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
+    if (x.m) {
+      x.m.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
+    }
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -235,6 +242,7 @@ if (
 ) {
   (*p_state).BrokenKeelConditional = 1.0;
   buffNonDynamicCD(0.10, p_x, p_m, p_state);
+  buffMemoNonDynamicCD(0.10, p_x, p_m, p_state);
 }
     `)
   },

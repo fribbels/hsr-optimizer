@@ -353,6 +353,7 @@ fn main(
 
       if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
         x.SPD_P += 0.12;
+        m.SPD_P += 0.12;
       }
       if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == true) {
         x.SPD_P += 0.06;
@@ -426,6 +427,7 @@ fn main(
 
       if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true) {
         x.BE += 0.30;
+        m.BE += 0.30;
       }
       if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == true) {
         x.BE += 0.40;

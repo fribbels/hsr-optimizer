@@ -29,6 +29,19 @@ fn buffNonDynamic${stat}_P(
   (*p_x).${stat} += value * base${stat};
 }
       `
+      wgsl += `
+fn buffMemoNonDynamic${stat}_P(
+  value: f32,
+  p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  if (value < 0.0001) {
+    return;
+  }
+  (*p_m).${stat} += value * base${stat};
+}
+      `
     }
 
     wgsl += `
@@ -72,6 +85,20 @@ fn buffNonDynamic${stat}(
     return;
   }
   (*p_x).${stat} += value;
+}
+    `
+
+    wgsl += `
+fn buffMemoNonDynamic${stat}(
+  value: f32,
+  p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
+  p_state: ptr<function, ConditionalState>
+) {
+  if (value < 0.0001) {
+    return;
+  }
+  (*p_m).${stat} += value;
 }
     `
 

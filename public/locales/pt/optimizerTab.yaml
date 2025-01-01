@@ -10,7 +10,7 @@ CharacterSelector:
 LightconePassives: Passivas do cone de luz
 CharacterPassives: Passivas do personagem
 NoConditionals: Sem passivas condicionais
-NoTeamConditionals: Sem passivas coondicionais da equipe
+NoTeamConditionals: Sem passivas condicionais da equipe
 ResultLimitN: "Achar os {{limit}} melhores"
 MainStats: Atributos principais
 Sets: Sets

@@ -38,8 +38,8 @@ Messages:
   SwitchSuccess: "$t(gameData:Characters.{{charId}}.Name) と遺物を交換しました"
   SortByScoreWarning: 本当にすべてのキャラクターを並び替えますか？以前の設定内容はすべて失われます。
   SaveSuccess: "ビルドを保存しました: {{name}}"
-  UnequipWarning: "本当に $t(gameData:Characters.{{charId}}.Name) の遺物を全て外しますか？"
-  DeleteWarning: "本当に $t(gameData:Characters.{{charId}}.Name) を削除しますか？"
+  UnequipWarning: "本当に$t(gameData:Characters.{{charId}}.Name)の遺物を全て外しますか？"
+  DeleteWarning: "本当に$t(gameData:Characters.{{charId}}.Name)を削除しますか？"
 CharacterPreview:
   CustomizationSidebar:
     Label: カスタマイズ

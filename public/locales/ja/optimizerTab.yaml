@@ -8,7 +8,7 @@ CharacterSelector:
   EidolonPlaceholder: 凸
   SuperimpositionPlaceholder: 重
 LightconePassives: 光円錐スキル
-CharacterPassives: 追加能力
+CharacterPassives: キャラクターのパッシブ
 NoConditionals: 条件付き追加能力なし
 NoTeamConditionals: チームへの条件付き追加能力なし
 ResultLimitN: "トップ{{limit}}の検索結果"
@@ -17,8 +17,8 @@ Sets: セット
 RelicSetSelector:
   Placeholder: 遺物セット
   4pcLabel: 4セット
-  2+2pcLabel: 2 + 2セット
-  2pcLabel: 2セット + 何でも
+  2+2pcLabel: 2+2セット
+  2pcLabel: 2セット+任意
 OrnamentSetSelector:
   Placeholder: オーナメントセット
 SortOptions:
@@ -71,7 +71,7 @@ OptimizerOptions:
     Label4: 4 ★ +
     Label5: 5 ★
   BoostMain:
-    Header: メインステータスをブースト
+    Header: メインステータスのブースト
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"

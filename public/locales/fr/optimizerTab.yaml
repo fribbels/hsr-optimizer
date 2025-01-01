@@ -113,7 +113,7 @@ Grid:
         NORMALE
       SKILL: |-
         DGT
-        COMPÉTENCE
+        COMP
       ULT: |-
         DGT
         ULT
@@ -154,7 +154,7 @@ Grid:
         NORMALE
       SKILL: |-
         DGT
-        COMPÉTENCE
+        COMP
       ULT: |-
         DGT
         ULT
@@ -194,7 +194,7 @@ Sidebar:
   Results: Résultats
   ProgressText:
     Progress: Progrès
-    CalculatingETA: Progrès (calcul du temps de recherche)
+    CalculatingETA: Recherche en progrès
     TimeRemaining: "{{rate}} / sec — {{timeRemaining}} restantes"
     Finished: "{{rate}} / sec — Terminée"
   ControlsGroup:
@@ -346,11 +346,11 @@ EnemyConfiguration:
     {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
   EffResOptionLabel: "Rés aux effets: {{resistance}}%"
   DmgResOptionLabel: "Rés aux dégâts: {{resistance}}%"
-  ToughnessOptionLabel: "Endurance maximale: {{toughness}}"
+  ToughnessOptionLabel: "Robustesse maximale: {{toughness}}"
   Title: Configuration des ennemis
   StatHeader: Configuration des stats des ennemis
   WeaknessLabel: Faiblesse élémentaire
-  BrokenLabel: Faiblesse brisée
+  BrokenLabel: État de rupture de faiblesse
 WeightFilter:
   WeightFilterHeader: Filtre de poids de substats
   RollFilterHeader: Rolls pondérés par relique
@@ -478,7 +478,7 @@ StatSimulation:
     Totals: Simuler total custom de substats
   FooterLabels:
     Simulate: Simuler les builds
-    Import: Importer la build sélectionnée
+    Import: Importer build sélectionnée
     Conditionals: Effets de sets conditionnels
   DeletePopup:
     Title: Effacer les simulations de stats

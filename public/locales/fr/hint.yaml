@@ -72,10 +72,10 @@ EnemyOptions:
   p1: Niveau - Niveau des ennemis, utilisé lors du calcul de DEF des ennemis
   p2: RÉS aux effets - RÉS aux effets de l'ennemi. Ceci est utilisé pour les calculs des dégâts DSD.
   p3: RÉS aux dégâts - Résistance élémentaire des ennemis. Sera mis à 0 lorsque l'option faiblesse élémentaire est activée.
-  p4: Endurance maximale - Valeur maximale de la barre d'endurance de l'ennemi. Affecte les calculs liés aux dégâts de rupture.
+  p4: Robustesse maximale - Valeur maximale de la barre d'endurance de l'ennemi. Affecte les calculs liés aux dégâts de rupture.
   p5: Cibles - Nombre d'ennemis dans le combat. La cible est toujours supposée être au centre, et le calcul des dégâts correspond uniquement aux dégâts pris par la cible.
   p6: Faiblesse élémentaire - Si l'ennemi est faible à l'élément du personnage. Activer cette option mets la résistance élémentaire de l'ennemi à 0.
-  p7: Faiblesse brisée - Si la barre d'endurance de l'ennemi est brisée. Affecte le calcul des dégâts et certains passifs de personnage.
+  p7: État de rupture de faiblesse - Si la barre de robustesse de l'ennemi est réduite à 0. Affecte le calcul des dégâts et certains passifs de personnage.
 SubstatWeightFilter:
   Title: Filtre de poids de substats
   p1: Ce filtre est utilisé pour réduire le nombre de permutations que l'optimiseur doit traiter.

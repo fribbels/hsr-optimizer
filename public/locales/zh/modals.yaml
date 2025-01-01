@@ -253,6 +253,7 @@ Relic:
   Enhance: 强化等级 / 稀有度
   Mainstat: 主属性
   Substat: 副词条
+  SubstatPlaceholder: 副词条
   Upgrades: 副词条升级
   Messages:
     SubmitFail: 提交失败！

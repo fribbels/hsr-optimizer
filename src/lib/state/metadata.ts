@@ -5065,10 +5065,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 3,
         relicSets: [
-          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
+          [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
+          RELICS_2P_BREAK_EFFECT_SPEED,
         ],
         ornamentSets: [
           Sets.ForgeOfTheKalpagniLantern,
+          Sets.TaliaKingdomOfBanditry,
         ],
         teammates: [
           {
@@ -6706,19 +6709,19 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     8007: { // Remembrance Trailblazer M
       stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
+        [Stats.ATK]: 0.25,
+        [Stats.ATK_P]: 0.25,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 1,
+        [Stats.CR]: 0.25,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
-        [Stats.ERR]: 0,
+        [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
         [Stats.Fire_DMG]: 0,
@@ -6730,19 +6733,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       parts: {
         [Parts.Body]: [
-          Stats.CR,
           Stats.CD,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-          Stats.ATK_P,
-          Stats.Ice_DMG,
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
@@ -6752,19 +6752,19 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     8008: { // Remembrance Trailblazer F
       stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
+        [Stats.ATK]: 0.25,
+        [Stats.ATK_P]: 0.25,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
         [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 1,
+        [Stats.CR]: 0.25,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
-        [Stats.ERR]: 0,
+        [Stats.ERR]: 1,
         [Stats.OHB]: 0,
         [Stats.Physical_DMG]: 0,
         [Stats.Fire_DMG]: 0,
@@ -6776,19 +6776,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       parts: {
         [Parts.Body]: [
-          Stats.CR,
           Stats.CD,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-          Stats.ATK_P,
-          Stats.Ice_DMG,
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
@@ -6856,6 +6853,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             Stats.Ice_DMG,
           ],
           [Parts.LinkRope]: [
+            Stats.ERR,
             Stats.ATK_P,
           ],
         },
@@ -6875,6 +6873,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.IzumoGenseiAndTakamaDivineRealm,
+          Sets.RutilantArena,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -6937,6 +6936,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.Lightning_DMG,
         ],
         [Parts.LinkRope]: [
+          Stats.ERR,
           Stats.ATK_P,
           Stats.ERR,
         ],

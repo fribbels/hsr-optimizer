@@ -47,7 +47,7 @@ Stats:
   HP: HP
   "ATK%": 攻撃力割合
   ATK: 攻撃力
-  "DEF%": 防衛力割合
+  "DEF%": 防御力割合
   DEF: 防御力
   "SPD%": 速度割合
   SPD: 速度
@@ -70,7 +70,7 @@ ShortStats:
   HP: HP
   "ATK%": 攻撃力割合
   ATK: 攻撃力
-  "DEF%": 防衛力割合
+  "DEF%": 防御力割合
   DEF: 防御力
   "SPD%": 速度割合
   SPD: 速度

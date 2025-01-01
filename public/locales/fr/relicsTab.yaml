@@ -22,7 +22,7 @@ RelicGrid:
   To: de
   Of: à
   Headers:
-    EquippedBy: Propriétaire
+    EquippedBy: Proprio
     Set: Set
     Grade: Grade
     Part: Pièce
@@ -47,8 +47,8 @@ RelicGrid:
       DGT
       Crit
     EHR: |-
-      Taux d'App
-      Effets
+      Chance
+      d'APP
     RES: |-
       RÉS
       Effet

@@ -20,19 +20,19 @@ Scoring:
       SuccessMessage: インポート方法を選択して、遺物とキャラクターをインポートしてください。
     Body_MAIN:
       Description: "$t(common:Parts.Body)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.Body)のメインステータスのフィルターをクリア"
+      ButtonText: "$t(common:Parts.Body)のフィルターをクリア"
       SuccessMessage: "$t(common:Parts.Body)のメインステータスのフィルターをクリアしました"
     Feet_MAIN:
       Description: "$t(common:Parts.Feet)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.Feet)のメインステータスのフィルターをクリア"
+      ButtonText: "$t(common:Parts.Feet)のフィルターをクリア"
       SuccessMessage: "$t(common:Parts.Feet)のメインステータスのフィルターをクリアしました"
     PlanarSphere_MAIN:
       Description: "$t(common:Parts.PlanarSphere)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.PlanarSphere)のメインステータスのフィルターをクリア"
+      ButtonText: "$t(common:Parts.PlanarSphere)のフィルターをクリア"
       SuccessMessage: "$t(common:Parts.PlanarSphere)のメインステータスのフィルターをクリアしました"
     LinkRope_MAIN:
       Description: "$t(common:Parts.LinkRope)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.LinkRope)のメインステータスのフィルターをクリア"
+      ButtonText: "$t(common:Parts.LinkRope)のフィルターをクリア"
       SuccessMessage: "$t(common:Parts.LinkRope)のメインステータスのフィルターをクリアしました"
     RELIC_SETS:
       Description: 遺物セットのフィルターが厳しすぎる可能性があります
@@ -253,6 +253,7 @@ Relic:
   Enhance: 強化・レア度
   Mainstat: メインステータス
   Substat: サブステータス
+  SubstatPlaceholder: サブステータス
   Upgrades: アップグレード
   Messages:
     SubmitFail: 送信できませんでした！

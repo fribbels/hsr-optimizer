@@ -253,6 +253,7 @@ Relic:
   Enhance: Niveau / Grade
   Mainstat: Mainstat
   Substat: Substats
+  SubstatPlaceholder: Substat
   Upgrades: Améliorations de substats
   Messages:
     SubmitFail: Échec de soumission!

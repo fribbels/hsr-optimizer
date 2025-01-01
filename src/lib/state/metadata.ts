@@ -6974,11 +6974,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         errRopeEidolon: 0,
         relicSets: [
-          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TheWondrousBananAmusementPark,
+          Sets.RutilantArena,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

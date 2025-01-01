@@ -118,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RATIO_BASED_HP_BUFF.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, Source.NONE)
 
       // Skill ehp buff only applies to teammates
-      x.DMG_RED_MULTI.multiply((t.skillActive) ? (1 - 0.65) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((t.skillActive) ? (1 - 0.65) : 1, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)

@@ -1,0 +1,10 @@
+CharacterSelector:
+  Character: 캐릭터
+OptimizerOptions:
+  Priority:
+    Header: 우선순위
+MinMaxFilters:
+  BASICLabel: 일반 공격
+  SKILLLabel: 전투 스킬
+  ULTLabel: 필살기
+  FUALabel: 추가 공격

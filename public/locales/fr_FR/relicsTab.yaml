@@ -1,0 +1,130 @@
+RelicFilterBar:
+  Part: Pièce
+  Enhance: Niveau
+  Grade: Grade
+  Verified: Vérifiée
+  Equipped: Équipée
+  Clear: Effacer
+  ClearButton: Effacer tous les filtres
+  Set: Set
+  Mainstat: Mainstats
+  Substat: Substats
+  ReapplyButton: Réapprécier les notes
+  ScoringButton: Algorithme d'appréciation
+  RecommendationHeader: Personnage de recommandation de reliques
+  Rating: Notes de reliques
+  CustomCharsHeader: Personnages de potentiel custom
+Messages:
+  AddRelicSuccess: Relique ajoutée avec succès
+  NoRelicSelected: Aucune relique sélectionnée
+  DeleteRelicSuccess: Relique supprimée avec succès
+RelicGrid:
+  To: de
+  Of: à
+  Headers:
+    EquippedBy: Proprio
+    Set: Set
+    Grade: Grade
+    Part: Pièce
+    Enhance: Niveau
+    MainStat: |-
+      Main
+      Stat
+    MainValue: |-
+      Valeur
+      Principale
+    HPP: PV %
+    ATKP: ATQ %
+    DEFP: DEF %
+    HP: PV
+    ATK: ATQ
+    DEF: DÉF
+    SPD: VIT
+    CR: |-
+      Taux
+      Crit
+    CD: |-
+      DGT
+      Crit
+    EHR: |-
+      Chance
+      d'APP
+    RES: |-
+      RÉS
+      Effet
+    BE: |-
+      Effet
+      Rupture
+    CV: |-
+      Valeur
+      Crit
+  ValueColumns:
+    SelectedCharacter:
+      Label: Personnage sélectionné
+      ScoreCol:
+        Label: "Personnage sélectionné: Note"
+        Header: |-
+          Pers. sélectionné
+          Note
+      AvgPotCol:
+        Label: "Personnage sélectionné: Potentiel moyen"
+        Header: |-
+          Pers. sélectionné
+          Potentiel moy.
+      MaxPotCol:
+        Label: "Personnage sélectionné: Potentiel maximum"
+        Header: |-
+          Pers. sélectionné
+          Potentiel max.
+    CustomCharacters:
+      Label: Personnages custom
+      AvgPotCol:
+        Label: "Personnages custom: Potentiel moyen"
+        Header: |-
+          Pers. custom
+          Potentiel moy.
+      MaxPotCol:
+        Label: "Personnages custom: Potential maximum"
+        Header: |-
+          Pers. custom
+          Potentiel max.
+    AllCharacters:
+      Label: Tous personnages
+      AvgPotCol:
+        Label: "Tous personnages: Potentiel moyen"
+        Header: |-
+          Tous pers.
+          Potentiel moy.
+      MaxPotCol:
+        Label: "Tous personnages: Potentiel maximum"
+        Header: |-
+          Tous pers.
+          Potentiel max.
+    ComingSoon:
+      Label: Prochainement
+      SetsPotential:
+        Label: Potentiel de sets de relique / ornement
+        Header: |-
+          Tous pers.
+          Potentiel max. + Sets
+Toolbar:
+  RelicLocator:
+    Width: Largeur de l'inventaire
+    Filter: Ligne de filtre automatique
+    NoneSelected: Sélectionnez une relique à repérer
+    Location: "Position - Lgn {{rowIndex}} / Col {{columnIndex}}"
+  InsightOptions:
+    Buckets: "Aperçu de relique: Seaux"
+    Top10: "Aperçu de relique: Top 10"
+  PlotOptions:
+    PlotAll: Tous les personnages
+    PlotCustom: Personnages custom
+  EditRelic: Modifier la relique
+  DeleteRelic:
+    ButtonText: Supprimer la relique
+    Warning_one: Supprimer la relique sélectionnée?
+    Warning_other: "Supprimer les {{count}} reliques sélectionnées?"
+  AddRelic: Ajouter nouvelle relique
+RelicInsights:
+  NewStats: "Nouvelles stats: "
+  UpgradedStats: "Stats améliorées: "

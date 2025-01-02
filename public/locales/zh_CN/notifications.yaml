@@ -1,0 +1,13 @@
+GPU:
+  Message: 此浏览器不支持 WebGPU！
+  Description:
+    l1: "请使用以下支持的环境以启用GPU加速："
+    l2: "Windows 和 Mac — Chrome，Opera，Edge"
+    l3: >-
+      Linux — <CustomLink text="在标志后"/>
+    l4: "如果你正在使用所支持的浏览器但仍然无法使用GPU加速，请尝试其他浏览器，或尝试切换你的浏览器使用独立显卡而不是集成显卡"
+Changelog:
+  View: 查看更新日志
+  Dismiss: 关闭
+  Message: 新版本更新！
+  Description: 查看更新日志以获取最新的优化器更新内容。

@@ -1,0 +1,13 @@
+GPU:
+  Message: WebGPU não é suportado neste navegador!
+  Description:
+    l1: "Por gentileza use dos seguintes programas compatíveis para ativar a aceleração de GPU:"
+    l2: "Windows e Mac - Chrome, Opera, Edge"
+    l3: >-
+      Linux — <CustomLink text="Behind a flag"/>
+    l4: "Se estiver em um dos navegadores compatíveis e não estiver funcionando, use outro navegador, ou tente mudar o navegador para usar uma placa de vídeo dedicada ao invés da integrada."
+Changelog:
+  View: Ver Changelog
+  Dismiss: Dispensar
+  Message: Novas atualizações!
+  Description: Veja o registro de mudanças para as últimas atualizações do otimizador.

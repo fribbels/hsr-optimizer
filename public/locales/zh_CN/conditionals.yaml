@@ -1,0 +1,1668 @@
+BetaMessage: "当前版本：{{Version}} - 计算结果可能会发生变化。"
+Common:
+  HealAbility:
+    Text: "治疗技能"
+    Content: "选择用于计算治疗量的技能"
+    Basic: "治疗技能：普攻"
+    Skill: "治疗技能：战技"
+    Ult: "治疗技能：终结技"
+    Talent: "治疗技能：天赋"
+    Trace: "治疗技能：行迹"
+  ShieldAbility:
+    Text: "护盾技能"
+    Content: "选择用于计算护盾量的技能"
+    Basic: "护盾技能：普攻"
+    Skill: "护盾技能：战技"
+    Ult: "护盾技能：终结技"
+    Talent: "护盾技能：天赋"
+    Trace: "护盾技能：行迹"
+Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: 伤害提高层数
+        content: >-
+          当装备者对我方单体角色施放战技或终结技后，使技能目标获得1层【圣咏】，持续3回合，最多叠加3层，每层【圣咏】使持有者造成的伤害提高{{DmgBuff}}%。
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: 泡影负面效果
+        content: >-
+          当装备者击中敌方目标时，使敌方陷入【泡影】状态，持续1回合。装备者每次攻击时，对每个目标只可触发1次。装备者对陷入【泡影】状态的目标造成的伤害提高{{DmgBoost}}%，终结技造成的伤害额外提高{{UltDmgBoost}}%。
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: 最大能量
+        content: 当装备者施放终结技时，根据装备者的能量上限，提高装备者终结技造成的伤害：每点能量提高{{DmgStep}}%，最多计入180点。
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: 负面效果暴击伤害层数
+        content: 敌方目标每承受1个负面效果，装备者对其造成的暴击伤害额外提高{{DmgStep}}%，最多叠加3层。
+      postUltBuff:
+        text: 论辩增益
+        content: >-
+          施放终结技攻击敌方目标时，使装备者获得【论辩】效果，造成的伤害提高{{DmgStep}}%，追加攻击无视目标{{DefIgnore}}%的防御力，该效果持续2回合。
+  BeforeDawn:
+    Content:
+      fuaDmgBoost:
+        text: 追加攻击伤害增益
+        content: >-
+          当装备者施放战技或终结技后，获得【梦身】效果。触发追加攻击时，消耗【梦身】，使追加攻击造成的伤害提高{{DmgBuff}}%。
+  BrighterThanTheSun:
+    Content:
+      dragonsCallStacks:
+        text: 龙吟层数
+        content: >-
+          当装备者施放普攻时，获得1层【龙吟】，持续2回合。每层【龙吟】使装备者的攻击力提高{{AtkBuff}}% ，能量恢复效率提高{{RegenBuff}}%。【龙吟】最多叠加2层。
+  ButTheBattleIsntOver:
+    Content:
+      postSkillDmgBuff:
+        text: 技能后伤害增益
+        content: 当装备者施放战技后，使下一个行动的我方其他目标造成的伤害提高{{DmgBuff}}%，持续1回合。
+  CruisingInTheStellarSea:
+    Content:
+      enemyHp50CrBoost:
+        text: 敌人生命值≤50%时暴击率增益
+        content: 装备者对生命值百分比小于等于50%的敌方目标暴击率额外提高{{CritBuff}}%。
+      enemyDefeatedAtkBuff:
+        text: 消灭敌人攻击力加成
+        content: 当装备者消灭敌方目标后，攻击力提高{{AtkBuff}}%，持续2回合。
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: 追加攻击伤害提高层数
+        content: >-
+          当装备者施放终结技后，获得1层【火舞】，持续2回合，最多叠加2层。每层【火舞】使装备者追加攻击造成的伤害提高{{DmgBoost}}%。
+  EarthlyEscapade:
+    Content:
+      maskActive:
+        text: 假面效果激活
+        content: >-
+          战斗开始时，使装备者获得【假面】，持续3回合。当装备者持有【假面】时，装备者的队友暴击率提高{{CritRateBuff}}%，暴击伤害提高{{CritDmgBuff}}%。装备者每恢复1个战技点，获得1层【彩焰】，恢复时溢出的战技点也会被计算在内。当【彩焰】达到4层后，移除所有【彩焰】并获得【假面】，持续4回合。
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: 终结技后速度提高
+        content: >-
+          当装备者施放攻击后，每击中1名不同的敌方目标，恢复{{EnergyRecovered}}点能量，每次攻击最多通过该方式恢复3次能量。当装备者施放终结技后，使我方全体速度提高{{SpdBuff}}点，持续1回合。
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: 攻击力提升层数
+        content: 施放攻击后，每击中一名敌方目标，使攻击力额外提高{{AtkBuff}}%，该效果最多叠加5次，持续至下次攻击后.
+      spdBuff:
+        text: 击中3个目标后的速度提高
+        content: 若击中大于等于3名敌方目标，使自身速度提高{{SpdBuff}}%，持续1回合。
+  FlowingNightglow:
+    Content:
+      cadenzaActive:
+        text: 华彩效果激活
+        content: >-
+          我方角色每次攻击时，使装备者获得1层【歌咏】，每层【歌咏】使装备者的能量恢复效率提高{{RegenBuff}}%，最多叠加5层。装备者施放终结技时，移除【歌咏】并获得【华彩】，【华彩】使装备者的攻击力提高{{AtkBuff}}%，使我方全体造成的伤害提高{{DmgBuff}}%，持续1回合。
+      cantillationStacks:
+        text: 歌咏层数
+        content: >-
+          我方角色每次攻击时，使装备者获得1层【歌咏】，每层【歌咏】使装备者的能量恢复效率提高{{RegenBuff}}%，最多叠加5层。装备者施放终结技时，移除【歌咏】并获得【华彩】，【华彩】使装备者的攻击力提高{{AtkBuff}}%，使我方全体造成的伤害提高{{DmgBuff}}%，持续1回合。
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: 敌方≥3个负面效果时暴击率提高
+        content: 当装备者对同时处于大于等于 3 个负面效果的敌方目标造成伤害时，暴击率提高{{CritBuff}}%。
+      targetCodeDebuff:
+        text: 目标以太编码负面效果
+        content: >-
+          装备者施放普攻、战技、终结技后，有 100% 的基础概率对随机1个未持有【以太编码】的受击目标施加【以太编码】。持有【以太编码】的目标受到的伤害提高{{DmgIncrease}}%，持续1回合。
+  InherentlyUnjustDestiny:
+    Content:
+      shieldCdBuff:
+        text: 护盾爆伤增益
+        content: 当装备者为我方目标提供护盾时，使装备者的暴击伤害提高{{CritBuff}}%，持续2回合。
+      targetVulnerability:
+        text: 目标易伤负面效果
+        content: 当装备者发动追加攻击击中敌方目标时，有100%的基础概率使受到攻击的敌方目标受到的伤害提高{{Vulnerability}}%，持续2回合。
+  InTheNameOfTheWorld:
+    Content:
+      enemyDebuffedDmgBoost:
+        text: 敌人陷入负面效果时伤害提高
+        content: 使装备者对陷入负面效果的敌方目标造成的伤害提高{{DmgBuff}}%。
+      skillAtkBoost:
+        text: 战技攻击力提升（未实施）
+        content: 当装备者施放战技时，装备者此次攻击的效果命中提高{{EhrBuff}}%，攻击力提高{{AtkBuff}}%。
+  InTheNight:
+    Content:
+      spdScalingBuffs:
+        text: 速度转换增益
+        content: >-
+          当装备者在战斗中速度大于100时，每超过10点，普攻和战技造成的伤害提高{{DmgBuff}}%，同时终结技的暴击伤害提高{{CritBuff}}%。该效果可叠加6层。
+  IShallBeMyOwnSword:
+    Content:
+      eclipseStacks:
+        text: 月蚀层数
+        content: >-
+          当队友受到攻击或消耗生命值后，装备者获得1层【月蚀】，最多叠加3层。每层【月蚀】使装备者下一次攻击造成的伤害提高{{DmgBuff}}%。
+      maxStackDefPen:
+        text: 满层防御穿透
+        content: 叠满3层时，额外使该次攻击无视目标{{DefIgnore}}%的防御力。该效果在装备者施放攻击后解除。
+  IVentureForthToHunt:
+    Content:
+      luminfluxUltStacks:
+        text: 流光层数
+        content: >-
+          装备者施放追加攻击时，获得1层【流光】，最多叠加2层。每层【流光】使装备者造成的终结技伤害无视目标{{DefIgnore}}%的防御力。装备者回合结束时，移除1层【流光】。
+  LongRoadLeadsHome:
+    Content:
+      breakVulnerabilityStacks:
+        text: 击破易伤层数
+        content: >-
+          当有敌方目标的弱点被击破时，有 100% 的基础概率使其陷入【焚灼】状态，受到的击破伤害提高{{breakVulnerability}}%，持续2回合，此效果可叠加2层。
+  MomentOfVictory:
+    Content:
+      selfAttackedDefBuff:
+        text: 被攻击时防御力增益
+        content: 使自身受到攻击的概率提高。当装备者受到攻击后，防御力额外提高{{DefBuff}}%，持续到自身回合结束。
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: 攻击力提升层数
+        content: 当装备者为我方目标提供治疗时，使该目标的攻击力提高{{AtkBuff}}%，该效果最多叠加5层，持续2回合。
+  NightOnTheMilkyWay:
+    Content:
+      enemyCountAtkBuff:
+        text: 敌人数量攻击力增益
+        content: 场上每有1个敌方目标，使装备者的攻击力提高{{AtkBuff}}%，该效果最多叠加5层。
+      enemyWeaknessBreakDmgBuff:
+        text: 敌人弱点击破时伤害增益
+        content: 当有敌方目标的弱点被击破时，装备者造成的伤害提高{{DmgBuff}}%，持续1回合。
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: 攻击力提升层数
+        content: 当装备者施放攻击时，使装备者本场战斗中的攻击力提高{{AtkBuff}}%，该效果最多叠加4层。
+      weaknessBreakDmgBuff:
+        text: 弱点击破伤害增益
+        content: 当装备者击破敌方目标弱点后，造成的伤害提高{{DmgBuff}}%，持续2回合。
+  PastSelfInTheMirror:
+    Content:
+      postUltDmgBuff:
+        text: 终结技后伤害提高
+        content: 装备者施放终结技后，使我方全体造成的伤害提高{{DmgBuff}}%，持续3回合。
+  PatienceIsAllYouNeed:
+    Content:
+      spdStacks:
+        text: 速度增益层数
+        content: 装备者每次施放攻击后，速度提高{{SpdBuff}}%.最多叠加3层。
+      dotEffect:
+        text: 持续伤害效果（未实施）
+        content: >-
+          当装备者击中敌方目标时，如果该目标不处于【游丝】状态，则有 100% 的基础概率使其陷入【游丝】状态。当敌方目标处于【游丝】状态时，也会被视为陷入了触电状态。【游丝】状态下，敌方目标每回合开始时受到等同于装备者{{Multiplier}}%攻击力的雷属性持续伤害，持续1回合。
+  ReforgedRemembrance:
+    Content:
+      prophetStacks:
+        text: 先知层数
+        content: >-
+          装备者对陷入风化、灼烧、触电、裂伤状态的敌方目标造成伤害时，分别获得1层【先知】，最多叠加4层。单场战斗中，每种持续伤害状态类型仅可叠加1次【先知】效果。每层【先知】使装备者的攻击力提高{{AtkBuff}}%，造成的持续伤害无视目标{{DefIgnore}}%的防御力。
+  SailingTowardsASecondLife:
+    Content:
+      breakDmgDefShred:
+        text: 击破伤害防御穿透
+        content: 装备者造成的击破伤害无视目标{{DefIgnore}}%的防御力。
+      spdBuffConditional:
+        text: 击破特攻≥150时的速度增益
+        content: 当装备者在战斗中击破特攻大于等于150%时，速度提高{{SpdBuff}}%。
+  ScentAloneStaysTrue:
+    Content:
+      woefreeState:
+        text: 忘忧易伤
+        content: >-
+          装备者施放终结技攻击敌方目标后，使其陷入【忘忧】状态，持续2回合，【忘忧】状态下的敌方目标受到的伤害提高{{Vulnerability}}%，若装备者当前击破特攻大于等于150% ，受到的伤害提高效果额外提高{{AdditionalVulnerability}}%。
+    TeammateContent:
+      additionalVulnerability:
+        text: 额外易伤
+        content: >-
+          装备者施放终结技攻击敌方目标后，使其陷入【忘忧】状态，持续2回合，【忘忧】状态下的敌方目标受到的伤害提高{{Vulnerability}}%，若装备者当前击破特攻大于等于150% ，受到的伤害提高效果额外提高{{AdditionalVulnerability}}%。
+  SheAlreadyShutHerEyes:
+    Content:
+      hpLostDmgBuff:
+        text: 生命值降低伤害增益
+        content: 当装备者的生命值降低时，使我方全体造成的伤害提高{{DmgBuff}}%，持续2回合。
+  SleepLikeTheDead:
+    Content:
+      missedCritCrBuff:
+        text: 未暴击时暴击率增益
+        content: 当装备者的普攻或战技伤害未造成暴击时，使自身暴击率提高{{CritBuff}}%，持续1回合。该效果每3回合可以触发1次。
+  SolitaryHealing:
+    Content:
+      postUltDotDmgBuff:
+        text: 终结技后持续伤害增益
+        content: 当装备者施放终结技时，使装备者造成的持续伤害提高{{DmgBuff}}%，持续 2 回合。
+  SomethingIrreplaceable:
+    Content:
+      dmgBuff:
+        text: 消灭敌人 / 受击后伤害增益
+        content: >-
+          当装备者消灭敌方目标或受到攻击后，立即回复等同于装备者攻击力{{Multiplier}}%的生命值，同时造成的伤害提高{{DmgBuff}}%，持续到自身下个回合结束。该效果不可叠加，每回合只可触发1次。
+  TextureOfMemories:
+    Content:
+      activeShieldDmgDecrease:
+        text: 持有护盾时受伤降低
+        content: >-
+          当装备者受到攻击后，如果自身未持有护盾，则获得1个等同于装备者{{ShieldHp}}%生命上限的护盾，持续2回合。该效果每3回合只能触发1次。如果装备者持有护盾，则使自身受到的伤害降低{{DmgReduction}}%。
+  TheUnreachableSide:
+    Content:
+      dmgBuff:
+        text: 消耗自身生命值 / 受击后伤害增益
+        content: 当装备者受到攻击或装备者消耗自身生命值后，造成的伤害提高{{DmgBuff}}%，该效果在装备者施放攻击后解除。
+  ThoseManySprings:
+    Content:
+      unarmoredVulnerability:
+        text: 卸甲易伤
+        content: >-
+          当装备者施放普攻、战技、终结技攻击敌方目标后，有60%的基础概率使其陷入【卸甲】状态。【卸甲】状态下，敌方目标受到的伤害提高{{UnarmoredVulnerability}}%持续2回合。若目标处于装备者施加的持续伤害状态，则有60%的基础概率将装备者施加的【卸甲】状态升级成【穷寇】状态，使敌方目标受到的伤害额外提高{{CorneredVulnerability}}%，持续2回合。
+      corneredVulnerability:
+        text: 穷寇易伤
+        content: >-
+          当装备者施放普攻、战技、终结技攻击敌方目标后，有60%的基础概率使其陷入【卸甲】状态。【卸甲】状态下，敌方目标受到的伤害提高{{UnarmoredVulnerability}}%持续2回合。若目标处于装备者施加的持续伤害状态，则有60%的基础概率将装备者施加的【卸甲】状态升级成【穷寇】状态，使敌方目标受到的伤害额外提高{{CorneredVulnerability}}%，持续2回合。
+  TimeWaitsForNoOne:
+    Content:
+      healingBasedDmgProc:
+        text: 基于治疗量的伤害触发（未实施）
+        content: >-
+          当装备者对我方目标提供治疗时，记录治疗量。当任意我方目标施放攻击后，根据记录治疗量的{{Multiplier}}%，对随机1个受到攻击的敌方目标造成基于装备者属性的附加伤害。该伤害不受加成影响，每回合最多结算1次。
+  WhereaboutsShouldDreamsRest:
+    Content:
+      routedVulnerability:
+        text: 溃败易伤
+        content: >-
+          当装备者对敌方目标造成击破伤害时，使敌方陷入【溃败】状态，持续2回合。【溃败】状态下目标受到装备者造成的击破伤害提高{{Vulnerability}}%，速度降低20%，同类效果无法叠加。
+  WorrisomeBlissful:
+    Content:
+      targetTameStacks:
+        text: 温驯层数
+        content: >-
+          装备者施放追加攻击后，使目标陷入【温驯】状态，该效果最多叠加2层。我方目标击中【温驯】状态下的敌方目标时，每层【温驯】使造成的暴击伤害提高{{CritBuff}}%。
+  YetHopeIsPriceless:
+    Content:
+      fuaDmgBoost:
+        text: 暴击伤害转至追加攻击伤害增益
+        content: 当装备者在战斗中暴击伤害大于120%时，每超过20% ，追加攻击造成的伤害提高{{DmgBuff}}%，该效果可叠加4层。
+      ultFuaDefShred:
+        text: 终结技 / 追加攻击防御穿透
+        content: 战斗开始时和装备者施放普攻后，使终结技或追加攻击造成的伤害无视目标{{DefShred}}%的防御，持续2回合。
+  AfterTheCharmonyFall:
+    Content:
+      spdBuff:
+        text: 速度增益
+        content: 装备者施放终结技后，速度提高{{SpdBuff}}%，持续2回合。
+  ASecretVow:
+    Content:
+      enemyHpHigherDmgBoost:
+        text: 敌人生命值百分比高于装备者时伤害提高
+        content: 装备者对当前生命值百分比大于等于装备者自身当前生命值百分比的敌方目标造成的伤害额外提高{{DmgBuff}}%。
+  BoundlessChoreo:
+    Content:
+      enemyDefReducedSlowed:
+        text: 敌人防御降低 / 减速状态时暴击伤害提升
+        content: 装备者对处于防御降低或减速状态下的敌人造成的暴击伤害提高{{CritBuff}}%。
+  CarveTheMoonWeaveTheClouds:
+    Content:
+      atkBuffActive:
+        text: 持有攻击力增益
+        content: >-
+          在战斗开始时以及当装备者回合开始时，随机生效1个效果。该效果生效时，替换上次的效果且本次不会与上次重复。效果包含：::BR::使我方全体攻击力提高{{AtkBuff}}%；::BR::使我方全体暴击伤害提高{{CritBuff}}%；::BR::使我方全体能量恢复效率提高{{RegenBuff}}%。::BR::同类效果无法叠加，在装备者陷入无法战斗状态时解除。
+      cdBuffActive:
+        text: 持有暴击伤害增益
+        content: >-
+          在战斗开始时以及当装备者回合开始时，随机生效1个效果。该效果生效时，替换上次的效果且本次不会与上次重复。效果包含：::BR::使我方全体攻击力提高{{AtkBuff}}%；::BR::使我方全体暴击伤害提高{{CritBuff}}%；::BR::使我方全体能量恢复效率提高{{RegenBuff}}%。::BR::同类效果无法叠加，在装备者陷入无法战斗状态时解除。
+      errBuffActive:
+        text: 持有能量恢复效率增益
+        content: >-
+          在战斗开始时以及当装备者回合开始时，随机生效1个效果。该效果生效时，替换上次的效果且本次不会与上次重复。效果包含：::BR::使我方全体攻击力提高{{AtkBuff}}%；::BR::使我方全体暴击伤害提高{{CritBuff}}%；::BR::使我方全体能量恢复效率提高{{RegenBuff}}%。::BR::同类效果无法叠加，在装备者陷入无法战斗状态时解除。
+  ConcertForTwo:
+    Content:
+      teammateShieldStacks:
+        text: 队友护盾数量增伤层数
+        content: 场上每有一名持有护盾的角色，装备者造成的伤害提高{{DmgBuff}}%。
+  DayOneOfMyNewLife:
+    Content:
+      dmgResBuff:
+        text: 伤害抗性增益
+        content: 进入战斗后，使我方全体的全属性抗性提高{{ResBuff}}%。同类技能无法重复生效。
+  DreamvilleAdventure:
+    Content:
+      ultDmgBuff:
+        text: 终结技伤害提高
+        content: >-
+          装备者施放普攻、战技、终结技中某一类型的技能后，为我方全体附加【童心】，【童心】可以使我方目标对应类型的技能所造成的伤害提高{{DmgBuff}}%。【童心】仅对装备者最新使用的技能类型生效，且不可叠加。
+      skillDmgBuff:
+        text: 战技伤害提高
+        content: >-
+          装备者施放普攻、战技、终结技中某一类型的技能后，为我方全体附加【童心】，【童心】可以使我方目标对应类型的技能所造成的伤害提高{{DmgBuff}}%。【童心】仅对装备者最新使用的技能类型生效，且不可叠加。
+      basicDmgBuff:
+        text: 普攻伤害提高
+        content: >-
+          装备者施放普攻、战技、终结技中某一类型的技能后，为我方全体附加【童心】，【童心】可以使我方目标对应类型的技能所造成的伤害提高{{DmgBuff}}%。【童心】仅对装备者最新使用的技能类型生效，且不可叠加。
+  Fermata:
+    Content:
+      enemyShockWindShear:
+        text: 敌人处于触电 / 风化状态时伤害提高
+        content: 使装备者对处于触电或风化状态的敌方目标造成的伤害提高{{DmgBuff}}%，该效果对持续伤害也会生效。
+  FinalVictor:
+    Content:
+      goodFortuneStacks:
+        text: 好运层数
+        content: >-
+          当装备者对敌方目标造成暴击后获得一层【好运】，最多叠加 4 层。每层【好运】使装备者的暴击伤害提高{{CritBuff}}%。【好运】在装备者的回合结束时移除。
+  FlamesAfar:
+    Content:
+      dmgBuff:
+        text: 伤害增益
+        content: >-
+          当装备者在单次受到攻击中累计损失的生命值超过最大生命值的25%，或单次消耗自身生命值超过最大生命值的25%，则立即回复等同于装备者生命上限15%的生命值，同时使装备者造成的伤害提高{{DmgBuff}}%，持续2回合。该效果每3回合只能触发1次。
+  ForTomorrowsJourney:
+    Content:
+      ultDmgBuff:
+        text: 施放终结技后伤害增益
+        content: 装备者施放终结技后，造成的伤害提高{{DmgBuff}}%，持续1回合。
+  GeniusesRepose:
+    Content:
+      defeatedEnemyCdBuff:
+        text: 消灭敌人后暴击伤害增益
+        content: 当装备者消灭敌方目标后，暴击伤害提高{{DmgBuff}}%，持续 3 回合。
+  GoodNightAndSleepWell:
+    Content:
+      debuffStacksDmgIncrease:
+        text: 负面效果层数伤害提高
+        content: 敌方目标每承受1个负面效果，装备者对其造成的伤害提高{{DmgBuff}}%，最多叠加 3 层。该效果对持续伤害也会生效。
+  HeyOverHere:
+    Content:
+      postSkillHealBuff:
+        text: 施放战技后治疗量增益
+        content: 当装备者施放战技时，治疗量提高{{HealingBoost}}%，持续 2 回合。
+  IndeliblePromise:
+    Content:
+      crBuff:
+        text: 施放终结技后暴击率增益
+        content: 当装备者施放终结技时，暴击率提高{{CritBuff}}%，持续 2 回合。
+  ItsShowtime:
+    Content:
+      trickStacks:
+        text: 戏法层数
+        content: >-
+          装备者对敌方目标施加负面状态后，获得一层【戏法】，每层【戏法】使装备者造成的伤害提高{{DmgBuff}}%最多叠加 3 层，持续 1 回合。当装备者的效果命中大于等于 80% 时，攻击力提高{{AtkBuff}}%。
+  MakeTheWorldClamor:
+    Content:
+      ultDmgBuff:
+        text: 终结技伤害增益
+        content: 使装备者进入战斗时立即恢复{{Energy}}点能量，同时使其终结技造成的伤害提高{{DmgBuff}}%。
+  NinjaRecordSoundHunt:
+    Content:
+      cdBuff:
+        text: 生命变化时暴击伤害增益
+        content: 损失或回复自身生命值后，暴击伤害提高{{sValuesCd}}%，持续2回合。
+  OnlySilenceRemains:
+    Content:
+      enemies2CrBuff:
+        text: '≤2个敌人时暴击率增益'
+        content: 当场上的敌方目标数量小于等于2时，装备者的暴击率提高{{CritBuff}}%.
+  PastAndFuture:
+    Content:
+      postSkillDmgBuff:
+        text: 技能后伤害增益
+        content: 当装备者施放战技后，使下一个行动的我方其他目标造成的伤害提高{{DmgBuff}}%，持续1回合。
+  PerfectTiming:
+    Content:
+      resToHealingBoost:
+        text: 效果抵抗转至治疗量提高
+        content: 使装备者的治疗量提高，提高数值等同于效果抵抗的{{Scaling}}%，最多使治疗量提高{{Limit}}%。
+  PlanetaryRendezvous:
+    Content:
+      alliesSameElement:
+        text: 同属性队友伤害提高
+        content: 进入战斗后，当我方目标造成与装备者相同属性的伤害时，造成的伤害提高{{DmgBuff}}%。
+  PoisedToBloom:
+    Content:
+      cdBuff:
+        text: 相同命途暴击伤害增益
+        content: "进入战斗时，若有两名及以上我方角色拥有任意相同命途，使这些角色的暴击伤害提高{{CritBuff}}%。同类技能无法重复生效。"
+  PostOpConversation:
+    Content:
+      postUltHealingBoost:
+        text: 终结技治疗量提高
+        content: 使装备者在施放终结技时治疗量提高{{HealingBoost}}%。
+  ResolutionShinesAsPearlsOfSweat:
+    Content:
+      targetEnsnared:
+        text: 敌人陷入攻陷状态
+        content: 当装备者击中敌方目标时，如果该目标不处于【攻陷】状态，则有概率使其陷入【攻陷】状态。【攻陷】状态下的敌方目标防御力降低{{DefShred}}%，持续1回合。
+  RiverFlowsInSpring:
+    Content:
+      spdDmgBuff:
+        text: 速度 / 伤害增益启用中
+        content: >-
+          进入战斗后，使装备者速度提高{{SpdBuff}}%，造成的伤害提高{{DmgBuff}}%。当装备者受到伤害后该效果失效，下个回合结束时该效果恢复。
+  ShadowedByNight:
+    Content:
+      spdBuff:
+        text: 速度增益
+        content: 进入战斗时或造成击破伤害后，速度提高{{SpdBuff}}%，持续2回合，该效果每回合只可触发1次。
+  SubscribeForMore:
+    Content:
+      maxEnergyDmgBoost:
+        text: 满能量伤害提高
+        content: 使装备者普攻和战技造成的伤害提高{{DmgBuff}}%，当装备者的当前能量值等于其能量上限时，该效果额外提高{{DmgBuff}}%。
+  Swordplay:
+    Content:
+      sameTargetHitStacks:
+        text: 同一目标击中层数
+        content: 当装备者多次击中同一敌方目标时，每次造成的伤害提高{{DmgBuff}}%，该效果最多叠加5层。若攻击目标发生变化，立即解除当前的增益效果。
+  TheBirthOfTheSelf:
+    Content:
+      enemyHp50FuaBuff:
+        text: 敌人生命值≤50%时追加攻击伤害增益
+        content: 若该敌方目标当前生命值百分比小于等于50% ，则追加攻击造成的伤害额外提高{{DmgBuff}}%。
+  TheDayTheCosmosFell:
+    Content:
+      cdBuffActive:
+        text: '≥2个对应属性弱点目标暴击伤害增益'
+        content: 装备者施放攻击后，若有不少于2个被攻击的敌方目标具有对应属性弱点，装备者的暴击伤害提高{{CritBuff}}%，持续2回合。
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: 攻击力提升层数
+        content: 装备者施放普攻、战技或终结技攻击敌方目标后，分别获取一层【淘气值】。每层使装备者的攻击力提高{{AtkBuff}}%。
+  TheSeriousnessOfBreakfast:
+    Content:
+      dmgBoost:
+        text: 伤害提高
+        content: 使装备者造成伤害提高{{DmgBuff}}%。
+      defeatedEnemyAtkStacks:
+        text: 消灭敌人后攻击力增益层数
+        content: 每消灭1个敌方目标，装备者的攻击力提高{{AtkBuff}}%，该效果最多叠加3层。
+  ThisIsMe:
+    Content:
+      defScalingUltDmg:
+        text: 基于防御力的终结技伤害（未实施）
+        content: >-
+          使装备者施放终结技时造成的伤害值提高，提高数值等同于装备者防御力的{{Multiplier}}%，该效果每次施放终结技时对每个敌方目标仅生效1次。
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyStacks:
+        text: 最大能量
+        content: 进入战斗后，根据装备者的能量上限，提高装备者造成的伤害：每点能量提高{{DmgStep}}%，最多计入160点。
+  UnderTheBlueSky:
+    Content:
+      defeatedEnemyCrBuff:
+        text: 消灭敌人后暴击率增益
+        content: 当装备者消灭敌方目标后，暴击率提高{{CritBuff}}%，持续3回合。
+  WeAreWildfire:
+    Content:
+      initialDmgReductionBuff:
+        text: 初始伤害减免增益
+        content: >-
+          战斗开始时，使我方全体受到的伤害降低{{DmgReduction}}%，持续5回合。同时立即为我方全体回复等同于各自已损失生命值{{Healing}}%的生命值。
+  WeWillMeetAgain:
+    Content:
+      extraDmgProc:
+        text: 额外伤害触发
+        content: 装备者施放普攻或战技后，对随机1个受到攻击的敌方目标造成等同于自身{{Multiplier}}%攻击力的附加伤害。
+  WoofWalkTime:
+    Content:
+      enemyBurnedBleeding:
+        text: 敌人处于灼烧 / 裂伤状态时伤害提高
+        content: 使装备者对处于灼烧或裂伤状态的敌方目标造成的伤害提高{{DmgBuff}}%，该效果对持续伤害也会生效。
+  Adversarial:
+    Content:
+      defeatedEnemySpdBuff:
+        text: 消灭敌人后速度增益
+        content: 使装备者在消灭敌方目标后，速度提高{{SpdBuff}}%，持续2回合。
+  Amber:
+    Content:
+      hp50DefBuff:
+        text: 生命值<50%时防御力增益
+        content: 当装备者当前生命值百分比小于 50% 时，其防御力额外提高{{DefBuff}}%。
+  Arrows:
+    Content:
+      critBuff:
+        text: 初始暴击率增益
+        content: 战斗开始时，使装备者的暴击率提高{{CritBuff}}%持续 3 回合。
+  Chorus:
+    Content:
+      inBattleAtkBuff:
+        text: 初始攻击力增益
+        content: 进入战斗后，使我方全体的攻击力提高{{AtkBuff}}%。同类技能无法重复生效。
+  CollapsingSky:
+    Content:
+      basicSkillDmgBuff:
+        text: 普攻 / 战技伤害增益
+        content: 使装备者普攻和战技造成的伤害提高{{DmgBuff}}%。
+  Cornucopia:
+    Content:
+      healingBuff:
+        text: 治疗量增益
+        content: 装备者施放战技和终结技时，治疗量提高{{HealingBuff}}%。
+  DartingArrow:
+    Content:
+      defeatedEnemyAtkBuff:
+        text: 消灭敌人后攻击力增益
+        content: 使装备者消灭敌方目标后，攻击力提高{{AtkBuff}}%，持续3回合。
+  DataBank:
+    Content:
+      ultDmgBuff:
+        text: 终结技伤害增益
+        content: 使装备者终结技造成的伤害提高{{DmgBuff}}%。
+  HiddenShadow:
+    Content:
+      basicAtkBuff:
+        text: 普攻额外伤害
+        content: 施放战技后，使装备者的下一次普攻对敌方目标造成等同于自身{{MultiplierBonus}}%攻击力的附加伤害。
+  Loop:
+    Content:
+      enemySlowedDmgBuff:
+        text: 敌人处于减速状态时伤害增益
+        content: 使装备者对减速状态下的敌方目标造成的伤害提高{{DmgBuff}}%。
+  Mediation:
+    Content:
+      initialSpdBuff:
+        text: 初始速度增益
+        content: 进入战斗时，我方全体速度提高{{SpdBuff}}点，持续1回合。
+  MutualDemise:
+    Content:
+      selfHp80CrBuff:
+        text: 自身生命值<80%时暴击率增益
+        content: 装备者当前生命值百分比小于80%时，暴击率提高{{CritBuff}}%。
+  Sagacity:
+    Content:
+      postUltAtkBuff:
+        text: 终结技后攻击力增益
+        content: 当装备者施放终结技时，攻击力提高{{AtkBuff}}%，持续2回合。
+  ShatteredHome:
+    Content:
+      enemyHp50Buff:
+        text: 敌人生命值>50%时伤害增益
+        content: 使装备者对当前生命值百分比大于 50% 的敌方目标造成的伤害提高{{DmgBuff}}%。
+  Void:
+    Content:
+      initialEhrBuff:
+        text: 初始效果命中增益
+        content: 战斗开始时，使装备者的效果命中提高{{EhrBuff}}%，持续3回合。
+Characters:
+  Acheron:
+    Content:
+      crimsonKnotStacks:
+        text: 集真赤层数
+        content: >-
+          【啼泽雨斩】：对指定敌方单体造成等同于黄泉攻击力{{RainbladeScaling}}%的雷属性伤害，并消去目标最多3层【集真赤】。消去【集真赤】时，立即对敌方全体造成等同于黄泉{{CrimsonKnotScaling}}%每消去1层【集真赤】本次伤害倍率额外提高。::BR::终结技的【啼泽雨斩】击中持有【集真赤】的敌方目标时，使黄泉造成的伤害提高30%，该效果最多叠加3层。
+      nihilityTeammates:
+        text: 虚无队友数量
+        content: >-
+          我方队伍中存在1名/2名除黄泉之外的「虚无」命途角色时，使黄泉普攻、战技、终结技造成的伤害为原伤害的115%/160% 。::BR::2魂：行迹【奈落】最高数值所需求「虚无」命途角色的数量减少1名，自身回合开始时获得1点【残梦】，同时为【集真赤】最多的敌方附上1层【集真赤】。
+      thunderCoreStacks:
+        text: 雷心层数
+        content: 终结技的【啼泽雨斩】击中持有【集真赤】的敌方目标时，使黄泉造成的伤害提高30% ，该效果最多叠加3层，持续3回合。
+      stygianResurgeHitsOnTarget:
+        text: 黄泉返渡击中次数
+        content: >-
+          在发动【黄泉返渡】时额外造成6次伤害，每次伤害对敌方随机单体造成等同于黄泉25%攻击力的雷属性伤害，该伤害视为终结技伤害。
+      e1EnemyDebuffed:
+        text: 1魂暴击率提升
+        content: 对处于负面效果的敌方目标造成伤害时暴击率提高18%。
+      e4UltVulnerability:
+        text: 4魂终结技易伤
+        content: 在敌方目标进入战斗时，使其陷入终结技伤害易伤状态，受到的终结技伤害提高8%。
+      e6UltBuffs:
+        text: 6魂终结技增益
+        content: >-
+          黄泉造成的终结技伤害全属性抗性穿透提高20%，施放普攻、战技造成的伤害同时视为终结技伤害，并无视弱点属性削减敌方韧性。击破弱点时，触发雷属性的弱点击破效果。
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: 增强终结技
+        content: >-
+          消耗180点能量，对敌方全体造成等同于银枝{{ultEnhancedScaling}}%攻击力的物理属性伤害，并额外造成6次伤害，每次伤害对敌方随机单体造成等同于银枝{{ultEnhancedExtraHitScaling}}%攻击力的物理属性伤害。
+      enemyHp50:
+        text: 敌人生命值≤50%时伤害提高
+        content: 对当前生命值百分比小于等于50%的敌方目标造成的伤害提高15% 。
+      talentStacks:
+        text: 升格层数
+        content: 施放普攻、战技、终结技时，每击中1个敌方目标，为银枝恢复 3 点能量并获得1层【升格】，使银枝暴击率提高{{talentCrStackValue}}%，该效果最多叠加{{talentMaxStacks}}层。
+      ultEnhancedExtraHits:
+        text: 强化终结技对目标的额外击中次数
+        content: 每次额外伤害对敌方随机单体造成等同于银枝{{ultEnhancedExtraHitScaling}}%攻击力的物理属性伤害。
+      e2UltAtkBuff:
+        text: 2魂终结技攻击力增益
+        content: "2魂：施放终结技时，若敌方目标数量大于等于3个时，攻击力提高40% ，持续 1 回合。"
+  Arlan:
+    Content:
+      selfCurrentHpPercent:
+        text: 自身当前生命值%
+        content: 根据阿兰当前损失的生命值百分比获得伤害加成，最多使阿兰造成的伤害提高{{talentMissingHpDmgBoostMax}}%。
+  Asta:
+    Content:
+      skillExtraDmgHits:
+        text: 战技额外击中次数
+        content: "对指定敌方单体造成等同于艾丝妲50%攻击力的火属性伤害，并额外造成4次伤害。每次伤害对随机敌方单体造成等同于艾丝妲{{skillExtraDmgHitsMax}}攻击力的火属性伤害。::BR::1魂：施放战技时，对敌方随机单体额外造成1次伤害。"
+      talentBuffStacks:
+        text: 天赋攻击力增益层数
+        content: "艾丝妲每拥有1层蓄能，会使我方全体攻击力提高{{talentStacksAtkBuff}}%。::BR::4魂：天赋的蓄能层数大于等于2时，艾丝妲的能量恢复效率提高15% 。"
+      ultSpdBuff:
+        text: 终结技速度增益激活
+        content: 使我方全体速度提高{{ultSpdBuffValue}}点，持续2回合。
+      fireDmgBoost:
+        text: 火属性伤害增益
+        content: 艾丝妲在场时，我方全体的火属性伤害提高18%。
+  Aventurine:
+    Content:
+      defToCrBoost:
+        text: 防御力转暴击率增益
+        content: 若砂金的防御力高于1600点，每超过100点防御力可使自身暴击率提高2%，最多提高48%。
+      fortifiedWagerBuff:
+        text: 坚垣筹码增益
+        content: >-
+          持有【坚垣筹码】的我方单体效果抵抗提高{{talentResScaling}}%，并在受到攻击后，使砂金获得1点【盲注】::BR::1魂：施放终结技后，为我方全体提供护盾【坚垣筹码】，护盾量等同于战技提供的护盾量的100%，持续3回合。
+      enemyUnnervedDebuff:
+        text: 敌人处于惊惶状态
+        content: 我方目标击中【惊惶】状态下的敌方目标时，造成的暴击伤害提高{{ultCdBoost}}%。
+      fuaHitsOnTarget:
+        text: 追加攻击击中目标次数
+        content: >-
+          【盲注】达到7点后，砂金消耗7点充能发动7段追加攻击，每段攻击对随机敌方单体造成等同于砂金{{talentDmgScaling}}%防御力的虚数属性伤害，【盲注】上限10点。::BR::4魂：触发天赋的追加攻击时，会先使砂金防御力提高40%，持续2回合，并使天赋的追加攻击额外增加3段攻击段数。
+      e2ResShred:
+        text: 2魂全属性抗性降低
+        content: 施放普攻时使目标的全属性抗性降低12%，持续3回合。
+      e4DefBuff:
+        text: 4魂防御力增益
+        content: "4魂：触发天赋的追加攻击时，会先使砂金防御力提高40%，持续2回合。"
+      e6ShieldStacks:
+        text: 6魂护盾层数
+        content: "6魂：每有1个队友持有护盾，砂金造成的伤害提高50%，最高不超过150%。"
+  Bailu:
+    Content:
+      healingMaxHpBuff:
+        text: 治疗时生命上限增益
+        content: 白露对我方目标造成过量治疗时会提高目标10%的生命上限，持续2回合。
+      talentDmgReductionBuff:
+        text: 终结技减伤
+        content: 拥有【生息】的角色受到的伤害降低10%。
+      e2UltHealingBuff:
+        text: 2魂终结技后治疗量增益
+        content: "2魂：施放终结技后，白露的治疗量提高15%，持续2回合。"
+      e4SkillHealingDmgBuffStacks:
+        text: 4魂战技伤害提高层数
+        content: "4魂：战技提供的每1次治疗会额外使受治疗者造成的伤害提高10%，最多叠加3层，持续2回合。"
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: 效果命中转至伤害提高
+        content: 使自身造成的伤害提高，提高数值等同于效果命中的60%，最多使造成的伤害提高72%。
+      epiphanyDebuff:
+        text: 揭露负面效果
+        content: '【揭露】状态下，敌方目标自身回合内受到的伤害提高{{epiphanyDmgTakenBoost}}%。'
+      defDecreaseDebuff:
+        text: 防御力降低负面效果
+        content: 目标防御力降低{{defShredValue}}%.
+      arcanaStacks:
+        text: 奥迹层数
+        content: >-
+          【奥迹】状态下，敌方目标每回合开始时受到等同于黑天鹅{{dotScaling}}%攻击力的风属性持续伤害，每层【奥迹】使此伤害倍率提高{{arcanaStackMultiplier}}%。【奥迹】最多叠加50层。::BR::当【奥迹】层数大于等于3层时，对相邻目标造成等同于黑天鹅180%攻击力的风属性持续伤害。当【奥迹】层数大于等于7层时，使本次造成的持续伤害无视该目标及其相邻目标20%的防御力。
+      e1ResReduction:
+        text: 1魂属性抗性降低
+        content: >-
+          1魂：当黑天鹅处于可战斗状态时，处于风化、裂伤、灼烧、触电状态下的敌方目标对应的风、物理、火、雷属性抗性分别降低25%。
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: 地狱变状态
+        content: "使自身造成的伤害提高{{enhancedStateDmgBoost}}%，普攻【支离剑】强化为【无间剑树】，持续3回合。::BR::2魂：刃处于【地狱变】状态时，暴击率提高15%。"
+      hpPercentLostTotal:
+        text: 累计已损失生命值%
+        content: 终结技伤害会根据刃在当前战斗中的生命值损失计数进行加成。 本场战斗中累计已损失生命值最高不超过刃生命上限的{{hpPercentLostTotalMax}}%，施放终结技后会清空并进行重新累计。
+      e4MaxHpIncreaseStacks:
+        text: 4魂生命上限层数
+        content: "4魂：当前生命值百分比从大于50%降低至小于等于50%时，生命上限提高20%，该效果最多叠加2层。"
+  Boothill:
+    Content:
+      standoffActive:
+        text: 绝命对峙状态激活
+        content: >-
+          使指定敌方单体及自身进入【绝命对峙】状态，波提欧普攻获得强化且无法施放战技，持续2回合，波提欧每回合开始时持续回合数减1。处于【绝命对峙】的敌方目标陷入嘲讽状态。该目标/波提欧受到对方攻击时，受到的伤害提高{{standoffVulnerabilityBoost}}%/15%。
+      pocketTrickshotStacks:
+        text: 优势口袋数量
+        content: 每层【优势口袋】使强化普攻造成的削韧伤害提高50%，最多叠加3层。
+      beToCritBoost:
+        text: 击破特攻转至暴击率 / 暴击伤害增益
+        content: 使自身暴击率/暴击伤害提高，提高数值等同于击破特攻的10%/50%，最多使暴击率/暴击伤害提高30%/150%。
+      talentBreakDmgScaling:
+        text: 天赋击破伤害（强制弱点击破状态）
+        content: >-
+          若目标处于弱点击破状态，基于【优势口袋】层数，对目标造成基于波提欧的物理属性击破伤害，该伤害计入的韧性上限不超过普攻【蹄铁裂颅】基础削韧伤害的16倍。
+      e1DefShred:
+        text: 1魂防御穿透
+        content: 战斗开始时，获得1层【优势口袋】。波提欧造成伤害时无视敌方目标16%的防御力。
+      e2BeBuff:
+        text: 2魂击破特攻增益
+        content: >-
+          处于【绝命对峙】并获得【优势口袋】时，恢复1个战技点，并且击破特攻提高30%，持续2回合。该效果单个回合内不可重复触发，在获得溢出的【优势口袋】时也会触发。
+      e4TargetStandoffVulnerability:
+        text: 4魂战技易伤
+        content: >-
+          处于【绝命对峙】的敌方目标受到波提欧攻击时，受到的伤害额外提高12%。波提欧受到处于【绝命对峙】的敌方目标的攻击时，受到的伤害提高效果降低12%。
+      e6AdditionalBreakDmg:
+        text: 6魂击破伤害提高
+        content: >-
+          触发天赋造成击破伤害时，对目标额外造成等同于原伤害倍率40%的击破伤害，对相邻目标额外造成等同于原伤害倍率70%的击破伤害。
+  Bronya:
+    Content:
+      teamDmgBuff:
+        text: 队伍伤害增益
+        content: 布洛妮娅在场时，我方全体造成的伤害提高10%。
+      skillBuff:
+        text: 战技伤害增益
+        content: 解除指定我方单体的1个负面效果，并使该目标立即行动，造成的伤害提高{{skillDmgBoostValue}}%，持续1回合。
+      ultBuff:
+        text: 终结技攻击力 / 暴击伤害增益
+        content: 使我方全体攻击力提高{{ultAtkBoostValue}}%，同时提高等同于布洛妮娅{{ultCdBoostValue}}%暴击伤害+{{ultCdBoostBaseValue}}%的暴击伤害，持续2回合。
+      battleStartDefBuff:
+        text: 初始防御力增益
+        content: 战斗开始时，我方全体的防御力提高20%，持续2回合。
+      techniqueBuff:
+        text: 秘技攻击力增益
+        content: 使用布洛妮娅的秘技后，下一次战斗开始时使我方全体攻击力提高15%，持续2回合。
+      e2SkillSpdBuff:
+        text: 2魂战技速度增益
+        content: 施放战技时，被指定的我方目标在行动后速度提高30%，持续1回合。
+    TeammateContent:
+      teammateCDValue:
+        text: 布洛妮娅战斗中的暴击伤害
+        content: 使我方全体攻击力提高{{ultAtkBoostValue}}%，同时提高等同于布洛妮娅{{ultCdBoostValue}}%暴击伤害+{{ultCdBoostBaseValue}}%的暴击伤害，持续2回合。
+  Clara:
+    Content:
+      ultBuff:
+        text: 终结技增益
+        content: 施放终结技后，使史瓦罗对敌方目标造成的伤害倍率提高{{ultFuaExtraScaling}}%。克拉拉受到的伤害额外降低{{ultDmgReductionValue}}%，持续2回合。
+      talentEnemyMarked:
+        text: 敌人被标记
+        content: 对所有被史瓦罗标上【反击标记】的敌方目标额外造成等同于克拉拉{{skillScaling}}%攻击力物理属性伤害。
+      e2UltAtkBuff:
+        text: 2魂终结技攻击力增益
+        content: "2魂：施放终结技后攻击力提高30%，持续2回合。"
+      e4DmgReductionBuff:
+        text: 4魂减伤增益
+        content: "4魂：受到攻击后，克拉拉受到的伤害降低30%。"
+  DanHeng:
+    Content:
+      talentPenBuff:
+        text: 天赋风属性抗性穿透增益
+        content: 当丹恒成为我方技能的施放目标时，下一次攻击的风属性抗性穿透提高{{extraPenValue}}%。该效果在2回合后可再次触发。
+      enemySlowed:
+        text: 敌人处于减速状态
+        content: 普攻对减速状态下的敌方目标造成的伤害提高40%。
+      e1EnemyHp50:
+        text: 1魂敌人生命值≥50%时暴击率提高
+        content: "1魂：当击中的敌方目标当前生命值百分比大于等于50%时，暴击率提高12%。"
+  DrRatio:
+    Content:
+      summationStacks:
+        text: 归纳层数
+        content: 施放战技时，目标每有1个负面效果，真理医生暴击率提高2.5%、暴击伤害提高5%，该效果最多叠加{{summationStacksMax}}次。
+      enemyDebuffStacks:
+        text: 敌人负面效果层数
+        content: >-
+          施放战技时，有40%的固定概率对该目标发动1次追加攻击，造成等同于真理医生{{FuaScaling}}%攻击力的虚数属性伤害。目标每有1个负面效果，追加攻击发动的固定概率提高20%。若追加攻击施放前目标被消灭则对敌方随机单体发动追加攻击。::BR::造成伤害时，若目标负面状态大于等于3个，目标每有1个负面效果，真理医生对其造成的伤害提高10%，最多提高50%。::BR::2魂：天赋的追加攻击击中目标时，目标每有1个负面效果，则额外造成等同于真理医生20%攻击力的虚数属性附加伤害。该效果在每次追加攻击中最多触发4次。
+  Feixiao:
+    Content:
+      weaknessBrokenUlt:
+        text: 弱点击破时终结技（强制弱点击破状态）
+        content: 覆盖弱点击破选项以启用。
+      talentDmgBuff:
+        text: 天赋伤害增益
+        content: >-
+          当飞霄的队友对敌方目标施放攻击后，飞霄立即对主目标发动追加攻击，造成等同于飞霄{{FuaMultiplier}}%攻击力的风属性伤害。若不存在可攻击的主目标，则攻击敌方随机单体。该效果每回合最多触发1次，飞霄回合开始时重置可触发次数。发动此攻击时使自身造成的伤害提高{{DmgBuff}}%，持续2回合。
+      skillAtkBuff:
+        text: 战技攻击力增益
+        content: 施放战技时，攻击力提高48%，持续3回合。
+      e1OriginalDmgBoost:
+        text: 1魂终结技原伤害提高
+        content: >-
+          1魂：发动【闪裂刃舞】或【钺贯天冲】后，使飞霄造成的终结技伤害额外提高，提高数值等同于原伤害的10%，最多叠加5层，持续至终结技行动结束。
+      e4Buffs:
+        text: 4魂增益
+        content: 天赋的追加攻击的削韧值提高100%，并且发动时使自身速度提高8%，持续2回合。
+      e6Buffs:
+        text: 6魂增益
+        content: >-
+          飞霄造成的终结技伤害的全属性抗性穿透提高20%。天赋的追加攻击伤害同时视为终结技伤害，并且伤害倍率提高140%。
+  Firefly:
+    Content:
+      enhancedStateActive:
+        text: 强化状态
+        content: 进入「完全燃烧」状态，自身行动提前100%并获得强化普攻和强化战技。
+      enhancedStateSpdBuff:
+        text: 强化状态速度增益
+        content: '「完全燃烧」状态下速度提高{{ultSpdBuff}}点。'
+      superBreakDmg:
+        text: 启用超击破伤害（强制弱点击破）
+        content: >-
+          「完全燃烧」状态下，当装甲「萨姆」的击破特攻大于等于200%/360%时，攻击处于弱点击破状态下的敌方目标后，会将本次攻击的削韧值转化为1次35%/50%的超击破伤害。
+      atkToBeConversion:
+        text: 攻击力转至击破特攻增益
+        content: 若装甲「萨姆」的攻击力高于1800点，每超过10点攻击力可使自身击破特攻提高0.8%。
+      talentDmgReductionBuff:
+        text: 有效生命值上限增益
+        content: >-
+          生命值越低受到的伤害越低，生命值小于等于20%时减伤效果达到最大值，最多降低{{talentDmgReductionBuff}}%。「完全燃烧」状态下减伤效果维持最大值，效果抵抗提高{{talentResBuff}}%。
+      e1DefShred:
+        text: 1魂防御穿透
+        content: 施放强化战技时无视目标15%的防御，且强化战技不消耗战技点。
+      e4ResBuff:
+        text: 4魂效果抵抗增益
+        content: '「完全燃烧」状态下，装甲「萨姆」的效果抵抗提高50%。'
+      e6Buffs:
+        text: 6魂增益
+        content: '「完全燃烧」状态下装甲「萨姆」的火属性抗性穿透提高20%。施放强化普攻、强化战技时弱点击破效率提高50%。'
+  Fugue:
+    Content:
+      torridScorch:
+        text: 炽灼状态
+        content: 处于【炽灼】状态时，忘归人普攻获得强化。
+      foxianPrayer:
+        text: 狐祈击破特攻增益
+        content: >-
+          持有【狐祈】的我方目标，击破特攻提高{{BreakBuff}}%，攻击没有对应属性弱点的敌人也能削减韧性，效果等同于原削韧值的50%，无法与其他无视弱点属性削韧效果叠加。
+      defReduction:
+        text: 战技防御削弱
+        content: >-
+          持有【狐祈】的我方目标每次施放攻击时，忘归人有 100% 的基础概率使受到攻击的敌方目标防御力降低{{DefShred}}%，持续2回合。
+      superBreakDmg:
+        text: 超击破伤害（强制弱点击破）
+        content: >-
+          忘归人在场时，我方攻击处于弱点击破状态的敌方目标后，会将本次攻击的削韧值转化为1次{{SuperBreakMultiplier}}%的超击破伤害。
+      e4BreakDmg:
+        text: 4魂击破伤害提升
+        content: 持有【狐祈】的我方目标，造成的击破伤害提高20%。
+      e6BreakEfficiency:
+        text: 6魂击破效率提升
+        content: >-
+          忘归人的弱点击破效率提高50%。当忘归人处于【炽灼】状态时【狐祈】效果对我方全体生效。
+    TeammateContent:
+      be220Buff:
+        text: 击破特攻≥220%
+        content: >-
+          当有敌方目标的弱点被击破时，使除自身以外的队友击破特攻提高6%，若忘归人的击破特攻大于等于220%，击破特攻提高的效果额外提高12%，持续2回合，该效果最多可叠加2层。
+      weaknessBreakBeStacks:
+        text: 敌人弱点击破层数
+        content: >-
+          当有敌方目标的弱点被击破时，使除自身以外的队友击破特攻提高6%，若忘归人的击破特攻大于等于220%，击破特攻提高的效果额外提高12%，持续2回合，该效果最多可叠加2层。
+  FuXuan:
+    Content:
+      talentActive:
+        text: 团队减伤
+        content: 当符玄处于可战斗状态时，为我方全体附加【避厄】。【避厄】状态下的我方目标受到的伤害降低{{talentDmgReductionValue}}%。
+      skillActive:
+        text: 激活战技
+        content: >-
+          开启【穷观阵】，使符玄队友所承受的未受护盾抵挡之前的伤害的65%分摊给符玄，持续3回合。处于【穷观阵】的我方全体获得【鉴知】。【鉴知】状态下的我方目标生命上限提高，提高数值等同于符玄生命上限的{{skillHpBuffValue}}%，暴击率提高{{skillCrBuffValue}}%。
+      e6TeamHpLostPercent:
+        text: 6魂团队易损生命值
+        content: >-
+          6魂：【穷观阵】开启时，会累计我方全体本场战斗中的已损失生命值。符玄施放终结技造成的伤害提高，提高数值等同于本场战斗中累计已损失生命值的200%。本场战斗中累计已损失生命值最高不超过符玄生命上限的120%，施放终结技后会清空并进行重新累计。
+    TeammateContent:
+      teammateHPValue:
+        text: 符玄战斗中生命上限
+        content: 处于【穷观阵】的我方全体获得【鉴知】。【鉴知】状态下的我方目标生命上限提高，提高数值等同于符玄生命上限的{{skillHpBuffValue}}%。
+  Gallagher:
+    Content:
+      basicEnhanced:
+        text: 强化普攻
+        content: 终结技并将下一次普攻强化为【酒花奔涌】。
+      breakEffectToOhbBoost:
+        text: 击破特攻转至治疗量增益
+        content: 使自身提供的治疗量提高，提高数值等同于击破特攻的50%，最多使提供的治疗量提高75%。
+      targetBesotted:
+        text: 目标处于酩酊状态
+        content: '【酩酊】使目标受到的击破伤害提高{{talentBesottedScaling}}%。'
+      e1ResBuff:
+        text: 1魂效果抵抗增益
+        content: "1魂：加拉赫进入战斗后会恢复20点能量，效果抵抗提高50%。"
+      e2ResBuff:
+        text: 2魂效果抵抗增益
+        content: "2魂：施放战技时，解除指定我方单体的1个负面效果，同时使其效果抵抗提高30%，持续2回合。"
+      e6BeBuff:
+        text: 6魂击破特攻增益
+        content: "6魂：加拉赫的击破特攻提高20%，弱点击破效率提高20%。"
+  Gepard:
+    Content:
+      e4TeamResBuff:
+        text: 4魂团队效果抵抗增益
+        content: "4魂：杰帕德在场时，我方全体的效果抵抗提高20%。"
+  Guinaifen:
+    Content:
+      talentDebuffStacks:
+        text: 吞火层数
+        content: '【吞火】状态下敌方目标受到的伤害提高{{talentDebuffDmgIncreaseValue}}%，持续3回合，最多叠加{{talentDebuffMax}}层。'
+      enemyBurned:
+        text: 敌人处于灼烧状态
+        content: 对陷入灼烧状态的敌方目标造成的伤害提高20%。
+      skillDot:
+        text: 使用战技陷入灼烧状态概率
+        content: 启用后，使用战技的100%概率陷入灼烧状态，而不是普攻的80%概率。
+      e1EffectResShred:
+        text: 1魂效果抵抗削弱
+        content: "1魂：施放战技时，有100%的基础概率使受到攻击的敌方目标效果抵抗降低10%，持续2回合。"
+      e2BurnMultiBoost:
+        text: 2魂灼烧状态多重提升
+        content: "2魂：当敌方目标处于灼烧状态时，桂乃芬的普攻与战技对其施加的灼烧状态的伤害倍率提升40%。"
+  Hanya:
+    Content:
+      ultBuff:
+        text: 终结技速度 / 攻击力增益
+        content: 使指定我方单体速度提高等同于寒鸦速度的{{ultSpdBuffValue}}%，并使该目标攻击力提高{{ultAtkBuffValue}}%，持续2回合。
+      targetBurdenActive:
+        text: 敌人陷入承负状态
+        content: 我方目标对陷入【承负】状态下的敌方目标施放普攻、战技、终结技时，造成的伤害提高{{talentDmgBoostValue}}%，持续2回合。
+      burdenAtkBuff:
+        text: 承负攻击力增益
+        content: 触发【承负】战技点回复效果的我方单位攻击力提高10%，持续1回合。
+      e2SkillSpdBuff:
+        text: 2魂战技速度增益
+        content: "2魂：施放战技后，速度提高20%，持续1回合。"
+    TeammateContent:
+      teammateSPDValue:
+        text: 寒鸦的速度
+        content: 使指定我方单体速度提高等同于寒鸦速度的{{ultSpdBuffValue}}%，并使该目标攻击力提高{{ultAtkBuffValue}}%，持续2回合。
+  Herta:
+    Content:
+      fuaStacks:
+        text: 追加攻击次数
+        content: 当任意我方目标的攻击使敌方目标的当前生命值百分比小于等于50%时，黑塔发动追加攻击，对敌方全体造成等同于黑塔一定攻击力的冰属性伤害。
+      targetFrozen:
+        text: 敌人被冻结
+        content: 施放终结技时，对冻结状态下的敌人造成的伤害提高20%。
+      enemyHpGte50:
+        text: 战技伤害提高
+        content: 若敌方目标当前生命值百分比大于等于50%，则对该目标造成的伤害提高20%。
+      techniqueBuff:
+        text: 秘技攻击力增益
+        content: 击力提高40%，持续3回合。
+      enemyHpLte50:
+        text: 1魂普攻伤害提高
+        content: "1魂：施放普攻时，若指定敌方单体生命值百分比小于等于50%，则额外造成等同于黑塔40%攻击力的冰属性附加伤害。"
+      e2TalentCritStacks:
+        text: 2魂天赋暴击率层数
+        content: "2魂：天赋每触发1次，自身暴击率提高3%，该效果最多叠加5层。"
+      e6UltAtkBuff:
+        text: 6魂终结技攻击力提升
+        content: "6魂：施放终结技后，攻击力提高25%，持续1回合。"
+  Himeko:
+    Content:
+      targetBurned:
+        text: 目标处于灼烧状态
+        content: 战技对灼烧状态下的敌方目标造成的伤害提高20%。
+      selfCurrentHp80Percent:
+        text: 自身生命值≥80%时暴击率增益
+        content: 若当前生命值百分比大于等于80%，则暴击率提高15%。
+      e1TalentSpdBuff:
+        text: 1魂速度增益
+        content: "1魂：【乘胜追击】触发后，姬子的速度提高20%，持续2回合。"
+      e2EnemyHp50DmgBoost:
+        text: 2魂敌人生命值≤50%时伤害提高
+        content: "2魂：对当前生命值百分比小于等于50%的敌方目标造成的伤害提高15%。"
+      e6UltExtraHits:
+        text: 6魂终结技额外伤害次数
+        content: "6魂：终结技额外造成2次伤害，对随机敌方单体各造成等同于原伤害40%的火属性伤害。"
+  Hook:
+    Content:
+      enhancedSkill:
+        text: 强化战技
+        content: >-
+          施放终结技后，下一次施放的战技得到强化，强化后的战技能够同时对指定敌方单体及其相邻目标造成伤害。强化战技对指定敌方单体造成等同于虎克{{skillEnhancedScaling}}%攻击力的火属性伤害，并对相邻敌人造成较少的伤害。
+      targetBurned:
+        text: 目标处于灼烧状态
+        content: >-
+          攻击处于灼烧状态的敌方目标时，追加1次等同于虎克{{targetBurnedExtraScaling}}%攻击力的火属性附加伤害。::BR::6魂：虎克对灼烧状态下的敌方目标造成的伤害提高20%。
+  Huohuo:
+    Content:
+      ultBuff:
+        text: 终结技攻击力增益
+        content: 使用终结技后为除自身以外的队友攻击力提高{{ultBuffValue}}%，持续2回合。
+      skillBuff:
+        text: 1魂速度增益
+        content: "1魂：当藿藿拥有【禳命】时我方全体提高12%的速度。"
+      e6DmgBuff:
+        text: 6魂伤害增益
+        content: "为我方目标提供治疗时，使目标造成的伤害提高50%，持续2回合。"
+  ImbibitorLunae:
+    Content:
+      basicEnhanced:
+        text: 普攻强化层数
+        content: >-
+          0层：施放2段攻击对指定敌方单体造成等同于丹恒•饮月{{basicScaling}}%攻击力的虚数属性伤害。::BR::1层：施放3段攻击对指定敌方单体造成等同于丹恒•饮月{{basicEnhanced1Scaling}}%攻击力的虚数属性伤害。::BR::2层：施放5段攻击对指定敌方单体造成等同于丹恒•饮月{{basicEnhanced2Scaling}}%攻击力的虚数属性伤害。从第4段攻击开始同时对其相邻目标造成较少的伤害。::BR::3层：施放7段攻击对指定敌方单体造成等同于丹恒•饮月{{basicEnhanced3Scaling}}%攻击力的虚数属性伤害。从第4段攻击开始同时对其相邻目标造成较少的伤害。
+      skillOutroarStacks:
+        text: 叱咤层数
+        content: >-
+          施放【天矢阴】或【盘拏耀跃】时，从第4段攻击开始每段攻击前获得1层【叱咤】，使丹恒•饮月的暴击伤害提高{{outroarStackCdValue}}%，该效果最多叠加4层，持续至自身回合结束。（应用于所有攻击次数）
+      talentRighteousHeartStacks:
+        text: 亢心层数
+        content: 丹恒•饮月施放每段攻击后获得1层【亢心】，使自身造成的伤害提高{{righteousHeartDmgValue}}%，该效果可以叠加6层，持续至自身回合结束。（应用于所有攻击次数）
+      e6ResPenStacks:
+        text: 6魂抗性穿透层数
+        content: "6魂：我方其他角色施放终结技后，丹恒•饮月下一次施放【盘拏耀跃】时虚数属性抗性穿透提高20%，该效果最多叠加3层。"
+  Jade:
+    Content:
+      enhancedFollowUp:
+        text: 强化追加攻击
+        content: 使翡翠天赋的追加攻击获得强化，追加攻击造成的伤害倍率提高{{ultFuaScalingBuff}}%。
+      pawnedAssetStacks:
+        text: 当品层数
+        content: >-
+          翡翠发动天赋的追加攻击时立即获得5层【当品】，每层【当品】使暴击伤害提高{{pawnedAssetCdScaling}}%，最多叠加50层。天赋中每层【当品】额外使翡翠的攻击力提高0.5%。
+      e1FuaDmgBoost:
+        text: 1魂追加攻击伤害提高
+        content: >-
+          1魂：翡翠天赋的追加攻击伤害提高32%，持有【收债人】状态的角色施放攻击后击中敌方目标数量等于2/1名时，翡翠额外获得1/2点充能。
+      e2CrBuff:
+        text: 2魂暴击率增益
+        content: "2魂：【当品】叠加至15层时，翡翠暴击率提高18%。"
+      e4DefShredBuff:
+        text: 4魂防御穿透增益
+        content: "4魂：施放终结技时，使翡翠造成的伤害无视敌方目标12%的防御力，持续3回合。"
+      e6ResShredBuff:
+        text: 6魂抗性穿透增益
+        content: "6魂：场上有【收债人】状态的角色时，翡翠量子属性抗性穿透提高20%，同时翡翠获得【收债人】状态。"
+    TeammateContent:
+      debtCollectorSpdBuff:
+        text: 收债人速度增益
+        content: 指定我方单体成为【收债人】，使其速度提高30点，持续3回合。
+  Jiaoqiu:
+    Content:
+      ashenRoastStacks:
+        text: 烬煨层数
+        content: >-
+          椒丘使用普攻、战技、终结技击中敌人时，有100%的基础概率对其施加1层【烬煨】，1层时使敌人受到的伤害提高{{AshenRoastInitialVulnerability}}%，此后每叠加1层提高{{AshenRoastAdditionalVulnerability}}%。::BR::【烬煨】最多叠加5层，持续2回合。::BR::当敌方目标处于【烬煨】状态时，也会被视为同时陷入了灼烧状态，每回合开始时受到等同于椒丘{{AshenRoastDotMultiplier}}%攻击力的火属性持续伤害。
+      ultFieldActive:
+        text: 终结技结界激活
+        content: >-
+          将敌方目标具有的【烬煨】层数统一设置为场上【烬煨】层数的最高值，随后开启结界并对敌方全体造成等同于椒丘{{UltScaling}}%攻击力的火属性伤害。::BR::处于结界中时，敌方目标受到的终结技伤害提高{{UltVulnerability}}%，且行动时有{{ZoneDebuffChance}}%的基础概率被施加1层【烬煨】，结界存在期间该效果最多触发6次，且每个敌方目标每回合只能触发1次。椒丘每次施放终结技时重置触发次数。
+      ehrToAtkBoost:
+        text: 效果命中转至攻击力增益
+        content: 椒丘效果命中大于80%时，每超过15%，则额外提高60%攻击力，最高不超过240%。
+      e1DmgBoost:
+        text: 1魂伤害提高
+        content: "1魂：我方目标对处于【烬煨】状态的敌方目标造成的伤害提高40%。"
+      e2Dot:
+        text: 2魂持续伤害提高
+        content: "2魂：敌方目标处于【烬煨】状态时，【烬煨】对其造成的火属性持续伤害倍率提高300%。"
+      e6ResShred:
+        text: 6魂抗性削弱
+        content: "6魂：敌方目标被消灭时，其持有的【烬煨】会叠加给场上存活的【烬煨】层数最低的敌人。【烬煨】的层数上限提升至9，每层【烬煨】会使目标的全属性抗性降低3%。"
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: 强化状态
+        content: >-
+          当拥有2层【朔望】时，镜流将进入【转魄】状态，并使行动提前100%、暴击率提高{{talentCrBuff}}%，随后战技【无罅飞光】强化为【寒川映月】且仅能使用该战技。
+      talentHpDrainAtkBuff:
+        text: 吸血量攻击力增益
+        content: >-
+          【转魄】状态下施放攻击时，消耗队友一定生命上限的生命值。根据本次我方全体生命值消耗总量提高镜流攻击力，最高不超过镜流基础攻击力的{{talentHpDrainAtkBuffMax}}%，持续至本次攻击结束。
+      e1CdBuff:
+        text: 1魂终结技后增益激活
+        content: >-
+          1魂：施放终结技或强化战技时，镜流的暴击伤害提高 24% ，持续1回合。若只攻击了1个敌方目标，则额外对该目标造成1次等同于镜流100%攻击力的冰属性伤害。
+      e2SkillDmgBuff:
+        text: 2魂强化战技增益
+        content: "2魂：施放终结技后，下一次强化战技的伤害提高80%。"
+  JingYuan:
+    Content:
+      skillCritBuff:
+        text: 战技暴击率增益
+        content: 施放战技后，暴击率提升10%，持续2回合。
+      talentHitsPerAction:
+        text: 神君层数
+        content: '【神君】最多累计10段攻击段数'
+      talentAttacks:
+        text: 神君对目标的击中次数
+        content: 对目标的击中次数。通常应设置为与神君层数相同的值。
+      e2DmgBuff:
+        text: 2魂伤害提高
+        content: "2魂：【神君】行动后，景元的普攻、战技、终结技造成的伤害提高20%，持续2回合。"
+      e6FuaVulnerabilityStacks:
+        text: 6魂易伤层数
+        content: >-
+          6魂：【神君】每段攻击后会使指定敌方目标额外陷入易伤状态。易伤状态下的敌方目标受到的伤害提高12%，持续至【神君】本次攻击结束，该效果最多叠加3层。（应用于所有攻击次数）
+  Kafka:
+    Content:
+      e1DotDmgReceivedDebuff:
+        text: 1魂持续伤害易伤
+        content: "1魂：天赋触发追加攻击时，有100%的基础概率使目标受到的持续伤害提高30%，持续2回合。"
+      e2TeamDotBoost:
+        text: 2魂团队持续伤害提高
+        content: "2魂：卡芙卡在场时，我方全体造成的持续伤害提高25%。"
+  Lingsha:
+    Content:
+      beConversion:
+        text: 击破特攻转至攻击力 / 治疗量增益
+        content: 使自身攻击力/治疗量提高，提高数值等同于击破特攻的25%/10%，最多使攻击力/治疗量提高50%/20%。
+      befogState:
+        text: 醇醉状态
+        content: '【醇醉】状态下，使目标受到的击破伤害提高{{BefogVulnerability}}%，持续2回合。'
+      e1DefShred:
+        text: 1魂弱点击破增益
+        content: "1魂：灵砂的弱点击破效率提高50%。当有敌方单位的弱点被击破时，使其防御力降低20%。"
+      e2BeBuff:
+        text: 2魂击破特攻增益
+        content: "2魂：施放终结技时，使我方全体击破特攻提高40%，持续3回合。"
+      e6ResShred:
+        text: 6魂抗性削弱
+        content: "6魂：【浮元】在场时，使敌方全体全属性抗性降低20%。"
+  Luka:
+    Content:
+      basicEnhanced:
+        text: 强化普攻
+        content: 强化普通攻击以造成额外伤害，并有几率触发额外攻击。
+      targetUltDebuffed:
+        text: 终结技易伤负面效果
+        content: 使指定敌方单体受到的伤害提高{{targetUltDebuffDmgTakenValue}}%，持续3回合。
+      basicEnhancedExtraHits:
+        text: 强化普攻额外攻击次数
+        content: 增加强化普攻的攻击次数。
+      e1TargetBleeding:
+        text: 1魂目标处于裂伤状态
+        content: "1魂：当卢卡行动时，若指定的敌方目标处于裂伤状态，卢卡造成的伤害提高15%，持续2回合。"
+      e4TalentStacks:
+        text: 4魂天赋层数
+        content: "4魂：每获得1层【斗志】，攻击力提高5%，该效果最多叠加4层。"
+  Luocha:
+    Content:
+      fieldActive:
+        text: 结界激活
+        content: "1魂：结界生效时我方全体攻击力提高20%。"
+      e6ResReduction:
+        text: 6魂抗性削弱
+        content: "6魂：施放终结技时，使敌方全体全属性抗性降低20%，持续2回合。"
+  Lynx:
+    Content:
+      skillBuff:
+        text: 战技生命上限增益
+        content: >-
+          为指定我方单体附上【求生反应】，提高等同于玲可{{skillHpPercentBuff}}%生命上限+{{skillHpFlatBuff}}的生命上限。::BR::4魂：获得【求生反应】时，使该目标攻击力提高，提高数值等同于玲可3%生命上限的攻击力，持续1回合。::BR::6魂：【求生反应】的生命上限提高效果额外提高，提高数值等同于玲可6%的生命上限，并使其效果抵抗提高30%。
+    TeammateContent:
+      teammateHPValue:
+        text: 玲可生命值
+        content: >-
+          为指定我方单体附上【求生反应】，提高等同于玲可{{skillHpPercentBuff}}%生命上限+{{skillHpFlatBuff}}的生命上限。::BR::4魂：获得【求生反应】时，使该目标攻击力提高，提高数值等同于玲可3%生命上限的攻击力，持续1回合。::BR::6魂：【求生反应】的生命上限提高效果额外提高，提高数值等同于玲可6%的生命上限，并使其效果抵抗提高30%。
+  March7thImaginary:
+    Content:
+      enhancedBasic:
+        text: 强化普攻
+        content: >-
+          初始造成3段伤害，每段对指定敌方单体造成等同于三月七{{BasicEnhancedScaling}}%攻击力的虚数属性伤害。每当造成最后1段伤害后，有60%的固定概率再造成1段伤害，最多额外造成3段伤害。
+      basicAttackHits:
+        text: 强化普攻攻击次数
+        content: >-
+          初始造成3段伤害，每段对指定敌方单体造成等同于三月七{{BasicEnhancedScaling}}%攻击力的虚数属性伤害。每当造成最后1段伤害后，有60%的固定概率再造成1段伤害，最多额外造成3段伤害。
+      masterAdditionalDmgBuff:
+        text: DPS师傅增益
+        content: 每当施放普攻或造成1段强化普攻的伤害时，额外造成等同于三月七{{ShifuDmgBuff}}%攻击力的基于【师父】属性的附加伤害。
+      masterToughnessRedBuff:
+        text: 辅助师傅增益
+        content: 每当施放普攻或造成1段强化普攻的伤害时，本次伤害的削韧值提高100%。
+      talentDmgBuff:
+        text: 天赋普攻伤害增益
+        content: >-
+          【师父】施放攻击或终结技后，三月七每次获得最多1点充能。::BR::充能大于等于7点时，三月七立即行动，造成的伤害提高{{TalentDmgBuff}}%。
+      selfSpdBuff:
+        text: 1魂速度增益
+        content: "1魂：场上存在【师父】时，三月七的速度提高10%。"
+      e6CdBuff:
+        text: 6魂强化普攻爆伤提升
+        content: "6魂：施放终结技后，下一次强化普攻造成的暴击伤害提高50%。"
+    TeammateContent:
+      masterBuff:
+        text: 师傅增益
+        content: 使除自身以外的我方指定单体成为【师父】，【师父】的速度提高{{ShifuSpeedBuff}}%。
+      masterCdBeBuffs:
+        text: 师傅爆伤 / 击破特攻增益
+        content: 施放强化普攻后，使【师父】的暴击伤害提高60%，击破特攻提高36%，持续2回合。
+  Misha:
+    Content:
+      ultHitsOnTarget:
+        text: 终结技击中目标次数
+        content: 终结技对主要目标的击中次数，每段攻击对敌方造成等同于米沙{{ultStackScaling}}%攻击力的冰属性伤害。
+      enemyFrozen:
+        text: 敌人被冻结
+        content: 对陷入冻结状态的敌方目标造成伤害时，暴击伤害提升 30% 。
+      e2DefReduction:
+        text: 2魂防御力削弱
+        content: "2魂：终结技每段攻击前，有一定概率使目标防御力降低16%，持续3回合。"
+      e6UltDmgBoost:
+        text: 6魂终结技伤害提高
+        content: "6魂：施放终结技时，使自身造成的伤害提高30%，持续至自身回合结束。"
+  Moze:
+    Content:
+      preyMark:
+        text: 目标被标记为猎物
+        content: >-
+          场上存在【猎物】时，貊泽会进入离场状态。::BR::我方目标攻击【猎物】后，貊泽会额外造成1次等同于自身{{PreyAdditionalMultiplier}}%攻击力的雷属性附加伤害，并消耗1点充能。每消耗3点充能，貊泽会对【猎物】发动1次追加攻击，造成等同于自身{{FuaScaling}}%攻击力的雷属性伤害，当充能为0时，解除目标【猎物】状态，并重置计入发动追加攻击所需的充能点数。
+      e2CdBoost:
+        text: 2魂暴击伤害提升
+        content: "2魂：我方全体目标对成为【猎物】的敌方目标造成伤害时，暴击伤害提高40%。"
+      e4DmgBuff:
+        text: 4魂伤害提高
+        content: 施放终结技时，貊泽造成的伤害提高30%，持续2回合。
+      e6MultiplierIncrease:
+        text: 6魂追加攻击倍率增益
+        content: 天赋的追加攻击的伤害倍率提高25%。
+  Pela:
+    Content:
+      teamEhrBuff:
+        text: 团队效果命中增益
+        content: 佩拉在场时，我方全体的效果命中提高10%。
+      enemyDebuffed:
+        text: 敌人处于负面效果
+        content: 对处于负面效果的敌方目标造成的伤害提高20%。
+      skillRemovedBuff:
+        text: 敌人被解除增益效果后增益
+        content: "施放战技解除增益效果时，下一次攻击造成的伤害提高20%。::BR::2魂：施放战技解除增益效果时，速度提高10%，持续2回合。"
+      ultDefPenDebuff:
+        text: 终结技防御力削弱
+        content: '【通解】状态下，敌方目标防御力降低{{ultDefPenValue}}%，持续2回合。'
+      e4SkillResShred:
+        text: 4魂冰抗性削弱
+        content: "4魂：施放战技时，有100%的基础概率使敌方目标冰属性抗性降低12%，持续2回合。"
+  Qingque:
+    Content:
+      basicEnhanced:
+        text: 强化普攻
+        content: 青雀攻击力提高{{talentAtkBuff}}%, 普攻【门前清】强化为【杠上开花】。
+      basicEnhancedSpdBuff:
+        text: 强化普工速度增益
+        content: 施放强化普攻后，青雀的速度提高10%，持续1回合。
+      skillDmgIncreaseStacks:
+        text: 战技伤害提高层数
+        content: 立即抽取2张琼玉牌，使自身造成的伤害提高{{skillStackDmg}}%，持续至本回合结束。该效果可以叠加4层。
+  Rappa:
+    Content:
+      sealformActive:
+        text: 结印 （强制弱点击破状态）
+        content: >-
+          进入【结印】状态，立即获得1个额外回合并获得3点【彩墨】，同时弱点击破效率提高50%，击破特攻提高{{ultBeBuff}}%。
+      atkToBreakVulnerability:
+        text: 攻击力转至击破易伤
+        content: 敌方目标的弱点被击破时，受到的击破伤害提高2%，若乱破当前攻击力高于2400点，每超过100点攻击力可使该数值额外提高1% ，最多额外提高8% 。
+      chargeStacks:
+        text: 充能层数
+        content: 每点充能使本次击破伤害倍率提高{{talentChargeMultiplier}}%，并使无视弱点属性的削韧值提高1点。
+      e1DefPen:
+        text: 1魂防御穿透
+        content: 施放终结技进入【结印】状态期间，乱破造成的伤害无视目标15%的防御。
+      e2Buffs:
+        text: 2魂击破增益
+        content: 强化普攻的前2段攻击对指定敌方单体的削韧值提高50%。
+      e4SpdBuff:
+        text: 4魂速度增益
+        content: '【结印】状态期间，我方全体速度提高12%。'
+    TeammateContent:
+      teammateBreakVulnerability:
+        text: 击破易伤
+        content: 敌方目标的弱点被击破时，受到的击破伤害提高2%，若乱破当前攻击力高于2400点，每超过100点攻击力可使该数值额外提高1% ，最多额外提高8% 。
+      e4SpdBuff:
+        text: 4魂速度增益
+        content: '【结印】状态期间，我方全体速度提高12%。'
+  Robin:
+    Content:
+      concertoActive:
+        text: 协奏状态激活
+        content: >-
+          处于【协奏】状态时，我方全体攻击力提高，提高数值等同于知更鸟攻击力的{{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}点，且我方目标每次施放攻击后，知更鸟会额外造成1次等同于其自身{{ultScaling}}%攻击力的物理属性附加伤害，该伤害暴击率固定为100%，暴击伤害固定为150%。
+      skillDmgBuff:
+        text: 战技伤害增益
+        content: 使我方全体造成的伤害提高{{skillDmgBuffValue}}%，持续3回合。
+      talentCdBuff:
+        text: 天赋暴击伤害增益
+        content: 使我方全体暴击伤害提高{{talentCdBuffValue}}%。
+      e1UltResPen:
+        text: 1魂终结技抗性穿透
+        content: 1魂：处于【协奏】状态时，我方全体全属性抗性穿透提高24%。
+      e4TeamResBuff:
+        text: 4魂团队效果抵抗增益
+        content: 4魂：施放终结技时，解除我方全体的控制类负面状态，使我方全体在知更鸟处于【协奏】状态期间的效果抵抗提高50%。
+      e6UltCDBoost:
+        text: 6魂终结技附加伤害爆伤提升
+        content: >-
+          处于【协奏】状态时，终结技造成的物理属性附加伤害的暴击伤害额外提高450%。【月隐的午夜】效果最多触发8次，每次施放终结技时重置触发次数。
+    TeammateContent:
+      teammateATKValue:
+        text: 知更鸟战斗中攻击力
+        content: >-
+          处于【协奏】状态时，我方全体攻击力提高，提高数值等同于知更鸟攻击力的{{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}点。::BR::将此设置为知更鸟用来增益队友时的自身攻击力。
+      traceFuaCdBoost:
+        text: 追加攻击暴伤提升
+        content: 处于【协奏】状态时，我方全体发动追加攻击造成的暴击伤害提高25%。
+      e2UltSpdBuff:
+        text: 2魂终结技速度增益
+        content: 处于【协奏】状态时，我方全体速度提高16%。
+  RuanMei:
+    Content:
+      skillOvertoneBuff:
+        text: 弦外音增益
+        content: >-
+          施放战技后阮•梅获得【弦外音】，持续3回合。当阮•梅拥有【弦外音】时，我方全体伤害提高{{skillScaling}}%，弱点击破效率提高50%。
+      teamBEBuff:
+        text: 团队击破特攻增益
+        content: 我方全体击破特攻提高20%。
+      ultFieldActive:
+        text: 终结技结界激活
+        content: >-
+          处于结界中时我方全体全属性抗性穿透提高{{fieldResPenValue}}%。::BR::1魂：终结技展开结界期间，我方全体造成伤害时无视目标20%的防御力。
+      e2AtkBoost:
+        text: 2魂弱点击破时攻击力提升
+        content: "2魂：阮•梅在场时，我方全体对处于弱点击破状态的敌方目标造成伤害时，攻击力提高40%。"
+      e4BeBuff:
+        text: 4魂击破特攻增益
+        content: "4魂：当敌方目标的弱点被击破时，阮•梅自身击破特攻提高100%，持续3回合。"
+    TeammateContent:
+      teamSpdBuff:
+        text: 团队速度增益
+        content: 使除自身以外的队友速度提高{{talentSpdScaling}}%。
+      teamDmgBuff:
+        text: 击破特攻转至伤害提高
+        content: 战斗中阮•梅的击破特攻大于120%时，每超过10%，则战技使我方全体伤害提高的效果额外提高6%，最高不超过36%。
+  Sampo:
+    Content:
+      targetDotTakenDebuff:
+        text: 终结技持续伤害易伤
+        content: 当受到桑博的终结技伤害时, 使被攻击的敌方目标受到的持续伤害提高{{dotVulnerabilityValue}}%，持续2回合。
+      skillExtraHits:
+        text: 战技额外击中次数
+        content: 战技的额外击中次数。
+      targetWindShear:
+        text: 目标处于风化状态
+        content: 风化状态下的敌方目标对桑博造成的伤害降低15%。
+  Seele:
+    Content:
+      buffedState:
+        text: 增幅状态
+        content: >-
+          施放普攻、战技、终结技消灭敌方目标时立即获得1个额外回合并进入增幅状态，增幅状态下希儿施放攻击造成的伤害提高{{buffedStateDmgBuff}}%，持续1回合。::BR::增幅状态下希儿的量子属性抗性穿透提高20%。
+      speedBoostStacks:
+        text: 速度增益层数
+        content: 每层使希儿的速度提高25%，最多可叠加{{speedBoostStacksMax}}次。
+      e1EnemyHp80CrBoost:
+        text: 1魂敌人生命值≤80%时暴击率提升
+        content: "1魂：对当前生命值百分比小于等于80%的敌方目标造成伤害时，暴击率提高15%。"
+      e6UltTargetDebuff:
+        text: 6魂敌人处于乱蝶状态
+        content: >-
+          施放终结技后使受到攻击的敌方单体陷入【乱蝶】状态，持续1回合。【乱蝶】状态下的敌方目标受到攻击后，额外受到1次等同于希儿终结技伤害15%的量子属性附加伤害。
+  Serval:
+    Content:
+      targetShocked:
+        text: 目标处于触电状态
+        content: 施放攻击后，对所有触电状态下的敌方目标造成等同于希露瓦{{talentExtraDmgScaling}}%攻击力的雷属性附加伤害。
+      enemyDefeatedBuff:
+        text: 消灭敌人后增益
+        content: 消灭敌方目标后，攻击力提高20%，持续2回合。
+  SilverWolf:
+    Content:
+      skillResShredDebuff:
+        text: 战技抗性削弱
+        content: >-
+          有100%的基础概率额外使该目标的全属性抗性降低{{skillResShredValue}}%持续2回合。::BR::施放战技时，若敌方目标的负面效果数量大于等于3个，则战技使目标全属性抗性降低的效果额外降低3%。
+      skillWeaknessResShredDebuff:
+        text: 战技添加弱点后属性削弱
+        content: >-
+          有概率为指定敌方单体目标添加1个场上我方目标持有属性的弱点，且该弱点对应属性的抗性降低20%，持续2回合。若添加的是敌方目标原有属性的弱点，则不会触发对应属性的抗性降低效果。
+      talentDefShredDebuff:
+        text: 缺陷防御力削弱
+        content: 银狼制造的【缺陷】使目标防御力降低{{talentDefShredDebuffValue}}%，持续3回合。
+      ultDefShredDebuff:
+        text: 终结技防御力削弱
+        content: 使指定敌方单体防御力降低{{ultDefShredValue}}%，持续3回合。
+      targetDebuffs:
+        text: 目标负面效果数量
+        content: >-
+          施放战技时，若敌方目标的负面效果数量大于等于3个，则战技使目标全属性抗性降低的效果额外降低3%。::BR::4魂：施放终结技攻击敌方目标后，目标每有1个负面效果，则额外造成等同于银狼20%攻击力的量子属性附加伤害。该效果在每次终结技攻击中最多触发5次。::BR::6魂：敌方目标每有1个负面效果，银狼对其造成的伤害提高20%，最多提高100%。
+  Sparkle:
+    Content:
+      skillCdBuff:
+        text: 战技暴击伤害增益
+        content: >-
+          使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。::BR::6魂：战技的暴击伤害提高效果额外提高，提高数值等同于花火暴击伤害的30%，花火施放战技时，使战技的暴击伤害提高效果对持有【谜诡】的队友都会生效，花火施放终结技时，若我方单体中有目标持有战技的暴击伤害提高效果，使该效果扩散至持有【谜诡】的队友。
+      cipherBuff:
+        text: 谜诡增益
+        content: >-
+          持有【谜诡】的我方目标触发花火天赋造成的伤害提高效果每层额外提高{{cipherTalentStackBoost}}%，持续2回合。::BR::1魂：终结技施加的【谜诡】的持续时间额外增加1回合，持有【谜诡】的我方目标攻击力提高40%。
+      talentStacks:
+        text: 天赋增伤层数
+        content: >-
+          当我方目标每消耗1点战技点，则使我方全体造成的伤害提高{talentBaseStackBoost}}%，该效果持续2回合，最多可叠加3层。::BR::2魂：天赋每层效果额外使我方目标造成伤害时无视目标8%的防御力。
+      quantumAllies:
+        text: 量子属性队友数量
+        content: 当我方队伍中存在1名/2名/3名量子属性的角色时，我方量子属性的角色的攻击力额外提高5%/15%/30%。
+    TeammateContent:
+      teammateCDValue:
+        text: 花火战斗中暴击伤害值
+        content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。
+  Sunday:
+    Content:
+      skillDmgBuff:
+        text: 战技伤害增益
+        content: >-
+          使指定我方单体角色及其召唤物立即行动，并使其造成的伤害提高{{DmgBoost}}%，若目标拥有召唤物，则造成的伤害提高效果额外提高{{SummonDmgBoost}}%，持续2回合。
+      talentCrBuffStacks:
+        text: 天赋暴击率增益层数
+        content: 施放战技时，使目标的暴击率提高20%，持续3回合。
+      techniqueDmgBuff:
+        text: 秘技伤害增益
+        content: 使用秘技后，下一次战斗星期日首次对我方目标施放技能时，使目标造成的伤害提高50%，持续2回合。
+      e1DefPen:
+        text: 1魂防御穿透
+        content: >-
+          星期日施放战技时，使目标角色造成伤害时无视目标16%的防御力，召唤物造成伤害时无视目标40%的防御力，持续2回合。
+      e2DmgBuff:
+        text: 2魂蒙福者伤害增益
+        content: '【蒙福者】造成的伤害提高30%。'
+    TeammateContent:
+      beatified:
+        text: 终结技暴击伤害增益
+        content: >-
+          为指定目标及其召唤物成为【蒙福者】，【蒙福者】的暴击伤害提高，提高数值等同于星期日{{CritBuffScaling}}暴击伤害+{{CritBuffFlat}}%。
+      teammateCDValue:
+        text: 星期日战斗中暴击伤害
+        content: >-
+          为指定目标及其召唤物成为【蒙福者】，【蒙福者】的暴击伤害提高，提高数值等同于星期日{{CritBuffScaling}}暴击伤害+{{CritBuffFlat}}%。
+      e6CrToCdConversion:
+        text: 6魂暴击率转至暴击伤害
+        content: >-
+          天赋的暴击率提高效果生效时，当目标的暴击率超过100%，每溢出1%暴击率提高2%暴击伤害。
+  Sushang:
+    Content:
+      ultBuffedState:
+        text: 终结技强化状态
+        content: >-
+          使素裳攻击力提高{{ultBuffedAtk}}%且施放战技时额外增加2次【剑势】的发动判定，持续2回合。通过额外判定发动的【剑势】伤害为原伤害的50%。
+      skillExtraHits:
+        text: 战技额外击中次数
+        content: 增加【剑势】额外击中的次数。
+      skillTriggerStacks:
+        text: 剑势激活层数
+        content: 每发动1次【剑势】，【剑势】造成的伤害提高2.5%，该效果最多叠加10层。
+      talentSpdBuffStacks:
+        text: 天赋速度增益层数
+        content: >-
+          当场上有敌方目标的弱点被击破，素裳的速度每层提高{{talentSpdBuffValue}}%，持续2回合。::BR::6魂：天赋的加速效果可以叠加，最多叠加2层，且进入战斗后素裳立即获得1层天赋的加速效果。
+      e2DmgReductionBuff:
+        text: 2魂减伤增益
+        content: "2魂：触发【剑势】后，素裳受到的伤害降低20%，持续1回合。"
+  Tingyun:
+    Content:
+      benedictionBuff:
+        text: 赐福增益
+        content: >-
+          为指定我方单体提供【赐福】，使其攻击力提高{{skillAtkBoostScaling}}%，最高不超过停云当前攻击力的{{skillAtkBoostMax}}%。获得【赐福】的目标施放攻击后，会额外造成1次等同于其自身{{skillLightningDmgBoostScaling}}%攻击力的雷属性附加伤害，持续3回合。
+      skillSpdBuff:
+        text: 战技速度增益
+        content: 施放战技时，停云自身速度提高20%，持续1回合。
+      ultDmgBuff:
+        text: 终结技伤害增益
+        content: 为指定我方单体恢复50点能量，同时使目标造成的伤害提高{{ultDmgBoost}}%，持续2回合。
+      ultSpdBuff:
+        text: 1魂终结技速度增益
+        content: "1魂：得到【赐福】的我方单体施放终结技后速度提高20%，持续1回合。"
+    TeammateContent:
+      teammateAtkBuffValue:
+        text: 战技攻击力增益值
+        content: >-
+          为指定我方单体提供【赐福】，使其攻击力提高{{skillAtkBoostScaling}}%，最高不超过停云当前攻击力的{{skillAtkBoostMax}}%。获得【赐福】的目标施放攻击后，会额外造成1次等同于其自身{{skillLightningDmgBoostScaling}}%攻击力的雷属性附加伤害，持续3回合。
+  Topaz:
+    Content:
+      enemyProofOfDebtDebuff:
+        text: 负债证明负面效果
+        content: 使指定敌方单体陷入【负债证明】状态，使其受到的追加攻击伤害提高{{proofOfDebtFuaVulnerability}}%.
+      numbyEnhancedState:
+        text: 账账强化状态
+        content: 使账账进入【涨幅惊人！】状态，伤害倍率提高{{enhancedStateFuaScalingBoost}}%，暴击伤害提高{{enhancedStateFuaCdBoost}}%。
+      e1DebtorStacks:
+        text: 1魂被执行状态层数
+        content: >-
+          1魂：陷入【负债证明】状态下的敌方目标受到追加攻击时，将会陷入【被执行】状态，单次攻击内最多生效1次。【被执行】使敌方目标受到的追加攻击的暴击伤害提高25%，最多叠加2层。【负债证明】被移除时，【被执行】也会被移除。
+  TrailblazerDestruction:
+    Content:
+      enhancedUlt:
+        text: 终结技对群
+        content: >-
+          在两种攻击模式中选择其一挥出全力一击。::BR:: 【全胜•再见安打】(单体）：对指定敌方单体造成等同于开拓者{{ultScaling}}%攻击力的物理属性伤害。::BR::【全胜•安息全垒打】（多个目标）：对指定敌方单体造成等同于开拓者{{ultEnhancedScaling}}%攻击力的物理属性伤害，并对其相邻目标造成等同于开拓者{{ultEnhancedScaling2}}%攻击力的物理属性伤害。
+      talentStacks:
+        text: 天赋层数
+        content: 每次击破敌方目标的弱点后，攻击力提高{{talentAtkScalingValue}}%，防御力提高10%。该效果最多叠加2层。
+  TrailblazerHarmony:
+    Content:
+      backupDancer:
+        text: 伴舞击破特攻增益
+        content: >-
+          为我方全体附上【伴舞】效果，持续3回合，开拓者每回合开始时持续回合数减1。持有【伴舞】的我方目标击破特攻提高{{ultBeScaling}}%。
+      superBreakDmg:
+        text: 超击破伤害（强制弱点击破）
+        content: >-
+          当队友攻击处于弱点击破状态下的敌方目标后，会将本次攻击的削韧伤害转化为1次超击破伤害。::BR::超击破伤害会添加到普攻/战技/终结技/追加攻击的伤害栏中。例如，启用时，战技栏将变为基础战技伤害值+基于技能削韧伤害的超击破伤害值之和。此选项将敌方弱点击破状态强制为开启。
+      skillHitsOnTarget:
+        text: 战技对目标的额外击中次数
+        content: 对指定敌方单体造成等虚数属性伤害，并额外造成4次伤害。每次伤害对随机敌方单体造成虚数属性伤害。
+      e2EnergyRegenBuff:
+        text: 2魂能量恢复效率增益
+        content: 2魂：战斗开始时，开拓者的能量恢复效率提高25%，持续3回合。
+    TeammateContent:
+      teammateBeValue:
+        text: 4魂战斗中击破特攻
+        content: 4魂：开拓者在场时，使除自身以外的队友击破特攻提高，提高数值等同于开拓者15%的击破特攻。
+  TrailblazerPreservation:
+    Content:
+      enhancedBasic:
+        text: 强化普攻
+        content: 强化普攻对指定敌方单体造成等同于开拓者{{basicEnhancedAtkScaling}}%攻击力的火属性伤害，同时对其相邻目标造成降低伤害。
+      skillActive:
+        text: 战技减伤
+        content: 施放战技后，开拓者受到的伤害降低{{skillDamageReductionValue}}%，同时我方全体受到的伤害降低15%，持续1回合。
+      shieldActive:
+        text: 持有护盾
+        content: 若开拓者持有护盾保护，则攻击力提高15%。
+      e6DefStacks:
+        text: 6魂防御力增益层数
+        content: "6魂：施放强化普攻或终结技后，开拓者的防御力提高10%，最多叠加3层。"
+  Welt:
+    Content:
+      enemyDmgTakenDebuff:
+        text: 终结技易伤负面效果
+        content: 施放终结技时，有100%基础概率使目标受到的伤害提高12%，持续2回合。
+      enemySlowed:
+        text: 敌人处于减速状态
+        content: 击中处于减速状态的敌方目标时，额外造成1次等同于瓦尔特{{talentScaling}}%攻击力的虚数属性附加伤害。
+      skillExtraHits:
+        text: 战技对目标的额外击中次数
+        content: >-
+          对指定敌方单体造成等同于瓦尔特{{skillScaling}}%攻击力的虚数属性伤害，并额外造成2次伤害。每次伤害对敌方随机单体造成等同于瓦尔特{{skillScaling}}%攻击力的虚数属性伤害。
+      e1EnhancedState:
+        text: 1魂强化状态
+        content: >-
+          1魂：施放终结技后，瓦尔特获得强化，在随后2次施放普攻或战技时额外对敌方目标造成1次附加伤害。施放普攻造成的附加伤害等同于普攻伤害倍率的50%，施放战技造成的附加伤害等同于战技伤害倍率的80%。
+  Xueyi:
+    Content:
+      beToDmgBoost:
+        text: 击破特攻转至伤害提高
+        content: 使自身造成的伤害提高，提高数值等同于击破特攻的100%，最多使造成的伤害提高240%。
+      enemyToughness50:
+        text: 摧锋轴承
+        content: 如果敌方目标当前韧性大于等于其自身韧性上限的50%，施放终结技时造成的伤害提高10%。
+      toughnessReductionDmgBoost:
+        text: 终结技伤害提高
+        content: 使用终结技时，削减的韧性越多，造成的伤害越高，最多提高{{ultBoostMax}}%。
+      fuaHits:
+        text: 追加攻击击中目标次数
+        content: >-
+          当【恶报】叠加至上限时消耗当前所有【恶报】，立即对敌方目标发动追加攻击，造成3次伤害，每次伤害对敌方随机单体造成等同于雪衣{{fuaScaling}}%攻击力的量子属性伤害。
+      e4BeBuff:
+        text: 4魂击破特攻增益
+        content: "4魂：施放终结技时，击破特攻提高40%，持续2回合。"
+  Yanqing:
+    Content:
+      ultBuffActive:
+        text: 终结技增益激活
+        content: 提高自身60%暴击率，若彦卿处于【智剑连心】效果，则使其暴击伤害额外提高{{ultCdBuffValue}}%.
+      soulsteelBuffActive:
+        text: 智剑连心效果激活
+        content: >-
+          彦卿处于【智剑连心】效果时，为自身提高{{talentCrBuffValue}}%暴击率和{{talentCdBuffValue}}%暴击伤害。::BR::使用终结技时，若彦卿处于【智剑连心】效果，则使其暴击伤害额外提高{{ultCdBuffValue}}%.::BR::处于【智剑连心】效果时，效果抵抗提高20%。::BR::2魂：处于【智剑连心】效果时，额外提高10%的能量恢复效率。
+      critSpdBuff:
+        text: 速度增益
+        content: 触发暴击时，速度提高10%，持续2回合。
+      e1TargetFrozen:
+        text: 1魂敌人处于冻结状态
+        content: "1魂：当彦卿攻击敌方目标时，如果目标处于冻结状态，则立即对目标造成等同于彦卿60%攻击力的冰属性附加伤害。"
+      e4CurrentHp80:
+        text: 4魂自身生命值≥80%时抗性穿透增益
+        content: "4魂：当前生命值百分比大于等于80%时，提高自身12%的冰属性抗性穿透。"
+  Yukong:
+    Content:
+      teamImaginaryDmgBoost:
+        text: 团队虚数伤害提高
+        content: 驭空在场时，我方全体造成的虚数属性伤害提高12%。
+      roaringBowstringsActive:
+        text: 鸣弦号令激活
+        content: "当驭空持有【鸣弦号令】时，我方全体攻击力提高{{skillAtkBuffValue}}%。::BR::4魂：持有【鸣弦号令】时，驭空造成的伤害提高30%。"
+      ultBuff:
+        text: 终结技暴击率 / 暴击伤害增益
+        content: >-
+          施放终结技时，若驭空持有【鸣弦号令】，则额外使我方全体暴击率提高{{ultCrBuffValue}}%，暴击伤害提高{{ultCdBuffValue}}%。同时对指定敌方单体造成等同于驭空{{ultScaling}}%攻击力的虚数属性伤害。
+      initialSpeedBuff:
+        text: 1魂初始速读增益
+        content: "1魂：进入战斗时，我方全体速度提高10%，持续2回合。"
+  Yunli:
+    Content:
+      blockActive:
+        text: 格挡状态激活
+        content: '【格挡】状态下抵抗受到的控制类负面效果，并使受到的伤害降低20%。'
+      ultCull:
+        text: "【勘破•灭】激活"
+        content: >-
+          【勘破•灭】：对目标造成等同于云璃{{CullScaling}}%攻击力的物理属性伤害，对其相邻目标造成等同于云{{CullAdjacentScaling}}%攻击力的物理属性伤害，随后额外造成6次伤害，每次伤害对随机敌方单体造成等同于云璃{{CullAdditionalScaling}}%攻击力的物理伤害。
+      ultCullHits:
+        text: "【勘破•灭】击中次数"
+        content: >-
+          【勘破•灭】：对目标造成等同于云璃{{CullScaling}}%攻击力的物理属性伤害，对其相邻目标造成等同于云{{CullAdjacentScaling}}%攻击力的物理属性伤害，随后额外造成6次伤害，每次伤害对随机敌方单体造成等同于云璃{{CullAdditionalScaling}}%攻击力的物理伤害。
+      counterAtkBuff:
+        text: 反击攻击力增益
+        content: 施放反击时，云璃的攻击力提高30%，持续1回合。
+      e1UltBuff:
+        text: 1魂终结技增益
+        content: "1魂：【勘破•斩】与【勘破•灭】造成的伤害提高20%，【勘破•灭】的额外伤害次数增加3次。"
+      e2DefShred:
+        text: 2魂追加攻击防御穿透
+        content: 发动反击造成伤害时无视敌方目标20%的防御力。
+      e4ResBuff:
+        text: 4魂效果抵抗增益
+        content: "发动【勘破•斩】或【勘破•灭】后使自身效果抵抗提高50%，持续1回合。"
+      e6Buffs:
+        text: 6魂增益
+        content: >-
+          【格挡】状态期间，敌方主动施放技能时无论是否攻击云璃，都会触发【勘破•灭】同时移除【格挡】效果，发动【勘破•斩】或【勘破•灭】造成伤害时暴击率提高15%，物理属性抗性穿透提高20%。

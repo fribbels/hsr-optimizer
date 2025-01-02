@@ -1,0 +1,29 @@
+CollapseLabels:
+  Explore: Khám phá các tính năng
+  Join: Tham gia cộng đồng
+CommunityCollapse: >-
+  <0> Một lời cảm ơn lớn đến tất cả những người đóng góp, người dịch, người dùng và tất cả những ai đã cung cấp phản hồi, vì đã hỗ trợ dự án này và giúp xây dựng nó cùng nhau! </0> <1> Hãy tham gia cộng đồng Star Rail của chúng tôi! Tham gia server <1 text='Discord'/> để giao lưu, hoặc xem mã nguồn <3 text='GitHub'/> nếu bạn muốn đóng góp. </1>
+FeatureCards:
+  LearnMore: Tìm hiểu thêm
+  Showcase:
+    Title: Showcase Nhân vật
+    Content: >-
+      Trình bày chỉ số của nhân vật hoặc lên đồ trước nhân vật tương lai. Mô phỏng sát thương của họ với điểm DPS và đo lường nó so với các chuẩn mực.
+  Optimizer:
+    Title: Bộ tối ưu hóa di vật
+    Content: >-
+      Tối ưu hóa nhân vật của bạn để tìm kiếm sự kết hợp tốt nhất của di vật nhằm đạt được các điểm ngưỡng và tối đa hóa các chỉ số của chúng.
+  Calculator:
+    Title: Tính Sát Thương
+    Content: >-
+      Tính toán sát thương một cách chính xác với các thiết lập đội hình có thể tùy chỉnh, điều kiện buff và thứ tự dùng kỹ năng để tối đa hóa lượng sát thương.
+  Organizer:
+    Title: Trình quản lý di vật
+    Content: >-
+      Quản lý di vật của bạn bằng cách đánh giá và sắp xếp chúng theo tiềm năng, và tìm ra những di vật tốt nhất để nâng cấp cho từng nhân vật.
+Welcome: Chào mừng đến với <1/>Trình tối ưu hóa Star Rail của Fribbels!
+SearchBar:
+  Placeholder: UUID
+  Label: "Nhập UUID của bạn để xem hiển thị nhân vật:"
+  Message: Nhập không hợp lệ - Đây nên là UUID 9 chữ số trong game của bạn.
+  Search: Tìm Kiếm

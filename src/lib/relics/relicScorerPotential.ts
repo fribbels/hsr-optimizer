@@ -699,7 +699,7 @@ export class RelicScorer {
       return {
         relics: [],
         totalScore: 0,
-        totalRating: '???',
+        totalRating: '?',
       }
     }
 

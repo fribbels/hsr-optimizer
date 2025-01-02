@@ -1,5 +1,5 @@
 import { Card, Divider, Flex } from 'antd'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { iconSize } from 'lib/constants/constantsUi'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
@@ -82,6 +82,7 @@ export function RelicPreview(props: {
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
+        boxShadow: showcaseShadow,
       }}
     >
       <Flex vertical justify='space-between' style={{ height: 255 }}>

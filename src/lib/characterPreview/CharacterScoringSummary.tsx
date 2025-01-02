@@ -551,13 +551,15 @@ export function CharacterCardCombatStats(props: {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
 
+    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat as StatsValues}`)
+
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
       <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <Flex gap={1} align='center'>
           <StatTextSm>
-            {t(`ReadableStats.${stat as StatsValues}`)}
+            {statName}
           </StatTextSm>
           {upgraded && <Arrow/>}
         </Flex>

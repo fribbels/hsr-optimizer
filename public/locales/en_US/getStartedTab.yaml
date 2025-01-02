@@ -1,0 +1,6 @@
+TryOut:
+  DocumentationTitle: See full guide
+  ButtonText: Try it out!
+  description: Load a sample save file?
+  SuccessMessage: Successfully loaded data
+  Header: Try it out!

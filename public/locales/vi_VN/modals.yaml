@@ -1,0 +1,10 @@
+EditCharacter:
+  Character: Nhân vật
+  Lightcone: Nón Ánh Sáng
+Relic:
+  Set: Bộ
+CharacterSelect:
+  SingleSelect:
+    Placeholder: Nhân vật
+LightconeSelect:
+  Placeholder: Nón Ánh Sáng

@@ -15,7 +15,7 @@ export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
 
   const finalColor = adjustedColor
     .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0275, 0.97))
-    .alpha(0.875)
+    .alpha(0.85)
 
   // console.log(finalColor.luminance())
   // console.log(finalColor.hsl())
@@ -32,7 +32,7 @@ export function darkModeModifier(color: Color, darkMode: boolean) {
 }
 
 export function showcaseCardBorderColor(color: string, darkMode: boolean) {
-  const finalColor = chroma(color).desaturate(0.2).luminance(0.1).brighten(0.75).alpha(0.75)
+  const finalColor = chroma(color).desaturate(0.2).luminance(0.1).brighten(0.75).alpha(0.65)
   return darkModeModifier(finalColor, darkMode).css()
 }
 

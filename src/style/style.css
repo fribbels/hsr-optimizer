@@ -445,11 +445,11 @@ a {
 }
 
 .ant-card-hoverable:hover {
-    border-color: rgba(255, 255, 255, 0.40) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 .lightConeCard:hover {
-    border-color: rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
     cursor: pointer;
 }
 
@@ -643,4 +643,8 @@ a {
 
 .select-no-padding .ant-select-arrow {
     font-size: 10px !important;
+}
+
+.characterPreview .ant-typography {
+    color: rgb(255 255 255 / 90%);
 }

@@ -1,4 +1,4 @@
-import { Constants, Parts, RelicSetFilterOptions } from 'lib/constants/constants'
+import { Constants, Parts, RelicSetFilterOptions, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -154,7 +154,7 @@ export const RelicFilters = {
       for (const relicSet of request.relicSets) {
         if (relicSet[0] == RelicSetFilterOptions.relic4Piece) {
           if (relicSet.length == 2) {
-            const index = Constants.RelicSetToIndex[relicSet[1]]
+            const index = Constants.RelicSetToIndex[relicSet[1] as SetsRelics]
             allowedSets[index] = 1
           }
         }
@@ -165,10 +165,10 @@ export const RelicFilters = {
 
         if (relicSet[0] == RelicSetFilterOptions.relic2Plus2Piece) {
           if (relicSet.length == 3) {
-            const index1 = Constants.RelicSetToIndex[relicSet[1]]
+            const index1 = Constants.RelicSetToIndex[relicSet[1] as SetsRelics]
             allowedSets[index1] = 1
 
-            const index2 = Constants.RelicSetToIndex[relicSet[2]]
+            const index2 = Constants.RelicSetToIndex[relicSet[2] as SetsRelics]
             allowedSets[index2] = 1
           }
         }
@@ -180,7 +180,7 @@ export const RelicFilters = {
           || relic.part == Constants.Parts.Hands
           || relic.part == Constants.Parts.Body
           || relic.part == Constants.Parts.Feet) {
-          return allowedSets[Constants.RelicSetToIndex[relic.set]] == 1
+          return allowedSets[Constants.RelicSetToIndex[relic.set as SetsRelics]] == 1
         } else {
           return true
         }
@@ -202,7 +202,7 @@ export const RelicFilters = {
         if (
           relic.part == Constants.Parts.PlanarSphere
           || relic.part == Constants.Parts.LinkRope) {
-          return allowedSets[Constants.OrnamentSetToIndex[relic.set]] == 1
+          return allowedSets[Constants.OrnamentSetToIndex[relic.set as SetsOrnaments]] == 1
         } else {
           return true
         }
@@ -264,6 +264,10 @@ export const RelicFilters = {
       })
     }
     return relics
+  },
+
+  applyRelicExcludeFilter: (request: Form, relics: Relic[]) => {
+    return relics.filter((relic) => !relic.excluded.includes(request.characterId))
   },
 
   condenseRelicSubstatsForOptimizerSingle: (relics: Relic[]) => {

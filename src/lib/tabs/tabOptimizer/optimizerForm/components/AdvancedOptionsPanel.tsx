@@ -1,12 +1,13 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form } from 'antd'
+import { RelicRestrictionModal } from 'lib/overlays/modals/RelicRestrictionModal'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
 
-export const AdvancedOptionsPanel = () => {
+export function AdvancedOptionsPanel() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
   const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
   const setEnemyConfigurationsDrawerOpen = window.store((s) => s.setEnemyConfigurationsDrawerOpen)
@@ -37,6 +38,43 @@ export const AdvancedOptionsPanel = () => {
       >
         {t('EnemyConfigButtonText')/* Enemy configurations */}
       </Button>
+      <RestrictionButton/>
     </Flex>
+  )
+}
+
+function RestrictionButton() {
+  const state = window.store() // window.store((s) => s.relicsById) doesn't update properly
+  const relics = Object.values(state.relicsById)
+  const characterId = state.optimizerTabFocusCharacter
+  const [restrictionModalOpen, setRestrictionModalOpen] = useState(false)
+  window.setRestrictionModalOpen = setRestrictionModalOpen
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          if (characterId) setRestrictionModalOpen(true)
+        }}
+        style={{ width: '100%' }}
+      >
+        Reserved / Excluded relics (
+        {
+          !characterId
+            ? 0
+            : relics
+              .filter((x) => x.excludedCount)
+              .length
+        }
+        )
+      </Button>
+      {characterId && (
+        <RelicRestrictionModal
+          characterId={characterId}
+          relics={relics}
+          open={restrictionModalOpen}
+          setOpen={setRestrictionModalOpen}
+        />
+      )}
+    </div>
   )
 }

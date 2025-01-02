@@ -1,4 +1,4 @@
-import { ClearOutlined } from '@ant-design/icons'
+import { CheckOutlined, ClearOutlined, LockOutlined, StopOutlined } from '@ant-design/icons'
 import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { useSubscribe } from 'hooks/useSubscribe'
@@ -127,6 +127,28 @@ export default function RelicFilterBar(props: {
     })
   }
 
+  function generateExcludedTags(arr: Array<'unrestricted' | 'reserved' | 'excluded'>) {
+    return arr.map((x) => {
+      switch (x) {
+        case 'unrestricted':
+          return {
+            key: x,
+            display: <CheckOutlined style={{ fontSize: '16px', color: 'white' }} title='not restricted'/>,
+          }
+        case 'reserved':
+          return {
+            key: x,
+            display: <LockOutlined style={{ fontSize: '16px', color: 'white' }} title='reserved for certain characters'/>,
+          }
+        case 'excluded':
+          return {
+            key: x,
+            display: <StopOutlined style={{ fontSize: '16px', color: 'white' }} title="certain characters won't be able to wear this relic"/>,
+          }
+      }
+    })
+  }
+
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags(['true', 'false'])
   const setsData = generateImageTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]),
@@ -136,6 +158,7 @@ export default function RelicFilterBar(props: {
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
   const equippedByData = generateEquippedByTags(['true', 'false'])
+  const excludedData = generateExcludedTags(['unrestricted', 'reserved', 'excluded'])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -229,6 +252,7 @@ export default function RelicFilterBar(props: {
       grade: [],
       verified: [],
       equippedBy: [],
+      excluded: [],
     })
   }
 
@@ -270,6 +294,10 @@ export default function RelicFilterBar(props: {
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Equipped')/* Equipped */}</HeaderText>
           <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%'/>
+        </Flex>
+        <Flex vertical flex={0.40}>
+          <HeaderText>Restricted</HeaderText>
+          <FilterRow name='excluded' tags={excludedData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear')/* Clear */}</HeaderText>

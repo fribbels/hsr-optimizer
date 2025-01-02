@@ -189,6 +189,7 @@ window.store = create((set) => {
       grade: [],
       verified: [],
       equippedBy: [],
+      excluded: [],
     },
     characterTabFilters: {
       name: '',
@@ -528,6 +529,10 @@ export const DB = {
         character.equipped[relic.part] = relic.id
       } else {
         relic.equippedBy = undefined
+      }
+      if (!relic.excluded) {
+        relic.excluded = []
+        relic.excludedCount = 0
       }
     }
     indexRelics(saveData.relics)

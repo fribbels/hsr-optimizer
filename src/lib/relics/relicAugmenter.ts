@@ -45,6 +45,11 @@ export const RelicAugmenter = {
       relic.id = Utils.randomId()
     }
 
+    if (!relic.excluded) {
+      relic.excluded = []
+      relic.excludedCount = 0
+    }
+
     relic.augmentedStats = augmentedStats
     fixAugmentedStats([relic])
     RelicRollGrader.calculateRelicSubstatRolls(relic)

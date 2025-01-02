@@ -32,6 +32,7 @@ type RelicTabFilters = {
   grade: (string | number)[]
   verified: (string | number)[]
   equippedBy: (string | number)[]
+  excluded: ('unrestricted' | 'reserved' | 'excluded')[]
 }
 
 export type HsrOptimizerStore = {

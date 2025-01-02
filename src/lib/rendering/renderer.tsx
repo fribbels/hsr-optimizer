@@ -1,8 +1,9 @@
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
+import { CheckCircleFilled, CheckOutlined, CloseCircleFilled, LockOutlined, StopOutlined } from '@ant-design/icons'
 import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import { Relic, Stat } from 'types/relic'
 
@@ -201,6 +202,15 @@ export const Renderer = {
         ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }}/>
         : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
     )
+  },
+  renderExcludedCell: (x: { data: Relic }) => {
+    if (!x.data.excludedCount) {
+      return <CheckOutlined title='not restricted'/>
+    }
+    if (x.data.excludedCount === Object.keys(DB.getMetadata().characters).length - 1) {
+      return <LockOutlined title='reserved for certain characters'/>
+    }
+    return <StopOutlined title="certain characters won't be able to wear this relic"/>
   },
 }
 

@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
+import { Button, Divider, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
 import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
@@ -7,21 +7,23 @@ import { Message } from 'lib/interactions/message'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
+import DB from 'lib/state/db'
+import CharacterSelect, {
+  CharacterSelectValueOut,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import PropTypes from 'prop-types'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Relic, Stat } from 'types/relic'
 
 // FIXME MED
 
 const { useToken } = theme
 
-function RadioIcon(props) {
+function RadioIcon(props: { value: string; src: string }) {
   return (
     <Radio.Button value={props.value} style={{ height: 35, width: 50, paddingLeft: 10 }}>
       <Image
@@ -32,15 +34,6 @@ function RadioIcon(props) {
     </Radio.Button>
   )
 }
-
-RadioIcon.propTypes = {
-  value: PropTypes.string,
-  src: PropTypes.string,
-}
-
-const InputNumberStyled = styled(InputNumber)`
-    width: 90px
-`
 
 function renderMainStat(relic: Relic): Stat {
   const mainStat: string = relic.main?.stat
@@ -61,7 +54,7 @@ function renderSubstat(relic: Relic, index: number): Stat {
   return renderStat(stat, value, relic)
 }
 
-function renderStat(stat: string, value: number, relic?: Relic): Stat {
+function renderStat<T>(stat: T, value: number, relic?: Relic): { stat: T; value: string | number } {
   if (stat == Stats.SPD) {
     if (relic?.verified) {
       return {
@@ -129,13 +122,13 @@ export default function RelicModal(props: {
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
   useEffect(() => {
-    let defaultValues = {
+    let defaultValues: RelicForm = {
       grade: 5,
       enhance: 15,
       part: Constants.Parts.Head,
       mainStatType: Constants.Stats.HP,
       mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
-    }
+    } as RelicForm
 
     const relic = props.selectedRelic
     if (!relic || props.type != 'edit') {
@@ -157,6 +150,8 @@ export default function RelicModal(props: {
         substatValue2: renderSubstat(relic, 2).value,
         substatType3: renderSubstat(relic, 3).stat,
         substatValue3: renderSubstat(relic, 3).value,
+        excluded: relic.excluded,
+        excludedCount: relic.excludedCount,
       }
     }
     onValuesChange(defaultValues)
@@ -458,6 +453,8 @@ export default function RelicModal(props: {
               />
             </Flex>
           </Flex>
+          <Divider style={{ margin: 8 }}/>
+          <RelicRestriction form={relicForm} relic={props.selectedRelic}/>
         </Flex>
       </Modal>
     </Form>
@@ -483,7 +480,7 @@ function SubstatInput(props: {
     }
   }
 
-  function upgradeClicked(quality: string) {
+  function upgradeClicked(quality: 'low' | 'mid' | 'high') {
     console.log(props, quality)
 
     props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality])
@@ -513,7 +510,7 @@ function SubstatInput(props: {
   }, [i18next.resolvedLanguage])
 
   function UpgradeButton(subProps: {
-    quality: string
+    quality: 'low' | 'mid' | 'high'
   }) {
     const value = props.upgrades?.[props.index]?.[subProps.quality]
 
@@ -570,6 +567,90 @@ function SubstatInput(props: {
         <UpgradeButton quality='low'/>
         <UpgradeButton quality='mid'/>
         <UpgradeButton quality='high'/>
+      </Flex>
+    </Flex>
+  )
+}
+
+function RelicRestriction(props: { form: FormInstance; relic?: Relic }) {
+  const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const [singleSelectOpen, setSingleSelectOpen] = useState(false)
+  const [multiSelectOpen, setMultiSelectOpen] = useState(false)
+  const [state, setState] = useState(false)
+  function openReserve() {
+    setSingleSelectOpen(true)
+  }
+  function openExclude() {
+    setMultiSelectOpen(true)
+  }
+  function updateState() {
+    setState(!state)
+  }
+  function handleChange(x: CharacterSelectValueOut<'any'>) {
+    if (typeof x === 'string') {
+      // reserve clicked
+      const excludedIds = Object.values(DB.getMetadata().characters)
+        .map((character) => character.id)
+        .filter((id) => id !== x)
+      props.form.setFieldValue('excluded', excludedIds)
+    } else {
+      // exclude clicked
+      const excludedIds = (
+        Array.from(x || new Map<CharacterId, boolean>())
+          .filter((entry) => entry[1])
+          .map((entry) => entry[0])
+      )
+      props.form.setFieldValue('excluded', excludedIds)
+    }
+  }
+  if (!props.relic) return
+  return (
+    <Flex>
+      <div style={{ width: 0, height: 30 }}>
+        <Form.Item name='excluded'>
+          <CharacterSelect
+            selectStyle={{ display: 'none' }}
+            value={undefined}
+            externalOpen={multiSelectOpen}
+            setExternalOpen={setMultiSelectOpen}
+            onChange={handleChange}
+            multipleSelect
+          />
+        </Form.Item>
+        <CharacterSelect
+          selectStyle={{ display: 'none' }}
+          value={undefined}
+          externalOpen={singleSelectOpen}
+          setExternalOpen={setSingleSelectOpen}
+          onChange={handleChange}
+        />
+      </div>
+      <Flex gap={8} style={{ height: 30 }} align='center'>
+        <Button onClick={openReserve}>
+          reserve
+        </Button>
+        <Button onClick={openExclude}>
+          exclude
+        </Button>
+        <Button onClick={() => {
+          props.form.setFieldValue('excluded', [])
+          updateState()
+        }}
+        >
+          clear
+        </Button>
+        {
+          (props.form.getFieldValue('excluded') as CharacterId[]).length === 0
+            ? ''
+            : (props.form.getFieldValue('excluded') as CharacterId[]).length === Object.keys(DB.getMetadata().characters).length - 1
+              ? `Relic reserved for ${
+                t(`${
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  Object.keys(DB.getMetadata().characters).filter((x) => !(props.form.getFieldValue('excluded') as CharacterId[]).includes(x))
+                }.Name` as never) as string
+              }`
+              : `Relic excluded for ${(props.form.getFieldValue('excluded') as CharacterId[]).length} characters`
+        }
       </Flex>
     </Flex>
   )

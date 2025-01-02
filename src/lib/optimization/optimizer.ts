@@ -3,6 +3,7 @@ import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Stats } from 'lib/const
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
@@ -10,23 +11,25 @@ import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
-import { SortOption } from 'lib/optimization/sortOptions'
+import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
 import { Form } from 'types/form'
+import { Relic } from 'types/relic'
 
 // FIXME HIGH
 
 let CANCEL = false
 const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
-export function calculateCurrentlyEquippedRow(request) {
-  let relics = Utils.clone(DB.getRelics())
+export function calculateCurrentlyEquippedRow(request: Form) {
+  let relics: Relic[] | RelicsByPart = TsUtils.clone(DB.getRelics())
   RelicFilters.calculateWeightScore(request, relics)
   relics = relics.filter((x) => x.equippedBy == request.characterId)
   relics = RelicFilters.applyMainStatsFilter(request, relics)
@@ -40,15 +43,16 @@ export function calculateCurrentlyEquippedRow(request) {
 }
 
 export const Optimizer = {
-  cancel: (id) => {
+  cancel: (id: string) => {
     CANCEL = true
     WorkerPool.cancel(id)
   },
 
   getFilteredRelics: (request: Form) => {
-    let relics = Utils.clone(DB.getRelics())
+    let relics = TsUtils.clone(DB.getRelics())
     RelicFilters.calculateWeightScore(request, relics)
 
+    relics = RelicFilters.applyRelicExcludeFilter(request, relics)
     relics = RelicFilters.applyEquippedFilter(request, relics) // will reduce iterations if "off" is selected
     relics = RelicFilters.applyEnhanceFilter(request, relics)
     relics = RelicFilters.applyGradeFilter(request, relics)
@@ -71,7 +75,7 @@ export const Optimizer = {
     return [relicsByPart, preFilteredRelicsByPart]
   },
 
-  optimize: async function (request) {
+  optimize: async function (request: Form) {
     CANCEL = false
 
     const teammates = [
@@ -121,7 +125,7 @@ export const Optimizer = {
 
     OptimizerTabController.scrollToGrid()
 
-    window.optimizerGrid.current.api.setGridOption('loading', true)
+    window.optimizerGrid.current!.api.setGridOption('loading', true)
 
     const context = generateContext(request)
 
@@ -131,7 +135,7 @@ export const Optimizer = {
     let searched = 0
     let resultsShown = false
     let results = []
-    const sortOption = SortOption[request.resultSort]
+    const sortOption = SortOption[request.resultSort] as SortOptionProperties
     const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
     const resultsLimit = request.resultsLimit || 1024
     const queueResults = new FixedSizePriorityQueue(resultsLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])

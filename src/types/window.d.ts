@@ -28,7 +28,7 @@ import { WorkerPool } from 'lib/worker/workerPool'
 import { DispatchWithoutAction, RefObject } from 'react'
 import { Build, Character } from 'types/character'
 import { Form } from 'types/form'
-import { Relic } from 'types/relic'
+import { Relic, RelicId } from 'types/relic'
 import { HsrOptimizerStore } from 'types/store'
 import { StoreApi, UseBoundStore } from 'zustand'
 
@@ -49,6 +49,8 @@ declare global {
     setOptimizerBuild: (build?: Build) => void
     setSelectedRelic: (relic: Partial<Relic>) => void
     setEditModalOpen: (open: boolean) => void
+    setRestrictionModalOpen: (open: boolean) => void
+    viewRelicInGrid: (id: RelicId) => void
 
     // TODO see OptimizerForm
     onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => unknown

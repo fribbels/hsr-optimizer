@@ -40,6 +40,7 @@ export function ShowcaseRelicsPanel(props: {
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
           showcaseTheme={showcaseColors}
+          withHoverButtons={source == ShowcaseSource.CHARACTER_TAB}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -50,6 +51,7 @@ export function ShowcaseRelicsPanel(props: {
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
           showcaseTheme={showcaseColors}
+          withHoverButtons={source == ShowcaseSource.CHARACTER_TAB}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -60,6 +62,7 @@ export function ShowcaseRelicsPanel(props: {
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
           showcaseTheme={showcaseColors}
+          withHoverButtons={source == ShowcaseSource.CHARACTER_TAB}
         />
       </Flex>
 
@@ -73,6 +76,7 @@ export function ShowcaseRelicsPanel(props: {
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
           showcaseTheme={showcaseColors}
+          withHoverButtons={source == ShowcaseSource.CHARACTER_TAB}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -83,6 +87,7 @@ export function ShowcaseRelicsPanel(props: {
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
           showcaseTheme={showcaseColors}
+          withHoverButtons={source == ShowcaseSource.CHARACTER_TAB}
         />
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
@@ -93,6 +98,7 @@ export function ShowcaseRelicsPanel(props: {
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
           showcaseTheme={showcaseColors}
+          withHoverButtons={source == ShowcaseSource.CHARACTER_TAB}
         />
       </Flex>
     </Flex>

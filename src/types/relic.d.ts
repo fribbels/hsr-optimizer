@@ -1,6 +1,7 @@
 import { MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
+import { CharacterId } from 'types/character'
 
 export type RelicId = string
 export type RelicGrade = number
@@ -35,6 +36,8 @@ export type Relic = {
     rolls?: StatRolls
     addedRolls?: number
   }[]
+  excluded: Array<CharacterId>
+  excludedCount: number
 }
 
 type StatRolls = {

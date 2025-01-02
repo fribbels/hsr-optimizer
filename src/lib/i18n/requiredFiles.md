@@ -8,6 +8,7 @@ Files needed to run generateTranslations.ts:
   * RelicSetSkillConfig.json
 * <u>**Textmaps:**</u>
   * TextMapCHS.json
+  * TextMapCHT.json
   * TextMapDE.json
   * TextMapEN.json
   * TextMapES.json

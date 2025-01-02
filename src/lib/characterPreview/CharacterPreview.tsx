@@ -1,6 +1,6 @@
 import { ConfigProvider, Flex, theme } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getArtistName,
   getPreviewRelics,
@@ -295,21 +295,22 @@ export function CharacterPreview(props: {
           }
 
           {/* Character details middle panel */}
-          <Flex vertical justify='space-between' gap={8}>
+          <Flex vertical justify='space-between' gap={8} style={{}}>
             <Flex
               vertical
               style={{
                 width: middleColumnWidth,
                 height: '100%',
-                border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
                 borderRadius: 8,
-                zIndex: 1,
+                zIndex: 10,
                 backgroundColor: derivedShowcaseTheme.cardBackgroundColor,
                 transition: showcaseTransition(),
                 flex: 1,
                 paddingRight: 2,
                 paddingLeft: 2,
                 paddingBottom: 3,
+                boxShadow: showcaseShadow,
+                border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
               }}
               justify='space-between'
             >

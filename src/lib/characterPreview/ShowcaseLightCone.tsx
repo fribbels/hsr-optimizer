@@ -1,5 +1,5 @@
 import { Flex, Typography } from 'antd'
-import { showcaseDropShadowFilter, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions, ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import StatText, { StatTextEllipses } from 'lib/characterPreview/StatText'
 import { middleColumnWidth, parentW } from 'lib/constants/constantsUi'
@@ -87,12 +87,12 @@ export function ShowcaseLightConeSmall(props: {
         style={{
           width: `${tempLcParentW}px`,
           height: `${tempLcParentH}px`,
+          position: 'relative',
           overflow: 'hidden',
-          zIndex: 2,
+          zIndex: 20,
           borderRadius: '8px',
           border: showcaseOutline,
-          filter: showcaseDropShadowFilter,
-          position: 'relative',
+          boxShadow: showcaseShadow,
         }}
         onClick={() => {
           if (source == ShowcaseSource.SHOWCASE_TAB) {
@@ -162,8 +162,9 @@ export function ShowcaseLightConeLarge(props: {
         height: `${tempLcParentH}px`,
         overflow: 'hidden',
         borderRadius: '8px',
+        zIndex: 20,
         border: showcaseOutline,
-        filter: showcaseDropShadowFilter,
+        boxShadow: showcaseShadow,
       }}
       onClick={() => {
         if (source == ShowcaseSource.SHOWCASE_TAB) {

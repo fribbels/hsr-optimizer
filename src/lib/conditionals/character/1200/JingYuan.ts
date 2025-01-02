@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd, buffAbilityDmg, buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
@@ -117,9 +117,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_SCALING.buff(fuaScaling * r.talentAttacks, Source.NONE)
 
       // Boost
-      buffAbilityCd(x, FUA_TYPE, (r.talentHitsPerAction >= 6) ? 0.25 : 0, Source.NONE)
-      buffAbilityDmg(x, BASIC_TYPE | SKILL_TYPE | ULT_TYPE, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, Source.NONE)
-      buffAbilityVulnerability(x, FUA_TYPE, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, Source.NONE)
+      buffAbilityCd(x, FUA_DMG_TYPE, (r.talentHitsPerAction >= 6) ? 0.25 : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, Source.NONE)
+      buffAbilityVulnerability(x, FUA_DMG_TYPE, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, Source.NONE)
 
       // Lightning lord calcs
       const hits = r.talentAttacks
@@ -130,9 +130,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_TOUGHNESS_DMG.buff(15 * hits, Source.NONE)
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // TODO: Technically E6 has a vulnerability but its kinda hard to calc
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))

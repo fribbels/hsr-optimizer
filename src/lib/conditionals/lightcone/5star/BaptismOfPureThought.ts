@@ -1,4 +1,4 @@
-import { FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
@@ -49,7 +49,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.CD.buff(r.debuffCdStacks * sValuesCd[s], Source.NONE)
       x.ELEMENTAL_DMG.buff(r.postUltBuff ? sValuesDmg[s] : 0, Source.NONE)
 
-      buffAbilityDefPen(x, FUA_TYPE, (r.postUltBuff) ? sValuesFuaPen[s] : 0, Source.NONE)
+      buffAbilityDefPen(x, FUA_DMG_TYPE, (r.postUltBuff) ? sValuesFuaPen[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

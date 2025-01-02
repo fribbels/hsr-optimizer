@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
@@ -128,7 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.blockActive && r.ultCull) {
-        x.FUA_DMG_TYPE.set(ULT_TYPE | FUA_TYPE, Source.NONE)
+        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -144,16 +144,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.FUA_SCALING.buff(talentCounterScaling, Source.NONE)
       }
 
-      buffAbilityCd(x, FUA_TYPE, (r.blockActive) ? blockCdBuff : 0, Source.NONE)
+      buffAbilityCd(x, FUA_DMG_TYPE, (r.blockActive) ? blockCdBuff : 0, Source.NONE)
       x.ATK_P.buff((r.counterAtkBuff) ? 0.30 : 0, Source.NONE)
 
       x.DMG_RED_MULTI.multiply((r.blockActive) ? 1 - 0.20 : 1, Source.NONE)
 
-      buffAbilityDmg(x, FUA_TYPE, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, Source.NONE)
-      buffAbilityDefPen(x, FUA_TYPE, (e >= 2 && r.e2DefShred) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, Source.NONE)
+      buffAbilityDefPen(x, FUA_DMG_TYPE, (e >= 2 && r.e2DefShred) ? 0.20 : 0, Source.NONE)
       x.RES.buff((e >= 4 && r.e4ResBuff) ? 0.50 : 0, Source.NONE)
-      buffAbilityCr(x, FUA_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.15 : 0, Source.NONE)
-      buffAbilityResPen(x, FUA_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.20 : 0, Source.NONE)
+      buffAbilityCr(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.15 : 0, Source.NONE)
+      buffAbilityResPen(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.20 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
@@ -164,10 +164,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))

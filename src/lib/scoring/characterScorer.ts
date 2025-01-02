@@ -136,6 +136,7 @@ export type SimulationResult = ComputedStatsObjectExternal & {
   SKILL: number
   ULT: number
   FUA: number
+  MEMO_SKILL: number
   DOT: number
   BREAK: number
   unpenalizedSimScore: number
@@ -1077,7 +1078,7 @@ function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild
     // Find 2p matches
     // A single array will contain all the 2p options
     if (equivalent[0] != equivalent[1]) {
-      if (relicSetNames[0] in equivalent && relicSetNames[1] in equivalent) {
+      if (equivalent.includes(relicSetNames[0]) && equivalent.includes(relicSetNames[1])) {
         relicSet1 = relicSetNames[0]
         relicSet2 = relicSetNames[1]
         break
@@ -1460,13 +1461,13 @@ function simSorter(a: Simulation, b: Simulation) {
 
 // Gradual scale
 const SimScoreGrades = {
-  'AEON': 150, // +15
-  'WTF+': 135, // +10
-  'WTF': 126, // +9
-  'SSS+': 118, // +8
-  'SSS': 111, // +7
-  'SS+': 105, // +6
-  'SS': 100, // +5
+  'AEON': 150, // Verified only
+  'WTF+': 140, // +10
+  'WTF': 130, // +9
+  'SSS+': 121, // +8
+  'SSS': 113, // +7
+  'SS+': 106, // +6
+  'SS': 100, // Benchmark
   'S+': 95,
   'S': 90,
   'A+': 85,

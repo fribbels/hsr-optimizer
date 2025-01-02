@@ -61,6 +61,7 @@ const columnsToAggregateMap = {
   SKILL: true,
   ULT: true,
   FUA: true,
+  MEMO_SKILL: true,
   DOT: true,
   BREAK: true,
   COMBO: true,
@@ -79,6 +80,33 @@ const columnsToAggregateMap = {
   xERR: true,
   xOHB: true,
   xELEMENTAL_DMG: true,
+
+  mATK: true,
+  mDEF: true,
+  mHP: true,
+  mSPD: true,
+  mCR: true,
+  mCD: true,
+  mEHR: true,
+  mRES: true,
+  mBE: true,
+  mERR: true,
+  mOHB: true,
+  mELEMENTAL_DMG: true,
+
+  mxATK: true,
+  mxDEF: true,
+  mxHP: true,
+  mxSPD: true,
+  mxCR: true,
+  mxCD: true,
+  mxEHR: true,
+  mxRES: true,
+  mxBE: true,
+  mxERR: true,
+  mxOHB: true,
+  mxELEMENTAL_DMG: true,
+  mxEHP: true,
 }
 const columnsToAggregate = Object.keys(columnsToAggregateMap)
 
@@ -457,6 +485,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('SKILL')
   setMinMax('ULT')
   setMinMax('FUA')
+  setMinMax('MEMO_SKILL')
   setMinMax('DOT')
   setMinMax('BREAK')
   setMinMax('COMBO')
@@ -474,6 +503,31 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('xERR')
   setMinMax('xOHB')
   setMinMax('xELEMENTAL_DMG')
+  setMinMax('mATK')
+  setMinMax('mDEF')
+  setMinMax('mHP')
+  setMinMax('mSPD')
+  setMinMax('mCR')
+  setMinMax('mCD')
+  setMinMax('mEHR')
+  setMinMax('mRES')
+  setMinMax('mBE')
+  setMinMax('mERR')
+  setMinMax('mOHB')
+  setMinMax('mELEMENTAL_DMG')
+  setMinMax('mxATK')
+  setMinMax('mxDEF')
+  setMinMax('mxHP')
+  setMinMax('mxSPD')
+  setMinMax('mxCR')
+  setMinMax('mxCD')
+  setMinMax('mxEHR')
+  setMinMax('mxRES')
+  setMinMax('mxBE')
+  setMinMax('mxERR')
+  setMinMax('mxOHB')
+  setMinMax('mxELEMENTAL_DMG')
+  setMinMax('mxEHP')
 
   for (const row of subArray) {
     for (const column of OptimizerTabController.getColumnsToAggregate()) {

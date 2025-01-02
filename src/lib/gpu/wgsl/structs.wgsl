@@ -72,6 +72,8 @@ struct Sets {
   TheWindSoaringValorous: i32,
   SacerdosRelivedOrdeal: i32,
   ScholarLostInErudition: i32,
+  HeroOfTriumphantSong: i32,
+  PoetOfMourningCollapse: i32,
   SpaceSealingStation: i32,
   FleetOfTheAgeless: i32,
   PanCosmicCommercialEnterprise: i32,
@@ -105,6 +107,7 @@ struct SetConditionals {
   enabledTheWindSoaringValorous: bool,
   enabledTheWondrousBananAmusementPark: bool,
   enabledScholarLostInErudition: bool,
+  enabledHeroOfTriumphantSong: bool,
   valueChampionOfStreetwiseBoxing: i32,
   valueWastelanderOfBanditryDesert: i32,
   valueLongevousDisciple: i32,
@@ -120,6 +123,7 @@ struct Action {
   abilityType: i32,
   setConditionals: SetConditionals,
   x: ComputedStats,
+  m: ComputedStats,
   state: ConditionalState,
 }
 

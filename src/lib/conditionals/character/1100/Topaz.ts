@@ -1,6 +1,6 @@
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE, FUA_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -82,19 +82,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG_TYPE.set(BASIC_TYPE | FUA_TYPE, Source.NONE)
-      x.SKILL_DMG_TYPE.set(SKILL_TYPE | FUA_TYPE, Source.NONE)
+      x.BASIC_DMG_TYPE.set(BASIC_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
+      x.SKILL_DMG_TYPE.set(SKILL_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
       x.SUMMONS.set(1, Source.NONE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      buffAbilityCd(x, SKILL_TYPE | FUA_TYPE, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, Source.NONE)
-      buffAbilityResPen(x, SKILL_TYPE | FUA_TYPE, (e >= 6) ? 0.10 : 0, Source.NONE)
+      buffAbilityCd(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, Source.NONE)
+      buffAbilityResPen(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (e >= 6) ? 0.10 : 0, Source.NONE)
 
       // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
-      buffAbilityCd(x, BASIC_TYPE, (r.numbyEnhancedState) ? -enhancedStateFuaCdBoost : 0, Source.NONE)
-      buffAbilityResPen(x, BASIC_TYPE, (e >= 6) ? -0.10 : 0, Source.NONE)
+      buffAbilityCd(x, BASIC_DMG_TYPE, (r.numbyEnhancedState) ? -enhancedStateFuaCdBoost : 0, Source.NONE)
+      buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6) ? -0.10 : 0, Source.NONE)
 
       // Scaling
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
@@ -115,8 +115,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, FUA_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, Source.NONE)
-      buffAbilityCd(x, FUA_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, Source.NONE)
+      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, Source.NONE, Target.TEAM)
+      buffAbilityCd(x, FUA_DMG_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, Source.NONE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

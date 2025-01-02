@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -90,7 +90,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DOT_SCALING.buff(dotScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, SKILL_TYPE, (r.targetBurned) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, (r.targetBurned) ? 0.20 : 0, Source.NONE)
       x.ELEMENTAL_DMG.buff((e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
@@ -101,8 +101,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DOT_CHANCE.set(0.50, Source.NONE)
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])

@@ -1,9 +1,9 @@
-import { BREAK_TYPE, NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -45,7 +45,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
         { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
@@ -115,8 +115,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 90 : 30, Source.NONE)
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
 
-      if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+      if (r.healAbility == SKILL_DMG_TYPE) {
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
         x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
       if (r.healAbility == NONE_TYPE) {
@@ -129,7 +129,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, BREAK_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, Source.NONE)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, Source.NONE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)
@@ -163,7 +163,7 @@ let stateValue: f32 = (*p_state).GallagherConversionConditional;
 let buffValue: f32 = min(0.75, 0.50 * (*p_x).BE);
 
 (*p_state).GallagherConversionConditional = buffValue;
-buffDynamicOHB(buffValue - stateValue, p_x, p_state);
+buffDynamicOHB(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

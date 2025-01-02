@@ -6,6 +6,7 @@ import { ElementalDamageType, ElementalResPenType } from 'types/metadata'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray
+  precomputedM: ComputedStatsArray
 
   characterConditionals: ConditionalValueMap
   lightConeConditionals: ConditionalValueMap
@@ -16,6 +17,7 @@ export type OptimizerAction = {
     [key: string]: number
   }
 
+  actorId: string
   actionType: string
   actionIndex: number
 
@@ -27,6 +29,7 @@ export type OptimizerAction = {
 }
 
 export type TeammateAction = {
+  actorId: string
   characterConditionals: ConditionalValueMap
   lightConeConditionals: ConditionalValueMap
 }
@@ -44,6 +47,7 @@ export type SetConditional = {
   enabledTheWindSoaringValorous: boolean
   enabledTheWondrousBananAmusementPark: boolean
   enabledScholarLostInErudition: boolean
+  enabledHeroOfTriumphantSong: boolean
   valueChampionOfStreetwiseBoxing: number
   valueWastelanderOfBanditryDesert: number
   valueLongevousDisciple: number
@@ -104,6 +108,7 @@ export type OptimizerContext = {
   baseATK: number
   baseDEF: number
   baseSPD: number
+  baseEnergy: number
 
   // Enemy data
   enemyLevel: number

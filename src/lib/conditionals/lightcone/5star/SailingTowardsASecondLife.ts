@@ -1,4 +1,4 @@
-import { BREAK_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -42,7 +42,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
-      buffAbilityDefPen(x, BREAK_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, Source.NONE)
+      buffAbilityDefPen(x, BREAK_DMG_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
@@ -67,7 +67,7 @@ if (
   (*p_x).BE >= 1.50
 ) {
   (*p_state).SailingTowardsASecondLifeConditional = 1.0;
-  buffDynamicSPD_P(${sValuesSpdBuff[s]}, p_x, p_state);
+  buffDynamicSPD_P(${sValuesSpdBuff[s]}, p_x, p_m, p_state);
 }
     `)
         },

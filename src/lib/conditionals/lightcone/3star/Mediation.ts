@@ -11,11 +11,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [12, 14, 16, 18, 20]
 
   const defaults = {
-    initialSpdBuff: true,
+    initialSpdBuff: false,
   }
 
   const teammateDefaults = {
-    initialSpdBuff: true,
+    initialSpdBuff: false,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -42,7 +42,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buff((m.initialSpdBuff) ? sValues[s] : 0, Source.NONE)
+      x.SPD.buffTeam((m.initialSpdBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

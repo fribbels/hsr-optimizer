@@ -302,6 +302,17 @@ export function FormSetConditionals() {
             description={t('RelicDescription', { id: 122 })}
             conditional={t('Conditionals.DefaultMessage')}
           />
+          <ConditionalSetOption
+            set={Constants.Sets.HeroOfTriumphantSong}
+            description={t('RelicDescription', { id: 123 })}
+            conditional={t('Conditionals.DefaultMessage')}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.PoetOfMourningCollapse}
+            description={t('RelicDescription', { id: 124 })}
+            conditional={t('Conditionals.DefaultMessage')}
+            p4Checked
+          />
         </Flex>
 
         <VerticalDivider/>

@@ -98,12 +98,13 @@ self.onmessage = function (e: MessageEvent) {
 
     // Reconstruct arrays after transfer
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
-    action.precomputedX.precomputedStatsArray = new Float32Array(Object.values(action.precomputedX.precomputedStatsArray))
+    action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const m = x.m
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
@@ -158,6 +159,9 @@ self.onmessage = function (e: MessageEvent) {
     calculateElementalStats(c, context)
 
     x.setBasic(c)
+    if (x.m) {
+      m.setBasic({ ...c })
+    }
 
     // Exit early on base display filters failing
     if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
@@ -169,9 +173,11 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const a = x.a
       x.setPrecompute(action.precomputedX.a)
+      m.setPrecompute(action.precomputedM.a)
 
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
+
       calculateDamage(x, action, context)
 
       if (action.actionType === 'BASIC') {
@@ -313,13 +319,9 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
     precomputedX: originalAction.precomputedX,
+    precomputedM: originalAction.precomputedM,
     conditionalState: {},
   } as OptimizerAction
 
   return action
-}
-
-function cloneX(originalAction: OptimizerAction) {
-  const x = originalAction.precomputedX
-  return isFirefox ? Object.assign({}, x) : { ...x }
 }

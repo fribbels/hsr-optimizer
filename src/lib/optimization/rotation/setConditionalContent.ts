@@ -119,6 +119,14 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     type: ConditionalDataType.BOOLEAN,
     modifiable: true,
   },
+  [Sets.HeroOfTriumphantSong]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
+  [Sets.PoetOfMourningCollapse]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: false,
+  },
 
   // Ornaments
 

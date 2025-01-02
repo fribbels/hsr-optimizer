@@ -54,7 +54,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buff((m.targetVulnerability) ? sValuesVulnerability[s] : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam((m.targetVulnerability) ? sValuesVulnerability[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

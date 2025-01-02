@@ -142,9 +142,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BREAK_VULNERABILITY.buff(t.teammateBreakVulnerability, Source.NONE)
+      x.BREAK_VULNERABILITY.buffTeam(t.teammateBreakVulnerability, Source.NONE)
 
-      x.SPD_P.buff((e >= 4 && t.e4SpdBuff) ? 0.12 : 0, Source.NONE)
+      x.SPD_P.buffTeam((e >= 4 && t.e4SpdBuff) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

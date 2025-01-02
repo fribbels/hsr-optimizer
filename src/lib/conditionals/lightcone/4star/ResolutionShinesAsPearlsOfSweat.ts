@@ -42,7 +42,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_PEN.buff((m.targetEnsnared) ? sValues[s] : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.targetEnsnared) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

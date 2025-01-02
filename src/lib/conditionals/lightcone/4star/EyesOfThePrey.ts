@@ -1,4 +1,4 @@
-import { DOT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { LightConeConditionalsController } from 'types/conditionals'
@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => [],
     defaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray) => {
-      buffAbilityDmg(x, DOT_TYPE, sValues[s], Source.NONE)
+      buffAbilityDmg(x, DOT_DMG_TYPE, sValues[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

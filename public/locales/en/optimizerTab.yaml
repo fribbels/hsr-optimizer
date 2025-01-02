@@ -120,6 +120,9 @@ Grid:
       FUA: |-
         FUA
         DMG
+      MEMO_SKILL: |-
+        SKILLᴹ
+        DMG
       DOT: |-
         DOT
         DMG
@@ -160,6 +163,9 @@ Grid:
         DMG
       FUA: |-
         FUA
+        DMG
+      MEMO_SKILL: |-
+        SKILLᴹ
         DMG
       DOT: |-
         DOT
@@ -406,6 +412,7 @@ ComboFilter:
     Skill: Skill
     Ult: Ult
     Fua: Fua
+    MemoSkill: Skillᴹ
   RotationButton: Advanced rotation
 ComboDrawer:
   NoConditionals: No conditional passives

@@ -1,4 +1,4 @@
-import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -75,7 +75,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Traces
       x.RES.buff((r.talentEnhancedState) ? 0.35 : 0, Source.NONE)
 
-      r.talentEnhancedState && buffAbilityDmg(x, ULT_TYPE, 0.20, Source.NONE)
+      r.talentEnhancedState && buffAbilityDmg(x, ULT_DMG_TYPE, 0.20, Source.NONE)
 
       // Eidolons
       x.CD.buff((e >= 1 && r.e1CdBuff) ? 0.24 : 0, Source.NONE)
@@ -93,7 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_SCALING.buff(0, Source.NONE)
 
       // BOOST
-      buffAbilityDmg(x, SKILL_TYPE, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)

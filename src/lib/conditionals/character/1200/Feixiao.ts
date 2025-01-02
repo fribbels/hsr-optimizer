@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityCd } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
@@ -101,14 +101,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ULT_DMG_TYPE.set(ULT_TYPE | FUA_TYPE, Source.NONE)
+      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
 
       if (r.weaknessBrokenUlt) {
         x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
       }
 
       if (e >= 6 && r.e6Buffs) {
-        x.FUA_DMG_TYPE.set(ULT_TYPE | FUA_TYPE, Source.NONE)
+        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -119,7 +119,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.ULT_BREAK_EFFICIENCY_BOOST.buff(1.00, Source.NONE)
       }
 
-      buffAbilityCd(x, FUA_TYPE, 0.36, Source.NONE)
+      buffAbilityCd(x, FUA_DMG_TYPE, 0.36, Source.NONE)
 
       x.ATK_P.buff((r.skillAtkBuff) ? 0.48 : 0, Source.NONE)
       x.ELEMENTAL_DMG.buff((r.talentDmgBuff) ? talentDmgBuff : 0, Source.NONE)

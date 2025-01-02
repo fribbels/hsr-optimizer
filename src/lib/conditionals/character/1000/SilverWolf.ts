@@ -107,11 +107,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES_PEN.buff((m.skillWeaknessResShredDebuff) ? 0.20 : 0, Source.NONE)
-      x.RES_PEN.buff((m.skillResShredDebuff) ? skillResShredValue : 0, Source.NONE)
-      x.RES_PEN.buff((m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0, Source.NONE)
-      x.DEF_PEN.buff((m.ultDefShredDebuff) ? ultDefShredValue : 0, Source.NONE)
-      x.DEF_PEN.buff((m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, Source.NONE)
+      x.RES_PEN.buffTeam((m.skillWeaknessResShredDebuff) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((m.skillResShredDebuff) ? skillResShredValue : 0, Source.NONE)
+      x.RES_PEN.buffTeam((m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.ultDefShredDebuff) ? ultDefShredValue : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

@@ -83,6 +83,7 @@ export type HsrOptimizerStore = {
   conditionalSetEffectsDrawerOpen: boolean
   relicsById: Record<string, Relic>
   statDisplay: string
+  memoDisplay: string
   menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
@@ -118,6 +119,7 @@ export type HsrOptimizerStore = {
   setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: string) => void
+  setMemoDisplay: (display: string) => void
   setCharacters: (characters: Character[]) => void
   setCharactersById: (charactersById: Record<string, Character>) => void
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void

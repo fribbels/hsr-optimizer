@@ -253,6 +253,7 @@ Relic:
   Enhance: Melhoria / Raridade
   Mainstat: Atributo principal
   Substat: Subatributos
+  SubstatPlaceholder: Subatributo
   Upgrades: Melhorias de subatributo
   Messages:
     SubmitFail: O envio falhou!

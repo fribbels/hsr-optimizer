@@ -70,21 +70,28 @@ export function calculateBuild(
     ornamentSetIndex: ornamentSetIndex,
   } as BasicStatsObject
 
-  const x = cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false) as ComputedStatsArray
-  x.setBasic(c)
+  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
+  const m = x.m
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
 
+  x.setBasic(c)
+  if (x.m) {
+    m.setBasic({ ...c })
+  }
+
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
     x.setPrecompute(action.precomputedX.a)
+    m.setPrecompute(action.precomputedM.a)
 
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
+
     calculateDamage(x, action, context)
 
     if (action.actionType === 'BASIC') {
@@ -95,6 +102,8 @@ export function calculateBuild(
       combo += x.get(Key.ULT_DMG)
     } else if (action.actionType === 'FUA') {
       combo += x.get(Key.FUA_DMG)
+    } else if (action.actionType === 'MEMO_SKILL') {
+      combo += x.get(Key.MEMO_SKILL_DMG)
     }
 
     if (i === 0) {

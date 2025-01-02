@@ -1,4 +1,4 @@
-import { FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
@@ -43,12 +43,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      buffAbilityDmg(x, FUA_TYPE, sValuesFuaDmg[s], Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, sValuesFuaDmg[s], Source.NONE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff(m.targetTameStacks * sValuesCd[s], Source.NONE)
+      x.CD.buffTeam(m.targetTameStacks * sValuesCd[s], Source.NONE)
     },
     finalizeCalculations: () => {
     },

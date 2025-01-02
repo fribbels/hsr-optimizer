@@ -1,0 +1,6 @@
+TryOut:
+  DocumentationTitle: ガイド全文を表示
+  ButtonText: 試してみましょう！
+  description: サンプルファイルを読み込みますか？
+  SuccessMessage: データを読み込みました
+  Header: 試してみましょう！

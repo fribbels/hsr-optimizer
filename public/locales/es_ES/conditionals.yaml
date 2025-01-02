@@ -1,0 +1,36 @@
+BetaMessage: "Versión actual: {{Version}} - Los cálculos están sujetos a cambios."
+Lightcones:
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: Estado negativo de Ilusión vacía
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: Energía máxima
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: Estados negativos de CD acumulados
+      postUltBuff:
+        text: Efecto Disputa
+  BeforeDawn:
+    Content:
+      fuaDmgBoost:
+        text: Aumento de daño adicional
+  BrighterThanTheSun:
+    Content:
+      dragonsCallStacks:
+        text: Acumulación de Canto del dragón
+  ButTheBattleIsntOver:
+    Content:
+      postSkillDmgBuff:
+        text: Aumento de daño después de la habilidad elemental
+  PastAndFuture:
+    Content:
+      postSkillDmgBuff:
+        text: Aumento de daño después de la habilidad elemental
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyStacks:
+        text: Energía máxima

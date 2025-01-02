@@ -120,6 +120,9 @@ Grid:
       FUA: |-
         DGT
         ADS
+      MEMO_SKILL: |-
+        DGT
+        COMPᴹ
       DOT: |-
         DGT
         DSD
@@ -161,6 +164,9 @@ Grid:
       FUA: |-
         DGT
         ADS
+      MEMO_SKILL: |-
+        DGT
+        COMPᴹ
       DOT: |-
         DGT
         DSD
@@ -405,6 +411,7 @@ ComboFilter:
     Skill: Comp
     Ult: Ult
     Fua: Ads
+    MemoSkill: Compᴹ
   RotationButton: Rotation avancée
 ComboDrawer:
   NoConditionals: Pas de passifs conditionnels

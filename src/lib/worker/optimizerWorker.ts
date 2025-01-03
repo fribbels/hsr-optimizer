@@ -318,6 +318,7 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
     setConditionals: originalAction.setConditionals,
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
+    actionIndex: originalAction.actionIndex,
     precomputedX: originalAction.precomputedX,
     precomputedM: originalAction.precomputedM,
     conditionalState: {},

@@ -72,7 +72,7 @@ export function ShowcaseLightConeSmall(props: {
               textOverflow: 'ellipsis',
               overflow: 'hidden',
               whiteSpace: 'nowrap',
-              zIndex: 3,
+              zIndex: 21,
               textShadow: '0px 0px 10px black',
               outline: showcaseOutline,
               boxShadow: showcaseShadow,

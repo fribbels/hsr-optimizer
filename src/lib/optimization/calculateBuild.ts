@@ -1,5 +1,5 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex } from 'lib/constants/constants'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
@@ -31,7 +31,8 @@ export function calculateBuild(
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
-  internal: boolean = false) {
+  internal: boolean = false,
+  forcedBasicSpd: number = 0) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -77,6 +78,11 @@ export function calculateBuild(
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
+
+  if (forcedBasicSpd) {
+    // Special scoring use case where basic spd stat needs to be enforced
+    c[Stats.SPD] = forcedBasicSpd
+  }
 
   x.setBasic(c)
   if (x.m) {

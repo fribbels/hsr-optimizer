@@ -61,6 +61,8 @@ self.onmessage = function (e: MessageEvent) {
 
   const combatDisplay = request.statDisplay == 'combat'
   const baseDisplay = !combatDisplay
+  const memoDisplay = request.memoDisplay == 'memo'
+  const summonerDisplay = !memoDisplay
   let passCount = 0
 
   isFirefox = data.isFirefox
@@ -69,7 +71,7 @@ self.onmessage = function (e: MessageEvent) {
     failsBasicThresholdFilter,
     failsCombatThresholdFilter,
     // @ts-ignore
-  } = generateResultMinFilter(request, combatDisplay)
+  } = generateResultMinFilter(request, combatDisplay, memoDisplay)
 
   for (const action of context.actions) {
     calculateContextConditionalRegistry(action, context)
@@ -164,7 +166,7 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     // Exit early on base display filters failing
-    if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
+    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
       continue
     }
 
@@ -197,12 +199,19 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     // Combat / rating filters
-    const a = x.a
-    if (combatDisplay && (failsCombatThresholdFilter(a) || failsCombatStatsFilter(a))) {
+    if (baseDisplay && memoDisplay && (failsBasicThresholdFilter(x.m.c) || failsBasicStatsFilter(x.m.c))) {
       continue
     }
-
-    if (failsRatingStatsFilter(a)) {
+    if (combatDisplay && summonerDisplay && (failsCombatThresholdFilter(x.a) || failsCombatStatsFilter(x.a))) {
+      continue
+    }
+    if (combatDisplay && memoDisplay && (failsCombatThresholdFilter(x.m.a) || failsCombatStatsFilter(x.m.a))) {
+      continue
+    }
+    if (summonerDisplay && failsRatingStatsFilter(x.a)) {
+      continue
+    }
+    if (memoDisplay && failsRatingStatsFilter(x.m.a)) {
       continue
     }
 

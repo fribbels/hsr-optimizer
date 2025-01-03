@@ -18,7 +18,6 @@ import {
 } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
-import { nanAsZero } from 'lib/utils/mathUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -44,13 +43,11 @@ export type ScoringParams = {
   baselineFreeRolls: number
   limitFlatStats: boolean
   enforcePossibleDistribution: boolean
-  substatRollsModifier: (
-    rolls: number,
+  substatRollsModifier: (rolls: number,
     stat: string,
     relics: {
       [key: string]: Relic
-    },
-  ) => number
+    }) => number
 }
 
 const benchmarkScoringParams: ScoringParams = {
@@ -234,10 +231,11 @@ export type PartialSimulationWrapper = {
   speedRollsDeduction: number
 }
 
-type SimulationFlags = {
+export type SimulationFlags = {
   addBreakEffect: boolean
   overcapCritRate: boolean
-  noSpeed: boolean
+  forceBasicSpd: boolean
+  forceBasicSpdValue: number
 }
 
 export function scoreCharacterSimulation(
@@ -290,6 +288,8 @@ export function scoreCharacterSimulation(
   const simulationFlags: SimulationFlags = {
     addBreakEffect: false,
     overcapCritRate: false,
+    forceBasicSpd: true,
+    forceBasicSpdValue: 0,
   }
 
   // Optimize requested stats
@@ -332,12 +332,19 @@ export function scoreCharacterSimulation(
     simulationFlags.overcapCritRate = true
   }
 
+  // Get the simulation sets
+  const simulationSets = calculateSimSets(metadata, relicsByPart)
+
   if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse &&
     relicsByPart.Hands.set == Sets.PoetOfMourningCollapse &&
     relicsByPart.Body.set == Sets.PoetOfMourningCollapse &&
     relicsByPart.Feet.set == Sets.PoetOfMourningCollapse
   ) {
-    simulationFlags.noSpeed = true
+    simulationFlags.forceBasicSpd = true
+  }
+
+  if (simulationSets.relicSet1 == Sets.PoetOfMourningCollapse && simulationSets.relicSet2 == Sets.PoetOfMourningCollapse) {
+    simulationFlags.forceBasicSpd = true
   }
 
   // Set up default request
@@ -373,23 +380,44 @@ export function scoreCharacterSimulation(
     result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
   }
 
-  // Get the simulation sets
-  const simulationSets = calculateSimSets(metadata, relicsByPart)
-
   // ===== Simulate the original character =====
   const {
     originalSimResult,
     originalSim,
-  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams)
+  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
 
   applyScoringFunction(originalSimResult)
 
   // ===== Calculate the speed target =====
 
-  let targetSpd = originalSimResult.xSPD
-  if (simulationFlags.noSpeed) {
-    targetSpd = 0
+  let targetSpd = originalSimResult.x.SPD
+
+  // Special handling for poet - force the spd to certain thresholds when poet is active
+  if (simulationFlags.forceBasicSpd) {
+    let spd = originalSimResult[Stats.SPD]
+
+    if (spd >= 110) {
+      spd = 109.9
+    } else if (spd >= 95) {
+      // No-op
+    } else {
+      // No-op
+    }
+
+    simulationFlags.forceBasicSpdValue = spd
+
+    const {
+      originalSimResult: forcedSpdSimResult,
+      originalSim: forcedSpdSim,
+    } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+
+    console.log(forcedSpdSimResult, forcedSpdSim)
+
+    targetSpd = forcedSpdSimResult.x.SPD
   }
+  // if (simulationFlags.noSpeed) {
+  //   targetSpd = 0
+  // }
 
   // ===== Calculate the baseline build =====
 
@@ -399,6 +427,7 @@ export function scoreCharacterSimulation(
     context,
     simulationSets,
     benchmarkScoringParams,
+    simulationFlags,
   )
   applyScoringFunction(baselineSimResult)
 
@@ -801,15 +830,8 @@ function computeOptimalSimulation(
   } = { parts: [] }
   if (scoringParams.enforcePossibleDistribution) {
     speedCap = false
-
-    if (simulationFlags.noSpeed) {
-      maxSubstatRollCounts[Stats.ERR] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
-      currentSimulation.request.stats[Stats.ERR] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
-    } else {
-      maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
-      currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
-    }
-
+    maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
+    currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
     sum = sumSubstatRolls(maxSubstatRollCounts)
 
     const candidateStats = [...metadata.substats, Stats.SPD]
@@ -860,7 +882,6 @@ function computeOptimalSimulation(
       if (currentSimulation.request.stats[stat] <= scoringParams.freeRolls) continue
       if (Utils.sumArray(Object.values(currentSimulation.request.stats)) <= scoringParams.substatGoal) continue
       if (stat == Stats.SPD && currentSimulation.request.stats[Stats.SPD] <= Math.ceil(partialSimulationWrapper.speedRollsDeduction)) continue
-      if (stat == Stats.ERR) continue
       if (currentSimulation.request.stats[stat] <= minSubstatRollCounts[stat]) continue
 
       // Cache the value so we can undo a modification
@@ -873,6 +894,7 @@ function computeOptimalSimulation(
       const newSimResult = runSimulations(simulationForm, context, [newSimulation], {
         ...scoringParams,
         substatRollsModifier: scoringParams.substatRollsModifier,
+        simulationFlags: simulationFlags,
       })[0]
       simulationRuns++
 
@@ -977,7 +999,7 @@ function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
   for (const stat of SubStats) {
     sum += maxSubstatRollCounts[stat]
   }
-  return sum + nanAsZero(maxSubstatRollCounts[Stats.ERR])
+  return sum
 }
 
 function calculateMinSubstatRollCounts(
@@ -985,10 +1007,6 @@ function calculateMinSubstatRollCounts(
   scoringParams: ScoringParams,
   simulationFlags: SimulationFlags,
 ) {
-  const spd = simulationFlags.noSpeed
-    ? 0
-    : partialSimulationWrapper.speedRollsDeduction
-
   const minCounts: SimulationStats = {
     [Stats.HP_P]: scoringParams.freeRolls,
     [Stats.ATK_P]: scoringParams.freeRolls,
@@ -996,7 +1014,7 @@ function calculateMinSubstatRollCounts(
     [Stats.HP]: scoringParams.freeRolls,
     [Stats.ATK]: scoringParams.freeRolls,
     [Stats.DEF]: scoringParams.freeRolls,
-    [Stats.SPD]: spd,
+    [Stats.SPD]: partialSimulationWrapper.speedRollsDeduction,
     [Stats.CR]: scoringParams.freeRolls,
     [Stats.CD]: scoringParams.freeRolls,
     [Stats.EHR]: scoringParams.freeRolls,
@@ -1239,6 +1257,7 @@ function simulateBaselineCharacter(
   context: OptimizerContext,
   simulationSets: SimulationSets,
   scoringParams: ScoringParams,
+  simulationFlags: SimulationFlags,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
   Object.values(Parts).forEach((part) => relicsByPart[part] = relicsByPart[part] || emptyRelic())
@@ -1262,7 +1281,7 @@ function simulateBaselineCharacter(
   const {
     originalSimResult,
     originalSim,
-  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, scoringParams, 0, true)
+  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, scoringParams, simulationFlags, 0, true)
   return {
     baselineSimResult: originalSimResult,
     baselineSim: originalSim,
@@ -1276,6 +1295,7 @@ function simulateOriginalCharacter(
   simulationForm: Form,
   context: OptimizerContext,
   scoringParams: ScoringParams,
+  simulationFlags: SimulationFlags,
   mainStatMultiplier = 1,
   overwriteSets = false,
 ) {
@@ -1305,6 +1325,7 @@ function simulateOriginalCharacter(
     ...scoringParams,
     substatRollsModifier: (rolls: number) => rolls,
     mainStatMultiplier: mainStatMultiplier,
+    simulationFlags: simulationFlags,
   })[0]
 
   originalSim.result = originalSimResult

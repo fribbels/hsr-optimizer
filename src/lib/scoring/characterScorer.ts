@@ -288,7 +288,7 @@ export function scoreCharacterSimulation(
   const simulationFlags: SimulationFlags = {
     addBreakEffect: false,
     overcapCritRate: false,
-    forceBasicSpd: true,
+    forceBasicSpd: false,
     forceBasicSpdValue: 0,
   }
 
@@ -415,9 +415,6 @@ export function scoreCharacterSimulation(
 
     targetSpd = forcedSpdSimResult.x.SPD
   }
-  // if (simulationFlags.noSpeed) {
-  //   targetSpd = 0
-  // }
 
   // ===== Calculate the baseline build =====
 
@@ -1124,7 +1121,7 @@ function calculateMaxSubstatRollCounts(
   // Assumes maximum 120 EHR is needed ever
   const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
   const missingEhr = Math.max(0, 120 - baselineSimResult.x[Stats.EHR] * 100)
-  maxCounts[Stats.EHR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
+  maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0 ? 0 : Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
     ? 6
     : 0, Math.min(
     request.simBody == Stats.EHR

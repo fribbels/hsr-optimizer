@@ -80,7 +80,7 @@ export function calculateBuild(
   calculateElementalStats(c, context)
 
   if (forcedBasicSpd) {
-    // Special scoring use case where basic stat needs to be enforced
+    // Special scoring use case where basic spd stat needs to be enforced
     c[Stats.SPD] = forcedBasicSpd
   }
 

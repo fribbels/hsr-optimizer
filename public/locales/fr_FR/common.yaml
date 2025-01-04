@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+DamagePercent: DGT %
 ReadableStats:
   "HP%": PV %
   HP: PV
@@ -124,7 +125,7 @@ ReadableStats:
   CRIT DMG: DGT CRIT
   Effect Hit Rate: Chance d'APP
   Effect RES: RÉS aux effets
-  Break Effect: Effet de rupture
+  Break Effect: Effet rupture
   Energy Regeneration Rate: Regen d'énergie
   Outgoing Healing Boost: Augm. des soins
   Physical DMG Boost: "DGT $t(gameData:Elements.Physical)"

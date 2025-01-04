@@ -282,6 +282,7 @@ interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     },
+    "DamagePercent": "DMG %",
     "ReadableStats": {
       "HP%": "HP %",
       "HP": "HP",
@@ -3327,13 +3328,13 @@ interface Resources {
         "Name": "Dream's Montage"
       },
       "21050": {
-        "Name": "Sweat Now, Cry Less"
+        "Name": "Victory In a Blink"
       },
       "21051": {
         "Name": "Geniuses' Greetings"
       },
       "21052": {
-        "Name": "Victory In a Blink"
+        "Name": "Sweat Now, Cry Less"
       },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
@@ -4953,7 +4954,8 @@ interface Resources {
       "Discord": "Discord",
       "Github": "GitHub",
       "Kofi": "Ko-fi",
-      "Unleak": "No leaks"
+      "Unleak": "No leaks",
+      "Leaks": "Beta content"
     }
   }
 }

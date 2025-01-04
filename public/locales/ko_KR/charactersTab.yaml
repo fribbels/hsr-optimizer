@@ -37,7 +37,6 @@ CharacterPreview:
   CustomizationSidebar:
     Modes:
       Auto: 자동
-      Custom: 커스텀
       Standard: 표준
   ArtBy: "아티스트: {{artistName}}"
   EditCharacter: 캐릭터 편집
@@ -59,7 +58,7 @@ CharacterPreview:
     Labels:
       CombatStats: 전투 스탯
       DMGUpgrades: 대미지 강화
-  DMGUpgrades: 피해량 강화
+  DMGUpgrades: 대미지 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교
     Damage: 피해량

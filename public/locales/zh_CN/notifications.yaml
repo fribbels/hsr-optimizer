@@ -6,6 +6,11 @@ GPU:
     l3: >-
       Linux — <CustomLink text="在标志后"/>
     l4: "如果你正在使用所支持的浏览器但仍然无法使用GPU加速，请尝试其他浏览器，或尝试切换你的浏览器使用独立显卡而不是集成显卡"
+GPUCrash:
+  Message: WebGPU 错误
+  Description:
+    l1: GPU加速进程已崩溃 - 结果可能无效。请重试或在Discord服务器上报告问题。
+    l2: 如需要查看故障排除步骤，请访问<CustomLink text="文档页面。"/>
 Changelog:
   View: 查看更新日志
   Dismiss: 关闭

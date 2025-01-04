@@ -155,15 +155,17 @@ export const Optimizer = {
           window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           computeEngine = COMPUTE_ENGINE_CPU
         } else {
-          gpuOptimize({
-            device,
-            context: context,
-            request: request,
-            relics: relics,
-            permutations: permutations,
-            computeEngine: computeEngine,
-            relicSetSolutions: relicSetSolutions,
-            ornamentSetSolutions: ornamentSetSolutions,
+          Utils.sleep(200).then(() => {
+            gpuOptimize({
+              device,
+              context: context,
+              request: request,
+              relics: relics,
+              permutations: permutations,
+              computeEngine: computeEngine,
+              relicSetSolutions: relicSetSolutions,
+              ornamentSetSolutions: ornamentSetSolutions,
+            })
           })
         }
       })

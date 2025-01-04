@@ -96,8 +96,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'slider',
       text: t('TeammateContent.teammateATKValue.text'),
       content: t('TeammateContent.teammateATKValue.content', {
-        ultAtkBuffFlatValue: TsUtils.precisionRound(100 * ultAtkBuffFlatValue),
-        ultAtkBuffScalingValue: ultAtkBuffScalingValue,
+        ultAtkBuffFlatValue: TsUtils.precisionRound(ultAtkBuffFlatValue),
+        ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
       }),
       min: 0,
       max: 7000,

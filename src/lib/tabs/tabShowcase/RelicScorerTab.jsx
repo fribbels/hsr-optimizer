@@ -590,7 +590,7 @@ function Sidebar(props) {
     return (
       <Flex
         vertical
-        gap={5}
+        gap={4}
         justify='center'
         style={{
           marginLeft: -8,
@@ -609,9 +609,8 @@ function Sidebar(props) {
                 key={key++}
                 type='text'
                 style={{
-                  width: preset.rerun ? RERUN_PRESET_SIZE : PRESET_SIZE,
-                  height: preset.rerun ? RERUN_PRESET_SIZE : PRESET_SIZE,
-                  marginBottom: preset.rerun ? 0 : 5,
+                  width: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
+                  height: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
                   paddingTop: 2,
                   display: props.activeKey == AppPages.SHOWCASE ? 'flex' : 'none',
                 }}
@@ -652,7 +651,7 @@ function Sidebar(props) {
           <Button
             type='primary'
             shape='round'
-            style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 10 }}
+            style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 8 }}
           >
             <Icon component={ExperimentOutlined} style={{ fontSize: 55 }}/>
           </Button>

@@ -68,12 +68,12 @@ Stats:
 ShortStats:
   "HP%": HP%
   HP: HP
-  "ATK%": ATK%
-  ATK: ATK
-  "DEF%": DEF%
-  DEF: DEF
-  "SPD%": SPD%
-  SPD: SPD
+  "ATK%": Tấn Công%
+  ATK: Tấn Công
+  "DEF%": Phòng Thủ%
+  DEF: Phòng Thủ
+  "SPD%": Tốc Độ%
+  SPD: Tốc Độ
   CRIT Rate: CR
   CRIT DMG: CD
   Effect Hit Rate: EHR
@@ -92,11 +92,11 @@ ShortSpacedStats:
   "HP%": HP %
   HP: HP
   "ATK%": ATK %
-  ATK: ATK
+  ATK: Tấn Công
   "DEF%": DEF %
-  DEF: DEF
+  DEF: Phòng Thủ
   "SPD%": SPD %
-  SPD: SPD
+  SPD: Tốc Độ
   CRIT Rate: CR
   CRIT DMG: CD
   Effect Hit Rate: EHR
@@ -114,11 +114,11 @@ ShortSpacedStats:
 ReadableStats:
   "HP%": HP %
   HP: HP
-  "ATK%": Tấn Công %
+  "ATK%": ATK %
   ATK: Tấn Công
-  "DEF%": Phòng Thủ %
+  "DEF%": DEF %
   DEF: Phòng Thủ
-  "SPD%": Tốc Độ %
+  "SPD%": SPD %
   SPD: Tốc Độ
   CRIT Rate: Tỷ Lệ Bạo Kích
   CRIT DMG: Sát Thương Bạo Kích
@@ -137,16 +137,16 @@ ReadableStats:
 ShortReadableStats:
   "HP%": HP %
   HP: HP
-  "ATK%": Tấn Công %
+  "ATK%": ATK %
   ATK: Tấn Công
-  "DEF%": Phòng Thủ %
+  "DEF%": DEF %
   DEF: Phòng Thủ
   "SPD%": SPD %
-  SPD: SPD
+  SPD: Tốc Độ
   CRIT Rate: Tỷ Lệ Bạo Kích
   CRIT DMG: Sát Thương Bạo Kích
   Effect Hit Rate: Chính Xác
-  Effect RES: Kháng
+  Effect RES: RES
   Break Effect: Kích Phá
   Energy Regeneration Rate: Năng Lượng
   Outgoing Healing Boost: Trị Liệu

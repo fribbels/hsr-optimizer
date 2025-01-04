@@ -13,7 +13,7 @@ NoConditionals: Sem passivas condicionais
 NoTeamConditionals: Sem passivas condicionais da equipe
 ResultLimitN: "Achar os {{limit}} melhores"
 MainStats: Atributos principais
-Sets: Conjuntos
+Sets: Sets
 RelicSetSelector:
   Placeholder: Set de Relíquia
   4pcLabel: 4 Pedaços
@@ -89,7 +89,7 @@ Grid:
   PageSelectorLabel: "Tamanho da Página:"
   Headers:
     Basic:
-      Set: Conjunto
+      Set: Set
       ATK: ATQ
       DEF: DEF
       HP: PV
@@ -130,7 +130,7 @@ Grid:
         DANO
         COMBO
     Combat:
-      Set: Conjunto
+      Set: Set
       ATK: Σ ATQ
       DEF: Σ DEF
       HP: Σ PV
@@ -352,7 +352,7 @@ EnemyConfiguration:
   WeaknessLabel: Fraqueza elemental
   BrokenLabel: Resistência quebrada
 WeightFilter:
-  WeightFilterHeader: Filtro de peso dos subatributos
+  WeightFilterHeader: Filtro de peso de subatributo
   RollFilterHeader: Peso de rolls por relíquia
   HPFilterText: PV
   ATKFilterText: ATQ
@@ -424,7 +424,7 @@ TeammateCard:
     $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
   EidolonPlaceholder: Eidolon
   SuperimpositionPlaceholder: Sobreposição
-  RelicsPlaceholder: Relíquias 
+  RelicsPlaceholder: Relíquias
   OrnamentsPlaceholder: Ornamentos
   TeammateSyncSuccessMessage: Informações sincronizadas de membro
   TeammateSets:
@@ -467,7 +467,7 @@ StatSimulation:
   NothingToImport: Execute o otimizador primeiro e, em seguida, selecione uma linha dos resultados do otimizador para importar
   NoStatSimulations: Nenhuma simulação de atributos personalizadas foi seleciona
   SetSelection:
-    Header: Conjuntos
+    Header: Sets
     RelicPlaceholder: Set de Relíquia
     OrnamentPlaceholder: Set de Ornamento
   TotalRolls: Total de rolls

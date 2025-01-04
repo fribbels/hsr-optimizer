@@ -907,7 +907,7 @@ Characters:
       weaknessBreakBeStacks:
         text: BE em inimigo quebrado acumula
         content: >-
-          Quando a Fraqueza de um alvo inimigo é quebrada, o Efeito de Quebra dos companheiros de equipe aumenta em 6%. Se o Efeito de Quebra de Fugue for de 220% ou mais, o boost do Efeito de Quebra também aumenta em 12%, com duração de 2 turnos. Esse efeito pode se acumular até 2 vezes.
+          Quando a Fraqueza de um alvo inimigo é quebrada, o Efeito de Quebra dos companheiros de equipe aumenta em 6%. Se o Efeito de Quebra de Fugue for 220% ou mais, o Boost do Efeito de Quebra também aumenta em 12%, com duração de 2 turnos. Esse efeito pode se acumular até 2 vezes.
   FuXuan:
     Content:
       talentActive:

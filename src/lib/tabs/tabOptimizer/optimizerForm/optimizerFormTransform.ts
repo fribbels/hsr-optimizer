@@ -1,6 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import DB from 'lib/state/db'
@@ -15,6 +15,7 @@ export function displayToForm(form: Form) {
   const MAX_INT = Constants.MAX_INT
 
   form.statDisplay = window.store.getState().statDisplay || DEFAULT_STAT_DISPLAY
+  form.memoDisplay = window.store.getState().memoDisplay || DEFAULT_MEMO_DISPLAY
 
   form.maxHp = getNumber(form.maxHp, MAX_INT)
   form.minHp = getNumber(form.minHp, 0)
@@ -194,6 +195,10 @@ export function formToDisplay(form: Form) {
 
   if (!newForm.statDisplay) {
     newForm.statDisplay = DEFAULT_STAT_DISPLAY
+  }
+
+  if (!newForm.memoDisplay) {
+    newForm.memoDisplay = DEFAULT_MEMO_DISPLAY
   }
 
   const character = DB.getCharacterById(characterId)

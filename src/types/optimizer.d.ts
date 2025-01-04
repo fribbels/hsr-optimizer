@@ -10,6 +10,8 @@ export type OptimizerAction = {
 
   characterConditionals: ConditionalValueMap
   lightConeConditionals: ConditionalValueMap
+  teammateCharacterConditionals: ConditionalValueMap
+  teammateLightConeConditionals: ConditionalValueMap
   setConditionals: SetConditional
 
   conditionalRegistry: ConditionalRegistry

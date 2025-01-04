@@ -63,6 +63,7 @@ export type Form = {
   rankFilter: boolean
   relicSets: ([pieces: string, set: string] | [pieces: string, set1: string, set2: string])[]
   statDisplay: string
+  memoDisplay: string
 
   weights: {
     [key: string]: number

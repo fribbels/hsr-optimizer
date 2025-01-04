@@ -1,6 +1,5 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants/constants'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
-import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
@@ -17,6 +16,7 @@ import { OptimizerContext } from 'types/optimizer'
 window.WEBGPU_DEBUG = false
 
 export async function gpuOptimize(props: {
+  device: GPUDevice | null,
   context: OptimizerContext
   request: Form
   relics: RelicsByPart
@@ -27,7 +27,7 @@ export async function gpuOptimize(props: {
 }) {
   const { context, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
-  const device = await getWebgpuDevice()
+  const device = props.device
   if (device == null) {
     console.error('Not supported')
     return

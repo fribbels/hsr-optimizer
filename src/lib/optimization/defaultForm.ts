@@ -1,4 +1,4 @@
-import { CombatBuffs, Constants, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form, Teammate } from 'types/form'
@@ -64,7 +64,7 @@ export function getDefaultForm(initialCharacter: { id: string }) {
     mainHead: [],
     mainHands: [],
     statDisplay: DEFAULT_STAT_DISPLAY,
-    // statSim: defaultStatSim,
+    memoDisplay: DEFAULT_MEMO_DISPLAY,
     weights: weights,
     setConditionals: defaultSetConditionals,
     teammate0: defaultTeammate() as Teammate,

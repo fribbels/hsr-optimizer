@@ -126,8 +126,7 @@ export const RelicFilters = {
   },
 
   applyEquippedFilter: (request: Form, relics: Relic[]) => {
-    if (request.includeEquippedRelics)
-      return relics
+    if (request.includeEquippedRelics) return relics
 
     const characterId = request.characterId || '99999999'
     // TODO: refactor after https://github.com/fribbels/hsr-optimizer/issues/56 is completed

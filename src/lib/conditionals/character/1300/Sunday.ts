@@ -171,7 +171,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return x.m.a[Key.CR] > 1.00
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof teammateContent>
+          const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
           if (!(e >= 6 && r.e6CrToCdConversion)) {
             return
           }
@@ -183,7 +183,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.m.CD.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof teammateContent>
+          const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
@@ -194,9 +194,9 @@ let cr = (*p_m).CR;
 
 if (cr > 1.00) {
   let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
-  let stateValue: f32 = (*p_state).SundayMemoCrConditional;
+  let stateValue: f32 = (*p_state).${this.id};
 
-  (*p_state).SundayMemoCrConditional = buffValue;
+  (*p_state).${this.id} = buffValue;
   buffMemoDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
 }
           `)
@@ -212,7 +212,7 @@ if (cr > 1.00) {
           return x.a[Key.CR] > 1.00
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof teammateContent>
+          const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
           if (!(e >= 6 && r.e6CrToCdConversion)) {
             return
           }
@@ -224,7 +224,7 @@ if (cr > 1.00) {
           x.CD.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof teammateContent>
+          const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
@@ -235,9 +235,9 @@ let cr = (*p_x).CR;
 
 if (cr > 1.00) {
   let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
-  let stateValue: f32 = (*p_state).SundayCrConditional;
+  let stateValue: f32 = (*p_state).${this.id};
 
-  (*p_state).SundayCrConditional = buffValue;
+  (*p_state).${this.id} = buffValue;
   buffDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
 }
     `)

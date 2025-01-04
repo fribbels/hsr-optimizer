@@ -1,5 +1,6 @@
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, theme } from 'antd'
+import i18next from 'i18next'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { getGridTheme } from 'lib/rendering/theme'
@@ -110,7 +111,7 @@ export function OptimizerGrid() {
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
             ref={optimizerGrid}
-            paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
+            paginationNumberFormatter={(param) => param.value.toLocaleString(i18next.resolvedLanguage.split('_')[0])}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
             rowSelection='single'

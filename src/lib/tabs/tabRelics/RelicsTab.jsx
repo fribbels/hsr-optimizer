@@ -1,6 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
 import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Typography } from 'antd'
+import i18next from 'i18next'
 import { Constants, Stats } from 'lib/constants/constants'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Hint } from 'lib/interactions/hint'
@@ -657,7 +658,7 @@ export default function RelicsTab() {
               pagination={true}
               paginationPageSizeSelector={false}
               paginationPageSize={2100}
-              paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
+              paginationNumberFormatter={(param) => param.value.toLocaleString(i18next.resolvedLanguage.split('_')[0])}
               getLocaleText={getLocaleText}
 
               onSelectionChanged={onSelectionChanged}

@@ -85,7 +85,7 @@ export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'pt_BR', 'zh_CN']
 
 // @ts-ignore
-export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales
+export const supportedLanguages = BASE_PATH !== '/dreary-quibbles' ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)
   .use(LanguageDetector)
@@ -112,8 +112,8 @@ void i18next
     fallbackNS: ['common', 'gameData'],
     debug: true,
     supportedLngs: supportedLanguages,
-    load: 'languageOnly',
-    fallbackLng: 'en',
+    load: 'currentOnly',
+    fallbackLng: 'en_US',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },

@@ -3328,13 +3328,13 @@ interface Resources {
         "Name": "Dream's Montage"
       },
       "21050": {
-        "Name": "Sweat Now, Cry Less"
+        "Name": "Victory In a Blink"
       },
       "21051": {
         "Name": "Geniuses' Greetings"
       },
       "21052": {
-        "Name": "Victory In a Blink"
+        "Name": "Sweat Now, Cry Less"
       },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"

@@ -52,13 +52,13 @@ export const betaInformation: betaInformation = {
         },
       },
       {
-        id: 21050,
+        id: 21052,
         value: {
           Name: 'Sweat Now, Cry Less',
         },
       },
       {
-        id: 21052,
+        id: 21050,
         value: {
           Name: 'Victory In a Blink',
         },

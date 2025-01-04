@@ -102,7 +102,7 @@ ShortSpacedStats:
   Effect Hit Rate: 効果命中
   Effect RES: 効果抵抗
   Break Effect: 撃破特効
-  Energy Regeneration Rate: EP回復
+  Energy Regeneration Rate: EP回復効率
   Outgoing Healing Boost: 治癒量
   Physical DMG Boost: "$t(gameData:Elements.Physical)"
   Fire DMG Boost: "$t(gameData:Elements.Fire)"
@@ -115,14 +115,14 @@ DamagePercent: ダメージ %
 ReadableStats:
   "HP%": HP
   HP: HP
-  "ATK%": 攻撃力
+  "ATK%": 攻撃力割合
   ATK: 攻撃力
   "DEF%": 防御力
   DEF: 防御力
   "SPD%": 速度
   SPD: 速度
   CRIT Rate: 会心率
-  CRIT DMG: 会心ダメ
+  CRIT DMG: 会心ダメージ
   Effect Hit Rate: 効果命中
   Effect RES: 効果抵抗
   Break Effect: 撃破特効
@@ -145,7 +145,7 @@ ShortReadableStats:
   "SPD%": 速度
   SPD: 速度
   CRIT Rate: 会心率
-  CRIT DMG: 会心ダメ
+  CRIT DMG: 会心ダメージ
   Effect Hit Rate: 効果命中
   Effect RES: 効果抵抗
   Break Effect: 撃破

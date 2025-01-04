@@ -3,6 +3,7 @@ import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
+import { webgpuCrashNotification } from 'lib/interactions/notifications'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
@@ -36,7 +37,7 @@ export async function gpuOptimize(props: {
   device.onuncapturederror = (event) => {
     if (window.store.getState().optimizationInProgress) {
       window.store.getState().setOptimizationInProgress(false)
-      Message.error('The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server', 20)
+      webgpuCrashNotification()
     }
   }
 

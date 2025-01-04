@@ -96,3 +96,33 @@ export function webgpuNotSupportedNotification() {
     console.error(e)
   }
 }
+
+export function webgpuCrashNotification() {
+  const t = i18next.getFixedT(null, 'notifications', 'GPUCrash')
+  try {
+    window.notificationApi.warning({
+      message: t('Message'), // 'WebGPU is not supported on this browser!',
+      description: (
+        <Flex vertical gap={10}>
+          <div>
+            {
+              t('Description.l1')
+              // The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server.
+            }
+          </div>
+          <div>
+            <Trans
+              t={t}
+              i18nKey='Description.l2'
+              // @ts-ignore
+              components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true}/> }}
+            />
+          </div>
+        </Flex>
+      ),
+      duration: 15,
+    })
+  } catch (e) {
+    console.error(e)
+  }
+}

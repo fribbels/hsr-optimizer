@@ -282,6 +282,7 @@ interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     },
+    "DamagePercent": "DMG %",
     "ReadableStats": {
       "HP%": "HP %",
       "HP": "HP",
@@ -3327,13 +3328,13 @@ interface Resources {
         "Name": "Dream's Montage"
       },
       "21050": {
-        "Name": "Sweat Now, Cry Less"
+        "Name": "Victory In a Blink"
       },
       "21051": {
         "Name": "Geniuses' Greetings"
       },
       "21052": {
-        "Name": "Victory In a Blink"
+        "Name": "Sweat Now, Cry Less"
       },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
@@ -4209,6 +4210,13 @@ interface Resources {
         "l4": "If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated."
       }
     },
+    "GPUCrash": {
+      "Message": "WebGPU error",
+      "Description": {
+        "l1": "The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server.",
+        "l2": "For troubleshooting steps, check the <CustomLink text=\"documentation page.\"/>"
+      }
+    },
     "Changelog": {
       "View": "View changelog",
       "Dismiss": "Dismiss",
@@ -4251,6 +4259,7 @@ interface Resources {
       "SKILL": "Sorted by Skill DMG",
       "ULT": "Sorted by Ult DMG",
       "FUA": "Sorted by Follow-up DMG",
+      "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -4622,6 +4631,7 @@ interface Resources {
       "SKILLLabel": "SKILL",
       "ULTLabel": "ULT",
       "FUALabel": "FUA",
+      "MEMOSKILLLabel": "SKILLᴹ",
       "DOTLabel": "DOT",
       "BREAKLabel": "BREAK",
       "HEALLabel": "HEAL",
@@ -4953,7 +4963,8 @@ interface Resources {
       "Discord": "Discord",
       "Github": "GitHub",
       "Kofi": "Ko-fi",
-      "Unleak": "No leaks"
+      "Unleak": "No leaks",
+      "Leaks": "Beta content"
     }
   }
 }

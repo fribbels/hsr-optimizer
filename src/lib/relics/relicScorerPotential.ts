@@ -941,7 +941,7 @@ function maxEnhance(grade: 2 | 3 | 4 | 5) {
 }
 
 function scoreToRating(score: number, substatScore?: SubstatScore, relic?: Relic): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
-  if (relic?.grade != 5) return '?'
+  if (relic && relic.grade != 5) return '?'
   const index = Math.min(Math.floor(score / (minRollValue / 2)), ratings.length - 1)
   return index < 0 || scoredMainStatInvalid(substatScore) ? '?' : ratings[index]
 }

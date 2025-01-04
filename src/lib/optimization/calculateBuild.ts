@@ -92,6 +92,7 @@ export function calculateBuild(
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
+    const a = x.a
     x.setPrecompute(action.precomputedX.a)
     m.setPrecompute(action.precomputedM.a)
 
@@ -101,19 +102,19 @@ export function calculateBuild(
     calculateDamage(x, action, context)
 
     if (action.actionType === 'BASIC') {
-      combo += x.get(Key.BASIC_DMG)
+      combo += a[Key.BASIC_DMG]
     } else if (action.actionType === 'SKILL') {
-      combo += x.get(Key.SKILL_DMG)
+      combo += a[Key.SKILL_DMG]
     } else if (action.actionType === 'ULT') {
-      combo += x.get(Key.ULT_DMG)
+      combo += a[Key.ULT_DMG]
     } else if (action.actionType === 'FUA') {
-      combo += x.get(Key.FUA_DMG)
+      combo += a[Key.FUA_DMG]
     } else if (action.actionType === 'MEMO_SKILL') {
-      combo += x.get(Key.MEMO_SKILL_DMG)
+      combo += a[Key.MEMO_SKILL_DMG]
     }
 
     if (i === 0) {
-      combo += context.comboDot * x.get(Key.DOT_DMG) + context.comboBreak * x.get(Key.BREAK_DMG)
+      combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
       x.COMBO_DMG.set(combo, Source.NONE)
     }
   }

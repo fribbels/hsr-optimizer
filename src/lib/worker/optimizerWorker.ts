@@ -190,6 +190,8 @@ self.onmessage = function (e: MessageEvent) {
         combo += a[Key.ULT_DMG]
       } else if (action.actionType === 'FUA') {
         combo += a[Key.FUA_DMG]
+      } else if (action.actionType === 'MEMO_SKILL') {
+        combo += a[Key.MEMO_SKILL_DMG]
       }
 
       if (i === 0) {

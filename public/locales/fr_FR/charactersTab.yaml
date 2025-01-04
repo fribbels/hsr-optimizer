@@ -71,7 +71,7 @@ CharacterPreview:
     Labels:
       CombatStats: Stats de Combat
       DMGUpgrades: Améliorations Dégâts
-  DMGUpgrades: Améliorations Dégâts
+  DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats
     Roll: roll

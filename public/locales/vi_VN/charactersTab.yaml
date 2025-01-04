@@ -45,6 +45,7 @@ CharacterPreview:
     Label: Thay đổi nền
     Modes:
       Auto: Tự động
+      Custom: Tự chỉnh
       Standard: Mặc định
     PaletteLabel: Bảng màu khung
   ArtBy: "Tranh bởi {{artistName}}"
@@ -55,7 +56,7 @@ CharacterPreview:
     AddedRelic: Thêm di vật mới thành công
     SavedPortrait: Thêm ảnh mới thành công
     RevertedPortrait: Đưa ảnh về ban đầu thành công
-    NoSelectedCharacter: Không nhân vật được chọn
+    NoSelectedCharacter: Không nhân vật nào được chọn
   ScoreHeader:
     Title: Giả lập combat
     Score: "Điểm DPS {{score}}% {{grade}}"

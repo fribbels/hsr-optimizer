@@ -140,7 +140,10 @@ export const OptimizerTabController = {
   },
 
   scrollToGrid: () => {
-    document.getElementById('optimizerGridContainer')!.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    const element = document.getElementById('optimizerGridContainer')
+    if (element) {
+      TsUtils.smoothScrollNearest(element, 200)
+    }
   },
 
   // Get a form that's ready for optimizer submission

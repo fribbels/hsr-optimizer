@@ -673,7 +673,7 @@ export class RelicScorer {
     const substatScore = this.substatScore(relic, id)
     const idealScore = this.getOptimalPartScore(part, id)
     const score = substatScore.score / idealScore * 100 * percentToScore + mainstatBonus
-    const rating = scoreToRating(score, substatScore)
+    const rating = scoreToRating(score, substatScore, relic)
     const mainStatScore = substatScore.mainStatScore
     return {
       score: score.toFixed(1),
@@ -940,7 +940,8 @@ function maxEnhance(grade: 2 | 3 | 4 | 5) {
   }
 }
 
-function scoreToRating(score: number, substatScore?: SubstatScore): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
+function scoreToRating(score: number, substatScore?: SubstatScore, relic?: Relic): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
+  if (relic?.grade != 5) return '?'
   const index = Math.min(Math.floor(score / (minRollValue / 2)), ratings.length - 1)
   return index < 0 || scoredMainStatInvalid(substatScore) ? '?' : ratings[index]
 }

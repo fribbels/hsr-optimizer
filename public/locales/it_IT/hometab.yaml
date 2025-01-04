@@ -1,0 +1,29 @@
+CollapseLabels:
+  Explore: Scopri le funzionalità
+  Join: Unisciti alla community
+CommunityCollapse: >-
+  <0> Un grande ringraziamento a tutti i nostri collaboratori, traduttori, utenti, e tutti coloro che hanno fornito feedback, per star supportando questo progetto e star aiutando a costruirlo insieme! </0> <1> Vieni a far parte della nostra community di Star Rail! Unisciti al server <1 text='Discord'/> per passare il tempo, o dai un'occhiata alla repo <3 text='GitHub'/> se vuoi dare un contributo. </1>
+FeatureCards:
+  LearnMore: Scopri di più
+  Showcase:
+    Title: Vetrina dei Personaggi
+    Content: >-
+      Mostra le statistiche dei tuoi personaggi o costruisci in anticipo personaggi futuri. Simula il loro danno in combattimento con un punteggio DPS e confrontalo con i benchmark.
+  Optimizer:
+    Title: Ottimizzatore delle Reliquie
+    Content: >-
+      Ottimizza i tuoi personaggi cercando le migliori combinazioni di reliquie per raggiungere i loro breakpoint e massimizzare le loro statistiche.
+  Calculator:
+    Title: Calcolatore dei Danni
+    Content: >-
+      Calcola i danni in modo preciso con configurazioni di squadra, condizioni di buff, e rotazioni di abilità completamente personalizzabili per massimizzare l'output di danni.
+  Organizer:
+    Title: Smistatore delle Reliquie
+    Content: >-
+      Organizza le tue reliquie valutandole e ordinandole in base al loro potenziale, e trova le reliquie migliori da potenziare per ogni personaggio.
+Welcome: Benvenuti su<1/>l'Ottimizzatore Star Rail di Fribbels
+SearchBar:
+  Placeholder: UUID
+  Label: "Inserisci il tuo UUID per visualizzare i tuoi personaggi in vetrina:"
+  Message: Input invalido - Questo dovrebbe essere il tuo UUID interno al gioco da 9 cifre
+  Search: Cerca

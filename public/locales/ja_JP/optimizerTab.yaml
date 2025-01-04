@@ -141,8 +141,8 @@ Grid:
       WEIGHT: |-
         STAT
         WEIGHT
-      HEAL: 回復
-      SHIELD: シールド
+      HEAL: 治癒量
+      SHIELD: シールド量
       BASIC: |-
         通常攻撃
       SKILL: |-
@@ -461,7 +461,7 @@ StatSimulation:
   TotalRolls: 合計
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
-    Off: "無効"
+    Off: "Off"
     RollCount: サブステータスの出現回数でシュミレート
     Totals: サブステータスの値でシュミレート
   FooterLabels:

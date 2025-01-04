@@ -100,7 +100,7 @@ export const TsUtils = {
       targetPosition = elementTop
     } else if (elementRect.bottom > parentHeight) {
       // Element is below the view
-      targetPosition = elementBottom - parentHeight
+      targetPosition = elementBottom - parentHeight + 5
     } else {
       // Element is already in view
       return

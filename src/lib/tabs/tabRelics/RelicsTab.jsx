@@ -657,7 +657,7 @@ export default function RelicsTab() {
               pagination={true}
               paginationPageSizeSelector={false}
               paginationPageSize={2100}
-              paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
+              paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage.split('_')[0])}
               getLocaleText={getLocaleText}
 
               onSelectionChanged={onSelectionChanged}

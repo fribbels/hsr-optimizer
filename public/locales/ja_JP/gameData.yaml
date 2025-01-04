@@ -1,0 +1,622 @@
+Characters:
+  "1001":
+    Name: "{RUBY_B#みつき}三月{RUBY_E#}なのか"
+    LongName: "{RUBY_B#みつき}三月{RUBY_E#}なのか ({RUBY_B#そんご}存護{RUBY_E#})"
+  "1002":
+    Name: "{RUBY_B#タンコウ}丹恒{RUBY_E#}"
+    LongName: "{RUBY_B#タンコウ}丹恒{RUBY_E#}"
+  "1003":
+    Name: "{RUBY_B#ひめこ}姫子{RUBY_E#}"
+    LongName: "{RUBY_B#ひめこ}姫子{RUBY_E#}"
+  "1004":
+    Name: ヴェルト
+    LongName: ヴェルト
+  "1005":
+    Name: カフカ
+    LongName: カフカ
+  "1006":
+    Name: "{RUBY_B#ぎんろう}銀狼{RUBY_E#}"
+    LongName: "{RUBY_B#ぎんろう}銀狼{RUBY_E#}"
+  "1008":
+    Name: アーラン
+    LongName: アーラン
+  "1009":
+    Name: アスター
+    LongName: アスター
+  "1013":
+    Name: ヘルタ
+    LongName: ヘルタ
+  "1101":
+    Name: ブローニャ
+    LongName: ブローニャ
+  "1102":
+    Name: ゼーレ
+    LongName: ゼーレ
+  "1103":
+    Name: セーバル
+    LongName: セーバル
+  "1104":
+    Name: ジェパード
+    LongName: ジェパード
+  "1105":
+    Name: ナターシャ
+    LongName: ナターシャ
+  "1106":
+    Name: ペラ
+    LongName: ペラ
+  "1107":
+    Name: クラーラ
+    LongName: クラーラ
+  "1108":
+    Name: サンポ
+    LongName: サンポ
+  "1109":
+    Name: フック
+    LongName: フック
+  "1110":
+    Name: リンクス
+    LongName: リンクス
+  "1111":
+    Name: ルカ
+    LongName: ルカ
+  "1112":
+    Name: トパーズ&カブ
+    LongName: トパーズ&カブ
+  "1201":
+    Name: "{RUBY_B#セイジャク}青雀{RUBY_E#}"
+    LongName: "{RUBY_B#セイジャク}青雀{RUBY_E#}"
+  "1202":
+    Name: "{RUBY_B#テイウン}停雲{RUBY_E#}"
+    LongName: "{RUBY_B#テイウン}停雲{RUBY_E#}"
+  "1203":
+    Name: "{RUBY_B#ラセツ}羅刹{RUBY_E#}"
+    LongName: "{RUBY_B#ラセツ}羅刹{RUBY_E#}"
+  "1204":
+    Name: "{RUBY_B#ケイゲン}景元{RUBY_E#}"
+    LongName: "{RUBY_B#ケイゲン}景元{RUBY_E#}"
+  "1205":
+    Name: "{RUBY_B#ジン}刃{RUBY_E#}"
+    LongName: "{RUBY_B#ジン}刃{RUBY_E#}"
+  "1206":
+    Name: "{RUBY_B#スショウ}素裳{RUBY_E#}"
+    LongName: "{RUBY_B#スショウ}素裳{RUBY_E#}"
+  "1207":
+    Name: "{RUBY_B#ギョクウ}御空{RUBY_E#}"
+    LongName: "{RUBY_B#ギョクウ}御空{RUBY_E#}"
+  "1208":
+    Name: "{RUBY_B#フゲン}符玄{RUBY_E#}"
+    LongName: "{RUBY_B#フゲン}符玄{RUBY_E#}"
+  "1209":
+    Name: "{RUBY_B#ゲンキョウ}彦卿{RUBY_E#}"
+    LongName: "{RUBY_B#ゲンキョウ}彦卿{RUBY_E#}"
+  "1210":
+    Name: "{RUBY_B#ケイナイフン}桂乃芬{RUBY_E#}"
+    LongName: "{RUBY_B#ケイナイフン}桂乃芬{RUBY_E#}"
+  "1211":
+    Name: "{RUBY_B#ビャクロ}白露{RUBY_E#}"
+    LongName: "{RUBY_B#ビャクロ}白露{RUBY_E#}"
+  "1212":
+    Name: "{RUBY_B#ケイリュウ}鏡流{RUBY_E#}"
+    LongName: "{RUBY_B#ケイリュウ}鏡流{RUBY_E#}"
+  "1213":
+    Name: "{RUBY_B#タンコウ}丹恒{RUBY_E#}・{RUBY_B#インゲツ}飲月{RUBY_E#}"
+    LongName: "{RUBY_B#タンコウ}丹恒{RUBY_E#}・{RUBY_B#インゲツ}飲月{RUBY_E#}"
+  "1214":
+    Name: "{RUBY_B#セツイ}雪衣{RUBY_E#}"
+    LongName: "{RUBY_B#セツイ}雪衣{RUBY_E#}"
+  "1215":
+    Name: "{RUBY_B#カンア}寒鴉{RUBY_E#}"
+    LongName: "{RUBY_B#カンア}寒鴉{RUBY_E#}"
+  "1217":
+    Name: フォフォ
+    LongName: フォフォ
+  "1218":
+    Name: "{RUBY_B#ショウキュウ}椒丘{RUBY_E#}"
+    LongName: "{RUBY_B#ショウキュウ}椒丘{RUBY_E#}"
+  "1220":
+    Name: "{RUBY_B#ヒショウ}飛霄{RUBY_E#}"
+    LongName: "{RUBY_B#ヒショウ}飛霄{RUBY_E#}"
+  "1221":
+    Name: "{RUBY_B#ウンリ}雲璃{RUBY_E#}"
+    LongName: "{RUBY_B#ウンリ}雲璃{RUBY_E#}"
+  "1222":
+    Name: "{RUBY_B#レイサ}霊砂{RUBY_E#}"
+    LongName: "{RUBY_B#レイサ}霊砂{RUBY_E#}"
+  "1223":
+    Name: モゼ
+    LongName: モゼ
+  "1224":
+    Name: "{RUBY_B#みつき}三月{RUBY_E#}なのか"
+    LongName: "{RUBY_B#みつき}三月{RUBY_E#}なのか ({RUBY_B#じゅんしゅ}巡狩{RUBY_E#})"
+  "1225":
+    Name: "{RUBY_B#きぼう}帰忘{RUBY_E#}の{RUBY_B#さすらいびと}流離人{RUBY_E#}"
+    LongName: "{RUBY_B#きぼう}帰忘{RUBY_E#}の{RUBY_B#さすらいびと}流離人{RUBY_E#}"
+  "1301":
+    Name: ギャラガー
+    LongName: ギャラガー
+  "1302":
+    Name: アルジェンティ
+    LongName: アルジェンティ
+  "1303":
+    Name: ルアン・メェイ
+    LongName: ルアン・メェイ
+  "1304":
+    Name: アベンチュリン
+    LongName: アベンチュリン
+  "1305":
+    Name: Dr.レイシオ
+    LongName: Dr.レイシオ
+  "1306":
+    Name: "{RUBY_B#はなび}花火{RUBY_E#}"
+    LongName: "{RUBY_B#はなび}花火{RUBY_E#}"
+  "1307":
+    Name: ブラックスワン
+    LongName: ブラックスワン
+  "1308":
+    Name: "{RUBY_B#よみ}黄泉{RUBY_E#}"
+    LongName: "{RUBY_B#よみ}黄泉{RUBY_E#}"
+  "1309":
+    Name: ロビン
+    LongName: ロビン
+  "1310":
+    Name: ホタル
+    LongName: ホタル
+  "1312":
+    Name: ミーシャ
+    LongName: ミーシャ
+  "1313":
+    Name: サンデー
+    LongName: サンデー
+  "1314":
+    Name: ジェイド
+    LongName: ジェイド
+  "1315":
+    Name: ブートヒル
+    LongName: ブートヒル
+  "1317":
+    Name: "{RUBY_B#らんは}乱破{RUBY_E#}"
+    LongName: "{RUBY_B#らんは}乱破{RUBY_E#}"
+  "1401":
+    Name: The Herta
+    LongName: The Herta
+  "1402":
+    Name: Aglaea
+    LongName: Aglaea
+  "8001":
+    Name: 穹
+    LongName: 穹 ({RUBY_B#かいめつ}壊滅{RUBY_E#})
+  "8002":
+    Name: 星
+    LongName: 星 ({RUBY_B#かいめつ}壊滅{RUBY_E#})
+  "8003":
+    Name: 穹
+    LongName: 穹 ({RUBY_B#そんご}存護{RUBY_E#})
+  "8004":
+    Name: 星
+    LongName: 星 ({RUBY_B#そんご}存護{RUBY_E#})
+  "8005":
+    Name: 穹
+    LongName: 穹 ({RUBY_B#ちょうわ}調和{RUBY_E#})
+  "8006":
+    Name: 星
+    LongName: 星 ({RUBY_B#ちょうわ}調和{RUBY_E#})
+  "8007":
+    Name: Caelus
+    LongName: Caelus (Remembrance)
+  "8008":
+    Name: Stelle
+    LongName: Stelle (Remembrance)
+RelicSets:
+  "101":
+    Name: 流雲無痕の過客
+    Description2pc: 治癒量+10%。
+    Description4pc: 戦闘開始時、SPを1回復する。
+  "102":
+    Name: 草の穂ガンマン
+    Description2pc: 攻撃力+12%。
+    Description4pc: 装備キャラの速度+6%、通常攻撃によるダメージ+10%。
+  "103":
+    Name: 純庭教会の聖騎士
+    Description2pc: 防御力+15%。
+    Description4pc: 装備キャラが付与するバリアの耐久値+20%。
+  "104":
+    Name: 雪の密林の狩人
+    Description2pc: 氷属性ダメージ+10%。
+    Description4pc: 装備キャラが必殺技を発動した時、会心ダメージ+25%、2ターン継続。
+  "105":
+    Name: 成り上がりチャンピオン
+    Description2pc: 物理属性ダメージ+10%。
+    Description4pc: 装備キャラが攻撃を行う、または攻撃を受けた後、今回の戦闘中の攻撃力+5%、最大で5層累積できる。
+  "106":
+    Name: 吹雪と対峙する兵士
+    Description2pc: 受けるダメージ-8%。
+    Description4pc: ターンが回ってきた時、装備キャラの残りHPが50%以下の場合、HPを最大HP8%分回復し、EPを5回復する。
+  "107":
+    Name: 溶岩で鍛造する火匠
+    Description2pc: 炎属性ダメージ+10%。
+    Description4pc: 装備キャラの戦闘スキルによるダメージ+12%。必殺技を発動した後、次の攻撃の炎属性ダメージ+12%。
+  "108":
+    Name: 星の如く輝く天才
+    Description2pc: 量子属性ダメージ+10%。
+    Description4pc: 装備キャラが敵にダメージを与えた時、敵の防御力を10%無視する。敵に量子属性の弱点がある場合、さらに防御力を10%無視する。
+  "109":
+    Name: 雷鳴轟くバンド
+    Description2pc: 雷属性ダメージ+10%。
+    Description4pc: 装備キャラが戦闘スキルを発動した時、装備キャラの攻撃力+20%、1ターン継続。
+  "110":
+    Name: 昼夜の狭間を翔ける鷹
+    Description2pc: 風属性ダメージ+10%。
+    Description4pc: 装備キャラが必殺技を発動した後、行動順が25%早まる。
+  "111":
+    Name: 流星の跡を追う怪盗
+    Description2pc: 撃破特効+16%。
+    Description4pc: 装備キャラの撃破特効+16%。装備キャラが敵を弱点撃破した後、EPを3回復する。
+  "112":
+    Name: 荒地で盗みを働く廃土客
+    Description2pc: 虚数属性ダメージ+10%。
+    Description4pc: デバフ状態の敵にダメージを与えた時、装備キャラの会心率+10%。禁錮状態の敵にダメージを与えた時、会心ダメージ+20%。
+  "113":
+    Name: 宝命長存の蒔者
+    Description2pc: 最大HP+12%。
+    Description4pc: 装備キャラが攻撃を受ける、または味方によってHPを消費させられた後、会心率+8%、2ターン継続。この効果は最大で2層累積できる。
+  "114":
+    Name: 仮想空間を漫遊するメッセンジャー
+    Description2pc: 速度+6%。
+    Description4pc: 装備キャラが味方に対して必殺技を発動した時、味方全体の速度+12%、1ターン継続。この効果は累積できない。
+  "115":
+    Name: 灰燼を燃やし尽くす大公
+    Description2pc: 追加攻撃ダメージ+20%。
+    Description4pc: 装備キャラが追加攻撃を行った時、追加攻撃のヒット数に応じて、ダメージを与えるたびに装備キャラの攻撃力+6%、最大8回まで累積でき、3ターン継続。この効果は、装備キャラが次の追加攻撃を行った時に解除される。
+  "116":
+    Name: 深い牢獄の囚人
+    Description2pc: 攻撃力+12%。
+    Description4pc: 敵に付与された持続ダメージ系デバフが1つにつき、装備キャラがその敵にダメージを与える時に防御力を6%無視する。持続ダメージ系デバフは最大で3つまでカウントされる。
+  "117":
+    Name: 死水に潜る先駆者
+    Description2pc: デバフの影響を受けている敵への与ダメージ+12%。
+    Description4pc: 会心率+4%。デバフを2/3つ以上付与されている敵に対する、装備キャラの会心ダメージ+8%/12%。装備キャラが敵にデバフを付与した後、上記の効果が2倍になる、1ターン継続。
+  "118":
+    Name: 夢を弄ぶ時計屋
+    Description2pc: 撃破特効+16%。
+    Description4pc: 装備キャラが味方に対して必殺技を発動する時、味方全体の撃破特効+30%、2ターン継続。この効果は累積できない。
+  "119":
+    Name: 蝗害を一掃せし鉄騎
+    Description2pc: 撃破特効+16%。
+    Description4pc: 装備キャラの撃破特効が150%以上の時、敵に与える弱点撃破ダメージが防御力を10%無視する。装備キャラの撃破特効が250%以上の時、さらに敵に与える超撃破ダメージが防御力を15%無視する。
+  "120":
+    Name: 風雲を薙ぎ払う勇烈
+    Description2pc: 攻撃力+12%。
+    Description4pc: 装備キャラの会心率+6%。装備キャラが追加攻撃を行う時、必殺技によるダメージ+36%、1ターン継続。
+  "121":
+    Name: 再び苦難の道を歩む司祭
+    Description2pc: 速度+6%。
+    Description4pc: 味方単体に対して戦闘スキルまたは必殺技を発動する時、スキルターゲットの会心ダメージ+18%、2ターン継続。この効果は最大で2層累積できる。
+  "122":
+    Name: 知識の海に溺れる学者
+    Description2pc: 会心率+8%。
+    Description4pc: 戦闘スキルおよび必殺技によるダメージ+20%。必殺技を発動した後、次に戦闘スキルを発動する時、与ダメージがさらに+25%。
+  "123":
+    Name: Hero of Triumphant Song
+    Description2pc: Increases ATK by 12%.
+    Description4pc: While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by 30% for 2 turn(s).
+  "124":
+    Name: Poet of Mourning Collapse
+    Description2pc: Increases Quantum DMG dealt by 10%.
+    Description4pc: Decreases the wearer's SPD by 12%. When entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/40%. This effect also applies to the wearer's memosprite.
+  "301":
+    Name: 宇宙封印ステーション
+    Description2pc: 装備キャラの攻撃力+12%。装備キャラの速度が120以上の場合、さらに攻撃力+12%。
+  "302":
+    Name: 老いぬ者の仙舟
+    Description2pc: 装備キャラの最大HP+12%。装備キャラの速度が120以上の場合、味方全体の攻撃力+8%。
+  "303":
+    Name: 汎銀河商事会社
+    Description2pc: 装備キャラの効果命中+10%。装備キャラの攻撃力が、現在の効果命中25%分アップ、最大で+25%。
+  "304":
+    Name: 建創者のベロブルグ
+    Description2pc: 装備キャラの防御力+15%。装備キャラの効果命中が50%以上の場合、さらに防御力+15%。
+  "305":
+    Name: 天体階差機関
+    Description2pc: 装備キャラの会心ダメージ+16%。装備キャラの会心ダメージが120%以上の場合、戦闘に入った後、装備キャラの会心率+60%、初回の攻撃が終了するまで継続。
+  "306":
+    Name: 自転が止まったサルソット
+    Description2pc: 装備キャラの会心率+8%。装備キャラの会心率が50%以上の場合、追加攻撃ダメージと必殺技によるダメージ+15%。
+  "307":
+    Name: 盗賊公国タリア
+    Description2pc: 装備キャラの撃破特効+16%。装備キャラの速度が145以上の場合、さらに撃破特効+20%。
+  "308":
+    Name: 生命のウェンワーク
+    Description2pc: 装備キャラのEP回復効率+5%。装備キャラの速度が120以上の場合、戦闘に入る時、行動順が40%早まる。
+  "309":
+    Name: 星々の競技場
+    Description2pc: 装備キャラの会心率+8%。装備キャラの会心率が70%以上の時、通常攻撃と戦闘スキルによるダメージ+20%。
+  "310":
+    Name: 折れた竜骨
+    Description2pc: 装備キャラの効果抵抗+10%。装備キャラの効果抵抗が30%以上の時、味方全体の会心ダメージ+10%。
+  "311":
+    Name: 蒼穹戦線グラモス
+    Description2pc: 装備キャラの攻撃力+12%。装備キャラの速度が135/160以上の時、装備キャラの与ダメージ+12%/18%。
+  "312":
+    Name: 夢の地ピノコニー
+    Description2pc: 装備キャラのEP回復効率+5%。パーティ中の装備キャラと同じ属性の味方の与ダメージ+10%。
+  "313":
+    Name: 荒涼の惑星ツガンニヤ
+    Description2pc: 装備キャラの会心率+4%。敵が倒された時、装備キャラの会心ダメージ+4%、最大で10回累積できる。
+  "314":
+    Name: 顕世の出雲と高天の神国
+    Description2pc: 装備キャラの攻撃力+12%。戦闘に入る時、装備キャラと同じ運命のキャラが他に存在する場合、装備キャラの会心率+12%。
+  "315":
+    Name: 奔狼の都藍王朝
+    Description2pc: 味方が追加攻撃を行う時、装備キャラは「勲功」を1層獲得する、最大で5層累積できる。「勲功」1層につき、装備キャラの追加攻撃ダメージ+5%。「勲功」が5層に達する時、さらに装備キャラの会心ダメージ+25%。
+  "316":
+    Name: 劫火と蓮灯の鋳煉宮
+    Description2pc: 装備キャラの速度+6%。装備キャラの攻撃が炎属性弱点を持つ敵に命中する時、撃破特効+40%、1ターン継続。
+  "317":
+    Name: 海に沈んだルサカ
+    Description2pc: 装備キャラのEP回復効率+5%。装備キャラがパーティの1枠目のキャラでない場合、1枠目のキャラの攻撃力+12%。
+  "318":
+    Name: 奇想天外のバナダイス
+    Description2pc: 装備キャラの会心ダメージ+16%。装備キャラが召喚したターゲットがフィールド上にいる場合、さらに会心ダメージ+32%。
+Lightcones:
+  "20000":
+    Name: "{RUBY_B#や}矢{RUBY_E#}じり"
+  "20001":
+    Name: "{RUBY_B#ぶつじょう}物穣{RUBY_E#}"
+  "20002":
+    Name: "{RUBY_B#てんけい}天傾{RUBY_E#}"
+  "20003":
+    Name: "{RUBY_B#こはく}琥珀{RUBY_E#}"
+  "20004":
+    Name: "{RUBY_B#ゆうすい}幽邃{RUBY_E#}"
+  "20005":
+    Name: "{RUBY_B#せいしょう}斉頌{RUBY_E#}"
+  "20006":
+    Name: アーカイブ
+  "20007":
+    Name: "{RUBY_B#りげん}離弦{RUBY_E#}"
+  "20008":
+    Name: "{RUBY_B#かか}嘉果{RUBY_E#}"
+  "20009":
+    Name: "{RUBY_B#らくかい}楽壊{RUBY_E#}"
+  "20010":
+    Name: "{RUBY_B#ぼうえい}防衛{RUBY_E#}"
+  "20011":
+    Name: "{RUBY_B#えんかん}淵環{RUBY_E#}"
+  "20012":
+    Name: "{RUBY_B#りんけい}輪契{RUBY_E#}"
+  "20013":
+    Name: "{RUBY_B#れいけん}霊鍵{RUBY_E#}"
+  "20014":
+    Name: "{RUBY_B#そうこう}相抗{RUBY_E#}"
+  "20015":
+    Name: "{RUBY_B#はんしょく}蕃殖{RUBY_E#}"
+  "20016":
+    Name: "{RUBY_B#くぼつ}倶歿{RUBY_E#}"
+  "20017":
+    Name: "{RUBY_B#しんてんち}新天地{RUBY_E#}"
+  "20018":
+    Name: "{RUBY_B#とくえい}匿影{RUBY_E#}"
+  "20019":
+    Name: "{RUBY_B#どうちょう}同調{RUBY_E#}"
+  "20020":
+    Name: "{RUBY_B#けんしき}見識{RUBY_E#}"
+  "20021":
+    Name: Shadowburn
+  "20022":
+    Name: Reminiscence
+  "21000":
+    Name: "{RUBY_B#しゅじゅつご}手術後{RUBY_E#}の{RUBY_B#かいわ}会話{RUBY_E#}"
+  "21001":
+    Name: おやすみなさいと{RUBY_B#ねがお}寝顔{RUBY_E#}
+  "21002":
+    Name: "{RUBY_B#よせい}余生{RUBY_E#}の{RUBY_B#しょにち}初日{RUBY_E#}"
+  "21003":
+    Name: "{RUBY_B#ちんもく}沈黙{RUBY_E#}のみ"
+  "21004":
+    Name: "{RUBY_B#きおく}記憶{RUBY_E#}の{RUBY_B#なか}中{RUBY_E#}の{RUBY_B#すがた}姿{RUBY_E#}"
+  "21005":
+    Name: モグラ{RUBY_B#とう}党{RUBY_E#}へようこそ
+  "21006":
+    Name: 「{RUBY_B#わたし}私{RUBY_E#}」の{RUBY_B#たんじょう}誕生{RUBY_E#}
+  "21007":
+    Name: "{RUBY_B#おな}同{RUBY_E#}じ{RUBY_B#きも}気持{RUBY_E#}ち"
+  "21008":
+    Name: "{RUBY_B#えもの}獲物{RUBY_E#}の{RUBY_B#しせん}視線{RUBY_E#}"
+  "21009":
+    Name: ランドゥーの{RUBY_B#せんたく}選択{RUBY_E#}
+  "21010":
+    Name: "{RUBY_B#ろんけん}論剣{RUBY_E#}"
+  "21011":
+    Name: "{RUBY_B#わくせい}惑星{RUBY_E#}との{RUBY_B#であ}出会{RUBY_E#}い"
+  "21012":
+    Name: "{RUBY_B#ひみつ}秘密{RUBY_E#}の{RUBY_B#ちか}誓{RUBY_E#}い"
+  "21013":
+    Name: この{RUBY_B#せかい}世界{RUBY_E#}に{RUBY_B#けんそう}喧噪{RUBY_E#}を
+  "21014":
+    Name: "{RUBY_B#いま}今{RUBY_E#}が{RUBY_B#ちょうど}丁度{RUBY_E#}"
+  "21015":
+    Name: "{RUBY_B#けつい}決意{RUBY_E#}は{RUBY_B#あせ}汗{RUBY_E#}のように{RUBY_B#かがや}輝{RUBY_E#}く"
+  "21016":
+    Name: "{RUBY_B#せいかんいちば}星間市場{RUBY_E#}のトレンド"
+  "21017":
+    Name: フォローして！
+  "21018":
+    Name: ダンス！ダンス！ダンス！
+  "21019":
+    Name: "{RUBY_B#あおぞら}青空{RUBY_E#}の{RUBY_B#した}下{RUBY_E#}で"
+  "21020":
+    Name: "{RUBY_B#てんさい}天才{RUBY_E#}たちの{RUBY_B#きゅうそく}休息{RUBY_E#}"
+  "21021":
+    Name: "{RUBY_B#とうかこうかん}等価交換{RUBY_E#}"
+  "21022":
+    Name: フェルマータ
+  "21023":
+    Name: "{RUBY_B#われ}我{RUBY_E#}ら{RUBY_B#ちえん}地炎{RUBY_E#}"
+  "21024":
+    Name: "{RUBY_B#しゅんすい}春水{RUBY_E#}に{RUBY_B#しょせい}初生{RUBY_E#}する"
+  "21025":
+    Name: "{RUBY_B#かこ}過去{RUBY_E#}と{RUBY_B#みらい}未来{RUBY_E#}"
+  "21026":
+    Name: ワン！{RUBY_B#さんぽ}散歩{RUBY_E#}の{RUBY_B#じかん}時間{RUBY_E#}！
+  "21027":
+    Name: "{RUBY_B#ちょうしょく}朝食{RUBY_E#}の{RUBY_B#ぎしきかん}儀式感{RUBY_E#}"
+  "21028":
+    Name: "{RUBY_B#あたた}暖{RUBY_E#}かい{RUBY_B#よる}夜{RUBY_E#}は{RUBY_B#なが}長{RUBY_E#}くない"
+  "21029":
+    Name: またお{RUBY_B#あ}会{RUBY_E#}いしましょう
+  "21030":
+    Name: これがウチだよ！
+  "21031":
+    Name: "{RUBY_B#ゆうめい}幽冥{RUBY_E#}に{RUBY_B#き}帰{RUBY_E#}す"
+  "21032":
+    Name: "{RUBY_B#ちょうげつさいうん}彫月裁雲{RUBY_E#}の{RUBY_B#い}意{RUBY_E#}"
+  "21033":
+    Name: "{RUBY_B#に}逃{RUBY_E#}げ{RUBY_B#ば}場{RUBY_E#}なし"
+  "21034":
+    Name: "{RUBY_B#きょう}今日{RUBY_E#}も{RUBY_B#へいわ}平和{RUBY_E#}な{RUBY_B#いちにち}一日{RUBY_E#}"
+  "21035":
+    Name: "{RUBY_B#なに}何{RUBY_E#}が{RUBY_B#まこと}真{RUBY_E#}か"
+  "21036":
+    Name: ドリームタウンの{RUBY_B#だいぼうけん}大冒険{RUBY_E#}
+  "21037":
+    Name: "{RUBY_B#さいご}最後{RUBY_E#}の{RUBY_B#しょうしゃ}勝者{RUBY_E#}"
+  "21038":
+    Name: "{RUBY_B#れっか}烈火{RUBY_E#}の{RUBY_B#かなた}彼方{RUBY_E#}"
+  "21039":
+    Name: "{RUBY_B#うんめい}運命{RUBY_E#}を{RUBY_B#つむ}紡{RUBY_E#}ぐ{RUBY_B#いと}糸{RUBY_E#}"
+  "21040":
+    Name: "{RUBY_B#ぎんが}銀河{RUBY_E#}が{RUBY_B#かんらく}陥落{RUBY_E#}した{RUBY_B#ひ}日{RUBY_E#}"
+  "21041":
+    Name: ショーの{RUBY_B#はじ}始{RUBY_E#}まり
+  "21042":
+    Name: "{RUBY_B#こころ}心{RUBY_E#}に{RUBY_B#きざ}刻{RUBY_E#}まれた{RUBY_B#やくそく}約束{RUBY_E#}"
+  "21043":
+    Name: "{RUBY_B#ふたり}二人{RUBY_E#}だけのコンサート"
+  "21044":
+    Name: "{RUBY_B#お}終{RUBY_E#}わりなき{RUBY_B#ぶとう}舞踏{RUBY_E#}"
+  "21045":
+    Name: "{RUBY_B#ちょうわ}調和{RUBY_E#}が{RUBY_B#ちんもく}沈黙{RUBY_E#}した{RUBY_B#あと}後{RUBY_E#}"
+  "21046":
+    Name: "{RUBY_B#うつく}美{RUBY_E#}しき{RUBY_B#はな}華{RUBY_E#}よ{RUBY_B#いま}今{RUBY_E#}{RUBY_B#さ}咲{RUBY_E#}かん"
+  "21047":
+    Name: "{RUBY_B#よる}夜{RUBY_E#}は{RUBY_B#かげ}影{RUBY_E#}のように{RUBY_B#つ}付{RUBY_E#}き{RUBY_B#まと}纏{RUBY_E#}う"
+  "21048":
+    Name: "{RUBY_B#ゆめ}夢{RUBY_E#}のモンタージュ"
+  "21050":
+    Name: Victory In a Blink
+  "21051":
+    Name: Geniuses' Greetings
+  "21052":
+    Name: Sweat Now, Cry Less
+  "22000":
+    Name: "{RUBY_B#はじ}初{RUBY_E#}めてのクエストの{RUBY_B#まえ}前{RUBY_E#}に"
+  "22001":
+    Name: よぉ、ここにいるぜ
+  "22002":
+    Name: "{RUBY_B#あす}明日{RUBY_E#}のための{RUBY_B#たび}旅{RUBY_E#}"
+  "22003":
+    Name: "{RUBY_B#にんじろく}忍事録{RUBY_E#}・{RUBY_B#おんりつしゅりょう}音律狩猟{RUBY_E#}"
+  "23000":
+    Name: "{RUBY_B#ぎんがてつどう}銀河鉄道{RUBY_E#}の{RUBY_B#よる}夜{RUBY_E#}"
+  "23001":
+    Name: "{RUBY_B#よる}夜{RUBY_E#}の{RUBY_B#とばり}帳{RUBY_E#}の{RUBY_B#なか}中{RUBY_E#}で"
+  "23002":
+    Name: かけがえのないもの
+  "23003":
+    Name: だが{RUBY_B#せんそう}戦争{RUBY_E#}は{RUBY_B#お}終{RUBY_E#}わらない
+  "23004":
+    Name: "{RUBY_B#せかい}世界{RUBY_E#}の{RUBY_B#な}名{RUBY_E#}を{RUBY_B#もっ}以{RUBY_E#}て"
+  "23005":
+    Name: "{RUBY_B#しょうり}勝利{RUBY_E#}の{RUBY_B#せつな}刹那{RUBY_E#}"
+  "23006":
+    Name: "{RUBY_B#ま}待{RUBY_E#}つのみ"
+  "23007":
+    Name: "{RUBY_B#ふ}降{RUBY_E#}りやまぬ{RUBY_B#あめ}雨{RUBY_E#}"
+  "23008":
+    Name: "{RUBY_B#ひつぎ}棺{RUBY_E#}のこだま"
+  "23009":
+    Name: "{RUBY_B#つ}着{RUBY_E#}かない{RUBY_B#ひがん}彼岸{RUBY_E#}"
+  "23010":
+    Name: "{RUBY_B#よあ}夜明{RUBY_E#}け{RUBY_B#まえ}前{RUBY_E#}"
+  "23011":
+    Name: "{RUBY_B#と}閉{RUBY_E#}ざした{RUBY_B#ひとみ}瞳{RUBY_E#}"
+  "23012":
+    Name: "{RUBY_B#どろ}泥{RUBY_E#}の{RUBY_B#ごと}如{RUBY_E#}き{RUBY_B#ねむ}眠{RUBY_E#}り"
+  "23013":
+    Name: "{RUBY_B#じせつ}時節{RUBY_E#}は{RUBY_B#お}居{RUBY_E#}らず"
+  "23014":
+    Name: この{RUBY_B#み}身{RUBY_E#}は{RUBY_B#けん}剣{RUBY_E#}なり
+  "23015":
+    Name: "{RUBY_B#ようこう}陽光{RUBY_E#}より{RUBY_B#かがや}輝{RUBY_E#}くもの"
+  "23016":
+    Name: "{RUBY_B#なや}悩{RUBY_E#}んで{RUBY_B#わら}笑{RUBY_E#}って"
+  "23017":
+    Name: "{RUBY_B#きょうこん}驚魂{RUBY_E#}の{RUBY_B#よる}夜{RUBY_E#}"
+  "23018":
+    Name: その{RUBY_B#いっこく}一刻{RUBY_E#}、{RUBY_B#め}目{RUBY_E#}に{RUBY_B#や}焼{RUBY_E#}き{RUBY_B#つ}付{RUBY_E#}けて
+  "23019":
+    Name: "{RUBY_B#かがみ}鏡{RUBY_E#}の{RUBY_B#なか}中{RUBY_E#}の{RUBY_B#わたし}私{RUBY_E#}"
+  "23020":
+    Name: "{RUBY_B#じゅんすい}純粋{RUBY_E#}なる{RUBY_B#しい}思惟{RUBY_E#}の{RUBY_B#せんれい}洗礼{RUBY_E#}"
+  "23021":
+    Name: "{RUBY_B#じんせい}人生{RUBY_E#}は{RUBY_B#あそ}遊{RUBY_E#}び"
+  "23022":
+    Name: "{RUBY_B#とき}時間{RUBY_E#}の{RUBY_B#きおく}記憶{RUBY_E#}を{RUBY_B#さいこうちく}再構築{RUBY_E#}して"
+  "23023":
+    Name: "{RUBY_B#うんめい}運命{RUBY_E#}は{RUBY_B#つね}常{RUBY_E#}に{RUBY_B#ふこうへい}不公平{RUBY_E#}"
+  "23024":
+    Name: "{RUBY_B#なが}流{RUBY_E#}れ{RUBY_B#ゆ}逝{RUBY_E#}く{RUBY_B#きし}岸{RUBY_E#}を{RUBY_B#ある}歩{RUBY_E#}いて"
+  "23025":
+    Name: "{RUBY_B#ゆめ}夢{RUBY_E#}が{RUBY_B#かえ}帰{RUBY_E#}り{RUBY_B#つ}着{RUBY_E#}く{RUBY_B#ばしょ}場所{RUBY_E#}"
+  "23026":
+    Name: "{RUBY_B#ひかり}光{RUBY_E#}あふれる{RUBY_B#よる}夜{RUBY_E#}"
+  "23027":
+    Name: "{RUBY_B#にどめ}二度目{RUBY_E#}の{RUBY_B#せい}生{RUBY_E#}に{RUBY_B#む}向{RUBY_E#}かって"
+  "23028":
+    Name: されど{RUBY_B#きぼう}希望{RUBY_E#}の{RUBY_B#めい}銘{RUBY_E#}は{RUBY_B#むか}無価{RUBY_E#}
+  "23029":
+    Name: "{RUBY_B#いくどめ}幾度目{RUBY_E#}かの{RUBY_B#はる}春{RUBY_E#}"
+  "23030":
+    Name: "{RUBY_B#ゆうひ}夕日{RUBY_E#}に{RUBY_B#ま}舞{RUBY_E#}う"
+  "23031":
+    Name: "{RUBY_B#われ}我{RUBY_E#}が{RUBY_B#ゆ}征{RUBY_E#}く{RUBY_B#じゅんしゅ}巡狩{RUBY_E#}の{RUBY_B#みち}道{RUBY_E#}"
+  "23032":
+    Name: "{RUBY_B#せきじつ}昔日{RUBY_E#}の{RUBY_B#かお}香{RUBY_E#}りは{RUBY_B#いま}今{RUBY_E#}も{RUBY_B#なお}猶{RUBY_E#}"
+  "23033":
+    Name: "{RUBY_B#にんぽうちょう}忍法帖{RUBY_E#}・{RUBY_B#りょうらんはま}繚乱破魔{RUBY_E#}"
+  "23034":
+    Name: "{RUBY_B#だいち}大地{RUBY_E#}より{RUBY_B#てん}天{RUBY_E#}を{RUBY_B#めざ}目指{RUBY_E#}して"
+  "23035":
+    Name: "{RUBY_B#ちょうと}長途{RUBY_E#}はやがて{RUBY_B#きと}帰途{RUBY_E#}へと{RUBY_B#つづ}続{RUBY_E#}く"
+  "23036":
+    Name: Time Woven Into Gold
+  "23037":
+    Name: Into the Unreachable Veil
+  "24000":
+    Name: とある{RUBY_B#アイオーン}星神{RUBY_E#}の{RUBY_B#うんらく}殞落{RUBY_E#}を{RUBY_B#しる}記{RUBY_E#}す
+  "24001":
+    Name: "{RUBY_B#せいかいじゅんこう}星海巡航{RUBY_E#}"
+  "24002":
+    Name: "{RUBY_B#きおく}記憶{RUBY_E#}の{RUBY_B#そざい}素材{RUBY_E#}"
+  "24003":
+    Name: "{RUBY_B#こどく}孤独{RUBY_E#}の{RUBY_B#いや}癒{RUBY_E#}し"
+  "24004":
+    Name: "{RUBY_B#た}絶{RUBY_E#}え{RUBY_B#ま}間{RUBY_E#}ない{RUBY_B#えんざん}演算{RUBY_E#}"
+Paths:
+  Warrior: "{RUBY_B#かいめつ}壊滅{RUBY_E#}"
+  Rogue: "{RUBY_B#じゅんしゅ}巡狩{RUBY_E#}"
+  Mage: "{RUBY_B#ちえ}知恵{RUBY_E#}"
+  Shaman: "{RUBY_B#ちょうわ}調和{RUBY_E#}"
+  Warlock: "{RUBY_B#きょむ}虚無{RUBY_E#}"
+  Knight: "{RUBY_B#そんご}存護{RUBY_E#}"
+  Priest: "{RUBY_B#ほうじょう}豊穣{RUBY_E#}"
+  Unknown: 共用
+  Remembrance: Remembrance
+Elements:
+  Physical: 物理
+  Fire: 炎
+  Ice: 氷
+  Thunder: 雷
+  Wind: 風
+  Quantum: 量子
+  Imaginary: 虚数

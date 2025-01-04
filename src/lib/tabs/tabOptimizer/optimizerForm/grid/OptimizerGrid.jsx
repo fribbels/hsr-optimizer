@@ -110,7 +110,7 @@ export function OptimizerGrid() {
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
             ref={optimizerGrid}
-            paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage)}
+            paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage.split('_')[0])}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
             rowSelection='single'

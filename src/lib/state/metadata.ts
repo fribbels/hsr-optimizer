@@ -201,7 +201,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
     },
     21005: {},
     21006: {},
-    21007: {},
+    21007: {
+      1: { [Stats.OHB]: 0.10 },
+      2: { [Stats.OHB]: 0.125 },
+      3: { [Stats.OHB]: 0.15 },
+      4: { [Stats.OHB]: 0.175 },
+      5: { [Stats.OHB]: 0.20 },
+    },
     21008: {
       1: { [Stats.EHR]: 0.20 },
       2: { [Stats.EHR]: 0.25 },

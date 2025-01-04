@@ -155,7 +155,7 @@ export const Optimizer = {
           window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           computeEngine = COMPUTE_ENGINE_CPU
         } else {
-          Utils.sleep(150).then(() => {
+          Utils.sleep(200).then(() => {
             gpuOptimize({
               device,
               context: context,

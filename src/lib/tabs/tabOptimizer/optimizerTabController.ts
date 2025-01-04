@@ -142,7 +142,7 @@ export const OptimizerTabController = {
   scrollToGrid: () => {
     const element = document.getElementById('optimizerGridContainer')
     if (element) {
-      TsUtils.smoothScrollNearest(element, 200)
+      TsUtils.smoothScrollNearest(element, 250)
     }
   },
 

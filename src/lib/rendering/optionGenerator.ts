@@ -14,7 +14,7 @@ export function generateCharacterOptions() {
   }
 
   return Object.values(characterData)
-    .sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage))
+    .sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage!.split('_')[0]))
 }
 
 // Light cone selector options from current db metadata
@@ -35,7 +35,7 @@ export function generateLightConeOptions(characterId?: CharacterId) {
 
   return Object.values(lcData)
     .filter((lc) => !pathFilter || lc.path === pathFilter)
-    .sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage))
+    .sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage!.split('_')[0]))
 }
 
 type LcOptions = Record<string, DBMetadataLightCone & { value: string; label: string; id: string }>

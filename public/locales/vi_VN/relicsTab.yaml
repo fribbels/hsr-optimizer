@@ -1,14 +1,11 @@
 RelicFilterBar:
-  Part: Phần
   Enhance: Cường Hóa
   Grade: Độ Hiếm
   Verified: Đã xác minh
   Equipped: Đã trang bị
-  Clear: Xóa
   ClearButton: Xóa tất cả bộ lọc
   Set: Bộ
   Mainstat: Dòng Chính
-  Substat: Thuộc tính phụ
   ReapplyButton: Áp dụng lại điểm
   ScoringButton: Thuật toán chấm điểm
   RecommendationHeader: Đề xuất di vật cho nhân vật
@@ -25,7 +22,6 @@ RelicGrid:
     EquippedBy: Chủ sở hữu
     Set: Bộ
     Grade: Độ Hiếm
-    Part: Bộ phận
     Enhance: Cường Hóa
     MainStat: |-
       Thuộc Tính 

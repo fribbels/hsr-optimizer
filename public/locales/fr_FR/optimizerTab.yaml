@@ -29,6 +29,7 @@ SortOptions:
   SKILL: Trié par DGT de Compétence
   ULT: Trié par DGT d'Ult
   FUA: Trié par DGT de Suivie
+  MEMO_SKILL: Trié par DGT de Mnémesprit
   DOT: Trié par DGT sur Delai
   BREAK: Trié par DGT de Rupture
   HEAL: Trié par Soin
@@ -388,6 +389,7 @@ MinMaxFilters:
   SKILLLabel: COMP.
   ULTLabel: ULT
   FUALabel: ADS
+  MEMOSKILLLabel: COMPᴹ
   DOTLabel: DSD
   BREAKLabel: RUPTURE
   HEALLabel: SOIN

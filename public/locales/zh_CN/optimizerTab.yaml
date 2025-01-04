@@ -388,6 +388,7 @@ MinMaxFilters:
   SKILLLabel: 战技
   ULTLabel: 终结技
   FUALabel: 追加攻击
+  MEMOSKILLLabel: 忆灵战技
   DOTLabel: 持续伤害
   BREAKLabel: 击破
   HEALLabel: 治疗值

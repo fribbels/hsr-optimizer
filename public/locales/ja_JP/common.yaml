@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+DamagePercent: ダメージ %
 ReadableStats:
   "HP%": HP
   HP: HP
@@ -163,6 +164,7 @@ DMGTypes:
   SKILL: 戦闘スキルダメージ
   ULT: 必殺技ダメージ
   FUA: 追加攻撃ダメージ
+  MEMO_SKILL: 精霊スキルダメージ
   DOT: 持続ダメージ
   BREAK: 撃破ダメージ
   CV: CV

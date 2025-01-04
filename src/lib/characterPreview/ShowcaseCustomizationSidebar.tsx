@@ -305,7 +305,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1217: ['#81bad1'], // huohuo
     1218: ['#f4dfe7'], // jiaoqiu
     1220: ['#7ed3da'], // feixiao
-    1221: ['#e9d7d2'], // yunli
+    1221: ['#a3d3dc'], // yunli
     1222: ['#f5e6ed'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#eacbea'], // march7thImaginary
@@ -333,7 +333,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8006: ['#8d7abc'], // trailblazerharmony
 
     1401: ['#7336ed'], // the herta
-    1402: ['#fff9eb'], // aglaea
+    1402: ['#8cb7e7'], // aglaea
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
   }

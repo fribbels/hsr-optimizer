@@ -1519,9 +1519,9 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.275,
     },
     1402: { // Aglaea
-      x: 1215,
+      x: 1200,
       y: 750,
-      z: 1.15,
+      z: 1.10,
     },
   }
 }

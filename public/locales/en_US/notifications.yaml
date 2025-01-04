@@ -6,11 +6,6 @@ GPU:
     l3: >-
       Linux — <CustomLink text="Behind a flag"/>
     l4: "If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated."
-GPUCrash:
-  Message: WebGPU error
-  Description:
-    l1: The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server.
-    l2: For troubleshooting steps, check the <CustomLink text="documentation page."/>
 Changelog:
   View: View changelog
   Dismiss: Dismiss

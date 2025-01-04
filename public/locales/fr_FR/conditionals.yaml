@@ -694,7 +694,7 @@ Characters:
       targetFrozen:
         text: Cible gelée
       enemyHpGte50:
-        text: Bonus de DGT Compétence
+        text: Bonus de DGT de Compétence
       techniqueBuff:
         text: Bonus d'ATQ de la Technique
       enemyHpLte50:

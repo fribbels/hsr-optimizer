@@ -82,8 +82,13 @@ export default function CharacterModal(props: {
                 withIcon={true}
                 onChange={(characterId: string) => {
                   setCharacterId(characterId)
-                  const eidolonPreselect = DB.getCharacterById(characterId)?.form?.characterEidolon || 0
+                  const dbCharacter = DB.getCharacterById(characterId)
+                  const eidolonPreselect = dbCharacter?.form?.characterEidolon || 0
+                  const lightConePreselect = dbCharacter?.form?.lightCone || 0
+                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition || 0
                   characterForm.setFieldValue('characterEidolon', eidolonPreselect)
+                  characterForm.setFieldValue('lightCone', lightConePreselect)
+                  characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)
                 }}
               />
             </AntDForm.Item>

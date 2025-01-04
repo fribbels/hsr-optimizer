@@ -488,7 +488,7 @@ Lightcones:
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyStacks:
-        text: 最大EP
+        text: EP最大
         content: 戦闘に入った後、装備キャラの最大EPに応じて、装備キャラの与ダメージをアップする。1EPにつき+{{DmgStep}}%、最大で160までカウントされる。
   UnderTheBlueSky:
     Content:
@@ -785,7 +785,7 @@ Characters:
         text: '「反撃の印」付与済み'
         content: スヴァローグに「反撃の印」を付与された敵に対し、さらにクラーラの攻撃力{{skillScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
-        text: 必殺技時の攻撃力バフ
+        text: 2凸 必殺後の攻撃力バフ
         content: "2凸：必殺技を発動した後、攻撃力+30%、2ターン継続。"
       e4DmgReductionBuff:
         text: 4凸 自身被ダメージ軽減
@@ -860,7 +860,7 @@ Characters:
         text: 4凸 効果抵抗バフ
         content: '「完全燃焼」状態の時、装甲「サム」の効果抵抗+50%。'
       e6Buffs:
-        text: 6凸 必殺/追加攻撃強化
+        text: 6凸 バフ
         content: '「完全燃焼」状態の時、装甲「サム」の炎属性耐性貫通+20%。強化通常攻撃「ファイアフライ-IV-底火斬撃」または強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、弱点撃破効率+50%。'
   Fugue:
     Content:
@@ -1028,7 +1028,7 @@ Characters:
         text: 必殺技の攻撃力バフ
         content: 自身以外の味方の攻撃力+{{ultBuffValue}}%、2ターン継続。
       skillBuff:
-        text: 1凸 速度バフ
+        text: 1凸 味方速度バフ
         content: "1凸：天賦による「厄払い」の継続時間+1ターン。フォフォに「厄払い」がある時、味方全体の速度+12%。"
       e6DmgBuff:
         text: 6凸 治癒時のダメバフ
@@ -1101,7 +1101,7 @@ Characters:
   Jingliu:
     Content:
       talentEnhancedState:
-        text: '「完全燃焼」状態'
+        text: '「転魄」状態'
         content: >-
           「朔望」を2層所持する時、鏡流は「転魄」状態に入り、行動順を100%早め、会心率+{{talentCrBuff}}%。戦闘スキル「無罅の飛光」が「寒川映月」に強化される。「転魄」状態の鏡流はこの強化戦闘スキルのみを使用できる。
       talentHpDrainAtkBuff:
@@ -1153,7 +1153,7 @@ Characters:
         text: 弱点撃破時のバフ
         content: "1凸：霊砂の弱点撃破効率+50%。敵が弱点撃破される時、その敵の防御力-20%。"
       e2BeBuff:
-        text: 2凸 撃破特効バフ
+        text: 2凸 味方撃破特効バフ
         content: "2凸：必殺技を発動する時、味方全体の撃破特効+40%。"
       e6ResShred:
         text: 6凸 敵全属性耐性ダウン
@@ -1328,7 +1328,7 @@ Characters:
         text: 1凸 必殺技の全耐性貫通
         content: '「協奏」状態の時、味方全体の全属性耐性貫通+24%。'
       e4TeamResBuff:
-        text: 4凸 味方効果抵抗アップ
+        text: 4凸 味方効果抵抗バフ
         content: 必殺技を発動する時、味方全体の行動制限系デバフを解除する。ロビンが「協奏」状態の時、味方全体の効果抵抗+50%。
       e6UltCDBoost:
         text: 6凸 必殺技の会心ダメ増加
@@ -1420,7 +1420,7 @@ Characters:
         text: '「欠陥」付与済み'
         content: 銀狼は「欠陥」を作成できる：防御力-8%。
       ultDefShredDebuff:
-        text: '「一般解」付与済み'
+        text: 必殺技の防御力デバフ
         content: 敵単体の防御力-{{ultDefShredValue}}%、3ターン継続。
       targetDebuffs:
         text: 敵のデバフ数
@@ -1508,7 +1508,7 @@ Characters:
         text: スキルの速度バフ
         content: 戦闘スキルを発動した時、停雲の速度+20%、1ターン継続。
       ultDmgBuff:
-        text: 必殺技ダメバフ
+        text: 必殺技の味方ダメバフ
         content: 指定した味方単体のEPを50回復し、その味方の与ダメージ+{{ultDmgBoost}}%、2ターン継続。
       ultSpdBuff:
         text: 1凸 味方速度バフ
@@ -1576,7 +1576,7 @@ Characters:
   Welt:
     Content:
       enemyDmgTakenDebuff:
-        text: 必殺技時の敵被ダメ増加
+        text: 必殺技被ダメ増加デバフ
         content: 必殺技を発動する時、100%の基礎確率で敵の受けるダメージ+12%、2ターン継続。
       enemySlowed:
         text: 敵減速状態
@@ -1617,7 +1617,7 @@ Characters:
         content: >-
           彦卿に「智剣連心」がある場合、自身の会心率+{{talentCrBuffValue}}%、会心ダメージ+{{talentCdBuffValue}}%。::BR::必殺技を発動する前に彦卿に「智剣連心」がある場合、さらに会心ダメージ+{{ultCdBuffValue}}%。::BR::「智剣連心」がある場合、効果抵抗+20%。::BR::2凸：彦卿に「智剣連心」がある場合、さらにEP回復効率+10%。
       critSpdBuff:
-        text: 速度バフ
+        text: 会心時の速度バフ
         content: 会心が発生した時、速度+10%、2ターン継続。
       e1TargetFrozen:
         text: 1凸 敵凍結状態
@@ -1666,6 +1666,6 @@ Characters:
         text: 4凸 効果抵抗バフ
         content: "「看破・斬」または「看破・滅」を発動した後、自身の効果抵抗+50%、1ターン継続。"
       e6Buffs:
-        text: 6凸 必殺/追加攻撃強化
+        text: 6凸 バフ
         content: >-
           「構え」状態の間、敵が能動的にスキルを発動する時、雲璃を攻撃していなくても雲璃は「看破・滅」を発動し、「構え」状態を解除する。「看破・斬」または「看破・滅」を発動してダメージを与える時、会心率+15%、物理属性耐性貫通+20%。

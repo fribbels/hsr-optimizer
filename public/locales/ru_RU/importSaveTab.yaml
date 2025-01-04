@@ -1,0 +1,8 @@
+Import:
+  Stage3:
+    SuccessMessage: Готово!
+LoadData:
+  Stage3:
+    SuccessMessage: Готово!
+SaveData:
+  SuccessMessage: Готово

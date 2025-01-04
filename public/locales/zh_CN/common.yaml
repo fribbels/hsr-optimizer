@@ -5,7 +5,7 @@ RelicWithCount_other: "{{count}}个遗器"
 Lightcone_one: 光锥
 Lightcone_other: 光锥
 LightconeWithCount_one: "{{count}}个光锥"
-LightconeWithCount_other: "{{count}}光锥"
+LightconeWithCount_other: "{{count}}个光锥"
 ThousandsSuffix: K
 DecimalSeparator: "."
 ThousandsSeparator: ","
@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)伤"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)伤"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)伤"
+DamagePercent: 伤害%
 ReadableStats:
   "HP%": 生命值 %
   HP: 生命值

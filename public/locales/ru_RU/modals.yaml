@@ -1,0 +1,5 @@
+EditCharacter:
+  Character: Персонаж
+CharacterSelect:
+  SingleSelect:
+    Placeholder: Персонаж

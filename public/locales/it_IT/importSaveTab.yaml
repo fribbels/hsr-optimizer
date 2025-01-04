@@ -1,0 +1,50 @@
+TabLabels:
+  Import: Importatore dello scanner reliquie
+  Load: Carica dati dell'ottimizzatore
+  Save: Salva dati dell'ottimizzatore
+  Clear: Cancella dati dell'ottimizzatore
+Import:
+  ErrorMsg:
+    Unknown: Errore Sconosciuto
+    InvalidFile: File dello scanner non valido
+    InvalidJson: JSON non valido
+    Fragment: "Si è verificato un errore durante l'importazione del file: "
+  Stage1:
+    Header: "Installa e avvia una delle opzioni dello scanner di reliquie"
+    ReliquaryDesc:
+      Title: (Consigliato) IceDynamix Reliquary Archiver
+      OnlineMsg: "Stato: Aggiornato per la patch {{version}} — È necessaria una nuova installazione"
+      OfflineMsg: "***** Stato: In manutenzione dopo la patch {{version}} *****"
+      l1: Decimali di velocità accurati, scansione istantanea
+      l2: Importa l'inventario completo e l'elenco dei personaggi
+    KelzDesc:
+      l1: Decimali di velocità imprecisi, scansione OCR da 5-10 minuti
+      l2: Importa l'inventario completo e l'elenco dei personaggi
+    ScorerDesc:
+      l1: Decimali di velocità accurati, scansione istantanea
+      l2: Nessun download necessario, ma limitato alle reliquie degli 8 personaggi nel profilo
+    HoyolabDesc:
+      Link: Istruzioni
+      l1: Decimali di velocità imprecisi, scansione istantanea
+      l2: Nessun download necessario, ma limitato alle reliquie equipaggiate dai personaggi di gioco
+    ButtonText: Carica il file JSON dello scanner
+    Or: Oppure
+    Placeholder: Incolla il contenuto del file JSON
+  Stage2:
+    Or: Oppure
+    NoRelics: File dello scanner non valido, per favore prova un file diverso
+    CharactersImport:
+      WarningTitle: Sovrascrivi le build dell'ottimizzatore
+      WarningDescription: Sei sicuro di voler sovrascrivere le tue build dell'ottimizzatore con le build in gioco?
+  Stage3:
+    SuccessMessage: Finito!
+LoadData:
+  Stage1:
+    Label: Carica i dati dell'ottimizzatore da un file.
+    ButtonText: Carica i dati di salvataggio
+  Stage2:
+    ErrorMsg: File di salvataggio non valido, prova un file diverso. Volevi usare la scheda di importazione dello scanner delle reliquie?
+  Stage3:
+    SuccessMessage: Finito!
+ClearData:
+  SuccessMessage: Dati cancellati

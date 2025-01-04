@@ -10,6 +10,7 @@ CharacterMenu:
       Add: 새 캐릭터 추가
       Edit: 캐릭터/광추 수정
       Switch: 유물 교체
+      Unequip: 캐릭터 유물 제거
       Delete: 캐릭터 삭제
   Build:
     Label: 빌드
@@ -31,19 +32,30 @@ GridHeaders:
   Priority: 우선순위
   Character: 캐릭터
 Messages:
+  RemoveSuccess: 캐릭터를 삭제했습니다.
+  UnequipSuccess: 유물을 제거했습니다.
   NoSelectedCharacter: 선택된 캐릭터가 없습니다.
+  SwitchSuccess: "$t(gameData:Characters.{{charId}}.Name)와 유물을 교체했습니다."
+  SortByScoreWarning: 정말로 모든 캐릭터를 정렬하시겠습니까? 이전 순위 설정이 모두 사라집니다!
+  SaveSuccess: "{{name}}의 빌드를 저장했습니다."
+  UnequipWarning: "정말로 $t(gameData:Characters.{{charId}}.Name)의 유물을 제거하시겠습니까?"
   DeleteWarning: "정말로 $t(gameData:Characters.{{charId}}.Name)를 삭제하시겠습니까?"
 CharacterPreview:
   CustomizationSidebar:
+    Label: 커스텀
     Modes:
       Auto: 자동
       Custom: 커스텀
       Standard: 표준
+    PaletteLabel: 색 팔레트
   ArtBy: "아티스트: {{artistName}}"
   EditCharacter: 캐릭터 편집
+  EditPortrait: 일러스트 변경
   CharacterScore: "캐릭터 점수: {{score}} {{grade}}"
   Messages:
     AddedRelic: 유물을 추가했습니다.
+    SavedPortrait: 일러스트를 저장했습니다.
+    RevertedPortrait: 일러스트를 초기화했습니다.
     NoSelectedCharacter: 선택된 캐릭터가 없습니다.
   ScoreHeader:
     Title: 전투 시뮬레이션
@@ -62,10 +74,12 @@ CharacterPreview:
   DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교
+    Roll: 유효옵
     Damage: 피해량
   BuildAnalysis:
     Header: 캐릭터 빌드 분석
     SimulationTeammates: 시뮬레이션 파티
+    SimulationSets: 시뮬레이션 세팅
     Rotation:
       Header: 사이클
       BASIC: 일반 공격
@@ -76,11 +90,14 @@ CharacterPreview:
       BREAKS: "격파 피해:"
     CombatResults:
       Header: 전투 중 피해량 집계
+      Primary: "주요 공격 수단:"
       Character: "캐릭터 피해:"
       Benchmark: "벤치마크 피해:"
+      Baseline: "유물 제외 피해:"
       Maximum: "최고 피해:"
       Score: "DPS 점수(%):"
       Abilities:
+        BASIC: 일반 공격 피해량
         SKILL: 전투 스킬 피해량
         ULT: 필살기 피해량
         FUA: 추가 공격 피해량
@@ -90,11 +107,23 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: "캐릭터 빌드({{score}}%)"
+      BasicStats: 캐릭터 마을 스탯
+      CombatStats: 캐릭터 <1>전투 중 능력치</1>
+      Substats: 캐릭터 부옵 (최소)
+      Mainstats: 캐릭터 주옵
+      Abilities: 캐릭터 피해량
     Benchmark:
+      Header: "벤치마크 빌드 ({{score}}%)"
+      BasicStats: 100% 벤치마크 마을 스탯
+      CombatStats: 100% 벤치마크 <1>전투 능력치</1>
+      Substats: 100% 벤치마크 부옵(최소 유효옵)
       Mainstats: 100% 벤치마크 주옵
       Abilities: 100% 벤치마크 피해량
     Perfect:
       Header: "종결 빌드({{score}}%)"
+      BasicStats: 200% 종결 마을 스탯
+      CombatStats: 200% 종결 <1>전투 중 스탯</1>
+      Substats: 200% 종결 부옵(최대 유효옵)
       Mainstats: 200% 종결 주옵
       Abilities: 200% 종결 피해량
   ScoringDetails:

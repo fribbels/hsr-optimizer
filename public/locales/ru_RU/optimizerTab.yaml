@@ -1,0 +1,64 @@
+CharacterSelector:
+  Character: Персонаж
+OptimizerOptions:
+  Priority:
+    Header: Приоритет
+Grid:
+  Headers:
+    Basic:
+      ATK: Сила атаки
+      DEF: Защита
+      HP: HP
+      SPD: Скорость
+      CR: КШ
+      CD: КУ
+      EHR: ШПЭ
+      RES: СОП
+      BE: ЭП
+      OHB: ИСЦ
+      ERR: ВЭ
+SetConditionals:
+  SelectOptions:
+    Wastelander:
+      Debuffed:
+        Display: КШ
+CombatBuffs:
+  ATK: Сила атаки
+  ATK_P: АТК %
+  HP: HP
+  HP_P: HP %
+  DEF: Защита
+  DEF_P: ЗАЩ %
+  SPD: Скорость
+  SPD_P: Скорость %
+WeightFilter:
+  HPFilterText: HP
+  ATKFilterText: Сила атаки
+  DEFFilterText: Защита
+  SPDFilterText: Скорость
+  CRFilterText: КШ
+  CDFilterText: КУ
+  EHRFilterText: ШПЭ
+  RESFilterText: СОП
+  BEFilterText: ЭП
+MinMaxFilters:
+  HPLabel: HP
+  ATKLabel: Сила атаки
+  DEFLabel: Защита
+  SPDLabel: Скорость
+  CRLabel: КШ
+  CDLabel: КУ
+  EHRLabel: ШПЭ
+  RESLabel: СОП
+  BELabel: ЭП
+  ERRLabel: ВЭ
+  BASICLabel: Базовая атака
+  SKILLLabel: Навык
+  ULTLabel: Ультимейт
+  FUALabel: Бонусная атака
+StatSimulation:
+  MainStatsSelection:
+    BodyPlaceholder: Тело
+    FeetPlaceholder: Ноги
+    SpherePlaceholder: Сфера
+    RopePlaceholder: Верёвка

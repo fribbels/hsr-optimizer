@@ -1,0 +1,102 @@
+RelicFilterBar:
+  Part: Pezzo
+  Enhance: Migliora
+  Grade: Grado
+  Verified: Verificato
+  Equipped: Equipaggiato
+  Clear: Cancella
+  ClearButton: Cancella tutti i filtri
+  Mainstat: Statistica principale
+  Substat: Statistica secondaria
+  ReapplyButton: Riapplica punteggi
+  ScoringButton: Algoritmo del punteggio
+  RecommendationHeader: Personaggio consigliato per le reliquie
+  Rating: Valutazioni delle reliquie
+  CustomCharsHeader: Personaggio valore personalizzato
+Messages:
+  AddRelicSuccess: Reliquia aggiunta con successo
+  NoRelicSelected: Nessuna reliquia selezionata
+  DeleteRelicSuccess: Reliquia eliminata con successo
+RelicGrid:
+  To: a
+  Of: di
+  Headers:
+    EquippedBy: Possessore
+    Grade: Grado
+    Part: Pezzo
+    Enhance: Migliora
+    MainStat: |-
+      Statistica
+      Principale
+    MainValue: |-
+      Valore
+      Principale
+  ValueColumns:
+    SelectedCharacter:
+      Label: PG selezionato
+      ScoreCol:
+        Label: "PG selezionato: Punteggio"
+        Header: |-
+          PG Selezionato
+          Punteggio
+      AvgPotCol:
+        Label: "PG selezionato: Valore medio"
+        Header: |-
+          PG Selezionato
+          Valore Medio
+      MaxPotCol:
+        Label: "PG selezionato: Valore massimo"
+        Header: |-
+          PG Selezionato
+          Valore Massimo
+    CustomCharacters:
+      Label: PG personalizzati
+      AvgPotCol:
+        Label: "PG personalizzati: Valore medio"
+        Header: |-
+          PG Personalizzato
+          Valore Medio
+      MaxPotCol:
+        Label: "PG personalizzati: Valore massimo"
+        Header: |-
+          PG Personalizzato
+          Valore Massimo
+    AllCharacters:
+      Label: Tutti i personaggi
+      AvgPotCol:
+        Label: "Tutti i personaggi: Valore medio"
+        Header: |-
+          Tutti i Personaggi
+          Valore Medio
+      MaxPotCol:
+        Label: "Tutti i personaggi: Valore massimo"
+        Header: |-
+          Tutti i Personaggi
+          Valore Massimo
+    ComingSoon:
+      Label: In arrivo prossimamente
+      SetsPotential:
+        Label: Relic / Valore Ornament set
+        Header: |-
+          Tutti i Personaggi
+          Valore Massimo + Set
+Toolbar:
+  RelicLocator:
+    Width: Larghezza dell'inventario
+    Filter: Filtra automaticamente le righe
+    NoneSelected: Seleziona una reliquia da localizzare
+    Location: "Posizione - Riga {{rowIndex}} / Colonna {{columnIndex}}"
+  InsightOptions:
+    Buckets: "Reliquia consigliata: Buckets"
+    Top10: "Reliquia consigliata: Top 10"
+  PlotOptions:
+    PlotAll: Mostra tutti i personaggi
+    PlotCustom: Mostra personaggi personalizzati
+  EditRelic: Modifica reliquia
+  DeleteRelic:
+    ButtonText: Elimina reliquia
+    Warning_one: Eliminare la reliquia selezionata?
+  AddRelic: Aggiungi nuove reliquie
+RelicInsights:
+  NewStats: "Nuove statistiche: "
+  UpgradedStats: "Statistiche potenziate: "

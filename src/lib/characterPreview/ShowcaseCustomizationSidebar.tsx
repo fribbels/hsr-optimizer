@@ -270,7 +270,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#7dd3ea'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#d6849e'], // kafka
+    1005: ['#d684a9'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
     1009: ['#a092ef'], // asta

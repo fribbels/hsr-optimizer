@@ -76,151 +76,151 @@ Scoring:
     MAX_HP:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.HP) effacé"
       Description: "Le maximum de $t(common:Stats.HP) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.HP)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.HP) effacé"
     MIN_HP:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.HP) effacé"
       Description: "Le minimum de $t(common:Stats.HP) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.HP)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.HP) effacé"
     MAX_ATK:
       SuccessMessage: "Filtre de maximum d' $t(common:Stats.ATK) effacé"
       Description: "Le maximum d' $t(common:Stats.ATK) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum d' $t(common:Stats.ATK)"
+      ButtonText: "Filtre de maximum d' $t(common:Stats.ATK) effacé"
     MIN_ATK:
       SuccessMessage: "Filtre de minimum d' $t(common:Stats.ATK) effacé"
       Description: "Le minimum d' $t(common:Stats.ATK) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum d' $t(common:Stats.ATK)"
+      ButtonText: "Filtre de minimum d' $t(common:Stats.ATK) effacé"
     MAX_DEF:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.DEF) effacé"
       Description: "Le maximum de $t(common:Stats.DEF) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.DEF)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.DEF) effacé"
     MIN_DEF:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.DEF) effacé"
       Description: "Le minimum de $t(common:Stats.DEF) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.DEF)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.DEF) effacé"
     MAX_SPD:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.SPD) effacé"
       Description: "Le maximum de $t(common:Stats.SPD) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.SPD)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.SPD) effacé"
     MIN_SPD:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.SPD) effacé"
       Description: "Le minimum de $t(common:Stats.SPD) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.SPD)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.SPD) effacé"
     MAX_CR:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.CRIT Rate) effacé"
       Description: "Le maximum de $t(common:Stats.CRIT Rate) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.CRIT Rate)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.CRIT Rate) effacé"
     MIN_CR:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.CRIT Rate) effacé"
       Description: "Le minimum de $t(common:Stats.CRIT Rate) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.CRIT Rate)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.CRIT Rate) effacé"
     MAX_CD:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.CRIT DMG) effacé"
       Description: "Le maximum de $t(common:Stats.CRIT DMG) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.CRIT DMG)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.CRIT DMG) effacé"
     MIN_CD:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.CRIT DMG) effacé"
       Description: "Le minimum de $t(common:Stats.CRIT DMG) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.CRIT DMG)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.CRIT DMG) effacé"
     MAX_EHR:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.Effect Hit Rate) effacé"
       Description: "Le maximum de $t(common:Stats.Effect Hit Rate) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.Effect Hit Rate)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.Effect Hit Rate) effacé"
     MIN_EHR:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.Effect Hit Rate) effacé"
       Description: "Le minimum de $t(common:Stats.Effect Hit Rate) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.Effect Hit Rate)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.Effect Hit Rate) effacé"
     MAX_RES:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.Effect RES) effacé"
       Description: "Le maximum de $t(common:Stats.Effect RES) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.Effect RES)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.Effect RES) effacé"
     MIN_RES:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.Effect RES) effacé"
       Description: "Le minimum de $t(common:Stats.Effect RES) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.Effect RES)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.Effect RES) effacé"
     MAX_BE:
       SuccessMessage: "Filtre de maximum d' $t(common:Stats.Break Effect) effacé"
       Description: "Le maximum d' $t(common:Stats.Break Effect) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum d' $t(common:Stats.Break Effect)"
+      ButtonText: "Filtre de maximum d' $t(common:Stats.Break Effect) effacé"
     MIN_BE:
       SuccessMessage: "Filtre de minimum d' $t(common:Stats.Break Effect) effacé"
       Description: "Le minimum d' $t(common:Stats.Break Effect) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum d' $t(common:Stats.Break Effect)"
+      ButtonText: "Filtre de minimum d' $t(common:Stats.Break Effect) effacé"
     MAX_ERR:
       SuccessMessage: "Filtre de maximum de $t(common:Stats.Energy Regeneration Rate) effacé"
       Description: "Le maximum de $t(common:Stats.Energy Regeneration Rate) est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de $t(common:Stats.Energy Regeneration Rate)"
+      ButtonText: "Filtre de maximum de $t(common:Stats.Energy Regeneration Rate) effacé"
     MIN_ERR:
       SuccessMessage: "Filtre de minimum de $t(common:Stats.Energy Regeneration Rate) effacé"
       Description: "Le minimum de $t(common:Stats.Energy Regeneration Rate) est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de $t(common:Stats.Energy Regeneration Rate)"
+      ButtonText: "Filtre de minimum de $t(common:Stats.Energy Regeneration Rate) effacé"
     MAX_EHP:
       SuccessMessage: "Filtre de maximum de PVE effacé"
       Description: "Le maximum de PVE est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de PVE"
+      ButtonText: "Filtre de maximum de PVE effacé"
     MIN_EHP:
       SuccessMessage: "Filtre de minimum de PVE effacé"
       Description: "Le minimum de PVE est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de PVE"
+      ButtonText: "Filtre de minimum de PVE effacé"
     MAX_BASIC:
       SuccessMessage: "Filtre de maximum de Normale effacé"
       Description: "Dégâts maximum de normale est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de Normale"
+      ButtonText: "Filtre de maximum de Normale effacé"
     MIN_BASIC:
       SuccessMessage: "Filtre de minimum de Normale effacé"
       Description: "Dégâts minimum de normale est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de Normale"
+      ButtonText: "Filtre de minimum de Normale effacé"
     MAX_SKILL:
       SuccessMessage: "Filtre de maximum de compétence effacé"
       Description: "Dégâts maximum de compétence est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de compétence"
+      ButtonText: "Filtre de maximum de compétence effacé"
     MIN_SKILL:
       SuccessMessage: "Filtre de minimum de compétence effacé"
       Description: "Dégâts minimum de compétence est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de compétence"
+      ButtonText: "Filtre de minimum de compétence effacé"
     MAX_ULT:
       SuccessMessage: "Filtre de maximum d'ultime effacé"
       Description: "Dégâts maximum d'ultime est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum d'ultime"
+      ButtonText: "Filtre de maximum d'ultime effacé"
     MIN_ULT:
       SuccessMessage: "Filtre de minimum d'ultime effacé"
       Description: "Dégâts minimum d'ultime est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum d'ultime"
+      ButtonText: "Filtre de minimum d'ultime effacé"
     MAX_FUA:
       SuccessMessage: "Filtre de maximum d'ADS effacé"
       Description: "Dégâts maximum d'attaque de suivie est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum d'ADS"
+      ButtonText: "Filtre de maximum d'ADS effacé"
     MIN_FUA:
       SuccessMessage: "Filtre de minimum d'ADS effacé"
       Description: "Dégâts minimum d'attaque de suivie est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum d'ADS"
+      ButtonText: "Filtre de minimum d'ADS effacé"
     MAX_DOT:
       SuccessMessage: "Filtre de maximum de DSD effacé"
       Description: "Dégâts maximum de DSD est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de DSD"
+      ButtonText: "Filtre de maximum de DSD effacé"
     MIN_DOT:
       SuccessMessage: "Filtre de minimum de DSD effacé"
       Description: "Dégâts minimum de DSD est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de DSD"
+      ButtonText: "Filtre de minimum de DSD effacé"
     MAX_BREAK:
       SuccessMessage: "Filtre de maximum de Rupture effacé"
       Description: "Dégâts maximum de rupture est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de Rupture"
+      ButtonText: "Filtre de maximum de Rupture effacé"
     MIN_BREAK:
       SuccessMessage: "Filtre de minimum de Rupture effacé"
       Description: "Dégâts minimum de rupture est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de Rupture"
+      ButtonText: "Filtre de minimum de Rupture effacé"
     MAX_HEAL:
       SuccessMessage: "Filtre de maximum de SOIN effacé"
       Description: "Le maximum de SOIN est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de SOIN"
+      ButtonText: "Filtre de maximum de SOIN effacé"
     MIN_HEAL:
       SuccessMessage: "Filtre de minimum de SOIN effacé"
       Description: "Le minimum de SOIN est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de SOIN"
+      ButtonText: "Filtre de minimum de SOIN effacé"
     MAX_SHIELD:
       SuccessMessage: "Filtre de maximum de BOUCL effacé"
       Description: "Le maximum de BOUCL est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de BOUCL"
+      ButtonText: "Filtre de maximum de BOUCL effacé"
     MIN_SHIELD:
       SuccessMessage: "Filtre de minimum de BOUCL effacé"
       Description: "Le minimum de BOUCL est peut-être trop élevé"
@@ -228,11 +228,11 @@ Scoring:
     MAX_COMBO:
       SuccessMessage: "Filtre de maximum de Combo effacé"
       Description: "Dégâts maximum de combo est peut-être trop bas"
-      ButtonText: "Effacer le filtre de maximum de Combo"
+      ButtonText: "Filtre de maximum de Combo effacé"
     MIN_COMBO:
       SuccessMessage: "Filtre de minimum de Combo effacé"
       Description: "Dégâts minimum de combo est peut-être trop élevé"
-      ButtonText: "Effacer le filtre de minimum de Combo"
+      ButtonText: "Filtre de minimum de Combo effacé"
 ManyPerms:
   Title: Recherche très importante demandée
   Text: >-

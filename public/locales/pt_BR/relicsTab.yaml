@@ -6,8 +6,8 @@ RelicFilterBar:
   Equipped: Equipado
   Clear: Limpar
   ClearButton: Limpar todos os filtros
-  Set: Conjunto
-  Mainstat: Atributos principais
+  Set: Set
+  Mainstat: Atributos Principais
   Substat: Subatributos
   ReapplyButton: Reaplicar pontuações
   ScoringButton: Algoritmo de Pontos
@@ -23,7 +23,7 @@ RelicGrid:
   Of: de
   Headers:
     EquippedBy: Dono
-    Set: Conjunto
+    Set: Set
     Grade: Raridade
     Part: Parte
     Enhance: Melhoria

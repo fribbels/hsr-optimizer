@@ -1,0 +1,90 @@
+BetaMessage: "Phiên bản hiện tại: {{Version}} - Tính toán có thể sẽ thay đổi."
+Common:
+  HealAbility:
+    Text: "Kĩ năng hồi phục"
+    Content: "Chọn kĩ năng hồi phục để tính"
+    Basic: "Kĩ năng hồi phục: Đánh Thường"
+    Skill: "Kĩ năng hồi phục: Chiến Kỹ"
+    Ult: "Kĩ năng hồi phục: Tuyệt Kỹ"
+    Talent: "Kĩ năng hồi phục: Thiên Phú"
+    Trace: "Kĩ năng hồi phục: Năng lực thêm"
+  ShieldAbility:
+    Text: "Kĩ năng lá chắn"
+    Content: "Chọn kĩ năng lá chắn để tính"
+    Basic: "Kĩ năng lá chắn: Đánh Thường"
+    Skill: "Kĩ năng lá chắn: Chiến Kỹ"
+    Ult: "Kĩ năng lá chắn: Tuyệt Kỹ"
+    Talent: "Kĩ năng lá chắn: Thiên Phú"
+    Trace: "Kĩ năng lá chắn: Năng lực thêm"
+Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: ST boost stacks
+        content: >-
+          Sau khi người trang bị thi triển Chiến Kỹ hoặc Tuyệt Kỹ lên 1 nhân vật phe ta, mục tiêu kỹ năng nhận 1 tầng Thánh Ca, duy trì 3 hiệp, tối đa cộng dồn 3 tầng, mỗi tầng Thánh Ca khiến sát thương mà người sở hữu gây ra tăng {{DmgBuff}}%.
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: Trạng thái Bóng Hư Ảo
+        content: >-
+          Khi người trang bị đánh trúng kẻ địch, sẽ khiến kẻ địch rơi vào trạng thái Bóng Hư Ảo, duy trì 1 hiệp. Mỗi lần người trang bị tấn công, đối với mỗi mục tiêu chỉ có thể được kích hoạt 1 lần. Sát Thương mà người trang bị gây ra cho mục tiêu đang ở trạng thái Bóng Hư Ảo tăng {{DmgBoost}}%, sát thương do Tuyệt Kỹ gây ra tăng thêm {{UltDmgBoost}}%.
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: Năng lượng tối đa
+        content: 'Khi người trang bị thi triển Tuyệt Kỹ, sẽ tăng sát thương Tuyệt Kỹ mà người trang bị gây ra theo giới hạn năng lượng của người trang bị: mỗi điểm năng lượng tăng {{DmgStep}}%, tối đa 180 điểm năng lượng.'
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: Hiệu ứng xấu sát thương bạo kích
+        content: Mỗi khi kẻ địch phải chịu Hiệu Ứng Xấu, sẽ tăng thêm {{DmgStep}}% Sát Thương Bạo Kích mà người trang bị gây lên kẻ này, tối đa cộng dồn 3 tầng.
+      postUltBuff:
+        text: hiệu ứng Biện Luận
+        content: >-
+          Khi thi triển Tuyệt Kỹ tấn công kẻ địch, khiến người trang bị nhận hiệu ứng Biện Luận, tăng {{DmgStep}}% sát thương gây ra, Đòn Đánh Theo Sau bỏ qua {{DefIgnore}}% phòng thủ của mục tiêu, hiệu ứng này duy trì 2 hiệp.
+  BeforeDawn:
+    Content:
+      fuaDmgBoost:
+        text: ST Đòn đánh theo sau tăng
+        content: >-
+          Sau khi người trang bị thi triển Chiến Kỹ hoặc Tuyệt Kỹ, sẽ nhận hiệu ứng "Thân Mộng". Khi thi triển Đòn Đánh Theo Sau, tiêu hao "Thân Mộng", tăng {{DmgBuff}}% sát thương do Đòn Đánh Theo Sau gây ra.
+  BrighterThanTheSun:
+    Content:
+      dragonsCallStacks:
+        text: tầng Rồng Gầm
+        content: >-
+          Khi người trang bị thi triển tấn công thường, sẽ nhận 1 tầng Rồng Gầm, duy trì 2 hiệp. Mỗi tầng Rồng Gầm sẽ tăng {{AtkBuff}}% tấn công của người trang bị, hiệu suất hồi năng lượng tăng {{RegenBuff}}%. Rồng Gầm tối đa cộng dồn 2 tầng.
+  ButTheBattleIsntOver:
+    Content:
+      postSkillDmgBuff:
+        text: Tăng ST sau chiến kỹ
+        content: Sau khi người trang bị thi triển Chiến Kỹ, sẽ khiến sát thương gây ra bởi mục tiêu khác của phe ta trong hành động tiếp theo tăng {{DmgBuff}}%, duy trì 1 hiệp.
+  CruisingInTheStellarSea:
+    Content:
+      enemyHp50CrBoost:
+        text: HP địch ≤ 50% Tỉ lệ bạo kích tăng
+        content: Tỷ Lệ Bạo Kích mà người trang bị gây cho kẻ địch có phần trăm HP từ 50% trở xuống sẽ tăng thêm {{CritBuff}}%
+      enemyDefeatedAtkBuff:
+        text: Sau khi tiêu diệt kẻ địch Tấn Công tăng
+        content: Sau khi người trang bị tiêu diệt kẻ địch, Tấn Công tăng {{AtkBuff}}%, duy trì 2 hiệp.
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: ST Đòn đánh theo sau tăng
+        content: >-
+          Sau khi người trang bị thi triển Tuyệt Kỹ, sẽ nhận được 1 tầng Hỏa Vũ, duy trì 2 hiệp, tối đa cộng dồn 2 tầng. Mỗi tầng Hỏa Vũ khiến sát thương do Đòn Đánh Theo Sau của người trang bị gây ra tăng {{DmgBoost}}%.
+  EarthlyEscapade:
+    Content:
+      maskActive:
+        text: Đang có Mặt Nạ
+        content: >-
+          Khi bắt đầu chiến đấu, sẽ khiến người trang bị nhận Mặt Nạ, duy trì 3 hiệp. Khi người trang bị đang có Mặt Nạ, Tỷ Lệ Bạo Kích của đồng đội tăng {{CritRateBuff}}%, Sát Thương Bạo Kích tăng {{CritDmgBuff}}%. Người trang bị mỗi khi hồi phục 1 Điểm Chiến Kỹ sẽ nhận được 1 tầng Ngọn Lửa Sắc Màu, Điểm Chiến Kỹ dư ra khi hồi phục cũng được tính vào. Sau khi Ngọn Lửa Sắc Màu đạt 4 tầng, sẽ xóa tất cả Ngọn Lửa Sắc Màu và nhận Mặt Nạ, duy trì 4 hiệp.
+  PastAndFuture:
+    Content:
+      postSkillDmgBuff:
+        text: Tăng ST sau chiến kỹ
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyStacks:
+        text: Năng lượng tối đa

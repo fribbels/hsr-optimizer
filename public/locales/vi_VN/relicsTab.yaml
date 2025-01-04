@@ -28,10 +28,10 @@ RelicGrid:
     Part: Bộ phận
     Enhance: Cường Hóa
     MainStat: |-
-      Thuộc Tính 
+      Thuộc Tính
       Chính
     MainValue: |-
-      Giá Trị 
+      Giá Trị
       Chính
     HPP: HP %
     ATKP: ATK %
@@ -50,7 +50,7 @@ RelicGrid:
       Chính Xác
       Hiệu Ứng
     RES: |-
-      Kháng 
+      Kháng
       Hiệu Ứng
     BE: |-
       Tấn Công

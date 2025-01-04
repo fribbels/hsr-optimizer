@@ -1,0 +1,23 @@
+Messages:
+  ThrottleWarning: "Attendi {{seconds}} secondi prima di riprovare"
+  InvalidIdWarning: ID invalido
+  IdLoadError: Errore caricamento ID
+  SuccessMsg: Profilo caricato con successo
+  LookupError: Errore durante la ricerca, riprova tra poco
+  NoCharacterSelected: Nessun personaggio selezionato
+  CharacterAlreadyExists: Il personaggio selezionato esiste già
+  UnknownButtonClicked: Pulsante cliccato sconosciuto
+Header:
+  DowntimeWarning: "Il punteggio delle reliquie potrebbe essere non disponibile per manutenzione dopo la patch {{game_version}}, riprova più tardi."
+  WithVersion: "Inserisci l'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente. (Current version {{beta_version}})"
+  WithoutVersion: Inserisci l'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente.
+SubmissionBar:
+  Placeholder: UID Account
+  AlgorithmButton: Algoritmo del punteggio
+CopyScreenshot: Copia screenshot
+ImportLabels:
+  Relics: Importa le reliquie nell'ottimizzatore.
+  SingleCharacter: Importa il personaggio selezionato e tutte le reliquie nell'ottimizzatore.
+  AllCharacters: Importa tutti i personaggi e tutte le reliquie nell'ottimizzatore.
+SimulateRelics: Simula le reliquie su un altro personaggio.
+OptimizeOnCharacter: Ottimizza le statistiche del personaggio.

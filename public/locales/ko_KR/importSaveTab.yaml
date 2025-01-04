@@ -1,0 +1,83 @@
+TabLabels:
+  Import: 유물 스캐너에서 가져오기
+  Load: 옵티마이저 데이터 불러오기
+  Save: 옵티마이저 데이터 저장하기
+  Clear: 옵티마이저 데이터 지우기
+Import:
+  ErrorMsg:
+    Unknown: 알 수 없는 오류
+    InvalidFile: 잘못된 형식의 스캐너 파일입니다.
+    InvalidJson: 잘못된 JSON 형식입니다.
+    Fragment: "파일 불러오기 도중 문제가 발생하였습니다."
+  Stage1:
+    Header: "이하의 유물 스캐너 중 하나를 설치해 실행하십시오:"
+    ReliquaryDesc:
+      Title: (권장) IceDynamix Reliquary Archiver
+      Link: Github
+      OnlineMsg: "상태: {{version}} 버전으로 업데이트됨 - 다운로드를 새로 해주시기 바랍니다."
+      OfflineMsg: "***** 상태: {{version}} 버전 패치 후 변경 사항을 적용 중 *****"
+      l1: 소수점 단위로 속도 정밀 표시, 빠른 스캔
+      l2: 모든 인벤토리와 캐릭터 목록 추출
+    KelzDesc:
+      Title: Kel-Z HSR Scanner
+      Link: Github
+      l1: 속도 소수점 부정확, 5~10분의 OCR 형식 스캔
+      l2: 모든 인벤토리와 캐릭터 목록 추출
+    ScorerDesc:
+      Title: 유물 점수 계산기에서 가져오기
+      Link: 유물 점수 계산기
+      l1: 소수점 단위로 속도 정밀 표시, 빠른 스캔
+      l2: 다운로드가 불필요하지만 투어 패스의 8개 캐릭터만 불러올 수 있습니다.
+    HoyolabDesc:
+      Title: HoyoLab Import
+      Link: 사용법
+      l1: 속도 소수점 부정확, 빠른 스캔
+      l2: 다운로드가 불필요하지만, 캐릭터가 장착한 유물만 불러와집니다.
+    ButtonText: 스캐너 Json 파일을 업로드
+    Or: 또는
+    Placeholder: Json 파일 내용을 붙여넣기
+  Stage2:
+    Or: 또는
+    FileInfo: >-
+      파일이 $t(common:RelicWithCount, {"count": {{relicCount}}})와 $t(common:CharacterWithCount, {"count": {{characterCount}}})를 포함하고 있습니다.
+    NoRelics: 잘못된 형식의 스캐너 파일입니다. 다른 파일로 시도해 주시기 바랍니다.
+    RelicsImport:
+      Label: >-
+        $t(common:Relic, {"count": {{relicCount}}})만 불러옵니다. 옵티마이저에 $t(common:Relic, {"count": {{relicCount}}})의 데이터셋을 추가하고 빌드를 덮어쓰지는 않습니다.
+      ButtonText: >-
+        $t(common:Relic, {"count": {{relicCount}}})를 불러오기
+    CharactersImport:
+      Label: >-
+        $t(common:Relic, {"count": {{relicCount}}})와 $t(common:Character, {"count": {{characterCount}}})를 불러옵니다. 옵티마이저의 빌드를 인게임 빌드로 교체합니다.
+      ButtonText: >-
+        $t(common:Relic, {"count": {{relicCount}}}) & $t(common:Character, {"count": {{characterCount}}})를 불러오기
+      WarningTitle: 옵티마이저 빌드 덮어쓰기
+      WarningDescription: 정말로 옵티마이저의 빌드를 인게임 빌드로 덮어쓰시겠습니까?
+  Stage3:
+    SuccessMessage: 완료!
+LoadData:
+  Stage1:
+    Label: 파일에서 옵티마이저 데이터를 불러옵니다.
+    ButtonText: 저장 데이터 불러오기
+  Stage2:
+    ErrorMsg: 잘못된 형식의 세이브 파일입니다. 다른 파일로 시도해주시기 바랍니다. 혹시 유물 스캐너 불러오기 탭을 사용하려고 하셨나요?
+    Label: >-
+      파일이 $t(common:RelicWithCount, {"count": {{relicCount}}})와 $t(common:CharacterWithCount, {"count": {{characterCount}}})를 포함하고 있습니다. 현재 데이터를 업로드된 데이터로 교체하시겠습니까?
+    ButtonText: 업로드된 데이터를 사용
+  Stage3:
+    SuccessMessage: 완료!
+SaveData:
+  Label: 옵티마이저 데이터를 파일로 저장합니다.
+  ButtonText: 데이터 저장
+  SuccessMessage: 완료
+ClearData:
+  Label: 모든 옵티마이저 데이터 초기화
+  ButtonText: 데이터 초기화
+  SuccessMessage: 데이터를 초기화했습니다.
+  WarningTitle: 모든 데이터 삭제
+  WarningDescription: 정말로 모든 유물과 캐릭터를 초기화하시겠습니까?
+PartialImport:
+  OldRelics: >-
+    기존$t(common:Relic, {"count": {{count}}})의 {{count}}개 상태를 업데이트했습니다.
+  NewRelics: >-
+    새로운 $t(common:Relic, {"count": {{count}}})가 {{count}}개 추가되었습니다.

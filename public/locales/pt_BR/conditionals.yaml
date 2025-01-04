@@ -318,20 +318,12 @@ Lightcones:
       cdBuffActive:
         text: Buff de CD ativo.
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
-          - O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
-          - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
-          - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
-
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: - O ATK de todos os aliados aumenta em {{AtkBuff}}%. - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%. 
           O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       errBuffActive:
         text: Buff de ERR ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
-          - O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
-          - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
-          - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
-
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: - O ATK de todos os aliados aumenta em {{AtkBuff}}%. - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%. 
           O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
   ConcertForTwo:
     Content:
@@ -1000,7 +992,7 @@ Characters:
         text: Buff de ATK de Técnica
         content: Aumenta o ATK em 40% por 3 turnos.
       enemyHpLte50:
-        text: Buff de Escala Básica E1 
+        text: Buff de Escala Básica E1
         content: "E1: Se a porcentagem de HP do inimigo estiver em 50% ou menos, o ATK Básico de Herta causa DMG de Gelo Adicional igual a 40% do ATK de Herta."
       e2TalentCritStacks:
         text: Acúmulos de CR do Talento E2
@@ -1023,7 +1015,7 @@ Characters:
         text: Impulso de DMG contra inimigos com HP < 50% E2
         content: "E2: Causa 15% a mais de DMG em inimigos cuja porcentagem de HP é 50% ou menos."
       e6UltExtraHits:
-        text: Ataques extras da Ultimate E6 
+        text: Ataques extras da Ultimate E6
         content: "E6: A Ultimate causa DMG 2 vezes extras. Os ataques extras causam 40% do DMG original por ataque."
   Hook:
     Content:

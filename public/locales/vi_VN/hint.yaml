@@ -100,7 +100,7 @@ RelicInsights:
   Title: Chi tiết dị vật
   p1: Khi một di vật được chọn trong bảng trên, bạn có thể chọn xem phân tích di vật đó.
   p2: >-
-    'Phân loại' đánh giá mức độ hoàn hảo mà di vật này có thể đạt được (với các nâng cấp tốt nhất có thể) cho mỗi nhân vật, và phân loại chúng thành các tỷ lệ phần trăm. <1/>Nếu bạn di chuột qua ảnh đại diện của nhân vật, bạn sẽ thấy các chỉ số mới và/hoặc các roll cần thiết để đạt được tiềm năng tối đa của di vật này. <3/>⚠️ Các di vật thiếu chỉ số phụ có thể có các phân loại tỷ lệ phần trăm cao một cách sai lệch, vì phân tích nâng cấp tốt nhất giả định chỉ số phụ mới tốt nhất cho mỗi nhân vật.  
+    'Phân loại' đánh giá mức độ hoàn hảo mà di vật này có thể đạt được (với các nâng cấp tốt nhất có thể) cho mỗi nhân vật, và phân loại chúng thành các tỷ lệ phần trăm. <1/>Nếu bạn di chuột qua ảnh đại diện của nhân vật, bạn sẽ thấy các chỉ số mới và/hoặc các roll cần thiết để đạt được tiềm năng tối đa của di vật này. <3/>⚠️ Các di vật thiếu chỉ số phụ có thể có các phân loại tỷ lệ phần trăm cao một cách sai lệch, vì phân tích nâng cấp tốt nhất giả định chỉ số phụ mới tốt nhất cho mỗi nhân vật.
   p3: "Top 10 hiển thị 10 nhân vật phù hợp nhất với di vật này và hiển thị % \"hoàn hảo\" mà di vật này có thể đạt được khi được nâng cấp."
 RelicLocation:
   Title: Vị trí dị vật

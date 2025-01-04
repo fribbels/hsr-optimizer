@@ -54,7 +54,7 @@ OptimizerOptions:
   p6: <0>Excluir</0> - Selecione as relíquias equipadas de personagens específicos para excluir da pesquisa. Esta configuração substitui o filtro de prioridade
   p7: <0>Melhorar / grau</0> - Selecione o aprimoramento mínimo a ser buscado e o mínimo de estrelas para incluir as relíquias
 Relics:
-  Title: Relíquias 
+  Title: Relíquias
   p1: >-
     Nota - O potencial é uma classificação em percentual que compara uma relíquia à melhor relíquia possível +15 para o personagem atual no slot. Essa classificação é baseada nos pesos do algoritmo de pontuação. Isso significa que relíquias não aprimoradas a +0 às vezes têm um potencial maior do que relíquias existentes a +15, porque seus possíveis rollings podem se encaixar nas estatísticas desejadas do personagem.
   p2: "Personagem selecionado: Pontuação - A pontuação atual da relíquia, conforme definido pelo algoritmo de pontuação do personagem selecionado no momento"

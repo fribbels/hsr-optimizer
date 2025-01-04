@@ -1334,9 +1334,9 @@ function getOverrideImageCenter(): Record<string, {
       z: 1,
     },
     1211: { // Bailu
-      x: 1000,
+      x: 1050,
       y: 950,
-      z: 1,
+      z: 1.05,
     },
     1212: { // Jingliu
       x: 1024,
@@ -1519,9 +1519,9 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.275,
     },
     1402: { // Aglaea
-      x: 1215,
+      x: 1200,
       y: 750,
-      z: 1.15,
+      z: 1.10,
     },
   }
 }

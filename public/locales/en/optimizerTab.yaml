@@ -29,6 +29,7 @@ SortOptions:
   SKILL: Sorted by Skill DMG
   ULT: Sorted by Ult DMG
   FUA: Sorted by Follow-up DMG
+  MEMO_SKILL: Sorted by Memo Skill DMG
   DOT: Sorted by DoT DMG
   BREAK: Sorted by Break DMG
   HEAL: Sorted by Heal
@@ -389,6 +390,7 @@ MinMaxFilters:
   SKILLLabel: SKILL
   ULTLabel: ULT
   FUALabel: FUA
+  MEMOSKILLLabel: SKILLᴹ
   DOTLabel: DOT
   BREAKLabel: BREAK
   HEALLabel: HEAL

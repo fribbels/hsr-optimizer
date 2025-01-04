@@ -16,6 +16,7 @@ import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
 import { Form } from 'types/form'
@@ -25,10 +26,11 @@ import { Form } from 'types/form'
 let CANCEL = false
 const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
-export function calculateCurrentlyEquippedRow(request) {
-  let relics = Utils.clone(DB.getRelics())
-  RelicFilters.calculateWeightScore(request, relics)
+export async function calculateCurrentlyEquippedRow(request) {
+  let relics = DB.getRelics()
   relics = relics.filter((x) => x.equippedBy == request.characterId)
+  relics = TsUtils.clone(relics)
+  RelicFilters.calculateWeightScore(request, relics)
   relics = RelicFilters.applyMainStatsFilter(request, relics)
   relics = RelicFilters.splitRelicsByPart(relics)
   RelicFilters.condenseRelicSubstatsForOptimizer(relics)
@@ -46,10 +48,9 @@ export const Optimizer = {
   },
 
   getFilteredRelics: (request: Form) => {
-    let relics = Utils.clone(DB.getRelics())
-    RelicFilters.calculateWeightScore(request, relics)
+    let relics = DB.getRelics()
 
-    relics = RelicFilters.applyEquippedFilter(request, relics) // will reduce iterations if "off" is selected
+    relics = RelicFilters.applyEquippedFilter(request, relics)
     relics = RelicFilters.applyEnhanceFilter(request, relics)
     relics = RelicFilters.applyGradeFilter(request, relics)
     relics = RelicFilters.applyRankFilter(request, relics)
@@ -59,10 +60,12 @@ export const Optimizer = {
     const preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)
 
     relics = RelicFilters.applyMainFilter(request, relics)
+    relics = TsUtils.clone(relics) // Past this point we modify relics, clone it first
     relics = RelicFilters.applyMainStatsFilter(request, relics)
     relics = RelicFilters.applySetFilter(request, relics)
 
     // Post-split filters
+    RelicFilters.calculateWeightScore(request, relics)
     let relicsByPart = RelicFilters.splitRelicsByPart(relics)
 
     relicsByPart = RelicFilters.applyCurrentFilter(request, relicsByPart)
@@ -87,9 +90,6 @@ export const Optimizer = {
 
     const [relics] = this.getFilteredRelics(request)
     RelicFilters.condenseRelicSubstatsForOptimizer(relics)
-
-    console.log('Optimize request', request)
-    // console.log('Optimize relics', relics)
 
     const relicSetSolutions = generateRelicSetSolutions(request)
     const ornamentSetSolutions = generateOrnamentSetSolutions(request)
@@ -120,17 +120,19 @@ export const Optimizer = {
     }
 
     OptimizerTabController.scrollToGrid()
-
     window.optimizerGrid.current.api.setGridOption('loading', true)
 
     const context = generateContext(request)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
-    calculateCurrentlyEquippedRow(request)
+    setTimeout(() => {
+      calculateCurrentlyEquippedRow(request)
+    }, 200)
 
     let searched = 0
     let resultsShown = false
     let results = []
+
     const sortOption = SortOption[request.resultSort]
     const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
     const resultsLimit = request.resultsLimit || 1024
@@ -145,12 +147,26 @@ export const Optimizer = {
 
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
-    const gpuDevice = await getWebgpuDevice()
-    if (gpuDevice == null && computeEngine != COMPUTE_ENGINE_CPU) {
-      Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
-        15)
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
-      computeEngine = COMPUTE_ENGINE_CPU
+    if (computeEngine != COMPUTE_ENGINE_CPU) {
+      getWebgpuDevice().then(device => {
+        if (device == null) {
+          Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
+            15)
+          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+          computeEngine = COMPUTE_ENGINE_CPU
+        } else {
+          gpuOptimize({
+            device,
+            context: context,
+            request: request,
+            relics: relics,
+            permutations: permutations,
+            computeEngine: computeEngine,
+            relicSetSolutions: relicSetSolutions,
+            ornamentSetSolutions: ornamentSetSolutions,
+          })
+        }
+      })
     }
 
     if (computeEngine == COMPUTE_ENGINE_CPU) {
@@ -221,16 +237,6 @@ export const Optimizer = {
 
         WorkerPool.execute(task, callback)
       }
-    } else {
-      gpuOptimize({
-        context: context,
-        request: request,
-        relics: relics,
-        permutations: permutations,
-        computeEngine: computeEngine,
-        relicSetSolutions: relicSetSolutions,
-        ornamentSetSolutions: ornamentSetSolutions,
-      })
     }
   },
 }

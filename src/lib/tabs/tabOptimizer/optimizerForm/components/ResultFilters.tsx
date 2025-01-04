@@ -43,6 +43,7 @@ export const MinMaxRatingFilters = () => {
       <FilterRow name='Skill' label={t('SKILLLabel')}/>
       <FilterRow name='Ult' label={t('ULTLabel')}/>
       <FilterRow name='Fua' label={t('FUALabel')}/>
+      <FilterRow name='MemoSkill' label={t('MEMOSKILLLabel')}/>
       <FilterRow name='Dot' label={t('DOTLabel')}/>
       <FilterRow name='Break' label={t('BREAKLabel')}/>
       <FilterRow name='Heal' label={t('HEALLabel')}/>

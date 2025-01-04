@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
@@ -23,7 +23,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     request,
     context,
     permutations,
-    COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+    COMPUTE_ENGINE_GPU_STABLE,
     relicSetSolutions,
     ornamentSetSolutions,
     true,
@@ -31,8 +31,8 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   )
 
   const gpuReadBuffer = generateExecutionPass(gpuContext, 0)
-  await gpuReadBuffer.mapAsync(GPUMapMode.READ)
-  const arrayBuffer = gpuReadBuffer.getMappedRange()
+  await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 10000)
+  const arrayBuffer = gpuReadBuffer.getMappedRange(0, 10000)
   const array = new Float32Array(arrayBuffer)
 
   const gpuComputedStats: ComputedStatsObjectExternal = debugWebgpuComputedStats(array)

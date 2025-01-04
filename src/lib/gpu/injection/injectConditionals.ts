@@ -10,7 +10,7 @@ import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StringToNumberMap } from 'types/common'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
-import { Form } from 'types/form'
+import { Form, Teammate } from 'types/form'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
@@ -136,9 +136,17 @@ ${indent(conditionalCallsWgsl, 1)}
 }
 
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
-  if (conditional.teammateIndex == 0) return request.teammate0
-  else if (conditional.teammateIndex == 1) return request.teammate1
-  else return request.teammate2
+  let teammate: Teammate
+  if (conditional.teammateIndex == 0) teammate = request.teammate0
+  else if (conditional.teammateIndex == 1) teammate = request.teammate1
+  else teammate = request.teammate2
+
+  // @ts-ignore
+  teammate.teammateCharacterConditionals = teammate.characterConditionals
+  // @ts-ignore
+  teammate.teammateLightConeConditionals = teammate.lightConeConditionals
+
+  return teammate
 }
 
 function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {

@@ -63,6 +63,7 @@ export default function CharacterSelectorDisplay() {
           { value: SortOption.SKILL.key, label: t('SortOptions.SKILL') },
           { value: SortOption.ULT.key, label: t('SortOptions.ULT') },
           { value: SortOption.FUA.key, label: t('SortOptions.FUA') },
+          { value: SortOption.MEMO_SKILL.key, label: t('SortOptions.MEMO_SKILL') },
           { value: SortOption.DOT.key, label: t('SortOptions.DOT') },
           { value: SortOption.BREAK.key, label: t('SortOptions.BREAK') },
           { value: SortOption.HEAL.key, label: t('SortOptions.HEAL') },

@@ -282,6 +282,7 @@ function ratingStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.SKILL_DMG, request.minSkill, request.maxSkill)
   addConditionIfNeeded(conditions, Key.ULT_DMG, request.minUlt, request.maxUlt)
   addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
+  addConditionIfNeeded(conditions, Key.MEMO_SKILL_DMG, request.minMemoSkill, request.maxMemoSkill)
   addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
   addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
   addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)

@@ -700,7 +700,6 @@ Characters:
         content: '「開示」状態の敵は、自身のターンでの受けるダメージ+{{epiphanyDmgTakenBoost}}%。'
       defDecreaseDebuff:
         text: 敵防御力デバフ
-        content: 隣接する敵の防御力-{{defShredValue}}%。
       arcanaStacks:
         text: '「アルカナ」付与数'
         content: >-

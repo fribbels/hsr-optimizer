@@ -700,7 +700,6 @@ Characters:
         content: '【揭露】状态下，敌方目标自身回合内受到的伤害提高{{epiphanyDmgTakenBoost}}%。'
       defDecreaseDebuff:
         text: 防御力降低负面效果
-        content: 目标防御力降低{{defShredValue}}%.
       arcanaStacks:
         text: 奥迹层数
         content: >-

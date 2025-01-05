@@ -707,7 +707,6 @@ Characters:
         content: Inimigos afetados pela Epifania recebem {{epiphanyDmgTakenBoost}}% a mais de DMG em seu turno.
       defDecreaseDebuff:
         text: Debuff de redução de DEF
-        content: A DEF dos inimigos é reduzida em {{defShredValue}}.
       arcanaStacks:
         text: Acúmulos de Arcana
         content: >-

@@ -86,7 +86,7 @@ CharacterPreview:
       SKILL: 战技
       ULT: 终结技
       FUA: 追加攻击
-      MEMO_SKILL: 忆灵战技
+      MEMO_SKILL: 忆灵技能
       DOTS: "持续伤害次数"
       BREAKS: "击破次数"
     CombatResults:

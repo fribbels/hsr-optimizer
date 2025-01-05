@@ -29,6 +29,7 @@ SortOptions:
   SKILL: 按战技伤害排序
   ULT: 按终结技伤害排序
   FUA: 按追加攻击伤害排序
+  MEMO_SKILL: 按忆灵技能伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
   HEAL: 按治疗值排序
@@ -121,7 +122,7 @@ Grid:
         追击
         伤害
       MEMO_SKILL: |-
-        忆灵战技
+        忆灵技能
         伤害
       DOT: |-
         持续
@@ -165,7 +166,7 @@ Grid:
         追击
         伤害
       MEMO_SKILL: |-
-        忆灵战技
+        忆灵技能
         伤害
       DOT: |-
         持续
@@ -388,7 +389,7 @@ MinMaxFilters:
   SKILLLabel: 战技
   ULTLabel: 终结技
   FUALabel: 追加攻击
-  MEMOSKILLLabel: 忆灵战技
+  MEMOSKILLLabel: 忆灵技能
   DOTLabel: 持续伤害
   BREAKLabel: 击破
   HEALLabel: 治疗值

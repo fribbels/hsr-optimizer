@@ -86,6 +86,7 @@ CharacterPreview:
       SKILL: COMPÉTENCE
       ULT: ULT
       FUA: ADS
+      MEMO_SKILL: COMPᴹ
       DOTS: "DSD:"
       BREAKS: "RUPTURES:"
     CombatResults:

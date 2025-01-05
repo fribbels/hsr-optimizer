@@ -649,6 +649,8 @@ export class RelicScorer {
           rerollValue += value
         }
       }
+
+      rerollValue = (rerollValue + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
     }
 
     return {

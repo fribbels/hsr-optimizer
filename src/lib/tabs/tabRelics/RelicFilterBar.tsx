@@ -180,6 +180,7 @@ export default function RelicFilterBar(props: {
       weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0 }
       weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
       weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
+      weights.rerollAllAll = { bestPct: 0, averagePct: 0 }
 
       for (const cid of allCharacters) {
         const pct = relicScorer.scoreRelicPotential(relic, cid)

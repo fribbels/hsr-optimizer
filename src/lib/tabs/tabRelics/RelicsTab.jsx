@@ -451,7 +451,7 @@ export default function RelicsTab() {
       field: 'weights.rerollValue',
       headerName: 'rerollValue',
       cellStyle: Gradient.getRelicGradient,
-      valueFormatter: Renderer.hideNaNAndFloor,
+      valueFormatter: Renderer.hideNaNAndFloorPercent,
       filter: 'agNumberColumnFilter',
       width: 75,
     },

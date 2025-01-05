@@ -181,6 +181,8 @@ export default function RelicFilterBar(props: {
       weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
       weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
       weights.rerollAllAll = { bestPct: 0, averagePct: 0 }
+      weights.rerollAllCustom = { bestPct: 0, averagePct: 0 }
+      weights.rerollValueSelected = Math.max(0, weights.potentialSelected.rerollValue)
 
       for (const cid of allCharacters) {
         const pct = relicScorer.scoreRelicPotential(relic, cid)
@@ -188,12 +190,20 @@ export default function RelicFilterBar(props: {
           bestPct: Math.max(pct.bestPct, weights.potentialAllAll.bestPct),
           averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
         }
+        weights.rerollAllAll = {
+          bestPct: Math.max(pct.rerollValue, weights.rerollAllAll.bestPct),
+          averagePct: 0,
+        }
 
         // For custom characters only consider the ones that aren't excluded
         if (!excludedCharacters.includes(cid)) {
           weights.potentialAllCustom = {
             bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
             averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
+          }
+          weights.rerollAllCustom = {
+            bestPct: Math.max(pct.rerollValue, weights.rerollAllCustom.bestPct),
+            averagePct: 0,
           }
         }
       }

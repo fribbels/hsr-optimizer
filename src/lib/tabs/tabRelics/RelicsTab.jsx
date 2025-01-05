@@ -448,8 +448,16 @@ export default function RelicsTab() {
       filter: 'agNumberColumnFilter',
     },
     {
-      field: 'weights.rerollValue',
+      field: 'weights.rerollValueSelected',
       headerName: 'rerollValue',
+      cellStyle: Gradient.getRelicGradient,
+      valueFormatter: Renderer.hideNaNAndFloorPercent,
+      filter: 'agNumberColumnFilter',
+      width: 75,
+    },
+    {
+      field: 'weights.rerollAllAll.bestPct',
+      headerName: 'all rerollValue',
       cellStyle: Gradient.getRelicGradient,
       valueFormatter: Renderer.hideNaNAndFloorPercent,
       filter: 'agNumberColumnFilter',

@@ -521,7 +521,7 @@ export class RelicScorer {
     const remainingRolls = Math.ceil((maxEnhance(relic.grade as 2 | 3 | 4 | 5) - relic.enhance) / 3) - (4 - relic.substats.length)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const idealScore = this.getOptimalPartScore(relic.part, id)
-    const current = Math.max(0, this.substatScore(relic, id).score / idealScore * 100 * percentToScore + mainstatBonus + mainstatDeduction)
+    const current = Math.max(0, (this.substatScore(relic, id).score + mainstatBonus) / idealScore * 100 * percentToScore + mainstatDeduction)
 
     // evaluate the best possible outcome
     const bestSubstats: { stat: SubStats; value: number }[] = [{ stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }]
@@ -761,11 +761,13 @@ export class RelicScorer {
       futureScore.best = Math.max(0, futureScore.best - mainstatBonus)// futureScores may be 0 due to mainstatDeduction
       futureScore.average = Math.max(0, futureScore.average - mainstatBonus)
       futureScore.worst = Math.max(0, futureScore.worst - mainstatBonus)
+      futureScore.rerollValue = Math.max(0, futureScore.rerollValue - mainstatBonus)
     }
     return {
       bestPct: futureScore.best / percentToScore,
       averagePct: futureScore.average / percentToScore,
       worstPct: futureScore.worst / percentToScore,
+      rerollValue: futureScore.rerollValue / percentToScore,
       meta: futureScore.meta,
     }
   }
@@ -788,7 +790,7 @@ function countPairs<T extends string | number | symbol>(arr: T[]) {
 /**
  * calculates the appropriate bonus score for the part-mainstat pairing, scales with stat weight if non-optimal mainstat
  */
-function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata: ScoringMetadata) {
+export function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata: ScoringMetadata) {
   const stats = scoringMetadata.stats
   const parts = scoringMetadata.parts
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {

@@ -55,6 +55,7 @@ type FutureScoringResult = {
   best: number
   average: number
   worst: number
+  rerollValue: number
   meta: {
     bestAddedStats: string[]
     bestUpgradedStats: string[]
@@ -637,11 +638,25 @@ export class RelicScorer {
       }
     }
 
+    let rerollValue = 0
+    if (relic.grade >= 5 && relic.substats.length == 4) {
+      for (const substat of relic.substats) {
+        const stat = substat.stat
+        const value = SubStatValues[stat][5].high * meta.stats[stat] * normalization[stat]
+        if (stat == bestSub.stat) {
+          rerollValue += value * 5
+        } else {
+          rerollValue += value
+        }
+      }
+    }
+
     return {
       current,
       best,
       average,
       worst,
+      rerollValue,
       meta: levelupMetadata,
     } as FutureScoringResult
   }

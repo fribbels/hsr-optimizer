@@ -176,7 +176,7 @@ export default function RelicFilterBar(props: {
     // NOTE: we cannot cache these results between renders by keying on the relic/characterId because
     // both relic stats and char weights can be edited
     for (const relic of relics) {
-      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.getFutureRelicScore(relic, characterId) : { current: 0, best: 0, average: 0 }
+      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.getFutureRelicScore(relic, characterId) : { current: 0, best: 0, average: 0, rerollValue: 0 }
       weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0 }
       weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
       weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }

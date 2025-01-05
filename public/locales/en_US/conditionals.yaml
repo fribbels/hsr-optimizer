@@ -705,7 +705,7 @@ Characters:
         content: Enemies affected by Epiphany take {{epiphanyDmgTakenBoost}}% more DMG in their turn.
       defDecreaseDebuff:
         text: DEF shred debuff
-        content: Enemies DEF is decreased by {{defShredValue}}
+        content: Enemies DEF is decreased by {{defShredValue}}%
       arcanaStacks:
         text: Arcana stacks
         content: >-

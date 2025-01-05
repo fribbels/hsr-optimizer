@@ -82,7 +82,7 @@ export function RelicPreview(props: {
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
-        boxShadow: showcaseShadow,
+        boxShadow: source != null ? showcaseShadow : undefined,
       }}
     >
       <Flex vertical justify='space-between' style={{ height: 255 }}>

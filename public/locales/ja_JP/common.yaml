@@ -173,6 +173,7 @@ ShortDMGTypes:
   Skill: 戦闘スキル
   Ult: 必殺技
   Fua: 追加攻撃
+  Memo_Skill: 精霊スキル
   Dot: 持続
   Break: 撃破
   CV: CV

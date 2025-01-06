@@ -64,7 +64,6 @@ CharacterPreview:
     Title: "Algorítimo pontuação:"
     Labels:
       CombatScore: Pontuação Combate
-      CombatScoreTBD: Pontuação Combate (TBD)
       StatScore: Pontuação de Atributo
   DetailsSlider:
     Title: "Detalhes da pontuação:"
@@ -86,6 +85,7 @@ CharacterPreview:
       SKILL: PERÍCIA
       ULT: PER. SUP.
       FUA: ATQ. EXT.
+      MEMO_SKILL: PERÍCIAᴹ
       DOTS: "DOTS:"
       BREAKS: "QUEBRAS:"
     CombatResults:

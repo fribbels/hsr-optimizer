@@ -2,7 +2,6 @@ import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
 import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
-import DB from 'lib/state/db'
 import { v4 as uuidv4 } from 'uuid'
 
 console.debug = (...args) => {
@@ -152,8 +151,8 @@ export const Utils = {
 
     function handleBlob(blob) {
       const prefix = characterName || 'Hsr-optimizer'
-      const date = new Date().toLocaleDateString(i18next.resolvedLanguage).replace(/[^apm\d]+/gi, '-')
-      const time = new Date().toLocaleTimeString(i18next.resolvedLanguage).replace(/[^apm\d]+/gi, '-')
+      const date = new Date().toLocaleDateString(resolvedLanguage()).replace(/[^apm\d]+/gi, '-')
+      const time = new Date().toLocaleTimeString(resolvedLanguage()).replace(/[^apm\d]+/gi, '-')
       const filename = `${prefix}_${date}_${time}.png`
 
       if (action == 'clipboard') {
@@ -320,4 +319,8 @@ export const Utils = {
   filterUnique: (arr) => {
     return arr.filter((value, index, array) => array.indexOf(value) === index)
   },
+}
+
+function resolvedLanguage() {
+  i18next.resolvedLanguage.replace('_', '-')
 }

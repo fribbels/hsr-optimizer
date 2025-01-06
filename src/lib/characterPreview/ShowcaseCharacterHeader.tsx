@@ -23,7 +23,6 @@ export function ShowcaseCharacterHeader(props: {
   } = props.showcaseMetadata
 
   const MARGIN_VERTICAL = props.scoringType === NONE_SCORE ? 12 : 4
-  // const MARGIN_VERTICAL = props.scoringType === NONE_SCORE ? 10 : 4
 
   return (
     <Flex vertical>

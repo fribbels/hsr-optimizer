@@ -29,6 +29,7 @@ SortOptions:
   SKILL: 戦闘スキルで並べ替え
   ULT: 必殺技で並べ替え
   FUA: 追加攻撃で並べ替え
+  MEMO_SKILL: 精霊スキルダメージで並べ替え
   DOT: 持続ダメージで並べ替え
   BREAK: 撃破ダメージで並べ替え
   HEAL: 治癒量で並べ替え
@@ -116,6 +117,8 @@ Grid:
         必殺技
       FUA: |-
         追加攻撃
+      MEMO_SKILL: |-
+        精霊スキル
       DOT: |-
         持続
       BREAK: |-
@@ -151,6 +154,8 @@ Grid:
         必殺技
       FUA: |-
         追加攻撃
+      MEMO_SKILL: |-
+        精霊スキル
       DOT: |-
         持続
       BREAK: |-
@@ -370,6 +375,7 @@ MinMaxFilters:
   SKILLLabel: 戦闘スキル
   ULTLabel: 必殺技
   FUALabel: 追加攻撃
+  MEMOSKILLLabel: 精霊スキル
   DOTLabel: 持続
   BREAKLabel: 撃破
   HEALLabel: 治癒量
@@ -393,6 +399,7 @@ ComboFilter:
     Skill: ｽｷﾙ
     Ult: 必殺
     Fua: 追加
+    MemoSkill: 精霊スキル
   RotationButton: 高度なスキル回しの設定
 ComboDrawer:
   NoConditionals: 条件付き追加能力なし

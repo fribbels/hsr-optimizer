@@ -64,8 +64,9 @@ CharacterPreview:
     Title: "Scoring algorithm:"
     Labels:
       CombatScore: Combat Score
-      CombatScoreTBD: Combat Score (TBD)
+      CombatScoreTBD: Combat (TBD)
       StatScore: Stat Score
+      NoneScore: None
   DetailsSlider:
     Title: "Combat score details:"
     Labels:

@@ -32,7 +32,7 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSm
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { COMBAT_STATS, ShowcaseColorMode, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
@@ -316,12 +316,14 @@ export function CharacterPreview(props: {
             >
               <ShowcaseCharacterHeader
                 showcaseMetadata={showcaseMetadata}
+                scoringType={scoringType}
               />
 
               <CharacterStatSummary
                 finalStats={finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 cv={finalStats.CV}
+                scoringType={scoringType}
                 simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
               />
 
@@ -343,9 +345,9 @@ export function CharacterPreview(props: {
               </>}
 
               {!simScoringResult && <>
-                <ShowcaseStatScore
+                {scoringType != NONE_SCORE && <ShowcaseStatScore
                   scoringResults={scoringResults}
-                />
+                />}
 
                 <ShowcaseLightConeLargeName
                   showcaseMetadata={showcaseMetadata}
@@ -373,6 +375,7 @@ export function CharacterPreview(props: {
             setAddModalOpen={setAddModalOpen}
             displayRelics={displayRelics}
             source={source}
+            scoringType={scoringType}
             characterId={showcaseMetadata.characterId}
             scoredRelics={scoredRelics}
             showcaseColors={derivedShowcaseTheme}

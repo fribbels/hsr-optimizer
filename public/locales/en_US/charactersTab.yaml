@@ -66,6 +66,7 @@ CharacterPreview:
       CombatScore: Combat Score
       CombatScoreTBD: Combat Score (TBD)
       StatScore: Stat Score
+      NoneScore: None
   DetailsSlider:
     Title: "Combat score details:"
     Labels:

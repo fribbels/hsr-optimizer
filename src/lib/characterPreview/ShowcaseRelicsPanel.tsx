@@ -14,6 +14,7 @@ export function ShowcaseRelicsPanel(props: {
   setAddModalOpen: (b: boolean) => void
   displayRelics: SingleRelicByPart
   source: ShowcaseSource
+  scoringType: string
   characterId: string
   scoredRelics: RelicScoringResult[]
   showcaseColors?: ShowcaseTheme
@@ -39,6 +40,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
+          scoringType={props.scoringType}
           showcaseTheme={showcaseColors}
         />
         <RelicPreview
@@ -49,6 +51,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
+          scoringType={props.scoringType}
           showcaseTheme={showcaseColors}
         />
         <RelicPreview
@@ -59,6 +62,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
+          scoringType={props.scoringType}
           showcaseTheme={showcaseColors}
         />
       </Flex>
@@ -72,6 +76,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
+          scoringType={props.scoringType}
           showcaseTheme={showcaseColors}
         />
         <RelicPreview
@@ -82,6 +87,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
+          scoringType={props.scoringType}
           showcaseTheme={showcaseColors}
         />
         <RelicPreview
@@ -92,6 +98,7 @@ export function ShowcaseRelicsPanel(props: {
           source={source}
           characterId={characterId}
           score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
+          scoringType={props.scoringType}
           showcaseTheme={showcaseColors}
         />
       </Flex>

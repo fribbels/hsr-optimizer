@@ -74,6 +74,7 @@ export function RelicPreview(props: {
 
   const STAT_GAP = scoringType == NONE_SCORE ? 6 : 0
   const ICON_SIZE = scoringType == NONE_SCORE ? 54 : 50
+  const JUSTIFY = scoringType == NONE_SCORE ? 'space-around' : 'space-between'
 
   return (
     <Card
@@ -91,7 +92,7 @@ export function RelicPreview(props: {
     >
       <Flex
         vertical
-        justify='space-around'
+        justify={JUSTIFY}
         style={{
           height: 255,
         }}

@@ -64,7 +64,6 @@ CharacterPreview:
     Title: "スコア計算方法"
     Labels:
       CombatScore: 戦闘スコア
-      CombatScoreTBD: 戦闘スコア（TBD）
       StatScore: ステータススコア
   DetailsSlider:
     Title: "戦闘スコアの詳細"

@@ -76,7 +76,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
                   ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD')/* Combat Score (TBD) */
                   : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
                 value: SIMULATION_SCORE,
-                disabled: false,
+                disabled: characterMetadata.scoringMetadata.simulation == null,
               },
               {
                 label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */

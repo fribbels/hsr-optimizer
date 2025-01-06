@@ -10,7 +10,7 @@ export enum ShowcaseSource {
 }
 
 export const showcaseOutline = 'rgba(255, 255, 255, 0.4) solid 1px'
-export const showcaseShadow = 'rgb(0 0 0 / 75%) 1px 1px 4px'
+export const showcaseShadow = 'rgb(0 0 0 / 85%) 1px 1px 5px'
 export const showcaseDropShadowFilter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
 export const showcaseButtonStyle: CSSProperties = {
   flex: 'auto',

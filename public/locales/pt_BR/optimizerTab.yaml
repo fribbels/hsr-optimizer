@@ -29,6 +29,7 @@ SortOptions:
   SKILL: Organizado por Dano de Perícia
   ULT: Organizado por Ult DMG
   FUA: Organizado por Dano FuA
+  MEMO_SKILL: Organizado por Dano Perícia Memo
   DOT: Organizado por Dano DoT
   BREAK: Organizado  por Break DMG
   HEAL: Organizado por Cura
@@ -120,6 +121,9 @@ Grid:
       FUA: |-
         DANO
         ATQ. EXT.
+      MEMO_SKILL: |-
+        DANO
+        PERÍCIAᴹ
       DOT: |-
         DANO
         DOT
@@ -161,6 +165,9 @@ Grid:
       FUA: |-
         DANO
         ATQ. EXT.
+      MEMO_SKILL: |-
+        DANO
+        PERÍCIAᴹ
       DOT: |-
         DANO
         DOT
@@ -382,6 +389,7 @@ MinMaxFilters:
   SKILLLabel: PERÍCIA
   ULTLabel: PER. SUP.
   FUALabel: ATQ. EXT.
+  MEMOSKILLLabel: PERÍCIAᴹ
   DOTLabel: DOT
   BREAKLabel: QUEBRA
   HEALLabel: CURA
@@ -405,6 +413,7 @@ ComboFilter:
     Skill: Skill
     Ult: Ult
     Fua: FuA
+    MemoSkill: Períciaᴹ
   RotationButton: Rotação avançada
 ComboDrawer:
   NoConditionals: Sem passivas condicionais

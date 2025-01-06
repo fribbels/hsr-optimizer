@@ -64,7 +64,6 @@ CharacterPreview:
     Title: "Mode d'évaluation:"
     Labels:
       CombatScore: Note de Combat
-      CombatScoreTBD: Note de Combat (WIP)
       StatScore: Note de Stat
   DetailsSlider:
     Title: "Détails de combat:"

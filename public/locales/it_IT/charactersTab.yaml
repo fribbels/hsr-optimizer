@@ -56,7 +56,6 @@ CharacterPreview:
     Title: "Algoritmo del punteggio:"
     Labels:
       CombatScore: Punteggio in battaglia
-      CombatScoreTBD: Punteggio in battaglia (TBD)
       StatScore: Punteggio statistiche
   DetailsSlider:
     Title: "Dettagli punteggio in battaglia"

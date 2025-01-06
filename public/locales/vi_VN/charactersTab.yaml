@@ -64,7 +64,6 @@ CharacterPreview:
     Title: "Thuật toán chấm điểm:"
     Labels:
       CombatScore: Điểm combat
-      CombatScoreTBD: Điểm combat (Chưa hoàn thành)
       StatScore: Điểm chỉ số
   DetailsSlider:
     Title: "Chi tiết điểm combat:"

@@ -702,6 +702,7 @@ export const SETTINGS_TEAM = 'Settings'
 
 export const SIMULATION_SCORE = 'Combat Simulation Score'
 export const CHARACTER_SCORE = 'Character Score'
+export const NONE_SCORE = 'None'
 
 export const DAMAGE_UPGRADES = 'Damage Upgrades'
 export const COMBAT_STATS = 'Combat Stats'

@@ -82,8 +82,9 @@ interface Resources {
         "Title": "Scoring algorithm:",
         "Labels": {
           "CombatScore": "Combat Score",
-          "CombatScoreTBD": "Combat Score (TBD)",
-          "StatScore": "Stat Score"
+          "CombatScoreTBD": "Combat (TBD)",
+          "StatScore": "Stat Score",
+          "NoneScore": "None"
         }
       },
       "DetailsSlider": {
@@ -1360,7 +1361,7 @@ interface Resources {
           },
           "defDecreaseDebuff": {
             "text": "DEF shred debuff",
-            "content": "Enemies DEF is decreased by {{defShredValue}}"
+            "content": "Enemies DEF is decreased by {{defShredValue}}%"
           },
           "arcanaStacks": {
             "text": "Arcana stacks",

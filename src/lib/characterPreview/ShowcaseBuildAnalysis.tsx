@@ -2,7 +2,7 @@ import { Flex, Segmented, Typography } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
-import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, SIMULATION_SCORE } from 'lib/constants/constants'
+import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SimulationScore } from 'lib/scoring/characterScorer'
 import { SaveState } from 'lib/state/saveState'
@@ -45,7 +45,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
 
   return (
     <Flex vertical>
-      <Flex justify='center' gap={25}>
+      <Flex justify='center' gap={10}>
         <Flex
           justify='center'
           style={{
@@ -62,7 +62,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
             {t('CharacterPreview.AlgorithmSlider.Title')/* Scoring algorithm: */}
           </Text>
           <Segmented
-            style={{ width: 325, height: 30 }}
+            style={{ width: 354, height: 30 }}
             onChange={(selection) => {
               setScoringType(selection)
               window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
@@ -76,12 +76,18 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
                   ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD')/* Combat Score (TBD) */
                   : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
                 value: SIMULATION_SCORE,
-                disabled: false,
+                disabled: characterMetadata.scoringMetadata.simulation == null,
               },
               {
                 label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
                 value: CHARACTER_SCORE,
                 disabled: false,
+              },
+              {
+                label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
+                value: NONE_SCORE,
+                disabled: false,
+                className: 'noneScoreLabel',
               },
             ]}
           />
@@ -103,7 +109,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
             {t('CharacterPreview.DetailsSlider.Title')/* Combat score details: */}
           </Text>
           <Segmented
-            style={{ width: 325, height: 30 }}
+            style={{ width: 354, height: 30 }}
             onChange={(selection) => {
               setCombatScoreDetails(selection)
               window.store.getState().setSavedSessionKey(SavedSessionKeys.combatScoreDetails, selection)

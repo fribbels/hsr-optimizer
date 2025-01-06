@@ -2,7 +2,7 @@ import { Flex, Typography } from 'antd'
 import { showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions, ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import StatText, { StatTextEllipses } from 'lib/characterPreview/StatText'
-import { middleColumnWidth, parentW } from 'lib/constants/constantsUi'
+import { parentW } from 'lib/constants/constantsUi'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -206,13 +206,13 @@ export function ShowcaseLightConeLargeName(props: {
   } = showcaseMetadata
 
   return (
-    <Flex vertical style={{ width: middleColumnWidth }}>
+    <Flex vertical>
       <StatTextEllipses
         style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
       >
         {`${lightConeName}`}
       </StatTextEllipses>
-      <StatText style={{ fontSize: 16, fontWeight: 400, textAlign: 'center' }}>
+      <StatText style={{ fontSize: 16, fontWeight: 400, marginBottom: 5, textAlign: 'center' }}>
         {
           `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
           /* Lv 80 S5 */

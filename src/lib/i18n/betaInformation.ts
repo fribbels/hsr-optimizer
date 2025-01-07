@@ -4,78 +4,34 @@ export const betaInformation: betaInformation = {
   en_US: {
     Characters: [
       {
-        id: 1401,
+        id: 1403,
         value: {
-          Name: 'The Herta',
-          LongName: 'The Herta',
+          Name: 'Mydei',
+          LongName: 'Mydei',
         },
       },
       {
-        id: 1402,
+        id: 1404,
         value: {
-          Name: 'Aglaea',
-          LongName: 'Aglaea',
-        },
-      },
-      {
-        id: 8007,
-        value: {
-          Name: 'Caelus',
-          LongName: 'Caelus (Remembrance)',
-        },
-      },
-      {
-        id: 8008,
-        value: {
-          Name: 'Stelle',
-          LongName: 'Stelle (Remembrance)',
+          Name: 'Tribbie',
+          LongName: 'Tribbie',
         },
       },
     ],
     Lightcones: [
       {
-        id: 23037,
+        id: 23038,
         value: {
-          Name: 'Into the Unreachable Veil',
+          Name: 'Mydei sig?',
         },
       },
       {
-        id: 23036,
+        id: 23039,
         value: {
-          Name: 'Time Woven Into Gold',
+          Name: 'Tribbie sig?',
         },
       },
-      {
-        id: 21051,
-        value: {
-          Name: 'Geniuses\' Greetings',
-        },
-      },
-      {
-        id: 21052,
-        value: {
-          Name: 'Sweat Now, Cry Less',
-        },
-      },
-      {
-        id: 21050,
-        value: {
-          Name: 'Victory In a Blink',
-        },
-      },
-      {
-        id: 20021,
-        value: {
-          Name: 'Shadowburn',
-        },
-      },
-      {
-        id: 20022,
-        value: {
-          Name: 'Reminiscence',
-        },
-      },
-    ],
+    ], /*
     RelicSets: [
       {
         id: 123,
@@ -95,11 +51,11 @@ export const betaInformation: betaInformation = {
           + ' increases the wearer\'s CRIT Rate by 20%/40%. This effect also applies to the wearer\'s memosprite.',
         },
       },
-    ],
+    ], */
   },
 }
 
-type betaInformation = Partial<Record<InputLocale, { Characters: Character[]; Lightcones: LightCone[]; RelicSets: RelicSet[] }>>
+type betaInformation = Partial<Record<InputLocale, { Characters: Character[]; Lightcones: LightCone[]; RelicSets?: RelicSet[] }>>
 type Character = { id: number; value: { Name: string; LongName: string } }
 type LightCone = { id: number; value: { Name: string } }
 type RelicSet = { id: number; value: { Name: string; Description2pc: string; Description4pc?: string } }

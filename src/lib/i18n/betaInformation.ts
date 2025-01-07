@@ -4,34 +4,78 @@ export const betaInformation: betaInformation = {
   en_US: {
     Characters: [
       {
-        id: 1403,
+        id: 1401,
         value: {
-          Name: 'Mydei',
-          LongName: 'Mydei',
+          Name: 'The Herta',
+          LongName: 'The Herta',
         },
       },
       {
-        id: 1404,
+        id: 1402,
         value: {
-          Name: 'Tribbie',
-          LongName: 'Tribbie',
+          Name: 'Aglaea',
+          LongName: 'Aglaea',
+        },
+      },
+      {
+        id: 8007,
+        value: {
+          Name: 'Caelus',
+          LongName: 'Caelus (Remembrance)',
+        },
+      },
+      {
+        id: 8008,
+        value: {
+          Name: 'Stelle',
+          LongName: 'Stelle (Remembrance)',
         },
       },
     ],
     Lightcones: [
       {
-        id: 23038,
+        id: 20021,
         value: {
-          Name: 'Mydei sig?',
+          Name: 'Shadowburn',
         },
       },
       {
-        id: 23039,
+        id: 20022,
         value: {
-          Name: 'Tribbie sig?',
+          Name: 'Reminiscence',
         },
       },
-    ], /*
+      {
+        id: 21050,
+        value: {
+          Name: 'Victory In a Blink',
+        },
+      },
+      {
+        id: 21051,
+        value: {
+          Name: 'Geniuses\' Greetings',
+        },
+      },
+      {
+        id: 21052,
+        value: {
+          Name: 'Sweat Now, Cry Less',
+        },
+      },
+      {
+        id: 23036,
+        value: {
+          Name: 'Time Woven Into Gold',
+        },
+      },
+      {
+        id: 23037,
+        value: {
+          Name: 'Into the Unreachable Veil',
+        },
+      },
+    ],
     RelicSets: [
       {
         id: 123,
@@ -51,7 +95,7 @@ export const betaInformation: betaInformation = {
           + ' increases the wearer\'s CRIT Rate by 20%/40%. This effect also applies to the wearer\'s memosprite.',
         },
       },
-    ], */
+    ],
   },
 }
 

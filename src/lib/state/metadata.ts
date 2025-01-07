@@ -26,7 +26,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
 ]
 
 const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
-  [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+  [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
   [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
 ]
 
@@ -2521,6 +2521,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
+          [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -3338,6 +3339,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -4361,6 +4363,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -6116,6 +6119,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

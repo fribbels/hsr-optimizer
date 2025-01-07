@@ -137,7 +137,7 @@ function getChangelogContent() {
         `Imported characters' light cones are now preselected on character / teammate menus`,
         `Updated menu banner to identify no leaks / beta sites`,
         `Fix: Showcase Damage Improvements tab now shows Elemental + Ability DMG as "DMG %" to not overflow space`,
-        `Fix: The 100% and 200% benchmarks for DPS scoring will now exactly match the user's SPD stat (except for Poet of Mourning Collapse sets) `,
+        `Fix: The 100% benchmark for DPS scoring will now exactly match the user's SPD stat (except for Poet of Mourning Collapse sets)`,
         `Balance: Added diminishing returns for 100% benchmark with high SPD, for characters like Kafka`,
         `Balance: Simulated 200% benchmark will now select the optimal boots main stat between ATK / SPD, previously it always matched the 100% benchmark's boots`,
         `Balance: Benchmarks with the Poet of Mourning Collapse set will now match the set's SPD threshold at 110 or 95 SPD, instead of matching the user's SPD`,

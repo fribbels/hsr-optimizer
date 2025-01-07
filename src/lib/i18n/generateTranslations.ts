@@ -161,9 +161,9 @@ function replaceParameters(string: string, parameters: number[]) {
   return output
 }
 
-function cleanString(locale: string, string: string): string {
+function cleanString(locale: InputLocale, string: string): string {
   if (!string) return ''
-  if (locale !== 'ja') {
+  if (locale !== 'ja_JP') {
     return string
   }
   const regex = /({[^}]*})/g

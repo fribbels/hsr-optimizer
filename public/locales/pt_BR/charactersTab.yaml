@@ -64,7 +64,9 @@ CharacterPreview:
     Title: "Algorítimo pontuação:"
     Labels:
       CombatScore: Pontuação Combate
+      CombatScoreTBD: Combate (TBD)
       StatScore: Pontuação de Atributo
+      NoneScore: Nenhum
   DetailsSlider:
     Title: "Detalhes da pontuação:"
     Labels:

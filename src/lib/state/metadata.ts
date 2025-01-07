@@ -37,7 +37,6 @@ const SPREAD_ORNAMENTS_2P_FUA = [
 ]
 
 const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
-  Sets.FirmamentFrontlineGlamoth,
   Sets.SigoniaTheUnclaimedDesolation,
 ]
 

@@ -28,7 +28,7 @@
     "i18next-resources-for-ts": "^1.5.0",
     "js-yaml": "^4.1.0",
     "json-stable-stringify": "^1.1.1",
-    "node-vibrant": "^3.1.6",
+    "node-vibrant": "^4.0.0",
     "overlayscrollbars": "^2.10.0",
     "overlayscrollbars-react": "^0.5.6",
     "path": "^0.12.7",

@@ -49,6 +49,11 @@
     "web-vitals": "^2.1.4",
     "zustand": "^4.4.7"
   },
+  "overrides": {
+    "@jimp/core": {
+      "phin": "3.7.1"
+    }
+  },
   "scripts": {
     "start": "vite",
     "build": "vite build",

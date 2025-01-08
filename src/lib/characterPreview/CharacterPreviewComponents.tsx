@@ -9,8 +9,20 @@ export enum ShowcaseSource {
   BUILDS_MODAL,
 }
 
+function isMobileOrSafari() {
+  const userAgent = navigator.userAgent
+
+  // Detect mobile devices
+  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|BlackBerry/i.test(userAgent)
+
+  // Detect Safari (excluding Chrome on iOS)
+  const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent)
+
+  return isMobile || isSafari
+}
+
 export const showcaseOutline = 'rgba(255, 255, 255, 0.4) solid 1px'
-export const showcaseShadow = 'rgb(0 0 0 / 85%) 1px 1px 5px'
+export const showcaseShadow = isMobileOrSafari() ? '' : 'rgb(0, 0, 0) 2px 2px 6px'
 export const showcaseDropShadowFilter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
 export const showcaseButtonStyle: CSSProperties = {
   flex: 'auto',

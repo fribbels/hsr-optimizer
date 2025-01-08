@@ -1,0 +1,106 @@
+ScreenshotMessages:
+  ScreenshotSuccess: Screenshot copiato negli appunti
+  ScreenshotFailed: Impossibile salvare lo screenshot negli appunti, prova il pulsante di download a destra
+  DownloadSuccess: Screenshot scaricato
+CharacterMenu:
+  ButtonText: Menu personaggi
+  Character:
+    Label: Personaggi
+    Options:
+      Add: Aggiungi nuovo personaggio
+      Edit: Modifica personaggio / light cone
+      Switch: Cambia reliquie con
+      Unequip: Disequipaggia personaggi
+      Delete: Elimina personaggio
+  Build:
+    Label: Builds
+    Options:
+      Save: Salva la build attuale
+      View: Guarda le build salvate
+  Scoring:
+    Label: Punteggio
+    Options:
+      ScoringModal: Algoritmo del punteggio
+  Priority:
+    Label: Priorità
+    Options:
+      SortByScore: Ordina tutti i personaggi per punteggio
+      MoveToTop: Muovi il personaggio in cima
+GridHeaders:
+  Icon: Icona
+  Priority: Priorità
+  Character: Personaggio
+Messages:
+  RemoveSuccess: Personaggio rimosso con successo
+  UnequipSuccess: Personaggio disequipaggiato con successo
+  NoSelectedCharacter: Nessun personaggio selezionato
+  SwitchSuccess: "Scambiate reliquie con $t(gameData:Characters.{{charId}}.Name) con successo"
+  SortByScoreWarning: Sei sicuro di voler ordinare tutti i personaggi? Perderai tutti i cambiamenti sull'ordine attuale.
+  SaveSuccess: "Build salvata con successo: {{name}}"
+  UnequipWarning: "Sei sicuro di voler disequipaggiare $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Sei sicuro di voler eliminare $t(gameData:Characters.{{charId}}.Name)?"
+CharacterPreview:
+  ArtBy: "Immagine di {{artistName}}"
+  EditCharacter: Modifica personaggio
+  EditPortrait: Modifica portrait
+  CharacterScore: "Punteggio personaggio: {{score}} {{grade}}"
+  Messages:
+    AddedRelic: Reliquia aggiunta con successo
+    SavedPortrait: Immagine di copertina salvata con successo
+    RevertedPortrait: Immagine di copertina ripristinata con successo
+    NoSelectedCharacter: Nessun personaggio selezionato
+  ScoreHeader:
+    Title: Sim battaglia
+    Score: "Punteggio DPS {{score}}% {{grade}}"
+  AlgorithmSlider:
+    Title: "Algoritmo del punteggio:"
+    Labels:
+      CombatScore: Punteggio in battaglia
+      StatScore: Punteggio statistiche
+  DetailsSlider:
+    Title: "Dettagli punteggio in battaglia"
+    Labels:
+      CombatStats: Statistiche in battaglia
+      DMGUpgrades: Miglioramento danno
+  DMGUpgrades: Miglioramento danno
+  SubstatUpgradeComparisons:
+    Header: Confronto miglioramento statistiche secondarie
+    Damage: Danno
+  BuildAnalysis:
+    Header: Analisi build del personaggio
+    SimulationTeammates: Compagni di squadra nella simulazione
+    SimulationSets: Set usato nella simulazione
+    Rotation:
+      Header: DANNO della combo
+    CombatResults:
+      Header: Risultato del danno in battaglia
+      Primary: "Abilità primaria:"
+      Character: "DANNO del Personaggio:"
+      Benchmark: "DANNO del Benchmark:"
+      Baseline: "DANNO in linea di base:"
+      Maximum: "DANNO massimo:"
+      Score: "punteggio DPS %:"
+  ScoringColumn:
+    Character:
+      Header: "Build personaggio ({{score}}%)"
+      BasicStats: Statistiche base del personaggio
+      CombatStats: <1>Statistiche in battaglia</1> del personaggio
+      Substats: Statistiche secondarie del personaggio (min rolls)
+      Mainstats: Statistica principale del personaggio
+      Abilities: Danno abilità del personaggio
+    Benchmark:
+      Header: "Build benchmark ({{score}}%)"
+      BasicStats: Statistiche base 100% benchmark
+      CombatStats: <1>Statistiche in battaglia</1> 100% benchmark
+      Substats: Statistiche secondarie 100% (min rolls)
+      Mainstats: Statistiche principale 100%
+      Abilities: Danno abilità 100% benchmark
+    Perfect:
+      Header: "Build perfetta ({{score}}%)"
+      BasicStats: Statistiche base perfette 200%
+      CombatStats: <1>Statistiche in battaglia</1> 200% perfette
+      Substats: Statistiche secondarie 200% (max rolls)
+      Mainstats: Statistiche principali perfette 200%
+      Abilities: Danno abilità perfetto 200%
+  ScoringDetails:
+    Header: Com'è calcolato il punteggio DPS?

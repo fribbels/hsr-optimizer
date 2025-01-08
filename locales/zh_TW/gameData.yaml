@@ -1,0 +1,622 @@
+Characters:
+  "1001":
+    Name: 三月七
+    LongName: 三月七 (存護)
+  "1002":
+    Name: 丹恆
+    LongName: 丹恆
+  "1003":
+    Name: 姬子
+    LongName: 姬子
+  "1004":
+    Name: 瓦爾特
+    LongName: 瓦爾特
+  "1005":
+    Name: 卡芙卡
+    LongName: 卡芙卡
+  "1006":
+    Name: 銀狼
+    LongName: 銀狼
+  "1008":
+    Name: 阿蘭
+    LongName: 阿蘭
+  "1009":
+    Name: 艾絲妲
+    LongName: 艾絲妲
+  "1013":
+    Name: 黑塔
+    LongName: 黑塔
+  "1101":
+    Name: 布洛妮婭
+    LongName: 布洛妮婭
+  "1102":
+    Name: 希兒
+    LongName: 希兒
+  "1103":
+    Name: 希露瓦
+    LongName: 希露瓦
+  "1104":
+    Name: 傑帕德
+    LongName: 傑帕德
+  "1105":
+    Name: 娜塔莎
+    LongName: 娜塔莎
+  "1106":
+    Name: 佩拉
+    LongName: 佩拉
+  "1107":
+    Name: 克拉拉
+    LongName: 克拉拉
+  "1108":
+    Name: 桑博
+    LongName: 桑博
+  "1109":
+    Name: 虎克
+    LongName: 虎克
+  "1110":
+    Name: 玲可
+    LongName: 玲可
+  "1111":
+    Name: 盧卡
+    LongName: 盧卡
+  "1112":
+    Name: 托帕&帳帳
+    LongName: 托帕&帳帳
+  "1201":
+    Name: 青雀
+    LongName: 青雀
+  "1202":
+    Name: 停雲
+    LongName: 停雲
+  "1203":
+    Name: 羅剎
+    LongName: 羅剎
+  "1204":
+    Name: 景元
+    LongName: 景元
+  "1205":
+    Name: 刃
+    LongName: 刃
+  "1206":
+    Name: 素裳
+    LongName: 素裳
+  "1207":
+    Name: 馭空
+    LongName: 馭空
+  "1208":
+    Name: 符玄
+    LongName: 符玄
+  "1209":
+    Name: 彥卿
+    LongName: 彥卿
+  "1210":
+    Name: 桂乃芬
+    LongName: 桂乃芬
+  "1211":
+    Name: 白露
+    LongName: 白露
+  "1212":
+    Name: 鏡流
+    LongName: 鏡流
+  "1213":
+    Name: 丹恆•飲月
+    LongName: 丹恆•飲月
+  "1214":
+    Name: 雪衣
+    LongName: 雪衣
+  "1215":
+    Name: 寒鴉
+    LongName: 寒鴉
+  "1217":
+    Name: 藿藿
+    LongName: 藿藿
+  "1218":
+    Name: 椒丘
+    LongName: 椒丘
+  "1220":
+    Name: 飛霄
+    LongName: 飛霄
+  "1221":
+    Name: 雲璃
+    LongName: 雲璃
+  "1222":
+    Name: 靈砂
+    LongName: 靈砂
+  "1223":
+    Name: 貊澤
+    LongName: 貊澤
+  "1224":
+    Name: 三月七
+    LongName: 三月七 (巡獵)
+  "1225":
+    Name: 忘歸人
+    LongName: 忘歸人
+  "1301":
+    Name: 加拉赫
+    LongName: 加拉赫
+  "1302":
+    Name: 銀枝
+    LongName: 銀枝
+  "1303":
+    Name: 阮•梅
+    LongName: 阮•梅
+  "1304":
+    Name: 砂金
+    LongName: 砂金
+  "1305":
+    Name: 真理醫生
+    LongName: 真理醫生
+  "1306":
+    Name: 花火
+    LongName: 花火
+  "1307":
+    Name: 黑天鵝
+    LongName: 黑天鵝
+  "1308":
+    Name: 黃泉
+    LongName: 黃泉
+  "1309":
+    Name: 知更鳥
+    LongName: 知更鳥
+  "1310":
+    Name: 流螢
+    LongName: 流螢
+  "1312":
+    Name: 米沙
+    LongName: 米沙
+  "1313":
+    Name: 星期日
+    LongName: 星期日
+  "1314":
+    Name: 翡翠
+    LongName: 翡翠
+  "1315":
+    Name: 波提歐
+    LongName: 波提歐
+  "1317":
+    Name: 亂破
+    LongName: 亂破
+  "1401":
+    Name: The Herta
+    LongName: The Herta
+  "1402":
+    Name: Aglaea
+    LongName: Aglaea
+  "8001":
+    Name: 穹
+    LongName: 穹 (毀滅)
+  "8002":
+    Name: 星
+    LongName: 星 (毀滅)
+  "8003":
+    Name: 穹
+    LongName: 穹 (存護)
+  "8004":
+    Name: 星
+    LongName: 星 (存護)
+  "8005":
+    Name: 穹
+    LongName: 穹 (同諧)
+  "8006":
+    Name: 星
+    LongName: 星 (同諧)
+  "8007":
+    Name: Caelus
+    LongName: Caelus (Remembrance)
+  "8008":
+    Name: Stelle
+    LongName: Stelle (Remembrance)
+RelicSets:
+  "101":
+    Name: 雲無留跡的過客
+    Description2pc: 治療量提高10%。
+    Description4pc: 在戰鬥開始時，立即為我方恢復1個戰技點。
+  "102":
+    Name: 野穗伴行的快槍手
+    Description2pc: 攻擊力提高12%。
+    Description4pc: 使裝備者的速度提高6%、普通攻擊造成的傷害提高10%。
+  "103":
+    Name: 淨庭教宗的聖騎士
+    Description2pc: 防禦力提高15%。
+    Description4pc: 使裝備者提供的護盾量提高20%。
+  "104":
+    Name: 密林臥雪的獵人
+    Description2pc: 冰屬性傷害提高10%。
+    Description4pc: 當裝備者施放終結技時，暴擊傷害提高25%，持續2回合。
+  "105":
+    Name: 街頭出身的拳王
+    Description2pc: 物理屬性傷害提高10%。
+    Description4pc: 當裝備者發動攻擊或受到攻擊後，其在本場戰鬥中攻擊力提高5%，最多疊加5層。
+  "106":
+    Name: 戍衛風雪的鐵衛
+    Description2pc: 受到傷害降低8%。
+    Description4pc: 回合開始時，如果裝備者目前生命值百分比小於等於50%，則回復等同於自身生命上限8%的生命值，並恢復5點能量。
+  "107":
+    Name: 熔岩鍛鑄的火匠
+    Description2pc: 火屬性傷害提高10%。
+    Description4pc: 使裝備者的戰技造成的傷害提高12%，並使施放終結技後的下一次攻擊造成的火屬性傷害提高12%。
+  "108":
+    Name: 繁星璀璨的天才
+    Description2pc: 量子屬性傷害提高10%。
+    Description4pc: 當裝備者對敵方目標造成傷害時，無視其10%的防禦力。若目標擁有量子屬性弱點，則額外無視其10%的防禦力。
+  "109":
+    Name: 激奏雷電的樂團
+    Description2pc: 雷屬性傷害提高10%。
+    Description4pc: 當裝備者施放戰技時，使裝備者的攻擊力提高20%，持續1回合。
+  "110":
+    Name: 晨昏交界的翔鷹
+    Description2pc: 風屬性傷害提高10%。
+    Description4pc: 當裝備者施放終結技後，使其行動提前25%。
+  "111":
+    Name: 流星追跡的怪盜
+    Description2pc: 擊破特攻提高16%。
+    Description4pc: 使裝備者的擊破特攻提高16%。當裝備者擊破敵方目標弱點後，恢復3點能量。
+  "112":
+    Name: 盜匪荒漠的廢土客
+    Description2pc: 虛數屬性傷害提高10%。
+    Description4pc: 裝備者對陷入負面效果的敵方目標造成傷害時暴擊率提高10%，對陷入禁錮狀態的敵方目標造成傷害時，暴擊傷害提高20%。
+  "113":
+    Name: 寶命長存的蒔者
+    Description2pc: 生命上限提高12%。
+    Description4pc: 當裝備者受到攻擊或被我方目標消耗生命值後，暴擊率提高8%，持續2回合，該效果最多疊加2層。
+  "114":
+    Name: 駭域漫遊的信使
+    Description2pc: 速度提高6%。
+    Description4pc: 當裝備者對我方目標施放終結技時，我方全體速度提高12%，持續1回合，該效果無法疊加。
+  "115":
+    Name: 毀燼焚骨的大公
+    Description2pc: 追加攻擊造成的傷害提高20%。
+    Description4pc: 裝備者發動追加攻擊時，根據追加攻擊造成傷害的次數，每次造成傷害時使裝備者的攻擊力提高6%，最多疊加8次，持續3回合。該效果在裝備者下一次發動追加攻擊時移除。
+  "116":
+    Name: 幽鎖深牢的繫囚
+    Description2pc: 攻擊力提高12%。
+    Description4pc: 敵方目標每承受1個持續傷害效果，裝備者對其造成傷害時便無視其6%的防禦力，最多計入3個持續傷害效果。
+  "117":
+    Name: 死水深潛的先驅
+    Description2pc: 對受負面狀態影響的敵人造成的傷害提高12%。
+    Description4pc: 暴擊率提高4%，裝備者對陷入至少2/3個負面效果的敵方目標造成的暴擊傷害提高8%/12%。裝備者對敵方目標施加負面效果後，上述效果提高100%，持續1回合。
+  "118":
+    Name: 機心戲夢的鐘錶匠
+    Description2pc: 擊破特攻提高16%。
+    Description4pc: 當裝備者對我方目標施放終結技時，我方全體擊破特攻提高30%，持續2回合，該效果無法疊加。
+  "119":
+    Name: 蕩除蠹災的鐵騎
+    Description2pc: 擊破特攻提高16%。
+    Description4pc: 當裝備者的擊破特攻大於等於150%時，對敵方目標造成的擊破傷害無視其10%的防禦力。當裝備者的擊破特攻大於等於250%時，對敵方目標造成的超擊破傷害額外無視其15%的防禦力。
+  "120":
+    Name: 風舉雲飛的勇烈
+    Description2pc: 攻擊力提高12%。
+    Description4pc: 使裝備者的暴擊率提高6%。裝備者發動追加攻擊時，使終結技造成的傷害提高36%，持續1回合。
+  "121":
+    Name: 重循苦旅的司鐸
+    Description2pc: 速度提高6%。
+    Description4pc: 對我方單體目標施放戰技或終結技時，使技能目標的暴擊傷害提高18%，持續2回合，該效果最多疊加2次。
+  "122":
+    Name: 識海迷墜的學者
+    Description2pc: 暴擊率提高8%。
+    Description4pc: 戰技和終結技造成的傷害提高20%，施放終結技後，下一次施放戰技時造成的傷害額外提高25%。
+  "123":
+    Name: Hero of Triumphant Song
+    Description2pc: Increases ATK by 12%.
+    Description4pc: While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by 30% for 2 turn(s).
+  "124":
+    Name: Poet of Mourning Collapse
+    Description2pc: Increases Quantum DMG dealt by 10%.
+    Description4pc: Decreases the wearer's SPD by 12%. When entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/40%. This effect also applies to the wearer's memosprite.
+  "301":
+    Name: 太空封印站
+    Description2pc: 使裝備者的攻擊力提高12%。當裝備者的速度大於等於120時，攻擊力額外提高12%。
+  "302":
+    Name: 不老者的仙舟
+    Description2pc: 使裝備者的生命上限提高12%。當裝備者的速度大於等於120時，我方全體攻擊力提高8%。
+  "303":
+    Name: 泛銀河商業公司
+    Description2pc: 使裝備者的效果命中提高10%。同時提高裝備者等同於現有效果命中25%的攻擊力，最多提高25%。
+  "304":
+    Name: 築城者的貝洛伯格
+    Description2pc: 使裝備者的防禦力提高15%。當裝備者的效果命中大於等於50%時，防禦力額外提高15%。
+  "305":
+    Name: 星體差分機
+    Description2pc: 使裝備者的暴擊傷害提高16%。當裝備者的暴擊傷害大於等於120%時，進入戰鬥後裝備者的暴擊率提高60%，持續到首次攻擊後結束。
+  "306":
+    Name: 停轉的薩爾索圖
+    Description2pc: 使裝備者的暴擊率提高8%。當裝備者現有的暴擊率大於等於50%時，終結技和追加攻擊造成的傷害提高15%。
+  "307":
+    Name: 盜賊公國塔利亞
+    Description2pc: 使裝備者的擊破特攻提高16%。當裝備者的速度大於等於145時，擊破特攻額外提高20%。
+  "308":
+    Name: 生命的翁瓦克
+    Description2pc: 使裝備者的能量恢復效率提高5%。當裝備者的速度大於等於120時，進入戰鬥時立刻使行動提前40%。
+  "309":
+    Name: 繁星競技場
+    Description2pc: 使裝備者的暴擊率提高8%。當裝備者的現有暴擊率大於等於70%時，普通攻擊和戰技造成的傷害提高20%。
+  "310":
+    Name: 折斷的龍骨
+    Description2pc: 使裝備者的效果抗性提高10%。當裝備者的效果抗性大於等於30%時，我方全體暴擊傷害提高10%。
+  "311":
+    Name: 蒼穹戰線格拉默
+    Description2pc: 使裝備者的攻擊力提高12%。當裝備者的速度大於等於135/160時，使裝備者造成的傷害提高12%/18%。
+  "312":
+    Name: 夢想之地匹諾康尼
+    Description2pc: 使裝備者的能量恢復效率提高5%。使隊伍中與裝備者屬性相同的我方其他角色造成的傷害提高10%。
+  "313":
+    Name: 無主荒星茨岡尼亞
+    Description2pc: 使裝備者的暴擊率提高4%。當敵方目標被消滅時，裝備者暴擊傷害提高4%，最多疊加10層。
+  "314":
+    Name: 出雲顯世與高天神國
+    Description2pc: 使裝備者的攻擊力提高12%。進入戰鬥時，若有存在一名與裝備者命途相同的隊友，則裝備者的暴擊率提高12%。
+  "315":
+    Name: 奔狼的都藍王朝
+    Description2pc: 我方角色發動追加攻擊時，裝備者獲得一層【功勳】，最多疊加5層，每層【功勳】使裝備者追加攻擊造成的傷害提高5%，疊滿5層時，額外使裝備者的暴擊傷害提高25%。
+  "316":
+    Name: 劫火蓮燈鑄煉宮
+    Description2pc: 使裝備者的速度提高6%。當裝備者命中擁有火屬性弱點的敵方目標時，擊破特攻提高40%，持續1回合。
+  "317":
+    Name: 沉陸海域露莎卡
+    Description2pc: 使裝備者的能量恢復效率提高5%，如果裝備者不是編隊中的第一位角色，使編隊中的第一位角色攻擊力提高12%。
+  "318":
+    Name: 奇想蕉樂園
+    Description2pc: 使裝備者的暴擊傷害提高16%，當存在裝備者召喚的目標時，暴擊傷害額外提高32%。
+Lightcones:
+  "20000":
+    Name: 鋒鏑
+  "20001":
+    Name: 物穰
+  "20002":
+    Name: 天傾
+  "20003":
+    Name: 琥珀
+  "20004":
+    Name: 幽邃
+  "20005":
+    Name: 齊頌
+  "20006":
+    Name: 智庫
+  "20007":
+    Name: 離弦
+  "20008":
+    Name: 嘉果
+  "20009":
+    Name: 樂圮
+  "20010":
+    Name: 戍禦
+  "20011":
+    Name: 淵環
+  "20012":
+    Name: 輪契
+  "20013":
+    Name: 靈鑰
+  "20014":
+    Name: 相抗
+  "20015":
+    Name: 蕃息
+  "20016":
+    Name: 俱歿
+  "20017":
+    Name: 開疆
+  "20018":
+    Name: 匿影
+  "20019":
+    Name: 調和
+  "20020":
+    Name: 睿見
+  "20021":
+    Name: Shadowburn
+  "20022":
+    Name: Reminiscence
+  "21000":
+    Name: 一場術後對話
+  "21001":
+    Name: 晚安與睡顏
+  "21002":
+    Name: 餘生的第一天
+  "21003":
+    Name: 唯有沉默
+  "21004":
+    Name: 記憶中的模樣
+  "21005":
+    Name: 鼴鼠黨歡迎你
+  "21006":
+    Name: 「我」的誕生
+  "21007":
+    Name: 同一種心情
+  "21008":
+    Name: 獵物的視線
+  "21009":
+    Name: 朗道的選擇
+  "21010":
+    Name: 論劍
+  "21011":
+    Name: 與行星相會
+  "21012":
+    Name: 秘密誓心
+  "21013":
+    Name: 別讓世界靜下來
+  "21014":
+    Name: 此時恰好
+  "21015":
+    Name: 決心如汗珠般閃耀
+  "21016":
+    Name: 宇宙市場趨勢
+  "21017":
+    Name: 按個追蹤吧！
+  "21018":
+    Name: 舞！舞！舞！
+  "21019":
+    Name: 在藍天下
+  "21020":
+    Name: 天才們的休憩
+  "21021":
+    Name: 等價交換
+  "21022":
+    Name: 延長記號
+  "21023":
+    Name: 我們是地火
+  "21024":
+    Name: 春水初生
+  "21025":
+    Name: 過往未來
+  "21026":
+    Name: 汪！散步時間！
+  "21027":
+    Name: 早餐的儀式感
+  "21028":
+    Name: 暖夜不會漫長
+  "21029":
+    Name: 後會有期
+  "21030":
+    Name: 這就是我啦！
+  "21031":
+    Name: 重返幽冥
+  "21032":
+    Name: 鏤月裁雲之意
+  "21033":
+    Name: 無處可逃
+  "21034":
+    Name: 今日亦是和平的一日
+  "21035":
+    Name: 何物為真
+  "21036":
+    Name: 美夢小鎮大冒險
+  "21037":
+    Name: 最後的贏家
+  "21038":
+    Name: 在火的遠處
+  "21039":
+    Name: 織造命運之線
+  "21040":
+    Name: 銀河淪陷日
+  "21041":
+    Name: 好戲開演
+  "21042":
+    Name: 銘記於心的約定
+  "21043":
+    Name: 兩個人的演唱會
+  "21044":
+    Name: 無邊曼舞
+  "21045":
+    Name: 諧樂靜默之後
+  "21046":
+    Name: 芳華待灼
+  "21047":
+    Name: 黑夜如影隨行
+  "21048":
+    Name: 夢的蒙太奇
+  "21050":
+    Name: Victory In a Blink
+  "21051":
+    Name: Geniuses' Greetings
+  "21052":
+    Name: Sweat Now, Cry Less
+  "22000":
+    Name: 新手任務開始前
+  "22001":
+    Name: 嘿，我在這裡
+  "22002":
+    Name: 為了明日的旅途
+  "22003":
+    Name: 忍事錄•音律狩獵
+  "23000":
+    Name: 銀河鐵道之夜
+  "23001":
+    Name: 於夜色中
+  "23002":
+    Name: 無可取代的東西
+  "23003":
+    Name: 但戰鬥還未結束
+  "23004":
+    Name: 以世界之名
+  "23005":
+    Name: 制勝的瞬間
+  "23006":
+    Name: 只需等待
+  "23007":
+    Name: 雨一直下
+  "23008":
+    Name: 棺的迴響
+  "23009":
+    Name: 到不了的彼岸
+  "23010":
+    Name: 拂曉之前
+  "23011":
+    Name: 她已閉上雙眼
+  "23012":
+    Name: 如泥酣眠
+  "23013":
+    Name: 時節不居
+  "23014":
+    Name: 此身為劍
+  "23015":
+    Name: 比陽光更明亮的
+  "23016":
+    Name: 煩惱著，幸福著
+  "23017":
+    Name: 驚魂夜
+  "23018":
+    Name: 片刻，留在眼底
+  "23019":
+    Name: 鏡中故我
+  "23020":
+    Name: 純粹思維的洗禮
+  "23021":
+    Name: 遊戲塵寰
+  "23022":
+    Name: 重塑時光之憶
+  "23023":
+    Name: 命運從未公平
+  "23024":
+    Name: 行於流逝的岸
+  "23025":
+    Name: 夢應歸於何處
+  "23026":
+    Name: 夜色流光溢彩
+  "23027":
+    Name: 駛向第二次生命
+  "23028":
+    Name: 偏偏希望無價
+  "23029":
+    Name: 那無數個春天
+  "23030":
+    Name: 落日時起舞
+  "23031":
+    Name: 我將，巡徵追獵
+  "23032":
+    Name: 唯有香如故
+  "23033":
+    Name: 忍法帖•繚亂破魔
+  "23034":
+    Name: 回到大地的飛行
+  "23035":
+    Name: 長路終有歸途
+  "23036":
+    Name: Time Woven Into Gold
+  "23037":
+    Name: Into the Unreachable Veil
+  "24000":
+    Name: 記一位星神的殞落
+  "24001":
+    Name: 星海巡航
+  "24002":
+    Name: 記憶的質料
+  "24003":
+    Name: 孤獨的療癒
+  "24004":
+    Name: 不息的演算
+Paths:
+  Warrior: 毀滅
+  Rogue: 巡獵
+  Mage: 智識
+  Shaman: 同諧
+  Warlock: 虛無
+  Knight: 存護
+  Priest: 豐饒
+  Unknown: 通用
+  Remembrance: Remembrance
+Elements:
+  Physical: 物理
+  Fire: 火
+  Ice: 冰
+  Thunder: 雷
+  Wind: 風
+  Quantum: 量子
+  Imaginary: 虛數

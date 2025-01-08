@@ -1,0 +1,29 @@
+CollapseLabels:
+  Explore: 기능 자세히 보기
+  Join: 커뮤니티에 참여
+CommunityCollapse: >-
+  <0> 이 프로젝트를 지원하고 함께 만들어주신 기여자, 번역자, 사용자, 그리고 피드백을 주신 모든 분들께 진심으로 감사드립니다!</0> <1> 스타레일 커뮤니티의 일원이 되어주세요!  <1 text='Discord'/> 서버에 참여하여 교류하고 기여하고 싶다면 <3 text='GitHub'/> 리포지토리를 확인해 보세요.<1 text='GitHub'/> 리포지토리를 확인해보세요.<0>
+FeatureCards:
+  LearnMore: 더 알아보기
+  Showcase:
+    Title: 캐릭터 쇼케이스
+    Content: >-
+      캐릭터의 스탯을 확인해 보거나 미출시 캐릭터를 미리 빌드해볼 수 있으며, DPS 점수와 전투 피해량을 시뮬레이션하고 벤치마크와 비교하여 평가할 수 있습니다.
+  Optimizer:
+    Title: 유물 옵티마이저
+    Content: >-
+      캐릭터를 최적화하여 목표 점수에 도달하고 성능을 극대화할 수 있는 최고의 유물 조합을 찾아보세요.
+  Calculator:
+    Title: 피해량 계산기
+    Content: >-
+      파티, 버프 조건, 사이클을 모두 커스터마이징하여 정확한 데미지를 계산하고 피해량을 극대화해보세요.
+  Organizer:
+    Title: 유물 모음
+    Content: >-
+      유물을 점수나 잠재력에 따라 점수화하고 정렬하여 각 캐릭터에 가장 적합한 강화 대상 유물을 찾아보세요.
+Welcome: Fribbels Str Rail Optimizer<1/>오신 것을 환영합니다!
+SearchBar:
+  Placeholder: UUID
+  Label: "UUID를 입력해 캐릭터 쇼케이스를 확인하세요: "
+  Message: 잘못된 입력 - 9자리의 인게임 UUID여야 합니다.
+  Search: 검색

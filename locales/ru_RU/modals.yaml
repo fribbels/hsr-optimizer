@@ -1,0 +1,8 @@
+EditCharacter:
+  Character: Персонаж
+ScoreFooter:
+  TeamOptions:
+    Custom: Пользовательский
+CharacterSelect:
+  SingleSelect:
+    Placeholder: Персонаж

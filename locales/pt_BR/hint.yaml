@@ -1,0 +1,116 @@
+RatingFilter:
+  Title: Filtros de pontuação
+  p1: >-
+    Ehp - HP efetivo, medindo quão resistente um personagem de nível máximo é. Calculado usando HP, DEF e passivas de redução de dano
+  p2: >-
+    Básico / Habilidade / Ult / Fua (Ataque Extra) / Dot (Dano contínuo) / Break (Quebra de Fraqueza) - Cálculos de dano de habilidade, baseados nos fatores ambientais nas passivas do personagem / passivas do cone de luz / opções do inimigo.
+  p3: >-
+    Cura / Escudo - Outros cálculos de habilidade, com base nos fatores das passivas do personagem / passivas do cone de luz / opções do inimigo.
+CombatBuffs:
+  Title: Buffs de combate
+  p1: Buffs adicionais da equipe a serem aplicados nos cálculos. Observe que os buffs das auto-buffs e passivas do personagem / cone de luz e traços já estão incluídos nos cálculos.
+StatFilters:
+  Title: Filtros de atributos
+  p1: Filtros Min (esquerda) / Max (direita) para estatísticas do personagem, inclusive. O otimizador mostrará apenas resultados dentro desses intervalos.
+  p2: As abreviações de atributos são ATK / HP / DEF / SPD / Taxa de Crít / CRIT DMG / Taxa de Acerto de Efeito / Resistência a Efeitos / Efeito de Quebra / Taxa de Regeneração de Energia
+  p3: "OBS: Os decimais de velocidade no jogo são truncados, então você pode ver valores de velocidade no jogo maiores do que os mostrados aqui. Isso ocorre porque o importador OCR não consegue detectar os decimais ocultos."
+Mainstats:
+  Title: Atributos principais
+  p1: Selecione os principais atributos a serem usados na busca de otimização. Vários valores podem ser selecionados para mais opções
+Sets:
+  Title: Conjuntos
+  p1: Selecione os conjuntos de relíquias e ornamentos para filtrar os resultados. Vários conjuntos podem ser selecionados para mais opções.
+  p2: Os efeitos dos conjuntos serão considerados nos cálculos; use o menu de efeitos de conjunto condicionais para personalizar quais efeitos estão ativos.
+Character:
+  Title: Personagem 
+  p1: Selecione o personagem e o eidolon. Assume-se que o personagem esteja no nível 80 com traços maximizados nos cálculos de otimização.
+CharacterPassives:
+  Title: Passivas do personagem
+  p1: Selecione os efeitos condicionais a serem aplicados ao personagem.
+  p2: Os efeitos que dependem de stats de combate ou do estado ambiental serão aplicados por padrão, portanto, apenas as opções que requerem entrada do usuário estão listadas aqui.
+LightconePassives:
+  Title: Passivas do cone de luz
+  p1: Selecione os efeitos condicionais a serem aplicados ao cone de luz.
+  p2: Os efeitos que dependem de stats de combate ou do estado ambiental serão aplicados por padrão, portanto, apenas as opções que requerem entrada do usuário estão listadas aqui.
+Lightcone:
+  Title: Cone de luz
+  p1: Selecione o cone de luz e a superimposição. Assume-se que o cone de luz esteja no nível 80 nos cálculos de otimização.
+  p2: Os efeitos passivos são aplicados no painel passivas do cone de luz.
+Actions:
+  Title: Ações
+  p1: Equipar - Equipe as relíquias selecionadas da grade no personagem
+  p2: Filtrar - Reaplique os filtros de pesquisa aos resultados existentes. Use isso para restringir os filtros sem reiniciar uma pesquisa
+  p3: Fixar build - Fixe a linha atualmente selecionada no topo da grade. Use isso para comparar várias builds com mais facilidade
+  p4: Limpar fixados - Limpe todas as builds que você fixou no topo da grade
+OptimizerOptions:
+  Title: Opções do otimizador
+  p1: >-
+    <0>Filtro de prioridade de personagem</0> - Quando essa opção está habilitada, o personagem só pode roubar relíquias de personagens de prioridade mais baixa. O otimizador ignorará as relíquias equipadas por personagens de prioridade mais alta na lista. Altere as classificações dos personagens a partir do seletor de prioridade ou arrastando-os na página de Personagens.
+  p2: >-
+    <0>Aumentar estatística principal</0> - Calcula as estatísticas principais das relíquias como se estivessem neste nível (ou seu máximo se não puderem alcançar este nível) caso estejam atualmente abaixo dele. As subestatísticas não são alteradas de acordo, portanto, builds com relíquias de nível mais baixo podem ser mais fortes uma vez que você as aumente de nível.
+  p3: <0>Manter relíquias atuais</0> - O personagem deve usar seus itens equipados atualmente e o otimizador tentará preencher os espaços vazios
+  p4: <0>Incluir relíquias equipadas</0> - Quando habilitado, o otimizador permitirá o uso de relíquias que estão atualmente equipadas por um personagem na pesquisa. Caso contrário, as relíquias equipadas são excluídas
+  p5: "<0>Prioridade</0> - Veja: Filtro de prioridade de personagem. Alterar esta configuração mudará a prioridade do personagem"
+  p6: <0>Excluir</0> - Selecione as relíquias equipadas de personagens específicos para excluir da pesquisa. Esta configuração substitui o filtro de prioridade
+  p7: <0>Melhorar / grau</0> - Selecione o aprimoramento mínimo a ser buscado e o mínimo de estrelas para incluir as relíquias
+Relics:
+  Title: Relíquias
+  p1: >-
+    Nota - O potencial é uma classificação em percentual que compara uma relíquia à melhor relíquia possível +15 para o personagem atual no slot. Essa classificação é baseada nos pesos do algoritmo de pontuação. Isso significa que relíquias não aprimoradas a +0 às vezes têm um potencial maior do que relíquias existentes a +15, porque seus possíveis rollings podem se encaixar nas estatísticas desejadas do personagem.
+  p2: "Personagem selecionado: Pontuação - A pontuação atual da relíquia, conforme definido pelo algoritmo de pontuação do personagem selecionado no momento"
+  p3: "Personagem selecionado: Potencial médio - O potencial da relíquia em seu nível máximo, calculado pela média de todas as rolagens possíveis que ela poderia ter no caminho para +15"
+  p4: "Personagem selecionado: Potencial máximo - O potencial máximo da relíquia se todas as rolagens futuras forem para as estatísticas desejadas do personagem"
+  p5: "Todos os personagens: Potencial máximo - O valor de potencial mais alto possível da relíquia, entre todos os personagens do jogo."
+OptimizationDetails:
+  Title: Detalhes de otimização
+  p1: Mostra quantas relíquias estão sendo utilizadas na busca de otimização, após a aplicação de todos os filtros
+  p2: Permutações - Número de permutações que precisam ser pesquisadas. Restrinja seus filtros para reduzir as permutações e o tempo de busca
+  p3: Pesquisadas - Número de permutações já pesquisadas
+  p4: Resultados - Número de resultados exibidos que satisfazem os filtros de estatísticas
+EnemyOptions:
+  Title: Opções de inimigo
+  p1: Nível - Nível do inimigo, afeta os cálculos de DEF do inimigo
+  p2: RES a Efeito - RES a Efeito do inimigo. RES a efeito é usado para cálculos relacionados ao dano do DOT
+  p3: Dano RES - RES elementar do inimigo. RES é definido como 0 quando a fraqueza elementar do inimigo está ativada.
+  p4: Resistência máxima - Valor máximo da barra de resistência do inimigo. Afeta cálculos relacionados ao dano de quebra.
+  p5: Alvos - Número de alvos na batalha. O inimigo alvo é sempre assumido como estando no centro, e os cálculos de dano são apenas para o único alvo principal.
+  p6: Fraqueza elemental - Se o inimigo é fraco ao tipo do personagem. Ativar isso define a % de RES elemental do inimigo para 0.
+  p7: Quebra de fraqueza - Se a barra de resistência do inimigo está quebrada. Afeta os cálculos de dano e certas passivas do personagem.
+SubstatWeightFilter:
+  Title: Filtro de peso dos subatributos
+  p1: Este filtro é usado para reduzir o número de permutações que o otimizador precisa processar.
+  p2: Ele funciona primeiro pontuando cada relíquia por slot de acordo com os pesos definidos, e depois filtrando pelo número de rollings mínimos ponderados que a relíquia possui.
+  p3: Apenas relíquias que possuem mais do que o número especificado de rollings ponderados serão utilizadas na busca de otimização.
+  p4: >-
+    Observe que a definição de rolagens mínimas muito altas pode fazer com que algumas construções não sejam exibidas, se o filtro acabar excluindo uma relíquia importante. Use esse filtro com cautela, mas em pesquisas grandes ele causa um grande impacto na redução do tempo de pesquisa.
+StatDisplay:
+  Title: Visualização de atributo e filtro
+  p1: Isso permite alternar entre visualizar os resultados como Atributos Básicos ou Atributos de Combate. Os filtros de estatísticas também serão aplicados à visualização selecionada.
+  p2: Atributos Básicos - Os atributos conforme exibidos na tela do personagem no jogo, sem buffs de combate aplicados.
+  p3: "Atributos de Combate - Os atributos do personagem com todos os modificadores de atributos em combate incluídos: buffs de habilidades, passivas do personagem e do cone de luz, companheiros de equipe, efeitos de conjunto condicionais, etc."
+ValueColumns:
+  Title: Colunas de Valores
+  p1: Você pode opcionalmente exibir várias colunas que avaliam o 'valor' relativo de uma relíquia.
+  p2: Potencial
+  p3: O potencial é uma porcentagem específica do personagem que indica quão boa a relíquia poderia ser (ou 'é', se totalmente aprimorada), em comparação com as estatísticas de uma relíquia 'perfeita' totalmente aprimorada nesse slot.
+  p4: O potencial pode considerar todos os personagens ou apenas os que você possui. Em seguida, ele pega a porcentagem máxima para qualquer personagem.
+  p5: O potencial é útil para encontrar relíquias que não são boas em nenhum personagem, ou joias escondidas que podem ser excelentes quando aprimoradas.
+  p6: "Nota: a ordenação por potencial pode estar desajustada em relação aos pesos, devido ao cálculo de pesos preferir estatísticas principais ideais de menor peso."
+RelicInsights:
+  Title: Análise de Relíquia
+  p1: Quando uma relíquia é selecionada na tabela acima, você pode escolher uma análise para visualizar um gráfico.
+  p2: >-
+    'Buckets' analisa quão perfeita essa relíquia poderia ser (com os melhores rollings de aprimoramento possíveis) para cada personagem e as agrupa em porcentagens. <1/>Se você passar o mouse sobre o retrato de um personagem, verá as novas estatísticas e/ou rollings necessários para atingir o potencial máximo desta relíquia. <3/>⚠️ Relíquias com subestatísticas faltantes podem ter buckets enganosamente altos, uma vez que a análise do melhor caso de aprimoramento assume a melhor nova subestatística por personagem.
+  p3: "Os 10 melhores pegam os 10 melhores personagens para os quais esta relíquia poderia ser a melhor opção e mostram a faixa de \"% de perfeição\" que o aprimoramento desta relíquia poderia resultar."
+RelicLocation:
+  Title: Localização da Relíquia
+  p1: Quando uma relíquia é selecionada na grade, sua posição no inventário do jogo é exibida aqui.
+  p2: Se os filtros de conjunto / parte estiverem ativos, aplique esses mesmos filtros no jogo e, em seguida, classifique por Data de Aquisição (mais recente primeiro) para encontrar a relíquia.
+  p3: '⚠️Notas de uso⚠️'
+  p4: Isso só é suportado com importação do Arquipélago Reliquário
+  p5: Se novas relíquias foram excluídas ou obtidas desde a última importação, elas devem ser reescaneadas e importadas
+  p6: Selecione a configuração de largura de inventário apropriada para obter locais precisos. A largura depende da largura da tela e do menu no jogo
+LocatorParams:
+  Title: Opções do Localizador Relíquia
+  p1: <0>Largura do Inventário</0> - Selecione o número de colunas que o inventário possui no jogo para que o localizador de relíquias possa encontrar sua relíquia com precisão.
+  p2: <0>Filtrar linhas automaticamente</0> - Número máximo de linhas antes que o localizador de relíquias aplique um filtro de parte/conjunto para tentar trazer a relíquia pesquisada mais para o topo do seu inventário

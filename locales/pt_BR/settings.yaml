@@ -1,0 +1,14 @@
+Title: Configurações
+RelicEquippingBehaviour:
+  Label: Equipando relíquias de outro personagem
+  Replace: "Padrão: Repor relíquias sem trocar"
+  Swap: Trocar relíquias com o usuário anterior
+PermutationSidebarBehaviour:
+  Label: Diminuir barra lateral do otimizador em telas menores
+  XL: "Padrão: Minimizar se a maioria da barra lateral estiver escondida"
+  XXL: Minimizar se qualquer parte da barra lateral estiver escondida
+  NoShow: Sempre manter a barra lateral na direita
+RelicPotentialLoadBehaviour:
+  Label: Pontuação potencial das relíquias ao carregar
+  OnStartup: "Padrão: Automaticamente pontuar relíquias ao carregar página"
+  Manual: Somente pontuar relíquias quando "Reaplicar pontuação" é clicado (página carrega mais rápido)

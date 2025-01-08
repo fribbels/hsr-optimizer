@@ -1,0 +1,14 @@
+Title: Paramètres
+RelicEquippingBehaviour:
+  Label: Équiper les reliques d'un autre personnage
+  Replace: "Par défaut: Remplacer les reliques sans échanger"
+  Swap: Échanger les reliques avec l'ancien propriétaire
+PermutationSidebarBehaviour:
+  Label: Réduire le volet d'optimiseur sur les petits écrans
+  XL: "Par défaut: réduire si la majorité du volet est caché"
+  XXL: Réduire dès que le volet est caché
+  NoShow: Toujours garder le volet à la droite
+RelicPotentialLoadBehaviour:
+  Label: Appréciation des reliques lorsque la page charge
+  OnStartup: "Par défaut: Apprécier les reliques dès que la page charge"
+  Manual: Apprécier les reliques uniquement lorsque "Réapprécier les notes" est cliqué (chargement de page plus rapide)

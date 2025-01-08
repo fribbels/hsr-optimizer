@@ -1,0 +1,13 @@
+CharacterSelector:
+  Character: Personaggi
+OptimizerOptions:
+  Priority:
+    Header: Priorità
+Sidebar:
+  GPUOptions:
+    EngineSwitchSuccessMsg:
+      CPU: Motore di calcolo impostato su CPU
+      Stable: Motore di calcolo impostato su GPU (Stabile)
+      Experimental: Motore di calcolo impostato su GPU (Sperimentale)
+TeammateCard:
+  TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate

@@ -1,0 +1,130 @@
+ScreenshotMessages:
+  ScreenshotSuccess: 截圖已複製至剪貼簿
+  ScreenshotFailed: 無法將截圖保存到剪貼簿，請嘗試右側的下載按鈕
+  DownloadSuccess: 已下載截圖
+CharacterMenu:
+  ButtonText: 角色選單
+  Character:
+    Label: 角色
+    Options:
+      Add: 新增角色
+      Edit: 編輯角色/光錐
+      Switch: 和另一個角色交換遺器
+      Unequip: 卸下角色遺器
+      Delete: 刪除角色
+  Build:
+    Label: 配裝
+    Options:
+      Save: 保存當前的配裝
+      View: 查看已保存的配裝
+  Scoring:
+    Label: 評分
+    Options:
+      ScoringModal: 評分算法
+  Priority:
+    Label: 優先級
+    Options:
+      SortByScore: 依照評分排序所有角色
+      MoveToTop: 把角色移動到第一位
+SearchPlaceholder: 搜尋
+GridHeaders:
+  Icon: 圖標
+  Priority: 優先級
+  Character: 角色
+Messages:
+  RemoveSuccess: 成功移除角色
+  UnequipSuccess: 成功卸下角色遺器
+  NoSelectedCharacter: 未選擇角色
+  SwitchSuccess: "成功與$t(gameData:Characters.{{charId}}.Name)互換遺器"
+  SortByScoreWarning: 你確定要對所有角色進行排序嗎？ 你將失去你所設定的任何自訂義排序。
+  SaveSuccess: "成功保存配裝: {{name}}"
+  UnequipWarning: "你確定你要卸下$t(gameData:Characters.{{charId}}.Name)的遺器嗎?"
+  DeleteWarning: "你確定你要刪除$t(gameData:Characters.{{charId}}.Name)嗎?"
+CharacterPreview:
+  CustomizationSidebar:
+    Label: 自訂
+    Modes:
+      Auto: 自動
+      Custom: 自訂
+      Standard: 標準
+    PaletteLabel: 頭像色調
+  ArtBy: "{{artistName}}的作品"
+  EditCharacter: 編輯角色
+  EditPortrait: 編輯角色圖像
+  CharacterScore: "角色評分: {{score}} {{grade}}"
+  Messages:
+    AddedRelic: 成功添加遺器
+    SavedPortrait: 成功保存角色圖像
+    RevertedPortrait: 成功還原角色圖像
+    NoSelectedCharacter: 未選擇角色
+  ScoreHeader:
+    Title: 戰鬥模擬
+    Score: "DPS評分 {{score}}% {{grade}}"
+  AlgorithmSlider:
+    Title: "評分算法"
+    Labels:
+      CombatScore: 戰鬥評分
+      StatScore: 屬性評分
+  DetailsSlider:
+    Title: "戰鬥評分詳情:"
+    Labels:
+      CombatStats: 戰鬥屬性
+      DMGUpgrades: 傷害升級
+  DMGUpgrades: 傷害升級
+  SubstatUpgradeComparisons:
+    Header: 副詞條升級比較
+    Roll: 升級次數
+    Damage: 傷害
+  BuildAnalysis:
+    Header: 角色配裝分析
+    SimulationTeammates: 模擬隊友
+    SimulationSets: 模擬套裝
+    Rotation:
+      Header: 連招傷害循環
+      BASIC: 普攻
+      SKILL: 戰技
+      ULT: 終結技
+      FUA: 追加攻擊
+      MEMO_SKILL: 憶靈戰技
+      DOTS: "持續傷害次數"
+      BREAKS: "擊破次數"
+    CombatResults:
+      Header: 戰鬥傷害結果
+      Primary: "主要傷害"
+      Character: "角色傷害"
+      Benchmark: "基準傷害"
+      Baseline: "基礎傷害"
+      Maximum: "最高傷害"
+      Score: "DPS評分%:"
+      Abilities:
+        BASIC: 普攻傷害
+        SKILL: 戰技傷害
+        ULT: 終結技傷害
+        FUA: 追加攻擊傷害
+        DOT: 持續傷害
+        BREAK: 擊破傷害
+        COMBO: 連招傷害
+  ScoringColumn:
+    Character:
+      Header: "角色配裝 ({{score}}%)"
+      BasicStats: 角色基礎屬性
+      CombatStats: 角色<1>戰鬥屬性</1>
+      Substats: 角色遺器副詞條 (最少升級次數)
+      Mainstats: 角色遺器主詞條
+      Abilities: 角色技能傷害
+    Benchmark:
+      Header: "基準配裝 ({{score}}%)"
+      BasicStats: 100% 基準基礎屬性
+      CombatStats: 100% 基準<1>戰鬥屬性</1>
+      Substats: 100% 基準副詞條 (最少升級次數)
+      Mainstats: 100% 基準主詞條
+      Abilities: 100% 基準技能傷害
+    Perfect:
+      Header: "完美配装 ({{score}}%)"
+      BasicStats: 200% 完美基礎屬性
+      CombatStats: 200% 完美<1>戰鬥屬性</1>
+      Substats: 200% 完美副詞條 (最大升級次數)
+      Mainstats: 200% 完美主詞條
+      Abilities: 200% 完美技能傷害
+  ScoringDetails:
+    Header: DPS評分是如何計算的?

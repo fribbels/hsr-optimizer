@@ -1,5 +1,7 @@
+import { baseComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { Sets } from 'lib/constants/constants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
@@ -18,8 +20,7 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
   debugPinOptimizerWebgpuArray(array)
 }
 
-export function debugExportWebgpuResult(array: Float32Array) {
-  return {
+/*
     ED: array[22],
     BASIC: array[69],
     SKILL: array[70],
@@ -43,6 +44,68 @@ export function debugExportWebgpuResult(array: Float32Array) {
     xERR: array[13],
     xOHB: array[14],
     xELEMENTAL_DMG: array[22],
+ */
+
+export function debugExportWebgpuResult(array: Float32Array) {
+  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const m = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const len = Object.keys(baseComputedStatsObject).length
+  const setsLen = Object.keys(Sets).length
+  x.setPrecompute(array.slice(0, len))
+  m.setPrecompute(array.slice(len + setsLen, len * 2 + setsLen))
+
+  console.log(x)
+  console.log(m)
+  return {
+    ED: x.$ELEMENTAL_DMG,
+    BASIC: x.$BASIC_DMG,
+    SKILL: x.$SKILL_DMG,
+    ULT: x.$ULT_DMG,
+    FUA: x.$FUA_DMG,
+    MEMO_SKILL: x.$MEMO_SKILL_DMG,
+    DOT: x.$DOT_DMG,
+    BREAK: x.$BREAK_DMG,
+    COMBO: x.$COMBO_DMG,
+    EHP: x.$EHP,
+    HEAL: x.$HEAL_VALUE,
+    SHIELD: x.$SHIELD_VALUE,
+    xHP: x.$HP,
+    xATK: x.$ATK,
+    xDEF: x.$DEF,
+    xSPD: x.$SPD,
+    xCR: x.$CR,
+    xCD: x.$CD,
+    xEHR: x.$EHR,
+    xRES: x.$RES,
+    xBE: x.$BE,
+    xERR: x.$ERR,
+    xOHB: x.$OHB,
+    xELEMENTAL_DMG: x.$ELEMENTAL_DMG,
+    // mHP: x.y,
+    // mATK: x.y,
+    // mDEF: x.y,
+    // mSPD: x.y,
+    // mCR: x.y,
+    // mCD: x.y,
+    // mEHR: x.y,
+    // mRES: x.y,
+    // mBE: x.y,
+    // mERR: x.y,
+    // mOHB: x.y,
+    // mELEMENTAL_DMG: x.y,
+    mxHP: m.$HP,
+    mxATK: m.$ATK,
+    mxDEF: m.$DEF,
+    mxSPD: m.$SPD,
+    mxCR: m.$CR,
+    mxCD: m.$CD,
+    mxEHR: m.$EHR,
+    mxRES: m.$RES,
+    mxBE: m.$BE,
+    mxERR: m.$ERR,
+    mxOHB: m.$OHB,
+    mxELEMENTAL_DMG: m.$ELEMENTAL_DMG,
+    mxEHP: m.$EHP,
   }
 }
 

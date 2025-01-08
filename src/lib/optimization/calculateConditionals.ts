@@ -3,6 +3,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -45,10 +46,12 @@ export function registerTeammateConditionals(
 }
 
 export function wrapTeammateDynamicConditional(dynamicConditional: DynamicConditional, index: number) {
-  return {
+  const wrapped = {
     ...dynamicConditional,
     teammateIndex: index,
   }
+  wrapped.id += TsUtils.uuidAlphaOnly()
+  return wrapped
 }
 
 export type ConditionalRegistry = {

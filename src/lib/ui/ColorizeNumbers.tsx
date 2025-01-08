@@ -3,12 +3,12 @@ import { ReactElement } from 'react'
 // Colorizes numbers in a string with JSX elements
 const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
   const ret: ReactElement[] = []
-  let num = ''
-  let isNum = false
   let key = 0
 
   if (text) {
     text.split('::BR::').forEach((item) => {
+      let num = ''
+      let isNum = false
       if (ret.length > 0) {
         ret.push(<br key={key++}/>)
         ret.push(<br key={key++}/>)
@@ -36,7 +36,6 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
       if (isNum) {
         ret.push(<span key={key++} style={{ color: color }}>{num}</span>)
       }
-      isNum = false
     })
   }
 

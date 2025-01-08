@@ -1,4 +1,4 @@
-import { FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
@@ -32,8 +32,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, FUA_TYPE, sValues[s], Source.NONE)
-      buffAbilityDmg(x, FUA_TYPE, (r.enemyHp50FuaBuff) ? sValues[s] : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, sValues[s], Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (r.enemyHp50FuaBuff) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

@@ -1,5 +1,5 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex } from 'lib/constants/constants'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
@@ -31,7 +31,8 @@ export function calculateBuild(
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
-  internal: boolean = false) {
+  internal: boolean = false,
+  forcedBasicSpd: number = 0) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -70,35 +71,50 @@ export function calculateBuild(
     ornamentSetIndex: ornamentSetIndex,
   } as BasicStatsObject
 
-  const x = cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false) as ComputedStatsArray
-  x.setBasic(c)
+  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
+  const m = x.m
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
 
+  if (forcedBasicSpd) {
+    // Special scoring use case where basic spd stat needs to be enforced
+    c[Stats.SPD] = forcedBasicSpd
+  }
+
+  x.setBasic(c)
+  if (x.m) {
+    m.setBasic({ ...c })
+  }
+
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
+    const a = x.a
     x.setPrecompute(action.precomputedX.a)
+    m.setPrecompute(action.precomputedM.a)
 
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
+
     calculateDamage(x, action, context)
 
     if (action.actionType === 'BASIC') {
-      combo += x.get(Key.BASIC_DMG)
+      combo += a[Key.BASIC_DMG]
     } else if (action.actionType === 'SKILL') {
-      combo += x.get(Key.SKILL_DMG)
+      combo += a[Key.SKILL_DMG]
     } else if (action.actionType === 'ULT') {
-      combo += x.get(Key.ULT_DMG)
+      combo += a[Key.ULT_DMG]
     } else if (action.actionType === 'FUA') {
-      combo += x.get(Key.FUA_DMG)
+      combo += a[Key.FUA_DMG]
+    } else if (action.actionType === 'MEMO_SKILL') {
+      combo += a[Key.MEMO_SKILL_DMG]
     }
 
     if (i === 0) {
-      combo += context.comboDot * x.get(Key.DOT_DMG) + context.comboBreak * x.get(Key.BREAK_DMG)
+      combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
       x.COMBO_DMG.set(combo, Source.NONE)
     }
   }

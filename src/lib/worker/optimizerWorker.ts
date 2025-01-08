@@ -61,6 +61,8 @@ self.onmessage = function (e: MessageEvent) {
 
   const combatDisplay = request.statDisplay == 'combat'
   const baseDisplay = !combatDisplay
+  const memoDisplay = request.memoDisplay == 'memo'
+  const summonerDisplay = !memoDisplay
   let passCount = 0
 
   isFirefox = data.isFirefox
@@ -69,7 +71,7 @@ self.onmessage = function (e: MessageEvent) {
     failsBasicThresholdFilter,
     failsCombatThresholdFilter,
     // @ts-ignore
-  } = generateResultMinFilter(request, combatDisplay)
+  } = generateResultMinFilter(request, combatDisplay, memoDisplay)
 
   for (const action of context.actions) {
     calculateContextConditionalRegistry(action, context)
@@ -98,12 +100,13 @@ self.onmessage = function (e: MessageEvent) {
 
     // Reconstruct arrays after transfer
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
-    action.precomputedX.precomputedStatsArray = new Float32Array(Object.values(action.precomputedX.precomputedStatsArray))
+    action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  const m = x.m
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
@@ -130,12 +133,12 @@ self.onmessage = function (e: MessageEvent) {
     const planarSphere = relics.PlanarSphere[p]
     const linkRope = relics.LinkRope[l]
 
-    const setH = RelicSetToIndex[head.set]
-    const setG = RelicSetToIndex[hands.set]
-    const setB = RelicSetToIndex[body.set]
-    const setF = RelicSetToIndex[feet.set]
-    const setP = OrnamentSetToIndex[planarSphere.set]
-    const setL = OrnamentSetToIndex[linkRope.set]
+    const setH = RelicSetToIndex[head.set as SetsRelics]
+    const setG = RelicSetToIndex[hands.set as SetsRelics]
+    const setB = RelicSetToIndex[body.set as SetsRelics]
+    const setF = RelicSetToIndex[feet.set as SetsRelics]
+    const setP = OrnamentSetToIndex[planarSphere.set as SetsOrnaments]
+    const setL = OrnamentSetToIndex[linkRope.set as SetsOrnaments]
 
     const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
     const ornamentSetIndex = setP + setL * ornamentSetCount
@@ -158,9 +161,12 @@ self.onmessage = function (e: MessageEvent) {
     calculateElementalStats(c, context)
 
     x.setBasic(c)
+    if (x.m) {
+      m.setBasic({ ...c })
+    }
 
     // Exit early on base display filters failing
-    if (baseDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
+    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
       continue
     }
 
@@ -169,9 +175,11 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const a = x.a
       x.setPrecompute(action.precomputedX.a)
+      m.setPrecompute(action.precomputedM.a)
 
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
+
       calculateDamage(x, action, context)
 
       if (action.actionType === 'BASIC') {
@@ -182,6 +190,8 @@ self.onmessage = function (e: MessageEvent) {
         combo += a[Key.ULT_DMG]
       } else if (action.actionType === 'FUA') {
         combo += a[Key.FUA_DMG]
+      } else if (action.actionType === 'MEMO_SKILL') {
+        combo += a[Key.MEMO_SKILL_DMG]
       }
 
       if (i === 0) {
@@ -191,12 +201,19 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     // Combat / rating filters
-    const a = x.a
-    if (combatDisplay && (failsCombatThresholdFilter(a) || failsCombatStatsFilter(a))) {
+    if (baseDisplay && memoDisplay && (failsBasicThresholdFilter(x.m.c) || failsBasicStatsFilter(x.m.c))) {
       continue
     }
-
-    if (failsRatingStatsFilter(a)) {
+    if (combatDisplay && summonerDisplay && (failsCombatThresholdFilter(x.a) || failsCombatStatsFilter(x.a))) {
+      continue
+    }
+    if (combatDisplay && memoDisplay && (failsCombatThresholdFilter(x.m.a) || failsCombatStatsFilter(x.m.a))) {
+      continue
+    }
+    if (summonerDisplay && failsRatingStatsFilter(x.a)) {
+      continue
+    }
+    if (memoDisplay && failsRatingStatsFilter(x.m.a)) {
       continue
     }
 
@@ -265,6 +282,7 @@ function ratingStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.SKILL_DMG, request.minSkill, request.maxSkill)
   addConditionIfNeeded(conditions, Key.ULT_DMG, request.minUlt, request.maxUlt)
   addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
+  addConditionIfNeeded(conditions, Key.MEMO_SKILL_DMG, request.minMemoSkill, request.maxMemoSkill)
   addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
   addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
   addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)
@@ -312,14 +330,11 @@ function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) 
     setConditionals: originalAction.setConditionals,
     conditionalRegistry: originalAction.conditionalRegistry,
     actionType: originalAction.actionType,
+    actionIndex: originalAction.actionIndex,
     precomputedX: originalAction.precomputedX,
+    precomputedM: originalAction.precomputedM,
     conditionalState: {},
   } as OptimizerAction
 
   return action
-}
-
-function cloneX(originalAction: OptimizerAction) {
-  const x = originalAction.precomputedX
-  return isFirefox ? Object.assign({}, x) : { ...x }
 }

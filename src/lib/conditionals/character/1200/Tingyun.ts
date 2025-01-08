@@ -1,4 +1,4 @@
-import { BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -107,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       // Boost
-      buffAbilityDmg(x, BASIC_TYPE, 0.40, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE, 0.40, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
@@ -116,14 +116,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buff((e >= 1 && m.ultSpdBuff) ? 0.20 : 0, Source.NONE)
+      x.SPD_P.buff((e >= 1 && m.ultSpdBuff) ? 0.20 : 0, Source.NONE) // TODO: MEMO
 
-      x.ELEMENTAL_DMG.buff((m.ultDmgBuff) ? ultDmgBoost : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((m.ultDmgBuff) ? ultDmgBoost : 0, Source.NONE) // TODO: MEMO
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buff((t.benedictionBuff) ? t.teammateAtkBuffValue : 0, Source.NONE)
+      x.ATK_P.buff((t.benedictionBuff) ? t.teammateAtkBuffValue : 0, Source.NONE) // TODO: MEMO
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -202,7 +202,7 @@ var stateBuffATK: f32 = ${skillAtkBoostMax} * stateValue;
 let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
 (*p_x).RATIO_BASED_ATK_BUFF += finalBuffAtk;
 
-buffNonRatioDynamicATK(finalBuffAtk, p_x, p_state);
+buffNonRatioDynamicATK(finalBuffAtk, p_x, p_m, p_state);
     `)
         },
       },

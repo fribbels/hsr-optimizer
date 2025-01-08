@@ -10,7 +10,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationResult } from 'lib/scoring/characterScorer'
+import { SimulationFlags, SimulationResult } from 'lib/scoring/characterScorer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -267,6 +267,7 @@ export type RunSimulationsParams = {
   speedRollValue: number
   mainStatMultiplier: number
   substatRollsModifier: (num: number, stat: string, relics: { [key: Parts]: Relic }) => number
+  simulationFlags: SimulationFlags
 }
 
 const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
@@ -282,8 +283,10 @@ export function runSimulations(
     speedRollValue: 2.6,
     mainStatMultiplier: 1,
     substatRollsModifier: (num: number) => num,
+    simulationFlags: {} as SimulationFlags,
   }
   const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
+  const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
 
   const simulationResults = []
   for (const sim of simulations) {
@@ -379,9 +382,9 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const { c } = calculateBuild(form, relics, context, cachedComputedStatsArray, true, true)
+    const { c, computedStatsArray } = calculateBuild(form, relics, context, cachedComputedStatsArray, true, true, false, forcedBasicSpd)
 
-    renameFields(c)
+    renameFields(c, computedStatsArray)
     // For optimizer grid syncing with sim table
     c.statSim = {
       key: sim.key,

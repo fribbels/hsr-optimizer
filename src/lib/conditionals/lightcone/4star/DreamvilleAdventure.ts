@@ -1,6 +1,6 @@
-import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { buffAbilityDmg, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
@@ -13,13 +13,13 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
 
   const defaults = {
-    ultDmgBuff: true,
+    ultDmgBuff: false,
     skillDmgBuff: false,
     basicDmgBuff: false,
   }
 
   const teammateDefaults = {
-    ultDmgBuff: true,
+    ultDmgBuff: false,
     skillDmgBuff: false,
     basicDmgBuff: false,
   }
@@ -64,9 +64,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityDmg(x, BASIC_TYPE, (m.basicDmgBuff) ? sValues[s] : 0, Source.NONE)
-      buffAbilityDmg(x, SKILL_TYPE, (m.skillDmgBuff) ? sValues[s] : 0, Source.NONE)
-      buffAbilityDmg(x, ULT_TYPE, (m.ultDmgBuff) ? sValues[s] : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE, (m.basicDmgBuff) ? sValues[s] : 0, Source.NONE, Target.TEAM)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, (m.skillDmgBuff) ? sValues[s] : 0, Source.NONE, Target.TEAM)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (m.ultDmgBuff) ? sValues[s] : 0, Source.NONE, Target.TEAM)
     },
     finalizeCalculations: () => {
     },

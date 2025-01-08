@@ -1,4 +1,4 @@
-import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -29,15 +29,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
       ],
       fullWidth: true,
     },
   }
 
   const defaults = {
-    healAbility: ULT_TYPE,
+    healAbility: ULT_DMG_TYPE,
   }
 
   return {
@@ -52,20 +52,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
-      if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+      if (r.healAbility == SKILL_DMG_TYPE) {
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
-      if (r.healAbility == ULT_TYPE) {
-        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+      if (r.healAbility == ULT_DMG_TYPE) {
+        x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
       }
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)

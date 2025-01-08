@@ -107,7 +107,54 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
-      date: '11-27-2024',
+      date: '2025-01-07',
+      content: [
+        `Added a no-scoring showcase card view`,
+        `noScore.webp`,
+        `Added dark mode for showcase card colors`,
+        `Adjusted showcase card colors for various characters`,
+        `dark.webp`,
+        `Content has been updated for version 3.0`,
+        `Added Memosprite handling logic for remembrance characters`,
+        `Optimizer sidebar now has a Summoner / Memosprite stats view selector which changes the optimizer stat targets, similar to Combat / Basic mode`,
+        `memoView.webp`,
+        `On the optimizer grid, columns for Memosprite stats are now denoted in superscript such as Σ ATKᴹ`,
+        `Added a new ability damage column for Memosprite skills: SKILLᴹ DMG`,
+        `memoSkill.webp`,
+        `The Combo DMG ability rotation panel is updated to include SKILLᴹ DMG`,
+        `memoCombo.webp`,
+        `Aglaea DPS scoring is now active, defaulting to Hero of Triumphant Song + The Wondrous BananAmusement Park sets`,
+        `aglaea.webp`,
+        `Remembrance Trailblazer True DMG scoring conditionals are now active`,
+        `rmc.webp`,
+        `Single target buffs are assumed to apply to the summoner, certain Sunday buffs / RMC buffs / team buffs can apply to both summoner and memo`,
+        `Hero of Triumphant Song and Poet of Mourning Collapse sets are now active`,
+        `heroPoet.webp`,
+        `Added rerun characters to showcase presets`,
+        `rerun.webp`,
+        `Added support for Japanese translations in the i18n menu`,
+        `jp.webp`,
+        `Imported characters' light cones are now preselected on character / teammate menus`,
+        `Updated menu banner to identify no leaks / beta sites`,
+        `Fix: Showcase Damage Improvements tab now shows Elemental + Ability DMG as "DMG %" to not overflow space`,
+        `Fix: The 100% benchmark for DPS scoring will now exactly match the user's SPD stat (except for Poet of Mourning Collapse sets)`,
+        `Balance: Added diminishing returns for 100% benchmark with high SPD, for characters like Kafka`,
+        `Balance: Simulated 200% benchmark will now select the optimal boots main stat between ATK / SPD, previously it always matched the 100% benchmark's boots`,
+        `Balance: Benchmarks with the Poet of Mourning Collapse set will now match the set's SPD threshold at 110 or 95 SPD, instead of matching the user's SPD`,
+        `Balance: The Wondrous BananAmusement Park set is now matched for summoner benchmarks`,
+        `Balance: Updated some outdated characters' relic / ornament benchmark sets for combat score`,
+        `Balance: 4 star relics are now rated as "?"`,
+        `Balance: Scoring changes for version 3.0 dice and resin`,
+        `— Previously, main stats were given between 1 to 2 free substats worth of score to balance for rarity / difficulty of obtaining optimal the main stat`,
+        `— This was balanced for version 1.x but now with the addition of reroll dice and substat resin in 3.x, optimal main stats are much easier to obtain`,
+        `— We're adjusting this free score to be worth 1 substat roll for all main stats, which will result in a slight Character / Relic score decrease`,
+        `— For Combat scoring, the scaling thresholds have also been updated for grades above the 100% benchmark to adjust for score inflation from dice / resin`,
+        `score.webp`,
+      ],
+    },
+    {
+      title: '',
+      date: '2024-11-27',
       content: [
         `The optimizer site has a new home page`,
         `home.webp`,
@@ -134,7 +181,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '10-19-2024',
+      date: '2024-10-19',
       content: [
         leaks(`Updated content for version 2.7`),
         leaks(`fugue.webp`),
@@ -159,7 +206,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '09-20-2024',
+      date: '2024-09-20',
       content: [
         `Added a Relic Locator tool to the Relics tab for finding the relic's row / column in the inventory`,
         `locator.webp`,
@@ -183,7 +230,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '09-08-2024',
+      date: '2024-09-08',
       content: [
         `Added GPU acceleration to perform calculations on the graphics card for a significant improvement in optimizer search speed`,
         `Enabling GPU acceleration will improve the optimizer's search speed to hundreds of millions of permutations per second, up to billions on high end devices`,
@@ -300,7 +347,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '08-19-2024',
+      date: '2024-08-19',
       content: [
         `Added a new Combat Stats view for the score card, showing the character's fully buffed in-combat details`,
         `combat.webp`,
@@ -330,7 +377,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '08-10-2024',
+      date: '2024-08-10',
       content: [
         `Added Healing Boost and Energy Regen on the character score card`,
         `Removed CV from the stat card`,
@@ -360,7 +407,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '07-08-2024',
+      date: '2024-07-08',
       content: [
         `Buffed DPS scores across all characters, making the 100% benchmark slightly easier to reach`,
         `benchmark.webp`,
@@ -392,7 +439,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '06-18-2024',
+      date: '2024-06-18',
       content: [
         'Added 2.4 characters and light cones',
         'beta.webp',
@@ -429,7 +476,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '06-06-2024',
+      date: '2024-06-06',
       content: [
         'Improved relic edit menu UI, with automatic substat upgrade calculations',
         'relicModal.webp',
@@ -463,7 +510,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '05-22-2024',
+      date: '2024-05-22',
       content: [
         'Updated with new character card layout',
         'Added damage simulation based character scoring',
@@ -508,7 +555,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '05-07-2024',
+      date: '2024-05-07',
       content: [
         'Added a new "Character custom stats simulation" feature',
         'This allows for simulating and comparing multiple character builds with custom main stats / teammates / sets / substats without having to edit relics',
@@ -553,7 +600,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '04-18-2024',
+      date: '2024-04-18',
       content: [
         'Launched a new leak-free version of the optimizer which has no leaks and only contains officially released content',
         'https://starrailoptimizer.github.io',
@@ -595,7 +642,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '04-04-2024',
+      date: '2024-04-04',
       content: [
         'Added Break DMG calculations for all characters and a sortable BREAK column in the optimizer grid',
         'breakDmg.webp',
@@ -638,7 +685,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '03-26-2024',
+      date: '2024-03-26',
       content: [
         'Added custom character portrait images, through the "Edit portrait" menu button on the character preview/relic scorer',
         'sparkle.webp',
@@ -685,7 +732,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '03-12-2024',
+      date: '2024-03-12',
       content: [
         'Added a new visual character selector menu with search and filters',
         'charSelect.webp',
@@ -709,7 +756,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '02-28-2024',
+      date: '2024-02-28',
       content: [
         'Enabled up/down arrow key navigation for grids',
         'Updated the selected row overlay to be more visible',
@@ -734,7 +781,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '02-20-2024',
+      date: '2024-02-20',
       content: [
         'Added: Acheron / Aventurine / Gallagher',
         'newChars.webp',
@@ -758,7 +805,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '02-05-2024',
+      date: '2024-02-05',
       content: [
         'Added \'Recommended Presets\' button to fill out the optimizer with some suggested values',
         'presets.webp',
@@ -781,7 +828,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '01-22-2024',
+      date: '2024-01-22',
       content: [
         'Black Swan / Sparkle / Misha added with dmg calcs and their signature light cones',
         'newChars.webp',
@@ -795,7 +842,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '01-13-2024',
+      date: '2024-01-13',
       content: [
         'Big update to the relics tab, including filters and a relic recommendation tool',
         'The recommendation tool scores each relic by its potential at +15 to help with picking which unenhanced relics to roll while building characters',
@@ -806,7 +853,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '01-06-2024',
+      date: '2024-01-06',
       content: [
         'Accurate damage calculations for every character, and new optimization columns for average Basic / Skill / Ult / Follow-up / DoT damage',
         'calcs.webp',

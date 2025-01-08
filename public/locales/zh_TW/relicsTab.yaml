@@ -1,0 +1,14 @@
+RelicFilterBar:
+  ScoringButton: 評分算法
+Messages:
+  AddRelicSuccess: 成功添加遺器
+  DeleteRelicSuccess: 成功刪除遺器
+RelicGrid:
+  Headers:
+    HPP: 生命值 %
+    ATKP: 攻擊力 %
+    DEFP: 防禦力 %
+    HP: 生命值
+    ATK: 攻擊力
+    DEF: 防禦力
+    SPD: 速度

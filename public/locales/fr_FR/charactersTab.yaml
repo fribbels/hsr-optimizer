@@ -1,0 +1,132 @@
+ScreenshotMessages:
+  ScreenshotSuccess: Capture d'écran copiée dans le presse-papiers
+  ScreenshotFailed: Impossible d'enregistrer la capture d'écran dans le presse-papiers, essayez le bouton de téléchargement à droite
+  DownloadSuccess: Capture d'écran téléchargée
+CharacterMenu:
+  ButtonText: Menu de personnage
+  Character:
+    Label: Personnage
+    Options:
+      Add: Ajouter un nouveau personnage
+      Edit: Modifier le personnage / cône de lumière
+      Switch: Échanger de reliques avec
+      Unequip: Déséquiper le personnage
+      Delete: Supprimer le personnage
+  Build:
+    Label: Builds
+    Options:
+      Save: Enregistrer build actuel
+      View: Voir builds enregistrés
+  Scoring:
+    Label: Appréciation
+    Options:
+      ScoringModal: Algorithme d'appréciation
+  Priority:
+    Label: Priorité
+    Options:
+      SortByScore: Trier tous les personnages par note
+      MoveToTop: Placer le personnage en haut
+SearchPlaceholder: Rechercher
+GridHeaders:
+  Icon: Icône
+  Priority: Priorité
+  Character: Personnage
+Messages:
+  RemoveSuccess: Personnage supprimé avec succès
+  UnequipSuccess: Personnage déséquipé avec succès
+  NoSelectedCharacter: Aucun personnage sélectionné
+  SwitchSuccess: "Échange de reliques avec $t(gameData:Characters.{{charId}}.Name) réussi"
+  SortByScoreWarning: Êtes-vous sûr de vouloir trier tous les personnages ? Vous perdrez tous les classements personnalisés que vous avez définis.
+  SaveSuccess: "Arsenal {{name}} enregistré avec succès"
+  UnequipWarning: "Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?"
+CharacterPreview:
+  CustomizationSidebar:
+    Label: Customisation
+    Modes:
+      Auto: Auto
+      Custom: Custom
+      Standard: Standard
+    PaletteLabel: Palette de couleurs de portrait
+  ArtBy: "Art réalisé par {{artistName}}"
+  EditCharacter: Modifier le personnage
+  EditPortrait: Modifier le portrait
+  CharacterScore: "Note de Pers.: {{score}} {{grade}}"
+  Messages:
+    AddedRelic: Relique ajoutée avec succès
+    SavedPortrait: Portrait enregistré avec succès
+    RevertedPortrait: Portrait restauré avec succès
+    NoSelectedCharacter: Aucun personnage sélectionné
+  ScoreHeader:
+    Title: Sim de combat
+    Score: "Note DPS {{score}}% {{grade}}"
+  AlgorithmSlider:
+    Title: "Mode d'évaluation:"
+    Labels:
+      CombatScore: Note de Combat
+      CombatScoreTBD: Combat (TBD)
+      StatScore: Note de Stat
+      NoneScore: Aucun
+  DetailsSlider:
+    Title: "Détails de combat:"
+    Labels:
+      CombatStats: Stats de Combat
+      DMGUpgrades: Améliorations Dégâts
+  DMGUpgrades: Améliorations des Dégâts
+  SubstatUpgradeComparisons:
+    Header: Comparaisons d'améliorations de substats
+    Roll: roll
+    Damage: Dégâts
+  BuildAnalysis:
+    Header: Analyse de build du personnage
+    SimulationTeammates: Coéquipiers de simulation
+    SimulationSets: Set de simulation
+    Rotation:
+      Header: Rotation des dégâts de combo
+      BASIC: NORMALE
+      SKILL: COMPÉTENCE
+      ULT: ULT
+      FUA: ADS
+      MEMO_SKILL: COMPᴹ
+      DOTS: "DSD:"
+      BREAKS: "RUPTURES:"
+    CombatResults:
+      Header: Résultats des dégâts de combat
+      Primary: "Capacité principale:"
+      Character: "DGT du personnage:"
+      Benchmark: "DGT de référence:"
+      Baseline: "DGT de ligne de base:"
+      Maximum: "DGT maximum:"
+      Score: "Note DPS %:"
+      Abilities:
+        BASIC: NORMALE
+        SKILL: COMPÉTENCE
+        ULT: ULT
+        FUA: ADS
+        DOT: DSD
+        BREAK: RUPTURE
+        COMBO: COMBO
+  ScoringColumn:
+    Character:
+      Header: "Build personnage ({{score}}%)"
+      BasicStats: Stats basiques du personnage
+      CombatStats: <1>stats de combat</1> du personnage
+      Substats: Substats du personnage (min rolls)
+      Mainstats: Mainstats du personnage
+      Abilities: Dégâts des capacités du personnage
+    Benchmark:
+      Header: "Build référence ({{score}}%)"
+      BasicStats: Stats basiques de référence
+      CombatStats: <1>stats de combat</1> de référence
+      Substats: Substats de référence 100% (min rolls)
+      Mainstats: Mainstats de référence
+      Abilities: Dégâts de capacités de référence
+    Perfect:
+      Header: "Build parfaite ({{score}}%)"
+      BasicStats: Stats basiques parfaites
+      CombatStats: <1>stats de combat</1> parfaites
+      Substats: Substats parfaites 200% (max rolls)
+      Mainstats: Mainstats parfaites
+      Abilities: Dégâts de capacités parfaits
+  ScoringDetails:
+    Header: Comment est calculée la note de DPS?

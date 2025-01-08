@@ -1,0 +1,348 @@
+CharacterSelector:
+  Character: Nhân vật
+  Lightcone: Nón Ánh Sáng
+  Presets: Mẫu thiết lặp
+  Target: Mục tiêu tối ưu hóa
+  ResultsPlaceholder: Tìm kết quả tốt nhất
+  TargetPlaceholder: 'Sắp xếp theo:'
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
+LightconePassives: Kỹ Năng Nón Ánh Sáng
+CharacterPassives: Nội tại nhân vật
+NoConditionals: Không có nội tại được kích hoạt theo điều kiện.
+NoTeamConditionals: Không có nội tại của đội được kích hoạt theo điều kiện.
+ResultLimitN: "Tìm {{limit}} kết quả hàng đầu."
+MainStats: Dòng Chính
+Sets: Bộ
+RelicSetSelector:
+  Placeholder: Bộ di vật
+  4pcLabel: Bộ 4
+  2+2pcLabel: Bộ 2 + 2
+  2pcLabel: Bộ 2 + bất kỳ
+OrnamentSetSelector:
+  Placeholder: Bộ Phụ Kiện Vị Diện
+SortOptions:
+  DMGLabel: Tính Sát Thương
+  StatLabel: Chỉ số
+  COMBO: Sắp xếp theo ST Combo
+  BASIC: Sắp xếp theo ST đánh thường
+  SKILL: Sắp xếp theo ST Chiến Kỹ
+  ULT: Sắp xếp theo ST Tuyệt Kỹ
+  FUA: Sắp xếp theo ST Đòn đánh theo sau
+  DOT: Sắp xếp theo ST theo thời gian
+  BREAK: Sắp xếp theo ST Phá vỡ
+  HEAL: Sắp xếp theo trị liệu
+  SHIELD: Sắp xếp theo lượng lá chắn
+  HP: "Sắp xếp theo $t(common:ReadableStats.HP)"
+  ATK: "Sắp xếp theo $t(common:ReadableStats.ATK)"
+  DEF: "Sắp xếp theo $t(common:ReadableStats.DEF)"
+  SPD: "Sắp xếp theo $t(common:ReadableStats.SPD)"
+  CR: "Sắp xếp theo $t(common:ReadableStats.CRIT Rate)"
+  CD: "Sắp xếp theo $t(common:ReadableStats.CRIT DMG)"
+  EHR: "Sắp xếp theo $t(common:ReadableStats.Effect Hit Rate)"
+  RES: "Sắp xếp theo $t(common:ReadableStats.Effect RES)"
+  BE: "Sắp xếp theo $t(common:ReadableStats.Break Effect)"
+  OHB: "Sắp xếp theo $t(common:ReadableStats.Outgoing Healing Boost)"
+  ERR: "Sắp xếp theo $t(common:ReadableStats.Energy Regeneration Rate)"
+  DMG: Sắp xếp theo ST thuộc tính
+  EHP: Sắp xếp theo máu hiệu quả
+OptimizerOptions:
+  Header: Tùy chọn tối ưu hóa
+  PriorityFilter: Bộ lọc ưu tiên nhân vật.
+  Priority:
+    Header: Ưu tiên
+    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
+    Name: "# {{rank}}"
+  AllowEquipped: Cho phép sử dụng di vật đang được mặc
+  KeepCurrent: Giữ di vật hiện tại
+  Exclude: Trừ đi
+  MinEnhance:
+    Header: Cường hóa nhỏ nhất
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+  MinRarity:
+    Header: Độ hiếm nhỏ nhất
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4 ★ +
+    Label5: 5 ★
+  BoostMain:
+    Header: Tăng chỉ số chính
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+AdvancedOptions:
+  Header: Tùy chọn nâng cao
+  EnemyConfigButtonText: Tùy chọn quái địch
+  CombatBuffsButtonTextNone: Buff trong combat thêm
+  CombatBuffsButtonText: "Buff trong combat thêm ({{activeCount}})"
+Grid:
+  To: tới
+  Of: của
+  Page: Trang
+  PageSelectorLabel: "Kích thước trang:"
+  Headers:
+    Basic:
+      Set: Bộ
+      ATK: Tấn Công
+      DEF: Phòng Thủ
+      HP: HP
+      SPD: Tốc Độ
+      CR: CR
+      CD: CD
+      EHR: EHR
+      RES: RES
+      BE: BE
+      OHB: OHB
+      ERR: ERR
+      DMG: ST
+      EHP: EHP
+      WEIGHT: |-
+        STAT
+        WEIGHT
+      HEAL: "TRỊ\nLIỆU"
+      SHIELD: LÁ CHẮN
+      BASIC: |-
+        ST
+        ĐÁNH THƯỜNG
+      SKILL: |-
+        ST
+        CHIẾN KỸ
+      ULT: |-
+        ST
+        TUYỆT KỸ
+      FUA: |-
+        ĐÒN ĐÁNH
+        THEO SAU
+      DOT: |-
+        ST
+        DUY TRÌ
+      BREAK: |-
+        ST
+        PHÁ VỠ
+      COMBO: |-
+        ST
+        COMBO
+    Combat:
+      Set: Bộ
+      ATK: Σ ATK
+      DEF: Σ DEF
+      HP: Σ HP
+      SPD: Σ SPD
+      CR: Σ CR
+      CD: Σ CD
+      EHR: Σ EHR
+      RES: Σ RES
+      BE: Σ BE
+      OHB: Σ OHB
+      ERR: Σ ERR
+      DMG: Σ DMG
+      EHP: EHP
+      WEIGHT: |-
+        ĐỘ TRỌNG
+        CHỈ SỐ
+      HEAL: TRỊ LIỆU
+      SHIELD: LÁ CHẮN
+      BASIC: |-
+        ST
+        ĐÁNH THƯỜNG
+      SKILL: |-
+        ST
+        CHIẾN KỸ
+      ULT: |-
+        ST
+        TUYỆT KỸ
+      FUA: |-
+        ĐÒN ĐÁNH
+        THEO SAU
+      DOT: |-
+        ST
+        DUY TRÌ
+      BREAK: |-
+        ST
+        PHÁ VỠ
+      COMBO: |-
+        ST
+        COMBO
+Sidebar:
+  GPUOptions:
+    Experimental: Kích hoạt tăng tốc GPU (thử nghiệm)
+    Stable: Kích hoạt tăng tốc GPU (ổn định).
+    CPU: Chỉ CPU
+    EngineSwitchSuccessMsg:
+      CPU: Cơ chế tính toán thay đổi cho CPU
+      Stable: Cơ chế tính toán thay đổi cho CPU (ổn định)
+      Experimental: Cơ chế tính toán thay đổi cho CPU (thử nghiệm)
+    Display:
+      GPU Experimental: "Tăng tốc GPU: Bật"
+      GPU Stable: "Tăng tốc GPU: Bật"
+      CPU: "Tăng tốc GPU: Tắt"
+  Pinning:
+    Messages:
+      NoneSelected: Chưa chọn hàng nào
+      SimSelected: Các hàng chỉ số có mô phỏng không thể được gắn pin
+      AlreadyPinned: Lối lên đồ này đã được pin rồi
+  Permutations: Hoán vị
+  Perms: Khả năng
+  Searched: Đã tìm
+  Results: Kết quả
+  ProgressText:
+    Progress: Tiến trình
+    CalculatingETA: Tiến trình (đang tính thời gian cần thiết)
+    TimeRemaining: "{{rate}} / giây — còn {{timeRemaining}} nữa"
+    Finished: "{{rate}} / giây - Đã Xong"
+  ControlsGroup:
+    Header: Điều khiển
+    Start: Bắt đầu tối ưu hóa
+    ResetConfirm:
+      Title: Đặt lại tất cả bộ lọc?
+      Description: Tất cả các bộ lọc sẽ được đem về giá trị ban đầu
+  StatViewGroup:
+    Header: Xem chỉ số và bộ lọc
+    CombatStats: Chỉ số trong combat
+    BasicStats: Chỉ số cơ bản
+  ResultsGroup:
+    Header: Kết quả
+    Equip: Trang bị
+    Filter: Lọc
+    Pin: Ghim lối lên đồ
+    Clear: Dọn sạch ghim
+TeammateRow:
+  Header: "{{teammateCount}} đồng đội"
+FormRowLabels:
+  Character options: Lựa chọn nhân vật
+  Relic & stat filters: Bộ lọc di vật và chỉ số
+  Teammates: Đồng đội
+  Character custom stats simulation: Mô phỏng chỉ số đồng đội tùy chọn
+SetConditionals:
+  Title: Hiệu ứng bộ có điều kiện
+  DescriptionHeader: Mô tả bộ
+  EffectHeader: Hiệu ứng đã kích hoạt
+  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
+  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
+  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SelectOptions:
+    Streetwise:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% ATK)"
+    Wastelander:
+      Off:
+        Display: "Tắt"
+        Label: "Tắt"
+      Debuffed:
+        Display: CR
+        Label: Dính hiệu ứng xấu (+10% Tỉ Lệ)
+      Imprisoned:
+        Display: TLBK + STBK
+        Label: Giam Cầm (+10% TLBK | +20% STBK)
+    Longevous:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% TLBK)"
+    Ashblazing:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% ATK)"
+    Prisoner:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% Bỏ qua phòng thủ)"
+    Diver:
+      Off:
+        Display: 0x
+        Label: 0 Hiệu ứng xấu (+4% Tỉ Lệ Bạo Kích)
+      1Debuff:
+        Display: 1x
+    Sigonia:
+      Display: "{{stackCount}}x"
+    Duran:
+      Display: "{{stackCount}}x"
+    Sacerdos:
+      Display: "{{stackCount}}x"
+CombatBuffs:
+  ATK: Tấn Công
+  ATK_P: ATK %
+  HP: HP
+  HP_P: HP %
+  DEF: Phòng Thủ
+  DEF_P: DEF %
+  SPD: Tốc Độ
+  SPD_P: SPD %
+  Title: Buff trong combat thêm
+EnemyConfiguration:
+  Title: Tùy chọn quái địch
+WeightFilter:
+  WeightFilterHeader: Bộ lọc trọng thuộc tính phụ.
+  HPFilterText: HP
+  ATKFilterText: Tấn Công
+  DEFFilterText: Phòng Thủ
+  SPDFilterText: Tốc Độ
+  CRFilterText: CR
+  CDFilterText: CD
+  EHRFilterText: EHR
+  RESFilterText: RES
+  BEFilterText: BE
+MinMaxFilters:
+  HPLabel: HP
+  ATKLabel: Tấn Công
+  DEFLabel: Phòng Thủ
+  SPDLabel: Tốc Độ
+  CRLabel: CR
+  CDLabel: CD
+  EHRLabel: EHR
+  RESLabel: RES
+  BELabel: BE
+  ERRLabel: ERR
+  EHPLabel: EHP
+  BASICLabel: Đánh Đơn
+  SKILLLabel: Chiến kỹ
+  ULTLabel: Tuyệt kỹ
+  FUALabel: Đòn Đánh Theo Sau
+  HEALLabel: "TRỊ\nLIỆU"
+  SHIELDLabel: LÁ CHẮN
+ComboDrawer:
+  NoConditionals: Không có nội tại được kích hoạt theo điều kiện.
+TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  RelicsPlaceholder: Di vật
+  TeammateSets:
+    Messenger:
+      Set: "$t(gameData:RelicSets.114.Name)"
+    Watchmaker:
+      Set: "$t(gameData:RelicSets.118.Name)"
+    Sacerdos1Stack:
+      Set: "$t(gameData:RelicSets.121.Name)"
+    Sacerdos2Stack:
+      Set: "$t(gameData:RelicSets.121.Name)"
+    Keel:
+      Set: "$t(gameData:RelicSets.310.Name)"
+    Ageless:
+      Set: "$t(gameData:RelicSets.302.Name)"
+    Penacony:
+      Set: "$t(gameData:RelicSets.312.Name)"
+    Lushaka:
+      Set: "$t(gameData:RelicSets.317.Name)"
+StatSimulation:
+  SetSelection:
+    Header: Bộ
+    RelicPlaceholder: Bộ di vật
+    OrnamentPlaceholder: Bộ Phụ Kiện Vị Diện
+  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  ModeSelector:
+    Off: "Tắt"
+  FooterLabels:
+    Conditionals: Hiệu ứng bộ có điều kiện
+  MainStatsSelection:
+    Header: Dòng Chính
+    BodyPlaceholder: Thân
+    FeetPlaceholder: Chân
+    SpherePlaceholder: Quả Cầu Vi Diện
+    RopePlaceholder: Dây Liên Kết
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
+    LabelStat: "$t(common:ReadableStats.{{stat}})"

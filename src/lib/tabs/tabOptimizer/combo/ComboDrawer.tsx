@@ -2,7 +2,7 @@ import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { ConditionalDataType, setToId } from 'lib/constants/constants'
+import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
@@ -202,22 +202,22 @@ export const abilitySelectOptions = [
   {
     value: 'BASIC',
     label: 'Basic',
-    display: 'Basic',
   },
   {
     value: 'SKILL',
     label: 'Skill',
-    display: 'Skill',
   },
   {
     value: 'ULT',
     label: 'Ult',
-    display: 'Ult',
   },
   {
     value: 'FUA',
     label: 'Fua',
-    display: 'Fua',
+  },
+  {
+    value: 'MEMO_SKILL',
+    label: 'MemoSkill',
   },
 ] as const
 
@@ -236,8 +236,8 @@ function ComboHeader(props: {
       selectOptions.push(
         {
           value: option.value,
-          label: t(`${option.label}`),
-          display: t(`${option.label}`),
+          label: t(`${option.label}` as never),
+          display: t(`${option.label}` as never),
         },
       )
     }
@@ -485,9 +485,11 @@ function ComboConditionalsGroupRow(props: {
   originKey: string
 }) {
   const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
+  const { t: SetConditionalTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
+
   const setContent = useMemo(() => {
-    return generateSetConditionalContent()
-  }, [])
+    return generateSetConditionalContent(SetConditionalTFunction)
+  }, [SetConditionalTFunction])
 
   const renderData = useMemo(() => {
     if (!props.comboOrigin) {
@@ -512,7 +514,7 @@ function ComboConditionalsGroupRow(props: {
       src = Assets.getLightConeIconById(metadata.lightCone)
       conditionals = comboCharacter.lightConeConditionals
     } else if (props.originKey.includes('comboCharacterRelicSets')) {
-      const setName = props.conditionalType
+      const setName = props.conditionalType as Sets
       const disabled = !ConditionalSetMetadata[setName].modifiable
 
       const category: ComboConditionalCategory = comboCharacter.setConditionals[setName]

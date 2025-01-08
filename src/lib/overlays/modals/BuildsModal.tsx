@@ -2,7 +2,6 @@ import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { Button, Card, Flex, Modal } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import StatText from 'lib/characterPreview/StatText'
 import { Message } from 'lib/interactions/message'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import DB from 'lib/state/db'
@@ -197,18 +196,6 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                   <Flex justify='space-between' gap={8} align='center'>
                     <Flex vertical align='flex-start'>
                       <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600 }}>{build.name}</HeaderText>
-                      <StatText
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 400,
-                          textAlign: 'center',
-                        }}
-                      >
-                        {`${t('common:Score')/* Score */}: ${build.score.score} ${build.score.score == 0
-                          ? ''
-                          : '(' + build.score.rating + ')'
-                        }`}
-                      </StatText>
                     </Flex>
                     <Flex gap={5}>
                       <Button

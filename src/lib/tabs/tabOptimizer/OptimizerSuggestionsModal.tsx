@@ -322,6 +322,8 @@ enum ZeroResultRootCause {
   MAX_ULT = 'MAX_ULT',
   MIN_FUA = 'MIN_FUA',
   MAX_FUA = 'MAX_FUA',
+  MIN_MEMO_SKILL = 'MIN_MEMO_SKILL',
+  MAX_MEMO_SKILL = 'MAX_MEMO_SKILL',
   MIN_DOT = 'MIN_DOT',
   MAX_DOT = 'MAX_DOT',
   MIN_BREAK = 'MIN_BREAK',
@@ -444,6 +446,8 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.maxUlt < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_ULT)
   if (request.minFua) rootCauses.push(ZeroResultRootCause.MIN_FUA)
   if (request.maxFua < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_FUA)
+  if (request.minMemoSkill) rootCauses.push(ZeroResultRootCause.MIN_MEMO_SKILL)
+  if (request.maxMemoSkill < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_MEMO_SKILL)
   if (request.minDot) rootCauses.push(ZeroResultRootCause.MIN_DOT)
   if (request.maxDot < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_DOT)
   if (request.minBreak) rootCauses.push(ZeroResultRootCause.MIN_BREAK)

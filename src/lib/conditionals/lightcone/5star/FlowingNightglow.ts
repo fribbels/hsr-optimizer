@@ -60,7 +60,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buff((t.cadenzaActive) ? sValuesDmgBuff[s] : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((t.cadenzaActive) ? sValuesDmgBuff[s] : 0, Source.NONE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>

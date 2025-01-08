@@ -1,4 +1,4 @@
-import { FUA_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -44,19 +44,19 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDefPen(x, ULT_TYPE | FUA_TYPE, (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0, Source.NONE)
+      buffAbilityDefPen(x, ULT_DMG_TYPE | FUA_DMG_TYPE, (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, FUA_TYPE, (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.min(4, Math.floor(x.a[Key.CD] - 1.20) / 0.20) : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.min(4, Math.floor(x.a[Key.CD] - 1.20) / 0.20) : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       return `
 if (${wgslTrue(r.fuaDmgBoost)}) {
-  buffAbilityDmg(p_x, FUA_TYPE, ${sValuesFuaDmg[s]} * min(4, floor(x.CD - 1.20) / 0.20), 1);
+  buffAbilityDmg(p_x, FUA_DMG_TYPE, ${sValuesFuaDmg[s]} * min(4, floor(x.CD - 1.20) / 0.20), 1);
 }
     `
     },

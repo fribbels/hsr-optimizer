@@ -8,73 +8,81 @@ import { initReactI18next } from 'react-i18next'
 window.yaml = yaml
 
 export const languages = {
-  en: {
-    locale: 'en',
+  en_US: {
+    locale: 'en_US',
     nativeName: 'English',
     shortName: 'English',
   },
-  es: {
-    locale: 'es',
+  es_ES: {
+    locale: 'es_ES',
     nativeName: 'Español',
     shortName: 'Español',
   },
-  fr: {
-    locale: 'fr',
+  fr_FR: {
+    locale: 'fr_FR',
     nativeName: 'Français',
     shortName: 'Français',
   },
-  it: {
-    locale: 'it',
+  it_IT: {
+    locale: 'it_IT',
     nativeName: 'Italiano',
     shortName: 'Italiano',
   },
-  ja: {
-    locale: 'ja',
+  ja_JP: {
+    locale: 'ja_JP',
     nativeName: '日本語',
     shortName: '日本語',
   },
-  ko: {
-    locale: 'ko',
-    nativeName: '한국인',
-    shortName: '한국인',
+  ko_KR: {
+    locale: 'ko_KR',
+    nativeName: '한국어',
+    shortName: '한국어',
   },
-  pt: {
-    locale: 'pt',
-    nativeName: 'Português (BR)',
+  pt_BR: {
+    locale: 'pt_BR',
+    nativeName: 'Português',
     shortName: 'Português',
   },
-  ru: {
-    locale: 'ru',
+  ru_RU: {
+    locale: 'ru_RU',
     nativeName: 'русский',
     shortName: 'русский',
   },
-  vi: {
-    locale: 'vi',
+  vi_VN: {
+    locale: 'vi_VN',
     nativeName: 'tiếng việt',
     shortName: 'tiếng việt',
   },
-  zh: {
-    locale: 'zh',
+  zh_CN: {
+    locale: 'zh_CN',
+    nativeName: '中文',
+    shortName: '中文',
+  },
+  zh_TW: {
+    locale: 'zh_TW',
     nativeName: '中文',
     shortName: '中文',
   },
   /*
-      de: {
-        locale: 'de',
+      de_DE: {
+        locale: 'de_DE',
         nativeName: 'Deutsch',
+        shortName: 'Deutsch',
       },
-      id: {
-        locale: 'id',
+      id_ID: {
+        locale: 'id_ID',
         nativeName: 'Bahasa Indonesia',
+        shortName: 'Bahasa Indonesia',
       },
-      th: {
-        locale: 'th',
+      th_TH: {
+        locale: 'th_TH',
         nativeName: ' ไทย',
+        shortName: ' ไทย',
       },
   */
 } as const
-type Languages = keyof typeof languages
-export const completedLocales: Languages[] = ['en', 'fr', 'pt', 'zh'] as const
+export type Languages = keyof typeof languages
+export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'pt_BR', 'zh_CN'] as const
 
 // @ts-ignore
 export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales
@@ -104,8 +112,8 @@ void i18next
     fallbackNS: ['common', 'gameData'],
     debug: true,
     supportedLngs: supportedLanguages,
-    load: 'languageOnly',
-    fallbackLng: 'en',
+    load: 'currentOnly',
+    fallbackLng: 'en_US',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },

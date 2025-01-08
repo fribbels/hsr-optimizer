@@ -1,0 +1,20 @@
+EditCharacter:
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
+  Character: Nhân vật
+  Lightcone: Nón Ánh Sáng
+Relic:
+  Part: Bộ phận
+  Set: Bộ
+  Substat: Thuộc tính phụ
+ScoreFooter:
+  TeamOptions:
+    Custom: Tự chỉnh
+CharacterSelect:
+  SingleSelect:
+    Placeholder: Nhân vật
+  ClearButton: Xóa
+LightconeSelect:
+  Placeholder: Nón Ánh Sáng

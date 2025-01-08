@@ -1,4 +1,4 @@
-import { BASIC_TYPE, BasicStatsObject, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, BasicStatsObject, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
@@ -46,6 +46,8 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
     TheWindSoaringValorous: (1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)),
     SacerdosRelivedOrdeal: (1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)),
     ScholarLostInErudition: (1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)),
+    HeroOfTriumphantSong: (1 >> (setH ^ 22)) + (1 >> (setG ^ 22)) + (1 >> (setB ^ 22)) + (1 >> (setF ^ 22)),
+    PoetOfMourningCollapse: (1 >> (setH ^ 23)) + (1 >> (setG ^ 23)) + (1 >> (setB ^ 23)) + (1 >> (setF ^ 23)),
 
     SpaceSealingStation: (1 >> (setP ^ 0)) + (1 >> (setL ^ 0)),
     FleetOfTheAgeless: (1 >> (setP ^ 1)) + (1 >> (setL ^ 1)),
@@ -95,7 +97,7 @@ export function calculateElementalStats(c: BasicStatsObject, context: OptimizerC
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine))
       break
     case Stats.Quantum_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars))
+      c.ELEMENTAL_DMG = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse))
       break
     case Stats.Imaginary_DMG:
       c.ELEMENTAL_DMG = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert))
@@ -113,7 +115,8 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
     + 0.06 * p4(sets.MusketeerOfWildWheat)
-    + 0.06 * p2(sets.SacerdosRelivedOrdeal),
+    + 0.06 * p2(sets.SacerdosRelivedOrdeal)
+    - 0.08 * p4(sets.PoetOfMourningCollapse),
   )
 
   c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c,
@@ -127,7 +130,8 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     + 0.12 * p2(sets.MusketeerOfWildWheat)
     + 0.12 * p2(sets.PrisonerInDeepConfinement)
     + 0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm)
-    + 0.12 * p2(sets.TheWindSoaringValorous),
+    + 0.12 * p2(sets.TheWindSoaringValorous)
+    + 0.12 * p2(sets.HeroOfTriumphantSong),
   )
 
   c[Stats.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c,
@@ -196,17 +200,47 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.ERR] += c[Stats.ERR]
   a[Key.OHB] += c[Stats.OHB]
 
+  if (x.m) {
+    const xmc = x.m.c
+    const xma = x.m.a
+    xmc.ATK = x.a[Key.MEMO_ATK_SCALING] * c.ATK + x.a[Key.MEMO_ATK_FLAT]
+    xmc.DEF = x.a[Key.MEMO_DEF_SCALING] * c.DEF + x.a[Key.MEMO_DEF_FLAT]
+    xmc.HP = x.a[Key.MEMO_HP_SCALING] * c.HP + x.a[Key.MEMO_HP_FLAT]
+    xmc.SPD = x.a[Key.MEMO_SPD_SCALING] * c.SPD + x.a[Key.MEMO_SPD_FLAT]
+
+    xma[Key.ATK] += xmc[Stats.ATK]
+    xma[Key.DEF] += xmc[Stats.DEF]
+    xma[Key.HP] += xmc[Stats.HP]
+    xma[Key.SPD] += xmc[Stats.SPD]
+
+    xma[Key.CD] += c[Stats.CD]
+    xma[Key.CR] += c[Stats.CR]
+    xma[Key.BE] += c[Stats.BE]
+    xma[Key.EHR] += c[Stats.EHR]
+    xma[Key.RES] += c[Stats.RES]
+    xma[Key.ERR] += c[Stats.ERR]
+    xma[Key.OHB] += c[Stats.OHB]
+  }
+
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
   a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
   a[Key.VULNERABILITY] += buffs.VULNERABILITY
   a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
 
   buffElementalDamageType(x, context.elementalDamageType, c.ELEMENTAL_DMG)
+  if (x.m) {
+    buffElementalDamageType(x.m, context.elementalDamageType, c.ELEMENTAL_DMG)
+  }
 
   // SPD
 
   if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
-    x.SPD_P.buff(0.12, Source.MessengerTraversingHackerspace)
+    x.SPD_P.buffTeam(0.12, Source.MessengerTraversingHackerspace)
+  }
+
+  if (p4(sets.HeroOfTriumphantSong) && setConditionals.enabledHeroOfTriumphantSong) {
+    x.SPD_P.buffTeam(0.06, Source.HeroOfTriumphantSong)
+    x.CD.buffDual(0.30, Source.HeroOfTriumphantSong)
   }
 
   // ATK
@@ -263,11 +297,14 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   if (p2(sets.IzumoGenseiAndTakamaDivineRealm) && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
     x.CR.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
   }
+  if (p4(sets.PoetOfMourningCollapse)) {
+    x.CR.buffDual((c[Stats.SPD] < 110 ? 0.20 : 0) + (c[Stats.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
+  }
 
   // BE
 
   if (p4(sets.WatchmakerMasterOfDreamMachinations) && setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
-    x.BE.buff(0.30, Source.WatchmakerMasterOfDreamMachinations)
+    x.BE.buffTeam(0.30, Source.WatchmakerMasterOfDreamMachinations)
   }
   if (p2(sets.ForgeOfTheKalpagniLantern) && setConditionals.enabledForgeOfTheKalpagniLantern) {
     x.BE.buff(0.40, Source.ForgeOfTheKalpagniLantern)
@@ -277,28 +314,28 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // Basic boost
   if (p4(sets.MusketeerOfWildWheat)) {
-    buffAbilityDmg(x, BASIC_TYPE, 0.10, Source.MusketeerOfWildWheat)
+    buffAbilityDmg(x, BASIC_DMG_TYPE, 0.10, Source.MusketeerOfWildWheat)
   }
 
   // Skill boost
   if (p4(sets.FiresmithOfLavaForging)) {
-    buffAbilityDmg(x, SKILL_TYPE, 0.12, Source.FiresmithOfLavaForging)
+    buffAbilityDmg(x, SKILL_DMG_TYPE, 0.12, Source.FiresmithOfLavaForging)
   }
 
   // Fua boost
   if (p2(sets.TheAshblazingGrandDuke)) {
-    buffAbilityDmg(x, FUA_TYPE, 0.20, Source.TheAshblazingGrandDuke)
+    buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.TheAshblazingGrandDuke)
   }
   if (p2(sets.DuranDynastyOfRunningWolves)) {
-    buffAbilityDmg(x, FUA_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
+    buffAbilityDmg(x, FUA_DMG_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
   }
 
   // Ult boost
   if (p4(sets.TheWindSoaringValorous) && setConditionals.enabledTheWindSoaringValorous) {
-    buffAbilityDmg(x, ULT_TYPE, 0.36, Source.TheWindSoaringValorous)
+    buffAbilityDmg(x, ULT_DMG_TYPE, 0.36, Source.TheWindSoaringValorous)
   }
   if (p4(sets.ScholarLostInErudition)) {
-    buffAbilityDmg(x, ULT_TYPE | SKILL_TYPE, 0.20, Source.ScholarLostInErudition)
+    buffAbilityDmg(x, ULT_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.ScholarLostInErudition)
   }
 
   if (p4(sets.GeniusOfBrilliantStars)) {
@@ -320,13 +357,21 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   }
 
   if (p4(sets.ScholarLostInErudition) && setConditionals.enabledScholarLostInErudition) {
-    buffAbilityDmg(x, SKILL_TYPE, 0.25, Source.ScholarLostInErudition)
+    buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, Source.ScholarLostInErudition)
   }
 
   a[Key.SPD] += a[Key.SPD_P] * context.baseSPD
   a[Key.ATK] += a[Key.ATK_P] * context.baseATK
   a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
   a[Key.HP] += a[Key.HP_P] * context.baseHP
+
+  if (x.m) {
+    const xma = x.m.a
+    xma[Key.SPD] += xma[Key.SPD_P] * (context.baseSPD * x.a[Key.MEMO_SPD_SCALING])
+    xma[Key.ATK] += xma[Key.ATK_P] * (context.baseATK * x.a[Key.MEMO_ATK_SCALING])
+    xma[Key.DEF] += xma[Key.DEF_P] * (context.baseDEF * x.a[Key.MEMO_DEF_SCALING])
+    xma[Key.HP] += xma[Key.HP_P] * (context.baseHP * x.a[Key.MEMO_HP_SCALING])
+  }
 
   // Dynamic - still need implementing
 

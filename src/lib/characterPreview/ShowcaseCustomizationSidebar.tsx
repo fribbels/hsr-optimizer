@@ -270,7 +270,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#7dd3ea'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#d6849e'], // kafka
+    1005: ['#d684a9'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
     1009: ['#a092ef'], // asta
@@ -305,7 +305,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1217: ['#81bad1'], // huohuo
     1218: ['#f4dfe7'], // jiaoqiu
     1220: ['#7ed3da'], // feixiao
-    1221: ['#e9d7d2'], // yunli
+    1221: ['#a3d3dc'], // yunli
     1222: ['#f5e6ed'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#eacbea'], // march7thImaginary
@@ -318,7 +318,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1306: ['#5866bc'], // sparkle
     1307: ['#7f58d6'], // blackswan
     1308: ['#8982d6'], // acheron
-    1309: ['#9b93cf'], // robin
+    1309: ['#bb9cf4'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#7e95e9'], // sunday
@@ -333,7 +333,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8006: ['#8d7abc'], // trailblazerharmony
 
     1401: ['#7336ed'], // the herta
-    1402: ['#fff9eb'], // aglaea
+    1402: ['#8cb7e7'], // aglaea
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
   }

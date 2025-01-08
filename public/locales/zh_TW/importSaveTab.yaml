@@ -1,0 +1,10 @@
+Import:
+  Stage3:
+    SuccessMessage: 完成!
+LoadData:
+  Stage3:
+    SuccessMessage: 完成!
+SaveData:
+  SuccessMessage: 完成!
+ClearData:
+  SuccessMessage: 已清除數據

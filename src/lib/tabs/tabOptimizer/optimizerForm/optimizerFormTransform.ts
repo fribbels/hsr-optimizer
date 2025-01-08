@@ -1,6 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import DB from 'lib/state/db'
@@ -15,6 +15,7 @@ export function displayToForm(form: Form) {
   const MAX_INT = Constants.MAX_INT
 
   form.statDisplay = window.store.getState().statDisplay || DEFAULT_STAT_DISPLAY
+  form.memoDisplay = window.store.getState().memoDisplay || DEFAULT_MEMO_DISPLAY
 
   form.maxHp = getNumber(form.maxHp, MAX_INT)
   form.minHp = getNumber(form.minHp, 0)
@@ -48,6 +49,8 @@ export function displayToForm(form: Form) {
   form.minUlt = getNumber(form.minUlt, 0)
   form.maxFua = getNumber(form.maxFua, MAX_INT)
   form.minFua = getNumber(form.minFua, 0)
+  form.maxMemoSkill = getNumber(form.maxMemoSkill, MAX_INT)
+  form.minMemoSkill = getNumber(form.minMemoSkill, 0)
   form.maxDot = getNumber(form.maxDot, MAX_INT)
   form.minDot = getNumber(form.minDot, 0)
   form.maxBreak = getNumber(form.maxBreak, MAX_INT)
@@ -111,6 +114,8 @@ export function formToDisplay(form: Form) {
   newForm.minUlt = unsetMin(form.minUlt)
   newForm.maxFua = unsetMax(form.maxFua)
   newForm.minFua = unsetMin(form.minFua)
+  newForm.maxMemoSkill = unsetMax(form.maxMemoSkill)
+  newForm.minMemoSkill = unsetMin(form.minMemoSkill)
   newForm.maxDot = unsetMax(form.maxDot)
   newForm.minDot = unsetMin(form.minDot)
   newForm.maxBreak = unsetMax(form.maxBreak)
@@ -194,6 +199,10 @@ export function formToDisplay(form: Form) {
 
   if (!newForm.statDisplay) {
     newForm.statDisplay = DEFAULT_STAT_DISPLAY
+  }
+
+  if (!newForm.memoDisplay) {
+    newForm.memoDisplay = DEFAULT_MEMO_DISPLAY
   }
 
   const character = DB.getCharacterById(characterId)

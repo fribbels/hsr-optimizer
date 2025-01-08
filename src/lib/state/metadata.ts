@@ -1,7 +1,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants/constants'
+import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -12,6 +12,7 @@ const BASIC = 'BASIC'
 const SKILL = 'SKILL'
 const ULT = 'ULT'
 const FUA = 'FUA'
+const MEMO_SKILL = 'MEMO_SKILL'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -25,8 +26,9 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
 ]
 
 const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
-  [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+  [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
   [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+  [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
 ]
 
 const SPREAD_ORNAMENTS_2P_FUA = [
@@ -36,8 +38,12 @@ const SPREAD_ORNAMENTS_2P_FUA = [
 ]
 
 const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
-  Sets.FirmamentFrontlineGlamoth,
   Sets.SigoniaTheUnclaimedDesolation,
+]
+const SPREAD_ORNAMENTS_2P_ENERGY_REGEN = [
+  Sets.SprightlyVonwacq,
+  Sets.PenaconyLandOfTheDreams,
+  Sets.LushakaTheSunkenSeas,
 ]
 
 export const Metadata = {
@@ -123,6 +129,8 @@ const displayNameMapping: Record<string, string> = {
   8004: 'Stelle (Preservation)',
   8005: 'Caelus (Harmony)',
   8006: 'Stelle (Harmony)',
+  8007: 'Caelus (Remembrance)',
+  8008: 'Stelle (Remembrance)',
   1213: 'Imbibitor Lunae',
   1224: 'March 7th (Hunt)',
 } as const
@@ -198,7 +206,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
     },
     21005: {},
     21006: {},
-    21007: {},
+    21007: {
+      1: { [Stats.OHB]: 0.10 },
+      2: { [Stats.OHB]: 0.125 },
+      3: { [Stats.OHB]: 0.15 },
+      4: { [Stats.OHB]: 0.175 },
+      5: { [Stats.OHB]: 0.20 },
+    },
     21008: {
       1: { [Stats.EHR]: 0.20 },
       2: { [Stats.EHR]: 0.25 },
@@ -1331,9 +1345,9 @@ function getOverrideImageCenter(): Record<string, {
       z: 1,
     },
     1211: { // Bailu
-      x: 1000,
+      x: 1050,
       y: 950,
-      z: 1,
+      z: 1.05,
     },
     1212: { // Jingliu
       x: 1024,
@@ -1516,9 +1530,9 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.275,
     },
     1402: { // Aglaea
-      x: 1215,
+      x: 1200,
       y: 750,
-      z: 1.15,
+      z: 1.10,
     },
   }
 }
@@ -1570,7 +1584,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.SHIELD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.DOT],
+      addedColumns: [SortOption.SHIELD],
+      hiddenColumns: [SortOption.SKILL, SortOption.DOT],
     },
     1002: { // Dan Heng
       stats: {
@@ -1617,7 +1632,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -1723,7 +1738,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+      hiddenColumns: [],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -1830,7 +1845,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -1865,6 +1880,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -1935,7 +1952,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.DOT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+      hiddenColumns: [],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2043,7 +2060,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
     },
     1008: { // Arlan
       stats: {
@@ -2088,7 +2105,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2118,7 +2135,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -2184,7 +2200,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SPD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA],
     },
     1013: { // Herta
       stats: {
@@ -2232,7 +2248,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2262,11 +2278,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.InertSalsotto,
+          Sets.DuranDynastyOfRunningWolves,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -2330,7 +2347,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.CD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.DOT],
     },
     1102: { // Seele
       stats: {
@@ -2375,7 +2392,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2404,13 +2421,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
-          [SetsRelics.GeniusOfBrilliantStars, SetsRelics.GeniusOfBrilliantStars],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.FirmamentFrontlineGlamoth,
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -2480,7 +2497,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
+      hiddenColumns: [SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2509,13 +2526,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
+          [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
           Sets.RutilantArena,
+          Sets.SprightlyVonwacq,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -2582,7 +2603,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SHIELD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.SHIELD],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1105: { // Natasha
       stats: {
@@ -2627,7 +2649,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.HEAL,
-      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1106: { // Pela
       stats: {
@@ -2675,7 +2698,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SPD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
     },
     1107: { // Clara
       stats: {
@@ -2723,7 +2746,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2756,7 +2779,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.InertSalsotto,
+          Sets.DuranDynastyOfRunningWolves,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -2829,7 +2852,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
+      hiddenColumns: [SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2930,7 +2953,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
+      hiddenColumns: [SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -2965,6 +2988,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -3032,7 +3056,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.HEAL,
-      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1111: { // Luka
       stats: {
@@ -3080,7 +3105,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
+      hiddenColumns: [SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3188,7 +3213,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3222,7 +3247,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.InertSalsotto,
+          Sets.DuranDynastyOfRunningWolves,
+          Sets.TheWondrousBananAmusementPark,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -3294,7 +3320,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnSacerdosSet(2),
       ],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3324,6 +3350,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -3398,7 +3425,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SPD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1203: { // Luocha
       stats: {
@@ -3447,7 +3474,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.SPD,
-      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1204: { // Jing Yuan
       stats: {
@@ -3496,7 +3524,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.BANANA_SET,
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3529,10 +3557,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.TheWondrousBananAmusementPark,
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          Sets.RutilantArena,
         ],
         teammates: [
           {
@@ -3602,7 +3630,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3633,6 +3661,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -3705,7 +3734,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3742,6 +3771,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
+          Sets.TaliaKingdomOfBanditry,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
           Sets.RutilantArena,
         ],
@@ -3813,7 +3843,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnSacerdosSet(1),
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1208: { // Fu Xuan
       stats: {
@@ -3861,7 +3891,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.EHP,
-      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1209: { // Yanqing
       stats: {
@@ -3909,7 +3940,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnAshblazingSet(2),
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -3938,12 +3969,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -4013,7 +4044,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
+      hiddenColumns: [SortOption.FUA],
     },
     1211: { // Bailu
       stats: {
@@ -4057,7 +4088,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.HEAL,
-      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1212: { // Jingliu
       stats: {
@@ -4102,7 +4134,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4206,7 +4238,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4312,7 +4344,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4344,11 +4376,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
           Sets.InertSalsotto,
+          Sets.SpaceSealingStation,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -4410,7 +4445,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SPD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1217: { // Huohuo
       stats: {
@@ -4455,7 +4490,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.HEAL,
-      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1218: { // Jiaoqiu
       stats: {
@@ -4498,7 +4534,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.EHR,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
+      hiddenColumns: [SortOption.FUA],
     },
     1220: { // Feixiao
       stats: {
@@ -4546,7 +4582,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4576,6 +4612,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
@@ -4653,7 +4690,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnAshblazingSet(8),
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4684,7 +4721,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
-          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -4765,7 +4801,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.BE,
-      hiddenColumns: [SortOption.SHIELD, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.DOT],
     },
     1223: { // Moze
       stats: {
@@ -4814,7 +4851,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4921,7 +4958,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -4956,6 +4993,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -5017,7 +5055,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5059,6 +5097,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ornamentSets: [
           Sets.ForgeOfTheKalpagniLantern,
           Sets.TaliaKingdomOfBanditry,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
         ],
         teammates: [
           {
@@ -5121,7 +5160,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.BE,
-      hiddenColumns: [SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1302: { // Argenti
       stats: {
@@ -5166,7 +5206,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5202,7 +5242,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ornamentSets: [
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
         ],
         teammates: [
           {
@@ -5261,7 +5301,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.BE,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1304: { // Aventurine
       stats: {
@@ -5311,7 +5351,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.DOT],
+      addedColumns: [SortOption.SHIELD],
+      hiddenColumns: [SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5350,12 +5391,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.DuranDynastyOfRunningWolves,
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
           Sets.BrokenKeel,
           Sets.PenaconyLandOfTheDreams,
           Sets.FleetOfTheAgeless,
+          Sets.LushakaTheSunkenSeas,
         ],
         teammates: [
           {
@@ -5427,7 +5470,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.DOT],
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5461,6 +5504,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -5524,7 +5568,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.CD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1307: { // Black Swan
       stats: {
@@ -5571,7 +5615,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.PRISONER_SET,
       ],
       sortOption: SortOption.DOT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA],
+      hiddenColumns: [SortOption.FUA],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5677,7 +5721,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5777,7 +5821,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.ATK,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1310: { // Firefly
       stats: {
@@ -5820,7 +5864,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5920,7 +5964,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.ULT,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -5949,14 +5993,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
-          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.InertSalsotto,
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -6017,7 +6061,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.CD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1314: { // Jade
       stats: {
@@ -6065,7 +6109,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnAshblazingSet(8),
       ],
       sortOption: SortOption.FUA,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6095,13 +6139,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.InertSalsotto,
+          Sets.DuranDynastyOfRunningWolves,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          Sets.RutilantArena,
         ],
         teammates: [
           {
@@ -6161,7 +6207,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6191,8 +6237,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
-          RELICS_2P_BREAK_EFFECT_SPEED,
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          RELICS_2P_BREAK_EFFECT_SPEED,
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -6258,7 +6304,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WASTELANDER_SET,
       ],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6290,6 +6336,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
@@ -6360,7 +6407,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6391,11 +6438,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -6464,7 +6511,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6495,11 +6542,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -6566,7 +6613,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SHIELD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.SHIELD],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8004: { // Fire Trailblazer F
       stats: {
@@ -6610,7 +6658,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SHIELD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.SHIELD],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8005: { // Imaginary Trailblazer M
       stats: {
@@ -6649,7 +6698,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.BE,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     8006: { // Imaginary Trailblazer F
       stats: {
@@ -6688,7 +6737,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.BE,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     8007: { // Remembrance Trailblazer M
       stats: {
@@ -6730,7 +6779,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.CD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.MEMO_SKILL],
     },
     8008: { // Remembrance Trailblazer F
       stats: {
@@ -6772,7 +6822,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.CD,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.MEMO_SKILL],
     },
     1401: { // The Herta
       stats: {
@@ -6818,7 +6869,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.SKILL,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6919,11 +6970,71 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.OHB, SortOption.HEAL, SortOption.SHIELD],
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.MEMO_SKILL],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboAbilities: [NULL, ULT, BASIC, MEMO_SKILL, MEMO_SKILL, BASIC, MEMO_SKILL],
+        comboDot: 0,
+        comboBreak: 0,
+        errRopeEidolon: 0,
+        relicSets: [
+          [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TheWondrousBananAmusementPark,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1313', // Sunday
+            lightCone: '23034', // Grounded
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
   }
 }

@@ -1,4 +1,4 @@
-import { NONE_TYPE, SKILL_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -32,7 +32,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const traceShieldFlat = 96
 
   const defaults = {
-    shieldAbility: SKILL_TYPE,
+    shieldAbility: SKILL_DMG_TYPE,
     defToCrBoost: true,
     fuaHitsOnTarget: fuaHits,
     fortifiedWagerBuff: true,
@@ -55,7 +55,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tShield('Text'),
       content: tShield('Content'),
       options: [
-        { display: tShield('Skill'), value: SKILL_TYPE, label: tShield('Skill') },
+        { display: tShield('Skill'), value: SKILL_DMG_TYPE, label: tShield('Skill') },
         { display: tShield('Trace'), value: NONE_TYPE, label: tShield('Trace') },
       ],
       fullWidth: true,
@@ -136,7 +136,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
       x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, Source.NONE)
 
-      if (r.shieldAbility == SKILL_TYPE) {
+      if (r.shieldAbility == SKILL_DMG_TYPE) {
         x.SHIELD_SCALING.buff(skillShieldScaling, Source.NONE)
         x.SHIELD_FLAT.buff(skillShieldFlat, Source.NONE)
       }
@@ -150,10 +150,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buff((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
-      x.CD.buff((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
-      x.CD.buff((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, Source.NONE)
-      x.RES_PEN.buff((e >= 2 && m.e2ResShred) ? 0.12 : 0, Source.NONE)
+      x.RES.buffTeam((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
+      x.CD.buffTeam((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
+      x.CD.buffTeam((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardDefFinalizer(x)
@@ -194,7 +194,7 @@ if (def > 1600) {
   let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
 
   (*p_state).AventurineConversionConditional = buffValue;
-  buffDynamicCR(buffValue - stateValue, p_x, p_state);
+  buffDynamicCR(buffValue - stateValue, p_x, p_m, p_state);
 }
     `)
       },

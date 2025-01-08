@@ -22,44 +22,35 @@ function getTeammateFromIndex(conditional: DynamicConditional, action: Optimizer
 }
 
 export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  let conditionalAction: OptimizerAction
   if (conditional.teammateIndex != null) {
     const teammate = getTeammateFromIndex(conditional, action)
-    const teammateAction = {
+    conditionalAction = {
       ...action,
-      characterConditionals: teammate.characterConditionals,
-      lightConeConditionals: teammate.lightConeConditionals,
-    }
-    if (conditional.activation == ConditionalActivation.SINGLE) {
-      if (!action.conditionalState[conditional.id] && conditional.condition(x, teammateAction, context)) {
-        action.conditionalState[conditional.id] = 1
-        conditional.effect(x, teammateAction, context)
-      }
-    } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-      if (conditional.condition(x, teammateAction, context)) {
-        conditional.effect(x, teammateAction, context)
-      }
-    } else {
-      //
+      teammateCharacterConditionals: teammate.characterConditionals,
+      teammateLightConeConditionals: teammate.lightConeConditionals,
     }
   } else {
-    if (conditional.activation == ConditionalActivation.SINGLE) {
-      if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
-        action.conditionalState[conditional.id] = 1
-        conditional.effect(x, action, context)
-      }
-    } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-      if (conditional.condition(x, action, context)) {
-        conditional.effect(x, action, context)
-      }
-    } else {
-      //
+    conditionalAction = action
+  }
+
+  if (conditional.activation == ConditionalActivation.SINGLE) {
+    if (!action.conditionalState[conditional.id] && conditional.condition(x, conditionalAction, context)) {
+      action.conditionalState[conditional.id] = 1
+      conditional.effect(x, conditionalAction, context)
     }
+  } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
+    if (conditional.condition(x, conditionalAction, context)) {
+      conditional.effect(x, conditionalAction, context)
+    }
+  } else {
+    // No-op
   }
 }
 
 export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string) {
   return `
-fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
   let x = *p_x;
 ${indent(wgsl.trim(), 1)}
 }

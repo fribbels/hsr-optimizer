@@ -1,15 +1,5 @@
 import i18next from 'i18next'
-import {
-  Constants,
-  MainStats,
-  MainStatsValues,
-  Parts,
-  PartsMainStats,
-  Stats,
-  StatsValues,
-  SubStats,
-  SubStatValues,
-} from 'lib/constants/constants'
+import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -683,7 +673,7 @@ export class RelicScorer {
     const substatScore = this.substatScore(relic, id)
     const idealScore = this.getOptimalPartScore(part, id)
     const score = substatScore.score / idealScore * 100 * percentToScore + mainstatBonus
-    const rating = scoreToRating(score, substatScore)
+    const rating = scoreToRating(score, substatScore, relic)
     const mainStatScore = substatScore.mainStatScore
     return {
       score: score.toFixed(1),
@@ -709,7 +699,7 @@ export class RelicScorer {
       return {
         relics: [],
         totalScore: 0,
-        totalRating: '???',
+        totalRating: '?',
       }
     }
 
@@ -787,7 +777,9 @@ function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata: Scorin
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
     const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]
     // @ts-ignore
-    return mainStatBonuses[part][mainStat] * minRollValue * multiplier
+    // return mainStatBonuses[part][mainStat] * minRollValue * multiplier
+    // Main stat free roll == 1
+    return 1 * minRollValue * multiplier
   }
   return 0
 }
@@ -948,7 +940,8 @@ function maxEnhance(grade: 2 | 3 | 4 | 5) {
   }
 }
 
-function scoreToRating(score: number, substatScore?: SubstatScore): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
+function scoreToRating(score: number, substatScore?: SubstatScore, relic?: Relic): rating { // + 1 rating per 0.5 low rolls of score, starting from 1 low roll of score
+  if (relic && relic.grade != 5) return '?'
   const index = Math.min(Math.floor(score / (minRollValue / 2)), ratings.length - 1)
   return index < 0 || scoredMainStatInvalid(substatScore) ? '?' : ratings[index]
 }

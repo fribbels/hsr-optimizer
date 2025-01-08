@@ -229,9 +229,9 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   22002: ForTomorrowsJourney,
   22003: NinjaRecordSoundHunt,
 
+  21050: VictoryInABlink,
   21051: GeniusesGreetings,
-  21050: SweatNowCryLess,
-  21052: VictoryInABlink,
+  21052: SweatNowCryLess,
 }
 
 const threeStar: Record<string, LightConeConditionalFunction> = {

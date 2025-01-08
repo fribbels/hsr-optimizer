@@ -10,7 +10,7 @@ export enum ShowcaseSource {
 }
 
 export const showcaseOutline = 'rgba(255, 255, 255, 0.4) solid 1px'
-export const showcaseShadow = 'rgba(0, 0, 0, 0.5) 1px 1px 1px 1px'
+export const showcaseShadow = 'rgb(0 0 0 / 85%) 1px 1px 5px'
 export const showcaseDropShadowFilter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
 export const showcaseButtonStyle: CSSProperties = {
   flex: 'auto',
@@ -37,14 +37,13 @@ export function OverlayText(props: {
       <Text
         style={{
           position: 'absolute',
-          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
           padding: '2px 14px',
           borderRadius: 4,
           fontSize: 12,
           whiteSpace: 'nowrap',
           textShadow: '0px 0px 10px black',
           outline: showcaseOutline,
-          filter: showcaseDropShadowFilter,
           lineHeight: '12px',
         }}
       >

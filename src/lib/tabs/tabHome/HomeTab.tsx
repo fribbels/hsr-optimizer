@@ -175,6 +175,7 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
         flex: 1,
         cursor: 'default',
         fontSize: 16,
+        minWidth: 500,
       }}
       hoverable={true}
       cover={<CardImage id={props.id}/>}

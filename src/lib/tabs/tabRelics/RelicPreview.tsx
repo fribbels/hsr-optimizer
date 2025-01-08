@@ -121,7 +121,7 @@ export function RelicPreview(props: {
               height: ICON_SIZE,
               width: ICON_SIZE,
               borderRadius: ICON_SIZE / 2,
-              outline: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.30)' : undefined,
+              outline: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
               backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
             }}
             src={equippedBySrc}

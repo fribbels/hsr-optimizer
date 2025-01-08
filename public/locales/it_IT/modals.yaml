@@ -1,0 +1,43 @@
+0Perms:
+  Title: La ricerca ha generato 0 permutazioni
+  Description: Questo significa che i tuoi filtri sono mal configurati o troppo restrittivi, e nessuna possibilità corrisponde ai filtri. Le permutazioni sono mostrate sulla barra laterale.
+  RootCauses:
+    IMPORT:
+      SuccessMessage: Scegli un metodo di importazione e importa le tue reliquie e i tuoi personaggi
+0Results:
+  Title: La ricerca ha generato 0 risultati
+  ResetAll:
+    ButtonText: Ripristina filtri
+    Description: Questo significa che i tuoi filtri sulle statistiche e/o valutazioni sono troppo restrittivi.
+  RootCauses:
+    MAX_EHP:
+      SuccessMessage: "Filtro PVE Massimi Reimpostato"
+      ButtonText: "Filtro PVE Massimi Reimpostato"
+    MIN_EHP:
+      SuccessMessage: "Filtro PVE Minimi Reimpostato"
+      ButtonText: "Filtro PVE Minimi Reimpostato"
+    MAX_COMBO:
+      SuccessMessage: "Filtro Combo Massima reimpostato"
+      ButtonText: "Filtro Combo Massima reimpostato"
+    MIN_COMBO:
+      SuccessMessage: "Filtro Combo Minima reimpostato"
+      ButtonText: "Filtro Combo Minima reimpostato"
+EditCharacter:
+  Character: Personaggi
+Relic:
+  SubstatPlaceholder: Statistica secondaria
+  Messages:
+    EditSuccess: Reliquia modificata con successo
+Builds:
+  ConfirmEquip:
+    SuccessMessage: "Build equipaggiata con successo: {{buildName}}"
+  ConfirmDelete:
+    SuccessMessageAll: "Eliminate con successo tutte le build di {{characterName}}"
+    SuccessMessageSingle: "Build eliminata con successo: {{name}}"
+ScoreFooter:
+  ResetSuccessMsg: Squadra predefinita ripristinata
+  SyncSuccessMsg: Compagni di squadra sincronizzati
+CharacterSelect:
+  SingleSelect:
+    Placeholder: Personaggi
+  SearchPlaceholder: Cerca personaggio

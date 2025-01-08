@@ -1,4 +1,4 @@
-import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
 import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -12,6 +12,8 @@ export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerActi
 }
 
 export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  if (x.m) calculateDamage(x.m, action, context)
+
   const eLevel = context.enemyLevel
   const a = x.a
 
@@ -103,6 +105,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.BASIC_ADDITIONAL_DMG],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.BASIC_DMG] : 0,
     )
   }
 
@@ -133,6 +136,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.SKILL_ADDITIONAL_DMG],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.SKILL_DMG] : 0,
     )
   }
 
@@ -163,6 +167,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.ULT_ADDITIONAL_DMG],
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.ULT_DMG] : 0,
     )
   }
 
@@ -193,7 +198,43 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.FUA_ADDITIONAL_DMG],
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
+      x.m ? x.m.a[Key.FUA_DMG] : 0,
     )
+  }
+
+  if (action.actionType == 'MEMO_SKILL' || action.actionType == 'DEFAULT') {
+    if (x.m) {
+      a[Key.MEMO_SKILL_DMG] += x.m.a[Key.MEMO_SKILL_DMG]
+    } else {
+      a[Key.MEMO_SKILL_DMG] = calculateAbilityDmg(
+        x,
+        action,
+        context,
+        baseUniversalMulti,
+        baseDmgBoost,
+        baseDefPen,
+        baseResistance,
+        baseSuperBreakInstanceDmg,
+        baseSuperBreakModifier,
+        baseBreakEfficiencyBoost,
+        a[Key.MEMO_SKILL_DMG],
+        0, // a[Key.MEMO_SKILL_BOOST],
+        0, // a[Key.MEMO_SKILL_VULNERABILITY],
+        0, // a[Key.MEMO_SKILL_DEF_PEN],
+        0, // a[Key.MEMO_SKILL_RES_PEN],
+        0, // a[Key.MEMO_SKILL_CR_BOOST],
+        0, // a[Key.MEMO_SKILL_CD_BOOST],
+        0, // a[Key.MEMO_SKILL_ORIGINAL_DMG_BOOST],
+        0, // a[Key.MEMO_SKILL_BREAK_EFFICIENCY_BOOST],
+        0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
+        0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
+        0, // a[Key.MEMO_SKILL_TOUGHNESS_DMG],
+        0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
+        0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
+        0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
+        0, // No memo joint
+      )
+    }
   }
 }
 
@@ -217,8 +258,8 @@ function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
   a[Key.HEAL_VALUE] = a[Key.HEAL_VALUE] * (
     1
     + a[Key.OHB]
-    + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_TYPE ? 1 : 0)
-    + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_TYPE ? 1 : 0)
+    + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
+    + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
   )
 }
 
@@ -255,6 +296,7 @@ function calculateAbilityDmg(
   abilityAdditionalDmg: number,
   abilityAdditionalCrOverride: number,
   abilityAdditionalCdOverride: number,
+  abilityMemoJointDamage: number,
 ) {
   const a = x.a
   const eLevel = context.enemyLevel
@@ -320,10 +362,25 @@ function calculateAbilityDmg(
     )
   }
 
-  return abilityCritDmgOutput
+  // === Primary DMG ===
+
+  const primaryDmgOutput = abilityCritDmgOutput
     + abilityBreakDmgOutput
     + abilitySuperBreakDmgOutput
     + abilityAdditionalDmgOutput
+
+  // === True DMG ===
+
+  const trueDmgOutput = a[Key.TRUE_DMG_MODIFIER] * primaryDmgOutput
+
+  // === Memo Joint DMG ===
+
+  let memoJointDmgOutput = 0
+  if (abilityMemoJointDamage > 0) {
+    memoJointDmgOutput += abilityMemoJointDamage
+  }
+
+  return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput
 }
 
 function calculateSuperBreakDmg(

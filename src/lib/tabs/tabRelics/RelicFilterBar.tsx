@@ -7,6 +7,7 @@ import { Hint } from 'lib/interactions/hint'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
+import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import { Renderer } from 'lib/rendering/renderer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -14,11 +15,9 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
-import { DBMetadataCharacter } from 'types/metadata'
 import { Relic } from 'types/relic'
 import { RelicTabFilters } from 'types/store'
 
@@ -45,8 +44,8 @@ export default function RelicFilterBar(props: {
 
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
-  const characterOptions: DBMetadataCharacter[] = useMemo(() => {
-    return Utils.generateCharacterOptions()
+  const characterOptions = useMemo(() => {
+    return generateCharacterOptions()
   }, [])
 
   function generateImageTags(arr: string[], srcFn: (s: string) => string, tooltip: boolean) {

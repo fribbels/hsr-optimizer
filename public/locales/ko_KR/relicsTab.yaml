@@ -1,0 +1,14 @@
+RelicFilterBar:
+  Mainstat: 주 스탯
+  ScoringButton: 점수 계산 알고리즘
+Messages:
+  AddRelicSuccess: 유물을 추가했습니다.
+RelicGrid:
+  Headers:
+    HPP: 체력 %
+    ATKP: 공격력 %
+    DEFP: 방어력 %
+    HP: 체력
+    ATK: 공격력
+    DEF: 방어력
+    SPD: 속도

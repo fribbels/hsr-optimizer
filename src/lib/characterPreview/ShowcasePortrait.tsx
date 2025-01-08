@@ -1,7 +1,7 @@
 import { EditOutlined } from '@ant-design/icons'
 import { Button, ConfigProvider, Flex, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { showcaseButtonStyle, showcaseDropShadowFilter, showcaseOutline, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseButtonStyle, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
 import { parentH, parentW } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
@@ -71,11 +71,11 @@ export function ShowcasePortrait(props: {
       style={{
         width: `${parentW}px`,
         height: `${tempParentH}px`,
+        position: 'relative',
         overflow: 'hidden',
         borderRadius: '8px',
         border: showcaseOutline,
-        filter: showcaseDropShadowFilter,
-        position: 'relative',
+        boxShadow: showcaseShadow,
       }}
     >
       {

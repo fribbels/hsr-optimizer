@@ -26,13 +26,20 @@
 // END ACTIONS DEFINITION
 
 
-const BASIC_TYPE = 1;
-const SKILL_TYPE = 2;
-const ULT_TYPE = 4;
-const FUA_TYPE = 8;
-const DOT_TYPE = 16;
-const BREAK_TYPE = 32;
-const SUPER_BREAK_TYPE = 64;
+const BASIC_DMG_TYPE = 1;
+const SKILL_DMG_TYPE = 2;
+const ULT_DMG_TYPE = 4;
+const FUA_DMG_TYPE = 8;
+const DOT_DMG_TYPE = 16;
+const BREAK_DMG_TYPE = 32;
+const SUPER_BREAK_DMG_TYPE = 64;
+const MEMO_DMG_TYPE = 128;
+
+const BASIC_ABILITY_TYPE = 1;
+const SKILL_ABILITY_TYPE = 2;
+const ULT_ABILITY_TYPE = 4;
+const FUA_ABILITY_TYPE = 8;
+const MEMO_SKILL_ABILITY_TYPE = 16;
 
 @group(0) @binding(0) var<storage> params : Params;
 
@@ -82,6 +89,8 @@ fn main(
   let epsilon = 0.000001f;
 
   var failures: f32 = 1;
+
+  var emptyComputedStats = ComputedStats();
 
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
 
@@ -167,6 +176,8 @@ fn main(
     sets.TheWindSoaringValorous              = i32((1 >> (setH ^ 19)) + (1 >> (setG ^ 19)) + (1 >> (setB ^ 19)) + (1 >> (setF ^ 19)));
     sets.SacerdosRelivedOrdeal               = i32((1 >> (setH ^ 20)) + (1 >> (setG ^ 20)) + (1 >> (setB ^ 20)) + (1 >> (setF ^ 20)));
     sets.ScholarLostInErudition              = i32((1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)));
+    sets.HeroOfTriumphantSong                = i32((1 >> (setH ^ 22)) + (1 >> (setG ^ 22)) + (1 >> (setB ^ 22)) + (1 >> (setF ^ 22)));
+    sets.PoetOfMourningCollapse              = i32((1 >> (setH ^ 23)) + (1 >> (setG ^ 23)) + (1 >> (setB ^ 23)) + (1 >> (setF ^ 23)));
 
     // Calculate ornament set counts
 
@@ -236,7 +247,7 @@ fn main(
     c.Ice_DMG       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);
     c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(sets.BandOfSizzlingThunder);
     c.Wind_DMG      += traceWind_DMG + 0.10 * p2(sets.EagleOfTwilightLine);
-    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars);
+    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse);
     c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(sets.WastelanderOfBanditryDesert);
 
     // Calculate set effects
@@ -245,7 +256,8 @@ fn main(
       0.06 * p2(sets.MessengerTraversingHackerspace) +
       0.06 * p2(sets.ForgeOfTheKalpagniLantern) +
       0.06 * p4(sets.MusketeerOfWildWheat) +
-      0.06 * p2(sets.SacerdosRelivedOrdeal)
+      0.06 * p2(sets.SacerdosRelivedOrdeal) -
+      0.08 * p4(sets.PoetOfMourningCollapse)
     );
 
     c.HP += (baseHP) * (
@@ -259,7 +271,8 @@ fn main(
       0.12 * p2(sets.MusketeerOfWildWheat) +
       0.12 * p2(sets.PrisonerInDeepConfinement) +
       0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm) +
-      0.12 * p2(sets.TheWindSoaringValorous)
+      0.12 * p2(sets.TheWindSoaringValorous) +
+      0.12 * p2(sets.HeroOfTriumphantSong)
     );
 
     c.DEF += (baseDEF) * (
@@ -321,19 +334,31 @@ fn main(
 
     var combo = 0.0;
 
+    var mc = c;
+
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
       let action = actions[actionIndex];
       var x = action.x;
+      var m = action.m;
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
 
       let p_x = &x;
+      let p_m = &m;
       let p_state = &state;
+
+
       x.sets = sets;
 
       if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
         x.SPD_P += 0.12;
+        m.SPD_P += 0.12;
+      }
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == true) {
+        x.SPD_P += 0.06;
+        x.CD += 0.30;
+        m.CD += 0.30;
       }
 
       // ATK
@@ -392,11 +417,17 @@ fn main(
       if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true) {
         x.CR += 0.12;
       }
+      if (p4(sets.PoetOfMourningCollapse) >= 1) {
+        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        x.CR += crValue;
+        m.CR += crValue;
+      }
 
       // BE
 
       if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true) {
         x.BE += 0.30;
+        m.BE += 0.30;
       }
       if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == true) {
         x.BE += 0.40;
@@ -406,32 +437,32 @@ fn main(
 
       // Basic boost
       if (p4(sets.MusketeerOfWildWheat) >= 1) {
-        buffAbilityDmg(&x, BASIC_TYPE, 0.10, 1);
+        buffAbilityDmg(&x, BASIC_DMG_TYPE, 0.10, 1);
       }
 
       // Skill boost
       if (p4(sets.FiresmithOfLavaForging) >= 1) {
-        buffAbilityDmg(&x, SKILL_TYPE, 0.12, 1);
+        buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.12, 1);
       }
 
       // Fua boost
       if (p2(sets.TheAshblazingGrandDuke) >= 1) {
-        buffAbilityDmg(&x, FUA_TYPE, 0.20, 1);
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.20, 1);
       }
       if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
-        buffAbilityDmg(&x, FUA_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
       }
 
       // Ult boost
       if (p4(sets.TheWindSoaringValorous) >= 1) {
-        buffAbilityDmg(&x, ULT_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+        buffAbilityDmg(&x, ULT_DMG_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
       }
 
       if (p4(sets.ScholarLostInErudition) >= 1) {
-        buffAbilityDmg(&x, SKILL_TYPE | ULT_TYPE, 0.20, 1);
+        buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
 
         if (setConditionals.enabledScholarLostInErudition == true) {
-          buffAbilityDmg(&x, SKILL_TYPE, 0.25, 1);
+          buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
         }
       }
 
@@ -473,6 +504,20 @@ fn main(
 
       addElementalDmg(&c, &x);
 
+//      m.ATK += mc.ATK;
+//      m.DEF += mc.DEF;
+//      m.HP  += mc.HP;
+//      m.SPD += mc.SPD;
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
       x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
       x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
       x.VULNERABILITY += combatBuffsVULNERABILITY;
@@ -485,32 +530,38 @@ fn main(
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
 
-      evaluateDependenciesSPD(p_x, p_state);
-      evaluateDependenciesBE(p_x, p_state);
 
-      evaluateDependenciesHP(p_x, p_state);
-      evaluateDependenciesATK(p_x, p_state);
-      evaluateDependenciesDEF(p_x, p_state);
-      evaluateDependenciesCR(p_x, p_state);
-      evaluateDependenciesCD(p_x, p_state);
-      evaluateDependenciesEHR(p_x, p_state);
-      evaluateDependenciesRES(p_x, p_state);
-      evaluateDependenciesOHB(p_x, p_state);
-      evaluateDependenciesERR(p_x, p_state);
+      m.ATK += (m.ATK_P * baseATK + mc.ATK) * x.MEMO_ATK_SCALING + x.MEMO_ATK_FLAT;
+      m.DEF += (m.DEF_P * baseDEF + mc.DEF) * x.MEMO_DEF_SCALING + x.MEMO_DEF_FLAT;
+      m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_HP_SCALING + x.MEMO_HP_FLAT;
+      m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_SPD_SCALING + x.MEMO_SPD_FLAT;
 
-      evaluateDependenciesSPD(p_x, p_state);
-      evaluateDependenciesBE(p_x, p_state);
 
-      evaluateDependenciesHP(p_x, p_state);
-      evaluateDependenciesATK(p_x, p_state);
-      evaluateDependenciesDEF(p_x, p_state);
-      evaluateDependenciesCR(p_x, p_state);
-      evaluateDependenciesCD(p_x, p_state);
-      evaluateDependenciesEHR(p_x, p_state);
-      evaluateDependenciesRES(p_x, p_state);
-      evaluateDependenciesOHB(p_x, p_state);
-      evaluateDependenciesERR(p_x, p_state);
+      evaluateDependenciesSPD(p_x, p_m, p_state);
+      evaluateDependenciesBE(p_x, p_m, p_state);
 
+      evaluateDependenciesHP(p_x, p_m, p_state);
+      evaluateDependenciesATK(p_x, p_m, p_state);
+      evaluateDependenciesDEF(p_x, p_m, p_state);
+      evaluateDependenciesCR(p_x, p_m, p_state);
+      evaluateDependenciesCD(p_x, p_m, p_state);
+      evaluateDependenciesEHR(p_x, p_m, p_state);
+      evaluateDependenciesRES(p_x, p_m, p_state);
+      evaluateDependenciesOHB(p_x, p_m, p_state);
+      evaluateDependenciesERR(p_x, p_m, p_state);
+
+      evaluateDependenciesSPD(p_x, p_m, p_state);
+      evaluateDependenciesBE(p_x, p_m, p_state);
+
+      evaluateDependenciesHP(p_x, p_m, p_state);
+      evaluateDependenciesATK(p_x, p_m, p_state);
+      evaluateDependenciesDEF(p_x, p_m, p_state);
+      evaluateDependenciesCR(p_x, p_m, p_state);
+      evaluateDependenciesCD(p_x, p_m, p_state);
+      evaluateDependenciesEHR(p_x, p_m, p_state);
+      evaluateDependenciesRES(p_x, p_m, p_state);
+      evaluateDependenciesOHB(p_x, p_m, p_state);
+      evaluateDependenciesERR(p_x, p_m, p_state);
 
       // START ACTION CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -520,195 +571,23 @@ fn main(
 
 
       // Calculate damage
-      let eLevel: f32 = f32(enemyLevel);
 
       addComputedElementalDmg(&x);
 
-      let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
-      let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
-      let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-      let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(&x);
-      let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
-
-      // === Super / Break ===
-
-      x.BREAK_DMG
-        = baseUniversalMulti
-        * 3767.5533
-        * ELEMENTAL_BREAK_SCALING
-        * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN)
-        * (0.5 + enemyMaxToughness / 120)
-        * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
-        * (1 - baseResistance)
-        * (1 + x.BE)
-        * (1 + x.BREAK_BOOST);
-
-      let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
-
-      let baseSuperBreakInstanceDmg
-        = baseUniversalMulti
-        * 3767.5533
-        * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-        * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
-        * (1 - baseResistance)
-        * (1 + x.BE)
-        * (1 + x.BREAK_BOOST)
-        * (0.03333333333f);
-
-      if (actionIndex == 0) {
-        let dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST;
-        let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
-        let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
-        let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
-        let dotEhrMulti = calculateEhrMulti(p_x);
-
-        if (x.DOT_DMG > 0) {
-          x.DOT_DMG = x.DOT_DMG
-            * (baseUniversalMulti)
-            * (dotDmgBoostMulti)
-            * (dotDefMulti)
-            * (dotVulnerabilityMulti)
-            * (dotResMulti)
-            * (dotEhrMulti);
-        }
-
-        if (x.HEAL_VALUE > 0) {
-          x.HEAL_VALUE = x.HEAL_VALUE * (
-            1
-            + x.OHB
-            + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_TYPE)
-            + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_TYPE)
-          );
-        }
-
-        if (x.SHIELD_VALUE > 0) {
-          x.SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
-        }
-
-        x.EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
-      }
-
-      if (action.abilityType == 1 || actionIndex == 0) {
-        x.BASIC_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.BASIC_DMG,
-          x.BASIC_BOOST,
-          x.BASIC_VULNERABILITY,
-          x.BASIC_DEF_PEN,
-          x.BASIC_RES_PEN,
-          x.BASIC_CR_BOOST,
-          x.BASIC_CD_BOOST,
-          x.BASIC_ORIGINAL_DMG_BOOST,
-          x.BASIC_BREAK_EFFICIENCY_BOOST,
-          x.BASIC_SUPER_BREAK_MODIFIER,
-          x.BASIC_BREAK_DMG_MODIFIER,
-          x.BASIC_TOUGHNESS_DMG,
-          x.BASIC_ADDITIONAL_DMG,
-          0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
-          0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
-
-      if (action.abilityType == 2 || actionIndex == 0) {
-        x.SKILL_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.SKILL_DMG,
-          x.SKILL_BOOST,
-          x.SKILL_VULNERABILITY,
-          x.SKILL_DEF_PEN,
-          x.SKILL_RES_PEN,
-          x.SKILL_CR_BOOST,
-          x.SKILL_CD_BOOST,
-          x.SKILL_ORIGINAL_DMG_BOOST,
-          0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
-          0, // x.SKILL_SUPER_BREAK_MODIFIER,
-          0, // x.SKILL_BREAK_DMG_MODIFIER,
-          x.SKILL_TOUGHNESS_DMG,
-          x.SKILL_ADDITIONAL_DMG,
-          0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
-          0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
-
-      if (action.abilityType == 4 || actionIndex == 0) {
-        x.ULT_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.ULT_DMG,
-          x.ULT_BOOST,
-          x.ULT_VULNERABILITY,
-          x.ULT_DEF_PEN,
-          x.ULT_RES_PEN,
-          x.ULT_CR_BOOST,
-          x.ULT_CD_BOOST,
-          x.ULT_ORIGINAL_DMG_BOOST,
-          x.ULT_BREAK_EFFICIENCY_BOOST,
-          0, // x.ULT_SUPER_BREAK_MODIFIER,
-          0, // x.ULT_BREAK_DMG_MODIFIER,
-          x.ULT_TOUGHNESS_DMG,
-          x.ULT_ADDITIONAL_DMG,
-          x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
-          x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
-
-      if (action.abilityType == 8 || actionIndex == 0) {
-        x.FUA_DMG = calculateAbilityDmg(
-          p_x,
-          baseUniversalMulti,
-          baseDmgBoost,
-          baseDefPen,
-          baseResistance,
-          baseSuperBreakInstanceDmg,
-          baseSuperBreakModifier,
-          baseBreakEfficiencyBoost,
-          x.FUA_DMG,
-          x.FUA_BOOST,
-          x.FUA_VULNERABILITY,
-          x.FUA_DEF_PEN,
-          x.FUA_RES_PEN,
-          x.FUA_CR_BOOST,
-          x.FUA_CD_BOOST,
-          0, // x.FUA_ORIGINAL_DMG_BOOST,
-          0, // x.FUA_BREAK_EFFICIENCY_BOOST,
-          0, // x.FUA_SUPER_BREAK_MODIFIER,
-          0, // x.FUA_BREAK_DMG_MODIFIER,
-          x.FUA_TOUGHNESS_DMG,
-          x.FUA_ADDITIONAL_DMG,
-          0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
-          0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
-        );
-      }
+      calculateDamage(&m, &emptyComputedStats, actionIndex);
+      calculateDamage(&x, &m, actionIndex);
 
       if (actionIndex > 0) {
-        if (action.abilityType == 1) {
+        if (action.abilityType == BASIC_ABILITY_TYPE) {
           combo += x.BASIC_DMG;
-        } else if (action.abilityType == 2) {
+        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
           combo += x.SKILL_DMG;
-        } else if (action.abilityType == 4) {
+        } else if (action.abilityType == ULT_ABILITY_TYPE) {
           combo += x.ULT_DMG;
-        } else if (action.abilityType == 8) {
+        } else if (action.abilityType == FUA_ABILITY_TYPE) {
           combo += x.FUA_DMG;
+        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+          combo += x.MEMO_SKILL_DMG;
         }
       } else {
         x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
@@ -742,6 +621,227 @@ fn main(
         // END RETURN VALUE
       }
     }
+  }
+}
+
+fn calculateDamage(
+  p_x: ptr<function, ComputedStats>,
+  p_m: ptr<function, ComputedStats>,
+  actionIndex: i32
+) {
+  let x = *p_x;
+  let m = *p_m;
+  let eLevel: f32 = f32(enemyLevel);
+  let action = actions[actionIndex];
+  let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
+  let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
+  let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
+  let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
+  let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
+
+  // === Super / Break ===
+
+  (*p_x).BREAK_DMG
+    = baseUniversalMulti
+    * 3767.5533
+    * ELEMENTAL_BREAK_SCALING
+    * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN)
+    * (0.5 + enemyMaxToughness / 120)
+    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * (1 - baseResistance)
+    * (1 + x.BE)
+    * (1 + x.BREAK_BOOST);
+
+  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
+
+  let baseSuperBreakInstanceDmg
+    = baseUniversalMulti
+    * 3767.5533
+    * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
+    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * (1 - baseResistance)
+    * (1 + x.BE)
+    * (1 + x.BREAK_BOOST)
+    * (0.03333333333f);
+
+  if (actionIndex == 0) {
+    let dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST;
+    let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
+    let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
+    let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
+    let dotEhrMulti = calculateEhrMulti(p_x);
+
+    if (x.DOT_DMG > 0) {
+      (*p_x).DOT_DMG = x.DOT_DMG
+        * (baseUniversalMulti)
+        * (dotDmgBoostMulti)
+        * (dotDefMulti)
+        * (dotVulnerabilityMulti)
+        * (dotResMulti)
+        * (dotEhrMulti);
+    }
+
+    if (x.HEAL_VALUE > 0) {
+      (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
+        1
+        + x.OHB
+        + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
+        + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
+      );
+    }
+
+    if (x.SHIELD_VALUE > 0) {
+      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+    }
+
+    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+  }
+
+  if (action.abilityType == 1 || actionIndex == 0) {
+    (*p_x).BASIC_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.BASIC_DMG,
+      x.BASIC_BOOST,
+      x.BASIC_VULNERABILITY,
+      x.BASIC_DEF_PEN,
+      x.BASIC_RES_PEN,
+      x.BASIC_CR_BOOST,
+      x.BASIC_CD_BOOST,
+      x.BASIC_ORIGINAL_DMG_BOOST,
+      x.BASIC_BREAK_EFFICIENCY_BOOST,
+      x.BASIC_SUPER_BREAK_MODIFIER,
+      x.BASIC_BREAK_DMG_MODIFIER,
+      x.BASIC_TOUGHNESS_DMG,
+      x.BASIC_ADDITIONAL_DMG,
+      0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
+      m.BASIC_DMG,
+    );
+  }
+
+  if (action.abilityType == 2 || actionIndex == 0) {
+    (*p_x).SKILL_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.SKILL_DMG,
+      x.SKILL_BOOST,
+      x.SKILL_VULNERABILITY,
+      x.SKILL_DEF_PEN,
+      x.SKILL_RES_PEN,
+      x.SKILL_CR_BOOST,
+      x.SKILL_CD_BOOST,
+      x.SKILL_ORIGINAL_DMG_BOOST,
+      0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
+      0, // x.SKILL_SUPER_BREAK_MODIFIER,
+      0, // x.SKILL_BREAK_DMG_MODIFIER,
+      x.SKILL_TOUGHNESS_DMG,
+      x.SKILL_ADDITIONAL_DMG,
+      0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // m.SKILL_DMG,
+    );
+  }
+
+  if (action.abilityType == 4 || actionIndex == 0) {
+    (*p_x).ULT_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.ULT_DMG,
+      x.ULT_BOOST,
+      x.ULT_VULNERABILITY,
+      x.ULT_DEF_PEN,
+      x.ULT_RES_PEN,
+      x.ULT_CR_BOOST,
+      x.ULT_CD_BOOST,
+      x.ULT_ORIGINAL_DMG_BOOST,
+      x.ULT_BREAK_EFFICIENCY_BOOST,
+      0, // x.ULT_SUPER_BREAK_MODIFIER,
+      0, // x.ULT_BREAK_DMG_MODIFIER,
+      x.ULT_TOUGHNESS_DMG,
+      x.ULT_ADDITIONAL_DMG,
+      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
+      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
+      m.ULT_DMG,
+    );
+  }
+
+  if (action.abilityType == 8 || actionIndex == 0) {
+    (*p_x).FUA_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.FUA_DMG,
+      x.FUA_BOOST,
+      x.FUA_VULNERABILITY,
+      x.FUA_DEF_PEN,
+      x.FUA_RES_PEN,
+      x.FUA_CR_BOOST,
+      x.FUA_CD_BOOST,
+      0, // x.FUA_ORIGINAL_DMG_BOOST,
+      0, // x.FUA_BREAK_EFFICIENCY_BOOST,
+      0, // x.FUA_SUPER_BREAK_MODIFIER,
+      0, // x.FUA_BREAK_DMG_MODIFIER,
+      x.FUA_TOUGHNESS_DMG,
+      x.FUA_ADDITIONAL_DMG,
+      0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // m.FUA_DMG,
+    );
+  }
+
+  if (action.abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
+    (*p_x).MEMO_SKILL_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.MEMO_SKILL_DMG,
+      0, // x.MEMO_SKILL_BOOST,
+      0, // x.MEMO_SKILL_VULNERABILITY,
+      0, // x.MEMO_SKILL_DEF_PEN,
+      0, // x.MEMO_SKILL_RES_PEN,
+      0, // x.MEMO_SKILL_CR_BOOST,
+      0, // x.MEMO_SKILL_CD_BOOST,
+      0, // x.MEMO_SKILL_ORIGINAL_DMG_BOOST,
+      0, // x.MEMO_SKILL_BREAK_EFFICIENCY_BOOST,
+      0, // x.MEMO_SKILL_SUPER_BREAK_MODIFIER,
+      0, // x.MEMO_SKILL_BREAK_DMG_MODIFIER,
+      0, // x.MEMO_SKILL_TOUGHNESS_DMG,
+      0, // x.MEMO_SKILL_ADDITIONAL_DMG,
+      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // m.FUA_DMG,
+    );
+
+    (*p_x).MEMO_SKILL_DMG += (p_m).MEMO_SKILL_DMG;
   }
 }
 
@@ -787,6 +887,7 @@ fn calculateAbilityDmg(
   abilityAdditionalDmg: f32,
   abilityAdditionalCrOverride: f32,
   abilityAdditionalCdOverride: f32,
+  abilityMemoJointDamage: f32,
 ) -> f32 {
   let x = *p_x;
 
@@ -843,10 +944,25 @@ fn calculateAbilityDmg(
       * (1 - baseResistance);
   }
 
-  return abilityCritDmgOutput
+  // === Primary DMG ===
+
+  let primaryDmgOutput = abilityCritDmgOutput
     + abilityBreakDmgOutput
     + abilitySuperBreakDmgOutput
     + abilityAdditionalDmgOutput;
+
+  // === True DMG ===
+
+  let trueDmgOutput = x.TRUE_DMG_MODIFIER * primaryDmgOutput;
+
+  // === Memo Joint DMG ===
+
+  var memoJointDmgOutput: f32 = 0;
+  if (abilityMemoJointDamage > 0) {
+    memoJointDmgOutput = abilityMemoJointDamage;
+  }
+
+  return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput;
 }
 
 fn p2(n: i32) -> f32 {

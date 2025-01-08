@@ -14,9 +14,9 @@ import relicEffectConfig from 'lib/i18n/RelicSetSkillConfig.json'
 
 const precisionRound = TsUtils.precisionRound
 
-const inputLocales = ['de', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'ru', 'th', 'vi', 'zh'] as const
+const inputLocales = ['de_DE', 'en_US', 'es_ES', 'fr_FR', 'id_ID', 'ja_JP', 'ko_KR', 'pt_BR', 'ru_RU', 'th_TH', 'vi_VN', 'zh_CN', 'zh_TW'] as const
 
-const outputLocales = [...inputLocales, 'it'] as const
+const outputLocales = [...inputLocales, 'it_IT'] as const
 
 export type InputLocale = typeof inputLocales[number]
 
@@ -25,18 +25,19 @@ type OutputLocale = typeof outputLocales[number]
 // keys must correspond to an available textmap, values are the output locales for a given textmap
 // e.g. the english textmap is used for both the english and italian gameData files
 const outputLocalesMapping: Record<InputLocale, OutputLocale[]> = {
-  de: ['de'],
-  en: ['en', 'it'],
-  es: ['es'],
-  fr: ['fr'],
-  id: ['id'],
-  ja: ['ja'],
-  ko: ['ko'],
-  pt: ['pt'],
-  ru: ['ru'],
-  th: ['th'],
-  vi: ['vi'],
-  zh: ['zh'],
+  de_DE: ['de_DE'],
+  en_US: ['en_US', 'it_IT'],
+  es_ES: ['es_ES'],
+  fr_FR: ['fr_FR'],
+  id_ID: ['id_ID'],
+  ja_JP: ['ja_JP'],
+  ko_KR: ['ko_KR'],
+  pt_BR: ['pt_BR'],
+  ru_RU: ['ru_RU'],
+  th_TH: ['th_TH'],
+  vi_VN: ['vi_VN'],
+  zh_CN: ['zh_CN'],
+  zh_TW: ['zh_TW'],
 } as const
 
 //           Destruction, Hunt, Erudition, Harmony, Nihility, Preservation, Abundance, Remembrance
@@ -57,76 +58,80 @@ const multiPathIdToPath: Record<typeof multiPathIds[number], Path> = {
 }
 
 const tbNames: Record<InputLocale, { stelle: string; caelus: string }> = {
-  de: {
+  de_DE: {
     stelle: 'Stella',
     caelus: 'Caelus',
   },
-  en: {
+  en_US: {
     stelle: 'Stelle',
     caelus: 'Caelus',
   },
-  es: {
+  es_ES: {
     stelle: 'Estela',
     caelus: 'Caelus',
   },
-  fr: {
+  fr_FR: {
     stelle: 'Stelle',
     caelus: 'Caelus',
   },
-  id: {
+  id_ID: {
     stelle: 'Stelle',
     caelus: 'Caelus',
   },
-  ja: {
+  ja_JP: {
     stelle: '星',
     caelus: '穹',
   },
-  ko: {
+  ko_KR: {
     stelle: '스텔레',
     caelus: '카일루스',
   },
-  pt: {
+  pt_BR: {
     stelle: 'Stelle',
     caelus: 'Caelus',
   },
-  ru: {
+  ru_RU: {
     stelle: 'Стелла',
     caelus: 'Келус',
   },
-  zh: {
+  zh_CN: {
     stelle: '星',
     caelus: '穹',
   },
-  th: {
+  zh_TW: {
+    stelle: '星',
+    caelus: '穹',
+  },
+  th_TH: {
     stelle: 'Stelle',
     caelus: 'Caelus',
   },
-  vi: {
+  vi_VN: {
     stelle: 'Stelle',
     caelus: 'Caelus',
   },
 } as const
 
 const overrides: Partial<Record<InputLocale, { key: string; value: string }[]>> = {
-  en: [
+  en_US: [
     {
       key: 'Characters.1213.Name',
       value: 'Imbibitor Lunae',
     },
   ],
-  es: [
+  es_ES: [
     {
       key: 'Characters.1213.Name',
       value: 'Imbibitor Lunae',
     },
   ],
-  fr: [
+  fr_FR: [
     {
       key: 'Characters.1213.Name',
       value: 'Imbibitor Lunae',
     },
   ],
-  pt: [
+  pt_BR: [
     {
       key: 'Characters.1213.Name',
       value: 'Embebidor Lunae',
@@ -156,9 +161,9 @@ function replaceParameters(string: string, parameters: number[]) {
   return output
 }
 
-function cleanString(locale: string, string: string): string {
+function cleanString(locale: InputLocale, string: string): string {
   if (!string) return ''
-  if (locale !== 'ja') {
+  if (locale !== 'ja_JP') {
     return string
   }
   const regex = /({[^}]*})/g
@@ -174,36 +179,38 @@ async function generateTranslations() {
   for (const locale of inputLocales) {
     const textmap: TextMap = await (async (locale) => {
       switch (locale) { // en left as default to make typescript happy
-        case 'zh':
+        case 'zh_CN':
           return await importTextmap('CHS')
-        case 'de':
+        case 'zh_TW':
+          return await importTextmap('CHT')
+        case 'de_DE':
           return await importTextmap('DE')
-        case 'es':
+        case 'es_ES':
           return await importTextmap('ES')
-        case 'fr':
+        case 'fr_FR':
           return await importTextmap('FR')
-        case 'id':
+        case 'id_ID':
           return await importTextmap('ID')
-        case 'ja':
+        case 'ja_JP':
           return await importTextmap('JP')
-        case 'ko':
+        case 'ko_KR':
           return await importTextmap('KR')
-        case 'pt':
+        case 'pt_BR':
           return await importTextmap('PT')
-        case 'ru':
+        case 'ru_RU':
           return await importTextmap('RU')
-        case 'th':
+        case 'th_TH':
           return await importTextmap('TH')
-        case 'vi':
+        case 'vi_VN':
           return await importTextmap('VI')
         default:
           return await importTextmap('EN')
       }
     })(locale)
 
-    const characterBetaInfo = betaInformation[locale]?.Characters ?? betaInformation.en?.Characters
-    const lightConeBetaInfo = betaInformation[locale]?.Lightcones ?? betaInformation.en?.Lightcones
-    const relicBetaInfo = betaInformation[locale]?.RelicSets ?? betaInformation.en?.RelicSets
+    const characterBetaInfo = betaInformation[locale]?.Characters ?? betaInformation.en_US?.Characters
+    const lightConeBetaInfo = betaInformation[locale]?.Lightcones ?? betaInformation.en_US?.Lightcones
+    const relicBetaInfo = betaInformation[locale]?.RelicSets ?? betaInformation.en_US?.RelicSets
 
     const setEffects: Record<number, { effect2pc: string; effect4pc?: string }> = {}
     for (const effect of relicEffectConfig) {

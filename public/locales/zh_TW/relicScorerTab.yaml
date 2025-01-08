@@ -1,0 +1,5 @@
+Messages:
+  SuccessMsg: 成功載入個人資料
+  NoCharacterSelected: 未選擇角色
+SubmissionBar:
+  AlgorithmButton: 評分算法

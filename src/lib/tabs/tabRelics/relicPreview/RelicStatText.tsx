@@ -1,15 +1,16 @@
 import { Typography } from 'antd'
+import { Languages } from 'lib/i18n/i18n'
 import styled from 'styled-components'
 
 const { Text } = Typography
 
-const RelicStatText = styled(Text)<{ language?: string }>`
+const RelicStatText = styled(Text)<{ language?: Languages }>`
     ${(props) => generateStyling(props.language)}
 `
 
 export default RelicStatText
 
-function generateStyling(language?: string) {
+function generateStyling(language?: Languages) {
   switch (language) {
     case 'fr':
     case 'pt':
@@ -17,6 +18,7 @@ function generateStyling(language?: string) {
         white-space: nowrap;
         letter-spacing: -0.2px;
         font-size: 13px;
+        line-height: 22px;
       `
     default:
       return `

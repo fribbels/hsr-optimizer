@@ -98,12 +98,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buff((m.roaringBowstringsActive) ? skillAtkBuffValue : 0, Source.NONE)
-      x.CR.buff((m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0, Source.NONE)
-      x.CD.buff((m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0, Source.NONE)
-      x.SPD_P.buff((e >= 1 && m.initialSpeedBuff) ? 0.10 : 0, Source.NONE)
+      x.ATK_P.buffTeam((m.roaringBowstringsActive) ? skillAtkBuffValue : 0, Source.NONE)
+      x.CR.buffTeam((m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0, Source.NONE)
+      x.CD.buffTeam((m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0, Source.NONE)
+      x.SPD_P.buffTeam((e >= 1 && m.initialSpeedBuff) ? 0.10 : 0, Source.NONE)
 
-      x.IMAGINARY_DMG_BOOST.buff((m.teamImaginaryDmgBoost) ? 0.12 : 0, Source.NONE)
+      x.IMAGINARY_DMG_BOOST.buffTeam((m.teamImaginaryDmgBoost) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

@@ -1,4 +1,5 @@
 // 0.1, 0.2, 0.3, 0.5 => 0.15
+
 export function scaleTowardsRange(
   value: number,
   min: number,
@@ -11,4 +12,8 @@ export function scaleTowardsRange(
     return value - (value - max) * factor
   }
   return value
+}
+
+export function nanAsZero(n: number) {
+  return isNaN(n) ? 0 : n
 }

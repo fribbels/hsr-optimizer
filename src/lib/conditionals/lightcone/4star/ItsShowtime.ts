@@ -70,7 +70,7 @@ let stateValue: f32 = (*p_state).ItsShowtimeConversionConditional;
 let buffValue: f32 = ${sValuesAtkBuff[s]};
 
 (*p_state).ItsShowtimeConversionConditional = buffValue;
-buffDynamicATK_P(buffValue - stateValue, p_x, p_state);
+buffDynamicATK_P(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

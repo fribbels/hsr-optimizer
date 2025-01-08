@@ -1,7 +1,7 @@
-import { BASIC_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { buffAbilityResPen, buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
+import { buffAbilityResPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -117,8 +117,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (e >= 6 && r.e6UltBuffs) {
-        x.BASIC_DMG_TYPE.set(ULT_TYPE | BASIC_TYPE, Source.NONE)
-        x.SKILL_DMG_TYPE.set(ULT_TYPE | SKILL_TYPE, Source.NONE)
+        x.BASIC_DMG_TYPE.set(ULT_DMG_TYPE | BASIC_DMG_TYPE, Source.NONE)
+        x.SKILL_DMG_TYPE.set(ULT_DMG_TYPE | SKILL_DMG_TYPE, Source.NONE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -127,8 +127,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.CR.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, Source.NONE)
 
       x.ELEMENTAL_DMG.buff((r.thunderCoreStacks) * 0.30, Source.NONE)
-      buffAbilityResPen(x, ULT_TYPE, talentResPen, Source.NONE)
-      buffAbilityResPen(x, ULT_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, Source.NONE)
+      buffAbilityResPen(x, ULT_DMG_TYPE, talentResPen, Source.NONE)
+      buffAbilityResPen(x, ULT_DMG_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, Source.NONE)
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
       x.BASIC_ORIGINAL_DMG_BOOST.buff(originalDmgBoost, Source.NONE)
@@ -153,7 +153,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, ULT_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, Source.NONE)
+      buffAbilityVulnerability(x, ULT_DMG_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, Source.NONE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

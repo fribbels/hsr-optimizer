@@ -1,8 +1,10 @@
+import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { buffAbilityDmg, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -112,15 +114,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buff((m.ultBuff) ? ultAtkBuffValue : 0, Source.NONE)
-      x.ATK_P.buff((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE)
+      x.ATK_P.buff((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE) // TODO: MEMO
 
-      x.ELEMENTAL_DMG.buff((m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE, Target.MAIN)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buff((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
+      x.SPD.buff((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE) // TODO: MEMO
+      x.RATIO_BASED_SPD_BUFF.buff((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE) // TODO: MEMO
+      x.ATK_P.buff((t.ultBuff) ? ultAtkBuffValue : 0, Source.NONE) // TODO: MEMO
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
@@ -172,7 +175,7 @@ var stateBuffSPD: f32 = ${ultSpdBuffValue} * stateValue;
 let finalBuffSpd = buffSPD - select(0, stateBuffSPD, stateValue > 0);
 (*p_x).RATIO_BASED_SPD_BUFF += finalBuffSpd;
 
-buffNonRatioDynamicSPD(finalBuffSpd, p_x, p_state);
+buffNonRatioDynamicSPD(finalBuffSpd, p_x, p_m, p_state);
     `)
         },
       },

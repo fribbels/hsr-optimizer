@@ -1,0 +1,125 @@
+RelicFilterBar:
+  Part: 部位
+  Enhance: 強化
+  Grade: レア度
+  Verified: 確認済み
+  Equipped: 装備済み
+  Clear: クリア
+  ClearButton: すべてのフィルターをクリア
+  Set: セット
+  Mainstat: メインステータス
+  Substat: サブステータス
+  ReapplyButton: スコアを更新
+  ScoringButton: スコア計算方法の編集
+  RecommendationHeader: 遺物をおすすめするキャラ
+  Rating: 遺物の分類
+  CustomCharsHeader: 評価対象の複数指定
+Messages:
+  AddRelicSuccess: 遺物を追加しました
+  NoRelicSelected: 遺物が選択されていません
+  DeleteRelicSuccess: 遺物を削除しました
+RelicGrid:
+  To: "~"
+  Of: /
+  Headers:
+    EquippedBy: 所有者
+    Set: セット
+    Grade: レア度
+    Part: 部位
+    Enhance: 強化
+    MainStat: |-
+      メインステ
+    MainValue: |-
+      メインステ
+      の値
+    HPP: HP
+    ATKP: 攻撃力割合
+    DEFP: 防御力
+    HP: HP
+    ATK: 攻撃力
+    DEF: 防御力
+    SPD: 速度
+    CR: |-
+      会心率
+    CD: |-
+      会心
+      ダメ
+    EHR: |-
+      効果
+      命中
+    RES: |-
+      効果
+      抵抗
+    BE: |-
+      撃破
+      特効
+    CV: |-
+      Crit
+      Value
+  ValueColumns:
+    SelectedCharacter:
+      Label: 選択したキャラクター
+      ScoreCol:
+        Label: "選択したキャラクターのスコア"
+        Header: |-
+          選択キャラ
+          のスコア
+      AvgPotCol:
+        Label: "選択したキャラクターの平均ポテンシャル"
+        Header: |-
+          選択キャラの平
+          均ポテンシャル
+      MaxPotCol:
+        Label: "選択したキャラクターの最大ポテンシャル"
+        Header: |-
+          選択キャラの最
+          大ポテンシャル
+    CustomCharacters:
+      Label: 指定したキャラクター
+      AvgPotCol:
+        Label: "指定した対象の平均ポテンシャル"
+        Header: |-
+          指定対象の平均ポテンシャル
+      MaxPotCol:
+        Label: "指定した対象の最大ポテンシャル"
+        Header: |-
+          指定対象の最大ポテンシャル
+    AllCharacters:
+      Label: 全キャラクター
+      AvgPotCol:
+        Label: "全キャラクターの平均ポテンシャル"
+        Header: |-
+          全キャラの平均
+          ポテンシャル
+      MaxPotCol:
+        Label: "全キャラクターの最大ポテンシャル"
+        Header: |-
+          全キャラの最大
+          ポテンシャル
+    ComingSoon:
+      Label: 近日公開
+      SetsPotential:
+        Label: 遺物・オーナメントセットのポテンシャル
+        Header: |-
+          全キャラの最大ポテンシャル+セット
+Toolbar:
+  RelicLocator:
+    Width: インベントリの幅
+    Filter: 行のしきい値
+    NoneSelected: 遺物を選択して場所を確認
+    Location: "場所 - 行 {{rowIndex}} / 列 {{columnIndex}}"
+  InsightOptions:
+    Buckets: "遺物インサイト：バケツ"
+    Top10: "遺物インサイト：トップ10"
+  PlotOptions:
+    PlotAll: 全てのキャラクターを表示
+    PlotCustom: 指定した対象のみ表示
+  EditRelic: 遺物を編集
+  DeleteRelic:
+    ButtonText: 遺物を削除
+    Warning_one: 選択した遺物を削除しますか？
+    Warning_other: "選択した{{count}}個の遺物を削除しますか？"
+  AddRelic: 新しい遺物を追加
+RelicInsights:
+  NewStats: "新しいステータス："
+  UpgradedStats: "アップグレードしたステータス: "

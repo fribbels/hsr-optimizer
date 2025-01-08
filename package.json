@@ -62,7 +62,7 @@
     "typecheck": "tsc --noEmit -p ./tsconfig.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en -o ./src/types/resources.d.ts",
+    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts",
     "update-gameData": "npx tsx src/lib/i18n/generateTranslations.ts && npm run update-resources"
   },
   "browserslist": {

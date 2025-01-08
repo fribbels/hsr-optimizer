@@ -1,4 +1,4 @@
-import { BASIC_TYPE, FUA_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
@@ -10,7 +10,7 @@ import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StringToNumberMap } from 'types/common'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
-import { Form } from 'types/form'
+import { Form, Teammate } from 'types/form'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
@@ -82,6 +82,7 @@ const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
       ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
       ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
       ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
+      ${action.setConditionals.enabledHeroOfTriumphantSong},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
       ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
       ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
       ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
@@ -92,7 +93,9 @@ const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
       ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
       ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
     ),
-    ComputedStats(${injectPrecomputedStatsContext(action, gpuParams)}
+    ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
+    ),
+    ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
     ),
     ConditionalState(
     ),
@@ -113,12 +116,12 @@ const actionCount = ${actionLength};
 }
 
 function generateDependencyCall(conditionalName: string) {
-  return `evaluate${conditionalName}(p_x, p_state);`
+  return `evaluate${conditionalName}(p_x, p_m, p_state);`
 }
 
 function generateConditionalEvaluator(statName: string, conditionalCallsWgsl: string) {
   return `
-fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
 ${indent(conditionalCallsWgsl, 1)}
 }
   `
@@ -126,16 +129,24 @@ ${indent(conditionalCallsWgsl, 1)}
 
 function generateConditionalNonRatioEvaluator(statName: string, conditionalCallsWgsl: string) {
   return `
-fn evaluateNonRatioDependencies${statName}(p_x: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluateNonRatioDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
 ${indent(conditionalCallsWgsl, 1)}
 }
   `
 }
 
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
-  if (conditional.teammateIndex == 0) return request.teammate0
-  else if (conditional.teammateIndex == 1) return request.teammate1
-  else return request.teammate2
+  let teammate: Teammate
+  if (conditional.teammateIndex == 0) teammate = request.teammate0
+  else if (conditional.teammateIndex == 1) teammate = request.teammate1
+  else teammate = request.teammate2
+
+  // @ts-ignore
+  teammate.teammateCharacterConditionals = teammate.characterConditionals
+  // @ts-ignore
+  teammate.teammateLightConeConditionals = teammate.lightConeConditionals
+
+  return teammate
 }
 
 function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
@@ -221,10 +232,11 @@ ${indent(conditionalStateDefinition, 1)}
 }
 
 const actionTypeToWgslMapping: StringToNumberMap = {
-  BASIC: BASIC_TYPE,
-  SKILL: SKILL_TYPE,
-  ULT: ULT_TYPE,
-  FUA: FUA_TYPE,
+  BASIC: BASIC_ABILITY_TYPE,
+  SKILL: SKILL_ABILITY_TYPE,
+  ULT: ULT_ABILITY_TYPE,
+  FUA: FUA_ABILITY_TYPE,
+  MEMO_SKILL: MEMO_SKILL_ABILITY_TYPE,
 }
 
 function getActionTypeToWgslMapping(actionType: string) {

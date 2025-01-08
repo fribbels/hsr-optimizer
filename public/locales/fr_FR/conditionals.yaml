@@ -1,0 +1,1147 @@
+BetaMessage: "Version actuelle : {{Version}} - Les calculs sont susceptibles de changer."
+Common:
+  HealAbility:
+    Text: "Capacité de soins"
+    Content: "Sélectionnez la capacité pour les calculs de soins"
+    Basic: "Capacité de soins: Basique"
+    Skill: "Capacité de soins: Compétence"
+    Ult: "Capacité de soins: Ult"
+    Talent: "Capacité de soins: Talent"
+    Trace: "Capacité de soins: Trace"
+  ShieldAbility:
+    Text: "Capacité de bouclier"
+    Content: "Sélectionnez la capacité pour les calculs de bouclier"
+    Basic: "Capacité de bouclier: Basique"
+    Skill: "Capacité de bouclier: Compétence"
+    Ult: "Capacité de bouclier: Ult"
+    Talent: "Capacité de bouclier: Talent"
+    Trace: "Capacité de bouclier: Trace"
+Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: Cumuls de bonus de DGT
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: Malus Bulle du vide
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: Énergie maximale
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: Cumuls de malus de DC
+      postUltBuff:
+        text: Bonus Débat
+  BeforeDawn:
+    Content:
+      fuaDmgBoost:
+        text: DGT bonus ADS
+  BrighterThanTheSun:
+    Content:
+      dragonsCallStacks:
+        text: Cumuls d'Appel du dragon
+  ButTheBattleIsntOver:
+    Content:
+      postSkillDmgBuff:
+        text: Bonus de DGT post-compétence
+  CruisingInTheStellarSea:
+    Content:
+      enemyHp50CrBoost:
+        text: Bonus de TC ennemi à PV ≤ 50%
+      enemyDefeatedAtkBuff:
+        text: Bonus d'ATQ pour ennemi vaincu
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: Cumuls de bonus de DGT d'ADS
+  EarthlyEscapade:
+    Content:
+      maskActive:
+        text: Masque actif
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: Bonus de VIT post-ULT
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+      spdBuff:
+        text: Bonus de VIT 3 cibles attaquées
+  FlowingNightglow:
+    Content:
+      cadenzaActive:
+        text: Cadence actif
+      cantillationStacks:
+        text: Cumuls de Cantique
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: Bonus de TC ennemi ≥ 3 malus
+      targetCodeDebuff:
+        text: Cible malussée code éthéré
+  InherentlyUnjustDestiny:
+    Content:
+      shieldCdBuff:
+        text: Bonus de DC post-bouclier
+      targetVulnerability:
+        text: Cible malussée vulnérabilité
+  InTheNameOfTheWorld:
+    Content:
+      enemyDebuffedDmgBoost:
+        text: Bonus DGT ennemi malussé
+      skillAtkBoost:
+        text: Bonus d'ATQ de compétence (non mis en œuvre)
+  InTheNight:
+    Content:
+      spdScalingBuffs:
+        text: Bonus par conversions de VIT
+  IShallBeMyOwnSword:
+    Content:
+      eclipseStacks:
+        text: Cumuls d'Éclipse
+      maxStackDefPen:
+        text: Cumuls maximum de PÉN de DÉF
+  IVentureForthToHunt:
+    Content:
+      luminfluxUltStacks:
+        text: Cumuls de Lumière vive
+  LongRoadLeadsHome:
+    Content:
+      breakVulnerabilityStacks:
+        text: Cumuls de vulnérabilité de rupture
+  MomentOfVictory:
+    Content:
+      selfAttackedDefBuff:
+        text: Bonus de DÉF après porteur attaqué
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+  NightOnTheMilkyWay:
+    Content:
+      enemyCountAtkBuff:
+        text: Bonus d'ATQ nombre d'ennemis
+      enemyWeaknessBreakDmgBuff:
+        text: Bonus de DGT ennemi en état de rupture
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: Cumuls de bonus d'ATQ
+      weaknessBreakDmgBuff:
+        text: Bonus de DGT post-rupture
+  PastSelfInTheMirror:
+    Content:
+      postUltDmgBuff:
+        text: Bonus de DGT post-ULT
+  PatienceIsAllYouNeed:
+    Content:
+      spdStacks:
+        text: Cumuls de VIT
+      dotEffect:
+        text: Effet DSD (non mis en œuvre)
+  ReforgedRemembrance:
+    Content:
+      prophetStacks:
+        text: Cumuls de Prophétie
+  SailingTowardsASecondLife:
+    Content:
+      breakDmgDefShred:
+        text: PÉN de DÉF de DGT de rupture
+      spdBuffConditional:
+        text: Bonus de VIT ER ≥ 150
+  ScentAloneStaysTrue:
+    Content:
+      woefreeState:
+        text: Vulnérabilité Sans souci
+    TeammateContent:
+      additionalVulnerability:
+        text: Vulnérabilité supplémentaire
+  SheAlreadyShutHerEyes:
+    Content:
+      hpLostDmgBuff:
+        text: Bonus de DGT PV perdus
+  SleepLikeTheDead:
+    Content:
+      missedCritCrBuff:
+        text: Bonus de TC coup critique manqué
+  SolitaryHealing:
+    Content:
+      postUltDotDmgBuff:
+        text: Bonus DGT DSD post-ULT
+  SomethingIrreplaceable:
+    Content:
+      dmgBuff:
+        text: Bonus de DGT ennemi vaincu/porteur attaqué
+  TextureOfMemories:
+    Content:
+      activeShieldDmgDecrease:
+        text: Réduction de DGT bouclier actif
+  TheUnreachableSide:
+    Content:
+      dmgBuff:
+        text: Bonus de DGT porteur attaqué/PV consommés
+  ThoseManySprings:
+    Content:
+      unarmoredVulnerability:
+        text: Vulnérabilité Sans défense
+      corneredVulnerability:
+        text: Vulnérabilité Cerné
+  TimeWaitsForNoOne:
+    Content:
+      healingBasedDmgProc:
+        text: Dégâts basés sur les soins (non mis en œuvre)
+  WhereaboutsShouldDreamsRest:
+    Content:
+      routedVulnerability:
+        text: Vulnérabilité Perdu
+  WorrisomeBlissful:
+    Content:
+      targetTameStacks:
+        text: Cumuls Apprivoisement
+  YetHopeIsPriceless:
+    Content:
+      fuaDmgBoost:
+        text: DC à bonus de DGT d'ADS
+      ultFuaDefShred:
+        text: PÉN de DÉF ULT/ADS
+  AfterTheCharmonyFall:
+    Content:
+      spdBuff:
+        text: Bonus de VIT
+  ASecretVow:
+    Content:
+      enemyHpHigherDmgBoost:
+        text: Bonus de DGT ennemi %PV supérieur
+  BoundlessChoreo:
+    Content:
+      enemyDefReducedSlowed:
+        text: Ennemi ralenti / DÉF réduite
+  CarveTheMoonWeaveTheClouds:
+    Content:
+      atkBuffActive:
+        text: Bonus d'ATQ actif
+      cdBuffActive:
+        text: Bonus de DC actif
+      errBuffActive:
+        text: Bonus de TRE actif
+  ConcertForTwo:
+    Content:
+      teammateShieldStacks:
+        text: Cumuls de bonus de DGT boucliers sur alliés
+  DayOneOfMyNewLife:
+    Content:
+      dmgResBuff:
+        text: Bonus de RÉS aux DGT
+  DreamvilleAdventure:
+    Content:
+      ultDmgBuff:
+        text: Bonus de DGT d'ULT
+      skillDmgBuff:
+        text: Bonus de DGT de Compétence
+      basicDmgBuff:
+        text: Bonus de DGT de Basique
+  Fermata:
+    Content:
+      enemyShockWindShear:
+        text: Ennemi affligé de stupéfaction / faille du vent
+  FinalVictor:
+    Content:
+      goodFortuneStacks:
+        text: Cumuls de Bonne fortune
+  FlamesAfar:
+    Content:
+      dmgBuff:
+        text: Bonus de DGT
+  ForTomorrowsJourney:
+    Content:
+      ultDmgBuff:
+        text: Bonus de DGT post-ULT
+  GeniusesRepose:
+    Content:
+      defeatedEnemyCdBuff:
+        text: Bonus de DC ennemi vaincu
+  GoodNightAndSleepWell:
+    Content:
+      debuffStacksDmgIncrease:
+        text: Bonus de DGT cumuls de malu
+  HeyOverHere:
+    Content:
+      postSkillHealBuff:
+        text: Bonus de soins post-Compétence
+  IndeliblePromise:
+    Content:
+      crBuff:
+        text: Bonus de TC post-ULT
+  ItsShowtime:
+    Content:
+      trickStacks:
+        text: Cumuls de Mascarade
+  MakeTheWorldClamor:
+    Content:
+      ultDmgBuff:
+        text: Bonus de DGT d'ULT
+  NinjaRecordSoundHunt:
+    Content:
+      cdBuff:
+        text: Bonus de DC
+  OnlySilenceRemains:
+    Content:
+      enemies2CrBuff:
+        text: 'Bonus de TC ≤ 2 ennemis'
+  PastAndFuture:
+    Content:
+      postSkillDmgBuff:
+        text: Bonus de DGT post-compétence
+  PerfectTiming:
+    Content:
+      resToHealingBoost:
+        text: RÉS à bonus de soins
+  PlanetaryRendezvous:
+    Content:
+      alliesSameElement:
+        text: Bonus de DGT allié(s) du même élément
+  PoisedToBloom:
+    Content:
+      cdBuff:
+        text: Bonus de DC allié(s) du même chemin
+  PostOpConversation:
+    Content:
+      postUltHealingBoost:
+        text: Bonus de soins d'ULT
+  ResolutionShinesAsPearlsOfSweat:
+    Content:
+      targetEnsnared:
+        text: Cible piégée
+  RiverFlowsInSpring:
+    Content:
+      spdDmgBuff:
+        text: Bonus de VIT / DGT actifs
+  ShadowedByNight:
+    Content:
+      spdBuff:
+        text: Bonus de VIT
+  SubscribeForMore:
+    Content:
+      maxEnergyDmgBoost:
+        text: Bonus de DGT énergie max
+  Swordplay:
+    Content:
+      sameTargetHitStacks:
+        text: Cumuls pour même cible attaquée
+  TheBirthOfTheSelf:
+    Content:
+      enemyHp50FuaBuff:
+        text: Bonus de DGT d'ADS ennemi à PV ≤ 50%
+  TheDayTheCosmosFell:
+    Content:
+      cdBuffActive:
+        text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+  TheSeriousnessOfBreakfast:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
+      defeatedEnemyAtkStacks:
+        text: Cumuls d'ATQ ennemis vaincus
+  ThisIsMe:
+    Content:
+      defScalingUltDmg:
+        text: DGT d'ULT basés sur DÉF (non mis en œuvre)
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyStacks:
+        text: Énergie maximale
+  UnderTheBlueSky:
+    Content:
+      defeatedEnemyCrBuff:
+        text: Bonus de TC ennemi vaincu
+  WeAreWildfire:
+    Content:
+      initialDmgReductionBuff:
+        text: Réduction de DGT initiale
+  WeWillMeetAgain:
+    Content:
+      extraDmgProc:
+        text: Coup supplémentaire
+  WoofWalkTime:
+    Content:
+      enemyBurnedBleeding:
+        text: Bonus de DGT ennemi brulé/saignant
+  Adversarial:
+    Content:
+      defeatedEnemySpdBuff:
+        text: Bonus de VIT ennemi vaincu
+  Amber:
+    Content:
+      hp50DefBuff:
+        text: Bonus de DÉF PV < 50%
+  Arrows:
+    Content:
+      critBuff:
+        text: Bonus de TC initial
+  Chorus:
+    Content:
+      inBattleAtkBuff:
+        text: Bonus d'ATQ initial
+  CollapsingSky:
+    Content:
+      basicSkillDmgBuff:
+        text: Bonus de DGT de Basique/Compétence
+  Cornucopia:
+    Content:
+      healingBuff:
+        text: Bonus de soins
+  DartingArrow:
+    Content:
+      defeatedEnemyAtkBuff:
+        text: Bonus d'ATQ ennemi vaincu
+  DataBank:
+    Content:
+      ultDmgBuff:
+        text: Bonus de DGT d'ULT
+  HiddenShadow:
+    Content:
+      basicAtkBuff:
+        text: Bonus de DGT Basique
+  Loop:
+    Content:
+      enemySlowedDmgBuff:
+        text: Bonus de DGT ennemi ralenti
+  Mediation:
+    Content:
+      initialSpdBuff:
+        text: Bonus de VIT initial
+  MutualDemise:
+    Content:
+      selfHp80CrBuff:
+        text: Bonus de TC PV < 80%
+  Sagacity:
+    Content:
+      postUltAtkBuff:
+        text: Bonus d'ATQ post-ULT
+  ShatteredHome:
+    Content:
+      enemyHp50Buff:
+        text: Bonus de DGT ennemi PV > 50%
+  Void:
+    Content:
+      initialEhrBuff:
+        text: Bonus de TAE initial
+Characters:
+  Acheron:
+    Content:
+      crimsonKnotStacks:
+        text: Cumuls d'Étreinte écarlate
+      nihilityTeammates:
+        text: Coéquipiers Nihilité
+      thunderCoreStacks:
+        text: Cumuls d'Âme de tonnerre
+      stygianResurgeHitsOnTarget:
+        text: Coups de Vengeance du Styx
+      e1EnemyDebuffed:
+        text: Bonus de TC E1
+      e4UltVulnerability:
+        text: 'E4: Vulnérabilité d''ULT'
+      e6UltBuffs:
+        text: 'E6: Bonus d''ULT'
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: ULT améliorée
+      enemyHp50:
+        text: Bonus de DGT ennemi PV ≤ 50%
+      talentStacks:
+        text: Cumuls d'Ascension
+      ultEnhancedExtraHits:
+        text: Coups supplémentaires sur cible d'Ult améliorée
+      e2UltAtkBuff:
+        text: 'E2: Bonus d''ATQ post-ULT'
+  Arlan:
+    Content:
+      selfCurrentHpPercent:
+        text: '%PV actuel de soi-même'
+  Asta:
+    Content:
+      skillExtraDmgHits:
+        text: Coups supplémentaires de Compétence
+      talentBuffStacks:
+        text: Cumuls de bonus d'ATQ du Talent
+      ultSpdBuff:
+        text: Bonus de VIT actif
+      fireDmgBoost:
+        text: Bonus de DGT feu
+  Aventurine:
+    Content:
+      defToCrBoost:
+        text: Conversion de DÉF à TC
+      fortifiedWagerBuff:
+        text: Bonus Mise renforcée
+      enemyUnnervedDebuff:
+        text: Ennemi Sur les nerfs
+      fuaHitsOnTarget:
+        text: Coups d'ADS sur la cible
+      e2ResShred:
+        text: 'E2: PÉN de RÉS'
+      e4DefBuff:
+        text: 'E4: Bonus de DÉF'
+      e6ShieldStacks:
+        text: 'E6: Nombre d''alliés avec bouclier'
+  Bailu:
+    Content:
+      healingMaxHpBuff:
+        text: Bonus de PV max après soins
+      talentDmgReductionBuff:
+        text: Réduction de dégâts revigoration
+      e2UltHealingBuff:
+        text: 'E2: Bonus de soins'
+      e4SkillHealingDmgBuffStacks:
+        text: 'E4: Bonus de DGT'
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: Conversion de TAE à DGT
+      epiphanyDebuff:
+        text: Malus Épiphanie
+      defDecreaseDebuff:
+        text: Malus réduction de DÉF
+      arcanaStacks:
+        text: Cumuls d'Arcanes
+      e1ResReduction:
+        text: 'E1: Réduction de DÉF'
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: État Vue de l'enfer
+      hpPercentLostTotal:
+        text: Total de % de PV perdu
+      e4MaxHpIncreaseStacks:
+        text: 'E4: Cumuls de Bonus de PV max'
+  Boothill:
+    Content:
+      standoffActive:
+        text: Confrontation
+      pocketTrickshotStacks:
+        text: Cumuls d'Avantage en poche
+      beToCritBoost:
+        text: Conversion d'ER à TC/DC
+      talentBreakDmgScaling:
+        text: DGT de Rupture du Talent (force l'état de rupture)
+      e1DefShred:
+        text: 'E1: PÉN de DÉF'
+      e2BeBuff:
+        text: 'E2: Bonus d''ER'
+      e4TargetStandoffVulnerability:
+        text: 'E4: Vulnérabilité'
+      e6AdditionalBreakDmg:
+        text: 'E6: DGT de rupture bonus'
+  Bronya:
+    Content:
+      teamDmgBuff:
+        text: Bonus d'équipe de DGT
+      skillBuff:
+        text: Bonus de DGT
+      ultBuff:
+        text: Bonus d'ATQ/DC de l'ULT
+      battleStartDefBuff:
+        text: Bonus de DÉF initial
+      techniqueBuff:
+        text: Bonus d'ATQ de la Technique
+      e2SkillSpdBuff:
+        text: 'E2: Bonus de Vitesse'
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combat de Bronya
+  Clara:
+    Content:
+      ultBuff:
+        text: Bonus d'ULT
+      talentEnemyMarked:
+        text: Ennemi marqué
+      e2UltAtkBuff:
+        text: 'E2: Bonus d''ATQ post-ULT'
+      e4DmgReductionBuff:
+        text: 'E4: Réduction de dégâts'
+  DanHeng:
+    Content:
+      talentPenBuff:
+        text: Bonus de PÉN de RÉS
+      enemySlowed:
+        text: Ennemi ralenti
+      e1EnemyHp50:
+        text: 'E1: Bonus de TC ennemi PV ≥ 50%'
+  DrRatio:
+    Content:
+      summationStacks:
+        text: Cumuls de Synthèse
+      enemyDebuffStacks:
+        text: Nombre de malus sur la cible
+  Feixiao:
+    Content:
+      weaknessBrokenUlt:
+        text: ULT ennemi rupturé (force l'état de rupture)
+      talentDmgBuff:
+        text: Bonus de DGT du Talent
+      skillAtkBuff:
+        text: Bonus d'ATQ de la Compétence
+      e1OriginalDmgBoost:
+        text: 'E1: Multiplicateur des dégâts'
+      e4Buffs:
+        text: 'E4: Divers bonus'
+      e6Buffs:
+        text: 'E6: Divers bonus'
+  Firefly:
+    Content:
+      enhancedStateActive:
+        text: État amélioré
+      enhancedStateSpdBuff:
+        text: Bonus de VIT état amélioré
+      superBreakDmg:
+        text: Rupture extrême activée (force l'état de rupture)
+      atkToBeConversion:
+        text: Conversion d'ATQ à ER
+      talentDmgReductionBuff:
+        text: Bonus de PV max
+      e1DefShred:
+        text: 'E1: PÉN de DÉF'
+      e4ResBuff:
+        text: 'E4: Bonus de RAE'
+      e6Buffs:
+        text: 'E6: Divers bonus'
+  Fugue:
+    Content:
+      torridScorch:
+        text: État Brûlure ardente
+      foxianPrayer:
+        text: Prière foxienne
+      defReduction:
+        text: Réduction de DÉF
+      superBreakDmg:
+        text: Rupture extrême (force l'état de rupture)
+      e4BreakDmg:
+        text: 'E4: Bonus de DGT de rupture'
+      e6BreakEfficiency:
+        text: 'E6: Bonus d''efficacité de rupture'
+    TeammateContent:
+      be220Buff:
+        text: ER ≥ 220%
+      weaknessBreakBeStacks:
+        text: Cumuls d'Incinération
+  FuXuan:
+    Content:
+      talentActive:
+        text: Réduction de DGT reçus
+      skillActive:
+        text: Compétence active
+      e6TeamHpLostPercent:
+        text: 'E6: PV perdus par l''équipe'
+    TeammateContent:
+      teammateHPValue:
+        text: PV en combat de Fu Xuan
+  Gallagher:
+    Content:
+      basicEnhanced:
+        text: Basique améliorée
+      breakEffectToOhbBoost:
+        text: Conversion d'ER à bonus de soins
+      targetBesotted:
+        text: Cible Ivre
+      e1ResBuff:
+        text: 'E1: Bonus de RAE'
+      e2ResBuff:
+        text: 'E2: Bonus de RAE'
+      e6BeBuff:
+        text: 'E6: Bonus d''ER'
+  Gepard:
+    Content:
+      e4TeamResBuff:
+        text: 'E4: Bonus d''équipe de RAE'
+  Guinaifen:
+    Content:
+      talentDebuffStacks:
+        text: Cumuls de Baiser enflammé
+      enemyBurned:
+        text: Ennemi brulé
+      skillDot:
+        text: Utiliser la chance de DSD de la compétence
+      e1EffectResShred:
+        text: 'E1: Réduction de RAE'
+      e2BurnMultiBoost:
+        text: 'E2: Brulure renforcée'
+  Hanya:
+    Content:
+      ultBuff:
+        text: Bonus de VIT/ATQ de l'ULT
+      targetBurdenActive:
+        text: Cible malussé par Fardeau
+      burdenAtkBuff:
+        text: Bonus d'ATQ de Fardeau
+      e2SkillSpdBuff:
+        text: 'E2: Bonus de Vitesse'
+    TeammateContent:
+      teammateSPDValue:
+        text: Vitesse en combat de Hanya
+  Herta:
+    Content:
+      fuaStacks:
+        text: Coups de l'ADS
+      targetFrozen:
+        text: Cible gelée
+      enemyHpGte50:
+        text: Bonus de DGT Compétence
+      techniqueBuff:
+        text: Bonus d'ATQ de la Technique
+      enemyHpLte50:
+        text: 'E1: Bonus de multiplicateur de Basique'
+      e2TalentCritStacks:
+        text: 'E2: Cumuls de bonus de TC du talent'
+      e6UltAtkBuff:
+        text: 'E6: Bonus d''ATQ de l''ULT'
+  Himeko:
+    Content:
+      targetBurned:
+        text: Cible brulée
+      selfCurrentHp80Percent:
+        text: Bonus de TC PV ≥ 80%
+      e1TalentSpdBuff:
+        text: 'E1: Bonus de VIT'
+      e2EnemyHp50DmgBoost:
+        text: 'E2: Bonus de DGT ennemi PV ≤ 50%'
+      e6UltExtraHits:
+        text: 'E6: Coups bonus de l''ULT'
+  Hook:
+    Content:
+      enhancedSkill:
+        text: Compétence améliorée
+      targetBurned:
+        text: Cible brulée
+  Huohuo:
+    Content:
+      ultBuff:
+        text: Bonus d'ATQ de l'ULT
+      skillBuff:
+        text: 'E1: Bonus de VIT'
+      e6DmgBuff:
+        text: 'E6: Bonus de DGT'
+  ImbibitorLunae:
+    Content:
+      basicEnhanced:
+        text: Améliorations de Basique
+      skillOutroarStacks:
+        text: Cumuls de Rugissement dominateur
+      talentRighteousHeartStacks:
+        text: Cumuls de Cœur vertueux
+      e6ResPenStacks:
+        text: 'E6: Bonus de PÉN de RÉS'
+  Jade:
+    Content:
+      enhancedFollowUp:
+        text: ADS Améliorée
+      pawnedAssetStacks:
+        text: Cumuls de Bien hypothéqué
+      e1FuaDmgBoost:
+        text: 'E1: Bonus de DGT d''ADS'
+      e2CrBuff:
+        text: 'E2: Bonus de TC'
+      e4DefShredBuff:
+        text: 'E4: Bonus de PÉN de DÉF'
+      e6ResShredBuff:
+        text: 'E6: Bonus de PÉN de RÉS'
+    TeammateContent:
+      debtCollectorSpdBuff:
+        text: Bonus de VIT de l'Agent de recouvrement
+  Jiaoqiu:
+    Content:
+      ashenRoastStacks:
+        text: Cumuls de Charbons ardents
+      ultFieldActive:
+        text: Zone d'ULT active
+      ehrToAtkBoost:
+        text: Conversion de TAE à ATQ
+      e1DmgBoost:
+        text: 'E1: Bonus de DGT'
+      e2Dot:
+        text: 'E2: Multiplicateur de DSD'
+      e6ResShred:
+        text: 'E6: PÉN de RÉS'
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: État amélioré
+      talentHpDrainAtkBuff:
+        text: Bonus d'ATQ consommation de PV
+      e1CdBuff:
+        text: 'E1: Bonus de DC état amélioré'
+      e2SkillDmgBuff:
+        text: 'E2: Amélioration de Compétence'
+  JingYuan:
+    Content:
+      skillCritBuff:
+        text: Bonus de TC
+      talentHitsPerAction:
+        text: Cumuls du Seigneur de la foudre
+      talentAttacks:
+        text: Coups du Seigneur de la foudre sur la cible
+      e2DmgBuff:
+        text: 'E2: Bonus de DGT'
+      e6FuaVulnerabilityStacks:
+        text: 'E6: Cumuls de vulnérabilité'
+  Kafka:
+    Content:
+      e1DotDmgReceivedDebuff:
+        text: 'E1: Vulnérabilité aux DSD'
+      e2TeamDotBoost:
+        text: 'E2: Bonus d''équipe de DGT de DSD'
+  Lingsha:
+    Content:
+      beConversion:
+        text: Conversion d'ER à ATQ/SOINS
+      befogState:
+        text: État Embrumé
+      e1DefShred:
+        text: 'E1: Bonus de rupture'
+      e2BeBuff:
+        text: 'E2: Bonus d''ER'
+      e6ResShred:
+        text: 'E6: PÉN de RÉS'
+  Luka:
+    Content:
+      basicEnhanced:
+        text: Basique améliorée
+      targetUltDebuffed:
+        text: Bonus de vulnérabilité de l'ULT
+      basicEnhancedExtraHits:
+        text: Coups supplémentaires de la Basique améliorée
+      e1TargetBleeding:
+        text: 'E1: Cible saignante'
+      e4TalentStacks:
+        text: 'E4: Cumuls du Talent'
+  Luocha:
+    Content:
+      fieldActive:
+        text: Zone active
+      e6ResReduction:
+        text: 'E6: PÉN de RÉS'
+  Lynx:
+    Content:
+      skillBuff:
+        text: Bonus de PV max
+    TeammateContent:
+      teammateHPValue:
+        text: PV en combat de Lynx
+  March7thImaginary:
+    Content:
+      enhancedBasic:
+        text: Basique améliorée
+      basicAttackHits:
+        text: Coups de la Basique améliorée
+      masterAdditionalDmgBuff:
+        text: Bonus de Maitre DPS
+      masterToughnessRedBuff:
+        text: Bonus de Maitre support
+      talentDmgBuff:
+        text: Bonus de DGT Basique
+      selfSpdBuff:
+        text: 'E1: Bonus de VIT'
+      e6CdBuff:
+        text: 'E6: Bonus de DC Basique'
+    TeammateContent:
+      masterBuff:
+        text: Bonus maitre
+      masterCdBeBuffs:
+        text: Bonus de DC/ER de maitre
+  Misha:
+    Content:
+      ultHitsOnTarget:
+        text: Coups sur cible de l'ULT
+      enemyFrozen:
+        text: Ennemi gelé
+      e2DefReduction:
+        text: 'E2: Réduction de DÉF'
+      e6UltDmgBoost:
+        text: 'E6: Bonus de DGT d''ULT'
+  Moze:
+    Content:
+      preyMark:
+        text: Proie désignée
+      e2CdBoost:
+        text: 'E2: Bonus de DC'
+      e4DmgBuff:
+        text: 'E4: Bonus de DGT'
+      e6MultiplierIncrease:
+        text: 'E6: Bonus de multiplicateur d''ADS'
+  Pela:
+    Content:
+      teamEhrBuff:
+        text: Bonus d'équipe de TAE
+      enemyDebuffed:
+        text: Ennemi malussé
+      skillRemovedBuff:
+        text: Bonus de compétence bonus ennemi effacé
+      ultDefPenDebuff:
+        text: Réduction de DEF de l'ULT
+      e4SkillResShred:
+        text: 'E4: Réduction de RÉS de glace de la compétence'
+  Qingque:
+    Content:
+      basicEnhanced:
+        text: Basique améliorée
+      basicEnhancedSpdBuff:
+        text: Bonus de VIT
+      skillDmgIncreaseStacks:
+        text: Cumuls de bonus de DGT de la compétence
+  Rappa:
+    Content:
+      sealformActive:
+        text: Forme du sceau (force l'état de rupture)
+      atkToBreakVulnerability:
+        text: Conversion d'ATQ à vulnérabilité de rupture
+      chargeStacks:
+        text: Cumuls de charge
+      e1DefPen:
+        text: 'E1: PÉN de DÉF'
+      e2Buffs:
+        text: 'E2: Bonus de rupture'
+      e4SpdBuff:
+        text: 'E4: Bonus de VIT'
+    TeammateContent:
+      teammateBreakVulnerability:
+        text: Vulnérabilité de rupture
+      e4SpdBuff:
+        text: 'E4: Bonus de VIT'
+  Robin:
+    Content:
+      concertoActive:
+        text: Concerto actif
+      skillDmgBuff:
+        text: Bonus de DGT
+      talentCdBuff:
+        text: Bonus de DC du Talent
+      e1UltResPen:
+        text: 'E1: PÉN de RÉS de l''ULT'
+      e4TeamResBuff:
+        text: 'E4: Bonus d''équipe de RAE'
+      e6UltCDBoost:
+        text: 'E6: Bonus de DC'
+    TeammateContent:
+      teammateATKValue:
+        text: ATQ en combat de Robin
+      traceFuaCdBoost:
+        text: Bonus de DC d'ADS
+      e2UltSpdBuff:
+        text: 'E2: Bonus d''équipe de VIT'
+  RuanMei:
+    Content:
+      skillOvertoneBuff:
+        text: Bonus Tonalité
+      teamBEBuff:
+        text: Bonus d'équipe d'ER
+      ultFieldActive:
+        text: Zone d'ULT active
+      e2AtkBoost:
+        text: 'E2: Bonus d''ATQ'
+      e4BeBuff:
+        text: 'E4: Bonus d''ER'
+    TeammateContent:
+      teamSpdBuff:
+        text: Bonus d'équipe de VIT
+      teamDmgBuff:
+        text: Conversion d'ER à DGT
+  Sampo:
+    Content:
+      targetDotTakenDebuff:
+        text: Vulnérabilité aux DSD de l'ULT
+      skillExtraHits:
+        text: Coups supplémentaires de Compétence
+      targetWindShear:
+        text: Cible affligée par Faille du vent
+  Seele:
+    Content:
+      buffedState:
+        text: État amélioré
+      speedBoostStacks:
+        text: Cumuls de Bonus de VIT
+      e1EnemyHp80CrBoost:
+        text: 'E1: Bonus de TC ennemi PV ≤ 80%'
+      e6UltTargetDebuff:
+        text: 'E6: Volée de papillons'
+  Serval:
+    Content:
+      targetShocked:
+        text: Cible stupéfiée
+      enemyDefeatedBuff:
+        text: Bonus ennemi vaincu
+  SilverWolf:
+    Content:
+      skillResShredDebuff:
+        text: Réduction de RÉS de la compétence
+      skillWeaknessResShredDebuff:
+        text: Réduction de RÉS faiblesse implantée
+      talentDefShredDebuff:
+        text: Reduction de DÉF Bugs
+      ultDefShredDebuff:
+        text: Réduction de DEF de l'ULT
+      targetDebuffs:
+        text: Malus sur la cible
+  Sparkle:
+    Content:
+      skillCdBuff:
+        text: Bonus de DC
+      cipherBuff:
+        text: Bonus Énigme
+      talentStacks:
+        text: Cumuls de bonus de DGT du talent
+      quantumAllies:
+        text: Alliés quantiques
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combat de Sparkle
+  Sunday:
+    Content:
+      skillDmgBuff:
+        text: Bonus de DGT
+      talentCrBuffStacks:
+        text: Cumuls de bonus de TC
+      techniqueDmgBuff:
+        text: Bonus de DGT de la technique
+      e1DefPen:
+        text: 'E1: PÉN de DÉF'
+      e2DmgBuff:
+        text: 'E2: Bonus de DGT Béatifié'
+    TeammateContent:
+      beatified:
+        text: Bonus de DC de l'ULT
+      teammateCDValue:
+        text: DC en combat de Sunday
+      e6CrToCdConversion:
+        text: 'E6: Conversion TC à DC'
+  Sushang:
+    Content:
+      ultBuffedState:
+        text: État amélioré post-ULT
+      skillExtraHits:
+        text: Coups supplémentaires de Compétence
+      skillTriggerStacks:
+        text: Cumuls de Riposte
+      talentSpdBuffStacks:
+        text: Cumuls de bonus de VIT du talent
+      e2DmgReductionBuff:
+        text: 'E2: Réduction de dégâts'
+  Tingyun:
+    Content:
+      benedictionBuff:
+        text: Bonus Bénédiction
+      skillSpdBuff:
+        text: Bonus de VIT de la compétence
+      ultDmgBuff:
+        text: Bonus de DGT d'ULT
+      ultSpdBuff:
+        text: 'E1: Bonus de VIT de l''ULT'
+    TeammateContent:
+      teammateAtkBuffValue:
+        text: Valeur du bonus d'ATQ
+  Topaz:
+    Content:
+      enemyProofOfDebtDebuff:
+        text: Malus Reconnaissance de dette
+      numbyEnhancedState:
+        text: Compti état amélioré
+      e1DebtorStacks:
+        text: 'E1: Cumuls de Débiteur'
+  TrailblazerDestruction:
+    Content:
+      enhancedUlt:
+        text: ULT ZdE
+      talentStacks:
+        text: Cumuls du talent
+  TrailblazerHarmony:
+    Content:
+      backupDancer:
+        text: Bonus d'ER de Soutien sur scène
+      superBreakDmg:
+        text: Rupture extrême (force l'état de rupture)
+      skillHitsOnTarget:
+        text: Coups supplémentaires sur cible de compétence
+      e2EnergyRegenBuff:
+        text: 'E2: Bonus de TRE'
+    TeammateContent:
+      teammateBeValue:
+        text: 'E4: ER en combat'
+  TrailblazerPreservation:
+    Content:
+      enhancedBasic:
+        text: Basique améliorée
+      skillActive:
+        text: Réduction de DGT de la compétence
+      shieldActive:
+        text: Bouclier actif
+      e6DefStacks:
+        text: 'E6: Cumuls de bonus de DÉF'
+  Welt:
+    Content:
+      enemyDmgTakenDebuff:
+        text: Bonus de vulnérabilité de l'ULT
+      enemySlowed:
+        text: Ennemi ralenti
+      skillExtraHits:
+        text: Coups supplémentaires sur cible de compétence
+      e1EnhancedState:
+        text: 'E1: État amélioré'
+  Xueyi:
+    Content:
+      beToDmgBoost:
+        text: Conversion d'ER à DGT
+      enemyToughness50:
+        text: Rouages du Destin
+      toughnessReductionDmgBoost:
+        text: Bonus de DGT d'ULT
+      fuaHits:
+        text: Coups d'ADS
+      e4BeBuff:
+        text: 'E4: Bonus d''ER'
+  Yanqing:
+    Content:
+      ultBuffActive:
+        text: Bonus d'ULT actif
+      soulsteelBuffActive:
+        text: Osmose avec l'acier actif
+      critSpdBuff:
+        text: Bonus de VIT
+      e1TargetFrozen:
+        text: 'E1: cible gelée'
+      e4CurrentHp80:
+        text: 'E4: Bonus de PÉN de RÉS PV ≥ 80%'
+  Yukong:
+    Content:
+      teamImaginaryDmgBoost:
+        text: Bonus d'équipe de DGT Imaginaire
+      roaringBowstringsActive:
+        text: Rugissement des cordes
+      ultBuff:
+        text: Bonus de TC/DC de l'ULT
+      initialSpeedBuff:
+        text: 'E1: Bonus initial de VIT'
+  Yunli:
+    Content:
+      blockActive:
+        text: Parade actif
+      ultCull:
+        text: "Sens de l'éradication activée"
+      ultCullHits:
+        text: "Sens de l'éradication: coups"
+      counterAtkBuff:
+        text: Bonus d'ATQ post-contre
+      e1UltBuff:
+        text: 'E1: Bonus d''ULT'
+      e2DefShred:
+        text: 'E2: PÉN de DÉF d''ADS'
+      e4ResBuff:
+        text: 'E4: Bonus de RAE'
+      e6Buffs:
+        text: 'E6: Divers bonus'

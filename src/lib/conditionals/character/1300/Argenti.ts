@@ -1,4 +1,4 @@
-import { ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // BOOST
       x.ELEMENTAL_DMG.buff((r.enemyHp50) ? 0.15 : 0, Source.NONE)
       // Argenti's e6 ult buff is actually a cast type buff, not dmg type but we'll do it like this anyways
-      buffAbilityDefPen(x, ULT_TYPE, (e >= 6) ? 0.30 : 0, Source.NONE)
+      buffAbilityDefPen(x, ULT_DMG_TYPE, (e >= 6) ? 0.30 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)

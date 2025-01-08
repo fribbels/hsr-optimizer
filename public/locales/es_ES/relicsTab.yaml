@@ -1,0 +1,13 @@
+RelicFilterBar:
+  ScoringButton: Algoritmo de puntuación
+Messages:
+  AddRelicSuccess: Artefacto añadido con éxito
+RelicGrid:
+  Headers:
+    HPP: PV %
+    ATKP: ATQ %
+    DEFP: DEF %
+    HP: PV
+    ATK: ATQ
+    DEF: DEF
+    SPD: VEL

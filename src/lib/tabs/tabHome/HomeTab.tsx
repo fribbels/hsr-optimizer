@@ -127,7 +127,7 @@ function HeaderImage() {
             linear-gradient(to bottom, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
             linear-gradient(to left, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
             linear-gradient(to right, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
-            url(${Assets.getHomeBackground('blackswan')})
+            url(${Assets.getHomeBackground('nous')})
           `,
         backgroundSize: 'cover',
       }}
@@ -144,10 +144,10 @@ function CardImage(props: { id: string }) {
         style={{
           width: '100%',
           height: 593,
-          objectFit: 'cover',
           borderRadius: 8,
           outline: 'rgba(255, 255, 255, 0.15) solid 1px',
           boxShadow: 'rgb(0 0 0 / 50%) 2px 2px 3px',
+          objectFit: 'cover',
         }}
         src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage)}
         onError={(e) => {
@@ -175,6 +175,7 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
         flex: 1,
         cursor: 'default',
         fontSize: 16,
+        minWidth: 500,
       }}
       hoverable={true}
       cover={<CardImage id={props.id}/>}
@@ -258,8 +259,10 @@ function Header() {
         width: '100%',
         zIndex: 1,
         height: headerHeight,
+        paddingBottom: 30,
       }}
       align='center'
+      justify='space-between'
     >
       <h1
         style={{
@@ -275,7 +278,6 @@ function Header() {
           Welcome to the<br/>Fribbels Star Rail Optimizer
         </Trans>
       </h1>
-      <div style={{ height: 500 }}/>
       <SearchBar/>
     </Flex>
   )
@@ -306,7 +308,9 @@ function SearchBar() {
         allowClear
         size='large'
         defaultValue={scorerId}
-        onSearch={(uuid: string) => {
+        onSearch={(uuid: string, event, info) => {
+          if (info?.source == 'clear') return
+
           const validated = TsUtils.validateUuid(uuid)
           if (!validated) {
             return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)

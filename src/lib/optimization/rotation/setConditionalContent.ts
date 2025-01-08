@@ -1,4 +1,6 @@
+import { TFunction } from 'i18next'
 import { ConditionalDataType, Constants, Sets } from 'lib/constants/constants'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 export type SelectOptionContent = {
   display: string
@@ -6,17 +8,21 @@ export type SelectOptionContent = {
   label: string
 }
 
+type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+
 export type SetMetadata = {
   type: ConditionalDataType
   modifiable?: boolean
-  selectionOptions?: SelectOptionContent[]
+  selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[]
 }
 
-export function generateSetConditionalContent() {
+export function generateSetConditionalContent(t: SetConditionalTFunction) {
   const content: { [key: string]: SelectOptionContent[] } = {}
 
-  for (const [setKey, setName] of Object.entries(Constants.Sets)) {
-    content[setName] = ConditionalSetMetadata[setName].selectionOptions || []
+  for (const setName of Object.values(Constants.Sets)) {
+    content[setName] = ConditionalSetMetadata[setName].selectionOptions
+      ? ConditionalSetMetadata[setName].selectionOptions(t)
+      : []
   }
 
   return content
@@ -41,7 +47,7 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   [Sets.ChampionOfStreetwiseBoxing]: {
     type: ConditionalDataType.SELECT,
     modifiable: true,
-    selectionOptions: SetContentChampionOfStreetwiseBoxing(),
+    selectionOptions: SetContentChampionOfStreetwiseBoxing,
   },
   [Sets.GuardOfWutheringSnow]: {
     type: ConditionalDataType.BOOLEAN,
@@ -66,12 +72,12 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   },
   [Sets.WastelanderOfBanditryDesert]: {
     type: ConditionalDataType.SELECT,
-    selectionOptions: SetContentWastelanderOfBanditryDesert(),
+    selectionOptions: SetContentWastelanderOfBanditryDesert,
     modifiable: true,
   },
   [Sets.LongevousDisciple]: {
     type: ConditionalDataType.SELECT,
-    selectionOptions: SetContentLongevousDisciple(),
+    selectionOptions: SetContentLongevousDisciple,
     modifiable: true,
   },
   [Sets.MessengerTraversingHackerspace]: {
@@ -80,17 +86,17 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   },
   [Sets.TheAshblazingGrandDuke]: {
     type: ConditionalDataType.SELECT,
-    selectionOptions: SetContentTheAshblazingGrandDuke(),
+    selectionOptions: SetContentTheAshblazingGrandDuke,
     modifiable: true,
   },
   [Sets.PrisonerInDeepConfinement]: {
     type: ConditionalDataType.SELECT,
-    selectionOptions: SetContentPrisonerInDeepConfinement(),
+    selectionOptions: SetContentPrisonerInDeepConfinement,
     modifiable: true,
   },
   [Sets.PioneerDiverOfDeadWaters]: {
     type: ConditionalDataType.SELECT,
-    selectionOptions: SetContentPioneerDiverOfDeadWaters(),
+    selectionOptions: SetContentPioneerDiverOfDeadWaters,
     modifiable: true,
   },
   [Sets.WatchmakerMasterOfDreamMachinations]: {
@@ -107,11 +113,19 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   [Sets.SacerdosRelivedOrdeal]: {
     type: ConditionalDataType.SELECT,
     modifiable: true,
-    selectionOptions: SetContentSacerdosRelivedOrdealOptions(),
+    selectionOptions: SetContentSacerdosRelivedOrdealOptions,
   },
   [Sets.ScholarLostInErudition]: {
     type: ConditionalDataType.BOOLEAN,
     modifiable: true,
+  },
+  [Sets.HeroOfTriumphantSong]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
+  [Sets.PoetOfMourningCollapse]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: false,
   },
 
   // Ornaments
@@ -156,7 +170,7 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   [Sets.SigoniaTheUnclaimedDesolation]: {
     type: ConditionalDataType.SELECT,
     modifiable: true,
-    selectionOptions: SetContentSigoniaTheUnclaimedDesolation(),
+    selectionOptions: SetContentSigoniaTheUnclaimedDesolation,
   },
   [Sets.IzumoGenseiAndTakamaDivineRealm]: {
     type: ConditionalDataType.BOOLEAN,
@@ -165,7 +179,7 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   [Sets.DuranDynastyOfRunningWolves]: {
     type: ConditionalDataType.SELECT,
     modifiable: true,
-    selectionOptions: SetContentDuranDynastyOfRunningWolves(),
+    selectionOptions: SetContentDuranDynastyOfRunningWolves,
   },
   [Sets.ForgeOfTheKalpagniLantern]: {
     type: ConditionalDataType.BOOLEAN,
@@ -180,150 +194,150 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   },
 }
 
-function SetContentSacerdosRelivedOrdealOptions() {
+function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction) {
   const options: SelectOptionContent[] = []
   for (let i = 0; i <= 2; i++) {
     options.push({
-      display: i + 'x',
+      display: t('Sacerdos.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: `${i} stacks (+${i * 18}% CD)`,
+      label: t('Sacerdos.Label', { stackCount: i, buffValue: TsUtils.precisionRound((18 * i)) }), // `${i} stacks (+${i * 18}% CD)`,
     })
   }
 
   return options
 }
 
-function SetContentChampionOfStreetwiseBoxing() {
+function SetContentChampionOfStreetwiseBoxing(t: SetConditionalTFunction) {
   const options: SelectOptionContent[] = []
   for (let i = 0; i <= 5; i++) {
     options.push({
-      display: i + 'x',
+      display: t('Streetwise.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: `${i} stacks (+${i * 5}% ATK)`,
+      label: t('Streetwise.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) }), // `${i} stacks (+${i * 5}% ATK)`,
     })
   }
 
   return options
 }
 
-function SetContentWastelanderOfBanditryDesert() {
+function SetContentWastelanderOfBanditryDesert(t: SetConditionalTFunction) {
   return [
     {
-      display: 'Off',
+      display: t('Wastelander.Off.Display'), // 'Off',
       value: 0,
-      label: 'Off',
+      label: t('Wastelander.Off.Label'), // 'Off',
     },
     {
-      display: 'CR',
+      display: t('Wastelander.Debuffed.Display'), // 'CR',
       value: 1,
-      label: 'Debuffed (+10% CR)',
+      label: t('Wastelander.Debuffed.Label'), // 'Debuffed (+10% CR)',
     },
     {
-      display: 'CR+CD',
+      display: t('Wastelander.Imprisoned.Display'), // 'CR+CD',
       value: 2,
-      label: 'Imprisoned (+10% CR | +20% CD)',
+      label: t('Wastelander.Imprisoned.Label'), // 'Imprisoned (+10% CR | +20% CD)',
     },
   ]
 }
 
-function SetContentLongevousDisciple() {
+function SetContentLongevousDisciple(t: SetConditionalTFunction) {
   const options: SelectOptionContent[] = []
   for (let i = 0; i <= 2; i++) {
     options.push({
-      display: i + 'x',
+      display: t('Longevous.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: `${i} stacks (+${i * 8}% CR)`,
+      label: t('Longevous.Label', { stackCount: i, buffValue: TsUtils.precisionRound(8 * i) }), // `${i} stacks (+${i * 8}% CR)`,
     })
   }
 
   return options
 }
 
-function SetContentTheAshblazingGrandDuke() {
+function SetContentTheAshblazingGrandDuke(t: SetConditionalTFunction) {
   const options: SelectOptionContent[] = []
   for (let i = 0; i <= 8; i++) {
     options.push({
-      display: i + 'x',
+      display: t('Ashblazing.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: `${i} stacks (+${6 * i}% ATK)`,
+      label: t('Ashblazing.Label', { stackCount: i, buffValue: TsUtils.precisionRound(6 * i) }), // `${i} stacks (+${6 * i}% ATK)`,
     })
   }
 
   return options
 }
 
-function SetContentPrisonerInDeepConfinement() {
+function SetContentPrisonerInDeepConfinement(t: SetConditionalTFunction) {
   const options: SelectOptionContent[] = []
   for (let i = 0; i <= 3; i++) {
     options.push({
-      display: i + 'x',
+      display: t('Prisoner.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: `${i} stacks (+${6 * i}% DEF ignore)`,
+      label: t('Prisoner.Label', { stackCount: i, buffValue: TsUtils.precisionRound(6 * i) }), // `${i} stacks (+${6 * i}% DEF ignore)`,
     })
   }
 
   return options
 }
 
-function SetContentPioneerDiverOfDeadWaters() {
+function SetContentPioneerDiverOfDeadWaters(t: SetConditionalTFunction) {
   return [
     {
-      display: '0x',
+      display: t('Diver.Off.Display'), // '0x',
       value: -1,
-      label: '0 debuffs (+4% base CR)',
+      label: t('Diver.Off.Label'), // '0 debuffs (+4% base CR)',
     },
     {
-      display: '1x',
+      display: t('Diver.1Debuff.Display'), // '1x',
       value: 0,
-      label: '1 debuff (+12% DMG | +4% base CR)',
+      label: t('Diver.1Debuff.Label'), // '1 debuff (+12% DMG | +4% base CR)',
     },
     {
-      display: '2x',
+      display: t('Diver.2Debuff.Display'), // '2x',
       value: 1,
-      label: '2 debuffs (+12% DMG | +4% base CR | +8% CD)',
+      label: t('Diver.2Debuff.Label'), // '2 debuffs (+12% DMG | +4% base CR | +8% CD)',
     },
     {
-      display: '3x',
+      display: t('Diver.2+Debuff.Display'), // '3x',
       value: 2,
-      label: '3 debuffs (+12% DMG | +4% base CR | +12% CD)',
+      label: t('Diver.2+Debuff.Label'), // '3 debuffs (+12% DMG | +4% base CR | +12% CD)',
     },
     {
-      display: '2x +',
+      display: t('Diver.3Debuff.Display'), // '2x +',
       value: 3,
-      label: '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)',
+      label: t('Diver.3Debuff.Label'), // '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)',
     },
     {
-      display: '3x +',
+      display: t('Diver.3+Debuff.Display'), // '3x +',
       value: 4,
-      label: '3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)',
+      label: t('Diver.3+Debuff.Label'), // '3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)',
     },
   ]
 }
 
-function SetContentSigoniaTheUnclaimedDesolation() {
+function SetContentSigoniaTheUnclaimedDesolation(t: SetConditionalTFunction) {
   const options: SelectOptionContent[] = []
   for (let i = 0; i <= 10; i++) {
     options.push({
-      display: i + 'x',
+      display: t('Sigonia.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: `${i} stacks (+${4 * i}% CD)`,
+      label: t('Sigonia.Label', { stackCount: i, buffValue: TsUtils.precisionRound(4 * i) }), // `${i} stacks (+${4 * i}% CD)`,
     })
   }
 
   return options
 }
 
-function SetContentDuranDynastyOfRunningWolves() {
+function SetContentDuranDynastyOfRunningWolves(t: SetConditionalTFunction) {
   const options: SelectOptionContent[] = []
   for (let i = 0; i <= 5; i++) {
     options.push({
-      display: i + 'x',
+      display: t('Duran.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: `${i} stacks (+${5 * i}% FUA DMG)`,
+      label: t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound((5 * i)) }), // `${i} stacks (+${5 * i}% FUA DMG)`,
     })
   }
 
-  options[5].label = `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
+  options[5].label = t('Duran.Label5')// `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
 
   return options
 }

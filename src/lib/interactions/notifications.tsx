@@ -1,4 +1,4 @@
-import { DiscordOutlined, UnorderedListOutlined } from '@ant-design/icons'
+import { UnorderedListOutlined } from '@ant-design/icons'
 import { Button, Flex, Space } from 'antd'
 import i18next from 'i18next'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
@@ -8,6 +8,7 @@ import { Trans } from 'react-i18next'
 import semver from 'semver'
 
 export function checkForUpdatesNotification(version: string) {
+  const t = i18next.getFixedT(null, 'notifications', 'Changelog')
   // Errors checking for versions shouldn't crash the app
   try {
     const isOutOfDate = !version || semver.lt(version, CURRENT_OPTIMIZER_VERSION)
@@ -19,54 +20,30 @@ export function checkForUpdatesNotification(version: string) {
     const btn = (
       <Space>
         <Button
-          type='primary' icon={<UnorderedListOutlined/>} onClick={() => {
-          window.notificationApi.destroy()
-          window.store.getState().setActiveKey(AppPages.CHANGELOG)
-        }}
+          type='primary'
+          icon={<UnorderedListOutlined/>}
+          onClick={() => {
+            window.notificationApi.destroy()
+            window.store.getState().setActiveKey(AppPages.CHANGELOG)
+          }}
         >
           {
-            i18next.t('notifications:Changelog.View')
+            t('View')
             // View changelog
           }
         </Button>
         <Button type='default' onClick={() => window.notificationApi.destroy()}>
           {
-            i18next.t('notifications:Changelog.Dismiss')
+            t('Dismiss')
             // Dismiss/
           }
         </Button>
       </Space>
     )
 
-    const translationsBtn = (
-      <Space>
-        <Button
-          type='primary' icon={<DiscordOutlined/>}
-          onClick={() => {
-            window.notificationApi.destroy()
-            window.open('https://discord.gg/rDmB4Un7qg', '_blank')
-          }}
-        >
-          Discord
-        </Button>
-        <Button type='default' onClick={() => window.notificationApi.destroy()}>
-          {
-            i18next.t('notifications:Changelog.Dismiss')
-          }
-        </Button>
-      </Space>
-    )
-
     window.notificationApi.success({
-      message: 'I18N launch!',
-      description: 'Looking for contributors to help to translate content into other languages. Check out the Discord server for more info!',
-      btn: translationsBtn,
-      duration: 30,
-    })
-
-    window.notificationApi.success({
-      message: i18next.t('notifications:Changelog.Message'), // 'New updates!',
-      description: i18next.t('notifications:Changelog.Description'), // 'Check out the changelog for the latest optimizer updates.',
+      message: t('Message'), // 'New updates!',
+      description: t('Description'), // 'Check out the changelog for the latest optimizer updates.',
       btn,
       duration: 30,
     })
@@ -76,26 +53,27 @@ export function checkForUpdatesNotification(version: string) {
 }
 
 export function webgpuNotSupportedNotification() {
+  const t = i18next.getFixedT(null, 'notifications', 'GPU')
   // Errors checking for versions shouldn't crash the app
   try {
     window.notificationApi.warning({
-      message: 'WebGPU is not supported on this browser!',
+      message: t('Message'), // 'WebGPU is not supported on this browser!',
       description: (
         <Flex vertical>
           <div>
             {
-              i18next.t('notifications:GPU.Description.l1')
+              t('Description.l1')
               // Please use one of the following supported environments in order to enable GPU acceleration:
             }
           </div>
           <div>
             <ul>
-              <li>{i18next.t('notifications:GPU.Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
+              <li>{t('Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
               <li>
                 {/* @ts-ignore colorized link takes text prop from translation */}
                 <Trans
-                  t={i18next.t}
-                  i18nKey='notifications:GPU.Description.l3'
+                  t={t}
+                  i18nKey='Description.l3'
                   // @ts-ignore
                   components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true}/> }}
                 />
@@ -106,9 +84,39 @@ export function webgpuNotSupportedNotification() {
 
           <div>
             {
-              i18next.t('notifications:GPU.Description.l4')
+              t('Description.l4')
               // If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated.
             }
+          </div>
+        </Flex>
+      ),
+      duration: 15,
+    })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export function webgpuCrashNotification() {
+  const t = i18next.getFixedT(null, 'notifications', 'GPUCrash')
+  try {
+    window.notificationApi.warning({
+      message: t('Message'), // 'WebGPU is not supported on this browser!',
+      description: (
+        <Flex vertical gap={10}>
+          <div>
+            {
+              t('Description.l1')
+              // The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server.
+            }
+          </div>
+          <div>
+            <Trans
+              t={t}
+              i18nKey='Description.l2'
+              // @ts-ignore
+              components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true}/> }}
+            />
           </div>
         </Flex>
       ),

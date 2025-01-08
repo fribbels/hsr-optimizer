@@ -445,11 +445,11 @@ a {
 }
 
 .ant-card-hoverable:hover {
-    border-color: rgba(255, 255, 255, 0.40) !important;
+    border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 .lightConeCard:hover {
-    border-color: rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
     cursor: pointer;
 }
 
@@ -624,4 +624,31 @@ a {
 
 .characterPreview .ant-typography {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+}
+
+.select-20 {
+    height: 22px !important;
+}
+
+.select-no-padding .ant-select-selector {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.select-no-padding .ant-select-arrow {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    inset-inline-end: 0 !important;
+}
+
+.select-no-padding .ant-select-arrow {
+    font-size: 10px !important;
+}
+
+.characterPreview .ant-typography {
+    color: rgb(255 255 255 / 90%);
+}
+
+.noneScoreLabel {
+    max-width: 75px !important;
 }

@@ -1,9 +1,9 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants/constants'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
-import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
+import { webgpuCrashNotification } from 'lib/interactions/notifications'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
@@ -17,6 +17,7 @@ import { OptimizerContext } from 'types/optimizer'
 window.WEBGPU_DEBUG = false
 
 export async function gpuOptimize(props: {
+  device: GPUDevice | null,
   context: OptimizerContext
   request: Form
   relics: RelicsByPart
@@ -27,7 +28,7 @@ export async function gpuOptimize(props: {
 }) {
   const { context, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
-  const device = await getWebgpuDevice()
+  const device = props.device
   if (device == null) {
     console.error('Not supported')
     return
@@ -36,7 +37,7 @@ export async function gpuOptimize(props: {
   device.onuncapturederror = (event) => {
     if (window.store.getState().optimizationInProgress) {
       window.store.getState().setOptimizationInProgress(false)
-      Message.error('The GPU acceleration process has crashed - results may be invalid. Please try again or report a bug to the Discord server', 20)
+      webgpuCrashNotification()
     }
   }
 
@@ -193,7 +194,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const { c } = calculateBuild(
+    const { c, computedStatsArray } = calculateBuild(
       gpuContext.request,
       {
         Head: relics.Head[h],
@@ -210,7 +211,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     )
 
     c.id = index
-    const optimizerDisplayData = renameFields(c)
+    const optimizerDisplayData = renameFields(c, computedStatsArray)
     outputs.push(optimizerDisplayData)
   }
 

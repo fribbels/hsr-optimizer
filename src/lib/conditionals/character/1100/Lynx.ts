@@ -1,4 +1,4 @@
-import { NONE_TYPE, SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -39,8 +39,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tHeal('Text'),
       content: tHeal('Content'),
       options: [
-        { display: tHeal('Skill'), value: SKILL_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_TYPE, label: tHeal('Ult') },
+        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
+        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
         { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
       ],
       fullWidth: true,
@@ -72,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const defaults = {
-    healAbility: ULT_TYPE,
+    healAbility: ULT_DMG_TYPE,
     skillBuff: true,
   }
 
@@ -95,13 +95,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
-      if (r.healAbility == SKILL_TYPE) {
-        x.HEAL_TYPE.set(SKILL_TYPE, Source.NONE)
+      if (r.healAbility == SKILL_DMG_TYPE) {
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
       }
-      if (r.healAbility == ULT_TYPE) {
-        x.HEAL_TYPE.set(ULT_TYPE, Source.NONE)
+      if (r.healAbility == ULT_DMG_TYPE) {
+        x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
         x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
         x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
       }
@@ -116,17 +116,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buff((e >= 6 && m.skillBuff) ? 0.30 : 0, Source.NONE)
+      x.RES.buffTeam((e >= 6 && m.skillBuff) ? 0.30 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP.buff((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, Source.NONE)
-      x.HP.buff((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, Source.NONE)
-      x.HP.buff((t.skillBuff) ? skillHpFlatBuff : 0, Source.NONE)
+      x.HP.buffTeam((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buffTeam((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buffTeam((t.skillBuff) ? skillHpFlatBuff : 0, Source.NONE)
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
-      x.ATK.buff(atkBuffValue, Source.NONE)
+      x.ATK.buffTeam(atkBuffValue, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
@@ -212,8 +212,8 @@ let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
 let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
 (*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
 
-buffNonRatioDynamicHP(finalBuffHp, p_x, p_state);
-buffDynamicATK(finalBuffAtk, p_x, p_state);
+buffNonRatioDynamicHP(finalBuffHp, p_x, p_m, p_state);
+buffDynamicATK(finalBuffAtk, p_x, p_m, p_state);
     `)
       },
     }],

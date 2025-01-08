@@ -131,8 +131,7 @@ export const CharacterScoringSummary = (props: {
     index: number
   }) {
     const displayValue = i18n.exists(`charactersTab:CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}`)
-      // @ts-ignore ts is being dumb :/, key existence is verified on the line above and for some reason can't tell that t() always returns a string
-      ? t(`CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}`)
+      ? t(`CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}` as never)
       : null
     if (displayValue == null) return <></>
 
@@ -337,6 +336,7 @@ export const CharacterScoringSummary = (props: {
               <ScoringNumber label={String(t('common:ShortDMGTypes.Skill')) + ':'} number={simResult.SKILL} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.ULT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Fua')) + ':'} number={simResult.FUA} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Skill')) + ':'} number={simResult.MEMO_SKILL} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Dot')) + ':'} number={simResult.DOT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Break')) + ':'} number={simResult.BREAK} precision={1}/>
             </Flex>
@@ -551,13 +551,15 @@ export function CharacterCardCombatStats(props: {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
 
+    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat as StatsValues}`)
+
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
       <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <Flex gap={3} align='center'>
+        <Flex gap={1} align='center'>
           <StatTextSm>
-            {t(`ReadableStats.${stat as StatsValues}`)}
+            {statName}
           </StatTextSm>
           {upgraded && <Arrow/>}
         </Flex>

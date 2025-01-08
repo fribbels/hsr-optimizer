@@ -43,7 +43,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       // TODO: This is technically a DMG RES buff not a DMG Reduction buff
-      x.DMG_RED_MULTI.multiply((m.dmgResBuff) ? (1 - sValues[s]) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((m.dmgResBuff) ? (1 - sValues[s]) : 1, Source.NONE)
     },
     finalizeCalculations: () => {
     },

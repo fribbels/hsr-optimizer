@@ -1,7 +1,7 @@
-import { FUA_TYPE } from 'lib/conditionals/conditionalConstants'
+import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { buffAbilityCd } from 'lib/optimization/calculateBuffs'
+import { buffAbilityCd, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -96,8 +96,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'slider',
       text: t('TeammateContent.teammateATKValue.text'),
       content: t('TeammateContent.teammateATKValue.content', {
-        ultAtkBuffFlatValue: TsUtils.precisionRound(100 * ultAtkBuffFlatValue),
-        ultAtkBuffScalingValue: ultAtkBuffScalingValue,
+        ultAtkBuffFlatValue: TsUtils.precisionRound(ultAtkBuffFlatValue),
+        ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
       }),
       min: 0,
       max: 7000,
@@ -138,21 +138,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((m.talentCdBuff) ? talentCdBuffValue : 0, Source.NONE)
-      x.RES.buff((e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0, Source.NONE)
+      x.CD.buffTeam((m.talentCdBuff) ? talentCdBuffValue : 0, Source.NONE)
+      x.RES.buffTeam((e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG.buff((m.skillDmgBuff) ? skillDmgBuffValue : 0, Source.NONE)
-      x.RES_PEN.buff((e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((m.skillDmgBuff) ? skillDmgBuffValue : 0, Source.NONE)
+      x.RES_PEN.buffTeam((e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK.buff((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0, Source.NONE)
-      x.RATIO_BASED_ATK_BUFF.buff((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, Source.NONE)
+      x.ATK.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0, Source.NONE)
+      x.RATIO_BASED_ATK_BUFF.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, Source.NONE)
 
-      x.SPD_P.buff((e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0, Source.NONE)
+      x.SPD_P.buffTeam((e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0, Source.NONE)
 
-      buffAbilityCd(x, FUA_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, Source.NONE)
+      buffAbilityCd(x, FUA_DMG_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, Source.NONE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -169,7 +169,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
       return `
 if (${wgslTrue(r.concertoActive)}) {
-  buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_state);
+  buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_m, p_state);
 }
 
 if (${wgslTrue(r.concertoActive)}) {

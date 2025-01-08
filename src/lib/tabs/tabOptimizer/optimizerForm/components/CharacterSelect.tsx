@@ -1,9 +1,10 @@
 import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
 import { Assets } from 'lib/rendering/assets'
+import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 // FIXME HIGH
@@ -39,11 +40,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
-  const characterOptions = useMemo(() => Utils.generateCharacterOptions(), [t])
+  const characterOptions = useMemo(() => generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
-  const labelledOptions: { value: string; label }[] = []
+  const labelledOptions: { value: string; label: ReactElement }[] = []
   for (const option of characterOptions) {
     labelledOptions.push({
       value: option.value,

@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -84,15 +84,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Boost
       x.ELEMENTAL_DMG.buff(r.skillDmgIncreaseStacks * skillStackDmg, Source.NONE)
-      buffAbilityDmg(x, ULT_TYPE, (e >= 1) ? 0.10 : 0, Source.NONE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (e >= 1) ? 0.10 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 60 : 30, Source.NONE)
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
       x.FUA_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 60 : 30, Source.NONE)
 
       return x
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))

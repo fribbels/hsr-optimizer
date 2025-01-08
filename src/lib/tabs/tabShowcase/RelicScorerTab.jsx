@@ -34,8 +34,14 @@ function presetCharacters() {
     { characterId: char(1402), lightConeId: lc(23036) },
     { characterId: char(8007), lightConeId: lc(21050), lightConeSuperimposition: 5 },
     { characterId: char(8008), lightConeId: lc(21050), lightConeSuperimposition: 5 },
-    { characterId: char(1313), lightConeId: lc(23034) },
-    { characterId: char(1225), lightConeId: lc(23035) },
+
+    { characterId: char(1222), lightConeId: lc(23032), rerun: true },
+    { characterId: char(1220), lightConeId: lc(23031), rerun: true },
+    { characterId: char(1314), lightConeId: lc(23028), rerun: true },
+    { characterId: char(1315), lightConeId: lc(23027), rerun: true },
+    { characterId: char(1309), lightConeId: lc(23026), rerun: true },
+    { characterId: char(1006), lightConeId: lc(23007), rerun: true },
+
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
 }
@@ -535,6 +541,41 @@ CharacterPreviewSelection.propTypes = {
   setSelectedCharacter: PropTypes.func,
 }
 
+function PresetButton(props) {
+  const { preset } = props
+
+  if (preset.rerun) {
+    return (
+      <img
+        src={Assets.getCharacterAvatarById(preset.characterId)}
+        style={{
+          height: RERUN_PRESET_SIZE,
+          width: RERUN_PRESET_SIZE,
+          borderRadius: RERUN_PRESET_SIZE,
+          outline: '1px solid rgba(255, 255, 255, 0.2)',
+          background: 'rgba(255, 255, 255, 0.05)',
+        }}
+      />
+    )
+  }
+
+  return (
+    <img
+      src={Assets.getCharacterAvatarById(preset.characterId)}
+      style={{
+        height: PRESET_SIZE,
+        width: PRESET_SIZE,
+        borderRadius: PRESET_SIZE,
+        outline: '1px solid rgba(255, 255, 255, 0.2)',
+        background: 'rgba(255, 255, 255, 0.05)',
+      }}
+    />
+  )
+}
+
+const RERUN_PRESET_SIZE = 45
+const PRESET_SIZE = 95
+
 function Sidebar(props) {
   // Save the state of the sidebar so that new users can have it open while experiences users can close the sidebar
   const [open, setOpen] = useState(window.store.getState().savedSession[SavedSessionKeys.relicScorerSidebarOpen])
@@ -547,33 +588,30 @@ function Sidebar(props) {
   const dropdownDisplay = useMemo(() => {
     let key = 0
     return (
-      <Flex vertical gap={0}>
+      <Flex
+        vertical
+        gap={4}
+        justify='center'
+        style={{
+          marginLeft: -8,
+          width: 110,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}
+      >
         {
           presetCharacters().map((preset) => {
             const icon = !preset.custom
-              ? (
-                <img
-                  src={Assets.getCharacterAvatarById(preset.characterId)}
-                  style={{
-                    height: 100,
-                    width: 100,
-                    borderRadius: 100,
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                  }}
-                />
-              )
+              ? <PresetButton preset={preset}/>
               : <Icon component={EditOutlined} style={{ fontSize: 85 }}/>
             return (
               <Button
                 key={key++}
                 type='text'
                 style={{
-                  width: 107,
-                  height: 107,
-                  padding: 5,
+                  width: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
+                  height: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
                   paddingTop: 2,
-                  marginLeft: -5,
                   display: props.activeKey == AppPages.SHOWCASE ? 'flex' : 'none',
                 }}
                 onClick={() => props.presetClicked(preset)}
@@ -592,17 +630,17 @@ function Sidebar(props) {
       vertical
       style={{
         position: 'relative',
-        left: -125,
-        top: 38,
+        left: -120,
+        top: 40,
         width: 0,
         height: 0,
       }}
-      gap={5}
     >
       <Dropdown
         zIndexPopup={10}
         dropdownRender={() => (dropdownDisplay)}
         open={open}
+        style={{}}
       >
         <a
           onClick={(e) => {
@@ -613,9 +651,9 @@ function Sidebar(props) {
           <Button
             type='primary'
             shape='round'
-            style={{ height: 100, width: 100, borderRadius: 50, marginBottom: 5 }}
+            style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 8 }}
           >
-            <Icon component={ExperimentOutlined} style={{ fontSize: 65 }}/>
+            <Icon component={ExperimentOutlined} style={{ fontSize: 55 }}/>
           </Button>
         </a>
       </Dropdown>

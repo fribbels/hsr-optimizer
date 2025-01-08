@@ -1,0 +1,506 @@
+CharacterSelector:
+  Character: Personnage
+  Lightcone: Cône de lumière
+  Presets: Préréglages
+  Target: Cible d'optimisation
+  ResultsPlaceholder: Trouver meilleurs résultats
+  TargetPlaceholder: Triés par
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
+LightconePassives: Passifs de cônes de lumière
+CharacterPassives: Passifs de personnages
+NoConditionals: Pas de passifs conditionnels
+NoTeamConditionals: Pas de passifs conditionnels de coéquipier
+ResultLimitN: "{{limit}} meilleurs résultats"
+MainStats: Mainstats
+Sets: Sets
+RelicSetSelector:
+  Placeholder: Set de relique
+  4pcLabel: 4 pièces
+  2+2pcLabel: 2 + 2 pièces
+  2pcLabel: 2 + Quelconque
+OrnamentSetSelector:
+  Placeholder: Set d'ornement
+SortOptions:
+  DMGLabel: Calcul des dégâts
+  StatLabel: Stats
+  COMBO: Trié par DGT Combo
+  BASIC: Trié par DGT de Normale
+  SKILL: Trié par DGT de Compétence
+  ULT: Trié par DGT d'Ult
+  FUA: Trié par DGT de Suivie
+  MEMO_SKILL: Trié par DGT de Mnémesprit
+  DOT: Trié par DGT sur Delai
+  BREAK: Trié par DGT de Rupture
+  HEAL: Trié par Soin
+  SHIELD: Trié par Bouclier
+  HP: "Trié par $t(common:ReadableStats.HP)"
+  ATK: "Trié par $t(common:ReadableStats.ATK)"
+  DEF: "Trié par $t(common:ReadableStats.DEF)"
+  SPD: "Trié par $t(common:ReadableStats.SPD)"
+  CR: "Trié par $t(common:ReadableStats.CRIT Rate)"
+  CD: "Trié par $t(common:ReadableStats.CRIT DMG)"
+  EHR: "Trié par $t(common:ReadableStats.Effect Hit Rate)"
+  RES: "Trié par $t(common:ReadableStats.Effect RES)"
+  BE: "Trié par $t(common:ReadableStats.Break Effect)"
+  OHB: "Trié par $t(common:ReadableStats.Outgoing Healing Boost))"
+  ERR: "Trié par $t(common:ReadableStats.Energy Regeneration Rate)"
+  DMG: Trié par DGT Élémentaire
+  EHP: Trié par PV Effectif
+OptimizerOptions:
+  Header: Options d'optimiseur
+  PriorityFilter: Filtre de priorité de pers.
+  Priority:
+    Header: Priorité
+    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
+    Name: "# {{rank}}"
+  AllowEquipped: Permettre reliques équipées
+  KeepCurrent: Garder reliques courantes
+  Exclude: Exclure
+  MinEnhance:
+    Header: Niveau min.
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+  MinRarity:
+    Header: Rareté min.
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4 ★ +
+    Label5: 5 ★
+  BoostMain:
+    Header: Niv. de mainstat
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+AdvancedOptions:
+  Header: Options avancées
+  EnemyConfigButtonText: Configuration des ennemis
+  CombatBuffsButtonTextNone: Buffs supplémentaires
+  CombatBuffsButtonText: "Buffs supplémentaires ({{activeCount}})"
+Grid:
+  To: de
+  Of: à
+  Page: Page
+  PageSelectorLabel: "Taille de page"
+  Headers:
+    Basic:
+      Set: Set
+      ATK: ATQ
+      DEF: DÉF
+      HP: PV
+      SPD: VIT
+      CR: TC
+      CD: DC
+      EHR: CAE
+      RES: RÉS
+      BE: ER
+      OHB: ASP
+      ERR: TRE
+      DMG: DGT
+      EHP: PVE
+      WEIGHT: |-
+        POIDS
+        STAT
+      HEAL: SOIN
+      SHIELD: BOUCLIER
+      BASIC: |-
+        DGT
+        NORMALE
+      SKILL: |-
+        DGT
+        COMP
+      ULT: |-
+        DGT
+        ULT
+      FUA: |-
+        DGT
+        ADS
+      MEMO_SKILL: |-
+        DGT
+        COMPᴹ
+      DOT: |-
+        DGT
+        DSD
+      BREAK: |-
+        DGT
+        RUPTURE
+      COMBO: |-
+        DGT
+        COMBO
+    Combat:
+      Set: Set
+      ATK: Σ ATQ
+      DEF: Σ DEF
+      HP: Σ PV
+      SPD: Σ VIT
+      CR: Σ TC
+      CD: Σ DC
+      EHR: Σ TAE
+      RES: Σ RÉS
+      BE: Σ ER
+      OHB: Σ ASP
+      ERR: Σ TRE
+      DMG: Σ DGT
+      EHP: PVE
+      WEIGHT: |-
+        POIDS
+        STAT
+      HEAL: SOIN
+      SHIELD: BOUCLIER
+      BASIC: |-
+        DGT
+        NORMALE
+      SKILL: |-
+        DGT
+        COMP
+      ULT: |-
+        DGT
+        ULT
+      FUA: |-
+        DGT
+        ADS
+      MEMO_SKILL: |-
+        DGT
+        COMPᴹ
+      DOT: |-
+        DGT
+        DSD
+      BREAK: |-
+        DGT
+        RUPTURE
+      COMBO: |-
+        DGT
+        COMBO
+Sidebar:
+  GPUOptions:
+    Experimental: Accélération GPU activée (expérimental)
+    Stable: Accélération GPU activée (stable)
+    CPU: CPU uniquement
+    EngineSwitchSuccessMsg:
+      CPU: Moteur de calcul basculé sur CPU
+      Stable: Moteur de calcul basculé sur GPU (Stable)
+      Experimental: Moteur de calcul basculé sur GPU (Expérimental)
+    Display:
+      GPU Experimental: "Accélération GPU: Activée"
+      GPU Stable: "Accélération GPU: Activée"
+      CPU: "Accélération GPU: Désactivé"
+  Pinning:
+    Messages:
+      NoneSelected: Aucune ligne sélectionnée
+      SimSelected: Les builds de simulation ne sont pas épinglables
+      AlreadyPinned: Cette build est déjà épinglée
+  Permutations: Permutations
+  Perms: Perms
+  Searched: Cherchées
+  Results: Résultats
+  ProgressText:
+    Progress: Progrès
+    CalculatingETA: Recherche en progrès
+    TimeRemaining: "{{rate}} / sec — {{timeRemaining}} restantes"
+    Finished: "{{rate}} / sec — Terminée"
+  ControlsGroup:
+    Header: Contrôles
+    Start: Lancer optimiseur
+    ResetConfirm:
+      Title: Réinitialiser tous les filtres?
+      Description: Tous les filtres seront réinitialisés à leurs valeurs par défaut
+  StatViewGroup:
+    Header: Vue Stats et Filtres
+    CombatStats: Stats de combat
+    BasicStats: Stats basiques
+  ResultsGroup:
+    Header: Résultats
+    Equip: Équiper
+    Filter: Filtrer
+    Pin: Épingler
+    Clear: Désépingler
+TeammateRow:
+  Header: "Coéquipiers {{teammateCount}}"
+FormRowLabels:
+  Character options: Paramètres du personnage
+  Relic & stat filters: Filtres de relique & stats
+  Teammates: Coéquipiers
+  Character custom stats simulation: Simulation de stats customisée
+SetConditionals:
+  Title: Effets de sets conditionnels
+  DescriptionHeader: Description du set
+  EffectHeader: Effet activé
+  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
+  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
+  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SelectOptions:
+    Streetwise:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% ATQ)"
+    Wastelander:
+      Off:
+        Display: "Inactif"
+        Label: "Inactif"
+      Debuffed:
+        Display: TC
+        Label: Malussé (+10 TC)
+      Imprisoned:
+        Display: TC + DC
+        Label: Emprisonné (+10% TC | +20% DC)
+    Longevous:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% TC)"
+    Ashblazing:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% ATQ)"
+    Prisoner:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DEF ignorée)"
+    Diver:
+      Off:
+        Display: 0x
+        Label: 0 malus (+4% TC de base)
+      1Debuff:
+        Display: 1x
+        Label: 1 malus (+12% DGT | +4% TC de base)
+      2Debuff:
+        Display: 2x
+        Label: 2 malus (+12% DGT | +4% TC de base | +8% DC)
+      3Debuff:
+        Display: 3x
+        Label: 3 malus (+12% DGT | +4% TC de base | +12% DC)
+      2+Debuff:
+        Display: 2x+
+        Label: 2 malus, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +16% DC)
+      3+Debuff:
+        Display: 3x+
+        Label: 3 malus, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +24% DC)
+    Sigonia:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DC)"
+    Duran:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DGT ADS)"
+      Label5: 5 piles (+25% DGT ADS, +25% DC)
+    Sacerdos:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} cumuls (+{{buffValue}}% DC)"
+  Conditionals:
+    DefaultMessage: Activé par défaut - les effets s'appliqueront aux calculs de combat.
+    Hunter: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat.
+    Streetwise: Le buff d'ATQ% sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
+    Firesmith: L'augmentation des DGT de compétence est toujours active par défaut. Lorsque cette option est sélectionnée, le buff de DGT de Feu est appliqué au calcul des stats de combat.
+    Genius: L'augmentation de pénétration de DEF de 10% est toujours active par défaut. Lorsque cette option est sélectionnée, l'ennemi sera considéré comme étant faible aux DGT Quantique et la pénétration de DEF sera additionnellement augmentée de 10%.
+    Thunder: Lorsque cette option est sélectionnée, le buff d'ATQ% sera appliqué au calcul des stats de combat.
+    Wastelander: Applique le buff sélectionné au calcul des stats de combat
+    Longevous: Le buff de TC sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
+    Messenger: Lorsque cette option est sélectionnée, le buff de VIT% sera appliqué au calcul des stats de combat.
+    Ashblazing: >-
+      Le buff d'ATQ% sélectionné sera appliqué à tous les calculs hormis celui des attaques de suivi. Le calcul pour les attaques de suivi commencera avec un buff de 0% et s'accumulera en fonction du nombre de coups délivrés par l'attaque. Le nombre de coups augmentera en fonction du nombre d'ennemis et supposera que la cible est située au milieu pour les attaques a plusieurs cibles.
+    Prisoner: Le buff de pénétration de def% sera appliqué au calcul de dégâts en fonction du nombre de cumuls.
+    Diver: L'effet 2 pièces peut être désactivé en sélectionnant l'option 0x. Pour l'effet 4 pièces, divers buffs de crit sont appliqués en fonction de l'option sélectionnée.
+    Watchmaker: Lorsque cette option est sélectionnée, le buff d'effet Rupture sera appliqué au calcul des stats de combat.
+    Valorous: Le buff de Taux de CRIT est toujours activée par défaut. Le buff sélectionné est appliqué au calcul de dégâts en fonction du nombre de cumuls.
+    Differentiator: Lorsque cette option est sélectionnée, le buff de Taux de CRIT sera appliqué au calcul des stats de combat.
+    Sigonia: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat, en supposant que le personnage ait vaincu ce nombre d'ennemis.
+    Izumo: Lorsque cette option est sélectionnée, suppose qu'il existe un allié du même chemin dans l'équipe, et applique un buff de Taux de Crit de 12% lors du calcul des stats de combat.
+    Duran: Le buff sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
+    Kalpagni: Lorsque cette option est activée, applique le buff d'Effet de Rupture au calcul des stats de combat.
+    Lushaka: Le buff sélectionné est appliqué au calcul des stats de combat.
+    Banana: Le buff sélectionné est appliqué au calcul des stats de combat.
+    Sacerdos: Le buff sélectionné est appliqué au calcul des stats de combat. Les personnages qui se buffent peuvent activer cet effet.
+Presets:
+  SpdValues:
+    SPD0: Pas de vitesse minimale
+    SPD111: 111,112 VIT - 5 actions sur les quatre premiers cycles
+    SPD114: 114,286 VIT - 4 actions sur les trois premiers cycles
+    SPD120: 120,000 VIT - 3 actions sur les deux premiers cycles
+    SPD133: 133,334 VIT - 2 actions dans le premier cycle, 6 actions dans les quatre premiers cycles
+    SPD142: 142,858 VIT - 5 actions sur les trois premiers cycles
+    SPD155: 155,556 VIT - 7 actions sur les quatre premiers cycles
+    SPD160: 160,000 VIT - 4 actions sur les deux premiers cycles
+    SPD171: 171,429 VIT - 6 actions sur les trois premiers cycles
+    SPD177: 177,778 VIT - 8 actions sur les quatre premiers cycles
+    SPD200: 200,000 VIT - 3 actions dans le premier cycle
+  StandardLabel: "$t(gameData:Characters.{{id}}.Name) standard"
+  RecommendedPresets: Préréglages recommandés
+  PresetNotAvailable: Préréglage non disponible, veuillez sélectionner une autre option
+CombatBuffs:
+  ATK: ATQ
+  ATK_P: ATQ %
+  HP: PV
+  HP_P: PV %
+  DEF: DÉF
+  DEF_P: DEF %
+  CR: Taux Crit %
+  CD: DGT Crit %
+  SPD: VIT
+  SPD_P: VIT %
+  BE: ER %
+  DMG_BOOST: Aug. DGT %
+  DEF_PEN: Pén Def %
+  RES_PEN: PÉN RÉS Dgt %
+  EFFECT_RES_PEN: PÉN RÉS Eff %
+  VULNERABILITY: Vulnérabilité %
+  BREAK_EFFICIENCY: Éfficacité de Rupture %
+  Title: Buffs supplémentaires
+Target_one: cible
+Target_other: cibles
+EnemyConfiguration:
+  LevelOptionLabel: "Lv. {{level}} - {{defense}} DÉF"
+  CountOptionLabel: >-
+    {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
+  EffResOptionLabel: "Rés aux effets: {{resistance}}%"
+  DmgResOptionLabel: "Rés aux dégâts: {{resistance}}%"
+  ToughnessOptionLabel: "Robustesse maximale: {{toughness}}"
+  Title: Configuration des ennemis
+  StatHeader: Configuration des stats des ennemis
+  WeaknessLabel: Faiblesse élémentaire
+  BrokenLabel: État de rupture de faiblesse
+WeightFilter:
+  WeightFilterHeader: Filtre de poids de substats
+  RollFilterHeader: Rolls pondérés par relique
+  HPFilterText: PV
+  ATKFilterText: ATQ
+  DEFFilterText: DÉF
+  SPDFilterText: VIT
+  CRFilterText: TC
+  CDFilterText: DC
+  EHRFilterText: CAE
+  RESFilterText: RÉS
+  BEFilterText: ER
+MinMaxFilters:
+  StatHeader: Filtres min / max de stat
+  RatingHeader: Filtres min / max d'évaluation
+  HPLabel: PV
+  ATKLabel: ATQ
+  DEFLabel: DÉF
+  SPDLabel: VIT
+  CRLabel: TC
+  CDLabel: DC
+  EHRLabel: CAE
+  RESLabel: RÉS
+  BELabel: ER
+  ERRLabel: TRE
+  WEIGHTLabel: POIDS
+  EHPLabel: PVE
+  BASICLabel: NORMALE
+  SKILLLabel: COMP.
+  ULTLabel: ULT
+  FUALabel: ADS
+  MEMOSKILLLabel: COMPᴹ
+  DOTLabel: DSD
+  BREAKLabel: RUPTURE
+  HEALLabel: SOIN
+  SHIELDLabel: BOUCLIER
+  COMBOLabel: COMBO
+ComboFilter:
+  Header: Rotation des capacités combo
+  ModeSelector:
+    Simple: Simple
+    Advanced: Avancé
+  RowControls:
+    Add: +
+    Remove: "-"
+    ResetConfirm:
+      Description: Réinitialiser tous les paramètres de rotation Simple / Avancé?
+  CounterLabels:
+    Dot: Dsd
+    Break: Ruptures
+  ComboOptions:
+    Basic: Norm
+    Skill: Comp
+    Ult: Ult
+    Fua: Ads
+    MemoSkill: Compᴹ
+  RotationButton: Rotation avancée
+ComboDrawer:
+  NoConditionals: Pas de passifs conditionnels
+  Title: Guide de l'utilisateur de Rotation Avancée
+  Placeholders:
+    Sets: Conditionnels de set de relique
+    Ornaments: Conditionnels de set d'ornements
+  GroupHeaders:
+    Sets: Conditionnels de sets de reliques / ornements
+    Teammate1: Conditionnels du coéquipier 1
+    Teammate2: Conditionnels du coéquipier 2
+    Teammate3: Conditionnels du coéquipier 3
+TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  EidolonPlaceholder: Eidolon
+  SuperimpositionPlaceholder: Superimposition
+  RelicsPlaceholder: Reliques
+  OrnamentsPlaceholder: Ornements
+  TeammateSyncSuccessMessage: Info de coéquipier synchronisée
+  TeammateSets:
+    Messenger:
+      Desc: "4 Pièces: $t(gameData:RelicSets.114.Name) (+12% VIT)"
+      Set: "$t(gameData:RelicSets.114.Name)"
+      Text: 12% VIT
+    Watchmaker:
+      Desc: "4 Pièces: $t(gameData:RelicSets.118.Name) (+30% ER)"
+      Set: "$t(gameData:RelicSets.118.Name)"
+      Text: 30% BE
+    Sacerdos1Stack:
+      Desc: "4 Pièces: $t(gameData:RelicSets.121.Name) (+18% DC)"
+      Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 18% DC
+    Sacerdos2Stack:
+      Desc: "4 Pièces: $t(gameData:RelicSets.121.Name) (+36% DC)"
+      Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 36% DC
+    Keel:
+      Desc: "$t(gameData:RelicSets.310.Name) (+10% DC)"
+      Set: "$t(gameData:RelicSets.310.Name)"
+      Text: 10% DC
+    Ageless:
+      Desc: "$t(gameData:RelicSets.302.Name) (+8% ATQ)"
+      Set: "$t(gameData:RelicSets.302.Name)"
+      Text: 8% ATQ
+    Penacony:
+      Desc: "$t(gameData:RelicSets.312.Name) (+10% DGT pour même élément)"
+      Set: "$t(gameData:RelicSets.312.Name)"
+      Text: 10% DGT
+    Lushaka:
+      Desc: "$t(gameData:RelicSets.317.Name) (+12% ATQ)"
+      Set: "$t(gameData:RelicSets.317.Name)"
+      Text: 12% ATQ
+StatSimulation:
+  DuplicateSimMessage: Une simulation identique existe déjà
+  MissingMainstatsMessage: Les mainstats de simulation sont manquantes
+  BuildAlreadyImported: La build sélectionnée est déjà une simulation
+  NothingToImport: Lance d'abord l'optimiseur, puis sélectionne une ligne à importer
+  NoStatSimulations: Aucune simulation de stat custom n'est sélectionnée
+  SetSelection:
+    Header: Sets
+    RelicPlaceholder: Set de relique
+    OrnamentPlaceholder: Set d'ornement
+  TotalRolls: Rolls totaux
+  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  ModeSelector:
+    Off: "Inactif"
+    RollCount: Simuler rolls custom de substats
+    Totals: Simuler total custom de substats
+  FooterLabels:
+    Simulate: Simuler les builds
+    Import: Importer build sélectionnée
+    Conditionals: Effets de sets conditionnels
+  DeletePopup:
+    Title: Effacer les simulations de stats
+    Description: Êtes-vous sûr de vouloir effacer toutes les simulations enregistrées de ce personnage ?
+  SimulationNamePlaceholder: Nom de simulation (facultatif)
+  OptionsHeader: Options
+  RollsHeader: Roll maximales des substats
+  TotalsHeader: Valeur totale des substats
+  MainStatsSelection:
+    Header: Mainstats
+    BodyPlaceholder: Corps
+    FeetPlaceholder: Pieds
+    SpherePlaceholder: Sphère
+    RopePlaceholder: Corde
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
+    LabelStat: "$t(common:ReadableStats.{{stat}})"

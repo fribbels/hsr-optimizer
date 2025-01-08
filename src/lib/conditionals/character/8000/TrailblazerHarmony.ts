@@ -117,8 +117,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buff((m.backupDancer) ? ultBeScaling : 0, Source.NONE)
-      x.SUPER_BREAK_HMC_MODIFIER.buff(
+      x.BE.buffTeam((m.backupDancer) ? ultBeScaling : 0, Source.NONE)
+      x.SUPER_BREAK_HMC_MODIFIER.buffTeam(
         (m.backupDancer && m.superBreakDmg)
           ? targetsToSuperBreakMulti[context.enemyCount]
           : 0,
@@ -127,7 +127,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buff((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
+      x.BE.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

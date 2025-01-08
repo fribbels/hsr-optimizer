@@ -149,6 +149,8 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.ULT_DMG > maxUlt'),
     filter('x.FUA_DMG < minFua'),
     filter('x.FUA_DMG > maxFua'),
+    filter('x.MEMO_SKILL_DMG < minMemoSkill'),
+    filter('x.MEMO_SKILL_DMG > maxMemoSkill'),
     filter('x.DOT_DMG < minDot'),
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
@@ -189,6 +191,8 @@ function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.ULT_DMG > maxUlt'),
     filter('x.FUA_DMG < minFua'),
     filter('x.FUA_DMG > maxFua'),
+    filter('x.MEMO_SKILL_DMG < minMemoSkill'),
+    filter('x.MEMO_SKILL_DMG > maxMemoSkill'),
     filter('x.DOT_DMG < minDot'),
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
@@ -255,6 +259,7 @@ ${debugValues}
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
 results[index] = x; // DEBUG
+results[index + 1] = m; // DEBUG
     `, 4))
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`

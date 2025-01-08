@@ -1,0 +1,73 @@
+CharacterSelector:
+  Character: 角色
+OptimizerOptions:
+  Priority:
+    Header: 優先級
+Grid:
+  Headers:
+    Basic:
+      ATK: 攻擊力
+      DEF: 防禦力
+      HP: 生命值
+      SPD: 速度
+      CR: 暴擊率
+      CD: 暴擊傷害
+      EHR: 效果命中
+      RES: 效果抵抗
+      BE: 擊破特攻
+      OHB: 治療量加成
+      ERR: 能量恢復效率
+Sidebar:
+  GPUOptions:
+    EngineSwitchSuccessMsg:
+      CPU: 計算引擎已切換至CPU
+      Stable: 計算引擎已切換至GPU (穩定)
+      Experimental: 計算引擎已切換至GPU (實驗性)
+SetConditionals:
+  SelectOptions:
+    Wastelander:
+      Debuffed:
+        Display: 暴擊率
+CombatBuffs:
+  ATK: 攻擊力
+  ATK_P: 攻擊力 %
+  HP: 生命值
+  HP_P: 生命值 %
+  DEF: 防禦力
+  DEF_P: 防禦力 %
+  SPD: 速度
+  SPD_P: 速度 %
+WeightFilter:
+  HPFilterText: 生命值
+  ATKFilterText: 攻擊力
+  DEFFilterText: 防禦力
+  SPDFilterText: 速度
+  CRFilterText: 暴擊率
+  CDFilterText: 暴擊傷害
+  EHRFilterText: 效果命中
+  RESFilterText: 效果抵抗
+  BEFilterText: 擊破特攻
+MinMaxFilters:
+  HPLabel: 生命值
+  ATKLabel: 攻擊力
+  DEFLabel: 防禦力
+  SPDLabel: 速度
+  CRLabel: 暴擊率
+  CDLabel: 暴擊傷害
+  EHRLabel: 效果命中
+  RESLabel: 效果抵抗
+  BELabel: 擊破特攻
+  ERRLabel: 能量恢復效率
+  BASICLabel: 普攻
+  SKILLLabel: 戰技
+  ULTLabel: 終結技
+  FUALabel: 追加攻擊
+  MEMOSKILLLabel: 憶靈戰技
+TeammateCard:
+  TeammateSyncSuccessMessage: 已同步隊友信息
+StatSimulation:
+  MainStatsSelection:
+    BodyPlaceholder: 軀幹
+    FeetPlaceholder: 腳部
+    SpherePlaceholder: 次元球
+    RopePlaceholder: 連結繩

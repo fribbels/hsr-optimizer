@@ -682,33 +682,13 @@ export function updateFormState(comboState: ComboState) {
   SaveState.delayedSave(1000)
 }
 
-type ChangeEvent = {
-  characterConditionals: {
-    [key: string]: object
-  }
-  lightConeConditionals: {
-    [key: string]: object
-  }
-  setConditionals: {
-    [key: string]: object
-  }
-  teammate0: {
-    [key: string]: object
-  }
-  teammate1: {
-    [key: string]: object
-  }
-  teammate2: {
-    [key: string]: object
-  }
-}
-
 function change(changeConditional: {
   // eslint-disable-next-line
   [key: string]: any
 }, originalConditional: ComboConditionals, set: boolean = false) {
   for (const [key, value] of Object.entries(changeConditional)) {
     const comboCategory = originalConditional[key]
+    if (!comboCategory) continue
     if (comboCategory.type == ConditionalDataType.BOOLEAN) {
       for (let i = 0; i <= 8; i++) {
         if (set) {

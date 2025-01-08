@@ -1,0 +1,129 @@
+ScreenshotMessages:
+  ScreenshotSuccess: Скриншот скопирован в буфер обмена
+  ScreenshotFailed: Не удается сохранить снимок экрана в буфер обмена, попробуйте нажать кнопку загрузки справа
+  DownloadSuccess: Скаченный скриншот
+CharacterMenu:
+  ButtonText: Меню персонажей
+  Character:
+    Label: Персонаж
+    Options:
+      Add: Добавить нового персонажа
+      Edit: Изменить персонаж / световой конус
+      Switch: Поменять местами реликвии
+      Unequip: Снять реликвии
+      Delete: Удалить персонажа
+  Build:
+    Label: Сборки
+    Options:
+      Save: Сохранить сборку
+      View: Просмотр сохраненных сборки
+  Scoring:
+    Label: Очки
+    Options:
+      ScoringModal: Алгоритм подсчета очков
+  Priority:
+    Label: Приоритет
+    Options:
+      SortByScore: Отсортируйте всех персонажей по количеству баллов
+      MoveToTop: Переместите персонажа на самый верх
+SearchPlaceholder: Поиск
+GridHeaders:
+  Icon: Иконка
+  Priority: Приоритет
+  Character: Имя Персонажа
+Messages:
+  RemoveSuccess: Персонаж успешно удален
+  UnequipSuccess: Реликвии персонажа успешно сняты
+  NoSelectedCharacter: Нет выбранного персонажа
+  SwitchSuccess: "Реликвии успешно поменяны с $t(gameData:Characters.{{charId}}.Name)"
+  SortByScoreWarning: Вы уверены, что хотите отсортировать персонажей?
+  SaveSuccess: "Сборка {{name}} успешно сохранена"
+  UnequipWarning: "Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?"
+CharacterPreview:
+  CustomizationSidebar:
+    Label: Кастомизация
+    Modes:
+      Auto: Автоматически
+      Custom: Пользовательский
+      Standard: Стандартный
+    PaletteLabel: Портретная цветовая палитра
+  ArtBy: "Арт от {{artistName}}"
+  EditCharacter: Изменить персонаж
+  EditPortrait: Изменить картинку персонажа
+  CharacterScore: "Оценка персонажа: {{score}} {{grade}}"
+  Messages:
+    AddedRelic: Реликвия успешно добавлена
+    SavedPortrait: Картинка успешно сохранён
+    RevertedPortrait: Картинка успешно удалена
+    NoSelectedCharacter: Нет выбранного персонажа
+  ScoreHeader:
+    Title: Эффективность сборки
+    Score: "Оценка DPS {{score}}% {{grade}}"
+  AlgorithmSlider:
+    Title: "Алгоритм подсчета очков:"
+    Labels:
+      CombatScore: Боевая эффективность с учётом команды
+      StatScore: Оценка сборки персонажа
+  DetailsSlider:
+    Title: "Детали боевого счета:"
+    Labels:
+      CombatStats: Статы персонажа при учёте команды
+      DMGUpgrades: Мультипликаторы урона
+  DMGUpgrades: Мультипликаторы урона
+  SubstatUpgradeComparisons:
+    Header: Рекомендовано улучшения статов для повышения урона
+    Roll: Прок
+    Damage: Урон
+  BuildAnalysis:
+    Header: Анализ сборки персонажей
+    SimulationTeammates: Состав команды
+    SimulationSets: Набор реликвий
+    Rotation:
+      Header: Количество нажатых способностей
+      BASIC: Базовая атака
+      SKILL: Навык
+      ULT: Ультимейт
+      FUA: Бонусная атака
+      DOTS: "Дот"
+      BREAKS: "Урон пробитием"
+    CombatResults:
+      Header: Результаты боевого урона
+      Primary: "Приоритетная способность:"
+      Character: "Урон персонажа:"
+      Benchmark: "Тесты урона:"
+      Baseline: "Базовый урон:"
+      Maximum: "Максимальный урон:"
+      Score: "Оценка DPS %:"
+      Abilities:
+        BASIC: БАЗОВЫЙ УРОН
+        SKILL: УРОН НАВЫКОМ
+        ULT: УРОН УЛЬТИМЕЙТОМ
+        FUA: УРОН ДАЗОВОЙ АТАКИ
+        DOT: ДОТ УРОН
+        BREAK: УРОН ПРОБИТИЕМ
+        COMBO: СУММАРНЫЙ УРОН
+  ScoringColumn:
+    Character:
+      Header: "Эффективность сборки ({{score}}%)"
+      BasicStats: Базовые статы персонажа
+      CombatStats: Статы персонажа <1>с учётом команды</1>
+      Substats: Распределения статов персонажа
+      Mainstats: Основные статы персонажа
+      Abilities: Урон от способностей персонажа
+    Benchmark:
+      Header: "Тестовая эффективность сборки ({{score}}%)"
+      BasicStats: Тестовые базовые статы персонажа 100%
+      CombatStats: Тестовые статы персонажа <1>с учётом команды</1> 100%
+      Substats: Тестовые распределения статов персонажа 100%
+      Mainstats: Тестовые основные статы персонажа 100%
+      Abilities: Тестовый урон от способностей персонажа 100%
+    Perfect:
+      Header: "Эффективность сборки ({{score}}%)"
+      BasicStats: Идеальные базовые статы персонажа 200%
+      CombatStats: Идеальные статы персонажа <1>с учётом команды</1> 200%
+      Substats: Идеальные распределения статов персонажа 200%
+      Mainstats: Идеальные основные статы персонажа 200%
+      Abilities: Идеальный урон от способностей персонажа 200%
+  ScoringDetails:
+    Header: Как рассчитывается рейтинг DPS?

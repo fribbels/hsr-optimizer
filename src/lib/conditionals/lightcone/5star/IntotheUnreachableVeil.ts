@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { SKILL_TYPE, ULT_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -33,7 +33,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, SKILL_TYPE | ULT_TYPE, (r.skillUltDmgBoost) ? sValuesDmgBoost[s] : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillUltDmgBoost) ? sValuesDmgBoost[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

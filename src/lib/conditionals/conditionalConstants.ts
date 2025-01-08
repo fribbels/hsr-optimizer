@@ -5,13 +5,20 @@ export const ASHBLAZING_ATK_STACK = 0.06
 
 // Ability types
 export const NONE_TYPE = 0
-export const BASIC_TYPE = 1
-export const SKILL_TYPE = 2
-export const ULT_TYPE = 4
-export const FUA_TYPE = 8
-export const DOT_TYPE = 16
-export const BREAK_TYPE = 32
-export const SUPER_BREAK_TYPE = 64
+export const BASIC_DMG_TYPE = 1
+export const SKILL_DMG_TYPE = 2
+export const ULT_DMG_TYPE = 4
+export const FUA_DMG_TYPE = 8
+export const DOT_DMG_TYPE = 16
+export const BREAK_DMG_TYPE = 32
+export const SUPER_BREAK_DMG_TYPE = 64
+export const MEMO_DMG_TYPE = 128
+
+export const BASIC_ABILITY_TYPE = 1
+export const SKILL_ABILITY_TYPE = 2
+export const ULT_ABILITY_TYPE = 4
+export const FUA_ABILITY_TYPE = 8
+export const MEMO_SKILL_ABILITY_TYPE = 16
 
 export const baseComputedStatsObject = {
   HP_P: 0,
@@ -127,6 +134,9 @@ export const baseComputedStatsObject = {
   ULT_TOUGHNESS_DMG: 0,
   FUA_TOUGHNESS_DMG: 0,
 
+  // RMC
+  TRUE_DMG_MODIFIER: 0,
+
   // e.g. Acheron multiplier
   BASIC_ORIGINAL_DMG_BOOST: 0,
   SKILL_ORIGINAL_DMG_BOOST: 0,
@@ -159,6 +169,21 @@ export const baseComputedStatsObject = {
   ULT_ADDITIONAL_DMG: 0,
   FUA_ADDITIONAL_DMG: 0,
 
+  MEMO_HP_SCALING: 0,
+  MEMO_HP_FLAT: 0,
+  MEMO_DEF_SCALING: 0,
+  MEMO_DEF_FLAT: 0,
+  MEMO_ATK_SCALING: 0,
+  MEMO_ATK_FLAT: 0,
+  MEMO_SPD_SCALING: 0,
+  MEMO_SPD_FLAT: 0,
+
+  MEMO_SKILL_SCALING: 0,
+  MEMO_TALENT_SCALING: 0,
+
+  MEMO_SKILL_DMG: 0,
+  MEMO_TALENT_DMG: 0,
+
   RATIO_BASED_HP_BUFF: 0,
   RATIO_BASED_HP_P_BUFF: 0,
   RATIO_BASED_ATK_BUFF: 0,
@@ -172,13 +197,14 @@ export const baseComputedStatsObject = {
   BASIC_BREAK_EFFICIENCY_BOOST: 0, // Boothill
   ULT_BREAK_EFFICIENCY_BOOST: 0, // Feixiao
 
-  BASIC_DMG_TYPE: BASIC_TYPE,
-  SKILL_DMG_TYPE: SKILL_TYPE,
-  ULT_DMG_TYPE: ULT_TYPE,
-  FUA_DMG_TYPE: FUA_TYPE,
-  DOT_DMG_TYPE: DOT_TYPE,
-  BREAK_DMG_TYPE: BREAK_TYPE,
-  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_TYPE,
+  BASIC_DMG_TYPE: BASIC_DMG_TYPE,
+  SKILL_DMG_TYPE: SKILL_DMG_TYPE,
+  ULT_DMG_TYPE: ULT_DMG_TYPE,
+  FUA_DMG_TYPE: FUA_DMG_TYPE,
+  DOT_DMG_TYPE: DOT_DMG_TYPE,
+  BREAK_DMG_TYPE: BREAK_DMG_TYPE,
+  SUPER_BREAK_DMG_TYPE: SUPER_BREAK_DMG_TYPE,
+  MEMO_DMG_TYPE: MEMO_DMG_TYPE,
 }
 
 export type SetsType = {

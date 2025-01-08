@@ -1,4 +1,4 @@
-import { ASHBLAZING_ATK_STACK, BASIC_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      buffAbilityCr(x, BASIC_TYPE, 1.00, Source.NONE)
+      buffAbilityCr(x, BASIC_DMG_TYPE, 1.00, Source.NONE)
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.FUA_SCALING.buff((e >= 4) ? fuaScaling : 0, Source.NONE)
@@ -126,19 +126,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_P.buff((m.battleStartDefBuff) ? 0.20 : 0, Source.NONE)
-      x.SPD_P.buff((m.e2SkillSpdBuff) ? 0.30 : 0, Source.NONE)
-      x.ATK_P.buff((m.techniqueBuff) ? 0.15 : 0, Source.NONE)
-      x.ATK_P.buff((m.ultBuff) ? ultAtkBoostValue : 0, Source.NONE)
+      x.DEF_P.buffTeam((m.battleStartDefBuff) ? 0.20 : 0, Source.NONE)
+      x.SPD_P.buff((m.e2SkillSpdBuff) ? 0.30 : 0, Source.NONE) // TODO: MEMO
+      x.ATK_P.buffTeam((m.techniqueBuff) ? 0.15 : 0, Source.NONE)
+      x.ATK_P.buffTeam((m.ultBuff) ? ultAtkBoostValue : 0, Source.NONE)
 
-      x.ELEMENTAL_DMG.buff((m.teamDmgBuff) ? 0.10 : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((m.skillBuff) ? skillDmgBoostValue : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((m.teamDmgBuff) ? 0.10 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((m.skillBuff) ? skillDmgBoostValue : 0, Source.NONE) // TODO: MEMO
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
-      x.CD.buff((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.CD.buffTeam((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.CD.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.RATIO_BASED_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.RATIO_BASED_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMulti)
@@ -194,7 +196,7 @@ var stateBuffCD: f32 = ${ultCdBoostValue} * stateValue + ${ultCdBoostBaseValue};
 let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
 (*p_x).RATIO_BASED_CD_BUFF += finalBuffCd;
 
-buffNonRatioDynamicCD(finalBuffCd, p_x, p_state);
+buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
     `)
         },
       },

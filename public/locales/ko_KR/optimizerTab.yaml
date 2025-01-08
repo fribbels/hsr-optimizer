@@ -1,0 +1,79 @@
+CharacterSelector:
+  Character: 캐릭터
+  Lightcone: 광추
+LightconePassives: 광추 효과
+CharacterPassives: 캐릭터 효과
+MainStats: 주 스탯
+Sets: 세트
+OptimizerOptions:
+  Header: 최적화 설정
+  Priority:
+    Header: 우선순위
+Grid:
+  Headers:
+    Basic:
+      ATK: 공격력
+      DEF: 방어력
+      HP: 체력
+      SPD: 속도
+      CR: 치확
+      CD: 치피
+      EHR: 효명
+      RES: 효저
+      BE: 격특
+      OHB: 힐증
+      ERR: 에충
+Sidebar:
+  StatViewGroup:
+    Header: 스탯 및 필터 표시
+SetConditionals:
+  SelectOptions:
+    Wastelander:
+      Debuffed:
+        Display: 치확
+CombatBuffs:
+  ATK: 공격력
+  ATK_P: 공격력 %
+  HP: 체력
+  HP_P: 체력 %
+  DEF: 방어력
+  DEF_P: 방어력 %
+  SPD: 속도
+  SPD_P: 속도 %
+WeightFilter:
+  WeightFilterHeader: 부옵 가중치 필터
+  HPFilterText: 체력
+  ATKFilterText: 공격력
+  DEFFilterText: 방어력
+  SPDFilterText: 속도
+  CRFilterText: 치확
+  CDFilterText: 치피
+  EHRFilterText: 효명
+  RESFilterText: 효저
+  BEFilterText: 격특
+MinMaxFilters:
+  HPLabel: 체력
+  ATKLabel: 공격력
+  DEFLabel: 방어력
+  SPDLabel: 속도
+  CRLabel: 치확
+  CDLabel: 치피
+  EHRLabel: 효명
+  RESLabel: 효저
+  BELabel: 격특
+  ERRLabel: 에충
+  BASICLabel: 일반 공격
+  SKILLLabel: 전투 스킬
+  ULTLabel: 필살기
+  FUALabel: 추가 공격
+TeammateCard:
+  RelicsPlaceholder: 유물
+StatSimulation:
+  SetSelection:
+    Header: 세트
+  MainStatsSelection:
+    Header: 주 스탯
+    BodyPlaceholder: 몸통
+    FeetPlaceholder: 다리
+    SpherePlaceholder: 구체
+    RopePlaceholder: 매듭

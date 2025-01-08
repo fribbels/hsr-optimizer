@@ -1,0 +1,176 @@
+Relic_one: 유물
+Relic_other: 유물
+RelicWithCount_one: "유물 {{count}}개"
+RelicWithCount_other: "유물 {{count}}개"
+Lightcone_one: 광추
+Lightcone_other: 광추
+LightconeWithCount_one: "광추 {{count}}개"
+LightconeWithCount_other: "광추 {{count}}개"
+ThousandsSuffix: k
+DecimalSeparator: "."
+ThousandsSeparator: ","
+I18nNumber: "{{value, number}}"
+Cancel: 취소
+Confirm: 확인
+Submit: 제출
+Ok: OK
+Yes: "예"
+No: "아니요"
+Save: 저장
+Score: 점수
+Reset: 초기화
+EidolonNShort: "{{eidolon}}돌"
+SuperimpositionNShort: "{{superimposition}}중첩"
+LevelShort: "{{level}}레벨"
+CharacterWithCount_one: "{{count}} 명"
+CharacterWithCount_other: "{{count}} 명"
+Character_one: 캐릭터
+Character_other: 캐릭터
+VerifiedRelicHoverText: 유물 계산기가 검사한 유물 부옵 (소수점 속도)
+CombatStats: 전투 스탯
+Parts:
+  Head: 머리
+  Hands: 팔
+  Body: 몸통
+  Feet: 다리
+  PlanarSphere: 차원 구체
+  LinkRope: 연결 매듭
+ReadableParts:
+  Head: 머리
+  Hands: 팔
+  Body: 몸통
+  Feet: 다리
+  PlanarSphere: 구체
+  LinkRope: 매듭
+Stats:
+  "HP%": 체력%
+  HP: 체력
+  "ATK%": 공격력
+  ATK: 공격력
+  "DEF%": 방어력%
+  DEF: 방어력
+  "SPD%": 속도%
+  SPD: 속도
+  CRIT Rate: 치명타 확률
+  CRIT DMG: 치명타 피해
+  Effect Hit Rate: 효과 명중
+  Effect RES: 효과 저항
+  Break Effect: 격파 특수효과
+  Energy Regeneration Rate: 에너지 회복효율
+  Outgoing Healing Boost: 치유량 보너스
+  Physical DMG Boost: "$t(gameData:Elements.Physical) 속성 피해 증가"
+  Fire DMG Boost: "$t(gameData:Elements.Fire) 속성 피해 증가"
+  Ice DMG Boost: "$t(gameData:Elements.Ice) 속성 피해 증가"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder) 속성 피해 증가"
+  Wind DMG Boost: "$t(gameData:Elements.Wind) 속성 피해 증가"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum) 속성 피해 증가"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary) 속성 피해 증가"
+ShortStats:
+  "HP%": 체력%
+  HP: 체력
+  "ATK%": 공격력
+  ATK: 공격력
+  "DEF%": 방어력%
+  DEF: 방어력
+  "SPD%": 속도%
+  SPD: 속도
+  CRIT Rate: 치확
+  CRIT DMG: 치피
+  Effect Hit Rate: 효명
+  Effect RES: 효저
+  Break Effect: 격특
+  Energy Regeneration Rate: 에충
+  Outgoing Healing Boost: 힐증
+  Physical DMG Boost: "$t(gameData:Elements.Physical)"
+  Fire DMG Boost: "$t(gameData:Elements.Fire)"
+  Ice DMG Boost: "$t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "$t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+ShortSpacedStats:
+  "HP%": 체력 %
+  HP: 체력
+  "ATK%": 공격력 %
+  ATK: 공격력
+  "DEF%": 방어력 %
+  DEF: 방어력
+  "SPD%": 속도 %
+  SPD: 속도
+  CRIT Rate: 치확
+  CRIT DMG: 치피
+  Effect Hit Rate: 효명
+  Effect RES: 효저
+  Break Effect: 격특
+  Energy Regeneration Rate: 에충
+  Outgoing Healing Boost: 힐증
+  Physical DMG Boost: "$t(gameData:Elements.Physical)"
+  Fire DMG Boost: "$t(gameData:Elements.Fire)"
+  Ice DMG Boost: "$t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "$t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+ReadableStats:
+  "HP%": 체력 %
+  HP: 체력
+  "ATK%": 공격력 %
+  ATK: 공격력
+  "DEF%": 방어력 %
+  DEF: 방어력
+  "SPD%": 속도 %
+  SPD: 속도
+  CRIT Rate: 치명타 확률
+  CRIT DMG: 치명타 피해
+  Effect Hit Rate: 효과 명중
+  Effect RES: 효과 저항
+  Break Effect: 격파 특수효과
+  Energy Regeneration Rate: 에너지 회복
+  Outgoing Healing Boost: 치유량 증가
+  Physical DMG Boost: "$t(gameData:Elements.Physical) 속성 피해"
+  Fire DMG Boost: "$t(gameData:Elements.Fire) 속성 피해"
+  Ice DMG Boost: "$t(gameData:Elements.Ice) 속성 피해"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder) 속성 피해"
+  Wind DMG Boost: "$t(gameData:Elements.Wind) 속성 피해"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum) 속성 피해"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary) 속성 피해"
+ShortReadableStats:
+  "HP%": 체력 %
+  HP: 체력
+  "ATK%": 공격력 %
+  ATK: 공격력
+  "DEF%": 방어력 %
+  DEF: 방어력
+  "SPD%": 속도 %
+  SPD: 속도
+  CRIT Rate: 치명타 확률
+  CRIT DMG: 치명타 피해
+  Effect Hit Rate: 효명
+  Effect RES: 효저
+  Break Effect: 격파
+  Energy Regeneration Rate: 에너지
+  Outgoing Healing Boost: 치유량
+  Physical DMG Boost: "$t(gameData:Elements.Physical)"
+  Fire DMG Boost: "$t(gameData:Elements.Fire)"
+  Ice DMG Boost: "$t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
+  Wind DMG Boost: "$t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+DMGTypes:
+  simScore: 사이클 총 피해량
+  BASIC: 일반 공격 피해량
+  SKILL: 전투 스킬 피해량
+  ULT: 필살기 피해량
+  FUA: 추가 공격 피해량
+  DOT: 지속 피해량
+  BREAK: 격파 피해량
+  CV: 치명타 계수
+ShortDMGTypes:
+  Basic: 일반 공격 피해량
+  Skill: 전투 스킬 피해량
+  Ult: 필살기 피해량
+  Fua: 추가 공격 피해량
+  Dot: 지속 피해량
+  Break: 격파 피해량
+  CV: 치명타 계수

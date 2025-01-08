@@ -82,8 +82,13 @@ export default function CharacterModal(props: {
                 withIcon={true}
                 onChange={(characterId: string) => {
                   setCharacterId(characterId)
-                  const eidolonPreselect = DB.getCharacterById(characterId)?.form?.characterEidolon || 0
+                  const dbCharacter = DB.getCharacterById(characterId)
+                  const eidolonPreselect = dbCharacter?.form?.characterEidolon || 0
+                  const lightConePreselect = dbCharacter?.form?.lightCone || undefined
+                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition || 1
                   characterForm.setFieldValue('characterEidolon', eidolonPreselect)
+                  characterForm.setFieldValue('lightCone', lightConePreselect)
+                  characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)
                 }}
               />
             </AntDForm.Item>
@@ -143,6 +148,6 @@ function RadioButton(props: {
   value: number
 }) {
   return (
-    <Radio.Button value={props.value} style={{ flex: 1, textAlign: 'center' }}>{props.text}</Radio.Button>
+    <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
   )
 }

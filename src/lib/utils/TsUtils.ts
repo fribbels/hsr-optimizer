@@ -129,6 +129,53 @@ export const TsUtils = {
 
     requestAnimationFrame(animation)
   },
+
+  alignVerticalViewportToElement: (
+    element: HTMLElement,
+    position: 'top' | 'bottom',
+    duration: number = 300,
+    offset: number = 0
+  ) => {
+    const elementRect = element.getBoundingClientRect();
+    const parent = document.documentElement || document.body;
+    const viewportHeight = parent.clientHeight;
+    const currentScroll = parent.scrollTop;
+
+    // Calculate target scroll position based on desired position ('top' or 'bottom')
+    const targetPosition =
+      position === 'top'
+        ? elementRect.top + currentScroll - offset
+        : elementRect.bottom + currentScroll - viewportHeight + offset;
+
+    // Check if the viewport is already at the target position
+    if (Math.abs(currentScroll - targetPosition) < 1) { // Using a small threshold for floating-point imprecision
+      return; // Element is already in view, no need to scroll
+    }
+
+    const startTime = performance.now();
+    const startPosition = currentScroll;
+    const distance = targetPosition - startPosition;
+
+    // Smooth scroll animation
+    function animation(currentTime: number) {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+
+      // Ease-in-out function for smooth scrolling
+      const easeInOut =
+        progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+      parent.scrollTo(0, startPosition + distance * easeInOut);
+
+      if (elapsedTime < duration) {
+        requestAnimationFrame(animation);
+      }
+    }
+
+    requestAnimationFrame(animation);
+  },
 }
 
 const getEmptyT = <

@@ -140,10 +140,30 @@ export const OptimizerTabController = {
   },
 
   scrollToGrid: () => {
-    const element = document.getElementById('optimizerGridContainer')
-    if (element) {
-      TsUtils.smoothScrollNearest(element, 250)
+    const gridContainer = document.getElementById('optimizerGridContainer')
+    const buildPreviewContainer = document.getElementById('optimizerBuildPreviewContainer')
+  
+    // Early exit if required elements are missing
+    if (!gridContainer || !buildPreviewContainer) {
+      return
     }
+
+    // Constants
+    const ELEMENT_PADDING = 10
+    const SCROLL_DURATION = 250
+    const SCROLL_OFFSET = 5
+
+    // Determine viewport dimensions and total element height
+    const parent = document.documentElement || document.body
+    const viewportHeight = parent.clientHeight
+    const gridAndPreviewHeight = gridContainer.clientHeight + buildPreviewContainer.clientHeight + ELEMENT_PADDING
+
+    // Determine if viewport is large enough to show both containers
+    const isLargeViewport = viewportHeight >= gridAndPreviewHeight
+    const alignElement = isLargeViewport ? buildPreviewContainer : gridContainer
+
+    // Smooth scroll to the determined element
+    TsUtils.alignVerticalViewportToElement(alignElement, isLargeViewport ? 'bottom' : 'top', SCROLL_DURATION, SCROLL_OFFSET)
   },
 
   // Get a form that's ready for optimizer submission

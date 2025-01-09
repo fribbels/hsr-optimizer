@@ -271,7 +271,7 @@ export class RelicScorer {
   }
 
   getOptimalPartScore(part: Parts, id: CharacterId) {
-    const metaHash = this.getRelicScoreMeta(id).greedyHash
+    const metaHash = this.getRelicScoreMeta(id).hash
     let optimalScore = this.optimalPartScore.get(part)?.get(metaHash)
     if (!optimalScore) {
       optimalScore = this.scoreOptimalRelic(part, id)

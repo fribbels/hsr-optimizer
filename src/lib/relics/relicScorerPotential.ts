@@ -259,10 +259,10 @@ export class RelicScorer {
           scoringMetadata.parts.PlanarSphere.filter((x) => !dmgMainstats.includes(x)),
           scoringMetadata.parts.LinkRope,
         ]
-        scoringMetadata.greedyHash = TsUtils.objectHash({ ...scoringMetadata.sortedSubstats, ...hashParts })
+        scoringMetadata.greedyHash = TsUtils.objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
         scoringMetadata.hash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
       } else {
-        scoringMetadata.greedyHash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+        scoringMetadata.greedyHash = TsUtils.objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
         scoringMetadata.hash = scoringMetadata.greedyHash
       }
       this.characterRelicScoreMetas.set(id, scoringMetadata)
@@ -271,7 +271,7 @@ export class RelicScorer {
   }
 
   getOptimalPartScore(part: Parts, id: CharacterId) {
-    const metaHash = this.getRelicScoreMeta(id).hash
+    const metaHash = this.getRelicScoreMeta(id).greedyHash
     let optimalScore = this.optimalPartScore.get(part)?.get(metaHash)
     if (!optimalScore) {
       optimalScore = this.scoreOptimalRelic(part, id)

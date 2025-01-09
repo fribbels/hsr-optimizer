@@ -757,17 +757,12 @@ export class RelicScorer {
     const meta = this.getRelicScoreMeta(id)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
-    if (Utils.hasMainStat(relic.part)) {
-      futureScore.best = Math.max(0, futureScore.best - mainstatBonus)// futureScores may be 0 due to mainstatDeduction
-      futureScore.average = Math.max(0, futureScore.average - mainstatBonus)
-      futureScore.worst = Math.max(0, futureScore.worst - mainstatBonus)
-      futureScore.rerollValue = Math.max(0, futureScore.rerollValue - mainstatBonus)
-    }
+
     return {
-      bestPct: futureScore.best / percentToScore,
-      averagePct: futureScore.average / percentToScore,
-      worstPct: futureScore.worst / percentToScore,
-      rerollValue: futureScore.rerollValue / percentToScore,
+      bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore,
+      averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
+      worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,
+      rerollValue: Math.max(0, futureScore.rerollValue - mainstatBonus) / percentToScore,
       meta: futureScore.meta,
     }
   }

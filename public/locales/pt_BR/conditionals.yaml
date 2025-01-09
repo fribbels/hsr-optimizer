@@ -310,21 +310,26 @@ Lightcones:
         text: Buff de ATK ativo
         content: >-
           No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
-          - O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
-          - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
-          - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
-
-          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+          ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       cdBuffActive:
         text: Buff de CD ativo.
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: - O ATK de todos os aliados aumenta em {{AtkBuff}}%. - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%. 
-          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: 
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%. 
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. 
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       errBuffActive:
         text: Buff de ERR ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: - O ATK de todos os aliados aumenta em {{AtkBuff}}%. - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%. 
-          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
   ConcertForTwo:
     Content:
       teammateShieldStacks:

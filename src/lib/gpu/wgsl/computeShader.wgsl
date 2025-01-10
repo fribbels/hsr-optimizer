@@ -841,7 +841,7 @@ fn calculateDamage(
       0, // m.FUA_DMG,
     );
 
-    (*p_x).MEMO_SKILL_DMG += (p_m).MEMO_SKILL_DMG;
+    (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
   }
 }
 

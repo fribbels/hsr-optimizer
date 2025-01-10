@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import StatRow from 'lib/characterPreview/StatRow'
-import { Constants, Stats } from 'lib/constants/constants'
+import { Constants, NONE_SCORE, Stats } from 'lib/constants/constants'
 
 // FIXME MED
 
@@ -10,10 +10,11 @@ export const CharacterStatSummary = (props: {
   finalStats: object
   elementalDmgValue: string
   cv?: number
+  scoringType?: string
   simScore?: number
 }) => {
   return (
-    <Flex vertical style={{ paddingLeft: 4, paddingRight: 6 }} gap={3}>
+    <Flex vertical style={{ paddingLeft: 4, paddingRight: 6 }} gap={props.scoringType == NONE_SCORE ? 5 : 3}>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.HP}/>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.ATK}/>
       <StatRow finalStats={props.finalStats} stat={Constants.Stats.DEF}/>

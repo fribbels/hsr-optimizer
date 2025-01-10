@@ -64,7 +64,6 @@ CharacterPreview:
     Title: "Алгоритм подсчета очков:"
     Labels:
       CombatScore: Боевая эффективность с учётом команды
-      CombatScoreTBD: Боевая эффективность с учётом команды  (TBD)
       StatScore: Оценка сборки персонажа
   DetailsSlider:
     Title: "Детали боевого счета:"

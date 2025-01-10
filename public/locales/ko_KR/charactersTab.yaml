@@ -64,7 +64,6 @@ CharacterPreview:
     Title: "점수 계산 알고리즘:"
     Labels:
       CombatScore: 전투 점수
-      CombatScoreTBD: 전투 점수(미정)
       StatScore: 스탯 점수
   DetailsSlider:
     Title: "전투 점수 상세:"

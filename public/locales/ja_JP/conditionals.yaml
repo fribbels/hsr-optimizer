@@ -700,7 +700,7 @@ Characters:
         content: '「開示」状態の敵は、自身のターンでの受けるダメージ+{{epiphanyDmgTakenBoost}}%。'
       defDecreaseDebuff:
         text: 敵防御力デバフ
-        content: 隣接する敵の防御力-{{defShredValue}}%。
+        content: 敵の防御力-{{defShredValue}}%。
       arcanaStacks:
         text: '「アルカナ」付与数'
         content: >-
@@ -1205,10 +1205,8 @@ Characters:
         content: >-
           初期攻撃段数は3。1段の攻撃につき、指定した敵単体に三月なのかの攻撃力{{BasicEnhancedScaling}}%分の虚数属性ダメージを与える。最後の1段の攻撃を行うたびに、60%の固定確率でさらに1段の攻撃を行う、追加で行える攻撃は最大3段まで。
       masterAdditionalDmgBuff:
-        text: 師匠DPS時のバフ
         content: '「師匠」の歩む運命が「知恵」、「壊滅」または「巡狩」の場合：通常攻撃を行う、または強化通常攻撃「一に眉間、二に心臓」によるダメージを1段与える時、三月なのかの攻撃力{{ShifuDmgBuff}}%分の、「師匠」の属性に応じた付加ダメージを与える。'
       masterToughnessRedBuff:
-        text: 師匠サポート時のバフ
         content: '「師匠」の歩む運命が「調和」、「虚無」、「存護」または「豊穣」の場合：通常攻撃を行う、または強化通常攻撃「一に眉間、二に心臓」によるダメージを1段与える時、その回の攻撃の削靭値+100%。'
       talentDmgBuff:
         text: 天賦による通常攻撃バフ

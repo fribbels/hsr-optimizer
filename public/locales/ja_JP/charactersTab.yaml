@@ -64,8 +64,9 @@ CharacterPreview:
     Title: "スコア計算方法"
     Labels:
       CombatScore: 戦闘スコア
-      CombatScoreTBD: 戦闘スコア（TBD）
+      CombatScoreTBD: 戦闘 (TBD)
       StatScore: ステータススコア
+      NoneScore: なし
   DetailsSlider:
     Title: "戦闘スコアの詳細"
     Labels:
@@ -86,6 +87,7 @@ CharacterPreview:
       SKILL: 戦闘スキル
       ULT: 必殺技
       FUA: 追加攻撃
+      MEMO_SKILL: 精霊スキル
       DOTS: "持続 "
       BREAKS: "撃破 "
     CombatResults:

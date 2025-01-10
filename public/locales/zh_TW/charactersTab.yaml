@@ -64,7 +64,6 @@ CharacterPreview:
     Title: "評分算法"
     Labels:
       CombatScore: 戰鬥評分
-      CombatScoreTBD: 戰鬥評分 (待定)
       StatScore: 屬性評分
   DetailsSlider:
     Title: "戰鬥評分詳情:"

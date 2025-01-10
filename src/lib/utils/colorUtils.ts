@@ -32,7 +32,7 @@ export function darkModeModifier(color: Color, darkMode: boolean) {
 }
 
 export function showcaseCardBorderColor(color: string, darkMode: boolean) {
-  const finalColor = chroma(color).desaturate(0.3).luminance(0.075).brighten(0.85).alpha(0.70)
+  const finalColor = chroma(color).desaturate(0.3).luminance(0.085).brighten(0.90).alpha(0.75)
   return darkModeModifier(finalColor, darkMode).css()
 }
 

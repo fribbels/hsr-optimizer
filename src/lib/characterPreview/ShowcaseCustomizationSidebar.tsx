@@ -318,7 +318,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1306: ['#5866bc'], // sparkle
     1307: ['#7f58d6'], // blackswan
     1308: ['#8982d6'], // acheron
-    1309: ['#a893cf'], // robin
+    1309: ['#bb9cf4'], // robin
     1310: ['#8fbdcd'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#7e95e9'], // sunday

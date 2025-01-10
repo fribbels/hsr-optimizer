@@ -64,6 +64,10 @@ export const RelicModalController = {
   },
 }
 
+function invalidValue(value: string) {
+  return isNaN(parseFloat(value))
+}
+
 export function validateRelic(relicForm: RelicForm): Relic | void {
   console.log('Form finished', relicForm)
 
@@ -103,16 +107,16 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   if (arrayIncludes(SetsOrnamentsNames, relicForm.set) && partIsRelic(relicForm.part)) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SetNotRelic')/* The selected set is not a relic set */)
   }
-  if (relicForm.substatType0 != undefined && relicForm.substatValue0 == undefined || relicForm.substatType0 == undefined && relicForm.substatValue0 != undefined) {
+  if (relicForm.substatType0 != undefined && invalidValue(relicForm.substatValue0) || relicForm.substatType0 == undefined && relicForm.substatValue0 != undefined) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 1 })/* Substat 1 is invalid */)
   }
-  if (relicForm.substatType1 != undefined && relicForm.substatValue1 == undefined || relicForm.substatType1 == undefined && relicForm.substatValue1 != undefined) {
+  if (relicForm.substatType1 != undefined && invalidValue(relicForm.substatValue1) || relicForm.substatType1 == undefined && relicForm.substatValue1 != undefined) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 2 })/* Substat 2 is invalid */)
   }
-  if (relicForm.substatType2 != undefined && relicForm.substatValue2 == undefined || relicForm.substatType2 == undefined && relicForm.substatValue2 != undefined) {
+  if (relicForm.substatType2 != undefined && invalidValue(relicForm.substatValue2) || relicForm.substatType2 == undefined && relicForm.substatValue2 != undefined) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 3 })/* Substat 3 is invalid */)
   }
-  if (relicForm.substatType3 != undefined && relicForm.substatValue3 == undefined || relicForm.substatType3 == undefined && relicForm.substatValue3 != undefined) {
+  if (relicForm.substatType3 != undefined && invalidValue(relicForm.substatValue3) || relicForm.substatType3 == undefined && relicForm.substatValue3 != undefined) {
     return Message.error(i18next.t('modals:Relic.Messages.Error.SubNInvalid', { number: 4 })/* Substat 4 is invalid */)
   }
 

@@ -19,5 +19,5 @@ ImportLabels:
   Relics: 遺物をインポート
   SingleCharacter: 選択されたキャラクターと全ての遺物をインポート
   AllCharacters: 全てのキャラクターと全ての遺物をインポート
-SimulateRelics: 他のキャラクターに遺物をシュミレート
+SimulateRelics: 他のキャラクターで遺物をシュミレート
 OptimizeOnCharacter: キャラクターのステータスを最適化

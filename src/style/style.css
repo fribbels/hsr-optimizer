@@ -648,3 +648,7 @@ a {
 .characterPreview .ant-typography {
     color: rgb(255 255 255 / 90%);
 }
+
+.noneScoreLabel {
+    max-width: 75px !important;
+}

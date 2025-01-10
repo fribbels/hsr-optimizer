@@ -34,15 +34,21 @@ export const betaInformation: betaInformation = {
     ],
     Lightcones: [
       {
-        id: 23037,
+        id: 20021,
         value: {
-          Name: 'Into the Unreachable Veil',
+          Name: 'Shadowburn',
         },
       },
       {
-        id: 23036,
+        id: 20022,
         value: {
-          Name: 'Time Woven Into Gold',
+          Name: 'Reminiscence',
+        },
+      },
+      {
+        id: 21050,
+        value: {
+          Name: 'Victory In a Blink',
         },
       },
       {
@@ -58,21 +64,15 @@ export const betaInformation: betaInformation = {
         },
       },
       {
-        id: 21050,
+        id: 23036,
         value: {
-          Name: 'Victory In a Blink',
+          Name: 'Time Woven Into Gold',
         },
       },
       {
-        id: 20021,
+        id: 23037,
         value: {
-          Name: 'Shadowburn',
-        },
-      },
-      {
-        id: 20022,
-        value: {
-          Name: 'Reminiscence',
+          Name: 'Into the Unreachable Veil',
         },
       },
     ],
@@ -99,7 +99,7 @@ export const betaInformation: betaInformation = {
   },
 }
 
-type betaInformation = Partial<Record<InputLocale, { Characters: Character[]; Lightcones: LightCone[]; RelicSets: RelicSet[] }>>
+type betaInformation = Partial<Record<InputLocale, { Characters: Character[]; Lightcones: LightCone[]; RelicSets?: RelicSet[] }>>
 type Character = { id: number; value: { Name: string; LongName: string } }
 type LightCone = { id: number; value: { Name: string } }
 type RelicSet = { id: number; value: { Name: string; Description2pc: string; Description4pc?: string } }

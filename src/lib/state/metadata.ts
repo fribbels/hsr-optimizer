@@ -2491,6 +2491,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -2525,6 +2526,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],

@@ -639,18 +639,34 @@ export class RelicScorer {
     }
 
     let rerollValue = 0
+    let rerollAvg = 0
     if (relic.grade >= 5 && relic.substats.length == 4) {
+      const currentRolls = TsUtils.sumArray(relic.substats.map(x => x.addedRolls ?? 0))
+      const remainingRolls = Math.ceil((15 - relic.enhance) / 3)
+      const totalRolls = Math.min(currentRolls + remainingRolls, 5)
+
       for (const substat of relic.substats) {
         const stat = substat.stat
         const value = SubStatValues[stat][5].high * meta.stats[stat] * normalization[stat]
         if (stat == bestSub.stat) {
-          rerollValue += value * 5
+          rerollValue += value * (totalRolls + 1)
         } else {
           rerollValue += value
         }
+
+        if (totalRolls >= 5) {
+          rerollAvg += value * 2.25
+        } else {
+          rerollAvg += value * 2
+        }
       }
 
+      // There is a case where a stat with less than 1 weight is the main stat, in which case the reroll value will exceed the ideal score, cap it
+      rerollValue = Math.min(rerollValue, idealScore)
       rerollValue = (rerollValue + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
+
+      rerollAvg = Math.min(rerollAvg, idealScore)
+      rerollAvg = (rerollAvg + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
     }
 
     return {
@@ -658,7 +674,9 @@ export class RelicScorer {
       best,
       average,
       worst,
+      rerollAvg,
       rerollValue,
+      idealScore,
       meta: levelupMetadata,
     } as FutureScoringResult
   }
@@ -763,6 +781,7 @@ export class RelicScorer {
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,
       rerollValue: Math.max(0, futureScore.rerollValue - mainstatBonus) / percentToScore,
+      rerollAvg: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore,
       meta: futureScore.meta,
     }
   }

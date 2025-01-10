@@ -161,6 +161,10 @@ export default function RelicFilterBar(props: {
     }
   }, [])
 
+  function decayCurve(n: number) {
+    return 1 - Math.pow((1 - n), 1)
+  }
+
   function characterSelectorChange(characterId: string, singleRelic?: Relic) {
     const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
     console.log('idChange', characterId)
@@ -176,13 +180,21 @@ export default function RelicFilterBar(props: {
     // NOTE: we cannot cache these results between renders by keying on the relic/characterId because
     // both relic stats and char weights can be edited
     for (const relic of relics) {
-      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.getFutureRelicScore(relic, characterId) : { current: 0, best: 0, average: 0, rerollValue: 0 }
+      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.getFutureRelicScore(relic, characterId) : {
+        current: 0,
+        best: 0,
+        average: 0,
+        rerollValue: 0,
+        rerollAvg: 0,
+        idealScore: 1,
+      }
       weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0 }
       weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
       weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
       weights.rerollAllAll = { bestPct: 0, averagePct: 0 }
       weights.rerollAllCustom = { bestPct: 0, averagePct: 0 }
       weights.rerollValueSelected = Math.max(0, weights.potentialSelected.rerollValue)
+      weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvg)
 
       for (const cid of allCharacters) {
         const pct = relicScorer.scoreRelicPotential(relic, cid)
@@ -207,6 +219,9 @@ export default function RelicFilterBar(props: {
           }
         }
       }
+
+      weights.rerollDiffSelected = (weights.rerollValueSelected - weights.potentialSelected.bestPct) * decayCurve(weights.rerollValueSelected / weights.idealScore)
+      weights.rerollAvgDiffSelected = (weights.rerollAvgSelected - weights.potentialSelected.averagePct) * decayCurve(weights.rerollAvgSelected / weights.idealScore)
 
       relic.weights = weights as RelicScoringWeights
     }

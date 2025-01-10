@@ -449,7 +449,7 @@ export default function RelicsTab() {
     },
     {
       field: 'weights.rerollAvgSelected',
-      headerName: 'Selected Char Reroll',
+      headerName: 'Selected Char\nReroll',
       cellStyle: Gradient.getRelicGradient,
       valueFormatter: Renderer.hideNaNAndFloorPercent,
       filter: 'agNumberColumnFilter',
@@ -457,7 +457,7 @@ export default function RelicsTab() {
     },
     {
       field: 'weights.rerollAvgSelectedDelta',
-      headerName: 'Selected Char Reroll Delta',
+      headerName: 'Selected Char\nReroll Delta',
       cellStyle: Gradient.getRelicGradient,
       valueFormatter: Renderer.hideNaNAndFloorPercent,
       filter: 'agNumberColumnFilter',
@@ -465,7 +465,15 @@ export default function RelicsTab() {
     },
     {
       field: 'weights.rerollAllCustom.rerollAvgPct',
-      headerName: 'Custom Char Reroll',
+      headerName: 'Custom Chars\nReroll',
+      cellStyle: Gradient.getRelicGradient,
+      valueFormatter: Renderer.hideNaNAndFloorPercent,
+      filter: 'agNumberColumnFilter',
+      width: 75,
+    },
+    {
+      field: 'weights.rerollAllAll.rerollAvgPct',
+      headerName: 'All Chars\nReroll',
       cellStyle: Gradient.getRelicGradient,
       valueFormatter: Renderer.hideNaNAndFloorPercent,
       filter: 'agNumberColumnFilter',

@@ -666,10 +666,11 @@ export class RelicScorer {
         }
       }
 
-      // There is a case where a stat with less than 1 weight is the main stat, in which case the reroll value will exceed the ideal score, cap it
-      rerollValue = Math.min(rerollValue, idealScore)
-      rerollValue = (rerollValue + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
+      // These are reroll max potentials - Disabled for now
+      // rerollValue = Math.min(rerollValue, idealScore)
+      // rerollValue = (rerollValue + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
 
+      // There is a case where a stat with less than 1 weight is the main stat, in which case the reroll value will exceed the ideal score, cap it
       rerollAvg = Math.min(rerollAvg, idealScore)
       rerollAvg = (rerollAvg + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
     }
@@ -680,7 +681,6 @@ export class RelicScorer {
       average,
       worst,
       rerollAvg,
-      idealScore,
       meta: levelupMetadata,
     } as FutureScoringResult
   }

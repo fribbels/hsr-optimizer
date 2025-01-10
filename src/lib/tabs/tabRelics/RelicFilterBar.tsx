@@ -161,10 +161,6 @@ export default function RelicFilterBar(props: {
     }
   }, [])
 
-  function decayCurve(n: number) {
-    return 1 - Math.pow((1 - n), 1)
-  }
-
   function characterSelectorChange(characterId: string, singleRelic?: Relic) {
     const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
     console.log('idChange', characterId)
@@ -220,7 +216,7 @@ export default function RelicFilterBar(props: {
         }
       }
 
-      weights.rerollAvgSelectedDelta = (weights.rerollAvgSelected - weights.potentialSelected.averagePct)
+      weights.rerollAvgSelectedDelta = weights.rerollAvgSelected == 0 ? 0 : (weights.rerollAvgSelected - weights.potentialSelected.averagePct)
 
       relic.weights = weights as RelicScoringWeights
     }

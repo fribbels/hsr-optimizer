@@ -184,27 +184,25 @@ export default function RelicFilterBar(props: {
         current: 0,
         best: 0,
         average: 0,
-        rerollValue: 0,
-        rerollAvg: 0,
-        idealScore: 1,
       }
-      weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0 }
-      weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
-      weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
-      weights.rerollAllAll = { bestPct: 0, averagePct: 0 }
-      weights.rerollAllCustom = { bestPct: 0, averagePct: 0 }
-      weights.rerollValueSelected = Math.max(0, weights.potentialSelected.rerollValue)
-      weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvg)
+      weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
+      weights.potentialAllAll = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
+      weights.potentialAllCustom = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
+      weights.rerollAllAll = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
+      weights.rerollAllCustom = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
+      weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)
 
       for (const cid of allCharacters) {
         const pct = relicScorer.scoreRelicPotential(relic, cid)
         weights.potentialAllAll = {
           bestPct: Math.max(pct.bestPct, weights.potentialAllAll.bestPct),
           averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
+          rerollAvgPct: 0,
         }
         weights.rerollAllAll = {
-          bestPct: Math.max(pct.rerollValue, weights.rerollAllAll.bestPct),
+          bestPct: 0,
           averagePct: 0,
+          rerollAvgPct: Math.max(pct.rerollAvgPct, weights.rerollAllAll.rerollAvgPct),
         }
 
         // For custom characters only consider the ones that aren't excluded
@@ -212,16 +210,17 @@ export default function RelicFilterBar(props: {
           weights.potentialAllCustom = {
             bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
             averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
+            rerollAvgPct: 0,
           }
           weights.rerollAllCustom = {
-            bestPct: Math.max(pct.rerollValue, weights.rerollAllCustom.bestPct),
+            bestPct: 0,
             averagePct: 0,
+            rerollAvgPct: Math.max(pct.rerollAvgPct, weights.rerollAllCustom.rerollAvgPct),
           }
         }
       }
 
-      weights.rerollDiffSelected = (weights.rerollValueSelected - weights.potentialSelected.bestPct) * decayCurve(weights.rerollValueSelected / weights.idealScore)
-      weights.rerollAvgDiffSelected = (weights.rerollAvgSelected - weights.potentialSelected.averagePct) * decayCurve(weights.rerollAvgSelected / weights.idealScore)
+      weights.rerollAvgSelectedDelta = (weights.rerollAvgSelected - weights.potentialSelected.averagePct)
 
       relic.weights = weights as RelicScoringWeights
     }
@@ -458,11 +457,14 @@ export type RelicScoringWeights = {
   potentialSelected: PotentialWeights
   potentialAllAll: PotentialWeights
   potentialAllCustom: PotentialWeights
+  rerollAllAll: PotentialWeights
+  rerollAllCustom: PotentialWeights
+  rerollAvgSelected: number
+  rerollAvgSelectedDelta: number
 }
 
 type PotentialWeights = {
   bestPct: number
   averagePct: number
-  // worstPct: number
-  // meta: { bestAddedStats: string[]; bestUpgradedStats: string[] }
+  rerollAvgPct: number
 }

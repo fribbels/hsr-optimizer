@@ -55,7 +55,8 @@ type FutureScoringResult = {
   best: number
   average: number
   worst: number
-  rerollValue: number
+  rerollAvg: number
+  idealScore: number
   meta: {
     bestAddedStats: string[]
     bestUpgradedStats: string[]
@@ -473,6 +474,8 @@ export class RelicScorer {
         best: 0,
         average: 0,
         worst: 0,
+        rerollAvg: 0,
+        idealScore: 1,
         meta: {
           bestAddedStats: [''],
           bestUpgradedStats: [''],
@@ -490,6 +493,8 @@ export class RelicScorer {
       best: 0,
       average: 0,
       worst: 0,
+      rerollAvg: 0,
+      idealScore: 1,
       meta: {
         bestAddedStats: [''],
         bestUpgradedStats: [''],
@@ -675,7 +680,6 @@ export class RelicScorer {
       average,
       worst,
       rerollAvg,
-      rerollValue,
       idealScore,
       meta: levelupMetadata,
     } as FutureScoringResult
@@ -780,8 +784,7 @@ export class RelicScorer {
       bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore,
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,
-      rerollValue: Math.max(0, futureScore.rerollValue - mainstatBonus) / percentToScore,
-      rerollAvg: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore,
+      rerollAvgPct: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore,
       meta: futureScore.meta,
     }
   }

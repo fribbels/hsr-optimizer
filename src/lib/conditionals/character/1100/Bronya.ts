@@ -127,12 +127,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.DEF_P.buffTeam((m.battleStartDefBuff) ? 0.20 : 0, Source.NONE)
-      x.SPD_P.buff((m.e2SkillSpdBuff) ? 0.30 : 0, Source.NONE) // TODO: MEMO
+      x.SPD_P.buffSingle((m.e2SkillSpdBuff) ? 0.30 : 0, Source.NONE)
       x.ATK_P.buffTeam((m.techniqueBuff) ? 0.15 : 0, Source.NONE)
       x.ATK_P.buffTeam((m.ultBuff) ? ultAtkBoostValue : 0, Source.NONE)
 
       x.ELEMENTAL_DMG.buffTeam((m.teamDmgBuff) ? 0.10 : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((m.skillBuff) ? skillDmgBoostValue : 0, Source.NONE) // TODO: MEMO
+      x.ELEMENTAL_DMG.buffSingle((m.skillBuff) ? skillDmgBoostValue : 0, Source.NONE)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>

@@ -16,7 +16,7 @@ export enum Target {
   MEMO,
   DUAL,
   TEAM,
-  DEFER,
+  SINGLE,
 }
 
 function targetSelection(target: Target, statController: StatController, value: number, source: string) {
@@ -33,8 +33,8 @@ function targetSelection(target: Target, statController: StatController, value: 
     case Target.TEAM:
       statController.buffTeam(value, source)
       break
-    case Target.DEFER:
-      statController.buffDefer(value, source)
+    case Target.SINGLE:
+      statController.buffSingle(value, source)
       break
   }
 }

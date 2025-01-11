@@ -357,6 +357,12 @@ interface Resources {
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
     "Common": {
+      "BuffPriority": {
+        "Text": "Buff priority target",
+        "Content": "Select the preferred recipient for single target buffs",
+        "Self": "Buff priority: Self",
+        "Memo": "Buff priority: Memo"
+      },
       "HealAbility": {
         "Text": "Healing ability",
         "Content": "Select the ability for heal calculations",
@@ -4863,6 +4869,14 @@ interface Resources {
           "MaxPotCol": {
             "Label": "Selected character: Max potential",
             "Header": "Selected Char\nMax Potential"
+          },
+          "RerollAvg": {
+            "Label": "Selected character: Reroll average potential",
+            "Header": "Selected Char\nReroll Avg"
+          },
+          "RerollAvgDelta": {
+            "Label": "Selected character: Reroll average delta potential",
+            "Header": "Selected Char\nΔ Reroll Avg"
           }
         },
         "CustomCharacters": {
@@ -4874,6 +4888,10 @@ interface Resources {
           "MaxPotCol": {
             "Label": "Custom characters: Max potential",
             "Header": "Custom Chars\nMax Potential"
+          },
+          "RerollAvg": {
+            "Label": "Custom characters: Average reroll potential",
+            "Header": "Custom Chars\nAvg Reroll"
           }
         },
         "AllCharacters": {
@@ -4885,6 +4903,10 @@ interface Resources {
           "MaxPotCol": {
             "Label": "All characters: Max potential",
             "Header": "All Chars\nMax Potential"
+          },
+          "RerollAvg": {
+            "Label": "All characters: Average reroll potential",
+            "Header": "All Chars\nAvg Reroll"
           }
         },
         "ComingSoon": {

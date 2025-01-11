@@ -1,5 +1,10 @@
 BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
 Common:
+  BuffPriority:
+    Text: "Buff priority target"
+    Content: "Select the preferred recipient for single target buffs"
+    Self: "Buff priority: Self"
+    Memo: "Buff priority: Memo"
   HealAbility:
     Text: "Healing ability"
     Content: "Select the ability for heal calculations"

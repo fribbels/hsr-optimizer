@@ -55,6 +55,15 @@ const MenuDrawer = () => {
           </Flex>
         ),
         AppPages.SHOWCASE),
+      getItem(
+        (
+          <Flex>
+            <StarFilled style={{ marginRight: 5, width: 16 }}/>
+            {' '}
+            Warp Chance
+          </Flex>
+        ),
+        AppPages.GACHA),
     ]),
     getItem(t('Optimization.Title')/* Optimization */, 'subOptimizer', <LineChartOutlined/>, [
       getItem(

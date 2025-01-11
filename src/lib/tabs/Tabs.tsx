@@ -16,6 +16,7 @@ import { WorkerPool } from 'lib/worker/workerPool'
 import React, { ReactElement, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Form } from 'types/form'
+import GachaCalculatorTab from './tabGacha/GachaCalculatorTab'
 
 const defaultErrorRender = ({ error: { message } }: {
   error: {
@@ -36,6 +37,7 @@ const Tabs = () => {
   const relicsTab = React.useMemo(() => <RelicsTab/>, [])
   const importTab = React.useMemo(() => <ImportTab/>, [])
   const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
+  const gachaCalculatorTab = React.useMemo(() => <GachaCalculatorTab/>, [])
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
@@ -72,6 +74,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.GACHA} content={gachaCalculatorTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>

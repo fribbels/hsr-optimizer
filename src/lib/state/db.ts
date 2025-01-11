@@ -54,6 +54,7 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
+  GACHA: 'GACHA',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
@@ -67,6 +68,7 @@ export const PageToRoute = {
 
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
+  [AppPages.GACHA]: BASE_PATH + '#gacha',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 
@@ -78,6 +80,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
+  [PageToRoute[AppPages.GACHA]]: AppPages.GACHA,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 

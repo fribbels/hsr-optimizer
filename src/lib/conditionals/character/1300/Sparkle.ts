@@ -138,12 +138,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,
-        Source.NONE) // TODO: MEMO
+        Source.NONE)
       x.RATIO_BASED_CD_BUFF.buffSingle(
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,
-        Source.NONE) // TODO: MEMO
+        Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

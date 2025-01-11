@@ -139,8 +139,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.VULNERABILITY.buffTeam((e >= 1 && m.e1Vulnerability) ? 0.15 : 0, Source.NONE)
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

@@ -37,15 +37,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
-
-      x.ELEMENTAL_DMG.buff((r.alliesSameElement) ? sValues[s] : 0, Source.NONE) // TODO: MEMO
-    },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
+    },
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((r.alliesSameElement) ? sValues[s] : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((m.alliesSameElement) ? sValues[s] : 0, Source.NONE)
     },
     finalizeCalculations: () => {
     },

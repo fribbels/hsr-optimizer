@@ -137,7 +137,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buff((t.debtCollectorSpdBuff) ? 30 : 0, Source.NONE) // TODO: MEMO
+      x.SPD.buffSingle((t.debtCollectorSpdBuff) ? 30 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))

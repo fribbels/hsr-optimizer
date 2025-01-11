@@ -152,7 +152,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.CR.buffDual((m.e1CrBuff) ? 0.10 : 0, Source.NONE)
           x.TRUE_DMG_MODIFIER.buffDual(trueDmg, Source.NONE)
         } else {
-          x.TRUE_DMG_MODIFIER.buff(trueDmg, Source.NONE)
+          x.TRUE_DMG_MODIFIER.buffSingle(trueDmg, Source.NONE)
         }
       }
     },

@@ -45,9 +45,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       if (action.actorId == '1313') {
-        x.ELEMENTAL_DMG.buffDual(m.dmgBuffStacks * sValuesDmg[s], Source.NONE) // TODO: MEMO
+        x.ELEMENTAL_DMG.buffDual(m.dmgBuffStacks * sValuesDmg[s], Source.NONE)
       } else {
-        x.ELEMENTAL_DMG.buff(m.dmgBuffStacks * sValuesDmg[s], Source.NONE) // TODO: MEMO
+        x.ELEMENTAL_DMG.buffSingle(m.dmgBuffStacks * sValuesDmg[s], Source.NONE)
       }
     },
     finalizeCalculations: () => {

@@ -357,11 +357,11 @@ interface Resources {
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
     "Common": {
-      "BuffRecipient": {
-        "Text": "Buff recipient preference",
+      "BuffPriority": {
+        "Text": "Buff priority target",
         "Content": "Select the preferred recipient for single target buffs",
-        "Self": "Self",
-        "Memo": "Memosprite"
+        "Self": "Buff priority: Self",
+        "Memo": "Buff priority: Memo"
       },
       "HealAbility": {
         "Text": "Healing ability",

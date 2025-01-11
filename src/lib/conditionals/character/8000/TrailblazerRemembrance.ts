@@ -1,10 +1,12 @@
 import i18next from 'i18next'
+import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
 import { standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -12,6 +14,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
+  const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -32,6 +35,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // additionally increases the multiplier of the True DMG dealt via "Mem's Support" by 2%, up to a max increase of 20%.
 
   const defaults = {
+    buffPriority: BUFF_PRIORITY_SELF,
     memoSkillHits: 4,
     teamCdBuff: true,
     memsSupport: false,
@@ -51,6 +55,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
+    buffPriority: {
+      id: 'buffPriority',
+      formItem: 'select',
+      text: tBuff('Text'),
+      content: tBuff('Content'),
+      options: [
+        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+      ],
+      fullWidth: true,
+    },
     memoSkillHits: {
       id: 'memoSkillHits',
       formItem: 'slider',
@@ -122,6 +137,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, Source.NONE)
+    },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

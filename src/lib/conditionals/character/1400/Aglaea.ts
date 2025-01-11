@@ -44,7 +44,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    buffRecipient: {
+    buffPriority: {
       id: 'buffPriority',
       formItem: 'select',
       text: tBuff('Text'),

@@ -157,6 +157,9 @@ export const Assets = {
       [Constants.Parts.LinkRope]: '_1',
     }
     if (actualIcon) {
+      if (set == SACERDOS_RELIVED_ORDEAL_1_STACK || set == SACERDOS_RELIVED_ORDEAL_2_STACK) {
+        return getImageUrl(`/icon/relic/${setToId[Constants.Sets.SacerdosRelivedOrdeal]}.webp`)
+      }
       return getImageUrl(`/icon/relic/${setToId[setId]}.webp`)
     }
     if (set == SACERDOS_RELIVED_ORDEAL_1_STACK || set == SACERDOS_RELIVED_ORDEAL_2_STACK) {

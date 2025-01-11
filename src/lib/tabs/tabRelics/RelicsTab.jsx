@@ -246,6 +246,18 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.SelectedCharacter.MaxPotCol.Label'),
           percent: true,
         },
+        {
+          column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvg.Header'),
+          value: 'weights.rerollAvgSelected',
+          label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvg.Label'),
+          percent: true,
+        },
+        {
+          column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgDelta.Header'),
+          value: 'weights.rerollAvgSelectedDelta',
+          label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgDelta.Label'),
+          percent: true,
+        },
       ],
     },
     {
@@ -263,6 +275,12 @@ export default function RelicsTab() {
           column: t('RelicGrid.ValueColumns.CustomCharacters.MaxPotCol.Header'),
           value: 'weights.potentialAllCustom.bestPct',
           label: t('RelicGrid.ValueColumns.CustomCharacters.MaxPotCol.Label'),
+          percent: true,
+        },
+        {
+          column: t('RelicGrid.ValueColumns.CustomCharacters.RerollAvg.Header'),
+          value: 'weights.rerollAllCustom.rerollAvgPct',
+          label: t('RelicGrid.ValueColumns.CustomCharacters.RerollAvg.Label'),
           percent: true,
         },
       ],
@@ -284,6 +302,12 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.AllCharacters.MaxPotCol.Label'),
           percent: true,
         },
+        {
+          column: t('RelicGrid.ValueColumns.AllCharacters.RerollAvg.Header'),
+          value: 'weights.rerollAllAll.rerollAvgPct',
+          label: t('RelicGrid.ValueColumns.AllCharacters.RerollAvg.Label'),
+          percent: true,
+        },
       ],
     },
     {
@@ -303,7 +327,7 @@ export default function RelicsTab() {
 
   const flatValueColumnOptions = useMemo(() => valueColumnOptions.flatMap((x) => x.options), [valueColumnOptions])
 
-  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom.averagePct', 'weights.potentialAllCustom.bestPct'])
+  const [valueColumns, setValueColumns] = useState(['weights.current', 'weights.rerollAvgSelected', 'weights.rerollAvgSelectedDelta', 'weights.potentialSelected.averagePct', 'weights.potentialSelected.bestPct', 'weights.potentialAllCustom.averagePct', 'weights.potentialAllCustom.bestPct'])
 
   const columnDefs = useMemo(() => [
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
@@ -447,38 +471,6 @@ export default function RelicsTab() {
       valueFormatter: Renderer.hideZeroesX100Tenths,
       filter: 'agNumberColumnFilter',
     },
-    {
-      field: 'weights.rerollAvgSelected',
-      headerName: 'Selected Char\nReroll',
-      cellStyle: Gradient.getRelicGradient,
-      valueFormatter: Renderer.hideNaNAndFloorPercent,
-      filter: 'agNumberColumnFilter',
-      width: 75,
-    },
-    {
-      field: 'weights.rerollAvgSelectedDelta',
-      headerName: 'Selected Char\nReroll Delta',
-      cellStyle: Gradient.getRelicGradient,
-      valueFormatter: Renderer.hideNaNAndFloorPercent,
-      filter: 'agNumberColumnFilter',
-      width: 75,
-    },
-    {
-      field: 'weights.rerollAllCustom.rerollAvgPct',
-      headerName: 'Custom Chars\nReroll',
-      cellStyle: Gradient.getRelicGradient,
-      valueFormatter: Renderer.hideNaNAndFloorPercent,
-      filter: 'agNumberColumnFilter',
-      width: 75,
-    },
-    {
-      field: 'weights.rerollAllAll.rerollAvgPct',
-      headerName: 'All Chars\nReroll',
-      cellStyle: Gradient.getRelicGradient,
-      valueFormatter: Renderer.hideNaNAndFloorPercent,
-      filter: 'agNumberColumnFilter',
-      width: 75,
-    },
   ].concat(valueColumns
     .map((vc) => {
       const i = flatValueColumnOptions.findIndex((x) => x.value === vc)
@@ -508,7 +500,7 @@ export default function RelicsTab() {
   // headerTooltip
   const defaultColDef = useMemo(() => ({
     sortable: true,
-    width: 46,
+    width: 43,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
     filterParams: { maxNumConditions: 200 },
@@ -643,7 +635,7 @@ export default function RelicsTab() {
   }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters, t])
 
   return (
-    <Flex style={{ width: 1350, marginBottom: 100 }}>
+    <Flex style={{ width: 1450, marginBottom: 100 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         type='add'
@@ -669,7 +661,7 @@ export default function RelicsTab() {
         {!gridDestroyed && (
           <div
             id='relicGrid' className='ag-theme-balham-dark' style={{
-            ...{ width: 1350, height: 500, resize: 'vertical', overflow: 'hidden' },
+            ...{ width: 1450, height: 500, resize: 'vertical', overflow: 'hidden' },
             ...getGridTheme(token),
           }}
           >
@@ -701,9 +693,9 @@ export default function RelicsTab() {
           </div>
         )}
         {gridDestroyed && (
-          <div style={{ width: 1350, height: 500 }}/>
+          <div style={{ width: 1450, height: 500 }}/>
         )}
-        <Flex gap={10}>
+        <Flex gap={10} justify='space-between'>
           <Button
             type='primary'
             onClick={editClicked}
@@ -826,20 +818,20 @@ export default function RelicsTab() {
             <TooltipImage type={Hint.relicLocation()}/>
           </Flex>
           <Select
-            value={plottedCharacterType}
-            onChange={setPlottedCharacterType}
-            options={characterPlotOptions}
-            style={{ width: 225 }}
-          />
-          <Select
             value={relicInsight}
             onChange={setRelicInsight}
             options={relicInsightOptions}
-            style={{ width: 225 }}
+            style={{ width: 275 }}
           />
           <Flex style={{ display: 'block' }}>
             <TooltipImage type={Hint.relicInsight()}/>
           </Flex>
+          <Select
+            value={plottedCharacterType}
+            onChange={setPlottedCharacterType}
+            options={characterPlotOptions}
+            style={{ width: 275 }}
+          />
         </Flex>
         <Flex gap={10}>
           <RelicPreview
@@ -1025,7 +1017,7 @@ export default function RelicsTab() {
                   },
                   autosize: true,
                   height: 278,
-                  width: 1112,
+                  width: 1212,
                   margin: {
                     b: 5,
                     l: 50,

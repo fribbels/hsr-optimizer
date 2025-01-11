@@ -76,6 +76,16 @@ RelicGrid:
         Header: |-
           Selected Char
           Max Potential
+      RerollAvg:
+        Label: "Selected character: Reroll average potential"
+        Header: |-
+          Selected Char
+          Reroll Avg
+      RerollAvgDelta:
+        Label: "Selected character: Reroll average delta potential"
+        Header: |-
+          Selected Char
+          Δ Reroll Avg
     CustomCharacters:
       Label: Custom characters
       AvgPotCol:
@@ -88,6 +98,11 @@ RelicGrid:
         Header: |-
           Custom Chars
           Max Potential
+      RerollAvg:
+        Label: "Custom characters: Average reroll potential"
+        Header: |-
+          Custom Chars
+          Avg Reroll
     AllCharacters:
       Label: All characters
       AvgPotCol:
@@ -100,6 +115,11 @@ RelicGrid:
         Header: |-
           All Chars
           Max Potential
+      RerollAvg:
+        Label: "All characters: Average reroll potential"
+        Header: |-
+          All Chars
+          Avg Reroll
     ComingSoon:
       Label: Coming soon
       SetsPotential:

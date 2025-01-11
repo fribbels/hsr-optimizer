@@ -87,7 +87,7 @@ export function RelicPreview(props: {
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
-        boxShadow: source != null ? showcaseShadow : undefined,
+        boxShadow: source == null ? undefined : showcaseShadow,
       }}
     >
       <Flex

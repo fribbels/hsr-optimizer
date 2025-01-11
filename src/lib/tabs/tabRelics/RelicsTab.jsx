@@ -361,7 +361,7 @@ export default function RelicsTab() {
     },
     {
       field: 'enhance',
-      width: 55,
+      width: 50,
       headerName: t('RelicGrid.Headers.Enhance')/* Enhance */,
       filter: 'agNumberColumnFilter',
     },
@@ -369,7 +369,7 @@ export default function RelicsTab() {
       field: 'main.stat',
       valueFormatter: Renderer.readableStat,
       headerName: t('RelicGrid.Headers.MainStat')/* Main\nStat */,
-      width: 70,
+      width: 68,
       filter: 'agTextColumnFilter',
     },
     {
@@ -500,7 +500,7 @@ export default function RelicsTab() {
   // headerTooltip
   const defaultColDef = useMemo(() => ({
     sortable: true,
-    width: 43,
+    width: 44,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
     filterParams: { maxNumConditions: 200 },

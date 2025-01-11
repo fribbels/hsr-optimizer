@@ -134,12 +134,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff(
+      x.CD.buffSingle(
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,
         Source.NONE) // TODO: MEMO
-      x.RATIO_BASED_CD_BUFF.buff(
+      x.RATIO_BASED_CD_BUFF.buffSingle(
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,

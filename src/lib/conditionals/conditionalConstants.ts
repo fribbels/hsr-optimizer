@@ -20,6 +20,9 @@ export const ULT_ABILITY_TYPE = 4
 export const FUA_ABILITY_TYPE = 8
 export const MEMO_SKILL_ABILITY_TYPE = 16
 
+export const BUFF_PRIORITY_SELF = 0
+export const BUFF_PRIORITY_MEMO = 1
+
 export const baseComputedStatsObject = {
   HP_P: 0,
   ATK_P: 0,
@@ -168,6 +171,8 @@ export const baseComputedStatsObject = {
   SKILL_ADDITIONAL_DMG: 0,
   ULT_ADDITIONAL_DMG: 0,
   FUA_ADDITIONAL_DMG: 0,
+
+  MEMO_BUFF_PRIORITY: 0,
 
   MEMO_HP_SCALING: 0,
   MEMO_HP_FLAT: 0,

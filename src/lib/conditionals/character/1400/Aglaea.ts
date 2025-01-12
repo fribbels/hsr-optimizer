@@ -33,6 +33,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,
     supremeStanceState: true,
+    seamStitch: true,
     memoSpdStacks: memoSpdStacksMax,
     e1Vulnerability: true,
     e2DefShredStacks: 3,
@@ -40,6 +41,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
+    seamStitch: true,
     e1Vulnerability: true,
   }
 
@@ -59,6 +61,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'supremeStanceState',
       formItem: 'switch',
       text: 'Supreme Stance state',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    seamStitch: {
+      id: 'seamStitch',
+      formItem: 'switch',
+      text: 'Seam Stitch',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     memoSpdStacks: {
@@ -95,6 +103,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    seamStitch: content.seamStitch,
     e1Vulnerability: content.e1Vulnerability,
   }
 
@@ -122,7 +131,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_DEF_SCALING.buff(1, Source.NONE)
       x.MEMO_ATK_SCALING.buff(1, Source.NONE)
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.supremeStanceState) ? talentAdditionalDmg : 0, Source.NONE)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, Source.NONE)
 
       x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, Source.NONE)
 
@@ -137,7 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((e >= 1 && m.e1Vulnerability) ? 0.15 : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

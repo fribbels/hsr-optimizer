@@ -34,11 +34,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defDecreaseDebuff: true,
     arcanaStacks: 7,
     e1ResReduction: true,
+    e4EffResPen: true,
   }
   const teammateDefaults = {
     epiphanyDebuff: true,
     defDecreaseDebuff: true,
     e1ResReduction: true,
+    e4EffResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -78,12 +80,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('Content.e1ResReduction.content'),
       disabled: e < 1,
     },
+    e4EffResPen: {
+      id: 'e4EffResPen',
+      formItem: 'switch',
+      text: t('Content.e4EffResPen.text'),
+      content: t('Content.e4EffResPen.content'),
+      disabled: e < 4,
+    },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     epiphanyDebuff: content.epiphanyDebuff,
     defDecreaseDebuff: content.defDecreaseDebuff,
     e1ResReduction: content.e1ResReduction,
+    e4EffResPen: content.e4EffResPen,
   }
 
   return {
@@ -120,6 +130,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FIRE_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
       x.PHYSICAL_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
       x.LIGHTNING_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
+
+      x.EFFECT_RES_PEN.buffTeam((e >= 4 && m.epiphanyDebuff && m.e4EffResPen) ? 0.10 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

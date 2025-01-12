@@ -1,5 +1,10 @@
 BetaMessage: "Version actuelle : {{Version}} - Les calculs sont susceptibles de changer."
 Common:
+  BuffPriority:
+    Text: "Cible de buff"
+    Content: "Sélectionnez la cible préférée pour les buffs à cible unique"
+    Self: "Cible de buff: Soi-même"
+    Memo: "Cible de buff: mnémesprit"
   HealAbility:
     Text: "Capacité de soins"
     Content: "Sélectionnez la capacité pour les calculs de soins"

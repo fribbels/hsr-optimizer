@@ -1,4 +1,5 @@
 import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, theme, Typography } from 'antd'
+import { simulateWarps } from 'lib/tabs/tabGacha/gachaCalculatorController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React from 'react'
@@ -37,12 +38,13 @@ function Inputs() {
             </Flex>
             <Flex vertical>
               <HeaderText>Jade</HeaderText>
-              <InputNumber/>
+              <InputNumber defaultValue={0}/>
             </Flex>
             <Flex vertical>
               <HeaderText>Additional pulls</HeaderText>
               <Select
                 options={generateIncomeOptions()}
+                defaultValue='none'
                 style={{ width: 300 }}
               />
             </Flex>
@@ -53,6 +55,7 @@ function Inputs() {
               <HeaderText>Strategy</HeaderText>
               <Select
                 options={generateStrategyOptions()}
+                defaultValue='1'
                 style={{ width: 300 }}
               />
             </Flex>
@@ -80,7 +83,11 @@ function Inputs() {
           <HorizontalDivider>
           </HorizontalDivider>
           <Flex style={{ width: '100%' }} gap={20}>
-            <Button type='primary' block>
+            <Button
+              type='primary'
+              block
+              onClick={() => simulateWarps()}
+            >
               Calculate
             </Button>
           </Flex>
@@ -130,7 +137,7 @@ function GuaranteedInputs(props: { banner: string }) {
     <Flex gap={20}>
       <Flex vertical>
         <HeaderText>Pity counter</HeaderText>
-        <InputNumber/>
+        <InputNumber defaultValue={0}/>
       </Flex>
       <Flex vertical>
         <HeaderText>Guaranteed</HeaderText>

@@ -1,5 +1,10 @@
 BetaMessage: "当前版本：{{Version}} - 计算结果可能会发生变化。"
 Common:
+  BuffPriority:
+    Text: "增益优先目标"
+    Content: "选择优先获得单体增益的目标"
+    Self: "增益优先级：自身"
+    Memo: "增益优先级：忆灵"
   HealAbility:
     Text: "治疗技能"
     Content: "选择用于计算治疗量的技能"

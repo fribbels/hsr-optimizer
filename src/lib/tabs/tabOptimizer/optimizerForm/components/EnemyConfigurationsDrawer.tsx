@@ -43,7 +43,7 @@ export const EnemyConfigurationsDrawer = () => {
     for (let i = 20; i <= 60; i += 20) {
       options.push({
         value: i / 100,
-        label: t('EffResOptionLabel', { resistance: i }), // `${i}% Damage RES`,
+        label: t('DmgResOptionLabel', { resistance: i }), // `${i}% Damage RES`,
       })
     }
 
@@ -55,7 +55,7 @@ export const EnemyConfigurationsDrawer = () => {
     for (let i = 0; i <= 40; i += 10) {
       options.push({
         value: i / 100,
-        label: t('DmgResOptionLabel', { resistance: i }), // `${i}% Effect RES`,
+        label: t('EffResOptionLabel', { resistance: i }), // `${i}% Effect RES`,
       })
     }
 

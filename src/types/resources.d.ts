@@ -3647,7 +3647,7 @@ interface Resources {
         "Name": "If Time Were a Flower"
       },
       "23039": {
-        "Name": "Flame of Blood, Blaze my Path"
+        "Name": "Flame of Blood, Blaze My Path"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"

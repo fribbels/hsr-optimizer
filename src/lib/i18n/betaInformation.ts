@@ -28,7 +28,7 @@ export const betaInformation: betaInformation = {
       {
         id: 23039,
         value: {
-          Name: 'Flame of Blood, Blaze my Path',
+          Name: 'Flame of Blood, Blaze My Path',
         },
       },
       {

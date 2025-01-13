@@ -364,7 +364,7 @@ RelicSets:
     Name: The Wondrous BananAmusement Park
     Description2pc: Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%.
   "319":
-    Name: "Bone Collection's Serene Demesne"
+    Name: Bone Collection's Serene Demesne
     Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
   "320":
     Name: Giant Tree of Rapt Brooding
@@ -607,7 +607,7 @@ Lightcones:
   "23038":
     Name: If Time Were a Flower
   "23039":
-    Name: Flame of Blood, Blaze my Path
+    Name: Flame of Blood, Blaze My Path
   "24000":
     Name: On the Fall of an Aeon
   "24001":

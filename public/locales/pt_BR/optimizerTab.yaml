@@ -216,6 +216,7 @@ Sidebar:
     CombatStats: Stats combate
     BasicStats: Stats básicos
     SummonerStats: Invocador
+    MemospriteStats: Memosprite
   ResultsGroup:
     Header: Resultados
     Equip: Equipar

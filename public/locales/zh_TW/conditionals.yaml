@@ -364,6 +364,10 @@ Lightcones:
       ultDmgBuff:
         text: 施放終結技後傷害增益
         content: 裝備者施放終結技後，造成的傷害提高{{DmgBuff}}%，持續1回合。
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: 普攻傷害提高
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -495,6 +499,10 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: 消滅敵人後暴擊率增益
         content: 當裝備者消滅敵方目標後，爆擊率提高{{CritBuff}}%，持續3回合。
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: 隊伍傷害增益
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -614,6 +622,10 @@ Characters:
         text: 6魂終結技增益
         content: >-
           黃泉造成的終結技傷害全屬性抗性穿透提高20%，施放普攻、戰技造成的傷害同時視為終結技傷害，並無視弱點屬性削減敵方韌性。擊破弱點時，觸發雷屬性的弱點擊破效果。
+  Aglaea:
+    Content:
+      e6Buffs:
+        text: 6魂增益
   Argenti:
     Content:
       ultEnhanced:
@@ -937,6 +949,10 @@ Characters:
     Content:
       skillExtraHits:
         text: 戰技額外擊中次數
+  TheHerta:
+    Content:
+      e6Buffs:
+        text: 6魂增益
   Tingyun:
     Content:
       ultDmgBuff:

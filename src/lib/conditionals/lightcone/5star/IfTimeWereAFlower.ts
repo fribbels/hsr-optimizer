@@ -37,7 +37,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   return {
     content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

@@ -1018,7 +1018,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1402": {
       "id": "1402",
@@ -1032,6 +1032,40 @@
         "ATK": 698.544,
         "DEF": 485.1,
         "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1403": {
+      "id": "1403",
+      "name": "Tribbie",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Quantum",
+      "max_sp": 180,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 523.908,
+        "DEF": 727.65,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1404": {
+      "id": "1404",
+      "name": "Mydei",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Imaginary",
+      "max_sp": 160,
+      "stats": {
+        "HP": 1552.32,
+        "ATK": 426.888,
+        "DEF": 194.04,
+        "SPD": 95,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -1154,7 +1188,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8008": {
       "id": "8008",
@@ -1171,7 +1205,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     }
   },
   "lightCones": {
@@ -1437,7 +1471,7 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
-      "unreleased": true
+      "unreleased": false
     },
     "20022": {
       "id": "20022",
@@ -1449,7 +1483,7 @@
         "ATK": 423.36,
         "DEF": 264.6
       },
-      "unreleased": true
+      "unreleased": false
     },
     "21000": {
       "id": "21000",
@@ -2049,7 +2083,7 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "21051": {
       "id": "21051",
@@ -2061,7 +2095,7 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
-      "unreleased": true
+      "unreleased": false
     },
     "21052": {
       "id": "21052",
@@ -2073,7 +2107,7 @@
         "ATK": 529.2,
         "DEF": 198.45
       },
-      "unreleased": true
+      "unreleased": false
     },
     "22000": {
       "id": "22000",
@@ -2565,7 +2599,7 @@
         "ATK": 635.04,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23037": {
       "id": "23037",
@@ -2576,6 +2610,30 @@
         "HP": 952.56,
         "ATK": 635.04,
         "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23038": {
+      "id": "23038",
+      "name": "If Time Were a Flower",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "23039": {
+      "id": "23039",
+      "name": "Flame of Blood, Blaze My Path",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1375.92,
+        "ATK": 476.28,
+        "DEF": 396.9
       },
       "unreleased": true
     },
@@ -2638,9 +2696,31 @@
         "DEF": 396.9
       },
       "unreleased": false
+    },
+    "24005": {
+      "id": "24005",
+      "name": "The Curtain Never Falls on Memories",
+      "rarity": 5,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": true
     }
   },
   "relics": [
+    {
+      "id": "320",
+      "name": "Giant Tree of Rapt Brooding",
+      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate is <b>70%</b> or higher, increases the Additional DMG dealt by <b>30%</b>."
+    },
+    {
+      "id": "319",
+      "name": "Bone Collection's Serene Demesne",
+      "skills": "Increases the wearer's Max HP by <b>12%</b>. When the wearer's Max HP is <b>5000</b> or higher, increases the wearer's and their memosprite's CRIT DMG by <b>25%</b>."
+    },
     {
       "id": "318",
       "name": "The Wondrous BananAmusement Park",
@@ -2734,12 +2814,12 @@
     {
       "id": "124",
       "name": "Poet of Mourning Collapse",
-      "skills": "Increases Quantum DMG dealt by <b>10%</b>.,Decreases the wearer's SPD by <b>8%</b>. Before entering battle, if the wearer's SPD is less than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>32%</b>. This effect also applies to the wearer's memosprite."
+      "skills": "Increases Quantum DMG by <b>10%</b>.,Decreases the wearer's SPD by <b>8%</b>. Before entering battle, if the wearer's SPD is lower than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>32%</b>. This effect applies to the wearer's memosprite at the same time."
     },
     {
       "id": "123",
       "name": "Hero of Triumphant Song",
-      "skills": "Increases ATK by <b>12%</b>.,While the wearer's memosprite is on the field, increases the wearer's SPD by <b>6%</b>. When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by <b>30%</b> for <b>2</b> turn(s)."
+      "skills": "Increases ATK by <b>12%</b>.,While the wearer's memosprite is on the field, increases the wearer's SPD by <b>6%</b>. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by <b>30%</b>, lasting for <b>2</b> turn(s)."
     },
     {
       "id": "122",

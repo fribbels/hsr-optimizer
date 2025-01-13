@@ -686,7 +686,7 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.CD]: 0.54 },
       5: { [Constants.Stats.CD]: 0.60 },
     },
-    23038: {
+    23039: {
       1: { [Constants.Stats.HP_P]: 0.18 },
       2: { [Constants.Stats.HP_P]: 0.21 },
       3: { [Constants.Stats.HP_P]: 0.24 },

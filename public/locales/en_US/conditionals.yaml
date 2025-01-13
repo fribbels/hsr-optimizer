@@ -1,5 +1,10 @@
 BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
 Common:
+  BuffPriority:
+    Text: "Buff priority target"
+    Content: "Select the preferred recipient for single target buffs"
+    Self: "Buff priority: Self"
+    Memo: "Buff priority: Memo"
   HealAbility:
     Text: "Healing ability"
     Content: "Select the ability for heal calculations"
@@ -714,6 +719,10 @@ Characters:
         text: E1 RES shred
         content: >-
           E1: While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%.
+      e4EffResPen:
+        text: E4 Effect RES shred
+        content: >-
+          E4: While in the Epiphany state, enemy targets have their Effect RES reduced by 10%
   Blade:
     Content:
       enhancedStateActive:

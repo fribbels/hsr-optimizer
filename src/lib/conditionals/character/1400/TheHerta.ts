@@ -1,15 +1,13 @@
-import i18next from 'i18next'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
-
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -27,7 +25,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultAtkBuff: true,
     interpretationStacks: 42,
     totalInterpretationStacks: 99,
-    e1AdjacentStacks: 21,
+    e1BonusStacks: true,
     e4EruditionSpdBuff: true,
     e6Buffs: true,
   }
@@ -41,58 +39,62 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     enhancedSkill: {
       id: 'enhancedSkill',
       formItem: 'switch',
-      text: 'Enhanced Skill',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.enhancedSkill.text'),
+      content: t('Content.enhancedSkill.content'),
     },
     eruditionTeammate: {
       id: 'eruditionTeammate',
       formItem: 'switch',
-      text: 'Erudition teammate',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.eruditionTeammate.text'),
+      content: t('Content.eruditionTeammate.content', {
+        PrimaryScalingBonus: TsUtils.precisionRound(talentStackScaling * 100),
+        AdjacentScalingBonus: TsUtils.precisionRound(talentStackScaling * 0.5 * 100),
+      }),
     },
     ultAtkBuff: {
       id: 'ultAtkBuff',
       formItem: 'switch',
-      text: 'Ult ATK buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ultAtkBuff.text'),
+      content: t('Content.ultAtkBuff.content', { AtkBuff: TsUtils.precisionRound(ultAtkBuffScaling * 100) }),
     },
     interpretationStacks: {
       id: 'interpretationStacks',
       formItem: 'slider',
-      text: 'Interpretation stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.interpretationStacks.text'),
+      content: t('Content.interpretationStacks.content', {
+        PrimaryScalingBonus: TsUtils.precisionRound(talentStackScaling * 100),
+        AdjacentScalingBonus: TsUtils.precisionRound(talentStackScaling * 0.5 * 100),
+      }),
       min: 1,
       max: 42,
     },
     totalInterpretationStacks: {
       id: 'totalInterpretationStacks',
       formItem: 'slider',
-      text: 'Total stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.totalInterpretationStacks.text'),
+      content: t('Content.totalInterpretationStacks.content'),
       min: 1,
       max: 99,
     },
-    e1AdjacentStacks: {
-      id: 'e1AdjacentStacks',
-      formItem: 'slider',
-      text: 'E1 adjacent stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 1,
-      max: 42,
+    e1BonusStacks: {
+      id: 'e1BonusStacks',
+      formItem: 'switch',
+      text: t('Content.e1BonusStacks.text'),
+      content: t('Content.e1BonusStacks.content'),
       disabled: e < 1,
     },
     e4EruditionSpdBuff: {
       id: 'e4EruditionSpdBuff',
       formItem: 'switch',
-      text: 'E4 Erudition SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4EruditionSpdBuff.text'),
+      content: t('Content.e4EruditionSpdBuff.content'),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6Buffs.text'),
+      content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
   }
@@ -118,10 +120,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01 + (e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), Source.NONE)
 
       const enhancedSkillStackScaling = talentStackScaling
-        * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.50)
+        * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
         * (r.eruditionTeammate ? 2 : 1)
       x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), Source.NONE)
-      x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= 42) ? 0.50 : 0, Source.NONE)
+      x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, Source.NONE)
       x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
@@ -131,8 +133,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((m.eruditionTeammate ? 0.80 : 0), Source.NONE) // TODO: MEMO
-      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.12 : 0, Source.NONE) // TODO: MEMO
+      x.CD.buff((m.eruditionTeammate ? 0.80 : 0), Source.NONE)
+      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.12 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

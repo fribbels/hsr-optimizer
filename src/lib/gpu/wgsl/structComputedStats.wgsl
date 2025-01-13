@@ -49,6 +49,7 @@ struct ComputedStats {
   FUA_BOOST: f32,
   DOT_BOOST: f32,
   BREAK_BOOST: f32,
+  ADDITIONAL_BOOST: f32,
 
   VULNERABILITY: f32,
   BASIC_VULNERABILITY: f32,
@@ -142,6 +143,8 @@ struct ComputedStats {
   ULT_ADDITIONAL_DMG: f32,
   FUA_ADDITIONAL_DMG: f32,
 
+  MEMO_BUFF_PRIORITY: f32,
+
   MEMO_HP_SCALING: f32,
   MEMO_HP_FLAT: f32,
   MEMO_DEF_SCALING: f32,
@@ -178,6 +181,7 @@ struct ComputedStats {
   BREAK_DMG_TYPE: f32,
   SUPER_BREAK_DMG_TYPE: f32,
   MEMO_DMG_TYPE: f32,
+  ADDITIONAL_DMG_TYPE: f32,
 
   sets: Sets,
 }

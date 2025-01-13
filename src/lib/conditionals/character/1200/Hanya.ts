@@ -114,16 +114,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buff((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE) // TODO: MEMO
+      x.ATK_P.buffTeam((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE)
 
-      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE, Target.MAIN)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE, Target.TEAM)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buff((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE) // TODO: MEMO
-      x.RATIO_BASED_SPD_BUFF.buff((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE) // TODO: MEMO
-      x.ATK_P.buff((t.ultBuff) ? ultAtkBuffValue : 0, Source.NONE) // TODO: MEMO
+      x.SPD.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
+      x.RATIO_BASED_SPD_BUFF.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
+      x.ATK_P.buffSingle((t.ultBuff) ? ultAtkBuffValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

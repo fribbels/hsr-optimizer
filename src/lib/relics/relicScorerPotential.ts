@@ -55,6 +55,8 @@ type FutureScoringResult = {
   best: number
   average: number
   worst: number
+  rerollAvg: number
+  idealScore: number
   meta: {
     bestAddedStats: string[]
     bestUpgradedStats: string[]
@@ -258,10 +260,10 @@ export class RelicScorer {
           scoringMetadata.parts.PlanarSphere.filter((x) => !dmgMainstats.includes(x)),
           scoringMetadata.parts.LinkRope,
         ]
-        scoringMetadata.greedyHash = TsUtils.objectHash({ ...scoringMetadata.sortedSubstats, ...hashParts })
+        scoringMetadata.greedyHash = TsUtils.objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
         scoringMetadata.hash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
       } else {
-        scoringMetadata.greedyHash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+        scoringMetadata.greedyHash = TsUtils.objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
         scoringMetadata.hash = scoringMetadata.greedyHash
       }
       this.characterRelicScoreMetas.set(id, scoringMetadata)
@@ -472,6 +474,8 @@ export class RelicScorer {
         best: 0,
         average: 0,
         worst: 0,
+        rerollAvg: 0,
+        idealScore: 1,
         meta: {
           bestAddedStats: [''],
           bestUpgradedStats: [''],
@@ -489,6 +493,8 @@ export class RelicScorer {
       best: 0,
       average: 0,
       worst: 0,
+      rerollAvg: 0,
+      idealScore: 1,
       meta: {
         bestAddedStats: [''],
         bestUpgradedStats: [''],
@@ -520,7 +526,7 @@ export class RelicScorer {
     const remainingRolls = Math.ceil((maxEnhance(relic.grade as 2 | 3 | 4 | 5) - relic.enhance) / 3) - (4 - relic.substats.length)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const idealScore = this.getOptimalPartScore(relic.part, id)
-    const current = Math.max(0, this.substatScore(relic, id).score / idealScore * 100 * percentToScore + mainstatBonus + mainstatDeduction)
+    const current = Math.max(0, (this.substatScore(relic, id).score + mainstatBonus) / idealScore * 100 * percentToScore + mainstatDeduction)
 
     // evaluate the best possible outcome
     const bestSubstats: { stat: SubStats; value: number }[] = [{ stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }]
@@ -637,11 +643,44 @@ export class RelicScorer {
       }
     }
 
+    let rerollValue = 0
+    let rerollAvg = 0
+    if (relic.grade >= 5 && relic.substats.length == 4) {
+      const currentRolls = TsUtils.sumArray(relic.substats.map(x => x.addedRolls ?? 0))
+      const remainingRolls = Math.ceil((15 - relic.enhance) / 3)
+      const totalRolls = Math.min(currentRolls + remainingRolls, 5)
+
+      for (const substat of relic.substats) {
+        const stat = substat.stat
+        const value = SubStatValues[stat][5].high * meta.stats[stat] * normalization[stat]
+        if (stat == bestSub.stat) {
+          rerollValue += value * (totalRolls + 1)
+        } else {
+          rerollValue += value
+        }
+
+        if (totalRolls >= 5) {
+          rerollAvg += value * 2.25
+        } else {
+          rerollAvg += value * 2
+        }
+      }
+
+      // These are reroll max potentials - Disabled for now
+      // rerollValue = Math.min(rerollValue, idealScore)
+      // rerollValue = (rerollValue + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
+
+      // There is a case where a stat with less than 1 weight is the main stat, in which case the reroll value will exceed the ideal score, cap it
+      rerollAvg = Math.min(rerollAvg, idealScore)
+      rerollAvg = (rerollAvg + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
+    }
+
     return {
       current,
       best,
       average,
       worst,
+      rerollAvg,
       meta: levelupMetadata,
     } as FutureScoringResult
   }
@@ -740,15 +779,12 @@ export class RelicScorer {
     const meta = this.getRelicScoreMeta(id)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
-    if (Utils.hasMainStat(relic.part)) {
-      futureScore.best = Math.max(0, futureScore.best - mainstatBonus)// futureScores may be 0 due to mainstatDeduction
-      futureScore.average = Math.max(0, futureScore.average - mainstatBonus)
-      futureScore.worst = Math.max(0, futureScore.worst - mainstatBonus)
-    }
+
     return {
-      bestPct: futureScore.best / percentToScore,
-      averagePct: futureScore.average / percentToScore,
-      worstPct: futureScore.worst / percentToScore,
+      bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore,
+      averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
+      worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,
+      rerollAvgPct: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore,
       meta: futureScore.meta,
     }
   }
@@ -771,7 +807,7 @@ function countPairs<T extends string | number | symbol>(arr: T[]) {
 /**
  * calculates the appropriate bonus score for the part-mainstat pairing, scales with stat weight if non-optimal mainstat
  */
-function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata: ScoringMetadata) {
+export function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata: ScoringMetadata) {
   const stats = scoringMetadata.stats
   const parts = scoringMetadata.parts
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {

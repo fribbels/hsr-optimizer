@@ -40,9 +40,17 @@ const SPREAD_ORNAMENTS_2P_FUA = [
 const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
   Sets.SigoniaTheUnclaimedDesolation,
 ]
+
 const SPREAD_ORNAMENTS_2P_ENERGY_REGEN = [
   Sets.SprightlyVonwacq,
   Sets.PenaconyLandOfTheDreams,
+  Sets.LushakaTheSunkenSeas,
+]
+
+const SPREAD_ORNAMENTS_2P_SUPPORT = [
+  Sets.BrokenKeel,
+  Sets.PenaconyLandOfTheDreams,
+  Sets.FleetOfTheAgeless,
   Sets.LushakaTheSunkenSeas,
 ]
 
@@ -671,6 +679,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.CR]: 0.18 },
       5: { [Constants.Stats.CR]: 0.20 },
     },
+    23038: {
+      1: { [Constants.Stats.CD]: 0.36 },
+      2: { [Constants.Stats.CD]: 0.42 },
+      3: { [Constants.Stats.CD]: 0.48 },
+      4: { [Constants.Stats.CD]: 0.54 },
+      5: { [Constants.Stats.CD]: 0.60 },
+    },
+    23038: {
+      1: { [Constants.Stats.HP_P]: 0.18 },
+      2: { [Constants.Stats.HP_P]: 0.21 },
+      3: { [Constants.Stats.HP_P]: 0.24 },
+      4: { [Constants.Stats.HP_P]: 0.27 },
+      5: { [Constants.Stats.HP_P]: 0.30 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -699,6 +721,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       3: { [Constants.Stats.ATK_P]: 0.10 },
       4: { [Constants.Stats.ATK_P]: 0.11 },
       5: { [Constants.Stats.ATK_P]: 0.12 },
+    },
+    24005: {
+      1: { [Constants.Stats.SPD_P]: 0.06 },
+      2: { [Constants.Stats.SPD_P]: 0.075 },
+      3: { [Constants.Stats.SPD_P]: 0.09 },
+      4: { [Constants.Stats.SPD_P]: 0.105 },
+      5: { [Constants.Stats.SPD_P]: 0.12 },
     },
   }
 }
@@ -830,6 +859,10 @@ function getLightConeOverrideCenter(): Record<string, number> {
     21050: 170,
     20022: 305,
     20021: 320,
+
+    23038: 210,
+    23039: 165,
+    24005: 300,
   }
 }
 
@@ -1179,6 +1212,16 @@ function getOverrideTraces(): Record<string, Record<string, number>> {
       [Stats.Lightning_DMG]: 0.224,
       [Stats.CR]: 0.12,
       [Stats.DEF_P]: 0.125,
+    },
+    1403: { // Tribbie
+      [Stats.CD]: 0.373,
+      [Stats.CR]: 0.12,
+      [Stats.HP_P]: 0.10,
+    },
+    1404: { // Mydei
+      [Stats.CD]: 0.373,
+      [Stats.HP_P]: 0.18,
+      [Stats.SPD]: 5,
     },
   }
 }
@@ -1534,6 +1577,16 @@ function getOverrideImageCenter(): Record<string, {
       y: 750,
       z: 1.10,
     },
+    1403: { // Tribbie
+      x: 875,
+      y: 1000,
+      z: 1.075,
+    },
+    1404: { // Mydei
+      x: 925,
+      y: 1050,
+      z: 1.05,
+    },
   }
 }
 
@@ -1873,6 +1926,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -5397,10 +5451,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          Sets.BrokenKeel,
-          Sets.PenaconyLandOfTheDreams,
-          Sets.FleetOfTheAgeless,
-          Sets.LushakaTheSunkenSeas,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -5706,6 +5757,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.ATK_P,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -7032,6 +7084,221 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: '1217', // Huohuo
             lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1403: { // Tribbie
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0.75,
+        [Stats.HP_P]: 0.75,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 1,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.HP_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Quantum_DMG,
+          Stats.HP_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.FUA,
+      hiddenColumns: [],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+          Stats.ATK_P,
+        ],
+        comboAbilities: [NULL, ULT, FUA, FUA, BASIC, FUA, FUA],
+        comboDot: 0,
+        comboBreak: 0,
+        relicSets: [
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.GiantTreeOfRaptBrooding,
+          Sets.InertSalsotto,
+          Sets.BoneCollectionsSereneDemesne,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+        ],
+        teammates: [
+          {
+            characterId: '1401', // The Herta
+            lightCone: '23037', // Veil
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1103', // Serval
+            lightCone: '20013', // Passkey
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1404: { // Mydei
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 1,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.HP_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Imaginary_DMG,
+          Stats.HP_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.SKILL,
+      hiddenColumns: [],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Imaginary_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+          Stats.ATK_P,
+        ],
+        comboAbilities: [NULL, SKILL, ULT, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
+        relicSets: [
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
+          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          Sets.BoneCollectionsSereneDemesne,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1313', // Sunday
+            lightCone: '23034', // Grounded
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1203', // Luocha
+            lightCone: '23008', // Coffin
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

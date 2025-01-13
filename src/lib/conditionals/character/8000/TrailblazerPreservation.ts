@@ -86,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_SCALING.buff(skillScaling, Source.NONE)
 
       // Boost
-      // This EHR buff only applies to self
+      // This EHP buff only applies to self
       x.DMG_RED_MULTI.multiply((r.skillActive) ? (1 - skillDamageReductionValue) : 1, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff((r.enhancedBasic) ? 60 : 30, Source.NONE)
@@ -100,8 +100,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // This EHR buff applies to all
-      x.DMG_RED_MULTI.multiply((m.skillActive) ? (1 - 0.15) : 1, Source.NONE)
+      // This EHP buff applies to all
+      x.DMG_RED_MULTI.multiplyTeam((m.skillActive) ? (1 - 0.15) : 1, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

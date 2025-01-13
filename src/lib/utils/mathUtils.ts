@@ -17,3 +17,7 @@ export function scaleTowardsRange(
 export function nanAsZero(n: number) {
   return isNaN(n) ? 0 : n
 }
+
+export function sumArray(arr: number[]) {
+  return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+}

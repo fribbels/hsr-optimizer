@@ -18,7 +18,7 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 
 export type StatController = {
   buff: (value: number, source: string) => void
-  buffDefer: (value: number, source: string) => void
+  buffSingle: (value: number, source: string) => void
   buffMemo: (value: number, source: string) => void
   buffTeam: (value: number, source: string) => void
   buffDual: (value: number, source: string) => void
@@ -66,9 +66,9 @@ export class ComputedStatsArrayCore {
             if (value == 0) return
             this.a[index] += value
           },
-          buffDefer: (value: number, source: string) => {
+          buffSingle: (value: number, source: string) => {
             if (value == 0) return
-            if (this.m) {
+            if (this.a[Key.MEMO_BUFF_PRIORITY]) {
               this.m.a[index] += value
             } else {
               this.a[index] += value

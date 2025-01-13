@@ -16,7 +16,7 @@ export enum Target {
   MEMO,
   DUAL,
   TEAM,
-  DEFER,
+  SINGLE,
 }
 
 function targetSelection(target: Target, statController: StatController, value: number, source: string) {
@@ -33,8 +33,8 @@ function targetSelection(target: Target, statController: StatController, value: 
     case Target.TEAM:
       statController.buffTeam(value, source)
       break
-    case Target.DEFER:
-      statController.buffDefer(value, source)
+    case Target.SINGLE:
+      statController.buffSingle(value, source)
       break
   }
 }
@@ -48,6 +48,7 @@ export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, 
   if (abilityTypeFlags & x.a[Key.FUA_DMG_TYPE]) targetSelection(target, x.FUA_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.DOT_DMG_TYPE]) targetSelection(target, x.DOT_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_BOOST, value, source)
+  if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_BOOST, value, source)
 }
 
 export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string, target = Target.MAIN) {

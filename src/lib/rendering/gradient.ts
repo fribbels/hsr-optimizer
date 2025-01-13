@@ -42,6 +42,7 @@ const relicColumnRanges = {
   'weights.potentialSelected.averagePct': 100,
   'weights.potentialSelected.bestPct': 100,
   'weights.potentialAllAll': 100,
+  'weights.rerollAvgSelectedDelta': 40,
 } as const
 
 export const Gradient = {
@@ -93,7 +94,9 @@ export const Gradient = {
     }
 
     let range: number
-    if (col.startsWith('weights.potential')) {
+    if (col == 'weights.rerollAvgSelectedDelta') {
+      range = value / 40
+    } else if (col.startsWith('weights.potential') || col.startsWith('weights.reroll')) {
       range = value / 100
     } else if (col.startsWith('weights.')) {
       range = value / (6.48 * 9)

@@ -354,7 +354,7 @@ function calculateAbilityDmg(
     abilityAdditionalDmgOutput = calculateAdditionalDmg(
       abilityAdditionalDmg,
       (baseUniversalMulti),
-      (baseDmgBoost),
+      (baseDmgBoost + a[Key.ADDITIONAL_BOOST]),
       calculateDefMulti(eLevel, baseDefPen),
       (1 + a[Key.VULNERABILITY]),
       (abilityAdditionalCritMulti),

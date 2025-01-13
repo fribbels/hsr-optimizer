@@ -357,6 +357,12 @@ interface Resources {
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
     "Common": {
+      "BuffPriority": {
+        "Text": "Buff priority target",
+        "Content": "Select the preferred recipient for single target buffs",
+        "Self": "Buff priority: Self",
+        "Memo": "Buff priority: Memo"
+      },
       "HealAbility": {
         "Text": "Healing ability",
         "Content": "Select the ability for heal calculations",
@@ -538,6 +544,14 @@ interface Resources {
           "spdScalingBuffs": {
             "text": "SPD conversion buffs",
             "content": "While the wearer is in battle, for every 10 SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by {{DmgBuff}}% and the CRIT DMG of their Ultimate is increased by {{CritBuff}}%. This effect can stack up to 6 time(s)."
+          }
+        }
+      },
+      "IntoTheUnreachableVeil": {
+        "Content": {
+          "skillUltDmgBoost": {
+            "text": "Skill / Ult DMG boost",
+            "content": "When the wearer uses their Ultimate, increases DMG dealt by the wearer's Skill and Ultimate by {{DmgBuff}}%."
           }
         }
       },
@@ -731,6 +745,18 @@ interface Resources {
           }
         }
       },
+      "TimeWovenIntoGold": {
+        "Content": {
+          "brocadeStacks": {
+            "text": "Brocade stacks",
+            "content": "After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of \"Brocade.\"::BR:: Each stack of \"Brocade\" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each \"Brocade\" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%."
+          },
+          "maxStacksBasicDmgBoost": {
+            "text": "Stacked Basic DMG boost",
+            "content": "After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of \"Brocade.\"::BR:: Each stack of \"Brocade\" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each \"Brocade\" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%."
+          }
+        }
+      },
       "WhereaboutsShouldDreamsRest": {
         "Content": {
           "routedVulnerability": {
@@ -860,6 +886,14 @@ interface Resources {
           "ultDmgBuff": {
             "text": "Ult usage DMG buff",
             "content": "After the wearer uses their Ultimate, increases their DMG dealt by {{DmgBuff}}%, lasting for 1 turn(s)."
+          }
+        }
+      },
+      "GeniusesGreetings": {
+        "Content": {
+          "basicDmgBoost": {
+            "text": "Basic DMG boost",
+            "content": "After the wearer uses their Ultimate, additionally increases the wearer and their memosprite's Basic ATK DMG dealt by {{DmgBuff}}%."
           }
         }
       },
@@ -999,6 +1033,14 @@ interface Resources {
           }
         }
       },
+      "SweatNowCryLess": {
+        "Content": {
+          "dmgBoost": {
+            "text": "Summoner / Memosprite DMG boost",
+            "content": "When the wearer's memosprite is on the field, increases the wearer and their memosprite's DMG dealt by {{DmgBuff}}%."
+          }
+        }
+      },
       "Swordplay": {
         "Content": {
           "sameTargetHitStacks": {
@@ -1064,6 +1106,14 @@ interface Resources {
           "defeatedEnemyCrBuff": {
             "text": "Defeated enemy CR buff",
             "content": "When the wearer defeats an enemy, the wearer's CRIT Rate increases by {{CritBuff}}% for 3 turn(s)."
+          }
+        }
+      },
+      "VictoryInABlink": {
+        "Content": {
+          "teamDmgBuff": {
+            "text": "Team DMG buff",
+            "content": "When the wearer's memosprite uses an ability on any ally target, increases all ally targets' DMG dealt by {{DmgBuff}}%, lasting for 3 turns."
           }
         }
       },
@@ -1187,6 +1237,14 @@ interface Resources {
           }
         }
       },
+      "Reminiscence": {
+        "Content": {
+          "dmgStacks": {
+            "text": "DMG stacks",
+            "content": "When memosprite's turn starts, the wearer and the memosprite each gain 1 stack of \"Commemoration.\" Each stack increases DMG dealt by {{DmgBuff}}%, stacking up to 4 times. \"Commemoration\" is removed from the wearer and the memosprite when the memosprite disappears."
+          }
+        }
+      },
       "Sagacity": {
         "Content": {
           "postUltAtkBuff": {
@@ -1242,6 +1300,34 @@ interface Resources {
           "e6UltBuffs": {
             "text": "E6 Ult buffs",
             "content": "Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can reduce enemy toughness regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect."
+          }
+        }
+      },
+      "Aglaea": {
+        "Content": {
+          "supremeStanceState": {
+            "text": "Supreme Stance state",
+            "content": "While in the \"Supreme Stance\" state, Aglaea gains the SPD Boost stacks from Garmentmaker's Memosprite Talent, with each stack increasing her SPD by {{SpdBuff}}%. Enhances Basic ATK to \"Slash by a Thousandfold Kiss,\" and cannot use Skill."
+          },
+          "seamStitch": {
+            "text": "Seam Stitch",
+            "content": "While Garmentmaker is on the field, Aglaea's attacks inflict the target with the \"Seam Stitch\" state. After attacking enemies in the \"Seam Stitch\" state, further deals Lightning Additional DMG equal to {{Scaling}}% of Aglaea's ATK. \"Seam Stitch\" only takes effect on the most recently inflicted target."
+          },
+          "memoSpdStacks": {
+            "text": "Memo SPD stacks",
+            "content": "After attacking an enemy afflicted with \"Seam Stitch,\" increases this unit's SPD by {{SpdBuff}}, stacking up to {{StackLimit}} times."
+          },
+          "e1Vulnerability": {
+            "text": "E1 vulnerability",
+            "content": "Enemies afflicted with \"Seam Stitch\" take 15% increased DMG."
+          },
+          "e2DefShredStacks": {
+            "text": "E2 DEF PEN stacks",
+            "content": "When Aglaea or Garmentmaker takes action, the DMG dealt by Aglaea and Garmentmaker ignores 14% of the target's DEF. This effect stacks up to 3 times and lasts until any unit, other than Aglaea or Garmentmaker, actively uses an ability."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "While Aglaea is in \"Supreme Stance,\" increases her and Garmentmaker's Lightning RES PEN by 20%. When Aglaea or Garmentmaker's SPD is greater than 160/240/320, the DMG dealt by Joint ATK increases by 10%/30%/60%."
           }
         }
       },
@@ -1370,6 +1456,10 @@ interface Resources {
           "e1ResReduction": {
             "text": "E1 RES shred",
             "content": "E1: While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%."
+          },
+          "e4EffResPen": {
+            "text": "E4 Effect RES shred",
+            "content": "E4: While in the Epiphany state, enemy targets have their Effect RES reduced by 10%"
           }
         }
       },
@@ -2412,6 +2502,42 @@ interface Resources {
           }
         }
       },
+      "TheHerta": {
+        "Content": {
+          "enhancedSkill": {
+            "text": "Enhanced Skill",
+            "content": "After using the Ultimate, The Herta immediately takes action and gains 1 stack of \"Inspiration.\" \"Inspiration\" can stack up to 4 times. While having \"Inspiration,\" enhances Skill to \"Hear Me Out.\""
+          },
+          "eruditionTeammate": {
+            "text": "Erudition teammate",
+            "content": "When the Enhanced Skill's primary target has \"Interpretation,\" the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively. ::BR:: If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively ::BR:: A4: When entering battle, if the team has 2 or more characters following the Path of Erudition, then increases all allies' CRIT DMG by 80%"
+          },
+          "ultAtkBuff": {
+            "text": "Ult ATK buff",
+            "content": "When using Ultimate, increases The Herta's ATK by {{AtkBuff}}%, lasting for 3 turns."
+          },
+          "interpretationStacks": {
+            "text": "Interpretation stacks",
+            "content": "When the Enhanced Skill's primary target has \"Interpretation,\" the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively. ::BR:: If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively ::BR:: E1: When Enhanced Skill calculates \"Interpretation,\" additionally calculates 50% of the \"Interpretation\" stacks on the 1 target with the highest stacks out of the primary target and adjacent targets."
+          },
+          "totalInterpretationStacks": {
+            "text": "Answer stacks",
+            "content": "For every 1 stack of \"Interpretation\" inflicted on enemy targets, The Herta gains 1 stack of \"Answer\", up to 99 stacks. When using the Ultimate, every stack of \"Answer\" increases the Ultimate's DMG multiplier by 1%."
+          },
+          "e1BonusStacks": {
+            "text": "E1 Bonus stacks",
+            "content": "When Enhanced Skill calculates \"Interpretation,\" additionally calculates 50% of the \"Interpretation\" stacks on the 1 target with the highest stacks out of the primary target and adjacent targets."
+          },
+          "e4EruditionSpdBuff": {
+            "text": "E4 Erudition SPD buff",
+            "content": "The SPD of characters following the Path of Erudition in the team increases by 12%."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "The Herta's Ice RES PEN increases by 20%. When the number of enemy targets on the field is 3 (or more)/2/1, Ultimate's DMG multiplier increases by 140%/250%/400%."
+          }
+        }
+      },
       "Tingyun": {
         "Content": {
           "benedictionBuff": {
@@ -2509,6 +2635,44 @@ interface Resources {
           "e6DefStacks": {
             "text": "E6 DEF buff stacks",
             "content": "E6: Increases DEF by 10% per stack."
+          }
+        }
+      },
+      "TrailblazerRemembrance": {
+        "Content": {
+          "memoSkillHits": {
+            "text": "Memo Skill hits",
+            "content": "Deals 4 instances of DMG, with each instance dealing Ice DMG equal to {{SingleScaling}}% of Mem's ATK to one random enemy. Finally, deals Ice DMG equal to {{AoeScaling}}% of Mem's ATK to all enemies."
+          },
+          "teamCdBuff": {
+            "text": "Team CD buff",
+            "content": "All allies' CRIT DMG increases by {{ScalingBuff}}% of Mem's CRIT DMG plus {{FlatBuff}}%."
+          },
+          "memsSupport": {
+            "text": "Mem's Support True DMG",
+            "content": "Advances the action of one designated ally by 100% and grants them \"Mem's Support,\" lasting for 3 turns. For every 1 instance of DMG dealt by the target that has \"Mem's Support,\" additionally deals 1 instance of True DMG equal to {{TrueDmgScaling}}% of the original DMG. ::BR:: E1: When an ally target has \"Mem's Support,\" its effect also takes effect on the target's memosprite/memomaster. ::BR:: E4: When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via \"Mem's Support\" additionally increases by 6%."
+          },
+          "energyTrueDmgValue": {
+            "text": "Max energy True DMG",
+            "content": "When the Max Energy of the ally target that has \"Mem's Support\" exceeds 100, for every 10 excess Energy, additionally increases the multiplier of the True DMG dealt via \"Mem's Support\" by 2%, up to a max increase of 20%."
+          },
+          "e1CrBuff": {
+            "text": "E1 CR buff",
+            "content": "Increases the CRIT Rate of the ally target with \"Mem's Support\" by 10%."
+          },
+          "e4TrueDmgBoost": {
+            "text": "E4 True DMG boost",
+            "content": "When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via \"Mem's Support\" additionally increases by 6%."
+          },
+          "e6UltCrBoost": {
+            "text": "E6 Ult CR boost",
+            "content": "Ultimate's CRIT Rate is set at 100%."
+          }
+        },
+        "TeammateContent": {
+          "memCDValue": {
+            "text": "Mem's combat CD",
+            "content": "All allies' CRIT DMG increases by {{ScalingBuff}}% of Mem's CRIT DMG plus {{FlatBuff}}%."
           }
         }
       },
@@ -2884,6 +3048,14 @@ interface Resources {
         "Name": "Aglaea",
         "LongName": "Aglaea"
       },
+      "1403": {
+        "Name": "Tribbie",
+        "LongName": "Tribbie"
+      },
+      "1404": {
+        "Name": "Mydei",
+        "LongName": "Mydei"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -2976,7 +3148,7 @@ interface Resources {
       "112": {
         "Name": "Wastelander of Banditry Desert",
         "Description2pc": "Increases Imaginary DMG by 10%.",
-        "Description4pc": "When attacking debuffed enemies, the wearer's CRIT Rate increases by 10%, and their CRIT DMG increases by 20% against Imprisoned enemies."
+        "Description4pc": "When dealing DMG to debuffed enemy targets, the wearer has their CRIT Rate increased by 10%. And when they deal DMG to Imprisoned enemy targets, their CRIT DMG increases by 20%."
       },
       "113": {
         "Name": "Longevous Disciple",
@@ -3036,7 +3208,7 @@ interface Resources {
       "124": {
         "Name": "Poet of Mourning Collapse",
         "Description2pc": "Increases Quantum DMG dealt by 10%.",
-        "Description4pc": "Decreases the wearer's SPD by 12%. When entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/40%. This effect also applies to the wearer's memosprite."
+        "Description4pc": "Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect also applies to the wearer's memosprite."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -3109,6 +3281,14 @@ interface Resources {
       "318": {
         "Name": "The Wondrous BananAmusement Park",
         "Description2pc": "Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%."
+      },
+      "319": {
+        "Name": "Bone Collection's Serene Demesne",
+        "Description2pc": "Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%."
+      },
+      "320": {
+        "Name": "Giant Tree of Rapt Brooding",
+        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%."
       }
     },
     "Lightcones": {
@@ -3463,6 +3643,12 @@ interface Resources {
       "23037": {
         "Name": "Into the Unreachable Veil"
       },
+      "23038": {
+        "Name": "If Time Were a Flower"
+      },
+      "23039": {
+        "Name": "Flame of Blood, Blaze My Path"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -3477,6 +3663,9 @@ interface Resources {
       },
       "24004": {
         "Name": "Eternal Calculus"
+      },
+      "24005": {
+        "Name": "The Curtain Never Falls on Memories"
       }
     },
     "Paths": {
@@ -3487,6 +3676,7 @@ interface Resources {
       "Warlock": "Nihility",
       "Knight": "Preservation",
       "Priest": "Abundance",
+      "Memory": "Remembrance",
       "Unknown": "General",
       "Remembrance": "Remembrance"
     },
@@ -4410,6 +4600,7 @@ interface Resources {
       "Perms": "Perms",
       "Searched": "Searched",
       "Results": "Results",
+      "ComputeEngine": "Compute engine",
       "ProgressText": {
         "Progress": "Progress",
         "CalculatingETA": "Progress  (calculating ETA..)",
@@ -4427,7 +4618,9 @@ interface Resources {
       "StatViewGroup": {
         "Header": "Stat and filter view",
         "CombatStats": "Combat stats",
-        "BasicStats": "Basic stats"
+        "BasicStats": "Basic stats",
+        "SummonerStats": "Summoner",
+        "MemospriteStats": "Memosprite"
       },
       "ResultsGroup": {
         "Header": "Results",
@@ -4863,6 +5056,14 @@ interface Resources {
           "MaxPotCol": {
             "Label": "Selected character: Max potential",
             "Header": "Selected Char\nMax Potential"
+          },
+          "RerollAvg": {
+            "Label": "Selected character: Reroll average potential",
+            "Header": "Selected Char\nReroll Avg"
+          },
+          "RerollAvgDelta": {
+            "Label": "Selected character: Reroll average delta potential",
+            "Header": "Selected Char\nΔ Reroll Avg"
           }
         },
         "CustomCharacters": {
@@ -4874,6 +5075,10 @@ interface Resources {
           "MaxPotCol": {
             "Label": "Custom characters: Max potential",
             "Header": "Custom Chars\nMax Potential"
+          },
+          "RerollAvg": {
+            "Label": "Custom characters: Average reroll potential",
+            "Header": "Custom Chars\nAvg Reroll"
           }
         },
         "AllCharacters": {
@@ -4885,6 +5090,10 @@ interface Resources {
           "MaxPotCol": {
             "Label": "All characters: Max potential",
             "Header": "All Chars\nMax Potential"
+          },
+          "RerollAvg": {
+            "Label": "All characters: Average reroll potential",
+            "Header": "All Chars\nAvg Reroll"
           }
         },
         "ComingSoon": {

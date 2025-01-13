@@ -310,21 +310,26 @@ Lightcones:
         text: Buff de ATK ativo
         content: >-
           No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
-          - O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
-          - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
-          - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
-
-          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+          ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       cdBuffActive:
         text: Buff de CD ativo.
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: - O ATK de todos os aliados aumenta em {{AtkBuff}}%. - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%. 
-          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: 
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%. 
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. 
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       errBuffActive:
         text: Buff de ERR ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: - O ATK de todos os aliados aumenta em {{AtkBuff}}%. - O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. - A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%. 
-          O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
   ConcertForTwo:
     Content:
       teammateShieldStacks:
@@ -371,6 +376,10 @@ Lightcones:
       ultDmgBuff:
         text: Buff de DMG ao usar o Ultimate
         content: Após o usuário usar seu Ultimate, aumenta o DMG que ele causa em {{DmgBuff}}%, durando por 1 turno(s).
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: Boost de básico DMG
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -502,6 +511,10 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: Buff de CR para inimigos derrotados
         content: Quando o portador derrota um inimigo, a taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turno(s).
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: Buff de DMG no time
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -621,6 +634,10 @@ Characters:
         text: Buffs de Ult de E6
         content: >-
           Aumenta a PEN de RES de Todos os Tipos para o DMG do Ultimate causado por Acheron em 20%. O DMG causado pelo ATK Básico e pela Habilidade também será considerado como DMG do Ultimate e pode reduzir a resistência do inimigo, independentemente dos Tipos de Fraqueza. Ao quebrar Fraquezas, ativa o efeito de Quebra de Fraqueza de Relâmpago.
+  Aglaea:
+    Content:
+      e6Buffs:
+        text: Buffs E6
   Argenti:
     Content:
       ultEnhanced:
@@ -1502,6 +1519,14 @@ Characters:
       e2DmgReductionBuff:
         text: Buff de redução de DMG E2
         content: "E2: Após ativar a Postura da Espada, o DMG recebido por Sushang é reduzido em 20% por 1 turno."
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: Habilidade Aprimorada
+      ultAtkBuff:
+        text: Buff de ATK da Ultimate
+      e6Buffs:
+        text: Buffs E6
   Tingyun:
     Content:
       benedictionBuff:

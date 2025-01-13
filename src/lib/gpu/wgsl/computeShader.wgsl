@@ -34,6 +34,7 @@ const DOT_DMG_TYPE = 16;
 const BREAK_DMG_TYPE = 32;
 const SUPER_BREAK_DMG_TYPE = 64;
 const MEMO_DMG_TYPE = 128;
+const ADDITIONAL_DMG_TYPE = 256;
 
 const BASIC_ABILITY_TYPE = 1;
 const SKILL_ABILITY_TYPE = 2;
@@ -199,6 +200,8 @@ fn main(
     sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
     sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
     sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
+    sets.BoneCollectionsSereneDemesne    = i32((1 >> (setP ^ 18)) + (1 >> (setL ^ 18)));
+    sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
 
     var c: BasicStats = BasicStats();
 
@@ -262,7 +265,8 @@ fn main(
 
     c.HP += (baseHP) * (
       0.12 * p2(sets.FleetOfTheAgeless) +
-      0.12 * p2(sets.LongevousDisciple)
+      0.12 * p2(sets.LongevousDisciple) +
+      0.12 * p2(sets.BoneCollectionsSereneDemesne)
     );
 
     c.ATK += (baseATK) * (
@@ -286,7 +290,8 @@ fn main(
       0.04 * p4(sets.PioneerDiverOfDeadWaters) +
       0.04 * p2(sets.SigoniaTheUnclaimedDesolation) +
       0.06 * p4(sets.TheWindSoaringValorous) +
-      0.08 * p2(sets.ScholarLostInErudition)
+      0.08 * p2(sets.ScholarLostInErudition) +
+      0.08 * p2(sets.GiantTreeOfRaptBrooding)
     );
 
     c.CD += (
@@ -937,7 +942,7 @@ fn calculateAbilityDmg(
     let abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr);
     abilityAdditionalDmgOutput = abilityAdditionalDmg
       * (baseUniversalMulti)
-      * (baseDmgBoost)
+      * (baseDmgBoost + x.ADDITIONAL_BOOST)
       * calculateDefMulti(baseDefPen)
       * (1 + x.VULNERABILITY)
       * (abilityAdditionalCritMulti)
@@ -995,6 +1000,9 @@ fn buffAbilityDmg(
   }
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+    (*p_x).ADDITIONAL_BOOST += value;
   }
 }
 

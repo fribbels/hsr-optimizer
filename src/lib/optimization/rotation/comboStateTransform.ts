@@ -9,6 +9,8 @@ import { CharacterConditionalsController, ConditionalValueMap, LightConeConditio
 import { Form } from 'types/form'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
 
+const SUNDAY_ID = '1313'
+
 export function transformComboState(request: Form, context: OptimizerContext) {
   // console.log('transformComboState')
 
@@ -198,17 +200,17 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           x.BE.buffTeam(0.30, Source.WatchmakerMasterOfDreamMachinations)
           break
         case SACERDOS_RELIVED_ORDEAL_1_STACK:
-          if (teammateAction.actorId == '1313') {
+          if (teammateAction.actorId == SUNDAY_ID) {
             x.CD.buffDual(0.18, Source.SacerdosRelivedOrdeal)
           } else {
-            x.CD.buff(0.18, Source.SacerdosRelivedOrdeal)
+            x.CD.buffSingle(0.18, Source.SacerdosRelivedOrdeal)
           }
           break
         case SACERDOS_RELIVED_ORDEAL_2_STACK:
-          if (teammateAction.actorId == '1313') {
+          if (teammateAction.actorId == SUNDAY_ID) {
             x.CD.buffDual(0.36, Source.SacerdosRelivedOrdeal)
           } else {
-            x.CD.buff(0.36, Source.SacerdosRelivedOrdeal)
+            x.CD.buffSingle(0.36, Source.SacerdosRelivedOrdeal)
           }
           break
         default:

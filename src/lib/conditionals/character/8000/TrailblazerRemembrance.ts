@@ -1,17 +1,20 @@
 import i18next from 'i18next'
+import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
 import { standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
+  const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -32,6 +35,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // additionally increases the multiplier of the True DMG dealt via "Mem's Support" by 2%, up to a max increase of 20%.
 
   const defaults = {
+    buffPriority: BUFF_PRIORITY_SELF,
     memoSkillHits: 4,
     teamCdBuff: true,
     memsSupport: false,
@@ -51,51 +55,62 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
+    buffPriority: {
+      id: 'buffPriority',
+      formItem: 'select',
+      text: tBuff('Text'),
+      content: tBuff('Content'),
+      options: [
+        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+      ],
+      fullWidth: true,
+    },
     memoSkillHits: {
       id: 'memoSkillHits',
       formItem: 'slider',
-      text: 'Memo Skill hits',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.memoSkillHits.text'),
+      content: t('Content.memoSkillHits.content', { SingleScaling: TsUtils.precisionRound(memoSkillHitScaling * 100), AoeScaling: TsUtils.precisionRound(memoSkillFinalScaling * 100) }),
       min: 0,
       max: 4,
     },
     teamCdBuff: {
       id: 'teamCdBuff',
       formItem: 'switch',
-      text: 'Team CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.teamCdBuff.text'),
+      content: t('Content.teamCdBuff.content', { ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100), FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100) }),
     },
     memsSupport: {
       id: 'memsSupport',
       formItem: 'switch',
-      text: `Mem's Support True DMG`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.memsSupport.text'),
+      content: t('Content.memsSupport.content', { TrueDmgScaling: TsUtils.precisionRound(trueDmgScaling * 100) }),
     },
     energyTrueDmgValue: {
       id: 'energyTrueDmgValue',
       formItem: 'switch',
-      text: 'Max energy True DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.energyTrueDmgValue.text'),
+      content: t('Content.energyTrueDmgValue.content'),
     },
     e1CrBuff: {
       id: 'e1CrBuff',
       formItem: 'switch',
-      text: 'E1 CR buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1CrBuff.text'),
+      content: t('Content.e1CrBuff.content'),
       disabled: e < 1,
     },
     e4TrueDmgBoost: {
       id: 'e4TrueDmgBoost',
       formItem: 'switch',
-      text: `E4 True DMG boost`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4TrueDmgBoost.text'),
+      content: t('Content.e4TrueDmgBoost.content'),
       disabled: e < 4,
     },
     e6UltCrBoost: {
       id: 'e6UltCrBoost',
       formItem: 'switch',
-      text: `E6 Ult CR boost`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6UltCrBoost.text'),
+      content: t('Content.e6UltCrBoost.content'),
       disabled: e < 6,
     },
   }
@@ -105,8 +120,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     memCDValue: {
       id: 'memCDValue',
       formItem: 'slider',
-      text: `Mem's combat CD`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.memCDValue.text'),
+      content: t('TeammateContent.memCDValue.content', {
+        ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100),
+        FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100),
+      }),
       min: 0,
       max: 3.00,
       percent: true,
@@ -122,6 +140,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, Source.NONE)
+    },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -152,7 +175,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.CR.buffDual((m.e1CrBuff) ? 0.10 : 0, Source.NONE)
           x.TRUE_DMG_MODIFIER.buffDual(trueDmg, Source.NONE)
         } else {
-          x.TRUE_DMG_MODIFIER.buff(trueDmg, Source.NONE)
+          x.TRUE_DMG_MODIFIER.buffSingle(trueDmg, Source.NONE)
         }
       }
     },

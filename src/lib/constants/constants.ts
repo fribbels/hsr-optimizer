@@ -2,10 +2,10 @@
 import gameData from 'data/game_data.json'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.0.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.1.1'
 // Represents the beta data content version, used for display but not for update notifications
 
-export const CURRENT_DATA_VERSION = '3.0v5'
+export const CURRENT_DATA_VERSION = '3.1v1'
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -441,6 +441,8 @@ export const SetsOrnaments = {
   ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
   LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
   TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
+  BoneCollectionsSereneDemesne: 'Bone Collection\'s Serene Demesne',
+  GiantTreeOfRaptBrooding: 'Giant Tree of Rapt Brooding',
 } as const
 
 // Delete unreleased data
@@ -693,6 +695,8 @@ export const setToId = {
   [Sets.ForgeOfTheKalpagniLantern]: '316',
   [Sets.LushakaTheSunkenSeas]: '317',
   [Sets.TheWondrousBananAmusementPark]: '318',
+  [Sets.BoneCollectionsSereneDemesne]: '319',
+  [Sets.GiantTreeOfRaptBrooding]: '320',
 } as const
 
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']

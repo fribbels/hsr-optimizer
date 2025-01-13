@@ -1,15 +1,13 @@
-import i18next from 'i18next'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
-
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -41,56 +39,62 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     enhancedSkill: {
       id: 'enhancedSkill',
       formItem: 'switch',
-      text: 'Enhanced Skill',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.enhancedSkill.text'),
+      content: t('Content.enhancedSkill.content'),
     },
     eruditionTeammate: {
       id: 'eruditionTeammate',
       formItem: 'switch',
-      text: 'Erudition teammate',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.eruditionTeammate.text'),
+      content: t('Content.eruditionTeammate.content', {
+        PrimaryScalingBonus: TsUtils.precisionRound(talentStackScaling * 100),
+        AdjacentScalingBonus: TsUtils.precisionRound(talentStackScaling * 0.5 * 100),
+      }),
     },
     ultAtkBuff: {
       id: 'ultAtkBuff',
       formItem: 'switch',
-      text: 'Ult ATK buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ultAtkBuff.text'),
+      content: t('Content.ultAtkBuff.content', { AtkBuff: TsUtils.precisionRound(ultAtkBuffScaling * 100) }),
     },
     interpretationStacks: {
       id: 'interpretationStacks',
       formItem: 'slider',
-      text: 'Interpretation stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.interpretationStacks.text'),
+      content: t('Content.interpretationStacks.content', {
+        PrimaryScalingBonus: TsUtils.precisionRound(talentStackScaling * 100),
+        AdjacentScalingBonus: TsUtils.precisionRound(talentStackScaling * 0.5 * 100),
+      }),
       min: 1,
       max: 42,
     },
     totalInterpretationStacks: {
       id: 'totalInterpretationStacks',
       formItem: 'slider',
-      text: 'Total stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.totalInterpretationStacks.text'),
+      content: t('Content.totalInterpretationStacks.content'),
       min: 1,
       max: 99,
     },
     e1BonusStacks: {
       id: 'e1BonusStacks',
       formItem: 'switch',
-      text: 'E1 bonus stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1BonusStacks.text'),
+      content: t('Content.e1BonusStacks.content'),
       disabled: e < 1,
     },
     e4EruditionSpdBuff: {
       id: 'e4EruditionSpdBuff',
       formItem: 'switch',
-      text: 'E4 Erudition SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4EruditionSpdBuff.text'),
+      content: t('Content.e4EruditionSpdBuff.content'),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6Buffs.text'),
+      content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
   }

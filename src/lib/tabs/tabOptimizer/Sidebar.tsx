@@ -477,15 +477,14 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
         <MemoViewSelect isFullSize={props.isFullSize}/>
       </Flex>
 
-      {!props.isFullSize &&
-        (
-          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-            <HeaderText>Compute engine</HeaderText>
-            <ComputeEngineSelect/>
-            <ProgressDisplay/>
-          </Flex>
-        )
-      }
+      {!props.isFullSize
+      && (
+        <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+          <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
+          <ComputeEngineSelect/>
+          <ProgressDisplay/>
+        </Flex>
+      )}
     </Flex>
   )
 }
@@ -521,7 +520,7 @@ function StatsViewSelect() {
 }
 
 function MemoViewSelect(props: { isFullSize: boolean }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.StatViewGroup' })
 
   const memoDisplay = window.store((s) => s.memoDisplay)
   const setMemoDisplay = window.store((s) => s.setMemoDisplay)
@@ -542,14 +541,14 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
       style={{ width: '100%', display: hasMemo || !props.isFullSize ? 'flex' : 'none' }}
     >
       <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='summoner'>
-        Summoner
+        {t('SummonerStats')/* Summoner */}
       </Radio>
       <Radio
         style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
         value='memo'
         defaultChecked
       >
-        Memosprite
+        {t('MemospriteStats')/* Memosprite */}
       </Radio>
     </Radio.Group>
   )

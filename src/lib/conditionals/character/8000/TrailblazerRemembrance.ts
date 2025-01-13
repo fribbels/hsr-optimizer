@@ -13,7 +13,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
 
@@ -69,48 +69,48 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     memoSkillHits: {
       id: 'memoSkillHits',
       formItem: 'slider',
-      text: 'Memo Skill hits',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.memoSkillHits.text'),
+      content: t('Content.memoSkillHits.content', { SingleScaling: TsUtils.precisionRound(memoSkillHitScaling * 100), AoeScaling: TsUtils.precisionRound(memoSkillFinalScaling * 100) }),
       min: 0,
       max: 4,
     },
     teamCdBuff: {
       id: 'teamCdBuff',
       formItem: 'switch',
-      text: 'Team CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.teamCdBuff.text'),
+      content: t('Content.teamCdBuff.content', { ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100), FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100) }),
     },
     memsSupport: {
       id: 'memsSupport',
       formItem: 'switch',
-      text: `Mem's Support True DMG`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.memsSupport.text'),
+      content: t('Content.memsSupport.content', { TrueDmgScaling: TsUtils.precisionRound(trueDmgScaling * 100) }),
     },
     energyTrueDmgValue: {
       id: 'energyTrueDmgValue',
       formItem: 'switch',
-      text: 'Max energy True DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.energyTrueDmgValue.text'),
+      content: t('Content.energyTrueDmgValue.content'),
     },
     e1CrBuff: {
       id: 'e1CrBuff',
       formItem: 'switch',
-      text: 'E1 CR buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1CrBuff.text'),
+      content: t('Content.e1CrBuff.content'),
       disabled: e < 1,
     },
     e4TrueDmgBoost: {
       id: 'e4TrueDmgBoost',
       formItem: 'switch',
-      text: `E4 True DMG boost`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4TrueDmgBoost.text'),
+      content: t('Content.e4TrueDmgBoost.content'),
       disabled: e < 4,
     },
     e6UltCrBoost: {
       id: 'e6UltCrBoost',
       formItem: 'switch',
-      text: `E6 Ult CR boost`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6UltCrBoost.text'),
+      content: t('Content.e6UltCrBoost.content'),
       disabled: e < 6,
     },
   }
@@ -120,8 +120,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     memCDValue: {
       id: 'memCDValue',
       formItem: 'slider',
-      text: `Mem's combat CD`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.memCDValue.text'),
+      content: t('TeammateContent.memCDValue.content', {
+        ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100),
+        FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100),
+      }),
       min: 0,
       max: 3.00,
       percent: true,

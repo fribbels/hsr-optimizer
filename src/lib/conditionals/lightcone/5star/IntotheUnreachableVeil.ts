@@ -1,15 +1,14 @@
-import i18next from 'i18next'
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IntotheUnreachableVeil')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IntoTheUnreachableVeil')
 
   const sValuesDmgBoost = [0.60, 0.70, 0.80, 0.90, 1.00]
 
@@ -22,8 +21,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'skillUltDmgBoost',
       formItem: 'switch',
-      text: 'Skill / Ult DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.skillUltDmgBoost.text'),
+      content: t('Content.skillUltDmgBoost.content', { DmgBuff: TsUtils.precisionRound(sValuesDmgBoost[s] * 100) }),
     },
   }
 

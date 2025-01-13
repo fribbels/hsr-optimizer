@@ -177,11 +177,17 @@ Characters:
     Name: 乱破
     LongName: 乱破
   "1401":
-    Name: The Herta
-    LongName: The Herta
+    Name: 大黑塔
+    LongName: 大黑塔
   "1402":
-    Name: Aglaea
-    LongName: Aglaea
+    Name: 阿格莱雅
+    LongName: 阿格莱雅
+  "1403":
+    Name: Tribbie
+    LongName: Tribbie
+  "1404":
+    Name: Mydei
+    LongName: Mydei
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -201,11 +207,11 @@ Characters:
     Name: 星
     LongName: 星 (同谐)
   "8007":
-    Name: Caelus
-    LongName: Caelus (Remembrance)
+    Name: 穹
+    LongName: 穹 (记忆)
   "8008":
-    Name: Stelle
-    LongName: Stelle (Remembrance)
+    Name: 星
+    LongName: 星 (记忆)
 RelicSets:
   "101":
     Name: 云无留迹的过客
@@ -296,13 +302,13 @@ RelicSets:
     Description2pc: 暴击率提高8%。
     Description4pc: 战技和终结技造成的伤害提高20%，施放终结技后，下一次施放战技时造成的伤害额外提高25%。
   "123":
-    Name: Hero of Triumphant Song
-    Description2pc: Increases ATK by 12%.
-    Description4pc: While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by 30% for 2 turn(s).
+    Name: 凯歌祝捷的英豪
+    Description2pc: 攻击力提高12%。
+    Description4pc: 装备者的忆灵在场时，装备者的速度提高6%，装备者的忆灵攻击时，装备者和忆灵的暴击伤害提高30%，持续2回合。
   "124":
-    Name: Poet of Mourning Collapse
-    Description2pc: Increases Quantum DMG dealt by 10%.
-    Description4pc: Decreases the wearer's SPD by 12%. When entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/40%. This effect also applies to the wearer's memosprite.
+    Name: 哀歌覆国的诗人
+    Description2pc: 量子属性伤害提高10%。
+    Description4pc: 使装备者的速度降低8%。进入战斗前，若装备者的速度小于110/95，使装备者的暴击率提高20%/32%。该效果同时对装备者的忆灵生效。
   "301":
     Name: 太空封印站
     Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。
@@ -357,6 +363,12 @@ RelicSets:
   "318":
     Name: 奇想蕉乐园
     Description2pc: 使装备者的暴击伤害提高16%，当存在装备者召唤的目标时，暴击伤害额外提高32%。
+  "319":
+    Name: Bone Collection's Serene Demesne
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+  "320":
+    Name: Giant Tree of Rapt Brooding
+    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%.
 Lightcones:
   "20000":
     Name: 锋镝
@@ -401,9 +413,9 @@ Lightcones:
   "20020":
     Name: 睿见
   "20021":
-    Name: Shadowburn
+    Name: 焚影
   "20022":
-    Name: Reminiscence
+    Name: 溯忆
   "21000":
     Name: 一场术后对话
   "21001":
@@ -503,11 +515,11 @@ Lightcones:
   "21048":
     Name: 梦的蒙太奇
   "21050":
-    Name: Victory In a Blink
+    Name: 胜利只在朝夕间
   "21051":
-    Name: Geniuses' Greetings
+    Name: 天才们的问候
   "21052":
-    Name: Sweat Now, Cry Less
+    Name: 多流汗，少流泪
   "22000":
     Name: 新手任务开始前
   "22001":
@@ -589,9 +601,13 @@ Lightcones:
   "23035":
     Name: 长路终有归途
   "23036":
-    Name: Time Woven Into Gold
+    Name: 将光阴织成黄金
   "23037":
-    Name: Into the Unreachable Veil
+    Name: 向着不可追问处
+  "23038":
+    Name: If Time Were a Flower
+  "23039":
+    Name: Flame of Blood, Blaze My Path
   "24000":
     Name: 记一位星神的陨落
   "24001":
@@ -602,6 +618,8 @@ Lightcones:
     Name: 孤独的疗愈
   "24004":
     Name: 不息的演算
+  "24005":
+    Name: The Curtain Never Falls on Memories
 Paths:
   Warrior: 毁灭
   Rogue: 巡猎
@@ -610,6 +628,7 @@ Paths:
   Warlock: 虚无
   Knight: 存护
   Priest: 丰饶
+  Memory: 记忆
   Unknown: 通用
   Remembrance: Remembrance
 Elements:

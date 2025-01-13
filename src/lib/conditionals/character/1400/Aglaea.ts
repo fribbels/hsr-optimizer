@@ -12,7 +12,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
 
@@ -60,35 +60,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     supremeStanceState: {
       id: 'supremeStanceState',
       formItem: 'switch',
-      text: 'Supreme Stance state',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.supremeStanceState.text'),
+      content: t('Content.supremeStanceState.content', { SpdBuff: ultSpdBoost }),
     },
     seamStitch: {
       id: 'seamStitch',
       formItem: 'switch',
-      text: 'Seam Stitch',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.seamStitch.text'),
+      content: t('Content.seamStitch.content', { Scaling: TsUtils.precisionRound(talentAdditionalDmg * 100) }),
     },
     memoSpdStacks: {
       id: 'memoSpdStacks',
       formItem: 'slider',
-      text: 'Memo SPD stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.memoSpdStacks.text'),
+      content: t('Content.memoSpdStacks.content', { SpdBuff: memoTalentSpd, StackLimit: memoSpdStacksMax }),
       min: 0,
       max: memoSpdStacksMax,
     },
     e1Vulnerability: {
       id: 'e1Vulnerability',
       formItem: 'switch',
-      text: 'E1 vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1Vulnerability.text'),
+      content: t('Content.e1Vulnerability.content'),
       disabled: e < 1,
     },
     e2DefShredStacks: {
       id: 'e2DefShredStacks',
       formItem: 'slider',
-      text: 'E2 DEF PEN stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e2DefShredStacks.text'),
+      content: t('Content.e2DefShredStacks.content'),
       min: 1,
       max: 3,
       disabled: e < 2,
@@ -96,8 +96,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6Buffs.text'),
+      content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
   }

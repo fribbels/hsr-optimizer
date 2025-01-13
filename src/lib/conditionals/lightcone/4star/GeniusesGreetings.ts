@@ -1,13 +1,12 @@
-import i18next from 'i18next'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.GeniusesGreetings')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.GeniusesGreetings')
 
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
 
@@ -20,8 +19,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'basicDmgBoost',
       formItem: 'switch',
-      text: 'Basic DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.basicDmgBoost.text'),
+      content: t('Content.basicDmgBoost.content', { DmgBuff: TsUtils.precisionRound(sValues[s] * 100) }),
     },
   }
 

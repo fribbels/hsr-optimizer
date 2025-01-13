@@ -1,5 +1,10 @@
 BetaMessage: "当前版本：{{Version}} - 计算结果可能会发生变化。"
 Common:
+  BuffPriority:
+    Text: "增益优先目标"
+    Content: "选择优先获得单体增益的目标"
+    Self: "增益优先级：自身"
+    Memo: "增益优先级：忆灵"
   HealAbility:
     Text: "治疗技能"
     Content: "选择用于计算治疗量的技能"
@@ -364,6 +369,10 @@ Lightcones:
       ultDmgBuff:
         text: 施放终结技后伤害增益
         content: 装备者施放终结技后，造成的伤害提高{{DmgBuff}}%，持续1回合。
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: 普攻伤害提高
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -495,6 +504,10 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: 消灭敌人后暴击率增益
         content: 当装备者消灭敌方目标后，暴击率提高{{CritBuff}}%，持续3回合。
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: 队伍伤害增益
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -614,6 +627,10 @@ Characters:
         text: 6魂终结技增益
         content: >-
           黄泉造成的终结技伤害全属性抗性穿透提高20%，施放普攻、战技造成的伤害同时视为终结技伤害，并无视弱点属性削减敌方韧性。击破弱点时，触发雷属性的弱点击破效果。
+  Aglaea:
+    Content:
+      e6Buffs:
+        text: 6魂增益
   Argenti:
     Content:
       ultEnhanced:
@@ -709,6 +726,10 @@ Characters:
         text: 1魂属性抗性降低
         content: >-
           1魂：当黑天鹅处于可战斗状态时，处于风化、裂伤、灼烧、触电状态下的敌方目标对应的风、物理、火、雷属性抗性分别降低25%。
+      e4EffResPen:
+        text: 4魂效果抵抗降低
+        content: >-
+          4魂：【揭露】状态下，敌方目标效果抵抗降低10%。
   Blade:
     Content:
       enhancedStateActive:
@@ -1495,6 +1516,14 @@ Characters:
       e2DmgReductionBuff:
         text: 2魂减伤增益
         content: "2魂：触发【剑势】后，素裳受到的伤害降低20%，持续1回合。"
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: 强化战技
+      ultAtkBuff:
+        text: 终结技攻击力增益
+      e6Buffs:
+        text: 6魂增益
   Tingyun:
     Content:
       benedictionBuff:

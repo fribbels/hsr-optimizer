@@ -60,42 +60,48 @@ RelicGrid:
     SelectedCharacter:
       Label: 選択したキャラクター
       ScoreCol:
-        Label: "選択したキャラクターのスコア"
+        Label: "選択キャラ：遺物スコア"
         Header: |-
           選択キャラ
           のスコア
       AvgPotCol:
-        Label: "選択したキャラクターの平均ポテンシャル"
+        Label: "選択キャラ：平均遺物ポテンシャル"
         Header: |-
           選択キャラの平
           均ポテンシャル
       MaxPotCol:
-        Label: "選択したキャラクターの最大ポテンシャル"
+        Label: "選択キャラ：最大遺物ポテンシャル"
         Header: |-
           選択キャラの最
           大ポテンシャル
+      RerollAvg:
+        Label: "選択キャラ：リロール後の平均遺物ポテンシャル"
     CustomCharacters:
-      Label: 指定したキャラクター
+      Label: 指定した複数キャラクター
       AvgPotCol:
-        Label: "指定した対象の平均ポテンシャル"
+        Label: "指定対象：平均遺物ポテンシャル"
         Header: |-
           指定対象の平均ポテンシャル
       MaxPotCol:
-        Label: "指定した対象の最大ポテンシャル"
+        Label: "指定対象：最大遺物ポテンシャル"
         Header: |-
           指定対象の最大ポテンシャル
+      RerollAvg:
+        Label: "指定対象：リロール後の平均遺物ポテンシャル"
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:
-        Label: "全キャラクターの平均ポテンシャル"
+        Label: "全キャラ：平均遺物ポテンシャル"
         Header: |-
           全キャラの平均
           ポテンシャル
       MaxPotCol:
-        Label: "全キャラクターの最大ポテンシャル"
+        Label: "全キャラ：最大遺物ポテンシャル"
         Header: |-
           全キャラの最大
           ポテンシャル
+      RerollAvg:
+        Label: "全キャラ：リロール後の平均遺物ポテンシャル"
     ComingSoon:
       Label: 近日公開
       SetsPotential:

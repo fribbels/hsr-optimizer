@@ -182,6 +182,12 @@ Characters:
   "1402":
     Name: Aglaea
     LongName: Aglaea
+  "1403":
+    Name: Tribbie
+    LongName: Tribbie
+  "1404":
+    Name: Mydei
+    LongName: Mydei
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -254,7 +260,7 @@ RelicSets:
   "112":
     Name: Wastelander of Banditry Desert
     Description2pc: Increases Imaginary DMG by 10%.
-    Description4pc: When attacking debuffed enemies, the wearer's CRIT Rate increases by 10%, and their CRIT DMG increases by 20% against Imprisoned enemies.
+    Description4pc: When dealing DMG to debuffed enemy targets, the wearer has their CRIT Rate increased by 10%. And when they deal DMG to Imprisoned enemy targets, their CRIT DMG increases by 20%.
   "113":
     Name: Longevous Disciple
     Description2pc: Increases Max HP by 12%.
@@ -302,7 +308,7 @@ RelicSets:
   "124":
     Name: Poet of Mourning Collapse
     Description2pc: Increases Quantum DMG dealt by 10%.
-    Description4pc: Decreases the wearer's SPD by 12%. When entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/40%. This effect also applies to the wearer's memosprite.
+    Description4pc: Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect also applies to the wearer's memosprite.
   "301":
     Name: Space Sealing Station
     Description2pc: Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.
@@ -357,6 +363,12 @@ RelicSets:
   "318":
     Name: The Wondrous BananAmusement Park
     Description2pc: Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%.
+  "319":
+    Name: Bone Collection's Serene Demesne
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+  "320":
+    Name: Giant Tree of Rapt Brooding
+    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%.
 Lightcones:
   "20000":
     Name: Arrows
@@ -592,6 +604,10 @@ Lightcones:
     Name: Time Woven Into Gold
   "23037":
     Name: Into the Unreachable Veil
+  "23038":
+    Name: If Time Were a Flower
+  "23039":
+    Name: Flame of Blood, Blaze My Path
   "24000":
     Name: On the Fall of an Aeon
   "24001":
@@ -602,6 +618,8 @@ Lightcones:
     Name: Solitary Healing
   "24004":
     Name: Eternal Calculus
+  "24005":
+    Name: The Curtain Never Falls on Memories
 Paths:
   Warrior: Destruction
   Rogue: The Hunt
@@ -610,6 +628,7 @@ Paths:
   Warlock: Nihility
   Knight: Preservation
   Priest: Abundance
+  Memory: Remembrance
   Unknown: General
   Remembrance: Remembrance
 Elements:

@@ -43,7 +43,7 @@ SortOptions:
   EHR: "Trié par $t(common:ReadableStats.Effect Hit Rate)"
   RES: "Trié par $t(common:ReadableStats.Effect RES)"
   BE: "Trié par $t(common:ReadableStats.Break Effect)"
-  OHB: "Trié par $t(common:ReadableStats.Outgoing Healing Boost))"
+  OHB: "Trié par $t(common:ReadableStats.Outgoing Healing Boost)"
   ERR: "Trié par $t(common:ReadableStats.Energy Regeneration Rate)"
   DMG: Trié par DGT Élémentaire
   EHP: Trié par PV Effectif
@@ -123,7 +123,7 @@ Grid:
         ADS
       MEMO_SKILL: |-
         DGT
-        COMPᴹ
+        MNÉM
       DOT: |-
         DGT
         DSD
@@ -389,7 +389,7 @@ MinMaxFilters:
   SKILLLabel: COMP.
   ULTLabel: ULT
   FUALabel: ADS
-  MEMOSKILLLabel: COMPᴹ
+  MEMOSKILLLabel: MNÉM
   DOTLabel: DSD
   BREAKLabel: RUPTURE
   HEALLabel: SOIN
@@ -413,7 +413,7 @@ ComboFilter:
     Skill: Comp
     Ult: Ult
     Fua: Ads
-    MemoSkill: Compᴹ
+    MemoSkill: Mném
   RotationButton: Rotation avancée
 ComboDrawer:
   NoConditionals: Pas de passifs conditionnels

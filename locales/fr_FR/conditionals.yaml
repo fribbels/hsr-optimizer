@@ -1,5 +1,10 @@
 BetaMessage: "Version actuelle : {{Version}} - Les calculs sont susceptibles de changer."
 Common:
+  BuffPriority:
+    Text: "Cible de buff"
+    Content: "Sélectionnez la cible préférée pour les buffs à cible unique"
+    Self: "Cible de buff: Soi-même"
+    Memo: "Cible de buff: mnémesprit"
   HealAbility:
     Text: "Capacité de soins"
     Content: "Sélectionnez la capacité pour les calculs de soins"
@@ -260,6 +265,10 @@ Lightcones:
     Content:
       ultDmgBuff:
         text: Bonus de DGT post-ULT
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: Bonus de DGT de Basique
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -362,6 +371,10 @@ Lightcones:
     Content:
       defeatedEnemyCrBuff:
         text: Bonus de TC ennemi vaincu
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: Bonus d'équipe de DGT
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -451,6 +464,10 @@ Characters:
         text: 'E4: Vulnérabilité d''ULT'
       e6UltBuffs:
         text: 'E6: Bonus d''ULT'
+  Aglaea:
+    Content:
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Argenti:
     Content:
       ultEnhanced:
@@ -515,6 +532,8 @@ Characters:
         text: Cumuls d'Arcanes
       e1ResReduction:
         text: 'E1: Réduction de DÉF'
+      e4EffResPen:
+        text: 'E4: Réduction de RAE'
   Blade:
     Content:
       enhancedStateActive:
@@ -715,6 +734,7 @@ Characters:
         text: 'E2: Bonus de DGT ennemi PV ≤ 50%'
       e6UltExtraHits:
         text: 'E6: Coups bonus de l''ULT'
+        content: "E6: Ultime inflige 2 coups supplémentaires. Chaque coup inflige 40% des dégâts originaux."
   Hook:
     Content:
       enhancedSkill:
@@ -1033,6 +1053,14 @@ Characters:
         text: Cumuls de bonus de VIT du talent
       e2DmgReductionBuff:
         text: 'E2: Réduction de dégâts'
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: Compétence améliorée
+      ultAtkBuff:
+        text: Bonus d'ATQ de l'ULT
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Tingyun:
     Content:
       benedictionBuff:

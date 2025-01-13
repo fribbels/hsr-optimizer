@@ -1583,10 +1583,28 @@ Characters:
         content: Após usar a Ultimate, A Herta imediamente toma ação e ganha 1 acúmulo de "Inspiração". "Inspiração" pode acúmular até 4 vezes. Enquanto tiver "Inspiração", aprimora a Perícia para "Ouça-Me"
       eruditionTeammate:
         text: Colega de Equipe Erudição
+        content: >-
+          Quando o alvo principal da Habilidade Melhorada tem "Interpretação", o multiplicador de DMG aumenta, com cada acúmulo concedendo um aumento de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente. ::BR:: Se 2 ou mais personagens seguirem o caminho da Erudição na equipe, cada acúmulo concede um aumento adicional de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente ::BR:: A4: Ao entrar em combate, se a equipe tem 2 ou mais personagens seguirem o caminho de Erudição, aumenta o CRIT DMG de todos os aliados em 80%
       ultAtkBuff:
         text: Buff de ATK da Ultimate
+        content: >-
+          Ao usar Ultimate, aumenta o ATK de The Herta em {{AtkBuff}}%, durando 3 turnos.
+      interpretationStacks:
+        text: Acúmulos de Interpretação
+        content: >-
+          Quando o alvo principal da Habilidade Melhorada tem "Interpretação", o multiplicador de DMG aumenta, com cada acúmulo concedendo um aumento de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente. ::BR:: Se 2 ou mais personagens seguirem o caminho da Erudição na equipe, cada acúmulo concede um aumento adicional de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente ::BR:: E1: Quando a Perícia Aprimorada calcula "Interpretação", adicionalmente se calcula 50% dos acúmulos de "Interpretação" no 1 alvo com a maior quantidade de acúmulos entre o alvo primário e alvos adjacentes.
+      totalInterpretationStacks:
+        text: Acúmulos de Resposta
+        content: Para cada 1 acúmulo de "Interpretação" infligido em alvos inimigos, A Herta ganha 1 acúmulo de "Resposta", até 99 acúmulos. Ao usar a Ultimate, cada acúmulo de "Resposta" aumenta o multiplicador da Ultimate em 1%.
+      e1BonusStacks:
+        text: E1 acúmulos bônus
+        content: Quando Perícia Aprimorada calcula "Interpretação", adicionalmente calcula 50% dos acúmulos de "Interpretação" no 1 alvo com o maior número de acúmulos entre o alvo primário e os adjacentes.
+      e4EruditionSpdBuff:
+        text: E4 Buff de SPD Erudição
+        content: A SPD de personagens seguindo o Caminho da Erudição na equipe aumenta em 12%.
       e6Buffs:
         text: Buffs E6
+        content: Aumento de 20% na RES PEN de Gelo da A Herta. Quando o número de alvos inimigos no campo for 3 (ou mais)/2/1, o DMG da Ult multiplica por 140%/250%/400%.
   Tingyun:
     Content:
       benedictionBuff:
@@ -1664,6 +1682,23 @@ Characters:
         content: "E6: Aumenta a DEF em 10% por acúmulo."
   TrailblazerRemembrance:
     Content:
+      memoSkillHits:
+        text: Perícia do Memo acerta
+        content: >-
+          Da 4 instâncias de DMG, com cada instância dando DMG de Gelo igual a {{SingleScaling}}% do ATQ do Memo a um inimigo aleatório. Finalmente, da DMG de Gelo igual a {{AoeScaling}}% do ATQ do Memo a todos os inimigos.
+      teamCdBuff:
+        text: Buff de CD da Equipe
+        content: >-
+          Aumenta o CRIT DMG de todos os aliados em {{ScalingBuff}}% do CRIT DMG do Memo mais {{FlatBuff}}%.
+      memsSupport:
+        text: >-
+          Dano Real do Apoio do Memo
+        content: >-
+          Avança a ação de um alvo designado em 100% e lhe concede "Suporte do Memo", durando 3 turnos. Para cada 1 instância de DMG dano pelo alvo que tem "Suporte do Memo", adicionalmente da 1 instância de DMG Real igual a {{TrueDmgScaling}}% do DMG original. ::BR:: E1: Quando o aliado tiver "Suporte do Memo", seus efeitos também tem efeito no Memosprite/Memomestre. ::BR:: E4: Quando um aliado com 0 de Energia Máxima ativamente usar uma habilidade, Memo também pode ganhar 3% def Carga, e o multiplicador de DMG Real dado por este alvo através do "Suporte do Memo" adicionalmente aumenta em 6%.
+      energyTrueDmgValue:
+        text: Dano Real da Energia Máxima
+        content: >-
+          Quando a Energia Máxima do aliado alvo tiver "Suporte do Memo" exceder 100, para cada 10 de Energia excessiva, adicionalmente aumenta o multiplicador de DMG Real dano através de "Suporte do Memo" em 2%, até o máximo de 20%.
       e1CrBuff:
         text: E1 buff de CR
         content: >-

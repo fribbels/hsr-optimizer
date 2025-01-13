@@ -1926,6 +1926,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -5756,6 +5757,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.ATK_P,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -7131,7 +7133,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
       presets: [],
-      sortOption: SortOption.BASIC,
+      sortOption: SortOption.FUA,
       hiddenColumns: [],
       simulation: {
         parts: {
@@ -7298,7 +7300,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             characterId: '1203', // Luocha
             lightCone: '23008', // Coffin
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
         ],
       },

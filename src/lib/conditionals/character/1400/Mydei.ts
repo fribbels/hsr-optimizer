@@ -1,6 +1,9 @@
-import { gpuStandardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import i18next from 'i18next'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -8,79 +11,79 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
 
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0.70, 0.77)
-  const enhancedSkillScaling = skill(e, 0.80, 0.88)
-  const enhancedSkillAoeScaling = skill(e, 0.40, 0.44)
-  const talentStackScaling = talent(e, 0.08, 0.088)
+  const basicScaling = basic(e, 0.50, 0.55)
 
-  const ultScaling = ult(e, 2.00, 2.20)
-  const ultAtkBuffScaling = ult(e, 0.80, 0.88)
+  const skillScaling = skill(e, 0.90, 0.99)
+  const skillEnhancedScaling = skill(e, 1.00, 1.10)
+  const skillEnhancedLostHpScaling = skill(e, 1.00, 1.10)
 
-  const defaults = {}
+  const ultScaling = ult(e, 1.60, 1.728)
+
+  const defaults = {
+    skillEnhances: 2,
+    vendettaState: true,
+    hpToCrConversion: true,
+    hpLossTally: 1.80,
+    e1DefPen: true,
+    e4CdBuff: true,
+    e6Buffs: true,
+  }
 
   const teammateDefaults = {}
 
   const content: ContentDefinition<typeof defaults> = {
-    // enhancedSkill: {
-    //   id: 'enhancedSkill',
-    //   formItem: 'switch',
-    //   text: 'Enhanced Skill',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    // },
-    // eruditionTeammate: {
-    //   id: 'eruditionTeammate',
-    //   formItem: 'switch',
-    //   text: 'Erudition teammate',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    // },
-    // ultAtkBuff: {
-    //   id: 'ultAtkBuff',
-    //   formItem: 'switch',
-    //   text: 'Ult ATK buff',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    // },
-    // interpretationStacks: {
-    //   id: 'interpretationStacks',
-    //   formItem: 'slider',
-    //   text: 'Interpretation stacks',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    //   min: 1,
-    //   max: 42,
-    // },
-    // totalInterpretationStacks: {
-    //   id: 'totalInterpretationStacks',
-    //   formItem: 'slider',
-    //   text: 'Total stacks',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    //   min: 1,
-    //   max: 99,
-    // },
-    // e1AdjacentStacks: {
-    //   id: 'e1AdjacentStacks',
-    //   formItem: 'slider',
-    //   text: 'E1 adjacent stacks',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    //   min: 1,
-    //   max: 42,
-    //   disabled: e < 1,
-    // },
-    // e4EruditionSpdBuff: {
-    //   id: 'e4EruditionSpdBuff',
-    //   formItem: 'switch',
-    //   text: 'E4 Erudition SPD buff',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    //   disabled: e < 4,
-    // },
-    // e6Buffs: {
-    //   id: 'e6Buffs',
-    //   formItem: 'switch',
-    //   text: 'E6 buffs',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    //   disabled: e < 6,
-    // },
+    skillEnhances: {
+      id: 'skillEnhances',
+      formItem: 'slider',
+      text: 'Skill Enhances',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 2,
+    },
+    vendettaState: {
+      id: 'vendettaState',
+      formItem: 'switch',
+      text: 'Vendetta state',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    hpToCrConversion: {
+      id: 'hpToCrConversion',
+      formItem: 'switch',
+      text: 'HP to CR conversion',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    hpLossTally: {
+      id: 'hpLossTally',
+      formItem: 'slider',
+      text: 'HP loss tally',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      percent: true,
+      min: 0,
+      max: 1.80,
+    },
+    e1DefPen: {
+      id: 'e1DefPen',
+      formItem: 'switch',
+      text: 'E1 DEF PEN',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 1,
+    },
+    e4CdBuff: {
+      id: 'e4CdBuff',
+      formItem: 'switch',
+      text: 'E4 CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 4,
+    },
+    e6Buffs: {
+      id: 'e6Buffs',
+      formItem: 'switch',
+      text: 'E6 buffs',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 6,
+    },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {}
@@ -91,37 +94,138 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // const r = action.characterConditionals as Conditionals<typeof content>
-      //
-      // x.ATK_P.buff((r.ultAtkBuff) ? ultAtkBuffScaling : 0, Source.NONE)
-      //
-      // x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      //
-      // const e6DamageMultiplier = context.enemyCount == 1 ? 4.00 : 1.40
-      // x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01 + (e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), Source.NONE)
-      //
-      // const enhancedSkillStackScaling = talentStackScaling
-      //   * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.50)
-      //   * (r.eruditionTeammate ? 2 : 1)
-      // x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), Source.NONE)
-      // x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= 42) ? 0.50 : 0, Source.NONE)
-      // x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, Source.NONE)
-      //
-      // x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      // x.SKILL_TOUGHNESS_DMG.buff((r.enhancedSkill) ? 75 : 60, Source.NONE)
-      // x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // const m = action.characterConditionals as Conditionals<typeof teammateContent>
-      //
-      // x.CD.buff((m.eruditionTeammate ? 0.80 : 0), Source.NONE)
-      // x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.12 : 0, Source.NONE)
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+
+      x.SKILL_SCALING.buff((r.skillEnhances > 0) ? skillEnhancedScaling : skillScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+
+      x.DEF_PEN.buff((e >= 1 && r.e1DefPen && r.vendettaState) ? 0.12 : 0, Source.NONE)
+
+      x.CD.buff((e >= 4 && r.e4CdBuff) ? 0.30 : 0, Source.NONE)
+
+      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 90 : 60, Source.NONE)
+      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // standardAtkFinalizer(x)
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      if (r.vendettaState) {
+        x.DEF.set(0, Source.NONE)
+      }
+
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], Source.NONE)
+      x.SKILL_DMG.buff((r.skillEnhances == 2) ? r.hpLossTally * x.a[Key.HP] * skillEnhancedLostHpScaling : 0, Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardAtkFinalizer()
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      return `
+if (${wgslTrue(r.vendettaState)}) {
+  x.DEF = 0;
+}
+x.BASIC_DMG += x.BASIC_SCALING * x.HP;
+x.SKILL_DMG += x.SKILL_SCALING * x.HP;
+x.ULT_DMG += x.ULT_SCALING * x.HP;
+`
     },
+    dynamicConditionals: [
+      {
+        id: 'MydeiHpConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.HP],
+        ratioConversion: true,
+        condition: function () {
+          return true
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          if (!r.vendettaState) {
+            return
+          }
+
+          const maxHpConversion = 0.50 + ((e >= 6 && r.e6Buffs) ? 1.00 : 0)
+
+          const stateValue = action.conditionalState[this.id] || 0
+          const convertibleHpValue = x.a[Key.HP] - x.a[Key.RATIO_BASED_HP_BUFF]
+
+          const buffHP = maxHpConversion * convertibleHpValue
+          const stateBuffHP = maxHpConversion * stateValue
+
+          action.conditionalState[this.id] = x.a[Key.HP]
+
+          const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
+          x.a[Key.RATIO_BASED_HP_BUFF] += finalBuffHp
+
+          x.HP.buffDynamic(finalBuffHp, Source.NONE, action, context)
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          const maxHpConversion = 0.50 + ((e >= 6 && r.e6Buffs) ? 1.00 : 0)
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.vendettaState)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).MydeiHpConditional;
+let convertibleHpValue: f32 = (*p_x).HP - (*p_x).RATIO_BASED_HP_BUFF;
+
+var buffHP: f32 = ${maxHpConversion} * convertibleHpValue;
+var stateBuffHP: f32 = ${maxHpConversion} * stateValue;
+
+(*p_state).MydeiHpConditional = (*p_x).HP;
+
+let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
+(*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
+
+buffNonRatioDynamicHP(finalBuffHp, p_x, p_m, p_state);
+    `)
+        },
+      },
+      {
+        id: 'MydeiConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.HP],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.hpToCrConversion && x.a[Key.HP] > 5000
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const stateValue = action.conditionalState[this.id] || 0
+          const buffValue = Math.min(0.48, 0.016 * Math.floor((x.a[Key.HP] - 5000) / 100))
+
+          action.conditionalState[this.id] = buffValue
+          x.CR.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+
+          return buffValue
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return conditionalWgslWrapper(this, `
+if (${wgslFalse(r.hpToCrConversion)}) {
+  return;
+}
+let hp = (*p_x).HP;
+let stateValue: f32 = (*p_state).MydeiConversionConditional;
+
+if (hp > 5000) {
+  let buffValue: f32 = min(0.48, 0.016 * floor((hp - 5000) / 100));
+
+  (*p_state).MydeiConversionConditional = buffValue;
+  buffDynamicCR(buffValue - stateValue, p_x, p_m, p_state);
+}
+    `)
+        },
+      },
+    ],
   }
 }

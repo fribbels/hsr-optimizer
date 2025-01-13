@@ -122,6 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         * ((e >= 1 && r.e1AdditionalDmg) ? 1.20 * 2 : 1)
       x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.NONE)
       x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.NONE)
+      x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.NONE)
 
       x.ELEMENTAL_DMG.buff(r.talentFuaStacks * 0.72, Source.NONE)
 

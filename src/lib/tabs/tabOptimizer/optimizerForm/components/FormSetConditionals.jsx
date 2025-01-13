@@ -426,6 +426,18 @@ export function FormSetConditionals() {
             description={t('PlanarDescription', { id: 318 })}
             conditional={t('Conditionals.Banana')} // 'The selected buff is applied to damage calculations.'
           />
+          <ConditionalSetOption
+            set={Constants.Sets.BoneCollectionsSereneDemesne}
+            description={t('PlanarDescription', { id: 319 })}
+            conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
+            p2Checked
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.GiantTreeOfRaptBrooding}
+            description={t('PlanarDescription', { id: 320 })}
+            conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
+            p2Checked
+          />
         </Flex>
       </Flex>
     </Drawer>

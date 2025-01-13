@@ -441,6 +441,8 @@ export const SetsOrnaments = {
   ForgeOfTheKalpagniLantern: 'Forge of the Kalpagni Lantern',
   LushakaTheSunkenSeas: 'Lushaka, the Sunken Seas',
   TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
+  BoneCollectionsSereneDemesne: 'Bone Collection\'s Serene Demesne',
+  GiantTreeOfRaptBrooding: 'Giant Tree of Rapt Brooding',
 } as const
 
 // Delete unreleased data
@@ -693,6 +695,8 @@ export const setToId = {
   [Sets.ForgeOfTheKalpagniLantern]: '316',
   [Sets.LushakaTheSunkenSeas]: '317',
   [Sets.TheWondrousBananAmusementPark]: '318',
+  [Sets.BoneCollectionsSereneDemesne]: '319',
+  [Sets.GiantTreeOfRaptBrooding]: '320',
 } as const
 
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']

@@ -128,6 +128,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 if (${wgslTrue(r.vendettaState)}) {
   x.DEF = 0;
 }
+if (${wgslTrue(r.skillEnhances == 2)}) {
+  x.SKILL_DMG += ${r.hpLossTally * skillEnhancedLostHpScaling} * x.HP;
+}
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;
 x.SKILL_DMG += x.SKILL_SCALING * x.HP;
 x.ULT_DMG += x.ULT_SCALING * x.HP;

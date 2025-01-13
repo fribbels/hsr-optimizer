@@ -182,6 +182,12 @@ Characters:
   "1402":
     Name: Aglaea
     LongName: Aglaea
+  "1403":
+    Name: Tribbie
+    LongName: Tribbie
+  "1404":
+    Name: Mydei
+    LongName: Mydei
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -592,6 +598,10 @@ Lightcones:
     Name: Time Woven Into Gold
   "23037":
     Name: Into the Unreachable Veil
+  "23038":
+    Name: If Time Were a Flower
+  "23039":
+    Name: Flame of Blood, Blaze My Path
   "24000":
     Name: On the Fall of an Aeon
   "24001":
@@ -602,6 +612,8 @@ Lightcones:
     Name: Solitary Healing
   "24004":
     Name: Eternal Calculus
+  "24005":
+    Name: Memory's Curtain Never Falls
 Paths:
   Warrior: Destruction
   Rogue: The Hunt

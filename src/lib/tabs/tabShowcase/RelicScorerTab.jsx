@@ -30,6 +30,8 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.id == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.id == name)?.id || null
   return [
+    { characterId: char(1403), lightConeId: lc(23038) },
+    { characterId: char(1404), lightConeId: lc(23039) },
     { characterId: char(1401), lightConeId: lc(23037) },
     { characterId: char(1402), lightConeId: lc(23036) },
     { characterId: char(8007), lightConeId: lc(21050), lightConeSuperimposition: 5 },
@@ -590,7 +592,7 @@ function Sidebar(props) {
     return (
       <Flex
         vertical
-        gap={4}
+        gap={3}
         justify='center'
         style={{
           marginLeft: -8,
@@ -651,7 +653,7 @@ function Sidebar(props) {
           <Button
             type='primary'
             shape='round'
-            style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 8 }}
+            style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
           >
             <Icon component={ExperimentOutlined} style={{ fontSize: 55 }}/>
           </Button>

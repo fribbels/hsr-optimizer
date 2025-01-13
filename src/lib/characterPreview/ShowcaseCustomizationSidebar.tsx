@@ -337,7 +337,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
 
-    1403: ['#8da9ea'], // tribbie
+    1403: ['#8a8def'], // tribbie
     1404: ['#f97ca8'], // mydei
   }
 

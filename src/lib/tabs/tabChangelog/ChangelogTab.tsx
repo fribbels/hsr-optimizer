@@ -107,6 +107,32 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '2025-01-13',
+      content: [
+        leaks(`Updated content to version 3.1`),
+        'tribbie.webp',
+        'mydei.webp',
+        'Added new relic sets for 3.1',
+        `sets.webp`,
+        'Added new relic rating columns for relic reroll potential',
+        '— The reroll column shows the average potential of the relic after using reroll dice on it',
+        '— The reroll delta column shows the expected increase in potential from the current relic to its post-reroll stats',
+        'ratingColumns.webp',
+        'The reroll and delta columns are now sortable in the relics grid',
+        'columns.webp',
+        'Added buff priority selectors for Remembrance characters, for choosing between prioritizing the summoner or memosprite when receiving single target buffs',
+        'buffPrio.webp',
+        'Fix: Added Aglaea missing Seam Stitch conditional',
+        'Fix: Added Black Swan missing E4 conditional',
+        'Fix: Dmg RES and Eff RES enemy options labels were swapped',
+        'Fix: Showcase rendering on mobile devices',
+        'Fix: Relic potential changed between re-scores in certain cases',
+        'Balance: Added ERR rope to Serval scoring',
+        'Balance: Added ERR rope to Welt scoring',
+      ],
+    },
+    {
+      title: '',
       date: '2025-01-07',
       content: [
         `Added a no-scoring showcase card view`,

@@ -7164,6 +7164,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, FUA, FUA, BASIC, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],

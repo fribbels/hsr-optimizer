@@ -942,7 +942,7 @@ fn calculateAbilityDmg(
     let abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr);
     abilityAdditionalDmgOutput = abilityAdditionalDmg
       * (baseUniversalMulti)
-      * (baseDmgBoost)
+      * (baseDmgBoost + x.ADDITIONAL_BOOST)
       * calculateDefMulti(baseDefPen)
       * (1 + x.VULNERABILITY)
       * (abilityAdditionalCritMulti)
@@ -1000,6 +1000,9 @@ fn buffAbilityDmg(
   }
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+    (*p_x).ADDITIONAL_BOOST += value;
   }
 }
 

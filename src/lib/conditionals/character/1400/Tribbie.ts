@@ -1,8 +1,7 @@
 import i18next from 'i18next'
-import { gpuStandardHpFinalizer, standardHpFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -25,7 +24,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     numinosity: true,
     ultZone: true,
-    alliesMaxHp: 30000,
+    alliesMaxHp: 25000,
     talentFuaStacks: 3,
     e1AdditionalDmg: true,
     e2TrueDmg: true,
@@ -58,8 +57,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'slider',
       text: 'Allies max HP',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 10000,
-      max: 40000,
+      min: 0,
+      max: 50000,
     },
     talentFuaStacks: {
       id: 'talentFuaStacks',
@@ -145,10 +144,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buffTeam((e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpFinalizer(x)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
+      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.HP], Source.NONE)
+      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
+      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
+      x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardHpFinalizer()
+      return `
+x.BASIC_DMG += x.BASIC_SCALING * x.HP;
+x.ULT_DMG += x.ULT_SCALING * x.HP;
+x.FUA_DMG += x.FUA_SCALING * x.HP;
+x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.HP;
+x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.HP;
+x.FUA_ADDITIONAL_DMG += x.FUA_ADDITIONAL_DMG_SCALING * x.HP;
+`
     },
   }
 }

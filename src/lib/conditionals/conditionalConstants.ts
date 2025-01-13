@@ -13,6 +13,7 @@ export const DOT_DMG_TYPE = 16
 export const BREAK_DMG_TYPE = 32
 export const SUPER_BREAK_DMG_TYPE = 64
 export const MEMO_DMG_TYPE = 128
+export const ADDITIONAL_DMG_TYPE = 256
 
 export const BASIC_ABILITY_TYPE = 1
 export const SKILL_ABILITY_TYPE = 2
@@ -66,13 +67,13 @@ export const baseComputedStatsObject = {
   ULT_CD_BOOST: 0,
   FUA_CD_BOOST: 0,
 
-  // These are unused
   BASIC_BOOST: 0,
   SKILL_BOOST: 0,
   ULT_BOOST: 0,
   FUA_BOOST: 0,
   DOT_BOOST: 0,
   BREAK_BOOST: 0,
+  ADDITIONAL_BOOST: 0,
 
   VULNERABILITY: 0,
   BASIC_VULNERABILITY: 0,
@@ -210,6 +211,7 @@ export const baseComputedStatsObject = {
   BREAK_DMG_TYPE: BREAK_DMG_TYPE,
   SUPER_BREAK_DMG_TYPE: SUPER_BREAK_DMG_TYPE,
   MEMO_DMG_TYPE: MEMO_DMG_TYPE,
+  ADDITIONAL_DMG_TYPE: ADDITIONAL_DMG_TYPE,
 }
 
 export type SetsType = {

@@ -41,7 +41,7 @@ const outputLocalesMapping: Record<InputLocale, OutputLocale[]> = {
 } as const
 
 //           Destruction, Hunt, Erudition, Harmony, Nihility, Preservation, Abundance, Remembrance
-const Paths = ['Warrior', 'Rogue', 'Mage', 'Shaman', 'Warlock', 'Knight', 'Priest', 'Placeholder'] as const
+const Paths = ['Warrior', 'Rogue', 'Mage', 'Shaman', 'Warlock', 'Knight', 'Priest', 'Memory'] as const
 const multiPathIds = [1001, 1224, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008] as const
 type Path = typeof Paths[number]
 const multiPathIdToPath: Record<typeof multiPathIds[number], Path> = {
@@ -53,8 +53,8 @@ const multiPathIdToPath: Record<typeof multiPathIds[number], Path> = {
   8004: 'Knight',
   8005: 'Shaman',
   8006: 'Shaman',
-  8007: 'Placeholder',
-  8008: 'Placeholder',
+  8007: 'Memory',
+  8008: 'Memory',
 }
 
 const tbNames: Record<InputLocale, { stelle: string; caelus: string }> = {

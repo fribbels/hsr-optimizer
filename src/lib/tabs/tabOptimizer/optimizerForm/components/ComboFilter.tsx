@@ -24,11 +24,11 @@ export const ComboFilters = () => {
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
   const comboType = Form.useWatch('comboType', form)
   const comboOptions = useMemo(() => [
-    { label: 'BASIC', value: 'BASIC' },
-    { label: 'SKILL', value: 'SKILL' },
-    { label: 'ULT', value: 'ULT' },
-    { label: 'FUA', value: 'FUA' },
-    { label: 'SKILLᴹ', value: 'MEMO_SKILL' },
+    { label: t('ComboOptions.Basic')/* Basic */, value: 'BASIC' },
+    { label: t('ComboOptions.Skill')/* Skill */, value: 'SKILL' },
+    { label: t('ComboOptions.Ult')/* Ult */, value: 'ULT' },
+    { label: t('ComboOptions.Fua')/* Fua */, value: 'FUA' },
+    { label: t('ComboOptions.MemoSkill')/* Skillᴹ */, value: 'MEMO_SKILL' },
   ], [t])
 
   return (

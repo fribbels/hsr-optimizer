@@ -1,13 +1,12 @@
-import i18next from 'i18next'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TimeWovenIntoGold')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TimeWovenIntoGold')
 
   const sValuesCd = [0.09, 0.105, 0.12, 0.135, 0.15]
   const sValuesBasicDmg = [0.09, 0.105, 0.12, 0.135, 0.15]
@@ -22,8 +21,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'brocadeStacks',
       formItem: 'slider',
-      text: 'Brocade stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.brocadeStacks.text'),
+      content: t('Content.brocadeStacks.content', {
+        CdBuff: TsUtils.precisionRound(sValuesCd[s] * 100),
+        DmgBuff: TsUtils.precisionRound(sValuesBasicDmg[s] * 100),
+      }),
       min: 0,
       max: 6,
     },
@@ -31,8 +33,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'maxStacksBasicDmgBoost',
       formItem: 'switch',
-      text: 'Stacked Basic DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.maxStacksBasicDmgBoost.text'),
+      content: t('Content.maxStacksBasicDmgBoost.content', {
+        CdBuff: TsUtils.precisionRound(sValuesCd[s] * 100),
+        DmgBuff: TsUtils.precisionRound(sValuesBasicDmg[s] * 100),
+      }),
     },
   }
 

@@ -32,7 +32,7 @@ export const p4 = (set: number): number => {
 }
 
 export const ability = (upgradeEidolon: number) => {
-  return (eidolon: number, value1: number, value2: number) => {
+  return function <T extends number, K extends number>(eidolon: number, value1: T, value2: K): T | K {
     return eidolon >= upgradeEidolon ? value2 : value1
   }
 }

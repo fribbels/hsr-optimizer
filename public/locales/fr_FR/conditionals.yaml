@@ -104,6 +104,10 @@ Lightcones:
     Content:
       spdScalingBuffs:
         text: Bonus par conversions de VIT
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Bonus de DGT Compétence / Ult
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
@@ -199,6 +203,12 @@ Lightcones:
     Content:
       healingBasedDmgProc:
         text: Dégâts basés sur les soins (non mis en œuvre)
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: Cumuls de Tapisserie
+      maxStacksBasicDmgBoost:
+        text: Bonus de DGT de basique
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
@@ -265,6 +275,10 @@ Lightcones:
     Content:
       ultDmgBuff:
         text: Bonus de DGT post-ULT
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: Bonus de DGT de Basique
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -333,6 +347,10 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: Bonus de DGT énergie max
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT Mnémomaître / Mnémesprit
   Swordplay:
     Content:
       sameTargetHitStacks:
@@ -367,6 +385,10 @@ Lightcones:
     Content:
       defeatedEnemyCrBuff:
         text: Bonus de TC ennemi vaincu
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: Bonus d'équipe de DGT
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -427,6 +449,10 @@ Lightcones:
     Content:
       selfHp80CrBuff:
         text: Bonus de TC PV < 80%
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: Cumuls de bonus de DGT
   Sagacity:
     Content:
       postUltAtkBuff:
@@ -456,6 +482,20 @@ Characters:
         text: 'E4: Vulnérabilité d''ULT'
       e6UltBuffs:
         text: 'E6: Bonus d''ULT'
+  Aglaea:
+    Content:
+      supremeStanceState:
+        text: Posture de suprémacie
+      seamStitch:
+        text: Point de couture
+      memoSpdStacks:
+        text: Cumuls de VIT mnémesprit
+      e1Vulnerability:
+        text: 'E1: Vulnérabilité'
+      e2DefShredStacks:
+        text: 'E2: PÉN de DÉF'
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Argenti:
     Content:
       ultEnhanced:
@@ -1041,6 +1081,24 @@ Characters:
         text: Cumuls de bonus de VIT du talent
       e2DmgReductionBuff:
         text: 'E2: Réduction de dégâts'
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: Compétence améliorée
+      eruditionTeammate:
+        text: Coéquipier de l'Erudition
+      ultAtkBuff:
+        text: Bonus d'ATQ de l'ULT
+      interpretationStacks:
+        text: Cumuls d'Interpretation
+      totalInterpretationStacks:
+        text: Cumuls de Réponse
+      e1BonusStacks:
+        text: 'E1: Cumuls bonus'
+      e4EruditionSpdBuff:
+        text: 'E4: Bonus de VIT Érudition'
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Tingyun:
     Content:
       benedictionBuff:
@@ -1091,6 +1149,27 @@ Characters:
         text: Bouclier actif
       e6DefStacks:
         text: 'E6: Cumuls de bonus de DÉF'
+  TrailblazerRemembrance:
+    Content:
+      memoSkillHits:
+        text: Nombre de coups de Mem
+      teamCdBuff:
+        text: Bonus d'équipe de DC
+      memsSupport:
+        text: >-
+          DGT réels du soutien de Mem
+      energyTrueDmgValue:
+        text: DGT réels d'énergie max
+      e1CrBuff:
+        text: 'E1: Bonus de TC'
+      e4TrueDmgBoost:
+        text: 'E4: Bonus de DGT réels'
+      e6UltCrBoost:
+        text: 'E6: Bonus de TC de l''Ult'
+    TeammateContent:
+      memCDValue:
+        text: >-
+          DC en combat de Mem
   Welt:
     Content:
       enemyDmgTakenDebuff:

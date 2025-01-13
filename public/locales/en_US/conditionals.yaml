@@ -681,10 +681,10 @@ Characters:
         content: >-
           When Aglaea or Garmentmaker takes action, the DMG dealt by Aglaea and Garmentmaker ignores 14% of the target's DEF. This effect stacks up to 3 times and lasts until any unit, other than Aglaea or Garmentmaker, actively uses an ability.
       e6Buffs:
-       text: E6 buffs
-       content: >-
-        While Aglaea is in "Supreme Stance," increases her and Garmentmaker's Lightning RES PEN by 20%.
-        When Aglaea or Garmentmaker's SPD is greater than 160/240/320, the DMG dealt by Joint ATK increases by 10%/30%/60%.
+        text: E6 buffs
+        content: >-
+          While Aglaea is in "Supreme Stance," increases her and Garmentmaker's Lightning RES PEN by 20%.
+          When Aglaea or Garmentmaker's SPD is greater than 160/240/320, the DMG dealt by Joint ATK increases by 10%/30%/60%.
   Argenti:
     Content:
       ultEnhanced:

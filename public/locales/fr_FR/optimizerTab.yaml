@@ -199,6 +199,7 @@ Sidebar:
   Perms: Perms
   Searched: Cherchées
   Results: Résultats
+  ComputeEngine: Moteur de calcul
   ProgressText:
     Progress: Progrès
     CalculatingETA: Recherche en progrès
@@ -214,6 +215,8 @@ Sidebar:
     Header: Vue Stats et Filtres
     CombatStats: Stats de combat
     BasicStats: Stats basiques
+    SummonerStats: Mnémomaître
+    MemospriteStats: Mnémesprit
   ResultsGroup:
     Header: Résultats
     Equip: Équiper

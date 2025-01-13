@@ -92,6 +92,8 @@ struct Sets {
   ForgeOfTheKalpagniLantern: i32,
   LushakaTheSunkenSeas: i32,
   TheWondrousBananAmusementPark: i32,
+  BoneCollectionsSereneDemesne: i32,
+  GiantTreeOfRaptBrooding: i32,
 }
 
 struct SetConditionals {

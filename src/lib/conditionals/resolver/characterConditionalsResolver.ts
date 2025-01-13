@@ -58,7 +58,9 @@ import ruanmei from 'lib/conditionals/character/1300/RuanMei'
 import sparkle from 'lib/conditionals/character/1300/Sparkle'
 import sunday from 'lib/conditionals/character/1300/Sunday'
 import aglaea from 'lib/conditionals/character/1400/Aglaea'
+import mydei from 'lib/conditionals/character/1400/Mydei'
 import theHerta from 'lib/conditionals/character/1400/TheHerta'
+import tribbie from 'lib/conditionals/character/1400/Tribbie'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
 import trailblazerharmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
@@ -131,6 +133,8 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   1317: rappa,
   1401: theHerta,
   1402: aglaea,
+  1403: tribbie,
+  1404: mydei,
   8001: trailblazerdestruction,
   8002: trailblazerdestruction,
   8003: trailblazerpreservation,

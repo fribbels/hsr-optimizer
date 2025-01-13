@@ -1,4 +1,4 @@
-import { BASIC_DMG_TYPE, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ADDITIONAL_DMG_TYPE, BASIC_DMG_TYPE, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -349,6 +349,59 @@ if (
   },
 }
 
+export const GiantTreeOfRaptBroodingConditional: DynamicConditional = {
+  id: 'GiantTreeOfRaptBroodingConditional',
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  dependsOn: [Stats.CR],
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+    return p2(x.c.sets.GiantTreeOfRaptBrooding) && x.a[Key.CR] >= 0.70
+  },
+  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    buffAbilityDmg(x, ADDITIONAL_DMG_TYPE, 0.30, Source.GiantTreeOfRaptBrooding)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_x).sets.GiantTreeOfRaptBrooding) >= 1 &&
+  (*p_state).GiantTreeOfRaptBroodingConditional == 0.0 &&
+  (*p_x).CR >= 0.70
+) {
+  (*p_state).GiantTreeOfRaptBroodingConditional = 1.0;
+
+  buffAbilityDmg(p_x, ADDITIONAL_DMG_TYPE, 0.30, 1);
+}
+    `)
+  },
+}
+
+export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
+  id: 'BoneCollectionsSereneDemesneConditional',
+  type: ConditionalType.SET,
+  activation: ConditionalActivation.SINGLE,
+  dependsOn: [Stats.HP],
+  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+    return p2(x.c.sets.BoneCollectionsSereneDemesne) && x.a[Key.HP] >= 5000
+  },
+  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    x.CD.buffDual(0.25, Source.BoneCollectionsSereneDemesne)
+  },
+  gpu: function () {
+    return conditionalWgslWrapper(this, `
+if (
+  p2((*p_x).sets.BoneCollectionsSereneDemesne) >= 1 &&
+  (*p_state).BoneCollectionsSereneDemesneConditional == 0.0 &&
+  (*p_x).HP >= 5000
+) {
+  (*p_state).BoneCollectionsSereneDemesneConditional = 1.0;
+
+  buffMemoDynamicCD(0.25, p_x, p_m, p_state);
+  buffDynamicCD(0.25, p_x, p_m, p_state);
+}
+    `)
+  },
+}
+
 export const ConditionalSets = [
   SpaceSealingStationConditional,
   RutilantArenaConditional,
@@ -363,4 +416,6 @@ export const ConditionalSets = [
   TaliaKingdomOfBanditryConditional,
   FirmamentFrontlineGlamoth135Conditional,
   FirmamentFrontlineGlamoth160Conditional,
+  GiantTreeOfRaptBroodingConditional,
+  BoneCollectionsSereneDemesneConditional,
 ]

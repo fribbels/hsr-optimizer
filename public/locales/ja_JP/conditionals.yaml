@@ -364,6 +364,10 @@ Lightcones:
       ultDmgBuff:
         text: 必殺技後のダメバフ
         content: 装備キャラが必殺技を発動した後、与ダメージ+{{DmgBuff}}%、1ターン継続。
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: 通常ダメ増加
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -495,6 +499,10 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: 敵キル後の会心率バフ
         content: 装備キャラの攻撃力+16%。装備キャラが敵を倒した後、会心率+{{CritBuff}}%、3ターン継続。
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: 味方全体のダメバフ
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -614,6 +622,10 @@ Characters:
         text: 6凸 必殺技バフ
         content: >-
           黄泉が与える必殺技ダメージの全属性耐性貫通+20%。通常攻撃ダメージ、戦闘スキルダメージが同時に必殺技ダメージと見なされ、弱点属性を無視して敵の靭性を削る。敵を弱点撃破した時、雷属性の弱点撃破効果を触発する。
+  Aglaea:
+    Content:
+      e6Buffs:
+        text: 6凸 必殺/追加攻撃強化
   Argenti:
     Content:
       ultEnhanced:
@@ -1496,6 +1508,14 @@ Characters:
       e2DmgReductionBuff:
         text: 2凸 被ダメージ減少
         content: "2凸：「剣勢」発動後、素裳の被ダメージ-20%、1ターン継続。"
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: 強化状態のスキル
+      ultAtkBuff:
+        text: 必殺技の攻撃力バフ
+      e6Buffs:
+        text: 6凸 必殺/追加攻撃強化
   Tingyun:
     Content:
       benedictionBuff:

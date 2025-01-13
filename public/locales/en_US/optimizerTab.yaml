@@ -199,6 +199,7 @@ Sidebar:
   Perms: Perms
   Searched: Searched
   Results: Results
+  ComputeEngine: Compute engine
   ProgressText:
     Progress: Progress
     CalculatingETA: Progress  (calculating ETA..)
@@ -214,6 +215,8 @@ Sidebar:
     Header: Stat and filter view
     CombatStats: Combat stats
     BasicStats: Basic stats
+    SummonerStats: Summoner
+    MemospriteStats: Memosprite
   ResultsGroup:
     Header: Results
     Equip: Equip

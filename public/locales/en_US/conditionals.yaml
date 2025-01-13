@@ -142,6 +142,11 @@ Lightcones:
         text: SPD conversion buffs
         content: >-
           While the wearer is in battle, for every 10 SPD that exceeds 100, the DMG of the wearer's Basic ATK and Skill is increased by {{DmgBuff}}% and the CRIT DMG of their Ultimate is increased by {{CritBuff}}%. This effect can stack up to 6 time(s).
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Skill / Ult DMG boost
+        content: When the wearer uses their Ultimate, increases DMG dealt by the wearer's Skill and Ultimate by {{DmgBuff}}%.
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
@@ -279,6 +284,16 @@ Lightcones:
         text: Healing based DMG proc (Not implemented)
         content: >-
           When the wearer heals allies, record the amount of Outgoing Healing. When any ally launches an attack, a random attacked enemy takes Additional DMG equal to {{Multiplier}}% of the recorded Outgoing Healing value. The type of this Additional DMG is of the same Type as the wearer's. This Additional DMG is not affected by other buffs, and can only occur 1 time per turn.
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: Brocade stacks
+        content: >-
+          After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of "Brocade."::BR:: Each stack of "Brocade" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each "Brocade" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%.
+      maxStacksBasicDmgBoost:
+        text: Stacked Basic DMG boost
+        content: >-
+          After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of "Brocade."::BR:: Each stack of "Brocade" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each "Brocade" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%.
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
@@ -374,6 +389,11 @@ Lightcones:
       ultDmgBuff:
         text: Ult usage DMG buff
         content: After the wearer uses their Ultimate, increases their DMG dealt by {{DmgBuff}}%, lasting for 1 turn(s).
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: Basic DMG boost
+        content: After the wearer uses their Ultimate, additionally increases the wearer and their memosprite's Basic ATK DMG dealt by {{DmgBuff}}%.
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -461,6 +481,11 @@ Lightcones:
       maxEnergyDmgBoost:
         text: Max energy DMG boost
         content: Increases the DMG of the wearer's Basic ATK and Skill by {{DmgBuff}}%. This effect increases by an extra {{DmgBuff}}% when the wearer's current Energy reaches its max level.
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: Summoner / Memosprite DMG boost
+        content: When the wearer's memosprite is on the field, increases the wearer and their memosprite's DMG dealt by {{DmgBuff}}%.
   Swordplay:
     Content:
       sameTargetHitStacks:
@@ -505,6 +530,11 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: Defeated enemy CR buff
         content: When the wearer defeats an enemy, the wearer's CRIT Rate increases by {{CritBuff}}% for 3 turn(s).
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: Team DMG buff
+        content: When the wearer's memosprite uses an ability on any ally target, increases all ally targets' DMG dealt by {{DmgBuff}}%, lasting for 3 turns.
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -581,6 +611,11 @@ Lightcones:
       selfHp80CrBuff:
         text: Self HP < 80% CR buff
         content: If the wearer's current HP is lower than 80%, CRIT Rate increases by {{CritBuff}}%.
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: DMG stacks
+        content: When memosprite's turn starts, the wearer and the memosprite each gain 1 stack of "Commemoration." Each stack increases DMG dealt by {{DmgBuff}}%, stacking up to 4 times. "Commemoration" is removed from the wearer and the memosprite when the memosprite disappears.
   Sagacity:
     Content:
       postUltAtkBuff:
@@ -624,6 +659,32 @@ Characters:
         text: E6 Ult buffs
         content: >-
           Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can reduce enemy toughness regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect.
+  Aglaea:
+    Content:
+      supremeStanceState:
+        text: Supreme Stance state
+        content: >-
+          While in the "Supreme Stance" state, Aglaea gains the SPD Boost stacks from Garmentmaker's Memosprite Talent, with each stack increasing her SPD by {{SpdBuff}}%. Enhances Basic ATK to "Slash by a Thousandfold Kiss," and cannot use Skill.
+      seamStitch:
+        text: Seam Stitch
+        content: >-
+          While Garmentmaker is on the field, Aglaea's attacks inflict the target with the "Seam Stitch" state. After attacking enemies in the "Seam Stitch" state, further deals Lightning Additional DMG equal to {{Scaling}}% of Aglaea's ATK. "Seam Stitch" only takes effect on the most recently inflicted target.
+      memoSpdStacks:
+        text: Memo SPD stacks
+        content: >-
+          After attacking an enemy afflicted with "Seam Stitch," increases this unit's SPD by {{SpdBuff}}, stacking up to {{StackLimit}} times.
+      e1Vulnerability:
+        text: E1 vulnerability
+        content: Enemies afflicted with "Seam Stitch" take 15% increased DMG.
+      e2DefShredStacks:
+        text: E2 DEF PEN stacks
+        content: >-
+          When Aglaea or Garmentmaker takes action, the DMG dealt by Aglaea and Garmentmaker ignores 14% of the target's DEF. This effect stacks up to 3 times and lasts until any unit, other than Aglaea or Garmentmaker, actively uses an ability.
+      e6Buffs:
+        text: E6 buffs
+        content: >-
+          While Aglaea is in "Supreme Stance," increases her and Garmentmaker's Lightning RES PEN by 20%.
+          When Aglaea or Garmentmaker's SPD is greater than 160/240/320, the DMG dealt by Joint ATK increases by 10%/30%/60%.
   Argenti:
     Content:
       ultEnhanced:
@@ -1526,6 +1587,43 @@ Characters:
       e2DmgReductionBuff:
         text: E2 DMG reduction buff
         content: "E2: After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn."
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: Enhanced Skill
+        content: After using the Ultimate, The Herta immediately takes action and gains 1 stack of "Inspiration." "Inspiration" can stack up to 4 times. While having "Inspiration," enhances Skill to "Hear Me Out."
+      eruditionTeammate:
+        text: Erudition teammate
+        content: >-
+          When the Enhanced Skill's primary target has "Interpretation," the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively.
+          ::BR::
+          If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively
+          ::BR::
+          A4: When entering battle, if the team has 2 or more characters following the Path of Erudition, then increases all allies' CRIT DMG by 80%
+      ultAtkBuff:
+        text: Ult ATK buff
+        content: >-
+          When using Ultimate, increases The Herta's ATK by {{AtkBuff}}%, lasting for 3 turns.
+      interpretationStacks:
+        text: Interpretation stacks
+        content: >-
+          When the Enhanced Skill's primary target has "Interpretation," the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively.
+          ::BR::
+          If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively
+          ::BR::
+          E1: When Enhanced Skill calculates "Interpretation," additionally calculates 50% of the "Interpretation" stacks on the 1 target with the highest stacks out of the primary target and adjacent targets.
+      totalInterpretationStacks:
+        text: Answer stacks
+        content: For every 1 stack of "Interpretation" inflicted on enemy targets, The Herta gains 1 stack of "Answer", up to 99 stacks. When using the Ultimate, every stack of "Answer" increases the Ultimate's DMG multiplier by 1%.
+      e1BonusStacks:
+        text: E1 Bonus stacks
+        content: When Enhanced Skill calculates "Interpretation," additionally calculates 50% of the "Interpretation" stacks on the 1 target with the highest stacks out of the primary target and adjacent targets.
+      e4EruditionSpdBuff:
+        text: E4 Erudition SPD buff
+        content: The SPD of characters following the Path of Erudition in the team increases by 12%.
+      e6Buffs:
+        text: E6 buffs
+        content: The Herta's Ice RES PEN increases by 20%. When the number of enemy targets on the field is 3 (or more)/2/1, Ultimate's DMG multiplier increases by 140%/250%/400%.
   Tingyun:
     Content:
       benedictionBuff:
@@ -1601,6 +1699,48 @@ Characters:
       e6DefStacks:
         text: E6 DEF buff stacks
         content: "E6: Increases DEF by 10% per stack."
+  TrailblazerRemembrance:
+    Content:
+      memoSkillHits:
+        text: Memo Skill hits
+        content: >-
+          Deals 4 instances of DMG, with each instance dealing Ice DMG equal to {{SingleScaling}}% of Mem's ATK to one random enemy. Finally, deals Ice DMG equal to {{AoeScaling}}% of Mem's ATK to all enemies.
+      teamCdBuff:
+        text: Team CD buff
+        content: >-
+          All allies' CRIT DMG increases by {{ScalingBuff}}% of Mem's CRIT DMG plus {{FlatBuff}}%.
+      memsSupport:
+        text: >-
+          Mem's Support True DMG
+        content: >-
+          Advances the action of one designated ally by 100% and grants them "Mem's Support," lasting for 3 turns.
+          For every 1 instance of DMG dealt by the target that has "Mem's Support," additionally deals 1 instance of True DMG equal to {{TrueDmgScaling}}% of the original DMG.
+          ::BR::
+          E1: When an ally target has "Mem's Support," its effect also takes effect on the target's memosprite/memomaster.
+          ::BR::
+          E4: When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via "Mem's Support" additionally increases by 6%.
+      energyTrueDmgValue:
+        text: Max energy True DMG
+        content: >-
+          When the Max Energy of the ally target that has "Mem's Support" exceeds 100, for every 10 excess Energy, additionally increases the multiplier of the True DMG dealt via "Mem's Support" by 2%, up to a max increase of 20%.
+      e1CrBuff:
+        text: E1 CR buff
+        content: >-
+          Increases the CRIT Rate of the ally target with "Mem's Support" by 10%.
+      e4TrueDmgBoost:
+        text: E4 True DMG boost
+        content: >-
+          When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via "Mem's Support" additionally increases by 6%.
+      e6UltCrBoost:
+        text: E6 Ult CR boost
+        content: >-
+          Ultimate's CRIT Rate is set at 100%.
+    TeammateContent:
+      memCDValue:
+        text: >-
+          Mem's combat CD
+        content: >-
+          All allies' CRIT DMG increases by {{ScalingBuff}}% of Mem's CRIT DMG plus {{FlatBuff}}%.
   Welt:
     Content:
       enemyDmgTakenDebuff:

@@ -1,5 +1,10 @@
 BetaMessage: "Versão atual: {{Version}} - Os cálculos estão sujeitos a alterações."
 Common:
+  BuffPriority:
+    Text: "Alvo prioritário de Buff"
+    Content: "Selecionar o destinatário preferido para buffs de alvo único"
+    Self: "Prioridade Buff: Próprio"
+    Memo: "Prioridade Buff: Memo"
   HealAbility:
     Text: "Habilidade de cura"
     Content: "Selecione a habilidade para cálculos de cura"
@@ -135,6 +140,11 @@ Lightcones:
         text: Buffs de conversão de SPD
         content: >-
           Enquanto o portador está em batalha, para cada 10 de SPD que exceder 100, o DMG do ATK Básico e da Habilidade do portador é aumentado em {{DmgBuff}}% e o DMG CRÍTICO de sua Ultimate é aumentado em {{CritBuff}}%. Este efeito pode se acumular até 6 vez(es).
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de DMG Perícia / Ult
+        content: Quando o usuário usar seu Ultimate, aumenta o DMG causado pela Perícia e Ultimate do usuário em {{DmgBuff}}%.
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
@@ -269,6 +279,16 @@ Lightcones:
         text: Proc de DMG baseado em cura (não implementado).
         content: >-
           Quando o usuário cura aliados, registra a quantidade de Cura Saída. Quando qualquer aliado realiza um ataque, um inimigo atacado aleatório recebe Dano Adicional igual a {{Multiplier}}% do valor registrado de saida de Cura. O tipo deste Dano Adicional é do mesmo tipo que o do usuário. Este Dano Adicional não é afetado por outros buffs e pode ocorrer apenas 1 vez por turno.
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: Acúmulos de Brocada
+        content: >-
+          Após o ataque do personagem e do memosprite, o usuário ganha 1 pilha de "Brocada". ::BR:: Cada acúmulo de "Brocade" aumenta CRIT DMG do personagem e memosprite em {{CdBuff}}%, acumulando até 6 vezes.:BR:: Ao atingir o máximo de acúmulos, cada acúmulo de "Brocada" irá aumentar adicionalmente a Danos ATK básicos em {{DmgBuff}}%.
+      maxStacksBasicDmgBoost:
+        text: Acúmulos de aumento de dano básico
+        content: >-
+          Após o ataque do personagem e do memosprite, o usuário ganha 1 pilha de "Brocada". ::BR:: Cada acúmulo de "Brocade" aumenta CRIT DMG do personagem e memosprite em {{CdBuff}}%, acumulando até 6 vezes.:BR:: Ao atingir o máximo de acúmulos, cada acúmulo de "Brocada" irá aumentar adicionalmente a Danos ATK básicos em {{DmgBuff}}%.
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
@@ -380,6 +400,7 @@ Lightcones:
     Content:
       basicDmgBoost:
         text: Boost de básico DMG
+        content: Depois que o usuário usar sua Ultimate, adicionalmente aumenta o dano básico do usuário e memosprite em {{DmgBuff}}%.
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -467,6 +488,11 @@ Lightcones:
       maxEnergyDmgBoost:
         text: Buff de DMG por energia máxima
         content: Aumenta o DMG do Ataque Básico e da Habilidade do portador em {{DmgBuff}}%. Esse efeito aumenta em mais {{DmgBuff}}% quando a Energia atual do portador atinge seu nível máximo.
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: Aumento de dano Invocador / Memosprite
+        content: Quando o memosprite do usuário estiver em campo, aumentao dano do usuário e memosprite em {{DmgBuff}}%
   Swordplay:
     Content:
       sameTargetHitStacks:
@@ -515,6 +541,7 @@ Lightcones:
     Content:
       teamDmgBuff:
         text: Buff de DMG no time
+        content: Quando o memosprite do usuário usar uma habilidade em qualquer alvo aliado, aumenta o dano de todos os aliados em {{DmgBuff}}%, durando por 3 turnos.
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -591,6 +618,11 @@ Lightcones:
       selfHp80CrBuff:
         text: Buff de CR quando a HP do portador está < 80%
         content: Se a HP atual do portador estiver abaixo de 80%, a Taxa de CRIT aumenta em {{CritBuff}}%.
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: Acúmulos de dano
+        content: Quando o turno do memosprite começa, o usuário e memosprite ganham 1 acúmulo de "Comemoração". Cada acúmulo aumenta o dano dado em {{DmgBuff}}%, acumulando até 4 vezes. "Comemoração" é removido do usuário e memosprite quando o memosprite desaparecer.
   Sagacity:
     Content:
       postUltAtkBuff:
@@ -636,8 +668,29 @@ Characters:
           Aumenta a PEN de RES de Todos os Tipos para o DMG do Ultimate causado por Acheron em 20%. O DMG causado pelo ATK Básico e pela Habilidade também será considerado como DMG do Ultimate e pode reduzir a resistência do inimigo, independentemente dos Tipos de Fraqueza. Ao quebrar Fraquezas, ativa o efeito de Quebra de Fraqueza de Relâmpago.
   Aglaea:
     Content:
+      supremeStanceState:
+        text: Estado da Postura Suprema
+        content: >-
+          Enquanto estiver no estado de "Postura Suprema", Aglaea ganha os acúmulos de aumento de SPD do talento do memosprite Confeccionadora, cada acúmulo aumenta a SPD em {{SpdBuff}}%. Melhora Ataque Básico para "Cortado por um Beijo Milenar", e não pode usar habilidade.
+      seamStitch:
+        text: Costura Vinculante
+        content: >-
+          Enquanto a Confeccionadora estiver em campo, os ataques de Aglaea infligem o alvo com estado de "Costura Vinculante". Após atacar inimigos no estado "Costura Vinculante", inflige dano Relâmpago adicional igual à {{Scaling}}% do ataque de Aglaea. "Costura Vinculante" só tem efeito no alvo infligido mais recente.
+      memoSpdStacks:
+        text: Acúmulos de SPD do Memo
+        content: >-
+          Após atacar um inimigo infligido com "Costura Vinculante", aumenta a velocidade desse personagem em {{SpdBuff}}, acúmulando até {{StackLimit}} vezes.
+      e1Vulnerability:
+        text: E1 vulnerabilidade
+        content: Inimigos infligidos com "Costura Vinculante" tomam 15% mais dano.
+      e2DefShredStacks:
+        text: E2 Acúmulos de PEN DEF
+        content: >-
+          Quando Aglaea ou Confeccionadora tomam ação, o dano infligido por Aglaea e Confeccionadora ignora 14% da DEF do alvo. Esse efeito por acúmular até 3 vezes e dura até outro personagem, excluindo Aglaea ou Confeccionadora, usarem uma habilidade.
       e6Buffs:
         text: Buffs E6
+        content: >-
+          Enquanto Aglaea estiver em "Postura Suprema", aumenta a RES PEN de Relâmpago de Aglaea em Confeccionado em 20%. Quando a SPD de Aglaea ou Confeccionadora forem maior que 160/240/320, o dano do ataque Conjunto aumenta em 10%/30%/60%
   Argenti:
     Content:
       ultEnhanced:
@@ -733,6 +786,10 @@ Characters:
         text: Redução de RES E1
         content: >-
           E1: Enquanto Black Swan estiver ativa na batalha, inimigos afetados por Corte de Vento, Sangramento, Queimadura ou Choque terão sua RES correspondente de Vento, Físico, Fogo ou Relâmpago reduzida em 25%.
+      e4EffResPen:
+        text: E4 Redução de RES
+        content: >-
+          E4: Enquanto estiver no estado de Epifânia, alvos inimigos tem sua Effect RES reduzida em 10%
   Blade:
     Content:
       enhancedStateActive:
@@ -1523,6 +1580,9 @@ Characters:
     Content:
       enhancedSkill:
         text: Habilidade Aprimorada
+        content: Após usar a Ultimate, A Herta imediamente toma ação e ganha 1 acúmulo de "Inspiração". "Inspiração" pode acúmular até 4 vezes. Enquanto tiver "Inspiração", aprimora a Perícia para "Ouça-Me"
+      eruditionTeammate:
+        text: Colega de Equipe Erudição
       ultAtkBuff:
         text: Buff de ATK da Ultimate
       e6Buffs:
@@ -1602,6 +1662,26 @@ Characters:
       e6DefStacks:
         text: Acúmulos de buff de DEF E6
         content: "E6: Aumenta a DEF em 10% por acúmulo."
+  TrailblazerRemembrance:
+    Content:
+      e1CrBuff:
+        text: E1 buff de CR
+        content: >-
+          Aumenta da Taxa Crítica do aliado alvo com "Suporte do Mem" em 10%.
+      e4TrueDmgBoost:
+        text: E4 Aumento de DMG Real
+        content: >-
+          Quando um aliado alvo com 0 Energia Máxima usa uma habilidade, Mem também pode ganhar 3% de Carga, e o multiplicador de Dano REAL dado por este alvo através de "Suporte do Mem" adicionalmente aumenta em 6%.
+      e6UltCrBoost:
+        text: E6 Aumento de CR da Ult
+        content: >-
+          Taxa Crítica da Ultimate é definida para 100%.
+    TeammateContent:
+      memCDValue:
+        text: >-
+          CD de Combate do Mem
+        content: >-
+          CRIT DMG de todos os aliados aumenta em {{ScalingBuff}}% do CRIT DMG do Mem's mais {{FlatBuff}}%
   Welt:
     Content:
       enemyDmgTakenDebuff:

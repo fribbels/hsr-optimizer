@@ -520,6 +520,8 @@ Characters:
         text: Cumuls d'Arcanes
       e1ResReduction:
         text: 'E1: Réduction de DÉF'
+      e4EffResPen:
+        text: 'E4: Réduction de RAE'
   Blade:
     Content:
       enhancedStateActive:

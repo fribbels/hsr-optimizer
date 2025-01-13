@@ -714,6 +714,10 @@ Characters:
         text: 1魂属性抗性降低
         content: >-
           1魂：当黑天鹅处于可战斗状态时，处于风化、裂伤、灼烧、触电状态下的敌方目标对应的风、物理、火、雷属性抗性分别降低25%。
+      e4EffResPen:
+        text: 4魂效果抵抗降低
+        content: >-
+          4魂：【揭露】状态下，敌方目标效果抵抗降低10%。
   Blade:
     Content:
       enhancedStateActive:

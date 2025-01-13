@@ -27,7 +27,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultAtkBuff: true,
     interpretationStacks: 42,
     totalInterpretationStacks: 99,
-    e1AdjacentStacks: 21,
+    e1BonusStacks: true,
     e4EruditionSpdBuff: true,
     e6Buffs: true,
   }
@@ -72,13 +72,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 1,
       max: 99,
     },
-    e1AdjacentStacks: {
-      id: 'e1AdjacentStacks',
-      formItem: 'slider',
-      text: 'E1 adjacent stacks',
+    e1BonusStacks: {
+      id: 'e1BonusStacks',
+      formItem: 'switch',
+      text: 'E1 bonus stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 1,
-      max: 42,
       disabled: e < 1,
     },
     e4EruditionSpdBuff: {
@@ -118,10 +116,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01 + (e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), Source.NONE)
 
       const enhancedSkillStackScaling = talentStackScaling
-        * (r.interpretationStacks + (e >= 1 ? r.interpretationStacks + r.e1AdjacentStacks : 0) * 0.50)
+        * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
         * (r.eruditionTeammate ? 2 : 1)
       x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), Source.NONE)
-      x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= 42) ? 0.50 : 0, Source.NONE)
+      x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, Source.NONE)
       x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)

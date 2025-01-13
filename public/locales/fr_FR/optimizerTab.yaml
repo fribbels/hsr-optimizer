@@ -43,7 +43,7 @@ SortOptions:
   EHR: "Trié par $t(common:ReadableStats.Effect Hit Rate)"
   RES: "Trié par $t(common:ReadableStats.Effect RES)"
   BE: "Trié par $t(common:ReadableStats.Break Effect)"
-  OHB: "Trié par $t(common:ReadableStats.Outgoing Healing Boost))"
+  OHB: "Trié par $t(common:ReadableStats.Outgoing Healing Boost)"
   ERR: "Trié par $t(common:ReadableStats.Energy Regeneration Rate)"
   DMG: Trié par DGT Élémentaire
   EHP: Trié par PV Effectif

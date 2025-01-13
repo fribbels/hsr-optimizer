@@ -1,20 +1,35 @@
-import { characterCumulative } from 'lib/tabs/tabGacha/gachaRates'
+import { characterDistribution } from 'lib/tabs/tabGacha/gachaRates'
 
 export function simulateWarps() {
+  console.clear()
   console.log('simulate Warps')
-
   let wins = 0
   let counts: Record<string, number> = {}
 
   // Adjusted cumulative distribution after 30 pulls
 
+  const pity: number = 77
+  const redistributedCumulative: number[] = []
+  for (let i = 0; i < pity; i++) {
+    redistributedCumulative[i] = 0
+  }
+  let sum = 0
+  for (let i = pity; i < 90; i++) {
+    redistributedCumulative[i] = i == 0 ? characterDistribution[i] : redistributedCumulative[i - 1] + characterDistribution[i]
+  }
+  let diff = 1 - redistributedCumulative[90 - 1]
+  for (let i = pity; i < 90; i++) {
+    redistributedCumulative[i] += diff * (redistributedCumulative[i])
+  }
+
+  console.log(sum)
+  console.log(redistributedCumulative)
+
   const n = 10000000
   for (let i = 0; i < n; i++) {
-    const pity: number = 0
-    // const rand = pity == 0 ? Math.random() * 100 : Math.random() * 100 * (100 - characterCumulative[pity - 1])
-    const rand = Math.random()
+    const rand = Math.random() * redistributedCumulative[90 - 1]
 
-    const index = getIndex(rand, characterCumulative, pity)
+    const index = getIndex(rand, redistributedCumulative, pity)
 
     if (counts[index] == null) counts[index] = 0
     counts[index]++

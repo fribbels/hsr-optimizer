@@ -76,6 +76,17 @@ RelicGrid:
         Header: |-
           Char selecionado
           Potencial Max.
+      RerollAvg:
+        Label: "Personagem selecionado: Potencial médio de Reroll"
+        Header: |-
+          Char Selecionado
+          Méd. Reroll
+
+      RerollAvgDelta:
+        Label: "Personagem selecionado: Potencial médio de reroll Δ"
+        Header: |-
+          Chars Selecionados
+          Média de Reroll Δ
     CustomCharacters:
       Label: Personagens selecionados
       AvgPotCol:
@@ -88,6 +99,11 @@ RelicGrid:
         Header: |-
           Chars Selecionados
           Potencial Max.
+      RerollAvg:
+        Label: "Personagens custom: Potencial médio de reroll"
+        Header: |-
+          Chars Custom
+          Reroll Médio
     AllCharacters:
       Label: Todos os personagens
       AvgPotCol:
@@ -100,6 +116,11 @@ RelicGrid:
         Header: |-
           Todos Chars
           Potencial Máximo
+      RerollAvg:
+        Label: "Todos personagens: Potencial médio de reroll"
+        Header: |-
+          Todos Chars
+          Reroll Médio
     ComingSoon:
       Label: Em breve
       SetsPotential:

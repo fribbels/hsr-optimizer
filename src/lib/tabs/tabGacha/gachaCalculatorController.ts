@@ -1,7 +1,9 @@
-import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabGacha/gachaRates'
+import { characterCumulative, characterDistribution, lightConeDistribution } from 'lib/tabs/tabGacha/gachaRates'
 
 const characterWarpCap = 90
 const lightConeWarpCap = 80
+
+// 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
 
 export enum WarpStrategy {
   E0 = 0, // E0 -> S1 -> E6 -> S5
@@ -53,10 +55,10 @@ export function generateWarpMilestones(
     { warpType: WarpType.CHARACTER, label: 'E5', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
     { warpType: WarpType.CHARACTER, label: 'E6', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
 
-    { warpType: WarpType.LIGHTCONE, label: 'S2', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    { warpType: WarpType.LIGHTCONE, label: 'S3', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    { warpType: WarpType.LIGHTCONE, label: 'S4', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    { warpType: WarpType.LIGHTCONE, label: 'S5', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    // { warpType: WarpType.LIGHTCONE, label: 'S2', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    // { warpType: WarpType.LIGHTCONE, label: 'S3', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    // { warpType: WarpType.LIGHTCONE, label: 'S4', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    // { warpType: WarpType.LIGHTCONE, label: 'S5', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
   ]
 
   const s1Milestone: WarpMilestone = {
@@ -128,7 +130,7 @@ export function simulateWarps() {
         warpCap,
       } = milestone
 
-      const rate = warpType == WarpType.CHARACTER ? 0.5625 : 0.75 // 0.78125
+      const rate = warpType == WarpType.CHARACTER ? 0.5625 : 0.78125 // 0.78125
       const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) + 1
       if (Math.random() < rate) { // 0.5625
         count += index

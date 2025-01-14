@@ -6,23 +6,17 @@ export function simulateWarps() {
   let wins = 0
   let counts: Record<string, number> = {}
 
+  // Constants
+
+  const characterWarpCap = 90
+  const lightConeWarpCap = 80
+
   // Adjusted cumulative distribution after 30 pulls
 
-  const pity: number = 77
-  const redistributedCumulative: number[] = []
-  for (let i = 0; i < pity; i++) {
-    redistributedCumulative[i] = 0
-  }
-  let sum = 0
-  for (let i = pity; i < 90; i++) {
-    redistributedCumulative[i] = i == 0 ? characterDistribution[i] : redistributedCumulative[i - 1] + characterDistribution[i]
-  }
-  let diff = 1 - redistributedCumulative[90 - 1]
-  for (let i = pity; i < 90; i++) {
-    redistributedCumulative[i] += diff * (redistributedCumulative[i])
-  }
+  const pity: number = 60
+  const redistributedCumulative = redistributePityCumulative(pity, characterWarpCap, characterDistribution)
+  // const redistributedCumulative = redistributePityCumulative(pity, lightConeWarpCap, lightConeDistribution)
 
-  console.log(sum)
   console.log(redistributedCumulative)
 
   const n = 10000000
@@ -40,6 +34,23 @@ export function simulateWarps() {
   }
 
   console.log(counts)
+}
+
+function redistributePityCumulative(pity: number, warpCap: number, distribution: number[]) {
+  const redistributedCumulative: number[] = []
+
+  for (let i = 0; i < pity; i++) {
+    redistributedCumulative[i] = 0
+  }
+  for (let i = pity; i < warpCap; i++) {
+    redistributedCumulative[i] = i == 0 ? distribution[i] : redistributedCumulative[i - 1] + distribution[i]
+  }
+  let diff = 1 - redistributedCumulative[warpCap - 1]
+  for (let i = pity; i < warpCap; i++) {
+    redistributedCumulative[i] += diff * (redistributedCumulative[i])
+  }
+
+  return redistributedCumulative
 }
 
 function getIndex(random: number, cumulativeDistribution: number[], pity: number) {

@@ -6939,7 +6939,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             Stats.Ice_DMG,
           ],
           [Parts.LinkRope]: [
-            Stats.ERR,
             Stats.ATK_P,
           ],
         },

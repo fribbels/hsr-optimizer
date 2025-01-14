@@ -175,4 +175,6 @@ export const defaultSetConditionals = {
   [Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
   [Sets.LushakaTheSunkenSeas]: [undefined, false],
   [Sets.TheWondrousBananAmusementPark]: [undefined, false],
+  [Sets.BoneCollectionsSereneDemesne]: [undefined, true],
+  [Sets.GiantTreeOfRaptBrooding]: [undefined, true],
 }

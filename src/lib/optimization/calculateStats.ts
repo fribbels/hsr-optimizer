@@ -3,11 +3,13 @@ import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,
+  BoneCollectionsSereneDemesneConditional,
   BrokenKeelConditional,
   CelestialDifferentiatorConditional,
   FirmamentFrontlineGlamoth135Conditional,
   FirmamentFrontlineGlamoth160Conditional,
   FleetOfTheAgelessConditional,
+  GiantTreeOfRaptBroodingConditional,
   InertSalsottoConditional,
   IronCavalryAgainstTheScourge150Conditional,
   IronCavalryAgainstTheScourge250Conditional,
@@ -67,6 +69,8 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
     ForgeOfTheKalpagniLantern: (1 >> (setP ^ 15)) + (1 >> (setL ^ 15)),
     LushakaTheSunkenSeas: (1 >> (setP ^ 16)) + (1 >> (setL ^ 16)),
     TheWondrousBananAmusementPark: (1 >> (setP ^ 17)) + (1 >> (setL ^ 17)),
+    BoneCollectionsSereneDemesne: (1 >> (setP ^ 18)) + (1 >> (setL ^ 18)),
+    GiantTreeOfRaptBrooding: (1 >> (setP ^ 19)) + (1 >> (setL ^ 19)),
   }
   return c.sets
 }
@@ -121,7 +125,8 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
 
   c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c,
     0.12 * p2(sets.FleetOfTheAgeless)
-    + 0.12 * p2(sets.LongevousDisciple),
+    + 0.12 * p2(sets.LongevousDisciple)
+    + 0.12 * p2(sets.BoneCollectionsSereneDemesne),
   )
 
   c[Stats.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c,
@@ -145,7 +150,8 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation)
     + 0.06 * p4(sets.TheWindSoaringValorous)
-    + 0.08 * p2(sets.ScholarLostInErudition),
+    + 0.08 * p2(sets.ScholarLostInErudition)
+    + 0.08 * p2(sets.GiantTreeOfRaptBrooding),
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
@@ -388,6 +394,8 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
+  p2(sets.BoneCollectionsSereneDemesne) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
+  p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBroodingConditional, x, action, context)
 
   for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)

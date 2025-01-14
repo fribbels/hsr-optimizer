@@ -89,7 +89,9 @@ import DanceAtSunset from 'lib/conditionals/lightcone/5star/DanceAtSunset'
 import EarthlyEscapade from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import EchoesOfTheCoffin from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin'
 import EternalCalculus from 'lib/conditionals/lightcone/5star/EternalCalculus'
+import FlameOfBloodBlazeMyPath from 'lib/conditionals/lightcone/5star/FlameOfBloodBlazeMyPath'
 import FlowingNightglow from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import IfTimeWereAFlower from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import IncessantRain from 'lib/conditionals/lightcone/5star/IncessantRain'
 import InherentlyUnjustDestiny from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import InTheNameOfTheWorld from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
@@ -98,6 +100,7 @@ import IntotheUnreachableVeil from 'lib/conditionals/lightcone/5star/IntotheUnre
 import IShallBeMyOwnSword from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import IVentureForthToHunt from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import LongRoadLeadsHome from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import MemorysCurtainNeverFalls from 'lib/conditionals/lightcone/5star/MemorysCurtainNeverFalls'
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright'
 import NightOnTheMilkyWay from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay'
@@ -169,8 +172,11 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   24003: SolitaryHealing,
   24004: EternalCalculus,
 
-  23037: IntotheUnreachableVeil,
   23036: TimeWovenIntoGold,
+  23037: IntotheUnreachableVeil,
+  23038: IfTimeWereAFlower,
+  23039: FlameOfBloodBlazeMyPath,
+  24005: MemorysCurtainNeverFalls,
 }
 
 const fourStar: Record<string, LightConeConditionalFunction> = {

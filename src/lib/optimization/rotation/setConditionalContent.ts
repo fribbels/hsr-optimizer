@@ -192,6 +192,12 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     type: ConditionalDataType.BOOLEAN,
     modifiable: true,
   },
+  [Sets.BoneCollectionsSereneDemesne]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
+  [Sets.GiantTreeOfRaptBrooding]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
 }
 
 function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction) {

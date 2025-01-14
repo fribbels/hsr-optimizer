@@ -12,7 +12,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
 
@@ -33,6 +33,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,
     supremeStanceState: true,
+    seamStitch: true,
     memoSpdStacks: memoSpdStacksMax,
     e1Vulnerability: true,
     e2DefShredStacks: 3,
@@ -40,6 +41,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
+    seamStitch: true,
     e1Vulnerability: true,
   }
 
@@ -58,29 +60,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     supremeStanceState: {
       id: 'supremeStanceState',
       formItem: 'switch',
-      text: 'Supreme Stance state',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.supremeStanceState.text'),
+      content: t('Content.supremeStanceState.content', { SpdBuff: ultSpdBoost }),
+    },
+    seamStitch: {
+      id: 'seamStitch',
+      formItem: 'switch',
+      text: t('Content.seamStitch.text'),
+      content: t('Content.seamStitch.content', { Scaling: TsUtils.precisionRound(talentAdditionalDmg * 100) }),
     },
     memoSpdStacks: {
       id: 'memoSpdStacks',
       formItem: 'slider',
-      text: 'Memo SPD stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.memoSpdStacks.text'),
+      content: t('Content.memoSpdStacks.content', { SpdBuff: memoTalentSpd, StackLimit: memoSpdStacksMax }),
       min: 0,
       max: memoSpdStacksMax,
     },
     e1Vulnerability: {
       id: 'e1Vulnerability',
       formItem: 'switch',
-      text: 'E1 vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1Vulnerability.text'),
+      content: t('Content.e1Vulnerability.content'),
       disabled: e < 1,
     },
     e2DefShredStacks: {
       id: 'e2DefShredStacks',
       formItem: 'slider',
-      text: 'E2 DEF PEN stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e2DefShredStacks.text'),
+      content: t('Content.e2DefShredStacks.content'),
       min: 1,
       max: 3,
       disabled: e < 2,
@@ -88,13 +96,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6Buffs.text'),
+      content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    seamStitch: content.seamStitch,
     e1Vulnerability: content.e1Vulnerability,
   }
 
@@ -122,7 +131,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_DEF_SCALING.buff(1, Source.NONE)
       x.MEMO_ATK_SCALING.buff(1, Source.NONE)
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.supremeStanceState) ? talentAdditionalDmg : 0, Source.NONE)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, Source.NONE)
 
       x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, Source.NONE)
 
@@ -137,7 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((e >= 1 && m.e1Vulnerability) ? 0.15 : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

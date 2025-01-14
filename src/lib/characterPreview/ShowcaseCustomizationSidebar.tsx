@@ -277,7 +277,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1013: ['#653ae9'], // herta
     1101: ['#375ee1'], // bronya
     1102: ['#5f55eb'], // seele
-    1103: ['#3821ad'], // serval
+    1103: ['#8772f4'], // serval
     1104: ['#0f4eef'], // gepard
     1105: ['#6a85a0'], // natasha
     1106: ['#4b88e0'], // pela
@@ -336,6 +336,9 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1402: ['#8cb7e7'], // aglaea
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
+
+    1403: ['#8a8def'], // tribbie
+    1404: ['#fa94b7'], // mydei
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

@@ -1,5 +1,5 @@
 import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, theme, Typography } from 'antd'
-import { simulateWarps } from 'lib/tabs/tabGacha/gachaCalculatorController'
+import { simulateWarps, WarpStrategy } from 'lib/tabs/tabGacha/gachaCalculatorController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React from 'react'
@@ -23,8 +23,21 @@ export default function GachaCalculatorTab(): React.JSX.Element {
 }
 
 function Inputs() {
+  const [form] = Form.useForm()
+
   return (
     <Form
+      form={form}
+      initialValues={{
+        passes: 0,
+        jades: 0,
+        income: 'none',
+        strategy: WarpStrategy.E0,
+        pityCharacter: 0,
+        guaranteedCharacter: false,
+        pityLightCone: 0,
+        guaranteedLightCone: false,
+      }}
       style={{
         width: 600,
       }}
@@ -34,58 +47,63 @@ function Inputs() {
           <Flex gap={20}>
             <Flex vertical>
               <HeaderText>Tickets</HeaderText>
-              <InputNumber defaultValue={100}/>
+              <Form.Item name='passes'>
+                <InputNumber/>
+              </Form.Item>
             </Flex>
             <Flex vertical>
               <HeaderText>Jade</HeaderText>
-              <InputNumber defaultValue={0}/>
+              <Form.Item name='jades'>
+                <InputNumber/>
+              </Form.Item>
             </Flex>
             <Flex vertical>
               <HeaderText>Additional pulls</HeaderText>
-              <Select
-                options={generateIncomeOptions()}
-                defaultValue='none'
-                style={{ width: 300 }}
-              />
+              <Form.Item name='income'>
+                <Select
+                  options={generateIncomeOptions()}
+                  style={{ width: 300 }}
+                />
+              </Form.Item>
             </Flex>
           </Flex>
 
           <Flex gap={20}>
             <Flex vertical>
               <HeaderText>Strategy</HeaderText>
-              <Select
-                options={generateStrategyOptions()}
-                defaultValue='1'
-                style={{ width: 300 }}
-              />
+
+              <Form.Item name='strategy'>
+                <Select
+                  options={generateStrategyOptions()}
+                  style={{ width: 300 }}
+                />
+              </Form.Item>
             </Flex>
           </Flex>
 
           <HorizontalDivider>
             Character
           </HorizontalDivider>
-          <GuaranteedInputs banner='Character'/>
+          <PityInputs banner='Character'/>
 
           <HorizontalDivider>
             Light Cone
           </HorizontalDivider>
-          <GuaranteedInputs banner='Light Cone'/>
+          <PityInputs banner='LightCone'/>
 
-          <HorizontalDivider>
-          </HorizontalDivider>
+          <HorizontalDivider/>
+
           <Flex style={{ width: '100%' }} gap={20}>
             <Button
               type='primary'
               block
-              onClick={() => simulateWarps()}
+              onClick={() => simulateWarps(form.getFieldsValue())}
             >
               Calculate
             </Button>
           </Flex>
         </Flex>
       </Card>
-
-
     </Form>
   )
 }
@@ -123,37 +141,32 @@ function Chance(props: { target: string, probability: number }) {
   )
 }
 
-function GuaranteedInputs(props: { banner: string }) {
+function PityInputs(props: { banner: string }) {
   return (
     <Flex gap={20}>
       <Flex vertical>
         <HeaderText>Pity counter</HeaderText>
-        <InputNumber defaultValue={0}/>
+
+        <Form.Item name={`pity${props.banner}`}>
+          <InputNumber/>
+        </Form.Item>
       </Flex>
       <Flex vertical>
         <HeaderText>Guaranteed</HeaderText>
-        <Radio.Group
-          block
-          defaultValue={false}
-          optionType='button'
-          buttonStyle='solid'
-        >
-          <Radio.Button value={true}>Yes</Radio.Button>
-          <Radio.Button value={false}>No</Radio.Button>
-        </Radio.Group>
+
+        <Form.Item name={`guaranteed${props.banner}`}>
+          <Radio.Group
+            block
+            optionType='button'
+            buttonStyle='solid'
+          >
+            <Radio.Button value={true}>Yes</Radio.Button>
+            <Radio.Button value={false}>No</Radio.Button>
+          </Radio.Group>
+        </Form.Item>
       </Flex>
     </Flex>
   )
-}
-
-function generateSimulationOptions() {
-  const options: SelectProps['options'] = [
-    { value: 10000, label: '100,000' },
-    { value: 100000, label: '1,000,000' },
-    { value: 1000000, label: '10,000,000' },
-  ]
-
-  return options
 }
 
 function generateIncomeOptions() {
@@ -169,16 +182,14 @@ function generateIncomeOptions() {
 
 function generateStrategyOptions() {
   const options: SelectProps['options'] = [
-    { value: '0', label: 'S1 first, then character banner' },
-    { value: '1', label: 'E0S1 first, then character banner' },
-    { value: '2', label: 'E0S0 first, then character banner' },
-    { value: '', label: '' },
-    { value: '3', label: 'E1S0 first, then character banner' },
-    { value: '4', label: 'E2S0 first, then character banner' },
-    { value: '5', label: 'E3S0 first, then character banner' },
-    { value: '6', label: 'E4S0 first, then character banner' },
-    { value: '7', label: 'E5S0 first, then character banner' },
-    { value: '8', label: 'E6S0 first, then light cone banner' },
+    { value: WarpStrategy.S1, label: 'S1 first, then E0' },
+    { value: WarpStrategy.E0, label: 'E0 first, then S1' },
+    { value: WarpStrategy.E1, label: 'E1 first, then S1' },
+    { value: WarpStrategy.E2, label: 'E2 first, then S1' },
+    { value: WarpStrategy.E3, label: 'E3 first, then S1' },
+    { value: WarpStrategy.E4, label: 'E4 first, then S1' },
+    { value: WarpStrategy.E5, label: 'E5 first, then S1' },
+    { value: WarpStrategy.E6, label: 'E6 first, then S1' },
   ]
 
   return options

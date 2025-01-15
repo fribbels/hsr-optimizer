@@ -16,9 +16,28 @@ export enum WarpStrategy {
   S1 = 7, // S1 -> E6 -> S5
 }
 
+export type WarpRequest = {
+  passes: number,
+  jades: number,
+  income: WarpIncome,
+  strategy: WarpStrategy,
+  pityCharacter: number,
+  guaranteedCharacter: false,
+  pityLightCone: number,
+  guaranteedLightCone: false
+}
+
+export type WarpResult = { warps: number, wins: number }
+
 export enum WarpType {
   CHARACTER,
   LIGHTCONE
+}
+
+export enum WarpIncome {
+  F2P,
+  EXPRESS,
+  EXPRESSBP,
 }
 
 type WarpMilestone = {
@@ -108,11 +127,9 @@ export function generateWarpMilestones(
   return milestones
 }
 
-export type WarpResult = { warps: number, wins: number }
-
-export function simulateWarps() {
+export function simulateWarps(request: WarpRequest) {
   console.clear()
-  console.log('simulate Warps')
+  console.log('simulate Warps', request)
   const n = 100000
 
   const milestones: WarpMilestone[] = generateWarpMilestones(

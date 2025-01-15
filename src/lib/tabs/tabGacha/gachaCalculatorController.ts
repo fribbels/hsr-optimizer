@@ -1,4 +1,4 @@
-import { characterCumulative, characterDistribution, lightConeDistribution } from 'lib/tabs/tabGacha/gachaRates'
+import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabGacha/gachaRates'
 
 const characterWarpCap = 90
 const lightConeWarpCap = 80
@@ -55,10 +55,10 @@ export function generateWarpMilestones(
     { warpType: WarpType.CHARACTER, label: 'E5', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
     { warpType: WarpType.CHARACTER, label: 'E6', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
 
-    // { warpType: WarpType.LIGHTCONE, label: 'S2', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    // { warpType: WarpType.LIGHTCONE, label: 'S3', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    // { warpType: WarpType.LIGHTCONE, label: 'S4', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    // { warpType: WarpType.LIGHTCONE, label: 'S5', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S2', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S3', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S4', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S5', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
   ]
 
   const s1Milestone: WarpMilestone = {
@@ -97,14 +97,22 @@ export function generateWarpMilestones(
       break
   }
 
+  let e = -1
+  let s = 0
+  for (const milestone of milestones) {
+    if (milestone.warpType == WarpType.CHARACTER) e++
+    if (milestone.warpType == WarpType.LIGHTCONE) s++
+    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
+  }
+
   return milestones
 }
+
+export type WarpResult = { warps: number, wins: number }
 
 export function simulateWarps() {
   console.clear()
   console.log('simulate Warps')
-  let wins = 0
-  let counts: Record<string, number> = {}
   const n = 100000
 
   const milestones: WarpMilestone[] = generateWarpMilestones(
@@ -115,7 +123,9 @@ export function simulateWarps() {
     false,
   )
 
-  let sum = 0
+  const results: Record<string, WarpResult> = Object.fromEntries(
+    milestones.map(({ label }) => [label, { warps: 0, wins: 0 }]),
+  )
 
   for (let i = 0; i < n; i++) {
     let count = 0
@@ -130,60 +140,37 @@ export function simulateWarps() {
         warpCap,
       } = milestone
 
-      const rate = warpType == WarpType.CHARACTER ? 0.5625 : 0.78125 // 0.78125
-      const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) + 1
-      if (Math.random() < rate) { // 0.5625
+      const rate = warpType == WarpType.CHARACTER ? 0.5625 : 0.75 // 0.78125
+      const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
+      if (Math.random() < rate || guaranteed) {
         count += index
       } else {
-        const index2 = getNextSuccessIndex(redistributedCumulative, warpCap, pity) + 1
+        const index2 = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
         count += index + index2
       }
 
-      if (label == 'S5' && count <= 952) {
-        wins++
+      results[label].warps += count
+      if (count < 960) {
+        results[label].wins++
       }
     }
-
-    sum += count
   }
 
-  console.log(sum / n)
-  console.log(wins / n)
+  for (const milestone of milestones) {
+    console.log(`${milestone.label}: ${results[milestone.label].warps / n}`)
+  }
 
-  // Constants
+  console.log('----')
 
-  // Adjusted cumulative distribution after 30 pulls
-  //
-  // const pity: number = 60
-  // const redistributedCumulative = redistributePityCumulative(pity, characterWarpCap, characterDistribution)
-  // // const redistributedCumulative = redistributePityCumulative(pity, lightConeWarpCap, lightConeDistribution)
-  //
-  // console.log(redistributedCumulative)
-  //
-  // for (let i = 0; i < n; i++) {
-  //   const index = getNextSuccessIndex(redistributedCumulative, characterWarpCap, pity)
-  //
-  //   if (counts[index] == null) counts[index] = 0
-  //   counts[index]++
-  // }
-  //
-  // let sum = 0
-  // for (const [key, value] of Object.entries(counts)) {
-  //   console.log(`${key}: ${value / n * 100}%`)
-  //   sum += value / n * 100
-  // }
-  //
-  // console.log(counts)
-  // console.log(sum)
+  for (const milestone of milestones) {
+    console.log(`${milestone.label}: ${results[milestone.label].wins / n}`)
+  }
+
+  return results
 }
 
-function getNextSuccessIndex(cumulative: number[], warpCap: number, pity: number) {
-  const rand = Math.random() * cumulative[warpCap - 1]
-  const index = getIndex(rand, cumulative, pity)
-
-  return index
-}
-
+// We have the cumulative distribution of warp results for 0 pity counter.
+// To compute the with-pity distribution, redistribute the probability mass from before the pity among the remaining possibilities
 function redistributePityCumulative(pity: number, warpCap: number, distribution: number[]) {
   const redistributedCumulative: number[] = []
 
@@ -201,6 +188,13 @@ function redistributePityCumulative(pity: number, warpCap: number, distribution:
   return redistributedCumulative
 }
 
+// Adjust the random number to account for pity counter since anything before the pity is impossible
+function getNextSuccessIndex(cumulative: number[], warpCap: number, pity: number) {
+  const rand = Math.random() * cumulative[warpCap - 1]
+  return getIndex(rand, cumulative, pity)
+}
+
+// Binary search the index of random number within the distribution
 function getIndex(random: number, cumulativeDistribution: number[], pity: number) {
   let left = pity
   let right = cumulativeDistribution.length - 1

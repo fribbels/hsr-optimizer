@@ -59,15 +59,6 @@ function Inputs() {
                 style={{ width: 300 }}
               />
             </Flex>
-
-            <Flex vertical>
-              <HeaderText>Simulations</HeaderText>
-              <Select
-                defaultValue={10000}
-                options={generateSimulationOptions()}
-                style={{ width: 200 }}
-              />
-            </Flex>
           </Flex>
 
           <HorizontalDivider>

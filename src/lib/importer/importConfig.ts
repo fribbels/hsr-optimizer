@@ -31,7 +31,7 @@ export const ReliquaryArchiverConfig: ScannerConfig = {
   releases: 'https://github.com/IceDynamix/reliquary-archiver/releases/latest',
   defaultFileName: 'archiver_output.json',
   sourceString: 'reliquary_archiver',
-  latestBuildVersion: 'v0.1.14',
+  latestBuildVersion: 'v0.2.0',
   latestOutputVersion: 4,
   speedVerified: true,
 }

@@ -23,6 +23,7 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -54,6 +55,7 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
+  WARP: 'WARP',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
@@ -67,6 +69,7 @@ export const PageToRoute = {
 
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
+  [AppPages.WARP]: BASE_PATH + '#warp',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 
@@ -78,6 +81,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
+  [PageToRoute[AppPages.WARP]]: AppPages.WARP,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 
@@ -143,6 +147,8 @@ window.store = create((set) => {
     scorerId: '',
     scoringMetadataOverrides: {},
     showcasePreferences: {},
+    warpRequest: {} as WarpRequest,
+    warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
@@ -238,6 +244,8 @@ window.store = create((set) => {
     setScorerId: (x) => set(() => ({ scorerId: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
+    setWarpRequest: (x) => set(() => ({ warpRequest: x })),
+    setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
@@ -588,6 +596,10 @@ export const DB = {
 
     if (saveData.showcasePreferences) {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+    }
+
+    if (saveData.warpRequest) {
+      window.store.getState().setWarpRequest(saveData.warpRequest || {})
     }
 
     window.store.getState().setScorerId(saveData.scorerId)

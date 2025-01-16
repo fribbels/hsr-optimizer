@@ -8,5 +8,6 @@ export enum SavedSessionKeys {
   combatScoreDetails = 'combatScoreDetails',
   computeEngine = 'computeEngine',
   showcaseStandardMode = 'showcaseStandardMode',
-  showcaseDarkMode = 'showcaseDarkMode'
+  showcaseDarkMode = 'showcaseDarkMode',
+  warpRequest = 'warpRequest'
 }

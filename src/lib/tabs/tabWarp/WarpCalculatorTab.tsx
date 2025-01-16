@@ -110,7 +110,7 @@ function Inputs() {
 function Results() {
   const warpResult = window.store((s) => s.warpResult)
 
-  if (!warpResult) {
+  if (!warpResult?.request) {
     return <></>
   }
 

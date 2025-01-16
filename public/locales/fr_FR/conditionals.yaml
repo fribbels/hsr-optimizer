@@ -26,203 +26,289 @@ Lightcones:
     Content:
       dmgBuffStacks:
         text: Cumuls de bonus de DGT
+        content: >-
+          Lorsque le porteur utilise sa compétence ou son ultime sur un personnage allié, la cible de la capacité reçoit 1 cumul d'Hymne pour 3 tours, cumulable jusqu'à 3 fois. Chaque cumul d'Hymne augmente les DGT infligés par son bénéficiaire de {{DmgBuff}}%.
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
         text: Malus Bulle du vide
+        content: >-
+          Lorsque le porteur touche une cible ennemie, applique l'effet Bulle du vide pendant 1 tour à l'ennemi. Cet effet peut être déclenché 1 fois sur chaque cible pour chaque attaque lancée par le porteur. Le porteur inflige {{DmgBoost}}% de DGT supplémentaires aux cibles affectées par Bulle du vide et ses DGT d'ultime augmentent de {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
       maxEnergyUltDmgStacks:
         text: Énergie maximale
+        content: Lorsque le porteur lance son ultime, augmente les DGT de l'ultime du porteur en fonction de son énergie max. Chaque point d'énergie augmente les DGT de l'ultime de {{DmgStep}}%, jusqu'à un maximum de 180 points d'énergie.
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
         text: Cumuls de malus de DC
+        content: Les DGT critiques du porteur augmentent de {{DmgStep}}% supplémentaires pour chaque malus subi par la cible ennemie, jusqu'à un maximum de 3 cumuls.
       postUltBuff:
         text: Bonus Débat
+        content: >-
+          Lorsque le porteur attaque une cible avec son ultime, il bénéficie de l'effet Débat, qui augmente les DGT qu'il inflige de {{DmgStep}}% et ses attaques de suivi ignorent {{DefIgnore}}% de la DÉF de la cible. Cet effet dure 2 tours.
   BeforeDawn:
     Content:
       fuaDmgBoost:
         text: DGT bonus ADS
+        content: >-
+          Après utilisation de sa compétence ou de son ultime, le porteur bénéficie de Somnus Corpus. Lors du déclenchement d'une attaque de suivi, Somnus Corpus se dissipe et les DGT de l'attaque de suivi augmentent de {{DmgBuff}}%.
   BrighterThanTheSun:
     Content:
       dragonsCallStacks:
         text: Cumuls d'Appel du dragon
+        content: >-
+          Lorsque le porteur utilise son ATQ normale, il gagne 1 cumul d'Appel du dragon, qui dure 2 tours. Chaque cumul d'Appel du dragon augmente l'ATQ du porteur de {{AtkBuff}}% et le taux de régénération d'énergie de {{RegenBuff}}%. Appel du dragon est cumulable jusqu'à 2 fois.
   ButTheBattleIsntOver:
     Content:
       postSkillDmgBuff:
         text: Bonus de DGT post-compétence
+        content: Lorsque le porteur utilise sa compétence, le prochain allié à agir (à l'exception du porteur) inflige {{DmgBuff}}% de DGT supplémentaires pendant 1 tour.
   CruisingInTheStellarSea:
     Content:
       enemyHp50CrBoost:
         text: Bonus de TC ennemi à PV ≤ 50%
+        content: Augmente les chances de coup critique du porteur de {{CritBuff}}% supplémentaires contre les ennemis dont les PV sont inférieurs ou égaux à 50%.
       enemyDefeatedAtkBuff:
         text: Bonus d'ATQ pour ennemi vaincu
+        content: Lorsque le porteur élimine un ennemi, son ATQ augmente de {{AtkBuff}}% pendant 2 tours.
   DanceAtSunset:
     Content:
       fuaDmgStacks:
         text: Cumuls de bonus de DGT d'ADS
+        content: >-
+          Le porteur obtient 1 cumul de Danse du feu après avoir utilisé son ultime. Danse du feu dure 2 tours et peut se cumuler jusqu'à 2 fois. Chaque cumul de Danse du feu augmente les DGT infligés par l'attaque de suivi du porteur de {{DmgBoost}}%.
   EarthlyEscapade:
     Content:
       maskActive:
         text: Masque actif
+        content: >-
+           Le porteur obtient l'effet Masque pendant 3 tours en début de combat. Tant que le porteur bénéficie de Masque, ses alliés voient leurs chances de coup critique augmenter de {{CritRateBuff}}% et leurs DGT critiques de {{CritDmgBuff}}%. Chaque fois que le porteur régénère 1 point de compétence (y compris des points de compétence au-delà de la limite), il gagne 1 cumul de Flamme radieuse. À 4 cumuls de Flamme radieuse, il perd tous les cumuls et gagne Masque. Dure 4 tours.
   EchoesOfTheCoffin:
     Content:
       postUltSpdBuff:
         text: Bonus de VIT post-ULT
+        content: >-
+          Lorsque le porteur utilise une attaque, régénère {{EnergyRecovered}} points d'énergie pour chaque cible touchée. Chaque attaque peut régénérer de l'énergie jusqu'à 3 fois de cette façon. Lorsque le porteur utilise son ultime, la VIT de tous les alliés augmente de {{SpdBuff}} pendant 1 tour.
   EternalCalculus:
     Content:
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
+        content: Après avoir utilisé une attaque, pour chaque cible ennemie touchée, augmente l'ATQ de {{AtkBuff}}% supplémentaires. Cet effet peut être cumulé 5 fois et dure jusqu'à la prochaine attaque.
       spdBuff:
         text: Bonus de VIT 3 cibles attaquées
+        content: La VIT du personnage augmente de {{SpdBuff}}% s'il y a au moins 3 cibles ennemies touchées. Dure 1 tour.
   FlowingNightglow:
     Content:
       cadenzaActive:
         text: Cadence actif
+        content: >-
+          Le porteur gagne 1 cumul de Cantique à chaque fois qu'un allié attaque. Chaque cumul de Cantique augmente de {{RegenBuff}}% le taux de régénération d'énergie du porteur, jusqu'à 5 cumuls. Supprime l'effet Cantique et gagne Cadence à la place lorsque le porteur utilise son ultime. Cadence augmente l'ATQ du porteur de {{AtkBuff}}% et les DGT infligés par l'équipe de {{DmgBuff}}%. Dure 1 tour.
       cantillationStacks:
         text: Cumuls de Cantique
+        content: >-
+          Le porteur gagne 1 cumul de Cantique à chaque fois qu'un allié attaque. Chaque cumul de Cantique augmente de {{RegenBuff}}% le taux de régénération d'énergie du porteur, jusqu'à 5 cumuls. Supprime l'effet Cantique et gagne Cadence à la place lorsque le porteur utilise son ultime. Cadence augmente l'ATQ du porteur de {{AtkBuff}}% et les DGT infligés par l'équipe de {{DmgBuff}}%. Dure 1 tour.
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
         text: Bonus de TC ennemi ≥ 3 malus
+        content: Lorsque le porteur inflige des DGT à un ennemi ayant 3 malus ou plus, les chances de coup critique augmentent de {{CritBuff}}%.
       targetCodeDebuff:
         text: Cible malussée code éthéré
+        content: >-
+          Après avoir utilisé son attaque de base, sa compétence ou son ultime, il y a une chance d'implanter Code éthéré sur une cible aléatoire ne possédant pas déjà cet effet. Les cibles sous l'effet de Code éthéré subissent {{DmgIncrease}}% de DGT supplémentaires pendant 1 tour.
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
         text: Bonus de DC post-bouclier
+        content: Les DGT critiques du porteur augmentent de {{CritBuff}}% pendant 2 tours à chaque fois qu'il accorde un bouclier à un allié.
       targetVulnerability:
         text: Cible malussée vulnérabilité
+        content: Lorsque le porteur utilise une attaque de suivi pour attaquer un ennemi, il y a 100% de chances de base d'augmenter les DGT subis par l'ennemi attaqué de {{Vulnerability}}% pendant 2 tours.
   InTheNameOfTheWorld:
     Content:
       enemyDebuffedDmgBoost:
         text: Bonus DGT ennemi malussé
+        content: Les DGT du porteur sur les ennemies souffrant de malus augmentent de {{DmgBuff}}%.
       skillAtkBoost:
         text: Bonus d'ATQ de compétence (non mis en œuvre)
+        content: Lorsqu'il utilise sa compétence, les chances d'appliquer des effets du porteur pour cette attaque augmentent de {{EhrBuff}}%, et son ATQ de {{AtkBuff}}%.
   InTheNight:
     Content:
       spdScalingBuffs:
         text: Bonus par conversions de VIT
+        content: >-
+          En combat, à chaque tranche de 10 points de VIT au-delà de 100, les DGT de son ATQ normale et de sa compétence augmentent de {{DmgBuff}}% et les DGT critiques de son ultime de {{CritBuff}}%. Cet effet est cumulable jusqu'à 6 fois.
   IntoTheUnreachableVeil:
     Content:
       skillUltDmgBoost:
         text: Bonus de DGT Compétence / Ult
+        content: Augmente les DGT infligés par la compétence et l'ultime du porteur de {{DmgBuff}}% pendant 3 tours lorsque le porteur utilise son ultime.
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
         text: Cumuls d'Éclipse
+        content: >-
+          Le porteur gagne 1 cumul d'Éclipse chaque fois qu'un allié est attaqué ou perd des PV, jusqu'à un maximum de 3 cumuls. Chaque cumul d'Éclipse augmente les DGT de la prochaine attaque du porteur de {{DmgBuff}}%.
       maxStackDefPen:
         text: Cumuls maximum de PÉN de DÉF
+        content: À 3 cumuls, l'attaque ignore également {{DefIgnore}}% de la DÉF de l'ennemi. L'effet disparaît chaque fois que le porteur utilise une attaque.
   IVentureForthToHunt:
     Content:
       luminfluxUltStacks:
         text: Cumuls de Lumière vive
+        content: >-
+          Lorsque le porteur lance une attaque de suivi, il gagne 1 cumul de Lumière vive jusqu'à un maximum de 2 fois. Chaque cumul de Lumière vive permet aux DGT d'ultime infligés par le porteur d'ignorer {{DefIgnore}}% de la DÉF de la cible. Lorsque le tour du porteur se termine, supprime 1 cumul de Lumière vive.
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: Cumuls de vulnérabilité de rupture
+        content: >-
+          Lorsqu'une cible ennemie subit une Rupture de faiblesse, il y a 100% de chances de base de lui infliger l'état Incinération, ce qui augmente les DGT de rupture qu'elle subit de {{breakVulnerability}}%. Dure 2 tours. Cet effet peut être cumulé jusqu'à 2 fois.
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
         text: Bonus de DÉF après porteur attaqué
+        content: Augmente la probabilité pour le porteur d'être attaqué par des ennemis. Lorsque le porteur est attaqué, sa DÉF augmente de {{DefBuff}}% supplémentaires jusqu'à la fin de son tour.
   NightOfFright:
     Content:
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
+        content: Quand le porteur prodigue des soins à l'allié, augmente l'ATQ de l'allié soigné de {{AtkBuff}}%. Cet effet peut être cumulé jusqu'à 5 fois et dure 2 tours.
   NightOnTheMilkyWay:
     Content:
       enemyCountAtkBuff:
         text: Bonus d'ATQ nombre d'ennemis
+        content: Pour chaque ennemi sur le champ de bataille, augmente l'ATQ du porteur de {{AtkBuff}}% jusqu'à 5 cumuls.
       enemyWeaknessBreakDmgBuff:
         text: Bonus de DGT ennemi en état de rupture
+        content: Lorsqu'un ennemi est affecté par Rupture de faiblesse, augmente les DGT infligés par le porteur de {{DmgBuff}}% pendant 1 tour.
   OnTheFallOfAnAeon:
     Content:
       atkBoostStacks:
         text: Cumuls de bonus d'ATQ
+        content: Pendant un même combat, chaque fois que le porteur attaque, son ATQ augmente de {{AtkBuff}}%, cumulable jusqu'à 4 fois.
       weaknessBreakDmgBuff:
         text: Bonus de DGT post-rupture
+        content: Lorsque le porteur inflige une Rupture de faiblesse à un ennemi, ses DGT augmentent de {{DmgBuff}}% pendant 2 tours.
   PastSelfInTheMirror:
     Content:
       postUltDmgBuff:
         text: Bonus de DGT post-ULT
+        content: Augmente les DGT de tous les alliés de {{DmgBuff}}% pendant 3 tours lorsque le porteur utilise son ultime.
   PatienceIsAllYouNeed:
     Content:
       spdStacks:
         text: Cumuls de VIT
+        content: ' Après chaque attaque du porteur, sa VIT augmente de {{SpdBuff}}%, effet cumulable 3 fois.'
       dotEffect:
         text: Effet DSD (non mis en œuvre)
+        content: >-
+          Lorsque le porteur attaque un ennemi, il y a 100% de chances de base de lui infliger l'effet Érosion, lorsque l'ennemi n'est pas déjà affecté par cet effet. Les ennemis affectés par Érosion sont considérés comme Stupéfiés et subissent des DGT de foudre sur la durée équivalents à {{Multiplier}}% de l'ATQ du porteur pendant 1 tour.
   ReforgedRemembrance:
     Content:
       prophetStacks:
         text: Cumuls de Prophétie
+        content: >-
+          Lorsque le porteur inflige des DGT à un ennemi affecté par Faille du vent, Saignement, Brûlure ou Stupéfaction, chaque effet lui accorde 1 cumul de Prophétie, cumulable jusqu'à 4 fois. Chaque type de dégâts sur la durée ne peut générer qu'1 seul cumul de Prophétie par combat. Chaque cumul de Prophétie augmente de {{AtkBuff}}% l'ATQ du porteur et permet aux dégâts sur la durée infligés d'ignorer {{DefIgnore}}% de la DÉF de la cible.
   SailingTowardsASecondLife:
     Content:
       breakDmgDefShred:
         text: PÉN de DÉF de DGT de rupture
+        content: Les DGT de rupture du porteur ignorent {{DefIgnore}}% de la DÉF de la cible.
       spdBuffConditional:
         text: Bonus de VIT ER ≥ 150
+        content: Lorsque l'effet de Rupture du porteur est supérieur ou égal à 150%, sa VIT augmente de {{SpdBuff}}%.
   ScentAloneStaysTrue:
     Content:
       woefreeState:
         text: Vulnérabilité Sans souci
+        content: >-
+          Lorsque le porteur attaque des cibles ennemies avec son ultime, leur applique l'effet Sans souci pendant 2 tours. Les cibles ennemies avec l'effet Sans souci subissent {{Vulnerability}}% de DGT supplémentaires. L'effet d'augmentation des DGT subis est renforcé de {{AdditionalVulnerability}}% supplémentaires si l'effet de Rupture actuel du porteur est supérieur ou égal à 150%.
     TeammateContent:
       additionalVulnerability:
         text: Vulnérabilité supplémentaire
+        content: >-
+          Lorsque le porteur attaque des cibles ennemies avec son ultime, leur applique l'effet Sans souci pendant 2 tours. Les cibles ennemies avec l'effet Sans souci subissent {{Vulnerability}}% de DGT supplémentaires. L'effet d'augmentation des DGT subis est renforcé de {{AdditionalVulnerability}}% supplémentaires si l'effet de Rupture actuel du porteur est supérieur ou égal à 150%.
   SheAlreadyShutHerEyes:
     Content:
       hpLostDmgBuff:
         text: Bonus de DGT PV perdus
+        content: Lorsque les PV du porteur sont réduits, les DGT infligés par tous les alliés augmentent de {{DmgBuff}}% pendant 2 tours.
   SleepLikeTheDead:
     Content:
       missedCritCrBuff:
         text: Bonus de TC coup critique manqué
+        content: Lorsque son ATQ normale ou sa compétence ne résulte pas en un coup critique, ses chances de coup critique augmentent de {{CritBuff}}% pendant 1 tour. Cet effet ne peut être déclenché qu'une fois tous les 3 tours.
   SolitaryHealing:
     Content:
       postUltDotDmgBuff:
         text: Bonus DGT DSD post-ULT
+        content: Lorsque le porteur utilise son ultime, il inflige {{DmgBuff}}% de dégâts sur la durée supplémentaires pendant 2 tours.
   SomethingIrreplaceable:
     Content:
       dmgBuff:
         text: Bonus de DGT ennemi vaincu/porteur attaqué
+        content: >-
+          Lorsque le porteur élimine un ennemi ou est touché par une attaque, il restaure immédiatement des PV équivalents à {{Multiplier}}% de son ATQ. D'autre part, ses DGT augmentent de {{DmgBuff}}% jusqu'à la fin de son prochain tour. L'effet n'est pas cumulable et ne peut se déclencher qu'1 fois par tour.
   TextureOfMemories:
     Content:
       activeShieldDmgDecrease:
         text: Réduction de DGT bouclier actif
+        content: >-
+          Lorsque le porteur est attaqué et n'a pas de bouclier, il obtient un bouclier équivalent à {{ShieldHp}}% de ses PV max pendant 2 tours. Cet effet ne peut être déclenché qu'une fois tous les 3 tours. Si le porteur a déjà un bouclier lorsqu'il est attaqué, les DGT subis sont réduits de {{DmgReduction}}%.
   TheUnreachableSide:
     Content:
       dmgBuff:
         text: Bonus de DGT porteur attaqué/PV consommés
+        content: Les DGT du porteur augmentent de {{DmgBuff}}% lorsqu'il est attaqué ou qu'il consomme ses propres PV. Cet effet disparaît lorsque le porteur lance une attaque.
   ThoseManySprings:
     Content:
       unarmoredVulnerability:
         text: Vulnérabilité Sans défense
+        content: >-
+          Lorsque le porteur utilise son ATQ normale, sa compétence, ou son ultime pour attaquer une cible ennemie, il a 60% de chances de base de lui infliger l'état Sans défense. Dans l'état Sans défense, augmente les DGT subis par la cible ennemie de {{UnarmoredVulnerability}}% pendant 2 tours. Lorsque la cible subit des dégâts sur la durée infligés par le porteur, il y a 60% de chances de base de transformer son état Sans défense en Cerné, ce qui augmente les DGT subis par la cible de {{CorneredVulnerability}}%, pendant 2 tours.
       corneredVulnerability:
         text: Vulnérabilité Cerné
+        content: >-
+          Lorsque le porteur utilise son ATQ normale, sa compétence, ou son ultime pour attaquer une cible ennemie, il a 60% de chances de base de lui infliger l'état Sans défense. Dans l'état Sans défense, augmente les DGT subis par la cible ennemie de {{UnarmoredVulnerability}}% pendant 2 tours. Lorsque la cible subit des dégâts sur la durée infligés par le porteur, il y a 60% de chances de base de transformer son état Sans défense en Cerné, ce qui augmente les DGT subis par la cible de {{CorneredVulnerability}}%, pendant 2 tours.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
         text: Dégâts basés sur les soins (non mis en œuvre)
+        content: >-
+          Lorsque le porteur soigne un allié, la quantité de soins prodigués est enregistrée. Lorsqu'un allié lance une attaque, un ennemi aléatoire parmi ceux attaqués subit des DGT additionnels équivalents à {{Multiplier}}% des soins prodigués enregistrés. Ces DGT additionnels sont du même type que le porteur, ne sont pas affectés par d'autres bonus et ne peuvent être infligés qu'1 fois par tour.
   TimeWovenIntoGold:
     Content:
       brocadeStacks:
         text: Cumuls de Tapisserie
+        content: >-
+          Gagne 1 cumul de Tapisserie après chaque attaque du porteur et de son mnémesprit.::BR::Chaque cumul de Tapisserie augmente les DGT critiques du porteur et de son mnémesprit de {{CdBuff}}%, cumulable jusqu'à 6 fois.::BR:: Après avoir atteint la limite de cumuls, chaque cumul de Tapisserie augmente les DGT infligés par l'ATQ normale de {{DmgBuff}}% supplémentaires.
       maxStacksBasicDmgBoost:
         text: Bonus de DGT de basique
+        content: >-
+          Gagne 1 cumul de Tapisserie après chaque attaque du porteur et de son mnémesprit.::BR::Chaque cumul de Tapisserie augmente les DGT critiques du porteur et de son mnémesprit de {{CdBuff}}%, cumulable jusqu'à 6 fois.::BR:: Après avoir atteint la limite de cumuls, chaque cumul de Tapisserie augmente les DGT infligés par l'ATQ normale de {{DmgBuff}}% supplémentaires.
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
         text: Vulnérabilité Perdu
+        content: >-
+          Lorsque le porteur inflige des DGT de rupture à une cible ennemie, il applique l'effet Perdu à la cible ennemie pendant 2 tours. Les cibles affectées par l'effet Perdu subissent {{Vulnerability}}% de DGT de rupture supplémentaires de la part du porteur et voient leur VIT réduite de 20%.
   WorrisomeBlissful:
     Content:
       targetTameStacks:
         text: Cumuls Apprivoisement
+        content: >-
+          Lorsque le porteur déclenche une attaque de suivi, applique l'état Apprivoisement à la cible, cumulable jusqu'à 2 fois. Lorsque des alliés touchent des cibles ennemies affectées par Apprivoisement, chaque cumul d'Apprivoisement augmente les DGT critiques infligés de {{CritBuff}}%.
   YetHopeIsPriceless:
     Content:
       fuaDmgBoost:
         text: DC à bonus de DGT d'ADS
+        content: Lorsque les DGT critiques du porteur sont supérieurs à 120% en combat, pour chaque tranche de 20% de DGT critiques supérieurs, les DGT des attaques de suivi augmentent de {{DmgBuff}}%. Cet effet peut être cumulé jusqu'à 4 fois.
       ultFuaDefShred:
         text: PÉN de DÉF ULT/ADS
+        content: En début de combat ou après que le porteur a utilisé son ATQ normale, son ultime et ses DGT d'attaque de suivi ignorent {{DefShred}}% de la DÉF de la cible, pour une durée de 2 tours.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -351,6 +437,7 @@ Lightcones:
     Content:
       dmgBoost:
         text: Bonus de DGT Mnémomaître / Mnémesprit
+        content: Lorsque le mnémesprit du porteur est sur le champ de bataille, augmente les DGT infligés par le porteur et son mnémesprit de {{DmgBuff}}%.
   Swordplay:
     Content:
       sameTargetHitStacks:
@@ -389,6 +476,7 @@ Lightcones:
     Content:
       teamDmgBuff:
         text: Bonus d'équipe de DGT
+        content: Lorsque le mnémesprit du porteur utilise une compétence sur une cible alliée, augmente les DGT infligés par toutes les cibles alliées de {{DmgBuff}}% pendant 3 tours.
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:

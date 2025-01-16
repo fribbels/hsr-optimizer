@@ -1,9 +1,9 @@
 import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, theme, Typography } from 'antd'
-import { simulateWarps, WarpMilestoneResult, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { DEFAULT_WARP_REQUEST, simulateWarps, WarpIncome, WarpIncomeValuesMapping, WarpMilestoneResult, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -11,12 +11,15 @@ const { Text } = Typography
 type ChangelogContent = { title: string; date: string; content: string[] }
 
 export default function WarpCalculatorTab(): React.JSX.Element {
-  const { token } = useToken()
-
   const activeKey = window.store((s) => s.activeKey)
 
   return (
-    <Flex vertical style={{ height: 1400 }}>
+    <Flex vertical style={{ height: 1400 }} align='center'>
+      <Flex justify='space-around' style={{ margin: 15 }}>
+        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
+          Warp Calculator (Beta: UI WIP)
+        </pre>
+      </Flex>
       <Inputs/>
       <Results/>
     </Flex>
@@ -24,59 +27,53 @@ export default function WarpCalculatorTab(): React.JSX.Element {
 }
 
 function Inputs() {
+  const warpRequest = window.store((s) => s.warpRequest)
   const [form] = Form.useForm()
+
+  const initialValues = useMemo(() => {
+    return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
+  }, [])
 
   return (
     <Form
       form={form}
-      initialValues={{
-        passes: 0,
-        jades: 0,
-        income: 'none',
-        strategy: WarpStrategy.E0,
-        pityCharacter: 0,
-        guaranteedCharacter: false,
-        pityLightCone: 0,
-        guaranteedLightCone: false,
-      }}
+      initialValues={initialValues}
       style={{
         width: 600,
       }}
     >
       <Card>
         <Flex vertical gap={10}>
-          <Flex gap={20}>
+          <Flex gap={20} flex={1}>
             <Flex vertical>
-              <HeaderText>Tickets</HeaderText>
+              <HeaderText>Warp passes</HeaderText>
               <Form.Item name='passes'>
-                <InputNumber/>
+                <InputNumber placeholder='0'/>
               </Form.Item>
             </Flex>
             <Flex vertical>
-              <HeaderText>Jade</HeaderText>
+              <HeaderText>Jades</HeaderText>
               <Form.Item name='jades'>
-                <InputNumber/>
+                <InputNumber placeholder='0'/>
               </Form.Item>
             </Flex>
-            <Flex vertical>
-              <HeaderText>Additional pulls</HeaderText>
-              <Form.Item name='income'>
+            <Flex vertical flex={1}>
+              <HeaderText>Strategy</HeaderText>
+
+              <Form.Item name='strategy'>
                 <Select
-                  options={generateIncomeOptions()}
-                  style={{ width: 300 }}
+                  options={generateStrategyOptions()}
                 />
               </Form.Item>
             </Flex>
           </Flex>
 
           <Flex gap={20}>
-            <Flex vertical>
-              <HeaderText>Strategy</HeaderText>
-
-              <Form.Item name='strategy'>
+            <Flex vertical flex={1}>
+              <HeaderText>Additional warp income</HeaderText>
+              <Form.Item name='income'>
                 <Select
-                  options={generateStrategyOptions()}
-                  style={{ width: 300 }}
+                  options={generateIncomeOptions()}
                 />
               </Form.Item>
             </Flex>
@@ -118,7 +115,7 @@ function Results() {
   console.log(warpResult)
 
   return (
-    <Flex vertical gap={20}>
+    <Flex vertical gap={20} style={{ width: 450 }}>
       <Flex justify='space-around' style={{ marginTop: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           Warp Probabilities
@@ -138,9 +135,19 @@ function Chance(props: { target: string, result: WarpMilestoneResult }) {
 
   return (
     <Text style={{ fontSize: 18 }}>
-      <pre style={{ margin: 0 }}>
-        {props.target} — {probabilityDisplay}% chance — {warpsDisplay} warps average
-      </pre>
+      <Flex align='center' gap={5} justify='flex-start'>
+        <pre style={{ margin: 0, width: 75 }}>
+          <Flex justify='space-around'>
+            {props.target}
+          </Flex>
+        </pre>
+        <Flex flex={1} justify='flex-end'>
+          {probabilityDisplay}% chance
+        </Flex>
+        <Flex flex={1} justify='flex-end'>
+          {warpsDisplay} warps average
+        </Flex>
+      </Flex>
     </Text>
   )
 }
@@ -152,7 +159,7 @@ function PityInputs(props: { banner: string }) {
         <HeaderText>Pity counter</HeaderText>
 
         <Form.Item name={`pity${props.banner}`}>
-          <InputNumber/>
+          <InputNumber placeholder='0'/>
         </Form.Item>
       </Flex>
       <Flex vertical>
@@ -174,12 +181,10 @@ function PityInputs(props: { banner: string }) {
 }
 
 function generateIncomeOptions() {
-  const options: SelectProps['options'] = [
-    { value: 'none', label: 'None' },
-    { value: 'f2p', label: 'v3.0 F2P: +13,490 jade, +25 tickets' },
-    { value: 'express', label: 'v3.0 Express: +17,270 jade, +25 tickets' },
-    { value: 'expressbp', label: 'v3.0 Express + BP: +17,950 jade, +29 tickets' },
-  ]
+  const options: SelectProps['options'] = Object.entries(WarpIncomeValuesMapping).map(([incomeType, values]) => ({
+    value: incomeType,
+    label: incomeType == WarpIncome.NONE ? 'None' : `${values.label}: +${values.passes} passes, +${values.jades.toLocaleString()} jades`,
+  }))
 
   return options
 }

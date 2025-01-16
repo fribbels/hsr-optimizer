@@ -23,6 +23,7 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -146,8 +147,8 @@ window.store = create((set) => {
     scorerId: '',
     scoringMetadataOverrides: {},
     showcasePreferences: {},
-    warpRequest: {},
-    warpResult: {},
+    warpRequest: {} as WarpRequest,
+    warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
@@ -595,6 +596,10 @@ export const DB = {
 
     if (saveData.showcasePreferences) {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+    }
+
+    if (saveData.warpRequest) {
+      window.store.getState().setWarpRequest(saveData.warpRequest || {})
     }
 
     window.store.getState().setScorerId(saveData.scorerId)

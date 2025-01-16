@@ -1,3 +1,4 @@
+import { SaveState } from 'lib/state/saveState'
 import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
 
 const characterWarpCap = 90
@@ -38,9 +39,50 @@ export enum WarpType {
 }
 
 export enum WarpIncome {
-  F2P,
-  EXPRESS,
-  EXPRESSBP,
+  NONE = 'NONE',
+  F2P_3_0 = 'F2P_3_0',
+  EXPRESS_3_0 = 'EXPRESS_3_0',
+  EXPRESS_BP_3_0 = 'EXPRESS_BP_3_0',
+}
+
+export const DEFAULT_WARP_REQUEST: WarpRequest = {
+  passes: 0,
+  jades: 0,
+  income: WarpIncome.NONE,
+  strategy: WarpStrategy.E0,
+  pityCharacter: 0,
+  guaranteedCharacter: false,
+  pityLightCone: 0,
+  guaranteedLightCone: false,
+}
+
+type WarpIncomeValues = {
+  passes: number,
+  jades: number,
+  label: string
+}
+
+export const WarpIncomeValuesMapping: Record<WarpIncome, WarpIncomeValues> = {
+  [WarpIncome.NONE]: {
+    passes: 0,
+    jades: 0,
+    label: 'None',
+  },
+  [WarpIncome.F2P_3_0]: {
+    passes: 25,
+    jades: 13490,
+    label: 'v3.0 F2P',
+  },
+  [WarpIncome.EXPRESS_3_0]: {
+    passes: 25,
+    jades: 17270,
+    label: 'v3.0 Express',
+  },
+  [WarpIncome.EXPRESS_BP_3_0]: {
+    passes: 29,
+    jades: 17950,
+    label: 'v3.0 Express + BP',
+  },
 }
 
 type WarpMilestone = {
@@ -52,21 +94,87 @@ type WarpMilestone = {
   warpCap: number
 }
 
-export function generateWarpMilestones(
-  strategy: WarpStrategy,
-  characterPity: number,
-  lightConePity: number,
-  characterGuaranteed: boolean,
-  lightConeGuaranteed: boolean,
-) {
-  const e0CharacterDistribution = redistributePityCumulative(characterPity, characterWarpCap, characterDistribution)
-  const s1LightConeDistribution = redistributePityCumulative(lightConePity, lightConeWarpCap, lightConeDistribution)
+export function simulateWarps(originalRequest: WarpRequest) {
+  console.clear()
+  console.log('simulate Warps', originalRequest)
+  const n = 100000
+
+  window.store.getState().setWarpRequest(originalRequest)
+
+  const request = enrichWarpRequest(originalRequest)
+
+  const milestones: WarpMilestone[] = generateWarpMilestones(request)
+
+  const milestoneResults: Record<string, WarpMilestoneResult> = Object.fromEntries(
+    milestones.map(({ label }) => [label, { warps: 0, wins: 0 }]),
+  )
+
+  for (let i = 0; i < n; i++) {
+    let count = 0
+
+    for (const milestone of milestones) {
+      let {
+        warpType,
+        label,
+        pity,
+        guaranteed,
+        redistributedCumulative,
+        warpCap,
+      } = milestone
+
+      const rate = warpType == WarpType.CHARACTER ? 0.5625 : 0.75 // 0.78125
+      const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
+      if (Math.random() < rate || guaranteed) {
+        count += index
+      } else {
+        const index2 = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
+        count += index + index2
+      }
+
+      milestoneResults[label].warps += count
+      if (count < request.warps) {
+        milestoneResults[label].wins++
+      }
+    }
+  }
+
+  for (const milestone of milestones) {
+    milestoneResults[milestone.label].warps /= n
+    milestoneResults[milestone.label].wins /= n
+    console.log(`${milestone.label}: ${milestoneResults[milestone.label].warps}`)
+  }
+
+  console.log('----')
+
+  for (const milestone of milestones) {
+    console.log(`${milestone.label}: ${milestoneResults[milestone.label].wins}`)
+  }
+
+  const warpResult: WarpResult = {
+    milestoneResults: milestoneResults,
+  }
+
+  window.store.getState().setWarpResult(warpResult)
+  SaveState.delayedSave()
+}
+
+function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
+  const {
+    strategy,
+    pityCharacter,
+    guaranteedCharacter,
+    pityLightCone,
+    guaranteedLightCone,
+  } = enrichedRequest
+
+  const e0CharacterDistribution = redistributePityCumulative(pityCharacter, characterWarpCap, characterDistribution)
+  const s1LightConeDistribution = redistributePityCumulative(pityLightCone, lightConeWarpCap, lightConeDistribution)
   const milestones: WarpMilestone[] = [
     {
       warpType: WarpType.CHARACTER,
       label: 'E0',
-      guaranteed: characterGuaranteed,
-      pity: characterPity,
+      guaranteed: guaranteedCharacter,
+      pity: pityCharacter,
       redistributedCumulative: e0CharacterDistribution,
       warpCap: characterWarpCap,
     },
@@ -86,8 +194,8 @@ export function generateWarpMilestones(
   const s1Milestone: WarpMilestone = {
     warpType: WarpType.LIGHTCONE,
     label: 'S1',
-    guaranteed: lightConeGuaranteed,
-    pity: lightConePity,
+    guaranteed: guaranteedLightCone,
+    pity: pityLightCone,
     redistributedCumulative: s1LightConeDistribution,
     warpCap: lightConeWarpCap,
   }
@@ -130,71 +238,30 @@ export function generateWarpMilestones(
   return milestones
 }
 
-export function simulateWarps(request: WarpRequest) {
-  console.clear()
-  console.log('simulate Warps', request)
-  const n = 100000
+type EnrichedWarpRequest = {
+  warps: number,
+} & WarpRequest
 
-  window.store.getState().setWarpRequest(request)
+function enrichWarpRequest(request: WarpRequest) {
+  const additionalIncome = WarpIncomeValuesMapping[request.income] ?? WarpIncomeValuesMapping[WarpIncome.NONE]
+  const totalJade = request.jades + additionalIncome.jades
+  const totalPasses = request.passes + additionalIncome.passes
+  const totalWarps = Math.floor(totalJade / 160) + totalPasses
 
-  const milestones: WarpMilestone[] = generateWarpMilestones(
-    WarpStrategy.E0,
-    0,
-    0,
-    false,
-    false,
-  )
-
-  const milestoneResults: Record<string, WarpMilestoneResult> = Object.fromEntries(
-    milestones.map(({ label }) => [label, { warps: 0, wins: 0 }]),
-  )
-
-  for (let i = 0; i < n; i++) {
-    let count = 0
-
-    for (const milestone of milestones) {
-      let {
-        warpType,
-        label,
-        pity,
-        guaranteed,
-        redistributedCumulative,
-        warpCap,
-      } = milestone
-
-      const rate = warpType == WarpType.CHARACTER ? 0.5625 : 0.75 // 0.78125
-      const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
-      if (Math.random() < rate || guaranteed) {
-        count += index
-      } else {
-        const index2 = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
-        count += index + index2
-      }
-
-      milestoneResults[label].warps += count
-      if (count < 960) {
-        milestoneResults[label].wins++
-      }
+  // Treat null form values as empty and use defaults
+  for (const [key, value] of Object.entries(request)) {
+    if (value == null) {
+      // @ts-ignore
+      request[key] = DEFAULT_WARP_REQUEST[key]
     }
   }
 
-  for (const milestone of milestones) {
-    milestoneResults[milestone.label].warps /= n
-    milestoneResults[milestone.label].wins /= n
-    console.log(`${milestone.label}: ${milestoneResults[milestone.label].warps}`)
+  const enrichedRequest: EnrichedWarpRequest = {
+    ...request,
+    warps: totalWarps,
   }
 
-  console.log('----')
-
-  for (const milestone of milestones) {
-    console.log(`${milestone.label}: ${milestoneResults[milestone.label].wins}`)
-  }
-
-  const warpResult: WarpResult = {
-    milestoneResults: milestoneResults,
-  }
-
-  window.store.getState().setWarpResult(warpResult)
+  return enrichedRequest
 }
 
 // We have the cumulative distribution of warp results for 0 pity counter.

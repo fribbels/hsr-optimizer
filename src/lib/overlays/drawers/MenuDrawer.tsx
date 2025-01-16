@@ -63,7 +63,7 @@ const MenuDrawer = () => {
             Warp Chance
           </Flex>
         ),
-        AppPages.GACHA),
+        AppPages.WARP),
     ]),
     getItem(t('Optimization.Title')/* Optimization */, 'subOptimizer', <LineChartOutlined/>, [
       getItem(

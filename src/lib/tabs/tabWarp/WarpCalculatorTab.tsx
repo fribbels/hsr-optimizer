@@ -1,5 +1,5 @@
 import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, theme, Typography } from 'antd'
-import { simulateWarps, WarpMilestoneResult, WarpStrategy } from 'lib/tabs/tabGacha/gachaCalculatorController'
+import { simulateWarps, WarpMilestoneResult, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
@@ -10,7 +10,7 @@ const { Text } = Typography
 
 type ChangelogContent = { title: string; date: string; content: string[] }
 
-export default function GachaCalculatorTab(): React.JSX.Element {
+export default function WarpCalculatorTab(): React.JSX.Element {
   const { token } = useToken()
 
   const activeKey = window.store((s) => s.activeKey)
@@ -112,7 +112,7 @@ function Inputs() {
 function Results() {
   const warpResult = window.store((s) => s.warpResult)
 
-  const chances = Object.entries(warpResult.milestoneResults)
+  const chances = Object.entries(warpResult.milestoneResults ?? {})
     .map(([label, result]) => <Chance target={label} key={label} result={result}/>)
 
   console.log(warpResult)

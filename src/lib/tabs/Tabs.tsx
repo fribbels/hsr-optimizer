@@ -11,12 +11,12 @@ import OptimizerTab from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
 import RelicScorerTab from 'lib/tabs/tabShowcase/RelicScorerTab'
+import WarpCalculatorTab from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
 import React, { ReactElement, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Form } from 'types/form'
-import GachaCalculatorTab from './tabGacha/GachaCalculatorTab'
 
 const defaultErrorRender = ({ error: { message } }: {
   error: {
@@ -37,7 +37,7 @@ const Tabs = () => {
   const relicsTab = React.useMemo(() => <RelicsTab/>, [])
   const importTab = React.useMemo(() => <ImportTab/>, [])
   const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
-  const gachaCalculatorTab = React.useMemo(() => <GachaCalculatorTab/>, [])
+  const warpCalculatorTab = React.useMemo(() => <WarpCalculatorTab/>, [])
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
@@ -74,7 +74,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.GACHA} content={gachaCalculatorTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.WARP} content={warpCalculatorTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>

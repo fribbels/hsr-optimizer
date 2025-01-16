@@ -1,4 +1,4 @@
-import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabGacha/gachaRates'
+import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
 
 const characterWarpCap = 90
 const lightConeWarpCap = 80

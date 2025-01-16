@@ -27,7 +27,10 @@ export type WarpRequest = {
   guaranteedLightCone: false
 }
 
-export type WarpResult = { warps: number, wins: number }
+export type WarpMilestoneResult = { warps: number, wins: number }
+export type WarpResult = {
+  milestoneResults: Record<string, WarpMilestoneResult>
+}
 
 export enum WarpType {
   CHARACTER,
@@ -132,6 +135,8 @@ export function simulateWarps(request: WarpRequest) {
   console.log('simulate Warps', request)
   const n = 100000
 
+  window.store.getState().setWarpRequest(request)
+
   const milestones: WarpMilestone[] = generateWarpMilestones(
     WarpStrategy.E0,
     0,
@@ -140,7 +145,7 @@ export function simulateWarps(request: WarpRequest) {
     false,
   )
 
-  const results: Record<string, WarpResult> = Object.fromEntries(
+  const milestoneResults: Record<string, WarpMilestoneResult> = Object.fromEntries(
     milestones.map(({ label }) => [label, { warps: 0, wins: 0 }]),
   )
 
@@ -166,24 +171,30 @@ export function simulateWarps(request: WarpRequest) {
         count += index + index2
       }
 
-      results[label].warps += count
+      milestoneResults[label].warps += count
       if (count < 960) {
-        results[label].wins++
+        milestoneResults[label].wins++
       }
     }
   }
 
   for (const milestone of milestones) {
-    console.log(`${milestone.label}: ${results[milestone.label].warps / n}`)
+    milestoneResults[milestone.label].warps /= n
+    milestoneResults[milestone.label].wins /= n
+    console.log(`${milestone.label}: ${milestoneResults[milestone.label].warps}`)
   }
 
   console.log('----')
 
   for (const milestone of milestones) {
-    console.log(`${milestone.label}: ${results[milestone.label].wins / n}`)
+    console.log(`${milestone.label}: ${milestoneResults[milestone.label].wins}`)
   }
 
-  return results
+  const warpResult: WarpResult = {
+    milestoneResults: milestoneResults,
+  }
+
+  window.store.getState().setWarpResult(warpResult)
 }
 
 // We have the cumulative distribution of warp results for 0 pity counter.

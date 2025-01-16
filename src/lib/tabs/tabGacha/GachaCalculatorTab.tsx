@@ -1,7 +1,8 @@
 import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, theme, Typography } from 'antd'
-import { simulateWarps, WarpStrategy } from 'lib/tabs/tabGacha/gachaCalculatorController'
+import { simulateWarps, WarpMilestoneResult, WarpStrategy } from 'lib/tabs/tabGacha/gachaCalculatorController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { Utils } from 'lib/utils/utils'
 import React from 'react'
 
 const { useToken } = theme
@@ -15,7 +16,7 @@ export default function GachaCalculatorTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ height: 1400 }}>
       <Inputs/>
       <Results/>
     </Flex>
@@ -109,6 +110,13 @@ function Inputs() {
 }
 
 function Results() {
+  const warpResult = window.store((s) => s.warpResult)
+
+  const chances = Object.entries(warpResult.milestoneResults)
+    .map(([label, result]) => <Chance target={label} key={label} result={result}/>)
+
+  console.log(warpResult)
+
   return (
     <Flex vertical gap={20}>
       <Flex justify='space-around' style={{ marginTop: 15 }}>
@@ -118,24 +126,20 @@ function Results() {
       </Flex>
 
       <Flex vertical gap={10}>
-        <Chance target={'E0S0'} probability={100.00}/>
-        <Chance target={'E0S1'} probability={100.00}/>
-        <Chance target={'E1S1'} probability={85.03}/>
-        <Chance target={'E2S1'} probability={40.20}/>
-        <Chance target={'E3S1'} probability={9.95}/>
-        <Chance target={'E4S1'} probability={1.80}/>
-        <Chance target={'E5S1'} probability={0.27}/>
-        <Chance target={'E6S1'} probability={0.02}/>
+        {chances}
       </Flex>
     </Flex>
   )
 }
 
-function Chance(props: { target: string, probability: number }) {
+function Chance(props: { target: string, result: WarpMilestoneResult }) {
+  const probabilityDisplay = Utils.truncate100ths(props.result.wins * 100).toFixed(2)
+  const warpsDisplay = Math.ceil(props.result.warps)
+
   return (
     <Text style={{ fontSize: 18 }}>
       <pre style={{ margin: 0 }}>
-        {props.target} — {props.probability}% chance
+        {props.target} — {probabilityDisplay}% chance — {warpsDisplay} warps average
       </pre>
     </Text>
   )

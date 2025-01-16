@@ -1,6 +1,7 @@
 import { ThemeConfig } from 'antd'
 import { ComputeEngine } from 'lib/constants/constants'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { WarpRequest, WarpResult } from 'lib/tabs/tabGacha/gachaCalculatorController'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { Build, Character, CharacterId } from 'types/character'
@@ -59,6 +60,8 @@ export type HsrOptimizerStore = {
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
+  warpRequest: WarpRequest
+  warpResult: WarpResult
   statSimulationDisplay: StatSimTypes
   statSimulations: unknown
   selectedStatSimulations: unknown
@@ -133,6 +136,8 @@ export type HsrOptimizerStore = {
   setStatSimulationDisplay: (x: any) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
+  setWarpRequest: (x: WarpRequest) => void
+  setWarpResult: (x: WarpResult) => void
   setScorerId: (x: any) => void
   setCharacterTabFilters: (x: any) => void
   setPermutations: (x: any) => void
@@ -188,6 +193,7 @@ export type HsrOptimizerSaveFormat = {
   savedSession: SavedSession
   settings: UserSettings
   version: string
+  warpRequest: WarpRequest
   relicLocator: {
     inventoryWidth: number
     rowLimit: number

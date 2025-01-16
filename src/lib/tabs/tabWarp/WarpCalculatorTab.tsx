@@ -1,14 +1,11 @@
-import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, theme, Typography } from 'antd'
+import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Typography } from 'antd'
 import { DEFAULT_WARP_REQUEST, simulateWarps, WarpIncome, WarpIncomeValuesMapping, WarpMilestoneResult, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import React, { useMemo } from 'react'
 
-const { useToken } = theme
 const { Text } = Typography
-
-type ChangelogContent = { title: string; date: string; content: string[] }
 
 export default function WarpCalculatorTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
@@ -48,13 +45,13 @@ function Inputs() {
             <Flex vertical>
               <HeaderText>Warp passes</HeaderText>
               <Form.Item name='passes'>
-                <InputNumber placeholder='0'/>
+                <InputNumber placeholder='0' min={0}/>
               </Form.Item>
             </Flex>
             <Flex vertical>
               <HeaderText>Jades</HeaderText>
               <Form.Item name='jades'>
-                <InputNumber placeholder='0'/>
+                <InputNumber placeholder='0' min={0}/>
               </Form.Item>
             </Flex>
             <Flex vertical flex={1}>
@@ -95,7 +92,11 @@ function Inputs() {
             <Button
               type='primary'
               block
-              onClick={() => simulateWarps(form.getFieldsValue())}
+              onClick={() => {
+                // @ts-ignore
+                window.store.getState().setWarpResult(null)
+                setTimeout(() => simulateWarps(form.getFieldsValue()), 50)
+              }}
             >
               Calculate
             </Button>
@@ -109,8 +110,14 @@ function Inputs() {
 function Results() {
   const warpResult = window.store((s) => s.warpResult)
 
+  if (!warpResult) {
+    return <></>
+  }
+
   const chances = Object.entries(warpResult.milestoneResults ?? {})
     .map(([label, result]) => <Chance target={label} key={label} result={result}/>)
+
+  const title = `Warp Probabilities (${warpResult.request.warps} warps)`
 
   console.log(warpResult)
 
@@ -118,7 +125,7 @@ function Results() {
     <Flex vertical gap={20} style={{ width: 450 }}>
       <Flex justify='space-around' style={{ marginTop: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          Warp Probabilities
+          {title}
         </pre>
       </Flex>
 
@@ -159,12 +166,11 @@ function PityInputs(props: { banner: string }) {
         <HeaderText>Pity counter</HeaderText>
 
         <Form.Item name={`pity${props.banner}`}>
-          <InputNumber placeholder='0'/>
+          <InputNumber placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}/>
         </Form.Item>
       </Flex>
       <Flex vertical>
         <HeaderText>Guaranteed</HeaderText>
-
         <Form.Item name={`guaranteed${props.banner}`}>
           <Radio.Group
             block
@@ -183,7 +189,9 @@ function PityInputs(props: { banner: string }) {
 function generateIncomeOptions() {
   const options: SelectProps['options'] = Object.entries(WarpIncomeValuesMapping).map(([incomeType, values]) => ({
     value: incomeType,
-    label: incomeType == WarpIncome.NONE ? 'None' : `${values.label}: +${values.passes} passes, +${values.jades.toLocaleString()} jades`,
+    label: incomeType == WarpIncome.NONE
+      ? 'None'
+      : `[${values.label}] +${values.passes} passes +${values.jades.toLocaleString()} jades`,
   }))
 
   return options

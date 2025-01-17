@@ -118,7 +118,7 @@ const possibleSubstats = new Set(Constants.SubStats)
 // if you're doing >= 10 scorings
 export class RelicScorer {
   characterRelicScoreMetas: Map<CharacterId, ScoringMetadata>
-  optimalPartScore: Map<Parts, Map<string, Map<StatsValues, number>>>
+  optimalPartScore: Map<Parts, Map<string, Map<MainStats, number>>>
   currentRelicScore: Map<RelicId, Map<string, RelicScoringResult>>
   futureRelicScore: Map<RelicId, Map<string, FutureScoringResult>>
 
@@ -407,7 +407,7 @@ export class RelicScorer {
           // look at all stats of weight equal to the highest weight stat and find any 'better' mainstats
           for (let i = mainStatIndex; i < scoreEntries.length; i++) {
             const [name, weight] = scoreEntries[i]
-            if (weight < mainStatWeight) break// sorted by weight, weight no longer equal means all following will be lesser
+            if (weight != mainStatWeight) break// sorted by weight, weight no longer equal means all following will be lesser
             // @ts-ignore typescript wants name to have the same type as the elements of possibleMainStats
             if (!possibleMainStats.includes(name)) continue// check for possible mainstat
             const newIsIdeal = optimalMainStats.includes(name)

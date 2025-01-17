@@ -848,147 +848,220 @@ Characters:
     Content:
       ultBuff:
         text: Bonus d'ULT
+        content: Le contre de Svarog à son multiplicateur de DGT sur l'ennemi augmenté de {{ultFuaExtraScaling}}%. les DGT infligés à Clara diminuent de {{ultDmgReductionValue}}% pendant 2 tours.
       talentEnemyMarked:
         text: Ennemi marqué
+        content: Inflige des  DGT physiques supplémentaires équivalents à {{skillScaling}}% de l'ATQ de Clara aux ennemis marqués par Svarog avec une Marque de contre.
       e2UltAtkBuff:
         text: 'E2: Bonus d''ATQ post-ULT'
+        content: "Après l'utilisation de l'ultime de Clara, l'ATQ est augmentée de 30% pendant 2 tours."
       e4DmgReductionBuff:
         text: 'E4: Réduction de dégâts'
+        content: "Lorsque Clara est touchée, les DGT qu'elle subit sont réduits de 30%. Cet effet dure jusqu'au début de son tour suivant."
   DanHeng:
     Content:
       talentPenBuff:
         text: Bonus de PÉN de RÉS
+        content: Lorsque Dan Heng est la cible de la capacité d'un allié, la PÉN de RÉS de vent de sa prochaine attaque augmente de {{extraPenValue}}%.
       enemySlowed:
         text: Ennemi ralenti
+        content: L'ATQ normale inflige 40% de DGT supplémentaires aux ennemis ralentis.
       e1EnemyHp50:
         text: 'E1: Bonus de TC ennemi PV ≥ 50%'
+        content: "Lorsque le pourcentage de PV actuel de la cible ennemie est supérieur ou égal à 50%, les chances de coup critique augmentent de 12%."
   DrRatio:
     Content:
       summationStacks:
         text: Cumuls de Synthèse
+        content: Lorsque Dr Ratio utilise sa compétence, ses chances de coup critique augmentent de 2,5% et ses DGT critiques de 5% pour chaque malus sur la cible. Cet effet peut être cumulé jusqu'à {{summationStacksMax}} fois.
       enemyDebuffStacks:
         text: Nombre de malus sur la cible
+        content: >-
+          Dr Ratio a 40% de chances fixes de déclencher 1 attaque de suivi contre sa cible lorsqu'il utilise sa compétence, lui infligeant des DGT imaginaires équivalents à {{FuaScaling}}% de l'ATQ de Dr Ratio. Les chances fixes de déclencher l'attaque de suivi augmentent de 20% pour chaque malus appliqué à la cible ennemie. L'attaque de suivi est lancée sur un autre ennemi aléatoire si la cible ennemie est vaincue avant que l'attaque de suivi ne soit déclenchée.::BR::Lorsque Dr Ratio inflige des DGT à une cible ayant au moins 3 malus, les DGT infligés par Dr Ratio à cette cible augmentent de 10% pour chaque malus appliqué à la cible, jusqu'à une augmentation maximale de 50%.::BR::E2: Lorsque l'attaque de suivi de son talent touche une cible, cette dernière subit des DGT imaginaires supplémentaires équivalents à 20% de l'ATQ de Dr Ratio pour chaque malus qui lui est appliqué. Cet effet peut être déclenché un maximum de 4 fois durant chaque attaque de suivi.
   Feixiao:
     Content:
       weaknessBrokenUlt:
         text: ULT ennemi rupturé (force l'état de rupture)
+        content: Oblige que l'ennemi soit considéré comme étant en état de rupture de faiblesse lors des calculs de dégâts.
       talentDmgBuff:
         text: Bonus de DGT du Talent
+        content: >-
+          Après qu'un coéquipier a attaqué une cible ennemie, Feixiao lance immédiatement une attaque de suivi sur la cible principale, infligeant des DGT de vent équivalents à {{FuaMultiplier}}% de l'ATQ de Feixiao. S'il n'y a pas de cible principale à attaquer, Feixiao attaque un ennemi unique aléatoire à la place. Cet effet ne peut être déclenché qu'une fois par tour et le nombre de déclenchements se réinitialise au début du tour de Feixiao. Les DGT infligés par Feixiao augmentent de {{DmgBuff}}% pendant 2 tours lorsqu'elle utilise cette attaque.
       skillAtkBuff:
         text: Bonus d'ATQ de la Compétence
+        content: Lors de l'utilisation de la compétence, l'ATQ augmente de 48% pendant 3 tours.
       e1OriginalDmgBoost:
         text: 'E1: Multiplicateur des dégâts'
+        content: >-
+          Après avoir lancé Éclair tonitruant des étoiles ou Hache de guerre céleste, les DGT d'ultime infligés par Feixiao augmentent d'un montant équivalent à 10% des DGT initiaux. Cet effet est cumulable jusqu'à 5 fois et dure jusqu'à la fin de l'action de l'ultime.
       e4Buffs:
         text: 'E4: Divers bonus'
+        content: La réduction de robustesse de l'attaque de suivi du talent augmente de 100%, et la VIT du personnage augmente de 8% pendant 2 tours lorsqu'elle se déclenche.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: >-
+          Augmente la PÉN de RÉS à tous les types des DGT d'ultime infligés par Feixiao de 20%. Les DGT de l'attaque de suivi du talent sont également considérés comme des DGT d'ultime, et son multiplicateur de DGT augmente de 140%.
   Firefly:
     Content:
       enhancedStateActive:
         text: État amélioré
+        content: Entre dans l'état Combustion complète. Avance l'action du personnage de 100 % et son ATQ normale et sa compétence deviennent renforcées.
       enhancedStateSpdBuff:
         text: Bonus de VIT état amélioré
+        content: Dans l'état Combustion complète, la VIT de Luciole augmente de {{ultSpdBuff}}.
       superBreakDmg:
         text: Rupture extrême activée (force l'état de rupture)
+        content: >-
+          Lorsque SAM est en Combustion complète avec un effet de Rupture supérieur ou égal à 200%/360%, attaquer une cible ennemie en état de Rupture de faiblesse convertit la réduction de robustesse de cette attaque en 1 instance de 35%/50% de DGT de rupture extrême.
       atkToBeConversion:
         text: Conversion d'ATQ à ER
+        content: Pour chaque tranche de 10 d'ATQ de SAM qui dépasse 1800, son effet de Rupture augmente de 0,8%.
       talentDmgReductionBuff:
         text: Bonus de PV max
+        content: >-
+          Plus ses PV sont bas, moins le personnage subit de DGT. Lorsque ses PV sont inférieurs ou égaux à 20%, l'effet de réduction de DGT est à son maximum, atteignant {{talentDmgReductionBuff}}%. Dans l'état Combustion complète, l'effet de réduction de DGT est toujours à son maximum et la RÉS aux effets augmente de {{talentResBuff}}%.
       e1DefShred:
         text: 'E1: PÉN de DÉF'
+        content: Ignore 15% de la DÉF de la cible lors de l'utilisation de la compétence renforcée et la compétence renforcée ne consomme pas de point de compétence.
       e4ResBuff:
         text: 'E4: Bonus de RAE'
+        content: Augmente de 50% la RÉS aux effets de SAM dans l'état Combustion complète.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: Augmente de 20% la PÉN de RÉS au feu de SAM dans l'état Combustion complète. Son efficacité de Rupture de faiblesse augmente de 50% lors de l'utilisation de l'ATQ normale renforcée ou de la compétence renforcée.
   Fugue:
     Content:
       torridScorch:
         text: État Brûlure ardente
+        content: Dans l'état Brûlure ardente, l'ATQ normale de Pérégrine est renforcée.
       foxianPrayer:
         text: Prière foxienne
+        content: >-
+          L'effet de Rupture de la cible alliée qui bénéficie de Prière foxienne augmente de {{BreakBuff}}% et elle peut infliger une réduction de robustesse lorsqu'elle attaque des ennemis qui n'ont pas le type de faiblesse correspondant, avec un effet équivalent à 50% de la réduction de robustesse initiale. Cet effet ne peut pas être cumulé avec d'autres effets de réduction de robustesse qui ignorent les Faiblesses.
       defReduction:
         text: Réduction de DÉF
+        content: >-
+          Lorsque la cible alliée qui bénéficie de Prière foxienne attaque, Pérégrine a 100% de chances de base de réduire la DÉF de la cible ennemie attaquée de {{DefShred}}% pendant 2 tours.
       superBreakDmg:
         text: Rupture extrême (force l'état de rupture)
+        content: >-
+          Lorsque Pérégrine est sur le champ de bataille, chaque fois que des alliés attaquent des cibles ennemies en état de Rupture de faiblesse, la réduction de robustesse de cette attaque est convertie en 1 instance de {{SuperBreakMultiplier}}% de DGT de rupture extrême.
       e4BreakDmg:
         text: 'E4: Bonus de DGT de rupture'
+        content: Augmente de 20% les DGT de rupture de la cible alliée qui bénéficie de Prière foxienne.
       e6BreakEfficiency:
         text: 'E6: Bonus d''efficacité de rupture'
+        content: >-
+          L'efficacité de Rupture de faiblesse de Pérégrine augmente de 50%. Lorsque Pérégrine est dans l'état Brûlure ardente, Prière foxienne s'applique à tous les alliés.
     TeammateContent:
       be220Buff:
         text: ER ≥ 220%
+        content: >-
+          Lorsqu'une cible ennemie subit une Rupture de faiblesse, l'effet de Rupture des alliés (à l'exception de Pérégrine) augmente de 6%. Si l'effet de Rupture de Pérégrine est supérieur ou égal à 220%, l'augmentation de l'effet de Rupture est majorée de 12%. Cet effet dure pendant 2 tours et peut être cumulé jusqu'à 2 fois.
       weaknessBreakBeStacks:
         text: Cumuls d'Incinération
+        content: >-
+          Lorsqu'une cible ennemie subit une Rupture de faiblesse, l'effet de Rupture des alliés (à l'exception de Pérégrine) augmente de 6%. Si l'effet de Rupture de Pérégrine est supérieur ou égal à 220%, l'augmentation de l'effet de Rupture est majorée de 12%. Cet effet dure pendant 2 tours et peut être cumulé jusqu'à 2 fois.
   FuXuan:
     Content:
       talentActive:
         text: Réduction de DGT reçus
+        content: Tant que Fu Xuan n'a pas été mise à terre, Évitement d'infortune s'applique à toute l'équipe. Lorsqu'ils bénéficient d'Évitement d'infortune, les alliés subissent {{talentDmgReductionValue}}% de DGT en moins.
       skillActive:
         text: Compétence active
+        content: >-
+          Active Matrice de prémonition, ce qui permet aux autres membres de l'équipe de Fu Xuan de lui transférer 65% des DGT qu'ils subissent (avant que ces DGT ne soient atténués par d'éventuels boucliers) pendant 3 tours. Lorsqu'ils sont affectés par Matrice de prémonition, tous les membres de l'équipe bénéficient de l'effet Connaissance, qui augmente leurs PV max respectifs à hauteur de {{skillHpBuffValue}}% des PV max de Fu Xuan, et leurs chances de coup critique de {{skillCrBuffValue}}%.
       e6TeamHpLostPercent:
         text: 'E6: PV perdus par l''équipe'
+        content: >-
+          Lorsque Matrice de prémonition est activée, le total des PV perdus par tous les membres de l'équipe est enregistré au cours du combat. Les DGT de l'ultime de Fu Xuan augmentent d'un montant équivalent à 200% de ce total. Ce total est plafonné à 120% des PV max de Fu Xuan et sa valeur est réinitialisée et recommence à s'accumuler après utilisation de l'ultime de Fu Xuan.
     TeammateContent:
       teammateHPValue:
         text: PV en combat de Fu Xuan
+        content: Lorsqu'ils sont affectés par Matrice de prémonition, tous les membres de l'équipe bénéficient de l'effet Connaissance, qui augmente leurs PV max respectifs à hauteur de {{skillHpBuffValue}}% des PV max de Fu Xuan.
   Gallagher:
     Content:
       basicEnhanced:
         text: Normale améliorée
+        content: "L'ultime renforce la prochaine attaque normale en Coup\nde fouet."
       breakEffectToOhbBoost:
         text: Conversion d'ER à bonus de soins
+        content: Augmente les soins prodigués par cette unité à hauteur de 50% de son effet de Rupture, jusqu'à un maximum de 75% d'augmentation.
       targetBesotted:
         text: Cible Ivre
+        content: L'effet Ivresse augmente de les DGT de rupture subis par les cibles de {{talentBesottedScaling}}%.
       e1ResBuff:
         text: 'E1: Bonus de RAE'
+        content: "Régénère 20 points d'énergie et augmente de 50% sa RÉS aux effets lorsque Gallagher entre en combat."
       e2ResBuff:
         text: 'E2: Bonus de RAE'
+        content: "Supprime 1 malus de la cible alliée lors de l'utilisation de la compétence. D'autre part, augmente de 30% sa RÉS aux effets pendant 2 tours."
       e6BeBuff:
         text: 'E6: Bonus d''ER'
+        content: "Augmente de 20% l'effet de Rupture de Gallagher et de 20% son efficacité de Rupture de faiblesse."
   Gepard:
     Content:
       e4TeamResBuff:
         text: 'E4: Bonus d''équipe de RAE'
+        content: "Lorsque Gepard est en combat, la RÉS aux effets de tous les alliés augmente de 20%."
   Guinaifen:
     Content:
       talentDebuffStacks:
         text: Cumuls de Baiser enflammé
+        content: Les ennemis affectés par Baiser ardent subissent {{talentDebuffDmgIncreaseValue}}% de DGT supplémentaires pendant 3 tours. Effet cumulable {{talentDebuffMax}} fois.
       enemyBurned:
         text: Ennemi brulé
+        content: Inflige 20% de DGT supplémentaires aux ennemis brûlés.
       skillDot:
         text: Utiliser la chance de DSD de la compétence
+        content: Lorsque cette option est sélectionnée, utilise la chance d'application de 100% de la compétence au lieu de celle de 80% de l'attaque normale lors des calculs de dégâts de DSD
       e1EffectResShred:
         text: 'E1: Réduction de RAE'
+        content: "Lors de l'utilisation de la compétence, il y a 100 % de chances de base de réduire la RÉS aux effets de la cible ennemie de 10% pendant 2 tours."
       e2BurnMultiBoost:
         text: 'E2: Brulure renforcée'
+        content: "L'ATQ normale et la compétence de Guinaifen peuvent augmenter le multiplicateur de DGT de leur effet de Brûlure de 40% sur les cibles brûlées."
   Hanya:
     Content:
       ultBuff:
         text: Bonus de VIT/ATQ de l'ULT
+        content: Augmente la VIT d'une cible alliée à hauteur de {{ultSpdBuffValue}}% de la VIT de Hanya et son ATQ de {{ultAtkBuffValue}}%.
       targetBurdenActive:
         text: Cible malussé par Fardeau
+        content: Lorsqu'un allié utilise une ATQ normale, une compétence ou un ultime sur un ennemi affecté par Fardeau, ses DGT augmentent de {{talentDmgBoostValue}}% pendant 2 tours.
       burdenAtkBuff:
         text: Bonus d'ATQ de Fardeau
+        content: L'ATQ des alliés qui déclenchent l'effet de récupération de point de compétence de Fardeau augmente de 10% pendant 1 tour.
       e2SkillSpdBuff:
         text: 'E2: Bonus de Vitesse'
+        content: "La VIT de Hanya augmente de 20% pendant 1 tour après avoir utilisé sa compétence."
     TeammateContent:
       teammateSPDValue:
         text: Vitesse en combat de Hanya
+        content: Augmente la VIT d'une cible alliée à hauteur de {{ultSpdBuffValue}}% de la VIT de Hanya et son ATQ de {{ultAtkBuffValue}}%.
   Herta:
     Content:
       fuaStacks:
         text: Coups de l'ADS
+        content: Lorsque l'attaque d'un allié réduit le pourcentage de PV d'un ennemi à 50% ou moins, Herta lance une attaque de suivi qui inflige des DGT de glace.
       targetFrozen:
         text: Cible gelée
+        content: Inflige 20% de DGT supplémentaires aux ennemis gelés lors de l'utilisation de l'ultime.
       enemyHpGte50:
         text: Bonus de DGT Compétence
+        content: Lorsque le pourcentage de PV d'un ennemi est supérieur ou égal à 50%, les DGT qui lui sont infligés augmentent de 20%.
       techniqueBuff:
         text: Bonus d'ATQ de la Technique
+        content: Après utilisation de sa technique, l'ATQ de Herta augmente de 40% pendant 3 tours au début du combat suivant.
       enemyHpLte50:
         text: 'E1: Bonus de multiplicateur de Normale'
+        content: "Si le pourcentage des PV de l'ennemi est inférieur ou égal à 50%, l'ATQ normale de Herta inflige des DGT de glace additionnels équivalents à 40% de l'ATQ de Herta."
       e2TalentCritStacks:
         text: 'E2: Cumuls de bonus de TC du talent'
+        content: "Chaque fois que le talent est déclenché, les chances de coup critique du personnage augmentent de 3%. Cet effet est cumulable 5 fois."
       e6UltAtkBuff:
         text: 'E6: Bonus d''ATQ de l''ULT'
+        content: "L'ATQ du personnage augmente de 25% pendant 1 tour après utilisation de l'ultime."
   Himeko:
     Content:
       targetBurned:

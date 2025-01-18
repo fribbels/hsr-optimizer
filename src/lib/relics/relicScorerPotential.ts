@@ -78,45 +78,8 @@ const flatStatScaling = { // placeholder values
   DEF: 0.4,
 }
 
-export const dmgOrbMainstatBonus = 1.8
 export const percentToScore = 0.582// a perfect DPS glove scores 58.2 in substat scoring, using DPS characters as a marker leads to the biggest buffs / smallest nerfs
 export const minRollValue = 5.1 // Using the legacy value from OCR days without decimals, real value is 5.184
-export const mainStatBonuses = {
-  [Constants.Parts.Body]: {
-    [Constants.Stats.HP_P]: 1.3,
-    [Constants.Stats.ATK_P]: 1.3,
-    [Constants.Stats.DEF_P]: 1.3,
-    [Constants.Stats.CR]: 1.7,
-    [Constants.Stats.CD]: 1.7,
-    [Constants.Stats.OHB]: 1.7,
-    [Constants.Stats.EHR]: 1.7,
-  },
-  [Constants.Parts.Feet]: {
-    [Constants.Stats.HP_P]: 1.0,
-    [Constants.Stats.ATK_P]: 1.0,
-    [Constants.Stats.DEF_P]: 1.0,
-    [Constants.Stats.SPD]: 1.6,
-  },
-  [Constants.Parts.PlanarSphere]: {
-    [Constants.Stats.HP_P]: 1.6,
-    [Constants.Stats.ATK_P]: 1.6,
-    [Constants.Stats.DEF_P]: 1.6,
-    [Constants.Stats.Physical_DMG]: dmgOrbMainstatBonus,
-    [Constants.Stats.Fire_DMG]: dmgOrbMainstatBonus,
-    [Constants.Stats.Ice_DMG]: dmgOrbMainstatBonus,
-    [Constants.Stats.Lightning_DMG]: dmgOrbMainstatBonus,
-    [Constants.Stats.Wind_DMG]: dmgOrbMainstatBonus,
-    [Constants.Stats.Quantum_DMG]: dmgOrbMainstatBonus,
-    [Constants.Stats.Imaginary_DMG]: dmgOrbMainstatBonus,
-  },
-  [Constants.Parts.LinkRope]: {
-    [Constants.Stats.HP_P]: 1.1,
-    [Constants.Stats.ATK_P]: 1.1,
-    [Constants.Stats.DEF_P]: 1.1,
-    [Constants.Stats.BE]: 1.4,
-    [Constants.Stats.ERR]: 2.0,
-  },
-}
 
 const normalization = {
   [Constants.Stats.HP_P]: 64.8 / 43.2,
@@ -155,7 +118,7 @@ const possibleSubstats = new Set(Constants.SubStats)
 // if you're doing >= 10 scorings
 export class RelicScorer {
   characterRelicScoreMetas: Map<CharacterId, ScoringMetadata>
-  optimalPartScore: Map<Parts, Map<string, number>>
+  optimalPartScore: Map<Parts, Map<string, Map<MainStats, number>>>
   currentRelicScore: Map<RelicId, Map<string, RelicScoringResult>>
   futureRelicScore: Map<RelicId, Map<string, FutureScoringResult>>
 
@@ -271,15 +234,18 @@ export class RelicScorer {
     return scoringMetadata
   }
 
-  getOptimalPartScore(part: Parts, id: CharacterId) {
+  getOptimalPartScore(part: Parts, mainstat: MainStats, id: CharacterId) {
     const metaHash = this.getRelicScoreMeta(id).greedyHash
-    let optimalScore = this.optimalPartScore.get(part)?.get(metaHash)
+    let optimalScore = this.optimalPartScore.get(part)?.get(metaHash)?.get(mainstat)
     if (!optimalScore) {
-      optimalScore = this.scoreOptimalRelic(part, id)
+      optimalScore = this.scoreOptimalRelic(part, mainstat, id)
       if (!this.optimalPartScore.has(part)) {
         this.optimalPartScore.set(part, new Map())
       }
-      this.optimalPartScore.get(part)!.set(metaHash, optimalScore)
+      if (!this.optimalPartScore.get(part)!.has(metaHash)) {
+        this.optimalPartScore.get(part)!.set(metaHash, new Map())
+      }
+      this.optimalPartScore.get(part)!.get(metaHash)!.set(mainstat, optimalScore)
     }
     return optimalScore
   }
@@ -366,7 +332,7 @@ export class RelicScorer {
    * returns the substat score for the ideal relic\
    * handles special cases scoring for when only 1 stat has been weighted by the user
    */
-  scoreOptimalRelic(part: Parts, id: CharacterId) {
+  scoreOptimalRelic(part: Parts, mainstat: MainStats, id: CharacterId) {
     let maxScore: number = 0
     let fake: Relic
     const meta = this.getRelicScoreMeta(id)
@@ -404,14 +370,24 @@ export class RelicScorer {
         let mainStat = '' as MainStats
         const optimalMainStats = meta.parts[part] || []
         // list of stats, sorted by weight as mainstat in decreasing order
-        const scoreEntries = (Object.entries(meta.stats) as [StatsValues, number][])
-          .map((entry) => {
-            if (optimalMainStats.includes(entry[0])) {
-              return [entry[0], 1] as [StatsValues, number]
-            } else return [entry[0], entry[1]] as [StatsValues, number]
-          })
-          .sort((a, b) => b[1] - a[1])
-        if (Utils.hasMainStat(part)) {
+        if (optimalMainStats.includes(mainstat) || meta.stats[mainstat] == 1 || !Utils.hasMainStat(part)) {
+          mainStat = mainstat
+        } else {
+          const scoreEntries = (Object.entries(meta.stats) as [StatsValues, number][])
+            .map((entry) => {
+              if (optimalMainStats.includes(entry[0]) || meta.stats[entry[0]] == 1) {
+                return [entry[0], 1] as [StatsValues, number]
+              } else return [entry[0], entry[1]] as [StatsValues, number]
+            })
+            .sort((a, b) => {
+              // we give the mainstat only stats a score of 6.48 * weight simply to get them in the right area
+              // the exact score does not matter as long as the final array is still sorted by weight
+              // @ts-ignore
+              const scoreA = !possibleSubstats.has(a[0]) ? a[1] * 6.48 : a[1] * normalization[a[0] as SubStats] * SubStatValues[a[0] as SubStats][5].high
+              // @ts-ignore
+              const scoreB = !possibleSubstats.has(b[0]) ? b[1] * 6.48 : b[1] * normalization[b[0] as SubStats] * SubStatValues[b[0] as SubStats][5].high
+              return scoreB - scoreA
+            })
           /*
            * Need the specific optimal mainstat to remove it from possible substats. Find it by
            * - finding the highest multiplier mainstat of those valid for this relic
@@ -444,8 +420,6 @@ export class RelicScorer {
             isIdeal = newIsIdeal
             isSubstat = newIsSubstat
           }
-        } else {
-          mainStat = scoreEntries.find(([name, _weight]) => PartsMainStats[part][0] === name)![0] as MainStats
         }
 
         const substatScoreEntries = meta.sortedSubstats.filter(([name, _]) => name !== mainStat)
@@ -525,7 +499,7 @@ export class RelicScorer {
     const availableSubstats = meta.sortedSubstats.filter((x) => x[0] != relic.main.stat && !relic.substats.map((x) => x.stat).includes(x[0]))
     const remainingRolls = Math.ceil((maxEnhance(relic.grade as 2 | 3 | 4 | 5) - relic.enhance) / 3) - (4 - relic.substats.length)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
-    const idealScore = this.getOptimalPartScore(relic.part, id)
+    const idealScore = this.getOptimalPartScore(relic.part, relic.main.stat, id)
     const current = Math.max(0, (this.substatScore(relic, id).score + mainstatBonus) / idealScore * 100 * percentToScore + mainstatDeduction)
 
     // evaluate the best possible outcome
@@ -646,7 +620,7 @@ export class RelicScorer {
     let rerollValue = 0
     let rerollAvg = 0
     if (relic.grade >= 5 && relic.substats.length == 4) {
-      const currentRolls = TsUtils.sumArray(relic.substats.map(x => x.addedRolls ?? 0))
+      const currentRolls = TsUtils.sumArray(relic.substats.map((x) => x.addedRolls ?? 0))
       const remainingRolls = Math.ceil((15 - relic.enhance) / 3)
       const totalRolls = Math.min(currentRolls + remainingRolls, 5)
 
@@ -710,7 +684,7 @@ export class RelicScorer {
     const part = relic.part
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const substatScore = this.substatScore(relic, id)
-    const idealScore = this.getOptimalPartScore(part, id)
+    const idealScore = this.getOptimalPartScore(part, relic.main.stat, id)
     const score = substatScore.score / idealScore * 100 * percentToScore + mainstatBonus
     const rating = scoreToRating(score, substatScore, relic)
     const mainStatScore = substatScore.mainStatScore
@@ -812,8 +786,6 @@ export function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata:
   const parts = scoringMetadata.parts
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
     const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]
-    // @ts-ignore
-    // return mainStatBonuses[part][mainStat] * minRollValue * multiplier
     // Main stat free roll == 1
     return 1 * minRollValue * multiplier
   }

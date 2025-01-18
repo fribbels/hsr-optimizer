@@ -15,7 +15,7 @@ export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
 
   const finalColor = adjustedColor
     .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0275, 0.95))
-    .alpha(0.85)
+    .alpha(0.80)
 
   // console.log(finalColor.luminance())
   // console.log(finalColor.hsl())
@@ -54,13 +54,46 @@ export function showcaseTransition() {
   return 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
 }
 
-export function selectColor(color1: string, color2: string): string {
-  const targetBlue = 'rgb(0, 0, 255)'
+export function selectClosestColor(colors: string[]): string {
+  const targetBlue = '#2d58b6'
 
-  const deltaE1 = chroma.deltaE(color1, targetBlue)
-  const deltaE2 = chroma.deltaE(color2, targetBlue)
+  if (!colors || colors.length === 0) {
+    throw new Error('The colors array cannot be empty.')
+  }
 
-  return deltaE1 < deltaE2 ? color1 : color2
+  const orangenessValues = colors.map(measureOrangeness)
+
+  if (orangenessValues.every((orangeness) => orangeness > 0.3)) {
+    return targetBlue
+  }
+
+  return colors.reduce((closestColor, currentColor, index) => {
+    const deltaEClosest = chroma.deltaE(closestColor, targetBlue)
+    const deltaECurrent = chroma.deltaE(currentColor, targetBlue)
+
+    const orangenessClosest = measureOrangeness(closestColor)
+    const orangenessCurrent = measureOrangeness(currentColor)
+
+    const penalizedClosest = deltaEClosest * (1 + orangenessClosest)
+    const penalizedCurrent = deltaECurrent * (1 + orangenessCurrent)
+
+    return penalizedCurrent < penalizedClosest ? currentColor : closestColor
+  })
+}
+
+export function measureOrangeness(color: string): number {
+  const targetHue = 37.5
+  const orangeRange = 40
+  const [hue, saturation, lightness] = chroma(color).hsl()
+
+  const hueDifference = Math.abs(hue - targetHue)
+  let orangenessHue = 1 - Math.min(hueDifference / orangeRange, 1)
+
+  const saturationAdjustment = Math.max(0, saturation - 0.2) // Ignore very desaturated colors
+
+  const orangeness = 0.8 * orangenessHue + 0.2 * saturationAdjustment
+
+  return orangeness
 }
 
 export function colorSorter(a: string, b: string): number {

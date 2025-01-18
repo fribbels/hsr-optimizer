@@ -2,7 +2,6 @@ import { CameraOutlined, DownloadOutlined, MoonOutlined, SunOutlined } from '@an
 import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
-import chroma from 'chroma-js'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -10,7 +9,7 @@ import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { organizeColors, selectColor } from 'lib/utils/colorUtils'
+import { measureOrangeness, organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
@@ -60,7 +59,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       onPortraitLoad: (img: string, characterId: string) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectColor(palette.LightMuted, palette.LightVibrant)
+            const primary = selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted])
 
             setSeedColor(primary)
             urlToColorCache[img] = primary
@@ -92,7 +91,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
       console.log('Set seed color to', newColor)
 
-      console.log(chroma(newColor).luminance())
+      console.log('Orangeness', measureOrangeness(newColor))
 
       setColorMode(ShowcaseColorMode.CUSTOM)
       setSeedColor(newColor)

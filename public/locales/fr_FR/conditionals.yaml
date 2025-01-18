@@ -1597,132 +1597,207 @@ Characters:
     Content:
       benedictionBuff:
         text: Bonus Bénédiction
+        content: >-
+          Accorde une bénédiction à un allié unique qui augmente son ATQ de {{skillAtkBoostScaling}}%, dans la limite de {{skillAtkBoostMax}}% de l'ATQ actuelle de Tingyun. Lorsque l'allié béni attaque, il inflige des DGT de Foudre additionnels équivalents à {{skillLightningDmgBoostScaling}}% de sa propre ATQ 1 fois. La bénédiction dure 3 tours.
       skillSpdBuff:
         text: Bonus de VIT de la compétence
+        content: La VIT de Tingyun augmente de 20% pendant 1 tour après utilisation de sa compétence.
       ultDmgBuff:
         text: Bonus de DGT d'ULT
+        content: 'Régénère 50 points d''énergie à un allié unique et augmente les DGT qu''il inflige de {{ultDmgBoost}}% pendant 2 tours.::BR::E6: L''ultime régénère 10 points d''énergie supplémentaires à la cible alliée.'
       ultSpdBuff:
         text: 'E1: Bonus de VIT de l''ULT'
+        content: "La VIT de l'allié béni augmente de 20% pendant 1 tour après utilisation de son ultime."
     TeammateContent:
       teammateAtkBuffValue:
         text: Valeur du bonus d'ATQ
+        content: >-
+          Accorde une bénédiction à un allié unique qui augmente son ATQ de {{skillAtkBoostScaling}}%, dans la limite de {{skillAtkBoostMax}}% de l'ATQ actuelle de Tingyun. Lorsque l'allié béni attaque, il inflige des DGT de Foudre additionnels équivalents à {{skillLightningDmgBoostScaling}}% de sa propre ATQ 1 fois. La bénédiction dure 3 tours.
   Topaz:
     Content:
       enemyProofOfDebtDebuff:
         text: Malus Reconnaissance de dette
+        content: Applique une Reconnaissance de dette à une cible ennemie unique et augmente les DGT des attaques de suivi qu'elle subit de {{proofOfDebtFuaVulnerability}}%.
       numbyEnhancedState:
         text: Compti état amélioré
+        content: Compti entre dans l'état Inflation exponentielle. Son multiplicateur de DGT augmente de {{enhancedStateFuaScalingBoost}}% et ses DGT critiques de {{enhancedStateFuaCdBoost}}%.
       e1DebtorStacks:
         text: 'E1: Cumuls de Débiteur'
+        content: >-
+          Lorsque des ennemis affectés par Reconnaissances de dette subissent des attaques de suivi, ils entrent dans l'état Débiteur. Cet effet s'active une seule fois par action. Débiteur augmente les DGT critiques des attaques de suivi infligés aux ennemis affectés de 25%, cumulable jusqu'à 2 fois. Débiteur se dissipe en même temps que Reconnaissance de dette.
   TrailblazerDestruction:
     Content:
       enhancedUlt:
         text: ULT ZdE
+        content: >-
+          Vous choisissez entre deux modes d'attaque pour infliger un coup dévastateur.::BR::Coup d'adieu (Cible unique): Inflige des DGT physiques équivalents à {{ultScaling}}% de l'ATQ du pionnier/de la pionnière à un ennemi unique.::BR::Home run final (Propagation): Inflige des DGT physiques équivalents à {{ultEnhancedScaling}}% de l'ATQ du pionnier/de la pionnière à un ennemi unique, ainsi que des DGT physiques équivalents à {{ultEnhancedScaling2}}% de l'ATQ du pionnier/de la pionnière aux ennemis adjacents.
       talentStacks:
         text: Cumuls du talent
+        content: 'L''ATQ augmente de {{talentAtkScalingValue}}% à chaque fois que le personnage fait subir une Rupture de faiblesse à un ennemi. Effet cumulable jusqu''à 2 fois.::BR::A4: Chaque cumul du talent augmente la DÉF du pionnier/de la pionnière de 10%.'
   TrailblazerHarmony:
     Content:
       backupDancer:
         text: Bonus d'ER de Soutien sur scène
+        content: >-
+          Applique l'effet Soutien sur scène à tous les alliés, pour une durée de 3 tours. La durée de l'effet diminue de 1 tour au début de chaque tour du pionnier/de la pionnière. L'effet de Rupture des alliés qui bénéficient de Soutien sur scène augmente de {{ultBeScaling}}%. 
       superBreakDmg:
         text: Rupture extrême (force l'état de rupture)
+        content: >-
+          Lorsque les alliés bénéficiant de l'effet Soutien sur scène attaquent des cibles ennemies qui sont en état de Rupture de faiblesse, la réduction de robustesse de cette attaque est convertie 1 fois en une instance de DGT de rupture extrême.::BR::Les DGT de rupture extrême sont ajoutés a chacune des colonnes de DGT de NORMALE / COMP / ULT / ADS. Par exemple, lorsque cette option est activée, la collone COMP montrera la somme des dégâts de Compétence et des DGT de tupture extreme basés sur la réduction de robustesse de la compétence. Activer cette option forcera l'ennemi à être considéré comme étant en état de rupture de faiblesse pour tous les calculs de dégàts.
       skillHitsOnTarget:
         text: Coups supplémentaires sur cible de compétence
+        content: Inflige des DGT imaginaire à un ennemi unique et inflige 4 fois des DGT supplémentaires à un ennemi aléatoire.
       e2EnergyRegenBuff:
         text: 'E2: Bonus de TRE'
+        content: Le taux de régénération d'énergie du pionnier/de la pionnière augmente de 25% pour une durée de 3 tours en début de combat.
     TeammateContent:
       teammateBeValue:
         text: 'E4: ER en combat'
+        content: Lorsque le pionnier/la pionnière est sur le champ de bataille, augmente l'effet de Rupture de tous les alliés à l'exception du pionnier/de la pionnière. L'augmentation est équivalente à 15% de l'effet de Rupture du pionnier/de la pionnière.
   TrailblazerPreservation:
     Content:
       enhancedBasic:
         text: Normale améliorée
+        content: Attaque normale renforcée inflige des dégâts de Feu équivalent à {{basicEnhancedAtkScaling}}% de l'ATQ du pionnier/de la pionnière à la cible principale, ainsi que des dégâts réduits aux cibles adjacents
       skillActive:
         text: Réduction de DGT de la compétence
+        content: Quand la compétence est utilisée, réduit les DGT reçus de {{skillDamageReductionValue}}%. Réduis aussi les DGT reçus pas les alliés de 15% pour 1 tour.
       shieldActive:
         text: Bouclier actif
+        content: Lorsque le/la Pionnier/ère est protégé/e par un bouclier au début du tour, augmente l'ATQ de 15%.
       e6DefStacks:
         text: 'E6: Cumuls de bonus de DÉF'
+        content: "Après utilisation de son ATQ de base renforcée ou de son ultime, la DÉF du/de la Pionnier/ère augmente de 10%. Cumulable jusqu'à 3 fois."
   TrailblazerRemembrance:
     Content:
       memoSkillHits:
         text: Nombre de coups de Mem
+        content: >-
+          Inflige 4 instances de DGT, chaque instance inflige des DGT de glace équivalents à {{SingleScaling}}% de l'ATQ de Mem à un ennemi aléatoire. Puis, inflige des DGT de glace équivalents à {{AoeScaling}}% de l'ATQ de Mem à tous les ennemis.
       teamCdBuff:
         text: Bonus d'équipe de DC
+        content: >-
+          Les DGT critiques de tous les alliés augmentent d'un montant équivalent à {{ScalingBuff}}% des DGT critiques de Mem + {{FlatBuff}}%.
       memsSupport:
         text: >-
           DGT réels du soutien de Mem
+        content: >-
+          Avance l'action d'un allié désigné de 100% et lui accorde Soutien de Mem pendant 3 tours. Pour chaque instance de DGT infligés par la cible avec Soutien de Mem, inflige également 1 instance de DGT réels équivalents à {{TrueDmgScaling}}% des DGT initiaux.::BR::E1: Lorsqu'une cible alliée bénéficie de Soutien de Mem, cet effet s'applique également au mnémesprit de la cible/au mnémomaître.::BR::E4: Lorsqu'une cible alliée avec 0 d'énergie max utilise activement une capacité, Mem gagne 3% de charge. De plus, le multiplicateur des DGT réels infligés par cette cible via Soutien de Mem augmente de 6%.
       energyTrueDmgValue:
         text: DGT réels d'énergie max
+        content: >-
+          Lorsque l'énergie max d'une cible alliée qui bénéficie de Soutien de Mem excède 100, pour chaque tranche de 10 points d'énergie en excédant, augmente le multiplicateur des DGT réels infligés avec Soutien de Mem de 2%, jusqu'à une augmentation maximale de 20%.
       e1CrBuff:
         text: 'E1: Bonus de TC'
+        content: >-
+          Augmente les chances de coup critique de la cible alliée qui bénéficie de Soutien de Mem de 10%.
       e4TrueDmgBoost:
         text: 'E4: Bonus de DGT réels'
+        content: >-
+          Lorsqu'une cible alliée avec 0 d'énergie max utilise activement une capacité, Mem gagne 3% de charge. De plus, le multiplicateur des DGT réels infligés par cette cible via Soutien de Mem augmente de 6%.
       e6UltCrBoost:
         text: 'E6: Bonus de TC de l''Ult'
+        content: >-
+          Les chances de coup critique de l'ultime sont fixées à 100%.
     TeammateContent:
       memCDValue:
         text: >-
           DC en combat de Mem
+        content: >-
+          Les DGT critiques de tous les alliés augmentent d'un montant équivalent à {{ScalingBuff}}% des DGT critiques de Mem + {{FlatBuff}}%.
   Welt:
     Content:
       enemyDmgTakenDebuff:
         text: Bonus de vulnérabilité de l'ULT
+        content: Lors de l'utilisation de l'ultime, il y a 100% de chances de base d'augmenter les DGT subis par les cibles de 12% pendant 2 tours.
       enemySlowed:
         text: Ennemi ralenti
+        content: Lorsqu'il touche un ennemi qui est ralenti, Welt lui inflige des DGT imaginaires additionnels équivalents à {{talentScaling}}% de son ATQ.
       skillExtraHits:
         text: Coups supplémentaires sur cible de compétence
+        content: >-
+          Inflige des DGT imaginaires équivalents à {{skillScaling}}% de l'ATQ de Welt à un ennemi unique et inflige des DGT 2 fois supplémentaires, infligeant à chaque fois des DGT imaginaires équivalents à {{skillScaling}}% de l'ATQ de Welt à un ennemi aléatoire.
       e1EnhancedState:
         text: 'E1: État amélioré'
+        content: >-
+          Après utilisation de l'ultime de Welt, ses capacités sont renforcées. Lors des 2 prochaines fois où il utilise son ATQ normale ou sa compétence, il inflige des DGT additionnels à la cible équivalents respectivement à 50% du multiplicateur de DGT de son ATQ normale et à 80% du multiplicateur de DGT de sa compétence.
   Xueyi:
     Content:
       beToDmgBoost:
         text: Conversion d'ER à DGT
+        content: Augmente les DGT infligés par le personnage à hauteur de 100% de son effet de Rupture, jusqu'à une augmentation maximale de DGT de 240%.
       enemyToughness50:
         text: Rouages du Destin
+        content: L'ultime inflige 10% de DGT supplémentaires aux cibles ennemies qui ont 50% ou plus de leur robustesse max.
       toughnessReductionDmgBoost:
         text: Bonus de DGT d'ULT
+        content: Plus la robustesse est réduite par l'ultime, plus les DGT infligés par cette attaque sont élevés, jusqu'à un maximum de {{ultBoostMax}}%.
       fuaHits:
         text: Coups d'ADS
+        content: >-
+          Lorsque le nombre de cumuls de Karma atteint son maximum de 8 cumuls, elle consomme tous les cumuls de Karma et déclenche immédiatement une attaque de suivi, qui inflige des DGT à 3 reprises. Chaque instance de DGT inflige des DGT quantiques équivalents à {{fuaScaling}}% de l'ATQ de Xueyi à une cible aléatoire unique.
       e4BeBuff:
         text: 'E4: Bonus d''ER'
+        content: "Augmente l'effet de Rupture de 40% pendant 2 tours lors de l'utilisation de l'ultime."
   Yanqing:
     Content:
       ultBuffActive:
         text: Bonus d'ULT actif
+        content: Augmente les chances de coup critique de Yanqing de 60%. Lorsque Connexion à l'empathie de l'épée est active, les DGT critiques de Yanqing augmentent de {{ultCdBuffValue}}% supplémentaires.
       soulsteelBuffActive:
         text: Osmose avec l'acier actif
+        content: >-
+          Lorsque Connexion à l'empathie de l'épée est active, ses chances de coup critique augmentent de {{talentCrBuffValue}}% et ses DGT critiques de {{talentCdBuffValue}}%.::BR::Avant d'utiliser son ultime, lorsque Connexion à l'empathie de l'épée est active, les DGT critiques de Yanqing augmentent de {{ultCdBuffValue}}%.::BR::Lorsque Connexion à l'empathie de l'épée est active, la RÉS aux effets augmente de 20%.::BR::E2: Lorsque Connexion à l'empathie de l'épée est active, le taux de régénération d'énergie augmente de 10% supplémentaires.
       critSpdBuff:
         text: Bonus de VIT
+        content: Augmente la VIT de 10% pendant 2 tours lorsqu'un coup critique est déclenché.
       e1TargetFrozen:
         text: 'E1: cible gelée'
+        content: "Lorsque Yanqing attaque un ennemi gelé, il inflige des DGT de glace équivalents à 60% de son ATQ."
       e4CurrentHp80:
         text: 'E4: Bonus de PÉN de RÉS PV ≥ 80%'
+        content: "Lorsque les PV actuels de Yanqing sont supérieurs à 80% de ses PV max, la pénétration de RÉS de glace de Yanqing augmente de 12%."
   Yukong:
     Content:
       teamImaginaryDmgBoost:
         text: Bonus d'équipe de DGT Imaginaire
+        content: Lorsque Yukong est sur le champ de bataille, les DGT imaginaires infligés par les alliés augmentent de 12%.
       roaringBowstringsActive:
         text: Rugissement des cordes
+        content: "Lorsque « Rugissement des cordes » est actif, l'ATQ de tous les alliés augmente de {{skillAtkBuffValue}}%.::BR::E4: Lorsque « Rugissement des cordes » est actif, Yukong inflige 30% de DGT supplémentaires aux ennemis."
       ultBuff:
         text: Bonus de TC/DC de l'ULT
+        content: >-
+          Si Yukong bénéficie de « Rugissement des cordes » lorsqu'elle utilise son ultime, les chances de coup critique de tous les alliés augmentent de {{ultCrBuffValue}}% et leurs DGT critiques de {{ultCdBuffValue}}%. D'autre part, inflige des DGT imaginaires équivalents à {{ultScaling}}% de l'ATQ de Yukong à un ennemi unique.
       initialSpeedBuff:
         text: 'E1: Bonus initial de VIT'
+        content: "Augmente la VIT de tous les alliés de 10% pendant 2 tours en début de combat."
   Yunli:
     Content:
       blockActive:
         text: Parade actif
+        content: Lorsque Yunli est dans l'état Parade, elle résiste aux malus de contrôle et subit 20% de DGT en moins.
       ultCull:
         text: "Sens de l'éradication activée"
+        content: >-
+          Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       ultCullHits:
         text: "Sens de l'éradication: coups"
+        content: >-
+          Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       counterAtkBuff:
         text: Bonus d'ATQ post-contre
+        content: L'ATQ de Yunli augmente de 30% pendant 1 tour après avoir lancé un contre.
       e1UltBuff:
         text: 'E1: Bonus d''ULT'
+        content: "Augmente les DGT de Sens de l'entaille et de Sens de l'éradication de 20%, et augmente le nombre d'instances de DGT supplémentaires de Sens de l'éradication de 3."
       e2DefShred:
         text: 'E2: PÉN de DÉF d''ADS'
+        content: Lorsque Yunli inflige des DGT via un contre, elle ignore 20% de la DÉF de la cible.
       e4ResBuff:
         text: 'E4: Bonus de RAE'
+        content: "Augmente de 50% la RÉS aux effets du personnage pendant 1 tour après avoir lancé Sens de l'entaille ou Sens de l'éradication."
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: >-
+          Quand l'effet Parade est actif, lorsqu'un ennemi utilise activement une capacité, que ce soit pour attaquer Yunli ou non, Sens de l'éradication se déclenche et supprime l'effet Parade. Lorsque Yunli inflige des DGT via Sens de l'entaille ou Sens de l'éradication, ses chances de coup critique augmentent de 15% et sa PÉN de RÉS physique augmente de 20%.

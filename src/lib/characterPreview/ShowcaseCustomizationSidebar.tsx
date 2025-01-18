@@ -9,7 +9,7 @@ import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { measureOrangeness, organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
+import { organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
@@ -90,8 +90,6 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       )
 
       console.log('Set seed color to', newColor)
-
-      console.log('Orangeness', measureOrangeness(newColor))
 
       setColorMode(ShowcaseColorMode.CUSTOM)
       setSeedColor(newColor)

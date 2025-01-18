@@ -58,7 +58,7 @@ export function selectClosestColor(colors: string[]): string {
   const targetBlue = '#2d58b6'
 
   if (!colors || colors.length === 0) {
-    throw new Error('The colors array cannot be empty.')
+    return targetBlue
   }
 
   const orangenessValues = colors.map(measureOrangeness)

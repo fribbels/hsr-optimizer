@@ -258,7 +258,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     return STANDARD_COLOR
   }
 
-  if (urlToColorCache[portraitUrl]) {
+  if (DB.getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
     return urlToColorCache[portraitUrl]
   }
 
@@ -271,12 +271,12 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
     1009: ['#a092ef'], // asta
-    1013: ['#653ae9'], // herta
+    1013: ['#8969ea'], // herta
     1101: ['#375ee1'], // bronya
     1102: ['#5f55eb'], // seele
     1103: ['#8772f4'], // serval
     1104: ['#0f4eef'], // gepard
-    1105: ['#6a85a0'], // natasha
+    1105: ['#82b5e9'], // natasha
     1106: ['#4b88e0'], // pela
     1107: ['#a99dd1'], // clara
     1108: ['#7777c9'], // sampo
@@ -286,7 +286,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1112: ['#1d3f9c'], // topaz
     1201: ['#8fdde6'], // qingque
     1202: ['#9fcaea'], // tingyun
-    1203: ['#97e0ef'], // luocha
+    1203: ['#8ce2f4'], // luocha
     1204: ['#b7dde2'], // jingyuan
     1205: ['#4d69be'], // blade
     1206: ['#154da1'], // sushang
@@ -299,7 +299,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1213: ['#72c3de'], // imbibitorlunae
     1214: ['#3571e7'], // xueyi
     1215: ['#9a90e6'], // hanya
-    1217: ['#81bad1'], // huohuo
+    1217: ['#8be4f2'], // huohuo
     1218: ['#f4dfe7'], // jiaoqiu
     1220: ['#7ed3da'], // feixiao
     1221: ['#a3d3dc'], // yunli
@@ -313,7 +313,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1304: ['#7cbcea'], // aventurine
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
-    1307: ['#7f58d6'], // blackswan
+    1307: ['#a37df4'], // blackswan
     1308: ['#8982d6'], // acheron
     1309: ['#bb9cf4'], // robin
     1310: ['#8fbdcd'], // firefly

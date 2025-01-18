@@ -2,7 +2,6 @@ import { CameraOutlined, DownloadOutlined, MoonOutlined, SunOutlined } from '@an
 import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
-import chroma from 'chroma-js'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -10,7 +9,7 @@ import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { organizeColors, selectColor } from 'lib/utils/colorUtils'
+import { organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
@@ -60,7 +59,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       onPortraitLoad: (img: string, characterId: string) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectColor(palette.LightMuted, palette.LightVibrant)
+            const primary = selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted])
 
             setSeedColor(primary)
             urlToColorCache[img] = primary
@@ -91,8 +90,6 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       )
 
       console.log('Set seed color to', newColor)
-
-      console.log(chroma(newColor).luminance())
 
       setColorMode(ShowcaseColorMode.CUSTOM)
       setSeedColor(newColor)
@@ -285,10 +282,10 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1108: ['#7777c9'], // sampo
     1109: ['#c8d0f0'], // hook
     1110: ['#2e93c6'], // lynx
-    1111: ['#e9858e'], // luka
+    1111: ['#5d8ce2'], // luka
     1112: ['#1d3f9c'], // topaz
     1201: ['#8fdde6'], // qingque
-    1202: ['#ecd5da'], // tingyun
+    1202: ['#9fcaea'], // tingyun
     1203: ['#97e0ef'], // luocha
     1204: ['#b7dde2'], // jingyuan
     1205: ['#4d69be'], // blade
@@ -296,7 +293,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1207: ['#90a0e6'], // yukong
     1208: ['#da91f2'], // fuxuan
     1209: ['#6db1f4'], // yanqing
-    1210: ['#f9f5f2'], // guinaifen
+    1210: ['#88aade'], // guinaifen
     1211: ['#2a415c'], // bailu
     1212: ['#0e37cc'], // jingliu
     1213: ['#72c3de'], // imbibitorlunae
@@ -306,11 +303,11 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1218: ['#f4dfe7'], // jiaoqiu
     1220: ['#7ed3da'], // feixiao
     1221: ['#a3d3dc'], // yunli
-    1222: ['#f5e6ed'], // lingsha
+    1222: ['#92bafa'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#eacbea'], // march7thImaginary
     1225: ['#fce4f7'], // fugue
-    1301: ['#f9efee'], // gallagher
+    1301: ['#7c7c99'], // gallagher
     1302: ['#d6616c'], // argenti
     1303: ['#1a48ba'], // ruanmei
     1304: ['#7cbcea'], // aventurine
@@ -327,8 +324,8 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1317: ['#7789e2'], // rappa
     8001: ['#5f81f4'], // trailblazerdestruction
     8002: ['#5f81f4'], // trailblazerdestruction
-    8003: ['#dfafa4'], // trailblazerpreservation
-    8004: ['#dfafa4'], // trailblazerpreservation
+    8003: ['#756d96'], // trailblazerpreservation
+    8004: ['#756d96'], // trailblazerpreservation
     8005: ['#8d7abc'], // trailblazerharmony
     8006: ['#8d7abc'], // trailblazerharmony
 

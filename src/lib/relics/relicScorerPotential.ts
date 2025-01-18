@@ -370,12 +370,12 @@ export class RelicScorer {
         let mainStat = '' as MainStats
         const optimalMainStats = meta.parts[part] || []
         // list of stats, sorted by weight as mainstat in decreasing order
-        if (optimalMainStats.includes(mainstat) || !Utils.hasMainStat(part)) {
+        if (optimalMainStats.includes(mainstat) || meta.stats[mainstat] == 1 || !Utils.hasMainStat(part)) {
           mainStat = mainstat
         } else {
           const scoreEntries = (Object.entries(meta.stats) as [StatsValues, number][])
             .map((entry) => {
-              if (optimalMainStats.includes(entry[0])) {
+              if (optimalMainStats.includes(entry[0]) || meta.stats[entry[0]] == 1) {
                 return [entry[0], 1] as [StatsValues, number]
               } else return [entry[0], entry[1]] as [StatsValues, number]
             })
@@ -388,13 +388,13 @@ export class RelicScorer {
               const scoreB = !possibleSubstats.has(b[0]) ? b[1] * 6.48 : b[1] * normalization[b[0] as SubStats] * SubStatValues[b[0] as SubStats][5].high
               return scoreB - scoreA
             })
-            /*
-             * Need the specific optimal mainstat to remove it from possible substats. Find it by
-             * - finding the highest multiplier mainstat of those valid for this relic
-             * - looking at all stats with this exact multiplier and biasing towards
-             *   1 - ideal mainstats and
-             *   2 - mainstats that can't be substats in that order
-             */
+          /*
+           * Need the specific optimal mainstat to remove it from possible substats. Find it by
+           * - finding the highest multiplier mainstat of those valid for this relic
+           * - looking at all stats with this exact multiplier and biasing towards
+           *   1 - ideal mainstats and
+           *   2 - mainstats that can't be substats in that order
+           */
           // First candidate (i.e. has the highest weight)
           const possibleMainStats = PartsMainStats[part] as MainStats[]
           // @ts-ignore typescript wants name to have the same type as the elements of possibleMainStats

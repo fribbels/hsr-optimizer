@@ -2223,8 +2223,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.ATK_P]: 0.5,
         [Stats.DEF]: 0.5,
         [Stats.DEF_P]: 0.5,
-        [Stats.HP]: 1,
-        [Stats.HP_P]: 1,
+        [Stats.HP]: 0.75,
+        [Stats.HP_P]: 0.75,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
@@ -3439,8 +3439,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     1202: { // Tingyun
       stats: {
-        [Stats.ATK]: 1,
-        [Stats.ATK_P]: 1,
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
         [Stats.DEF]: 0.75,
         [Stats.DEF_P]: 0.75,
         [Stats.HP]: 0.75,
@@ -4057,8 +4057,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     1210: { // Guinaifen
       stats: {
-        [Stats.ATK]: 1,
-        [Stats.ATK_P]: 1,
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
         [Stats.DEF]: 0.5,
         [Stats.DEF_P]: 0.5,
         [Stats.HP]: 0.5,
@@ -4844,6 +4844,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Constants.Stats.DEF_P,
           Constants.Stats.HP_P,
+          Constants.Stats.Fire_DMG,
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.BE,

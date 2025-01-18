@@ -263,7 +263,7 @@ export function CharacterPreview(props: {
 
           {/* Portrait left panel */}
           {source != ShowcaseSource.BUILDS_MODAL &&
-            <Flex vertical gap={12} className='character-build-portrait'>
+            <Flex vertical gap={8} className='character-build-portrait'>
               <ShowcasePortrait
                 source={source}
                 character={character}

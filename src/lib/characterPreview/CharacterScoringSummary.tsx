@@ -268,6 +268,7 @@ export const CharacterScoringSummary = (props: {
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
+            showAll={true}
           />
         </Flex>
 
@@ -281,6 +282,7 @@ export const CharacterScoringSummary = (props: {
             finalStats={combatStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
+            showAll={true}
           />
         </Flex>
 
@@ -300,7 +302,7 @@ export const CharacterScoringSummary = (props: {
             </Flex>
             <VerticalDivider/>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={precision}/>
+              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={2}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={stats[Stats.CR]} parens={diminishingReturns[Stats.CR]} precision={precision}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={stats[Stats.CD]} parens={diminishingReturns[Stats.CD]} precision={precision}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={stats[Stats.EHR]} parens={diminishingReturns[Stats.EHR]} precision={precision}/>
@@ -348,10 +350,11 @@ export const CharacterScoringSummary = (props: {
 
   return (
     <Flex vertical gap={15} align='center'>
-      <Flex justify='space-around' style={{ marginTop: 15 }}>
+      <Flex align='center' style={{ marginTop: 15 }} vertical>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
+        <pre>Note: DPS Score & Combo DMG are scoring metrics, and not meant for cross-team comparisons</pre>
       </Flex>
       <Flex gap={25}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>

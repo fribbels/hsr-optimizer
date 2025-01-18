@@ -258,7 +258,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     return STANDARD_COLOR
   }
 
-  if (urlToColorCache[portraitUrl]) {
+  if (DB.getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
     return urlToColorCache[portraitUrl]
   }
 
@@ -271,7 +271,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
     1009: ['#a092ef'], // asta
-    1013: ['#653ae9'], // herta
+    1013: ['#8969ea'], // herta
     1101: ['#375ee1'], // bronya
     1102: ['#5f55eb'], // seele
     1103: ['#8772f4'], // serval

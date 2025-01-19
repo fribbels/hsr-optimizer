@@ -3,7 +3,7 @@ import { scaleTowardsRange } from 'lib/utils/mathUtils'
 import { PaletteResponse } from 'lib/utils/vibrantFork'
 
 export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
-  const scaleFactor = 0.95
+  const scaleFactor = 0.96
   const minSaturation = 0.20
   const maxSaturation = 0.30
   const chromaColor = chroma(color)
@@ -15,7 +15,7 @@ export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
 
   const finalColor = adjustedColor
     .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0275, 0.95))
-    .alpha(0.80)
+    .alpha(darkMode ? 0.75 : 0.765)
 
   // console.log(finalColor.luminance())
   // console.log(finalColor.hsl())
@@ -27,12 +27,12 @@ export function darkModeModifier(color: Color, darkMode: boolean) {
   return !darkMode
     ? color
     : color
-      .darken(0.10)
-      .saturate(0.05)
+      .desaturate(0.05)
+      .darken(0.1)
 }
 
 export function showcaseCardBorderColor(color: string, darkMode: boolean) {
-  const finalColor = chroma(color).desaturate(0.3).luminance(0.085).brighten(0.90).alpha(0.75)
+  const finalColor = chroma(color).desaturate(0.5).luminance(0.1).brighten(0.9).alpha(0.7)
   return darkModeModifier(finalColor, darkMode).css()
 }
 

@@ -88,11 +88,6 @@ type TraceNode = {
   children: TraceNode[]
 }
 
-export type TraceResult = {
-  maxed: Record<string, number>
-  tree: TraceNode[]
-}
-
 export type DBMetadataCharacter = {
   id: string
   name: string

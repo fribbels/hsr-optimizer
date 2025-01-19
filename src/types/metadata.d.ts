@@ -19,6 +19,9 @@ export type ScoringMetadata = {
   hiddenColumns: SortOptionProperties[]
   addedColumns?: SortOptionProperties[]
   simulation?: SimulationMetadata
+  traces?: {
+    deactivated: string[]
+  }
   modified?: boolean
 }
 
@@ -84,7 +87,7 @@ type TraceNode = {
   id: string
   stat: string
   value: number
-  pre: number
+  pre: string
   children: TraceNode[]
 }
 

@@ -80,7 +80,7 @@ RelicGrid:
         Label: "Personnage sélectionné: Potentiel moyen de relancé"
         Header: |-
           Pers. sélectionné
-          Pot. relancé moy.
+          Pot. relancé moy
       RerollAvgDelta:
         Label: "Personnage sélectionné: Delta moyen de potentiel de relancé"
         Header: |-

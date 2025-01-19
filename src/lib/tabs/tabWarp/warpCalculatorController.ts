@@ -1,6 +1,5 @@
 import { SaveState } from 'lib/state/saveState'
 import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
-import { testLoad } from 'lib/utils/traceUtils'
 
 // 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
 
@@ -306,5 +305,3 @@ function getIndex(random: number, cumulativeDistribution: number[], pity: number
 
   return left
 }
-
-testLoad()

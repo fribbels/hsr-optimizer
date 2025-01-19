@@ -80,6 +80,19 @@ export type ImageCenter = {
   z: number
 }
 
+type TraceNode = {
+  id: string
+  stat: string
+  value: number
+  pre: number
+  children: TraceNode[]
+}
+
+export type TraceResult = {
+  maxed: Record<string, number>
+  tree: TraceNode[]
+}
+
 export type DBMetadataCharacter = {
   id: string
   name: string
@@ -90,6 +103,7 @@ export type DBMetadataCharacter = {
   stats: Record<string, number>
   unreleased: boolean
   traces: Record<string, number>
+  traceTree: TraceNode[]
   imageCenter: ImageCenter
   displayName: string
   scoringMetadata: ScoringMetadata

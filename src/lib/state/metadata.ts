@@ -866,7 +866,7 @@ function getLightConeOverrideCenter(): Record<string, number> {
   }
 }
 
-function getOverrideTraces(): Record<string, Record<string, number>> {
+export function getOverrideTraces(): Record<string, Record<string, number>> {
   return {
     1001: { // March 7th
       [Stats.Ice_DMG]: 0.224,
@@ -900,7 +900,7 @@ function getOverrideTraces(): Record<string, Record<string, number>> {
     },
     1008: { // Arlan
       [Stats.ATK_P]: 0.28,
-      [Stats.RES]: 0.12,
+      [Stats.RES]: 0.18,
       [Stats.HP_P]: 0.1,
     },
     1009: { // Asta
@@ -1224,6 +1224,3972 @@ function getOverrideTraces(): Record<string, Record<string, number>> {
       [Stats.SPD]: 5,
     },
   }
+}
+
+export const traceTrees = {
+  1001: [
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1002: [
+    {
+      stat: 'Wind DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Wind DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'Wind DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Wind DMG Boost',
+      value: 0.048,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'Wind DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1003: [
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+  ],
+  1004: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Effect RES',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.048,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+  ],
+  1005: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect Hit Rate',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1006: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Quantum DMG Boost',
+              value: 0.032,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect Hit Rate',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Quantum DMG Boost',
+      value: 0.048,
+      children: [],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1008: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1009: [
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.027,
+          children: [],
+        },
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.075,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1013: [
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+        {
+          stat: 'CRIT Rate',
+          value: 0.027,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.075,
+          children: [],
+        },
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.1,
+      children: [],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+  ],
+  1101: [
+    {
+      stat: 'Wind DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'Wind DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'Wind DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Wind DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+        {
+          stat: 'Wind DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1102: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1103: [
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.027,
+          children: [],
+        },
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Effect Hit Rate',
+          value: 0.06,
+          children: [],
+        },
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.053,
+      children: [],
+    },
+  ],
+  1104: [
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1105: [
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'DEF%',
+              value: 0.05,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.06,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1106: [
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.032,
+          children: [
+            {
+              stat: 'Effect Hit Rate',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'Ice DMG Boost',
+              value: 0.048,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1107: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Physical DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Physical DMG Boost',
+          value: 0.048,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Physical DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1108: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Effect RES',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect Hit Rate',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1109: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'CRIT DMG',
+              value: 0.053,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1110: [
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Effect RES',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.075,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.1,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1111: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'DEF%',
+              value: 0.05,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect Hit Rate',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1112: [
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.048,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [],
+        },
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1201: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Quantum DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'DEF%',
+          value: 0.05,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Quantum DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'Quantum DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1202: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Lightning DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.075,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Lightning DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1203: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'DEF%',
+              value: 0.05,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1204: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'DEF%',
+          value: 0.05,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1205: [
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Effect RES',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [],
+        },
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1206: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1207: [
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1208: [
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.027,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1209: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1210: [
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.032,
+          children: [
+            {
+              stat: 'Effect Hit Rate',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.08,
+          children: [
+            {
+              stat: 'Fire DMG Boost',
+              value: 0.048,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.107,
+      children: [],
+    },
+  ],
+  1211: [
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Effect RES',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.075,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.1,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1212: [
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'SPD',
+      value: 2,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.053,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [
+        {
+          stat: 'SPD',
+          value: 3,
+          children: [
+            {
+              stat: 'CRIT DMG',
+              value: 0.08,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'SPD',
+          value: 4,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1213: [
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.032,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Imaginary DMG Boost',
+              value: 0.048,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [],
+        },
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1214: [
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [
+            {
+              stat: 'Quantum DMG Boost',
+              value: 0.032,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'Break Effect',
+              value: 0.08,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Quantum DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1215: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 2,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'SPD',
+          value: 3,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'SPD',
+          value: 4,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1217: [
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'SPD',
+              value: 2,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.06,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1218: [
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Effect Hit Rate',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'Effect Hit Rate',
+          value: 0.04,
+          children: [
+            {
+              stat: 'SPD',
+              value: 2,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Fire DMG Boost',
+          value: 0.048,
+          children: [
+            {
+              stat: 'Effect Hit Rate',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [],
+    },
+    {
+      stat: 'Fire DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+  ],
+  1220: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1221: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'CRIT Rate',
+              value: 0.027,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1222: [
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'Break Effect',
+              value: 0.08,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.107,
+      children: [],
+    },
+  ],
+  1223: [
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1224: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1225: [
+    {
+      stat: 'SPD',
+      value: 2,
+      children: [
+        {
+          stat: 'SPD',
+          value: 4,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [
+        {
+          stat: 'SPD',
+          value: 2,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.08,
+          children: [
+            {
+              stat: 'SPD',
+              value: 3,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.107,
+      children: [],
+    },
+  ],
+  1301: [
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [
+            {
+              stat: 'HP%',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.08,
+          children: [
+            {
+              stat: 'Effect RES',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1302: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Physical DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Physical DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Physical DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1303: [
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [
+        {
+          stat: 'SPD',
+          value: 2,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.075,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1304: [
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.05,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1305: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1306: [
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1307: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Wind DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Effect Hit Rate',
+              value: 0.04,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Wind DMG Boost',
+          value: 0.048,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Effect Hit Rate',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'Wind DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+  ],
+  1308: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'Lightning DMG Boost',
+              value: 0.032,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.08,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Lightning DMG Boost',
+      value: 0.048,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.107,
+      children: [],
+    },
+  ],
+  1309: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'SPD',
+          value: 2,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1310: [
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [
+            {
+              stat: 'SPD',
+              value: 2,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.06,
+          children: [
+            {
+              stat: 'Break Effect',
+              value: 0.08,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1312: [
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.032,
+          children: [
+            {
+              stat: 'CRIT Rate',
+              value: 0.027,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.075,
+          children: [
+            {
+              stat: 'Ice DMG Boost',
+              value: 0.048,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1313: [
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.05,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.04,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1314: [
+    {
+      stat: 'Quantum DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Quantum DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Quantum DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+        {
+          stat: 'Quantum DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'Quantum DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+  ],
+  1315: [
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1317: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'SPD',
+      value: 2,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'SPD',
+          value: 3,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'SPD',
+      value: 4,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+  ],
+  1401: [
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.032,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+        {
+          stat: 'SPD',
+          value: 2,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.048,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+        {
+          stat: 'Ice DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'Ice DMG Boost',
+      value: 0.064,
+      children: [],
+    },
+  ],
+  1402: [
+    {
+      stat: 'Lightning DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.027,
+          children: [],
+        },
+        {
+          stat: 'Lightning DMG Boost',
+          value: 0.032,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'Lightning DMG Boost',
+      value: 0.048,
+      children: [],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'Lightning DMG Boost',
+      value: 0.048,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [
+            {
+              stat: 'Lightning DMG Boost',
+              value: 0.064,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  1403: [
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT Rate',
+      value: 0.027,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.04,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'CRIT Rate',
+          value: 0.053,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  1404: [
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'CRIT DMG',
+          value: 0.053,
+          children: [
+            {
+              stat: 'SPD',
+              value: 2,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'CRIT DMG',
+              value: 0.08,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'SPD',
+      value: 3,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  8001: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'DEF%',
+              value: 0.05,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  8002: [
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [
+            {
+              stat: 'DEF%',
+              value: 0.05,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.06,
+          children: [
+            {
+              stat: 'ATK%',
+              value: 0.06,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+  ],
+  8003: [
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.05,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+      ],
+    },
+  ],
+  8004: [
+    {
+      stat: 'DEF%',
+      value: 0.05,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [
+        {
+          stat: 'DEF%',
+          value: 0.05,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'HP%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.06,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'DEF%',
+      value: 0.075,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.08,
+          children: [],
+        },
+        {
+          stat: 'DEF%',
+          value: 0.1,
+          children: [],
+        },
+      ],
+    },
+  ],
+  8005: [
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  8006: [
+    {
+      stat: 'Break Effect',
+      value: 0.053,
+      children: [
+        {
+          stat: 'Effect RES',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.08,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Imaginary DMG Boost',
+      value: 0.032,
+      children: [
+        {
+          stat: 'Break Effect',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Break Effect',
+      value: 0.08,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.048,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'Effect RES',
+      value: 0.06,
+      children: [
+        {
+          stat: 'Imaginary DMG Boost',
+          value: 0.064,
+          children: [],
+        },
+        {
+          stat: 'Break Effect',
+          value: 0.107,
+          children: [],
+        },
+      ],
+    },
+  ],
+  8007: [
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [
+            {
+              stat: 'CRIT DMG',
+              value: 0.107,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  8008: [
+    {
+      stat: 'CRIT DMG',
+      value: 0.053,
+      children: [
+        {
+          stat: 'ATK%',
+          value: 0.04,
+          children: [],
+        },
+        {
+          stat: 'CRIT DMG',
+          value: 0.053,
+          children: [],
+        },
+      ],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.04,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'HP%',
+      value: 0.06,
+      children: [],
+    },
+    {
+      stat: 'CRIT DMG',
+      value: 0.08,
+      children: [],
+    },
+    {
+      stat: 'ATK%',
+      value: 0.06,
+      children: [
+        {
+          stat: 'HP%',
+          value: 0.08,
+          children: [
+            {
+              stat: 'CRIT DMG',
+              value: 0.107,
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 
 function getOverrideImageCenter(): Record<string, {

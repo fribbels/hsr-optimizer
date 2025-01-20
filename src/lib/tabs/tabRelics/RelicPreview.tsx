@@ -154,19 +154,21 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
   } = props
 
   const scored = score !== undefined
-  return <>
-    <Divider style={{ margin: '6px 0px 6px 0px' }}/>
+  return (
+    <>
+      <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 
-    <Flex justify='space-between'>
-      <Flex>
-        <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
+      <Flex justify='space-between'>
+        <Flex>
+          <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
+          <RelicStatText>
+            {(scored) ? t('Score') : ''}
+          </RelicStatText>
+        </Flex>
         <RelicStatText>
-          {(scored) ? t('Score') : ''}
+          {(scored) ? `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}` : ''}
         </RelicStatText>
       </Flex>
-      <RelicStatText>
-        {(scored) ? `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}` : ''}
-      </RelicStatText>
-    </Flex>
-  </>
+    </>
+  )
 }

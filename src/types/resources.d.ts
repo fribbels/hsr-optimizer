@@ -1351,7 +1351,7 @@ interface Resources {
           },
           "e2UltAtkBuff": {
             "text": "E2 Ult ATK buff",
-            "content": "E2: If the number of enemies on the field equals to 3 or more, increases ATK by 40% for 1 turn."
+            "content": "If the number of enemies on the field equals to 3 or more, increases ATK by 40% for 1 turn."
           }
         }
       },
@@ -1407,11 +1407,11 @@ interface Resources {
           },
           "e4DefBuff": {
             "text": "E4 DEF buff",
-            "content": "E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turns."
+            "content": "When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turns."
           },
           "e6ShieldStacks": {
             "text": "E6 shield stacks",
-            "content": "E6: For every ally that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%."
+            "content": "For every ally that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%."
           }
         }
       },
@@ -1427,11 +1427,11 @@ interface Resources {
           },
           "e2UltHealingBuff": {
             "text": "E2 Ult healing buff",
-            "content": "E2: Increases healing by 15% after Ultimate."
+            "content": "Increases healing by 15% after Ultimate."
           },
           "e4SkillHealingDmgBuffStacks": {
             "text": "E4 Skill DMG boost stacks",
-            "content": "E4: Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
+            "content": "Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times."
           }
         }
       },
@@ -1455,11 +1455,11 @@ interface Resources {
           },
           "e1ResReduction": {
             "text": "E1 RES shred",
-            "content": "E1: While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%."
+            "content": "While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%."
           },
           "e4EffResPen": {
             "text": "E4 Effect RES shred",
-            "content": "E4: While in the Epiphany state, enemy targets have their Effect RES reduced by 10%."
+            "content": "While in the Epiphany state, enemy targets have their Effect RES reduced by 10%."
           }
         }
       },
@@ -1475,7 +1475,7 @@ interface Resources {
           },
           "e4MaxHpIncreaseStacks": {
             "text": "E4 max HP stacks",
-            "content": "E4: Increases HP by 20%, stacks up to 2 times."
+            "content": "Increases HP by 20%, stacks up to 2 times."
           }
         }
       },
@@ -1561,11 +1561,11 @@ interface Resources {
           },
           "e2UltAtkBuff": {
             "text": "E2 Ult ATK buff",
-            "content": "E2: After using Ultimate, increases ATK by 30% for 2 turns."
+            "content": "After using Ultimate, increases ATK by 30% for 2 turns."
           },
           "e4DmgReductionBuff": {
             "text": "E4 DMG reduction buff",
-            "content": "E4: Decreases DMG taken by 30%."
+            "content": "Decreases DMG taken by 30%."
           }
         }
       },
@@ -1581,7 +1581,7 @@ interface Resources {
           },
           "e1EnemyHp50": {
             "text": "E1 enemy HP ≥ 50% CR boost",
-            "content": "E1: When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
+            "content": "When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
           }
         }
       },
@@ -1613,7 +1613,7 @@ interface Resources {
           },
           "e1OriginalDmgBoost": {
             "text": "E1 original DMG boost",
-            "content": "E1: After launching Boltsunder Blitz or Waraxe Skyward, additionally increases the Ultimate DMG dealt by Feixiao by an amount equal to 10% of the original DMG, stacking up to 5 times and lasting until the end of the Ultimate action."
+            "content": "After launching Boltsunder Blitz or Waraxe Skyward, additionally increases the Ultimate DMG dealt by Feixiao by an amount equal to 10% of the original DMG, stacking up to 5 times and lasting until the end of the Ultimate action."
           },
           "e4Buffs": {
             "text": "E4 buffs",
@@ -1711,7 +1711,7 @@ interface Resources {
           },
           "e6TeamHpLostPercent": {
             "text": "E6 team HP lost",
-            "content": "E6: Once Matrix of Prescience is activated, it will keep a tally of the total HP lost by all team members in the current battle. Fu Xuan's Ultimate DMG will increase by 200% of this tally of HP loss. This tally is also capped at 120% of Fu Xuan's Max HP."
+            "content": "Once Matrix of Prescience is activated, it will keep a tally of the total HP lost by all team members in the current battle. Fu Xuan's Ultimate DMG will increase by 200% of this tally of HP loss. This tally is also capped at 120% of Fu Xuan's Max HP."
           }
         },
         "TeammateContent": {
@@ -1737,15 +1737,15 @@ interface Resources {
           },
           "e1ResBuff": {
             "text": "E1 RES buff",
-            "content": "E1: When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%."
+            "content": "When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%."
           },
           "e2ResBuff": {
             "text": "E2 RES buff",
-            "content": "E2: When using the Skill, removes 1 debuff from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turns."
+            "content": "When using the Skill, removes 1 debuff from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turns."
           },
           "e6BeBuff": {
             "text": "E6 BE buff",
-            "content": "E6: Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%."
+            "content": "Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%."
           }
         }
       },
@@ -1753,7 +1753,7 @@ interface Resources {
         "Content": {
           "e4TeamResBuff": {
             "text": "E4 team RES buff",
-            "content": "E4: When Gepard is in battle, all allies' Effect RES increases by 20%."
+            "content": "When Gepard is in battle, all allies' Effect RES increases by 20%."
           }
         }
       },
@@ -1773,11 +1773,11 @@ interface Resources {
           },
           "e1EffectResShred": {
             "text": "E1 Effect RES shred",
-            "content": "E1: When Skill is used, there is a 100% base chance to reduce the attacked target enemy's Effect RES by 10% for 2 turns."
+            "content": "When Skill is used, there is a 100% base chance to reduce the attacked target enemy's Effect RES by 10% for 2 turns."
           },
           "e2BurnMultiBoost": {
             "text": "E2 burn multi boost",
-            "content": "E2: When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
+            "content": "When an enemy target is Burned, Guinaifen's Basic ATK and Skill can increase the DMG multiplier of their Burn status by 40%."
           }
         }
       },
@@ -1797,7 +1797,7 @@ interface Resources {
           },
           "e2SkillSpdBuff": {
             "text": "E2 Skill SPD buff",
-            "content": "E2: After Skill, increases SPD by 20% for 1 turn."
+            "content": "After Skill, increases SPD by 20% for 1 turn."
           }
         },
         "TeammateContent": {
@@ -1827,15 +1827,15 @@ interface Resources {
           },
           "enemyHpLte50": {
             "text": "E1 Basic scaling boost",
-            "content": "E1: If the enemy's HP percentage is at 50% or less, Herta's Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
+            "content": "If the enemy's HP percentage is at 50% or less, Herta's Basic ATK deals Additional Ice DMG equal to 40% of Herta's ATK."
           },
           "e2TalentCritStacks": {
             "text": "E2 Talent CR stacks",
-            "content": "E2: Increases CRIT Rate by 3% per stack. Stacks up to 5 times."
+            "content": "Increases CRIT Rate by 3% per stack. Stacks up to 5 times."
           },
           "e6UltAtkBuff": {
             "text": "E6 Ult ATK buff",
-            "content": "E6: After Ult, increases ATK by 25% for 1 turn."
+            "content": "After Ult, increases ATK by 25% for 1 turn."
           }
         }
       },
@@ -1851,15 +1851,15 @@ interface Resources {
           },
           "e1TalentSpdBuff": {
             "text": "E1 SPD buff",
-            "content": "E1: After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns."
+            "content": "After Victory Rush is triggered, Himeko's SPD increases by 20% for 2 turns."
           },
           "e2EnemyHp50DmgBoost": {
             "text": "E2 enemy HP ≤ 50% DMG boost",
-            "content": "E2: Deals 15% more DMG to enemies whose HP percentage is 50% or less."
+            "content": "Deals 15% more DMG to enemies whose HP percentage is 50% or less."
           },
           "e6UltExtraHits": {
             "text": "E6 Ult extra hits",
-            "content": "E6: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
+            "content": "Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit."
           }
         }
       },
@@ -1883,11 +1883,11 @@ interface Resources {
           },
           "skillBuff": {
             "text": "E1 SPD buff",
-            "content": "E1: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%."
+            "content": "When Huohuo possesses Divine Provision, all allies' SPD increases by 12%."
           },
           "e6DmgBuff": {
             "text": "E6 DMG buff",
-            "content": "E6: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
+            "content": "When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
           }
         }
       },
@@ -1907,7 +1907,7 @@ interface Resources {
           },
           "e6ResPenStacks": {
             "text": "E6 RES PEN stacks",
-            "content": "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks."
+            "content": "After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks."
           }
         }
       },
@@ -1923,19 +1923,19 @@ interface Resources {
           },
           "e1FuaDmgBoost": {
             "text": "E1 FUA DMG boost",
-            "content": "E1: The follow-up attack DMG from Jade's Talent increases by 32%. After the Debt Collector character attacks and the number of the enemy targets hit is either 2 or 1, Jade additionally gains 1 or 2 points of Charge respectively."
+            "content": "The follow-up attack DMG from Jade's Talent increases by 32%. After the Debt Collector character attacks and the number of the enemy targets hit is either 2 or 1, Jade additionally gains 1 or 2 points of Charge respectively."
           },
           "e2CrBuff": {
             "text": "E2 CR buff",
-            "content": "E2: When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%."
+            "content": "When there are 15 stacks of Pawned Asset, Jade's CRIT Rate increases by 18%."
           },
           "e4DefShredBuff": {
             "text": "E4 DEF shred buff",
-            "content": "E4: When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting for 3 turns."
+            "content": "When using Ultimate, enables the DMG dealt by Jade to ignore 12% of enemy targets' DEF, lasting for 3 turns."
           },
           "e6ResShredBuff": {
             "text": "E6 RES PEN buff",
-            "content": "E6: When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
+            "content": "When the Debt Collector character exists on the field, Jade's Quantum RES PEN increases by 20%, and Jade gains the Debt Collector state."
           }
         },
         "TeammateContent": {
@@ -1961,15 +1961,15 @@ interface Resources {
           },
           "e1DmgBoost": {
             "text": "E1 DMG boost",
-            "content": "E1: Allies deal 40% increased DMG to enemy targets afflicted with Ashen Roast."
+            "content": "Allies deal 40% increased DMG to enemy targets afflicted with Ashen Roast."
           },
           "e2Dot": {
             "text": "E2 DoT scaling",
-            "content": "E2: When an enemy target is afflicted with Ashen Roast, increases the multiplier for the Fire DoT dealt by Ashen Roast to this target by 300%."
+            "content": "When an enemy target is afflicted with Ashen Roast, increases the multiplier for the Fire DoT dealt by Ashen Roast to this target by 300%."
           },
           "e6ResShred": {
             "text": "E6 RES shred",
-            "content": "E6: The maximum stack limit of Ashen Roast increases to 9, and each Ashen Roast stack reduces the target's All-Type RES by 3%."
+            "content": "The maximum stack limit of Ashen Roast increases to 9, and each Ashen Roast stack reduces the target's All-Type RES by 3%."
           }
         }
       },
@@ -1985,11 +1985,11 @@ interface Resources {
           },
           "e1CdBuff": {
             "text": "E1 Ult active",
-            "content": "E1: When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn. If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK."
+            "content": "When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn. If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK."
           },
           "e2SkillDmgBuff": {
             "text": "E2 Skill buff",
-            "content": "E2: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%."
+            "content": "After using Ultimate, increases the DMG of the next Enhanced Skill by 80%."
           }
         }
       },
@@ -2009,11 +2009,11 @@ interface Resources {
           },
           "e2DmgBuff": {
             "text": "E2 DMG boost",
-            "content": "E2: After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
+            "content": "After Lightning-Lord takes action, DMG caused by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20% for 2 turns."
           },
           "e6FuaVulnerabilityStacks": {
             "text": "E6 Vulnerable stacks",
-            "content": "E6: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 times. (applies to all hits)"
+            "content": "Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 times. (applies to all hits)"
           }
         }
       },
@@ -2021,11 +2021,11 @@ interface Resources {
         "Content": {
           "e1DotDmgReceivedDebuff": {
             "text": "E1 DoT vulnerability",
-            "content": "E1: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turns."
+            "content": "When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turns."
           },
           "e2TeamDotBoost": {
             "text": "E2 Team DoT DMG boost",
-            "content": "E2: While Kafka is on the field, DoT dealt by all allies increases by 25%."
+            "content": "While Kafka is on the field, DoT dealt by all allies increases by 25%."
           }
         }
       },
@@ -2041,15 +2041,15 @@ interface Resources {
           },
           "e1DefShred": {
             "text": "E1 weakness break buffs",
-            "content": "E1: Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit's Weakness is Broken, reduces their DEF by 20%."
+            "content": "Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit's Weakness is Broken, reduces their DEF by 20%."
           },
           "e2BeBuff": {
             "text": "E2 BE buff",
-            "content": "E2: When using Ultimate, increases all allies' Break Effect by 40%."
+            "content": "When using Ultimate, increases all allies' Break Effect by 40%."
           },
           "e6ResShred": {
             "text": "E6 RES shred",
-            "content": "E6: While Fuyuan is on the field, reduces all Enemy units' All-Type RES by 20%."
+            "content": "While Fuyuan is on the field, reduces all Enemy units' All-Type RES by 20%."
           }
         }
       },
@@ -2069,11 +2069,11 @@ interface Resources {
           },
           "e1TargetBleeding": {
             "text": "E1 target bleeding",
-            "content": "E1: When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turns."
+            "content": "When Luka takes action, if the target enemy is Bleeding, increases DMG dealt by Luka by 15% for 2 turns."
           },
           "e4TalentStacks": {
             "text": "E4 Talent stacks",
-            "content": "E4: For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 times."
+            "content": "For every stack of Fighting Will obtained, increases ATK by 5%, stacking up to 4 times."
           }
         }
       },
@@ -2081,11 +2081,11 @@ interface Resources {
         "Content": {
           "fieldActive": {
             "text": "Field active",
-            "content": "E1: While the Field is active, ATK of all allies increases by 20%."
+            "content": "While the Field is active, ATK of all allies increases by 20%."
           },
           "e6ResReduction": {
             "text": "E6 RES shred",
-            "content": "E6: When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turns."
+            "content": "When Ultimate is used, reduces all enemies' All-Type RES by 20% for 2 turns."
           }
         }
       },
@@ -2127,11 +2127,11 @@ interface Resources {
           },
           "selfSpdBuff": {
             "text": "E1 SPD buff",
-            "content": "E1: When Shifu is on the field, increases March 7th's SPD by 10%."
+            "content": "When Shifu is on the field, increases March 7th's SPD by 10%."
           },
           "e6CdBuff": {
             "text": "E6 Basic CD boost",
-            "content": "E6: After using Ultimate, increases the CRIT DMG dealt by the next Enhanced Basic ATK by 50%."
+            "content": "After using Ultimate, increases the CRIT DMG dealt by the next Enhanced Basic ATK by 50%."
           }
         },
         "TeammateContent": {
@@ -2157,11 +2157,11 @@ interface Resources {
           },
           "e2DefReduction": {
             "text": "E2 DEF shred",
-            "content": "E2: Reduces the target's DEF by 16% for 3 turns."
+            "content": "Reduces the target's DEF by 16% for 3 turns."
           },
           "e6UltDmgBoost": {
             "text": "E6 Ult DMG boost",
-            "content": "E6: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn."
+            "content": "When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn."
           }
         }
       },
@@ -2173,7 +2173,7 @@ interface Resources {
           },
           "e2CdBoost": {
             "text": "E2 CD boost",
-            "content": "E2: When all allies deal DMG to the enemy target marked as Prey, increases CRIT DMG by 40%."
+            "content": "When all allies deal DMG to the enemy target marked as Prey, increases CRIT DMG by 40%."
           },
           "e4DmgBuff": {
             "text": "E4 DMG buff",
@@ -2208,7 +2208,7 @@ interface Resources {
           },
           "e4SkillResShred": {
             "text": "E4 Skill Ice RES shred",
-            "content": "E4: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turns."
+            "content": "When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turns."
           }
         }
       },
@@ -2324,11 +2324,11 @@ interface Resources {
           },
           "e2AtkBoost": {
             "text": "E2 weakness ATK boost",
-            "content": "E2: With Ruan Mei on the field, all allies increase their ATK by 40% when dealing DMG to enemies with Weakness Break."
+            "content": "With Ruan Mei on the field, all allies increase their ATK by 40% when dealing DMG to enemies with Weakness Break."
           },
           "e4BeBuff": {
             "text": "E4 BE buff",
-            "content": "E4: When an enemy target's Weakness is Broken, Ruan Mei's Break Effect increases by 100% for 3 turns."
+            "content": "When an enemy target's Weakness is Broken, Ruan Mei's Break Effect increases by 100% for 3 turns."
           }
         },
         "TeammateContent": {
@@ -2370,11 +2370,11 @@ interface Resources {
           },
           "e1EnemyHp80CrBoost": {
             "text": "E1 enemy HP ≤ 80% CR boost",
-            "content": "E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%."
+            "content": "When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%."
           },
           "e6UltTargetDebuff": {
             "text": "E6 Butterfly Flurry",
-            "content": "E6: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn. Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked."
+            "content": "After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn. Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked."
           }
         }
       },
@@ -2498,7 +2498,7 @@ interface Resources {
           },
           "e2DmgReductionBuff": {
             "text": "E2 DMG reduction buff",
-            "content": "E2: After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn."
+            "content": "After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn."
           }
         }
       },
@@ -2550,11 +2550,11 @@ interface Resources {
           },
           "ultDmgBuff": {
             "text": "Ult DMG buff",
-            "content": "Regenerates 50 Energy for a single ally and increases the target's DMG by {{ultDmgBoost}}% for 2 turns."
+            "content": "Regenerates 50 Energy for a single ally and increases the target's DMG by {{ultDmgBoost}}% for 2 turns.::BR::E6: Ultimate regenerates 10 more Energy for the target ally."
           },
           "ultSpdBuff": {
             "text": "E1 Ult SPD buff",
-            "content": "E1: After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn."
+            "content": "After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn."
           }
         },
         "TeammateContent": {
@@ -2576,7 +2576,7 @@ interface Resources {
           },
           "e1DebtorStacks": {
             "text": "E1 Debtor stacks",
-            "content": "E1: When enemies afflicted with Proof of Debt receive follow-up attacks, they will enter the Debtor state. This can take effect only once within a single action. The Debtor state increases the CRIT DMG of follow-up attacks inflicted on the target enemies by 25%, stacking up to 2 times. When Proof of Debt is removed, the Debtor state is also removed."
+            "content": "When enemies afflicted with Proof of Debt receive follow-up attacks, they will enter the Debtor state. This can take effect only once within a single action. The Debtor state increases the CRIT DMG of follow-up attacks inflicted on the target enemies by 25%, stacking up to 2 times. When Proof of Debt is removed, the Debtor state is also removed."
           }
         }
       },
@@ -2634,7 +2634,7 @@ interface Resources {
           },
           "e6DefStacks": {
             "text": "E6 DEF buff stacks",
-            "content": "E6: Increases DEF by 10% per stack."
+            "content": "Increases DEF by 10% per stack."
           }
         }
       },
@@ -2692,7 +2692,7 @@ interface Resources {
           },
           "e1EnhancedState": {
             "text": "E1 enhanced state",
-            "content": "E1: After Welt uses his Ultimate, his abilities are enhanced. The next 2 times he uses his Basic ATK or Skill, deals Additional DMG to the target equal to 50% of his Basic ATK's DMG multiplier or 80% of his Skill's DMG multiplier respectively."
+            "content": "After Welt uses his Ultimate, his abilities are enhanced. The next 2 times he uses his Basic ATK or Skill, deals Additional DMG to the target equal to 50% of his Basic ATK's DMG multiplier or 80% of his Skill's DMG multiplier respectively."
           }
         }
       },
@@ -2716,7 +2716,7 @@ interface Resources {
           },
           "e4BeBuff": {
             "text": "E4 BE buff",
-            "content": "E4: When using Ultimate, increases Break Effect by 40% for 2 turns."
+            "content": "When using Ultimate, increases Break Effect by 40% for 2 turns."
           }
         }
       },
@@ -2736,11 +2736,11 @@ interface Resources {
           },
           "e1TargetFrozen": {
             "text": "E1 enemy frozen",
-            "content": "E1: When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK."
+            "content": "When Yanqing attacks a Frozen enemy, he deals Additional Ice DMG equal to 60% of his ATK."
           },
           "e4CurrentHp80": {
             "text": "E4 self HP ≥ 80% RES PEN buff",
-            "content": "E4: When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%."
+            "content": "When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%."
           }
         }
       },
@@ -2760,7 +2760,7 @@ interface Resources {
           },
           "initialSpeedBuff": {
             "text": "E1 initial SPD buff",
-            "content": "E1: At the start of battle, increases the SPD of all allies by 10% for 2 turns."
+            "content": "At the start of battle, increases the SPD of all allies by 10% for 2 turns."
           }
         }
       },
@@ -2784,7 +2784,7 @@ interface Resources {
           },
           "e1UltBuff": {
             "text": "E1 Ult buff",
-            "content": "E1: Increases DMG dealt by Intuit: Slash and Intuit: Cull by 20%. Increases the number of additional DMG instances for Intuit: Cull by 3."
+            "content": "Increases DMG dealt by Intuit: Slash and Intuit: Cull by 20%. Increases the number of additional DMG instances for Intuit: Cull by 3."
           },
           "e2DefShred": {
             "text": "E2 FUA DEF PEN",

@@ -265,6 +265,7 @@ export const CharacterScoringSummary = (props: {
           </pre>
           {/* Character/100% benchmark/200% prefect basic stats */}
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
@@ -279,6 +280,7 @@ export const CharacterScoringSummary = (props: {
             </Trans>
           </pre>
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={combatStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}

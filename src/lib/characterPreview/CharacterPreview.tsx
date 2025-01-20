@@ -92,6 +92,8 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
+  const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
+
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
       <div
@@ -320,6 +322,7 @@ export function CharacterPreview(props: {
               />
 
               <CharacterStatSummary
+                characterId={character.id}
                 finalStats={finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 cv={finalStats.CV}

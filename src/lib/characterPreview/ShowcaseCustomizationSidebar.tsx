@@ -1,4 +1,4 @@
-import { CameraOutlined, DownloadOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
 import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
@@ -114,6 +114,11 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
     }
 
+    function onTraceClick() {
+      window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
+      window.store.getState().setStatTracesDrawerOpen(true)
+    }
+
     const presets = [
       {
         label: t('PaletteLabel'),
@@ -128,78 +133,107 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     return (
       <Flex
         vertical
-        gap={8}
+        gap={16}
         style={{
           position: 'absolute',
           marginLeft: 1085,
           width: 130,
-          backgroundColor: 'rgb(29 42 71)',
-          boxShadow: shadow,
-          borderRadius: 5,
-          padding: defaultPadding,
         }}
       >
-        <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-          {t('Label')}
-        </HeaderText>
-
-        <ColorPicker
-          presets={presets}
-          defaultValue='#1677ff'
-          value={seedColor}
-          onChangeComplete={(value: AggregationColor) => {
-            const color = value.toHexString()
-            onColorSelectorChange(color)
-          }}
-          disabledAlpha
-          disabledFormat
-          showText
-        />
-
-        <HorizontalDivider/>
-
-        <Segmented
+        <Flex
           vertical
-          options={[
-            { value: ShowcaseColorMode.AUTO, label: t('Modes.Auto') },
-            { value: ShowcaseColorMode.CUSTOM, label: t('Modes.Custom') },
-            { value: ShowcaseColorMode.STANDARD, label: t('Modes.Standard') },
-          ]}
-          value={colorMode}
-          onChange={onColorModeChange}
-        />
+          gap={8}
+          style={{
+            backgroundColor: 'rgb(29 42 71)',
+            boxShadow: shadow,
+            borderRadius: 5,
+            padding: defaultPadding,
+          }}
+        >
+          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+            Stats
+          </HeaderText>
 
-        <HorizontalDivider/>
-
-        <Segmented
-          options={[
-            { value: false, label: <SunOutlined/> },
-            { value: true, label: <MoonOutlined/> },
-          ]}
-          block
-          value={showcaseDarkMode}
-          onChange={onBrightnessModeChange}
-        />
-
-        <HorizontalDivider/>
-
-        <Flex justify='space-between'>
           <Button
-            icon={<CameraOutlined style={{ fontSize: 30 }}/>}
-            loading={loading}
-            onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
-            type='primary'
-            style={{ height: 50, width: 50, borderRadius: 8 }}
+            icon={<SettingOutlined/>}
+            onClick={onTraceClick}
           >
+            Traces
           </Button>
-          <Button
-            icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
-            loading={loading}
-            onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
-            type='primary'
-            style={{ height: 50, width: 50, borderRadius: 8 }}
-          >
-          </Button>
+        </Flex>
+
+        <Flex
+          vertical
+          gap={8}
+          style={{
+            backgroundColor: 'rgb(29 42 71)',
+            boxShadow: shadow,
+            borderRadius: 5,
+            padding: defaultPadding,
+          }}
+        >
+          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+            {t('Label')}
+          </HeaderText>
+
+          <ColorPicker
+            presets={presets}
+            defaultValue='#1677ff'
+            value={seedColor}
+            onChangeComplete={(value: AggregationColor) => {
+              const color = value.toHexString()
+              onColorSelectorChange(color)
+            }}
+            disabledAlpha
+            disabledFormat
+            showText
+          />
+
+          <HorizontalDivider/>
+
+          <Segmented
+            vertical
+            options={[
+              { value: ShowcaseColorMode.AUTO, label: t('Modes.Auto') },
+              { value: ShowcaseColorMode.CUSTOM, label: t('Modes.Custom') },
+              { value: ShowcaseColorMode.STANDARD, label: t('Modes.Standard') },
+            ]}
+            value={colorMode}
+            onChange={onColorModeChange}
+          />
+
+          <HorizontalDivider/>
+
+          <Segmented
+            options={[
+              { value: false, label: <SunOutlined/> },
+              { value: true, label: <MoonOutlined/> },
+            ]}
+            block
+            value={showcaseDarkMode}
+            onChange={onBrightnessModeChange}
+          />
+
+          <HorizontalDivider/>
+
+          <Flex justify='space-between'>
+            <Button
+              icon={<CameraOutlined style={{ fontSize: 30 }}/>}
+              loading={loading}
+              onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
+              type='primary'
+              style={{ height: 50, width: 50, borderRadius: 8 }}
+            >
+            </Button>
+            <Button
+              icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
+              loading={loading}
+              onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
+              type='primary'
+              style={{ height: 50, width: 50, borderRadius: 8 }}
+            >
+            </Button>
+          </Flex>
         </Flex>
       </Flex>
     )

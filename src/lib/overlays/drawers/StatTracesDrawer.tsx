@@ -1,5 +1,6 @@
 import { CaretDownOutlined } from '@ant-design/icons'
 import { Button, Drawer, Flex, Tree, TreeProps, Typography } from 'antd'
+import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -18,6 +19,7 @@ export const StatTracesDrawer = () => {
 
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
+  const [loading, setLoading] = useState(false)
 
   const treeData = useMemo(() => {
     if (statTraceDrawerFocusCharacter) {
@@ -105,7 +107,7 @@ export const StatTracesDrawer = () => {
     >
       <Flex vertical gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
         <HeaderText>
-          Actived stat traces (all active by default)
+          Activated stat traces (all active by default)
         </HeaderText>
 
         <Tree
@@ -141,8 +143,10 @@ export const StatTracesDrawer = () => {
         <Button
           block
           type='primary'
+          loading={loading}
           onClick={() => {
             if (!statTraceDrawerFocusCharacter) return
+            setLoading(true)
 
             const allKeys = Object.keys(nodesById)
             const deactivated = allKeys.filter(key => !checkedKeys.includes(key))
@@ -151,10 +155,16 @@ export const StatTracesDrawer = () => {
             scoringMetadata.traces = {
               deactivated: deactivated,
             }
+
             DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, scoringMetadata)
 
-            console.log(deactivated)
-            SaveState.save()
+            setTimeout(() => {
+              Message.success('Saved')
+              setLoading(false)
+              SaveState.delayedSave()
+              setStatTracesDrawerOpen(false)
+            }, 500)
+
           }}
         >
           Save changes

@@ -23,7 +23,5 @@ FeatureCards:
       遺物をスコアやポテンシャルに基づいて整理・ソートし、各キャラクターに最適な強化対象の遺物を見つけましょう。
 Welcome: "Fribbels Star Rail Optimizerへ<1/>\nようこそ"
 SearchBar:
-  Placeholder: UUID
-  Label: "UUIDを入力してキャラクターのショーケースを見ましょう："
   Message: 無効な入力 - 9桁のゲーム内UUIDを入力する必要があります
   Search: 検索

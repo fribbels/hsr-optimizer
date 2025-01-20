@@ -66,7 +66,7 @@ Lightcones:
     Content:
       postSkillDmgBuff:
         text: Post Skill DMG buff
-        content: When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% more DMG for 1 turns.
+        content: When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% more DMG for 1 turn.
   CruisingInTheStellarSea:
     Content:
       enemyHp50CrBoost:
@@ -100,17 +100,17 @@ Lightcones:
         content: After using an attack, for each enemy target hit, additionally increases ATK by {{AtkBuff}}%. This effect can stack up to 5 times and last until the next attack.
       spdBuff:
         text: 3 targets hit SPD buff
-        content: If there are 3 or more enemy targets hit, this unit's SPD increases by {{SpdBuff}}%, lasting for 1 turns.
+        content: If there are 3 or more enemy targets hit, this unit's SPD increases by {{SpdBuff}}%, lasting for 1 turn.
   FlowingNightglow:
     Content:
       cadenzaActive:
         text: Cadenza active
         content: >-
-          Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 times. When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turns.
+          Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 times. When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turn.
       cantillationStacks:
         text: Cantillation stacks
         content: >-
-          Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 times. When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turns.
+          Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 times. When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turn.
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -210,7 +210,7 @@ Lightcones:
       dotEffect:
         text: DoT effect (not implemented)
         content: >-
-          If the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to {{Multiplier}}% of the wearer's ATK, lasting for 1 turns.
+          If the wearer hits an enemy target that is not afflicted by Erode, there is a 100% base chance to inflict Erode to the target. Enemies afflicted with Erode are also considered to be Shocked and will receive Lightning DoT at the start of each turn equal to {{Multiplier}}% of the wearer's ATK, lasting for 1 turn.
   ReforgedRemembrance:
     Content:
       prophetStacks:
@@ -245,7 +245,7 @@ Lightcones:
     Content:
       missedCritCrBuff:
         text: Missed Crit CR buff
-        content: When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by {{CritBuff}}% for 1 turns. This effect can only trigger once every 3 turns.
+        content: When the wearer's Basic ATK or Skill does not result in a CRIT Hit, increases their CRIT Rate by {{CritBuff}}% for 1 turn. This effect can only trigger once every 3 turns.
   SolitaryHealing:
     Content:
       postUltDotDmgBuff:
@@ -388,7 +388,7 @@ Lightcones:
     Content:
       ultDmgBuff:
         text: Ult usage DMG buff
-        content: After the wearer uses their Ultimate, increases their DMG dealt by {{DmgBuff}}%, lasting for 1 turns.
+        content: After the wearer uses their Ultimate, increases their DMG dealt by {{DmgBuff}}%, lasting for 1 turn.
   GeniusesGreetings:
     Content:
       basicDmgBoost:
@@ -419,7 +419,7 @@ Lightcones:
       trickStacks:
         text: Trick stacks
         content: >-
-          When the wearer inflicts a debuff on an enemy, gains a stack of Trick. Every stack of Trick increases the wearer's DMG dealt by {{DmgBuff}}%, stacking up to 3 times. This effect lasts for 1 turns. When the wearer's Effect Hit Rate is 80% or higher, increases ATK by {{AtkBuff}}%.
+          When the wearer inflicts a debuff on an enemy, gains a stack of Trick. Every stack of Trick increases the wearer's DMG dealt by {{DmgBuff}}%, stacking up to 3 times. This effect lasts for 1 turn. When the wearer's Effect Hit Rate is 80% or higher, increases ATK by {{AtkBuff}}%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -439,7 +439,7 @@ Lightcones:
     Content:
       postSkillDmgBuff:
         text: Post Skill DMG buff
-        content: When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% increased DMG for 1 turns.
+        content: When the wearer uses their Skill, the next ally taking action (except the wearer) deals {{DmgBuff}}% increased DMG for 1 turn.
   PerfectTiming:
     Content:
       resToHealingBoost:
@@ -464,7 +464,7 @@ Lightcones:
     Content:
       targetEnsnared:
         text: Target ensnared
-        content: When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for 1 turns.
+        content: When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for 1 turn.
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
@@ -605,7 +605,7 @@ Lightcones:
     Content:
       initialSpdBuff:
         text: Initial SPD buff
-        content: Upon entering battle, increases SPD of all allies by {{SpdBuff}} points for 1 turns.
+        content: Upon entering battle, increases SPD of all allies by {{SpdBuff}} points for 1 turn.
   MutualDemise:
     Content:
       selfHp80CrBuff:
@@ -833,7 +833,7 @@ Characters:
         content: When Bronya is on the field, all allies deal 10% more DMG.
       skillBuff:
         text: Skill DMG buff
-        content: Dispels a debuff from a single ally, allows them to immediately take action, and increases their DMG by {{skillDmgBoostValue}}% for 1 turns.
+        content: Dispels a debuff from a single ally, allows them to immediately take action, and increases their DMG by {{skillDmgBoostValue}}% for 1 turn.
       ultBuff:
         text: Ult ATK / CD buffs
         content: Increases the ATK of all allies by {{ultAtkBoostValue}}% and CRIT DMG by {{ultCdBoostValue}}% of Bronya's CRIT DMG plus {{ultCdBoostBaseValue}}% for 2 turns.
@@ -1047,7 +1047,7 @@ Characters:
         content: When an ally uses a Basic ATK, Skill, or Ultimate on an enemy inflicted with Burden, the DMG dealt increases by {{talentDmgBoostValue}}% for 2 turns.
       burdenAtkBuff:
         text: Burden ATK buff
-        content: Allies triggering Burden's Skill Point recovery effect have their ATK increased by 10% for 1 turns.
+        content: Allies triggering Burden's Skill Point recovery effect have their ATK increased by 10% for 1 turn.
       e2SkillSpdBuff:
         text: E2 Skill SPD buff
         content: "E2: After Skill, increases SPD by 20% for 1 turn."
@@ -1270,12 +1270,12 @@ Characters:
       skillBuff:
         text: Skill max HP buff
         content: >-
-          Applies Survival Response to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When Survival Response is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turns.::BR::E6: Additionally boosts the Max HP increasing effect of Survival Response by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%.
+          Applies Survival Response to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When Survival Response is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn.::BR::E6: Additionally boosts the Max HP increasing effect of Survival Response by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%.
     TeammateContent:
       teammateHPValue:
         text: Lynx's HP
         content: >-
-          Applies Survival Response to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When Survival Response is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turns.::BR::E6: Additionally boosts the Max HP increasing effect of Survival Response by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%.
+          Applies Survival Response to a single target ally and increases their Max HP by {{skillHpPercentBuff}}% of Lynx's Max HP plus {{skillHpFlatBuff}}.::BR::E4: When Survival Response is gained, increases the target's ATK by an amount equal to 3% of Lynx's Max HP for 1 turn.::BR::E6: Additionally boosts the Max HP increasing effect of Survival Response by an amount equal to 6% of Lynx's Max HP and increases Effect RES by 30%.
   March7thImaginary:
     Content:
       enhancedBasic:
@@ -1471,7 +1471,7 @@ Characters:
       buffedState:
         text: Buffed state
         content: >-
-          Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turns.::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%.
+          Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turn.::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%.
       speedBoostStacks:
         text: Speed buff stacks
         content: Increases SPD by 25% per stack. Stacks up to {{speedBoostStacksMax}} times.
@@ -1481,7 +1481,7 @@ Characters:
       e6UltTargetDebuff:
         text: E6 Butterfly Flurry
         content: >-
-          E6: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turns. Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.
+          E6: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn. Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.
   Serval:
     Content:
       targetShocked:
@@ -1515,7 +1515,7 @@ Characters:
       skillCdBuff:
         text: Skill CD buff
         content: >-
-          Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turns.::BR::E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them.
+          Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn.::BR::E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them.
       cipherBuff:
         text: Cipher buff
         content: >-
@@ -1530,7 +1530,7 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: Sparkle's Combat CD
-        content: Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turns.
+        content: Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn.
   Sunday:
     Content:
       skillDmgBuff:
@@ -1832,7 +1832,7 @@ Characters:
         content: When dealing DMG via Counter, ignores 20% of the target's DEF.
       e4ResBuff:
         text: E4 RES buff
-        content: "After launching Intuit: Slash or Intuit: Cull, increases this unit's Effect RES by 50%, lasting for 1 turns."
+        content: "After launching Intuit: Slash or Intuit: Cull, increases this unit's Effect RES by 50%, lasting for 1 turn."
       e6Buffs:
         text: E6 buffs
         content: >-

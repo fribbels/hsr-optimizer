@@ -259,7 +259,7 @@ function Header() {
         width: '100%',
         zIndex: 1,
         height: headerHeight,
-        paddingBottom: 30,
+        paddingBottom: 40,
       }}
       align='center'
       justify='space-between'
@@ -295,11 +295,17 @@ function SearchBar() {
       justify='center'
       gap={5}
     >
-      <Flex justify='flex-start' style={{ width: '100%', paddingLeft: 3, paddingBottom: 5, fontSize: 18, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
-        {t('Label')/* Enter your UUID to showcase characters: */}
+      <Flex justify='space-between' style={{ width: '100%' }}>
+        <Flex justify='flex-start' style={{ paddingLeft: 3, paddingBottom: 5, fontSize: 17, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
+          {t('Label')/* Enter your UUID to showcase characters: */}
+        </Flex>
+
+        <Flex style={{ fontSize: 16, opacity: 0.8, marginRight: 2 }}>
+          <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr'/>
+        </Flex>
       </Flex>
       <Input.Search
-        placeholder={t('Placeholder')/* 'UUID' */}
+        placeholder={t('Placeholder')/* 'UID' */}
         enterButton={(
           <Flex gap={5} style={{ marginRight: 5 }}>
             <SearchOutlined style={{ marginRight: 10 }}/> {t('Search')/* Search */}

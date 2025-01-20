@@ -817,7 +817,7 @@ Characters:
       e2BeBuff:
         text: E2 BE buff
         content: >-
-          When in Standoff and gaining Pocket Trickshot, recovers 1 Skill Points and increases Break Effect by 30%, lasting for 2 turns. Can also trigger this effect when gaining Pocket Trickshot stacks that exceed the max limit. But cannot trigger repeatedly within one turn.
+          When in Standoff and gaining Pocket Trickshot, recovers 1 Skill Point and increases Break Effect by 30%, lasting for 2 turns. Can also trigger this effect when gaining Pocket Trickshot stacks that exceed the max limit. But cannot trigger repeatedly within one turn.
       e4TargetStandoffVulnerability:
         text: E4 Skill vulnerability
         content: >-
@@ -1011,7 +1011,7 @@ Characters:
         content: "E1: When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%."
       e2ResBuff:
         text: E2 RES buff
-        content: "E2: When using the Skill, removes 1 debuffs from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turns."
+        content: "E2: When using the Skill, removes 1 debuff from the target ally. At the same time, increases their Effect RES by 30%, lasting for 2 turns."
       e6BeBuff:
         text: E6 BE buff
         content: "E6: Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%."
@@ -1121,14 +1121,14 @@ Characters:
       basicEnhanced:
         text: Basic enhancements
         content: >-
-          0 stacks: Uses a 2-hit attack and deals Imaginary DMG equal to {{basicScaling}}% ATK to a single enemy target.::BR::1 stacks: Uses a 3-hit attack and deals Imaginary DMG equal to {{basicEnhanced1Scaling}}% ATK to a single enemy target.::BR::2 stacks: Uses a 5-hit attack and deals Imaginary DMG equal to {{basicEnhanced2Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets.::BR::3 stacks: Uses a 7-hit attack and deals Imaginary DMG equal to {{basicEnhanced3Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets.
+          0 stacks: Uses a 2-hit attack and deals Imaginary DMG equal to {{basicScaling}}% ATK to a single enemy target.::BR::1 stack: Uses a 3-hit attack and deals Imaginary DMG equal to {{basicEnhanced1Scaling}}% ATK to a single enemy target.::BR::2 stacks: Uses a 5-hit attack and deals Imaginary DMG equal to {{basicEnhanced2Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets.::BR::3 stacks: Uses a 7-hit attack and deals Imaginary DMG equal to {{basicEnhanced3Scaling}}% ATK to a single enemy target and reduced DMG to adjacent targets.
       skillOutroarStacks:
         text: Outroar stacks
         content: >-
-          Divine Spear or Fulgurant Leap, starting from the fourth hit, 1 stack of Outroar is gained before every hit. Each stack of Outroar increases Dan Heng • Imbibitor Lunae's CRIT DMG by {{outroarStackCdValue}}%, for a max of 4 stacks (applied to all hits).
+          Divine Spear or Fulgurant Leap, starting from the fourth hit, 1 stack of Outroar is gained before every hit. Each stack of Outroar increases Dan Heng • Imbibitor Lunae's CRIT DMG by {{outroarStackCdValue}}%, for a max of 4 stacks. (applied to all hits)
       talentRighteousHeartStacks:
         text: Righteous Heart stacks
-        content: After each hit dealt during an attack, Dan Heng • Imbibitor Lunae gains 1 stack of Righteous Heart, increasing his DMG by {{righteousHeartDmgValue}}% (applied to all hits).
+        content: After each hit dealt during an attack, Dan Heng • Imbibitor Lunae gains 1 stack of Righteous Heart, increasing his DMG by {{righteousHeartDmgValue}}%. (applied to all hits)
       e6ResPenStacks:
         text: E6 RES PEN stacks
         content: "E6: After any other ally uses their Ultimate, the Imaginary RES PEN of Dan Heng • Imbibitor Lunae's next Fulgurant Leap attack increases by 20%, up to 3 stacks."
@@ -1214,7 +1214,7 @@ Characters:
       e6FuaVulnerabilityStacks:
         text: E6 Vulnerable stacks
         content: >-
-          E6: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 times (applies to all hits).
+          E6: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 times. (applies to all hits)
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
@@ -1474,7 +1474,10 @@ Characters:
           Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turn.::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%.
       speedBoostStacks:
         text: Speed buff stacks
-        content: Increases SPD by 25% per stack. Stacks up to {{speedBoostStacksMax}} times.
+        content: >-
+          After using her skill, Seele's SPD by 25% for 2 turns.
+          ::BR::
+          E2: The SPD Boost effect of Seele's Skill can stack up to 2 times.
       e1EnemyHp80CrBoost:
         text: E1 enemy HP ≤ 80% CR boost
         content: "E1: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%."

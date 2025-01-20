@@ -552,7 +552,6 @@ Characters:
         content: 每次額外傷害對敵方隨機單體造成等同於銀枝{{ultEnhancedExtraHitScaling}}%攻擊力的物理屬性傷害。
       e2UltAtkBuff:
         text: 2魂終結技攻擊力增益
-        content: "2魂：施放終結技時，若敵方目標數量大於等於3個時，攻擊力提高40% ，持續 1 回合。"
   Arlan:
     Content:
       selfCurrentHpPercent:
@@ -589,7 +588,6 @@ Characters:
         text: 4魂防禦力增益
       e6ShieldStacks:
         text: 6魂護盾層數
-        content: "6魂：每有1個隊友持有護盾，砂金造成的傷害提高50%，最高不超過150%。"
   Bailu:
     Content:
       healingMaxHpBuff:
@@ -600,10 +598,8 @@ Characters:
         content: 擁有【生息】的角色受到的傷害降低10%。
       e2UltHealingBuff:
         text: 2魂終結技後治療量增益
-        content: "2魂：施放終結技後，白露的治療量提高15%，持續2回合。"
       e4SkillHealingDmgBuffStacks:
         text: 4魂戰技傷害提高層數
-        content: "4魂：戰技提供的每1次治療會額外使受治療者造成的傷害提高10%，最多疊加3層，持續2回合。"
   BlackSwan:
     Content:
       ehrToDmgBoost:
@@ -620,8 +616,6 @@ Characters:
           【奧跡】狀態下，敵方目標每回合開始時受到等同於黑天鵝{{dotScaling}}%攻擊力的風屬性持續傷害，每層【奧跡】使此傷害倍率提高{{arcanaStackMultiplier}}% 。 【奧跡】最多疊加50層。 ::BR::當【奧跡】層數大於等於3層時，對鄰近目標造成等同於黑天鵝180%攻擊力的風屬性持續傷害。當【奧跡】層數大於等於7層時，使本次造成的持續傷害無視於該目標及其相鄰目標20%的防禦力。
       e1ResReduction:
         text: 1魂屬性抗性降低
-        content: >-
-          1魂：當黑天鵝處於可戰鬥狀態時，處於風化、裂傷、灼燒、觸電狀態下的敵方目標對應的風、物理、火、雷屬性抗性分別降低25%。
   Blade:
     Content:
       enhancedStateActive:
@@ -631,7 +625,6 @@ Characters:
         content: 終結技傷害會根據刃在當前戰鬥中的生命值損失計數進行加成。 本場戰鬥中累計已損失生命值最高不超過刃生命上限的{{hpPercentLostTotalMax}}%，施放終結技後會清空並進行重新累積。
       e4MaxHpIncreaseStacks:
         text: 4魂生命上限層數
-        content: "4魂：當前生命值百分比從大於50%降低至小於等於50%時，生命上限提高20%，此效果最多疊加2層。"
   Boothill:
     Content:
       standoffActive:
@@ -688,10 +681,8 @@ Characters:
         content: 對所有被史瓦羅標上【反擊標記】的敵方目標額外造成等同於克拉拉{{skillScaling}}%攻擊力物理屬性傷害。
       e2UltAtkBuff:
         text: 2魂終結技攻擊力增益
-        content: "2魂：施放終結技後攻擊力提升30%，持續2回合。"
       e4DmgReductionBuff:
         text: 4魂減傷增益
-        content: "4魂：受到攻擊後，克拉拉受到的傷害降低30%。"
   DanHeng:
     Content:
       talentPenBuff:
@@ -702,7 +693,6 @@ Characters:
         content: 普攻對減速狀態下的敵方目標造成的傷害提高40%。
       e1EnemyHp50:
         text: 1魂敵人生命值≥50%時暴擊率提高
-        content: "1魂：當擊中的敵方目標目前生命值百分比大於等於50%時，暴擊率提高12%。"
   DrRatio:
     Content:
       summationStacks:
@@ -795,6 +785,10 @@ Characters:
         text: 戰技傷害提高
       techniqueBuff:
         text: 秘技攻擊力增益
+  Himeko:
+    Content:
+      e2EnemyHp50DmgBoost:
+        content: 對目前生命值百分比小於等於50%的敵方目標造成的傷害提高15% 。
   Jingliu:
     Content:
       talentEnhancedState:

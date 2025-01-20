@@ -177,7 +177,7 @@ export const Utils = {
       const time = new Date().toLocaleTimeString(resolvedLanguage()).replace(/[^apm\d]+/gi, '-')
       const filename = `${prefix}_${date}_${time}.png`
 
-      if (action == 'clipboard' || Utils.isMobile()) {
+      if (action == 'clipboard') {
         if (isMobileOrSafari) {
           const file = new File([blob], filename, { type: 'image/png' })
           if (navigator.canShare && navigator.canShare({ files: [file] })) {

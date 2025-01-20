@@ -6,6 +6,7 @@ import { transformComboState } from 'lib/optimization/rotation/comboStateTransfo
 import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
 import { Form, Teammate } from 'types/form'
+import { DBMetadataCharacter } from 'types/metadata'
 import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
 
 export function generateContext(request: Form): OptimizerContext {
@@ -124,7 +125,7 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
     },
     traces: {
       ...StatCalculator.getZeroes(),
-      ...characterMetadata.traces,
+      ...computeCustomTraces(characterMetadata),
     },
     lightCone: {
       ...StatCalculator.getZeroes(),
@@ -140,6 +141,29 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
   context.baseDEF = sumCharacterBase(Stats.DEF, statsBreakdown.base, statsBreakdown.lightCone)
   context.baseSPD = sumCharacterBase(Stats.SPD, statsBreakdown.base, statsBreakdown.lightCone)
   context.baseEnergy = characterMetadata.max_sp
+}
+
+function computeCustomTraces(characterMetadata: DBMetadataCharacter) {
+  const overrides = DB.getScoringMetadata(characterMetadata.id)
+
+  const deactivatedTraces = overrides?.traces?.deactivated ?? []
+  const traces = {
+    ...characterMetadata.traces,
+  }
+
+  const stack = [...characterMetadata.traceTree]
+  while (stack.length) {
+    const node = stack.pop()!
+    stack.push(...node.children)
+
+    if (deactivatedTraces.includes(node.id)) {
+      if (traces[node.stat]) {
+        traces[node.stat] = Math.max(0, traces[node.stat] - node.value)
+      }
+    }
+  }
+
+  return traces
 }
 
 function sumCharacterBase(stat: string, base: { [key: string]: number }, lc: { [key: string]: number }) {

@@ -62,7 +62,7 @@ export const StatTracesDrawer = () => {
     if (!node) return
 
     if (info.checked) {
-      // Check ancestors
+      // Check ancestors if checked
       let currentId = node.id
       while (currentId) {
         const node = nodesById[currentId]
@@ -72,7 +72,7 @@ export const StatTracesDrawer = () => {
         currentId = node.pre
       }
 
-      // Check descendents
+      // Check descendents if checked
       let stack = [node]
       while (stack.length) {
         const node = stack.pop()!
@@ -81,7 +81,7 @@ export const StatTracesDrawer = () => {
         for (const child of node.children) stack.push(child)
       }
     } else {
-      // Uncheck descendents
+      // Uncheck descendents if unchecked
       let stack = [node]
       while (stack.length) {
         const node = stack.pop()!

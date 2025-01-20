@@ -2510,7 +2510,7 @@ interface Resources {
           },
           "eruditionTeammate": {
             "text": "Erudition teammate",
-            "content": "When the Enhanced Skill's primary target has \"Interpretation,\" the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively. ::BR:: If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively. ::BR:: A4: When entering battle, if the team has 2 or more characters following the Path of Erudition, then increases all allies' CRIT DMG by 80%."
+            "content": "When the Enhanced Skill's primary target has \"Interpretation,\" the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively.::BR::If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively.::BR::A4: When entering battle, if the team has 2 or more characters following the Path of Erudition, then increases all allies' CRIT DMG by 80%."
           },
           "ultAtkBuff": {
             "text": "Ult ATK buff",
@@ -2518,7 +2518,7 @@ interface Resources {
           },
           "interpretationStacks": {
             "text": "Interpretation stacks",
-            "content": "When the Enhanced Skill's primary target has \"Interpretation,\" the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively. ::BR:: If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively. ::BR:: E1: When Enhanced Skill calculates \"Interpretation,\" additionally calculates 50% of the \"Interpretation\" stacks on the 1 target with the highest stacks out of the primary target and adjacent targets."
+            "content": "When the Enhanced Skill's primary target has \"Interpretation,\" the multiplier for the DMG dealt increases, with each stack granting an increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively.::BR::If 2 or more characters follow the Path of Erudition in the team, each stack grants an additional increase of {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% on the primary target/other targets respectively.::BR::E1: When Enhanced Skill calculates \"Interpretation,\" additionally calculates 50% of the \"Interpretation\" stacks on the 1 target with the highest stacks out of the primary target and adjacent targets."
           },
           "totalInterpretationStacks": {
             "text": "Answer stacks",
@@ -2650,7 +2650,7 @@ interface Resources {
           },
           "memsSupport": {
             "text": "Mem's Support True DMG",
-            "content": "Advances the action of one designated ally by 100% and grants them \"Mem's Support,\" lasting for 3 turns. For every 1 instance of DMG dealt by the target that has \"Mem's Support,\" additionally deals 1 instance of True DMG equal to {{TrueDmgScaling}}% of the original DMG. ::BR:: E1: When an ally target has \"Mem's Support,\" its effect also takes effect on the target's memosprite/memomaster. ::BR:: E4: When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via \"Mem's Support\" additionally increases by 6%."
+            "content": "Advances the action of one designated ally by 100% and grants them \"Mem's Support,\" lasting for 3 turns. For every 1 instance of DMG dealt by the target that has \"Mem's Support,\" additionally deals 1 instance of True DMG equal to {{TrueDmgScaling}}% of the original DMG.::BR::E1: When an ally target has \"Mem's Support,\" its effect also takes effect on the target's memosprite/memomaster.::BR::E4: When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via \"Mem's Support\" additionally increases by 6%."
           },
           "energyTrueDmgValue": {
             "text": "Max energy True DMG",

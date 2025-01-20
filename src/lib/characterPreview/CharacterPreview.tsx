@@ -92,6 +92,8 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
+  const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
+
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
       <div
@@ -256,8 +258,8 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: `blur(20px) brightness(${darkMode ? 0.60 : 0.70}) saturate(0.8)`,
-              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.60 : 0.70}) saturate(0.8)`,
+              filter: `blur(20px) brightness(${darkMode ? 0.60 : 0.675}) saturate(${darkMode ? 0.80 : 0.80})`,
+              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.60 : 0.675}) saturate(${darkMode ? 0.80 : 0.80})`,
             }}
           />
 
@@ -320,6 +322,7 @@ export function CharacterPreview(props: {
               />
 
               <CharacterStatSummary
+                characterId={character.id}
                 finalStats={finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 cv={finalStats.CV}

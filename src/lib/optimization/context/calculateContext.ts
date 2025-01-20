@@ -1,6 +1,7 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
+import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -124,7 +125,7 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
     },
     traces: {
       ...StatCalculator.getZeroes(),
-      ...characterMetadata.traces,
+      ...calculateCustomTraces(characterMetadata),
     },
     lightCone: {
       ...StatCalculator.getZeroes(),

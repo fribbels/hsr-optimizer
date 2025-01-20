@@ -265,6 +265,7 @@ export const CharacterScoringSummary = (props: {
           </pre>
           {/* Character/100% benchmark/200% prefect basic stats */}
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
@@ -279,6 +280,7 @@ export const CharacterScoringSummary = (props: {
             </Trans>
           </pre>
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={combatStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
@@ -354,7 +356,7 @@ export const CharacterScoringSummary = (props: {
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
-        <pre>Note: DPS Score & Combo DMG are scoring metrics, and not meant for cross-team comparisons</pre>
+        <pre>Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons</pre>
       </Flex>
       <Flex gap={25}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>

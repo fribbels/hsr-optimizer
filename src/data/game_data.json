@@ -6,6 +6,86 @@
       "rarity": 4,
       "path": "Preservation",
       "element": "Ice",
+      "traces": {
+        "Ice DMG Boost": 0.224,
+        "DEF%": 0.225,
+        "Effect RES": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1001201",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1001202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1001203",
+              "stat": "Ice DMG Boost",
+              "value": 0.032,
+              "pre": "1001202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1001204",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1001205",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1001206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1001205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1001207",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1001208",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1001209",
+              "stat": "Ice DMG Boost",
+              "value": 0.064,
+              "pre": "1001208",
+              "children": []
+            },
+            {
+              "id": "1001210",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "1001208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1058.4,
@@ -23,6 +103,86 @@
       "rarity": 4,
       "path": "Hunt",
       "element": "Wind",
+      "traces": {
+        "DEF%": 0.125,
+        "Wind DMG Boost": 0.224,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1002201",
+          "stat": "Wind DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1002202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1002203",
+              "stat": "Wind DMG Boost",
+              "value": 0.032,
+              "pre": "1002202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1002204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1002205",
+          "stat": "Wind DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1002206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1002205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1002207",
+          "stat": "Wind DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1002208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1002209",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1002208",
+              "children": []
+            },
+            {
+              "id": "1002210",
+              "stat": "Wind DMG Boost",
+              "value": 0.064,
+              "pre": "1002208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 882,
@@ -40,6 +200,85 @@
       "rarity": 5,
       "path": "Erudition",
       "element": "Fire",
+      "traces": {
+        "Fire DMG Boost": 0.224,
+        "ATK%": 0.18,
+        "Effect RES": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1003201",
+          "stat": "Fire DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1003202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1003203",
+              "stat": "Fire DMG Boost",
+              "value": 0.032,
+              "pre": "1003202",
+              "children": []
+            },
+            {
+              "id": "1003204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1003202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1003205",
+          "stat": "Fire DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1003206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1003205",
+              "children": []
+            },
+            {
+              "id": "1003207",
+              "stat": "Fire DMG Boost",
+              "value": 0.048,
+              "pre": "1003205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1003208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1003209",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1003210",
+          "stat": "Fire DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1047.816,
@@ -57,6 +296,88 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Imaginary",
+      "traces": {
+        "Imaginary DMG Boost": 0.144,
+        "Effect RES": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1004201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1004210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1004201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1004202",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1004203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1004202",
+              "children": [
+                {
+                  "id": "1004204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "1004203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1004205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1004206",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.048,
+              "pre": "1004205",
+              "children": [
+                {
+                  "id": "1004207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1004206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1004208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1004209",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1125.432,
@@ -74,6 +395,88 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Lightning",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "HP%": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1005201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1005210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1005201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1005202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1005203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1005202",
+              "children": [
+                {
+                  "id": "1005204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1005203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1005205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1005206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "1005205",
+              "children": [
+                {
+                  "id": "1005207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1005206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1005208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1005209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1086.624,
@@ -91,6 +494,88 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Quantum",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "Quantum DMG Boost": 0.08,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1006201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1006210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1006201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1006202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1006203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1006202",
+              "children": [
+                {
+                  "id": "1006204",
+                  "stat": "Quantum DMG Boost",
+                  "value": 0.032,
+                  "pre": "1006203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1006205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1006206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "1006205",
+              "children": [
+                {
+                  "id": "1006207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1006206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1006208",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1006209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1047.816,
@@ -108,6 +593,88 @@
       "rarity": 4,
       "path": "Destruction",
       "element": "Lightning",
+      "traces": {
+        "HP%": 0.1,
+        "ATK%": 0.28,
+        "Effect RES": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1008201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1008202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1008203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1008202",
+              "children": [
+                {
+                  "id": "1008204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1008203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1008205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1008206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1008205",
+              "children": [
+                {
+                  "id": "1008207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1008206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1008208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1008209",
+              "stat": "Effect RES",
+              "value": 0.08,
+              "pre": "1008208",
+              "children": []
+            },
+            {
+              "id": "1008210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1008208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1199.52,
@@ -125,6 +692,87 @@
       "rarity": 4,
       "path": "Harmony",
       "element": "Fire",
+      "traces": {
+        "CRIT Rate": 0.067,
+        "Fire DMG Boost": 0.224,
+        "DEF%": 0.225
+      },
+      "traceTree": [
+        {
+          "id": "1009201",
+          "stat": "Fire DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1009204",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1009201",
+              "children": []
+            },
+            {
+              "id": "1009207",
+              "stat": "Fire DMG Boost",
+              "value": 0.048,
+              "pre": "1009201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1009202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1009203",
+              "stat": "Fire DMG Boost",
+              "value": 0.032,
+              "pre": "1009202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1009205",
+          "stat": "Fire DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1009206",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1009205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1009208",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1009209",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "1009208",
+              "children": []
+            },
+            {
+              "id": "1009210",
+              "stat": "Fire DMG Boost",
+              "value": 0.064,
+              "pre": "1009208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1023.12,
@@ -142,6 +790,85 @@
       "rarity": 4,
       "path": "Erudition",
       "element": "Ice",
+      "traces": {
+        "Ice DMG Boost": 0.224,
+        "DEF%": 0.225,
+        "CRIT Rate": 0.067
+      },
+      "traceTree": [
+        {
+          "id": "1013201",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1013202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1013203",
+              "stat": "Ice DMG Boost",
+              "value": 0.032,
+              "pre": "1013202",
+              "children": []
+            },
+            {
+              "id": "1013204",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1013202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1013205",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1013206",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1013205",
+              "children": []
+            },
+            {
+              "id": "1013207",
+              "stat": "Ice DMG Boost",
+              "value": 0.048,
+              "pre": "1013205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1013208",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1013209",
+          "stat": "DEF%",
+          "value": 0.1,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1013210",
+          "stat": "Ice DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 952.56,
@@ -159,6 +886,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Wind",
+      "traces": {
+        "Effect RES": 0.1,
+        "Wind DMG Boost": 0.224,
+        "CRIT DMG": 0.24
+      },
+      "traceTree": [
+        {
+          "id": "1101201",
+          "stat": "Wind DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1101204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1101201",
+              "children": []
+            },
+            {
+              "id": "1101207",
+              "stat": "Wind DMG Boost",
+              "value": 0.048,
+              "pre": "1101201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1101202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1101203",
+              "stat": "Wind DMG Boost",
+              "value": 0.032,
+              "pre": "1101202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1101205",
+          "stat": "Wind DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1101206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1101205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1101208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1101209",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1101208",
+              "children": []
+            },
+            {
+              "id": "1101210",
+              "stat": "Wind DMG Boost",
+              "value": 0.064,
+              "pre": "1101208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1241.856,
@@ -176,6 +984,86 @@
       "rarity": 5,
       "path": "Hunt",
       "element": "Quantum",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "CRIT DMG": 0.24
+      },
+      "traceTree": [
+        {
+          "id": "1102201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1102202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1102203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1102202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1102204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1102205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1102206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1102205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1102207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1102208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1102209",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1102208",
+              "children": []
+            },
+            {
+              "id": "1102210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1102208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 931.392,
@@ -193,6 +1081,85 @@
       "rarity": 4,
       "path": "Erudition",
       "element": "Lightning",
+      "traces": {
+        "CRIT Rate": 0.187,
+        "Effect Hit Rate": 0.18,
+        "Effect RES": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1103201",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1103202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1103203",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1103202",
+              "children": []
+            },
+            {
+              "id": "1103204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1103202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1103205",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1103206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "1103205",
+              "children": []
+            },
+            {
+              "id": "1103207",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1103205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1103208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1103209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1103210",
+          "stat": "CRIT Rate",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 917.28,
@@ -210,6 +1177,86 @@
       "rarity": 5,
       "path": "Preservation",
       "element": "Ice",
+      "traces": {
+        "DEF%": 0.125,
+        "Ice DMG Boost": 0.224,
+        "Effect RES": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1104201",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1104202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1104203",
+              "stat": "Ice DMG Boost",
+              "value": 0.032,
+              "pre": "1104202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1104204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1104205",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1104206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1104205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1104207",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1104208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1104209",
+              "stat": "Effect RES",
+              "value": 0.08,
+              "pre": "1104208",
+              "children": []
+            },
+            {
+              "id": "1104210",
+              "stat": "Ice DMG Boost",
+              "value": 0.064,
+              "pre": "1104208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 1397.088,
@@ -227,6 +1274,87 @@
       "rarity": 4,
       "path": "Abundance",
       "element": "Physical",
+      "traces": {
+        "HP%": 0.28,
+        "Effect RES": 0.18,
+        "DEF%": 0.125
+      },
+      "traceTree": [
+        {
+          "id": "1105201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1105202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1105203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1105202",
+              "children": [
+                {
+                  "id": "1105204",
+                  "stat": "DEF%",
+                  "value": 0.05,
+                  "pre": "1105203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1105205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1105206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1105205",
+              "children": [
+                {
+                  "id": "1105207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "1105206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1105208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1105209",
+          "stat": "Effect RES",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1105210",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 90,
       "stats": {
         "HP": 1164.24,
@@ -244,6 +1372,88 @@
       "rarity": 4,
       "path": "Nihility",
       "element": "Ice",
+      "traces": {
+        "ATK%": 0.18,
+        "Effect Hit Rate": 0.1,
+        "Ice DMG Boost": 0.224
+      },
+      "traceTree": [
+        {
+          "id": "1106201",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1106210",
+              "stat": "Ice DMG Boost",
+              "value": 0.064,
+              "pre": "1106201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1106202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1106203",
+              "stat": "Ice DMG Boost",
+              "value": 0.032,
+              "pre": "1106202",
+              "children": [
+                {
+                  "id": "1106204",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.04,
+                  "pre": "1106203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1106205",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1106206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1106205",
+              "children": [
+                {
+                  "id": "1106207",
+                  "stat": "Ice DMG Boost",
+                  "value": 0.048,
+                  "pre": "1106206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1106208",
+          "stat": "Effect Hit Rate",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1106209",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 987.84,
@@ -261,6 +1471,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Physical",
+      "traces": {
+        "HP%": 0.1,
+        "ATK%": 0.28,
+        "Physical DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "1107201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1107202",
+          "stat": "Physical DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1107203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1107202",
+              "children": [
+                {
+                  "id": "1107204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1107203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1107205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1107206",
+              "stat": "Physical DMG Boost",
+              "value": 0.048,
+              "pre": "1107205",
+              "children": [
+                {
+                  "id": "1107207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1107206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1107208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1107209",
+              "stat": "Physical DMG Boost",
+              "value": 0.064,
+              "pre": "1107208",
+              "children": []
+            },
+            {
+              "id": "1107210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1107208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1241.856,
@@ -278,6 +1570,88 @@
       "rarity": 4,
       "path": "Nihility",
       "element": "Wind",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "Effect RES": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1108201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1108210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1108201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1108202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1108203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1108202",
+              "children": [
+                {
+                  "id": "1108204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "1108203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1108205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1108206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "1108205",
+              "children": [
+                {
+                  "id": "1108207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1108206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1108208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1108209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1023.12,
@@ -295,6 +1669,88 @@
       "rarity": 4,
       "path": "Destruction",
       "element": "Fire",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "ATK%": 0.28,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1109201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1109202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1109203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1109202",
+              "children": [
+                {
+                  "id": "1109204",
+                  "stat": "CRIT DMG",
+                  "value": 0.053,
+                  "pre": "1109203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1109205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1109206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1109205",
+              "children": [
+                {
+                  "id": "1109207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1109206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1109208",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1109209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1109208",
+              "children": []
+            },
+            {
+              "id": "1109210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1109208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1340.64,
@@ -312,6 +1768,87 @@
       "rarity": 4,
       "path": "Abundance",
       "element": "Quantum",
+      "traces": {
+        "HP%": 0.28,
+        "DEF%": 0.225,
+        "Effect RES": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1110201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1110202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1110203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1110202",
+              "children": [
+                {
+                  "id": "1110204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "1110203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1110205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1110206",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1110205",
+              "children": [
+                {
+                  "id": "1110207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "1110206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1110208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1110209",
+          "stat": "DEF%",
+          "value": 0.1,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1110210",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 1058.4,
@@ -329,6 +1866,88 @@
       "rarity": 4,
       "path": "Nihility",
       "element": "Physical",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "DEF%": 0.125,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1111201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1111210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1111201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1111202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1111203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1111202",
+              "children": [
+                {
+                  "id": "1111204",
+                  "stat": "DEF%",
+                  "value": 0.05,
+                  "pre": "1111203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1111205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1111206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "1111205",
+              "children": [
+                {
+                  "id": "1111207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1111206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1111208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1111209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 917.28,
@@ -346,6 +1965,86 @@
       "rarity": 5,
       "path": "Hunt",
       "element": "Fire",
+      "traces": {
+        "HP%": 0.1,
+        "Fire DMG Boost": 0.224,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "1112201",
+          "stat": "Fire DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1112202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1112203",
+              "stat": "Fire DMG Boost",
+              "value": 0.032,
+              "pre": "1112202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1112204",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1112205",
+          "stat": "Fire DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1112206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1112205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1112207",
+          "stat": "Fire DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1112208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1112209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1112208",
+              "children": []
+            },
+            {
+              "id": "1112210",
+              "stat": "Fire DMG Boost",
+              "value": 0.064,
+              "pre": "1112208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 931.392,
@@ -363,6 +2062,85 @@
       "rarity": 4,
       "path": "Erudition",
       "element": "Quantum",
+      "traces": {
+        "ATK%": 0.28,
+        "Quantum DMG Boost": 0.144,
+        "DEF%": 0.125
+      },
+      "traceTree": [
+        {
+          "id": "1201201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1201202",
+          "stat": "Quantum DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1201203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1201202",
+              "children": []
+            },
+            {
+              "id": "1201204",
+              "stat": "DEF%",
+              "value": 0.05,
+              "pre": "1201202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1201205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1201206",
+              "stat": "Quantum DMG Boost",
+              "value": 0.048,
+              "pre": "1201205",
+              "children": []
+            },
+            {
+              "id": "1201207",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1201205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1201208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1201209",
+          "stat": "Quantum DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1201210",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1023.12,
@@ -380,6 +2158,87 @@
       "rarity": 4,
       "path": "Harmony",
       "element": "Lightning",
+      "traces": {
+        "Lightning DMG Boost": 0.08,
+        "ATK%": 0.28,
+        "DEF%": 0.225
+      },
+      "traceTree": [
+        {
+          "id": "1202201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1202204",
+              "stat": "Lightning DMG Boost",
+              "value": 0.032,
+              "pre": "1202201",
+              "children": []
+            },
+            {
+              "id": "1202207",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1202201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1202202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1202203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1202202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1202205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1202206",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1202205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1202208",
+          "stat": "Lightning DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1202209",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "1202208",
+              "children": []
+            },
+            {
+              "id": "1202210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1202208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 846.72,
@@ -397,6 +2256,87 @@
       "rarity": 5,
       "path": "Abundance",
       "element": "Imaginary",
+      "traces": {
+        "ATK%": 0.28,
+        "HP%": 0.18,
+        "DEF%": 0.125
+      },
+      "traceTree": [
+        {
+          "id": "1203201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1203202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1203203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1203202",
+              "children": [
+                {
+                  "id": "1203204",
+                  "stat": "DEF%",
+                  "value": 0.05,
+                  "pre": "1203203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1203205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1203206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1203205",
+              "children": [
+                {
+                  "id": "1203207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1203206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1203208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1203209",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1203210",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 1280.664,
@@ -414,6 +2354,85 @@
       "rarity": 5,
       "path": "Erudition",
       "element": "Lightning",
+      "traces": {
+        "ATK%": 0.28,
+        "CRIT Rate": 0.12,
+        "DEF%": 0.125
+      },
+      "traceTree": [
+        {
+          "id": "1204201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1204202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1204203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1204202",
+              "children": []
+            },
+            {
+              "id": "1204204",
+              "stat": "DEF%",
+              "value": 0.05,
+              "pre": "1204202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1204205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1204206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1204205",
+              "children": []
+            },
+            {
+              "id": "1204207",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1204205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1204208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1204209",
+          "stat": "CRIT Rate",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1204210",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 1164.24,
@@ -431,6 +2450,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Wind",
+      "traces": {
+        "Effect RES": 0.1,
+        "HP%": 0.28,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "1205201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1205202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1205203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1205202",
+              "children": [
+                {
+                  "id": "1205204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "1205203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1205205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1205206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1205205",
+              "children": [
+                {
+                  "id": "1205207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "1205206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1205208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1205209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1205208",
+              "children": []
+            },
+            {
+              "id": "1205210",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1205208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 1358.28,
@@ -448,6 +2549,86 @@
       "rarity": 4,
       "path": "Hunt",
       "element": "Physical",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1206201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1206202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1206203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1206202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1206204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1206205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1206206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1206205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1206207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1206208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1206209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1206208",
+              "children": []
+            },
+            {
+              "id": "1206210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1206208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 917.28,
@@ -465,6 +2646,87 @@
       "rarity": 4,
       "path": "Harmony",
       "element": "Imaginary",
+      "traces": {
+        "ATK%": 0.1,
+        "Imaginary DMG Boost": 0.224,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1207201",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1207204",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1207201",
+              "children": []
+            },
+            {
+              "id": "1207207",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.048,
+              "pre": "1207201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1207202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1207203",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.032,
+              "pre": "1207202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1207205",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1207206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1207205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1207208",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1207209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1207208",
+              "children": []
+            },
+            {
+              "id": "1207210",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.064,
+              "pre": "1207208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 917.28,
@@ -482,6 +2744,86 @@
       "rarity": 5,
       "path": "Preservation",
       "element": "Quantum",
+      "traces": {
+        "Effect RES": 0.1,
+        "CRIT Rate": 0.187,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1208201",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1208202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1208203",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1208202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1208204",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1208205",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1208206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1208205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1208207",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1208208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1208209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1208208",
+              "children": []
+            },
+            {
+              "id": "1208210",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1208208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 135,
       "stats": {
         "HP": 1474.704,
@@ -499,6 +2841,86 @@
       "rarity": 5,
       "path": "Hunt",
       "element": "Ice",
+      "traces": {
+        "HP%": 0.1,
+        "ATK%": 0.28,
+        "Ice DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "1209201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1209202",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1209203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1209202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1209204",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1209205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1209206",
+              "stat": "Ice DMG Boost",
+              "value": 0.048,
+              "pre": "1209205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1209207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1209208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1209209",
+              "stat": "Ice DMG Boost",
+              "value": 0.064,
+              "pre": "1209208",
+              "children": []
+            },
+            {
+              "id": "1209210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1209208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 892.584,
@@ -516,6 +2938,88 @@
       "rarity": 4,
       "path": "Nihility",
       "element": "Fire",
+      "traces": {
+        "Break Effect": 0.24,
+        "Effect Hit Rate": 0.1,
+        "Fire DMG Boost": 0.224
+      },
+      "traceTree": [
+        {
+          "id": "1210201",
+          "stat": "Fire DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1210210",
+              "stat": "Fire DMG Boost",
+              "value": 0.064,
+              "pre": "1210201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1210202",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1210203",
+              "stat": "Fire DMG Boost",
+              "value": 0.032,
+              "pre": "1210202",
+              "children": [
+                {
+                  "id": "1210204",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.04,
+                  "pre": "1210203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1210205",
+          "stat": "Fire DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1210206",
+              "stat": "Break Effect",
+              "value": 0.08,
+              "pre": "1210205",
+              "children": [
+                {
+                  "id": "1210207",
+                  "stat": "Fire DMG Boost",
+                  "value": 0.048,
+                  "pre": "1210206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1210208",
+          "stat": "Effect Hit Rate",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1210209",
+          "stat": "Break Effect",
+          "value": 0.107,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 882,
@@ -533,6 +3037,87 @@
       "rarity": 5,
       "path": "Abundance",
       "element": "Lightning",
+      "traces": {
+        "HP%": 0.28,
+        "DEF%": 0.225,
+        "Effect RES": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1211201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1211202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1211203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1211202",
+              "children": [
+                {
+                  "id": "1211204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "1211203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1211205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1211206",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1211205",
+              "children": [
+                {
+                  "id": "1211207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "1211206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1211208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1211209",
+          "stat": "DEF%",
+          "value": 0.1,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1211210",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 1319.472,
@@ -550,6 +3135,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Ice",
+      "traces": {
+        "HP%": 0.1,
+        "CRIT DMG": 0.373,
+        "SPD": 9
+      },
+      "traceTree": [
+        {
+          "id": "1212201",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1212202",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1212203",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1212202",
+              "children": [
+                {
+                  "id": "1212204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1212203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1212205",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1212206",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1212205",
+              "children": [
+                {
+                  "id": "1212207",
+                  "stat": "CRIT DMG",
+                  "value": 0.08,
+                  "pre": "1212206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1212208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1212209",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1212208",
+              "children": []
+            },
+            {
+              "id": "1212210",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1212208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1435.896,
@@ -567,6 +3234,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Imaginary",
+      "traces": {
+        "HP%": 0.1,
+        "Imaginary DMG Boost": 0.224,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "1213201",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1213202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1213203",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.032,
+              "pre": "1213202",
+              "children": [
+                {
+                  "id": "1213204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1213203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1213205",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1213206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1213205",
+              "children": [
+                {
+                  "id": "1213207",
+                  "stat": "Imaginary DMG Boost",
+                  "value": 0.048,
+                  "pre": "1213206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1213208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1213209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1213208",
+              "children": []
+            },
+            {
+              "id": "1213210",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.064,
+              "pre": "1213208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1241.856,
@@ -584,6 +3333,88 @@
       "rarity": 4,
       "path": "Destruction",
       "element": "Quantum",
+      "traces": {
+        "Quantum DMG Boost": 0.08,
+        "Break Effect": 0.373,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1214201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1214202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1214203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "1214202",
+              "children": [
+                {
+                  "id": "1214204",
+                  "stat": "Quantum DMG Boost",
+                  "value": 0.032,
+                  "pre": "1214203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1214205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1214206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1214205",
+              "children": [
+                {
+                  "id": "1214207",
+                  "stat": "Break Effect",
+                  "value": 0.08,
+                  "pre": "1214206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1214208",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1214209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1214208",
+              "children": []
+            },
+            {
+              "id": "1214210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "1214208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1058.4,
@@ -601,6 +3432,87 @@
       "rarity": 4,
       "path": "Harmony",
       "element": "Physical",
+      "traces": {
+        "HP%": 0.1,
+        "ATK%": 0.28,
+        "SPD": 9
+      },
+      "traceTree": [
+        {
+          "id": "1215201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1215204",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1215201",
+              "children": []
+            },
+            {
+              "id": "1215207",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1215201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1215202",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1215203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1215202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1215205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1215206",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1215205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1215208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1215209",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1215208",
+              "children": []
+            },
+            {
+              "id": "1215210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1215208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 917.28,
@@ -618,6 +3530,87 @@
       "rarity": 5,
       "path": "Abundance",
       "element": "Wind",
+      "traces": {
+        "HP%": 0.28,
+        "Effect RES": 0.18,
+        "SPD": 5
+      },
+      "traceTree": [
+        {
+          "id": "1217201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1217202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1217203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1217202",
+              "children": [
+                {
+                  "id": "1217204",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "1217203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1217205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1217206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1217205",
+              "children": [
+                {
+                  "id": "1217207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "1217206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1217208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1217209",
+          "stat": "Effect RES",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1217210",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1358.28,
@@ -635,6 +3628,88 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Fire",
+      "traces": {
+        "Fire DMG Boost": 0.144,
+        "SPD": 5,
+        "Effect Hit Rate": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1218201",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1218210",
+              "stat": "Effect Hit Rate",
+              "value": 0.08,
+              "pre": "1218201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1218202",
+          "stat": "Fire DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1218203",
+              "stat": "Effect Hit Rate",
+              "value": 0.04,
+              "pre": "1218202",
+              "children": [
+                {
+                  "id": "1218204",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "1218203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1218205",
+          "stat": "Effect Hit Rate",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1218206",
+              "stat": "Fire DMG Boost",
+              "value": 0.048,
+              "pre": "1218205",
+              "children": [
+                {
+                  "id": "1218207",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.06,
+                  "pre": "1218206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1218208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1218209",
+          "stat": "Fire DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 1358.28,
@@ -652,6 +3727,86 @@
       "rarity": 5,
       "path": "Hunt",
       "element": "Wind",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "1220201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1220202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1220203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1220202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1220204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1220205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1220206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1220205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1220207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1220208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1220209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1220208",
+              "children": []
+            },
+            {
+              "id": "1220210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1220208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 12,
       "stats": {
         "HP": 1047.816,
@@ -669,6 +3824,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Physical",
+      "traces": {
+        "CRIT Rate": 0.067,
+        "ATK%": 0.28,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1221201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1221202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1221203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1221202",
+              "children": [
+                {
+                  "id": "1221204",
+                  "stat": "CRIT Rate",
+                  "value": 0.027,
+                  "pre": "1221203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1221205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1221206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1221205",
+              "children": [
+                {
+                  "id": "1221207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1221206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1221208",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1221209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1221208",
+              "children": []
+            },
+            {
+              "id": "1221210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1221208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 240,
       "stats": {
         "HP": 1358.28,
@@ -686,6 +3923,87 @@
       "rarity": 5,
       "path": "Abundance",
       "element": "Fire",
+      "traces": {
+        "Break Effect": 0.373,
+        "HP%": 0.18,
+        "ATK%": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1222201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1222202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1222203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "1222202",
+              "children": [
+                {
+                  "id": "1222204",
+                  "stat": "ATK%",
+                  "value": 0.04,
+                  "pre": "1222203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1222205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1222206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1222205",
+              "children": [
+                {
+                  "id": "1222207",
+                  "stat": "Break Effect",
+                  "value": 0.08,
+                  "pre": "1222206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1222208",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1222209",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1222210",
+          "stat": "Break Effect",
+          "value": 0.107,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1358.28,
@@ -703,6 +4021,86 @@
       "rarity": 4,
       "path": "Hunt",
       "element": "Lightning",
+      "traces": {
+        "HP%": 0.1,
+        "CRIT DMG": 0.373,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1223201",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1223202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1223203",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1223202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1223204",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1223205",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1223206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1223205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1223207",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1223208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1223209",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1223208",
+              "children": []
+            },
+            {
+              "id": "1223210",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1223208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 811.44,
@@ -720,6 +4118,86 @@
       "rarity": 4,
       "path": "Hunt",
       "element": "Imaginary",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "CRIT DMG": 0.24
+      },
+      "traceTree": [
+        {
+          "id": "1224201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1224202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1224203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1224202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1224204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1224205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1224206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1224205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1224207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1224208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1224209",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1224208",
+              "children": []
+            },
+            {
+              "id": "1224210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1224208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1058.4,
@@ -737,6 +4215,88 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Fire",
+      "traces": {
+        "Break Effect": 0.24,
+        "HP%": 0.1,
+        "SPD": 14
+      },
+      "traceTree": [
+        {
+          "id": "1225201",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1225210",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1225201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1225202",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1225203",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1225202",
+              "children": [
+                {
+                  "id": "1225204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1225203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1225205",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1225206",
+              "stat": "Break Effect",
+              "value": 0.08,
+              "pre": "1225205",
+              "children": [
+                {
+                  "id": "1225207",
+                  "stat": "SPD",
+                  "value": 3,
+                  "pre": "1225206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1225208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1225209",
+          "stat": "Break Effect",
+          "value": 0.107,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 1125.432,
@@ -754,6 +4314,87 @@
       "rarity": 4,
       "path": "Abundance",
       "element": "Fire",
+      "traces": {
+        "HP%": 0.18,
+        "Effect RES": 0.28,
+        "Break Effect": 0.133
+      },
+      "traceTree": [
+        {
+          "id": "1301201",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1301202",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1301203",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1301202",
+              "children": [
+                {
+                  "id": "1301204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1301203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1301205",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1301206",
+              "stat": "Break Effect",
+              "value": 0.08,
+              "pre": "1301205",
+              "children": [
+                {
+                  "id": "1301207",
+                  "stat": "Effect RES",
+                  "value": 0.06,
+                  "pre": "1301206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1301208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1301209",
+          "stat": "Effect RES",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1301210",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1305.36,
@@ -771,6 +4412,85 @@
       "rarity": 5,
       "path": "Erudition",
       "element": "Physical",
+      "traces": {
+        "ATK%": 0.28,
+        "Physical DMG Boost": 0.144,
+        "HP%": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1302201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1302202",
+          "stat": "Physical DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1302203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1302202",
+              "children": []
+            },
+            {
+              "id": "1302204",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1302202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1302205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1302206",
+              "stat": "Physical DMG Boost",
+              "value": 0.048,
+              "pre": "1302205",
+              "children": []
+            },
+            {
+              "id": "1302207",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1302205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1302208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1302209",
+          "stat": "Physical DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1302210",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 180,
       "stats": {
         "HP": 1047.816,
@@ -788,6 +4508,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Ice",
+      "traces": {
+        "SPD": 5,
+        "Break Effect": 0.373,
+        "DEF%": 0.225
+      },
+      "traceTree": [
+        {
+          "id": "1303201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1303204",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1303201",
+              "children": []
+            },
+            {
+              "id": "1303207",
+              "stat": "Break Effect",
+              "value": 0.08,
+              "pre": "1303201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1303202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1303203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "1303202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1303205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1303206",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1303205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1303208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1303209",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "1303208",
+              "children": []
+            },
+            {
+              "id": "1303210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "1303208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 1086.624,
@@ -805,6 +4606,86 @@
       "rarity": 5,
       "path": "Preservation",
       "element": "Imaginary",
+      "traces": {
+        "Effect RES": 0.1,
+        "DEF%": 0.35,
+        "Imaginary DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "1304201",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1304202",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1304203",
+              "stat": "DEF%",
+              "value": 0.05,
+              "pre": "1304202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1304204",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1304205",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1304206",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.048,
+              "pre": "1304205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1304207",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1304208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1304209",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.064,
+              "pre": "1304208",
+              "children": []
+            },
+            {
+              "id": "1304210",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "1304208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1203.048,
@@ -822,6 +4703,86 @@
       "rarity": 5,
       "path": "Hunt",
       "element": "Imaginary",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "1305201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1305202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1305203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1305202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1305204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1305205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1305206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1305205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1305207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1305208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1305209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1305208",
+              "children": []
+            },
+            {
+              "id": "1305210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1305208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1047.816,
@@ -839,6 +4800,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Quantum",
+      "traces": {
+        "Effect RES": 0.1,
+        "HP%": 0.28,
+        "CRIT DMG": 0.24
+      },
+      "traceTree": [
+        {
+          "id": "1306201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1306201",
+              "children": []
+            },
+            {
+              "id": "1306207",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1306201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1306202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1306202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1306205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1306205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1306208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306209",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1306208",
+              "children": []
+            },
+            {
+              "id": "1306210",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1306208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 110,
       "stats": {
         "HP": 1397.088,
@@ -856,6 +4898,88 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Wind",
+      "traces": {
+        "Wind DMG Boost": 0.144,
+        "Effect Hit Rate": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1307201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1307210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1307201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1307202",
+          "stat": "Wind DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1307203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1307202",
+              "children": [
+                {
+                  "id": "1307204",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.04,
+                  "pre": "1307203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1307205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1307206",
+              "stat": "Wind DMG Boost",
+              "value": 0.048,
+              "pre": "1307205",
+              "children": [
+                {
+                  "id": "1307207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1307206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1307208",
+          "stat": "Effect Hit Rate",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1307209",
+          "stat": "Wind DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1086.624,
@@ -873,6 +4997,88 @@
       "rarity": 5,
       "path": "Nihility",
       "element": "Lightning",
+      "traces": {
+        "CRIT DMG": 0.24,
+        "Lightning DMG Boost": 0.08,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1308201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1308210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1308201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1308202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1308203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1308202",
+              "children": [
+                {
+                  "id": "1308204",
+                  "stat": "Lightning DMG Boost",
+                  "value": 0.032,
+                  "pre": "1308203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1308205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1308206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1308205",
+              "children": [
+                {
+                  "id": "1308207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1308206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1308208",
+          "stat": "Lightning DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1308209",
+          "stat": "CRIT DMG",
+          "value": 0.107,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 9,
       "stats": {
         "HP": 1125.432,
@@ -890,6 +5096,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Physical",
+      "traces": {
+        "SPD": 5,
+        "ATK%": 0.28,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1309201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1309204",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1309201",
+              "children": []
+            },
+            {
+              "id": "1309207",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1309201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1309202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1309203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1309202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1309205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1309206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1309205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1309208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1309209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1309208",
+              "children": []
+            },
+            {
+              "id": "1309210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1309208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 160,
       "stats": {
         "HP": 1280.664,
@@ -907,6 +5194,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Fire",
+      "traces": {
+        "SPD": 5,
+        "Break Effect": 0.373,
+        "Effect RES": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1310201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1310202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1310203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "1310202",
+              "children": [
+                {
+                  "id": "1310204",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "1310203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1310205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1310206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1310205",
+              "children": [
+                {
+                  "id": "1310207",
+                  "stat": "Break Effect",
+                  "value": 0.08,
+                  "pre": "1310206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1310208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1310209",
+              "stat": "Effect RES",
+              "value": 0.08,
+              "pre": "1310208",
+              "children": []
+            },
+            {
+              "id": "1310210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "1310208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 240,
       "stats": {
         "HP": 814.968,
@@ -924,6 +5293,88 @@
       "rarity": 4,
       "path": "Destruction",
       "element": "Ice",
+      "traces": {
+        "CRIT Rate": 0.067,
+        "Ice DMG Boost": 0.224,
+        "DEF%": 0.225
+      },
+      "traceTree": [
+        {
+          "id": "1312201",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1312202",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1312203",
+              "stat": "Ice DMG Boost",
+              "value": 0.032,
+              "pre": "1312202",
+              "children": [
+                {
+                  "id": "1312204",
+                  "stat": "CRIT Rate",
+                  "value": 0.027,
+                  "pre": "1312203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1312205",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1312206",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1312205",
+              "children": [
+                {
+                  "id": "1312207",
+                  "stat": "Ice DMG Boost",
+                  "value": 0.048,
+                  "pre": "1312206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1312208",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1312209",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "1312208",
+              "children": []
+            },
+            {
+              "id": "1312210",
+              "stat": "Ice DMG Boost",
+              "value": 0.064,
+              "pre": "1312208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 100,
       "stats": {
         "HP": 1270.08,
@@ -941,6 +5392,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Imaginary",
+      "traces": {
+        "DEF%": 0.125,
+        "CRIT DMG": 0.373,
+        "Effect RES": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1313201",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1313204",
+              "stat": "DEF%",
+              "value": 0.05,
+              "pre": "1313201",
+              "children": []
+            },
+            {
+              "id": "1313207",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1313201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1313202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1313203",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1313202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1313205",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1313206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1313205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1313208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1313209",
+              "stat": "Effect RES",
+              "value": 0.08,
+              "pre": "1313208",
+              "children": []
+            },
+            {
+              "id": "1313210",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1313208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 130,
       "stats": {
         "HP": 1241.856,
@@ -958,6 +5490,85 @@
       "rarity": 5,
       "path": "Erudition",
       "element": "Quantum",
+      "traces": {
+        "Quantum DMG Boost": 0.224,
+        "ATK%": 0.18,
+        "Effect RES": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1314201",
+          "stat": "Quantum DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1314202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1314203",
+              "stat": "Quantum DMG Boost",
+              "value": 0.032,
+              "pre": "1314202",
+              "children": []
+            },
+            {
+              "id": "1314204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1314202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1314205",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1314206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1314205",
+              "children": []
+            },
+            {
+              "id": "1314207",
+              "stat": "Quantum DMG Boost",
+              "value": 0.048,
+              "pre": "1314205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1314208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1314209",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1314210",
+          "stat": "Quantum DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1086.624,
@@ -975,6 +5586,86 @@
       "rarity": 5,
       "path": "Hunt",
       "element": "Physical",
+      "traces": {
+        "HP%": 0.1,
+        "Break Effect": 0.373,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1315201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1315202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1315203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "1315202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1315204",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1315205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1315206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1315205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1315207",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1315208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1315209",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1315208",
+              "children": []
+            },
+            {
+              "id": "1315210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "1315208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 115,
       "stats": {
         "HP": 1203.048,
@@ -992,6 +5683,85 @@
       "rarity": 5,
       "path": "Erudition",
       "element": "Imaginary",
+      "traces": {
+        "ATK%": 0.28,
+        "SPD": 9,
+        "Break Effect": 0.133
+      },
+      "traceTree": [
+        {
+          "id": "1317201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1317202",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1317203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1317202",
+              "children": []
+            },
+            {
+              "id": "1317204",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "1317202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1317205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1317206",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1317205",
+              "children": []
+            },
+            {
+              "id": "1317207",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1317205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1317208",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1317209",
+          "stat": "SPD",
+          "value": 4,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1317210",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1086.624,
@@ -1009,6 +5779,85 @@
       "rarity": 5,
       "path": "Erudition",
       "element": "Ice",
+      "traces": {
+        "Ice DMG Boost": 0.224,
+        "ATK%": 0.18,
+        "SPD": 5
+      },
+      "traceTree": [
+        {
+          "id": "1401201",
+          "stat": "Ice DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1401202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1401203",
+              "stat": "Ice DMG Boost",
+              "value": 0.032,
+              "pre": "1401202",
+              "children": []
+            },
+            {
+              "id": "1401204",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1401202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1401205",
+          "stat": "Ice DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1401206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1401205",
+              "children": []
+            },
+            {
+              "id": "1401207",
+              "stat": "Ice DMG Boost",
+              "value": 0.048,
+              "pre": "1401205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1401208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1401209",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1401210",
+          "stat": "Ice DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
       "max_sp": 220,
       "stats": {
         "HP": 1164.24,
@@ -1026,6 +5875,86 @@
       "rarity": 5,
       "path": "Remembrance",
       "element": "Lightning",
+      "traces": {
+        "DEF%": 0.125,
+        "CRIT Rate": 0.12,
+        "Lightning DMG Boost": 0.224
+      },
+      "traceTree": [
+        {
+          "id": "1402201",
+          "stat": "Lightning DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1402202",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1402201",
+              "children": []
+            },
+            {
+              "id": "1402203",
+              "stat": "Lightning DMG Boost",
+              "value": 0.032,
+              "pre": "1402201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1402204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1402205",
+          "stat": "Lightning DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1402206",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1402207",
+          "stat": "Lightning DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1402208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1402209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1402208",
+              "children": [
+                {
+                  "id": "1402210",
+                  "stat": "Lightning DMG Boost",
+                  "value": 0.064,
+                  "pre": "1402209",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "max_sp": 350,
       "stats": {
         "HP": 1241.856,
@@ -1043,6 +5972,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Quantum",
+      "traces": {
+        "HP%": 0.1,
+        "CRIT DMG": 0.373,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "1403201_3.1v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1403204_3.1v1",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1403201_3.1v1",
+              "children": []
+            },
+            {
+              "id": "1403207_3.1v1",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1403201_3.1v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1403202_3.1v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1403203_3.1v1",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1403202_3.1v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1403205_3.1v1",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1403206_3.1v1",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1403205_3.1v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1403208_3.1v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1403209_3.1v1",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1403208_3.1v1",
+              "children": []
+            },
+            {
+              "id": "1403210_3.1v1",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1403208_3.1v1",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 180,
       "stats": {
         "HP": 1047.816,
@@ -1060,6 +6070,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Imaginary",
+      "traces": {
+        "SPD": 5,
+        "CRIT DMG": 0.373,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1404201_3.1v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1404202_3.1v1",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1404203_3.1v1",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1404202_3.1v1",
+              "children": [
+                {
+                  "id": "1404204_3.1v1",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "1404203_3.1v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1404205_3.1v1",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1404206_3.1v1",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1404205_3.1v1",
+              "children": [
+                {
+                  "id": "1404207_3.1v1",
+                  "stat": "CRIT DMG",
+                  "value": 0.08,
+                  "pre": "1404206_3.1v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1404208_3.1v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1404209_3.1v1",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1404208_3.1v1",
+              "children": []
+            },
+            {
+              "id": "1404210_3.1v1",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1404208_3.1v1",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 160,
       "stats": {
         "HP": 1552.32,
@@ -1077,6 +6169,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Physical",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "8001201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8001202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "8001203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "8001202",
+              "children": [
+                {
+                  "id": "8001204",
+                  "stat": "DEF%",
+                  "value": 0.05,
+                  "pre": "8001203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8001205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8001206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "8001205",
+              "children": [
+                {
+                  "id": "8001207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "8001206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8001208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "8001209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "8001208",
+              "children": []
+            },
+            {
+              "id": "8001210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "8001208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1203.048,
@@ -1094,6 +6268,88 @@
       "rarity": 5,
       "path": "Destruction",
       "element": "Physical",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "8002201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8002202",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "8002203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "8002202",
+              "children": [
+                {
+                  "id": "8002204",
+                  "stat": "DEF%",
+                  "value": 0.05,
+                  "pre": "8002203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8002205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8002206",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "8002205",
+              "children": [
+                {
+                  "id": "8002207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "8002206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8002208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "8002209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "8002208",
+              "children": []
+            },
+            {
+              "id": "8002210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "8002208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1203.048,
@@ -1111,6 +6367,86 @@
       "rarity": 5,
       "path": "Preservation",
       "element": "Fire",
+      "traces": {
+        "HP%": 0.1,
+        "DEF%": 0.35,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "8003201",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8003202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "8003203",
+              "stat": "DEF%",
+              "value": 0.05,
+              "pre": "8003202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8003204",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8003205",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "8003206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "8003205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8003207",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8003208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8003209",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "8003208",
+              "children": []
+            },
+            {
+              "id": "8003210",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "8003208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1241.856,
@@ -1128,6 +6464,86 @@
       "rarity": 5,
       "path": "Preservation",
       "element": "Fire",
+      "traces": {
+        "HP%": 0.1,
+        "DEF%": 0.35,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "8004201",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8004202",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "8004203",
+              "stat": "DEF%",
+              "value": 0.05,
+              "pre": "8004202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8004204",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8004205",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "8004206",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "8004205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8004207",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8004208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8004209",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "8004208",
+              "children": []
+            },
+            {
+              "id": "8004210",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "8004208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 120,
       "stats": {
         "HP": 1241.856,
@@ -1145,6 +6561,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Imaginary",
+      "traces": {
+        "Effect RES": 0.1,
+        "Break Effect": 0.373,
+        "Imaginary DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "8005201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "8005204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "8005201",
+              "children": []
+            },
+            {
+              "id": "8005207",
+              "stat": "Break Effect",
+              "value": 0.08,
+              "pre": "8005201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8005202",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "8005203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "8005202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8005205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "8005206",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.048,
+              "pre": "8005205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8005208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8005209",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.064,
+              "pre": "8005208",
+              "children": []
+            },
+            {
+              "id": "8005210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "8005208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1086.624,
@@ -1162,6 +6659,87 @@
       "rarity": 5,
       "path": "Harmony",
       "element": "Imaginary",
+      "traces": {
+        "Effect RES": 0.1,
+        "Break Effect": 0.373,
+        "Imaginary DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "8006201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "8006204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "8006201",
+              "children": []
+            },
+            {
+              "id": "8006207",
+              "stat": "Break Effect",
+              "value": 0.08,
+              "pre": "8006201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8006202",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "8006203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "8006202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8006205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "8006206",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.048,
+              "pre": "8006205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8006208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8006209",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.064,
+              "pre": "8006208",
+              "children": []
+            },
+            {
+              "id": "8006210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "8006208",
+              "children": []
+            }
+          ]
+        }
+      ],
       "max_sp": 140,
       "stats": {
         "HP": 1086.624,
@@ -1179,6 +6757,86 @@
       "rarity": 5,
       "path": "Remembrance",
       "element": "Ice",
+      "traces": {
+        "ATK%": 0.14,
+        "HP%": 0.14,
+        "CRIT DMG": 0.373
+      },
+      "traceTree": [
+        {
+          "id": "8007201",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "8007202",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "8007201",
+              "children": []
+            },
+            {
+              "id": "8007203",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "8007201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8007204",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8007205",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8007206",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8007207",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8007208",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8007209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "8007208",
+              "children": [
+                {
+                  "id": "8007210",
+                  "stat": "CRIT DMG",
+                  "value": 0.107,
+                  "pre": "8007209",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "max_sp": 160,
       "stats": {
         "HP": 1047.816,
@@ -1196,6 +6854,86 @@
       "rarity": 5,
       "path": "Remembrance",
       "element": "Ice",
+      "traces": {
+        "ATK%": 0.14,
+        "HP%": 0.14,
+        "CRIT DMG": 0.373
+      },
+      "traceTree": [
+        {
+          "id": "8008201",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "8008202",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "8008201",
+              "children": []
+            },
+            {
+              "id": "8008203",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "8008201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8008204",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8008205",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8008206",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8008207",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8008208",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8008209",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "8008208",
+              "children": [
+                {
+                  "id": "8008210",
+                  "stat": "CRIT DMG",
+                  "value": 0.107,
+                  "pre": "8008209",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "max_sp": 160,
       "stats": {
         "HP": 1047.816,
@@ -2814,122 +8552,122 @@
     {
       "id": "124",
       "name": "Poet of Mourning Collapse",
-      "skills": "Increases Quantum DMG by <b>10%</b>.,Decreases the wearer's SPD by <b>8%</b>. Before entering battle, if the wearer's SPD is lower than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>32%</b>. This effect applies to the wearer's memosprite at the same time."
+      "skills": "Increases Quantum DMG by <b>10%</b>. Decreases the wearer's SPD by <b>8%</b>. Before entering battle, if the wearer's SPD is lower than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>32%</b>. This effect applies to the wearer's memosprite at the same time."
     },
     {
       "id": "123",
       "name": "Hero of Triumphant Song",
-      "skills": "Increases ATK by <b>12%</b>.,While the wearer's memosprite is on the field, increases the wearer's SPD by <b>6%</b>. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by <b>30%</b>, lasting for <b>2</b> turn(s)."
+      "skills": "Increases ATK by <b>12%</b>. While the wearer's memosprite is on the field, increases the wearer's SPD by <b>6%</b>. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by <b>30%</b>, lasting for <b>2</b> turn(s)."
     },
     {
       "id": "122",
       "name": "Scholar Lost in Erudition",
-      "skills": "Increases CRIT Rate by <b>8%</b>.,Increases DMG dealt by Skill and Ultimate by <b>20%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25%</b>."
+      "skills": "Increases CRIT Rate by <b>8%</b>. Increases DMG dealt by Skill and Ultimate by <b>20%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25%</b>."
     },
     {
       "id": "121",
       "name": "Sacerdos' Relived Ordeal",
-      "skills": "Increases SPD by <b>6%</b>.,When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <b>18%</b>, lasting for <b>2</b> turn(s). This effect can stack up to <b>2</b> time(s)."
+      "skills": "Increases SPD by <b>6%</b>. When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <b>18%</b>, lasting for <b>2</b> turn(s). This effect can stack up to <b>2</b> time(s)."
     },
     {
       "id": "120",
       "name": "The Wind-Soaring Valorous",
-      "skills": "Increases ATK by <b>12%</b>.,Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
+      "skills": "Increases ATK by <b>12%</b>. Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
     },
     {
       "id": "119",
       "name": "Iron Cavalry Against the Scourge",
-      "skills": "Increases Break Effect by <b>16%</b>.,If the wearer's Break Effect is <b>150%</b> or higher, the Break DMG dealt to the enemy target ignores <b>10%</b> of their DEF. If the wearer's Break Effect is <b>250%</b> or higher, the Super Break DMG dealt to the enemy target additionally ignores <b>15%</b> of their DEF."
+      "skills": "Increases Break Effect by <b>16%</b>. If the wearer's Break Effect is <b>150%</b> or higher, the Break DMG dealt to the enemy target ignores <b>10%</b> of their DEF. If the wearer's Break Effect is <b>250%</b> or higher, the Super Break DMG dealt to the enemy target additionally ignores <b>15%</b> of their DEF."
     },
     {
       "id": "118",
       "name": "Watchmaker, Master of Dream Machinations",
-      "skills": "Increases Break Effect by <b>16%</b>.,When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <b>30%</b> for <b>2</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases Break Effect by <b>16%</b>. When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <b>30%</b> for <b>2</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "117",
       "name": "Pioneer Diver of Dead Waters",
-      "skills": "Increases DMG dealt to enemies with debuffs by <b>12%</b>.,Increases CRIT Rate by <b>4%</b>. The wearer deals <b>8%</b>/<b>12%</b> increased CRIT DMG to enemies with at least <b>2</b>/<b>3</b> debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by <b>100%</b>, lasting for <b>1</b> turn(s)."
+      "skills": "Increases DMG dealt to enemies with debuffs by <b>12%</b>. Increases CRIT Rate by <b>4%</b>. The wearer deals <b>8%</b>/<b>12%</b> increased CRIT DMG to enemies with at least <b>2</b>/<b>3</b> debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by <b>100%</b>, lasting for <b>1</b> turn(s)."
     },
     {
       "id": "116",
       "name": "Prisoner in Deep Confinement",
-      "skills": "Increases ATK by <b>12%</b>.,For every DoT the enemy target is afflicted with, the wearer will ignore <b>6%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3</b> DoTs."
+      "skills": "Increases ATK by <b>12%</b>. For every DoT the enemy target is afflicted with, the wearer will ignore <b>6%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3</b> DoTs."
     },
     {
       "id": "115",
       "name": "The Ashblazing Grand Duke",
-      "skills": "Increases the DMG dealt by follow-up attack by <b>20%</b>.,When the wearer uses a follow-up attack, increases the wearer's ATK by <b>6%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+      "skills": "Increases the DMG dealt by follow-up attack by <b>20%</b>. When the wearer uses a follow-up attack, increases the wearer's ATK by <b>6%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
     },
     {
       "id": "114",
       "name": "Messenger Traversing Hackerspace",
-      "skills": "Increases SPD by <b>6%</b>.,When the wearer uses their Ultimate on an ally, SPD for all allies increases by <b>12%</b> for <b>1</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases SPD by <b>6%</b>. When the wearer uses their Ultimate on an ally, SPD for all allies increases by <b>12%</b> for <b>1</b> turn(s). This effect cannot be stacked."
     },
     {
       "id": "113",
       "name": "Longevous Disciple",
-      "skills": "Increases Max HP by <b>12%</b>.,When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by <b>8%</b> for <b>2</b> turn(s) and up to <b>2</b> stacks."
+      "skills": "Increases Max HP by <b>12%</b>. When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by <b>8%</b> for <b>2</b> turn(s) and up to <b>2</b> stacks."
     },
     {
       "id": "112",
       "name": "Wastelander of Banditry Desert",
-      "skills": "Increases Imaginary DMG by <b>10%</b>.,When dealing DMG to debuffed enemy targets, the wearer has their CRIT Rate increased by <b>10%</b>. And when they deal DMG to Imprisoned enemy targets, their CRIT DMG increases by <b>20%</b>."
+      "skills": "Increases Imaginary DMG by <b>10%</b>. When dealing DMG to debuffed enemy targets, the wearer has their CRIT Rate increased by <b>10%</b>. And when they deal DMG to Imprisoned enemy targets, their CRIT DMG increases by <b>20%</b>."
     },
     {
       "id": "111",
       "name": "Thief of Shooting Meteor",
-      "skills": "Increases Break Effect by <b>16%</b>.,Increases the wearer's Break Effect by <b>16%</b>. After the wearer inflicts Weakness Break on an enemy, regenerates <b>3</b> Energy."
+      "skills": "Increases Break Effect by <b>16%</b>. Increases the wearer's Break Effect by <b>16%</b>. After the wearer inflicts Weakness Break on an enemy, regenerates <b>3</b> Energy."
     },
     {
       "id": "110",
       "name": "Eagle of Twilight Line",
-      "skills": "Increases Wind DMG by <b>10%</b>.,After the wearer uses their Ultimate, their action is Advanced Forward by <b>25%</b>."
+      "skills": "Increases Wind DMG by <b>10%</b>. After the wearer uses their Ultimate, their action is Advanced Forward by <b>25%</b>."
     },
     {
       "id": "109",
       "name": "Band of Sizzling Thunder",
-      "skills": "Increases Lightning DMG by <b>10%</b>.,When the wearer uses their Skill, increases the wearer's ATK by <b>20%</b> for <b>1</b> turn(s)."
+      "skills": "Increases Lightning DMG by <b>10%</b>. When the wearer uses their Skill, increases the wearer's ATK by <b>20%</b> for <b>1</b> turn(s)."
     },
     {
       "id": "108",
       "name": "Genius of Brilliant Stars",
-      "skills": "Increases Quantum DMG by <b>10%</b>.,When the wearer deals DMG to the target enemy, ignores <b>10%</b> DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores <b>10%</b> DEF."
+      "skills": "Increases Quantum DMG by <b>10%</b>. When the wearer deals DMG to the target enemy, ignores <b>10%</b> DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores <b>10%</b> DEF."
     },
     {
       "id": "107",
       "name": "Firesmith of Lava-Forging",
-      "skills": "Increases Fire DMG by <b>10%</b>.,Increases DMG by the wearer's Skill by <b>12%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12%</b> for the next attack."
+      "skills": "Increases Fire DMG by <b>10%</b>. Increases DMG by the wearer's Skill by <b>12%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12%</b> for the next attack."
     },
     {
       "id": "106",
       "name": "Guard of Wuthering Snow",
-      "skills": "Reduces DMG taken by <b>8%</b>.,At the beginning of the turn, if the wearer's HP percentage is equal to or less than <b>50%</b>, restores HP equal to <b>8%</b> of their Max HP and regenerates <b>5</b> Energy."
+      "skills": "Reduces DMG taken by <b>8%</b>. At the beginning of the turn, if the wearer's HP percentage is equal to or less than <b>50%</b>, restores HP equal to <b>8%</b> of their Max HP and regenerates <b>5</b> Energy."
     },
     {
       "id": "105",
       "name": "Champion of Streetwise Boxing",
-      "skills": "Increases Physical DMG by <b>10%</b>.,After the wearer attacks or is hit, their ATK increases by <b>5%</b> for the rest of the battle. This effect can stack up to <b>5</b> time(s)."
+      "skills": "Increases Physical DMG by <b>10%</b>. After the wearer attacks or is hit, their ATK increases by <b>5%</b> for the rest of the battle. This effect can stack up to <b>5</b> time(s)."
     },
     {
       "id": "104",
       "name": "Hunter of Glacial Forest",
-      "skills": "Increases Ice DMG by <b>10%</b>.,After the wearer uses their Ultimate, their CRIT DMG increases by <b>25%</b> for <b>2</b> turn(s)."
+      "skills": "Increases Ice DMG by <b>10%</b>. After the wearer uses their Ultimate, their CRIT DMG increases by <b>25%</b> for <b>2</b> turn(s)."
     },
     {
       "id": "103",
       "name": "Knight of Purity Palace",
-      "skills": "Increases DEF by <b>15%</b>.,Increases the max DMG that can be absorbed by the Shield created by the wearer by <b>20%</b>."
+      "skills": "Increases DEF by <b>15%</b>. Increases the max DMG that can be absorbed by the Shield created by the wearer by <b>20%</b>."
     },
     {
       "id": "102",
       "name": "Musketeer of Wild Wheat",
-      "skills": "Increases ATK by <b>12%</b>.,The wearer's SPD increases by <b>6%</b> and DMG dealt by Basic ATK increases by <b>10%</b>."
+      "skills": "Increases ATK by <b>12%</b>. The wearer's SPD increases by <b>6%</b> and DMG dealt by Basic ATK increases by <b>10%</b>."
     },
     {
       "id": "101",
       "name": "Passerby of Wandering Cloud",
-      "skills": "Increases Outgoing Healing by <b>10%</b>.,At the start of the battle, immediately regenerates 1 Skill Point."
+      "skills": "Increases Outgoing Healing by <b>10%</b>. At the start of the battle, immediately regenerates 1 Skill Point."
     }
   ]
 }

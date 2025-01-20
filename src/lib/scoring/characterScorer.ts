@@ -259,6 +259,7 @@ export function scoreCharacterSimulation(
   const customScoringMetadata: ScoringMetadata = DB.getScoringMetadata(characterId)
   const defaultMetadata: SimulationMetadata = TsUtils.clone(defaultScoringMetadata.simulation!)
   const customMetadata: SimulationMetadata = TsUtils.clone(customScoringMetadata.simulation!)
+  const traces = customScoringMetadata.traces
 
   if (teamSelection == CUSTOM_TEAM) {
     defaultMetadata.teammates = customMetadata.teammates
@@ -268,6 +269,7 @@ export function scoreCharacterSimulation(
   const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
 
   const cacheKey = TsUtils.objectHash({
+    traces,
     characterId,
     characterEidolon,
     lightCone,

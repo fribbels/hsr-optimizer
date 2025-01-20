@@ -19,6 +19,9 @@ export type ScoringMetadata = {
   hiddenColumns: SortOptionProperties[]
   addedColumns?: SortOptionProperties[]
   simulation?: SimulationMetadata
+  traces?: {
+    deactivated: string[]
+  }
   modified?: boolean
 }
 
@@ -80,6 +83,14 @@ export type ImageCenter = {
   z: number
 }
 
+type TraceNode = {
+  id: string
+  stat: string
+  value: number
+  pre: string
+  children: TraceNode[]
+}
+
 export type DBMetadataCharacter = {
   id: string
   name: string
@@ -90,6 +101,7 @@ export type DBMetadataCharacter = {
   stats: Record<string, number>
   unreleased: boolean
   traces: Record<string, number>
+  traceTree: TraceNode[]
   imageCenter: ImageCenter
   displayName: string
   scoringMetadata: ScoringMetadata

@@ -42,6 +42,7 @@ export type HsrOptimizerStore = {
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
+  statTracesDrawerFocusCharacter?: CharacterId
   relicsTabFocusCharacter?: CharacterId
   rowLimit: number
   activeKey: string
@@ -51,6 +52,7 @@ export type HsrOptimizerStore = {
   }
   comboDrawerOpen: boolean
   combatBuffsDrawerOpen: boolean
+  statTracesDrawerOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
   settingsDrawerOpen: boolean
   gettingStartedDrawerOpen: boolean
@@ -97,6 +99,7 @@ export type HsrOptimizerStore = {
   setFormValues: (form: Form) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
+  setStatTracesDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void
@@ -117,6 +120,7 @@ export type HsrOptimizerStore = {
   setSavedSessionKey: (key: string, value: string | boolean) => void
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
+  setStatTracesDrawerFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void

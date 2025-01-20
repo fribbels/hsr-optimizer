@@ -51,17 +51,17 @@ export enum WarpStrategy {
 }
 
 export type WarpRequest = {
-  passes: number,
-  jades: number,
-  income: WarpIncome,
-  strategy: WarpStrategy,
-  pityCharacter: number,
-  guaranteedCharacter: false,
-  pityLightCone: number,
+  passes: number
+  jades: number
+  income: WarpIncome
+  strategy: WarpStrategy
+  pityCharacter: number
+  guaranteedCharacter: false
+  pityLightCone: number
   guaranteedLightCone: false
 }
 
-export type WarpMilestoneResult = { warps: number, wins: number }
+export type WarpMilestoneResult = { warps: number; wins: number }
 export type WarpResult = {
   milestoneResults: Record<string, WarpMilestoneResult>
   request: EnrichedWarpRequest
@@ -69,7 +69,7 @@ export type WarpResult = {
 
 export enum WarpType {
   CHARACTER,
-  LIGHTCONE
+  LIGHTCONE,
 }
 
 export const DEFAULT_WARP_REQUEST: WarpRequest = {
@@ -84,8 +84,8 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
 }
 
 type WarpIncomeValues = {
-  passes: number,
-  jades: number,
+  passes: number
+  jades: number
   label: string
 }
 
@@ -114,7 +114,7 @@ export function simulateWarps(originalRequest: WarpRequest) {
     let count = 0
 
     for (const milestone of milestones) {
-      let {
+      const {
         warpType,
         label,
         pity,
@@ -239,7 +239,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
 }
 
 export type EnrichedWarpRequest = {
-  warps: number,
+  warps: number
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
@@ -275,7 +275,7 @@ function redistributePityCumulative(pity: number, warpCap: number, distribution:
   for (let i = pity; i < warpCap; i++) {
     redistributedCumulative[i] = i == 0 ? distribution[i] : redistributedCumulative[i - 1] + distribution[i]
   }
-  let diff = 1 - redistributedCumulative[warpCap - 1]
+  const diff = 1 - redistributedCumulative[warpCap - 1]
   for (let i = pity; i < warpCap; i++) {
     redistributedCumulative[i] += diff * (redistributedCumulative[i])
   }

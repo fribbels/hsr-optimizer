@@ -117,33 +117,55 @@ export const Utils = {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
   },
 
+  isMobileOrSafari: () => {
+    const userAgent = navigator.userAgent
+
+    // Detect mobile devices
+    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|BlackBerry/i.test(userAgent)
+
+    // Detect Safari (excluding Chrome on iOS)
+    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent)
+
+    return isMobile || isSafari
+  },
+
   // Util to capture a div and screenshot it to clipboard/file
   screenshotElementById: async (elementId, action, characterName) => {
-    const isMobile = Utils.isMobile()
+    const isMobileOrSafari = Utils.isMobileOrSafari()
     const repeatLoadBlob = async () => {
       const minDataLength = 1200000
-      const maxAttempts = isMobile ? 9 : 3
+      const maxAttempts = isMobileOrSafari ? 9 : 3
+      const scale = 1.5
+      const w = 1068 * scale
+      const h = 856 * scale
+
+      const options = {
+        pixelRatio: 1,
+        height: h,
+        canvasHeight: h,
+        width: w,
+        canvasWidth: w,
+        skipAutoScale: true,
+        style: {
+          zoom: scale,
+        },
+      }
+
       let i = 0
       let blob
 
       while (i < maxAttempts) {
         i++
-        blob = await htmlToImage.toBlob(document.getElementById(elementId), {
-          pixelRatio: 1.5,
-          skipFonts: true,
-        })
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), options)
 
         if (blob.size > minDataLength) {
           break
         }
       }
 
-      if (isMobile) {
+      if (isMobileOrSafari) {
         // Render again
-        blob = await htmlToImage.toBlob(document.getElementById(elementId), {
-          pixelRatio: 1.5,
-          skipFonts: true,
-        })
+        blob = await htmlToImage.toBlob(document.getElementById(elementId), options)
       }
 
       return blob
@@ -156,7 +178,7 @@ export const Utils = {
       const filename = `${prefix}_${date}_${time}.png`
 
       if (action == 'clipboard') {
-        if (isMobile) {
+        if (isMobileOrSafari) {
           const file = new File([blob], filename, { type: 'image/png' })
           if (navigator.canShare && navigator.canShare({ files: [file] })) {
             navigator.share({

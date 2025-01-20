@@ -84,8 +84,8 @@ AdvancedOptions:
   CombatBuffsButtonTextNone: Buffs supplémentaires
   CombatBuffsButtonText: "Buffs supplémentaires ({{activeCount}})"
 Grid:
-  To: de
-  Of: à
+  To: à
+  Of: de
   Page: Page
   PageSelectorLabel: "Taille de page"
   Headers:

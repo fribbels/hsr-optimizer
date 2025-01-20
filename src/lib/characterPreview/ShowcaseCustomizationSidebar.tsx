@@ -267,7 +267,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, color: string) {
   setLoading(true)
   setTimeout(() => {
-    Utils.screenshotElementById(elementId, action/*, color*/).finally(() => {
+    Utils.screenshotElementById(elementId, action).finally(() => {
       setLoading(false)
     })
   }, 100)

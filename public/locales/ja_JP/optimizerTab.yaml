@@ -200,6 +200,8 @@ Sidebar:
     Header: ステータス表示の切り替え
     CombatStats: 戦闘
     BasicStats: 非戦闘
+    SummonerStats: 召喚者
+    MemospriteStats: 記憶の精霊
   ResultsGroup:
     Header: 結果
     Equip: 装備

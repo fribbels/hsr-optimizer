@@ -325,10 +325,10 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#7dd3ea'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#d684a9'], // kafka
+    1005: ['#ed85b4'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
-    1009: ['#a092ef'], // asta
+    1009: ['#9e80e6'], // asta
     1013: ['#8969ea'], // herta
     1101: ['#375ee1'], // bronya
     1102: ['#5f55eb'], // seele
@@ -343,7 +343,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1111: ['#5d8ce2'], // luka
     1112: ['#1d3f9c'], // topaz
     1201: ['#8fdde6'], // qingque
-    1202: ['#9fcaea'], // tingyun
+    1202: ['#f4b5d4'], // tingyun
     1203: ['#8ce2f4'], // luocha
     1204: ['#b7dde2'], // jingyuan
     1205: ['#4d69be'], // blade
@@ -357,11 +357,11 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1213: ['#72c3de'], // imbibitorlunae
     1214: ['#3571e7'], // xueyi
     1215: ['#9a90e6'], // hanya
-    1217: ['#8be4f2'], // huohuo
+    1217: ['#7dcdd9'], // huohuo
     1218: ['#f4dfe7'], // jiaoqiu
-    1220: ['#7ed3da'], // feixiao
+    1220: ['#7fd9e1'], // feixiao
     1221: ['#a3d3dc'], // yunli
-    1222: ['#92bafa'], // lingsha
+    1222: ['#ffdbee'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#eacbea'], // march7thImaginary
     1225: ['#fce4f7'], // fugue
@@ -393,7 +393,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8008: ['#f0a4fa'], // trailblazerremembrance
 
     1403: ['#8a8def'], // tribbie
-    1404: ['#fa94b7'], // mydei
+    1404: ['#ff87a7'], // mydei
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

@@ -351,7 +351,7 @@ export default function ScoringModal() {
   )
 }
 
-function nullUndefinedToZero(x: number | null) {
+export function nullUndefinedToZero(x: number | null) {
   if (x == null) return 0
   return x
 }

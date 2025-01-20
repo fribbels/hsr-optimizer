@@ -162,11 +162,11 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
         <Flex>
           <img src={(scored) ? Assets.getStarBw() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
           <RelicStatText>
-            {(scored) ? t('Score') : ''}
+            {(scored) ? `${t('Score')}${score.meta?.modified ? ' *' : ''}` : ''}
           </RelicStatText>
         </Flex>
         <RelicStatText>
-          {(scored) ? `${score.score} (${score.rating})${score.meta?.modified ? ' *' : ''}` : ''}
+          {(scored) ? `${score.score} (${score.rating})` : ''}
         </RelicStatText>
       </Flex>
     </>

@@ -3,13 +3,14 @@ import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { ShowcaseColorMode } from 'lib/constants/constants'
+import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import DB from 'lib/state/db'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
@@ -55,6 +56,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const [loading, setLoading] = useState<boolean>(false)
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
+    const spdValue = window.store((s) => s.scoringMetadataOverrides[characterId].stats[Stats.SPD])
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -121,6 +123,17 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       window.store.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
     }
 
+    function onShowcaseSpdValueChange(spdValue: number) {
+      console.log('Set spd value to', spdValue)
+
+      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+      const defaultScoringMetadata = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata)
+
+      scoringMetadata.stats[Stats.SPD] = spdValue
+
+      DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+    }
+
     function onTraceClick() {
       window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
       window.store.getState().setStatTracesDrawerOpen(true)
@@ -168,7 +181,6 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             Traces
           </Button>
 
-
           <HorizontalDivider/>
 
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
@@ -179,6 +191,38 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             options={[
               { value: false, label: '.0' },
               { value: true, label: '.000' },
+            ]}
+            block
+            value={showcasePreciseSpd}
+            onChange={onShowcasePreciseSpdChange}
+          />
+
+          <HorizontalDivider/>
+
+          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+            SPD value
+          </HeaderText>
+
+          <Segmented
+            options={[
+              { value: 0, label: '0%' },
+              { value: 1, label: '100%' },
+            ]}
+            block
+            value={spdValue}
+            onChange={onShowcaseSpdValueChange}
+          />
+
+          <HorizontalDivider/>
+
+          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+            Targeted buffs
+          </HeaderText>
+
+          <Segmented
+            options={[
+              { value: false, label: 'Yes' },
+              { value: true, label: 'No' },
             ]}
             block
             value={showcasePreciseSpd}
@@ -339,10 +383,10 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1107: ['#a99dd1'], // clara
     1108: ['#7777c9'], // sampo
     1109: ['#c8d0f0'], // hook
-    1110: ['#2e93c6'], // lynx
+    1110: ['#53b1e1'], // lynx
     1111: ['#5d8ce2'], // luka
     1112: ['#1d3f9c'], // topaz
-    1201: ['#8fdde6'], // qingque
+    1201: ['#87d2da'], // qingque
     1202: ['#f4b5d4'], // tingyun
     1203: ['#8ce2f4'], // luocha
     1204: ['#b7dde2'], // jingyuan
@@ -363,7 +407,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1221: ['#a3d3dc'], // yunli
     1222: ['#ffdbee'], // lingsha
     1223: ['#575aa0'], // moze
-    1224: ['#eacbea'], // march7thImaginary
+    1224: ['#f2a8f2'], // march7thImaginary
     1225: ['#fce4f7'], // fugue
     1301: ['#7c7c99'], // gallagher
     1302: ['#d6616c'], // argenti
@@ -372,9 +416,9 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
     1307: ['#a37df4'], // blackswan
-    1308: ['#8982d6'], // acheron
+    1308: ['#837bd4'], // acheron
     1309: ['#bb9cf4'], // robin
-    1310: ['#a3d6e4'], // firefly
+    1310: ['#94c7d6'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#7e95e9'], // sunday
     1314: ['#8a74dc'], // jade
@@ -392,7 +436,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
 
-    1403: ['#8a8def'], // tribbie
+    1403: ['#8c8fec'], // tribbie
     1404: ['#ff87a7'], // mydei
   }
 

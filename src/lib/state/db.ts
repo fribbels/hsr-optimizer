@@ -10,11 +10,13 @@ import {
   Parts,
   Sets,
   SIMULATION_SCORE,
+  Stats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { nullUndefinedToZero } from 'lib/overlays/modals/ScoringModal'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
@@ -434,6 +436,13 @@ export const DB = {
       }
     }
 
+    returnScoringMetadata.modified = false
+    for (const stat of Object.values(Stats)) {
+      if (nullUndefinedToZero(returnScoringMetadata.stats[stat]) != nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+        returnScoringMetadata.modified = true
+      }
+    }
+
     // We don't want to carry over presets, use the optimizer defined ones
     // TODO: What does this do
     // @ts-ignore
@@ -452,6 +461,16 @@ export const DB = {
       // TODO: bug
       // overrides.modified = true
     }
+
+    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
+
+    overrides[id].modified = false
+    for (const stat of Object.values(Stats)) {
+      if (nullUndefinedToZero(overrides[id].stats[stat]) != nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+        overrides[id].modified = true
+      }
+    }
+
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()

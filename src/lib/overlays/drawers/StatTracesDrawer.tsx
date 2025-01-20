@@ -107,7 +107,7 @@ export const StatTracesDrawer = () => {
     >
       <Flex vertical gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
         <HeaderText>
-          Activated stat traces (all active by default)
+          Activated stat traces (all enabled by default)
         </HeaderText>
 
         <Tree
@@ -138,6 +138,7 @@ export const StatTracesDrawer = () => {
               </div>
             </Flex>
           )}
+          style={{ padding: 8 }}
         />
 
         <Button

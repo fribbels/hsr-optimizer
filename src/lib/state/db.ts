@@ -105,6 +105,7 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
+  [SavedSessionKeys.showcasePreciseSpd]: false,
 }
 
 function getDefaultActiveKey() {

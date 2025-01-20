@@ -101,6 +101,7 @@ interface Resources {
         "Damage": "Damage"
       },
       "BuildAnalysis": {
+        "ScoringNote": "Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons",
         "Header": "Character build analysis",
         "SimulationTeammates": "Simulation teammates",
         "SimulationSets": "Simulation sets",

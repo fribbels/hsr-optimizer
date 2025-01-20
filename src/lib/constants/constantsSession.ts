@@ -1,4 +1,3 @@
-// FIXME MED
 // Move into session store
 
 export enum SavedSessionKeys {
@@ -9,5 +8,5 @@ export enum SavedSessionKeys {
   computeEngine = 'computeEngine',
   showcaseStandardMode = 'showcaseStandardMode',
   showcaseDarkMode = 'showcaseDarkMode',
-  warpRequest = 'warpRequest'
+  showcasePreciseSpd = 'showcasePreciseSpd'
 }

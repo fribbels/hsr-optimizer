@@ -54,6 +54,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
     const [loading, setLoading] = useState<boolean>(false)
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
+    const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -114,6 +115,12 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
     }
 
+    function onShowcasePreciseSpdChange(preciseSpd: boolean) {
+      console.log('Set precise spd to', preciseSpd)
+
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
+    }
+
     function onTraceClick() {
       window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
       window.store.getState().setStatTracesDrawerOpen(true)
@@ -160,6 +167,23 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           >
             Traces
           </Button>
+
+
+          <HorizontalDivider/>
+
+          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+            SPD precision
+          </HeaderText>
+
+          <Segmented
+            options={[
+              { value: false, label: '.0' },
+              { value: true, label: '.000' },
+            ]}
+            block
+            value={showcasePreciseSpd}
+            onChange={onShowcasePreciseSpdChange}
+          />
         </Flex>
 
         <Flex

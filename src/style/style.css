@@ -652,3 +652,8 @@ a {
 .noneScoreLabel {
     max-width: 75px !important;
 }
+
+.ant-segmented-item-label {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

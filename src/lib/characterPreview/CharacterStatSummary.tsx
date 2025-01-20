@@ -2,6 +2,7 @@ import { Flex } from 'antd'
 import StatRow from 'lib/characterPreview/StatRow'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { NONE_SCORE, Stats } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 import { SimulationResult } from 'lib/scoring/characterScorer'
@@ -22,13 +23,14 @@ export const CharacterStatSummary = (props: {
   showAll?: boolean
 }) => {
   const edits = calculateStatCustomizations(props.characterId)
+  const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   return (
     <Flex vertical style={{ paddingLeft: 4, paddingRight: 6 }} gap={props.scoringType == NONE_SCORE ? 5 : 3}>
       <StatRow finalStats={props.finalStats} stat={Stats.HP} edits={edits}/>
       <StatRow finalStats={props.finalStats} stat={Stats.ATK} edits={edits}/>
       <StatRow finalStats={props.finalStats} stat={Stats.DEF} edits={edits}/>
-      <StatRow finalStats={props.finalStats} stat={Stats.SPD} edits={edits}/>
+      <StatRow finalStats={props.finalStats} stat={Stats.SPD} edits={edits} preciseSpd={preciseSpd}/>
       <StatRow finalStats={props.finalStats} stat={Stats.CR} edits={edits}/>
       <StatRow finalStats={props.finalStats} stat={Stats.CD} edits={edits}/>
       <StatRow finalStats={props.finalStats} stat={Stats.EHR} edits={edits}/>

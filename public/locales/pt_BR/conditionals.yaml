@@ -605,7 +605,6 @@ Characters:
         content: O Ult aprimorado causa {{ultEnhancedExtraHitScaling}}% do ATK a um inimigo aleatório por acerto.
       e2UltAtkBuff:
         text: Buff de ATK do Ult de E2
-        content: "E2: Se o número de inimigos em campo for igual ou superior a 3, aumenta o ATK em 40% por 1 turno."
   Arlan:
     Content:
       selfCurrentHpPercent:
@@ -642,7 +641,6 @@ Characters:
         text: Buff de DEF E4
       e6ShieldStacks:
         text: Acúmulos de escudo E6
-        content: "E6: Para cada aliado que possui um Escudo, o DMG causado por Aventurine aumenta em 50%, até um máximo de 150%."
   Bailu:
     Content:
       healingMaxHpBuff:
@@ -653,10 +651,8 @@ Characters:
         content: Personagens com Revigoração recebem 10% a menos de DMG.
       e2UltHealingBuff:
         text: Buff de cura da ult E2
-        content: "E2: Aumenta a cura em 15% após a Ultimate."
       e4SkillHealingDmgBuffStacks:
         text: Acúmulos de aumento de DMG da habilidade E4
-        content: "E4: Cada cura fornecida pela habilidade de Bailu faz com que o recipiente cause 10% a mais de DMG por 2 turnos. Este efeito pode acumular até 3 vezes."
   BlackSwan:
     Content:
       ehrToDmgBoost:
@@ -673,8 +669,6 @@ Characters:
           Enquanto estiverem afetados por Arcana, os alvos inimigos recebem DoT de Vento igual a {{dotScaling}}% do ATK do Cisne Negro no início de cada turno. Cada acúmulo de Arcana aumenta esse multiplicador de DMG do DoT em {{arcanaStackMultiplier}}%. Arcana pode acumular até 50 vezes.::BR::Quando há 3 ou mais acúmulos de Arcana, causa DoT de Vento aos alvos adjacentes. Quando há 7 ou mais acúmulos de Arcana, permite que o DoT causado desta vez ignore 20% da DEF do alvo e dos alvos adjacentes.
       e1ResReduction:
         text: Redução de RES E1
-        content: >-
-          E1: Enquanto Black Swan estiver ativa na batalha, inimigos afetados por Corte de Vento, Sangramento, Queimadura ou Choque terão sua RES correspondente de Vento, Físico, Fogo ou Relâmpago reduzida em 25%.
       e4EffResPen:
         text: E4 Redução de RES
   Blade:
@@ -686,7 +680,6 @@ Characters:
         content: O DMG da Ultimate escala com base na contagem da perda de HP de Blade na batalha atual. A contagem da perda de HP de Blade na batalha atual é limitada a {{hpPercentLostTotalMax}}% de seu HP máximo.
       e4MaxHpIncreaseStacks:
         text: Acúmulos de HP máximo E4
-        content: "E4: Aumenta o HP em 20%, acumulando até 2 vezes."
   Boothill:
     Content:
       standoffActive:
@@ -743,10 +736,8 @@ Characters:
         content: Além disso, causa DMG Físico igual a {{skillScaling}}% do ATK de Clara a inimigos marcados por Svarog com uma Marca de Contra-ataque.
       e2UltAtkBuff:
         text: Buff de ATK do Ult de E2
-        content: "E2: Após usar o Ultimate, aumenta o ATK em 30% por 2 turnos."
       e4DmgReductionBuff:
         text: Buff de redução de DMG E4
-        content: "E4: Diminui o DMG recebido em 30%."
   DanHeng:
     Content:
       talentPenBuff:
@@ -757,7 +748,6 @@ Characters:
         content: O ATK Básico causa 40% a mais de dano a inimigos Desacelerados.
       e1EnemyHp50:
         text: E1 inimigo HP ≥ 50% aumento de CR
-        content: "E1: Quando a porcentagem de HP atual do inimigo alvo é maior ou igual a 50%, a Taxa de CRIT aumenta em 12%."
   DrRatio:
     Content:
       summationStacks:
@@ -844,8 +834,6 @@ Characters:
         text: Habilidade ativa
       e6TeamHpLostPercent:
         text: Perda de HP da equipe E6
-        content: >-
-          E6: Uma vez que a Matriz da Previsão é ativada, ela manterá um registro da perda total de HP de todos os membros da equipe na batalha atual. O DMG da Ultimate de Fu Xuan aumentará em 200% desse registro de perda de HP. Esse registro também é limitado a 120% do HP máximo de Fu Xuan.
     TeammateContent:
       teammateHPValue:
         text: HP de Combate de Fu Xuan
@@ -862,17 +850,14 @@ Characters:
         content: O estado Enfeitiçado faz com que os alvos recebam {{talentBesottedScaling}}% a mais de DMG de Quebra.
       e1ResBuff:
         text: Buff de RES E1
-        content: "E1: Ao entrar na batalha, Gallagher regenera 20 de Energia e aumenta a RES ao Efeito em 50%."
       e2ResBuff:
         text: Buff de RES E2
       e6BeBuff:
         text: Buff de BE E6
-        content: "E6: Aumenta o Efeito de Quebra de Gallagher em 20% e a Eficiência da Quebra de Fraqueza em 20%."
   Gepard:
     Content:
       e4TeamResBuff:
         text: Buff de RES da equipe E4
-        content: "E4: Quando Gepard está em batalha, a RES ao Efeito de todos os aliados aumenta em 20%."
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -888,7 +873,6 @@ Characters:
         text: Redução de RES ao Efeito E1
       e2BurnMultiBoost:
         text: Boost múltiplos de queimadura E2
-        content: "E2: Quando um alvo inimigo está Queimado, o ATK Básico e a Habilidade de Guinaifen podem aumentar o multiplicador de DMG do status de Queima em 40%."
   Hanya:
     Content:
       ultBuff:
@@ -900,7 +884,6 @@ Characters:
         text: Buff de ATK de Carga
       e2SkillSpdBuff:
         text: Buff de SPD de Habilidade E2
-        content: "E2: Após a Habilidade, aumenta a SPD em 20% por 1 turno."
     TeammateContent:
       teammateSPDValue:
         text: SPD de Hanya
@@ -921,13 +904,10 @@ Characters:
         content: Aumenta o ATK em 40% por 3 turnos.
       enemyHpLte50:
         text: Buff de Escala Básica E1
-        content: "E1: Se a porcentagem de HP do inimigo estiver em 50% ou menos, o ATK Básico de Herta causa DMG de Gelo Adicional igual a 40% do ATK de Herta."
       e2TalentCritStacks:
         text: Acúmulos de CR do Talento E2
-        content: "E2: Aumenta a Taxa de CR em 3% por acúmulo. Acumula até 5 vezes."
       e6UltAtkBuff:
         text: Buff de ATK da Ultimate E6
-        content: "E6: Após a Ultimate, aumenta o ATK em 25% por 1 turno."
   Himeko:
     Content:
       targetBurned:
@@ -938,13 +918,11 @@ Characters:
         content: Quando a porcentagem de HP atual é 80% ou mais, a Taxa de CR aumenta em 15%.
       e1TalentSpdBuff:
         text: Buff de SPD E1
-        content: "E1: Após a Rush da Vitória ser ativada, a SPD de Himeko aumenta em 20% por 2 turnos."
       e2EnemyHp50DmgBoost:
         text: Impulso de DMG contra inimigos com HP < 50% E2
-        content: "E2: Causa 15% a mais de DMG em inimigos cuja porcentagem de HP é 50% ou menos."
+        content: Causa 15% a mais de DMG a inimigos cuja porcentagem de HP é de 50% ou menos.
       e6UltExtraHits:
         text: Ataques extras da Ultimate E6
-        content: "E6: A Ultimate causa DMG 2 vezes extras. Os ataques extras causam 40% do DMG original por ataque."
   Hook:
     Content:
       enhancedSkill:
@@ -960,10 +938,8 @@ Characters:
         content: Aumenta o ATK de todos os aliados em {{ultBuffValue}}% por 2 turnos após usar a Ultimate.
       skillBuff:
         text: Buff de SPD E1
-        content: "E1: Quando Huohuo possui Provisão Divina, a SPD de todos os aliados aumenta em 12%."
       e6DmgBuff:
         text: Buff de DMG E6
-        content: "E6: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos."
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -977,7 +953,6 @@ Characters:
         content: Após cada acerto durante um ataque, Dan Heng • Imbibitor Lunae ganha 1 acúmulo de Coração Justo, aumentando seu DMG em {{righteousHeartDmgValue}}%. (aplicado a todos os acertos)
       e6ResPenStacks:
         text: Acúmulos de PEN de RES E6
-        content: "E6: Após qualquer outro aliado usar sua Ultimate, a PEN de RES Imaginária do próximo ataque Fulgurant Leap de Dan Heng • Imbibitor Lunae aumenta em 20%, até 3 acúmulos."
   Jade:
     Content:
       enhancedFollowUp:
@@ -989,12 +964,10 @@ Characters:
         text: Aumento de DMG de FUA E1
       e2CrBuff:
         text: Buff de CR E2
-        content: "E2: Quando há 15 acúmulos de Ativo Penhorado, a Taxa de CRIT de Jade aumenta em 18%."
       e4DefShredBuff:
         text: Buff de redução de DEF E4
       e6ResShredBuff:
         text: Buff de PEN de RES E6
-        content: "E6: Quando o personagem Coletor de Dívidas está em campo, a PEN de RES Quântico de Jade aumenta em 20%, e Jade ganha o estado de Coletor de Dívidas."
     TeammateContent:
       debtCollectorSpdBuff:
         text: Buff de SPD do Coletor de Dívidas
@@ -1024,11 +997,8 @@ Characters:
           Quando Jingliu usa um ataque no estado de Transmigração Espectral, ela consome HP de todos os outros aliados e o ATK de Jingliu aumenta com base no total de HP consumido de todos os aliados neste ataque, limitado a {{talentHpDrainAtkBuffMax}}% de seu ATK base, durando até o final do ataque atual.
       e1CdBuff:
         text: Ultimate ativo E1
-        content: >-
-          E1: Ao usar seu Ultimate ou Habilidade Aprimorada, o DMG CRIT de Jingliu aumenta em 24% por 1 turno. Se apenas um alvo inimigo for atacado, o alvo receberá adicionalmente DMG de Gelo igual a 100% do ATK de Jingliu.
       e2SkillDmgBuff:
         text: Buff de Habilidade E2
-        content: "E2: Após usar o Ultimate, aumenta o DMG da próxima Habilidade Aprimorada em 80%."
   JingYuan:
     Content:
       skillCritBuff:
@@ -1042,7 +1012,6 @@ Characters:
         content: Contagem de acertos no alvo. Deve geralmente ser configurada com o mesmo valor que os acúmulos do Senhor do Relâmpago.
       e2DmgBuff:
         text: Boost de DMG E2
-        content: "E2: Após o Senhor do Relâmpago realizar uma ação, o DMG causado pelo ATK Básico, Habilidade e Ultimate de Jing Yuan aumenta em 20% por 2 turnos."
       e6FuaVulnerabilityStacks:
         text: Acúmulos de Vulnerabilidade E6
   Kafka:
@@ -1051,7 +1020,6 @@ Characters:
         text: Vulnerabilidade de DoT E1
       e2TeamDotBoost:
         text: Aumento de DMG de DoT da equipe E2
-        content: "E2: Enquanto Kafka estiver em campo, o DoT causado por todos os aliados aumenta em 25%."
   Lingsha:
     Content:
       beConversion:
@@ -1061,7 +1029,6 @@ Characters:
         content: Enquanto estiver em Neblina, os alvos recebem um aumento de {{BefogVulnerability}}% no DMG de Quebra.
       e1DefShred:
         text: Buffs de quebra de fraqueza E1
-        content: "E1: A Eficiência de Quebra de Fraqueza de Lingsha aumenta em 50%. Quando a Fraqueza de uma unidade inimiga é quebrada, reduz sua DEF em 20%."
       e2BeBuff:
         text: Buff BE E2
       e6ResShred:
@@ -1084,7 +1051,6 @@ Characters:
     Content:
       fieldActive:
         text: Campo ativo
-        content: "E1: Enquanto o Campo estiver ativo, o ATK de todos os aliados aumenta em 20%."
       e6ResReduction:
         text: Redução de RES E6
   Lynx:
@@ -1132,7 +1098,6 @@ Characters:
         text: Redução de DEF E2
       e6UltDmgBoost:
         text: Boost de DMG do Ultimate E6
-        content: "E6: Ao usar o Ultimate, aumenta seu próprio DMG em 30%, durando até o final do turno."
   Moze:
     Content:
       preyMark:
@@ -1235,7 +1200,6 @@ Characters:
           Enquanto estiver dentro do campo, a PEN de RES de Todos os Tipos de todos os aliados aumenta em {{fieldResPenValue}}%.::BR::E1: Enquanto o campo da Ultimate estiver implantado, o DMG causado por todos os aliados ignora 20% da DEF do alvo.
       e2AtkBoost:
         text: Aumento de ATK contra fraquezas E2
-        content: "E2: Com Ruan Mei no campo, todos os aliados aumentam seu ATK em 40% ao causar DMG em inimigos com Quebra de Fraqueza."
       e4BeBuff:
         text: Buff de BE E4
     TeammateContent:
@@ -1263,7 +1227,6 @@ Characters:
         text: Acúmulos de buff de velocidade
       e1EnemyHp80CrBoost:
         text: E1 HP do inimigo ≤ 80% aumento de CR
-        content: "E1: Ao causar DMG a um inimigo cuja porcentagem de HP é 80% ou inferior, a Taxa de CRIT aumenta em 15%."
       e6UltTargetDebuff:
         text: E6 Flurry da Borboleta
   Serval:
@@ -1344,7 +1307,6 @@ Characters:
         text: Acúmulos de buff de SPD do Talento
       e2DmgReductionBuff:
         text: Buff de redução de DMG E2
-        content: "E2: Após ativar a Postura da Espada, o DMG recebido por Sushang é reduzido em 20% por 1 turno."
   TheHerta:
     Content:
       enhancedSkill:
@@ -1383,7 +1345,6 @@ Characters:
         text: Buff de DMG da ultimate
       ultSpdBuff:
         text: Buff de SPD da Ultimativa E1
-        content: "E1: Após usar sua Ultimativa, o aliado com Benção ganha um aumento de 20% na SPD por 1 turno."
     TeammateContent:
       teammateAtkBuffValue:
         text: Valor de buff de ATK da Habilidade
@@ -1436,7 +1397,6 @@ Characters:
         content: Quando o escudo está ativo, aumenta o ATK em 15%.
       e6DefStacks:
         text: Acúmulos de buff de DEF E6
-        content: "E6: Aumenta a DEF em 10% por acúmulo."
   TrailblazerRemembrance:
     Content:
       memoSkillHits:
@@ -1450,8 +1410,6 @@ Characters:
       memsSupport:
         text: >-
           Dano Real do Apoio do Memo
-        content: >-
-          Avança a ação de um alvo designado em 100% e lhe concede "Suporte do Memo", durando 3 turnos. Para cada 1 instância de DMG dano pelo alvo que tem "Suporte do Memo", adicionalmente da 1 instância de DMG Real igual a {{TrueDmgScaling}}% do DMG original. ::BR:: E1: Quando o aliado tiver "Suporte do Memo", seus efeitos também tem efeito no Memosprite/Memomestre. ::BR:: E4: Quando um aliado com 0 de Energia Máxima ativamente usar uma habilidade, Memo também pode ganhar 3% def Carga, e o multiplicador de DMG Real dado por este alvo através do "Suporte do Memo" adicionalmente aumenta em 6%.
       energyTrueDmgValue:
         text: Dano Real da Energia Máxima
         content: >-
@@ -1517,10 +1475,8 @@ Characters:
         text: Buff de SPD
       e1TargetFrozen:
         text: E1 inimigo congelado
-        content: "E1: Quando Yanqing ataca um inimigo congelado, ele causa DMG de Gelo Adicional igual a 60% de seu ATK."
       e4CurrentHp80:
         text: 'E4: quando a HP do personagem está ≥ 80%, aumenta a PEN de RES.'
-        content: "E4: Quando a porcentagem de HP atual está em 80% ou mais, a PEN de RES de Gelo aumenta em 12%."
   Yukong:
     Content:
       teamImaginaryDmgBoost:

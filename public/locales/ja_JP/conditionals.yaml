@@ -552,7 +552,6 @@ Characters:
         content: 1ヒットごとに、ランダムな敵単体にアルジェンティの攻撃力{{ultEnhancedExtraHitScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
         text: 必殺技時の攻撃力バフ
-        content: "2凸：必殺技を発動した時、フィールド上の敵が3体以上の場合、攻撃力+40%、1ターン継続。"
   Arlan:
     Content:
       selfCurrentHpPercent:
@@ -589,7 +588,6 @@ Characters:
         text: 4凸 防御力バフ
       e6ShieldStacks:
         text: 6凸 味方バリア所持数
-        content: "6凸：バリアを持つ自身以外の味方1名につき、アベンチュリンの与ダメージ+50%、最大で+150%。"
   Bailu:
     Content:
       healingMaxHpBuff:
@@ -600,10 +598,8 @@ Characters:
         content: '「生生」を付与されたキャラの受けるダメージ-10%。'
       e2UltHealingBuff:
         text: 2凸 必殺後の治癒量バフ
-        content: "2凸：必殺技を発動した後、白露の治癒量+15%、2ターン継続。"
       e4SkillHealingDmgBuffStacks:
         text: 治癒時の味方ダメバフ数
-        content: "4凸：戦闘スキルによる治癒を受けるたび、その味方の与ダメージ+10%、最大で3層累積できる、2ターン継続。"
   BlackSwan:
     Content:
       ehrToDmgBoost:
@@ -620,8 +616,6 @@ Characters:
           「アルカナ」状態の敵はターンが回ってくるたびにブラックスワンの攻撃力{{dotScaling}}%分の風属性持続ダメージを受ける、「アルカナ」1層につき、ダメージ倍率+{{arcanaStackMultiplier}}%。持続ダメージが発生した後、「アルカナ」は1層にリセットされる。「アルカナ」は最大で50層累積できる。::BR::3層以上：隣接する敵にブラックスワンの攻撃力180%分の風属性持続ダメージを与え、65%の基礎確率で「アルカナ」を1層付与する。7層以上：今回発生する持続ダメージが、ターゲットおよび隣接する敵の防御力を20%無視する。
       e1ResReduction:
         text: 1凸 敵属性耐性ダウン
-        content: >-
-          1凸：ブラックスワンが戦闘可能状態の時、風化、裂創、燃焼、感電状態の敵の対応する風、物理、炎、雷属性の耐性がそれぞれ25%ダウンする。
   Blade:
     Content:
       enhancedStateActive:
@@ -631,7 +625,6 @@ Characters:
         content: 戦闘中失ったHPの累計のカウントは、刃の最大HPの90%を超えず、必殺技を発動した後にリセットされる。
       e4MaxHpIncreaseStacks:
         text: 4凸 最大HP増加数
-        content: "4凸：残りHPが50%を超える状態から、50%以下になった時、最大HP+20%、この効果は最大で2層累積できる。"
   Boothill:
     Content:
       standoffActive:
@@ -688,10 +681,8 @@ Characters:
         content: スヴァローグに「反撃の印」を付与された敵に対し、さらにクラーラの攻撃力{{skillScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
         text: 2凸 必殺後の攻撃力バフ
-        content: "2凸：必殺技を発動した後、攻撃力+30%、2ターン継続。"
       e4DmgReductionBuff:
         text: 4凸 自身被ダメージ軽減
-        content: "4凸：攻撃を受けた後、クラーラの受けるダメージ-30%、次のターンが回ってくるまで継続。"
   DanHeng:
     Content:
       talentPenBuff:
@@ -702,7 +693,6 @@ Characters:
         content: 減速状態の敵に対する、通常攻撃によるダメージ+40%。
       e1EnemyHp50:
         text: 1凸 敵HP≥50%での会心率バフ
-        content: "1凸：攻撃が命中した敵の残りHPが50%以上の場合、会心率+12%。"
   DrRatio:
     Content:
       summationStacks:
@@ -790,8 +780,6 @@ Characters:
         text: '「窮観の陣」有効'
       e6TeamHpLostPercent:
         text: 6凸 味方HP減少量
-        content: >-
-          6凸：「窮観の陣」が起動している時、味方全体が戦闘中失った累計HPをカウントする。符玄の必殺技によるダメージが、戦闘中失った累計HP200%分アップする。戦闘中失った累計HPのカウントは、符玄の最大HPの120%を超えず、必殺技を発動した後にリセットされる。
     TeammateContent:
       teammateHPValue:
         text: HP（戦闘時）
@@ -808,17 +796,14 @@ Characters:
         content: '「酩酊」状態の敵が受ける弱点撃破ダメージ+{{talentBesottedScaling}}%。'
       e1ResBuff:
         text: 1凸 効果抵抗アップ
-        content: "1凸：戦闘に入った後、ギャラガーはEPを20回復する。同時にギャラガーの効果抵抗+50%。"
       e2ResBuff:
         text: 2凸 効果抵抗バフ
       e6BeBuff:
         text: 6凸 撃破特効/効率強化
-        content: "6凸：ギャラガーの撃破特効+20%、弱点撃破効率+20%。"
   Gepard:
     Content:
       e4TeamResBuff:
         text: 4凸 味方効果抵抗アップ
-        content: "4凸 ジェパードがフィールド上にいる時、味方全体の効果抵抗+20%。"
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -834,7 +819,6 @@ Characters:
         text: 1凸 敵効果抵抗低下
       e2BurnMultiBoost:
         text: 2凸 燃焼ダメ倍率増加
-        content: "2凸：敵が燃焼状態の時、桂乃芬の通常攻撃と戦闘スキルがその敵に付与する燃焼状態のダメージ倍率+40%。"
   Hanya:
     Content:
       ultBuff:
@@ -846,7 +830,6 @@ Characters:
         text: '「承負」の攻撃力バフ'
       e2SkillSpdBuff:
         text: 2凸 スキルの速度バフ
-        content: "2凸：戦闘スキルを発動した後、速度+20%、1ターン継続。"
     TeammateContent:
       teammateSPDValue:
         text: 寒鴉の速度
@@ -867,13 +850,10 @@ Characters:
         content: 秘技を使用した後、次の戦闘開始時、ヘルタの攻撃力+40%、3ターン継続。
       enemyHpLte50:
         text: 1凸 通常攻撃強化
-        content: "1凸：通常攻撃を行った時、指定した敵単体の残りHPが50%以下の場合、さらにヘルタの攻撃力40%分の氷属性付加ダメージを与える。"
       e2TalentCritStacks:
         text: 2凸 会心率バフ層数
-        content: "2凸：天賦が1回発動するごとに、自身の会心率+3%、この効果は最大で5回累積できる。"
       e6UltAtkBuff:
         text: 6凸 必殺後の攻撃力バフ
-        content: "6凸：必殺技を発動した後、攻撃力+25%、1ターン継続。"
   Himeko:
     Content:
       targetBurned:
@@ -884,13 +864,11 @@ Characters:
         content: 残りHPが80%以上の場合、会心率+15%。
       e1TalentSpdBuff:
         text: 1凸 速度バフ
-        content: "1凸：「乗勝追撃」発動後、姫子の速度+20%、2ターン継続。"
       e2EnemyHp50DmgBoost:
         text: 2凸 敵HP≤50%時のダメバフ
-        content: "2凸：残りHPが50%以下の敵に対して与ダメージ+15%。"
+        content: 残りHPが50%以下の敵に対して与ダメージ+15%。
       e6UltExtraHits:
         text: 6凸 必殺追加ヒット数
-        content: "6凸：必殺技を発動した時、さらに2ヒットし、1ヒットごとにランダムな敵単体に本来のダメージ40%分の炎属性ダメージを与える。"
   Hook:
     Content:
       enhancedSkill:
@@ -906,10 +884,8 @@ Characters:
         content: 自身以外の味方の攻撃力+{{ultBuffValue}}%、2ターン継続。
       skillBuff:
         text: 1凸 味方速度バフ
-        content: "1凸：天賦による「厄払い」の継続時間+1ターン。フォフォに「厄払い」がある時、味方全体の速度+12%。"
       e6DmgBuff:
         text: 6凸 治癒時のダメバフ
-        content: "6凸：味方に治癒を行った時、その味方の与ダメージ+50%、2ターン継続。"
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -923,7 +899,6 @@ Characters:
         content: 丹恒・飲月は1段の攻撃を行うたびに「亢心」を1層獲得する。「亢心」1層につき自身の与ダメージ+{{righteousHeartDmgValue}}%。（全ての攻撃に適用されます）
       e6ResPenStacks:
         text: 6凸 虚数貫通バフ数
-        content: "6凸：丹恒・飲月以外の味方が必殺技を発動した後、丹恒・飲月が発動する次の「躍動せし耀鱗」の虚数属性耐性貫通+20%。この効果は最大で3層累積できる。"
   Jade:
     Content:
       enhancedFollowUp:
@@ -935,12 +910,10 @@ Characters:
         text: 1凸 追加攻撃ダメアップ
       e2CrBuff:
         text: 2凸 会心率アップ
-        content: "2凸：「質草」が15層以上の時、ジェイドの会心率+18%。"
       e4DefShredBuff:
         text: 4凸 必殺時の防御力無視
       e6ResShredBuff:
         text: 6凸 量子耐性貫通バフ
-        content: "6凸 フィールド上に「債権回収者」状態のキャラがいる時、ジェイドの量子属性耐性貫通+20%。同時にジェイドも「債権回収者」状態を獲得する。"
     TeammateContent:
       debtCollectorSpdBuff:
         text: '「債権回収者」有効'
@@ -970,11 +943,8 @@ Characters:
           「転魄」状態で攻撃を行った時、自身以外の味方のHPをそれぞれの最大HP4%分消費し、鏡流の攻撃力が、アップする。攻撃力アップ量は鏡流の基礎攻撃力の180%を超えない。
       e1CdBuff:
         text: 1凸 会心ダメバフ
-        content: >-
-          1凸：必殺技または強化戦闘スキルを発動した時、鏡流の会心ダメージ+24%、1ターン継続。敵1体のみを攻撃した場合、さらにその敵に鏡流の攻撃力100%分の氷属性ダメージを1回与える。
       e2SkillDmgBuff:
         text: 2凸 スキルダメバフ
-        content: "2凸：必殺技を発動した後、次の強化戦闘スキルによるダメージ+80%。"
   JingYuan:
     Content:
       skillCritBuff:
@@ -988,7 +958,6 @@ Characters:
         content: ターゲットが「神君」から受けた攻撃回数。通常は「神君」の攻撃段数と同じ値に設定してください。
       e2DmgBuff:
         text: 2凸 ダメバフ
-        content: "2凸：「神君」が行動した後、景元の通常攻撃、戦闘スキル、および必殺技によるダメージ+20%、2ターン継続。"
       e6FuaVulnerabilityStacks:
         text: 6凸 敵被ダメアップ数
   Kafka:
@@ -997,7 +966,6 @@ Characters:
         text: 1凸 敵持続ダメアップ
       e2TeamDotBoost:
         text: 2凸 味方の持続ダメバフ
-        content: "2凸：カフカがフィールド上にいる時、味方全体の持続ダメージ+25%。"
   Lingsha:
     Content:
       beConversion:
@@ -1007,7 +975,6 @@ Characters:
         content: '「芳酔」状態の敵が受ける弱点撃破ダメージ+{{BefogVulnerability}}%、2ターン継続。'
       e1DefShred:
         text: 弱点撃破時のバフ
-        content: "1凸：霊砂の弱点撃破効率+50%。敵が弱点撃破される時、その敵の防御力-20%。"
       e2BeBuff:
         text: 2凸 味方撃破特効バフ
       e6ResShred:
@@ -1030,7 +997,6 @@ Characters:
     Content:
       fieldActive:
         text: 結界有効
-        content: "1凸：結界が展開されている間、味方全体の攻撃力+20%。"
       e6ResReduction:
         text: 6凸 敵全属性耐性ダウン
   Lynx:
@@ -1076,7 +1042,6 @@ Characters:
         text: 2凸 敵防御力ダウン
       e6UltDmgBoost:
         text: 6凸 必殺技ダメバフ
-        content: "6凸：必殺技を発動する時、自身の与ダメージ+30%、自身の次のターンが終了するまで継続。"
   Moze:
     Content:
       preyMark:
@@ -1179,7 +1144,6 @@ Characters:
           必殺技の結界が展開されている間、味方全体の全属性耐性貫通+{{fieldResPenValue}}%。::BR::1凸：必殺技の結界が展開されている間、味方全体がダメージを与える時、敵の防御力を20%無視する。
       e2AtkBoost:
         text: 2凸 撃破された敵への攻撃力増加
-        content: "2凸：ルアン・メェイがフィールド上にいる場合、弱点撃破状態の敵に対する味方全体の攻撃力+40%。"
       e4BeBuff:
         text: 4凸 自身の撃破特効バフ
     TeammateContent:
@@ -1207,7 +1171,6 @@ Characters:
         text: 速度バフ層数
       e1EnemyHp80CrBoost:
         text: 1凸 敵HP≤80%時会心率アップ
-        content: "残りHPが80%以下の敵にダメージを与える時、会心率+15%。"
       e6UltTargetDebuff:
         text: 6凸 「乱れ蝶」付与済み
   Serval:
@@ -1288,7 +1251,6 @@ Characters:
         text: 天賦による速度バフ数
       e2DmgReductionBuff:
         text: 2凸 被ダメージ減少
-        content: "2凸：「剣勢」発動後、素裳の被ダメージ-20%、1ターン継続。"
   TheHerta:
     Content:
       enhancedSkill:
@@ -1310,7 +1272,6 @@ Characters:
         text: 必殺技の味方ダメバフ
       ultSpdBuff:
         text: 1凸 味方速度バフ
-        content: "1凸：「賜福」を与えられた味方単体は、必殺技を発動した後に速度+20%、1ターン継続。"
     TeammateContent:
       teammateAtkBuffValue:
         text: スキルの攻撃力増加値
@@ -1363,7 +1324,6 @@ Characters:
         content: ターンが回ってきた時、開拓者がバリアを持つ場合、攻撃力+15%。
       e6DefStacks:
         text: 6凸 防御力バフ数
-        content: "強化通常攻撃または必殺技を発動した後、開拓者の防御力+10%、最大で3層累積できる。"
   Welt:
     Content:
       enemyDmgTakenDebuff:
@@ -1407,10 +1367,8 @@ Characters:
         text: 会心時の速度バフ
       e1TargetFrozen:
         text: 1凸 敵凍結状態
-        content: "1凸：彦卿が敵に攻撃を行う時、その敵が凍結状態の場合、敵に彦卿の攻撃力60%分の氷属性付加ダメージを与える。"
       e4CurrentHp80:
         text: 4凸 自身HP≥80%時の氷貫通バフ
-        content: "4凸：残りHPが80%以上の時、自身の氷属性耐性貫通+12%。"
   Yukong:
     Content:
       teamImaginaryDmgBoost:

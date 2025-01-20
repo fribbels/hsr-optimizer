@@ -2366,7 +2366,7 @@ interface Resources {
           },
           "speedBoostStacks": {
             "text": "Speed buff stacks",
-            "content": "After using her skill, Seele's SPD by 25% for 2 turns. ::BR:: E2: The SPD Boost effect of Seele's Skill can stack up to 2 times."
+            "content": "After using her skill, Seele's SPD by 25% for 2 turns.::BR::E2: The SPD Boost effect of Seele's Skill can stack up to 2 times."
           },
           "e1EnemyHp80CrBoost": {
             "text": "E1 enemy HP ≤ 80% CR boost",

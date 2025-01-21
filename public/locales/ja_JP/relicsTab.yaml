@@ -10,7 +10,7 @@ RelicFilterBar:
   Mainstat: メインステータス
   Substat: サブステータス
   ReapplyButton: スコアを更新
-  ScoringButton: スコア計算方法の編集
+  ScoringButton: スコア計算方法を編集
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
   CustomCharsHeader: 評価対象の複数指定

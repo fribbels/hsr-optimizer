@@ -230,6 +230,8 @@ FormRowLabels:
   Relic & stat filters: 遗器和属性筛选
   Teammates: 队友
   Character custom stats simulation: 角色自定义属性模拟
+TracesDrawer:
+  ButtonText: 保存更改
 SetConditionals:
   Title: 套装条件触发效果
   DescriptionHeader: 套装描述

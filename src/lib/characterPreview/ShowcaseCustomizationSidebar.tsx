@@ -58,8 +58,9 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const [loading, setLoading] = useState<boolean>(false)
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
-    const spdValue = window.store(() => DB.getScoringMetadata(characterId).stats[Stats.SPD])
-    const deprioritizeBuffs = window.store(() => DB.getScoringMetadata(characterId).simulation?.deprioritizeBuffs ?? false)
+    const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
+    const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
+    const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -225,22 +226,26 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             value={spdValue}
             onChange={onShowcaseSpdValueChange}
           />
+          {scoringMetadata.simulation &&
+            <>
+              <HorizontalDivider/>
 
-          <HorizontalDivider/>
+              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                DPS role
+              </HeaderText>
 
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            DPS role
-          </HeaderText>
+              <Segmented
+                options={[
+                  { value: false, label: 'Main' },
+                  { value: true, label: 'Sub' },
+                ]}
+                block
+                value={deprioritizeBuffs}
+                onChange={onShowcaseDeprioritizeBuffsChange}
+              />
+            </>
+          }
 
-          <Segmented
-            options={[
-              { value: false, label: 'Main' },
-              { value: true, label: 'Sub' },
-            ]}
-            block
-            value={deprioritizeBuffs}
-            onChange={onShowcaseDeprioritizeBuffsChange}
-          />
         </Flex>
 
         <Flex

@@ -231,13 +231,13 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
               <HorizontalDivider/>
 
               <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                DPS role
+                Targeted buffs
               </HeaderText>
 
               <Segmented
                 options={[
-                  { value: false, label: 'Main' },
-                  { value: true, label: 'Sub' },
+                  { value: false, label: 'Yes' },
+                  { value: true, label: 'No' },
                 ]}
                 block
                 value={deprioritizeBuffs}

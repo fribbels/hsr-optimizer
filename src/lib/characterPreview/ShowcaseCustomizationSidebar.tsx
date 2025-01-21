@@ -146,7 +146,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       const scoringMetadata = DB.getScoringMetadata(characterId)
       if (scoringMetadata?.simulation) {
         console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
-        // const simulation = characterMetadata.scoringMetadata.simulation
+
         const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
         simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
         DB.updateSimulationScoreOverrides(characterId, simulationMetadata)

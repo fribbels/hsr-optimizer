@@ -55,13 +55,6 @@ export default function CharacterTab() {
 
   console.log('======================================================================= RENDER CharacterTab')
 
-  // useSubscribe('refreshRelicsScore', () => {
-  //   // TODO: understand why setTimeout is needed and refactor
-  //   setTimeout(() => {
-  //     window.forceCharacterTabUpdate()
-  //   }, 100)
-  // })
-
   const characterGrid = useRef() // Optional - for accessing Grid's API
   window.characterGrid = characterGrid
 

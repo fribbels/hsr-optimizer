@@ -371,6 +371,7 @@ export function scoreCharacterSimulation(
   simulationForm.teammate0 = simulationFormT0
   simulationForm.teammate1 = simulationFormT1
   simulationForm.teammate2 = simulationFormT2
+
   simulationForm.deprioritizeBuffs = deprioritizeBuffs
 
   // Cache context for reuse

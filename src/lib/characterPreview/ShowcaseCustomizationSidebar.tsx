@@ -58,7 +58,8 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const [loading, setLoading] = useState<boolean>(false)
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
-    const spdValue = window.store((s) => DB.getScoringMetadata(characterId).stats[Stats.SPD])
+    const spdValue = window.store(() => DB.getScoringMetadata(characterId).stats[Stats.SPD])
+    const subDps = window.store(() => DB.getScoringMetadata(characterId).simulation?.subDps ?? false)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -140,13 +141,14 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       window.store.getState().setStatTracesDrawerOpen(true)
     }
 
-    function onShowcasePrimaryDpsChange(primary: boolean) {
-      console.log('Set primary dps to', primary)
-
-      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-      if (scoringMetadata.simulation) {
-        scoringMetadata.simulation.subDps = !primary
-        DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+    function onShowcaseSubDpsChange(subDps: boolean) {
+      const scoringMetadata = DB.getScoringMetadata(characterId)
+      if (scoringMetadata?.simulation) {
+        console.log('Set sub dps to', subDps)
+        // const simulation = characterMetadata.scoringMetadata.simulation
+        const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
+        simulationMetadata.subDps = subDps
+        DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
       }
     }
 
@@ -236,8 +238,8 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
               { value: true, label: 'Sub' },
             ]}
             block
-            value={showcasePreciseSpd}
-            onChange={onShowcasePrimaryDpsChange}
+            value={subDps}
+            onChange={onShowcaseSubDpsChange}
           />
         </Flex>
 

@@ -3,7 +3,6 @@ import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
 
 import { Button, Dropdown, Flex, Input, Modal, theme, Typography } from 'antd'
-import { useSubscribe } from 'hooks/useSubscribe'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
@@ -56,12 +55,12 @@ export default function CharacterTab() {
 
   console.log('======================================================================= RENDER CharacterTab')
 
-  useSubscribe('refreshRelicsScore', () => {
-    // TODO: understand why setTimeout is needed and refactor
-    setTimeout(() => {
-      window.forceCharacterTabUpdate()
-    }, 100)
-  })
+  // useSubscribe('refreshRelicsScore', () => {
+  //   // TODO: understand why setTimeout is needed and refactor
+  //   setTimeout(() => {
+  //     window.forceCharacterTabUpdate()
+  //   }, 100)
+  // })
 
   const characterGrid = useRef() // Optional - for accessing Grid's API
   window.characterGrid = characterGrid

@@ -68,6 +68,7 @@ export class ComputedStatsArrayCore {
           },
           buffSingle: (value: number, source: string) => {
             if (value == 0) return
+            if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.a[Key.MEMO_BUFF_PRIORITY]) {
               this.m.a[index] += value
             } else {

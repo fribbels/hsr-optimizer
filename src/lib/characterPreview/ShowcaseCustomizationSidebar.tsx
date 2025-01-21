@@ -59,7 +59,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
     const spdValue = window.store(() => DB.getScoringMetadata(characterId).stats[Stats.SPD])
-    const subDps = window.store(() => DB.getScoringMetadata(characterId).simulation?.subDps ?? false)
+    const deprioritizeBuffs = window.store(() => DB.getScoringMetadata(characterId).simulation?.deprioritizeBuffs ?? false)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -141,13 +141,13 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       window.store.getState().setStatTracesDrawerOpen(true)
     }
 
-    function onShowcaseSubDpsChange(subDps: boolean) {
+    function onShowcaseDeprioritizeBuffsChange(deprioritizeBuffs: boolean) {
       const scoringMetadata = DB.getScoringMetadata(characterId)
       if (scoringMetadata?.simulation) {
-        console.log('Set sub dps to', subDps)
+        console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
         // const simulation = characterMetadata.scoringMetadata.simulation
         const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
-        simulationMetadata.subDps = subDps
+        simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
         DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
       }
     }
@@ -238,8 +238,8 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
               { value: true, label: 'Sub' },
             ]}
             block
-            value={subDps}
-            onChange={onShowcaseSubDpsChange}
+            value={deprioritizeBuffs}
+            onChange={onShowcaseDeprioritizeBuffsChange}
           />
         </Flex>
 

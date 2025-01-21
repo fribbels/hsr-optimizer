@@ -97,6 +97,7 @@ export type OptimizerContext = {
   minFilters: OptimizerMinFilters
   maxFilters: OptimizerMaxFilters
   combatBuffs: OptimizerCombatBuffs
+  deprioritizeBuffs: boolean
 
   // Character data
   element: string // Ice

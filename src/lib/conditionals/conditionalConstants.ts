@@ -174,6 +174,7 @@ export const baseComputedStatsObject = {
   FUA_ADDITIONAL_DMG: 0,
 
   MEMO_BUFF_PRIORITY: 0,
+  DEPRIORITIZE_BUFFS: 0,
 
   MEMO_HP_SCALING: 0,
   MEMO_HP_FLAT: 0,

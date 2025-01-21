@@ -4641,6 +4641,11 @@ interface Resources {
       "Teammates": "Teammates",
       "Character custom stats simulation": "Character custom stats simulation"
     },
+    "TracesDrawer": {
+      "Title": "Custom stat traces",
+      "Header": "Activated stat traces (all enabled by default)",
+      "ButtonText": "Save changes"
+    },
     "SetConditionals": {
       "Title": "Conditional set effects",
       "DescriptionHeader": "Set description",

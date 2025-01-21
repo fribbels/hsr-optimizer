@@ -7,11 +7,14 @@ import { SaveState } from 'lib/state/saveState'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TraceNode } from 'types/metadata'
 
 const { Text } = Typography
 
 export const StatTracesDrawer = () => {
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'Stats' })
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
   const statTracesDrawerOpen = window.store((s) => s.statTracesDrawerOpen)
   const setStatTracesDrawerOpen = window.store((s) => s.setStatTracesDrawerOpen)
 
@@ -39,7 +42,7 @@ export const StatTracesDrawer = () => {
       if (scoringMetadata.traces) {
         const deactivated = scoringMetadata.traces.deactivated ?? []
 
-        const active = expanded.filter(x => !deactivated.includes(x))
+        const active = expanded.filter((x) => !deactivated.includes(x))
         setCheckedKeys(active)
       } else {
         setCheckedKeys(expanded)
@@ -75,7 +78,7 @@ export const StatTracesDrawer = () => {
       }
 
       // Check descendents if checked
-      let stack = [node]
+      const stack = [node]
       while (stack.length) {
         const node = stack.pop()!
         checked = Array.from(new Set([...checked, node.id]))
@@ -84,10 +87,10 @@ export const StatTracesDrawer = () => {
       }
     } else {
       // Uncheck descendents if unchecked
-      let stack = [node]
+      const stack = [node]
       while (stack.length) {
         const node = stack.pop()!
-        checked = checked.filter(key => key !== node.id)
+        checked = checked.filter((key) => key !== node.id)
 
         for (const child of node.children) stack.push(child)
       }
@@ -98,7 +101,7 @@ export const StatTracesDrawer = () => {
 
   return (
     <Drawer
-      title={'Custom stat traces'} // 'Custom stat traces'
+      title={t('Title')} // 'Custom stat traces'
       placement='right'
       onClose={() => setStatTracesDrawerOpen(false)}
       open={statTracesDrawerOpen}
@@ -107,7 +110,7 @@ export const StatTracesDrawer = () => {
     >
       <Flex vertical gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
         <HeaderText>
-          Activated stat traces (all enabled by default)
+          {t('Header')/* Activated stat traces (all enabled by default) */}
         </HeaderText>
 
         <Tree
@@ -133,7 +136,7 @@ export const StatTracesDrawer = () => {
                 {
                   `${Utils.isFlat(traceNode.stat)
                     ? traceNode.value
-                    : Utils.precisionRound(traceNode.value * 100) + '%'} - ${traceNode.stat}`
+                    : Utils.precisionRound(traceNode.value * 100) + '%'} - ${tCommon(traceNode.stat)}`
                 }
               </div>
             </Flex>
@@ -150,7 +153,7 @@ export const StatTracesDrawer = () => {
             setLoading(true)
 
             const allKeys = Object.keys(nodesById)
-            const deactivated = allKeys.filter(key => !checkedKeys.includes(key))
+            const deactivated = allKeys.filter((key) => !checkedKeys.includes(key))
 
             const scoringMetadata = DB.getScoringMetadata(statTraceDrawerFocusCharacter)
             scoringMetadata.traces = {
@@ -165,10 +168,9 @@ export const StatTracesDrawer = () => {
               SaveState.delayedSave()
               setStatTracesDrawerOpen(false)
             }, 500)
-
           }}
         >
-          Save changes
+          {t('ButtonText')/* Save changes */}
         </Button>
       </Flex>
     </Drawer>

@@ -1,4 +1,4 @@
-import { ShowcaseColorMode } from 'lib/constants/constants'
+import { ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 
@@ -85,7 +85,7 @@ export type ImageCenter = {
 
 type TraceNode = {
   id: string
-  stat: string
+  stat: StatsValues
   value: number
   pre: string
   children: TraceNode[]

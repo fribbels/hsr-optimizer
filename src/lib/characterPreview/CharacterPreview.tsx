@@ -218,6 +218,7 @@ export function CharacterPreview(props: {
         ref={sidebarRef}
         id={props.id}
         characterId={character.id}
+        simScoringResult={simScoringResult}
         token={seedToken}
         showcasePreferences={characterShowcasePreferences}
         setOverrideTheme={() => {

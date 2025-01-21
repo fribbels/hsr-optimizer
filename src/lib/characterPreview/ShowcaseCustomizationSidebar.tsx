@@ -1,12 +1,14 @@
 import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
-import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
+import { Button, ColorPicker, Flex, InputNumber, Segmented, Select, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { usePublish } from 'hooks/usePublish'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { SimulationScore } from 'lib/scoring/characterScorer'
 import DB from 'lib/state/db'
+import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -14,7 +16,7 @@ import { organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
@@ -28,6 +30,7 @@ export interface ShowcaseCustomizationSidebarProps {
   characterId: string
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
+  simScoringResult: SimulationScore
   setOverrideTheme: (overrideTheme: ThemeConfig) => void
   seedColor: string
   setSeedColor: (color: string) => void
@@ -44,6 +47,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const {
       id,
       characterId,
+      simScoringResult,
       seedColor,
       setSeedColor,
       colorMode,
@@ -137,6 +141,24 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       pubRefreshRelicsScore('refreshRelicsScore', 'null')
     }
 
+    function onShowcaseSpdBenchmarkChange(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
+      console.log(event)
+      // @ts-ignore
+      const value: string = event?.target?.value
+      if (value == null) return
+
+      const spdBenchmark = parseFloat(value as string)
+      if (isNaN(spdBenchmark)) return
+
+      console.log('Set spd benchmark to', spdBenchmark)
+
+      // const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+      // scoringMetadata.stats[Stats.SPD] = spdValue
+      //
+      // DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
+    }
+
     function onTraceClick() {
       window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
       window.store.getState().setStatTracesDrawerOpen(true)
@@ -226,6 +248,27 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             value={spdValue}
             onChange={onShowcaseSpdValueChange}
           />
+
+          {scoringMetadata.simulation &&
+            <>
+              <HorizontalDivider/>
+
+              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                SPD benchmark
+              </HeaderText>
+
+              <InputNumber
+                size='small'
+                controls={false}
+                style={{ width: '100%' }}
+                placeholder={`${simScoringResult?.originalSimResult?.x[Stats.SPD].toFixed(3) ?? ''}`}
+                addonAfter={<SelectSpdPresets/>}
+                onBlur={onShowcaseSpdBenchmarkChange}
+                onPressEnter={onShowcaseSpdBenchmarkChange}
+              />
+            </>
+          }
+
           {scoringMetadata.simulation &&
             <>
               <HorizontalDivider/>
@@ -326,6 +369,45 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
   },
 )
 
+function SelectSpdPresets() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
+
+  const spdPresetOptions = useMemo(() => {
+    return [
+      {
+        label: <span>Benchmark options</span>,
+        title: 'benchmark',
+        options: [
+          {
+            label: <b><span>Current SPD - The benchmark will match your combat SPD</span></b>,
+            value: null,
+          },
+          {
+            label: <span>Base SPD - The benchmark will target a zero SPD build</span>,
+            value: 0,
+          },
+        ],
+      },
+      {
+        label: <span>Common SPD breakpoint presets</span>,
+        title: 'presets',
+        options: Object.values(generateSpdPresets(t)).slice(1),
+      },
+    ]
+  }, [t])
+
+  return (
+    <Select
+      style={{ width: 34 }}
+      labelRender={() => <></>}
+      dropdownStyle={{ width: 'fit-content' }}
+      options={spdPresetOptions}
+      placement='bottomRight'
+      listHeight={800}
+    />
+  )
+}
+
 function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, color: string) {
   setLoading(true)
   setTimeout(() => {
@@ -387,7 +469,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#7dd3ea'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#ed85b4'], // kafka
+    1005: ['#ea8abc'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
     1009: ['#9e80e6'], // asta

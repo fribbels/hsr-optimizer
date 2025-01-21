@@ -215,6 +215,8 @@ FormRowLabels:
   Relic & stat filters: 遺物とステータスのフィルター
   Teammates: チームメイト
   Character custom stats simulation: カスタムステータスシミュレーション
+TracesDrawer:
+  ButtonText: 変更を保存
 SetConditionals:
   Title: セット効果を編集
   DescriptionHeader: セットの詳細

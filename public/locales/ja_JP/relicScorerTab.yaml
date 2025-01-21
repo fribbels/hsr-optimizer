@@ -13,8 +13,8 @@ Header:
   WithoutVersion: アカウントUIDを入力すると、レベル80および全開放された軌跡をもつプロフィール内のキャラクターを評価できます。即時更新するにはログアウトしてください。
 SubmissionBar:
   Placeholder: アカウントUID
-  AlgorithmButton: スコア計算方法の編集
-CopyScreenshot: スクリーンショットをコピーする
+  AlgorithmButton: スコア計算方法を編集
+CopyScreenshot: スクリーンショットをコピー
 ImportLabels:
   Relics: 遺物をインポート
   SingleCharacter: 選択されたキャラクターと全ての遺物をインポート

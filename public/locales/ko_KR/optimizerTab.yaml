@@ -26,6 +26,8 @@ Grid:
 Sidebar:
   StatViewGroup:
     Header: 스탯 및 필터 표시
+TracesDrawer:
+  ButtonText: 변경 사항 저장
 SetConditionals:
   SelectOptions:
     Wastelander:

@@ -20,7 +20,7 @@ CharacterMenu:
   Scoring:
     Label: スコア計算
     Options:
-      ScoringModal: スコア計算方法の編集
+      ScoringModal: スコア計算方法を編集
   Priority:
     Label: 優先順位
     Options:

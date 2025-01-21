@@ -218,8 +218,8 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
           <Segmented
             options={[
-              { value: 0, label: '0%' },
               { value: 1, label: '100%' },
+              { value: 0, label: '0%' },
             ]}
             block
             value={spdValue}

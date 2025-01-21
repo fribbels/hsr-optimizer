@@ -2221,6 +2221,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -4786,6 +4787,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
         comboDot: 0,
         comboBreak: 3,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
@@ -5081,6 +5083,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, BASIC, FUA, BASIC, FUA],
         comboDot: 0,
         comboBreak: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
@@ -6806,6 +6809,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],

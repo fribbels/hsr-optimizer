@@ -101,6 +101,7 @@ interface Resources {
         "Damage": "Damage"
       },
       "BuildAnalysis": {
+        "ScoringNote": "Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons",
         "Header": "Character build analysis",
         "SimulationTeammates": "Simulation teammates",
         "SimulationSets": "Simulation sets",
@@ -4510,7 +4511,8 @@ interface Resources {
       "Header": "Advanced options",
       "EnemyConfigButtonText": "Enemy configurations",
       "CombatBuffsButtonTextNone": "Extra combat buffs",
-      "CombatBuffsButtonText": "Extra combat buffs ({{activeCount}})"
+      "CombatBuffsButtonText": "Extra combat buffs ({{activeCount}})",
+      "CustomTracesButtonText": "Custom stat traces"
     },
     "Grid": {
       "To": "to",
@@ -4639,6 +4641,11 @@ interface Resources {
       "Relic & stat filters": "Relic & stat filters",
       "Teammates": "Teammates",
       "Character custom stats simulation": "Character custom stats simulation"
+    },
+    "TracesDrawer": {
+      "Title": "Custom stat traces",
+      "Header": "Activated stat traces (all enabled by default)",
+      "ButtonText": "Save changes"
     },
     "SetConditionals": {
       "Title": "Conditional set effects",

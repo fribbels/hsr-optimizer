@@ -357,7 +357,12 @@ export const CharacterScoringSummary = (props: {
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
-        <pre>Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons</pre>
+        <pre>
+          {
+            t('CharacterPreview.BuildAnalysis.ScoringNote')
+            // Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons
+          }
+        </pre>
       </Flex>
       <Flex gap={25}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>

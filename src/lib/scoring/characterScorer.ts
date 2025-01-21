@@ -260,6 +260,7 @@ export function scoreCharacterSimulation(
   const defaultMetadata: SimulationMetadata = TsUtils.clone(defaultScoringMetadata.simulation!)
   const customMetadata: SimulationMetadata = TsUtils.clone(customScoringMetadata.simulation!)
   const traces = customScoringMetadata.traces
+  const deprioritizeBuffs = customMetadata.deprioritizeBuffs ?? false
 
   if (teamSelection == CUSTOM_TEAM) {
     defaultMetadata.teammates = customMetadata.teammates
@@ -276,6 +277,7 @@ export function scoreCharacterSimulation(
     lightConeSuperimposition,
     relicsByPart,
     metadata,
+    customMetadata,
   })
 
   if (cachedSims[cacheKey]) {
@@ -369,6 +371,8 @@ export function scoreCharacterSimulation(
   simulationForm.teammate0 = simulationFormT0
   simulationForm.teammate1 = simulationFormT1
   simulationForm.teammate2 = simulationFormT2
+
+  simulationForm.deprioritizeBuffs = deprioritizeBuffs
 
   // Cache context for reuse
   const context = generateContext(simulationForm)

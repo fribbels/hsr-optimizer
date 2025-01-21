@@ -84,6 +84,8 @@ function generateCharacterMetadataContext(request: Form, context: Partial<Optimi
   context.teammate0Metadata = generateTeammateMetadata(request.teammate0) as CharacterMetadata
   context.teammate1Metadata = generateTeammateMetadata(request.teammate1) as CharacterMetadata
   context.teammate2Metadata = generateTeammateMetadata(request.teammate2) as CharacterMetadata
+
+  context.deprioritizeBuffs = request.deprioritizeBuffs
 }
 
 function generateTeammateMetadata(teammate: Teammate) {

@@ -172,7 +172,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          if (!(e >= 6 && r.e6CrToCdConversion)) {
+          if (!(e >= 6 && r.e6CrToCdConversion && !x.a[Key.DEPRIORITIZE_BUFFS])) {
             return
           }
 
@@ -187,6 +187,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
+  return;
+}
+
+if (x.DEPRIORITIZE_BUFFS > 0) {
   return;
 }
 
@@ -213,7 +217,7 @@ if (cr > 1.00) {
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          if (!(e >= 6 && r.e6CrToCdConversion)) {
+          if (!(e >= 6 && r.e6CrToCdConversion && !x.a[Key.DEPRIORITIZE_BUFFS])) {
             return
           }
 
@@ -228,6 +232,10 @@ if (cr > 1.00) {
 
           return conditionalWgslWrapper(this, `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
+  return;
+}
+
+if (x.DEPRIORITIZE_BUFFS > 0) {
   return;
 }
 

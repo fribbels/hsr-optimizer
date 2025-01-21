@@ -14,7 +14,7 @@ export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
   const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
 
   const finalColor = adjustedColor
-    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0285, 0.935))
+    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.0285, 0.9375))
     .alpha(darkMode ? 0.70 : 0.765)
 
   // console.log(finalColor.luminance())
@@ -87,7 +87,7 @@ export function measureOrangeness(color: string): number {
   const [hue, saturation, lightness] = chroma(color).hsl()
 
   const hueDifference = Math.abs(hue - targetHue)
-  let orangenessHue = 1 - Math.min(hueDifference / orangeRange, 1)
+  const orangenessHue = 1 - Math.min(hueDifference / orangeRange, 1)
 
   const saturationAdjustment = Math.max(0, saturation - 0.2) // Ignore very desaturated colors
 

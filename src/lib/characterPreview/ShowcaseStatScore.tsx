@@ -15,10 +15,10 @@ export function ShowcaseStatScore(props: {
 
   return (
     <Flex vertical>
-      <StatText style={{ fontSize: 17, fontWeight: 600, letterSpacing: -0.15, textAlign: 'center', color: '#e1a564' }}>
+      <StatText style={{ fontSize: 17, fontWeight: 600, letterSpacing: -0.2, textAlign: 'center', color: '#e1a564' }}>
         {t('CharacterPreview.CharacterScore', {
           score: scoringResults.totalScore.toFixed(0),
-          grade: scoringResults.totalScore == 0 ? '' : '(' + scoringResults.totalRating + ')',
+          grade: scoringResults.totalScore == 0 ? '' : scoringResults.totalRating,
         })}
       </StatText>
     </Flex>

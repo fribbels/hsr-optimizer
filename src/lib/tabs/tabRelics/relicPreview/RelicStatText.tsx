@@ -23,6 +23,7 @@ function generateStyling(language?: Languages) {
     default:
       return `
         white-space: nowrap;
+        letter-spacing: -0.2px;
       `
   }
 }

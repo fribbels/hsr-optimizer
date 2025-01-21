@@ -83,6 +83,7 @@ AdvancedOptions:
   EnemyConfigButtonText: 敌人配置
   CombatBuffsButtonTextNone: 额外战斗增益
   CombatBuffsButtonText: "额外战斗增益 ({{activeCount}})"
+  CustomTracesButtonText: 自定义属性行迹
 Grid:
   To: '-'
   Of: /
@@ -231,6 +232,8 @@ FormRowLabels:
   Teammates: 队友
   Character custom stats simulation: 角色自定义属性模拟
 TracesDrawer:
+  Title: 自定义属性行迹
+  Header: 已激活的属性行迹（默认全部启用）
   ButtonText: 保存更改
 SetConditionals:
   Title: 套装条件触发效果

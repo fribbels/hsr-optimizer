@@ -326,7 +326,7 @@ ScoreFooter:
   OkText: OK
   ResetButtonText: カスタムチームをデフォルトにリセット
   ResetSuccessMsg: デフォルトのチームにリセット
-  SyncButtonText: インポートした星塊・光円錐を同期
+  SyncButtonText: インポートした星塊・光円錐と同期
   SyncSuccessMsg: チームメイトを同期しました
   TeamOptions:
     Default: デフォルト

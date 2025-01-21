@@ -32,7 +32,7 @@ export const AdvancedOptionsPanel = () => {
         }}
         icon={<SettingOutlined/>}
       >
-        Custom stat traces
+        {t('CustomTracesButtonText')/* Custom stat traces */}
       </Button>
 
       <Button

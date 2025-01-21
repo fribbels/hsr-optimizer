@@ -4511,7 +4511,8 @@ interface Resources {
       "Header": "Advanced options",
       "EnemyConfigButtonText": "Enemy configurations",
       "CombatBuffsButtonTextNone": "Extra combat buffs",
-      "CombatBuffsButtonText": "Extra combat buffs ({{activeCount}})"
+      "CombatBuffsButtonText": "Extra combat buffs ({{activeCount}})",
+      "CustomTracesButtonText": "Custom stat traces"
     },
     "Grid": {
       "To": "to",

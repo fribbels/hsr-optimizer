@@ -78,6 +78,7 @@ CharacterPreview:
     Roll: 升级次数
     Damage: 伤害
   BuildAnalysis:
+    ScoringNote: "注意：DPS评分与连招伤害是针对单次技能循环的评分指标，不能用于跨队伍比较。"
     Header: 角色配装分析
     SimulationTeammates: 模拟队友
     SimulationSets: 模拟套装

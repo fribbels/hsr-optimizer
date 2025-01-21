@@ -230,6 +230,8 @@ FormRowLabels:
   Relic & stat filters: Filtres de relique & stats
   Teammates: Coéquipiers
   Character custom stats simulation: Simulation de stats customisée
+TracesDrawer:
+  ButtonText: Enregistrer les changements
 SetConditionals:
   Title: Effets de sets conditionnels
   DescriptionHeader: Description du set

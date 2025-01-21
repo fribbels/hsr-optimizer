@@ -31,6 +31,7 @@ export type SimulationMetadata = {
   }
   substats: string[]
   errRopeEidolon?: number
+  subDps?: boolean
   comboAbilities: string[]
   comboDot: number
   comboBreak: number

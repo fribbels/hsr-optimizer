@@ -86,8 +86,8 @@ body,
 }
 
 #relicGrid .ag-header {
-    height: 36px !important;
-    min-height: 36px !important;
+    height: 48px !important;
+    min-height: 48px !important;
 }
 
 .ag-header-cell-label .ag-header-cell-text {

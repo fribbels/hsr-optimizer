@@ -2,6 +2,7 @@ import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOut
 import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
+import { usePublish } from 'hooks/usePublish'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -50,13 +51,14 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     } = props
 
     const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
+    const pubRefreshRelicsScore = usePublish()
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
     const [loading, setLoading] = useState<boolean>(false)
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
-    const spdValue = window.store((s) => s.scoringMetadataOverrides[characterId].stats[Stats.SPD])
+    const spdValue = window.store((s) => DB.getScoringMetadata(characterId).stats[Stats.SPD])
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -127,16 +129,25 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       console.log('Set spd value to', spdValue)
 
       const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-      const defaultScoringMetadata = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata)
-
       scoringMetadata.stats[Stats.SPD] = spdValue
 
       DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+      pubRefreshRelicsScore('refreshRelicsScore', 'null')
     }
 
     function onTraceClick() {
       window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
       window.store.getState().setStatTracesDrawerOpen(true)
+    }
+
+    function onShowcasePrimaryDpsChange(primary: boolean) {
+      console.log('Set primary dps to', primary)
+
+      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+      if (scoringMetadata.simulation) {
+        scoringMetadata.simulation.subDps = !primary
+        DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+      }
     }
 
     const presets = [
@@ -200,7 +211,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           <HorizontalDivider/>
 
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            SPD value
+            SPD weight
           </HeaderText>
 
           <Segmented
@@ -216,17 +227,17 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           <HorizontalDivider/>
 
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            Targeted buffs
+            DPS role
           </HeaderText>
 
           <Segmented
             options={[
-              { value: false, label: 'Yes' },
-              { value: true, label: 'No' },
+              { value: false, label: 'Main' },
+              { value: true, label: 'Sub' },
             ]}
             block
             value={showcasePreciseSpd}
-            onChange={onShowcasePreciseSpdChange}
+            onChange={onShowcasePrimaryDpsChange}
           />
         </Flex>
 
@@ -319,7 +330,7 @@ function clipboardClicked(elementId: string, action: string, setLoading: (b: boo
 
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
-const STANDARD_COLOR = '#2d58b6'
+const STANDARD_COLOR = '#628ae9'
 
 export function standardShowcasePreferences() {
   return {

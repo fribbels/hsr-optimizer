@@ -83,6 +83,7 @@ AdvancedOptions:
   EnemyConfigButtonText: Configuration des ennemis
   CombatBuffsButtonTextNone: Buffs supplémentaires
   CombatBuffsButtonText: "Buffs supplémentaires ({{activeCount}})"
+  CustomTracesButtonText: Modification de Traces
 Grid:
   To: à
   Of: de
@@ -231,6 +232,8 @@ FormRowLabels:
   Teammates: Coéquipiers
   Character custom stats simulation: Simulation de stats customisée
 TracesDrawer:
+  Title: Modification de Traces
+  Header: Traces activées (toutes activées par défaut)
   ButtonText: Enregistrer les changements
 SetConditionals:
   Title: Effets de sets conditionnels

@@ -6,7 +6,7 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/Sta
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { ScoringMetadata, ShowcasePreferences } from 'types/metadata'
+import { ScoringMetadata, ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 type PermutationDetails = {
@@ -62,6 +62,7 @@ export type HsrOptimizerStore = {
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
+  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>
   warpRequest: WarpRequest
   warpResult: WarpResult
   statSimulationDisplay: StatSimTypes
@@ -140,6 +141,7 @@ export type HsrOptimizerStore = {
   setStatSimulationDisplay: (x: any) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
+  setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void
   setWarpRequest: (x: WarpRequest) => void
   setWarpResult: (x: WarpResult) => void
   setScorerId: (x: any) => void

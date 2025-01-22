@@ -22,6 +22,7 @@ export type StatController = {
   buffMemo: (value: number, source: string) => void
   buffTeam: (value: number, source: string) => void
   buffDual: (value: number, source: string) => void
+  buffBaseDual: (value: number, source: string) => void
   multiply: (value: number, source: string) => void
   multiplyTeam: (value: number, source: string) => void
   set: (value: number, source: string) => void
@@ -82,6 +83,14 @@ export class ComputedStatsArrayCore {
               this.m.a[index] += value
             }
           },
+          buffTeam: (value: number, source: string) => {
+            if (value == 0) return
+            this.a[index] += value
+
+            if (this.m) {
+              this.m.a[index] += value
+            }
+          },
           buffDual: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
@@ -91,7 +100,7 @@ export class ComputedStatsArrayCore {
               this.m.a[index] += value
             }
           },
-          buffTeam: (value: number, source: string) => {
+          buffBaseDual: (value: number, source: string) => {
             if (value == 0) return
             this.a[index] += value
 

@@ -30,7 +30,7 @@ export interface ShowcaseCustomizationSidebarProps {
   characterId: string
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
-  simScoringResult: SimulationScore
+  simScoringResult: SimulationScore | null
   setOverrideTheme: (overrideTheme: ThemeConfig) => void
   seedColor: string
   setSeedColor: (color: string) => void
@@ -141,22 +141,26 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       pubRefreshRelicsScore('refreshRelicsScore', 'null')
     }
 
-    function onShowcaseSpdBenchmarkChange(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
-      console.log(event)
+    function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
       // @ts-ignore
       const value: string = event?.target?.value
-      if (value == null) return
+      if (value == null) return onShowcaseSpdBenchmarkChange(undefined)
 
       const spdBenchmark = parseFloat(value as string)
-      if (isNaN(spdBenchmark)) return
+      if (isNaN(spdBenchmark)) return onShowcaseSpdBenchmarkChange(undefined)
 
+      onShowcaseSpdBenchmarkChange(spdBenchmark)
+    }
+
+    function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
       console.log('Set spd benchmark to', spdBenchmark)
 
-      // const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-      // scoringMetadata.stats[Stats.SPD] = spdValue
-      //
-      // DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
-      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
+      const showcaseTemporaryOptions = TsUtils.clone(window.store.getState().showcaseTemporaryOptions)
+      if (!showcaseTemporaryOptions[characterId]) showcaseTemporaryOptions[characterId] = {}
+
+      showcaseTemporaryOptions[characterId].spdBenchmark = spdBenchmark
+
+      window.store.getState().setShowcaseTemporaryOptions(showcaseTemporaryOptions)
     }
 
     function onTraceClick() {
@@ -262,9 +266,9 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
                 controls={false}
                 style={{ width: '100%' }}
                 placeholder={`${simScoringResult?.originalSimResult?.x[Stats.SPD].toFixed(3) ?? ''}`}
-                addonAfter={<SelectSpdPresets/>}
-                onBlur={onShowcaseSpdBenchmarkChange}
-                onPressEnter={onShowcaseSpdBenchmarkChange}
+                addonAfter={<SelectSpdPresets onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}/>}
+                onBlur={onShowcaseSpdBenchmarkChangeEvent}
+                onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
               />
             </>
           }
@@ -369,7 +373,9 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
   },
 )
 
-function SelectSpdPresets() {
+function SelectSpdPresets(props: {
+  onShowcaseSpdBenchmarkChange: (n: number) => void
+}) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
 
   const spdPresetOptions = useMemo(() => {
@@ -404,6 +410,7 @@ function SelectSpdPresets() {
       options={spdPresetOptions}
       placement='bottomRight'
       listHeight={800}
+      onChange={props.onShowcaseSpdBenchmarkChange}
     />
   )
 }

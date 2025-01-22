@@ -110,7 +110,9 @@ function getChangelogContent() {
       date: '2025-01-13',
       content: [
         leaks(`Updated content to version 3.1`),
+        leaks('Added Tribbie showcase'),
         leaks('tribbie.webp'),
+        leaks('Added Mydei showcase'),
         leaks('mydei.webp'),
         leaks('Added new relic sets for 3.1'),
         leaks(`sets.webp`),

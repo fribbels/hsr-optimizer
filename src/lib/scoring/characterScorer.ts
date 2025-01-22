@@ -23,7 +23,7 @@ import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
-import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
+import { ScoringMetadata, ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
@@ -242,6 +242,7 @@ export function scoreCharacterSimulation(
   character: Character,
   displayRelics: RelicBuild,
   teamSelection: string,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): SimulationScore | null {
   const originalForm = character.form
   const characterId = originalForm.characterId
@@ -278,6 +279,7 @@ export function scoreCharacterSimulation(
     relicsByPart,
     metadata,
     customMetadata,
+    showcaseTemporaryOptions,
   })
 
   if (cachedSims[cacheKey]) {
@@ -396,7 +398,7 @@ export function scoreCharacterSimulation(
 
   // ===== Calculate the speed target =====
 
-  let targetSpd = originalSimResult.x.SPD
+  let targetSpd = showcaseTemporaryOptions.spdBenchmark ?? originalSimResult.x.SPD
 
   // Special handling for poet - force the spd to certain thresholds when poet is active
   if (simulationFlags.forceBasicSpd) {

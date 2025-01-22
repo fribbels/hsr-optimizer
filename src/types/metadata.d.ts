@@ -7,6 +7,10 @@ export type ShowcasePreferences = {
   colorMode?: ShowcaseColorMode
 }
 
+export type ShowcaseTemporaryOptions = {
+  spdBenchmark?: number
+}
+
 export type ScoringMetadata = {
   stats: {
     [stat: string]: number

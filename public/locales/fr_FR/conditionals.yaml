@@ -116,6 +116,8 @@ Lightcones:
         content: Lorsque le porteur inflige des DGT à un ennemi ayant 3 malus ou plus, les chances de coup critique augmentent de {{CritBuff}}%.
       targetCodeDebuff:
         text: Cible malussée code éthéré
+        content: >-
+          Après avoir utilisé son attaque normale, sa compétence ou son ultime, il y a 100% de chances d'implanter Code éthéré sur une cible aléatoire ne possédant pas déjà cet effet. Les cibles sous l'effet de Code éthéré subissent {{DmgIncrease}}% de DGT supplémentaires pendant 1 tour.
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
@@ -123,6 +125,7 @@ Lightcones:
         content: Les DGT critiques du porteur augmentent de {{CritBuff}}% pendant 2 tours à chaque fois qu'il accorde un bouclier à un allié.
       targetVulnerability:
         text: Cible malussée vulnérabilité
+        content: Lorsque le porteur utilise une attaque de suivi pour attaquer un ennemi, il y a {{baseChance}}% de chances de base d'augmenter les DGT subis par l'ennemi attaqué de {{Vulnerability}}% pendant 2 tours.
   InTheNameOfTheWorld:
     Content:
       enemyDebuffedDmgBoost:
@@ -456,6 +459,7 @@ Lightcones:
     Content:
       targetEnsnared:
         text: Cible piégée
+        content: Lorsque le porteur touche un ennemi qui n'est pas déjà piégé, il y a {{BaseChance}} de chances de base de piéger l'ennemi touché. La DÉF des ennemis piégés diminue de {{DefShred}}% pendant 1 tour.
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
@@ -702,6 +706,7 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: Coups supplémentaires de Compétence
+        content: "Inflige des DGT de feu équivalents à {{skillScaling}}% de l'ATQ d'Asta à un ennemi unique et inflige des DGT {{skillExtraDmgHitsMax}} fois supplémentaires, infligeant à chaque fois des DGT de feu équivalents à {{skillScaling}}% de l'ATQ d'Asta à un ennemi aléatoire.::BR::E1: Lors de l'utilisation de la compétence, inflige des DGT 1 fois supplémentaire à une cible ennemie."
       talentBuffStacks:
         text: Cumuls de bonus d'ATQ du Talent
         content: "Pour chaque cumul de Chargement d'Asta, l'ATQ de tous les alliés augmente de {{talentStacksAtkBuff}}%.::BR::E4: Le taux de régénération d'énergie d'Asta augmente de 15% lorsqu'elle dispose de 2 cumuls de Chargement ou plus."
@@ -1467,6 +1472,8 @@ Characters:
           Réduit la RÉS à tous les types de l'ennemi de {{skillResShredValue}}% pendant 2 tours.::BR::Si l'ennemi subi au moins 3 malus, leur RÉS à tous les types est réduite de 3% supplémentaires.
       skillWeaknessResShredDebuff:
         text: Réduction de RÉS faiblesse implantée
+        content: >-
+          Il y a {{implantChance}}% de chances de base d'appliquer 1 Faiblesse du type d'un allié présent sur le champ de bataille à une cible ennemie. Réduit également la RÉS aux DGT de ce type de faiblesse de l'ennemi de 20% pendant 2 tours. Si l'ennemi a déjà ce type de faiblesse, l'effet de réduction de RÉS aux DGT ne sera pas déclenché.
       talentDefShredDebuff:
         text: Reduction de DÉF Bugs
         content: Le Bug de Louve d'Argent réduit la DEF de la cible de {{talentDefShredDebuffValue}}% pendant 3 tours.

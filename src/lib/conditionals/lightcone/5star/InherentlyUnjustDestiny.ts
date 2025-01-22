@@ -33,7 +33,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'targetVulnerability',
       formItem: 'switch',
       text: t('Content.targetVulnerability.text'),
-      content: t('Content.targetVulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
+      content: t('Content.targetVulnerability.content', { baseChance: TsUtils.precisionRound(100 + 15 * s), Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
     },
   }
 

@@ -47,7 +47,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'skillWeaknessResShredDebuff',
       formItem: 'switch',
       text: t('Content.skillWeaknessResShredDebuff.text'),
-      content: t('Content.skillWeaknessResShredDebuff.content'),
+      content: t('Content.skillWeaknessResShredDebuff.content', { implantChance: TsUtils.precisionRound(skill(e, 85, 87)) }),
     },
     talentDefShredDebuff: {
       id: 'talentDefShredDebuff',

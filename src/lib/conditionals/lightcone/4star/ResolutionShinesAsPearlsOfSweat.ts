@@ -24,7 +24,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'targetEnsnared',
       formItem: 'switch',
       text: t('Content.targetEnsnared.text'),
-      content: t('Content.targetEnsnared.content', { DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('Content.targetEnsnared.content', { BaseChance: TsUtils.precisionRound(60 + 10 * s), DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   }
 

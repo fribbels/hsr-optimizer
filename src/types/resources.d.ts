@@ -512,7 +512,7 @@ interface Resources {
           },
           "targetCodeDebuff": {
             "text": "Target Aether Code debuff",
-            "content": "After the wearer uses their Basic ATK, Skill, or Ultimate, there is a chance to implant Aether Code on a random hit target that does not yet have it. Targets with Aether Code receive {{DmgIncrease}}% increased DMG for 1 turn."
+            "content": "After the wearer uses their Basic ATK, Skill, or Ultimate, there is a 100% base chance to implant Aether Code on a random hit target that does not yet have it. Targets with Aether Code receive {{DmgIncrease}}% increased DMG for 1 turn."
           }
         }
       },
@@ -524,7 +524,7 @@ interface Resources {
           },
           "targetVulnerability": {
             "text": "Target vulnerability debuff",
-            "content": "When the wearer's follow-up attack hits an enemy target, there is a 100% base chance to increase the DMG taken by the attacked enemy target by {{Vulnerability}}%, lasting for 2 turns."
+            "content": "When the wearer's follow-up attack hits an enemy target, there is a {{baseChance}}% base chance to increase the DMG taken by the attacked enemy target by {{Vulnerability}}%, lasting for 2 turns."
           }
         }
       },
@@ -1006,7 +1006,7 @@ interface Resources {
         "Content": {
           "targetEnsnared": {
             "text": "Target ensnared",
-            "content": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for 1 turn."
+            "content": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a {{BaseChance}}% base chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for 1 turn."
           }
         }
       },
@@ -1368,7 +1368,7 @@ interface Resources {
         "Content": {
           "skillExtraDmgHits": {
             "text": "Skill extra hits",
-            "content": "Deals 50% ATK DMG equal to a single enemy. Deals DMG for {{skillExtraDmgHitsMax}} extra times to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy."
+            "content": "Deals Fire DMG equal to {{skillScaling}}% of Asta's ATK to a single enemy and further deals DMG for {{skillExtraDmgHitsMax}} extra times, with each time dealing Fire DMG equal to {{skillScaling}}% of Asta's ATK to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy."
           },
           "talentBuffStacks": {
             "text": "Talent ATK buff stacks",
@@ -2399,7 +2399,7 @@ interface Resources {
           },
           "skillWeaknessResShredDebuff": {
             "text": "Skill weakness implanted RES shred",
-            "content": "There is a chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turns. If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered."
+            "content": "There is a {{implantChance}}% base chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turns. If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered."
           },
           "talentDefShredDebuff": {
             "text": "Bug DEF shred",

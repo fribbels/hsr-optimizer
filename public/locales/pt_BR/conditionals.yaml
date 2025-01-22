@@ -101,8 +101,6 @@ Lightcones:
         content: Quando o portador causa DANO a um inimigo que atualmente tem 3 ou mais debuffs, aumenta a taxa de CRÍTICO do portador em {{CritBuff}}%.
       targetCodeDebuff:
         text: Debuff Código Aether no alvo
-        content: >-
-          Após o portador usar seu ATK Básico, Habilidade ou Ultimate, há uma chance de implantar Código Aether em um alvo atingido aleatório que ainda não o tenha. Os alvos com Código Aether recebem um aumento de {{DmgIncrease}}% no DANO por 1 turno.
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
@@ -614,7 +612,6 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: Habilidade de hits extras
-        content: "Causa 50% de DMG ATK igual a um único inimigo. Causa DMG por {{skillExtraDmgHitsMax}} vezes extras a um inimigo aleatório.::BR::E1: Ao usar a habilidade, causa DMG por 1 vez extra a um inimigo aleatório."
       talentBuffStacks:
         text: Acúmulo de buff de ATK do talento
         content: "Aumenta o ATK dos aliados em {{talentStacksAtkBuff}}% para cada acúmulo.::BR::E4: A taxa de regeneração de energia de Asta aumenta em 15% quando ela possui 2 ou mais acúmulos de Carga."

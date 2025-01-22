@@ -96,8 +96,6 @@ Lightcones:
         content: 當裝備者對同時處於大於等於 3 個負面效果的敵方目標造成傷害時，暴擊率提高{{CritBuff}}%。
       targetCodeDebuff:
         text: 目標以太編碼負面效果
-        content: >-
-          裝備者施放普攻、戰技、終結技後，有 100% 的基礎機率對隨機1個未持有【以太編碼】的受擊目標施加【以太編碼】。持有【以太編碼】的目標受到的傷害提高{{DmgIncrease}}%，持續1回合。
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
@@ -561,7 +559,6 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: 戰技額外擊中次數
-        content: "對指定敵方單體造成等同於艾絲妲50%攻擊力的火屬性傷害，並額外造成4次傷害。每次傷害對隨機敵方單體造成等同於艾絲妲{{skillExtraDmgHitsMax}}攻擊力的火屬性傷害。 ::BR::E1:施放戰技時，對敵方隨機單體額外造成1次傷害。"
       talentBuffStacks:
         text: 天賦攻擊力增益層數
         content: "艾絲妲每擁有1層蓄能，會使我方全體攻擊力提高{{talentStacksAtkBuff}}%。 ::BR::E4:天賦的蓄能層數大於等於2時，艾絲妲的能量恢復效率提高15% 。"

@@ -453,7 +453,7 @@ function nonZeroOrUndefined(n?: number) {
 
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
-const STANDARD_COLOR = '#628ae9'
+const STANDARD_COLOR = '#799ef4'
 
 export function standardShowcasePreferences() {
   return {
@@ -565,7 +565,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8005: ['#8d7abc'], // trailblazerharmony
     8006: ['#8d7abc'], // trailblazerharmony
 
-    1401: ['#7336ed'], // the herta
+    1401: ['#8e5eef'], // the herta
     1402: ['#8cb7e7'], // aglaea
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance

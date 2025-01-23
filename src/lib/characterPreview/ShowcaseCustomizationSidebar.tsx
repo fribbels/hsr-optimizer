@@ -265,7 +265,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
                 size='small'
                 controls={false}
                 style={{ width: '100%' }}
-                placeholder={`${simScoringResult?.originalSimResult?.x[Stats.SPD].toFixed(3) ?? ''}`}
+                // placeholder={`${simScoringResult?.originalSimResult[Stats.SPD].toFixed(3) ?? ''}`}
                 addonAfter={<SelectSpdPresets onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}/>}
                 onBlur={onShowcaseSpdBenchmarkChangeEvent}
                 onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
@@ -385,7 +385,7 @@ function SelectSpdPresets(props: {
         title: 'benchmark',
         options: [
           {
-            label: <b><span>Current SPD - The benchmark will match your combat SPD</span></b>,
+            label: <b><span>Current SPD - The benchmark will match your basic SPD</span></b>,
             value: null,
           },
           {

@@ -116,6 +116,7 @@ export type SpdPresets = Record<string, {
   key: string
   label: string | ReactElement
   value: number | undefined
+  disabled?: boolean
 }>
 
 export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {

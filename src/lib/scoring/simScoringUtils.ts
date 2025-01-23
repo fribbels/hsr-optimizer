@@ -66,6 +66,7 @@ export type SimulationScore = {
   simulationMetadata: SimulationMetadata
   characterMetadata: CharacterMetadata
 
+  originalSpd: number
   spdBenchmark: number | null
   simulationFlags: SimulationFlags
 }

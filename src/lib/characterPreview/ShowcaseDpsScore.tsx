@@ -10,7 +10,8 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
-import { getSimScoreGrade, SimulationScore } from 'lib/scoring/characterScorer'
+import { getSimScoreGrade } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
@@ -194,10 +195,14 @@ export function ShowcaseDpsScoreHeader(props: {
     whiteSpace: 'nowrap',
   }
 
+  const titleRender = result.spdBenchmark == null
+    ? t('CharacterPreview.ScoreHeader.Title') // Combat Sim
+    : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(result.spdBenchmark) }) // Benchmark vs {{spd}} SPD
+
   const textDisplay = (
     <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
       <StatText style={textStyle}>
-        {t('CharacterPreview.ScoreHeader.Title')/* Combat Sim */}
+        {titleRender}
       </StatText>
       <StatText style={textStyle}>
         {
@@ -219,6 +224,10 @@ export function ShowcaseDpsScoreHeader(props: {
       {textDisplay}
     </Flex>
   )
+}
+
+function formatSpd(n: number) {
+  return Utils.truncate10ths(n).toFixed(1)
 }
 
 function ShowcaseTeamSelectPanel(props: {

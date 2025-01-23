@@ -534,6 +534,7 @@ export function CharacterCardCombatStats(props: {
   addOnHitStats(result)
 
   const { t } = useTranslation('common')
+  const { t: tCharactersTab } = useTranslation('charactersTab')
   const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
@@ -583,11 +584,15 @@ export function CharacterCardCombatStats(props: {
     )
   }
 
+  const titleRender = result.simulationForm.deprioritizeBuffs
+    ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
+    : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+
   return (
     <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
       <Flex vertical align='center'>
         <HeaderText style={{ fontSize: 16 }}>
-          {t('CombatStats')/* Combat Stats */}
+          {titleRender}
         </HeaderText>
       </Flex>
       {rows}

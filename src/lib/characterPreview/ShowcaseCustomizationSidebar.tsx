@@ -269,7 +269,12 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
                 controls={false}
                 style={{ width: '100%' }}
                 value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
-                addonAfter={<SelectSpdPresets onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}/>}
+                addonAfter={<SelectSpdPresets
+                  spdFilter={simScoringResult?.originalSpd}
+                  onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                  characterId={characterId}
+                  simScoringResult={simScoringResult}
+                />}
                 min={0}
                 onBlur={onShowcaseSpdBenchmarkChangeEvent}
                 onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
@@ -282,13 +287,13 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
               <HorizontalDivider/>
 
               <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                Targeted buffs
+                Buff priority
               </HeaderText>
 
               <Segmented
                 options={[
-                  { value: false, label: 'Yes' },
-                  { value: true, label: 'No' },
+                  { value: false, label: 'High' },
+                  { value: true, label: 'Low' },
                 ]}
                 block
                 value={deprioritizeBuffs}
@@ -378,11 +383,24 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 )
 
 function SelectSpdPresets(props: {
+  characterId: string,
   onShowcaseSpdBenchmarkChange: (n: number) => void
+  simScoringResult: SimulationScore | null,
+  spdFilter?: number,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
 
+  const presets = useMemo(() => {
+    return Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
+  }, [t])
+
   const spdPresetOptions = useMemo(() => {
+    if (props.spdFilter != null) {
+      presets.map(preset => {
+        preset.disabled = preset.value != null && preset.value > props.spdFilter!
+      })
+    }
+
     return [
       {
         label: <span>Benchmark options</span>,
@@ -393,18 +411,18 @@ function SelectSpdPresets(props: {
             value: -1,
           },
           {
-            label: <span>Base SPD - The benchmark will target a zero SPD build</span>,
+            label: <span>Base SPD - The benchmark will target a minimal SPD build</span>,
             value: 0,
           },
         ],
       },
       {
-        label: <span>Common SPD breakpoint presets</span>,
+        label: <span>Common SPD breakpoint presets (SPD buffs considered separately)</span>,
         title: 'presets',
-        options: Object.values(generateSpdPresets(t)).slice(1),
+        options: presets,
       },
     ]
-  }, [t])
+  }, [props.spdFilter, props.characterId, props.simScoringResult])
 
   return (
     <Select
@@ -414,6 +432,7 @@ function SelectSpdPresets(props: {
       options={spdPresetOptions}
       placement='bottomRight'
       listHeight={800}
+      value={null}
       onChange={props.onShowcaseSpdBenchmarkChange}
     />
   )

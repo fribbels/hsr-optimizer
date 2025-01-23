@@ -95,6 +95,7 @@ export function CharacterPreview(props: {
   const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD])
   const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
   const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs)
+  const showcaseTemporaryOptions = window.store((s) => s.showcaseTemporaryOptions)
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
@@ -135,6 +136,7 @@ export function CharacterPreview(props: {
     scoringType,
     currentSelection,
     showcaseMetadata,
+    showcaseTemporaryOptions,
   )
 
   // ===== Portrait =====
@@ -218,6 +220,7 @@ export function CharacterPreview(props: {
         ref={sidebarRef}
         id={props.id}
         characterId={character.id}
+        simScoringResult={simScoringResult}
         token={seedToken}
         showcasePreferences={characterShowcasePreferences}
         setOverrideTheme={() => {

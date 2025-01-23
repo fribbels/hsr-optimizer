@@ -25,7 +25,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.IronCavalryAgainstTheScourge,
 ]
 
-const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
+const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
   [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
   [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
@@ -1356,7 +1356,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -1461,7 +1461,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -1570,7 +1570,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -1679,6 +1679,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -1829,7 +1830,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -1974,7 +1975,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -2117,7 +2118,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -2227,7 +2228,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -2473,7 +2474,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -2579,6 +2580,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -2681,7 +2683,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -2833,7 +2835,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
           RELICS_2P_BREAK_EFFECT_SPEED,
         ],
         ornamentSets: [
@@ -2941,7 +2943,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -3049,7 +3051,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -3251,7 +3253,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TheWondrousBananAmusementPark,
@@ -3358,7 +3360,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -3464,7 +3466,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -3667,7 +3669,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -3862,7 +3864,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -3966,7 +3968,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -4074,7 +4076,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
@@ -4311,7 +4313,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -4418,7 +4420,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -4580,7 +4582,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -4687,7 +4689,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -4792,6 +4794,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           RELICS_2P_BREAK_EFFECT_SPEED,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.ForgeOfTheKalpagniLantern,
@@ -4936,7 +4939,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.InertSalsotto,
@@ -5088,7 +5091,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
           [Sets.TheAshblazingGrandDuke, Sets.KnightOfPurityPalace, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -5197,7 +5200,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -5346,6 +5349,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -5449,7 +5453,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.IzumoGenseiAndTakamaDivineRealm,
@@ -5591,6 +5595,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.ForgeOfTheKalpagniLantern,
@@ -5693,7 +5698,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -5839,7 +5844,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -5937,7 +5942,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           RELICS_2P_BREAK_EFFECT_SPEED,
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
@@ -6035,6 +6040,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
@@ -6136,7 +6142,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -6240,7 +6246,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -6598,7 +6604,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.IzumoGenseiAndTakamaDivineRealm,
@@ -6704,7 +6710,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         relicSets: [
           [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TheWondrousBananAmusementPark,
@@ -6813,7 +6819,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.GiantTreeOfRaptBrooding,
@@ -6922,7 +6928,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,

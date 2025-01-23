@@ -110,6 +110,7 @@ export function scoreCharacterSimulation(
   }
 
   // Optimize requested stats
+
   const substats: string[] = metadata.substats
 
   // Special handling for break effect carries
@@ -150,6 +151,7 @@ export function scoreCharacterSimulation(
   }
 
   // Get the simulation sets
+
   const simulationSets = calculateSimSets(metadata, relicsByPart)
 
   if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse &&
@@ -165,6 +167,7 @@ export function scoreCharacterSimulation(
   }
 
   // Set up default request
+
   const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
   const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
     metadata.teammates[0].lightCone,
@@ -188,9 +191,11 @@ export function scoreCharacterSimulation(
   simulationForm.deprioritizeBuffs = deprioritizeBuffs
 
   // Cache context for reuse
+
   const context = generateContext(simulationForm)
 
   // Generate scoring function
+
   const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
     if (!result) return
 
@@ -222,18 +227,20 @@ export function scoreCharacterSimulation(
 
   // Special handling for poet - force the spd to certain thresholds when poet is active
 
+  const spdBenchmark = showcaseTemporaryOptions.spdBenchmark ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark) : null
+
   if (simulationFlags.simPoetActive) {
     // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
     if (baselineSimResult[Stats.SPD] < 95) {
-      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.9, showcaseTemporaryOptions.spdBenchmark ?? 94.9)
+      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.9, spdBenchmark ?? 94.9)
     } else if (baselineSimResult[Stats.SPD] < 110) {
-      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.9, showcaseTemporaryOptions.spdBenchmark ?? 109.9)
+      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.9, spdBenchmark ?? 109.9)
     } else {
       // No-op
     }
   } else {
     // When the sim does not have poet, force the original spd and proceed as regular
-    simulationFlags.forceBasicSpdValue = Math.min(showcaseTemporaryOptions.spdBenchmark ?? originalSpd, originalSpd)
+    simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
   }
 
   // ===== Simulate the forced spd build =====

@@ -6,7 +6,7 @@ import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreview
 import { parentH, parentW } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

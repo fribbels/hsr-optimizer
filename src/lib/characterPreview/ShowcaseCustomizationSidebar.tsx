@@ -6,7 +6,7 @@ import { usePublish } from 'hooks/usePublish'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { SimulationScore } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -265,8 +265,9 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
                 size='small'
                 controls={false}
                 style={{ width: '100%' }}
-                // placeholder={`${simScoringResult?.originalSimResult[Stats.SPD].toFixed(3) ?? ''}`}
+                value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
                 addonAfter={<SelectSpdPresets onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}/>}
+                min={0}
                 onBlur={onShowcaseSpdBenchmarkChangeEvent}
                 onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
               />
@@ -386,7 +387,7 @@ function SelectSpdPresets(props: {
         options: [
           {
             label: <b><span>Current SPD - The benchmark will match your basic SPD</span></b>,
-            value: null,
+            value: -1,
           },
           {
             label: <span>Base SPD - The benchmark will target a zero SPD build</span>,
@@ -422,6 +423,10 @@ function clipboardClicked(elementId: string, action: string, setLoading: (b: boo
       setLoading(false)
     })
   }, 100)
+}
+
+function nonZeroOrUndefined(n?: number) {
+  return n == undefined || n < 0 ? undefined : n
 }
 
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'

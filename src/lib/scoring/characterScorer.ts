@@ -227,7 +227,9 @@ export function scoreCharacterSimulation(
 
   // Special handling for poet - force the spd to certain thresholds when poet is active
 
-  const spdBenchmark = showcaseTemporaryOptions.spdBenchmark ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark) : null
+  const spdBenchmark = showcaseTemporaryOptions.spdBenchmark != null
+    ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
+    : null
 
   if (simulationFlags.simPoetActive) {
     // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
@@ -406,6 +408,9 @@ export function scoreCharacterSimulation(
     simulationForm: simulationForm,
     simulationMetadata: metadata,
     characterMetadata: characterMetadata,
+
+    spdBenchmark: spdBenchmark,
+    simulationFlags: simulationFlags,
   }
 
   cachedSims[cacheKey] = simScoringResult

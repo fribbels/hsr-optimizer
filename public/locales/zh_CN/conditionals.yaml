@@ -116,6 +116,8 @@ Lightcones:
         content: 当装备者对同时处于大于等于 3 个负面效果的敌方目标造成伤害时，暴击率提高{{CritBuff}}%。
       targetCodeDebuff:
         text: 目标以太编码负面效果
+        content: >-
+          装备者施放普攻、战技、终结技后，有100%的基础概率对随机1个未持有【以太编码】的受击目标施加【以太编码】。持有【以太编码】的目标受到的伤害提高{{DmgIncrease}}%，持续1回合。
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
@@ -123,6 +125,7 @@ Lightcones:
         content: 当装备者为我方目标提供护盾时，使装备者的暴击伤害提高{{CritBuff}}%，持续2回合。
       targetVulnerability:
         text: 目标易伤负面效果
+        content: 当装备者发动追加攻击击中敌方目标时，有{{baseChance}}%的基础概率使受到攻击的敌方目标受到的伤害提高{{Vulnerability}}%，持续2回合。
   InTheNameOfTheWorld:
     Content:
       enemyDebuffedDmgBoost:
@@ -456,6 +459,7 @@ Lightcones:
     Content:
       targetEnsnared:
         text: 敌人陷入攻陷状态
+        content: 当装备者击中敌方目标时，如果该目标不处于【攻陷】状态，则有{{BaseChance}}%的基础概率使其陷入【攻陷】状态。【攻陷】状态下的敌方目标防御力降低{{DefShred}}%，持续1回合。
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
@@ -702,6 +706,7 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: 战技额外击中次数
+        content: "对指定敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害，并额外造成{{skillExtraDmgHitsMax}}次伤害。每次伤害对随机敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害。::BR::1魂：施放战技时，对敌方随机单体额外造成1次伤害。"
       talentBuffStacks:
         text: 天赋攻击力增益层数
         content: "艾丝妲每拥有1层蓄能，会使我方全体攻击力提高{{talentStacksAtkBuff}}%。::BR::4魂：天赋的蓄能层数大于等于2时，艾丝妲的能量恢复效率提高15% 。"
@@ -1467,6 +1472,8 @@ Characters:
           有100%的基础概率额外使该目标的全属性抗性降低{{skillResShredValue}}%持续2回合。::BR::施放战技时，若敌方目标的负面效果数量大于等于3个，则战技使目标全属性抗性降低的效果额外降低3%。
       skillWeaknessResShredDebuff:
         text: 战技添加弱点后属性削弱
+        content: >-
+          有{{implantChance}}%的基础概率为指定敌方单体目标添加1个场上我方目标持有属性的弱点，且该弱点对应属性的抗性降低20%，持续2回合。若添加的是敌方目标原有属性的弱点，则不会触发对应属性的抗性降低效果。
       talentDefShredDebuff:
         text: 缺陷防御力削弱
         content: 银狼制造的【缺陷】使目标防御力降低{{talentDefShredDebuffValue}}%，持续3回合。

@@ -78,7 +78,7 @@ CharacterPreview:
     Roll: roll
     Damage: Dégâts
   BuildAnalysis:
-    ScoringNote: "Info: La note DPS et les DGT COMBO sont des métriques qui s'appliquent a une rotation de capacité unique.\nElles ne servent pas à faire des comparaisons entre équipes."
+    ScoringNote: "Info: La note DPS et les DGT COMBO sont des métriques qui s'appliquent à une rotation de capacité unique.\nElles ne servent pas à faire des comparaisons entre équipes."
     Header: Analyse de build du personnage
     SimulationTeammates: Coéquipiers de simulation
     SimulationSets: Set de simulation

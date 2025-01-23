@@ -59,6 +59,7 @@ CharacterPreview:
     NoSelectedCharacter: No selected character
   ScoreHeader:
     Title: Combat Sim
+    TitleBenchmark: "{{spd}} SPD Benchmark"
     Score: "DPS Score {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Scoring algorithm:"
@@ -71,6 +72,7 @@ CharacterPreview:
     Title: "Combat score details:"
     Labels:
       CombatStats: Combat Stats
+      SubDpsCombatStats: Combat Stats (Sub DPS)
       DMGUpgrades: Damage Upgrades
   DMGUpgrades: Damage Upgrades
   SubstatUpgradeComparisons:

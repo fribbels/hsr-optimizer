@@ -409,6 +409,7 @@ export function scoreCharacterSimulation(
     simulationMetadata: metadata,
     characterMetadata: characterMetadata,
 
+    originalSpd: originalSpd,
     spdBenchmark: spdBenchmark,
     simulationFlags: simulationFlags,
   }

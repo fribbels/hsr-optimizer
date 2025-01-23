@@ -76,6 +76,7 @@ interface Resources {
       },
       "ScoreHeader": {
         "Title": "Combat Sim",
+        "TitleBenchmark": "Benchmark vs {{spd}} SPD",
         "Score": "DPS Score {{score}}% {{grade}}"
       },
       "AlgorithmSlider": {
@@ -91,6 +92,7 @@ interface Resources {
         "Title": "Combat score details:",
         "Labels": {
           "CombatStats": "Combat Stats",
+          "SubDpsCombatStats": "Combat Stats (Sub DPS)",
           "DMGUpgrades": "Damage Upgrades"
         }
       },

@@ -158,7 +158,10 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       const showcaseTemporaryOptions = TsUtils.clone(window.store.getState().showcaseTemporaryOptions)
       if (!showcaseTemporaryOptions[characterId]) showcaseTemporaryOptions[characterId] = {}
 
-      showcaseTemporaryOptions[characterId].spdBenchmark = spdBenchmark
+      // -1 is used as the "current" setting
+      const actualValue = spdBenchmark == -1 ? undefined : spdBenchmark
+
+      showcaseTemporaryOptions[characterId].spdBenchmark = actualValue
 
       window.store.getState().setShowcaseTemporaryOptions(showcaseTemporaryOptions)
     }

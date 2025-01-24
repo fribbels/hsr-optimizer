@@ -541,6 +541,11 @@ fn main(
       m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_HP_SCALING + x.MEMO_HP_FLAT;
       m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_SPD_SCALING + x.MEMO_SPD_FLAT;
 
+      // START BASIC CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT BASIC CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END BASIC CONDITIONALS
 
       evaluateDependenciesSPD(p_x, p_m, p_state);
       evaluateDependenciesBE(p_x, p_m, p_state);

@@ -2,7 +2,15 @@ import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
+import {
+  baseCharacterStats,
+  calculateBaseStats,
+  calculateBasicEffects,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts,
+} from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
@@ -96,6 +104,7 @@ export function calculateBuild(
     x.setPrecompute(action.precomputedX.a)
     m.setPrecompute(action.precomputedM.a)
 
+    calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 

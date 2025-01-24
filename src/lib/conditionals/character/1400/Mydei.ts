@@ -84,14 +84,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 90 : 60, Source.NONE)
       x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
     },
+    calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.CR.buff((r.hpToCrConversion) ? Math.min(0.48, 0.016 * Math.floor((x.c[Stats.HP] - 5000) / 100)) : 0, Source.NONE)
+    },
+    gpuCalculateBasicEffects: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      return `
+if (${wgslTrue(r.hpToCrConversion)}) {
+  let buffValue: f32 = min(0.48, 0.016 * floor((c.HP - 5000) / 100));
+  x.CR += buffValue;
+}
+`
+    },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.vendettaState) {
         x.DEF.set(0, Source.NONE)
       }
-
-      x.CR.buff((r.hpToCrConversion) ? Math.min(0.48, 0.016 * Math.floor((x.c[Stats.HP] - 5000) / 100)) : 0, Source.NONE)
 
       x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
       x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], Source.NONE)
@@ -103,12 +116,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return `
 if (${wgslTrue(r.vendettaState)}) {
   x.DEF = 0;
-}
-
-
-if (${wgslTrue(r.hpToCrConversion)}) {
-  let buffValue: f32 = min(0.48, 0.016 * floor((c.HP - 5000) / 100));
-  x.CR += buffValue;
 }
 
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;

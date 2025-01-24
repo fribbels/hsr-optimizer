@@ -8,7 +8,8 @@ import {
   CelestialDifferentiatorConditional,
   FirmamentFrontlineGlamoth135Conditional,
   FirmamentFrontlineGlamoth160Conditional,
-  FleetOfTheAgelessConditional, GiantTreeOfRaptBrooding135Conditional,
+  FleetOfTheAgelessConditional,
+  GiantTreeOfRaptBrooding135Conditional,
   GiantTreeOfRaptBrooding180Conditional,
   InertSalsottoConditional,
   IronCavalryAgainstTheScourge150Conditional,
@@ -184,6 +185,14 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
   c[Stats.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c,
     0.10 * p2(sets.PasserbyOfWanderingCloud),
   )
+}
+
+export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  const lightConeConditionalController = context.lightConeConditionalController
+  const characterConditionalController = context.characterConditionalController
+
+  if (lightConeConditionalController.calculateBasicEffects) lightConeConditionalController.calculateBasicEffects(x, action, context)
+  if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
 export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {

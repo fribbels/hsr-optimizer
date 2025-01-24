@@ -57,6 +57,22 @@ ${lightConeConditionalWgsl}
     indent(conditionalsWgsl, 3),
   )
 
+  // Basic conditionals
+
+  let basicConditionalsWgsl = ``
+  if (characterConditionals.gpuCalculateBasicEffects) {
+    basicConditionalsWgsl += indent(characterConditionals.gpuCalculateBasicEffects(context.actions[0], context), 1)
+  }
+  if (lightConeConditionals.gpuCalculateBasicEffects) {
+    basicConditionalsWgsl += indent(lightConeConditionals.gpuCalculateBasicEffects(context.actions[0], context), 1)
+  }
+  wgsl = wgsl.replace(
+    '/* INJECT BASIC CONDITIONALS */',
+    indent(basicConditionalsWgsl, 2),
+  )
+
+  // Dynamic conditionals
+
   wgsl += generateDynamicConditionals(request, context)
 
   let actionsDefinition = `

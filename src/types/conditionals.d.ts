@@ -32,6 +32,9 @@ export interface ConditionalsController {
   // e.g. Targeted teammate buff
   precomputeTeammateEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
 
+  calculateBasicEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  gpuCalculateBasicEffects?: (action: OptimizerAction, context: OptimizerContext) => string
+
   // Multipliers that can be evaluated after all stat modifications are complete
   // No changes to stats should occur at this stage
   finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void

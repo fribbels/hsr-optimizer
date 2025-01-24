@@ -1,3 +1,244 @@
+Scoring:
+  StatWeightsHeader: Trọng số chỉ số
+  MainstatsHeader: Chỉ số chính hợp lý
+  WeightMethodology:
+    Header: Điểm chỉ số được tính như thế nào?
+  Footer:
+    Reset: Đặt lại mặc định
+    ResetAll: Đặt lại tất cả nhân vật
+    Save: Lưu thay đổi
+  ResetAllConfirm:
+    Title: Đặt lại thuật toán tính điểm cho tất cả nhân vật?
+    Description: Bạn sẽ mất tất cả các thiết lập tính điểm tùy chỉnh đã đặt cho bất kỳ nhân vật nào
+0Perms:
+  Title: Tìm kiếm tạo ra được 0 lối lên đồ
+  Description: Điều này có nghĩa là bộ lọc của bạn bị cấu hình sai hoặc quá hạn chế, không có dị vật nào khớp với bộ lọc. Các lối lên đồ sẽ được hiển thị ở thanh bên.
+  RootCauses:
+    IMPORT:
+      Description: Nhập di vật từ tài khoản của bạn trên tab Nhập
+      ButtonText: Chuyển đến tab Nhập
+      SuccessMessage: Chọn phương pháp và nhập di vật cùng nhân vật của bạn.
+    Body_MAIN:
+      Description: "Chỉ số chính để lọc $t(common:Parts.Body) bị hơi quá hạn chế"
+      ButtonText: "Xóa $t(common:Parts.Body) khỏi bộ lọc chỉ số chính"
+      SuccessMessage: "Đã xóa $t(common:Parts.Body) khỏi bộ lọc chỉ số chính"
+    Feet_MAIN:
+      Description: "Chỉ số chính để lọc $t(common:Parts.Feet) bị hơi quá hạn chế"
+      ButtonText: "Xóa $t(common:Parts.Feet) khỏi bộ lọc chỉ số chính"
+      SuccessMessage: "Đã xóa $t(common:Parts.Feet) khỏi bộ lọc chỉ số chính"
+    PlanarSphere_MAIN:
+      Description: "Chỉ số chính để lọc $t(common:Parts.PlanarSphere) bị hơi quá hạn chế"
+      ButtonText: "Xóa $t(common:Parts.PlanarSphere) khỏi bộ lọc chỉ số chính"
+      SuccessMessage: "Đã xóa $t(common:Parts.PlanarSphere) khỏi bộ lọc chỉ số chính"
+    LinkRope_MAIN:
+      Description: "Chỉ số chính để lọc $t(common:Parts.LinkRope) bị hơi quá hạn chế"
+      ButtonText: "Xóa $t(common:Parts.LinkRope) khỏi bộ lọc chỉ số chính"
+      SuccessMessage: "Đã xóa $t(common:Parts.LinkRope) khỏi bộ lọc chỉ số chính"
+    RELIC_SETS:
+      Description: Bộ di vật được chọn để lọc có thể bị hơi quá hạn chế
+      ButtonText: Reset bộ lọc di vật
+      SuccessMessage: Đã reset bộ lọc di vật
+    ORNAMENT_SETS:
+      Description: Bộ vi diện được chọn để lọc có thể bị hơi quá hạn chế
+      ButtonText: Reset bộ lọc vị diện
+      SuccessMessage: Đã reset bộ lọc vị diện
+    KEEP_CURRENT:
+      Description: ' "Giữ di vật hiện tại" đạng được bật, điều này buộc tất cả di vật hiện tại đang trang bị trên nhân vật không thay đổi trong quá trình tìm kiếm'
+      ButtonText: Tắt "Giữ di vật hiện tại"
+      SuccessMessage: Đã tắt "Giữ di vật hiện tại".
+    PRIORITY:
+      Description: Nhân vật được xếp hạng thấp hơn các nhân vật khác trong danh sách ưu tiên. Khi bộ lọc "Ưu tiên nhân vật" được bật, nhân vật chỉ có thể nhận di tích của những nhân vật có thứ tự thấp hơn
+      ButtonText: "Di chuyển nhân vật lên vị trí thứ #1"
+      SuccessMessage: "Di chuyển nhân vật lên vị trí thứ #1"
+    EXCLUDE_ENABLED:
+      Description: Bộ lọc "Loại trừ" có một số nhân vật đã được chọn, có nghĩa là nhân vật này không thể nhận di tích từ những nhân vật đã chọn
+      ButtonText: Reset những nhân vật bị loại bỏ
+      SuccessMessage: Đã reset những nhân vật bị loại bỏ
+    EQUIPPED_DISABLED:
+      Description: Bộ lọc "Bao gồm di vật đã trang bị" đang bị tắt, có nghĩa là nhân vật này không thể nhận di vật của các nhân vật khác
+      ButtonText: Bật "Bao gồm di vật đang được dùng".
+      SuccessMessage: Đã bật "Bao gồm di vật đang được dùng".
+    MINIMUM_ROLLS:
+      Description: Bộ lọc của substat có ngưỡng tối thiểu có thể quá cao
+      ButtonText: Đặt số lần roll tối thiểu thành 0.
+      SuccessMessage: Đặt số lần roll tối thiểu thành 0.
+0Results:
+  Title: Tìm kiếm được 0 lối lên đồ
+  ResetAll:
+    ButtonText: Đặt lại tất cả bộ lọc
+    SuccessMessage: Đặt lại tất cả bộ lọc
+    Description: Điều này có nghĩa là yêu cầu về chỉ số có thể quá hẹp
+  RootCauses:
+    StatView:
+      SuccessMessage: "Đã chuyển sang chỉ số trong combat"
+      Description: "Chỉ số hiện tại đang được lọc cho chỉ số cơ bản, việc này không bao gồm buffs. Bật Combat để thấy chỉ số sau khi nhân vật được buff từ kỹ năng, đồng đội hoặc di vật, vân vân"
+      ButtonText: "Đã chuyển sang chỉ số trong combat"
+    MAX_HP:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.HP)"
+      Description: "$t(common:Stats.HP) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.HP)"
+    MIN_HP:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.HP)"
+      Description: "$t(common:Stats.HP) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.HP)"
+    MAX_ATK:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.ATK)"
+      Description: "$t(common:Stats.ATK) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.ATK)"
+    MIN_ATK:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.ATK)"
+      Description: "$t(common:Stats.ATK) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.ATK)"
+    MAX_DEF:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.DEF)"
+      Description: "$t(common:Stats.DEF) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.DEF)"
+    MIN_DEF:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.DEF)"
+      Description: "$t(common:Stats.DEF) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.DEF)"
+    MAX_SPD:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.SPD)"
+      Description: "$t(common:Stats.SPD) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.SPD)"
+    MIN_SPD:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.SPD)"
+      Description: "$t(common:Stats.SPD) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.SPD)"
+    MAX_CR:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.CRIT Rate)"
+      Description: "$t(common:Stats.CRIT Rate) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.CRIT Rate)"
+    MIN_CR:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.CRIT Rate)"
+      Description: "$t(common:Stats.CRIT Rate) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.CRIT Rate)"
+    MAX_CD:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.CRIT DMG)"
+      Description: "$t(common:Stats.CRIT DMG) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.CRIT DMG)"
+    MIN_CD:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.CRIT DMG)"
+      Description: "$t(common:Stats.CRIT DMG) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.CRIT DMG)"
+    MAX_EHR:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.Effect Hit Rate)"
+      Description: "$t(common:Stats.Effect Hit Rate) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.Effect Hit Rate)"
+    MIN_EHR:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Effect Hit Rate)"
+      Description: "$t(common:Stats.Effect Hit Rate) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Effect Hit Rate)"
+    MAX_RES:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.Effect RES)"
+      Description: "$t(common:Stats.Effect RES) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.Effect RES)"
+    MIN_RES:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Effect RES)"
+      Description: "$t(common:Stats.Effect RES) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Effect RES)"
+    MAX_BE:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.Break Effect)"
+      Description: "$t(common:Stats.Break Effect) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.Break Effect)"
+    MIN_BE:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Break Effect)"
+      Description: "$t(common:Stats.Break Effect) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Break Effect)"
+    MAX_ERR:
+      SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.Energy Regeneration Rate)"
+      Description: "$t(common:Stats.Energy Regeneration Rate) tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tối đa $t(common:Stats.Energy Regeneration Rate)"
+    MIN_ERR:
+      SuccessMessage: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Energy Regeneration Rate)"
+      Description: "$t(common:Stats.Energy Regeneration Rate) tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tối thiểu $t(common:Stats.Energy Regeneration Rate)"
+    MAX_EHP:
+      SuccessMessage: "Đặt lại bộ lọc EHP tối đa"
+      Description: "EHP tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc EHP tối đa"
+    MIN_EHP:
+      SuccessMessage: "Đặt lại bộ lọc EHP tối thiểu"
+      Description: "EHP tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc EHP tối thiểu"
+    MAX_BASIC:
+      SuccessMessage: "Đặt lại bộ lọc tấn công thường tối đa"
+      Description: "Sát thương đòn đánh cơ bản tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tấn công thường tối đa"
+    MIN_BASIC:
+      SuccessMessage: "Đặt lại bộ lọc tấn công thường tối thiểu"
+      Description: "Sát thương đòn đánh cơ bản tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tấn công thường tối thiểu"
+    MAX_SKILL:
+      SuccessMessage: "Đặt lại bộ lọc chiến kỹ tối đa"
+      Description: "Sát thương chiến kỹ tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc chiến kỹ tối đa"
+    MIN_SKILL:
+      SuccessMessage: "Đặt lại bộ lọc chiến kỹ tối thiểu"
+      Description: "Sát thương chiến kỹ tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc chiến kỹ tối thiểu"
+    MAX_ULT:
+      SuccessMessage: "Đặt lại bộ lọc tuyệt kỹ tối đa"
+      Description: "Sát thương tuyệt kỹ tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc tuyệt kỹ tối đa"
+    MIN_ULT:
+      SuccessMessage: "Đặt lại bộ lọc tuyệt kỹ tối thiểu"
+      Description: "Sát thương tuyệt kỹ tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc tuyệt kỹ tối thiểu"
+    MAX_FUA:
+      SuccessMessage: "Đặt lại bộ lọc đòn đánh theo sau tối đa"
+      Description: "Sát thương đòn đánh theo sau tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc đòn đánh theo sau tối đa"
+    MIN_FUA:
+      SuccessMessage: "Đặt lại bộ lọc đòn đánh theo sau tối thiểu"
+      Description: "Sát thương đòn đánh theo sau tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc đòn đánh theo sau tối thiểu"
+    MAX_DOT:
+      SuccessMessage: "Đặt lại bộ lọc sát thương theo thời gian tối đa"
+      Description: "Sát thương theo thời gian tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc sát thương theo thời gian tối đa"
+    MIN_DOT:
+      SuccessMessage: "Đặt lại bộ lọc sát thương theo thời gian tối thiểu"
+      Description: "Sát thương theo thời gian tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc sát thương theo thời gian tối thiểu"
+    MAX_BREAK:
+      SuccessMessage: "Đặt lại bộ lọc sát thương phá vỡ tối đa"
+      Description: "Sát thương phá vỡ tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc sát thương phá vỡ tối đa"
+    MIN_BREAK:
+      SuccessMessage: "Đặt lại bộ lọc sát thương phá vỡ tối thiểu"
+      Description: "Sát thương phá vỡ tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc sát thương phá vỡ tối thiểu"
+    MAX_HEAL:
+      SuccessMessage: "Đặt lại bộ lọc lượng hồi máu tối đa"
+      Description: "Lượng hồi máu tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc lượng hồi máu tối đa"
+    MIN_HEAL:
+      SuccessMessage: "Đặt lại bộ lọc lượng hồi máu tối thiểu"
+      Description: "Lượng hồi máu tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc lượng hồi máu tối thiểu"
+    MAX_SHIELD:
+      SuccessMessage: "Đặt lại bộ lọc lượng lá chắn tối đa"
+      Description: "Lượng lá chắn tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc lượng lá chắn tối đa"
+    MIN_SHIELD:
+      SuccessMessage: "Đặt lại bộ lọc lượng LÁ CHẮN tối thiểu"
+      Description: "Lượng lá chắn tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc lượng LÁ CHẮN tối thiểu"
+    MAX_COMBO:
+      SuccessMessage: "Đặt lại bộ lọc sát thương combo tối đa"
+      Description: "Sát thương combo tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc sát thương combo tối đa"
+    MIN_COMBO:
+      SuccessMessage: "Đặt lại bộ lọc sát thương combo tối thiểu"
+      Description: "Sát thương combo tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc sát thương combo tối thiểu"
+ManyPerms:
+  Title: Đã yêu cầu tìm kiếm quy mô lớn
+  Text: >-
+    Tìm kiếm tối ưu hóa này sẽ mất một khoảng thời gian đáng kể để hoàn thành. Bạn có thể bật cài đặt tăng tốc GPU hoặc giới hạn tìm kiếm chỉ với các bộ và chỉ số chính, hoặc sử dụng bộ lọc trọng số thuộc tính phụ để giảm số lượng tổ hợp.
+  Cancel: Hủy tìm kiếm
+  Proceed: Tiếp tục tìm kiếm
 EditCharacter:
   EidolonButton: >-
     $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
@@ -7,14 +248,101 @@ EditCharacter:
   Lightcone: Nón Ánh Sáng
 Relic:
   Part: Bộ phận
+  Wearer: Được trang bị bởi
   Set: Bộ
+  Enhance: Nâng cấp / Cấp bậc
+  Mainstat: Dòng Chính
   Substat: Thuộc tính phụ
+  SubstatPlaceholder: Thuộc tính phụ
+  Upgrades: Nâng cấp thuộc tính phụ
+  Messages:
+    SubmitFail: Tải lên thất bại
+    EditSuccess: Chỉnh sửa di vật thành công
+    Error:
+      PartMissing: Có phần bị thiếu
+      MainstatMissing: Chỉ số chính bị thiếu
+      SetMissing: Bộ bị thiếu
+      EnhanceMissing: Cấp độ bị thiếu
+      GradeMissing: Điểm bị thiếu
+      EnhanceInvalid: Giá trị nâng cấp không hợp lệ
+      GradeInvalid: Giá trị điểm không hợp lệ
+      EnhanceTooHigh: Giá trị cường hóa quá cao cho cấp độ này
+      SetInvalid: Giá trị bộ không hợp lệ
+      SetNotOrnament: Bộ đã chọn không phải là bộ vi diện
+      SetNotRelic: Bộ đã chọn không phải là bộ di vật
+      SubNInvalid: "Substat {{number}} không hợp lệ."
+      SubsOutOfOrder: Thứ tự substat sai
+      DuplicateSubs: Các substats bị trùng lặp, mỗi loại chỉ cho phép có một cái
+      MainAsSub: Substats trùng với chỉ số chính
+      SubTooBig: Giá trị substats quá cao
+      MainTooBig: Giá trị chỉ số chính quá cao
+      SubTooSmall: Giá trị substats nên là số dương
+      MainTooSmall: Giá trị chỉ số chính nên là số dương
+EditImage:
+  DefaultTitle: Chỉnh sửa hình ảnh
+  Upload:
+    Title: Cung cấp hình ảnh
+    Radio:
+      Upload: Tải Ảnh lên
+      Url: Nhập URL của ảnh
+      Default: Dùng ảnh mặc định
+    Upload:
+      Method: Kéo hoặc thả file vào khu vực để đăng tải
+      Limit: "Nhận .jpg .jpeg .png .gif (Tối đa: 20MB)"
+    Url:
+      Label: Hình ảnh
+      Rule: Hãy nhập URL của ảnh hợp lệ
+  Edit:
+    Title: Cắt ảnh
+    Zoom: Phóng to
+    Drag: Kéo để di chuyển
+    Pinch: Chụm hoặc cuộn để phóng to
+    ArtBy: "(Tùy) Ảnh được làm bởi:"
+    CreditPlaceholder: Ghi nguồn của họa sĩ nếu được
+  Footer:
+    Change: Thay đổi ảnh
+    Previous: Trước
+    Next: Tiếp
+SaveBuild:
+  Label: Tên lối lên đồ
+  Rule: Hãy nhập tên.
+SwitchRelics:
+  Title: Đổi di vật với nhân vật
+Builds:
+  DeleteAll: Xóa tất cả
+  Equip: Trang bị
+  ConfirmEquip:
+    Content: Trang bị di vật này sẽ gỡ nó từ nhân vật khác đang dùng
+    SuccessMessage: "Trang bị lối lên đồ {{buildName}} thành công"
+  ConfirmDelete:
+    DeleteAll: Bạn chắc chắn muốn xóa tất cả lối lên đồ?
+    DeleteSingle: "Bạn có chắc chắn muốn xóa {{name}}?"
+    SuccessMessageAll: "Xóa mọi lối lên đồ của {{characterName}} thành công"
+    SuccessMessageSingle: "Xóa lối lên đồ {{name}} thành công"
+  NoBuilds:
+    NoneSaved: Không lối lên đồ nào được lưu
 ScoreFooter:
+  ModalTitle: Cài đặt điểm mô phỏng combat
+  OkText: OK
+  ResetButtonText: Cài đội hình về mặc định
+  ResetSuccessMsg: Đặt lại về team mặc định
+  SyncButtonText: Đồng bộ với tinh hồn và nón ánh sáng được nhập
+  SyncSuccessMsg: Đồng bộ với đồng đội
   TeamOptions:
+    Default: Mặc định
     Custom: Tự chỉnh
 CharacterSelect:
+  MultiSelect:
+    Placeholder: Tùy chọn nhân vật
+    MaxTagPlaceholderSome: "{{count}} nhân vật được loại trừ"
+    MaxTagPlaceholderNone: Tất cả nhân vật được bật
+    ModalTitle: Chọn nhân vật được loại trừ
   SingleSelect:
     Placeholder: Nhân vật
+    ModalTitle: Chọn nhân vật
+  SearchPlaceholder: Tìm tên nhân vật
+  ExcludeButton: Loại trừ tất cả
   ClearButton: Xóa
 LightconeSelect:
   Placeholder: Nón Ánh Sáng
+  Title: Chọn nón ánh sáng

@@ -41,6 +41,9 @@ Messages:
   UnequipWarning: "Bạn chắc chắn muốn gỡ đồ của $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Bạn chắc chắn muốn xóa đồ của $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Chỉ số
   CustomizationSidebar:
     Label: Thay đổi nền
     Modes:

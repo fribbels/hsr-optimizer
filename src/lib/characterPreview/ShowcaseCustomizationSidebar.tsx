@@ -54,7 +54,8 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       setColorMode,
     } = props
 
-    const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
+    const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
+    const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
     const pubRefreshRelicsScore = usePublish()
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
@@ -146,7 +147,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       const value: string = event?.target?.value
       if (value == null) return onShowcaseSpdBenchmarkChange(undefined)
 
-      const spdBenchmark = parseFloat(value as string)
+      const spdBenchmark = parseFloat(value)
       if (isNaN(spdBenchmark)) return onShowcaseSpdBenchmarkChange(undefined)
 
       onShowcaseSpdBenchmarkChange(spdBenchmark)
@@ -184,7 +185,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
     const presets = [
       {
-        label: t('PaletteLabel'),
+        label: tCustomization('PaletteLabel'),
         colors: colors,
       },
       // {
@@ -192,6 +193,23 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       //   colors: debugColors.defaults,
       // },
     ]
+
+    const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => {
+      return {
+        spdPrecisionOptions: [
+          { value: false, label: tScoring('SpdPrecision.Low')/* '.0' */ },
+          { value: true, label: tScoring('SpdPrecision.High')/* '.000' */ },
+        ],
+        spdWeightOptions: [
+          { value: 1, label: tScoring('SpdWeight.Max')/* '100%' */ },
+          { value: 0, label: tScoring('SpdWeight.Min')/* '0%' */ },
+        ],
+        buffPriorityOptions: [
+          { value: false, label: tScoring('BuffPriority.High')/* 'High' */ },
+          { value: true, label: tScoring('BuffPriority.Low')/* 'Low' */ },
+        ],
+      }
+    }, [tScoring])
 
     return (
       <Flex
@@ -214,27 +232,24 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           }}
         >
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            Stats
+            {tScoring('Stats.Header')/* Stats */}
           </HeaderText>
 
           <Button
             icon={<SettingOutlined/>}
             onClick={onTraceClick}
           >
-            Traces
+            {tScoring('Stats.ButtonText')/* Traces */}
           </Button>
 
           <HorizontalDivider/>
 
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            SPD precision
+            {tScoring('SpdPrecision.Header')/* SPD precision */}
           </HeaderText>
 
           <Segmented
-            options={[
-              { value: false, label: '.0' },
-              { value: true, label: '.000' },
-            ]}
+            options={spdPrecisionOptions}
             block
             value={showcasePreciseSpd}
             onChange={onShowcasePreciseSpdChange}
@@ -243,25 +258,23 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           <HorizontalDivider/>
 
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            SPD weight
+            {tScoring('SpdWeight.Header')/* SPD weight */}
           </HeaderText>
 
           <Segmented
-            options={[
-              { value: 1, label: '100%' },
-              { value: 0, label: '0%' },
-            ]}
+            options={spdWeightOptions}
             block
             value={spdValue}
             onChange={onShowcaseSpdValueChange}
           />
 
-          {scoringMetadata.simulation &&
+          {scoringMetadata.simulation
+          && (
             <>
               <HorizontalDivider/>
 
               <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                SPD benchmark
+                {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
               </HeaderText>
 
               <InputNumber
@@ -269,38 +282,38 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
                 controls={false}
                 style={{ width: '100%' }}
                 value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
-                addonAfter={<SelectSpdPresets
-                  spdFilter={simScoringResult?.originalSpd}
-                  onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
-                  characterId={characterId}
-                  simScoringResult={simScoringResult}
-                />}
+                addonAfter={(
+                  <SelectSpdPresets
+                    spdFilter={simScoringResult?.originalSpd}
+                    onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                    characterId={characterId}
+                    simScoringResult={simScoringResult}
+                  />
+                )}
                 min={0}
                 onBlur={onShowcaseSpdBenchmarkChangeEvent}
                 onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
               />
             </>
-          }
+          )}
 
-          {scoringMetadata.simulation &&
+          {scoringMetadata.simulation
+          && (
             <>
               <HorizontalDivider/>
 
               <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                Buff priority
+                {tScoring('BuffPriority.Header')/* Buff priority */}
               </HeaderText>
 
               <Segmented
-                options={[
-                  { value: false, label: 'High' },
-                  { value: true, label: 'Low' },
-                ]}
+                options={buffPriorityOptions}
                 block
                 value={deprioritizeBuffs}
                 onChange={onShowcaseDeprioritizeBuffsChange}
               />
             </>
-          }
+          )}
 
         </Flex>
 
@@ -315,7 +328,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           }}
         >
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {t('Label')}
+            {tCustomization('Label')}
           </HeaderText>
 
           <ColorPicker
@@ -336,9 +349,9 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           <Segmented
             vertical
             options={[
-              { value: ShowcaseColorMode.AUTO, label: t('Modes.Auto') },
-              { value: ShowcaseColorMode.CUSTOM, label: t('Modes.Custom') },
-              { value: ShowcaseColorMode.STANDARD, label: t('Modes.Standard') },
+              { value: ShowcaseColorMode.AUTO, label: tCustomization('Modes.Auto') },
+              { value: ShowcaseColorMode.CUSTOM, label: tCustomization('Modes.Custom') },
+              { value: ShowcaseColorMode.STANDARD, label: tCustomization('Modes.Standard') },
             ]}
             value={colorMode}
             onChange={onColorModeChange}
@@ -383,46 +396,43 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 )
 
 function SelectSpdPresets(props: {
-  characterId: string,
+  characterId: string
   onShowcaseSpdBenchmarkChange: (n: number) => void
-  simScoringResult: SimulationScore | null,
-  spdFilter?: number,
+  simScoringResult: SimulationScore | null
+  spdFilter?: number
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
-
-  const presets = useMemo(() => {
-    return Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
-  }, [t])
+  const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
   const spdPresetOptions = useMemo(() => {
+    const presets = Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
     if (props.spdFilter != null) {
-      presets.map(preset => {
+      presets.map((preset) => {
         preset.disabled = preset.value != null && preset.value > props.spdFilter!
       })
     }
 
     return [
       {
-        label: <span>Benchmark options</span>,
+        label: <span>{tCharacterTab('BenchmarkOptionsLabel')/* Benchmark options */}</span>,
         title: 'benchmark',
         options: [
           {
-            label: <b><span>Current SPD - The benchmark will match your basic SPD</span></b>,
+            label: <b><span>{tCharacterTab('CurrentSpdLabel')/* Current SPD - The benchmark will match your basic SPD */}</span></b>,
             value: -1,
           },
           {
-            label: <span>Base SPD - The benchmark will target a minimal SPD build</span>,
+            label: <span>{tCharacterTab('BaseSpdLabel')/* Base SPD - The benchmark will target a minimal SPD build */}</span>,
             value: 0,
           },
         ],
       },
       {
-        label: <span>Common SPD breakpoint presets (SPD buffs considered separately)</span>,
-        title: 'presets',
+        label: <span>{tCharacterTab('CommonBreakpointsLabel')/* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
         options: presets,
       },
     ]
-  }, [props.spdFilter, props.characterId, props.simScoringResult])
+  }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
 
   return (
     <Select

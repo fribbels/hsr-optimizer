@@ -55,6 +55,34 @@ interface Resources {
       "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
     },
     "CharacterPreview": {
+      "ScoringSidebar": {
+        "Stats": {
+          "Header": "Stats",
+          "ButtonText": "Traces"
+        },
+        "SpdPrecision": {
+          "Header": "SPD precision",
+          "Low": 0,
+          "High": 0
+        },
+        "SpdWeight": {
+          "Header": "SPD Weight",
+          "Max": "100%",
+          "Min": "0%"
+        },
+        "BenchmarkSpd": {
+          "Header": "SPD Benchmark",
+          "BenchmarkOptionsLabel": "Benchmark options",
+          "CurrentSpdLabel": "Current SPD - The benchmark will match your basic SPD",
+          "BaseSpdLabel": "Base SPD - The benchmark will target a minimal SPD build",
+          "CommonBreakpointsLabel": "Common SPD breakpoint presets (SPD buffs considered separately)"
+        },
+        "BuffPriority": {
+          "Header": "Buff priority",
+          "High": "High",
+          "Low": "Low"
+        }
+      },
       "CustomizationSidebar": {
         "Label": "Customization",
         "Modes": {
@@ -76,7 +104,7 @@ interface Resources {
       },
       "ScoreHeader": {
         "Title": "Combat Sim",
-        "TitleBenchmark": "Benchmark vs {{spd}} SPD",
+        "TitleBenchmark": "{{spd}} SPD Benchmark",
         "Score": "DPS Score {{score}}% {{grade}}"
       },
       "AlgorithmSlider": {

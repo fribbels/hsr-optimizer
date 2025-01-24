@@ -3319,7 +3319,7 @@ interface Resources {
       },
       "320": {
         "Name": "Giant Tree of Rapt Brooding",
-        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%."
+        "Description2pc": "The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%."
       }
     },
     "Lightcones": {
@@ -3696,7 +3696,7 @@ interface Resources {
         "Name": "Eternal Calculus"
       },
       "24005": {
-        "Name": "The Curtain Never Falls on Memories"
+        "Name": "Memory's Curtain Never Falls"
       }
     },
     "Paths": {
@@ -3708,8 +3708,7 @@ interface Resources {
       "Knight": "Preservation",
       "Priest": "Abundance",
       "Memory": "Remembrance",
-      "Unknown": "General",
-      "Remembrance": "Remembrance"
+      "Unknown": "General"
     },
     "Elements": {
       "Physical": "Physical",

@@ -7097,7 +7097,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0.75,
         [Stats.HP_P]: 0.75,
-        [Stats.SPD]: 1,
+        [Stats.SPD]: 0,
         [Stats.CR]: 1,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
@@ -7166,13 +7166,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         errRopeEidolon: 0,
         relicSets: [
-          [Sets.LongevousDisciple, Sets.LongevousDisciple],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.GiantTreeOfRaptBrooding,
-          Sets.InertSalsotto,
           Sets.BoneCollectionsSereneDemesne,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
@@ -7274,8 +7272,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
-          [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],

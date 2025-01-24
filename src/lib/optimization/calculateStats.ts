@@ -8,8 +8,8 @@ import {
   CelestialDifferentiatorConditional,
   FirmamentFrontlineGlamoth135Conditional,
   FirmamentFrontlineGlamoth160Conditional,
-  FleetOfTheAgelessConditional,
-  GiantTreeOfRaptBroodingConditional,
+  FleetOfTheAgelessConditional, GiantTreeOfRaptBrooding135Conditional,
+  GiantTreeOfRaptBrooding180Conditional,
   InertSalsottoConditional,
   IronCavalryAgainstTheScourge150Conditional,
   IronCavalryAgainstTheScourge250Conditional,
@@ -120,7 +120,8 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
     + 0.06 * p4(sets.MusketeerOfWildWheat)
     + 0.06 * p2(sets.SacerdosRelivedOrdeal)
-    - 0.08 * p4(sets.PoetOfMourningCollapse),
+    - 0.08 * p4(sets.PoetOfMourningCollapse)
+    + 0.06 * p2(sets.GiantTreeOfRaptBrooding),
   )
 
   c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c,
@@ -150,8 +151,7 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation)
     + 0.06 * p4(sets.TheWindSoaringValorous)
-    + 0.08 * p2(sets.ScholarLostInErudition)
-    + 0.08 * p2(sets.GiantTreeOfRaptBrooding),
+    + 0.08 * p2(sets.ScholarLostInErudition),
   )
 
   c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
@@ -395,7 +395,8 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
   p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
   p2(sets.BoneCollectionsSereneDemesne) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
-  p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBroodingConditional, x, action, context)
+  p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
+  p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
 
   for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)

@@ -7,7 +7,15 @@ import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
+import {
+  baseCharacterStats,
+  calculateBaseStats,
+  calculateBasicEffects,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts,
+} from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
@@ -177,6 +185,7 @@ self.onmessage = function (e: MessageEvent) {
       x.setPrecompute(action.precomputedX.a)
       m.setPrecompute(action.precomputedM.a)
 
+      calculateBasicEffects(x, action, context)
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 

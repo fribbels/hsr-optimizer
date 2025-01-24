@@ -260,7 +260,8 @@ fn main(
       0.06 * p2(sets.ForgeOfTheKalpagniLantern) +
       0.06 * p4(sets.MusketeerOfWildWheat) +
       0.06 * p2(sets.SacerdosRelivedOrdeal) -
-      0.08 * p4(sets.PoetOfMourningCollapse)
+      0.08 * p4(sets.PoetOfMourningCollapse) +
+      0.06 * p2(sets.GiantTreeOfRaptBrooding)
     );
 
     c.HP += (baseHP) * (
@@ -290,8 +291,7 @@ fn main(
       0.04 * p4(sets.PioneerDiverOfDeadWaters) +
       0.04 * p2(sets.SigoniaTheUnclaimedDesolation) +
       0.06 * p4(sets.TheWindSoaringValorous) +
-      0.08 * p2(sets.ScholarLostInErudition) +
-      0.08 * p2(sets.GiantTreeOfRaptBrooding)
+      0.08 * p2(sets.ScholarLostInErudition)
     );
 
     c.CD += (
@@ -541,6 +541,11 @@ fn main(
       m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_HP_SCALING + x.MEMO_HP_FLAT;
       m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_SPD_SCALING + x.MEMO_SPD_FLAT;
 
+      // START BASIC CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT BASIC CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END BASIC CONDITIONALS
 
       evaluateDependenciesSPD(p_x, p_m, p_state);
       evaluateDependenciesBE(p_x, p_m, p_state);

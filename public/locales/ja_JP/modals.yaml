@@ -6,7 +6,7 @@ Scoring:
   Footer:
     Reset: デフォルトにリセット
     ResetAll: すべてのキャラクターをリセット
-    Save: 変更を保存
+    Save: 保存
   ResetAllConfirm:
     Title: 全てのキャラクターのスコア計算方法をリセットしますか？
     Description: 以前に設定した全キャラクターのスコア計算方法は全て失われます。

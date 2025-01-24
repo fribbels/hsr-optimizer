@@ -44,6 +44,25 @@ CharacterPreview:
   ScoringSidebar:
     Stats:
       Header: 属性
+      ButtonText: 行迹
+    SpdPrecision:
+      Header: 速度精准度
+      Low: .0
+      High: .000
+    SpdWeight:
+      Header: 速度权重
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: 速度基准
+      BenchmarkOptionsLabel: 基准选项
+      CurrentSpdLabel: 当前速度 - 基准将与你的基础速度匹配
+      BaseSpdLabel: 基础速度 - 基准将以最低速度配装为目标
+      CommonBreakpointsLabel: 常见速度阈值预设（速度增益额外单独考虑）
+    BuffPriority:
+      Header: 增益优先权
+      High: 高
+      Low: 低
   CustomizationSidebar:
     Label: 自定义
     Modes:

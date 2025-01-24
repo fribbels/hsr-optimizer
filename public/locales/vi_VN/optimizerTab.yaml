@@ -29,6 +29,7 @@ SortOptions:
   SKILL: Sắp xếp theo ST Chiến Kỹ
   ULT: Sắp xếp theo ST Tuyệt Kỹ
   FUA: Sắp xếp theo ST Đòn đánh theo sau
+  MEMO_SKILL: Sắp xếp theo sát thương của Linh hồn ký ức
   DOT: Sắp xếp theo ST theo thời gian
   BREAK: Sắp xếp theo ST Phá vỡ
   HEAL: Sắp xếp theo trị liệu
@@ -82,6 +83,7 @@ AdvancedOptions:
   EnemyConfigButtonText: Tùy chọn quái địch
   CombatBuffsButtonTextNone: Buff trong combat thêm
   CombatBuffsButtonText: "Buff trong combat thêm ({{activeCount}})"
+  CustomTracesButtonText: Tùy chỉnh chỉ số vết tích
 Grid:
   To: tới
   Of: của
@@ -120,6 +122,9 @@ Grid:
       FUA: |-
         ĐÒN ĐÁNH
         THEO SAU
+      MEMO_SKILL: |-
+        STᴹ
+        CHIẾN KỸ
       DOT: |-
         ST
         DUY TRÌ
@@ -161,6 +166,9 @@ Grid:
       FUA: |-
         ĐÒN ĐÁNH
         THEO SAU
+      MEMO_SKILL: |-
+        STᴹ
+        CHIẾN KỸ
       DOT: |-
         ST
         DUY TRÌ
@@ -192,6 +200,7 @@ Sidebar:
   Perms: Khả năng
   Searched: Đã tìm
   Results: Kết quả
+  ComputeEngine: Công cụ tính toán
   ProgressText:
     Progress: Tiến trình
     CalculatingETA: Tiến trình (đang tính thời gian cần thiết)
@@ -207,6 +216,8 @@ Sidebar:
     Header: Xem chỉ số và bộ lọc
     CombatStats: Chỉ số trong combat
     BasicStats: Chỉ số cơ bản
+    SummonerStats: Người triệu hồi
+    MemospriteStats: Linh hồn ký ức
   ResultsGroup:
     Header: Kết quả
     Equip: Trang bị
@@ -220,6 +231,10 @@ FormRowLabels:
   Relic & stat filters: Bộ lọc di vật và chỉ số
   Teammates: Đồng đội
   Character custom stats simulation: Mô phỏng chỉ số đồng đội tùy chọn
+TracesDrawer:
+  Title: Tùy chỉnh chỉ số vết tích
+  Header: Chỉ số vết tích đã kích hoạt (tất cả được bật theo mặc định)
+  ButtonText: Lưu thay đổi
 SetConditionals:
   Title: Hiệu ứng bộ có điều kiện
   DescriptionHeader: Mô tả bộ
@@ -256,12 +271,69 @@ SetConditionals:
         Label: 0 Hiệu ứng xấu (+4% Tỉ Lệ Bạo Kích)
       1Debuff:
         Display: 1x
+        Label: 1 hiệu ứng bất lợi (+12% SÁT THƯƠNG | +4% chí mạng cơ bản)
+      2Debuff:
+        Display: x2
+        Label: 2 hiệu ứng bất lợi (+12% SÁT THƯƠNG | +4% tỉ lệ chí mạng | +8% sát thương chí mạng)
+      3Debuff:
+        Display: 3x
+        Label: 3 hiệu ứng bất lợi (+12% SÁT THƯƠNG | +4% tỉ lệ chí mạng | +12% sát thương chí mạng)
+      2+Debuff:
+        Display: 2x+
+        Label: 2 hiệu ứng bất lợi (+12% SÁT THƯƠNG | +4% tỉ lệ chí mạng | +4% tỉ lệ trong combat | +16% sát thương chí mạng)
+      3+Debuff:
+        Display: 3x+
+        Label: 3 hiệu ứng bất lợi (+12% SÁT THƯƠNG | +4% tỉ lệ chí mạng | +4% tỉ lệ trong combat | +24% sát thương chí mạng)
     Sigonia:
       Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% STBK)"
     Duran:
       Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% FUA)"
+      Label5: 5 stacks (+25% FUA DMG +25% STBK)
     Sacerdos:
       Display: "{{stackCount}}x"
+      Label: "{{stackCount}} stacks (+{{buffValue}}% STBK)"
+  Conditionals:
+    DefaultMessage: Mặc định được bật – các hiệu ứng sẽ áp dụng vào tính toán chiến đấu
+    Hunter: Khi được bật, buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu
+    Streetwise: Buff TẤN CÔNG% (ATK%) được chọn sẽ áp dụng vào các phép tính chỉ số Chiến đấu dựa trên số lượng tầng buff
+    Firesmith: Tăng SÁT THƯƠNG KỸ NĂNG (Skill DMG) luôn hoạt động mặc định. Khi bật, buff SÁT THƯƠNG HỎA (Fire DMG) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu
+    Genius: Tăng XUYÊN GIÁP 10% (DEF pen) luôn hoạt động mặc định. Khi bật, giả định kẻ địch có Yếu Điểm Lượng Tử (Quantum Weakness) và xuyên thêm 10% GIÁP
+    Thunder: Khi bật, buff TẤN CÔNG% (ATK%) được áp dụng vào các phép tính chỉ số Chiến đấu
+    Wastelander: Áp dụng các buff được chọn vào các phép tính chỉ số Chiến đấu
+    Longevous: Buff TỶ LỆ CHÍ MẠNG (CR) được chọn sẽ áp dụng vào các phép tính chỉ số Chiến đấu dựa trên số lượng tầng buff
+    Messenger: Khi bật, buff TỐC ĐỘ% (SPD%) được áp dụng vào các phép tính chỉ số Chiến đấu
+    Ashblazing: >-
+      Buff TẤN CÔNG% (ATK%) được chọn sẽ áp dụng vào tất cả các phép tính ngoại trừ các đòn tấn công thêm. Đối với các phép tính đòn tấn công thêm, sẽ bắt đầu với 0% buff TẤN CÔNG và cộng dồn dựa trên số lượng lần đánh. Số lần đánh sẽ tăng lên dựa trên số lượng kẻ địch, giả định mục tiêu đứng ở giữa trong các đòn nổ hoặc tấn công diện rộng (AOE)
+    Prisoner: Buff XUYÊN GIÁP% (DEF% pen) được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff
+    Diver: Hiệu ứng 2 món có thể bị vô hiệu hóa bằng cách chọn tùy chọn "Ox". Với 4 món, các buff CHÍ MẠNG (CRIT) khác nhau sẽ được áp dụng vào các phép tính chỉ số Chiến đấu tùy thuộc vào tùy chọn được chọn
+    Watchmaker: Khi bật, buff HIỆU ỨNG KÍCH PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu.
+    Valorous: Buff TỶ LỆ CHÍ MẠNG (CRIT Rate) luôn mặc định được bật. Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff.
+    Differentiator: Khi bật, buff TỶ LỆ CHÍ MẠNG (CRIT Rate) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu.
+    Sigonia: Buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) được chọn sẽ áp dụng vào các phép tính chỉ số Chiến đấu, giả định nhân vật đã đánh bại số lượng kẻ địch tương ứng.
+    Izumo: Khi bật, giả định có một đồng minh khác cùng con đường và áp dụng buff 12% TỶ LỆ CHÍ MẠNG (CRIT Rate) vào các phép tính chỉ số Chiến đấu.
+    Duran: Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff
+    Kalpagni: Khi bật, buff HIỆU ỨNG PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu
+    Lushaka: Buff được chọn sẽ áp dụng vào các phép tính sát thương
+    Banana: Buff được chọn sẽ áp dụng vào các phép tính sát thương
+    Sacerdos: Buff được chọn sẽ áp dụng vào các phép tính sát thương. Các nhân vật tự buff cho chính mình có thể kích hoạt hiệu ứng này
+Presets:
+  SpdValues:
+    SPD0: Không tốc độ tối thiểu
+    SPD111: 111.112 SPD - 5 lượt trong bốn vòng đầu tiên
+    SPD114: 114.286 SPD - 4 lượt trong ba vòng đầu tiên
+    SPD120: 120.000 SPD - 3 lượt trong hai vòng đầu tiên
+    SPD133: 133.334 SPD - 2 lượt trong vòng đầu tiên, 6 lượt trong 4 vòng đầu tiên
+    SPD142: 142.858 SPD - 5 lượt trong ba vòng đầu tiên
+    SPD155: 155.556 SPD - 7 lượt trong bốn vòng đầu tiên
+    SPD160: 160.000 SPD - 4 lượt trong hai vòng đầu tiên
+    SPD171: 171.429 SPD - 6 lượt trong ba vòng đầu tiên
+    SPD177: 177.778 SPD - 8 lượt trong bốn vòng đầu tiên
+    SPD200: 200.000 SPD - 3 lượt trong vòng đầu tiên
+  StandardLabel: "$t(gameData:Characters.{{id}}.Name) tiêu chuẩn"
+  RecommendedPresets: Đồ khuyên dùng
+  PresetNotAvailable: Đồ khuyên dùng không khả dụng, hãy chọn lựa chọn khác
 CombatBuffs:
   ATK: Tấn Công
   ATK_P: ATK %
@@ -269,13 +341,34 @@ CombatBuffs:
   HP_P: HP %
   DEF: Phòng Thủ
   DEF_P: DEF %
+  CR: Tỷ Lệ Bạo Kích %
+  CD: Sát Thương Bạo Kích %
   SPD: Tốc Độ
   SPD_P: SPD %
+  BE: BE %
+  DMG_BOOST: Dmg Boost %
+  DEF_PEN: Def Pen %
+  RES_PEN: Dmg RES PEN %
+  EFFECT_RES_PEN: Kháng Hiệu Ứng %
+  VULNERABILITY: Yếu điểm %
+  BREAK_EFFICIENCY: Hiệu Suất Phá Vỡ Điểm Yếu %
   Title: Buff trong combat thêm
+Target_one: mục tiêu
+Target_other: mục tiêu
 EnemyConfiguration:
+  LevelOptionLabel: "Lv. {{level}} - {{defense}} DEF"
+  CountOptionLabel: >-
+    {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
+  EffResOptionLabel: "{{resistance}}% Kháng Hiệu Ứng"
+  DmgResOptionLabel: "{{resistance}}% Kháng Sát Thương"
+  ToughnessOptionLabel: "Điểm yếu tối đa {{toughness}}"
   Title: Tùy chọn quái địch
+  StatHeader: Tùy chọn chỉ số kẻ địch
+  WeaknessLabel: Điểm yếu thuộc tính
+  BrokenLabel: Trạng thái Phá Vỡ Điểm Yếu
 WeightFilter:
   WeightFilterHeader: Bộ lọc trọng thuộc tính phụ.
+  RollFilterHeader: Xác suất trọng số theo từng di vật
   HPFilterText: HP
   ATKFilterText: Tấn Công
   DEFFilterText: Phòng Thủ
@@ -286,6 +379,8 @@ WeightFilter:
   RESFilterText: RES
   BEFilterText: BE
 MinMaxFilters:
+  StatHeader: Bộ lọc chỉ số tối thiểu / tối đa
+  RatingHeader: Bộ lọc xếp hạng tối thiểu / tối đa
   HPLabel: HP
   ATKLabel: Tấn Công
   DEFLabel: Phòng Thủ
@@ -296,48 +391,119 @@ MinMaxFilters:
   RESLabel: RES
   BELabel: BE
   ERRLabel: ERR
+  WEIGHTLabel: WEIGHT
   EHPLabel: EHP
   BASICLabel: Đánh Đơn
   SKILLLabel: Chiến kỹ
   ULTLabel: Tuyệt kỹ
   FUALabel: Đòn Đánh Theo Sau
+  MEMOSKILLLabel: SKILLᴹ
+  DOTLabel: DOT
+  BREAKLabel: BREAK
   HEALLabel: "TRỊ\nLIỆU"
   SHIELDLabel: LÁ CHẮN
+  COMBOLabel: COMBO
+ComboFilter:
+  Header: Thứ tự dùng kỹ năng combo
+  ModeSelector:
+    Simple: Đơn giản
+    Advanced: Nâng cao
+  RowControls:
+    Add: +
+    Remove: "-"
+    ResetConfirm:
+      Description: Đặt lại tất cả thứ tự đơn giản / nâng cao thành mặc định?
+  CounterLabels:
+    Dot: Dots
+    Break: Kích Phá
+  ComboOptions:
+    Basic: Tấn công thường
+    Skill: Chiến kỹ
+    Ult: Tuyệt Kỹ
+    Fua: FUA
+    MemoSkill: Skillᴹ
+  RotationButton: Thứ tự kỹ năng nâng cao
 ComboDrawer:
   NoConditionals: Không có nội tại được kích hoạt theo điều kiện.
+  Title: Hưỡng dẫn người dùng thứ tự kỹ năng nâng cao
+  Placeholders:
+    Sets: Điều kiện của bộ di vật
+    Ornaments: Điều kiện của bộ vị diện
+  GroupHeaders:
+    Sets: Điều kiện của di vật và vị diện
+    Teammate1: ' Điều kiện của đồng đội 1'
+    Teammate2: Điều kiện của đồng đội 2
+    Teammate3: Điều kiện của đồng đội 3
 TeammateCard:
   EidolonN: >-
     $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
   SuperimpositionN: >-
     $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  EidolonPlaceholder: Tinh hồn
+  SuperimpositionPlaceholder: Tích tầng bậc
   RelicsPlaceholder: Di vật
+  OrnamentsPlaceholder: Phụ Kiện Vị Diện
+  TeammateSyncSuccessMessage: Đồng bộ với thông tin đồng đội
   TeammateSets:
     Messenger:
+      Desc: "Bộ 4 món: $t(gameData:RelicSets.114.Name) (+12% SPD)"
       Set: "$t(gameData:RelicSets.114.Name)"
+      Text: 12% SPD
     Watchmaker:
+      Desc: "Bộ 4 món: $t(gameData:RelicSets.118.Name) (+30% BE)"
       Set: "$t(gameData:RelicSets.118.Name)"
+      Text: 30% BE
     Sacerdos1Stack:
+      Desc: "Bộ 4 món: $t(gameData:RelicSets.121.Name) (+18% CD)"
       Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 18% CD
     Sacerdos2Stack:
+      Desc: "Bộ 4 món: $t(gameData:RelicSets.121.Name) (+36% CD)"
       Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 36% CD
     Keel:
+      Desc: "$t(gameData:RelicSets.310.Name) (+10% CD)"
       Set: "$t(gameData:RelicSets.310.Name)"
+      Text: 10% CD
     Ageless:
+      Desc: "$t(gameData:RelicSets.302.Name) (+8% ATK)"
       Set: "$t(gameData:RelicSets.302.Name)"
+      Text: 8% ATK
     Penacony:
+      Desc: "$t(gameData:RelicSets.312.Name) (+10% DMG for same element)"
       Set: "$t(gameData:RelicSets.312.Name)"
+      Text: 10% DMG
     Lushaka:
+      Desc: "$t(gameData:RelicSets.317.Name) (+12% ATK)"
       Set: "$t(gameData:RelicSets.317.Name)"
+      Text: 12% ATK
 StatSimulation:
+  DuplicateSimMessage: Mô phỏng chỉ số giống hệt đã tồn tại
+  MissingMainstatsMessage: Thiếu chỉ số chính trong mô phỏng
+  BuildAlreadyImported: Bản dựng tối ưu hóa được chọn đã là một mô phỏng
+  NothingToImport: Chạy trình tối ưu hóa trước, sau đó chọn một dòng từ kết quả tối ưu hóa để nhập
+  NoStatSimulations: Không có mô phỏng chỉ số tùy chỉnh nào được chọn
   SetSelection:
     Header: Bộ
     RelicPlaceholder: Bộ di vật
     OrnamentPlaceholder: Bộ Phụ Kiện Vị Diện
+  TotalRolls: Tổng số lần roll
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: "Tắt"
+    RollCount: Mô phỏng các lần lăn chỉ số phụ tùy chỉnh
+    Totals: Mô phỏng tổng chỉ số phụ tùy chỉnh
   FooterLabels:
+    Simulate: Mô phỏng các bản dựng
+    Import: Nhập bản dựng tối ưu hóa
     Conditionals: Hiệu ứng bộ có điều kiện
+  DeletePopup:
+    Title: Xóa các mô phỏng chỉ số
+    Description: Bạn có chắc chắn muốn xóa tất cả các mô phỏng đã lưu của nhân vật này không?
+  SimulationNamePlaceholder: Tên Mô Phòng (Tùy chỉnh)
+  OptionsHeader: Tùy chọn
+  RollsHeader: Số lần roll tối đa của chỉ số phụ
+  TotalsHeader: Giá trị tối đa của chỉ số phụ
   MainStatsSelection:
     Header: Dòng Chính
     BodyPlaceholder: Thân

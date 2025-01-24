@@ -6,6 +6,11 @@ GPU:
     l3: >-
       Linux — <CustomLink text="Behind a flag"/>
     l4: "Nếu bạn đang sử dụng một trong các trình duyệt được hỗ trợ mà vẫn không hoạt động, hãy thử sử dụng trình duyệt khác hoặc chuyển trình duyệt của bạn sang sử dụng card đồ họa rời thay vì tích hợp."
+GPUCrash:
+  Message: Lỗi WebGPU
+  Description:
+    l1: Quá trình tăng tốc GPU đã gặp sự cố - kết quả có thể không hợp lệ. Vui lòng thử lại hoặc báo cáo lỗi lên máy chủ Discord.
+    l2: Để tìm cách khắc phục sự cố, hãy xem <CustomLink text="documentation page."/>
 Changelog:
   View: Xem nhật ký thay đổi
   Dismiss: Bỏ qua

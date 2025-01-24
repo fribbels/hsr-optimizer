@@ -117,8 +117,11 @@ export const Assets = {
     if (!locale) return Assets.getBlank()
     return getImageUrl(`/misc/guide/${locale}/${name}.webp`)
   },
-  getStarBw: () => {
+  getScore: () => {
     return getImageUrl('/misc/QuestMainIcon.webp')
+  },
+  getScoreNoSpeed: () => {
+    return getImageUrl('/misc/noSpdScore.webp')
   },
   getFlag: (locale: string) => {
     return getImageUrl(`/misc/flags/${locale}.webp`)

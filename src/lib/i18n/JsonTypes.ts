@@ -3,9 +3,9 @@ const Paths = ['Warrior', 'Rogue', 'Mage', 'Shaman', 'Warlock', 'Knight', 'Pries
 
 export type Path = typeof Paths[number]
 
-export type filePath = dataPath | textMapPath
+export type FilePath = DataPath | TextMapPath
 
-type dataPath =
+type DataPath =
   'ExcelOutput/AvatarBaseType' |
   'ExcelOutput/AvatarConfig' |
   'ExcelOutput/DamageType' |
@@ -13,7 +13,7 @@ type dataPath =
   'ExcelOutput/RelicSetConfig' |
   'ExcelOutput/RelicSetSkillConfig'
 
-export type textMapPath =
+export type TextMapPath =
   'TextMap/TextMapCHS' |
   'TextMap/TextMapCHT' |
   'TextMap/TextMapDE' |
@@ -28,7 +28,7 @@ export type textMapPath =
   'TextMap/TextMapTH' |
   'TextMap/TextMapVI'
 
-export type jsonType<T extends filePath> = T extends textMapPath
+export type JsonType<T extends FilePath> = T extends TextMapPath
   ? TextMap
   : T extends 'ExcelOutput/AvatarBaseType' ? AvatarBaseTypeType
     : T extends 'ExcelOutput/AvatarConfig' ? AvatarConfigType

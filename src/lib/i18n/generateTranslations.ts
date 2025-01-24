@@ -1,6 +1,6 @@
 import { writeFile } from 'fs'
 import yaml from 'js-yaml'
-import { filePath, jsonType, Output, Path, TextMap, textMapPath } from 'lib/i18n/JsonTypes'
+import { FilePath, JsonType, Output, Path, TextMap, TextMapPath } from 'lib/i18n/JsonTypes'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { betaInformation } from 'lib/i18n/betaInformation'
 
@@ -129,7 +129,7 @@ const overrides: Partial<Record<InputLocale, { key: string; value: string }[]>> 
   ],
 } as const
 
-const InputLocaleToTextMapPath: Record<InputLocale, textMapPath> = {
+const InputLocaleToTextMapPath: Record<InputLocale, TextMapPath> = {
   zh_CN: 'TextMap/TextMapCHS',
   zh_TW: 'TextMap/TextMapCHT',
   de_DE: 'TextMap/TextMapDE',
@@ -178,7 +178,7 @@ function cleanString(locale: InputLocale, string: string): string {
 
 async function generateTranslations() {
   const pathConfig = await fetchFile('ExcelOutput/AvatarBaseType')
-  const AvatarConfig = await fetchFile('ExcelOutput/AvatarConfig')
+  const avatarConfig = await fetchFile('ExcelOutput/AvatarConfig')
   const damageConfig = await fetchFile('ExcelOutput/DamageType')
   const lightconeConfig = await fetchFile('ExcelOutput/EquipmentConfig')
   const relicSetConfig = await fetchFile('ExcelOutput/RelicSetConfig')
@@ -215,7 +215,7 @@ async function generateTranslations() {
       output.Paths[path.ID ?? 'Unknown'] = cleanString(locale, textmap[path.BaseTypeText.Hash])
     }
 
-    for (const avatar of AvatarConfig) {
+    for (const avatar of avatarConfig) {
       const name = avatar.AvatarID > 8000
         ? tbNames[locale][avatar.AvatarID % 2 ? 'caelus' : 'stelle']
         : cleanString(locale, textmap[avatar.AvatarName.Hash])
@@ -319,28 +319,22 @@ function translateKey(key: string, textmap: TextMap) {
   return translateHash(getHash(key), textmap)
 }
 
-async function fetchFile<T extends filePath>(path: T) {
+async function fetchFile<T extends FilePath>(path: T) {
   console.log(`fetching ${path.split('/').at(-1)}`)
-  let json: jsonType<T>
-  try {
-    const response = await fetch(
-      `https://gitlab.com/api/v4/projects/Dimbreath%2Fturnbasedgamedata/repository/files/${path.replace('/', '%2F')}.json/raw?ref=main`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-    console.log('got response', response.statusText, 'with code', response.status)
-    if (response.status !== 200) {
-      console.log(response)
-    }
-    json = await response.json()
-    return json
-  } catch (err) {
-    console.log('error fetching file:', err)
-    throw new Error()
+  const response = await fetch(
+    `https://gitlab.com/api/v4/projects/Dimbreath%2Fturnbasedgamedata/repository/files/${path.replace('/', '%2F')}.json/raw?ref=main`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  console.log('got response', response.statusText, 'with code', response.status)
+  if (response.status !== 200) {
+    console.log(response)
   }
+  const json: JsonType<T> = await response.json()
+  return json
 }
 
 await generateTranslations()

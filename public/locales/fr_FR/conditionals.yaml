@@ -1449,6 +1449,7 @@ Characters:
           Seele entre dans l'état amélioré après avoir vaincu un ennemi et bénéficie d'une action supplémentaire. Lorsqu'elle est dans cet état amélioré, ses DGT augmentent de {{buffedStateDmgBuff}}% pendant 1 tour.::BR::Dans l'état amélioré, la pénétration de RÉS quantique de Seele est augmentée de 20%.
       speedBoostStacks:
         text: Cumuls de Bonus de VIT
+        content: "La VIT de Seele augmente de 25% pour 2 tours après avoir utilisé sa compétence.::BR::E2: Le bonus de VIT de la compétence de Seele peux se cumuler jusqu'à 2 fois."
       e1EnemyHp80CrBoost:
         text: 'E1: Bonus de TC ennemi PV ≤ 80%'
         content: Lorsqu'elle inflige des DGT à un ennemi dont le % de PV est inférieurs ou équivalents à 80%, les chances de coup critique de Seele augmentent de 15%.

@@ -51,7 +51,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'HP to CR conversion',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    e1DefPen: {//
+    e1DefPen: {
       id: 'e1DefPen',
       formItem: 'switch',
       text: 'E1 DEF PEN',
@@ -70,13 +70,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE) //
+      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
 
-      x.SKILL_SCALING.buff((r.skillEnhances == 0) ? skillScaling : 0, Source.NONE) //
-      x.SKILL_SCALING.buff((r.skillEnhances == 1) ? skillEnhanced1Scaling : 0, Source.NONE) //
-      x.SKILL_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, Source.NONE) //
+      x.SKILL_SCALING.buff((r.skillEnhances == 0) ? skillScaling : 0, Source.NONE)
+      x.SKILL_SCALING.buff((r.skillEnhances == 1) ? skillEnhanced1Scaling : 0, Source.NONE)
+      x.SKILL_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, Source.NONE)
 
-      x.ULT_SCALING.buff(ultScaling, Source.NONE) //
+      x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
       x.DEF_PEN.buff((e >= 1 && r.e1DefPen && r.vendettaState) ? 0.15 : 0, Source.NONE)
 

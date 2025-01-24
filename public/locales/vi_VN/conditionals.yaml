@@ -134,6 +134,9 @@ Lightcones:
     Content:
       atkBoostStacks:
         text: Các cộng dồn buff ATK
+      weaknessBreakDmgBuff:
+        text: Tăng ST phá vỡ điểm yếu
+        content: Sau khi người trang bị phá vỡ điểm yếu của kẻ địch, sát thương gây ra tăng {{DmgBuff}}%, duy trì hiệp.
   PastAndFuture:
     Content:
       postSkillDmgBuff:

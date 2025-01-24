@@ -7167,7 +7167,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         relicSets: [
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -7274,7 +7273,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
-          [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
           ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

@@ -146,7 +146,7 @@ export const betaInformation: betaInformation = {
         },
       },
     ],
-    RelicSets: [
+    /* RelicSets: [
       {
         id: 319,
         value: {
@@ -161,7 +161,7 @@ export const betaInformation: betaInformation = {
           Description2pc: '装備キャラの会心率+ 6% 。装備キャラの会心率が 13500% 以上の時、付加ダメージ+ 18000% 。',
         },
       },
-    ],
+    ], */
   },
   ko_KR: {
     Characters: [
@@ -200,7 +200,7 @@ export const betaInformation: betaInformation = {
         },
       },
     ],
-    RelicSets: [
+    /* RelicSets: [
       {
         id: 319,
         value: {
@@ -215,7 +215,7 @@ export const betaInformation: betaInformation = {
           Description2pc: '장착한 캐릭터의 치명타 확률이 6% 증가한다. 장착한 캐릭터의 현재 치명타 확률이 13500% 이상일 경우, 가하는 추가 피해가 18000% 증가한다',
         },
       },
-    ],
+    ], */
   },
 }
 

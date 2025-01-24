@@ -41,6 +41,9 @@ Messages:
   UnequipWarning: "Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Stats
   CustomizationSidebar:
     Label: Customisation
     Modes:
@@ -59,6 +62,7 @@ CharacterPreview:
     NoSelectedCharacter: Aucun personnage sélectionné
   ScoreHeader:
     Title: Sim de combat
+    TitleBenchmark: "Référence à {{spd}} VIT"
     Score: "Note DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Mode d'évaluation:"
@@ -71,6 +75,7 @@ CharacterPreview:
     Title: "Détails de combat:"
     Labels:
       CombatStats: Stats de Combat
+      SubDpsCombatStats: Stats de Combat (sous-DPS)
       DMGUpgrades: Améliorations Dégâts
   DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:

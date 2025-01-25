@@ -106,13 +106,6 @@ export default function ScoringModal() {
 
     defaultScoringMetadata.simulation = existingScoringMetadata.simulation
 
-    scoringMetadata.modified = false
-    for (const stat of Object.values(Stats)) {
-      if (nullUndefinedToZero(scoringMetadata.stats[stat]) != nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
-        scoringMetadata.modified = true
-      }
-    }
-
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadata)
   }
 

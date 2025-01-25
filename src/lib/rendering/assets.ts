@@ -111,10 +111,12 @@ export const Assets = {
   getStar: () => {
     return getImageUrl('/misc/StarBig.webp')
   },
-  getStarBw: () => {
+  getScore: () => {
     return getImageUrl('/misc/QuestMainIcon.webp')
   },
-
+  getScoreNoSpeed: () => {
+    return getImageUrl('/misc/noSpdScore.webp')
+  },
   getPart: (part: string) => {
     const mapping: Record<Parts, string> = {
       [Parts.Head]: 'partHead',

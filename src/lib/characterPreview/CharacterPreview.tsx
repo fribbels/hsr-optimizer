@@ -37,7 +37,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
@@ -225,6 +225,7 @@ export function CharacterPreview(props: {
         showcasePreferences={characterShowcasePreferences}
         setOverrideTheme={() => {
         }}
+        scoringType={scoringType}
         seedColor={overrideSeedColor}
         setSeedColor={setSeedColor}
         colorMode={overrideColorMode}

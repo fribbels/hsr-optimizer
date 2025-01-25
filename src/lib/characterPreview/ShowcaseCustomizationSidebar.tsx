@@ -4,8 +4,9 @@ import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { usePublish } from 'hooks/usePublish'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
+import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -31,6 +32,7 @@ export interface ShowcaseCustomizationSidebarProps {
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
   simScoringResult: SimulationScore | null
+  scoringType: string
   setOverrideTheme: (overrideTheme: ThemeConfig) => void
   seedColor: string
   setSeedColor: (color: string) => void
@@ -48,6 +50,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       id,
       characterId,
       simScoringResult,
+      scoringType,
       seedColor,
       setSeedColor,
       colorMode,
@@ -139,7 +142,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       scoringMetadata.stats[Stats.SPD] = spdValue
 
       DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
-      pubRefreshRelicsScore('refreshRelicsScore', 'null')
+      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
     }
 
     function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
@@ -223,7 +226,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       >
         <Flex
           vertical
-          gap={8}
+          gap={6}
           style={{
             backgroundColor: 'rgb(29 42 71)',
             boxShadow: shadow,
@@ -231,9 +234,22 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             padding: defaultPadding,
           }}
         >
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {tScoring('Stats.Header')/* Stats */}
-          </HeaderText>
+          <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
+            <span></span>
+            <HeaderText style={{ textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+              {tScoring('Stats.Header')/* Stats */}
+            </HeaderText>
+
+            <a
+              href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
+              target='_blank'
+              style={{ display: 'inline-flex', alignItems: 'center' }}
+            >
+              <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
+            </a>
+          </Flex>
+
+          <HorizontalDivider/>
 
           <Button
             icon={<SettingOutlined/>}
@@ -255,71 +271,77 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             onChange={onShowcasePreciseSpdChange}
           />
 
-          <HorizontalDivider/>
+          {scoringType != NONE_SCORE
+            && (
+              <>
+                <HorizontalDivider/>
 
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {tScoring('SpdWeight.Header')/* SPD weight */}
-          </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('SpdWeight.Header')/* SPD weight */}
+                </HeaderText>
 
-          <Segmented
-            options={spdWeightOptions}
-            block
-            value={spdValue}
-            onChange={onShowcaseSpdValueChange}
-          />
+                <Segmented
+                  options={spdWeightOptions}
+                  block
+                  value={spdValue}
+                  onChange={onShowcaseSpdValueChange}
+                />
+              </>
+            )
+          }
 
-          {scoringMetadata.simulation
-          && (
-            <>
-              <HorizontalDivider/>
+          {scoringType == SIMULATION_SCORE
+            && (
+              <>
+                <HorizontalDivider/>
 
-              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
-              </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
+                </HeaderText>
 
-              <InputNumber
-                size='small'
-                controls={false}
-                style={{ width: '100%' }}
-                value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
-                addonAfter={(
-                  <SelectSpdPresets
-                    spdFilter={simScoringResult?.originalSpd}
-                    onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
-                    characterId={characterId}
-                    simScoringResult={simScoringResult}
-                  />
-                )}
-                min={0}
-                onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
-              />
-            </>
-          )}
+                <InputNumber
+                  size='small'
+                  controls={false}
+                  style={{ width: '100%' }}
+                  value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
+                  addonAfter={(
+                    <SelectSpdPresets
+                      spdFilter={simScoringResult?.originalSpd}
+                      onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                      characterId={characterId}
+                      simScoringResult={simScoringResult}
+                    />
+                  )}
+                  min={0}
+                  onBlur={onShowcaseSpdBenchmarkChangeEvent}
+                  onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
+                />
+              </>
+            )}
 
-          {scoringMetadata.simulation
-          && (
-            <>
-              <HorizontalDivider/>
+          {scoringType == SIMULATION_SCORE
+            && (
+              <>
+                <HorizontalDivider/>
 
-              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                {tScoring('BuffPriority.Header')/* Buff priority */}
-              </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BuffPriority.Header')/* Buff priority */}
+                </HeaderText>
 
-              <Segmented
-                options={buffPriorityOptions}
-                block
-                value={deprioritizeBuffs}
-                onChange={onShowcaseDeprioritizeBuffsChange}
-              />
-            </>
-          )}
+                <Segmented
+                  options={buffPriorityOptions}
+                  block
+                  value={deprioritizeBuffs}
+                  onChange={onShowcaseDeprioritizeBuffsChange}
+                />
+              </>
+            )}
 
         </Flex>
 
         <Flex
           vertical
-          gap={8}
+          gap={6}
           style={{
             backgroundColor: 'rgb(29 42 71)',
             boxShadow: shadow,
@@ -327,9 +349,11 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             padding: defaultPadding,
           }}
         >
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+          <HeaderText style={{ textAlign: 'center' }}>
             {tCustomization('Label')}
           </HeaderText>
+
+          <HorizontalDivider/>
 
           <ColorPicker
             presets={presets}

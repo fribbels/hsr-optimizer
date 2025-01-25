@@ -1,16 +1,8 @@
-// @ts-ignore
 import { writeFile } from 'fs'
-// @ts-ignore
-import { readFile } from 'fs/promises'
 import yaml from 'js-yaml'
+import { FilePath, JsonType, Output, Path, TextMap, TextMapPath } from 'lib/i18n/JsonTypes'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { betaInformation } from 'lib/i18n/betaInformation'
-import pathConfig from 'lib/i18n/AvatarBaseType.json'
-import AvatarConfig from 'lib/i18n/AvatarConfig.json'
-import damageConfig from 'lib/i18n/DamageType.json'
-import lightconeConfig from 'lib/i18n/EquipmentConfig.json'
-import relicSetConfig from 'lib/i18n/RelicSetConfig.json'
-import relicEffectConfig from 'lib/i18n/RelicSetSkillConfig.json'
 
 const precisionRound = TsUtils.precisionRound
 
@@ -41,9 +33,7 @@ const outputLocalesMapping: Record<InputLocale, OutputLocale[]> = {
 } as const
 
 //           Destruction, Hunt, Erudition, Harmony, Nihility, Preservation, Abundance, Remembrance
-const Paths = ['Warrior', 'Rogue', 'Mage', 'Shaman', 'Warlock', 'Knight', 'Priest', 'Memory'] as const
 const multiPathIds = [1001, 1224, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008] as const
-type Path = typeof Paths[number]
 const multiPathIdToPath: Record<typeof multiPathIds[number], Path> = {
   1001: 'Knight',
   1224: 'Rogue',
@@ -139,6 +129,22 @@ const overrides: Partial<Record<InputLocale, { key: string; value: string }[]>> 
   ],
 } as const
 
+const InputLocaleToTextMapPath: Record<InputLocale, TextMapPath> = {
+  zh_CN: 'TextMap/TextMapCHS',
+  zh_TW: 'TextMap/TextMapCHT',
+  de_DE: 'TextMap/TextMapDE',
+  en_US: 'TextMap/TextMapEN',
+  es_ES: 'TextMap/TextMapES',
+  fr_FR: 'TextMap/TextMapFR',
+  id_ID: 'TextMap/TextMapID',
+  ja_JP: 'TextMap/TextMapJP',
+  ko_KR: 'TextMap/TextMapKR',
+  pt_BR: 'TextMap/TextMapPT',
+  ru_RU: 'TextMap/TextMapRU',
+  th_TH: 'TextMap/TextMapTH',
+  vi_VN: 'TextMap/TextMapVI',
+}
+
 function formattingFixer(string: string) {
   if (!string) return ''
   string = string.replace(/<color=#([a-f]|[0-9]){8}>/g, '').replace(/<\/color>/g, '')
@@ -170,43 +176,15 @@ function cleanString(locale: InputLocale, string: string): string {
   return string.replace(regex, '')
 }
 
-async function importTextmap(suffix: string) {
-  const textmap = await readFile(`src/lib/i18n/TextMap${suffix}.json`, 'utf-8')
-  return JSON.parse(textmap)
-}
-
 async function generateTranslations() {
+  const pathConfig = await fetchFile('ExcelOutput/AvatarBaseType')
+  const avatarConfig = await fetchFile('ExcelOutput/AvatarConfig')
+  const damageConfig = await fetchFile('ExcelOutput/DamageType')
+  const lightconeConfig = await fetchFile('ExcelOutput/EquipmentConfig')
+  const relicSetConfig = await fetchFile('ExcelOutput/RelicSetConfig')
+  const relicEffectConfig = await fetchFile('ExcelOutput/RelicSetSkillConfig')
   for (const locale of inputLocales) {
-    const textmap: TextMap = await (async (locale) => {
-      switch (locale) { // en left as default to make typescript happy
-        case 'zh_CN':
-          return await importTextmap('CHS')
-        case 'zh_TW':
-          return await importTextmap('CHT')
-        case 'de_DE':
-          return await importTextmap('DE')
-        case 'es_ES':
-          return await importTextmap('ES')
-        case 'fr_FR':
-          return await importTextmap('FR')
-        case 'id_ID':
-          return await importTextmap('ID')
-        case 'ja_JP':
-          return await importTextmap('JP')
-        case 'ko_KR':
-          return await importTextmap('KR')
-        case 'pt_BR':
-          return await importTextmap('PT')
-        case 'ru_RU':
-          return await importTextmap('RU')
-        case 'th_TH':
-          return await importTextmap('TH')
-        case 'vi_VN':
-          return await importTextmap('VI')
-        default:
-          return await importTextmap('EN')
-      }
-    })(locale)
+    const textmap = await fetchFile(InputLocaleToTextMapPath[locale])
 
     const characterBetaInfo = betaInformation[locale]?.Characters ?? betaInformation.en_US?.Characters
     const lightConeBetaInfo = betaInformation[locale]?.Lightcones ?? betaInformation.en_US?.Lightcones
@@ -236,9 +214,8 @@ async function generateTranslations() {
     for (const path of pathConfig) {
       output.Paths[path.ID ?? 'Unknown'] = cleanString(locale, textmap[path.BaseTypeText.Hash])
     }
-    output.Paths.Remembrance = 'Remembrance'
 
-    for (const avatar of AvatarConfig) {
+    for (const avatar of avatarConfig) {
       const name = avatar.AvatarID > 8000
         ? tbNames[locale][avatar.AvatarID % 2 ? 'caelus' : 'stelle']
         : cleanString(locale, textmap[avatar.AvatarName.Hash])
@@ -342,14 +319,22 @@ function translateKey(key: string, textmap: TextMap) {
   return translateHash(getHash(key), textmap)
 }
 
-type TextMap = Record<number, string>
-
-type Output = {
-  Characters: Record<number, { Name: string; LongName: string }>
-  RelicSets: Record<number, { Name: string; Description2pc: string; Description4pc?: string }>
-  Lightcones: Record<number, { Name: string }>
-  Paths: Record<string, string>
-  Elements: Record<string, string>
+async function fetchFile<T extends FilePath>(path: T) {
+  console.log(`fetching ${path.split('/').at(-1)}`)
+  const response = await fetch(
+    `https://gitlab.com/api/v4/projects/Dimbreath%2Fturnbasedgamedata/repository/files/${path.replace('/', '%2F')}.json/raw?ref=main`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  console.log('got response', response.statusText, 'with code', response.status)
+  if (response.status !== 200) {
+    console.log(response)
+  }
+  const json: JsonType<T> = await response.json()
+  return json
 }
 
 await generateTranslations()

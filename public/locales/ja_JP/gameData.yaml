@@ -183,11 +183,11 @@ Characters:
     Name: アグライア
     LongName: アグライア
   "1403":
-    Name: Tribbie
-    LongName: Tribbie
+    Name: トリビー
+    LongName: トリビー
   "1404":
-    Name: Mydei
-    LongName: Mydei
+    Name: モーディス
+    LongName: モーディス
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -368,7 +368,7 @@ RelicSets:
     Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%.
+    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
 Lightcones:
   "20000":
     Name: 矢じり
@@ -605,9 +605,9 @@ Lightcones:
   "23037":
     Name: 触れてはならぬ領域へ
   "23038":
-    Name: If Time Were a Flower
+    Name: もしも時が花だったら
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: 前途燃やす血の如き炎
   "24000":
     Name: とある星神の殞落を記す
   "24001":
@@ -619,7 +619,7 @@ Lightcones:
   "24004":
     Name: 絶え間ない演算
   "24005":
-    Name: The Curtain Never Falls on Memories
+    Name: 尽きぬ追憶
 Paths:
   Warrior: 壊滅
   Rogue: 巡狩
@@ -630,7 +630,6 @@ Paths:
   Priest: 豊穣
   Memory: 記憶
   Unknown: 共用
-  Remembrance: Remembrance
 Elements:
   Physical: 物理
   Fire: 炎

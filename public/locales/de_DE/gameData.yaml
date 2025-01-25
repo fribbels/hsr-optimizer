@@ -368,7 +368,7 @@ RelicSets:
     Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%.
+    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -619,7 +619,7 @@ Lightcones:
   "24004":
     Name: Unermüdliche Berechnung
   "24005":
-    Name: The Curtain Never Falls on Memories
+    Name: Memory's Curtain Never Falls
 Paths:
   Warrior: Die Zerstörung
   Rogue: Die Jagd
@@ -630,7 +630,6 @@ Paths:
   Priest: Der Überfluss
   Memory: Das Gedenken
   Unknown: Universal
-  Remembrance: Remembrance
 Elements:
   Physical: Physisch
   Fire: Feuer

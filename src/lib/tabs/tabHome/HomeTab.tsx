@@ -2,6 +2,7 @@ import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
 import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
 import i18next from 'i18next'
+import { Languages } from 'lib/i18n/i18n'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
@@ -140,7 +141,9 @@ const cardGap = 20
 function CardImage(props: { id: string }) {
   return (
     <div style={{ padding: '15px 15px 0px 15px' }}>
-      <img
+      <TranslatedImage
+        src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage as Languages)}
+        fallbackSrc={Assets.getHomeFeature(props.id)}
         style={{
           width: '100%',
           height: 593,
@@ -148,14 +151,6 @@ function CardImage(props: { id: string }) {
           outline: 'rgba(255, 255, 255, 0.15) solid 1px',
           boxShadow: 'rgb(0 0 0 / 50%) 2px 2px 3px',
           objectFit: 'cover',
-        }}
-        src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage)}
-        onError={(e) => {
-          // TODO: .src and .onerror don't actually exist on SyntheticEvent, revisit
-          // @ts-ignore
-          e.target.src = Assets.getHomeFeature(props.id)
-          // @ts-ignore
-          e.onerror = null // prevent infinite looping if for some reason the english image can't be loaded
         }}
       />
     </div>
@@ -314,7 +309,7 @@ function SearchBar() {
         allowClear
         size='large'
         defaultValue={scorerId}
-        onSearch={(uuid: string, event, info) => {
+        onSearch={(uuid: string, _event, info) => {
           if (info?.source == 'clear') return
 
           const validated = TsUtils.validateUuid(uuid)
@@ -327,5 +322,22 @@ function SearchBar() {
         }}
       />
     </Flex>
+  )
+}
+
+function TranslatedImage(props: { src: string; fallbackSrc: string; style: React.CSSProperties }) {
+  const [errored, setErrored] = React.useState(false)
+  return (
+    <img
+      style={props.style}
+      src={props.src}
+      onError={(e) => {
+        if (errored) { // this means the fallback image isn't loading either
+          return
+        }
+        e.currentTarget.src = props.fallbackSrc
+        setErrored(true)
+      }}
+    />
   )
 }

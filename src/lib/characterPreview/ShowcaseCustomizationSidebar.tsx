@@ -6,6 +6,7 @@ import { usePublish } from 'hooks/usePublish'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -225,7 +226,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       >
         <Flex
           vertical
-          gap={8}
+          gap={6}
           style={{
             backgroundColor: 'rgb(29 42 71)',
             boxShadow: shadow,
@@ -233,9 +234,22 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             padding: defaultPadding,
           }}
         >
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {tScoring('Stats.Header')/* Stats */}
-          </HeaderText>
+          <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
+            <span></span>
+            <HeaderText style={{ textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+              {tScoring('Stats.Header')/* Stats */}
+            </HeaderText>
+
+            <a
+              href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
+              target='_blank'
+              style={{ display: 'inline-flex', alignItems: 'center' }}
+            >
+              <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
+            </a>
+          </Flex>
+
+          <HorizontalDivider/>
 
           <Button
             icon={<SettingOutlined/>}
@@ -327,7 +341,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
         <Flex
           vertical
-          gap={8}
+          gap={6}
           style={{
             backgroundColor: 'rgb(29 42 71)',
             boxShadow: shadow,
@@ -335,9 +349,11 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             padding: defaultPadding,
           }}
         >
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+          <HeaderText style={{ textAlign: 'center' }}>
             {tCustomization('Label')}
           </HeaderText>
+
+          <HorizontalDivider/>
 
           <ColorPicker
             presets={presets}

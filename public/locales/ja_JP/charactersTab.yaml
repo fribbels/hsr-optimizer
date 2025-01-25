@@ -73,7 +73,7 @@ CharacterPreview:
   DetailsSlider:
     Title: "戦闘スコアの詳細"
     Labels:
-      CombatStats: 戦闘中のステータス
+      CombatStats: 戦闘ステータス
       DMGUpgrades: 与ダメージ強化
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:

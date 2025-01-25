@@ -6,6 +6,7 @@ import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
+import { ScoreCategory } from 'lib/scoring/scoreComparison'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
@@ -153,16 +154,31 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
     score,
   } = props
 
+  let icon: string = Assets.getBlank()
+  let asterisk: boolean = false
+
   const scored = score !== undefined
+  if (scored) {
+    if (score?.meta?.category == ScoreCategory.DEFAULT_NO_SPEED) {
+      icon = Assets.getScoreNoSpeed()
+    } else {
+      icon = Assets.getScore()
+    }
+
+    if (score?.meta?.modified) {
+      asterisk = true
+    }
+  }
+
   return (
     <>
       <Divider style={{ margin: '6px 0px 6px 0px' }}/>
 
       <Flex justify='space-between'>
         <Flex>
-          <img src={(scored) ? Assets.getScore() : Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
+          <img src={icon} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
           <RelicStatText>
-            {(scored) ? `${t('Score')}${score.meta?.modified ? ' *' : ''}` : ''}
+            {(scored) ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
           </RelicStatText>
         </Flex>
         <RelicStatText>

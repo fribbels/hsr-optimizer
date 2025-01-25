@@ -139,7 +139,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       scoringMetadata.stats[Stats.SPD] = spdValue
 
       DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
-      pubRefreshRelicsScore('refreshRelicsScore', 'null')
+      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
     }
 
     function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
@@ -269,51 +269,51 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           />
 
           {scoringMetadata.simulation
-          && (
-            <>
-              <HorizontalDivider/>
+            && (
+              <>
+                <HorizontalDivider/>
 
-              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
-              </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
+                </HeaderText>
 
-              <InputNumber
-                size='small'
-                controls={false}
-                style={{ width: '100%' }}
-                value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
-                addonAfter={(
-                  <SelectSpdPresets
-                    spdFilter={simScoringResult?.originalSpd}
-                    onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
-                    characterId={characterId}
-                    simScoringResult={simScoringResult}
-                  />
-                )}
-                min={0}
-                onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
-              />
-            </>
-          )}
+                <InputNumber
+                  size='small'
+                  controls={false}
+                  style={{ width: '100%' }}
+                  value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
+                  addonAfter={(
+                    <SelectSpdPresets
+                      spdFilter={simScoringResult?.originalSpd}
+                      onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                      characterId={characterId}
+                      simScoringResult={simScoringResult}
+                    />
+                  )}
+                  min={0}
+                  onBlur={onShowcaseSpdBenchmarkChangeEvent}
+                  onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
+                />
+              </>
+            )}
 
           {scoringMetadata.simulation
-          && (
-            <>
-              <HorizontalDivider/>
+            && (
+              <>
+                <HorizontalDivider/>
 
-              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                {tScoring('BuffPriority.Header')/* Buff priority */}
-              </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BuffPriority.Header')/* Buff priority */}
+                </HeaderText>
 
-              <Segmented
-                options={buffPriorityOptions}
-                block
-                value={deprioritizeBuffs}
-                onChange={onShowcaseDeprioritizeBuffsChange}
-              />
-            </>
-          )}
+                <Segmented
+                  options={buffPriorityOptions}
+                  block
+                  value={deprioritizeBuffs}
+                  onChange={onShowcaseDeprioritizeBuffsChange}
+                />
+              </>
+            )}
 
         </Flex>
 

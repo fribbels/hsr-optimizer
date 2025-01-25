@@ -26,6 +26,7 @@ export function getScoreCategory(defaultMeta: ScoringMetadata, customMeta: Scori
   }
 
   if (nonSpdMatches && spdDiff) return ScoreCategory.DEFAULT_NO_SPEED
+  if (!difference && defaultMeta.stats[Stats.SPD] == 0) return ScoreCategory.DEFAULT_NO_SPEED
   if (difference) return ScoreCategory.MODIFIED
   return ScoreCategory.DEFAULT
 }

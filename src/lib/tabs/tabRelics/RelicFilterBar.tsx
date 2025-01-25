@@ -1,6 +1,7 @@
 import { ClearOutlined } from '@ant-design/icons'
 import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
+import { useSubscribe } from 'hooks/useSubscribe'
 import { Constants, Sets, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
@@ -149,7 +150,7 @@ export default function RelicFilterBar(props: {
     }, 100)
   }
 
-  // useSubscribe('refreshRelicsScore', window.refreshRelicsScore)
+  useSubscribe('refreshRelicsScore', window.refreshRelicsScore)
 
   // Kick off an initial calculation to populate value columns. Though empty dependencies
   // are warned about, we genuinely only want to do this on first component render (updates

@@ -1,4 +1,5 @@
 import { Constants, Parts, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, setToId, Stats } from 'lib/constants/constants'
+import { Languages } from 'lib/i18n/i18n'
 import { BASE_PATH } from 'lib/state/db'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
@@ -110,18 +111,8 @@ export const Assets = {
   getStar: () => {
     return getImageUrl('/misc/StarBig.webp')
   },
-  getGuideImage: (name: string) => {
-    return getImageUrl(`/misc/guide/${name}.webp`)
-  },
-  getLocaleGuideImage: (name: string, locale: string) => {
-    if (!locale) return Assets.getBlank()
-    return getImageUrl(`/misc/guide/${locale}/${name}.webp`)
-  },
   getStarBw: () => {
     return getImageUrl('/misc/QuestMainIcon.webp')
-  },
-  getFlag: (locale: string) => {
-    return getImageUrl(`/misc/flags/${locale}.webp`)
   },
 
   getPart: (part: string) => {
@@ -168,7 +159,7 @@ export const Assets = {
     return getImageUrl(`/icon/relic/${setToId[setId]}${partToId[part]}.webp`)
   },
 
-  getHomeFeature: (file: string, language = 'en') => {
+  getHomeFeature: (file: string, language: Languages = 'en_US') => {
     return getImageUrl(`/misc/home/${language}/${file}.webp`)
   },
 

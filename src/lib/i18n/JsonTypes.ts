@@ -3,16 +3,6 @@ const Paths = ['Warrior', 'Rogue', 'Mage', 'Shaman', 'Warlock', 'Knight', 'Pries
 
 export type Path = typeof Paths[number]
 
-export type FilePath = DataPath | TextMapPath
-
-type DataPath =
-  'ExcelOutput/AvatarBaseType' |
-  'ExcelOutput/AvatarConfig' |
-  'ExcelOutput/DamageType' |
-  'ExcelOutput/EquipmentConfig' |
-  'ExcelOutput/RelicSetConfig' |
-  'ExcelOutput/RelicSetSkillConfig'
-
 export type TextMapPath =
   'TextMap/TextMapCHS' |
   'TextMap/TextMapCHT' |
@@ -28,15 +18,24 @@ export type TextMapPath =
   'TextMap/TextMapTH' |
   'TextMap/TextMapVI'
 
-export type JsonType<T extends FilePath> = T extends TextMapPath
-  ? TextMap
-  : T extends 'ExcelOutput/AvatarBaseType' ? AvatarBaseTypeType
-    : T extends 'ExcelOutput/AvatarConfig' ? AvatarConfigType
-      : T extends 'ExcelOutput/DamageType' ? DamageTypeType
-        : T extends 'ExcelOutput/EquipmentConfig' ? EquipmentConfigType
-          : T extends 'ExcelOutput/RelicSetConfig' ? RelicSetConfigType
-            : T extends 'ExcelOutput/RelicSetSkillConfig' ? RelicSetSkillConfigType
-              : 'ERROR'
+type ExcelOutputFileTypeMapping = {
+  'ExcelOutput/AvatarBaseType': AvatarBaseTypeType
+  'ExcelOutput/AvatarConfig': AvatarConfigType
+  'ExcelOutput/DamageType': DamageTypeType
+  'ExcelOutput/EquipmentConfig': EquipmentConfigType
+  'ExcelOutput/RelicSetConfig': RelicSetConfigType
+  'ExcelOutput/RelicSetSkillConfig': RelicSetSkillConfigType
+}
+
+type DataPath = keyof ExcelOutputFileTypeMapping
+
+type FileTypeMapping = ExcelOutputFileTypeMapping & {
+  [key in TextMapPath]: TextMap
+}
+
+export type FilePath = DataPath | TextMapPath
+
+export type JsonType<T extends FilePath> = T extends keyof FileTypeMapping ? FileTypeMapping[T] : 'ERROR';
 
 export type TextMap = Record<number, string>
 
@@ -248,9 +247,9 @@ type EquipmentConfigType = Array<{
   ]
 }>
 
-type RelicSetConfigType = Array< {
+type RelicSetConfigType = Array<{
   SetID: number
-  SetSkillList: [ 2, 4 ] | [2]
+  SetSkillList: [2, 4] | [2]
   SetIconPath: string
   SetIconFigurePath: string
   SetName: {
@@ -261,7 +260,7 @@ type RelicSetConfigType = Array< {
   IsPlanarSuit?: boolean
 }>
 
-type RelicSetSkillConfigType = Array< {
+type RelicSetSkillConfigType = Array<{
   SetID: number
   RequireNum: 2 | 4
   SkillDesc: string
@@ -275,9 +274,9 @@ type RelicSetSkillConfigType = Array< {
   ]
   AbilityName: string
   AbilityParamList:
-  {
-    Value: number
-  } []
+    {
+      Value: number
+    } []
 }>
 
 export type Output = {

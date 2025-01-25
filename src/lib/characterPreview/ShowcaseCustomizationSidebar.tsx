@@ -4,7 +4,7 @@ import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { usePublish } from 'hooks/usePublish'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
+import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
@@ -31,6 +31,7 @@ export interface ShowcaseCustomizationSidebarProps {
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
   simScoringResult: SimulationScore | null
+  scoringType: string
   setOverrideTheme: (overrideTheme: ThemeConfig) => void
   seedColor: string
   setSeedColor: (color: string) => void
@@ -48,6 +49,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       id,
       characterId,
       simScoringResult,
+      scoringType,
       seedColor,
       setSeedColor,
       colorMode,
@@ -255,20 +257,26 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             onChange={onShowcasePreciseSpdChange}
           />
 
-          <HorizontalDivider/>
+          {scoringType != NONE_SCORE
+            && (
+              <>
+                <HorizontalDivider/>
 
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {tScoring('SpdWeight.Header')/* SPD weight */}
-          </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('SpdWeight.Header')/* SPD weight */}
+                </HeaderText>
 
-          <Segmented
-            options={spdWeightOptions}
-            block
-            value={spdValue}
-            onChange={onShowcaseSpdValueChange}
-          />
+                <Segmented
+                  options={spdWeightOptions}
+                  block
+                  value={spdValue}
+                  onChange={onShowcaseSpdValueChange}
+                />
+              </>
+            )
+          }
 
-          {scoringMetadata.simulation
+          {scoringType == SIMULATION_SCORE
             && (
               <>
                 <HorizontalDivider/>
@@ -297,7 +305,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
               </>
             )}
 
-          {scoringMetadata.simulation
+          {scoringType == SIMULATION_SCORE
             && (
               <>
                 <HorizontalDivider/>

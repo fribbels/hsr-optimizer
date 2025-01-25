@@ -661,7 +661,7 @@ Characters:
   Aventurine:
     Content:
       defToCrBoost:
-        text: 防御力からの会心率バフ
+        text: 防御力での会心率バフ
         content: アベンチュリンの防御力が1600を超えた場合、超過した防御力100につき、自身の会心率+2%、最大で+48%。
       fortifiedWagerBuff:
         text: '「堅固なチップ」有効'
@@ -1394,9 +1394,8 @@ Characters:
           通常攻撃、戦闘スキル、必殺技で敵を倒すと追加ターンを1獲得し、増幅状態に入る。増幅状態のゼーレの与ダメージ+{{buffedStateDmgBuff}}%、1ターン継続。::BR::増幅状態の時、ゼーレの量子属性耐性貫通+20%。
       speedBoostStacks:
         text: 速度バフ層数
-        content: "一層ごとに、ゼーレの速度+25%、2ターン継続。最大2回蓄積できる。"
       e1EnemyHp80CrBoost:
-        text: 1凸 敵HP≤80%時会心率アップ
+        text: 1凸 敵HP≤80%時の会心率バフ
         content: 残りHPが80%以下の敵にダメージを与える時、会心率+15%。
       e6UltTargetDebuff:
         text: 6凸 「乱れ蝶」付与済み

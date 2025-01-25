@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: Traces
     SpdPrecision:
       Header: SPD precision
-      Low: .0
-      High: .000
+      Low: ".0"
+      High: ".000"
     SpdWeight:
       Header: SPD Weight
       Max: 100%

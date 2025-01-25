@@ -41,6 +41,9 @@ Messages:
   UnequipWarning: "Você tem certeza que quer desequipar $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Você tem certeza que quer deletar $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Atributos
   CustomizationSidebar:
     Label: Personalização
     Modes:

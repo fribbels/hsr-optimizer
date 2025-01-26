@@ -35,7 +35,7 @@ type FileTypeMapping = ExcelOutputFileTypeMapping & {
 
 export type FilePath = DataPath | TextMapPath
 
-export type JsonType<T extends FilePath> = T extends keyof FileTypeMapping ? FileTypeMapping[T] : 'ERROR';
+export type JsonType<T extends FilePath> = T extends keyof FileTypeMapping ? FileTypeMapping[T] : never;
 
 export type TextMap = Record<number, string>
 

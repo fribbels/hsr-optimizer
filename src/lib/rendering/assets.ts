@@ -108,6 +108,12 @@ export const Assets = {
   getKofi: () => {
     return getImageUrl('/misc/badgekofi.webp')
   },
+  getJade: () => {
+    return getImageUrl('/misc/jade.webp')
+  },
+  getPass: () => {
+    return getImageUrl('/misc/pass.webp')
+  },
   getStar: () => {
     return getImageUrl('/misc/StarBig.webp')
   },

@@ -1,6 +1,8 @@
 Showcase:
   Title: ショーケース
   Scorer: 遺物スコア計算
+Tools:
+  Showcase: ショーケース
 Optimization:
   Title: 最適化
   Optimizer: オプティマイザー

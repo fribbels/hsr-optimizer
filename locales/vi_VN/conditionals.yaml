@@ -1,5 +1,10 @@
 BetaMessage: "Phiên bản hiện tại: {{Version}} - Tính toán có thể sẽ thay đổi."
 Common:
+  BuffPriority:
+    Text: "Ưu tiên buff mục tiêu"
+    Content: "Chọn mục tiêu ưu tiên để nhận buff đơn mục tiêu"
+    Self: "Ưu tiên buff: bản thân"
+    Memo: "Ưu tiên buff: Linh hồn ký ức"
   HealAbility:
     Text: "Kĩ năng hồi phục"
     Content: "Chọn kĩ năng hồi phục để tính"
@@ -59,7 +64,7 @@ Lightcones:
     Content:
       postSkillDmgBuff:
         text: Tăng ST sau chiến kỹ
-        content: Sau khi người trang bị thi triển Chiến Kỹ, sẽ khiến sát thương gây ra bởi mục tiêu khác của phe ta trong hành động tiếp theo tăng {{DmgBuff}}%, duy trì 1 hiệp.
+        content: Sau khi người trang bị thi triển Chiến Kỹ sẽ khiến sát thương gây ra bởi mục tiêu khác của phe ta trong lần hành động tiếp theo tăng {{DmgBuff}}%, duy trì 1 hiệp.
   CruisingInTheStellarSea:
     Content:
       enemyHp50CrBoost:
@@ -80,10 +85,66 @@ Lightcones:
         text: Đang có Mặt Nạ
         content: >-
           Khi bắt đầu chiến đấu, sẽ khiến người trang bị nhận Mặt Nạ, duy trì 3 hiệp. Khi người trang bị đang có Mặt Nạ, Tỷ Lệ Bạo Kích của đồng đội tăng {{CritRateBuff}}%, Sát Thương Bạo Kích tăng {{CritDmgBuff}}%. Người trang bị mỗi khi hồi phục 1 Điểm Chiến Kỹ sẽ nhận được 1 tầng Ngọn Lửa Sắc Màu, Điểm Chiến Kỹ dư ra khi hồi phục cũng được tính vào. Sau khi Ngọn Lửa Sắc Màu đạt 4 tầng, sẽ xóa tất cả Ngọn Lửa Sắc Màu và nhận Mặt Nạ, duy trì 4 hiệp.
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: Buff SPD sau khi sử dụng tuyệt kỹ
+        content: >-
+          Sau khi người trang bị tấn công, mỗi khi đánh trúng một kẻ địch khác nhau, sẽ hồi {{EnergyRecovered}} Năng Lượng, tối đa hồi năng lượng 3 lần bằng cách này. Sau khi người trang bị thi triển Tuyệt Kỹ, sẽ khiến toàn bộ phe ta tăng {{SpdBuff}} tốc độ, duy trì 1 hiệp.
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: Các cộng dồn buff ATK
+        content: Sau khi thi triển tấn công, mỗi khi đánh trúng 1 kẻ địch sẽ tăng thêm {{AtkBuff}}% Tấn Công, hiệu ứng này tối đa cộng dồn 5 lần, duy trì cho đến sau lần tấn công tiếp theo.
+      spdBuff:
+        text: Đánh trúng 3 kẻ địch tăng Tốc Độ
+        content: Nếu đánh trúng 3 kẻ địch trở lên, sẽ tăng {{SpdBuff}}% Tốc Độ của bản thân, duy trì 1 hiệp.
+  FlowingNightglow:
+    Content:
+      cadenzaActive:
+        text: Độc Tấu Tự Do
+        content: >-
+          Mỗi khi nhân vật phe ta tấn công, sẽ khiến người trang bị nhận 1 tầng Ca Tụng, mỗi tầng Ca Tụng sẽ tăng {{RegenBuff}}% hiệu suất hồi Năng Lượng của người trang bị, tối đa cộng dồn 5 tầng. Khi người trang bị thi triển Tuyệt Kỹ, sẽ xóa bỏ Ca Tụng và nhận Độc Tấu Tự Do, Độc Tấu Tự Do khiến Tấn Công của người trang bị tăng {{AtkBuff}}%, khiến sát thương của toàn phe ta gây ra tăng {{DmgBuff}}%, duy trì 1 hiệp.	
+      cantillationStacks:
+        text: tầng Ca Tụng
+        content: >-
+          Mỗi khi nhân vật phe ta tấn công, sẽ khiến người trang bị nhận 1 tầng Ca Tụng, mỗi tầng Ca Tụng sẽ tăng {{RegenBuff}}% hiệu suất hồi Năng Lượng của người trang bị, tối đa cộng dồn 5 tầng. Khi người trang bị thi triển Tuyệt Kỹ, sẽ xóa bỏ Ca Tụng và nhận Độc Tấu Tự Do, Độc Tấu Tự Do khiến Tấn Công của người trang bị tăng {{AtkBuff}}%, khiến sát thương của toàn phe ta gây ra tăng {{DmgBuff}}%, duy trì 1 hiệp.	
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: Địch ≥ 3 debuffs nhận CR
+        content: Khi người trang bị gây sát thương cho kẻ địch đang có 3 Hiệu Ứng Xấu hoặc hơn, thì Tỷ Lệ Bạo Kích sẽ tăng {{CritBuff}}%
+      targetCodeDebuff:
+        text: Mã Aether
+        content: >-
+          Sau khi người trang bị thi triển tấn công thường, Chiến Kỹ, Tuyệt Kỹ sẽ có xác suất cơ bản thi triển Mã Aether lên mục tiêu bị tấn công ngẫu nhiên chưa có Mã Aether. Sát thương phải chịu của mục tiêu có Mã Aether tăng {{DmgIncrease}}%, duy trì 1 hiệp.
+  InherentlyUnjustDestiny:
+    Content:
+      shieldCdBuff:
+        text: Lá chắn CD buff
+        content: Khi người trang bị cung cấp khiên cho phe ta, Sát Thương Bạo Kích của người trang bị sẽ tăng {{CritBuff}}%, duy trì 2 hiệp.
+      targetVulnerability:
+        text: Debuff điểm yếu của mục tiêu.
+        content: Khi người trang bị phát động Đòn Đánh Theo Sau tấn công kẻ địch, có {{baseChance}}% xác suất cơ bản khiến sát thương phải chịu của kẻ địch bị tấn công tăng {{Vulnerability}}%, duy trì 2 hiệp.
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: Các cộng dồn buff ATK
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: Các cộng dồn buff ATK
+      weaknessBreakDmgBuff:
+        text: Tăng ST phá vỡ điểm yếu
+        content: Sau khi người trang bị phá vỡ điểm yếu của kẻ địch, sát thương gây ra tăng {{DmgBuff}}%, duy trì hiệp.
   PastAndFuture:
     Content:
       postSkillDmgBuff:
         text: Tăng ST sau chiến kỹ
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: Các cộng dồn buff ATK
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyStacks:

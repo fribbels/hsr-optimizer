@@ -1,6 +1,10 @@
 Showcase:
   Title: ショーケース
   Scorer: 遺物スコア計算
+Tools:
+  Title: ツール
+  Showcase: ショーケース
+  WarpPlanner: 跳躍計画
 Optimization:
   Title: 最適化
   Optimizer: オプティマイザー

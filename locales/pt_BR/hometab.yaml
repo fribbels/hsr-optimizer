@@ -23,7 +23,8 @@ FeatureCards:
       Organize suas relíquias pontuando e classificando as relíquias com base em seu potencial e encontre as melhores relíquias para aprimorar para cada personagem.
 Welcome: Bem-vindo ao<1/>Fribbels Star Rail Optimizer
 SearchBar:
-  Placeholder: UUID
-  Label: "Insira seu UUID para ver seu showcase de personagens"
+  Placeholder: UID
+  Label: "Insira seu UID para ver sua demostração de personagens"
+  Api: "Usa Enka.Network"
   Message: Entrada inválida - Este deve ser seu UUID de 9 dígitos
   Search: Buscar

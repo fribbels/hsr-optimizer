@@ -9,12 +9,12 @@ Messages:
   UnknownButtonClicked: 不明なボタンをクリックしました
 Header:
   DowntimeWarning: "{{game_version}}パッチ後のメンテナンスのために遺物スコア計算は一時的に利用できない可能性があります。後でもう一度お試しください。"
-  WithVersion: "アカウントUIDを入力すると、レベル80および全開放された軌跡をもつプロフィール内のキャラクターを評価できます。即時更新するにはログアウトしてください。（現在のバージョン：{{beta_version}}）"
-  WithoutVersion: アカウントUIDを入力すると、レベル80および全開放された軌跡をもつプロフィール内のキャラクターを評価できます。即時更新するにはログアウトしてください。
+  WithVersion: "アカウント UID を入力すると、レベル80および全開放された軌跡をもつプロフィール内のキャラクターを評価できます。即時更新するにはログアウトしてください。（現在のバージョン：{{beta_version}}）"
+  WithoutVersion: アカウント UID を入力すると、レベル80および全開放された軌跡をもつプロフィール内のキャラクターを評価できます。即時更新するにはログアウトしてください。
 SubmissionBar:
   Placeholder: アカウントUID
-  AlgorithmButton: スコア計算方法の編集
-CopyScreenshot: スクリーンショットをコピーする
+  AlgorithmButton: スコア計算方法を編集
+CopyScreenshot: スクリーンショットをコピー
 ImportLabels:
   Relics: 遺物をインポート
   SingleCharacter: 選択されたキャラクターと全ての遺物をインポート

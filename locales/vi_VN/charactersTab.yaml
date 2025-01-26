@@ -41,6 +41,28 @@ Messages:
   UnequipWarning: "Bạn chắc chắn muốn gỡ đồ của $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Bạn chắc chắn muốn xóa đồ của $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Chỉ số
+      ButtonText: Vết Tích
+    SpdPrecision:
+      Header: Tốc độ chính xác
+      Low: ".0"
+      High: ".000"
+    SpdWeight:
+      Header: Độ Tốc độ
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: Mốc chuẩn SPD
+      BenchmarkOptionsLabel: Chỉnh sửa chuẩn
+      CurrentSpdLabel: Tốc độ hiện tại (SPD) - Mốc chuẩn sẽ khớp với tốc độ cơ bản
+      BaseSpdLabel: Tốc độ cơ bản (Base SPD) - Mốc chuẩn sẽ nhắm đến một xây dựng SPD tối thiểu
+      CommonBreakpointsLabel: Các mốc SPD phổ biến được thiết lập sẵn (các buff SPD được xem xét riêng biệt)
+    BuffPriority:
+      Header: Ưu tiên buff
+      High: Cao
+      Low: Thấp
   CustomizationSidebar:
     Label: Thay đổi nền
     Modes:
@@ -59,16 +81,20 @@ CharacterPreview:
     NoSelectedCharacter: Không nhân vật nào được chọn
   ScoreHeader:
     Title: Giả lập combat
+    TitleBenchmark: "{{spd}} Mốc chuẩn SPD"
     Score: "Điểm DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Thuật toán chấm điểm:"
     Labels:
       CombatScore: Điểm combat
+      CombatScoreTBD: Combat (TBD)
       StatScore: Điểm chỉ số
+      NoneScore: Không có
   DetailsSlider:
     Title: "Chi tiết điểm combat:"
     Labels:
       CombatStats: Chỉ số trong combat
+      SubDpsCombatStats: Chỉ số combat (Sub DPS)
       DMGUpgrades: Tăng sát thương
   DMGUpgrades: Tăng sát thương
   SubstatUpgradeComparisons:
@@ -76,6 +102,7 @@ CharacterPreview:
     Roll: Roll
     Damage: Sát thương
   BuildAnalysis:
+    ScoringNote: "Lưu ý: Điểm DPS và Sát thương chiến kỹ Kết hợp (Combo DMG) là các thước đo điểm số cho một vòng xoay kỹ năng duy nhất, không dùng để so sánh giữa các đội"
     Header: Phân tích lối lên đồ nhân vật
     SimulationTeammates: Đồng đội thí nghiệm
     SimulationSets: Bộ dị vật thí nghiệm
@@ -85,6 +112,7 @@ CharacterPreview:
       SKILL: Chiến kỹ
       ULT: Tuyệt kỹ
       FUA: Đòn Đánh Theo Sau
+      MEMO_SKILL: SKILLᴹ
       DOTS: "Sát thương duy trì:"
       BREAKS: "Sát thương phá vỡ:"
     CombatResults:

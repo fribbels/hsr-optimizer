@@ -1,5 +1,10 @@
 BetaMessage: "Versão atual: {{Version}} - Os cálculos estão sujeitos a alterações."
 Common:
+  BuffPriority:
+    Text: "Alvo prioritário de Buff"
+    Content: "Selecionar o destinatário preferido para buffs de alvo único"
+    Self: "Prioridade Buff: Próprio"
+    Memo: "Prioridade Buff: Memo"
   HealAbility:
     Text: "Habilidade de cura"
     Content: "Selecione a habilidade para cálculos de cura"
@@ -73,7 +78,7 @@ Lightcones:
       fuaDmgStacks:
         text: Acúmulos de DANO FUA
         content: >-
-          Após o portador usar a Ultimate, recebe 1 acúmulo de Dança do Fogo, durando 2 turnos e acumulando até 2,0 vezes. Cada acúmulo de Dança do Fogo aumenta o DANO causado pelo ataque subsequente do portador em {{DmgBoost}}%.
+          Após o portador usar a Ultimate, recebe 1 acúmulo de Dança do Fogo, durando 2 turnos e acumulando até 2 vezes. Cada acúmulo de Dança do Fogo aumenta o DANO causado pelo ataque subsequente do portador em {{DmgBoost}}%.
   EarthlyEscapade:
     Content:
       maskActive:
@@ -112,15 +117,15 @@ Lightcones:
       targetCodeDebuff:
         text: Debuff Código Aether no alvo
         content: >-
-          Após o portador usar seu ATK Básico, Habilidade ou Ultimate, há uma chance de implantar Código Aether em um alvo atingido aleatório que ainda não o tenha. Os alvos com Código Aether recebem um aumento de {{DmgIncrease}}% no DANO por 1 turno.
+          Após o portador usar seu ATK Básico, Habilidade ou Ultimate, há uma chance base de 100% de implantar Código Aether em um alvo atingido aleatório que ainda não o tenha. Os alvos com Código Aether recebem um aumento de {{DmgIncrease}}% no DANO por 1 turno.
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
         text: Buff de CD de Escudo
-        content: Quando o portador fornece um Escudo a um aliado, o DMG CRÍTICO do portador aumenta em {{CritBuff}}%, durando por 2 turno(s).
+        content: Quando o portador fornece um Escudo a um aliado, o DMG CRÍTICO do portador aumenta em {{CritBuff}}%, durando por 2 turno(s.
       targetVulnerability:
         text: Debuff de vulnerabilidade no alvo
-        content: Quando o ataque de seguimento do portador atinge um alvo inimigo, há uma chance base de 100% de aumentar o DMG recebido pelo inimigo atacado em {{Vulnerability}}%, durando por 2 turno(s).
+        content: Quando o ataque de seguimento do portador atinge um alvo inimigo, há uma chance base de {{baseChance}}% de aumentar o DMG recebido pelo inimigo atacado em {{Vulnerability}}%, durando por 2 turnos.
   InTheNameOfTheWorld:
     Content:
       enemyDebuffedDmgBoost:
@@ -134,7 +139,12 @@ Lightcones:
       spdScalingBuffs:
         text: Buffs de conversão de SPD
         content: >-
-          Enquanto o portador está em batalha, para cada 10 de SPD que exceder 100, o DMG do ATK Básico e da Habilidade do portador é aumentado em {{DmgBuff}}% e o DMG CRÍTICO de sua Ultimate é aumentado em {{CritBuff}}%. Este efeito pode se acumular até 6 vez(es).
+          Enquanto o portador está em batalha, para cada 10 de SPD que exceder 100, o DMG do ATK Básico e da Habilidade do portador é aumentado em {{DmgBuff}}% e o DMG CRÍTICO de sua Ultimate é aumentado em {{CritBuff}}%. Este efeito pode se acumular até 6 vezes.
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de DMG Perícia / Ult
+        content: Quando o usuário usar seu Ultimate, aumenta o DMG causado pela Perícia e Ultimate do usuário em {{DmgBuff}}%.
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
@@ -149,7 +159,7 @@ Lightcones:
       luminfluxUltStacks:
         text: Acúmulos de Luminflux
         content: >-
-          Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2.0 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
+          Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -165,7 +175,7 @@ Lightcones:
     Content:
       atkBuffStacks:
         text: Acúmulos de buff de ATK
-        content: Quando o portador fornece cura a um aliado, aumenta o ATK do aliado curado em {{AtkBuff}}%. Este efeito pode se acumular até 5 vezes e dura por 2 turno(s).
+        content: Quando o portador fornece cura a um aliado, aumenta o ATK do aliado curado em {{AtkBuff}}%. Este efeito pode se acumular até 5 vezes e dura por 2 turno(s.
   NightOnTheMilkyWay:
     Content:
       enemyCountAtkBuff:
@@ -178,15 +188,15 @@ Lightcones:
     Content:
       atkBoostStacks:
         text: Acúmulos de buff de ATK
-        content: Sempre que o portador ataca, seu ATK é aumentado em {{AtkBuff}}% nesta batalha. Este efeito pode se acumular até 4 vez(es).
+        content: Sempre que o portador ataca, seu ATK é aumentado em {{AtkBuff}}% nesta batalha. Este efeito pode se acumular até 4 vez(es.
       weaknessBreakDmgBuff:
         text: Buff de DMG de Quebra de Fraqueza
-        content: Após um personagem infligir Quebra de Fraqueza em um inimigo, o DMG do portador aumenta em {{DmgBuff}}% por 2 turno(s).
+        content: Após um personagem infligir Quebra de Fraqueza em um inimigo, o DMG do portador aumenta em {{DmgBuff}}% por 2 turno(s.
   PastSelfInTheMirror:
     Content:
       postUltDmgBuff:
         text: Buff de DMG pós-Ultimate
-        content: Quando o portador usa sua Ultimate, aumenta o DMG de todos os aliados em {{DmgBuff}}%, durando por 3 turno(s).
+        content: Quando o portador usa sua Ultimate, aumenta o DMG de todos os aliados em {{DmgBuff}}%, durando por 3 turnos.
   PatienceIsAllYouNeed:
     Content:
       spdStacks:
@@ -215,17 +225,17 @@ Lightcones:
       woefreeState:
         text: Vulnerabilidade Woefree
         content: >-
-          Após o portador usar a Ultimate para atacar os alvos inimigos, inflige o estado Woefree nos alvos, durando por 2.0 turno(s). Enquanto estiverem em Woefree, os alvos inimigos recebem {{Vulnerability}}% a mais de DMG. O efeito de aumento de DMG recebido é adicionalmente impulsionado em {{AdditionalVulnerability}}% se o Efeito de Quebra atual do portador for 150.0% ou superior.
+          Após o portador usar a Ultimate para atacar os alvos inimigos, inflige o estado Woefree nos alvos, durando por 2 turno(s). Enquanto estiverem em Woefree, os alvos inimigos recebem {{Vulnerability}}% a mais de DMG. O efeito de aumento de DMG recebido é adicionalmente impulsionado em {{AdditionalVulnerability}}% se o Efeito de Quebra atual do portador for 150% ou superior.
     TeammateContent:
       additionalVulnerability:
         text: Vulnerabilidade adicional
         content: >-
-          Após o portador usar a Ultimate para atacar os alvos inimigos, inflige o estado Woefree nos alvos, durando por 2.0 turno(s). Enquanto estiverem em Woefree, os alvos inimigos recebem {{Vulnerability}}% a mais de DMG. O efeito de aumento de DMG recebido é adicionalmente impulsionado em {{AdditionalVulnerability}}% se o Efeito de Quebra atual do portador for 150.0% ou superior.
+          Após o portador usar a Ultimate para atacar os alvos inimigos, inflige o estado Woefree nos alvos, durando por 2 turno(s). Enquanto estiverem em Woefree, os alvos inimigos recebem {{Vulnerability}}% a mais de DMG. O efeito de aumento de DMG recebido é adicionalmente impulsionado em {{AdditionalVulnerability}}% se o Efeito de Quebra atual do portador for 150% ou superior.
   SheAlreadyShutHerEyes:
     Content:
       hpLostDmgBuff:
         text: Buff de DMG por HP perdido
-        content: Quando o HP do portador é reduzido, o DMG causado por todos os aliados aumenta em {{DmgBuff}}%, durando por 2 turno(s).
+        content: Quando o HP do portador é reduzido, o DMG causado por todos os aliados aumenta em {{DmgBuff}}%, durando por 2 turnos.
   SleepLikeTheDead:
     Content:
       missedCritCrBuff:
@@ -235,7 +245,7 @@ Lightcones:
     Content:
       postUltDotDmgBuff:
         text: Buff de DMG de DoT pós-Ultimate
-        content: Quando o portador usa sua Ultimate, aumenta o DoT causado pelo portador em {{DmgBuff}}%, durando por 2 turno(s).
+        content: Quando o portador usa sua Ultimate, aumenta o DoT causado pelo portador em {{DmgBuff}}%, durando por 2 turnos.
   SomethingIrreplaceable:
     Content:
       dmgBuff:
@@ -258,17 +268,27 @@ Lightcones:
       unarmoredVulnerability:
         text: Vulnerabilidade sem armadura
         content: >-
-          Após o usuário usar o ATK Básico, Habilidade ou Ultimate para atacar um alvo inimigo, há uma chance base de 60,0% de infligir a condição Vulnerabilidade sem armadura no alvo. Enquanto estiver no estado de Vulnerabilidade sem armadura, o alvo inimigo recebe um aumento de {{UnarmoredVulnerability}}% no dano, durando por 2,0 turno(s). Se o alvo estiver sob um estado de Dano ao longo do tempo (DoT) causado pelo usuário, há uma chance base de 60,0% de atualizar o estado de Vulnerabilidade sem armadura infligido pelo usuário para o estado Encurralado, que aumenta adicionalmente o dano que o alvo inimigo recebe em {{CorneredVulnerability}}%, durando por 2,0 turno(s).
+          Após o usuário usar o ATK Básico, Habilidade ou Ultimate para atacar um alvo inimigo, há uma chance base de 60% de infligir a condição Vulnerabilidade sem armadura no alvo. Enquanto estiver no estado de Vulnerabilidade sem armadura, o alvo inimigo recebe um aumento de {{UnarmoredVulnerability}}% no dano, durando por 2 turno(s). Se o alvo estiver sob um estado de Dano ao longo do tempo (DoT) causado pelo usuário, há uma chance base de 60% de atualizar o estado de Vulnerabilidade sem armadura infligido pelo usuário para o estado Encurralado, que aumenta adicionalmente o dano que o alvo inimigo recebe em {{CorneredVulnerability}}%, durando por 2 turno(s).
       corneredVulnerability:
         text: Vulnerabilidade encurralada
         content: >-
-          Após o usuário usar o ATK Básico, Habilidade ou Ultimate para atacar um alvo inimigo, há uma chance base de 60,0% de infligir a condição Vulnerabilidade sem armadura no alvo. Enquanto estiver no estado de Vulnerabilidade sem armadura, o alvo inimigo recebe um aumento de {{UnarmoredVulnerability}}% no dano, durando por 2,0 turno(s). Se o alvo estiver sob um estado de Dano ao longo do tempo (DoT) causado pelo usuário, há uma chance base de 60,0% de atualizar o estado de Vulnerabilidade sem armadura infligido pelo usuário para o estado Encurralado, que aumenta adicionalmente o dano que o alvo inimigo recebe em {{CorneredVulnerability}}%, durando por 2,0 turno(s).
+          Após o usuário usar o ATK Básico, Habilidade ou Ultimate para atacar um alvo inimigo, há uma chance base de 60% de infligir a condição Vulnerabilidade sem armadura no alvo. Enquanto estiver no estado de Vulnerabilidade sem armadura, o alvo inimigo recebe um aumento de {{UnarmoredVulnerability}}% no dano, durando por 2 turno(s). Se o alvo estiver sob um estado de Dano ao longo do tempo (DoT) causado pelo usuário, há uma chance base de 60% de atualizar o estado de Vulnerabilidade sem armadura infligido pelo usuário para o estado Encurralado, que aumenta adicionalmente o dano que o alvo inimigo recebe em {{CorneredVulnerability}}%, durando por 2 turno(s).
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
         text: Proc de DMG baseado em cura (não implementado).
         content: >-
           Quando o usuário cura aliados, registra a quantidade de Cura Saída. Quando qualquer aliado realiza um ataque, um inimigo atacado aleatório recebe Dano Adicional igual a {{Multiplier}}% do valor registrado de saida de Cura. O tipo deste Dano Adicional é do mesmo tipo que o do usuário. Este Dano Adicional não é afetado por outros buffs e pode ocorrer apenas 1 vez por turno.
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: Acúmulos de Brocada
+        content: >-
+          Após o ataque do personagem e do memosprite, o usuário ganha 1 pilha de "Brocada". ::BR:: Cada acúmulo de "Brocade" aumenta CRIT DMG do personagem e memosprite em {{CdBuff}}%, acumulando até 6 vezes.:BR:: Ao atingir o máximo de acúmulos, cada acúmulo de "Brocada" irá aumentar adicionalmente a Danos ATK básicos em {{DmgBuff}}%.
+      maxStacksBasicDmgBoost:
+        text: Acúmulos de aumento de dano básico
+        content: >-
+          Após o ataque do personagem e do memosprite, o usuário ganha 1 pilha de "Brocada". ::BR:: Cada acúmulo de "Brocade" aumenta CRIT DMG do personagem e memosprite em {{CdBuff}}%, acumulando até 6 vezes.:BR:: Ao atingir o máximo de acúmulos, cada acúmulo de "Brocada" irá aumentar adicionalmente a Danos ATK básicos em {{DmgBuff}}%.
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
@@ -285,15 +305,15 @@ Lightcones:
     Content:
       fuaDmgBoost:
         text: Redução de Dano de FUA
-        content: Enquanto o usuário estiver em batalha, para cada 20% de CRIT DMG que exceder 120%, o DMG causado pelo ataque de seguimento aumenta em {{DmgBuff}}%. Este efeito pode acumular até 4 vez(es).
+        content: Enquanto o usuário estiver em batalha, para cada 20% de CRIT DMG que exceder 120%, o DMG causado pelo ataque de seguimento aumenta em {{DmgBuff}}%. Este efeito pode acumular até 4 vezes.
       ultFuaDefShred:
         text: Penetração de DEF para Ultimate / Ataque de Seguimento
-        content: Quando a batalha começa ou após o usuário usar seu ATK Básico, permite que o Ultimate ou o DMG causado pelo ataque de seguimento ignore {{DefShred}}% da DEF do alvo, durando por 2 turno(s).
+        content: Quando a batalha começa ou após o usuário usar seu ATK Básico, permite que o Ultimate ou o DMG causado pelo ataque de seguimento ignore {{DefShred}}% da DEF do alvo, durando por 2 turnos.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
         text: Buff de SPD
-        content: Após o usuário usar o Ultimate, aumenta a Velocidade (SPD) em {{SpdBuff}}%, durando por 2 turno(s).
+        content: Após o usuário usar o Ultimate, aumenta a Velocidade (SPD) em {{SpdBuff}}%, durando por 2 turnos.
   ASecretVow:
     Content:
       enemyHpHigherDmgBoost:
@@ -317,18 +337,18 @@ Lightcones:
       cdBuffActive:
         text: Buff de CD ativo.
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente: 
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%. 
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%. 
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       errBuffActive:
         text: Buff de ERR ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
   ConcertForTwo:
     Content:
@@ -364,42 +384,43 @@ Lightcones:
       goodFortuneStacks:
         text: Acúmulo de Boas Fortunas
         content: >-
-          Quando o usuário acerta um golpe CRIT em inimigos, ganha um acúmulo de Boa Sorte, acumulando até 4 vez(es). Cada acúmulo de Boa Sorte que o usuário tiver aumentará seu DANO CRÍTICO em {{CritBuff}}%. A Boa Sorte será removida no final do turno do usuário.
+          Quando o usuário acerta um golpe CRIT em inimigos, ganha um acúmulo de Boa Sorte, acumulando até 4 vezes. Cada acúmulo de Boa Sorte que o usuário tiver aumentará seu DANO CRÍTICO em {{CritBuff}}%. A Boa Sorte será removida no final do turno do usuário.
   FlamesAfar:
     Content:
       dmgBuff:
         text: Buff de DMG
         content: >-
-          Quando a perda acumulada de HP do usuário durante um único ataque excede 25% de seu HP Máximo, ou se a quantidade de HP que ele consome de uma só vez for superior a 25% de seu HP Máximo, cura imediatamente o usuário em 15% de seu HP Máximo e, ao mesmo tempo, aumenta o Dano que ele causa em {{DmgBuff}}% por 2 turno(s). Este efeito pode ser ativado apenas uma vez a cada 3 turno(s).
+          Quando a perda acumulada de HP do usuário durante um único ataque excede 25% de seu HP Máximo, ou se a quantidade de HP que ele consome de uma só vez for superior a 25% de seu HP Máximo, cura imediatamente o usuário em 15% de seu HP Máximo e, ao mesmo tempo, aumenta o Dano que ele causa em {{DmgBuff}}% por 2 turnos. Este efeito pode ser ativado apenas uma vez a cada 3 turnos.
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
         text: Buff de DMG ao usar o Ultimate
-        content: Após o usuário usar seu Ultimate, aumenta o DMG que ele causa em {{DmgBuff}}%, durando por 1 turno(s).
+        content: Após o usuário usar seu Ultimate, aumenta o DMG que ele causa em {{DmgBuff}}%, durando por 1 turno.
   GeniusesGreetings:
     Content:
       basicDmgBoost:
         text: Boost de básico DMG
+        content: Depois que o usuário usar sua Ultimate, adicionalmente aumenta o dano básico do usuário e memosprite em {{DmgBuff}}%.
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
         text: Buff de CD de inimigo derrotado.
-        content: Quando o usuário derrota um inimigo, o CRIT DMG do usuário aumenta em {{DmgBuff}}% por 3 turno(s).
+        content: Quando o usuário derrota um inimigo, o CRIT DMG do usuário aumenta em {{DmgBuff}}% por 3 turnos.
   GoodNightAndSleepWell:
     Content:
       debuffStacksDmgIncrease:
         text: Buff de Dano por acúmulos de Debuff
-        content: Para cada debuff que o alvo inimigo possui, o DMG causado pelo usuário aumenta em {{DmgBuff}}%, acumulando até 3 vez(es). Este efeito também se aplica ao Dano ao longo do tempo (DoT).
+        content: Para cada debuff que o alvo inimigo possui, o DMG causado pelo usuário aumenta em {{DmgBuff}}%, acumulando até 3 vezes. Este efeito também se aplica ao Dano ao longo do tempo (DoT).
   HeyOverHere:
     Content:
       postSkillHealBuff:
         text: Buff de cura após a habilidade
-        content: Quando o usuário usa sua Habilidade, aumenta a Cura Saída em {{HealingBoost}}%, durando por 2 turno(s).
+        content: Quando o usuário usa sua Habilidade, aumenta a Cura Saída em {{HealingBoost}}%, durando por 2 turnos.
   IndeliblePromise:
     Content:
       crBuff:
         text: Buff de CR para o Ultimate
-        content: Quando o usuário usa seu Ultimate, aumenta a Taxa de CRIT em {{CritBuff}}%, durando por 2 turno(s).
+        content: Quando o usuário usa seu Ultimate, aumenta a Taxa de CRIT em {{CritBuff}}%, durando por 2 turnos.
   ItsShowtime:
     Content:
       trickStacks:
@@ -415,7 +436,7 @@ Lightcones:
     Content:
       cdBuff:
         text: Buff de CD
-        content: Ao perder ou restaurar o HP desta unidade, aumenta o CRIT DMG em {{sValuesCd}}%, durando por 2 turno(s).
+        content: Ao perder ou restaurar o HP desta unidade, aumenta o CRIT DMG em {{sValuesCd}}%, durando por 2 turnos.
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
@@ -425,7 +446,7 @@ Lightcones:
     Content:
       postSkillDmgBuff:
         text: Buff de DANO pós-Habilidade
-        content: Quando o portador usa sua Habilidade, o próximo aliado que agir (exceto o portador) causa um aumento de {{DmgBuff}}% no DMG por 1 turno(s).
+        content: Quando o portador usa sua Habilidade, o próximo aliado que agir (exceto o portador) causa um aumento de {{DmgBuff}}% no DMG por 1 turnos.
   PerfectTiming:
     Content:
       resToHealingBoost:
@@ -450,7 +471,7 @@ Lightcones:
     Content:
       targetEnsnared:
         text: Alvo preso
-        content: Quando o portador atinge um inimigo e se o inimigo atingido não estiver já preso, há uma chance de prender o inimigo atingido. Inimigos presos têm a DEF reduzida em {{DefShred}}% por 1 turno(s).
+        content: Quando o portador atinge um inimigo e se o inimigo atingido não estiver já preso, há uma chance de prender o inimigo atingido. Inimigos presos têm a DEF reduzida em {{DefShred}}% por 1 turno.
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
@@ -461,17 +482,22 @@ Lightcones:
     Content:
       spdBuff:
         text: Buff de SPD
-        content: Ao entrar em batalha ou após causar BREAK DMG, aumenta a SPD em {{SpdBuff}}%, durando por 2,0 turno(s).
+        content: Ao entrar em batalha ou após causar BREAK DMG, aumenta a SPD em {{SpdBuff}}%, durando por 2 turnos.
   SubscribeForMore:
     Content:
       maxEnergyDmgBoost:
         text: Buff de DMG por energia máxima
         content: Aumenta o DMG do Ataque Básico e da Habilidade do portador em {{DmgBuff}}%. Esse efeito aumenta em mais {{DmgBuff}}% quando a Energia atual do portador atinge seu nível máximo.
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: Aumento de dano Invocador / Memosprite
+        content: Quando o memosprite do usuário estiver em campo, aumentao dano do usuário e memosprite em {{DmgBuff}}%
   Swordplay:
     Content:
       sameTargetHitStacks:
         text: Acúmulo de acertos no mesmo alvo
-        content: A cada vez que o portador atinge o mesmo alvo, o DMG causado aumenta em {{DmgBuff}}%, acumulando até 5 vez(es). Esse efeito será desfeito quando o portador mudar de alvo.
+        content: A cada vez que o portador atinge o mesmo alvo, o DMG causado aumenta em {{DmgBuff}}%, acumulando até 5 vezes. Esse efeito será desfeito quando o portador mudar de alvo.
   TheBirthOfTheSelf:
     Content:
       enemyHp50FuaBuff:
@@ -481,7 +507,7 @@ Lightcones:
     Content:
       cdBuffActive:
         text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
-        content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turno(s).
+        content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -494,7 +520,7 @@ Lightcones:
         content: Buff de DMG do portador em {{DmgBuff}}%.
       defeatedEnemyAtkStacks:
         text: Acúmulos de ATK para inimigos derrotados
-        content: Para cada inimigo derrotado pelo portador, o ATK do portador aumenta em {{AtkBuff}}%, acumulando até 3 vez(es).
+        content: Para cada inimigo derrotado pelo portador, o ATK do portador aumenta em {{AtkBuff}}%, acumulando até 3 vezes.
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -510,11 +536,12 @@ Lightcones:
     Content:
       defeatedEnemyCrBuff:
         text: Buff de CR para inimigos derrotados
-        content: Quando o portador derrota um inimigo, a taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turno(s).
+        content: Quando o portador derrota um inimigo, a taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turnos.
   VictoryInABlink:
     Content:
       teamDmgBuff:
         text: Buff de DMG no time
+        content: Quando o memosprite do usuário usar uma habilidade em qualquer alvo aliado, aumenta o dano de todos os aliados em {{DmgBuff}}%, durando por 3 turnos.
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -535,7 +562,7 @@ Lightcones:
     Content:
       defeatedEnemySpdBuff:
         text: Buff de SPD para inimigos derrotados
-        content: Quando o portador derrota um inimigo, aumenta a SPD em {{SpdBuff}}% por 2 turno(s).
+        content: Quando o portador derrota um inimigo, aumenta a SPD em {{SpdBuff}}% por 2 turnos.
   Amber:
     Content:
       hp50DefBuff:
@@ -545,7 +572,7 @@ Lightcones:
     Content:
       critBuff:
         text: Buff inicial de CR
-        content: No início da batalha, a Taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turno(s).
+        content: No início da batalha, a Taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turnos.
   Chorus:
     Content:
       inBattleAtkBuff:
@@ -565,7 +592,7 @@ Lightcones:
     Content:
       defeatedEnemyAtkBuff:
         text: Buff de ATK de inimigos derrotados
-        content: Quando o portador derrota um inimigo, aumenta o ATK em {{AtkBuff}}% por 3 turno(s).
+        content: Quando o portador derrota um inimigo, aumenta o ATK em {{AtkBuff}}% por 3 turnos.
   DataBank:
     Content:
       ultDmgBuff:
@@ -585,17 +612,22 @@ Lightcones:
     Content:
       initialSpdBuff:
         text: Buff inicial de SPD
-        content: Ao entrar em batalha, aumenta a SPD de todos os aliados em {{SpdBuff}} pontos por 1 turno(s).
+        content: Ao entrar em batalha, aumenta a SPD de todos os aliados em {{SpdBuff}} pontos por 1 turno.
   MutualDemise:
     Content:
       selfHp80CrBuff:
         text: Buff de CR quando a HP do portador está < 80%
         content: Se a HP atual do portador estiver abaixo de 80%, a Taxa de CRIT aumenta em {{CritBuff}}%.
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: Acúmulos de dano
+        content: Quando o turno do memosprite começa, o usuário e memosprite ganham 1 acúmulo de "Comemoração". Cada acúmulo aumenta o dano dado em {{DmgBuff}}%, acumulando até 4 vezes. "Comemoração" é removido do usuário e memosprite quando o memosprite desaparecer.
   Sagacity:
     Content:
       postUltAtkBuff:
         text: Buff de ATK pós-Ultimate
-        content: Quando o portador usa seu Ultimate, aumenta o ATK em {{AtkBuff}}% por 2 turno(s).
+        content: Quando o portador usa seu Ultimate, aumenta o ATK em {{AtkBuff}}% por 2 turnos.
   ShatteredHome:
     Content:
       enemyHp50Buff:
@@ -605,21 +637,21 @@ Lightcones:
     Content:
       initialEhrBuff:
         text: Buff inicial de EHR
-        content: No início da batalha, a Taxa de Acerto de Efeito do portador aumenta em {{EhrBuff}}% por 3 turno(s).
+        content: No início da batalha, a Taxa de Acerto de Efeito do portador aumenta em {{EhrBuff}}% por 3 turnos.
 Characters:
   Acheron:
     Content:
       crimsonKnotStacks:
         text: Acúmulos de Nó Carmesim
         content: >-
-          Chuva de Lâminas: Causa DMG de Relâmpago igual a {{RainbladeScaling}}% do ATK de Acheron a um único inimigo alvo e remove até 3 acúmulos de Crimson Knot do alvo. Quando o Nó Carmesim é removido, causa imediatamente DMG de Relâmpago igual a {{CrimsonKnotScaling}}% do ATK de Acheron a todos os inimigos. Para cada acúmulo de Crimson Knot removido, o Multiplicador de DMG para isso é adicionalmente aumentado.::BR::Quando a Chuva de Lâminas de Acheron atinge alvos inimigos com o Nó Carmesim, seu DMG aumenta em 30%, acumulando até 3 vez(es).
+          Chuva de Lâminas: Causa DMG de Relâmpago igual a {{RainbladeScaling}}% do ATK de Acheron a um único inimigo alvo e remove até 3 acúmulos de Crimson Knot do alvo. Quando o Nó Carmesim é removido, causa imediatamente DMG de Relâmpago igual a {{CrimsonKnotScaling}}% do ATK de Acheron a todos os inimigos. Para cada acúmulo de Crimson Knot removido, o Multiplicador de DMG para isso é adicionalmente aumentado.::BR::Quando a Chuva de Lâminas de Acheron atinge alvos inimigos com o Nó Carmesim, seu DMG aumenta em 30%, acumulando até 3 vezes.
       nihilityTeammates:
         text: Companheiros de Nihility
         content: >-
           Quando houver 1 ou 2 personagens de Nihility além de Acheron na equipe, o DMG causado pelo ATK Básico, Habilidade e Ultimate de Acheron aumenta para 115% ou 160% do DMG original, respectivamente.::BR::E2: O número de personagens de Nihility necessário para que o Traço do Abismo atinja seu efeito mais alto é reduzido em 1. Quando o turno desta unidade começa, ganha 1 ponto de Sonho Cortado e inflige 1 acúmulo de Nó Carmesim no inimigo com mais acúmulos de Nó Carmesim.
       thunderCoreStacks:
         text: Acúmulos de Relâmpago
-        content: Quando a Chuva de Lâminas do Ultimate de Acheron atinge alvos inimigos com Nó Carmesim, seu DMG aumenta em 30%, acumulando até 3 vez(es) e durando por 3 turno(s).
+        content: Quando a Chuva de Lâminas do Ultimate de Acheron atinge alvos inimigos com Nó Carmesim, seu DMG aumenta em 30%, acumulando até 3 vezes e durando por 3 turnos.
       stygianResurgeHitsOnTarget:
         text: Acertos de Ressurgimento Estígio
         content: >-
@@ -636,8 +668,29 @@ Characters:
           Aumenta a PEN de RES de Todos os Tipos para o DMG do Ultimate causado por Acheron em 20%. O DMG causado pelo ATK Básico e pela Habilidade também será considerado como DMG do Ultimate e pode reduzir a resistência do inimigo, independentemente dos Tipos de Fraqueza. Ao quebrar Fraquezas, ativa o efeito de Quebra de Fraqueza de Relâmpago.
   Aglaea:
     Content:
+      supremeStanceState:
+        text: Estado da Postura Suprema
+        content: >-
+          Enquanto estiver no estado de "Postura Suprema", Aglaea ganha os acúmulos de aumento de SPD do talento do memosprite Confeccionadora, cada acúmulo aumenta a SPD em {{SpdBuff}}%. Melhora Ataque Básico para "Cortado por um Beijo Milenar", e não pode usar habilidade.
+      seamStitch:
+        text: Costura Vinculante
+        content: >-
+          Enquanto a Confeccionadora estiver em campo, os ataques de Aglaea infligem o alvo com estado de "Costura Vinculante". Após atacar inimigos no estado "Costura Vinculante", inflige dano Relâmpago adicional igual à {{Scaling}}% do ataque de Aglaea. "Costura Vinculante" só tem efeito no alvo infligido mais recente.
+      memoSpdStacks:
+        text: Acúmulos de SPD do Memo
+        content: >-
+          Após atacar um inimigo infligido com "Costura Vinculante", aumenta a velocidade desse personagem em {{SpdBuff}}, acúmulando até {{StackLimit}} vezes.
+      e1Vulnerability:
+        text: E1 vulnerabilidade
+        content: Inimigos infligidos com "Costura Vinculante" tomam 15% mais dano.
+      e2DefShredStacks:
+        text: E2 Acúmulos de PEN DEF
+        content: >-
+          Quando Aglaea ou Confeccionadora tomam ação, o dano infligido por Aglaea e Confeccionadora ignora 14% da DEF do alvo. Esse efeito por acúmular até 3 vezes e dura até outro personagem, excluindo Aglaea ou Confeccionadora, usarem uma habilidade.
       e6Buffs:
         text: Buffs E6
+        content: >-
+          Enquanto Aglaea estiver em "Postura Suprema", aumenta a RES PEN de Relâmpago de Aglaea em Confeccionado em 20%. Quando a SPD de Aglaea ou Confeccionadora forem maior que 160/240/320, o dano do ataque Conjunto aumenta em 10%/30%/60%
   Argenti:
     Content:
       ultEnhanced:
@@ -655,7 +708,7 @@ Characters:
         content: O Ult aprimorado causa {{ultEnhancedExtraHitScaling}}% do ATK a um inimigo aleatório por acerto.
       e2UltAtkBuff:
         text: Buff de ATK do Ult de E2
-        content: "E2: Se o número de inimigos em campo for igual ou superior a 3, aumenta o ATK em 40% por 1 turno."
+        content: Se o número de inimigos em campo for igual ou superior a 3, aumenta o ATK em 40% por 1 turno.
   Arlan:
     Content:
       selfCurrentHpPercent:
@@ -665,13 +718,13 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: Habilidade de hits extras
-        content: "Causa 50% de DMG ATK igual a um único inimigo. Causa DMG por {{skillExtraDmgHitsMax}} vezes extras a um inimigo aleatório.::BR::E1: Ao usar a habilidade, causa DMG por 1 vez extra a um inimigo aleatório."
+        content: "Causa Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um único inimigo e, adicionalmente, causa Dano {{skillExtraDmgHitsMax}} vezes a mais, com cada ataque causando Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um inimigo aleatório. :BR::E1: Quando usar perícia, da dano 1 vez extra à um inimigo aleatório."
       talentBuffStacks:
         text: Acúmulo de buff de ATK do talento
         content: "Aumenta o ATK dos aliados em {{talentStacksAtkBuff}}% para cada acúmulo.::BR::E4: A taxa de regeneração de energia de Asta aumenta em 15% quando ela possui 2 ou mais acúmulos de Carga."
       ultSpdBuff:
         text: Buff de SPD ativo da ult
-        content: Aumenta a SPD de todos os aliados em {{ultSpdBuffValue}} por 2 turno(s).
+        content: Aumenta a SPD de todos os aliados em {{ultSpdBuffValue}} por 2 turnos.
       fireDmgBoost:
         text: Buff de DMG de fogo
         content: Quando Asta está em campo, o DMG de Fogo de todos os aliados aumenta em 18%.
@@ -693,13 +746,13 @@ Characters:
           Ao alcançar 7 pontos de Aposta Cega, Aventurine consome os 7 pontos para lançar um ataque de acompanhamento de 7 golpes, com cada golpe causando DMG Imaginário igual a {{talentDmgScaling}}% da DEF de Aventurine a um único inimigo aleatório. A Aposta Cega é limitada a 10 pontos.::BR::E4: Ao acionar o ataque de acompanhamento do seu Talento, primeiro aumenta a DEF de Aventurine em 40% por 2 turno(s) e, adicionalmente, aumenta os Golpes por Ação do ataque de acompanhamento de seu talento em 3.
       e2ResShred:
         text: Redução de RES E2
-        content: Ao usar o ATK Básico, reduz a RES de Todos os Tipos do alvo em 12% por 3 turno(s).
+        content: Ao usar o ATK Básico, reduz a RES de Todos os Tipos do alvo em 12% por 3 turnos.
       e4DefBuff:
         text: Buff de DEF E4
-        content: "E4: Ao acionar o ataque de acompanhamento do seu Talento, primeiro aumenta a DEF de Aventurine em 40% por 2 turno(s)."
+        content: Ao acionar o ataque de acompanhamento do seu Talento, primeiro aumenta a DEF de Aventurine em 40% por 2 turnos.
       e6ShieldStacks:
         text: Acúmulos de escudo E6
-        content: "E6: Para cada aliado que possui um Escudo, o DMG causado por Aventurine aumenta em 50%, até um máximo de 150%."
+        content: Para cada aliado que possui um Escudo, o DMG causado por Aventurine aumenta em 50%, até um máximo de 150%.
   Bailu:
     Content:
       healingMaxHpBuff:
@@ -710,10 +763,10 @@ Characters:
         content: Personagens com Revigoração recebem 10% a menos de DMG.
       e2UltHealingBuff:
         text: Buff de cura da ult E2
-        content: "E2: Aumenta a cura em 15% após a Ultimate."
+        content: Aumenta a cura em 15% após a Ultimate.
       e4SkillHealingDmgBuffStacks:
         text: Acúmulos de aumento de DMG da habilidade E4
-        content: "E4: Cada cura fornecida pela habilidade de Bailu faz com que o recipiente cause 10% a mais de DMG por 2 turnos. Este efeito pode acumular até 3 vezes."
+        content: Cada cura fornecida pela habilidade de Bailu faz com que o recipiente cause 10% a mais de DMG por 2 turnos. Este efeito pode acumular até 3 vezes.
   BlackSwan:
     Content:
       ehrToDmgBoost:
@@ -731,28 +784,30 @@ Characters:
           Enquanto estiverem afetados por Arcana, os alvos inimigos recebem DoT de Vento igual a {{dotScaling}}% do ATK do Cisne Negro no início de cada turno. Cada acúmulo de Arcana aumenta esse multiplicador de DMG do DoT em {{arcanaStackMultiplier}}%. Arcana pode acumular até 50 vezes.::BR::Quando há 3 ou mais acúmulos de Arcana, causa DoT de Vento aos alvos adjacentes. Quando há 7 ou mais acúmulos de Arcana, permite que o DoT causado desta vez ignore 20% da DEF do alvo e dos alvos adjacentes.
       e1ResReduction:
         text: Redução de RES E1
-        content: >-
-          E1: Enquanto Black Swan estiver ativa na batalha, inimigos afetados por Corte de Vento, Sangramento, Queimadura ou Choque terão sua RES correspondente de Vento, Físico, Fogo ou Relâmpago reduzida em 25%.
+        content: Enquanto Black Swan estiver ativa na batalha, inimigos afetados por Corte de Vento, Sangramento, Queimadura ou Choque terão sua RES correspondente de Vento, Físico, Fogo ou Relâmpago reduzida em 25%.
+      e4EffResPen:
+        text: E4 Redução de RES
+        content: Enquanto estiver no estado de Epifânia, alvos inimigos tem sua Effect RES reduzida em 10%.
   Blade:
     Content:
       enhancedStateActive:
         text: Estado de Inferno
-        content: "Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turno(s).::BR::E2: Aumenta a taxa de CRIT em 15%."
+        content: "Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turnos.::BR::E2: Aumenta a taxa de CRIT em 15%."
       hpPercentLostTotal:
         text: HP% perdido total
         content: O DMG da Ultimate escala com base na contagem da perda de HP de Blade na batalha atual. A contagem da perda de HP de Blade na batalha atual é limitada a {{hpPercentLostTotalMax}}% de seu HP máximo.
       e4MaxHpIncreaseStacks:
         text: Acúmulos de HP máximo E4
-        content: "E4: Aumenta o HP em 20%, acumulando até 2 vezes."
+        content: Aumenta o HP em 20%, acumulando até 2 vezes.
   Boothill:
     Content:
       standoffActive:
         text: Impasse Ativo
         content: >-
-          Força Boothill e um único inimigo-alvo a entrar no estado de Impasse. O ATK Básico de Boothill é aprimorado, e ele não pode usar sua Habilidade, durando por 2 turno(s). Essa duração é reduzida em 1 no início de cada turno de Boothill. O inimigo-alvo no Impasse se torna Provocado. Quando esse inimigo-alvo/Boothill é atacado pela outra parte no Impasse, o DMG que eles recebem aumenta em {{standoffVulnerabilityBoost}}%/15%.
+          Força Boothill e um único inimigo-alvo a entrar no estado de Impasse. O ATK Básico de Boothill é aprimorado, e ele não pode usar sua Habilidade, durando por 2 turnos. Essa duração é reduzida em 1 no início de cada turno de Boothill. O inimigo-alvo no Impasse se torna Provocado. Quando esse inimigo-alvo/Boothill é atacado pela outra parte no Impasse, o DMG que eles recebem aumenta em {{standoffVulnerabilityBoost}}%/15%.
       pocketTrickshotStacks:
         text: Truques de Bolso
-        content: Cada acúmulo de Truque de Bolso aumenta a Redução de Resistência do Ataque Básico Aprimorado em 50%, acumulando até 3 vez(es).
+        content: Cada acúmulo de Truque de Bolso aumenta a Redução de Resistência do Ataque Básico Aprimorado em 50%, acumulando até 3 vezes.
       beToCritBoost:
         text: BE para buff de CR / CD
         content: Aumenta a Taxa de CRIT / CRIT DMG deste personagem em uma quantidade igual a 10% / 50% do Efeito de Quebra, até um aumento máximo de 30% / 150%.
@@ -766,7 +821,7 @@ Characters:
       e2BeBuff:
         text: Buff BE E2
         content: >-
-          Quando estiver em Impasse e ganhando Truques de Bolso, recupera 1 Ponto(s) de Habilidade e aumenta o Efeito de Quebra em 30%, durando por 2 turno(s). Também pode ativar este efeito ao ganhar acúmulos de Truque de Bolso que excedam o limite máximo. Mas não pode ser ativado repetidamente em um turno.
+          Quando estiver em Impasse e ganhando Truques de Bolso, recupera 1 Ponto de Habilidade e aumenta o Efeito de Quebra em 30%, durando por 2 turnos. Também pode ativar este efeito ao ganhar acúmulos de Truque de Bolso que excedam o limite máximo. Mas não pode ser ativado repetidamente em um turno.
       e4TargetStandoffVulnerability:
         text: Vulnerabilidade de Habilidade E4
         content: >-
@@ -782,16 +837,16 @@ Characters:
         content: Quando Bronya está em campo, todos os aliados causam 10% a mais de DMG.
       skillBuff:
         text: Buff de DMG de Habilidade
-        content: Dispela um debuff de um único aliado, permitindo que eles ajam imediatamente, e aumenta seu DMG em {{skillDmgBoostValue}}% por 1 turno(s).
+        content: Dispela um debuff de um único aliado, permitindo que eles ajam imediatamente, e aumenta seu DMG em {{skillDmgBoostValue}}% por 1 turno.
       ultBuff:
         text: Buffs de ATK / CD de Ult
         content: Aumenta o ATK de todos os aliados em {{ultAtkBoostValue}}% e o CRIT DMG em {{ultCdBoostValue}}% do CRIT DMG de Bronya mais {{ultCdBoostBaseValue}}% por 2 turnos.
       battleStartDefBuff:
         text: Buff inicial de DEF
-        content: No início da batalha, a DEF de todos os aliados aumentam em 20% por 2 turno(s).
+        content: No início da batalha, a DEF de todos os aliados aumentam em 20% por 2 turnos.
       techniqueBuff:
         text: Buff de ATK de Técnica
-        content: Após usar a Técnica de Bronya, no início da próxima batalha, o ATK de todos os aliados aumentam em 15% por 2 turno(s).
+        content: Após usar a Técnica de Bronya, no início da próxima batalha, o ATK de todos os aliados aumentam em 15% por 2 turnos.
       e2SkillSpdBuff:
         text: Buff de SPD de Habilidade E2
         content: Ao usar a Habilidade, a SPD do aliado alvo aumenta em 30% após agir, durando 1 turno.
@@ -809,10 +864,10 @@ Characters:
         content: Além disso, causa DMG Físico igual a {{skillScaling}}% do ATK de Clara a inimigos marcados por Svarog com uma Marca de Contra-ataque.
       e2UltAtkBuff:
         text: Buff de ATK do Ult de E2
-        content: "E2: Após usar o Ultimate, aumenta o ATK em 30% por 2 turnos."
+        content: Após usar o Ultimate, aumenta o ATK em 30% por 2 turnos.
       e4DmgReductionBuff:
         text: Buff de redução de DMG E4
-        content: "E4: Diminui o DMG recebido em 30%."
+        content: Diminui o DMG recebido em 30%.
   DanHeng:
     Content:
       talentPenBuff:
@@ -823,7 +878,7 @@ Characters:
         content: O ATK Básico causa 40% a mais de dano a inimigos Desacelerados.
       e1EnemyHp50:
         text: E1 inimigo HP ≥ 50% aumento de CR
-        content: "E1: Quando a porcentagem de HP atual do inimigo alvo é maior ou igual a 50%, a Taxa de CRIT aumenta em 12%."
+        content: Quando a porcentagem de HP atual do inimigo alvo é maior ou igual a 50%, a Taxa de CRIT aumenta em 12%.
   DrRatio:
     Content:
       summationStacks:
@@ -841,21 +896,20 @@ Characters:
       talentDmgBuff:
         text: Aumento de DMG do Talento
         content: >-
-          Após os aliados de Feixiao atacarem alvos inimigos, Feixiao lança imediatamente um ataque adicional contra o alvo primário, causando DMG de Vento igual a {{FuaMultiplier}}% do ATK de Feixiao. Se não houver alvo primário disponível para atacar, Feixiao ataca um único inimigo aleatório. Esse efeito pode ser acionado apenas uma vez por turno e a contagem de ativações é reiniciada no início do turno de Feixiao. Ao usar este ataque, aumenta o DMG causado por esta unidade em {{DmgBuff}}%, durando por 2 turno(s).
+          Após os aliados de Feixiao atacarem alvos inimigos, Feixiao lança imediatamente um ataque adicional contra o alvo primário, causando DMG de Vento igual a {{FuaMultiplier}}% do ATK de Feixiao. Se não houver alvo primário disponível para atacar, Feixiao ataca um único inimigo aleatório. Esse efeito pode ser acionado apenas uma vez por turno e a contagem de ativações é reiniciada no início do turno de Feixiao. Ao usar este ataque, aumenta o DMG causado por esta unidade em {{DmgBuff}}%, durando por 2 turnos.
       skillAtkBuff:
         text: Aumento de ATK da Habilidade
-        content: Ao usar a Habilidade, aumenta o ATK em 48,0%, durando por 3,0 turno(s).
+        content: Ao usar a Habilidade, aumenta o ATK em 48%, durando por 3 turnos.
       e1OriginalDmgBoost:
         text: Aumento de DMG original E1
-        content: >-
-          E1: Após lançar Blitz de Boltsunder ou Machado de guerra em direção ao céu, aumenta adicionalmente o DMG da Ultimate causado por Feixiao em uma quantia igual a 10,0% do DMG original, acumulando até 5,0 vez(es) e durando até o final da ação da Ultimate.
+        content: Após lançar Blitz de Boltsunder ou Machado de guerra em direção ao céu, aumenta adicionalmente o DMG da Ultimate causado por Feixiao em uma quantia igual a 10% do DMG original, acumulando até 5 vezes e durando até o final da ação da Ultimate.
       e4Buffs:
         text: Buffs E4
-        content: A Redução de Resistência do ATK Adicional do Talento aumenta em 100,0% e, quando ativado, aumenta a SPD desta unidade em 8,0%, durando por 2,0 turno(s).
+        content: A Redução de Resistência do ATK Adicional do Talento aumenta em 100% e, quando ativado, aumenta a SPD desta unidade em 8%, durando por 2 turnos.
       e6Buffs:
         text: Buffs E6
         content: >-
-          Aumenta a PEN de RES de Todos os Tipos do DMG da Ultimate causado por Feixiao em 20,0%. O DMG do ataque adicional do Talento é considerado como DMG da Ultimate ao mesmo tempo, e seu multiplicador de DMG aumenta em 140,0%.
+          Aumenta a PEN de RES de Todos os Tipos do DMG da Ultimate causado por Feixiao em 20%. O DMG do ataque adicional do Talento é considerado como DMG da Ultimate ao mesmo tempo, e seu multiplicador de DMG aumenta em 140%.
   Firefly:
     Content:
       enhancedStateActive:
@@ -916,7 +970,7 @@ Characters:
       weaknessBreakBeStacks:
         text: BE em inimigo quebrado acumula
         content: >-
-          Quando a Fraqueza de um alvo inimigo é quebrada, o Efeito de Quebra dos companheiros de equipe aumenta em 6%. Se o Efeito de Quebra de Fugue for de 220% ou mais, o boost do Efeito de Quebra também aumenta em 12%, com duração de 2 turnos. Esse efeito pode se acumular até 2 vezes.
+          Quando a Fraqueza de um alvo inimigo é quebrada, o Efeito de Quebra dos companheiros de equipe aumenta em 6%. Se o Efeito de Quebra de Fugue for 220% ou mais, o Boost do Efeito de Quebra também aumenta em 12%, com duração de 2 turnos. Esse efeito pode se acumular até 2 vezes.
   FuXuan:
     Content:
       talentActive:
@@ -925,11 +979,10 @@ Characters:
       skillActive:
         text: Habilidade ativa
         content: >-
-          Ativa a Matriz da Previsão, através da qual os outros membros da equipe distribuirão 65% do DMG que recebem (antes que esse DMG seja mitigado por quaisquer Escudos) para Fu Xuan por 3 turno(s). Enquanto estiverem afetados pela Matriz de Previsão, todos os membros da equipe ganham o efeito Conhecimento, que aumenta seu respectivo HP máximo em {{skillHpBuffValue}}% do HP máximo de Fu Xuan e aumenta a Taxa de CRIT em {{skillCrBuffValue}}%.
+          Ativa a Matriz da Previsão, através da qual os outros membros da equipe distribuirão 65% do DMG que recebem (antes que esse DMG seja mitigado por quaisquer Escudos) para Fu Xuan por 3 turnos. Enquanto estiverem afetados pela Matriz de Previsão, todos os membros da equipe ganham o efeito Conhecimento, que aumenta seu respectivo HP máximo em {{skillHpBuffValue}}% do HP máximo de Fu Xuan e aumenta a Taxa de CRIT em {{skillCrBuffValue}}%.
       e6TeamHpLostPercent:
         text: Perda de HP da equipe E6
-        content: >-
-          E6: Uma vez que a Matriz da Previsão é ativada, ela manterá um registro da perda total de HP de todos os membros da equipe na batalha atual. O DMG da Ultimate de Fu Xuan aumentará em 200% desse registro de perda de HP. Esse registro também é limitado a 120% do HP máximo de Fu Xuan.
+        content: Uma vez que a Matriz da Previsão é ativada, ela manterá um registro da perda total de HP de todos os membros da equipe na batalha atual. O DMG da Ultimate de Fu Xuan aumentará em 200% desse registro de perda de HP. Esse registro também é limitado a 120% do HP máximo de Fu Xuan.
     TeammateContent:
       teammateHPValue:
         text: HP de Combate de Fu Xuan
@@ -947,18 +1000,18 @@ Characters:
         content: O estado Enfeitiçado faz com que os alvos recebam {{talentBesottedScaling}}% a mais de DMG de Quebra.
       e1ResBuff:
         text: Buff de RES E1
-        content: "E1: Ao entrar na batalha, Gallagher regenera 20 de Energia e aumenta a RES ao Efeito em 50%."
+        content: Ao entrar na batalha, Gallagher regenera 20 de Energia e aumenta a RES ao Efeito em 50%.
       e2ResBuff:
         text: Buff de RES E2
-        content: "E2: Ao usar a Habilidade, remove 1 debuff(s) do aliado alvo. Ao mesmo tempo, aumenta sua RES ao Efeito em 30%, durando por 2 turno(s)."
+        content: Ao usar a Habilidade, remove 1 debuff do aliado alvo. Ao mesmo tempo, aumenta sua RES ao Efeito em 30%, durando por 2 turnos.
       e6BeBuff:
         text: Buff de BE E6
-        content: "E6: Aumenta o Efeito de Quebra de Gallagher em 20% e a Eficiência da Quebra de Fraqueza em 20%."
+        content: Aumenta o Efeito de Quebra de Gallagher em 20% e a Eficiência da Quebra de Fraqueza em 20%.
   Gepard:
     Content:
       e4TeamResBuff:
         text: Buff de RES da equipe E4
-        content: "E4: Quando Gepard está em batalha, a RES ao Efeito de todos os aliados aumenta em 20%."
+        content: Quando Gepard está em batalha, a RES ao Efeito de todos os aliados aumenta em 20%.
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -972,10 +1025,10 @@ Characters:
         content: Quando ativado, usa a chance de DoT de 100% da Habilidade em vez da chance de DoT de 80% do Ataque Básico.
       e1EffectResShred:
         text: Redução de RES ao Efeito E1
-        content: "E1: Ao usar a Habilidade, há uma chance base de 100% de reduzir a RES ao Efeito do inimigo alvo atacado em 10% por 2 turno(s)."
+        content: Ao usar a Habilidade, há uma chance base de 100% de reduzir a RES ao Efeito do inimigo alvo atacado em 10% por 2 turnos.
       e2BurnMultiBoost:
         text: Boost múltiplos de queimadura E2
-        content: "E2: Quando um alvo inimigo está Queimado, o ATK Básico e a Habilidade de Guinaifen podem aumentar o multiplicador de DMG do status de Queima em 40%."
+        content: Quando um alvo inimigo está Queimado, o ATK Básico e a Habilidade de Guinaifen podem aumentar o multiplicador de DMG do status de Queima em 40%.
   Hanya:
     Content:
       ultBuff:
@@ -983,13 +1036,13 @@ Characters:
         content: Aumenta a SPD de um aliado alvo em {{ultSpdBuffValue}}% da SPD de Hanya e aumenta o ATK do mesmo aliado alvo em {{ultAtkBuffValue}}%.
       targetBurdenActive:
         text: Debuff de Carga do Alvo
-        content: Quando um aliado usa um ATK Básico, Habilidade ou Ultimate em um inimigo afetado por Carga, o DMG causado aumenta em {{talentDmgBoostValue}}% por 2 turno(s).
+        content: Quando um aliado usa um ATK Básico, Habilidade ou Ultimate em um inimigo afetado por Carga, o DMG causado aumenta em {{talentDmgBoostValue}}% por 2 turnos.
       burdenAtkBuff:
         text: Buff de ATK de Carga
-        content: Aliados que ativam o efeito de recuperação de Pontos de Habilidade da Carga têm seu ATK aumentado em 10% por 1 turno(s).
+        content: Aliados que ativam o efeito de recuperação de Pontos de Habilidade da Carga têm seu ATK aumentado em 10% por 1 turno.
       e2SkillSpdBuff:
         text: Buff de SPD de Habilidade E2
-        content: "E2: Após a Habilidade, aumenta a SPD em 20% por 1 turno."
+        content: Após a Habilidade, aumenta a SPD em 20% por 1 turno.
     TeammateContent:
       teammateSPDValue:
         text: SPD de Hanya
@@ -1010,13 +1063,13 @@ Characters:
         content: Aumenta o ATK em 40% por 3 turnos.
       enemyHpLte50:
         text: Buff de Escala Básica E1
-        content: "E1: Se a porcentagem de HP do inimigo estiver em 50% ou menos, o ATK Básico de Herta causa DMG de Gelo Adicional igual a 40% do ATK de Herta."
+        content: Se a porcentagem de HP do inimigo estiver em 50% ou menos, o ATK Básico de Herta causa DMG de Gelo Adicional igual a 40% do ATK de Herta.
       e2TalentCritStacks:
         text: Acúmulos de CR do Talento E2
-        content: "E2: Aumenta a Taxa de CR em 3% por acúmulo. Acumula até 5 vezes."
+        content: Aumenta a Taxa de CR em 3% por acúmulo. Acumula até 5 vezes.
       e6UltAtkBuff:
         text: Buff de ATK da Ultimate E6
-        content: "E6: Após a Ultimate, aumenta o ATK em 25% por 1 turno."
+        content: Após a Ultimate, aumenta o ATK em 25% por 1 turno.
   Himeko:
     Content:
       targetBurned:
@@ -1027,13 +1080,13 @@ Characters:
         content: Quando a porcentagem de HP atual é 80% ou mais, a Taxa de CR aumenta em 15%.
       e1TalentSpdBuff:
         text: Buff de SPD E1
-        content: "E1: Após a Rush da Vitória ser ativada, a SPD de Himeko aumenta em 20% por 2 turnos."
+        content: Após o Rush da Vitória ser ativado, a SPD de Himeko aumenta em 20% por 2 turnos.
       e2EnemyHp50DmgBoost:
         text: Impulso de DMG contra inimigos com HP < 50% E2
-        content: "E2: Causa 15% a mais de DMG em inimigos cuja porcentagem de HP é 50% ou menos."
+        content: Causa 15% a mais de DMG a inimigos cuja porcentagem de HP é de 50% ou menos.
       e6UltExtraHits:
         text: Ataques extras da Ultimate E6
-        content: "E6: A Ultimate causa DMG 2 vezes extras. Os ataques extras causam 40% do DMG original por ataque."
+        content: A Ultimate causa DMG 2 vezes extras. Os ataques extras causam 40% do DMG original por ataque.
   Hook:
     Content:
       enhancedSkill:
@@ -1043,7 +1096,7 @@ Characters:
       targetBurned:
         text: Alvo queimado
         content: >-
-          Quando atacar um alvo afetado por Queimadura, causa DMG de Fogo Adicional igual a {{targetBurnedExtraScaling}}% do ATK de Hook.::BR::E6: Hook causa 20,0% a mais de DMG a inimigos afetados por Queimadura.
+          Quando atacar um alvo afetado por Queimadura, causa DMG de Fogo Adicional igual a {{targetBurnedExtraScaling}}% do ATK de Hook.::BR::E6: Hook causa 20% a mais de DMG a inimigos afetados por Queimadura.
   Huohuo:
     Content:
       ultBuff:
@@ -1051,16 +1104,16 @@ Characters:
         content: Aumenta o ATK de todos os aliados em {{ultBuffValue}}% por 2 turnos após usar a Ultimate.
       skillBuff:
         text: Buff de SPD E1
-        content: "E1: Quando Huohuo possui Provisão Divina, a SPD de todos os aliados aumenta em 12%."
+        content: Quando Huohuo possui Provisão Divina, a SPD de todos os aliados aumenta em 12%.
       e6DmgBuff:
         text: Buff de DMG E6
-        content: "E6: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos."
+        content: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos.
   ImbibitorLunae:
     Content:
       basicEnhanced:
         text: Melhorias básico
         content: >-
-          0 acúmulo(s): Usa um ataque de 2 acertos e causa DMG Imaginário igual a {{basicScaling}}% do ATK a um único alvo inimigo.::BR::1 acúmulo(s): Usa um ataque de 3 acertos e causa DMG Imaginário igual a {{basicEnhanced1Scaling}}% do ATK a um único alvo inimigo.::BR::2 acúmulo(s): Usa um ataque de 5 acertos e causa DMG Imaginário igual a {{basicEnhanced2Scaling}}% do ATK a um único alvo inimigo e reduz o DMG a alvos adjacentes.::BR::3 acúmulo(s): Usa um ataque de 7 acertos e causa DMG Imaginário igual a {{basicEnhanced3Scaling}}% do ATK a um único alvo inimigo e reduz o DMG a alvos adjacentes.
+          0 acúmulos: Usa um ataque de 2 acertos e causa DMG Imaginário igual a {{basicScaling}}% do ATK a um único alvo inimigo.::BR::1 acúmulo: Usa um ataque de 3 acertos e causa DMG Imaginário igual a {{basicEnhanced1Scaling}}% do ATK a um único alvo inimigo.::BR::2 acúmulos: Usa um ataque de 5 acertos e causa DMG Imaginário igual a {{basicEnhanced2Scaling}}% do ATK a um único alvo inimigo e reduz o DMG a alvos adjacentes.::BR::3 acúmulo() Usa um ataque de 7 acertos e causa DMG Imaginário igual a {{basicEnhanced3Scaling}}% do ATK a um único alvo inimigo e reduz o DMG a alvos adjacentes.
       skillOutroarStacks:
         text: Acúmulos de Outroar
         content: >-
@@ -1070,7 +1123,7 @@ Characters:
         content: Após cada acerto durante um ataque, Dan Heng • Imbibitor Lunae ganha 1 acúmulo de Coração Justo, aumentando seu DMG em {{righteousHeartDmgValue}}%. (aplicado a todos os acertos)
       e6ResPenStacks:
         text: Acúmulos de PEN de RES E6
-        content: "E6: Após qualquer outro aliado usar sua Ultimate, a PEN de RES Imaginária do próximo ataque Fulgurant Leap de Dan Heng • Imbibitor Lunae aumenta em 20%, até 3 acúmulos."
+        content: Após qualquer outro aliado usar sua Ultimate, a PEN de RES Imaginária do próximo ataque Fulgurant Leap de Dan Heng • Imbibitor Lunae aumenta em 20%, até 3 acúmulos.
   Jade:
     Content:
       enhancedFollowUp:
@@ -1079,46 +1132,45 @@ Characters:
       pawnedAssetStacks:
         text: Acúmulos de Ativo Penhorado
         content: >-
-          Ao lançar o ataque de acompanhamento de seu Talento, Jade ganha imediatamente 5 pilhas de Ativo Penhorado, com cada pilha aumentando o DMG CRIT em {{pawnedAssetCdScaling}}%, acumulando até 50 vezes. Cada pilha de Ativo Penhorado do Talento também aumenta o ATK de Jade em 0,5%.
+          Ao lançar o ataque de acompanhamento de seu Talento, Jade ganha imediatamente 5 acúmulos de Ativo Penhorado, com cada pilha aumentando o DMG CRIT em {{pawnedAssetCdScaling}}%, acumulando até 50 vezes. Cada pilha de Ativo Penhorado do Talento também aumenta o ATK de Jade em 0,5%.
       e1FuaDmgBoost:
         text: Aumento de DMG de FUA E1
-        content: >-
-          E1: O DMG do ataque de acompanhamento do Talento de Jade aumenta em 32%. Após o personagem Coletor de Dívidas atacar e o número de alvos inimigos atingidos ser 2 ou 1, Jade ganha adicionalmente 1 ou 2 ponto(s) de Carga, respectivamente.
+        content: O DMG do ataque de acompanhamento do Talento de Jade aumenta em 32%. Após o personagem Coletor de Dívidas atacar e o número de alvos inimigos atingidos ser 2 ou 1, Jade ganha adicionalmente 1 ou 2 pontos de Carga, respectivamente.
       e2CrBuff:
         text: Buff de CR E2
-        content: "E2: Quando há 15 acúmulos de Ativo Penhorado, a Taxa de CRIT de Jade aumenta em 18%."
+        content: Quando há 15 acúmulos de Ativo Penhorado, a Taxa de CRIT de Jade aumenta em 18%.
       e4DefShredBuff:
         text: Buff de redução de DEF E4
-        content: "E4: Ao usar o Ultimate, permite que o DMG causado por Jade ignore 12% da DEF dos alvos inimigos, durando por 3 turno(s)."
+        content: Ao usar o Ultimate, permite que o DMG causado por Jade ignore 12% da DEF dos alvos inimigos, durando por 3 turnos.
       e6ResShredBuff:
         text: Buff de PEN de RES E6
-        content: "E6: Quando o personagem Coletor de Dívidas está em campo, a PEN de RES Quântico de Jade aumenta em 20%, e Jade ganha o estado de Coletor de Dívidas."
+        content: Quando o personagem Coletor de Dívidas está em campo, a PEN de RES Quântico de Jade aumenta em 20%, e Jade ganha o estado de Coletor de Dívidas.
     TeammateContent:
       debtCollectorSpdBuff:
         text: Buff de SPD do Coletor de Dívidas
-        content: Faz com que um aliado de alvo único se torne o Coletor de Dívidas e aumenta sua SPD em 30, durando por 3 turno(s).
+        content: Faz com que um aliado de alvo único se torne o Coletor de Dívidas e aumenta sua SPD em 30, durando por 3 turnos.
   Jiaoqiu:
     Content:
       ashenRoastStacks:
         text: Acúmulos de Assados Cinzentos
         content: >-
-          Quando Jiaoqiu atinge um inimigo com ATK Básico, Habilidade ou Ultimate, há uma chance base de 100% de infligir 1 acúmulo de Assado Cinzento neles. Com 1 acúmulo aumenta o DMG recebido pelo inimigo em {{AshenRoastInitialVulnerability}}%. Em seguida, cada acúmulo adicional aumenta isso em {{AshenRoastAdditionalVulnerability}}%.::BR::Assado Cinzento é limitado a 5 pilhas e dura por 2 turno(s).::BR::Quando um alvo inimigo é afetado por Assado Cinzento, ele também é considerado como estando Queimado ao mesmo tempo, recebendo Fogo DoT igual a {{AshenRoastDotMultiplier}}% do ATK de Jiaoqiu no início de cada turno.
+          Quando Jiaoqiu atinge um inimigo com ATK Básico, Habilidade ou Ultimate, há uma chance base de 100% de infligir 1 acúmulo de Assado Cinzento neles. Com 1 acúmulo aumenta o DMG recebido pelo inimigo em {{AshenRoastInitialVulnerability}}%. Em seguida, cada acúmulo adicional aumenta isso em {{AshenRoastAdditionalVulnerability}}%.::BR::Assado Cinzento é limitado a 5 acúmulos e dura por 2 turno(s).::BR::Quando um alvo inimigo é afetado por Assado Cinzento, ele também é considerado como estando Queimado ao mesmo tempo, recebendo Fogo DoT igual a {{AshenRoastDotMultiplier}}% do ATK de Jiaoqiu no início de cada turno.
       ultFieldActive:
         text: Campo do Ultimate ativo
         content: >-
-          Define o número de acúmulos de Assados Cinzentos nos alvos inimigos para o maior número de pilhas de Ashen Roast presente no campo de batalha. Em seguida, ativa uma Zona e causa DMG de Fogo igual a {{UltScaling}}% do ATK de Jiaoqiu em todos os inimigos.::BR::Enquanto estiver dentro da Zona, os alvos inimigos recebem um aumento de {{UltVulnerability}}% no DMG do Ultimate, com uma chance base de {{ZoneDebuffChance}}% de serem infligidos com 1 acúmulo de Assado Cinzento ao realizar uma ação. Enquanto a Zona existir, esse efeito pode ser ativado até 6 vez(es). E para cada alvo inimigo, ele pode ser ativado apenas uma vez por turno. Essa contagem de ativação é redefinida toda vez que Jiaoqiu usa o Ultimate.
+          Define o número de acúmulos de Assados Cinzentos nos alvos inimigos para o maior número de pilhas de Ashen Roast presente no campo de batalha. Em seguida, ativa uma Zona e causa DMG de Fogo igual a {{UltScaling}}% do ATK de Jiaoqiu em todos os inimigos.::BR::Enquanto estiver dentro da Zona, os alvos inimigos recebem um aumento de {{UltVulnerability}}% no DMG do Ultimate, com uma chance base de {{ZoneDebuffChance}}% de serem infligidos com 1 acúmulo de Assado Cinzento ao realizar uma ação. Enquanto a Zona existir, esse efeito pode ser ativado até 6 vezes. E para cada alvo inimigo, ele pode ser ativado apenas uma vez por turno. Essa contagem de ativação é redefinida toda vez que Jiaoqiu usa o Ultimate.
       ehrToAtkBoost:
         text: Buff de EHR para ATK
-        content: Para cada 15,0% da Taxa de Acerto de Efeito de Jiaoqiu que excede 80,0%, aumenta adicionalmente o ATK em 60,0%, até um máximo de 240,0%.
+        content: Para cada 15% da Taxa de Acerto de Efeito de Jiaoqiu que excede 80%, aumenta adicionalmente o ATK em 60%, até um máximo de 240%.
       e1DmgBoost:
         text: Aumento de DMG E1
-        content: "E1: Aliados causam 40,0% a mais de DMG a alvos inimigos afetados por Assado Cinzento."
+        content: Aliados causam 40% a mais de DMG a alvos inimigos afetados por Assado Cinzento.
       e2Dot:
         text: Scaling de DoT E2
-        content: "E2: Quando um alvo inimigo é afetado por Assado Cinzento, aumenta o multiplicador do DoT de Fogo causado por Assado Cinzento nesse alvo em 300,0%."
+        content: Quando um alvo inimigo é afetado por Assado Cinzento, aumenta o multiplicador do DoT de Fogo causado por Assado Cinzento nesse alvo em 300%.
       e6ResShred:
         text: Redução de RES E6
-        content: "E6: O limite máximo de acúmulos de Assados Cinzentos aumentam para 9,0, e cada acúmulo de Assado Cinzento reduz a RES de Todos os Tipos do alvo em 3,0%."
+        content: O limite máximo de acúmulos de Assados Cinzentos aumentam para 9, e cada acúmulo de Assado Cinzento reduz a RES de Todos os Tipos do alvo em 3%.
   Jingliu:
     Content:
       talentEnhancedState:
@@ -1131,11 +1183,10 @@ Characters:
           Quando Jingliu usa um ataque no estado de Transmigração Espectral, ela consome HP de todos os outros aliados e o ATK de Jingliu aumenta com base no total de HP consumido de todos os aliados neste ataque, limitado a {{talentHpDrainAtkBuffMax}}% de seu ATK base, durando até o final do ataque atual.
       e1CdBuff:
         text: Ultimate ativo E1
-        content: >-
-          E1: Ao usar seu Ultimate ou Habilidade Aprimorada, o DMG CRIT de Jingliu aumenta em 24% por 1 turno. Se apenas um alvo inimigo for atacado, o alvo receberá adicionalmente DMG de Gelo igual a 100% do ATK de Jingliu.
+        content: Ao usar seu Ultimate ou Habilidade Aprimorada, o DMG CRIT de Jingliu aumenta em 24% por 1 turno. Se apenas um alvo inimigo for atacado, o alvo receberá adicionalmente DMG de Gelo igual a 100% do ATK de Jingliu.
       e2SkillDmgBuff:
         text: Buff de Habilidade E2
-        content: "E2: Após usar o Ultimate, aumenta o DMG da próxima Habilidade Aprimorada em 80%."
+        content: Após usar o Ultimate, aumenta o DMG da próxima Habilidade Aprimorada em 80%.
   JingYuan:
     Content:
       skillCritBuff:
@@ -1149,36 +1200,35 @@ Characters:
         content: Contagem de acertos no alvo. Deve geralmente ser configurada com o mesmo valor que os acúmulos do Senhor do Relâmpago.
       e2DmgBuff:
         text: Boost de DMG E2
-        content: "E2: Após o Senhor do Relâmpago realizar uma ação, o DMG causado pelo ATK Básico, Habilidade e Ultimate de Jing Yuan aumenta em 20% por 2 turnos."
+        content: Após o Senhor do Relâmpago realizar uma ação, o DMG causado pelo ATK Básico, Habilidade e Ultimate de Jing Yuan aumenta em 20% por 2 turnos.
       e6FuaVulnerabilityStacks:
         text: Acúmulos de Vulnerabilidade E6
-        content: >-
-          E6: Cada acerto realizado pelo Senhor do Relâmpago quando ele realiza uma ação fará com que o alvo inimigo fique Vulnerável. Enquanto Vulnerável, os inimigos recebem 12% a mais de DMG até o final do turno atual do Senhor do Relâmpago, acumulando até 3 vez(es). (aplica-se a todos os acertos)
+        content: Cada acerto realizado pelo Senhor do Relâmpago quando ele realiza uma ação fará com que o alvo inimigo fique Vulnerável. Enquanto Vulnerável, os inimigos recebem 12% a mais de DMG até o final do turno atual do Senhor do Relâmpago, acumulando até 3 vezes. (aplica-se a todos os acertos)
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
         text: Vulnerabilidade de DoT E1
-        content: "E1: Quando o Talento ativa um ataque de acompanhamento, há uma chance base de 100% de aumentar o DoT recebido pelo alvo em 30% por 2 turno(s)."
+        content: Quando o Talento ativa um ataque de acompanhamento, há uma chance base de 100% de aumentar o DoT recebido pelo alvo em 30% por 2 turnos.
       e2TeamDotBoost:
         text: Aumento de DMG de DoT da equipe E2
-        content: "E2: Enquanto Kafka estiver em campo, o DoT causado por todos os aliados aumenta em 25%."
+        content: Enquanto Kafka estiver em campo, o DoT causado por todos os aliados aumenta em 25%.
   Lingsha:
     Content:
       beConversion:
         text: Buff de BE para ATK / OHB
-        content: Aumenta o ATK ou a Cura Realizada desta unidade em uma quantia igual a 25,0%/10,0% do Efeito de Quebra, até um aumento máximo de 50,0%/20,0%, respectivamente.
+        content: Aumenta o ATK ou a Cura Realizada desta unidade em uma quantia igual a 25%/10% do Efeito de Quebra, até um aumento máximo de 50%/20%, respectivamente.
       befogState:
         text: Estado de Neblina
         content: Enquanto estiver em Neblina, os alvos recebem um aumento de {{BefogVulnerability}}% no DMG de Quebra.
       e1DefShred:
         text: Buffs de quebra de fraqueza E1
-        content: "E1: A Eficiência de Quebra de Fraqueza de Lingsha aumenta em 50%. Quando a Fraqueza de uma unidade inimiga é quebrada, reduz sua DEF em 20%."
+        content: A Eficiência de Quebra de Fraqueza de Lingsha aumenta em 50%. Quando a Fraqueza de uma unidade inimiga é quebrada, reduz sua DEF em 20%.
       e2BeBuff:
         text: Buff BE E2
-        content: "E2: Ao usar Ultimate, aumenta o Efeito de Quebra de todos os aliados em 40,0%."
+        content: Ao usar Ultimate, aumenta o Efeito de Quebra de todos os aliados em 40%.
       e6ResShred:
         text: Redução de RES E6
-        content: "E6: Enquanto Fuyuan estiver em campo, reduz a RES de Todos os Tipos de unidades inimigas em 20,0%."
+        content: Enquanto Fuyuan estiver em campo, reduz a RES de Todos os Tipos de unidades inimigas em 20%.
   Luka:
     Content:
       basicEnhanced:
@@ -1186,24 +1236,24 @@ Characters:
         content: Melhora o ATK Básico para causar dano adicional e tem uma chance de provocar acertos extras.
       targetUltDebuffed:
         text: Debuff de vulnerabilidade Ult
-        content: Aumenta o DMG recebido pelo alvo em {{targetUltDebuffDmgTakenValue}}% por 3 turno(s).
+        content: Aumenta o DMG recebido pelo alvo em {{targetUltDebuffDmgTakenValue}}% por 3 turnos.
       basicEnhancedExtraHits:
         text: Acertos extras básicos aprimorados
         content: Aumenta o número de acertos do Básico Aprimorado.
       e1TargetBleeding:
         text: E1 alvo sangrando
-        content: "E1: Quando Luka realiza uma ação, se o inimigo alvo estiver Sangrando, aumenta o DMG causado por Luka em 15% por 2 turno(s)."
+        content: Quando Luka realiza uma ação, se o inimigo alvo estiver Sangrando, aumenta o DMG causado por Luka em 15% por 2 turnos.
       e4TalentStacks:
         text: Acúmulos de Talento E4
-        content: "E4: Para cada acúmulo de Vontade de Luta obtida, aumenta o ATK em 5%, acumulando até 4 vez(es)."
+        content: Para cada acúmulo de Vontade de Luta obtida, aumenta o ATK em 5%, acumulando até 4 vezes.
   Luocha:
     Content:
       fieldActive:
         text: Campo ativo
-        content: "E1: Enquanto o Campo estiver ativo, o ATK de todos os aliados aumenta em 20%."
+        content: Enquanto o Campo estiver ativo, o ATK de todos os aliados aumenta em 20%.
       e6ResReduction:
         text: Redução de RES E6
-        content: "E6: Quando o Ultimate é utilizado, reduz a RES de Todos os Tipos de todos os inimigos em 20% por 2 turno(s)."
+        content: Quando o Ultimate é utilizado, reduz a RES de Todos os Tipos de todos os inimigos em 20% por 2 turnos.
   Lynx:
     Content:
       skillBuff:
@@ -1237,17 +1287,17 @@ Characters:
           Após Shifu usar um ataque ou Ultimate, March 7th ganha até 1 ponto de Carga cada vez.::BR::Ao atingir 7 ou mais pontos de Carga, March 7th imediatamente realiza uma ação e aumenta o DMG que ela causa em {{TalentDmgBuff}}%.
       selfSpdBuff:
         text: Buff de SPD E1
-        content: "E1: Quando Shifu está em campo, aumenta a SPD de March 7th em 10,0%."
+        content: Quando Shifu está em campo, aumenta a SPD de March 7th em 10%.
       e6CdBuff:
         text: Boost Básico de CD E6
-        content: "E6: Após usar o Ultimate, aumenta o CRIT DMG causado pelo próximo ATK Básico Aprimorado em 50,0%."
+        content: Após usar o Ultimate, aumenta o CRIT DMG causado pelo próximo ATK Básico Aprimorado em 50%.
     TeammateContent:
       masterBuff:
         text: Buff de Shifu
         content: Designa um único aliado (excluindo esta unidade) como Shifu e aumenta a SPD de Shifu em {{ShifuSpeedBuff}}%.
       masterCdBeBuffs:
         text: Buffs de CD / BE de Shifu
-        content: Após usar o ATK Básico Aprimorado, aumenta o CRIT DMG de Shifu em 60,0% e o Efeito de Quebra em 36,0%, durando por 2,0 turno(s).
+        content: Após usar o ATK Básico Aprimorado, aumenta o CRIT DMG de Shifu em 60% e o Efeito de Quebra em 36%, durando por 2 turnos.
   Misha:
     Content:
       ultHitsOnTarget:
@@ -1258,25 +1308,25 @@ Characters:
         content: Ao causar DMG em inimigos Congelados, aumenta o CRIT DMG em 30%.
       e2DefReduction:
         text: Redução de DEF E2
-        content: "E2: Reduz a DEF do alvo em 16% por 3 turno(s)."
+        content: Reduz a DEF do alvo em 16% por 3 turnos.
       e6UltDmgBoost:
         text: Boost de DMG do Ultimate E6
-        content: "E6: Ao usar o Ultimate, aumenta seu próprio DMG em 30%, durando até o final do turno."
+        content: Ao usar o Ultimate, aumenta seu próprio DMG em 30%, durando até o final do turno.
   Moze:
     Content:
       preyMark:
         text: Presa marcada
         content: >-
-          Quando a Presa estiver em campo, Moze entrará no estado Morto.::BR::Após os aliados atacarem a Presa, Moze causará adicionalmente 1 instância de DMG Adicional de Raio igual a {{PreyAdditionalMultiplier}}% do seu ATK e consome 1 ponto de Carga. Para cada 3 ponto(s) de Carga consumidos, Moze lança 1 ataque de acompanhamento na Presa, causando DMG de Raio igual a {{FuaScaling}}% do seu ATK. Quando a Carga chegar a 0, dispensa o estado de Presa do alvo e reinicia a contagem dos pontos de Carga necessários para lançar o ataque de acompanhamento.
+          Quando a Presa estiver em campo, Moze entrará no estado Morto.::BR::Após os aliados atacarem a Presa, Moze causará adicionalmente 1 instância de DMG Adicional de Raio igual a {{PreyAdditionalMultiplier}}% do seu ATK e consome 1 ponto de Carga. Para cada 3 pontos de Carga consumidos, Moze lança 1 ataque de acompanhamento na Presa, causando DMG de Raio igual a {{FuaScaling}}% do seu ATK. Quando a Carga chegar a 0, dispensa o estado de Presa do alvo e reinicia a contagem dos pontos de Carga necessários para lançar o ataque de acompanhamento.
       e2CdBoost:
         text: Buff de CD E2
-        content: "E2: Quando todos os aliados causam DMG ao alvo inimigo marcado como Presa, aumenta o CRIT DMG em 40,0%."
+        content: Quando todos os aliados causam DMG ao alvo inimigo marcado como Presa, aumenta o CRIT DMG em 40%.
       e4DmgBuff:
         text: Buff de DMG E4
-        content: Ao usar o Ultimate, aumenta o DMG causado por Moze em 30,0%, durando por 2,0 turno(s).
+        content: Ao usar o Ultimate, aumenta o DMG causado por Moze em 30%, durando por 2 turnos.
       e6MultiplierIncrease:
         text: Buff do multiplicador FUA E6
-        content: Aumenta o multiplicador de DMG do ataque de acompanhamento do Talento em 25,0%.
+        content: Aumenta o multiplicador de DMG do ataque de acompanhamento do Talento em 25%.
   Pela:
     Content:
       teamEhrBuff:
@@ -1287,24 +1337,24 @@ Characters:
         content: Causa 20% mais de dano a inimigos debilitados.
       skillRemovedBuff:
         text: Buff de inimigo removido. Buffs de habilidades.
-        content: "Usar habilidade para remover buff(s) aumenta o dano do próximo ataque de Pela em 20%.::BR::E2: Usar habilidade para remover buff(s) aumenta a velocidade em 10% por 2 turno(s)."
+        content: "Usar habilidade para remover buffs aumenta o dano do próximo ataque de Pela em 20%.::BR::E2: Usar habilidade para remover buffs aumenta a velocidade em 10% por 2 turnos."
       ultDefPenDebuff:
         text: Redução de DEF final
-        content: Quando expostos, a DEF dos inimigos é reduzida em {{ultDefPenValue}}% por 2 turno(s).
+        content: Quando expostos, a DEF dos inimigos é reduzida em {{ultDefPenValue}}% por 2 turnos.
       e4SkillResShred:
         text: Redução de RES de Gelo da habilidade E4
-        content: "E4: Ao usar a habilidade, há 100% de chance base de reduzir a RES de Gelo do inimigo-alvo em 12% por 2 turno(s)."
+        content: Ao usar a habilidade, há 100% de chance base de reduzir a RES de Gelo do inimigo-alvo em 12% por 2 turnos.
   Qingque:
     Content:
       basicEnhanced:
         text: Básico Aprimorado
-        content: O ATK de Qingque aumenta em {{talentAtkBuff}}%, e seu ATK básico Escolha de Flores é aprimorado, tornando-se Cherry on Top!
+        content: O ATK de Qingque aumenta em {{talentAtkBuff}}%, e seu ATK básico "Escolha de Flores" é aprimorado, tornando-se "Cherry on Top!".
       basicEnhancedSpdBuff:
         text: Buff aprimorado de SPD básico
         content: A SPD de Qingque aumenta em 10% por 1 turno após usar o ATK Básico Aprimorado.
       skillDmgIncreaseStacks:
         text: Acúmulo de aumento de DMG da habilidade
-        content: Desenha imediatamente 2 peça(s) de jade e aumenta o DMG em {{skillStackDmg}}% até o final do turno atual. Este efeito pode acumular até 4 vez(es).
+        content: Desenha imediatamente 2 peças de jade e aumenta o DMG em {{skillStackDmg}}% até o final do turno atual. Este efeito pode acumular até 4 vezes.
   Rappa:
     Content:
       sealformActive:
@@ -1341,7 +1391,7 @@ Characters:
           Enquanto estiver no estado Concerto, aumenta o ATK de todos os aliados em {{ultAtkBuffScalingValue}}% do ATK de Robin mais {{ultAtkBuffFlatValue}}. Além disso, após cada ataque dos aliados, Robin causa DMG Físico Adicional igual a {{ultScaling}}% de seu ATK por 1 vez, com uma taxa de CRIT fixa para esse dano definida em 100% e CRIT DMG fixo definido em 150%.
       skillDmgBuff:
         text: Buff de DMG de Habilidade
-        content: Aumenta o DMG causado por todos os aliados em {{skillDmgBuffValue}}%, durando por 3 turno(s).
+        content: Aumenta o DMG causado por todos os aliados em {{skillDmgBuffValue}}%, durando por 3 turnos.
       talentCdBuff:
         text: Buff de CD de talento
         content: Aumenta o CRIT DMG de todos os aliados em {{talentCdBuffValue}}%.
@@ -1354,7 +1404,7 @@ Characters:
       e6UltCDBoost:
         text: Boost de CD de DMG da Ult E6
         content: >-
-          Enquanto o estado Concerto estiver ativo, o CRIT DMG do DMG Físico Adicional causado pela Ultimate aumenta em 450%. O efeito de Moonless Midnight pode ser acionado até 8 vez(es). E a contagem de acionamentos é reiniciada cada vez que a Ultimate é utilizada.
+          Enquanto o estado Concerto estiver ativo, o CRIT DMG do DMG Físico Adicional causado pela Ultimate aumenta em 450%. O efeito de Moonless Midnight pode ser acionado até 8 vezes. E a contagem de acionamentos é reiniciada cada vez que a Ultimate é utilizada.
     TeammateContent:
       teammateATKValue:
         text: ATK de Combate de Robin
@@ -1371,7 +1421,7 @@ Characters:
       skillOvertoneBuff:
         text: Buff de Overtone
         content: >-
-          Após usar sua habilidade, Ruan Mei ganha Harmônica, durando por 3 turno(s). Essa duração diminui em 1 no início do turno de Ruan Mei. Quando Ruan Mei tem Harmônica, o DMG de todos os aliados aumenta em {{skillScaling}}% e a eficiência da quebra de fraqueza aumenta em 50%.
+          Após usar sua habilidade, Ruan Mei ganha Harmônica, durando por 3 turnos. Essa duração diminui em 1 no início do turno de Ruan Mei. Quando Ruan Mei tem Harmônica, o DMG de todos os aliados aumenta em {{skillScaling}}% e a eficiência da quebra de fraqueza aumenta em 50%.
       teamBEBuff:
         text: Buff de BE da equipe
         content: Aumenta o Efeito de Quebra em 20% para todos os aliados.
@@ -1381,10 +1431,10 @@ Characters:
           Enquanto estiver dentro do campo, a PEN de RES de Todos os Tipos de todos os aliados aumenta em {{fieldResPenValue}}%.::BR::E1: Enquanto o campo da Ultimate estiver implantado, o DMG causado por todos os aliados ignora 20% da DEF do alvo.
       e2AtkBoost:
         text: Aumento de ATK contra fraquezas E2
-        content: "E2: Com Ruan Mei no campo, todos os aliados aumentam seu ATK em 40% ao causar DMG em inimigos com Quebra de Fraqueza."
+        content: Com Ruan Mei no campo, todos os aliados aumentam seu ATK em 40% ao causar DMG em inimigos com Quebra de Fraqueza.
       e4BeBuff:
         text: Buff de BE E4
-        content: "E4: Quando a fraqueza de um inimigo é quebrada, o Efeito de Quebra de Ruan Mei aumenta em 100% por 3 turno(s)."
+        content: Quando a fraqueza de um inimigo é quebrada, o Efeito de Quebra de Ruan Mei aumenta em 100% por 3 turnos.
     TeammateContent:
       teamSpdBuff:
         text: Buff SPD de equipe
@@ -1396,7 +1446,7 @@ Characters:
     Content:
       targetDotTakenDebuff:
         text: Vulnerabilidade a DoT da Ult
-        content: Quando debuffado pela Ultimativa de Sampo, aumenta o dano de DoT recebido pelos alvos em {{dotVulnerabilityValue}}% por 2 turno(s).
+        content: Quando debuffado pela Ultimativa de Sampo, aumenta o dano de DoT recebido pelos alvos em {{dotVulnerabilityValue}}% por 2 turnos.
       skillExtraHits:
         text: Habilidade de hits extras
         content: Número de acertos extras através da Habilidade.
@@ -1408,17 +1458,15 @@ Characters:
       buffedState:
         text: Estado Buffado
         content: >-
-          Entra no estado de buff ao derrotar um inimigo com ATK Básico, Habilidade ou Ultimativa, e recebe um turno extra. Enquanto estiver no estado de buff, o DMG dos ataques de Seele aumenta em {{buffedStateDmgBuff}}% por 1 turno(s).::BR::Enquanto Seele estiver no estado de buff, sua PEN de RES Quantum aumenta em 20%.
+          Entra no estado de buff ao derrotar um inimigo com ATK Básico, Habilidade ou Ultimativa, e recebe um turno extra. Enquanto estiver no estado de buff, o DMG dos ataques de Seele aumenta em {{buffedStateDmgBuff}}% por 1 turno.::BR::Enquanto Seele estiver no estado de buff, sua PEN de RES Quantum aumenta em 20%.
       speedBoostStacks:
         text: Acúmulos de buff de velocidade
-        content: Aumenta a SPD em 25% por acúmulo. Acumula até {{speedBoostStacksMax}} vez(es).
       e1EnemyHp80CrBoost:
         text: E1 HP do inimigo ≤ 80% aumento de CR
-        content: "E1: Ao causar DMG a um inimigo cuja porcentagem de HP é 80% ou inferior, a Taxa de CRIT aumenta em 15%."
+        content: Ao causar DMG a um inimigo cuja porcentagem de HP é 80% ou inferior, a Taxa de CRIT aumenta em 15%.
       e6UltTargetDebuff:
         text: E6 Flurry da Borboleta
-        content: >-
-          E6: Após Seele usar sua Ultimate, inflige ao inimigo alvo o efeito Flurry da Borboleta por 1 turno(s). Inimigos sofrendo com Flurry da Borboleta receberão Dano Quantum Adicional igual a 15% do DMG da Ultimativa de Seele toda vez que forem atacados.
+        content: Após Seele usar sua Ultimate, inflige ao inimigo alvo o efeito Flurry da Borboleta por 1 turnos. Inimigos sofrendo com Flurry da Borboleta receberão Dano Quantum Adicional igual a 15% do DMG da Ultimativa de Seele toda vez que forem atacados.
   Serval:
     Content:
       targetShocked:
@@ -1426,33 +1474,33 @@ Characters:
         content: Após Serval atacar, causa Dano Elétrico Adicional igual a {{talentExtraDmgScaling}}% do ATK de Serval a todos os inimigos Chocados.
       enemyDefeatedBuff:
         text: Buff de inimigo derrotado
-        content: Ao derrotar um inimigo, o ATK aumenta em 20% por 2 turno(s).
+        content: Ao derrotar um inimigo, o ATK aumenta em 20% por 2 turnos.
   SilverWolf:
     Content:
       skillResShredDebuff:
         text: Redução de RES de Habilidade
         content: >-
-          Diminui a RES de Todos os Tipos do inimigo em {{skillResShredValue}}% por 2 turno(s).::BR::Se houver 3 ou mais debuff(s) afetando o inimigo quando a Habilidade for utilizada, a Habilidade diminui a RES de Todos os Tipos do inimigo em mais 3%.
+          Diminui a RES de Todos os Tipos do inimigo em {{skillResShredValue}}% por 2 turnos.::BR::Se houver 3 ou mais debuffs afetando o inimigo quando a Habilidade for utilizada, a Perícia diminui a RES de Todos os Tipos do inimigo em mais 3%.
       skillWeaknessResShredDebuff:
         text: Redução de RES implantada de fraqueza de Habilidade
         content: >-
-          Há uma chance de adicionar 1 Fraqueza do Tipo de um personagem em campo ao inimigo alvo. Isso também reduz a RES de DMG do inimigo para esse Tipo de Fraqueza em 20% por 2 turno(s). Se o inimigo já tiver essa Fraqueza de Tipo, o efeito de redução de RES de DMG para esse Tipo de Fraqueza não será acionado.
+          Há uma {{implantChance}}% chance base de adicionar 1 Fraqueza do Tipo de um personagem em campo ao inimigo alvo. Isso também reduz a RES de DMG do inimigo para esse Tipo de Fraqueza em 20% por 2 turnos. Se o inimigo já tiver essa Fraqueza de Tipo, o efeito de redução de RES de DMG para esse Tipo de Fraqueza não será acionado.
       talentDefShredDebuff:
         text: Redução de DEF de Bug
-        content: O bug do Lobo Prateado reduz a DEF do alvo em {{talentDefShredDebuffValue}}% por 3 turno(s).
+        content: O bug do Lobo Prateado reduz a DEF do alvo em {{talentDefShredDebuffValue}}% por 3 turnos.
       ultDefShredDebuff:
         text: Redução de DEF final
-        content: Diminui a DEF do alvo em {{ultDefShredValue}}% por 3 turno(s).
+        content: Diminui a DEF do alvo em {{ultDefShredValue}}% por 3 turnos.
       targetDebuffs:
         text: Debuffs do alvo
         content: >-
-          Se houver 3 ou mais debuff(s) afetando o inimigo quando a Habilidade for utilizada, a Habilidade diminui a RES de Todos os Tipos do inimigo em mais 3%.::BR::E4: Após usar sua Ultimativa para atacar inimigos, causa Dano Quantum Adicional igual a 20% do ATK do Lobo Prateado para cada debuff atualmente no alvo inimigo. Esse efeito pode ser acionado no máximo 5 vez(es) durante cada uso de sua Ultimate.::BR::E6: Para cada debuff que o inimigo alvo possui, o DMG causado pelo Lobo Prateado aumenta em 20%, até um limite de 100%.
+          Se houver 3 ou mais debuffs afetando o inimigo quando a Habilidade for utilizada, a Habilidade diminui a RES de Todos os Tipos do inimigo em mais 3%.::BR::E4: Após usar sua Ultimativa para atacar inimigos, causa Dano Quantum Adicional igual a 20% do ATK do Lobo Prateado para cada debuff atualmente no alvo inimigo. Esse efeito pode ser acionado no máximo 5 vezes durante cada uso de sua Ultimate.::BR::E6: Para cada debuff que o inimigo alvo possui, o DMG causado pelo Lobo Prateado aumenta em 20%, até um limite de 100%.
   Sparkle:
     Content:
       skillCdBuff:
         text: Buff de CD de Habilidade
         content: >-
-          Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turno(s).::BR::E6: O efeito de Aumento de CRIT DMG da Habilidade de Sparkle aumenta adicionalmente em 30% do CRIT DMG de Sparkle, e quando ela usa sua Habilidade, o efeito de Aumento de CRIT DMG se aplicará a todos os aliados atualmente com Cipher. Quando Sparkle usa sua Ultimate, esse efeito se espalhará para todos os aliados com Cipher, caso o alvo aliado tenha o efeito de aumento de CRIT DMG fornecido pela Habilidade ativo.
+          Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turno.::BR::E6: O efeito de Aumento de CRIT DMG da Habilidade de Sparkle aumenta adicionalmente em 30% do CRIT DMG de Sparkle, e quando ela usa sua Habilidade, o efeito de Aumento de CRIT DMG se aplicará a todos os aliados atualmente com Cipher. Quando Sparkle usa sua Ultimate, esse efeito se espalhará para todos os aliados com Cipher, caso o alvo aliado tenha o efeito de aumento de CRIT DMG fornecido pela Habilidade ativo.
       cipherBuff:
         text: Buff de Cifra
         content: >-
@@ -1460,20 +1508,20 @@ Characters:
       talentStacks:
         text: Acúmulos de DMG do Talento
         content: >-
-          Sempre que um aliado consome 1 Ponto de Habilidade, o DMG de todos os aliados aumenta em {{talentBaseStackBoost}}%. Esse efeito dura por 2 turno(s) e pode acumular até 3 vez(es).::BR::E2: Cada acúmulo do Talento permite que os aliados ignorem 8% da DEF do alvo inimigo ao causar DMG.
+          Sempre que um aliado consome 1 Ponto de Habilidade, o DMG de todos os aliados aumenta em {{talentBaseStackBoost}}%. Esse efeito dura por 2 turnos e pode acumular até 3 vezes.::BR::E2: Cada acúmulo do Talento permite que os aliados ignorem 8% da DEF do alvo inimigo ao causar DMG.
       quantumAllies:
         text: Aliados Quantum
         content: Quando há 1/2/3 aliados Quantum em sua equipe, o ATK dos aliados do Tipo Quantum é aumentado em 5%/15%/30%.
     TeammateContent:
       teammateCDValue:
         text: Tempo de recarga de combate da Sparkle
-        content: Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turno(s).
+        content: Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turnos.
   Sunday:
     Content:
       skillDmgBuff:
         text: Buff de DMG de Habilidade
         content: >-
-          Permite que um personagem aliado designado e sua invocação entrem em ação imediatamente e aumentam o DMG causado em {{DmgBoost}}%. Se o alvo tiver uma invocação, o efeito de aumento de DMG também será aumentado em {{SummonDmgBoost}}%
+          Permite que um personagem aliado designado e sua invocação entrem em ação imediatamente, e aumentam o DMG causado em {{DmgBoost}}%. Se o alvo tiver uma invocação, o efeito de aumento de DMG também será aumentado em {{SummonDmgBoost}}%.
       talentCrBuffStacks:
         text: Stacks do talento de CR
         content: Ao usar a Perícia, aumenta a taxa de CRIT do alvo em {{CritRateBoost}}%, com duração de 3 turnos.
@@ -1505,28 +1553,49 @@ Characters:
       ultBuffedState:
         text: Buff do estado da Ult
         content: >-
-          O ATK de Sushang aumenta em {{ultBuffedAtk}}% e ao usar sua Habilidade, ela tem 2 chances extras de ativar a Postura da Espada por 2 turno(s). A Postura da Espada ativada a partir das chances extras causa 50% do DMG original.
+          O ATK de Sushang aumenta em {{ultBuffedAtk}}% e ao usar sua Habilidade, ela tem 2 chances extras de ativar a Postura da Espada por 2 turnos. A Postura da Espada ativada a partir das chances extras causa 50% do DMG original.
       skillExtraHits:
         text: Habilidade de hits extras
         content: Aumenta o número de acertos extras da Postura da Espada da Habilidade.
       skillTriggerStacks:
         text: Acúmulos de ativação de Habilidade
-        content: Para cada Postura da Espada ativada, o DMG causado pela Postura da Espada aumenta em 2,5%. Acumula até 10 vez(es).
+        content: Para cada Postura da Espada ativada, o DMG causado pela Postura da Espada aumenta em 2,5%. Acumula até 10 vezes.
       talentSpdBuffStacks:
         text: Acúmulos de buff de SPD do Talento
         content: >-
           Quando um inimigo tem sua Fraqueza Quebrada em campo, a SPD de Sushang aumenta em {{talentSpdBuffValue}}% por pilha por 2 turno(s).::BR::E6: O Aumento de SPD do Talento é acumulável e pode acumular até 2 vezes.
       e2DmgReductionBuff:
         text: Buff de redução de DMG E2
-        content: "E2: Após ativar a Postura da Espada, o DMG recebido por Sushang é reduzido em 20% por 1 turno."
+        content: Após ativar a Postura da Espada, o DMG recebido por Sushang é reduzido em 20% por 1 turno.
   TheHerta:
     Content:
       enhancedSkill:
         text: Habilidade Aprimorada
+        content: Após usar a Ultimate, A Herta imediamente toma ação e ganha 1 acúmulo de "Inspiração". "Inspiração" pode acúmular até 4 vezes. Enquanto tiver "Inspiração", aprimora a Perícia para "Ouça-Me"
+      eruditionTeammate:
+        text: Colega de Equipe Erudição
+        content: >-
+          Quando o alvo principal da Habilidade Melhorada tem "Interpretação", o multiplicador de DMG aumenta, com cada acúmulo concedendo um aumento de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente. ::BR:: Se 2 ou mais personagens seguirem o caminho da Erudição na equipe, cada acúmulo concede um aumento adicional de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente ::BR::A4: Ao entrar em combate, se a equipe tem 2 ou mais personagens seguirem o caminho de Erudição, aumenta o CRIT DMG de todos os aliados em 80%
       ultAtkBuff:
         text: Buff de ATK da Ultimate
+        content: >-
+          Ao usar Ultimate, aumenta o ATK de The Herta em {{AtkBuff}}%, durando 3 turnos.
+      interpretationStacks:
+        text: Acúmulos de Interpretação
+        content: >-
+          Quando o alvo principal da Habilidade Melhorada tem "Interpretação", o multiplicador de DMG aumenta, com cada acúmulo concedendo um aumento de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente. ::BR:: Se 2 ou mais personagens seguirem o caminho da Erudição na equipe, cada acúmulo concede um aumento adicional de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% no alvo primário/outros respectivamente ::BR::E1: Quando a Perícia Aprimorada calcula "Interpretação", adicionalmente se calcula 50% dos acúmulos de "Interpretação" no 1 alvo com a maior quantidade de acúmulos entre o alvo primário e alvos adjacentes.
+      totalInterpretationStacks:
+        text: Acúmulos de Resposta
+        content: Para cada 1 acúmulo de "Interpretação" infligido em alvos inimigos, A Herta ganha 1 acúmulo de "Resposta", até 99 acúmulos. Ao usar a Ultimate, cada acúmulo de "Resposta" aumenta o multiplicador da Ultimate em 1%.
+      e1BonusStacks:
+        text: E1 acúmulos bônus
+        content: Quando Perícia Aprimorada calcula "Interpretação", adicionalmente calcula 50% dos acúmulos de "Interpretação" no 1 alvo com o maior número de acúmulos entre o alvo primário e os adjacentes.
+      e4EruditionSpdBuff:
+        text: E4 Buff de SPD Erudição
+        content: A SPD de personagens seguindo o Caminho da Erudição na equipe aumenta em 12%.
       e6Buffs:
         text: Buffs E6
+        content: Aumento de 20% na RES PEN de Gelo da A Herta. Quando o número de alvos inimigos no campo for 3 (ou mais)/2/1, o DMG da Ult multiplica por 140%/250%/400%.
   Tingyun:
     Content:
       benedictionBuff:
@@ -1538,10 +1607,10 @@ Characters:
         content: A SPD de Tingyun aumenta em 20% por 1 turno após usar a Habilidade.
       ultDmgBuff:
         text: Buff de DMG da ultimate
-        content: Regenera 50 Energia para um único aliado e aumenta o DMG do alvo em {{ultDmgBoost}}% por 2 turno(s).
+        content: "Regenera 50 de Energia para um único aliado e aumenta o DMG do alvo em {{ultDmgBoost}}% por 2 turnos.:BR::E6: Ultimate regenera mais 10 Energia para o aliado alvo."
       ultSpdBuff:
         text: Buff de SPD da Ultimativa E1
-        content: "E1: Após usar sua Ultimativa, o aliado com Benção ganha um aumento de 20% na SPD por 1 turno."
+        content: Após usar sua Ultimativa, o aliado com Benção ganha um aumento de 20% na SPD por 1 turno.
     TeammateContent:
       teammateAtkBuffValue:
         text: Valor de buff de ATK da Habilidade
@@ -1557,8 +1626,7 @@ Characters:
         content: Numby entra no estado Windfall Bonanza! e seu multiplicador de DMG aumenta em {{enhancedStateFuaScalingBoost}}% e o CRIT DMG aumenta em {{enhancedStateFuaCdBoost}}%.
       e1DebtorStacks:
         text: Acúmulos de Devedor E1
-        content: >-
-          E1: Quando inimigos afetados pela Prova de Dívida recebem ataques subsequentes, eles entrarão no estado Devedor. Isso pode ocorrer apenas uma vez dentro de uma única ação. O estado Devedor aumenta o DMG CRIT dos ataques subsequentes infligidos aos inimigos-alvo em 25%, acumulando até 2 vezes. Quando a Prova de Dívida é removida, o estado Devedor também é removido.
+        content: Quando inimigos afetados pela Prova de Dívida recebem ataques subsequentes, eles entrarão no estado Devedor. Isso pode ocorrer apenas uma vez dentro de uma única ação. O estado Devedor aumenta o DMG CRIT dos ataques subsequentes infligidos aos inimigos-alvo em 25%, acumulando até 2 vezes. Quando a Prova de Dívida é removida, o estado Devedor também é removido.
   TrailblazerDestruction:
     Content:
       enhancedUlt:
@@ -1573,7 +1641,7 @@ Characters:
       backupDancer:
         text: Buff BE do Dançarino de Backup
         content: >-
-          Concede a todos os aliados o efeito Dançarino de Backup, durando por 3 turno(s). Essa duração é reduzida em 1 no início de cada turno do Trailblazer. Aliados com o efeito Dançarino de Backup têm seu Efeito de Quebra aumentado em {{ultBeScaling}}%.
+          Concede a todos os aliados o efeito Dançarino de Backup, durando por 3 turnos. Essa duração é reduzida em 1 no início de cada turno do Trailblazer. Aliados com o efeito Dançarino de Backup têm seu Efeito de Quebra aumentado em {{ultBeScaling}}%.
       superBreakDmg:
         text: DMG de Super Quebra (força a quebra de fraqueza)
         content: >-
@@ -1583,7 +1651,7 @@ Characters:
         content: Causa Dano Imaginário a um único inimigo alvo e, adicionalmente, causa Dano 4 vezes, com cada ataque causando Dano Imaginário a um inimigo aleatório.
       e2EnergyRegenBuff:
         text: Buff ERR E2
-        content: Quando a batalha começa, a Taxa de Regeneração de Energia do Trailblazer aumenta em 25%, durando por 3 turno(s).
+        content: Quando a batalha começa, a Taxa de Regeneração de Energia do Trailblazer aumenta em 25%, durando por 3 turnos.
     TeammateContent:
       teammateBeValue:
         text: BE de combate E4
@@ -1601,12 +1669,49 @@ Characters:
         content: Quando o escudo está ativo, aumenta o ATK em 15%.
       e6DefStacks:
         text: Acúmulos de buff de DEF E6
-        content: "E6: Aumenta a DEF em 10% por acúmulo."
+        content: Aumenta a DEF em 10% por acúmulo.
+  TrailblazerRemembrance:
+    Content:
+      memoSkillHits:
+        text: Perícia do Memo acerta
+        content: >-
+          Da 4 instâncias de DMG, com cada instância dando DMG de Gelo igual a {{SingleScaling}}% do ATQ do Memo a um inimigo aleatório. Finalmente, da DMG de Gelo igual a {{AoeScaling}}% do ATQ do Memo a todos os inimigos.
+      teamCdBuff:
+        text: Buff de CD da Equipe
+        content: >-
+          Aumenta o CRIT DMG de todos os aliados em {{ScalingBuff}}% do CRIT DMG do Memo mais {{FlatBuff}}%.
+      memsSupport:
+        text: >-
+          Dano Real do Apoio do Memo
+        content: >-
+          Avança a ação de um alvo designado em 100% e lhe concede "Suporte do Memo", durando 3 turnos. Para cada 1 instância de DMG dano pelo alvo que tem "Suporte do Memo", adicionalmente da 1 instância de DMG Real igual a {{TrueDmgScaling}}% do DMG original. ::BR::E1: Quando o aliado tiver "Suporte do Memo", seus efeitos também tem efeito no Memosprite/Memomestre. ::BR::E4: Quando um aliado com 0 de Energia Máxima ativamente usar uma habilidade, Memo também pode ganhar 3% def Carga, e o multiplicador de DMG Real dado por este alvo através do "Suporte do Memo" adicionalmente aumenta em 6%.
+      energyTrueDmgValue:
+        text: Dano Real da Energia Máxima
+        content: >-
+          Quando a Energia Máxima do aliado alvo tiver "Suporte do Memo" exceder 100, para cada 10 de Energia excessiva, adicionalmente aumenta o multiplicador de DMG Real dano através de "Suporte do Memo" em 2%, até o máximo de 20%.
+      e1CrBuff:
+        text: E1 buff de CR
+        content: >-
+          Aumenta da Taxa Crítica do aliado alvo com "Suporte do Mem" em 10%.
+      e4TrueDmgBoost:
+        text: E4 Aumento de DMG Real
+        content: >-
+          Quando um aliado alvo com 0 Energia Máxima usa uma habilidade, Mem também pode ganhar 3% de Carga, e o multiplicador de Dano REAL dado por este alvo através de "Suporte do Mem" adicionalmente aumenta em 6%.
+      e6UltCrBoost:
+        text: E6 Aumento de CR da Ult
+        content: >-
+          Taxa Crítica da Ultimate é definida para 100%.
+    TeammateContent:
+      memCDValue:
+        text: >-
+          CD de Combate do Mem
+        content: >-
+          CRIT DMG de todos os aliados aumenta em {{ScalingBuff}}% do CRIT DMG do Mem's mais {{FlatBuff}}%
   Welt:
     Content:
       enemyDmgTakenDebuff:
         text: Debuff de vulnerabilidade Ult
-        content: Ao usar a Ultimate, há uma chance base de 100% de aumentar o DMG recebido pelos alvos em 12% por 2 turno(s).
+        content: Ao usar a Ultimate, há uma chance base de 100% de aumentar o DMG recebido pelos alvos em 12% por 2 turnos.
       enemySlowed:
         text: Inimigo desacelerado
         content: Ao atingir um inimigo que já está Lentificado, Welt causa Dano Imaginário Adicional igual a {{talentScaling}}% do seu ATK ao inimigo.
@@ -1616,8 +1721,7 @@ Characters:
           Causa Dano Imaginário igual a {{skillScaling}}% do ATK de Welt a um único inimigo e, adicionalmente, causa Dano 2 vezes a mais, com cada ataque causando Dano Imaginário igual a {{skillScaling}}% do ATK de Welt a um inimigo aleatório.
       e1EnhancedState:
         text: Estado aprimorado E1
-        content: >-
-          E1: Após Welt usar sua Ultimativa, suas habilidades são aprimoradas. Nas próximas 2 vez(es) que ele usar seu ATK Básico ou Habilidade, causará Dano Adicional ao alvo igual a 50% do multiplicador de DMG do seu ATK Básico ou 80% do multiplicador de DMG da sua Habilidade, respectivamente.
+        content: Após Welt usar sua Ultimativa, suas habilidades são aprimoradas. Nas próximas 2 vezes que ele usar seu ATK Básico ou Habilidade, causará Dano Adicional ao alvo igual a 50% do multiplicador de DMG do seu ATK Básico ou 80% do multiplicador de DMG da sua Habilidade, respectivamente.
   Xueyi:
     Content:
       beToDmgBoost:
@@ -1635,7 +1739,7 @@ Characters:
           Quando Karma atinge o número máximo de acúmulos consome todas as pilhas de Karma atuais e imediatamente lança um ataque subsequente contra um inimigo alvo, causando Dano 3 vezes, com cada ataque causando Dano Quantum igual a {{fuaScaling}}% do ATK de Xueyi a um único inimigo aleatório.
       e4BeBuff:
         text: Buff de BE E4
-        content: "E4: Ao usar a Ultimate, aumenta o Efeito de Quebra em 40% por 2 turno(s)."
+        content: Ao usar a Ultimate, aumenta o Efeito de Quebra em 40% por 2 turnos.
   Yanqing:
     Content:
       ultBuffActive:
@@ -1647,13 +1751,13 @@ Characters:
           Quando a Sincronização de Soulsteel está ativa, a Taxa de CRIT de Yanqing aumenta em {{talentCrBuffValue}}% e seu DMG CRIT aumenta em {{talentCdBuffValue}}%.::BR::Antes de usar o Ultimate, quando a Sincronização de Soulsteel está ativa, aumenta o DMG CRIT de Yanqing em um adicional de {{ultCdBuffValue}}%.::BR::Quando a Sincronização de Soulsteel está ativa, a RES de Efeito aumenta em 20%.::BR::E2: Quando a Sincronização de Soulsteel está ativa, a Taxa de Regeneração de Energia aumenta em um adicional de 10%.
       critSpdBuff:
         text: Buff de SPD
-        content: Quando um Acerto CRIT é ativado, aumenta o SPD em 10% por 2 turno(s).
+        content: Quando um Acerto CRIT é ativado, aumenta o SPD em 10% por 2 turnos.
       e1TargetFrozen:
         text: E1 inimigo congelado
-        content: "E1: Quando Yanqing ataca um inimigo congelado, ele causa DMG de Gelo Adicional igual a 60% de seu ATK."
+        content: Quando Yanqing ataca um inimigo congelado, ele causa DMG de Gelo Adicional igual a 60% de seu ATK.
       e4CurrentHp80:
         text: 'E4: quando a HP do personagem está ≥ 80%, aumenta a PEN de RES.'
-        content: "E4: Quando a porcentagem de HP atual está em 80% ou mais, a PEN de RES de Gelo aumenta em 12%."
+        content: Quando a porcentagem de HP atual está em 80% ou mais, a PEN de RES de Gelo aumenta em 12%.
   Yukong:
     Content:
       teamImaginaryDmgBoost:
@@ -1668,12 +1772,12 @@ Characters:
           Se as Cordas de Arco Rugidoras estiverem ativas em Yukong quando seu Ultimate for usado, aumenta adicionalmente a Taxa de CRIT de todos os aliados em {{ultCrBuffValue}}% e o DMG CRIT em {{ultCdBuffValue}}%. Ao mesmo tempo, causa DMG Imaginário igual a {{ultScaling}}% do ATK de Yukong a um único inimigo.
       initialSpeedBuff:
         text: 'E1: aumento inicial de SPD'
-        content: "E1: No início da batalha, aumenta a SPD de todos os aliados em 10% por 2 turno(s)."
+        content: No início da batalha, aumenta a SPD de todos os aliados em 10% por 2 turnos.
   Yunli:
     Content:
       blockActive:
         text: Bloqueio ativo
-        content: Enquanto estiver no estado de Bloqueio resiste a debuffs de Controle de Multidão recebidos e reduz o DMG recebido em 20,0%.
+        content: Enquanto estiver no estado de Bloqueio resiste a debuffs de Controle de Multidão recebidos e reduz o DMG recebido em 20%.
       ultCull:
         text: "Intuit: Colheita habilitada"
         content: >-
@@ -1684,17 +1788,17 @@ Characters:
           Intuit: Colheita: Causa DMG Físico igual a {{CullScaling}}% do ATK de Yunli ao alvo e causa DMG Físico igual a {{CullAdjacentScaling}}% do ATK de Yunli a alvos adjacentes. Em seguida, causa adicionalmente 6 instâncias de DMG, cada uma causando DMG Físico igual a {{CullAdditionalScaling}}% do ATK de Yunli a um inimigo único aleatório.
       counterAtkBuff:
         text: Buff de ATK de Contra-ataque
-        content: Ao usar um Contra-ataque, aumenta o ATK de Yunli em 30,0%, com duração de 1 turno.
+        content: Ao usar um Contra-ataque, aumenta o ATK de Yunli em 30%, com duração de 1 turno.
       e1UltBuff:
         text: Buff da ultimate E1
-        content: "E1: Aumenta o DMG causado por Intuit: Corte e Intuit: Colheita em 20,0%. Aumenta o número de instâncias adicionais de DMG para Intuit: Colheita em 3,0."
+        content: "Aumenta o DMG causado por Intuit: Corte e Intuit: Colheita em 20%. Aumenta o número de instâncias adicionais de DMG para Intuit: Colheita em 3."
       e2DefShred:
         text: PEN de DEF FUA E2
-        content: Ao causar DMG por meio de Contra-ataque, ignora 20,0% da DEF do alvo.
+        content: Ao causar DMG por meio de Contra-ataque, ignora 20% da DEF do alvo.
       e4ResBuff:
         text: Buff de RES E4
-        content: "Após lançar Intuit: Corte ou Intuit: Colheita, aumenta a RES de Efeito desta unidade em 50,0%, com duração de 1,0 turno(s)."
+        content: "Após lançar Intuit: Corte ou Intuit: Colheita, aumenta a RES de Efeito desta unidade em 50%, com duração de 1 turno."
       e6Buffs:
         text: Buffs E6
         content: >-
-          Enquanto o Bloqueio estiver ativo, se um inimigo usar suas habilidades ativamente, independentemente de atacar Yunli ou não, isso irá ativar Intuit: Colheita e remover o efeito de Bloqueio. Ao causar DMG por meio de Intuit: Corte ou Intuit: Colheita, aumenta a Taxa de CRIT em 15,0% e a PEN de RES Física em 20,0%.
+          Enquanto o Bloqueio estiver ativo, se um inimigo usar suas habilidades ativamente, independentemente de atacar Yunli ou não, isso irá ativar Intuit: Colheita e remover o efeito de Bloqueio. Ao causar DMG por meio de Intuit: Corte ou Intuit: Colheita, aumenta a Taxa de CRIT em 15% e a PEN de RES Física em 20%.

@@ -83,6 +83,7 @@ AdvancedOptions:
   EnemyConfigButtonText: 敵の設定
   CombatBuffsButtonTextNone: 戦闘バフを追加
   CombatBuffsButtonText: "戦闘バフを追加（{{activeCount}}）"
+  CustomTracesButtonText: 軌跡を編集
 Grid:
   To: "~"
   Of: /
@@ -165,13 +166,13 @@ Grid:
         ダメージ
 Sidebar:
   GPUOptions:
-    Experimental: GPUアクセラレーション（実験的）
-    Stable: GPUアクセラレーション（安定版）
-    CPU: CPUのみ
+    Experimental: GPU アクセラレーション（実験的）
+    Stable: GPU アクセラレーション（安定版）
+    CPU: CPU のみ
     EngineSwitchSuccessMsg:
-      CPU: エンジンをCPUに切り替えました
-      Stable: エンジンをGPU（安定版）に切り替えました
-      Experimental: エンジンをGPU（実験的）に切り替えました
+      CPU: エンジンを CPU に切り替えました
+      Stable: エンジンを GPU（安定版）に切り替えました
+      Experimental: エンジンを GPU（実験的）に切り替えました
     Display:
       GPU Experimental: "アクセラレーション：有効"
       GPU Stable: "アクセラレーション：有効"
@@ -200,6 +201,8 @@ Sidebar:
     Header: ステータス表示の切り替え
     CombatStats: 戦闘
     BasicStats: 非戦闘
+    SummonerStats: 召喚者
+    MemospriteStats: 記憶の精霊
   ResultsGroup:
     Header: 結果
     Equip: 装備
@@ -213,6 +216,10 @@ FormRowLabels:
   Relic & stat filters: 遺物とステータスのフィルター
   Teammates: チームメイト
   Character custom stats simulation: カスタムステータスシミュレーション
+TracesDrawer:
+  Title: 軌跡を編集
+  Header: 覚醒した軌跡（デフォルトで全て有効）
+  ButtonText: 保存
 SetConditionals:
   Title: セット効果を編集
   DescriptionHeader: セットの詳細
@@ -396,7 +403,7 @@ ComboFilter:
     Break: 撃破
   ComboOptions:
     Basic: 基礎
-    Skill: ｽｷﾙ
+    Skill: スキル
     Ult: 必殺
     Fua: 追加
     MemoSkill: 精霊スキル

@@ -1,6 +1,10 @@
 Showcase:
   Title: Showcase
   Scorer: Relic Scorer
+Tools:
+  Title: Tools
+  Showcase: Showcase
+  WarpPlanner: Warp Planner
 Optimization:
   Title: Optimization
   Optimizer: Optimizer

@@ -8,7 +8,7 @@ Common:
   HealAbility:
     Text: "Capacité de soins"
     Content: "Sélectionnez la capacité pour les calculs de soins"
-    Basic: "Capacité de soins: Basique"
+    Basic: "Capacité de soins: Normale"
     Skill: "Capacité de soins: Compétence"
     Ult: "Capacité de soins: Ult"
     Talent: "Capacité de soins: Talent"
@@ -16,7 +16,7 @@ Common:
   ShieldAbility:
     Text: "Capacité de bouclier"
     Content: "Sélectionnez la capacité pour les calculs de bouclier"
-    Basic: "Capacité de bouclier: Basique"
+    Basic: "Capacité de bouclier: Normale"
     Skill: "Capacité de bouclier: Compétence"
     Ult: "Capacité de bouclier: Ult"
     Talent: "Capacité de bouclier: Talent"
@@ -26,1150 +26,1768 @@ Lightcones:
     Content:
       dmgBuffStacks:
         text: Cumuls de bonus de DGT
+        content: >-
+          Lorsque le porteur utilise sa compétence ou son ultime sur un personnage allié, la cible de la capacité reçoit 1 cumul d'Hymne pour 3 tours, cumulable jusqu'à 3 fois. Chaque cumul d'Hymne augmente les DGT infligés par son bénéficiaire de {{DmgBuff}}%.
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
         text: Malus Bulle du vide
+        content: >-
+          Lorsque le porteur touche une cible ennemie, applique l'effet Bulle du vide pendant 1 tour à l'ennemi. Cet effet peut être déclenché 1 fois sur chaque cible pour chaque attaque lancée par le porteur. Le porteur inflige {{DmgBoost}}% de DGT supplémentaires aux cibles affectées par Bulle du vide et ses DGT d'ultime augmentent de {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
       maxEnergyUltDmgStacks:
         text: Énergie maximale
+        content: Lorsque le porteur lance son ultime, augmente les DGT de l'ultime du porteur en fonction de son énergie max. Chaque point d'énergie augmente les DGT de l'ultime de {{DmgStep}}%, jusqu'à un maximum de 180 points d'énergie.
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
         text: Cumuls de malus de DC
+        content: Les DGT critiques du porteur augmentent de {{DmgStep}}% supplémentaires pour chaque malus subi par la cible ennemie, jusqu'à un maximum de 3 cumuls.
       postUltBuff:
         text: Bonus Débat
+        content: >-
+          Lorsque le porteur attaque une cible avec son ultime, il bénéficie de l'effet Débat, qui augmente les DGT qu'il inflige de {{DmgStep}}% et ses attaques de suivi ignorent {{DefIgnore}}% de la DÉF de la cible. Cet effet dure 2 tours.
   BeforeDawn:
     Content:
       fuaDmgBoost:
         text: DGT bonus ADS
+        content: >-
+          Après utilisation de sa compétence ou de son ultime, le porteur bénéficie de Somnus Corpus. Lors du déclenchement d'une attaque de suivi, Somnus Corpus se dissipe et les DGT de l'attaque de suivi augmentent de {{DmgBuff}}%.
   BrighterThanTheSun:
     Content:
       dragonsCallStacks:
         text: Cumuls d'Appel du dragon
+        content: >-
+          Lorsque le porteur utilise son ATQ normale, il gagne 1 cumul d'Appel du dragon, qui dure 2 tours. Chaque cumul d'Appel du dragon augmente l'ATQ du porteur de {{AtkBuff}}% et le taux de régénération d'énergie de {{RegenBuff}}%. Appel du dragon est cumulable jusqu'à 2 fois.
   ButTheBattleIsntOver:
     Content:
       postSkillDmgBuff:
         text: Bonus de DGT post-compétence
+        content: Lorsque le porteur utilise sa compétence, le prochain allié à agir (à l'exception du porteur) inflige {{DmgBuff}}% de DGT supplémentaires pendant 1 tour.
   CruisingInTheStellarSea:
     Content:
       enemyHp50CrBoost:
         text: Bonus de TC ennemi à PV ≤ 50%
+        content: Augmente les chances de coup critique du porteur de {{CritBuff}}% supplémentaires contre les ennemis dont les PV sont inférieurs ou égaux à 50%.
       enemyDefeatedAtkBuff:
         text: Bonus d'ATQ pour ennemi vaincu
+        content: Lorsque le porteur élimine un ennemi, son ATQ augmente de {{AtkBuff}}% pendant 2 tours.
   DanceAtSunset:
     Content:
       fuaDmgStacks:
         text: Cumuls de bonus de DGT d'ADS
+        content: >-
+          Le porteur obtient 1 cumul de Danse du feu après avoir utilisé son ultime. Danse du feu dure 2 tours et peut se cumuler jusqu'à 2 fois. Chaque cumul de Danse du feu augmente les DGT infligés par l'attaque de suivi du porteur de {{DmgBoost}}%.
   EarthlyEscapade:
     Content:
       maskActive:
         text: Masque actif
+        content: >-
+           Le porteur obtient l'effet Masque pendant 3 tours en début de combat. Tant que le porteur bénéficie de Masque, ses alliés voient leurs chances de coup critique augmenter de {{CritRateBuff}}% et leurs DGT critiques de {{CritDmgBuff}}%. Chaque fois que le porteur régénère 1 point de compétence (y compris des points de compétence au-delà de la limite), il gagne 1 cumul de Flamme radieuse. À 4 cumuls de Flamme radieuse, il perd tous les cumuls et gagne Masque. Dure 4 tours.
   EchoesOfTheCoffin:
     Content:
       postUltSpdBuff:
         text: Bonus de VIT post-ULT
+        content: >-
+          Lorsque le porteur utilise une attaque, régénère {{EnergyRecovered}} points d'énergie pour chaque cible touchée. Chaque attaque peut régénérer de l'énergie jusqu'à 3 fois de cette façon. Lorsque le porteur utilise son ultime, la VIT de tous les alliés augmente de {{SpdBuff}} pendant 1 tour.
   EternalCalculus:
     Content:
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
+        content: Après avoir utilisé une attaque, pour chaque cible ennemie touchée, augmente l'ATQ de {{AtkBuff}}% supplémentaires. Cet effet peut être cumulé 5 fois et dure jusqu'à la prochaine attaque.
       spdBuff:
         text: Bonus de VIT 3 cibles attaquées
+        content: La VIT du personnage augmente de {{SpdBuff}}% s'il y a au moins 3 cibles ennemies touchées. Dure 1 tour.
   FlowingNightglow:
     Content:
       cadenzaActive:
         text: Cadence actif
+        content: >-
+          Le porteur gagne 1 cumul de Cantique à chaque fois qu'un allié attaque. Chaque cumul de Cantique augmente de {{RegenBuff}}% le taux de régénération d'énergie du porteur, jusqu'à 5 cumuls. Supprime l'effet Cantique et gagne Cadence à la place lorsque le porteur utilise son ultime. Cadence augmente l'ATQ du porteur de {{AtkBuff}}% et les DGT infligés par l'équipe de {{DmgBuff}}%. Dure 1 tour.
       cantillationStacks:
         text: Cumuls de Cantique
+        content: >-
+          Le porteur gagne 1 cumul de Cantique à chaque fois qu'un allié attaque. Chaque cumul de Cantique augmente de {{RegenBuff}}% le taux de régénération d'énergie du porteur, jusqu'à 5 cumuls. Supprime l'effet Cantique et gagne Cadence à la place lorsque le porteur utilise son ultime. Cadence augmente l'ATQ du porteur de {{AtkBuff}}% et les DGT infligés par l'équipe de {{DmgBuff}}%. Dure 1 tour.
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
         text: Bonus de TC ennemi ≥ 3 malus
+        content: Lorsque le porteur inflige des DGT à un ennemi ayant 3 malus ou plus, les chances de coup critique augmentent de {{CritBuff}}%.
       targetCodeDebuff:
         text: Cible malussée code éthéré
+        content: >-
+          Après avoir utilisé son attaque normale, sa compétence ou son ultime, il y a 100% de chances d'implanter Code éthéré sur une cible aléatoire ne possédant pas déjà cet effet. Les cibles sous l'effet de Code éthéré subissent {{DmgIncrease}}% de DGT supplémentaires pendant 1 tour.
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
         text: Bonus de DC post-bouclier
+        content: Les DGT critiques du porteur augmentent de {{CritBuff}}% pendant 2 tours à chaque fois qu'il accorde un bouclier à un allié.
       targetVulnerability:
         text: Cible malussée vulnérabilité
+        content: Lorsque le porteur utilise une attaque de suivi pour attaquer un ennemi, il y a {{baseChance}}% de chances de base d'augmenter les DGT subis par l'ennemi attaqué de {{Vulnerability}}% pendant 2 tours.
   InTheNameOfTheWorld:
     Content:
       enemyDebuffedDmgBoost:
         text: Bonus DGT ennemi malussé
+        content: Les DGT du porteur sur les ennemies souffrant de malus augmentent de {{DmgBuff}}%.
       skillAtkBoost:
         text: Bonus d'ATQ de compétence (non mis en œuvre)
+        content: Lorsqu'il utilise sa compétence, les chances d'appliquer des effets du porteur pour cette attaque augmentent de {{EhrBuff}}%, et son ATQ de {{AtkBuff}}%.
   InTheNight:
     Content:
       spdScalingBuffs:
         text: Bonus par conversions de VIT
+        content: >-
+          En combat, à chaque tranche de 10 points de VIT au-delà de 100, les DGT de son ATQ normale et de sa compétence augmentent de {{DmgBuff}}% et les DGT critiques de son ultime de {{CritBuff}}%. Cet effet est cumulable jusqu'à 6 fois.
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Bonus de DGT Compétence / Ult
+        content: Augmente les DGT infligés par la compétence et l'ultime du porteur de {{DmgBuff}}% pendant 3 tours lorsque le porteur utilise son ultime.
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
         text: Cumuls d'Éclipse
+        content: >-
+          Le porteur gagne 1 cumul d'Éclipse chaque fois qu'un allié est attaqué ou perd des PV, jusqu'à un maximum de 3 cumuls. Chaque cumul d'Éclipse augmente les DGT de la prochaine attaque du porteur de {{DmgBuff}}%.
       maxStackDefPen:
         text: Cumuls maximum de PÉN de DÉF
+        content: À 3 cumuls, l'attaque ignore également {{DefIgnore}}% de la DÉF de l'ennemi. L'effet disparaît chaque fois que le porteur utilise une attaque.
   IVentureForthToHunt:
     Content:
       luminfluxUltStacks:
         text: Cumuls de Lumière vive
+        content: >-
+          Lorsque le porteur lance une attaque de suivi, il gagne 1 cumul de Lumière vive jusqu'à un maximum de 2 fois. Chaque cumul de Lumière vive permet aux DGT d'ultime infligés par le porteur d'ignorer {{DefIgnore}}% de la DÉF de la cible. Lorsque le tour du porteur se termine, supprime 1 cumul de Lumière vive.
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: Cumuls de vulnérabilité de rupture
+        content: >-
+          Lorsqu'une cible ennemie subit une Rupture de faiblesse, il y a 100% de chances de base de lui infliger l'état Incinération, ce qui augmente les DGT de rupture qu'elle subit de {{breakVulnerability}}%. Dure 2 tours. Cet effet peut être cumulé jusqu'à 2 fois.
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
         text: Bonus de DÉF après porteur attaqué
+        content: Augmente la probabilité pour le porteur d'être attaqué par des ennemis. Lorsque le porteur est attaqué, sa DÉF augmente de {{DefBuff}}% supplémentaires jusqu'à la fin de son tour.
   NightOfFright:
     Content:
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
+        content: Quand le porteur prodigue des soins à l'allié, augmente l'ATQ de l'allié soigné de {{AtkBuff}}%. Cet effet peut être cumulé jusqu'à 5 fois et dure 2 tours.
   NightOnTheMilkyWay:
     Content:
       enemyCountAtkBuff:
         text: Bonus d'ATQ nombre d'ennemis
+        content: Pour chaque ennemi sur le champ de bataille, augmente l'ATQ du porteur de {{AtkBuff}}% jusqu'à 5 cumuls.
       enemyWeaknessBreakDmgBuff:
         text: Bonus de DGT ennemi en état de rupture
+        content: Lorsqu'un ennemi est affecté par Rupture de faiblesse, augmente les DGT infligés par le porteur de {{DmgBuff}}% pendant 1 tour.
   OnTheFallOfAnAeon:
     Content:
       atkBoostStacks:
         text: Cumuls de bonus d'ATQ
+        content: Pendant un même combat, chaque fois que le porteur attaque, son ATQ augmente de {{AtkBuff}}%, cumulable jusqu'à 4 fois.
       weaknessBreakDmgBuff:
         text: Bonus de DGT post-rupture
+        content: Lorsque le porteur inflige une Rupture de faiblesse à un ennemi, ses DGT augmentent de {{DmgBuff}}% pendant 2 tours.
   PastSelfInTheMirror:
     Content:
       postUltDmgBuff:
         text: Bonus de DGT post-ULT
+        content: Augmente les DGT de tous les alliés de {{DmgBuff}}% pendant 3 tours lorsque le porteur utilise son ultime.
   PatienceIsAllYouNeed:
     Content:
       spdStacks:
         text: Cumuls de VIT
+        content: ' Après chaque attaque du porteur, sa VIT augmente de {{SpdBuff}}%, effet cumulable 3 fois.'
       dotEffect:
         text: Effet DSD (non mis en œuvre)
+        content: >-
+          Lorsque le porteur attaque un ennemi, il y a 100% de chances de base de lui infliger l'effet Érosion, lorsque l'ennemi n'est pas déjà affecté par cet effet. Les ennemis affectés par Érosion sont considérés comme Stupéfiés et subissent des DGT de foudre sur la durée équivalents à {{Multiplier}}% de l'ATQ du porteur pendant 1 tour.
   ReforgedRemembrance:
     Content:
       prophetStacks:
         text: Cumuls de Prophétie
+        content: >-
+          Lorsque le porteur inflige des DGT à un ennemi affecté par Faille du vent, Saignement, Brûlure ou Stupéfaction, chaque effet lui accorde 1 cumul de Prophétie, cumulable jusqu'à 4 fois. Chaque type de dégâts sur la durée ne peut générer qu'1 seul cumul de Prophétie par combat. Chaque cumul de Prophétie augmente de {{AtkBuff}}% l'ATQ du porteur et permet aux dégâts sur la durée infligés d'ignorer {{DefIgnore}}% de la DÉF de la cible.
   SailingTowardsASecondLife:
     Content:
       breakDmgDefShred:
         text: PÉN de DÉF de DGT de rupture
+        content: Les DGT de rupture du porteur ignorent {{DefIgnore}}% de la DÉF de la cible.
       spdBuffConditional:
         text: Bonus de VIT ER ≥ 150
+        content: Lorsque l'effet de Rupture du porteur est supérieur ou égal à 150%, sa VIT augmente de {{SpdBuff}}%.
   ScentAloneStaysTrue:
     Content:
       woefreeState:
         text: Vulnérabilité Sans souci
+        content: >-
+          Lorsque le porteur attaque des cibles ennemies avec son ultime, leur applique l'effet Sans souci pendant 2 tours. Les cibles ennemies avec l'effet Sans souci subissent {{Vulnerability}}% de DGT supplémentaires. L'effet d'augmentation des DGT subis est renforcé de {{AdditionalVulnerability}}% supplémentaires si l'effet de Rupture actuel du porteur est supérieur ou égal à 150%.
     TeammateContent:
       additionalVulnerability:
         text: Vulnérabilité supplémentaire
+        content: >-
+          Lorsque le porteur attaque des cibles ennemies avec son ultime, leur applique l'effet Sans souci pendant 2 tours. Les cibles ennemies avec l'effet Sans souci subissent {{Vulnerability}}% de DGT supplémentaires. L'effet d'augmentation des DGT subis est renforcé de {{AdditionalVulnerability}}% supplémentaires si l'effet de Rupture actuel du porteur est supérieur ou égal à 150%.
   SheAlreadyShutHerEyes:
     Content:
       hpLostDmgBuff:
         text: Bonus de DGT PV perdus
+        content: Lorsque les PV du porteur sont réduits, les DGT infligés par tous les alliés augmentent de {{DmgBuff}}% pendant 2 tours.
   SleepLikeTheDead:
     Content:
       missedCritCrBuff:
         text: Bonus de TC coup critique manqué
+        content: Lorsque son ATQ normale ou sa compétence ne résulte pas en un coup critique, ses chances de coup critique augmentent de {{CritBuff}}% pendant 1 tour. Cet effet ne peut être déclenché qu'une fois tous les 3 tours.
   SolitaryHealing:
     Content:
       postUltDotDmgBuff:
         text: Bonus DGT DSD post-ULT
+        content: Lorsque le porteur utilise son ultime, il inflige {{DmgBuff}}% de dégâts sur la durée supplémentaires pendant 2 tours.
   SomethingIrreplaceable:
     Content:
       dmgBuff:
         text: Bonus de DGT ennemi vaincu/porteur attaqué
+        content: >-
+          Lorsque le porteur élimine un ennemi ou est touché par une attaque, il restaure immédiatement des PV équivalents à {{Multiplier}}% de son ATQ. D'autre part, ses DGT augmentent de {{DmgBuff}}% jusqu'à la fin de son prochain tour. L'effet n'est pas cumulable et ne peut se déclencher qu'1 fois par tour.
   TextureOfMemories:
     Content:
       activeShieldDmgDecrease:
         text: Réduction de DGT bouclier actif
+        content: >-
+          Lorsque le porteur est attaqué et n'a pas de bouclier, il obtient un bouclier équivalent à {{ShieldHp}}% de ses PV max pendant 2 tours. Cet effet ne peut être déclenché qu'une fois tous les 3 tours. Si le porteur a déjà un bouclier lorsqu'il est attaqué, les DGT subis sont réduits de {{DmgReduction}}%.
   TheUnreachableSide:
     Content:
       dmgBuff:
         text: Bonus de DGT porteur attaqué/PV consommés
+        content: Les DGT du porteur augmentent de {{DmgBuff}}% lorsqu'il est attaqué ou qu'il consomme ses propres PV. Cet effet disparaît lorsque le porteur lance une attaque.
   ThoseManySprings:
     Content:
       unarmoredVulnerability:
         text: Vulnérabilité Sans défense
+        content: >-
+          Lorsque le porteur utilise son ATQ normale, sa compétence, ou son ultime pour attaquer une cible ennemie, il a 60% de chances de base de lui infliger l'état Sans défense. Dans l'état Sans défense, augmente les DGT subis par la cible ennemie de {{UnarmoredVulnerability}}% pendant 2 tours. Lorsque la cible subit des dégâts sur la durée infligés par le porteur, il y a 60% de chances de base de transformer son état Sans défense en Cerné, ce qui augmente les DGT subis par la cible de {{CorneredVulnerability}}%, pendant 2 tours.
       corneredVulnerability:
         text: Vulnérabilité Cerné
+        content: >-
+          Lorsque le porteur utilise son ATQ normale, sa compétence, ou son ultime pour attaquer une cible ennemie, il a 60% de chances de base de lui infliger l'état Sans défense. Dans l'état Sans défense, augmente les DGT subis par la cible ennemie de {{UnarmoredVulnerability}}% pendant 2 tours. Lorsque la cible subit des dégâts sur la durée infligés par le porteur, il y a 60% de chances de base de transformer son état Sans défense en Cerné, ce qui augmente les DGT subis par la cible de {{CorneredVulnerability}}%, pendant 2 tours.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
         text: Dégâts basés sur les soins (non mis en œuvre)
+        content: >-
+          Lorsque le porteur soigne un allié, la quantité de soins prodigués est enregistrée. Lorsqu'un allié lance une attaque, un ennemi aléatoire parmi ceux attaqués subit des DGT additionnels équivalents à {{Multiplier}}% des soins prodigués enregistrés. Ces DGT additionnels sont du même type que le porteur, ne sont pas affectés par d'autres bonus et ne peuvent être infligés qu'1 fois par tour.
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: Cumuls de Tapisserie
+        content: >-
+          Gagne 1 cumul de Tapisserie après chaque attaque du porteur et de son mnémesprit.::BR::Chaque cumul de Tapisserie augmente les DGT critiques du porteur et de son mnémesprit de {{CdBuff}}%, cumulable jusqu'à 6 fois.::BR:: Après avoir atteint la limite de cumuls, chaque cumul de Tapisserie augmente les DGT infligés par l'ATQ normale de {{DmgBuff}}% supplémentaires.
+      maxStacksBasicDmgBoost:
+        text: Bonus de DGT de Normale
+        content: >-
+          Gagne 1 cumul de Tapisserie après chaque attaque du porteur et de son mnémesprit.::BR::Chaque cumul de Tapisserie augmente les DGT critiques du porteur et de son mnémesprit de {{CdBuff}}%, cumulable jusqu'à 6 fois.::BR:: Après avoir atteint la limite de cumuls, chaque cumul de Tapisserie augmente les DGT infligés par l'ATQ normale de {{DmgBuff}}% supplémentaires.
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
         text: Vulnérabilité Perdu
+        content: >-
+          Lorsque le porteur inflige des DGT de rupture à une cible ennemie, il applique l'effet Perdu à la cible ennemie pendant 2 tours. Les cibles affectées par l'effet Perdu subissent {{Vulnerability}}% de DGT de rupture supplémentaires de la part du porteur et voient leur VIT réduite de 20%.
   WorrisomeBlissful:
     Content:
       targetTameStacks:
         text: Cumuls Apprivoisement
+        content: >-
+          Lorsque le porteur déclenche une attaque de suivi, applique l'état Apprivoisement à la cible, cumulable jusqu'à 2 fois. Lorsque des alliés touchent des cibles ennemies affectées par Apprivoisement, chaque cumul d'Apprivoisement augmente les DGT critiques infligés de {{CritBuff}}%.
   YetHopeIsPriceless:
     Content:
       fuaDmgBoost:
         text: DC à bonus de DGT d'ADS
+        content: Lorsque les DGT critiques du porteur sont supérieurs à 120% en combat, pour chaque tranche de 20% de DGT critiques supérieurs, les DGT des attaques de suivi augmentent de {{DmgBuff}}%. Cet effet peut être cumulé jusqu'à 4 fois.
       ultFuaDefShred:
         text: PÉN de DÉF ULT/ADS
+        content: En début de combat ou après que le porteur a utilisé son ATQ normale, son ultime et ses DGT d'attaque de suivi ignorent {{DefShred}}% de la DÉF de la cible, pour une durée de 2 tours.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
         text: Bonus de VIT
+        content: Augmente la VIT du porteur de {{SpdBuff}}% pendant 2 tours lorsque le porteur utilise son ultime.
   ASecretVow:
     Content:
       enemyHpHigherDmgBoost:
         text: Bonus de DGT ennemi %PV supérieur
+        content: Les DGT infligés par le porteur augmentent de {{DmgBuff}}% supplémentaires contre les ennemis dont le pourcentage de PV est supérieur ou égal à celui du porteur.
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
         text: Ennemi ralenti / DÉF réduite
+        content: Le porteur inflige {{CritBuff}}% de DGT critiques supplémentaires aux ennemis ralentis ou dont la DÉF est réduite.
   CarveTheMoonWeaveTheClouds:
     Content:
       atkBuffActive:
         text: Bonus d'ATQ actif
+        content: >-
+          L'un des effets suivants s'applique aléatoirement en début de combat et à chaque fois que le tour du porteur commence:::BR::l'ATQ de tous les alliés augmente de {{AtkBuff}}%.::BR::Les DGT critiques de tous les alliés augmentent de {{CritBuff}}%.::BR::Le taux de régénération d'énergie de tous les alliés augmente de {{RegenBuff}}%.::BR::L'effet appliqué ne peut pas être identique au précédent et le remplace. L'effet appliqué est supprimé lorsque le porteur est à terre. Les effets du même type ne se cumulent pas.
       cdBuffActive:
         text: Bonus de DC actif
+        content: >-
+          L'un des effets suivants s'applique aléatoirement en début de combat et à chaque fois que le tour du porteur commence:::BR::l'ATQ de tous les alliés augmente de {{AtkBuff}}%.::BR::Les DGT critiques de tous les alliés augmentent de {{CritBuff}}%.::BR::Le taux de régénération d'énergie de tous les alliés augmente de {{RegenBuff}}%.::BR::L'effet appliqué ne peut pas être identique au précédent et le remplace. L'effet appliqué est supprimé lorsque le porteur est à terre. Les effets du même type ne se cumulent pas.
       errBuffActive:
         text: Bonus de TRE actif
+        content: >-
+          L'un des effets suivants s'applique aléatoirement en début de combat et à chaque fois que le tour du porteur commence:::BR::l'ATQ de tous les alliés augmente de {{AtkBuff}}%.::BR::Les DGT critiques de tous les alliés augmentent de {{CritBuff}}%.::BR::Le taux de régénération d'énergie de tous les alliés augmente de {{RegenBuff}}%.::BR::L'effet appliqué ne peut pas être identique au précédent et le remplace. L'effet appliqué est supprimé lorsque le porteur est à terre. Les effets du même type ne se cumulent pas.
   ConcertForTwo:
     Content:
       teammateShieldStacks:
         text: Cumuls de bonus de DGT boucliers sur alliés
+        content: Les DGT infligés par le porteur augmentent de {{DmgBuff}}% pour chaque personnage qui bénéficie d'un bouclier sur le champ de bataille.
   DayOneOfMyNewLife:
     Content:
       dmgResBuff:
         text: Bonus de RÉS aux DGT
+        content: La RÉS aux DGT de tous les alliés augmente de {{ResBuff}}% après être entré en combat. Les effets de même type ne sont pas cumulables.
   DreamvilleAdventure:
     Content:
       ultDmgBuff:
         text: Bonus de DGT d'ULT
+        content: >-
+          Après que le porteur a utilisé son ATQ normale, sa compétence ou son ultime, tous les alliés gagnent Enfantillages, ce qui augmente de {{DmgBuff}}% les DGT infligés par le même type de capacité. Enfantillages n'a d'effet que sur la capacité la plus récente utilisée par le porteur et n'est pas cumulable.
       skillDmgBuff:
         text: Bonus de DGT de Compétence
+        content: >-
+          Après que le porteur a utilisé son ATQ normale, sa compétence ou son ultime, tous les alliés gagnent Enfantillages, ce qui augmente de {{DmgBuff}}% les DGT infligés par le même type de capacité. Enfantillages n'a d'effet que sur la capacité la plus récente utilisée par le porteur et n'est pas cumulable.
       basicDmgBuff:
-        text: Bonus de DGT de Basique
+        text: Bonus de DGT de Normale
+        content: >-
+          Après que le porteur a utilisé son ATQ normale, sa compétence ou son ultime, tous les alliés gagnent Enfantillages, ce qui augmente de {{DmgBuff}}% les DGT infligés par le même type de capacité. Enfantillages n'a d'effet que sur la capacité la plus récente utilisée par le porteur et n'est pas cumulable.
   Fermata:
     Content:
       enemyShockWindShear:
         text: Ennemi affligé de stupéfaction / faille du vent
+        content: Augmente les DGT infligés par le porteur aux ennemis affectés par Stupéfaction ou Faille du vent de {{DmgBuff}}%. Cet effet s'applique également aux dégâts sur la durée.
   FinalVictor:
     Content:
       goodFortuneStacks:
         text: Cumuls de Bonne fortune
+        content: >-
+          Lorsque le porteur inflige un coup critique à un ennemi, il gagne un cumul de Bonne fortune. Cet effet est cumulable jusqu'à 4 fois. Les DGT critiques du porteur augmentent de {{CritBuff}}% pour chaque cumul de Bonne fortune. L'effet Bonne fortune est supprimé à la fin du tour.
   FlamesAfar:
     Content:
       dmgBuff:
         text: Bonus de DGT
+        content: >-
+          Lorsque le porteur perd un montant de PV supérieur à 25% de ses PV max en une attaque, ou qu'il consomme un montant de PV supérieur à 25% de ses PV max, soigne immédiatement un montant de PV équivalent à 15% de ses PV max en plus d'augmenter de {{DmgBuff}}% les DGT qu'il inflige pendant 2 tours. Cet effet ne peut être activé qu'une seule fois tous les 3 tours.
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
         text: Bonus de DGT post-ULT
+        content: Augmente les DGT infligés de {{DmgBuff}}% pendant 1 tour lorsque le porteur utilise son ultime.
   GeniusesGreetings:
     Content:
       basicDmgBoost:
-        text: Bonus de DGT de Basique
+        text: Bonus de DGT de Normale
+        content: Après que le porteur a utilisé son ultime, augmente également les DGT d'ATQ normale du porteur et de son mnémesprit de {{DmgBuff}}% pendant 3 tours.
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
         text: Bonus de DC ennemi vaincu
+        content: Lorsqu'il élimine un ennemi, les DGT critiques du porteur augmentent de {{DmgBuff}}% pendant 3 tours.
   GoodNightAndSleepWell:
     Content:
       debuffStacksDmgIncrease:
         text: Bonus de DGT cumuls de malu
+        content: Les DGT infligés par le porteur augmentent de {{DmgBuff}}% pour chaque malus subi par la cible ennemie. Cumulable jusqu'à 3 fois. Cet effet s'applique aussi aux dégâts sur la durée.
   HeyOverHere:
     Content:
       postSkillHealBuff:
         text: Bonus de soins post-Compétence
+        content: Augmente les soins prodigués de {{HealingBoost}}% quand le porteur utilise sa compétence, et ce pendant 2 tours.
   IndeliblePromise:
     Content:
       crBuff:
         text: Bonus de TC post-ULT
+        content: Lorsque le porteur utilise son ultime, augmente de {{CritBuff}}% ses chances de coup critique pour 2 tours.
   ItsShowtime:
     Content:
       trickStacks:
         text: Cumuls de Mascarade
+        content: >-
+          Le porteur gagne un cumul de Mascarade lorsqu'il inflige un malus à un ennemi. Chaque cumul de Mascarade augmente de {{DmgBuff}}% les DGT infligés par le porteur pour un maximum de 3 cumuls. Cet effet dure 1 tour. Augmente de {{AtkBuff}}% l'ATQ du porteur lorsque ses chances d'appliquer des effets sont supérieures ou égales à 80%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
         text: Bonus de DGT d'ULT
+        content: Le porteur régénère {{Energy}} points d'énergie dès son entrée en combat, et les DGT de son ultime augmentent de {{DmgBuff}}%.
   NinjaRecordSoundHunt:
     Content:
       cdBuff:
         text: Bonus de DC
+        content: Lorsque le porteur perd ou récupère des PV, augmente les DGT critiques de {{sValuesCd}}% pendant 2 tours. Cet effet ne peut se déclencher qu'une fois par tour.
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
         text: 'Bonus de TC ≤ 2 ennemis'
+        content: Augmente les chances de coup critique de {{CritBuff}}% s'il y a 2 ennemis ou moins sur le champ de bataille.
   PastAndFuture:
     Content:
       postSkillDmgBuff:
         text: Bonus de DGT post-compétence
+        content: Lorsque le porteur utilise sa compétence, les DGT infligés par son prochain allié à agir augmentent de {{DmgBuff}}% pendant 1 tour.
   PerfectTiming:
     Content:
       resToHealingBoost:
         text: RÉS à bonus de soins
+        content: Augmente les soins prodigués d'un montant équivalent à {{Scaling}}% de la RÉS aux effets. Les soins prodigués peuvent être augmentés de cette façon jusqu'à {{Limit}}%.
   PlanetaryRendezvous:
     Content:
       alliesSameElement:
         text: Bonus de DGT allié(s) du même élément
+        content: Si un allié inflige le même type de DGT que le porteur lorsqu'il entre en combat, les DGT infligés augmentent de {{DmgBuff}}%.
   PoisedToBloom:
     Content:
       cdBuff:
         text: Bonus de DC allié(s) du même chemin
+        content: "Si au moins deux personnages suivent la même Voie une fois le combat engagé, les DGT critiques de ces personnages augmentent de {{CritBuff}}%."
   PostOpConversation:
     Content:
       postUltHealingBoost:
         text: Bonus de soins d'ULT
+        content: Augmente les soins prodigués du porteur de {{HealingBoost}}% lors de l'utilisation de son ultime.
   ResolutionShinesAsPearlsOfSweat:
     Content:
       targetEnsnared:
         text: Cible piégée
+        content: Lorsque le porteur touche un ennemi qui n'est pas déjà piégé, il y a {{BaseChance}} de chances de base de piéger l'ennemi touché. La DÉF des ennemis piégés diminue de {{DefShred}}% pendant 1 tour.
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
         text: Bonus de VIT / DGT actifs
+        content: >-
+          Augmente la VIT du porteur de{{SpdBuff}}% et ses DGT de {{DmgBuff}}% après être entré en combat. Cet effet disparaît lorsque le porteur subit des DGT. Il est rétabli à la fin du prochain tour du porteur.
   ShadowedByNight:
     Content:
       spdBuff:
         text: Bonus de VIT
+        content: Augmente la VIT du porteur de {{SpdBuff}}% pendant 2 tours lorsqu'il entre en combat ou qu'il inflige des DGT de rupture.
   SubscribeForMore:
     Content:
       maxEnergyDmgBoost:
         text: Bonus de DGT énergie max
+        content: Augmente les DGT de l'ATQ normale et de la compétence du porteur de {{DmgBuff}}%. Cet effet augmente de {{DmgBuff}}% supplémentaires lorsque l'énergie du porteur atteint son niveau maximal.
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT Mnémomaître / Mnémesprit
+        content: Lorsque le mnémesprit du porteur est sur le champ de bataille, augmente les DGT infligés par le porteur et son mnémesprit de {{DmgBuff}}%.
   Swordplay:
     Content:
       sameTargetHitStacks:
         text: Cumuls pour même cible attaquée
+        content: À chaque fois que le porteur touche la même cible, les DGT infligés augmentent de {{DmgBuff}}%. Cumulable jusqu'à 5 fois. Cet effet est dissipé lorsque le porteur change de cible.
   TheBirthOfTheSelf:
     Content:
       enemyHp50FuaBuff:
         text: Bonus de DGT d'ADS ennemi à PV ≤ 50%
+        content: Si les PV de la cible ennemie sont inférieurs ou égaux à 50%, les DGT des attaques de suivi augmentent de {{DmgBuff}}% supplémentaires.
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
         text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
+        content: Lorsque le porteur utilise une attaque et touche au moins 2 ennemis qui ont la Faiblesse correspondante, ses DGT critiques augmentent de {{CritBuff}}% pendant 2 tours.
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
+        content: Lorsque le porteur utilise son ATQ normale, sa compétence ou son ultime pour attaquer des ennemis, il gagne un cumul d'Espièglerie. Chaque cumul augmente l'ATQ du porteur de {{AtkBuff}}%.
   TheSeriousnessOfBreakfast:
     Content:
       dmgBoost:
         text: Bonus de DGT
+        content: Augmente les DGT du porteur de {{DmgBuff}}%
       defeatedEnemyAtkStacks:
         text: Cumuls d'ATQ ennemis vaincus
+        content: À chaque ennemi vaincu, l'ATQ du porteur augmente de {{AtkBuff}}%. Cumulable jusqu'à 3 fois.
   ThisIsMe:
     Content:
       defScalingUltDmg:
         text: DGT d'ULT basés sur DÉF (non mis en œuvre)
+        content: >-
+          Augmente les DGT du porteur de {{Multiplier}}% de sa DÉF lorsqu'il utilise son ultime. Cet effet ne s'applique qu'une fois par cible ennemie.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyStacks:
         text: Énergie maximale
+        content: Après être entré en combat, les DGT du porteur augmentent en fonction de son énergie max. Les DGT augmentent de {{DmgStep}}% par point d'énergie jusqu'à un maximum de 160 points.
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
         text: Bonus de TC ennemi vaincu
+        content: Lorsqu'il élimine un ennemi, les chances de coup critique du porteur augmentent de {{CritBuff}}% pendant 3 tours.
   VictoryInABlink:
     Content:
       teamDmgBuff:
         text: Bonus d'équipe de DGT
+        content: Lorsque le mnémesprit du porteur utilise une compétence sur une cible alliée, augmente les DGT infligés par toutes les cibles alliées de {{DmgBuff}}% pendant 3 tours.
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
         text: Réduction de DGT initiale
+        content: >-
+          Les DGT infligés à tous les alliés diminuent de {{DmgReduction}}% pendant 5 tours en début de combat. D'autre part, restaure immédiatement {{Healing}}% de leurs PV perdus respectifs.
   WeWillMeetAgain:
     Content:
       extraDmgProc:
         text: Coup supplémentaire
+        content: Après utilisation de son ATQ normale ou de sa compétence, le porteur inflige des DGT additionnels équivalents à {{Multiplier}}% de son ATQ à un ennemi aléatoire qui a été attaqué.
   WoofWalkTime:
     Content:
       enemyBurnedBleeding:
         text: Bonus de DGT ennemi brulé/saignant
+        content: Augmente les DGT infligés par le porteur aux ennemis affectés par Brûlure ou Saignement de {{DmgBuff}}%. Cela s'applique aussi aux dégâts sur la durée.
   Adversarial:
     Content:
       defeatedEnemySpdBuff:
         text: Bonus de VIT ennemi vaincu
+        content: La VIT du porteur augmente de {{SpdBuff}}% pendant 2 tours lorsqu'il élimine un ennemi.
   Amber:
     Content:
       hp50DefBuff:
         text: Bonus de DÉF PV < 50%
+        content: Lorsque les PV du porteur sont inférieurs à 50%, sa DÉF augmente de {{DefBuff}}% supplémentaires.
   Arrows:
     Content:
       critBuff:
         text: Bonus de TC initial
+        content: L'ATQ du porteur augmente de {{CritBuff}}% pendant 3 tours lorsqu'il élimine un ennemi.
   Chorus:
     Content:
       inBattleAtkBuff:
         text: Bonus d'ATQ initial
+        content: Augmente l'ATQ de tous les alliés de {{AtkBuff}}% après être entré en combat.
   CollapsingSky:
     Content:
       basicSkillDmgBuff:
-        text: Bonus de DGT de Basique/Compétence
+        text: Bonus de DGT de Normale/Compétence
+        content: Augmente les DGT de l'ATQ normale et de la compétence du porteur de {{DmgBuff}}%.
   Cornucopia:
     Content:
       healingBuff:
         text: Bonus de soins
+        content: Les soins prodigués par le porteur augmentent de {{HealingBuff}}% lorsqu'il utilise sa compétence ou son ultime.
   DartingArrow:
     Content:
       defeatedEnemyAtkBuff:
         text: Bonus d'ATQ ennemi vaincu
+        content: L'ATQ du porteur augmente de {{AtkBuff}}% pendant 3 tours lorsqu'il élimine un ennemi.
   DataBank:
     Content:
       ultDmgBuff:
         text: Bonus de DGT d'ULT
+        content: Augmente les DGT de l'ultime du porteur de {{DmgBuff}}%.
   HiddenShadow:
     Content:
       basicAtkBuff:
-        text: Bonus de DGT Basique
+        text: Bonus de DGT Normale
+        content: Après avoir utilisé sa compétence, la prochaine ATQ normale du porteur inflige des DGT additionnels équivalents à {{MultiplierBonus}}% de son ATQ à la cible ennemie
   Loop:
     Content:
       enemySlowedDmgBuff:
         text: Bonus de DGT ennemi ralenti
+        content: Augmente les DGT infligés par le porteur aux ennemis ralentis de {{DmgBuff}}%.
   Mediation:
     Content:
       initialSpdBuff:
         text: Bonus de VIT initial
+        content: Augmente la VIT de tous les alliés de {{SpdBuff}} points pendant 1 tour en entrant en combat.
   MutualDemise:
     Content:
       selfHp80CrBuff:
         text: Bonus de TC PV < 80%
+        content: Les chances de coup critique du porteur augmentent de {{CritBuff}}% lorsque ses PV sont inférieurs à 80%.
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: Cumuls de bonus de DGT
+        content: Au début du tour du mnémesprit, accorde 1 cumul de Commémoration au porteur et au mnémesprit. Chaque cumul de Commémoration augmente les DGT infligés de {{DmgBuff}}%, cumulable jusqu'à 4 fois. L'effet Commémoration est supprimé pour le porteur et le mnémesprit lorsque le mnémesprit disparaît.
   Sagacity:
     Content:
       postUltAtkBuff:
         text: Bonus d'ATQ post-ULT
+        content: Augmente l'ATQ du porteur de {{AtkBuff}}% pendant 2 tours lorsqu'il utilise son ultime.
   ShatteredHome:
     Content:
       enemyHp50Buff:
         text: Bonus de DGT ennemi PV > 50%
+        content: Augmente de {{DmgBuff}}% les DGT infligés aux ennemis dont les PV sont supérieurs à 50%.
   Void:
     Content:
       initialEhrBuff:
         text: Bonus de TAE initial
+        content: Les chances d'appliquer des effets du porteur augmentent de {{EhrBuff}}% pendant 3 tours en début de combat.
 Characters:
   Acheron:
     Content:
       crimsonKnotStacks:
         text: Cumuls d'Étreinte écarlate
+        content: >-
+          Lame de pluie : Inflige des DGT de foudre équivalents à {{RainbladeScaling}}% de l'ATQ d'Achéron à une cible ennemie unique et supprime jusqu'à 3 cumuls d'Étreinte écarlate à la cible. Lorsque l'effet Étreinte écarlate est supprimé, inflige immédiatement des DGT de foudre équivalents à {{CrimsonKnotScaling}}% de l'ATQ d'Achéron à tous les ennemis. Le multiplicateur de cette instance de DGT augmente pour chaque cumul d'Étreinte écarlate supprimé.::BR::Augmente de 30% les DGT d'Achéron lorsque la Lame de pluie de son ultime touche des cibles ennemies affectées par Étreinte écarlate, cumulable 3 fois.
       nihilityTeammates:
         text: Coéquipiers Nihilité
+        content: >-
+          Lorsqu'il y a 1 ou 2 personnages de la Nihilité autres qu'Achéron dans l'équipe, les DGT infligés par l'ATQ normale, la compétence et l'ultime d'Achéron augmentent respectivement à hauteur de 115% ou 160% des DGT initiaux.::BR::E2:Réduit de 1 le nombre de personnages devant suivre la Voie de la Nihilité pour obtenir la valeur la plus élévée de la Trace Abîme. Achéron gagne 1 point de Rêve flétri au début de son tour et applique 1 cumul d'Étreinte écarlate à l'ennemi qui a le plus de cumuls d'Étreinte écarlate.
       thunderCoreStacks:
         text: Cumuls d'Âme de tonnerre
+        content: Augmente de 30% les DGT d'Achéron lorsque la Lame de pluie de son ultime touche des cibles ennemies affectées par Étreinte écarlate, cumulable 3 fois et dure 3 tours.
       stygianResurgeHitsOnTarget:
         text: Coups de Vengeance du Styx
+        content: >-
+          Lorsque Vengeance du Styx se déclenche, inflige 6 frappes de DGT supplémentaires. Chaque frappe inflige des DGT de foudre équivalent à 25% de l'ATQ d'Achéron à un ennemi unique aléatoire et est considérée comme des DGT d'ultime.
       e1EnemyDebuffed:
         text: Bonus de TC E1
+        content: Augmente de 18% les chances de coup critique lorsque Achéron inflige des DGT aux ennemis qui subissent des malus.
       e4UltVulnerability:
         text: 'E4: Vulnérabilité d''ULT'
+        content: Applique une vulnérabilité aux DGT d'ultime lorsqu'un ennemi rejoint le combat, et augmente de 8% les DGT d'ultime qu'il subit.
       e6UltBuffs:
         text: 'E6: Bonus d''ULT'
+        content: >-
+          Augmente de 20% la PÉN de RÉS à tous les types des DGT d'ultime infligés par Achéron. Les DGT infligés par l'ATQ normale et la compétence sont également considérés comme des DGT d'ultime et peuvent réduire la robustesse de l'ennemi, quels que soient ses types de faiblesse. En cas de Rupture de faiblesse, c'est l'effet de Rupture de faiblesse de foudre qui est déclenché.
   Aglaea:
     Content:
+      supremeStanceState:
+        text: Posture de suprémacie
+        content: >-
+          Dans l'état Posture de suprématie, Aglaé bénéficie des cumuls d'augmentation de VIT du talent du mnémesprit de la Costumière, chaque cumul augmentant sa VIT de {{SpdBuff}}%. Renforce l'ATQ normale en «Entaille de mille baisers» et ne peut pas utiliser la compétence.
+      seamStitch:
+        text: Point de couture
+        content: >-
+          Lorsque la Costumière est sur le champ de bataille, les attaques d'Aglaé appliquent Point de couture à la cible. L'ennemi dans l'état Point de couture subit des DGT additionnels de foudre équivalents à {{Scaling}}% de l'ATQ d'Aglaé lorsqu'il est attaqué. Point de couture ne s'applique qu'à la cible la plus récente.
+      memoSpdStacks:
+        text: Cumuls de VIT mnémesprit
+        content: >-
+          Augmente la VIT de cette unité de {{SpdBuff}} après avoir attaqué un ennemi affecté par Point de couture, cumulable jusqu'à {{StackLimit}} fois.
+      e1Vulnerability:
+        text: 'E1: Vulnérabilité'
+        content: Les ennemis affectés par Point de couture subissent 15% de DGT supplémentaires.
+      e2DefShredStacks:
+        text: 'E2: PÉN de DÉF'
+        content: >-
+          Lorsque Aglaé ou la Costumière agit, les DGT qu'elles infligent ignorent 14% de la DÉF de la cible. Cet effet peut être cumulé jusqu'à 3 fois. Dure jusqu'à ce qu'une autre unité qu'Aglaé ou la Costumière utilise activement une capacité.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: >-
+          Augmente la PÉN de RÉS à la foudre d'Aglaé et de la Costumière de 20% lorsque Aglaé est dans l'état Posture de suprématie. Lorsque la VIT d'Aglaé ou de la Costumière est supérieure à 160/240/320, les DGT infligés par l'ATQ conjointe augmentent de 10%/30%/60%
   Argenti:
     Content:
       ultEnhanced:
         text: ULT améliorée
+        content: >-
+          Consomme 180 points d'énergie et inflige des DGT physiques équivalents à {{ultEnhancedScaling}}% de l'ATQ d'Argenti à tous les ennemis et inflige des DGT 6 fois supplémentaires à un ennemi aléatoire, infligeant à chaque fois des DGT physiques équivalents {{ultEnhancedExtraHitScaling}}% de l'ATQ d'Argenti.
       enemyHp50:
         text: Bonus de DGT ennemi PV ≤ 50%
+        content: Inflige 15% de DGT supplémentaires aux ennemis dont le pourcentage de PV est inférieur ou égal à 50%.
       talentStacks:
         text: Cumuls d'Ascension
+        content: Chaque cumul augment son TC de {{talentCrStackValue}}%, jusqu'a {{talentMaxStacks}} cumuls.
       ultEnhancedExtraHits:
         text: Coups supplémentaires sur cible d'Ult améliorée
+        content: L'ultime améliorée inflige des DGT équivalent à {{ultEnhancedExtraHitScaling}}% de l'ATQ d'Argenti par coup à un ennemi aléatoire.
       e2UltAtkBuff:
         text: 'E2: Bonus d''ATQ post-ULT'
+        content: L'ATQ d'Argenti augmente de 40% pendant 1 tour lorsque vous utilisez l'ultime avec 3 ennemis ou plus sur le champ de bataille.
   Arlan:
     Content:
       selfCurrentHpPercent:
         text: '%PV actuel de soi-même'
+        content: Augmente les DGT d'Arlan pour chaque pour cent de PVs perdus jusqu'à un maximum de DGT supplémentaires de {{talentMissingHpDmgBoostMax}}%.
   Asta:
     Content:
       skillExtraDmgHits:
         text: Coups supplémentaires de Compétence
+        content: "Inflige des DGT de feu équivalents à {{skillScaling}}% de l'ATQ d'Asta à un ennemi unique et inflige des DGT {{skillExtraDmgHitsMax}} fois supplémentaires, infligeant à chaque fois des DGT de feu équivalents à {{skillScaling}}% de l'ATQ d'Asta à un ennemi aléatoire.::BR::E1: Lors de l'utilisation de la compétence, inflige des DGT 1 fois supplémentaire à une cible ennemie."
       talentBuffStacks:
         text: Cumuls de bonus d'ATQ du Talent
+        content: "Pour chaque cumul de Chargement d'Asta, l'ATQ de tous les alliés augmente de {{talentStacksAtkBuff}}%.::BR::E4: Le taux de régénération d'énergie d'Asta augmente de 15% lorsqu'elle dispose de 2 cumuls de Chargement ou plus."
       ultSpdBuff:
         text: Bonus de VIT actif
+        content: Augmente la VIT de tous les alliés de {{ultSpdBuffValue}} pendant 2 tours.
       fireDmgBoost:
         text: Bonus de DGT feu
+        content: Lorsqu'Asta est sur le champ de bataille, les DGT de feu de tous les alliés augmentent de 18%.
   Aventurine:
     Content:
       defToCrBoost:
         text: Conversion de DÉF à TC
+        content: Pour chaque tranche de 100 points de DÉF qui dépasse 1600, les chances de coup critique d'Aventurine augmentent de 2%, jusqu'à une augmentation maximale de 48%.
       fortifiedWagerBuff:
         text: Bonus Mise renforcée
+        content: >-
+          Augmente de {{talentResScaling}}% la RÉS aux effets d'un allié qui bénéficie de Mise renforcée. Aventurine récupère 1 Pari aveugle chaque fois qu'un allié qui bénéficie de Mise renforcée subit une attaque.::BR::E1: Augmente de 20% les DGT critiques des alliés qui bénéficient de Mise renforcée. Après avoir utilisé l'ultime, accorde à tous les alliés un bouclier de Mise renforcée dont la valeur de bouclier est équivalente à 100% de celle accordée par la compétence. Dure 3 tours.
       enemyUnnervedDebuff:
         text: Ennemi Sur les nerfs
+        content: Lorsqu'un allié touche une cible ennemie qui subit Sur les nerfs, les DGT critiques qu'il inflige augmentent de {{ultCdBoost}}%.
       fuaHitsOnTarget:
         text: Coups d'ADS sur la cible
+        content: >-
+          À 7 Paris aveugles, Aventurine consomme 7 paris pour lancer une attaque de suivi qui inflige 7 frappes. Chacune de ces frappes inflige des DGT imaginaires équivalents à {{talentDmgScaling}}% de la DÉF d'Aventurine à un ennemi aléatoire. Aventurine peut cumuler un maximum de 10 Paris aveugles.::BR::E4: Lors du déclenchement de l'attaque de suivi de son talent, la DÉF d'Aventurine augmente de 40% pendant 2 tours et le nombre de frappes par action de l'attaque de suivi déclenchée par son talent augmente de 3.
       e2ResShred:
         text: 'E2: PÉN de RÉS'
+        content: Réduit de 12% toutes les RÉS de type de la cible pendant 3 tours lors de l'utilisation de l'ATQ normale.
       e4DefBuff:
         text: 'E4: Bonus de DÉF'
+        content: Lors du déclenchement de l'attaque de suivi de son talent, la DÉF d'Aventurine augmente de 40% pendant 2 tours.
       e6ShieldStacks:
         text: 'E6: Nombre d''alliés avec bouclier'
+        content: Les DGT infligés par Aventurine augmentent de 50% pour chaque allié qui bénéficie d'un bouclier, jusqu'à une augmentation maximale de 150%.
   Bailu:
     Content:
       healingMaxHpBuff:
         text: Bonus de PV max après soins
+        content: Lorsque Bailu soigne un cible allié au-delà de ses PV max normaux, les PV max de l'allié augmentent de 10% pendant 2 tours.
       talentDmgReductionBuff:
         text: Réduction de dégâts revigoration
+        content: Les personnages revigorés subissent 10% de DGT en moins.
       e2UltHealingBuff:
         text: 'E2: Bonus de soins'
+        content: Après l'utilisation de son ultime, les soins prodigués par Bailu augmentent de 15% supplémentaires.
       e4SkillHealingDmgBuffStacks:
         text: 'E4: Bonus de DGT'
+        content: Les soins prodigués par la compétence augmentent les DGT infligés par le bénéficiaire de 10% pendant 2 tours. Cet effet peut-être cumulé jusqu'à 3 fois.
   BlackSwan:
     Content:
       ehrToDmgBoost:
         text: Conversion de TAE à DGT
+        content: Augmente les DGT infligés par Cygne noir à hauteur de 60% de ses chances d'appliquer des effets, jusqu'à une augmentation maximale de DGT de 72%.
       epiphanyDebuff:
         text: Malus Épiphanie
+        content: Les ennemis affectés par Épiphanie subissent {{epiphanyDmgTakenBoost}}% de DGT supplémentaires pendant leur tour.
       defDecreaseDebuff:
         text: Malus réduction de DÉF
+        content: La DÉF des ennemies est réduite de {{defShredValue}}%.
       arcanaStacks:
         text: Cumuls d'Arcanes
+        content: >-
+          Les cibles ennemies affectées par Arcanes subissent des dégâts de vent sur la durée équivalents à {{dotScaling}}% de l'ATQ de Cygne noir au début de chaque tour. Chaque cumul d'Arcanes augmente de {{arcanaStackMultiplier}}% ce multiplicateur de dégâts sur la durée. Arcanes peut se cumuler jusqu'à 50 fois.::BR::À partir de 7 cumuls d'Arcanes, permet aux dégâts sur la durée infligés cette fois d'ignorer 20% de la DÉF de la cible et des cibles adjacentes.
       e1ResReduction:
         text: 'E1: Réduction de DÉF'
+        content: Tant que Cygne noir est en état de combattre, la RÉS au vent, physique, au feu ou à la foudre des ennemis affectés respectivement par Faille du vent, Saignement, Brûlure ou Stupéfaction est réduite de 25%.
       e4EffResPen:
         text: 'E4: Réduction de RAE'
+        content: La RÉS aux effets des cibles ennemies affectées par Épiphanie est réduite de 10%.
   Blade:
     Content:
       enhancedStateActive:
         text: État Vue de l'enfer
+        content: "Augmente les DGT infligés par Blade de {{enhancedStateDmgBoost}}% et son ATQ normale Lame d'éclat se renforce en Forêt de lames pendant 3 tours.::BR::E2: Les chances de coup critique de Blade augmentent de 15%."
       hpPercentLostTotal:
         text: Total de % de PV perdu
+        content: Les DGT d'Ultime croissent en fonction du total de PV perdu par Blade depuis sa dernière Ultime. Le total pris en compte ne peut pas dépasser {{hpPercentLostTotalMax}}% des PV max de Blade.
       e4MaxHpIncreaseStacks:
         text: 'E4: Cumuls de Bonus de PV max'
+        content: Lorsque les PV de Blade sont inférieurs ou égaux à 50%, ses PV max augmentent de 20%. Cumulable jusqu'à 2 fois.
   Boothill:
     Content:
       standoffActive:
         text: Confrontation
+        content: >-
+          Force le Fossoyeur à entrer en état de Confrontation avec une cible ennemie unique. L'ATQ normale du Fossoyeur devient renforcée et il ne peut pas utiliser sa compétence pour une durée de 2 tours. Cette durée est réduite de 1 au début de chaque tour du Fossoyeur. La cible ennemie qui est en état de Confrontation est provoquée. Lorsque la cible ennemie/le Fossoyeur subit une attaque de la part de l'autre partie, les DGT reçus augmentent de {{standoffVulnerabilityBoost}}%/15%.
       pocketTrickshotStacks:
         text: Cumuls d'Avantage en poche
+        content: Chaque cumul d'Avantage en poche accentue la réduction de robustesse de l'attaque normale renforcée de 50%, cumulable jusqu'à 3 fois.
       beToCritBoost:
         text: Conversion d'ER à TC/DC
+        content: Augmente les chances de coup critique / DGT critiques du personnage. L'augmentation est équivalente à 10% / 50% de l'effet de Rupture, Jusqu'à un maximum de 30% / 150%.
       talentBreakDmgScaling:
         text: DGT de Rupture du Talent (force l'état de rupture)
+        content: >-
+          Si la cible est en état de Rupture de faiblesse lors de l'utilisation de l'ATQ normale renforcée, inflige à la cible des DGT de rupture équivalents à 70%/120%/170% des DGT de rupture physiques du Fossoyeur pour chaque cumul d'Avantage en poche. La robustesse maximale prise en compte pour ces DGT ne peut pas dépasser 16 fois la réduction de robustesse de base de l'ATQ normale « Coup de talon brise-crâne ».
       e1DefShred:
         text: 'E1: PÉN de DÉF'
+        content: Obtient 1 cumul d'Avantage en poche en début de combat. Lorsque le Fossoyeur inflige des DGT, il ignore 16% de la DÉF de la cible ennemie.
       e2BeBuff:
         text: 'E2: Bonus d''ER'
+        content: >-
+          L'équipe récupère 1 point de compétence lorsqu'Avantage en poche est obtenu en Confrontation, et augmente l'effet de Rupture de 30% pour une durée de 2 tours. Cet effet ne peut être déclenché plusieurs fois en un tour, et il se déclenche également lors de l'obtention de cumuls d'Avantage en poche qui dépassent le maximum.
       e4TargetStandoffVulnerability:
         text: 'E4: Vulnérabilité'
+        content: >-
+          Lorsque la cible ennemie en état de Confrontation est attaquée par le Fossoyeur, l'augmentation des DGT subis est majorée de 12%. Lorsque le Fossoyeur est attaqué par la cible ennemie en état de Confrontation, l'augmentation des DGT subis est réduite de 12%.
       e6AdditionalBreakDmg:
         text: 'E6: DGT de rupture bonus'
+        content: >-
+          Lorsque le talent du Fossoyeur inflige des DGT de rupture, il inflige des DGT de rupture supplémentaires équivalents à 40% du multiplicateur de DGT initiaux à la cible et des DGT de rupture supplémentaires équivalents à 70% du multiplicateur des DGT initiaux aux cibles adjacentes.
   Bronya:
     Content:
       teamDmgBuff:
         text: Bonus d'équipe de DGT
+        content: Lorsque Bronya participe au combat, tous les alliés infligent 10% de DGT supplémentaires.
       skillBuff:
         text: Bonus de DGT
+        content: Dissipe un malus d'un allié, lui permet d'agir immédiatement et augmente ses DGT de {{skillDmgBoostValue}}% pendant 1 tour.
       ultBuff:
         text: Bonus d'ATQ/DC de l'ULT
+        content: Augmente l'ATQ de tous les alliés de {{ultAtkBoostValue}}% et augmente leurs DGT critiques d'un montant équivalent à {{ultCdBoostValue}}% des DGT critiques de Bronya + {{ultCdBoostBaseValue}}% pendant 2 tours.
       battleStartDefBuff:
         text: Bonus de DÉF initial
+        content: Augmente la DÉF de tous les alliés de 20% pendant 2 tours en début de combat.
       techniqueBuff:
         text: Bonus d'ATQ de la Technique
+        content: Après utilisation de la technique de Bronya, l'ATQ de tous les alliés augmente de 15% pendant 2 tours lors du combat suivant.
       e2SkillSpdBuff:
         text: 'E2: Bonus de Vitesse'
+        content: Lorsque l'allié ciblé par la compétence de Bronya effectue une action, sa VIT augmente de 30% pendant 1 tour.
     TeammateContent:
       teammateCDValue:
         text: DC en combat de Bronya
+        content: Augmente l'ATQ de tous les alliés de {{ultAtkBoostValue}}% et augmente leurs DGT critiques d'un montant équivalent à {{ultCdBoostValue}}% des DGT critiques de Bronya + {{ultCdBoostBaseValue}}% pendant 2 tours.
   Clara:
     Content:
       ultBuff:
         text: Bonus d'ULT
+        content: Le contre de Svarog à son multiplicateur de DGT sur l'ennemi augmenté de {{ultFuaExtraScaling}}%. les DGT infligés à Clara diminuent de {{ultDmgReductionValue}}% pendant 2 tours.
       talentEnemyMarked:
         text: Ennemi marqué
+        content: Inflige des  DGT physiques supplémentaires équivalents à {{skillScaling}}% de l'ATQ de Clara aux ennemis marqués par Svarog avec une Marque de contre.
       e2UltAtkBuff:
         text: 'E2: Bonus d''ATQ post-ULT'
+        content: Après l'utilisation de l'ultime de Clara, l'ATQ est augmentée de 30% pendant 2 tours.
       e4DmgReductionBuff:
         text: 'E4: Réduction de dégâts'
+        content: Lorsque Clara est touchée, les DGT qu'elle subit sont réduits de 30%. Cet effet dure jusqu'au début de son tour suivant.
   DanHeng:
     Content:
       talentPenBuff:
         text: Bonus de PÉN de RÉS
+        content: Lorsque Dan Heng est la cible de la capacité d'un allié, la PÉN de RÉS de vent de sa prochaine attaque augmente de {{extraPenValue}}%.
       enemySlowed:
         text: Ennemi ralenti
+        content: L'ATQ normale inflige 40% de DGT supplémentaires aux ennemis ralentis.
       e1EnemyHp50:
         text: 'E1: Bonus de TC ennemi PV ≥ 50%'
+        content: Lorsque le pourcentage de PV actuel de la cible ennemie est supérieur ou égal à 50%, les chances de coup critique augmentent de 12%.
   DrRatio:
     Content:
       summationStacks:
         text: Cumuls de Synthèse
+        content: Lorsque Dr Ratio utilise sa compétence, ses chances de coup critique augmentent de 2,5% et ses DGT critiques de 5% pour chaque malus sur la cible. Cet effet peut être cumulé jusqu'à {{summationStacksMax}} fois.
       enemyDebuffStacks:
         text: Nombre de malus sur la cible
+        content: >-
+          Dr Ratio a 40% de chances fixes de déclencher 1 attaque de suivi contre sa cible lorsqu'il utilise sa compétence, lui infligeant des DGT imaginaires équivalents à {{FuaScaling}}% de l'ATQ de Dr Ratio. Les chances fixes de déclencher l'attaque de suivi augmentent de 20% pour chaque malus appliqué à la cible ennemie. L'attaque de suivi est lancée sur un autre ennemi aléatoire si la cible ennemie est vaincue avant que l'attaque de suivi ne soit déclenchée.::BR::Lorsque Dr Ratio inflige des DGT à une cible ayant au moins 3 malus, les DGT infligés par Dr Ratio à cette cible augmentent de 10% pour chaque malus appliqué à la cible, jusqu'à une augmentation maximale de 50%.::BR::E2: Lorsque l'attaque de suivi de son talent touche une cible, cette dernière subit des DGT imaginaires supplémentaires équivalents à 20% de l'ATQ de Dr Ratio pour chaque malus qui lui est appliqué. Cet effet peut être déclenché un maximum de 4 fois durant chaque attaque de suivi.
   Feixiao:
     Content:
       weaknessBrokenUlt:
         text: ULT ennemi rupturé (force l'état de rupture)
+        content: Oblige que l'ennemi soit considéré comme étant en état de rupture de faiblesse lors des calculs de dégâts.
       talentDmgBuff:
         text: Bonus de DGT du Talent
+        content: >-
+          Après qu'un coéquipier a attaqué une cible ennemie, Feixiao lance immédiatement une attaque de suivi sur la cible principale, infligeant des DGT de vent équivalents à {{FuaMultiplier}}% de l'ATQ de Feixiao. S'il n'y a pas de cible principale à attaquer, Feixiao attaque un ennemi unique aléatoire à la place. Cet effet ne peut être déclenché qu'une fois par tour et le nombre de déclenchements se réinitialise au début du tour de Feixiao. Les DGT infligés par Feixiao augmentent de {{DmgBuff}}% pendant 2 tours lorsqu'elle utilise cette attaque.
       skillAtkBuff:
         text: Bonus d'ATQ de la Compétence
+        content: Lors de l'utilisation de la compétence, l'ATQ augmente de 48% pendant 3 tours.
       e1OriginalDmgBoost:
         text: 'E1: Multiplicateur des dégâts'
+        content: Après avoir lancé Éclair tonitruant des étoiles ou Hache de guerre céleste, les DGT d'ultime infligés par Feixiao augmentent d'un montant équivalent à 10% des DGT initiaux. Cet effet est cumulable jusqu'à 5 fois et dure jusqu'à la fin de l'action de l'ultime.
       e4Buffs:
         text: 'E4: Divers bonus'
+        content: La réduction de robustesse de l'attaque de suivi du talent augmente de 100%, et la VIT de Feixiao augmente de 8% pendant 2 tours lorsqu'elle se déclenche.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: >-
+          Augmente la PÉN de RÉS à tous les types des DGT d'ultime infligés par Feixiao de 20%. Les DGT de l'attaque de suivi du talent sont également considérés comme des DGT d'ultime, et son multiplicateur de DGT augmente de 140%.
   Firefly:
     Content:
       enhancedStateActive:
         text: État amélioré
+        content: Entre dans l'état Combustion complète. Avance l'action de Luciole de 100% et son ATQ normale et sa compétence deviennent renforcées.
       enhancedStateSpdBuff:
         text: Bonus de VIT état amélioré
+        content: Dans l'état Combustion complète, la VIT de Luciole augmente de {{ultSpdBuff}}.
       superBreakDmg:
         text: Rupture extrême activée (force l'état de rupture)
+        content: >-
+          Lorsque SAM est en Combustion complète avec un effet de Rupture supérieur ou égal à 200%/360%, attaquer une cible ennemie en état de Rupture de faiblesse convertit la réduction de robustesse de cette attaque en 1 instance de 35%/50% de DGT de rupture extrême.
       atkToBeConversion:
         text: Conversion d'ATQ à ER
+        content: Pour chaque tranche de 10 d'ATQ de SAM qui dépasse 1800, son effet de Rupture augmente de 0,8%.
       talentDmgReductionBuff:
         text: Bonus de PV max
+        content: >-
+          Plus les PV de Luciole sont bas, moins elle subit de DGT. Lorsque ses PV sont inférieurs ou égaux à 20%, l'effet de réduction de DGT est à son maximum, atteignant {{talentDmgReductionBuff}}%. Dans l'état Combustion complète, l'effet de réduction de DGT est toujours à son maximum et la RÉS aux effets augmente de {{talentResBuff}}%.
       e1DefShred:
         text: 'E1: PÉN de DÉF'
+        content: Ignore 15% de la DÉF de la cible lors de l'utilisation de la compétence renforcée et la compétence renforcée ne consomme pas de point de compétence.
       e4ResBuff:
         text: 'E4: Bonus de RAE'
+        content: Augmente de 50% la RÉS aux effets de SAM dans l'état Combustion complète.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: Augmente de 20% la PÉN de RÉS au feu de SAM dans l'état Combustion complète. Son efficacité de Rupture de faiblesse augmente de 50% lors de l'utilisation de l'ATQ normale renforcée ou de la compétence renforcée.
   Fugue:
     Content:
       torridScorch:
         text: État Brûlure ardente
+        content: Dans l'état Brûlure ardente, l'ATQ normale de Pérégrine est renforcée.
       foxianPrayer:
         text: Prière foxienne
+        content: >-
+          L'effet de Rupture de la cible alliée qui bénéficie de Prière foxienne augmente de {{BreakBuff}}% et elle peut infliger une réduction de robustesse lorsqu'elle attaque des ennemis qui n'ont pas le type de faiblesse correspondant, avec un effet équivalent à 50% de la réduction de robustesse initiale. Cet effet ne peut pas être cumulé avec d'autres effets de réduction de robustesse qui ignorent les Faiblesses.
       defReduction:
         text: Réduction de DÉF
+        content: >-
+          Lorsque la cible alliée qui bénéficie de Prière foxienne attaque, Pérégrine a 100% de chances de base de réduire la DÉF de la cible ennemie attaquée de {{DefShred}}% pendant 2 tours.
       superBreakDmg:
         text: Rupture extrême (force l'état de rupture)
+        content: >-
+          Lorsque Pérégrine est sur le champ de bataille, chaque fois que des alliés attaquent des cibles ennemies en état de Rupture de faiblesse, la réduction de robustesse de cette attaque est convertie en 1 instance de {{SuperBreakMultiplier}}% de DGT de rupture extrême.
       e4BreakDmg:
         text: 'E4: Bonus de DGT de rupture'
+        content: Augmente de 20% les DGT de rupture de la cible alliée qui bénéficie de Prière foxienne.
       e6BreakEfficiency:
         text: 'E6: Bonus d''efficacité de rupture'
+        content: >-
+          L'efficacité de Rupture de faiblesse de Pérégrine augmente de 50%. Lorsque Pérégrine est dans l'état Brûlure ardente, Prière foxienne s'applique à tous les alliés.
     TeammateContent:
       be220Buff:
         text: ER ≥ 220%
+        content: >-
+          Lorsqu'une cible ennemie subit une Rupture de faiblesse, l'effet de Rupture des alliés (à l'exception de Pérégrine) augmente de 6%. Si l'effet de Rupture de Pérégrine est supérieur ou égal à 220%, l'augmentation de l'effet de Rupture est majorée de 12%. Cet effet dure pendant 2 tours et peut être cumulé jusqu'à 2 fois.
       weaknessBreakBeStacks:
         text: Cumuls d'Incinération
+        content: >-
+          Lorsqu'une cible ennemie subit une Rupture de faiblesse, l'effet de Rupture des alliés (à l'exception de Pérégrine) augmente de 6%. Si l'effet de Rupture de Pérégrine est supérieur ou égal à 220%, l'augmentation de l'effet de Rupture est majorée de 12%. Cet effet dure pendant 2 tours et peut être cumulé jusqu'à 2 fois.
   FuXuan:
     Content:
       talentActive:
         text: Réduction de DGT reçus
+        content: Tant que Fu Xuan n'a pas été mise à terre, Évitement d'infortune s'applique à toute l'équipe. Lorsqu'ils bénéficient d'Évitement d'infortune, les alliés subissent {{talentDmgReductionValue}}% de DGT en moins.
       skillActive:
         text: Compétence active
+        content: >-
+          Active Matrice de prémonition, ce qui permet aux autres membres de l'équipe de Fu Xuan de lui transférer 65% des DGT qu'ils subissent (avant que ces DGT ne soient atténués par d'éventuels boucliers) pendant 3 tours. Lorsqu'ils sont affectés par Matrice de prémonition, tous les membres de l'équipe bénéficient de l'effet Connaissance, qui augmente leurs PV max respectifs à hauteur de {{skillHpBuffValue}}% des PV max de Fu Xuan, et leurs chances de coup critique de {{skillCrBuffValue}}%.
       e6TeamHpLostPercent:
         text: 'E6: PV perdus par l''équipe'
+        content: Lorsque Matrice de prémonition est activée, le total des PV perdus par tous les membres de l'équipe est enregistré au cours du combat. Les DGT de l'ultime de Fu Xuan augmentent d'un montant équivalent à 200% de ce total. Ce total est plafonné à 120% des PV max de Fu Xuan et sa valeur est réinitialisée et recommence à s'accumuler après utilisation de l'ultime de Fu Xuan.
     TeammateContent:
       teammateHPValue:
         text: PV en combat de Fu Xuan
+        content: Lorsqu'ils sont affectés par Matrice de prémonition, tous les membres de l'équipe bénéficient de l'effet Connaissance, qui augmente leurs PV max respectifs à hauteur de {{skillHpBuffValue}}% des PV max de Fu Xuan.
   Gallagher:
     Content:
       basicEnhanced:
-        text: Basique améliorée
+        text: Normale améliorée
+        content: "L'ultime renforce la prochaine attaque normale en Coup\nde fouet."
       breakEffectToOhbBoost:
         text: Conversion d'ER à bonus de soins
+        content: Augmente les soins prodigués par cette unité à hauteur de 50% de son effet de Rupture, jusqu'à un maximum de 75% d'augmentation.
       targetBesotted:
         text: Cible Ivre
+        content: L'effet Ivresse augmente de les DGT de rupture subis par les cibles de {{talentBesottedScaling}}%.
       e1ResBuff:
         text: 'E1: Bonus de RAE'
+        content: Régénère 20 points d'énergie et augmente de 50% sa RÉS aux effets lorsque Gallagher entre en combat.
       e2ResBuff:
         text: 'E2: Bonus de RAE'
+        content: Supprime 1 malus de la cible alliée lors de l'utilisation de la compétence. D'autre part, augmente de 30% sa RÉS aux effets pendant 2 tours.
       e6BeBuff:
         text: 'E6: Bonus d''ER'
+        content: Augmente de 20% l'effet de Rupture de Gallagher et de 20% son efficacité de Rupture de faiblesse.
   Gepard:
     Content:
       e4TeamResBuff:
         text: 'E4: Bonus d''équipe de RAE'
+        content: Lorsque Gepard est en combat, la RÉS aux effets de tous les alliés augmente de 20%.
   Guinaifen:
     Content:
       talentDebuffStacks:
         text: Cumuls de Baiser enflammé
+        content: Les ennemis affectés par Baiser ardent subissent {{talentDebuffDmgIncreaseValue}}% de DGT supplémentaires pendant 3 tours. Effet cumulable {{talentDebuffMax}} fois.
       enemyBurned:
         text: Ennemi brulé
+        content: Inflige 20% de DGT supplémentaires aux ennemis brûlés.
       skillDot:
         text: Utiliser la chance de DSD de la compétence
+        content: Lorsque cette option est sélectionnée, utilise la chance d'application de 100% de la compétence au lieu de celle de 80% de l'attaque normale lors des calculs de dégâts de DSD
       e1EffectResShred:
         text: 'E1: Réduction de RAE'
+        content: Lors de l'utilisation de la compétence, il y a 100 % de chances de base de réduire la RÉS aux effets de la cible ennemie de 10% pendant 2 tours.
       e2BurnMultiBoost:
         text: 'E2: Brulure renforcée'
+        content: L'ATQ normale et la compétence de Guinaifen peuvent augmenter le multiplicateur de DGT de leur effet de Brûlure de 40% sur les cibles brûlées.
   Hanya:
     Content:
       ultBuff:
         text: Bonus de VIT/ATQ de l'ULT
+        content: Augmente la VIT d'une cible alliée à hauteur de {{ultSpdBuffValue}}% de la VIT de Hanya et son ATQ de {{ultAtkBuffValue}}%.
       targetBurdenActive:
         text: Cible malussé par Fardeau
+        content: Lorsqu'un allié utilise une ATQ normale, une compétence ou un ultime sur un ennemi affecté par Fardeau, ses DGT augmentent de {{talentDmgBoostValue}}% pendant 2 tours.
       burdenAtkBuff:
         text: Bonus d'ATQ de Fardeau
+        content: L'ATQ des alliés qui déclenchent l'effet de récupération de point de compétence de Fardeau augmente de 10% pendant 1 tour.
       e2SkillSpdBuff:
         text: 'E2: Bonus de Vitesse'
+        content: La VIT de Hanya augmente de 20% pendant 1 tour après avoir utilisé sa compétence.
     TeammateContent:
       teammateSPDValue:
         text: Vitesse en combat de Hanya
+        content: Augmente la VIT d'une cible alliée à hauteur de {{ultSpdBuffValue}}% de la VIT de Hanya et son ATQ de {{ultAtkBuffValue}}%.
   Herta:
     Content:
       fuaStacks:
         text: Coups de l'ADS
+        content: Lorsque l'attaque d'un allié réduit le pourcentage de PV d'un ennemi à 50% ou moins, Herta lance une attaque de suivi qui inflige des DGT de glace.
       targetFrozen:
         text: Cible gelée
+        content: Inflige 20% de DGT supplémentaires aux ennemis gelés lors de l'utilisation de l'ultime.
       enemyHpGte50:
         text: Bonus de DGT Compétence
+        content: Lorsque le pourcentage de PV d'un ennemi est supérieur ou égal à 50%, les DGT qui lui sont infligés augmentent de 20%.
       techniqueBuff:
         text: Bonus d'ATQ de la Technique
+        content: Après utilisation de sa technique, l'ATQ de Herta augmente de 40% pendant 3 tours au début du combat suivant.
       enemyHpLte50:
-        text: 'E1: Bonus de multiplicateur de Basique'
+        text: 'E1: Bonus de multiplicateur de Normale'
+        content: Si le pourcentage des PV de l'ennemi est inférieur ou égal à 50%, l'ATQ normale de Herta inflige des DGT de glace additionnels équivalents à 40% de l'ATQ de Herta.
       e2TalentCritStacks:
         text: 'E2: Cumuls de bonus de TC du talent'
+        content: Chaque fois que le talent est déclenché, les chances de coup critique de Herta augmentent de 3%. Cet effet est cumulable 5 fois.
       e6UltAtkBuff:
         text: 'E6: Bonus d''ATQ de l''ULT'
+        content: L'ATQ de Herta augmente de 25% pendant 1 tour après utilisation de l'ultime.
   Himeko:
     Content:
       targetBurned:
         text: Cible brulée
+        content: La compétence inflige 20% de DGT supplémentaires aux ennemis affectés par l'état Brûlure.
       selfCurrentHp80Percent:
         text: Bonus de TC PV ≥ 80%
+        content: Lorsque les PV d'Himeko sont supérieurs ou égaux à 80%, les chances de coup critique augmentent de 15%.
       e1TalentSpdBuff:
         text: 'E1: Bonus de VIT'
+        content: Après avoir déclenché Ruée vers la victoire, la VIT de Himeko augmente de 20% pendant 2 tours.
       e2EnemyHp50DmgBoost:
         text: 'E2: Bonus de DGT ennemi PV ≤ 50%'
+        content: Inflige 15% de DGT supplémentaires aux ennemis dont le pourcentage de PV est inférieur ou égal à 50%.
       e6UltExtraHits:
         text: 'E6: Coups bonus de l''ULT'
-        content: "E6: Ultime inflige 2 coups supplémentaires. Chaque coup inflige 40% des dégâts originaux."
+        content: Ultime inflige 2 coups supplémentaires. Chaque coup inflige 40% des dégâts originaux.
   Hook:
     Content:
       enhancedSkill:
         text: Compétence améliorée
+        content: >-
+          Après utilisation de l'ultime, la prochaine compétence utilisée est renforcée, infligeant des DGT de Feu équivalent à {{skillEnhancedScaling}}% de l'ATQ de Hook à la cible ennemie et des DGT de Feu réduits aux ennemis adjacents.
       targetBurned:
         text: Cible brulée
+        content: >-
+          Lorsque Hook attaque une cible affectée par l'état Brûlure, elle inflige des DGT de feu additionnels équivalents à {{targetBurnedExtraScaling}}% de son ATQ.::BR::E6: Les DGT de Hook augmentent de 20% sur les ennemis affectés par l'état Brûlure.
   Huohuo:
     Content:
       ultBuff:
         text: Bonus d'ATQ de l'ULT
+        content: Augmente l'ATQ de tous les alliés, hormis Huohuo, de {{ultBuffValue}}% pendant 2 tours.
       skillBuff:
         text: 'E1: Bonus de VIT'
+        content: Lorsque Huohuo bénéficie d'Intervention divine, la VIT de tous les alliés augmente de 12%.
       e6DmgBuff:
         text: 'E6: Bonus de DGT'
+        content: Lorsque Huohuo soigne une cible alliée, les DGT de la cible alliée augmentent de 50% pendant 2 tours.
   ImbibitorLunae:
     Content:
       basicEnhanced:
-        text: Améliorations de Basique
+        text: Améliorations de Normale
+        content: >-
+          0 cumuls: Lance une attaque qui frappe 2 fois et inflige des DGT imaginaires équivalents à {{basicScaling}}% de l'ATQ de Dan Heng · Imbibitor Lunae à une cible ennemie unique.::BR::1 cumul: Transcendance - Frappe 3 fois lors de cette attaque et inflige des DGT imaginaires équivalents à {{basicEnhanced1Scaling}}% de l'ATQ de Dan Heng · Imbibitor Lunae à une cible unique.::BR::2 cumuls: Lance divine - Frappe 5 fois lors de cette attaque et inflige des DGT imaginaires équivalents à {{basicEnhanced2Scaling}}% de l'ATQ de Dan Heng · Imbibitor Lunae à une cible unique ainsi que des dégâts réduits aux cibles adjacentes.::BR::3 cumuls: Bond fulgurant - Frappe 7 fois lors de cette attaque et inflige des DGT imaginaires équivalents à {{basicEnhanced3Scaling}}% de l'ATQ de Dan Heng · Imbibitor Lunae à une cible unique ainsi que des dégâts réduits aux cibles adjacentes.
       skillOutroarStacks:
         text: Cumuls de Rugissement dominateur
+        content: >-
+          Lorsque vous utilisez Lance divine ou Bond fulgurant, vous gagnez 1 cumul de Rugissement dominateur avant chaque frappe (à partir de la quatrième frappe). Chaque cumul de Rugissement dominateur augmentent les DGT critiques de Dan Heng · Imbibitor Lunae de {{outroarStackCdValue}}%, pour un maximum de 4 cumuls. Ces cumuls durent jusqu' à la fin de son tour.
       talentRighteousHeartStacks:
         text: Cumuls de Cœur vertueux
+        content: Dan Heng · Imbibitor Lunae gagne 1 cumul de Cœur vertueux après chaque frappe assenée lors d'une attaque. Cœur vertueux augmente ses DGT de {{righteousHeartDmgValue}}% jusqu'à 6 cumuls. Ces cumuls durent jusqu'à la fin de son tour.
       e6ResPenStacks:
         text: 'E6: Bonus de PÉN de RÉS'
+        content: Lorsqu'un autre allié utilise son ultime, la PÉN de RÉS imaginaire de la prochaine attaque de Dan Heng · Imbibitor Lunae augmente de 20%, jusqu'à 3 cumuls.
   Jade:
     Content:
       enhancedFollowUp:
         text: ADS Améliorée
+        content: Jade renforce l'attaque de suivi de son talent, augmentant son multiplicateur de DGT de {{ultFuaScalingBuff}}%.
       pawnedAssetStacks:
         text: Cumuls de Bien hypothéqué
+        content: >-
+          Jade gagne immédiatement 5 cumuls de Bien hypothéqué lorsqu'elle déclenche l'attaque de suivi de son talent et chaque cumul de Bien hypothéqué augmente ses DGT critiques de {{pawnedAssetCdScaling}}%. Cet effet peut être cumulé jusqu'à 50 fois. Chaque cumul de l'effet Bien hypothéqué du talent augmente l'ATQ de Jade de 0,5% supplémentaires.
       e1FuaDmgBoost:
         text: 'E1: Bonus de DGT d''ADS'
+        content: Les DGT infligés par l'attaque de suivi du talent de Jade augmentent de 32%. Lorsque le personnage qui bénéficie de l'effet Agent de recouvrement de dettes attaque et touche 2 ou 1 cible ennemie, Jade obtient respectivement 1 ou 2 points de charge supplémentaires.
       e2CrBuff:
         text: 'E2: Bonus de TC'
+        content: Augmente de 18% les chances de coup critique de Jade à 15 cumuls de Bien hypothéqué.
       e4DefShredBuff:
         text: 'E4: Bonus de PÉN de DÉF'
+        content: Les DGT infligés par Jade ignorent 12% de la DÉF des cibles ennemies pendant 3 tours lors de l'utilisation de l'ultime.
       e6ResShredBuff:
         text: 'E6: Bonus de PÉN de RÉS'
+        content: La PÉN de RÉS quantique de Jade augmente de 20% lorsque l'Agent de recouvrement de dettes existe sur le champ de bataille, et elle bénéficie également elle-même de l'effet Agent de recouvrement de dettes.
     TeammateContent:
       debtCollectorSpdBuff:
         text: Bonus de VIT de l'Agent de recouvrement
+        content: Transforme une cible alliée unique en Agent de recouvrement de dettes et augmente sa VIT de 30 pendant 3 tours.
   Jiaoqiu:
     Content:
       ashenRoastStacks:
         text: Cumuls de Charbons ardents
+        content: >-
+          Chaque fois que Jiaoqiu touche un ennemi avec son ATQ normale, sa compétence ou son ultime, il a 100% de chances de base de lui appliquer 1 cumul de Charbons ardents. À 1 cumul, les DGT subis par l'ennemi augmentent de {{AshenRoastInitialVulnerability}}%, puis chaque cumul supplémentaire augmente les DGT subis de {{AshenRoastAdditionalVulnerability}}%.::BR::Charbons ardents peut se cumuler jusqu'à 5 fois et dure 2 tours.::BR::Lorsqu'une cible ennemie est dans l'état Charbons ardents, elle est également considérée en état de Brûlure et elle subit des dégâts de feu sur la durée équivalents à {{AshenRoastDotMultiplier}}% de l'ATQ de Jiaoqiu au début de chaque tour.
       ultFieldActive:
         text: Zone d'ULT active
+        content: >-
+          Ajuste le nombre de cumuls de Charbons ardents sur les cibles ennemies au nombre maximum de cumuls de Charbons ardents présent sur le champ de bataille. Puis, active une zone et inflige des DGT de feu équivalents à {{UltScaling}}% de l'ATQ de Jiaoqiu à tous les ennemis.::BR::Les cibles ennemies situées dans la zone subissent {{UltVulnerability}}% de DGT d'ultime supplémentaires et ont {{ZoneDebuffChance}}% de chances de base de se voir appliqué 1 cumul de Charbons ardents à chaque action. Cet effet peut se déclencher jusqu'à 6 fois pendant la durée de la zone, chaque cible ennemie ne pouvant être affectée qu'une fois par tour. Le nombre de déclenchements se réinitialise à chaque fois que Jiaoqiu utilise son ultime.
       ehrToAtkBoost:
         text: Conversion de TAE à ATQ
+        content: Pour chaque tranche de 15% de chances d'appliquer des effets de Jiaoqiu qui dépasse 80%, augmente l'ATQ de 60%, jusqu'à un maximum de 240%.
       e1DmgBoost:
         text: 'E1: Bonus de DGT'
+        content: Les alliés infligent 40% de DGT supplémentaires aux cibles ennemies affectées par Charbons ardents.
       e2Dot:
         text: 'E2: Multiplicateur de DSD'
+        content: Lorsqu'une cible ennemie est affectée par Charbons ardents, le multiplicateur des dégâts de feu sur la durée infligés par Charbons ardents augmente de 300%.
       e6ResShred:
         text: 'E6: PÉN de RÉS'
+        content: La limite de cumuls de Charbons ardents passe à 9. Chaque cumul de Charbons ardents réduit toutes les RÉS de type de la cible de 3%.
   Jingliu:
     Content:
       talentEnhancedState:
         text: État amélioré
+        content: >-
+          Lorsque Jingliu possède 2 cumuls de Syzygie, elle entre en état de Migration spectrale, ce qui avance son action de 100% et augmente ses chances de coup critique de {{talentCrBuff}}%. La compétence de Jingliu Éclair transcendant devient alors renforcée pour se transformer en Reflet de lune sur rivière glacée, et devient la seule capacité qu'elle peut utiliser en combat.
       talentHpDrainAtkBuff:
         text: Bonus d'ATQ consommation de PV
+        content: >-
+          Lorsque Jingliu utilise une attaque dans l'état Migration spectrale, elle consomme 4% des PV max respectifs des alliés (les PV des alliés ne peuvent pas être réduits en dessous de 1). L'ATQ de Jingliu augmente à hauteur de 540% du total de PV consommés chez tous les alliés lors de cette attaque, sans excéder {{talentHpDrainAtkBuffMax}}% de son ATQ de base, jusqu'à la fin de l'attaque en cours.
       e1CdBuff:
         text: 'E1: Bonus de DC état amélioré'
+        content: Les DGT critiques de Jingliu augmentent de 24% pendant 1 tour lorsqu'elle utilise son ultime ou sa compétence renforcée. Si elle n'attaque qu'une seule cible ennemie, la cible subit des DGT de glace supplémentaires équivalents à 100% de l'ATQ de Jingliu.
       e2SkillDmgBuff:
         text: 'E2: Amélioration de Compétence'
+        content: Augmente les DGT de la prochaine compétence renforcée de 80% après avoir utilisé l'ultime.
   JingYuan:
     Content:
       skillCritBuff:
         text: Bonus de TC
+        content: Les chances de coup critique augmentent de 10% pendant 2 tours après utilisation de la compétence.
       talentHitsPerAction:
         text: Cumuls du Seigneur de la foudre
+        content: Le nombre de frappes par action du Seigneur de la foudre peut atteindre un maximum de 10.
       talentAttacks:
         text: Coups du Seigneur de la foudre sur la cible
+        content: Nombre de coups sur la cible. Devrait généralement être fixé à la même valeur que le nombre cumuls du Seigneur de la foudre
       e2DmgBuff:
         text: 'E2: Bonus de DGT'
+        content: Après que le Seigneur de la foudre a agi, les DGT infligés par l'ATQ normale, la compétence et l'ultime de Jing Yuan augmentent de 20% pendant 2 tours.
       e6FuaVulnerabilityStacks:
         text: 'E6: Cumuls de vulnérabilité'
+        content: Chaque frappe du Seigneur de la foudre lors de son action rend la cible ennemie vulnérable. Les ennemis vulnérables subissent 12% de DGT supplémentaires jusqu'à la fin du tour actuel. Cumulable jusqu'à 3 fois.
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
         text: 'E1: Vulnérabilité aux DSD'
+        content: Lorsque le talent déclenche une attaque de suivi, il y a 100% de chances de base d'augmenter les dégâts sur la durée subis par la cible de 30% pendant 2 tours.
       e2TeamDotBoost:
         text: 'E2: Bonus d''équipe de DGT de DSD'
+        content: Lorsque Kafka est sur le champ de bataille, les dégâts sur la durée infligés par tous les alliés augmentent de 25%.
   Lingsha:
     Content:
       beConversion:
         text: Conversion d'ER à ATQ/SOINS
+        content: Augmente l'ATQ et les soins prodigués par Lingsha à hauteur de 25%/10% de son effet de Rupture, jusqu'à un maximum de 50%/20% d'ATQ/de soins prodigués respectivement.
       befogState:
         text: État Embrumé
+        content: Les cibles affectées par Embrumé subissent {{BefogVulnerability}}% de DGT de rupture supplémentaires pendant 2 tours.
       e1DefShred:
         text: 'E1: Bonus de rupture'
+        content: L'efficacité de Rupture de faiblesse de Lingsha augmente de 50%. Lorsqu'une unité ennemie subit une Rupture de faiblesse, sa DÉF est réduite de 20%.
       e2BeBuff:
         text: 'E2: Bonus d''ER'
+        content: L'effet de Rupture de tous les alliés augmente de 40% pendant 3 tours lors de l'utilisation de l'ultime.
       e6ResShred:
         text: 'E6: PÉN de RÉS'
+        content: Réduit toutes les RÉS de type de tous les ennemis de 20% lorsque Fuyuan est sur le champ de bataille.
   Luka:
     Content:
       basicEnhanced:
-        text: Basique améliorée
+        text: Normale améliorée
+        content: Renforce l'attaque normale pour infliger dégâts supplémentaires, possède une chance d'infliger des coups supplémentaires
       targetUltDebuffed:
         text: Bonus de vulnérabilité de l'ULT
+        content: Augmente les DGT subis par une cible ennemie unique de {{targetUltDebuffDmgTakenValue}}% pendant 3 tours.
       basicEnhancedExtraHits:
-        text: Coups supplémentaires de la Basique améliorée
+        text: Coups supplémentaires de la Normale améliorée
+        content: Augmente le nombre de coups de l'attaque normale renforcée.
       e1TargetBleeding:
         text: 'E1: Cible saignante'
+        content: Lorsque Luka entre en action, si la cible ennemie souffre de Saignement, les DGT infligés par Luka augmentent de 15% pendant 2 tours.
       e4TalentStacks:
         text: 'E4: Cumuls du Talent'
+        content: Augmente l'ATQ de 5% pour chaque cumul de Soif de combat, cumulable jusqu'à 4 fois.
   Luocha:
     Content:
       fieldActive:
         text: Zone active
+        content: Tant que le Champ est actif, l'ATQ de tous les alliés augmente de 20%
       e6ResReduction:
         text: 'E6: PÉN de RÉS'
+        content: Réduit la RÉS à tous les types de tous les ennemis de 20% pendant 2 tours lors de l'utilisation de l'ultime.
   Lynx:
     Content:
       skillBuff:
         text: Bonus de PV max
+        content: >-
+          Applique Instinct de survie à une cible alliée unique et augmente ses PV max d'un montant équivalent à {{skillHpPercentBuff}}% des PV max de Lynx + {{skillHpFlatBuff}}.::BR::E4: Les cibles qui bénéficient d'Instinct de survie voient leur ATQ augmenter d'un montant équivalent à 3% des PV max de Lynx pendant 1 tour.::BR::E6: L'effet d'augmentation des PV max accordé par Instinct de survie est majoré d'un montant équivalent à 6% des PV max de Lynx. Augmente également la RÉS aux effets de 30%.
     TeammateContent:
       teammateHPValue:
         text: PV en combat de Lynx
+        content: >-
+          Applique Instinct de survie à une cible alliée unique et augmente ses PV max d'un montant équivalent à {{skillHpPercentBuff}}% des PV max de Lynx + {{skillHpFlatBuff}}.::BR::E4: Les cibles qui bénéficient d'Instinct de survie voient leur ATQ augmenter d'un montant équivalent à 3% des PV max de Lynx pendant 1 tour.::BR::E6: L'effet d'augmentation des PV max accordé par Instinct de survie est majoré d'un montant équivalent à 6% des PV max de Lynx. Augmente également la RÉS aux effets de 30%.
   March7thImaginary:
     Content:
       enhancedBasic:
-        text: Basique améliorée
+        text: Normale améliorée
+        content: >-
+          Cette attaque inflige des DGT 3 fois initialement, chaque frappe infligeant des DGT imaginaires équivalents à {{BasicEnhancedScaling}} de l'ATQ de March 7th à la cible ennemie. Après la frappe initiale, il y a 60% de chances fixes d'infliger 1 frappe supplémentaire, jusqu'à un maximum de 3 frappes supplémentaires.
       basicAttackHits:
-        text: Coups de la Basique améliorée
+        text: Coups de la Normale améliorée
+        content: >-
+          Cette attaque inflige des DGT 3 fois initialement, chaque frappe infligeant des DGT imaginaires équivalents à {{BasicEnhancedScaling}} de l'ATQ de March 7th à la cible ennemie. Après la frappe initiale, il y a 60% de chances fixes d'infliger 1 frappe supplémentaire, jusqu'à un maximum de 3 frappes supplémentaires.
       masterAdditionalDmgBuff:
         text: Bonus de Maitre DPS
+        content: Inflige des DGT additionnels  équivalents à {{ShifuDmgBuff}}% de l'ATQ de March 7th lorsqu'elle utilise son attaque normale ou inflige un coup de son attaque normale renforcée.
       masterToughnessRedBuff:
         text: Bonus de Maitre support
+        content: Lorsque March 7th utilise son attaque normale ou inflige un coup de son attaque normale renforcée, augmente la réduction de robustesse de cette instance de DGT de 100%.
       talentDmgBuff:
-        text: Bonus de DGT Basique
+        text: Bonus de DGT Normale
+        content: >-
+          Marche 7th gagne 1 point de charge à chaque fois que le Maître utilise une attaque ou une ultime.::BR::À 7 points de charge ou plus, March 7th agit immédiatement et augmente ses DGT de {{TalentDmgBuff}}%.
       selfSpdBuff:
         text: 'E1: Bonus de VIT'
+        content: La VIT de March 7th augmente de 10% lorsqu'il y a un Maître sur le champ de bataille.
       e6CdBuff:
-        text: 'E6: Bonus de DC Basique'
+        text: 'E6: Bonus de DC Normale'
+        content: Augmente les DGT critiques de la prochaine ATQ normale renforcée de 50% après avoir utilisé l'ultime.
     TeammateContent:
       masterBuff:
         text: Bonus maitre
+        content: Désigne un allié unique (à l'exception d'elle-même) comme Maître et augmente sa VIT de {{ShifuSpeedBuff}}%.
       masterCdBeBuffs:
         text: Bonus de DC/ER de maitre
+        content: Lorsque March 7th utilise son ATQ normale renforcée, les DGT critiques de son Maître augmentent de 60% et son effet de Rupture augmente de 36% pendant 2 tours.
   Misha:
     Content:
       ultHitsOnTarget:
         text: Coups sur cible de l'ULT
+        content: Nombre de coups de l'ultime sur la cible principale, infligeant des dégâts équivalent à {{ultStackScaling}}% de l'ATQ de Misha par coup.
       enemyFrozen:
         text: Ennemi gelé
+        content: Augmente de 30% les DGT critiques de Micha contre les ennemis gelés.
       e2DefReduction:
         text: 'E2: Réduction de DÉF'
+        content: Réduit la DÉF de la cible de 16% pendant 3 tours.
       e6UltDmgBoost:
         text: 'E6: Bonus de DGT d''ULT'
+        content: Augmente de 30% les DGT de Micha jusqu'à la fin du tour lorsqu'il utilise son ultime.
   Moze:
     Content:
       preyMark:
         text: Proie désignée
+        content: >-
+          Moze entre dans l'état Retrait lorsqu'il y a une Proie sur le champ de bataille.::BR::Lorsque les alliés attaquent la Proie, Moze inflige également 1 instance de DGT de foudre additionnels équivalents à {{PreyAdditionalMultiplier}}% de son ATQ et il consomme 1 point de charge. Moze lance 1 attaque de suivi sur la Proie tous les 3 points de charge consommés, ce qui inflige des DGT de foudre équivalents à {{FuaScaling}}% de son ATQ. L'état Proie de la cible est dissipé lorsque la charge tombe à 0 et le nombre de points de charge nécessaires pour lancer l'attaque de suivi est réinitialisé.
       e2CdBoost:
         text: 'E2: Bonus de DC'
+        content: Augmente de 40% les DGT critiques lorsque tous les alliés infligent des DGT à une cible ennemie marquée comme Proie.
       e4DmgBuff:
         text: 'E4: Bonus de DGT'
+        content: Les DGT infligés par Moze augmentent de 30% pendant 2 tours lors de l'utilisation de l'ultime.
       e6MultiplierIncrease:
         text: 'E6: Bonus de multiplicateur d''ADS'
+        content: Le multiplicateur de DGT de l'attaque de suivi du talent augmente de 25%.
   Pela:
     Content:
       teamEhrBuff:
         text: Bonus d'équipe de TAE
+        content: Lorsque Pela participe au combat, augmente les chances d'appliquer des effets de tous les alliés de 10%.
       enemyDebuffed:
         text: Ennemi malussé
+        content: Pela inflige 20% de DGT supplémentaires aux ennemis subissant un malus.
       skillRemovedBuff:
         text: Bonus de compétence bonus ennemi effacé
+        content: "L'utilisation de la compétence pour supprimer des bonus augmente les DGT de la prochaine attaque de Pela de 20%.::BR::E2: Utiliser la compétence pour supprimer un bonus ennemi augmente la VIT de 10% pendant 2 tours."
       ultDefPenDebuff:
         text: Réduction de DEF de l'ULT
+        content: La DÉF des ennemis exposés diminue de {{ultDefPenValue}}% pendant 2 tours.
       e4SkillResShred:
         text: 'E4: Réduction de RÉS de glace de la compétence'
+        content: Lors de l'utilisation de la compétence, il y a 100% de chances de base de réduire la RÉS à la glace de la cible ennemie de 12% pendant 2 tours.
   Qingque:
     Content:
       basicEnhanced:
-        text: Basique améliorée
+        text: Normale améliorée
+        content: L'ATQ de Qingque augmente de {{talentAtkBuff}}% et son ATQ normale « Bonne pioche » est renforcée pour devenir « C'est la tuile ! ».
       basicEnhancedSpdBuff:
         text: Bonus de VIT
+        content: La VIT de Qingque augmente de 10% pendant 1 tour après avoir utilisé l'ATQ normale renforcée.
       skillDmgIncreaseStacks:
         text: Cumuls de bonus de DGT de la compétence
+        content: Pioche immédiatement 2 tuiles de jade et augmente les DGT de {{skillStackDmg}}% jusqu'à la fin du tour en cours. Cet effet peut être cumulé jusqu'à 4 fois.
   Rappa:
     Content:
       sealformActive:
         text: Forme du sceau (force l'état de rupture)
+        content: >-
+          Entre dans la forme du Sceau, gagne immédiatement 1 tour supplémentaire, obtient 3 points d'encre chromatique et augmente son efficacité de Rupture de faiblesse de 50% et son effet de Rupture de {{ultBeBuff}}%.
       atkToBreakVulnerability:
         text: Conversion d'ATQ à vulnérabilité de rupture
+        content: Lorsqu'une cible ennemie subit une Rupture de faiblesse, les DGT de rupture qu'elle subit augmentent de 2%. Si l'ATQ actuelle de Rappa est supérieure à 2400, pour chaque tranche de 100 d'ATQ en excédent, Cette augmentation est majorée de 1%, jusqu'à une augmentation supplémentaire maximale de 8%.
       chargeStacks:
         text: Cumuls de charge
+        content: Chaque point de charge augmente le multiplicateur de DGT de rupture de {{talentChargeMultiplier}}% et augmente de 1 la réduction de robustesse qui ignore le type de faiblesse.
       e1DefPen:
         text: 'E1: PÉN de DÉF'
+        content: Lorsque Rappa entre dans la forme du Sceau en utilisant son ultime, les DGT qu'elle inflige ignorent 15% de la DÉF des cibles.
       e2Buffs:
         text: 'E2: Bonus de rupture'
+        content: La réduction de robustesse des deux premières frappes de l'ATQ normale renforcée contre l'unité ennemie désignée augmente de 50%.
       e4SpdBuff:
         text: 'E4: Bonus de VIT'
+        content: Lorsque Rappa est dans la forme du Sceau, la VIT de tous les alliés augmente de 12%.
     TeammateContent:
       teammateBreakVulnerability:
         text: Vulnérabilité de rupture
+        content: Lorsqu'une cible ennemie subit une Rupture de faiblesse, les DGT de rupture qu'elle subit augmentent de 2%. Si l'ATQ actuelle de Rappa est supérieure à 2400, pour chaque tranche de 100 d'ATQ en excédent, Cette augmentation est majorée de 1%, jusqu'à une augmentation supplémentaire maximale de 8%.
       e4SpdBuff:
         text: 'E4: Bonus de VIT'
+        content: Lorsque Rappa est dans la forme du Sceau, la VIT de tous les alliés augmente de 12%.
   Robin:
     Content:
       concertoActive:
         text: Concerto actif
+        content: >-
+          Lorsque Robin est dans l'état Concerto, l'attaque de tous les alliés augmente à hauteur de {{ultAtkBuffScalingValue}}% de l'ATQ de Robin + {{ultAtkBuffFlatValue}}. D'autre part, après chaque attaque d'un allié, Robin inflige des DGT physiques additionnels équivalents à {{ultScaling}}% de son ATQ 1 fois dont les chances de coup critique sont fixées à 100% et les DGT critiques à 150%.
       skillDmgBuff:
         text: Bonus de DGT
+        content: Augmente les DGT infligés par tous les alliés de {{skillDmgBuffValue}}%. Dure 3 tours.
       talentCdBuff:
         text: Bonus de DC du Talent
+        content: Augmente les DGT critiques de tous les alliés de {{talentCdBuffValue}}%.
       e1UltResPen:
         text: 'E1: PÉN de RÉS de l''ULT'
+        content: Augmente la PÉN de RÉS à tous les types de tous les alliés de 24% lorsque l'état Concerto est actif.
       e4TeamResBuff:
         text: 'E4: Bonus d''équipe de RAE'
+        content: Lorsque Robin utilise son ultime, elle dissipe les malus de contrôle infligés à tous les alliés. Lorsque Robin est dans l'état Concerto, la RÉS aux effets de tous les alliés augmente de 50%.
       e6UltCDBoost:
         text: 'E6: Bonus de DC'
+        content: >-
+          Lorsque l'état Concerto est actif, les DGT critiques des DGT physiques additionnels infligés par l'ultime augmentent de 450%. L'effet Minuit sans lune peut être déclenché jusqu'à 8 fois. Le nombre de déclenchements est réinitialisé chaque fois que Robin utilise son ultime.
     TeammateContent:
       teammateATKValue:
         text: ATQ en combat de Robin
+        content: >-
+          Lorsque Robin est dans l'état Concerto, l'attaque de tous les alliés augmente à hauteur de {{ultAtkBuffScalingValue}}% de l'ATQ de Robin + {{ultAtkBuffFlatValue}}.::BR::Définissez cette valeur en fonction de la quantité d'ATQ de Robin qui est prise en compte lors du calcul du buff.
       traceFuaCdBoost:
         text: Bonus de DC d'ADS
+        content: Lorsque Robin est dans l'état Concerto, les DGT critiques infligés quand tous les alliés lancent une attaque de suivi augmentent de 25%.
       e2UltSpdBuff:
         text: 'E2: Bonus d''équipe de VIT'
+        content: Lorsque l'état Concerto est actif, la VIT de tous les alliés augmente de 16%.
   RuanMei:
     Content:
       skillOvertoneBuff:
         text: Bonus Tonalité
+        content: >-
+          Ruan Mei gagne Tonalité après avoir utilisé sa compétence, pour une durée de 3 tours. Cette durée diminue de 1 au début du tour de Ruan Mei. Les DGT de tous les alliés augmentent de {{skillScaling}}% lorsque Ruan Mei bénéficie de Tonalité et leur efficacité de Rupture de faiblesse de 50%.
       teamBEBuff:
         text: Bonus d'équipe d'ER
+        content: Augmente l'effet de Rupture de tous les alliés de 20%.
       ultFieldActive:
         text: Zone d'ULT active
+        content: >-
+          La PÉN de RÉS à tous les types de tous les alliés augmente de {{fieldResPenValue}}%.::BR::E1: Lorsque que le champ généré par l'ultime est déployé, les DGT infligés par tous les alliés ignorent 20% de la DÉF des cibles.
       e2AtkBoost:
         text: 'E2: Bonus d''ATQ'
+        content: Lorsque Ruan Mei est sur le champ de bataille, l'ATQ de tous les alliés augmente de 40% lorsqu'ils infligent des DGT à des ennemis en état de Rupture de faiblesse.
       e4BeBuff:
         text: 'E4: Bonus d''ER'
+        content: L'effet de Rupture de Ruan Mei augmente de 100% pendant 3 tours en cas de Rupture de faiblesse d'une cible ennemie.
     TeammateContent:
       teamSpdBuff:
         text: Bonus d'équipe de VIT
+        content: Augmente la VIT de toute l'équipe de {{talentSpdScaling}}% (hormis elle-même).
       teamDmgBuff:
         text: Conversion d'ER à DGT
+        content: En combat, lorsque l'effet de Rupture de Ruan Mei est supétieure à 120%, pour chaque 10% en excédent, la compétence de Ruan Mei augmente les DGT de tous les alliés de 6% additionnels, jusqu'à un maximum de 36%.
   Sampo:
     Content:
       targetDotTakenDebuff:
         text: Vulnérabilité aux DSD de l'ULT
+        content: Lorsqu'elles sont malusées par l'ultime de Sampo, augmente les dégâts sur la durée subis par les cibles de {{dotVulnerabilityValue}}% pendant 2 tours.
       skillExtraHits:
         text: Coups supplémentaires de Compétence
+        content: Nombre de coups supplémentaires de la compétence
       targetWindShear:
         text: Cible affligée par Faille du vent
+        content: Les ennemis affectés par l'effet Faille du vent infligent 15% de DGT en moins à Sampo.
   Seele:
     Content:
       buffedState:
         text: État amélioré
+        content: >-
+          Seele entre dans l'état amélioré après avoir vaincu un ennemi et bénéficie d'une action supplémentaire. Lorsqu'elle est dans cet état amélioré, ses DGT augmentent de {{buffedStateDmgBuff}}% pendant 1 tour.::BR::Dans l'état amélioré, la pénétration de RÉS quantique de Seele est augmentée de 20%.
       speedBoostStacks:
         text: Cumuls de Bonus de VIT
+        content: "La VIT de Seele augmente de 25% pour 2 tours après avoir utilisé sa compétence.::BR::E2: Le bonus de VIT de la compétence de Seele peux se cumuler jusqu'à 2 fois."
       e1EnemyHp80CrBoost:
         text: 'E1: Bonus de TC ennemi PV ≤ 80%'
+        content: Lorsqu'elle inflige des DGT à un ennemi dont le % de PV est inférieurs ou équivalents à 80%, les chances de coup critique de Seele augmentent de 15%.
       e6UltTargetDebuff:
         text: 'E6: Volée de papillons'
+        content: Après utilisation de son ultime, Seele inflige Volée de papillons à une cible ennemie pendant 1 tour. La cible affectée par Volée de papillons subissent des DGT quantiques supplémentaires équivalents à 15% des DGT de l'ultime de Seele chaque fois qu'ils sont attaqués.
   Serval:
     Content:
       targetShocked:
         text: Cible stupéfiée
+        content: Après avoir attaqué, Serval inflige des DGT de foudre additionnels équivalents à {{talentExtraDmgScaling}}% de son ATQ à tous les ennemis stupéfiés.
       enemyDefeatedBuff:
         text: Bonus ennemi vaincu
+        content: L'ATQ augmente de 20% pendant 2 tours après avoir vaincu un ennemi.
   SilverWolf:
     Content:
       skillResShredDebuff:
         text: Réduction de RÉS de la compétence
+        content: >-
+          Réduit la RÉS à tous les types de l'ennemi de {{skillResShredValue}}% pendant 2 tours.::BR::Si l'ennemi subi au moins 3 malus, leur RÉS à tous les types est réduite de 3% supplémentaires.
       skillWeaknessResShredDebuff:
         text: Réduction de RÉS faiblesse implantée
+        content: >-
+          Il y a {{implantChance}}% de chances de base d'appliquer 1 Faiblesse du type d'un allié présent sur le champ de bataille à une cible ennemie. Réduit également la RÉS aux DGT de ce type de faiblesse de l'ennemi de 20% pendant 2 tours. Si l'ennemi a déjà ce type de faiblesse, l'effet de réduction de RÉS aux DGT ne sera pas déclenché.
       talentDefShredDebuff:
         text: Reduction de DÉF Bugs
+        content: Le Bug de Louve d'Argent réduit la DEF de la cible de {{talentDefShredDebuffValue}}% pendant 3 tours.
       ultDefShredDebuff:
         text: Réduction de DEF de l'ULT
+        content: Réduit la DÉF de la cible ennemie de {{ultDefShredValue}}% pendant 3 tours.
       targetDebuffs:
         text: Malus sur la cible
+        content: >-
+          Lorsque l'ennemi subit au moins 3 malus, la compétence diminue ses RÉS à tous les types de 3% supplémentaires.::BR::E4: Lorsque Louve d'argent attaque un ennemi avec son ultime, elle inflige des DGT quantiques additionnels équivalents à 20% de son ATQ pour chaque malus actuellement présent sur la cible ennemie. Cet effet peut être déclenché un maximum de 5 fois par utilisation de l'ultime.::BR::E6: Pour chaque malus subi par la cible ennemie, les DGT infligés par Louve d'argent augmentent de 20%, jusqu'à une limite de 100%.
   Sparkle:
     Content:
       skillCdBuff:
         text: Bonus de DC
+        content: >-
+          Augmente les DGT critiques d'une cible alliée unique à hauteur de {{skillCdBuffScaling}}% des DGT critiques de Sparkle + {{skillCdBuffBase}}% pendant 1 tour.::BR::E6: L'effet d'augmentation des DGT critiques accordé par la compétence de Sparkle augmente d'un montant équivalent à 30% des DGT critiques de Sparkle. Lorsque Sparkle utilise sa compétence, l'effet d'augmentation des DGT critiques de sa compétence s'applique à tous les alliés qui bénéficient de l'effet Énigme. Lorsque Sparkle utilise son ultime, tout allié qui bénéficie de l'effet d'augmentation de DGT de sa compétence propage cet effet aux alliés avec Énigme.
       cipherBuff:
         text: Bonus Énigme
+        content: >-
+          Chaque cumul de l'effet d'augmentation de DGT accordé par le talent de Sparkle augmente de {{cipherTalentStackBoost}}% supplémentaires pour les alliés qui bénéficient d'Énigme. Dure 2 tours.::BR::E1: L'effet Énigme accordé par l'ultime dure 1 tour supplémentaire. Tous les alliés qui bénéficient de cet effet voient leur ATQ augmenter de 40%.
       talentStacks:
         text: Cumuls de bonus de DGT du talent
+        content: >-
+          Chaque fois qu'un allié utilise 1 point de compétence, les DGT infligés par tous les alliés augmentent de {talentBaseStackBoost}%. Cet effet dure 2 tours et peut être cumulé jusqu'à 3 fois.::BR::E2: Chaque cumul de l'effet du talent permet aux alliés d'ignorer 8% de la DÉF de la cible lorsqu'ils infligent des DGT.
       quantumAllies:
         text: Alliés quantiques
+        content: Lorsqu'il y a 1/2/3 alliés de type quantique dans l'équipe, l'ATQ des alliés de type quantique augmente de 5%/15%/30%.
     TeammateContent:
       teammateCDValue:
         text: DC en combat de Sparkle
+        content: Augmente les DGT critiques d'une cible alliée unique à hauteur de {{skillCdBuffScaling}}% des DGT critiques de Sparkle + {{skillCdBuffBase}}% pendant 1 tour.
   Sunday:
     Content:
       skillDmgBuff:
         text: Bonus de DGT
+        content: >-
+          Permet à un personnage allié désigné et à son invocation d'agir immédiatement, tout en augmentant les DGT qu'ils infligent de {{DmgBoost}}%. L'effet d'augmentation de DGT augmente de {{SummonDmgBoost}}% supplémentaires si la cible a une invocation.
       talentCrBuffStacks:
         text: Cumuls de bonus de TC
+        content: Lors de l'utilisation de la compétence, les chances de coup critique de la cible augmentent de {{CritRateBoost}}% pendant 3 tours.
       techniqueDmgBuff:
         text: Bonus de DGT de la technique
+        content: La première fois que Sunday utilise une capacité sur une cible alliée au cours du prochain combat, les DGT infligés par cette cible augmentent de 50% pendant 2 tours.
       e1DefPen:
         text: 'E1: PÉN de DÉF'
+        content: >-
+          Lorsque Sunday utilise sa compétence, le personnage cible ignore 16% de la DÉF de la cible ennemie et ses invocations ignorent 40% de la DÉF de la cible ennemie en cas de DGT infligés, pour une durée de 2 tours.
       e2DmgBuff:
         text: 'E2: Bonus de DGT Béatifié'
+        content: Les DGT infligés par les Béatifiés augmentent de 30%.
     TeammateContent:
       beatified:
         text: Bonus de DC de l'ULT
+        content: >-
+          Les DGT critiques de la cible ainsi que ceux de leur invocation augmentent d'un montant équivalent à {{CritBuffScaling}}% des DGT critiques de Sunday + {{CritBuffFlat}}%.
       teammateCDValue:
         text: DC en combat de Sunday
+        content: >-
+          Les DGT critiques de la cible ainsi que ceux de leur invocation augmentent d'un montant équivalent à {{CritBuffScaling}}% des DGT critiques de Sunday + {{CritBuffFlat}}%.
       e6CrToCdConversion:
         text: 'E6: Conversion TC à DC'
+        content: >-
+          Lorsque l'effet d'augmentation des chances de coup critique du talent est actif et que les chances de coup critique de la cible dépassent 100%, chaque 1% supplémentaire augmente les DGT critiques de 2%.
   Sushang:
     Content:
       ultBuffedState:
         text: État amélioré post-ULT
+        content: >-
+          L'ATQ de Sushang augmente de {{ultBuffedAtk}}% et l'utilisation de sa compétence a 2 chances supplémentaires de déclencher Posture de l'épée pendant 2 tours. Lorsque Posture de l'épée est déclenchée par les chances supplémentaires, elle inflige 50% des DGT originaux.
       skillExtraHits:
         text: Coups supplémentaires de Compétence
+        content: Augmente le nombre de coups de Posture de l'épée de la compétence.
       skillTriggerStacks:
         text: Cumuls de Riposte
+        content: Chaque fois que Posture de l'épée est déclenchée, les DGT qu'elle inflige augmentent de 2,5%. Cumulable jusqu'à 10 fois.
       talentSpdBuffStacks:
         text: Cumuls de bonus de VIT du talent
+        content: >-
+          Lorsqu'un ennemi affecté par Rupture de faiblesse est sur le champ de bataille, la VIT de Sushang augmente de {{talentSpdBuffValue}}% pendant 2 tours.::BR::E6: L'augmentation de VIT conférée par le talent devient cumulable jusqu'à 2 fois.
       e2DmgReductionBuff:
         text: 'E2: Réduction de dégâts'
+        content: Après avoir déclenché Posture de l'épée, les DGT subis par Sushang sont réduits de 20% pendant 1 tour.
   TheHerta:
     Content:
       enhancedSkill:
         text: Compétence améliorée
+        content: Après l'utilisation de l'ultime, la Grande Herta agit immédiatement et obtient 1 cumul d'Inspiration après utilisation de l'ultime. Inspiration peut être cumulée jusqu'à 4 fois. La compétence est renforcée en « Écoutez bien » sous l'effet Inspiration.
+      eruditionTeammate:
+        text: Coéquipier de l'Erudition
+        content: >-
+          Lorsque la cible principale de la compétence renforcée a Interprétation, le multiplicateur des DGT infligés augmente, chaque cumul accordant une augmentation de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% sur la cible principale/les autres cibles respectivement.::BR::Si 2 personnages ou plus suivent la Voie de l'Érudition dans l'équipe, chaque cumul accorde une augmentation supplémentaire de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% sur la cible principale/les autres cibles respectivement.::BR::A4: Les DGT critiques de tous les alliés augmentent de 80% en début de combat lorsqu'il y a au moins 2 personnages de la Voie de l'Érudition dans l'équipe.
       ultAtkBuff:
         text: Bonus d'ATQ de l'ULT
+        content: >-
+          Lors de l'utilisation de l'ultime, l'ATQ de la Grande Herta augmente de {{AtkBuff}}% pendant 3 tours.
+      interpretationStacks:
+        text: Cumuls d'Interpretation
+        content: >-
+          Lorsque la cible principale de la compétence renforcée a Interprétation, le multiplicateur des DGT infligés augmente, chaque cumul accordant une augmentation de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% sur la cible principale/les autres cibles respectivement.::BR::Si 2 personnages ou plus suivent la Voie de l'Érudition dans l'équipe, chaque cumul accorde une augmentation supplémentaire de {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% sur la cible principale/les autres cibles respectivement.::BR::E1: Lors du calcul des cumuls d'Interprétation pour la compétence renforcée, prend également en compte 50% des cumuls actuels d'Interprétation sur la cible qui a le plus de cumuls parmi la cible principale et ses cibles adjacentes.
+      totalInterpretationStacks:
+        text: Cumuls de Réponse
+        content: Chaque fois qu'1 cumul d'Interprétation est appliqué à une cible ennemie, la Grande Herta obtient 1 cumul de Réponse, jusqu'à un maximum de 99 cumuls. Chaque cumul de Réponse augmente le multiplicateur de DGT de l'ultime de 1% lors de l'utilisation de l'ultime.
+      e1BonusStacks:
+        text: 'E1: Cumuls bonus'
+        content: Lors du calcul des cumuls d'Interprétation pour la compétence renforcée, prend également en compte 50% des cumuls actuels d'Interprétation sur la cible qui a le plus de cumuls parmi la cible principale et ses cibles adjacentes.
+      e4EruditionSpdBuff:
+        text: 'E4: Bonus de VIT Érudition'
+        content: La VIT des personnages de l'équipe qui suivent la Voie de l'Érudition augmente de 12%.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: La PÉN de RÉS à la glace de la Grande Herta augmente de 20%. Lorsque le nombre de cibles ennemies sur le champ de bataille est de 3 ou plus/2/1, le multiplicateur de DGT de l'ultime augmente de 140%/250%/400%.
   Tingyun:
     Content:
       benedictionBuff:
         text: Bonus Bénédiction
+        content: >-
+          Accorde une bénédiction à un allié unique qui augmente son ATQ de {{skillAtkBoostScaling}}%, dans la limite de {{skillAtkBoostMax}}% de l'ATQ actuelle de Tingyun. Lorsque l'allié béni attaque, il inflige des DGT de Foudre additionnels équivalents à {{skillLightningDmgBoostScaling}}% de sa propre ATQ 1 fois. La bénédiction dure 3 tours.
       skillSpdBuff:
         text: Bonus de VIT de la compétence
+        content: La VIT de Tingyun augmente de 20% pendant 1 tour après utilisation de sa compétence.
       ultDmgBuff:
         text: Bonus de DGT d'ULT
+        content: "Régénère 50 points d'énergie à un allié unique et augmente les DGT qu'il inflige de {{ultDmgBoost}}% pendant 2 tours.::BR::E6: L'ultime régénère 10 points d'énergie supplémentaires à la cible alliée."
       ultSpdBuff:
         text: 'E1: Bonus de VIT de l''ULT'
+        content: La VIT de l'allié béni augmente de 20% pendant 1 tour après utilisation de son ultime.
     TeammateContent:
       teammateAtkBuffValue:
         text: Valeur du bonus d'ATQ
+        content: >-
+          Accorde une bénédiction à un allié unique qui augmente son ATQ de {{skillAtkBoostScaling}}%, dans la limite de {{skillAtkBoostMax}}% de l'ATQ actuelle de Tingyun. Lorsque l'allié béni attaque, il inflige des DGT de Foudre additionnels équivalents à {{skillLightningDmgBoostScaling}}% de sa propre ATQ 1 fois. La bénédiction dure 3 tours.
   Topaz:
     Content:
       enemyProofOfDebtDebuff:
         text: Malus Reconnaissance de dette
+        content: Applique une Reconnaissance de dette à une cible ennemie unique et augmente les DGT des attaques de suivi qu'elle subit de {{proofOfDebtFuaVulnerability}}%.
       numbyEnhancedState:
         text: Compti état amélioré
+        content: Compti entre dans l'état Inflation exponentielle. Son multiplicateur de DGT augmente de {{enhancedStateFuaScalingBoost}}% et ses DGT critiques de {{enhancedStateFuaCdBoost}}%.
       e1DebtorStacks:
         text: 'E1: Cumuls de Débiteur'
+        content: Lorsque des ennemis affectés par Reconnaissances de dette subissent des attaques de suivi, ils entrent dans l'état Débiteur. Cet effet s'active une seule fois par action. Débiteur augmente les DGT critiques des attaques de suivi infligés aux ennemis affectés de 25%, cumulable jusqu'à 2 fois. Débiteur se dissipe en même temps que Reconnaissance de dette.
   TrailblazerDestruction:
     Content:
       enhancedUlt:
         text: ULT ZdE
+        content: >-
+          Vous choisissez entre deux modes d'attaque pour infliger un coup dévastateur.::BR::Coup d'adieu (Cible unique): Inflige des DGT physiques équivalents à {{ultScaling}}% de l'ATQ du pionnier/de la pionnière à un ennemi unique.::BR::Home run final (Propagation): Inflige des DGT physiques équivalents à {{ultEnhancedScaling}}% de l'ATQ du pionnier/de la pionnière à un ennemi unique, ainsi que des DGT physiques équivalents à {{ultEnhancedScaling2}}% de l'ATQ du pionnier/de la pionnière aux ennemis adjacents.
       talentStacks:
         text: Cumuls du talent
+        content: 'L''ATQ augmente de {{talentAtkScalingValue}}% à chaque fois que le personnage fait subir une Rupture de faiblesse à un ennemi. Effet cumulable jusqu''à 2 fois.::BR::A4: Chaque cumul du talent augmente la DÉF du pionnier/de la pionnière de 10%.'
   TrailblazerHarmony:
     Content:
       backupDancer:
         text: Bonus d'ER de Soutien sur scène
+        content: >-
+          Applique l'effet Soutien sur scène à tous les alliés, pour une durée de 3 tours. La durée de l'effet diminue de 1 tour au début de chaque tour du pionnier/de la pionnière. L'effet de Rupture des alliés qui bénéficient de Soutien sur scène augmente de {{ultBeScaling}}%. 
       superBreakDmg:
         text: Rupture extrême (force l'état de rupture)
+        content: >-
+          Lorsque les alliés bénéficiant de l'effet Soutien sur scène attaquent des cibles ennemies qui sont en état de Rupture de faiblesse, la réduction de robustesse de cette attaque est convertie 1 fois en une instance de DGT de rupture extrême.::BR::Les DGT de rupture extrême sont ajoutés a chacune des colonnes de DGT de NORMALE / COMP / ULT / ADS. Par exemple, lorsque cette option est activée, la collone COMP montrera la somme des dégâts de Compétence et des DGT de tupture extreme basés sur la réduction de robustesse de la compétence. Activer cette option forcera l'ennemi à être considéré comme étant en état de rupture de faiblesse pour tous les calculs de dégàts.
       skillHitsOnTarget:
         text: Coups supplémentaires sur cible de compétence
+        content: Inflige des DGT imaginaire à un ennemi unique et inflige 4 fois des DGT supplémentaires à un ennemi aléatoire.
       e2EnergyRegenBuff:
         text: 'E2: Bonus de TRE'
+        content: Le taux de régénération d'énergie du pionnier/de la pionnière augmente de 25% pour une durée de 3 tours en début de combat.
     TeammateContent:
       teammateBeValue:
         text: 'E4: ER en combat'
+        content: Lorsque le pionnier/la pionnière est sur le champ de bataille, augmente l'effet de Rupture de tous les alliés à l'exception du pionnier/de la pionnière. L'augmentation est équivalente à 15% de l'effet de Rupture du pionnier/de la pionnière.
   TrailblazerPreservation:
     Content:
       enhancedBasic:
-        text: Basique améliorée
+        text: Normale améliorée
+        content: Attaque normale renforcée inflige des dégâts de Feu équivalent à {{basicEnhancedAtkScaling}}% de l'ATQ du pionnier/de la pionnière à la cible principale, ainsi que des dégâts réduits aux cibles adjacents
       skillActive:
         text: Réduction de DGT de la compétence
+        content: Quand la compétence est utilisée, réduit les DGT reçus de {{skillDamageReductionValue}}%. Réduis aussi les DGT reçus pas les alliés de 15% pour 1 tour.
       shieldActive:
         text: Bouclier actif
+        content: Lorsque le/la Pionnier/ère est protégé/e par un bouclier au début du tour, augmente l'ATQ de 15%.
       e6DefStacks:
         text: 'E6: Cumuls de bonus de DÉF'
+        content: Après utilisation de son ATQ de base renforcée ou de son ultime, la DÉF du/de la Pionnier/ère augmente de 10%. Cumulable jusqu'à 3 fois.
+  TrailblazerRemembrance:
+    Content:
+      memoSkillHits:
+        text: Nombre de coups de Mem
+        content: >-
+          Inflige 4 instances de DGT, chaque instance inflige des DGT de glace équivalents à {{SingleScaling}}% de l'ATQ de Mem à un ennemi aléatoire. Puis, inflige des DGT de glace équivalents à {{AoeScaling}}% de l'ATQ de Mem à tous les ennemis.
+      teamCdBuff:
+        text: Bonus d'équipe de DC
+        content: >-
+          Les DGT critiques de tous les alliés augmentent d'un montant équivalent à {{ScalingBuff}}% des DGT critiques de Mem + {{FlatBuff}}%.
+      memsSupport:
+        text: >-
+          DGT réels du soutien de Mem
+        content: >-
+          Avance l'action d'un allié désigné de 100% et lui accorde Soutien de Mem pendant 3 tours. Pour chaque instance de DGT infligés par la cible avec Soutien de Mem, inflige également 1 instance de DGT réels équivalents à {{TrueDmgScaling}}% des DGT initiaux.::BR::E1: Lorsqu'une cible alliée bénéficie de Soutien de Mem, cet effet s'applique également au mnémesprit de la cible/au mnémomaître.::BR::E4: Lorsqu'une cible alliée avec 0 d'énergie max utilise activement une capacité, Mem gagne 3% de charge. De plus, le multiplicateur des DGT réels infligés par cette cible via Soutien de Mem augmente de 6%.
+      energyTrueDmgValue:
+        text: DGT réels d'énergie max
+        content: >-
+          Lorsque l'énergie max d'une cible alliée qui bénéficie de Soutien de Mem excède 100, pour chaque tranche de 10 points d'énergie en excédant, augmente le multiplicateur des DGT réels infligés avec Soutien de Mem de 2%, jusqu'à une augmentation maximale de 20%.
+      e1CrBuff:
+        text: 'E1: Bonus de TC'
+        content: >-
+          Augmente les chances de coup critique de la cible alliée qui bénéficie de Soutien de Mem de 10%.
+      e4TrueDmgBoost:
+        text: 'E4: Bonus de DGT réels'
+        content: >-
+          Lorsqu'une cible alliée avec 0 d'énergie max utilise activement une capacité, Mem gagne 3% de charge. De plus, le multiplicateur des DGT réels infligés par cette cible via Soutien de Mem augmente de 6%.
+      e6UltCrBoost:
+        text: 'E6: Bonus de TC de l''Ult'
+        content: >-
+          Les chances de coup critique de l'ultime sont fixées à 100%.
+    TeammateContent:
+      memCDValue:
+        text: >-
+          DC en combat de Mem
+        content: >-
+          Les DGT critiques de tous les alliés augmentent d'un montant équivalent à {{ScalingBuff}}% des DGT critiques de Mem + {{FlatBuff}}%.
   Welt:
     Content:
       enemyDmgTakenDebuff:
         text: Bonus de vulnérabilité de l'ULT
+        content: Lors de l'utilisation de l'ultime, il y a 100% de chances de base d'augmenter les DGT subis par les cibles de 12% pendant 2 tours.
       enemySlowed:
         text: Ennemi ralenti
+        content: Lorsqu'il touche un ennemi qui est ralenti, Welt lui inflige des DGT imaginaires additionnels équivalents à {{talentScaling}}% de son ATQ.
       skillExtraHits:
         text: Coups supplémentaires sur cible de compétence
+        content: >-
+          Inflige des DGT imaginaires équivalents à {{skillScaling}}% de l'ATQ de Welt à un ennemi unique et inflige des DGT 2 fois supplémentaires, infligeant à chaque fois des DGT imaginaires équivalents à {{skillScaling}}% de l'ATQ de Welt à un ennemi aléatoire.
       e1EnhancedState:
         text: 'E1: État amélioré'
+        content: Après utilisation de l'ultime de Welt, ses capacités sont renforcées. Lors des 2 prochaines fois où il utilise son ATQ normale ou sa compétence, il inflige des DGT additionnels à la cible équivalents respectivement à 50% du multiplicateur de DGT de son ATQ normale et à 80% du multiplicateur de DGT de sa compétence.
   Xueyi:
     Content:
       beToDmgBoost:
         text: Conversion d'ER à DGT
+        content: Augmente les DGT infligés par Xueyi à hauteur de 100% de son effet de Rupture, jusqu'à une augmentation maximale de DGT de 240%.
       enemyToughness50:
         text: Rouages du Destin
+        content: L'ultime inflige 10% de DGT supplémentaires aux cibles ennemies qui ont 50% ou plus de leur robustesse max.
       toughnessReductionDmgBoost:
         text: Bonus de DGT d'ULT
+        content: Plus la robustesse est réduite par l'ultime, plus les DGT infligés par cette attaque sont élevés, jusqu'à un maximum de {{ultBoostMax}}%.
       fuaHits:
         text: Coups d'ADS
+        content: >-
+          Lorsque le nombre de cumuls de Karma atteint son maximum de 8 cumuls, elle consomme tous les cumuls de Karma et déclenche immédiatement une attaque de suivi, qui inflige des DGT à 3 reprises. Chaque instance de DGT inflige des DGT quantiques équivalents à {{fuaScaling}}% de l'ATQ de Xueyi à une cible aléatoire unique.
       e4BeBuff:
         text: 'E4: Bonus d''ER'
+        content: Augmente l'effet de Rupture de 40% pendant 2 tours lors de l'utilisation de l'ultime.
   Yanqing:
     Content:
       ultBuffActive:
         text: Bonus d'ULT actif
+        content: Augmente les chances de coup critique de Yanqing de 60%. Lorsque Connexion à l'empathie de l'épée est active, les DGT critiques de Yanqing augmentent de {{ultCdBuffValue}}% supplémentaires.
       soulsteelBuffActive:
         text: Osmose avec l'acier actif
+        content: >-
+          Lorsque Connexion à l'empathie de l'épée est active, ses chances de coup critique augmentent de {{talentCrBuffValue}}% et ses DGT critiques de {{talentCdBuffValue}}%.::BR::Avant d'utiliser son ultime, lorsque Connexion à l'empathie de l'épée est active, les DGT critiques de Yanqing augmentent de {{ultCdBuffValue}}%.::BR::Lorsque Connexion à l'empathie de l'épée est active, la RÉS aux effets augmente de 20%.::BR::E2: Lorsque Connexion à l'empathie de l'épée est active, le taux de régénération d'énergie augmente de 10% supplémentaires.
       critSpdBuff:
         text: Bonus de VIT
+        content: Augmente la VIT de 10% pendant 2 tours lorsqu'un coup critique est déclenché.
       e1TargetFrozen:
         text: 'E1: cible gelée'
+        content: Lorsque Yanqing attaque un ennemi gelé, il inflige des DGT de glace équivalents à 60% de son ATQ.
       e4CurrentHp80:
         text: 'E4: Bonus de PÉN de RÉS PV ≥ 80%'
+        content: Lorsque les PV actuels de Yanqing sont supérieurs à 80% de ses PV max, la pénétration de RÉS de glace de Yanqing augmente de 12%.
   Yukong:
     Content:
       teamImaginaryDmgBoost:
         text: Bonus d'équipe de DGT Imaginaire
+        content: Lorsque Yukong est sur le champ de bataille, les DGT imaginaires infligés par les alliés augmentent de 12%.
       roaringBowstringsActive:
         text: Rugissement des cordes
+        content: "Lorsque « Rugissement des cordes » est actif, l'ATQ de tous les alliés augmente de {{skillAtkBuffValue}}%.::BR::E4: Lorsque « Rugissement des cordes » est actif, Yukong inflige 30% de DGT supplémentaires aux ennemis."
       ultBuff:
         text: Bonus de TC/DC de l'ULT
+        content: >-
+          Si Yukong bénéficie de « Rugissement des cordes » lorsqu'elle utilise son ultime, les chances de coup critique de tous les alliés augmentent de {{ultCrBuffValue}}% et leurs DGT critiques de {{ultCdBuffValue}}%. D'autre part, inflige des DGT imaginaires équivalents à {{ultScaling}}% de l'ATQ de Yukong à un ennemi unique.
       initialSpeedBuff:
         text: 'E1: Bonus initial de VIT'
+        content: Augmente la VIT de tous les alliés de 10% pendant 2 tours en début de combat.
   Yunli:
     Content:
       blockActive:
         text: Parade actif
+        content: Lorsque Yunli est dans l'état Parade, elle résiste aux malus de contrôle et subit 20% de DGT en moins.
       ultCull:
         text: "Sens de l'éradication activée"
+        content: >-
+          Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       ultCullHits:
         text: "Sens de l'éradication: coups"
+        content: >-
+          Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       counterAtkBuff:
         text: Bonus d'ATQ post-contre
+        content: L'ATQ de Yunli augmente de 30% pendant 1 tour après avoir lancé un contre.
       e1UltBuff:
         text: 'E1: Bonus d''ULT'
+        content: "Augmente les DGT de Sens de l'entaille et de Sens de l'éradication de 20%, et augmente le nombre d'instances de DGT supplémentaires de Sens de l'éradication de 3."
       e2DefShred:
         text: 'E2: PÉN de DÉF d''ADS'
+        content: Lorsque Yunli inflige des DGT via un contre, elle ignore 20% de la DÉF de la cible.
       e4ResBuff:
         text: 'E4: Bonus de RAE'
+        content: "Augmente de 50% la RÉS aux effets de Yunli pendant 1 tour après avoir lancé Sens de l'entaille ou Sens de l'éradication."
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: >-
+          Quand l'effet Parade est actif, lorsqu'un ennemi utilise activement une capacité, que ce soit pour attaquer Yunli ou non, Sens de l'éradication se déclenche et supprime l'effet Parade. Lorsque Yunli inflige des DGT via Sens de l'entaille ou Sens de l'éradication, ses chances de coup critique augmentent de 15% et sa PÉN de RÉS physique augmente de 20%.

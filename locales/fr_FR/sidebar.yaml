@@ -1,6 +1,10 @@
 Showcase:
   Title: Vitrine
   Scorer: Vitrine
+Tools:
+  Title: Outils
+  Showcase: Vitrine
+  WarpPlanner: Plan de Saut
 Optimization:
   Title: Optimisation
   Optimizer: Optimiseur

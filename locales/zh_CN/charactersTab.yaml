@@ -41,6 +41,28 @@ Messages:
   UnequipWarning: "你确定要卸下$t(gameData:Characters.{{charId}}.Name)的遗器吗?"
   DeleteWarning: "你确定要删除$t(gameData:Characters.{{charId}}.Name)吗?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: 属性
+      ButtonText: 行迹
+    SpdPrecision:
+      Header: 速度精准度
+      Low: ".0"
+      High: ".000"
+    SpdWeight:
+      Header: 速度权重
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: 速度基准
+      BenchmarkOptionsLabel: 基准选项
+      CurrentSpdLabel: 当前速度 - 基准将与你的基础速度匹配
+      BaseSpdLabel: 基础速度 - 基准将以最低速度配装为目标
+      CommonBreakpointsLabel: 常见速度阈值预设（速度增益额外单独考虑）
+    BuffPriority:
+      Header: 增益优先权
+      High: 高
+      Low: 低
   CustomizationSidebar:
     Label: 自定义
     Modes:
@@ -59,6 +81,7 @@ CharacterPreview:
     NoSelectedCharacter: 未选择角色
   ScoreHeader:
     Title: 战斗模拟
+    TitleBenchmark: "{{spd}}速度基准"
     Score: "DPS评分 {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "评分算法:"
@@ -71,6 +94,7 @@ CharacterPreview:
     Title: "战斗评分详情:"
     Labels:
       CombatStats: 战斗属性
+      SubDpsCombatStats: 战斗属性（副C）
       DMGUpgrades: 伤害升级
   DMGUpgrades: 伤害升级
   SubstatUpgradeComparisons:
@@ -78,6 +102,7 @@ CharacterPreview:
     Roll: 升级次数
     Damage: 伤害
   BuildAnalysis:
+    ScoringNote: "注意：DPS评分与连招伤害是针对单次技能循环的评分指标，不能用于跨队伍比较。"
     Header: 角色配装分析
     SimulationTeammates: 模拟队友
     SimulationSets: 模拟套装

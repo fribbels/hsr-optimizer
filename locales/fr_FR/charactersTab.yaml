@@ -41,6 +41,28 @@ Messages:
   UnequipWarning: "Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Stats
+      ButtonText: Traces
+    SpdPrecision:
+      Header: Précision VIT
+      Low: ",0"
+      High: ",000"
+    SpdWeight:
+      Header: Poids de VIT
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: VIT de référence
+      BenchmarkOptionsLabel: Options de référence
+      CurrentSpdLabel: VIT actuelle - La référence ciblera la même VIT que vous
+      BaseSpdLabel: VIT de base - La référence ciblera le minimum de VIT possible
+      CommonBreakpointsLabel: Points d'arrêts communs (Buffs de VIT considérés séparément)
+    BuffPriority:
+      Header: Priorité de buff
+      High: Haute
+      Low: Faible
   CustomizationSidebar:
     Label: Customisation
     Modes:
@@ -59,6 +81,7 @@ CharacterPreview:
     NoSelectedCharacter: Aucun personnage sélectionné
   ScoreHeader:
     Title: Sim de combat
+    TitleBenchmark: "Référence à {{spd}} VIT"
     Score: "Note DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Mode d'évaluation:"
@@ -71,6 +94,7 @@ CharacterPreview:
     Title: "Détails de combat:"
     Labels:
       CombatStats: Stats de Combat
+      SubDpsCombatStats: Stats de Combat (sous-DPS)
       DMGUpgrades: Améliorations Dégâts
   DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:
@@ -78,6 +102,7 @@ CharacterPreview:
     Roll: roll
     Damage: Dégâts
   BuildAnalysis:
+    ScoringNote: "Info: La note DPS et les DGT COMBO sont des métriques qui s'appliquent à une rotation de capacité unique.\nElles ne servent pas à faire des comparaisons entre équipes."
     Header: Analyse de build du personnage
     SimulationTeammates: Coéquipiers de simulation
     SimulationSets: Set de simulation

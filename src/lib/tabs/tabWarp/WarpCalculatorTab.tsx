@@ -175,7 +175,7 @@ function Results() {
   const warpTableData: WarpTableData[] = Object.entries(warpResult.milestoneResults ?? {})
     .map(([label, result]) => ({ key: label, warps: result.warps, wins: result.wins }))
 
-  const title = `Warp Probabilities`
+  const title = `Results`
 
   console.log(warpResult)
 

@@ -38,8 +38,14 @@ export function LayoutHeader() {
             }}
           />
           <a href={BASE_PATH}>
-            <Flex align='center'>
-              <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 35 }}></img>
+            <Flex
+              align='center'
+              style={{
+                position: 'relative',
+                left: '-10px',
+              }}
+            >
+              <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 15 }}></img>
               <Typography
                 style={{ fontWeight: 600, fontSize: 22 }}
                 color='inherit'

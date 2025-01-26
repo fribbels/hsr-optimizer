@@ -23,7 +23,7 @@ export default function WarpCalculatorTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
 
   return (
-    <Flex vertical style={{ height: 1400 }} align='center'>
+    <Flex vertical style={{ height: 1400, width: 950 }} align='center'>
       <Flex justify='space-around' style={{ margin: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           Warp Planner

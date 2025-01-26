@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: Traces
     SpdPrecision:
       Header: Précision VIT
-      Low: ',0'
-      High: ',000'
+      Low: ",0"
+      High: ",000"
     SpdWeight:
       Header: Poids de VIT
       Max: 100%

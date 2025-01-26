@@ -89,6 +89,7 @@ type WarpMilestone = {
   pity: number
   guaranteed: boolean
   redistributedCumulative: number[]
+  redistributedCumulativeNonPity?: number[]
   warpCap: number
 }
 
@@ -128,6 +129,7 @@ export function simulateWarps(originalRequest: WarpRequest) {
         pity,
         guaranteed,
         redistributedCumulative,
+        redistributedCumulativeNonPity,
         warpCap,
       } = milestone
 
@@ -136,12 +138,12 @@ export function simulateWarps(originalRequest: WarpRequest) {
       if (Math.random() < rate || guaranteed) {
         count += index
       } else {
-        const index2 = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
+        const index2 = getNextSuccessIndex(redistributedCumulativeNonPity ?? redistributedCumulative, warpCap, 0) + 1
         count += index + index2
       }
 
       milestoneResults[label].warps += count
-      if (count < request.warps) {
+      if (count <= request.warps) {
         milestoneResults[label].wins++
       }
     }
@@ -171,7 +173,9 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
   } = enrichedRequest
 
   const e0CharacterDistribution = redistributePityCumulative(pityCharacter, characterWarpCap, characterDistribution)
+  const e0CharacterDistributionNonPity = redistributePityCumulative(0, characterWarpCap, characterDistribution)
   const s1LightConeDistribution = redistributePityCumulative(pityLightCone, lightConeWarpCap, lightConeDistribution)
+  const s1LightConeDistributionNonPity = redistributePityCumulative(0, lightConeWarpCap, lightConeDistribution)
   const milestones: WarpMilestone[] = [
     {
       warpType: WarpType.CHARACTER,
@@ -179,6 +183,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
       guaranteed: guaranteedCharacter,
       pity: pityCharacter,
       redistributedCumulative: e0CharacterDistribution,
+      redistributedCumulativeNonPity: e0CharacterDistributionNonPity,
       warpCap: characterWarpCap,
     },
     { warpType: WarpType.CHARACTER, label: 'E1', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
@@ -200,6 +205,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     guaranteed: guaranteedLightCone,
     pity: pityLightCone,
     redistributedCumulative: s1LightConeDistribution,
+    redistributedCumulativeNonPity: s1LightConeDistributionNonPity,
     warpCap: lightConeWarpCap,
   }
 

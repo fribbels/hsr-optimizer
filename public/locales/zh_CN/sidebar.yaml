@@ -1,6 +1,8 @@
 Showcase:
   Title: 展示
   Scorer: 遗器评分器
+Tools:
+  Showcase: 展示
 Optimization:
   Title: 优化
   Optimizer: 优化器

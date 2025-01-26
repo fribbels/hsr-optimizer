@@ -1,6 +1,8 @@
 Showcase:
   Title: Vitrine
   Scorer: Vitrine
+Tools:
+  Showcase: Vitrine
 Optimization:
   Title: Optimisation
   Optimizer: Optimiseur

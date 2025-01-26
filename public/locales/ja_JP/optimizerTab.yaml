@@ -218,6 +218,7 @@ FormRowLabels:
   Character custom stats simulation: カスタムステータスシミュレーション
 TracesDrawer:
   Title: 軌跡を編集
+  Header: 覚醒した軌跡（デフォルトで全て有効）
   ButtonText: 保存
 SetConditionals:
   Title: セット効果を編集
@@ -402,7 +403,7 @@ ComboFilter:
     Break: 撃破
   ComboOptions:
     Basic: 基礎
-    Skill: ｽｷﾙ
+    Skill: スキル
     Ult: 必殺
     Fua: 追加
     MemoSkill: 精霊スキル

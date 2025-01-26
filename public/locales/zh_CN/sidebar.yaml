@@ -1,6 +1,10 @@
 Showcase:
   Title: 展示
   Scorer: 遗器评分器
+Tools:
+  Title: 工具
+  Showcase: 展示
+  WarpPlanner: 跃迁规划器
 Optimization:
   Title: 优化
   Optimizer: 优化器

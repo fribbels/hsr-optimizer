@@ -4,6 +4,7 @@ import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
 import { GettingStartedDrawer } from 'lib/overlays/drawers/GettingStartedDrawer'
 import { SettingsDrawer } from 'lib/overlays/drawers/SettingsDrawer'
+import { StatTracesDrawer } from 'lib/overlays/drawers/StatTracesDrawer'
 import { Gradient } from 'lib/rendering/gradient'
 import DB from 'lib/state/db'
 import Tabs from 'lib/tabs/Tabs'
@@ -66,6 +67,7 @@ const App = () => {
           </Content>
           <SettingsDrawer/>
           <GettingStartedDrawer/>
+          <StatTracesDrawer/>
         </Layout>
       </Layout>
     </ConfigProvider>

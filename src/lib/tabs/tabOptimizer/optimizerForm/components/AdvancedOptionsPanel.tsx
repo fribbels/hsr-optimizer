@@ -10,6 +10,8 @@ export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
   const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
   const setEnemyConfigurationsDrawerOpen = window.store((s) => s.setEnemyConfigurationsDrawerOpen)
+  const setStatTracesDrawerOpen = window.store((s) => s.setStatTracesDrawerOpen)
+  const setStatTracesDrawerFocusCharacter = window.store((s) => s.setStatTracesDrawerFocusCharacter)
 
   // Count the # of active buffs to display
   const formCombatBuffs = Form.useWatch((values: OptimizerForm) => values.combatBuffs, window.optimizerForm)
@@ -22,6 +24,17 @@ export const AdvancedOptionsPanel = () => {
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <HeaderText style={{ marginTop: 25 }}>{t('Header')/* Advanced options */}</HeaderText>
+
+      <Button
+        onClick={() => {
+          setStatTracesDrawerOpen(true)
+          setStatTracesDrawerFocusCharacter(window.store.getState().optimizerTabFocusCharacter!)
+        }}
+        icon={<SettingOutlined/>}
+      >
+        {t('CustomTracesButtonText')/* Custom stat traces */}
+      </Button>
+
       <Button
         onClick={() => setCombatBuffsDrawerOpen(true)}
         icon={<SettingOutlined/>}
@@ -31,6 +44,7 @@ export const AdvancedOptionsPanel = () => {
           // Extra combat buffs (activeCount) / Extra combat buffs
         }
       </Button>
+
       <Button
         onClick={() => setEnemyConfigurationsDrawerOpen(true)}
         icon={<SettingOutlined/>}

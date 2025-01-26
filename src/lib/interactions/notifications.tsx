@@ -54,6 +54,7 @@ export function checkForUpdatesNotification(version: string) {
 
 export function webgpuNotSupportedNotification() {
   const t = i18next.getFixedT(null, 'notifications', 'GPU')
+  const tCrash = i18next.getFixedT(null, 'notifications', 'GPUCrash')
   // Errors checking for versions shouldn't crash the app
   try {
     window.notificationApi.warning({
@@ -66,6 +67,7 @@ export function webgpuNotSupportedNotification() {
               // Please use one of the following supported environments in order to enable GPU acceleration:
             }
           </div>
+
           <div>
             <ul>
               <li>{t('Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
@@ -82,12 +84,21 @@ export function webgpuNotSupportedNotification() {
             </ul>
           </div>
 
-          <div>
+          <p>
             {
               t('Description.l4')
               // If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated.
             }
-          </div>
+          </p>
+
+          <p>
+            <Trans
+              t={tCrash}
+              i18nKey='Description.l2'
+              // @ts-ignore
+              components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true}/> }}
+            />
+          </p>
         </Flex>
       ),
       duration: 15,

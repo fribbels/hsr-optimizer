@@ -1,6 +1,8 @@
 Showcase:
   Title: Витрина
   Scorer: Счетчик Реликвии
+Tools:
+  Showcase: Витрина
 Optimization:
   Title: Оптимизация
   Optimizer: Оптимизатор

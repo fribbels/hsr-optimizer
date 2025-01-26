@@ -83,6 +83,7 @@ AdvancedOptions:
   EnemyConfigButtonText: Enemy configurations
   CombatBuffsButtonTextNone: Extra combat buffs
   CombatBuffsButtonText: "Extra combat buffs ({{activeCount}})"
+  CustomTracesButtonText: Custom stat traces
 Grid:
   To: to
   Of: of
@@ -230,6 +231,10 @@ FormRowLabels:
   Relic & stat filters: Relic & stat filters
   Teammates: Teammates
   Character custom stats simulation: Character custom stats simulation
+TracesDrawer:
+  Title: Custom stat traces
+  Header: Activated stat traces (all enabled by default)
+  ButtonText: Save changes
 SetConditionals:
   Title: Conditional set effects
   DescriptionHeader: Set description

@@ -85,6 +85,7 @@ export type Form = {
   resultSort?: string
   resultsLimit?: number
   path?: string // remove?
+  deprioritizeBuffs?: boolean
   resultMinFilter: number
 
   // Combo

@@ -37,7 +37,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'speedBoostStacks',
       formItem: 'slider',
       text: t('Content.speedBoostStacks.text'),
-      content: t('Content.speedBoostStacks.content', { speedBoostStacksMax: speedBoostStacksMax }),
+      content: t('Content.speedBoostStacks.content'),
       min: 0,
       max: speedBoostStacksMax,
     },

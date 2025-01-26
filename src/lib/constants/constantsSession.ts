@@ -1,4 +1,3 @@
-// FIXME MED
 // Move into session store
 
 export enum SavedSessionKeys {
@@ -8,5 +7,6 @@ export enum SavedSessionKeys {
   combatScoreDetails = 'combatScoreDetails',
   computeEngine = 'computeEngine',
   showcaseStandardMode = 'showcaseStandardMode',
-  showcaseDarkMode = 'showcaseDarkMode'
+  showcaseDarkMode = 'showcaseDarkMode',
+  showcasePreciseSpd = 'showcasePreciseSpd'
 }

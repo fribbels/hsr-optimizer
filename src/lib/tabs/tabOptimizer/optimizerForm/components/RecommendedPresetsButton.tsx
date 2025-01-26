@@ -1,6 +1,7 @@
 import { DownOutlined } from '@ant-design/icons'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Button, Dropdown } from 'antd'
+import { TFunction } from 'i18next'
 import { Constants, Sets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
@@ -115,71 +116,76 @@ export type SpdPresets = Record<string, {
   key: string
   label: string | ReactElement
   value: number | undefined
+  disabled?: boolean
 }>
+
+export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
+  const spdPresets: SpdPresets = {
+    SPD0: {
+      key: 'SPD0',
+      label: t('SpdValues.SPD0'), // 'No minimum speed',
+      value: undefined,
+    },
+    SPD111: {
+      key: 'SPD111',
+      label: t('SpdValues.SPD111'), // '111.112 SPD - 5 actions in first four cycles',
+      value: 111.112,
+    },
+    SPD114: {
+      key: 'SPD114',
+      label: t('SpdValues.SPD114'), // '114.286 SPD - 4 actions in first three cycles',
+      value: 114.286,
+    },
+    SPD120: {
+      key: 'SPD120',
+      label: t('SpdValues.SPD120'), // '120.000 SPD - 3 actions in first two cycles',
+      value: 120.000,
+    },
+    SPD133: {
+      key: 'SPD133',
+      label: t('SpdValues.SPD133')/* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */,
+      value: 133.334,
+    },
+    SPD142: {
+      key: 'SPD142',
+      label: t('SpdValues.SPD142'), // '142.858 SPD - 5 actions in first three cycles',
+      value: 142.858,
+    },
+    SPD155: {
+      key: 'SPD155',
+      label: t('SpdValues.SPD155'), // '155.556 SPD - 7 actions in first four cycles',
+      value: 155.556,
+    },
+    SPD160: {
+      key: 'SPD160',
+      label: t('SpdValues.SPD160'), // '160.000 SPD - 4 actions in first two cycles',
+      value: 160.000,
+    },
+    SPD171: {
+      key: 'SPD171',
+      label: t('SpdValues.SPD171'), // '171.429 SPD - 6 actions in first three cycles',
+      value: 171.429,
+    },
+    SPD177: {
+      key: 'SPD177',
+      label: t('SpdValues.SPD177'), // '177.778 SPD - 8 actions in first four cycles',
+      value: 177.778,
+    },
+    SPD200: {
+      key: 'SPD200',
+      label: t('SpdValues.SPD200'), // '200.000 SPD - 3 actions in first cycle',
+      value: 200.000,
+    },
+  }
+  return spdPresets
+}
 
 const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   const spdPresets = useMemo(() => {
-    const spdPresets: SpdPresets = {
-      SPD0: {
-        key: 'SPD0',
-        label: t('SpdValues.SPD0'), // 'No minimum speed',
-        value: undefined,
-      },
-      SPD111: {
-        key: 'SPD111',
-        label: t('SpdValues.SPD111'), // '111.112 SPD - 5 actions in first four cycles',
-        value: 111.112,
-      },
-      SPD114: {
-        key: 'SPD114',
-        label: t('SpdValues.SPD114'), // '114.286 SPD - 4 actions in first three cycles',
-        value: 114.286,
-      },
-      SPD120: {
-        key: 'SPD120',
-        label: t('SpdValues.SPD120'), // '120.000 SPD - 3 actions in first two cycles',
-        value: 120.000,
-      },
-      SPD133: {
-        key: 'SPD133',
-        label: (<b>{t('SpdValues.SPD133')/* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */}</b>),
-        value: 133.334,
-      },
-      SPD142: {
-        key: 'SPD142',
-        label: t('SpdValues.SPD142'), // '142.858 SPD - 5 actions in first three cycles',
-        value: 142.858,
-      },
-      SPD155: {
-        key: 'SPD155',
-        label: t('SpdValues.SPD155'), // '155.556 SPD - 7 actions in first four cycles',
-        value: 155.556,
-      },
-      SPD160: {
-        key: 'SPD160',
-        label: t('SpdValues.SPD160'), // '160.000 SPD - 4 actions in first two cycles',
-        value: 160.000,
-      },
-      SPD171: {
-        key: 'SPD171',
-        label: t('SpdValues.SPD171'), // '171.429 SPD - 6 actions in first three cycles',
-        value: 171.429,
-      },
-      SPD177: {
-        key: 'SPD177',
-        label: t('SpdValues.SPD177'), // '177.778 SPD - 8 actions in first four cycles',
-        value: 177.778,
-      },
-      SPD200: {
-        key: 'SPD200',
-        label: t('SpdValues.SPD200'), // '200.000 SPD - 3 actions in first cycle',
-        value: 200.000,
-      },
-    }
-    return spdPresets
+    return generateSpdPresets(t)
   }, [t])
 
   const standardSpdOptions = Object.values(spdPresets)

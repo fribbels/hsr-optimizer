@@ -101,6 +101,10 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   const x = action.precomputedX
 
+  if (context.deprioritizeBuffs) {
+    x.DEPRIORITIZE_BUFFS.set(1, Source.NONE)
+  }
+
   lightConeConditionals.initializeConfigurations?.(x, action, context)
   characterConditionals.initializeConfigurations?.(x, action, context)
 

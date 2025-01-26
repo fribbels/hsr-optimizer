@@ -6,20 +6,22 @@ let saveTimeout: NodeJS.Timeout | null
 
 export const SaveState = {
   save: () => {
+    const storedState = window.store.getState()
     const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
-      scorerId: window.store.getState().scorerId,
-      scoringMetadataOverrides: window.store.getState().scoringMetadataOverrides,
-      showcasePreferences: window.store.getState().showcasePreferences,
-      optimizerMenuState: window.store.getState().optimizerMenuState,
-      excludedRelicPotentialCharacters: window.store.getState().excludedRelicPotentialCharacters,
-      savedSession: window.store.getState().savedSession,
-      settings: window.store.getState().settings,
+      scorerId: storedState.scorerId,
+      scoringMetadataOverrides: storedState.scoringMetadataOverrides,
+      showcasePreferences: storedState.showcasePreferences,
+      optimizerMenuState: storedState.optimizerMenuState,
+      excludedRelicPotentialCharacters: storedState.excludedRelicPotentialCharacters,
+      savedSession: storedState.savedSession,
+      settings: storedState.settings,
       version: CURRENT_OPTIMIZER_VERSION,
+      warpRequest: storedState.warpRequest,
       relicLocator: {
-        inventoryWidth: window.store.getState().inventoryWidth,
-        rowLimit: window.store.getState().rowLimit,
+        inventoryWidth: storedState.inventoryWidth,
+        rowLimit: storedState.rowLimit,
       },
     }
 

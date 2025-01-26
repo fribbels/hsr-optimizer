@@ -32,12 +32,12 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSm
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { COMBAT_STATS, NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE } from 'lib/constants/constants'
+import { COMBAT_STATS, NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
@@ -92,6 +92,11 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
+  const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD])
+  const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
+  const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs)
+  const showcaseTemporaryOptions = window.store((s) => s.showcaseTemporaryOptions)
+
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
       <div
@@ -131,6 +136,7 @@ export function CharacterPreview(props: {
     scoringType,
     currentSelection,
     showcaseMetadata,
+    showcaseTemporaryOptions,
   )
 
   // ===== Portrait =====
@@ -214,10 +220,12 @@ export function CharacterPreview(props: {
         ref={sidebarRef}
         id={props.id}
         characterId={character.id}
+        simScoringResult={simScoringResult}
         token={seedToken}
         showcasePreferences={characterShowcasePreferences}
         setOverrideTheme={() => {
         }}
+        scoringType={scoringType}
         seedColor={overrideSeedColor}
         setSeedColor={setSeedColor}
         colorMode={overrideColorMode}
@@ -256,14 +264,14 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: `blur(20px) brightness(${darkMode ? 0.65 : 0.75}) saturate(0.8)`,
-              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.65 : 0.75}) saturate(0.8)`,
+              filter: `blur(20px) brightness(${darkMode ? 0.50 : 0.60}) saturate(${darkMode ? 0.80 : 0.80})`,
+              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.50 : 0.60}) saturate(${darkMode ? 0.80 : 0.80})`,
             }}
           />
 
           {/* Portrait left panel */}
           {source != ShowcaseSource.BUILDS_MODAL &&
-            <Flex vertical gap={12} className='character-build-portrait'>
+            <Flex vertical gap={8} className='character-build-portrait'>
               <ShowcasePortrait
                 source={source}
                 character={character}
@@ -320,6 +328,7 @@ export function CharacterPreview(props: {
               />
 
               <CharacterStatSummary
+                characterId={character.id}
                 finalStats={finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 cv={finalStats.CV}

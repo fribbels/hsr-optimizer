@@ -18,11 +18,13 @@ import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/Sett
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
+import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -54,6 +56,7 @@ export const AppPages = {
   CHANGELOG: 'CHANGELOG',
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
+  WARP: 'WARP',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
@@ -67,6 +70,7 @@ export const PageToRoute = {
 
   [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
+  [AppPages.WARP]: BASE_PATH + '#warp',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
   [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 
@@ -78,6 +82,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
   [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
+  [PageToRoute[AppPages.WARP]]: AppPages.WARP,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
   [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 
@@ -101,6 +106,7 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
+  [SavedSessionKeys.showcasePreciseSpd]: false,
 }
 
 function getDefaultActiveKey() {
@@ -123,6 +129,7 @@ window.store = create((set) => {
     optimizerTabFocusCharacter: undefined,
     characterTabFocusCharacter: undefined,
     scoringAlgorithmFocusCharacter: undefined,
+    statTracesDrawerFocusCharacter: undefined,
     relicsTabFocusCharacter: undefined,
     inventoryWidth: 9,
     rowLimit: 10,
@@ -133,6 +140,7 @@ window.store = create((set) => {
     conditionalSetEffectsDrawerOpen: false,
     comboDrawerOpen: false,
     combatBuffsDrawerOpen: false,
+    statTracesDrawerOpen: false,
     enemyConfigurationsDrawerOpen: false,
     settingsDrawerOpen: false,
     gettingStartedDrawerOpen: false,
@@ -143,6 +151,9 @@ window.store = create((set) => {
     scorerId: '',
     scoringMetadataOverrides: {},
     showcasePreferences: {},
+    showcaseTemporaryOptions: {},
+    warpRequest: {} as WarpRequest,
+    warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
@@ -221,12 +232,14 @@ window.store = create((set) => {
     setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
     setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
     setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
+    setStatTracesDrawerOpen: (x) => set(() => ({ statTracesDrawerOpen: x })),
     setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
     setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
     setGettingStartedDrawerOpen: (x) => set(() => ({ gettingStartedDrawerOpen: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
     setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+    setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
     setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
     setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
     setPermutations: (x) => set(() => ({ permutations: x })),
@@ -238,6 +251,9 @@ window.store = create((set) => {
     setScorerId: (x) => set(() => ({ scorerId: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
+    setShowcaseTemporaryOptions: (x) => set(() => ({ showcaseTemporaryOptions: x })),
+    setWarpRequest: (x) => set(() => ({ warpRequest: x })),
+    setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
@@ -421,6 +437,8 @@ export const DB = {
       }
     }
 
+    setModifiedScoringMetadata(defaultScoringMetadata, returnScoringMetadata)
+
     // We don't want to carry over presets, use the optimizer defined ones
     // TODO: What does this do
     // @ts-ignore
@@ -439,6 +457,11 @@ export const DB = {
       // TODO: bug
       // overrides.modified = true
     }
+
+    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
+
+    setModifiedScoringMetadata(defaultScoringMetadata, overrides[id])
+
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
@@ -580,6 +603,9 @@ export const DB = {
               scoringMetadataOverrides.modified = true
             }
           }
+
+          // Just use this post migration? I don't quite remember what the above does
+          setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
         }
       }
 
@@ -588,6 +614,10 @@ export const DB = {
 
     if (saveData.showcasePreferences) {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+    }
+
+    if (saveData.warpRequest) {
+      window.store.getState().setWarpRequest(saveData.warpRequest || {})
     }
 
     window.store.getState().setScorerId(saveData.scorerId)

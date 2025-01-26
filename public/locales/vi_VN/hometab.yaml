@@ -23,7 +23,8 @@ FeatureCards:
       Quản lý di vật của bạn bằng cách đánh giá và sắp xếp chúng theo tiềm năng, và tìm ra những di vật tốt nhất để nâng cấp cho từng nhân vật.
 Welcome: Chào mừng đến với <1/>Trình tối ưu hóa Star Rail của Fribbels!
 SearchBar:
-  Placeholder: UUID
-  Label: "Nhập UUID của bạn để xem hiển thị nhân vật:"
+  Placeholder: UID
+  Label: "Hãy nhập UID để xem showcase nhân vật "
+  Api: "Dùng Enka.Network"
   Message: Nhập không hợp lệ - Đây nên là UUID 9 chữ số trong game của bạn.
   Search: Tìm Kiếm

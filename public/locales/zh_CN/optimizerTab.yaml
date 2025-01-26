@@ -83,6 +83,7 @@ AdvancedOptions:
   EnemyConfigButtonText: 敌人配置
   CombatBuffsButtonTextNone: 额外战斗增益
   CombatBuffsButtonText: "额外战斗增益 ({{activeCount}})"
+  CustomTracesButtonText: 自定义属性行迹
 Grid:
   To: '-'
   Of: /
@@ -199,6 +200,7 @@ Sidebar:
   Perms: 排列
   Searched: 已搜索
   Results: 结果
+  ComputeEngine: 计算引擎
   ProgressText:
     Progress: 进度
     CalculatingETA: 进度（正在计算预计完成时间...）
@@ -214,6 +216,8 @@ Sidebar:
     Header: 属性与筛选视图
     CombatStats: 战斗属性
     BasicStats: 基本属性
+    SummonerStats: 召唤者
+    MemospriteStats: 忆灵
   ResultsGroup:
     Header: 结果
     Equip: 装备
@@ -227,6 +231,10 @@ FormRowLabels:
   Relic & stat filters: 遗器和属性筛选
   Teammates: 队友
   Character custom stats simulation: 角色自定义属性模拟
+TracesDrawer:
+  Title: 自定义属性行迹
+  Header: 已激活的属性行迹（默认全部启用）
+  ButtonText: 保存更改
 SetConditionals:
   Title: 套装条件触发效果
   DescriptionHeader: 套装描述

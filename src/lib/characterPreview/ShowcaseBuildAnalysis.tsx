@@ -4,7 +4,7 @@ import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewControlle
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { SimulationScore } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'

@@ -20,7 +20,7 @@ import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
-import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter } from 'types/metadata'
+import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter, ShowcaseTemporaryOptions } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
@@ -105,7 +105,7 @@ export function getArtistName(character: Character) {
 
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
   const newLcMargin = 5
-  const newLcHeight = 125
+  const newLcHeight = 129
 
   // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
@@ -167,12 +167,14 @@ export function getShowcaseSimScoringResult(
   scoringType: string,
   teamSelection: string,
   showcaseMetadata: ShowcaseMetadata,
+  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>,
 ) {
   if (scoringType != SIMULATION_SCORE) {
     return null
   }
 
-  let simScoringResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
+  const characterShowcaseTemporaryOptions = showcaseTemporaryOptions[character.id] ?? {}
+  let simScoringResult = scoreCharacterSimulation(character, displayRelics, teamSelection, characterShowcaseTemporaryOptions)
 
   if (!simScoringResult?.originalSim) {
     simScoringResult = null

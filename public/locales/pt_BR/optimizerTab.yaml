@@ -83,6 +83,7 @@ AdvancedOptions:
   EnemyConfigButtonText: Configurações de inimigo
   CombatBuffsButtonTextNone: Buffs extras de combate
   CombatBuffsButtonText: "Buffs extras de combate ({{activeCount}})"
+  CustomTracesButtonText: Atributos personalizados de traços
 Grid:
   To: para
   Of: de
@@ -199,6 +200,7 @@ Sidebar:
   Perms: Perms
   Searched: Buscado
   Results: Resultados
+  ComputeEngine: Engine de Computação
   ProgressText:
     Progress: Progresso
     CalculatingETA: Progresso (calculando ETA..)
@@ -214,6 +216,8 @@ Sidebar:
     Header: Visualização de atributo e filtro
     CombatStats: Stats combate
     BasicStats: Stats básicos
+    SummonerStats: Invocador
+    MemospriteStats: Memosprite
   ResultsGroup:
     Header: Resultados
     Equip: Equipar
@@ -227,6 +231,10 @@ FormRowLabels:
   Relic & stat filters: Filtros de relíquias e atributos
   Teammates: Membros de equipe
   Character custom stats simulation: Simulação de atributos personalizados de personagens
+TracesDrawer:
+  Title: Atributos personalizados de traços
+  Header: Traços de atributos ativados (todos ativados por padrão)
+  ButtonText: Salvar alterações
 SetConditionals:
   Title: Efeitos condicionais de set
   DescriptionHeader: Definir descrição

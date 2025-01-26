@@ -1,19 +1,23 @@
-import { CameraOutlined, DownloadOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
-import { Button, ColorPicker, Flex, Segmented, ThemeConfig } from 'antd'
+import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
+import { Button, ColorPicker, Flex, InputNumber, Segmented, Select, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
-import chroma from 'chroma-js'
+import { usePublish } from 'hooks/usePublish'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { ShowcaseColorMode } from 'lib/constants/constants'
+import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { Assets } from 'lib/rendering/assets'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
+import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { organizeColors, selectColor } from 'lib/utils/colorUtils'
+import { organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
@@ -27,6 +31,8 @@ export interface ShowcaseCustomizationSidebarProps {
   characterId: string
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
+  simScoringResult: SimulationScore | null
+  scoringType: string
   setOverrideTheme: (overrideTheme: ThemeConfig) => void
   seedColor: string
   setSeedColor: (color: string) => void
@@ -43,24 +49,32 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     const {
       id,
       characterId,
+      simScoringResult,
+      scoringType,
       seedColor,
       setSeedColor,
       colorMode,
       setColorMode,
     } = props
 
-    const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
+    const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
+    const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
+    const pubRefreshRelicsScore = usePublish()
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
     const [loading, setLoading] = useState<boolean>(false)
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
+    const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
+    const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
+    const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
+    const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectColor(palette.LightMuted, palette.LightVibrant)
+            const primary = selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted])
 
             setSeedColor(primary)
             urlToColorCache[img] = primary
@@ -92,8 +106,6 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
 
       console.log('Set seed color to', newColor)
 
-      console.log(chroma(newColor).luminance())
-
       setColorMode(ShowcaseColorMode.CUSTOM)
       setSeedColor(newColor)
     }
@@ -117,9 +129,66 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
     }
 
+    function onShowcasePreciseSpdChange(preciseSpd: boolean) {
+      console.log('Set precise spd to', preciseSpd)
+
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
+    }
+
+    function onShowcaseSpdValueChange(spdValue: number) {
+      console.log('Set spd value to', spdValue)
+
+      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+      scoringMetadata.stats[Stats.SPD] = spdValue
+
+      DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
+    }
+
+    function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
+      // @ts-ignore
+      const value: string = event?.target?.value
+      if (value == null) return onShowcaseSpdBenchmarkChange(undefined)
+
+      const spdBenchmark = parseFloat(value)
+      if (isNaN(spdBenchmark)) return onShowcaseSpdBenchmarkChange(undefined)
+
+      onShowcaseSpdBenchmarkChange(spdBenchmark)
+    }
+
+    function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
+      console.log('Set spd benchmark to', spdBenchmark)
+
+      const showcaseTemporaryOptions = TsUtils.clone(window.store.getState().showcaseTemporaryOptions)
+      if (!showcaseTemporaryOptions[characterId]) showcaseTemporaryOptions[characterId] = {}
+
+      // -1 is used as the "current" setting
+      const actualValue = spdBenchmark == -1 ? undefined : spdBenchmark
+
+      showcaseTemporaryOptions[characterId].spdBenchmark = actualValue
+
+      window.store.getState().setShowcaseTemporaryOptions(showcaseTemporaryOptions)
+    }
+
+    function onTraceClick() {
+      window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
+      window.store.getState().setStatTracesDrawerOpen(true)
+    }
+
+    function onShowcaseDeprioritizeBuffsChange(deprioritizeBuffs: boolean) {
+      const scoringMetadata = DB.getScoringMetadata(characterId)
+      if (scoringMetadata?.simulation) {
+        console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
+
+        const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
+        simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
+        DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
+      }
+    }
+
     const presets = [
       {
-        label: t('PaletteLabel'),
+        label: tCustomization('PaletteLabel'),
         colors: colors,
       },
       // {
@@ -128,99 +197,297 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
       // },
     ]
 
+    const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => {
+      return {
+        spdPrecisionOptions: [
+          { value: false, label: tScoring('SpdPrecision.Low')/* '.0' */ },
+          { value: true, label: tScoring('SpdPrecision.High')/* '.000' */ },
+        ],
+        spdWeightOptions: [
+          { value: 1, label: tScoring('SpdWeight.Max')/* '100%' */ },
+          { value: 0, label: tScoring('SpdWeight.Min')/* '0%' */ },
+        ],
+        buffPriorityOptions: [
+          { value: false, label: tScoring('BuffPriority.High')/* 'High' */ },
+          { value: true, label: tScoring('BuffPriority.Low')/* 'Low' */ },
+        ],
+      }
+    }, [tScoring])
+
     return (
       <Flex
         vertical
-        gap={8}
+        gap={16}
         style={{
           position: 'absolute',
           marginLeft: 1085,
           width: 130,
-          backgroundColor: 'rgb(29 42 71)',
-          boxShadow: shadow,
-          borderRadius: 5,
-          padding: defaultPadding,
         }}
       >
-        <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-          {t('Label')}
-        </HeaderText>
-
-        <ColorPicker
-          presets={presets}
-          defaultValue='#1677ff'
-          value={seedColor}
-          onChangeComplete={(value: AggregationColor) => {
-            const color = value.toHexString()
-            onColorSelectorChange(color)
-          }}
-          disabledAlpha
-          disabledFormat
-          showText
-        />
-
-        <HorizontalDivider/>
-
-        <Segmented
+        <Flex
           vertical
-          options={[
-            { value: ShowcaseColorMode.AUTO, label: t('Modes.Auto') },
-            { value: ShowcaseColorMode.CUSTOM, label: t('Modes.Custom') },
-            { value: ShowcaseColorMode.STANDARD, label: t('Modes.Standard') },
-          ]}
-          value={colorMode}
-          onChange={onColorModeChange}
-        />
+          gap={6}
+          style={{
+            backgroundColor: 'rgb(29 42 71)',
+            boxShadow: shadow,
+            borderRadius: 5,
+            padding: defaultPadding,
+          }}
+        >
+          <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
+            <span></span>
+            <HeaderText style={{ textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+              {tScoring('Stats.Header')/* Stats */}
+            </HeaderText>
 
-        <HorizontalDivider/>
+            <a
+              href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
+              target='_blank'
+              style={{ display: 'inline-flex', alignItems: 'center' }}
+            >
+              <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
+            </a>
+          </Flex>
 
-        <Segmented
-          options={[
-            { value: false, label: <SunOutlined/> },
-            { value: true, label: <MoonOutlined/> },
-          ]}
-          block
-          value={showcaseDarkMode}
-          onChange={onBrightnessModeChange}
-        />
+          <HorizontalDivider/>
 
-        <HorizontalDivider/>
-
-        <Flex justify='space-between'>
           <Button
-            icon={<CameraOutlined style={{ fontSize: 30 }}/>}
-            loading={loading}
-            onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
-            type='primary'
-            style={{ height: 50, width: 50, borderRadius: 8 }}
+            icon={<SettingOutlined/>}
+            onClick={onTraceClick}
           >
+            {tScoring('Stats.ButtonText')/* Traces */}
           </Button>
-          <Button
-            icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
-            loading={loading}
-            onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
-            type='primary'
-            style={{ height: 50, width: 50, borderRadius: 8 }}
-          >
-          </Button>
+
+          <HorizontalDivider/>
+
+          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+            {tScoring('SpdPrecision.Header')/* SPD precision */}
+          </HeaderText>
+
+          <Segmented
+            options={spdPrecisionOptions}
+            block
+            value={showcasePreciseSpd}
+            onChange={onShowcasePreciseSpdChange}
+          />
+
+          {scoringType != NONE_SCORE
+            && (
+              <>
+                <HorizontalDivider/>
+
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('SpdWeight.Header')/* SPD weight */}
+                </HeaderText>
+
+                <Segmented
+                  options={spdWeightOptions}
+                  block
+                  value={spdValue}
+                  onChange={onShowcaseSpdValueChange}
+                />
+              </>
+            )
+          }
+
+          {scoringType == SIMULATION_SCORE
+            && (
+              <>
+                <HorizontalDivider/>
+
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
+                </HeaderText>
+
+                <InputNumber
+                  size='small'
+                  controls={false}
+                  style={{ width: '100%' }}
+                  value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
+                  addonAfter={(
+                    <SelectSpdPresets
+                      spdFilter={simScoringResult?.originalSpd}
+                      onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                      characterId={characterId}
+                      simScoringResult={simScoringResult}
+                    />
+                  )}
+                  min={0}
+                  onBlur={onShowcaseSpdBenchmarkChangeEvent}
+                  onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
+                />
+              </>
+            )}
+
+          {scoringType == SIMULATION_SCORE
+            && (
+              <>
+                <HorizontalDivider/>
+
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BuffPriority.Header')/* Buff priority */}
+                </HeaderText>
+
+                <Segmented
+                  options={buffPriorityOptions}
+                  block
+                  value={deprioritizeBuffs}
+                  onChange={onShowcaseDeprioritizeBuffsChange}
+                />
+              </>
+            )}
+
+        </Flex>
+
+        <Flex
+          vertical
+          gap={6}
+          style={{
+            backgroundColor: 'rgb(29 42 71)',
+            boxShadow: shadow,
+            borderRadius: 5,
+            padding: defaultPadding,
+          }}
+        >
+          <HeaderText style={{ textAlign: 'center' }}>
+            {tCustomization('Label')}
+          </HeaderText>
+
+          <HorizontalDivider/>
+
+          <ColorPicker
+            presets={presets}
+            defaultValue='#1677ff'
+            value={seedColor}
+            onChangeComplete={(value: AggregationColor) => {
+              const color = value.toHexString()
+              onColorSelectorChange(color)
+            }}
+            disabledAlpha
+            disabledFormat
+            showText
+          />
+
+          <HorizontalDivider/>
+
+          <Segmented
+            vertical
+            options={[
+              { value: ShowcaseColorMode.AUTO, label: tCustomization('Modes.Auto') },
+              { value: ShowcaseColorMode.CUSTOM, label: tCustomization('Modes.Custom') },
+              { value: ShowcaseColorMode.STANDARD, label: tCustomization('Modes.Standard') },
+            ]}
+            value={colorMode}
+            onChange={onColorModeChange}
+          />
+
+          <HorizontalDivider/>
+
+          <Segmented
+            options={[
+              { value: false, label: <SunOutlined/> },
+              { value: true, label: <MoonOutlined/> },
+            ]}
+            block
+            value={showcaseDarkMode}
+            onChange={onBrightnessModeChange}
+          />
+
+          <HorizontalDivider/>
+
+          <Flex justify='space-between'>
+            <Button
+              icon={<CameraOutlined style={{ fontSize: 30 }}/>}
+              loading={loading}
+              onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
+              type='primary'
+              style={{ height: 50, width: 50, borderRadius: 8 }}
+            >
+            </Button>
+            <Button
+              icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
+              loading={loading}
+              onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
+              type='primary'
+              style={{ height: 50, width: 50, borderRadius: 8 }}
+            >
+            </Button>
+          </Flex>
         </Flex>
       </Flex>
     )
   },
 )
 
+function SelectSpdPresets(props: {
+  characterId: string
+  onShowcaseSpdBenchmarkChange: (n: number) => void
+  simScoringResult: SimulationScore | null
+  spdFilter?: number
+}) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
+  const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
+
+  const spdPresetOptions = useMemo(() => {
+    const presets = Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
+    if (props.spdFilter != null) {
+      presets.map((preset) => {
+        preset.disabled = preset.value != null && preset.value > props.spdFilter!
+      })
+    }
+
+    return [
+      {
+        label: <span>{tCharacterTab('BenchmarkOptionsLabel')/* Benchmark options */}</span>,
+        title: 'benchmark',
+        options: [
+          {
+            label: <b><span>{tCharacterTab('CurrentSpdLabel')/* Current SPD - The benchmark will match your basic SPD */}</span></b>,
+            value: -1,
+          },
+          {
+            label: <span>{tCharacterTab('BaseSpdLabel')/* Base SPD - The benchmark will target a minimal SPD build */}</span>,
+            value: 0,
+          },
+        ],
+      },
+      {
+        label: <span>{tCharacterTab('CommonBreakpointsLabel')/* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
+        options: presets,
+      },
+    ]
+  }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
+
+  return (
+    <Select
+      style={{ width: 34 }}
+      labelRender={() => <></>}
+      dropdownStyle={{ width: 'fit-content' }}
+      options={spdPresetOptions}
+      placement='bottomRight'
+      listHeight={800}
+      value={null}
+      onChange={props.onShowcaseSpdBenchmarkChange}
+    />
+  )
+}
+
 function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, color: string) {
   setLoading(true)
   setTimeout(() => {
-    Utils.screenshotElementById(elementId, action/*, color*/).finally(() => {
+    Utils.screenshotElementById(elementId, action).finally(() => {
       setLoading(false)
     })
   }, 100)
 }
 
+function sanitizePositiveNumberElseUndefined(n?: number) {
+  return n == undefined || n < 0 ? undefined : n
+}
+
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
-const STANDARD_COLOR = '#2d58b6'
+const STANDARD_COLOR = '#799ef4'
 
 export function standardShowcasePreferences() {
   return {
@@ -261,7 +528,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     return STANDARD_COLOR
   }
 
-  if (urlToColorCache[portraitUrl]) {
+  if (DB.getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
     return urlToColorCache[portraitUrl]
   }
 
@@ -270,56 +537,56 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1002: ['#7dd3ea'], // danheng
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
-    1005: ['#d684a9'], // kafka
+    1005: ['#ea8abc'], // kafka
     1006: ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
-    1009: ['#a092ef'], // asta
-    1013: ['#653ae9'], // herta
+    1009: ['#9e80e6'], // asta
+    1013: ['#8969ea'], // herta
     1101: ['#375ee1'], // bronya
     1102: ['#5f55eb'], // seele
     1103: ['#8772f4'], // serval
     1104: ['#0f4eef'], // gepard
-    1105: ['#6a85a0'], // natasha
+    1105: ['#82b5e9'], // natasha
     1106: ['#4b88e0'], // pela
     1107: ['#a99dd1'], // clara
     1108: ['#7777c9'], // sampo
     1109: ['#c8d0f0'], // hook
-    1110: ['#2e93c6'], // lynx
-    1111: ['#e9858e'], // luka
+    1110: ['#53b1e1'], // lynx
+    1111: ['#5d8ce2'], // luka
     1112: ['#1d3f9c'], // topaz
-    1201: ['#8fdde6'], // qingque
-    1202: ['#ecd5da'], // tingyun
-    1203: ['#97e0ef'], // luocha
+    1201: ['#87d2da'], // qingque
+    1202: ['#f4b5d4'], // tingyun
+    1203: ['#8ce2f4'], // luocha
     1204: ['#b7dde2'], // jingyuan
     1205: ['#4d69be'], // blade
     1206: ['#154da1'], // sushang
     1207: ['#90a0e6'], // yukong
     1208: ['#da91f2'], // fuxuan
     1209: ['#6db1f4'], // yanqing
-    1210: ['#f9f5f2'], // guinaifen
+    1210: ['#88aade'], // guinaifen
     1211: ['#2a415c'], // bailu
     1212: ['#0e37cc'], // jingliu
     1213: ['#72c3de'], // imbibitorlunae
     1214: ['#3571e7'], // xueyi
     1215: ['#9a90e6'], // hanya
-    1217: ['#81bad1'], // huohuo
+    1217: ['#7dcdd9'], // huohuo
     1218: ['#f4dfe7'], // jiaoqiu
-    1220: ['#7ed3da'], // feixiao
+    1220: ['#7fd9e1'], // feixiao
     1221: ['#a3d3dc'], // yunli
-    1222: ['#f5e6ed'], // lingsha
+    1222: ['#ffdbee'], // lingsha
     1223: ['#575aa0'], // moze
-    1224: ['#eacbea'], // march7thImaginary
+    1224: ['#f2a8f2'], // march7thImaginary
     1225: ['#fce4f7'], // fugue
-    1301: ['#f9efee'], // gallagher
+    1301: ['#7c7c99'], // gallagher
     1302: ['#d6616c'], // argenti
     1303: ['#1a48ba'], // ruanmei
     1304: ['#7cbcea'], // aventurine
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
-    1307: ['#7f58d6'], // blackswan
-    1308: ['#8982d6'], // acheron
+    1307: ['#a37df4'], // blackswan
+    1308: ['#837bd4'], // acheron
     1309: ['#bb9cf4'], // robin
-    1310: ['#8fbdcd'], // firefly
+    1310: ['#94c7d6'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#7e95e9'], // sunday
     1314: ['#8a74dc'], // jade
@@ -327,18 +594,18 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1317: ['#7789e2'], // rappa
     8001: ['#5f81f4'], // trailblazerdestruction
     8002: ['#5f81f4'], // trailblazerdestruction
-    8003: ['#dfafa4'], // trailblazerpreservation
-    8004: ['#dfafa4'], // trailblazerpreservation
+    8003: ['#756d96'], // trailblazerpreservation
+    8004: ['#756d96'], // trailblazerpreservation
     8005: ['#8d7abc'], // trailblazerharmony
     8006: ['#8d7abc'], // trailblazerharmony
 
-    1401: ['#7336ed'], // the herta
+    1401: ['#8e5eef'], // the herta
     1402: ['#8cb7e7'], // aglaea
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
 
-    1403: ['#8a8def'], // tribbie
-    1404: ['#fa94b7'], // mydei
+    1403: ['#8c8fec'], // tribbie
+    1404: ['#ff87a7'], // mydei
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

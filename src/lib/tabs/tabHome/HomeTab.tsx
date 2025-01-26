@@ -1,13 +1,14 @@
 import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
-import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
+import { Button, Card, Collapse, Divider, Flex, Input, InputRef, Space } from 'antd'
 import i18next from 'i18next'
+import { Languages } from 'lib/i18n/i18n'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 const headerHeight = 900
@@ -140,7 +141,9 @@ const cardGap = 20
 function CardImage(props: { id: string }) {
   return (
     <div style={{ padding: '15px 15px 0px 15px' }}>
-      <img
+      <TranslatedImage
+        src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage as Languages)}
+        fallbackSrc={Assets.getHomeFeature(props.id)}
         style={{
           width: '100%',
           height: 593,
@@ -148,14 +151,6 @@ function CardImage(props: { id: string }) {
           outline: 'rgba(255, 255, 255, 0.15) solid 1px',
           boxShadow: 'rgb(0 0 0 / 50%) 2px 2px 3px',
           objectFit: 'cover',
-        }}
-        src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage)}
-        onError={(e) => {
-          // TODO: .src and .onerror don't actually exist on SyntheticEvent, revisit
-          // @ts-ignore
-          e.target.src = Assets.getHomeFeature(props.id)
-          // @ts-ignore
-          e.onerror = null // prevent infinite looping if for some reason the english image can't be loaded
         }}
       />
     </div>
@@ -259,7 +254,7 @@ function Header() {
         width: '100%',
         zIndex: 1,
         height: headerHeight,
-        paddingBottom: 30,
+        paddingBottom: 40,
       }}
       align='center'
       justify='space-between'
@@ -286,6 +281,8 @@ function Header() {
 function SearchBar() {
   const scorerId = window.store((s) => s.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
+  const inputRef = useRef<InputRef>(null)
+
   return (
     <Flex
       vertical
@@ -295,31 +292,62 @@ function SearchBar() {
       justify='center'
       gap={5}
     >
-      <Flex justify='flex-start' style={{ width: '100%', paddingLeft: 3, paddingBottom: 5, fontSize: 18, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
-        {t('Label')/* Enter your UUID to showcase characters: */}
+      <Flex justify='space-between' style={{ width: '100%' }}>
+        <Flex justify='flex-start' style={{ paddingLeft: 3, paddingBottom: 5, fontSize: 17, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
+          {t('Label')/* Enter your UUID to showcase characters: */}
+        </Flex>
+
+        <Flex style={{ fontSize: 16, opacity: 0.8, marginRight: 2 }}>
+          <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr'/>
+        </Flex>
       </Flex>
-      <Input.Search
-        placeholder={t('Placeholder')/* 'UUID' */}
-        enterButton={(
-          <Flex gap={5} style={{ marginRight: 5 }}>
-            <SearchOutlined style={{ marginRight: 10 }}/> {t('Search')/* Search */}
-          </Flex>
-        )}
-        allowClear
-        size='large'
-        defaultValue={scorerId}
-        onSearch={(uuid: string, event, info) => {
-          if (info?.source == 'clear') return
+      <Space.Compact style={{ width: '100%' }}>
+        <Button
+          size='large'
+          type='primary'
+          icon={<SearchOutlined/>}
+          style={{ width: 60 }}
+          onClick={() => {
+            const uuid = inputRef?.current?.input?.value
+            if (!uuid) return
 
-          const validated = TsUtils.validateUuid(uuid)
-          if (!validated) {
-            return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
-          }
+            const validated = TsUtils.validateUuid(uuid)
+            if (!validated) {
+              return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
+            }
 
-          window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
-          window.store.getState().setActiveKey(AppPages.SHOWCASE)
-        }}
-      />
+            window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
+            window.store.getState().setActiveKey(AppPages.SHOWCASE)
+          }}
+        />
+        <Input
+          ref={inputRef}
+          placeholder={t('Placeholder')/* 'UID' */}
+          style={{
+            width: '100%',
+          }}
+          allowClear
+          size='large'
+          defaultValue={scorerId}
+        />
+      </Space.Compact>
     </Flex>
+  )
+}
+
+function TranslatedImage(props: { src: string; fallbackSrc: string; style: React.CSSProperties }) {
+  const [errored, setErrored] = React.useState(false)
+  return (
+    <img
+      style={props.style}
+      src={props.src}
+      onError={(e) => {
+        if (errored) { // this means the fallback image isn't loading either
+          return
+        }
+        e.currentTarget.src = props.fallbackSrc
+        setErrored(true)
+      }}
+    />
   )
 }

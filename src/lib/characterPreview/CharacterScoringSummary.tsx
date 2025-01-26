@@ -4,11 +4,13 @@ import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { diminishingReturnsFormula, SimulationScore, SimulationStatUpgrade, spdDiminishingReturnsFormula } from 'lib/scoring/characterScorer'
+import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
+import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -265,9 +267,11 @@ export const CharacterScoringSummary = (props: {
           </pre>
           {/* Character/100% benchmark/200% prefect basic stats */}
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
+            showAll={true}
           />
         </Flex>
 
@@ -278,9 +282,11 @@ export const CharacterScoringSummary = (props: {
             </Trans>
           </pre>
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={combatStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
+            showAll={true}
           />
         </Flex>
 
@@ -300,7 +306,7 @@ export const CharacterScoringSummary = (props: {
             </Flex>
             <VerticalDivider/>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={precision}/>
+              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={2}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={stats[Stats.CR]} parens={diminishingReturns[Stats.CR]} precision={precision}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={stats[Stats.CD]} parens={diminishingReturns[Stats.CD]} precision={precision}/>
               <ScoringNumberParens label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={stats[Stats.EHR]} parens={diminishingReturns[Stats.EHR]} precision={precision}/>
@@ -348,9 +354,15 @@ export const CharacterScoringSummary = (props: {
 
   return (
     <Flex vertical gap={15} align='center'>
-      <Flex justify='space-around' style={{ marginTop: 15 }}>
+      <Flex align='center' style={{ marginTop: 15 }} vertical>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
+        </pre>
+        <pre style={{ textAlign: 'center' }}>
+          {
+            t('CharacterPreview.BuildAnalysis.ScoringNote')
+            // Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons
+          }
         </pre>
       </Flex>
       <Flex gap={25}>
@@ -522,6 +534,9 @@ export function CharacterCardCombatStats(props: {
   addOnHitStats(result)
 
   const { t } = useTranslation('common')
+  const { t: tCharactersTab } = useTranslation('charactersTab')
+  const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
+
   const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
   const simulationMetadata = result.simulationMetadata
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
@@ -544,9 +559,9 @@ export function CharacterCardCombatStats(props: {
       ? Utils.precisionRound(result.originalSimResult.x.ELEMENTAL_DMG, 2) != Utils.precisionRound(result.originalSimResult.ELEMENTAL_DMG, 2)
       : Utils.precisionRound(result.originalSimResult.x[stat], 2) != Utils.precisionRound(result.originalSimResult[stat], 2)
 
-    let display = Math.floor(value)
+    let display = `${Math.floor(value)}`
     if (stat == Stats.SPD) {
-      display = Utils.truncate10ths(value).toFixed(1)
+      display = preciseSpd ? TsUtils.precisionRound(value, 4).toFixed(3) : Utils.truncate10ths(TsUtils.precisionRound(value, 4)).toFixed(1)
     } else if (!flat) {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
@@ -569,11 +584,15 @@ export function CharacterCardCombatStats(props: {
     )
   }
 
+  const titleRender = result.simulationForm.deprioritizeBuffs
+    ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
+    : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+
   return (
     <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
       <Flex vertical align='center'>
         <HeaderText style={{ fontSize: 16 }}>
-          {t('CombatStats')/* Combat Stats */}
+          {titleRender}
         </HeaderText>
       </Flex>
       {rows}

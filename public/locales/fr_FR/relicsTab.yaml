@@ -19,8 +19,8 @@ Messages:
   NoRelicSelected: Aucune relique sélectionnée
   DeleteRelicSuccess: Relique supprimée avec succès
 RelicGrid:
-  To: de
-  Of: à
+  To: à
+  Of: de
   Headers:
     EquippedBy: Proprio
     Set: Set
@@ -80,7 +80,7 @@ RelicGrid:
         Label: "Personnage sélectionné: Potentiel moyen de relancé"
         Header: |-
           Pers. sélectionné
-          Pot. relancé moy.
+          Pot. relancé moy
       RerollAvgDelta:
         Label: "Personnage sélectionné: Delta moyen de potentiel de relancé"
         Header: |-

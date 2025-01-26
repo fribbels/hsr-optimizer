@@ -41,6 +41,9 @@ Messages:
   UnequipWarning: "Você tem certeza que quer desequipar $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Você tem certeza que quer deletar $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Atributos
   CustomizationSidebar:
     Label: Personalização
     Modes:
@@ -78,6 +81,7 @@ CharacterPreview:
     Roll: roll
     Damage: Dano
   BuildAnalysis:
+    ScoringNote: "Observação: A pontuação de DPS e Combo DMG são métricas de pontuação para uma única rotação de habilidade.\nEssas métricas não foram feitas para comparar equipes."
     Header: Análise de build do personagem
     SimulationTeammates: Equipe de simulação
     SimulationSets: Conjuntos de simulação

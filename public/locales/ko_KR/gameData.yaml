@@ -183,11 +183,11 @@ Characters:
     Name: 아글라이아
     LongName: 아글라이아
   "1403":
-    Name: Tribbie
-    LongName: Tribbie
+    Name: 트리비
+    LongName: 트리비
   "1404":
-    Name: Mydei
-    LongName: Mydei
+    Name: 마이데이
+    LongName: 마이데이
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -368,7 +368,7 @@ RelicSets:
     Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%.
+    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
 Lightcones:
   "20000":
     Name: 화살촉
@@ -605,9 +605,9 @@ Lightcones:
   "23037":
     Name: "추궁할\_수\_없는\_곳을\_향해"
   "23038":
-    Name: If Time Were a Flower
+    Name: 시간이 한 송이 꽃이라면
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: 피의 불꽃이여, 앞길을 태워라
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":
@@ -619,7 +619,7 @@ Lightcones:
   "24004":
     Name: "멈추지\_않는\_연산"
   "24005":
-    Name: The Curtain Never Falls on Memories
+    Name: 기억은 영원히 막을 내리지 않는다
 Paths:
   Warrior: 파멸
   Rogue: 수렵
@@ -630,7 +630,6 @@ Paths:
   Priest: 풍요
   Memory: 기억
   Unknown: 범용
-  Remembrance: Remembrance
 Elements:
   Physical: 물리
   Fire: 화염

@@ -20,11 +20,11 @@ CharacterMenu:
   Scoring:
     Label: スコア計算
     Options:
-      ScoringModal: スコア計算方法の編集
+      ScoringModal: スコア計算方法を編集
   Priority:
     Label: 優先順位
     Options:
-      SortByScore: スコア順にキャラクターを並べ替え
+      SortByScore: スコア順に並べ替え
       MoveToTop: キャラクターを先頭に移動
 SearchPlaceholder: 検索
 GridHeaders:
@@ -41,6 +41,24 @@ Messages:
   UnequipWarning: "本当に$t(gameData:Characters.{{charId}}.Name)の遺物を全て外しますか？"
   DeleteWarning: "本当に$t(gameData:Characters.{{charId}}.Name)を削除しますか？"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: ステータス
+      ButtonText: 軌跡
+    SpdPrecision:
+      Header: 速度の精度
+      Low: ".0"
+      High: ".000"
+    SpdWeight:
+      Header: 速度の重み
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
+    BuffPriority:
+      Header: バフ優先度
+      High: 高
+      Low: 低
   CustomizationSidebar:
     Label: カスタマイズ
     Modes:
@@ -70,7 +88,8 @@ CharacterPreview:
   DetailsSlider:
     Title: "戦闘スコアの詳細"
     Labels:
-      CombatStats: 戦闘中のステータス
+      CombatStats: 戦闘ステータス
+      SubDpsCombatStats: 戦闘ステータス（サブDPS）
       DMGUpgrades: 与ダメージ強化
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
@@ -78,6 +97,7 @@ CharacterPreview:
     Roll: サブ
     Damage: 増加ダメージ
   BuildAnalysis:
+    ScoringNote: "注意：DPS スコア及びコンボダメージは単一のスキル回しに対する評価の尺度であり、異なるチーム編成間の比較に用いるものではありません。"
     Header: ビルド分析
     SimulationTeammates: パーティー編成
     SimulationSets: 遺物

@@ -10,7 +10,7 @@ RelicFilterBar:
   Mainstat: メインステータス
   Substat: サブステータス
   ReapplyButton: スコアを更新
-  ScoringButton: スコア計算方法の編集
+  ScoringButton: スコア計算方法を編集
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
   CustomCharsHeader: 評価対象の複数指定
@@ -76,6 +76,14 @@ RelicGrid:
           大ポテンシャル
       RerollAvg:
         Label: "選択キャラ：リロール後の平均遺物ポテンシャル"
+        Header: |-
+          選択キャラ
+          リロール平均
+      RerollAvgDelta:
+        Label: "選択キャラ：リロール前後のポテンシャル差異"
+        Header: |-
+          選択キャラ
+          リロール差異
     CustomCharacters:
       Label: 指定した複数キャラクター
       AvgPotCol:
@@ -88,6 +96,9 @@ RelicGrid:
           指定対象の最大ポテンシャル
       RerollAvg:
         Label: "指定対象：リロール後の平均遺物ポテンシャル"
+        Header: |-
+          指定対象
+          リロール平均
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:
@@ -102,6 +113,9 @@ RelicGrid:
           ポテンシャル
       RerollAvg:
         Label: "全キャラ：リロール後の平均遺物ポテンシャル"
+        Header: |-
+          全キャラ
+          リロール平均
     ComingSoon:
       Label: 近日公開
       SetsPotential:

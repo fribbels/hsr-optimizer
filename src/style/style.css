@@ -86,8 +86,8 @@ body,
 }
 
 #relicGrid .ag-header {
-    height: 36px !important;
-    min-height: 36px !important;
+    height: 48px !important;
+    min-height: 48px !important;
 }
 
 .ag-header-cell-label .ag-header-cell-text {
@@ -651,4 +651,30 @@ a {
 
 .noneScoreLabel {
     max-width: 75px !important;
+}
+
+.ant-segmented-item-label {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.ant-segmented-item-label {
+    user-select: none;
+}
+
+.warp-table-row .ant-table-cell {
+    height: 45px !important;
+    padding: 0 !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    font-size: 16px !important;
+}
+
+.warp-table-row-disabled {
+    color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.warp-table-row .ant-tag {
+    font-size: 14px !important;
+    letter-spacing: 1px !important;
 }

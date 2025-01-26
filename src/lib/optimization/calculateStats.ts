@@ -313,7 +313,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     x.CR.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
   }
   if (p4(sets.PoetOfMourningCollapse)) {
-    x.CR.buffDual((c[Stats.SPD] < 110 ? 0.20 : 0) + (c[Stats.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
+    x.CR.buffBaseDual((c[Stats.SPD] < 110 ? 0.20 : 0) + (c[Stats.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
   }
 
   // BE

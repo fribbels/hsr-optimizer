@@ -40,7 +40,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'skillExtraDmgHits',
       formItem: 'slider',
       text: t('Content.skillExtraDmgHits.text'),
-      content: t('Content.skillExtraDmgHits.content', { skillExtraDmgHitsMax }),
+      content: t('Content.skillExtraDmgHits.content', { skillScaling: TsUtils.precisionRound(skillScaling * 100), skillExtraDmgHitsMax }),
       min: 0,
       max: skillExtraDmgHitsMax,
     },

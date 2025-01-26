@@ -6,7 +6,7 @@ Scoring:
   Footer:
     Reset: デフォルトにリセット
     ResetAll: すべてのキャラクターをリセット
-    Save: 変更を保存
+    Save: 保存
   ResetAllConfirm:
     Title: 全てのキャラクターのスコア計算方法をリセットしますか？
     Description: 以前に設定した全キャラクターのスコア計算方法は全て失われます。
@@ -236,7 +236,7 @@ Scoring:
 ManyPerms:
   Title: 非常に大きな検索がリクエストされました
   Text: >-
-    この検索は完了までにかなりの時間を要します。GPUアクセラレーションの設定を有効にするか、検索対象を特定のセットやメインステータスに絞る、またはサブステータスの重み付けを使用して組み合わせ数を減らすことを検討してください。
+    この検索は完了までにかなりの時間を要します。 GPU アクセラレーションの設定を有効にするか、検索対象を特定のセットやメインステータスに絞る、またはサブステータスの重み付けを使用して組み合わせ数を減らすことを検討してください。
   Cancel: 検索を終了
   Proceed: 検索を続行
 EditCharacter:
@@ -326,7 +326,7 @@ ScoreFooter:
   OkText: OK
   ResetButtonText: カスタムチームをデフォルトにリセット
   ResetSuccessMsg: デフォルトのチームにリセット
-  SyncButtonText: インポートした星塊・光円錐を同期
+  SyncButtonText: インポートした星塊・光円錐と同期
   SyncSuccessMsg: チームメイトを同期しました
   TeamOptions:
     Default: デフォルト

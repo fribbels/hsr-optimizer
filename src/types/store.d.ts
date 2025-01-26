@@ -3,9 +3,10 @@ import { ComputeEngine } from 'lib/constants/constants'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { ScoringMetadata, ShowcasePreferences } from 'types/metadata'
+import { ScoringMetadata, ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 type PermutationDetails = {
@@ -41,6 +42,7 @@ export type HsrOptimizerStore = {
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
+  statTracesDrawerFocusCharacter?: CharacterId
   relicsTabFocusCharacter?: CharacterId
   rowLimit: number
   activeKey: string
@@ -50,6 +52,7 @@ export type HsrOptimizerStore = {
   }
   comboDrawerOpen: boolean
   combatBuffsDrawerOpen: boolean
+  statTracesDrawerOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
   settingsDrawerOpen: boolean
   gettingStartedDrawerOpen: boolean
@@ -59,6 +62,9 @@ export type HsrOptimizerStore = {
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
+  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>
+  warpRequest: WarpRequest
+  warpResult: WarpResult
   statSimulationDisplay: StatSimTypes
   statSimulations: unknown
   selectedStatSimulations: unknown
@@ -94,6 +100,7 @@ export type HsrOptimizerStore = {
   setFormValues: (form: Form) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
+  setStatTracesDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void
@@ -114,6 +121,7 @@ export type HsrOptimizerStore = {
   setSavedSessionKey: (key: string, value: string | boolean) => void
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
+  setStatTracesDrawerFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
@@ -133,6 +141,9 @@ export type HsrOptimizerStore = {
   setStatSimulationDisplay: (x: any) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
+  setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void
+  setWarpRequest: (x: WarpRequest) => void
+  setWarpResult: (x: WarpResult) => void
   setScorerId: (x: any) => void
   setCharacterTabFilters: (x: any) => void
   setPermutations: (x: any) => void
@@ -168,6 +179,7 @@ export type SavedSession = {
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean
+  showcasePreciseSpd: boolean
 }
 
 export type UserSettings = {
@@ -188,6 +200,7 @@ export type HsrOptimizerSaveFormat = {
   savedSession: SavedSession
   settings: UserSettings
   version: string
+  warpRequest: WarpRequest
   relicLocator: {
     inventoryWidth: number
     rowLimit: number

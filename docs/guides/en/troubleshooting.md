@@ -4,6 +4,7 @@
 
 ### Error: GPU acceleration is not supported
 
+* Try closing the browser and then re-opening it.
 * WebGPU is still experimental technology and stability is not guaranteed in all browsers.
 * The officially supported browsers are Chrome / Opera / Edge.
 * Optimizer GPU acceleration does NOT currently run on Firefox Nightly due to Firefox's implementation bugs.

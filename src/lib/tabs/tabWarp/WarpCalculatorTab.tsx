@@ -2,7 +2,16 @@ import { ThunderboltFilled } from '@ant-design/icons'
 import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, Typography } from 'antd'
 import chroma from 'chroma-js'
 import { Assets } from 'lib/rendering/assets'
-import { DEFAULT_WARP_REQUEST, simulateWarps, WarpIncome, WarpIncomeValuesMapping, WarpMilestoneResult, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import {
+  DEFAULT_WARP_REQUEST,
+  NONE_WARP_INCOME_OPTION,
+  simulateWarps,
+  WarpIncomeDefinition,
+  WarpIncomeOptions,
+  WarpIncomeType,
+  WarpMilestoneResult,
+  WarpStrategy,
+} from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
@@ -20,7 +29,9 @@ export default function WarpCalculatorTab(): React.JSX.Element {
           Warp Planner
         </pre>
       </Flex>
+
       <Inputs/>
+
       <Results/>
     </Flex>
   )
@@ -31,6 +42,9 @@ function Inputs() {
   const [form] = Form.useForm()
 
   const initialValues = useMemo(() => {
+    if (!WarpIncomeOptions.find(option => option.id == warpRequest.income)) {
+      warpRequest.income = NONE_WARP_INCOME_OPTION.id
+    }
     return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
   }, [])
 
@@ -299,21 +313,30 @@ function PityInputs(props: { banner: string }) {
 }
 
 function generateIncomeOptions() {
-  const options: SelectProps['options'] = Object.entries(WarpIncomeValuesMapping).map(([incomeType, values]) => ({
-    value: incomeType,
-    label: incomeType == WarpIncome.NONE
+  const options: SelectProps['options'] = WarpIncomeOptions.map((option) => ({
+    value: option.id,
+    label: option.type == WarpIncomeType.NONE
       ? 'None'
       : (
-        <Flex align='center' gap={5}>
-          {`[${values.label}] +${values.passes}`}
+        <Flex align='center' gap={3}>
+          <IncomeOptionLabel option={option}/>
+          {`+${option.passes.toLocaleString()}`}
           <img style={{ height: 18 }} src={Assets.getPass()}/>
-          {`+${values.jades.toLocaleString()}`}
+          {`+${option.jades.toLocaleString()}`}
           <img style={{ height: 18 }} src={Assets.getJade()}/>
         </Flex>
       ),
   }))
 
   return options
+}
+
+function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
+  return (
+    <div style={{ marginRight: 2 }}>
+      {`[v${props.option.version} ${props.option.type}]: `}
+    </div>
+  )
 }
 
 function generateStrategyOptions() {

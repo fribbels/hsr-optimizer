@@ -1,43 +1,35 @@
 import { SaveState } from 'lib/state/saveState'
 import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
 
-// 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
+// Notes: 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
 
 const characterWarpCap = 90
 const lightConeWarpCap = 80
 const simulations = 100000
 const character5050 = 0.5625
-const lightCone5050 = 0.78125 // 0.78125 or 0.75
+const lightCone5050 = 0.78125
 
-export enum WarpIncome {
-  NONE = 'NONE',
-  F2P_3_0 = 'F2P_3_0',
-  EXPRESS_3_0 = 'EXPRESS_3_0',
-  EXPRESS_BP_3_0 = 'EXPRESS_BP_3_0',
+export enum WarpIncomeType {
+  NONE = 'None',
+  F2P = 'F2P',
+  EXPRESS = 'Express',
+  BP_EXPRESS = 'BP & Express'
 }
 
-export const WarpIncomeValuesMapping: Record<WarpIncome, WarpIncomeValues> = {
-  [WarpIncome.NONE]: {
-    passes: 0,
-    jades: 0,
-    label: 'None',
-  },
-  [WarpIncome.F2P_3_0]: {
-    passes: 25,
-    jades: 13490,
-    label: 'v3.0 F2P',
-  },
-  [WarpIncome.EXPRESS_3_0]: {
-    passes: 25,
-    jades: 17270,
-    label: 'v3.0 Express',
-  },
-  [WarpIncome.EXPRESS_BP_3_0]: {
-    passes: 29,
-    jades: 17950,
-    label: 'v3.0 Express & BP',
-  },
-}
+export const NONE_WARP_INCOME_OPTION = generateOption('NONE', WarpIncomeType.NONE, 0, 0)
+
+// Modified each patch
+export const WarpIncomeOptions: WarpIncomeDefinition[] = [
+  NONE_WARP_INCOME_OPTION,
+
+  generateOption('3.0', WarpIncomeType.F2P, 25, 13490),
+  generateOption('3.0', WarpIncomeType.EXPRESS, 25, 17270),
+  generateOption('3.0', WarpIncomeType.BP_EXPRESS, 29, 17950),
+
+  generateOption('3.1', WarpIncomeType.F2P, 20, 13355),
+  generateOption('3.1', WarpIncomeType.EXPRESS, 20, 17135),
+  generateOption('3.1', WarpIncomeType.BP_EXPRESS, 24, 17815),
+]
 
 export enum WarpStrategy {
   E0 = 0, // E0 -> S1 -> E6 -> S5
@@ -53,7 +45,7 @@ export enum WarpStrategy {
 export type WarpRequest = {
   passes: number
   jades: number
-  income: WarpIncome
+  income: string
   strategy: WarpStrategy
   pityCharacter: number
   guaranteedCharacter: false
@@ -75,7 +67,7 @@ export enum WarpType {
 export const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
-  income: WarpIncome.NONE,
+  income: NONE_WARP_INCOME_OPTION.id,
   strategy: WarpStrategy.E0,
   pityCharacter: 0,
   guaranteedCharacter: false,
@@ -83,10 +75,12 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedLightCone: false,
 }
 
-type WarpIncomeValues = {
+export type WarpIncomeDefinition = {
   passes: number
   jades: number
-  label: string
+  id: string
+  version: string
+  type: WarpIncomeType
 }
 
 type WarpMilestone = {
@@ -96,6 +90,20 @@ type WarpMilestone = {
   guaranteed: boolean
   redistributedCumulative: number[]
   warpCap: number
+}
+
+function generateOption(version: string, type: WarpIncomeType, passes: number, jades: number) {
+  return {
+    passes,
+    jades,
+    version,
+    type,
+    id: generateOptionKey(version, type),
+  }
+}
+
+function generateOptionKey(version: string, type: WarpIncomeType) {
+  return `${version}/${type}`
 }
 
 export function simulateWarps(originalRequest: WarpRequest) {
@@ -142,12 +150,7 @@ export function simulateWarps(originalRequest: WarpRequest) {
   for (const milestone of milestones) {
     milestoneResults[milestone.label].warps /= simulations
     milestoneResults[milestone.label].wins /= simulations
-    // console.log(`${milestone.label}: ${milestoneResults[milestone.label].warps}`)
   }
-
-  // for (const milestone of milestones) {
-  //   console.log(`${milestone.label}: ${milestoneResults[milestone.label].wins}`)
-  // }
 
   const warpResult: WarpResult = {
     milestoneResults: milestoneResults,
@@ -245,7 +248,7 @@ export type EnrichedWarpRequest = {
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  const additionalIncome = WarpIncomeValuesMapping[request.income] ?? WarpIncomeValuesMapping[WarpIncome.NONE]
+  const additionalIncome = WarpIncomeOptions.find(option => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
   const totalJade = request.jades + additionalIncome.jades
   const totalPasses = request.passes + additionalIncome.passes
   const totalWarps = Math.floor(totalJade / 160) + totalPasses

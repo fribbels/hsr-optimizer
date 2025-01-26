@@ -664,7 +664,7 @@ a {
 
 .warp-table-row .ant-table-cell {
     height: 45px !important;
-    padding: 0px !important;
+    padding: 0 !important;
     padding-top: 6px !important;
     padding-bottom: 6px !important;
     font-size: 16px !important;

@@ -1,6 +1,6 @@
 import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
-import { Button, Card, Collapse, Divider, Flex, Input } from 'antd'
+import { Button, Card, Collapse, Divider, Flex, Input, InputRef, Space } from 'antd'
 import i18next from 'i18next'
 import { Languages } from 'lib/i18n/i18n'
 import { Message } from 'lib/interactions/message'
@@ -8,7 +8,7 @@ import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 const headerHeight = 900
@@ -281,6 +281,8 @@ function Header() {
 function SearchBar() {
   const scorerId = window.store((s) => s.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
+  const inputRef = useRef<InputRef>(null)
+
   return (
     <Flex
       vertical
@@ -299,28 +301,36 @@ function SearchBar() {
           <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr'/>
         </Flex>
       </Flex>
-      <Input.Search
-        placeholder={t('Placeholder')/* 'UID' */}
-        enterButton={(
-          <Flex gap={5} style={{ marginRight: 5 }}>
-            <SearchOutlined style={{ marginRight: 10 }}/> {t('Search')/* Search */}
-          </Flex>
-        )}
-        allowClear
-        size='large'
-        defaultValue={scorerId}
-        onSearch={(uuid: string, _event, info) => {
-          if (info?.source == 'clear') return
+      <Space.Compact style={{ width: '100%' }}>
+        <Button
+          size='large'
+          type='primary'
+          icon={<SearchOutlined/>}
+          style={{ width: 60 }}
+          onClick={() => {
+            const uuid = inputRef?.current?.input?.value
+            if (!uuid) return
 
-          const validated = TsUtils.validateUuid(uuid)
-          if (!validated) {
-            return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
-          }
+            const validated = TsUtils.validateUuid(uuid)
+            if (!validated) {
+              return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
+            }
 
-          window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
-          window.store.getState().setActiveKey(AppPages.SHOWCASE)
-        }}
-      />
+            window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
+            window.store.getState().setActiveKey(AppPages.SHOWCASE)
+          }}
+        />
+        <Input
+          ref={inputRef}
+          placeholder={t('Placeholder')/* 'UID' */}
+          style={{
+            width: '100%',
+          }}
+          allowClear
+          size='large'
+          defaultValue={scorerId}
+        />
+      </Space.Compact>
     </Flex>
   )
 }

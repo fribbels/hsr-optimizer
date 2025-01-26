@@ -156,13 +156,13 @@ function Results() {
 
   const columns: TableProps<WarpMilestoneResult>['columns'] = [
     {
-      title: 'Target',
+      title: 'Goal',
       dataIndex: 'key',
       key: 'key',
       align: 'center',
       width: 200,
       render: (key: string, record: WarpMilestoneResult) => (
-        <Flex style={{ position: 'relative', marginLeft: 5, marginRight: 5, height: '100%' }} align='center'>
+        <Flex style={{ position: 'relative', marginLeft: 5, height: '100%' }} align='center'>
           <div
             style={{
               display: record.wins < chanceThreshold ? 'none' : 'block',
@@ -170,7 +170,7 @@ function Results() {
               borderRadius: 4,
               position: 'absolute',
               height: '100%',
-              backgroundColor: chroma.scale(['rgba(216,109,109,0.87)', '#f7f65ade', '#91db60de']).domain([0, 0.75, 1])(record.wins).hex(),
+              backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])(record.wins).hex(),
               zIndex: 1,
             }}
           />
@@ -187,8 +187,8 @@ function Results() {
     },
     {
       title: (
-        <Flex justify='center' align='center' gap={2}>
-          {`Success probability with ${warpResult.request.warps.toLocaleString()}`}
+        <Flex justify='center' align='center' gap={5}>
+          {`Success chance with ${warpResult.request.warps.toLocaleString()}`}
           <img style={{ height: 18 }} src={Assets.getPass()}/>
         </Flex>
       ),
@@ -198,7 +198,14 @@ function Results() {
       render: (n: number) => `${Utils.truncate10ths(n * 100).toFixed(1)}%`,
     },
     {
-      title: 'Average # of warps required',
+      // title: 'Average # of warps required',
+      title: (
+        <Flex justify='center' align='center' gap={5}>
+          {`Average # of`}
+          <img style={{ height: 18 }} src={Assets.getPass()}/>
+          {`required`}
+        </Flex>
+      ),
       dataIndex: 'warps',
       align: 'center',
       width: 250,
@@ -225,6 +232,7 @@ function Results() {
         <pre style={{ margin: 0 }}>
           <Flex align='center' gap={5}>
             <span>{'Total warps available:'}</span>
+
             {`( ${warpResult.request.totalJade.toLocaleString()}`}
             <img style={{ height: 18 }} src={Assets.getJade()}/>
             <span>{') + ('}</span>
@@ -239,7 +247,7 @@ function Results() {
 
       <Flex vertical gap={10} style={{ width: '100%' }}>
         <Table<WarpMilestoneResult>
-          style={{ width: '100%' }} s
+          style={{ width: '100%' }}
           columns={columns}
           dataSource={warpTableData}
           pagination={false}

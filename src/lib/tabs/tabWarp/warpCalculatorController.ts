@@ -14,6 +14,9 @@ export enum WarpIncome {
   F2P_3_0 = 'F2P_3_0',
   EXPRESS_3_0 = 'EXPRESS_3_0',
   EXPRESS_BP_3_0 = 'EXPRESS_BP_3_0',
+  F2P_3_1 = 'F2P_3_1',
+  EXPRESS_3_1 = 'EXPRESS_3_1',
+  EXPRESS_BP_3_1 = 'EXPRESS_BP_3_1',
 }
 
 export const WarpIncomeValuesMapping: Record<WarpIncome, WarpIncomeValues> = {
@@ -36,6 +39,21 @@ export const WarpIncomeValuesMapping: Record<WarpIncome, WarpIncomeValues> = {
     passes: 29,
     jades: 17950,
     label: 'v3.0 Express & BP',
+  },
+  [WarpIncome.F2P_3_1]: {
+    passes: 20,
+    jades: 13355,
+    label: 'v3.1 F2P',
+  },
+  [WarpIncome.EXPRESS_3_1]: {
+    passes: 20,
+    jades: 17135,
+    label: 'v3.1 Express',
+  },
+  [WarpIncome.EXPRESS_BP_3_1]: {
+    passes: 24,
+    jades: 17815,
+    label: 'v3.1 Express & BP',
   },
 }
 

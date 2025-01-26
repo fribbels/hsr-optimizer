@@ -303,7 +303,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
                   size='small'
                   controls={false}
                   style={{ width: '100%' }}
-                  value={nonZeroOrUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
+                  value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
                   addonAfter={(
                     <SelectSpdPresets
                       spdFilter={simScoringResult?.originalSpd}
@@ -481,7 +481,7 @@ function clipboardClicked(elementId: string, action: string, setLoading: (b: boo
   }, 100)
 }
 
-function nonZeroOrUndefined(n?: number) {
+function sanitizePositiveNumberElseUndefined(n?: number) {
   return n == undefined || n < 0 ? undefined : n
 }
 

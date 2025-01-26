@@ -232,7 +232,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
+    milestone.label = e == -1 ? `S${s}` : `E${e} S${s}`
   }
 
   return milestones
@@ -240,6 +240,8 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
 
 export type EnrichedWarpRequest = {
   warps: number
+  totalPasses: number
+  totalJade: number
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
@@ -259,6 +261,8 @@ function enrichWarpRequest(request: WarpRequest) {
   const enrichedRequest: EnrichedWarpRequest = {
     ...request,
     warps: totalWarps,
+    totalJade: totalJade,
+    totalPasses: totalPasses,
   }
 
   return enrichedRequest

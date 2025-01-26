@@ -2,8 +2,6 @@
 
 ## Settings
 
-![img.png](img.png)
-
 ### Strategy
 
 Choose a strategy to define which primary goal to target first.
@@ -35,8 +33,6 @@ These are updated per patch and will add to your Passes / Jades setting.
 * Guaranteed: Whether the next successful warp is guaranteed rate-up character
 
 ## Results
-
-![img_1.png](img_1.png)
 
 ### Success chance
 

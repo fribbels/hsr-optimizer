@@ -2,7 +2,7 @@
 
 ## What is DPS Score?
 
-DPS Score is a damage calculation based metric for accurately scoring how optimal the character's relics are for
+DPS Score is a damage calculation based metric for scoring how optimal the character's relics are for
 maximizing damage in combat.
 
 This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on
@@ -20,6 +20,12 @@ The scoring calculation takes into consideration:
 * Relic set effects
 * Super break
 * ...etc
+
+Note: This does not take into consideration:
+
+* Action advances and turn manipulation
+* Energy regeneration
+* Stacking frequency
 
 ## How is it calculated?
 

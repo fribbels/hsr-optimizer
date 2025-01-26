@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: Vết Tích
     SpdPrecision:
       Header: Tốc độ chính xác
-      Low: .0
-      High: .000
+      Low: ".0"
+      High: ".000"
     SpdWeight:
       Header: Độ Tốc độ
       Max: 100%

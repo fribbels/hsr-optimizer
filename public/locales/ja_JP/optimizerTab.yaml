@@ -196,7 +196,7 @@ Sidebar:
     Start: オプティマイザーを開始
     ResetConfirm:
       Title: すべてのフィルターをリセットしますか？
-      Description: すべてのフィルターは既定値にリセットされます
+      Description: すべてのフィルターを既定値にリセットします
   StatViewGroup:
     Header: ステータス表示の切り替え
     CombatStats: 戦闘

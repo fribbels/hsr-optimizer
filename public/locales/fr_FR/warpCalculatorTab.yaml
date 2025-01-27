@@ -1,0 +1,11 @@
+IncomeOptions:
+  Type:
+    0: Aucun
+    1:
+    2:
+    3:
+SectionTitles:
+  Planner: Plan de Saut
+  Results: Résultats
+  Settings: Paramètres
+  Character: Personnage

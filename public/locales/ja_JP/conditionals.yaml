@@ -1,5 +1,10 @@
 BetaMessage: "現在のバージョン: {{Version}} - 計算結果は変更される場合があります。"
 Common:
+  BuffPriority:
+    Text: "バフを優先する対象"
+    Content: "優先してバフを付与する対象を選択"
+    Self: "バフ優先：自身"
+    Memo: "バフ優先：精霊"
   HealAbility:
     Text: "治癒能力"
     Content: "治癒量の計算に使用するアビリティを選択します。"
@@ -111,6 +116,8 @@ Lightcones:
         content: デバフが3つ以上ある敵にダメージを与える時、装備キャラの会心率+{{CritBuff}}%。
       targetCodeDebuff:
         text: '「エーテルコード」付与済み'
+        content: >-
+          装備キャラが通常攻撃、戦闘スキルまたは必殺技を発動した後、100%の基礎確率で攻撃を受けた敵の中から、「エーテルコード」を付与されてないランダムな敵1体に「エーテルコード」を付与する。「エーテルコード」を付与された敵の受けるダメージ+{{DmgIncrease}}%、1ターン継続。
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
@@ -118,6 +125,7 @@ Lightcones:
         content: 装備キャラが味方にバリアを付与する時、装備キャラの会心ダメージ+{{CritBuff}}%、2ターン継続。
       targetVulnerability:
         text: 敵被ダメージ増加デバフ
+        content: 装備キャラの追加攻撃が敵に命中する時、{{baseChance}}%の基礎確率で攻撃を受ける敵の受けるダメージ+{{Vulnerability}}%、2ターン継続。
   InTheNameOfTheWorld:
     Content:
       enemyDebuffedDmgBoost:
@@ -132,6 +140,11 @@ Lightcones:
         text: 速度によるバフ
         content: >-
           戦闘中に装備キャラの速度が100を超えた時、超過した速度10につき、通常攻撃と戦闘スキルによるダメージ+{{DmgBuff}}%、必殺技ダメージの会心ダメージ+{{CritBuff}}%、最大で6層累積できる。
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: スキル/必殺技ダメ増加
+        content: 装備キャラが必殺技を発動する時、装備キャラの戦闘スキルおよび必殺技ダメージ+60%、3ターン継続。
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
@@ -266,6 +279,16 @@ Lightcones:
         text: 治癒量分の付加ダメージ（未実装）
         content: >-
           装備キャラが味方に治癒を行った時、治癒量が記録される。任意の味方が攻撃を行った後、攻撃を受けたランダムな敵1体に対して、装備キャラの属性と同じ属性で、記録された治癒量{{Multiplier}}%分の付加ダメージを与える。このダメージはバフの影響を受けず、ターンが回ってくるたびに1回まで発生する。
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: '「錦を織って」層数'
+        content: >-
+          装備キャラまたはその記憶の精霊が攻撃を行った後、装備キャラに「錦を織って」を1層付与する。::BR::「錦を織って」1層につき、装備キャラおよびその記憶の精霊の会心ダメージ+{{CdBuff}}%、最大で6層累積できる。::BR::「錦を織って」の層数が上限に達すると、1層につき、追加で通常攻撃ダメージ+{{DmgBuff}}%。
+      maxStacksBasicDmgBoost:
+        text: 通常攻撃ダメージ増加
+        content: >-
+          装備キャラまたはその記憶の精霊が攻撃を行った後、装備キャラに「錦を織って」を1層付与する。::BR::「錦を織って」1層につき、装備キャラおよびその記憶の精霊の会心ダメージ+{{CdBuff}}%、最大で6層累積できる。::BR::「錦を織って」の層数が上限に達すると、1層につき、追加で通常攻撃ダメージ+{{DmgBuff}}%。
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
@@ -365,6 +388,7 @@ Lightcones:
     Content:
       basicDmgBoost:
         text: 通常ダメ増加
+        content: 装備キャラが必殺技を発動した後、装備キャラおよびその記憶の精霊の通常攻撃ダメージ+{{DmgBuff}}%。
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
@@ -435,6 +459,7 @@ Lightcones:
     Content:
       targetEnsnared:
         text: '「陥落」付与済み'
+        content: 装備キャラの攻撃が敵に命中する時、その敵が「陥落」状態でない場合、{{BaseChance}}%の基礎確率で敵を「陥落」状態にする。「陥落」状態の敵は防御力-{{DefShred}}%、1ターン継続。
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
@@ -451,6 +476,11 @@ Lightcones:
       maxEnergyDmgBoost:
         text: EP最大時のダメバフ
         content: 装備キャラの通常攻撃と戦闘スキルによるダメージ+{{DmgBuff}}%、装備キャラのEPが満タンの場合、さらに通常攻撃と戦闘スキルによるダメージ+{{DmgBuff}}%。
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: 装備者/精霊のダメバフ
+        content: 装備キャラの記憶の精霊がフィールド上にいる時、装備キャラおよびその記憶の精霊の与ダメージ+{{DmgBuff}}%。
   Swordplay:
     Content:
       sameTargetHitStacks:
@@ -499,6 +529,7 @@ Lightcones:
     Content:
       teamDmgBuff:
         text: 味方全体のダメバフ
+        content: 装備キャラの会心ダメージ+12%。装備キャラの記憶の精霊が味方にスキルを発動する時、味方全体の与ダメージ+{{DmgBuff}}%、3ターン継続。
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -575,6 +606,11 @@ Lightcones:
       selfHp80CrBuff:
         text: HP < 80%時の会心率バフ
         content: 装備キャラの残りHPが80%未満の場合、会心率+{{CritBuff}}%。
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: '「追懐」層数'
+        content: 記憶の精霊のターンが回ってきた時、装備キャラおよびその記憶の精霊それぞれに「追懐」を1層付与する。「追懐」1層につき与ダメージ+{{DmgBuff}}%、最大で4層累積できる。記憶の精霊が消える時、装備キャラおよびその記憶の精霊の「追懐」は解除される。
   Sagacity:
     Content:
       postUltAtkBuff:
@@ -620,8 +656,29 @@ Characters:
           黄泉が与える必殺技ダメージの全属性耐性貫通+20%。通常攻撃ダメージ、戦闘スキルダメージが同時に必殺技ダメージと見なされ、弱点属性を無視して敵の靭性を削る。敵を弱点撃破した時、雷属性の弱点撃破効果を触発する。
   Aglaea:
     Content:
+      supremeStanceState:
+        text: '「至高の姿」状態'
+        content: >-
+          「至高の姿」状態のアグライアは、ラフトラの天賦の速度アップ効果を獲得する（層数はラフトラと同じ）。1層につき、自身の速度+{{SpdBuff}}%。通常攻撃「サイフォスの蜜」が「剣先より千の口付けを」に強化され、戦闘スキルが発動できなくなる。
+      seamStitch:
+        text: 隙を縫う糸
+        content: >-
+          ラフトラがフィールド上にいる場合、アグライアが攻撃を行う時、敵に「隙を縫う糸」状態を付与する。「隙を縫う糸」状態の敵を攻撃した後、追加でアグライアの攻撃力{{Scaling}}%分の雷属性付加ダメージを与える。「隙を縫う糸」状態は最後に付与されたターゲットにのみ効果を発揮する。
+      memoSpdStacks:
+        text: 精霊の速度増加数
+        content: >-
+          「隙を縫う糸」状態の敵を攻撃した後、自身の速度+{{SpdBuff}}。この効果は最大で{{StackLimit}}層累積できる。
+      e1Vulnerability:
+        text: 1凸 敵被ダメージ増加
+        content: '「隙を縫う糸」状態の敵の受けるダメージ+15%。アグライアまたはラフトラが「隙を縫う糸」状態の敵を攻撃した後、さらにEPを20回復する。'
+      e2DefShredStacks:
+        text: 2凸 敵防御力無視数
+        content: >-
+          アグライアまたはラフトラが行動する時、アグライアまたはラフトラの与えるダメージが敵の防御力を14%無視する。この効果は最大で3層累積でき、アグライアとラフトラ以外の任意のユニットがスキルを発動する時まで継続する。
       e6Buffs:
         text: 6凸 必殺/追加攻撃強化
+        content: >-
+          アグライアが「至高の姿」状態の時、自身とラフトラの雷属性耐性貫通+20%。 また、アグライアの速度が160/240/320を超える時、自身の連携攻撃ダメージ+10%/30%/60%。 ラフトラの速度が160/240/320を超える時、自身の連携攻撃ダメージ+10%/30%/60%。
   Argenti:
     Content:
       ultEnhanced:
@@ -638,7 +695,7 @@ Characters:
         text: 強化必殺技の追加ヒット
         content: 1ヒットごとに、ランダムな敵単体にアルジェンティの攻撃力{{ultEnhancedExtraHitScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
-        text: 必殺技時の攻撃力バフ
+        text: 2凸 必殺技時の攻撃力バフ
         content: 必殺技を発動した時、フィールド上の敵が3体以上の場合、攻撃力+40%、1ターン継続。
   Arlan:
     Content:
@@ -649,6 +706,7 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: スキルの追加ヒット数
+        content: "指定した敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与え、さらに{{skillExtraDmgHitsMax}}ヒットする。1ヒットごとに、ランダムな敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与える。::BR::1凸：戦闘スキルを発動した時、さらにランダムな敵単体にダメージを1回与える。"
       talentBuffStacks:
         text: '「蓄エネ」層数'
         content: "アスターが持つ蓄エネ1層につき、味方全体の攻撃力+14%、最大で5回累積できる。::BR::4凸::天賦の蓄エネが2層以上の時、アスターのEP回復効率+15%。"
@@ -1394,6 +1452,7 @@ Characters:
           通常攻撃、戦闘スキル、必殺技で敵を倒すと追加ターンを1獲得し、増幅状態に入る。増幅状態のゼーレの与ダメージ+{{buffedStateDmgBuff}}%、1ターン継続。::BR::増幅状態の時、ゼーレの量子属性耐性貫通+20%。
       speedBoostStacks:
         text: 速度バフ層数
+        content: "ゼーレの速度+25%、2ターン継続。::BR::2凸：戦闘スキルの加速効果が累積できるようになる、最大で2層累積できる。"
       e1EnemyHp80CrBoost:
         text: 1凸 敵HP≤80%時の会心率バフ
         content: 残りHPが80%以下の敵にダメージを与える時、会心率+15%。
@@ -1416,6 +1475,8 @@ Characters:
           その敵の全属性耐性-10%、2ターン継続。::BR::戦闘スキルを発動した時、敵にあるデバフが3つ以上の場合、戦闘スキルによる敵の全属性耐性ダウン効果がさらに3%ダウンする。
       skillWeaknessResShredDebuff:
         text: 弱点埋込時の属性耐性ダウン
+        content: >-
+          {{implantChance}}%の基礎確率で指定した敵単体に、フィールド上の味方が有する属性の内1つを弱点として埋め込む、さらにその弱点属性の属性耐性-20%、2ターン継続。元からあった弱点を埋め込んだ場合、対応属性の属性耐性がダウンする効果は発動されない。
       talentDefShredDebuff:
         text: '「欠陥」付与済み'
         content: 銀狼は「欠陥」を作成できる：防御力-8%。
@@ -1502,10 +1563,31 @@ Characters:
     Content:
       enhancedSkill:
         text: 強化状態のスキル
+        content: 必殺技を発動した後、マダム・ヘルタが即座に行動し、「第六感」を1層獲得する。「第六感」は最大で4層累積できる。「第六感」を持つ時、戦闘スキル「視野が狭いよ」が「大胆なアイデア」に強化される。
+      eruditionTeammate:
+        text: 知恵運命の味方
+        content: >-
+          強化戦闘スキルのメインターゲットに「解読」がある時、強化戦闘スキルのダメージ倍率がアップする。「解読」1層につき、メインターゲットに対するダメージ倍率+{{PrimaryScalingBonus}}%、他のターゲットに対するダメージ倍率+{{AdjacentScalingBonus}}%。::BR::パーティ内の「知恵」の運命を歩むキャラクターが2名以上の場合、さらに「解読」1層につき、メインターゲットに対するダメージ倍率+{{PrimaryScalingBonus}}%、他のターゲットに対するダメージ倍率+{{AdjacentScalingBonus}}%。::BR::キャラクター昇格4：戦闘に入る時、パーティに「知恵」の運命を歩むキャラが2名以上いる場合、味方全体の会心ダメージ+80%。
       ultAtkBuff:
         text: 必殺技の攻撃力バフ
+        content: >-
+          必殺技を発動する時、マダム・ヘルタの攻撃力+80%、3ターン継続。
+      interpretationStacks:
+        text: '「解読」層数'
+        content: >-
+          強化戦闘スキルのメインターゲットに「解読」がある時、強化戦闘スキルのダメージ倍率がアップする。「解読」1層につき、メインターゲットに対するダメージ倍率+{{PrimaryScalingBonus}}%、他のターゲットに対するダメージ倍率+{{AdjacentScalingBonus}}%。::BR::パーティ内の「知恵」の運命を歩むキャラクターが2名以上の場合、さらに「解読」1層につき、メインターゲットに対するダメージ倍率+{{PrimaryScalingBonus}}%、他のターゲットに対するダメージ倍率+{{AdjacentScalingBonus}}%。::BR::1凸：強化戦闘スキルで「解読」の層数を計算する時、スキルのメインターゲットおよび隣接する敵の中で、最も「解読」の層数が多い敵1体の層数50%分を計算に加える。
+      totalInterpretationStacks:
+        text: '「回答」層数'
+        content: 敵に「解読」が1層付与されるたびに、マダム・ヘルタは「回答」を1層獲得する、最大で99層累積できる。必殺技を発動する時、「回答」1層につき、その回の必殺技のダメージ倍率+1.0%。
+      e1BonusStacks:
+        text: 1凸 「解読」の層数増加
+        content: 強化戦闘スキルで「解読」の層数を計算する時、スキルのメインターゲットおよび隣接する敵の中で、最も「解読」の層数が多い敵1体の層数50%分を計算に加える。
+      e4EruditionSpdBuff:
+        text: 4凸 知恵キャラへの速度バフ
+        content: パーティ内の「知恵」の運命を歩むキャラクターの速度+12%。
       e6Buffs:
         text: 6凸 必殺/追加攻撃強化
+        content: マダム・ヘルタの氷属性耐性貫通+20%。 また、必殺技のダメージ倍率がフィールド上の敵の数に応じてアップする。 敵の数が3体以上の場合、必殺技のダメージ倍率+140%。 敵の数が2体の場合、必殺技のダメージ倍率+250%。 敵の数が1体の場合、必殺技のダメージ倍率+400%。
   Tingyun:
     Content:
       benedictionBuff:
@@ -1591,9 +1673,12 @@ Characters:
         content: >-
           味方全体の会心ダメージを、「ミュリオン」の会心ダメージ{{ScalingBuff}}%分+{{FlatBuff}}%アップする。
       memsSupport:
+        text: >-
+          ミュリオンの応援による確定ダメージ
         content: >-
           指定した味方単体の行動順を100%早め、「ミュリオンの応援」を付与する、3ターン継続。「ミュリオンの応援」を持つ味方はダメージを1回与えるたびに、追加で本来のダメージ{{TrueDmgScaling}}%分の確定ダメージを1回与える。::BR:: 味方が「ミュリオンの応援」を持つ時、その効果はその味方の記憶の精霊/召喚者、両方に適用される。::BR:: 最大EPが0の味方がスキルを発動する時、「ミュリオン」はチャージを3%獲得し、その味方が「ミュリオンの応援」による確定ダメージのダメージ倍率がさらに+6%。
       energyTrueDmgValue:
+        text: 最大EPによる確定ダメ増加
         content: >-
           「ミュリオンの応援」を持つ味方の最大EPが100を超えている場合、超過分10につき、「ミュリオンの応援」による確定ダメージの倍率がさらに+2%、最大で20%アップできる。
       e1CrBuff:
@@ -1617,7 +1702,7 @@ Characters:
   Welt:
     Content:
       enemyDmgTakenDebuff:
-        text: 必殺技被ダメ増加デバフ
+        text: 必殺技のデバフ
         content: 必殺技を発動する時、100%の基礎確率で敵の受けるダメージ+12%、2ターン継続。
       enemySlowed:
         text: 敵減速状態

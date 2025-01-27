@@ -25,7 +25,7 @@ export default function WarpCalculatorTab(): React.JSX.Element {
   const { t } = useTranslation('warpCalculatorTab')
 
   return (
-    <Flex vertical style={{ height: 1400 }} align='center'>
+    <Flex vertical style={{ height: 1400, width: 950 }} align='center'>
       <Flex justify='space-around' style={{ margin: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('SectionTitles.Planner')/* Warp Planner */}
@@ -62,7 +62,18 @@ function Inputs() {
       <Card style={{ width: 800 }}>
         <Flex style={{ marginBottom: 30 }}>
           <Flex vertical style={{ flex: 1 }}>
-            <Title>{t('Settings')/* Settings */}</Title>
+            <Title>
+              <Flex justify='center' gap={10}>
+                {t('Settings')/* Settings */}
+                <a
+                  href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
+                  target='_blank'
+                  style={{ display: 'inline-flex', alignItems: 'center' }} rel='noreferrer'
+                >
+                  <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
+                </a>
+              </Flex>
+            </Title>
 
             <Flex vertical gap={16}>
               <Flex gap={50} justify='space-between'>

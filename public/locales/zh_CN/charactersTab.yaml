@@ -50,11 +50,9 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: 速度权重
       Max: 100%
       Min: 0%
     BenchmarkSpd:
-      Header: 速度基准
       BenchmarkOptionsLabel: 基准选项
       CurrentSpdLabel: 当前速度 - 基准将与你的基础速度匹配
       BaseSpdLabel: 基础速度 - 基准将以最低速度配装为目标

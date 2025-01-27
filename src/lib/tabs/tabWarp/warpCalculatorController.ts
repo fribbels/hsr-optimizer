@@ -10,10 +10,10 @@ const character5050 = 0.5625
 const lightCone5050 = 0.78125
 
 export enum WarpIncomeType {
-  NONE = 'None',
-  F2P = 'F2P',
-  EXPRESS = 'Express',
-  BP_EXPRESS = 'BP & Express'
+  NONE,
+  F2P,
+  EXPRESS,
+  BP_EXPRESS,
 }
 
 export const NONE_WARP_INCOME_OPTION = generateOption('NONE', WarpIncomeType.NONE, 0, 0)
@@ -235,7 +235,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == -1 ? `S${s}` : `E${e} S${s}`
+    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
   }
 
   return milestones
@@ -248,7 +248,7 @@ export type EnrichedWarpRequest = {
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  const additionalIncome = WarpIncomeOptions.find(option => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
+  const additionalIncome = WarpIncomeOptions.find((option) => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
   const totalJade = request.jades + additionalIncome.jades
   const totalPasses = request.passes + additionalIncome.passes
   const totalWarps = Math.floor(totalJade / 160) + totalPasses

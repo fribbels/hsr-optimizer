@@ -62,8 +62,8 @@ interface Resources {
         },
         "SpdPrecision": {
           "Header": "SPD precision",
-          "Low": 0,
-          "High": 0
+          "Low": ".0",
+          "High": ".000"
         },
         "SpdWeight": {
           "Header": "SPD Weight",
@@ -5190,9 +5190,10 @@ interface Resources {
     }
   },
   "sidebar": {
-    "Showcase": {
-      "Title": "Showcase",
-      "Scorer": "Relic Scorer"
+    "Tools": {
+      "Title": "Tools",
+      "Showcase": "Showcase",
+      "WarpPlanner": "Warp Planner"
     },
     "Optimization": {
       "Title": "Optimization",
@@ -5213,6 +5214,51 @@ interface Resources {
       "Unleak": "No leaks",
       "Leaks": "Beta content"
     }
+  },
+  "warpCalculatorTab": {
+    "StrategyLabels": {
+      "S1": "S1 first",
+      "E0": "E0 first",
+      "E1": "E1 first",
+      "E2": "E2 first",
+      "E3": "E3 first",
+      "E4": "E4 first",
+      "E5": "E5 first",
+      "E6": "E6 first"
+    },
+    "IncomeOptions": {
+      "Label": "[v{{versionNumber}} {{type}}]: ",
+      "LabelNone": "None",
+      "Type": {
+        "0": "None",
+        "1": "F2P",
+        "2": "Express",
+        "3": "BP & Express"
+      }
+    },
+    "PityCounter": {
+      "PityCounter": "Pity counter",
+      "Guaranteed": "Guaranteed"
+    },
+    "TotalAvailable": "Total warps available:",
+    "SectionTitles": {
+      "Planner": "Warp Planner",
+      "Results": "Results",
+      "Settings": "Settings",
+      "Character": "Character",
+      "LightCone": "LightCone",
+      "Passes": "Passes",
+      "Jades": "Jades",
+      "Strategy": "Strategy",
+      "AdditionalResources": "Additional Resources",
+      "Calculate": "Calculate"
+    },
+    "ColumnTitles": {
+      "Goal": "Goal",
+      "Chance": "Success chance with {{ticketCount}} <1/>",
+      "Average": "Average # of <1/> required"
+    },
+    "TargetLabel": "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}) $t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}})"
   }
 }
 

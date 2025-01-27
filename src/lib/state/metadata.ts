@@ -48,6 +48,7 @@ const SPREAD_ORNAMENTS_2P_ENERGY_REGEN = [
 ]
 
 const SPREAD_ORNAMENTS_2P_SUPPORT = [
+  Sets.SprightlyVonwacq,
   Sets.BrokenKeel,
   Sets.PenaconyLandOfTheDreams,
   Sets.FleetOfTheAgeless,

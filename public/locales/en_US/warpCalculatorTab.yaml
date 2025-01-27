@@ -33,4 +33,4 @@ ColumnTitles:
   Goal: Goal
   Chance: "Success chance with {{ticketCount}} <1/>"
   Average: "Average # of <1/> required"
-TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}})'
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

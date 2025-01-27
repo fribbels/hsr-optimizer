@@ -1,0 +1,11 @@
+IncomeOptions:
+  Type:
+    0: なし
+    1:
+    2:
+    3:
+SectionTitles:
+  Planner: 跳躍計画
+  Results: 結果
+  Settings: 設定
+  Character: キャラクター

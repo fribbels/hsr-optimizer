@@ -1,7 +1,6 @@
-import i18next from 'i18next'
 import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
@@ -61,7 +60,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'supremeStanceState',
       formItem: 'switch',
       text: t('Content.supremeStanceState.text'),
-      content: t('Content.supremeStanceState.content', { SpdBuff: ultSpdBoost }),
+      content: t('Content.supremeStanceState.content', { SpdBuff: TsUtils.precisionRound(ultSpdBoost * 100) }),
     },
     seamStitch: {
       id: 'seamStitch',

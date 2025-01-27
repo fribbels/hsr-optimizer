@@ -359,6 +359,7 @@ export const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.OHB.buffDynamic(0.12, Source.GiantTreeOfRaptBrooding, action, context)
+    x.m.OHB.buffDynamic(0.12, Source.GiantTreeOfRaptBrooding, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -386,6 +387,7 @@ export const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.OHB.buffDynamic(0.08, Source.GiantTreeOfRaptBrooding, action, context)
+    x.m.OHB.buffDynamic(0.08, Source.GiantTreeOfRaptBrooding, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -412,7 +414,7 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
     return p2(x.c.sets.BoneCollectionsSereneDemesne) && x.a[Key.HP] >= 5000
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.CD.buffDual(0.28, Source.BoneCollectionsSereneDemesne)
+    x.CD.buffBaseDual(0.28, Source.BoneCollectionsSereneDemesne)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `

@@ -8,7 +8,7 @@ CharacterMenu:
     Label: キャラクター
     Options:
       Add: 新しいキャラクターを追加
-      Edit: キャラクター/光円錐を編集
+      Edit: キャラクター・光円錐を編集
       Switch: 遺物を交換
       Unequip: 全ての遺物を外す
       Delete: キャラクターを削除
@@ -50,7 +50,6 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: 速度の重み
       Max: 100%
       Min: 0%
     BenchmarkSpd:

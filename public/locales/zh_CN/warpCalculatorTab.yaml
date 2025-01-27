@@ -1,0 +1,11 @@
+IncomeOptions:
+  Type:
+    0: 无
+    1:
+    2:
+    3:
+SectionTitles:
+  Planner: 跃迁规划器
+  Results: 结果
+  Settings: 设置
+  Character: 角色

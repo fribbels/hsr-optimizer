@@ -5228,7 +5228,6 @@ interface Resources {
     },
     "IncomeOptions": {
       "Label": "[v{{versionNumber}} {{type}}]: ",
-      "LabelNone": "None",
       "Type": {
         "0": "None",
         "1": "F2P",

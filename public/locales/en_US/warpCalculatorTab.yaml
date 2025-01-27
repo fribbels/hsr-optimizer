@@ -9,7 +9,6 @@ StrategyLabels:
   E6: E6 first
 IncomeOptions:
   Label: "[v{{versionNumber}} {{type}}]: "
-  LabelNone: None
   Type:
     0: None
     1: F2P

@@ -50,11 +50,9 @@ CharacterPreview:
       Low: ",0"
       High: ",000"
     SpdWeight:
-      Header: Poids de VIT
       Max: 100%
       Min: 0%
     BenchmarkSpd:
-      Header: VIT de référence
       BenchmarkOptionsLabel: Options de référence
       CurrentSpdLabel: VIT actuelle - La référence ciblera la même VIT que vous
       BaseSpdLabel: VIT de base - La référence ciblera le minimum de VIT possible

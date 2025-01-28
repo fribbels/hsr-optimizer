@@ -6927,7 +6927,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.LongevousDisciple, Sets.LongevousDisciple],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

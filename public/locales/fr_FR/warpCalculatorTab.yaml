@@ -13,7 +13,7 @@ IncomeOptions:
     0: Aucun
     1: F2P
     2: Express
-    3: BP & Express
+    3: BP + Express
 PityCounter:
   PityCounter: Pitié actuelle
   Guaranteed: Garanti

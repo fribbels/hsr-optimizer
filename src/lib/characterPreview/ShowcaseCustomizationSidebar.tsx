@@ -553,7 +553,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1109: ['#c8d0f0'], // hook
     1110: ['#53b1e1'], // lynx
     1111: ['#5d8ce2'], // luka
-    1112: ['#3f69dc'], // topaz
+    1112: ['#0f349b'], // topaz
     1201: ['#87d2da'], // qingque
     1202: ['#f4b5d4'], // tingyun
     1203: ['#8ce2f4'], // luocha
@@ -586,7 +586,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1307: ['#a37df4'], // blackswan
     1308: ['#837bd4'], // acheron
     1309: ['#bb9cf4'], // robin
-    1310: ['#93f1f5'], // firefly
+    1310: ['#8bdee1'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#7e95e9'], // sunday
     1314: ['#8a74dc'], // jade

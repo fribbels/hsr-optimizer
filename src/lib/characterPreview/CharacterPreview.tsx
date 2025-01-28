@@ -264,8 +264,8 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: `blur(20px) brightness(${darkMode ? 0.50 : 0.65}) saturate(${darkMode ? 0.80 : 0.80})`,
-              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.50 : 0.65}) saturate(${darkMode ? 0.80 : 0.80})`,
+              filter: `blur(20px) brightness(${darkMode ? 0.50 : 0.665}) saturate(${darkMode ? 0.80 : 0.80})`,
+              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.50 : 0.665}) saturate(${darkMode ? 0.80 : 0.80})`,
             }}
           />
 

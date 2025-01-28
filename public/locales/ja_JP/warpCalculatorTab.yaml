@@ -9,3 +9,4 @@ SectionTitles:
   Results: 結果
   Settings: 設定
   Character: キャラクター
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

@@ -31,6 +31,6 @@ SectionTitles:
   Calculate: 計算
 ColumnTitles:
   Goal: 目標
-  Chance: "{{ticketCount}} <1/> での成功確率"
+  Chance: "{{ticketCount}} <1/> での成功率"
   Average: "<1/> の平均必要数"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

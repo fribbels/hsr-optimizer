@@ -1,8 +1,7 @@
-import i18next from 'i18next'
 import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
 import { standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
@@ -70,7 +69,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'memoSkillHits',
       formItem: 'slider',
       text: t('Content.memoSkillHits.text'),
-      content: t('Content.memoSkillHits.content', { SingleScaling: TsUtils.precisionRound(memoSkillHitScaling * 100), AoeScaling: TsUtils.precisionRound(memoSkillFinalScaling * 100) }),
+      content: t('Content.memoSkillHits.content',
+        { SingleScaling: TsUtils.precisionRound(memoSkillHitScaling * 100), AoeScaling: TsUtils.precisionRound(memoSkillFinalScaling * 100) }),
       min: 0,
       max: 4,
     },
@@ -78,7 +78,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'teamCdBuff',
       formItem: 'switch',
       text: t('Content.teamCdBuff.text'),
-      content: t('Content.teamCdBuff.content', { ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100), FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100) }),
+      content: t('Content.teamCdBuff.content',
+        { ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100), FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100) }),
     },
     memsSupport: {
       id: 'memsSupport',
@@ -209,6 +210,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
+        chainsTo: [Stats.CD],
         ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return true

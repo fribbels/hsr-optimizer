@@ -11,6 +11,7 @@ export const RutilantArenaConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
+  chainsTo: [],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.RutilantArena) && x.a[Key.CR] >= 0.70
   },
@@ -37,6 +38,7 @@ export const InertSalsottoConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CR],
+  chainsTo: [],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.InertSalsotto) && x.a[Key.CR] >= 0.50
   },
@@ -63,6 +65,7 @@ export const SpaceSealingStationConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
+  chainsTo: [Stats.ATK],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.SpaceSealingStation) && x.a[Key.SPD] >= 120
   },
@@ -88,6 +91,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
+  chainsTo: [Stats.ATK],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.FleetOfTheAgeless) && x.a[Key.SPD] >= 120
   },
@@ -117,6 +121,7 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.EHR],
+  chainsTo: [Stats.DEF],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.BelobogOfTheArchitects) && x.a[Key.EHR] >= 0.50
   },
@@ -142,6 +147,7 @@ export const IronCavalryAgainstTheScourge150Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
+  chainsTo: [],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 1.50
   },
@@ -167,6 +173,7 @@ export const IronCavalryAgainstTheScourge250Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.BE],
+  chainsTo: [],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p4(x.c.sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 2.50
   },
@@ -192,6 +199,7 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
+  chainsTo: [Stats.ATK],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.PanCosmicCommercialEnterprise)
   },
@@ -224,6 +232,7 @@ export const BrokenKeelConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.RES],
+  chainsTo: [Stats.CD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.BrokenKeel) && x.a[Key.RES] >= 0.30
   },
@@ -253,6 +262,7 @@ export const CelestialDifferentiatorConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.CD],
+  chainsTo: [Stats.CR],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.CelestialDifferentiator) && action.setConditionals.enabledCelestialDifferentiator && x.a[Key.CD] >= 1.20
   },
@@ -279,6 +289,7 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
+  chainsTo: [Stats.BE],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.TaliaKingdomOfBanditry) && x.a[Key.SPD] >= 145
   },
@@ -304,6 +315,7 @@ export const FirmamentFrontlineGlamoth135Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
+  chainsTo: [],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.FirmamentFrontlineGlamoth) && x.a[Key.SPD] >= 135
   },
@@ -329,6 +341,7 @@ export const FirmamentFrontlineGlamoth160Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
+  chainsTo: [],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.FirmamentFrontlineGlamoth) && x.a[Key.SPD] >= 160
   },
@@ -354,6 +367,7 @@ export const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
+  chainsTo: [Stats.OHB],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.GiantTreeOfRaptBrooding) && x.a[Key.SPD] >= 135
   },
@@ -381,6 +395,7 @@ export const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
+  chainsTo: [Stats.OHB],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.GiantTreeOfRaptBrooding) && x.a[Key.SPD] >= 180
   },
@@ -408,6 +423,7 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
   type: ConditionalType.SET,
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.HP],
+  chainsTo: [Stats.CD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     return p2(x.c.sets.BoneCollectionsSereneDemesne) && x.a[Key.HP] >= 5000
   },

@@ -160,6 +160,7 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.ATK],
+        chainsTo: [Stats.ATK],
         ratioConversion: true,
         condition: function () {
           return true

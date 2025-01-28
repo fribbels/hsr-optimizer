@@ -171,6 +171,7 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.ATK],
+        chainsTo: [Stats.BE],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.a[Key.ATK] > 1800
         },

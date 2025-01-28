@@ -129,6 +129,7 @@ x.ULT_DMG += x.ULT_SCALING * x.HP;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
+        chainsTo: [Stats.HP],
         ratioConversion: true,
         condition: function () {
           return true

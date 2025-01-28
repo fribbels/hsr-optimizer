@@ -167,6 +167,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.DEF],
+      chainsTo: [Stats.CR],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
         return r.defToCrBoost && x.a[Key.DEF] > 1600

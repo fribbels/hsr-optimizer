@@ -133,6 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
+        chainsTo: [Stats.HP],
         ratioConversion: true,
         condition: function () {
           return true

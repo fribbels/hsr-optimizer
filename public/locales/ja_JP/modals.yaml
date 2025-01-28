@@ -336,10 +336,10 @@ CharacterSelect:
     Placeholder: キャラクターをカスタマイズ
     MaxTagPlaceholderSome: "{{count}}人のキャラクターが除外されました"
     MaxTagPlaceholderNone: すべてのキャラクターが有効です。
-    ModalTitle: 除外するキャラクターを選択
+    ModalTitle: 除外するキャラクターの選択
   SingleSelect:
     Placeholder: キャラクター
-    ModalTitle: キャラクターを選択
+    ModalTitle: キャラクターの選択
   SearchPlaceholder: キャラクター名を検索
   ExcludeButton: すべて除外
   ClearButton: クリア

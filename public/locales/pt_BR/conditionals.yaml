@@ -1461,6 +1461,7 @@ Characters:
           Entra no estado de buff ao derrotar um inimigo com ATK Básico, Habilidade ou Ultimativa, e recebe um turno extra. Enquanto estiver no estado de buff, o DMG dos ataques de Seele aumenta em {{buffedStateDmgBuff}}% por 1 turno.::BR::Enquanto Seele estiver no estado de buff, sua PEN de RES Quantum aumenta em 20%.
       speedBoostStacks:
         text: Acúmulos de buff de velocidade
+        content: "Após usar sua perícia, aumenta a VEL de Seele em 25% por 2 rodadas.:BR::E2: O aumento de VEL da perícia pode acumular até 2 vezes."
       e1EnemyHp80CrBoost:
         text: E1 HP do inimigo ≤ 80% aumento de CR
         content: Ao causar DMG a um inimigo cuja porcentagem de HP é 80% ou inferior, a Taxa de CRIT aumenta em 15%.

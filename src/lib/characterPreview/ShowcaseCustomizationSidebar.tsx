@@ -557,7 +557,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1201: ['#87d2da'], // qingque
     1202: ['#f4b5d4'], // tingyun
     1203: ['#8ce2f4'], // luocha
-    1204: ['#b7dde2'], // jingyuan
+    1204: ['#94e6f1'], // jingyuan
     1205: ['#4d69be'], // blade
     1206: ['#154da1'], // sushang
     1207: ['#90a0e6'], // yukong
@@ -600,12 +600,12 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8006: ['#8d7abc'], // trailblazerharmony
 
     1401: ['#8e5eef'], // the herta
-    1402: ['#8cb7e7'], // aglaea
+    1402: ['#86bdf1'], // aglaea
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
 
     1403: ['#8c8fec'], // tribbie
-    1404: ['#ff87a7'], // mydei
+    1404: ['#ff8fad'], // mydei
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

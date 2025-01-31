@@ -295,8 +295,8 @@ const ShowcaseCustomizationSidebar = forwardRef<
         }}
       >
         <Flex
-          justify="space-between"
-          align="center"
+          justify='space-between'
+          align='center'
           style={{ position: 'relative' }}
         >
           <span></span>
@@ -310,10 +310,10 @@ const ShowcaseCustomizationSidebar = forwardRef<
           >
             {tScoring('Stats.Header') /* Stats */}
           </HeaderText>
-
           <a
-            href="https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md"
-            target="_blank"
+            href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
+            target='_blank'
+            rel='noreferrer'
             style={{ display: 'inline-flex', alignItems: 'center' }}
           >
             <img
@@ -373,7 +373,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
             </HeaderText>
 
             <InputNumber
-              size="small"
+              size='small'
               controls={false}
               style={{ width: '100%' }}
               value={sanitizePositiveNumberElseUndefined(
@@ -431,7 +431,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
 
         <ColorPicker
           presets={presets}
-          defaultValue="#1677ff"
+          defaultValue='#1677ff'
           value={seedColor}
           onChangeComplete={(value: AggregationColor) => {
             const color = value.toHexString()
@@ -478,14 +478,14 @@ const ShowcaseCustomizationSidebar = forwardRef<
 
         <HorizontalDivider />
 
-        <Flex justify="space-between">
+        <Flex justify='space-between'>
           <Button
             icon={<CameraOutlined style={{ fontSize: 30 }} />}
             loading={loading}
             onClick={() =>
               clipboardClicked(id, 'clipboard', setLoading, props.seedColor)
             }
-            type="primary"
+            type='primary'
             style={{ height: 50, width: 50, borderRadius: 8 }}
           />
           <Button
@@ -494,7 +494,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
             onClick={() =>
               clipboardClicked(id, 'download', setLoading, props.seedColor)
             }
-            type="primary"
+            type='primary'
             style={{ height: 50, width: 50, borderRadius: 8 }}
           />
         </Flex>
@@ -576,13 +576,7 @@ function SelectSpdPresets(props: {
         options: presets,
       },
     ]
-  }, [
-    t,
-    tCharacterTab,
-    props.spdFilter,
-    props.characterId,
-    props.simScoringResult,
-  ])
+  }, [t, tCharacterTab, props.spdFilter])
 
   return (
     <Select
@@ -590,7 +584,7 @@ function SelectSpdPresets(props: {
       labelRender={() => <></>}
       dropdownStyle={{ width: 'fit-content' }}
       options={spdPresetOptions}
-      placement="bottomRight"
+      placement='bottomRight'
       listHeight={800}
       value={null}
       onChange={props.onShowcaseSpdBenchmarkChange}

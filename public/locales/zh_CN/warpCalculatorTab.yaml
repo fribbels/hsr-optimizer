@@ -8,7 +8,7 @@ StrategyLabels:
   E5: 优先5魂
   E6: 优先6魂
 IncomeOptions:
-  Label: "[版本{{versionNumber}} {{type}}]: "
+  Label: "【版本{{versionNumber}} {{type}}】: "
   Type:
     0: 无
     1: 零氪

@@ -547,31 +547,11 @@ fn main(
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
       // END BASIC CONDITIONALS
 
-      evaluateDependenciesSPD(p_x, p_m, p_state);
-      evaluateDependenciesBE(p_x, p_m, p_state);
-
-      evaluateDependenciesHP(p_x, p_m, p_state);
-      evaluateDependenciesATK(p_x, p_m, p_state);
-      evaluateDependenciesDEF(p_x, p_m, p_state);
-      evaluateDependenciesCR(p_x, p_m, p_state);
-      evaluateDependenciesCD(p_x, p_m, p_state);
-      evaluateDependenciesEHR(p_x, p_m, p_state);
-      evaluateDependenciesRES(p_x, p_m, p_state);
-      evaluateDependenciesOHB(p_x, p_m, p_state);
-      evaluateDependenciesERR(p_x, p_m, p_state);
-
-      evaluateDependenciesSPD(p_x, p_m, p_state);
-      evaluateDependenciesBE(p_x, p_m, p_state);
-
-      evaluateDependenciesHP(p_x, p_m, p_state);
-      evaluateDependenciesATK(p_x, p_m, p_state);
-      evaluateDependenciesDEF(p_x, p_m, p_state);
-      evaluateDependenciesCR(p_x, p_m, p_state);
-      evaluateDependenciesCD(p_x, p_m, p_state);
-      evaluateDependenciesEHR(p_x, p_m, p_state);
-      evaluateDependenciesRES(p_x, p_m, p_state);
-      evaluateDependenciesOHB(p_x, p_m, p_state);
-      evaluateDependenciesERR(p_x, p_m, p_state);
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
 
       // START ACTION CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

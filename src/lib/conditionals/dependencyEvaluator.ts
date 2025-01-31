@@ -2,54 +2,6 @@ import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 
-const statOrder = [
-  Stats.SPD,
-  Stats.BE,
-  Stats.EHR,
-  Stats.CR,
-  Stats.CD,
-  Stats.RES,
-  Stats.DEF,
-  Stats.ATK,
-  Stats.OHB,
-  Stats.ERR,
-  Stats.HP,
-]
-
-function emptyRegistry(): Record<string, DynamicConditional[]> {
-  return {
-    [Stats.HP]: [],
-    [Stats.ATK]: [],
-    [Stats.DEF]: [],
-    [Stats.SPD]: [],
-    [Stats.CR]: [],
-    [Stats.CD]: [],
-    [Stats.EHR]: [],
-    [Stats.RES]: [],
-    [Stats.BE]: [],
-    [Stats.OHB]: [],
-    [Stats.ERR]: [],
-  }
-}
-
-function getTotalReachableConditionals(stat: string, remainingConditionals: Set<string>, registry: ConditionalRegistry, visited = new Set<string>()): number {
-  if (visited.has(stat)) return 0
-  visited.add(stat)
-
-  let count = 0
-  for (const conditional of registry[stat]) {
-    if (remainingConditionals.has(conditional.id)) {
-      count++
-
-      for (const chainedStat of conditional.chainsTo) {
-        count += getTotalReachableConditionals(chainedStat, remainingConditionals, registry, visited)
-      }
-    }
-  }
-
-  return count
-}
-
 export function evaluateDependencyOrder(registeredConditionals: ConditionalRegistry) {
   let conditionals: DynamicConditional[] = []
   Object.values(registeredConditionals).forEach(conditionalChain => conditionals = [...conditionals, ...conditionalChain])
@@ -61,6 +13,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
   const res: string[] = []
   const res2: string[] = []
   const conditionalMap: Record<string, DynamicConditional> = {}
+  const conditionalOrder: DynamicConditional[] = []
 
   for (const conditional of conditionals) {
     conditionalMap[conditional.id] = conditional
@@ -126,6 +79,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
         console.log(`  -> Executed Conditional: ${conditional.id}`)
 
         res2.push(conditional.id + ' ' + stat)
+        conditionalOrder.push(conditional)
 
         for (const chainedStat of conditional.chainsTo) {
           if (!priorityQueue.includes(chainedStat) && !pendingEvaluations.has(chainedStat)) {
@@ -150,4 +104,54 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
 
   console.log(res)
   console.log(res2)
+
+  return conditionalOrder
+}
+
+const statOrder = [
+  Stats.SPD,
+  Stats.BE,
+  Stats.EHR,
+  Stats.CR,
+  Stats.CD,
+  Stats.RES,
+  Stats.DEF,
+  Stats.ATK,
+  Stats.OHB,
+  Stats.ERR,
+  Stats.HP,
+]
+
+function emptyRegistry(): Record<string, DynamicConditional[]> {
+  return {
+    [Stats.HP]: [],
+    [Stats.ATK]: [],
+    [Stats.DEF]: [],
+    [Stats.SPD]: [],
+    [Stats.CR]: [],
+    [Stats.CD]: [],
+    [Stats.EHR]: [],
+    [Stats.RES]: [],
+    [Stats.BE]: [],
+    [Stats.OHB]: [],
+    [Stats.ERR]: [],
+  }
+}
+
+function getTotalReachableConditionals(stat: string, remainingConditionals: Set<string>, registry: ConditionalRegistry, visited = new Set<string>()): number {
+  if (visited.has(stat)) return 0
+  visited.add(stat)
+
+  let count = 0
+  for (const conditional of registry[stat]) {
+    if (remainingConditionals.has(conditional.id)) {
+      count++
+
+      for (const chainedStat of conditional.chainsTo) {
+        count += getTotalReachableConditionals(chainedStat, remainingConditionals, registry, visited)
+      }
+    }
+  }
+
+  return count
 }

@@ -200,7 +200,7 @@ if (trueAtk > 1800) {
   let buffValue: f32 = 0.008 * floor((trueAtk - 1800) / 10);
 
   (*p_state).FireflyConversionConditional = buffValue;
-  buffDynamicBE(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_x).BE += buffValue - stateValue;
 }
     `)
         },

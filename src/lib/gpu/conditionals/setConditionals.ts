@@ -80,7 +80,7 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).SpaceSealingStationConditional = 1.0;
-  buffNonDynamicATK_P(0.12, p_x, p_m, p_state);
+  (*p_x).ATK_P += 0.12;
 }
     `)
   },
@@ -109,8 +109,8 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
-  buffNonDynamicATK_P(0.08, p_x, p_m, p_state);
-  buffMemoNonDynamicATK_P(0.08, p_x, p_m, p_state);
+  (*p_x).ATK_P += 0.08;
+  (*p_m).ATK_P += 0.08;
 }
     `)
   },
@@ -136,7 +136,7 @@ if (
   (*p_x).EHR >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional = 1.0;
-  buffNonDynamicDEF_P(0.15, p_x, p_m, p_state);
+  (*p_x).DEF_P += 0.15;
 }
     `)
   },
@@ -221,7 +221,7 @@ if (
   let buffValue: f32 = min(0.25, 0.25 * (*p_x).EHR) * baseATK;
 
   (*p_state).PanCosmicCommercialEnterpriseConditional = buffValue;
-  buffNonDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_x).ATK += buffValue - stateValue;
 }
     `)
   },
@@ -250,8 +250,8 @@ if (
   (*p_x).RES >= 0.30
 ) {
   (*p_state).BrokenKeelConditional = 1.0;
-  buffNonDynamicCD(0.10, p_x, p_m, p_state);
-  buffMemoNonDynamicCD(0.10, p_x, p_m, p_state);
+  (*p_x).CD += 0.10;
+  (*p_m).CD += 0.10;
 }
     `)
   },
@@ -278,7 +278,7 @@ if (
   (*p_x).CD >= 1.20
 ) {
   (*p_state).CelestialDifferentiatorConditional = 1.0;
-  buffNonDynamicCR(0.60, p_x, p_m, p_state);
+  (*p_x).CR += 0.60;
 }
     `)
   },
@@ -304,7 +304,7 @@ if (
   (*p_x).SPD >= 145
 ) {
   (*p_state).TaliaKingdomOfBanditryConditional = 1.0;
-  buffNonDynamicBE(0.20, p_x, p_m, p_state);
+  (*p_x).BE += 0.20;
 }
     `)
   },
@@ -383,9 +383,8 @@ if (
   (*p_x).SPD >= 135
 ) {
   (*p_state).GiantTreeOfRaptBrooding135Conditional = 1.0;
-
-  buffMemoNonDynamicOHB(0.12, p_x, p_m, p_state);
-  buffNonDynamicOHB(0.12, p_x, p_m, p_state);
+  (*p_x).OHB += 0.12;
+  (*p_m).OHB += 0.12;
 }
     `)
   },
@@ -412,9 +411,8 @@ if (
   (*p_x).SPD >= 180
 ) {
   (*p_state).GiantTreeOfRaptBrooding180Conditional = 1.0;
-
-  buffMemoNonDynamicOHB(0.08, p_x, p_m, p_state);
-  buffNonDynamicOHB(0.08, p_x, p_m, p_state);
+  (*p_x).OHB += 0.08;
+  (*p_m).OHB += 0.08;
 }
     `)
   },
@@ -440,9 +438,8 @@ if (
   (*p_x).HP >= 5000
 ) {
   (*p_state).BoneCollectionsSereneDemesneConditional = 1.0;
-
-  buffMemoDynamicCD(0.28, p_x, p_m, p_state);
-  buffDynamicCD(0.28, p_x, p_m, p_state);
+  (*p_x).CD += 0.28;
+  (*p_m).CD += 0.28;
 }
     `)
   },

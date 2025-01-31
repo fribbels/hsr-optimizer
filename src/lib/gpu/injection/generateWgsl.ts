@@ -1,7 +1,6 @@
 import { Constants } from 'lib/constants/constants'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
-import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
@@ -17,7 +16,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
   wgsl = injectSettings(wgsl, context, request)
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, context, gpuParams)
-  wgsl = injectUtils(wgsl)
+  // wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)

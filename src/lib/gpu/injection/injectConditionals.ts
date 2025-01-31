@@ -1,4 +1,5 @@
 import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
+import { evaluateDependencyOrder } from 'lib/conditionals/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
@@ -69,6 +70,17 @@ ${lightConeConditionalWgsl}
   wgsl = wgsl.replace(
     '/* INJECT BASIC CONDITIONALS */',
     indent(basicConditionalsWgsl, 2),
+  )
+
+  // Combat conditionals
+
+  const conditionalOrder = evaluateDependencyOrder(context.actions[0].conditionalRegistry)
+  let conditionalOrderWgsl = '\n'
+  conditionalOrderWgsl += conditionalOrder.map(generateConditionalExecution).map(wgsl => indent(wgsl, 3)).join('\n') + '\n'
+
+  wgsl = wgsl.replace(
+    '/* INJECT COMBAT CONDITIONALS */',
+    conditionalOrderWgsl,
   )
 
   // Dynamic conditionals
@@ -151,6 +163,10 @@ ${indent(conditionalCallsWgsl, 1)}
   `
 }
 
+function generateConditionalExecution(conditional: DynamicConditional) {
+  return `evaluate${conditional.id}(p_x, p_m, p_state);`
+}
+
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
   let teammate: Teammate
   if (conditional.teammateIndex == 0) teammate = request.teammate0
@@ -172,11 +188,11 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   let conditionalNonRatioCallsWgsl = ''
   let conditionalStateDefinition = ''
 
-  conditionalCallsWgsl += registeredConditionals[stat]
-    .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
-  conditionalNonRatioCallsWgsl += registeredConditionals[stat]
-    .filter((x) => !x.ratioConversion)
-    .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
+  // conditionalCallsWgsl += registeredConditionals[stat]
+  //   .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
+  // conditionalNonRatioCallsWgsl += registeredConditionals[stat]
+  //   .filter((x) => !x.ratioConversion)
+  //   .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat]
     .map((conditional) => {
       if (conditional.teammateIndex == null) {
@@ -188,8 +204,8 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
     }).join('\n') // TODO!!
   conditionalStateDefinition += registeredConditionals[stat]
     .map((x) => x.id + ': f32,\n').join('')
-  conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
-  conditionalEvaluators += generateConditionalNonRatioEvaluator(statName, conditionalNonRatioCallsWgsl)
+  // conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
+  // conditionalEvaluators += generateConditionalNonRatioEvaluator(statName, conditionalNonRatioCallsWgsl)
 
   return {
     conditionalEvaluators,

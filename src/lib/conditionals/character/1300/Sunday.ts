@@ -202,7 +202,7 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;
-  buffMemoDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_m).CD += buffValue - stateValue;
 }
           `)
         },
@@ -248,7 +248,7 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;
-  buffDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_x).CD += buffValue - stateValue;
 }
     `)
         },

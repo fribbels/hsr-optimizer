@@ -76,7 +76,7 @@ ${lightConeConditionalWgsl}
 
   const conditionalOrder = evaluateDependencyOrder(context.actions[0].conditionalRegistry)
   let conditionalOrderWgsl = '\n'
-  conditionalOrderWgsl += conditionalOrder.map(generateConditionalExecution).map(wgsl => indent(wgsl, 3)).join('\n') + '\n'
+  conditionalOrderWgsl += conditionalOrder.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
 
   wgsl = wgsl.replace(
     '/* INJECT COMBAT CONDITIONALS */',
@@ -182,10 +182,10 @@ function getRequestTeammateIndex(request: Form, conditional: DynamicConditional)
 }
 
 function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
-  let conditionalEvaluators = ''
+  const conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
-  let conditionalCallsWgsl = ''
-  let conditionalNonRatioCallsWgsl = ''
+  const conditionalCallsWgsl = ''
+  const conditionalNonRatioCallsWgsl = ''
   let conditionalStateDefinition = ''
 
   // conditionalCallsWgsl += registeredConditionals[stat]
@@ -203,7 +203,12 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
       }
     }).join('\n') // TODO!!
   conditionalStateDefinition += registeredConditionals[stat]
-    .map((x) => x.id + ': f32,\n').join('')
+    .flatMap((conditional) => {
+      return [
+        conditional.id,
+        ...(conditional.supplementalState ?? []),
+      ].map((id) => id + ': f32,\n')
+    }).join('')
   // conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
   // conditionalEvaluators += generateConditionalNonRatioEvaluator(statName, conditionalNonRatioCallsWgsl)
 

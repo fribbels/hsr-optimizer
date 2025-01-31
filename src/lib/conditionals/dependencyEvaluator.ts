@@ -4,7 +4,7 @@ import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 
 export function evaluateDependencyOrder(registeredConditionals: ConditionalRegistry) {
   let conditionals: DynamicConditional[] = []
-  Object.values(registeredConditionals).forEach(conditionalChain => conditionals = [...conditionals, ...conditionalChain])
+  Object.values(registeredConditionals).forEach((conditionalChain) => conditionals = [...conditionals, ...conditionalChain])
 
   const registry = emptyRegistry()
   const activationCount: Record<string, number> = {}
@@ -22,7 +22,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
     }
   }
 
-  const remainingConditionals = new Set(conditionals.map(c => c.id))
+  const remainingConditionals = new Set(conditionals.map((c) => c.id))
 
   const bestStartingStat = statOrder.reduce((bestStat, currentStat) => {
     const currentReachable = getTotalReachableConditionals(currentStat, remainingConditionals, registry)

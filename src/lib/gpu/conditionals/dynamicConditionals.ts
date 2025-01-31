@@ -9,6 +9,7 @@ export type DynamicConditional = {
   activation: number
   dependsOn: string[]
   chainsTo: string[]
+  supplementalState?: string[]
   condition: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => boolean | number
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpu: (action: OptimizerAction, context: OptimizerContext) => string

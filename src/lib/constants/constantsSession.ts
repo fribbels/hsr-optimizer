@@ -8,5 +8,6 @@ export enum SavedSessionKeys {
   computeEngine = 'computeEngine',
   showcaseStandardMode = 'showcaseStandardMode',
   showcaseDarkMode = 'showcaseDarkMode',
-  showcasePreciseSpd = 'showcasePreciseSpd'
+  showcasePreciseSpd = 'showcasePreciseSpd',
+  showcaseUID = 'showcaseUID',
 }

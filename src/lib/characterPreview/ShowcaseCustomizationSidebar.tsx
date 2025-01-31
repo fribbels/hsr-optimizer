@@ -4,6 +4,8 @@ import {
   MoonOutlined,
   SettingOutlined,
   SunOutlined,
+  CheckOutlined,
+  CloseOutlined,
 } from '@ant-design/icons'
 import {
   Button,
@@ -100,6 +102,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
   )
   const [loading, setLoading] = useState<boolean>(false)
   const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
+  const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
   const showcasePreciseSpd = window.store(
     (s) => s.savedSession.showcasePreciseSpd
   )
@@ -175,6 +178,14 @@ const ShowcaseCustomizationSidebar = forwardRef<
     window.store
       .getState()
       .setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
+  }
+
+  const onShowUIDChange = (showUID: boolean) => {
+    console.log('Set show UID to', showUID)
+
+    window.store
+      .getState()
+      .setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
   }
 
   function onShowcasePreciseSpdChange(preciseSpd: boolean) {
@@ -475,9 +486,22 @@ const ShowcaseCustomizationSidebar = forwardRef<
           value={showcaseDarkMode}
           onChange={onBrightnessModeChange}
         />
-
         <HorizontalDivider />
 
+        <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+          Show UID
+        </HeaderText>
+        <Segmented
+          options={[
+            { value: true, label: <CheckOutlined /> },
+            { value: false, label: <CloseOutlined /> },
+          ]}
+          block
+          value={showcaseUID}
+          onChange={onShowUIDChange}
+        />
+
+        <HorizontalDivider />
         <Flex justify='space-between'>
           <Button
             icon={<CameraOutlined style={{ fontSize: 30 }} />}

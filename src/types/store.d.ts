@@ -3,10 +3,17 @@ import { ComputeEngine } from 'lib/constants/constants'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
-import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import {
+  WarpRequest,
+  WarpResult,
+} from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { ScoringMetadata, ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
+import {
+  ScoringMetadata,
+  ShowcasePreferences,
+  ShowcaseTemporaryOptions,
+} from 'types/metadata'
 import { Relic } from 'types/relic'
 
 type PermutationDetails = {
@@ -141,7 +148,9 @@ export type HsrOptimizerStore = {
   setStatSimulationDisplay: (x: any) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
-  setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void
+  setShowcaseTemporaryOptions: (
+    x: Record<string, ShowcaseTemporaryOptions>
+  ) => void
   setWarpRequest: (x: WarpRequest) => void
   setWarpResult: (x: WarpResult) => void
   setScorerId: (x: any) => void
@@ -179,6 +188,7 @@ export type SavedSession = {
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean
+  showcaseUID: boolean
   showcasePreciseSpd: boolean
 }
 

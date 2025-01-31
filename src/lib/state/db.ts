@@ -14,7 +14,10 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
@@ -24,7 +27,10 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import {
+  WarpRequest,
+  WarpResult,
+} from 'lib/tabs/tabWarp/warpCalculatorController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -32,7 +38,12 @@ import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
 import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
-import { HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
+import {
+  HsrOptimizerSaveFormat,
+  HsrOptimizerStore,
+  SavedSession,
+  UserSettings,
+} from 'types/store'
 import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
@@ -106,6 +117,7 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
+  [SavedSessionKeys.showcaseUID]: true,
   [SavedSessionKeys.showcasePreciseSpd]: false,
 }
 
@@ -229,18 +241,26 @@ window.store = create((set) => {
     setCharactersById: (x) => set(() => ({ charactersById: x })),
     setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
     setRowLimit: (x) => set(() => ({ rowLimit: x })),
-    setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
+    setConditionalSetEffectsDrawerOpen: (x) =>
+      set(() => ({ conditionalSetEffectsDrawerOpen: x })),
     setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
     setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
     setStatTracesDrawerOpen: (x) => set(() => ({ statTracesDrawerOpen: x })),
-    setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
+    setEnemyConfigurationsDrawerOpen: (x) =>
+      set(() => ({ enemyConfigurationsDrawerOpen: x })),
     setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
-    setGettingStartedDrawerOpen: (x) => set(() => ({ gettingStartedDrawerOpen: x })),
-    setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
-    setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
-    setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
-    setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
-    setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
+    setGettingStartedDrawerOpen: (x) =>
+      set(() => ({ gettingStartedDrawerOpen: x })),
+    setOptimizerTabFocusCharacter: (characterId) =>
+      set(() => ({ optimizerTabFocusCharacter: characterId })),
+    setCharacterTabFocusCharacter: (characterId) =>
+      set(() => ({ characterTabFocusCharacter: characterId })),
+    setScoringAlgorithmFocusCharacter: (characterId) =>
+      set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+    setStatTracesDrawerFocusCharacter: (characterId) =>
+      set(() => ({ statTracesDrawerFocusCharacter: characterId })),
+    setRelicsTabFocusCharacter: (characterId) =>
+      set(() => ({ relicsTabFocusCharacter: characterId })),
     setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
     setPermutations: (x) => set(() => ({ permutations: x })),
     setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
@@ -249,37 +269,49 @@ window.store = create((set) => {
     setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
     setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
     setScorerId: (x) => set(() => ({ scorerId: x })),
-    setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+    setScoringMetadataOverrides: (x) =>
+      set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
-    setShowcaseTemporaryOptions: (x) => set(() => ({ showcaseTemporaryOptions: x })),
+    setShowcaseTemporaryOptions: (x) =>
+      set(() => ({ showcaseTemporaryOptions: x })),
     setWarpRequest: (x) => set(() => ({ warpRequest: x })),
     setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
     setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
-    setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
+    setSelectedStatSimulations: (x) =>
+      set(() => ({ selectedStatSimulations: x })),
     setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
-    setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
+    setOptimizationInProgress: (x) =>
+      set(() => ({ optimizationInProgress: x })),
     setOptimizationId: (x) => set(() => ({ optimizationId: x })),
     setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
-    setOptimizerRunningEngine: (x: ComputeEngine) => set(() => ({ optimizerRunningEngine: x })),
+    setOptimizerRunningEngine: (x: ComputeEngine) =>
+      set(() => ({ optimizerRunningEngine: x })),
     setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
     setTeammateCount: (x) => set(() => ({ teammateCount: x })),
-    setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
-    setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
-    setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
-    setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
-    setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
+    setOptimizerFormCharacterEidolon: (x) =>
+      set(() => ({ optimizerFormCharacterEidolon: x })),
+    setOptimizerFormSelectedLightCone: (x) =>
+      set(() => ({ optimizerFormSelectedLightCone: x })),
+    setOptimizerFormSelectedLightConeSuperimposition: (x) =>
+      set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+    setOptimizerTabFocusCharacterSelectModalOpen: (x) =>
+      set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
+    setZeroPermutationsModalOpen: (x) =>
+      set(() => ({ zeroPermutationModalOpen: x })),
     setZeroResultModalOpen: (x) => set(() => ({ zeroResultModalOpen: x })),
     setScoringModalOpen: (x) => set(() => ({ scoringModalOpen: x })),
-    setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
+    setExcludedRelicPotentialCharacters: (x) =>
+      set(() => ({ excludedRelicPotentialCharacters: x })),
     setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
     setSettings: (x: UserSettings) => set(() => ({ settings: x })),
     setSavedSession: (x) => set(() => ({ savedSession: x })),
-    setSavedSessionKey: (key, x) => set((state) => ({
-      savedSession: { ...state.savedSession, [key]: x },
-    })),
+    setSavedSessionKey: (key, x) =>
+      set((state) => ({
+        savedSession: { ...state.savedSession, [key]: x },
+      })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
@@ -303,7 +335,7 @@ window.store = create((set) => {
 
 export const DB = {
   getMetadata: (): DBMetadata => state.metadata,
-  setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
+  setMetadata: (metadata: DBMetadata) => (state.metadata = metadata),
 
   getCharacters: () => window.store.getState().characters,
   getCharacterById: (id: string) => window.store.getState().charactersById[id],
@@ -337,7 +369,8 @@ export const DB = {
       index = characters.length
     }
     const matchingCharacter = DB.getCharacterById(id)
-    if (!matchingCharacter) return console.warn('No matching character to insert', id, index)
+    if (!matchingCharacter)
+      return console.warn('No matching character to insert', id, index)
     const removed = characters.splice(matchingCharacter.rank, 1)
     characters.splice(index, 0, removed[0])
     DB.setCharacters(characters)
@@ -387,8 +420,9 @@ export const DB = {
         DB.unequipRelicById(relic.id)
         setRelic(relic)
       }
-      const relicIsNotEquippedByRelicOwner = relic.equippedBy
-        && DB.getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
+      const relicIsNotEquippedByRelicOwner =
+        relic.equippedBy &&
+        DB.getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
       if (relicIsNotEquippedByRelicOwner) {
         DB.equipRelic(relic, relic.equippedBy)
       }
@@ -406,9 +440,13 @@ export const DB = {
   getScoringMetadata: (id: string) => {
     const dbMetadata = DB.getMetadata()
     const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
-    const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides
+    const scoringMetadataOverrides =
+      window.store.getState().scoringMetadataOverrides
     const override = scoringMetadataOverrides[id]
-    const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
+    const returnScoringMetadata = Utils.mergeUndefinedValues(
+      override || {},
+      defaultScoringMetadata
+    ) as ScoringMetadata
 
     // POST MIGRATION UNCOMMENT
     // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
@@ -458,7 +496,8 @@ export const DB = {
       // overrides.modified = true
     }
 
-    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
+    const defaultScoringMetadata =
+      DB.getMetadata().characters[id].scoringMetadata
 
     setModifiedScoringMetadata(defaultScoringMetadata, overrides[id])
 
@@ -466,7 +505,10 @@ export const DB = {
 
     SaveState.delayedSave()
   },
-  updateSimulationScoreOverrides: (id: string, updatedSimulation: SimulationMetadata) => {
+  updateSimulationScoreOverrides: (
+    id: string,
+    updatedSimulation: SimulationMetadata
+  ) => {
     if (!updatedSimulation) return
 
     const overrides = window.store.getState().scoringMetadataOverrides
@@ -496,7 +538,10 @@ export const DB = {
 
       // Previously sim requests didn't use the stats field
       if (character.form?.statSim?.simulations) {
-        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation) => simulation.request?.stats)
+        character.form.statSim.simulations =
+          character.form.statSim.simulations.filter(
+            (simulation) => simulation.request?.stats
+          )
       }
 
       // Previously characters had customizable options, now we're defaulting to 80s
@@ -523,16 +568,29 @@ export const DB = {
       // Deduplicate main stat filter values
       character.form.mainBody = deduplicateStringArray(character.form.mainBody)
       character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
-      character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
-      character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
+      character.form.mainPlanarSphere = deduplicateStringArray(
+        character.form.mainPlanarSphere
+      )
+      character.form.mainLinkRope = deduplicateStringArray(
+        character.form.mainLinkRope
+      )
 
       // In beta, Duran maxed out at 6
-      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] ?? 0 > 5) {
+      if (
+        character.form.setConditionals?.[
+          Sets.DuranDynastyOfRunningWolves
+        ]?.[1] ??
+        0 > 5
+      ) {
         character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
       }
 
       // In beta, it was later discovered Sacerdos could apply to self buffs
-      if (typeof character.form.setConditionals?.[Sets.SacerdosRelivedOrdeal]?.[1] == 'boolean') {
+      if (
+        typeof character.form.setConditionals?.[
+          Sets.SacerdosRelivedOrdeal
+        ]?.[1] == 'boolean'
+      ) {
         character.form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 0
       }
     }
@@ -540,7 +598,9 @@ export const DB = {
     for (const character of Object.values(dbCharacters)) {
       // Deduplicate scoring optimal main stat
       for (const part of Object.keys(Constants.Parts)) {
-        character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
+        character.scoringMetadata.parts[part] = deduplicateStringArray(
+          character.scoringMetadata.parts[part]
+        )
       }
     }
 
@@ -556,7 +616,9 @@ export const DB = {
     indexRelics(saveData.relics)
 
     if (saveData.scoringMetadataOverrides) {
-      for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides)) {
+      for (const [key, value] of Object.entries(
+        saveData.scoringMetadataOverrides
+      )) {
         // Migration: previously the overrides were an array, invalidate the arrays
         // @ts-ignore
         if (value.length) {
@@ -579,7 +641,10 @@ export const DB = {
 
           let isOldScoring = true
           for (const stat of Object.values(Constants.Stats)) {
-            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
+            if (
+              Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) !=
+              Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])
+            ) {
               isOldScoring = false
               break
             }
@@ -587,13 +652,20 @@ export const DB = {
 
           // Migrate old scoring to new scoring
           if (isOldScoring) {
-            scoringMetadataOverrides.stats = Utils.clone(defaultScoringMetadata.stats)
+            scoringMetadataOverrides.stats = Utils.clone(
+              defaultScoringMetadata.stats
+            )
             scoringMetadataOverrides.modified = false
           } else {
             // Otherwise mark any modified as modified
             let statWeightsModified = false
             for (const stat of Object.values(Constants.Stats)) {
-              if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+              if (
+                Utils.nullUndefinedToZero(
+                  scoringMetadataOverrides.stats[stat]
+                ) !=
+                Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])
+              ) {
                 statWeightsModified = true
                 break
               }
@@ -605,15 +677,22 @@ export const DB = {
           }
 
           // Just use this post migration? I don't quite remember what the above does
-          setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
+          setModifiedScoringMetadata(
+            defaultScoringMetadata,
+            scoringMetadataOverrides
+          )
         }
       }
 
-      window.store.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
+      window.store
+        .getState()
+        .setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
     }
 
     if (saveData.showcasePreferences) {
-      window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+      window.store
+        .getState()
+        .setShowcasePreferences(saveData.showcasePreferences || {})
     }
 
     if (saveData.warpRequest) {
@@ -652,9 +731,15 @@ export const DB = {
       window.store.getState().setSettings(saveData.settings)
     }
 
-    window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+    window.store
+      .getState()
+      .setExcludedRelicPotentialCharacters(
+        saveData.excludedRelicPotentialCharacters || []
+      )
     window.store.getState().setVersion(saveData.version)
-    window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
+    window.store
+      .getState()
+      .setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
     window.store.getState().setRowLimit(saveData.relicLocator?.rowLimit ?? 10)
 
     assignRanks(saveData.characters)
@@ -713,15 +798,19 @@ export const DB = {
      * Since the grid resets the rows, we have to re-select the grid node and inform the character tab
      */
     if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      window.characterGrid.current.api.forEachNode((node: {
-        data: {
-          id: string
-        }
-        setSelected: (b: boolean) => void
-      }) => {
-        node.data.id == found.id ? node.setSelected(true) : 0
+      window.characterGrid.current.api.updateGridOptions({
+        rowData: characters,
       })
+      window.characterGrid.current.api.forEachNode(
+        (node: {
+          data: {
+            id: string
+          }
+          setSelected: (b: boolean) => void
+        }) => {
+          node.data.id == found.id ? node.setSelected(true) : 0
+        }
+      )
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
 
@@ -755,12 +844,14 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string,
+  saveCharacterBuild: (
+    name: string,
     characterId: string,
     score: {
       rating: string
       score: string
-    }) => {
+    }
+  ) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -837,7 +928,10 @@ export const DB = {
 
     const characters = DB.getCharacters()
     for (const character of characters) {
-      if (character.equipped?.[relic.part] && character.equipped[relic.part] == relic.id) {
+      if (
+        character.equipped?.[relic.part] &&
+        character.equipped[relic.part] == relic.id
+      ) {
         character.equipped[relic.part] = undefined
       }
     }
@@ -852,7 +946,11 @@ export const DB = {
    *
    * If the character already has a relic equipped, the relics are swapped.
    */
-  equipRelic: (relic: Relic, characterId: string | undefined, forceSwap = false) => {
+  equipRelic: (
+    relic: Relic,
+    characterId: string | undefined,
+    forceSwap = false
+  ) => {
     if (!relic?.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
     relic = DB.getRelicById(relic.id)
@@ -866,7 +964,11 @@ export const DB = {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name as keyof UserSettings] == SettingOptions.RelicEquippingBehavior.Swap
+    const swap =
+      forceSwap ||
+      DB.getState().settings[
+        SettingOptions.RelicEquippingBehavior.name as keyof UserSettings
+      ] == SettingOptions.RelicEquippingBehavior.Swap
 
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {
@@ -886,7 +988,11 @@ export const DB = {
     setRelic(relic)
   },
 
-  equipRelicIdsToCharacter: (relicIds: string[], characterId: string, forceSwap = false) => {
+  equipRelicIdsToCharacter: (
+    relicIds: string[],
+    characterId: string,
+    forceSwap = false
+  ) => {
     if (!characterId) return console.warn('No characterId to equip to')
     console.log('Equipping relics to character', relicIds, characterId)
 
@@ -898,10 +1004,16 @@ export const DB = {
   switchRelics: (fromCharacterId: string, toCharacterId: string) => {
     if (!fromCharacterId) return console.warn('No characterId to equip from')
     if (!toCharacterId) return console.warn('No characterId to equip to')
-    console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
+    console.log(
+      `Switching relics from character ${fromCharacterId} to character ${toCharacterId}`
+    )
 
     const fromCharacter = DB.getCharacterById(fromCharacterId)
-    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
+    DB.equipRelicIdsToCharacter(
+      Object.values(fromCharacter.equipped),
+      toCharacterId,
+      true
+    )
   },
 
   deleteRelic: (id: string) => {
@@ -997,7 +1109,10 @@ export const DB = {
     // Clean up any deleted relic ids that are still equipped
     for (const character of characters) {
       for (const part of Object.values(Constants.Parts)) {
-        if (character.equipped?.[part] && !DB.getRelicById(character.equipped[part])) {
+        if (
+          character.equipped?.[part] &&
+          !DB.getRelicById(character.equipped[part])
+        ) {
           character.equipped[part] = undefined
         }
       }
@@ -1031,7 +1146,9 @@ export const DB = {
 
     // only valid when on relics tab
     if (window.relicsGrid?.current?.api) {
-      window.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
+      window.relicsGrid.current.api.updateGridOptions({
+        rowData: replacementRelics,
+      })
     }
 
     // only valid when on character tab
@@ -1049,7 +1166,10 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
    */
-  mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
+  mergePartialRelicsWithState: (
+    newRelics: Relic[],
+    sourceCharacters: Character[] = []
+  ) => {
     const oldRelics = TsUtils.clone(DB.getRelics()) || []
     newRelics = TsUtils.clone(newRelics) || []
 
@@ -1089,7 +1209,11 @@ export const DB = {
     DB.setRelics(oldRelics)
 
     for (const equipUpdate of equipUpdates) {
-      if (sourceCharacters.find((character) => character.id == equipUpdate.equippedBy)) {
+      if (
+        sourceCharacters.find(
+          (character) => character.id == equipUpdate.equippedBy
+        )
+      ) {
         DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
       }
     }
@@ -1103,8 +1227,20 @@ export const DB = {
 
     // Updated stats for ${updatedOldRelics.length} existing relics
     // Added ${addedNewRelics.length} new relics
-    if (updatedOldRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.OldRelics', { count: updatedOldRelics.length }), 8)
-    if (addedNewRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.NewRelics', { count: addedNewRelics.length }), 8)
+    if (updatedOldRelics.length)
+      Message.success(
+        i18next.t('importSaveTab:PartialImport.OldRelics', {
+          count: updatedOldRelics.length,
+        }),
+        8
+      )
+    if (addedNewRelics.length)
+      Message.success(
+        i18next.t('importSaveTab:PartialImport.NewRelics', {
+          count: addedNewRelics.length,
+        }),
+        8
+      )
   },
 }
 
@@ -1130,7 +1266,9 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
     let upgrades = 0
     for (let i = 0; i < partialMatch.substats.length; i++) {
       const matchSubstat = partialMatch.substats[i] as Stat
-      const newSubstat = relic.substats.find((x) => x.stat == matchSubstat.stat) as Stat
+      const newSubstat = relic.substats.find(
+        (x) => x.stat == matchSubstat.stat
+      ) as Stat
 
       // Different substats mean different relics - break
       if (!newSubstat) {
@@ -1154,7 +1292,11 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
 
     if (exit) continue
 
-    const possibleUpgrades = Math.round((Math.floor(relic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
+    const possibleUpgrades = Math.round(
+      (Math.floor(relic.enhance / 3) * 3 -
+        Math.floor(partialMatch.enhance / 3) * 3) /
+        3
+    )
     if (upgrades > possibleUpgrades) continue
 
     // If it passes all the tests, keep it
@@ -1170,7 +1312,9 @@ function assignRanks(characters: Character[]) {
   }
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
-  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter!)
+  const optimizerMatchingCharacter = DB.getCharacterById(
+    window.store.getState().optimizerTabFocusCharacter!
+  )
   if (optimizerMatchingCharacter) {
     window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
   }
@@ -1188,7 +1332,9 @@ function hashRelic(relic: Relic) {
       substatValues.push(Math.floor(substat.value))
     } else {
       // Other values we match to 1 decimal point due to OCR
-      substatValues.push(Utils.precisionRound(Utils.truncate10ths(substat.value)))
+      substatValues.push(
+        Utils.precisionRound(Utils.truncate10ths(substat.value))
+      )
     }
     substatStats.push(substat.stat)
   }

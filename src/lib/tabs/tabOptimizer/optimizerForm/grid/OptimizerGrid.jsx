@@ -52,10 +52,11 @@ export function OptimizerGrid() {
       const hiddenColumns = new Set([...(scoringMetadata.hiddenColumns ?? []), ...defaultHiddenColumns])
       const addedColumns = new Set(scoringMetadata.addedColumns ?? [])
 
-      const hiddenFields = Array.from(hiddenColumns.difference(addedColumns)).map((column) => statDisplay == 'combat'
-        ? (memoDisplay === 'memo' ? column.memoCombatGridColumn : column.combatGridColumn)
-        : (memoDisplay === 'memo' ? column.memoBasicGridColumn : column.basicGridColumn),
-      )
+      const hiddenFields = Array.from(hiddenColumns)
+        .filter((column) => !addedColumns.has(column)).map((column) => statDisplay === 'combat'
+          ? (memoDisplay === 'memo' ? column.memoCombatGridColumn : column.combatGridColumn)
+          : (memoDisplay === 'memo' ? column.memoBasicGridColumn : column.basicGridColumn),
+        )
 
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }

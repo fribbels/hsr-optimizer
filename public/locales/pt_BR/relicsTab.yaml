@@ -133,7 +133,7 @@ Toolbar:
     Width: Largura do inventário
     Filter: Filtrar automaticamente linhas
     NoneSelected: Selecione uma relíquia para localizar
-    Location: "Localização — Linha {{rowIndex}} / Coluna {{columnIndex}}"
+    Location: "Localização - Lin. {{rowIndex}} / Col. {{columnIndex}}"
   InsightOptions:
     Buckets: "Análise de Relíquia: Buckets"
     Top10: "Análise de Relíquia: Top 10"

@@ -312,7 +312,7 @@ Builds:
   DeleteAll: すべて削除
   Equip: 装備
   ConfirmEquip:
-    Content: これを装備すると、このビルドで使用している遺物を装備しているキャラクターが装備解除されます。
+    Content: これを装備すると、このビルドの遺物を使用しているキャラクターの装備が解除されます。
     SuccessMessage: "ビルドを装備しました：{{buildName}}"
   ConfirmDelete:
     DeleteAll: 本当に全てのビルドを削除しますか？
@@ -336,10 +336,10 @@ CharacterSelect:
     Placeholder: キャラクターをカスタマイズ
     MaxTagPlaceholderSome: "{{count}}人のキャラクターが除外されました"
     MaxTagPlaceholderNone: すべてのキャラクターが有効です。
-    ModalTitle: 除外するキャラクターを選択
+    ModalTitle: 除外するキャラクターの選択
   SingleSelect:
     Placeholder: キャラクター
-    ModalTitle: キャラクターを選択
+    ModalTitle: キャラクターの選択
   SearchPlaceholder: キャラクター名を検索
   ExcludeButton: すべて除外
   ClearButton: クリア

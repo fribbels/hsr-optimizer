@@ -60,7 +60,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'supremeStanceState',
       formItem: 'switch',
       text: t('Content.supremeStanceState.text'),
-      content: t('Content.supremeStanceState.content', { SpdBuff: ultSpdBoost }),
+      content: t('Content.supremeStanceState.content', { SpdBuff: TsUtils.precisionRound(ultSpdBoost * 100) }),
     },
     seamStitch: {
       id: 'seamStitch',

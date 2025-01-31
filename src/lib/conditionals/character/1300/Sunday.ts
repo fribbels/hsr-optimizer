@@ -108,7 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           CritBuffFlat: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
         }),
       min: 0,
-      max: 3.00,
+      max: 4.00,
       percent: true,
     },
     techniqueDmgBuff: content.techniqueDmgBuff,

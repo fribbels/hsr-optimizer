@@ -50,11 +50,9 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: Độ Tốc độ
       Max: 100%
       Min: 0%
     BenchmarkSpd:
-      Header: Mốc chuẩn SPD
       BenchmarkOptionsLabel: Chỉnh sửa chuẩn
       CurrentSpdLabel: Tốc độ hiện tại (SPD) - Mốc chuẩn sẽ khớp với tốc độ cơ bản
       BaseSpdLabel: Tốc độ cơ bản (Base SPD) - Mốc chuẩn sẽ nhắm đến một xây dựng SPD tối thiểu

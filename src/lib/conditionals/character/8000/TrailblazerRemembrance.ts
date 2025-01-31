@@ -127,7 +127,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100),
       }),
       min: 0,
-      max: 3.00,
+      max: 4.00,
       percent: true,
     },
     memsSupport: content.memsSupport,

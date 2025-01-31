@@ -553,11 +553,11 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1109: ['#c8d0f0'], // hook
     1110: ['#53b1e1'], // lynx
     1111: ['#5d8ce2'], // luka
-    1112: ['#1d3f9c'], // topaz
+    1112: ['#0f349b'], // topaz
     1201: ['#87d2da'], // qingque
     1202: ['#f4b5d4'], // tingyun
     1203: ['#8ce2f4'], // luocha
-    1204: ['#b7dde2'], // jingyuan
+    1204: ['#94e6f1'], // jingyuan
     1205: ['#4d69be'], // blade
     1206: ['#154da1'], // sushang
     1207: ['#90a0e6'], // yukong
@@ -565,14 +565,14 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1209: ['#6db1f4'], // yanqing
     1210: ['#88aade'], // guinaifen
     1211: ['#2a415c'], // bailu
-    1212: ['#0e37cc'], // jingliu
+    1212: ['#3e65f2'], // jingliu
     1213: ['#72c3de'], // imbibitorlunae
     1214: ['#3571e7'], // xueyi
     1215: ['#9a90e6'], // hanya
-    1217: ['#7dcdd9'], // huohuo
+    1217: ['#8cf4fc'], // huohuo
     1218: ['#f4dfe7'], // jiaoqiu
     1220: ['#7fd9e1'], // feixiao
-    1221: ['#a3d3dc'], // yunli
+    1221: ['#a2e9f5'], // yunli
     1222: ['#ffdbee'], // lingsha
     1223: ['#575aa0'], // moze
     1224: ['#f2a8f2'], // march7thImaginary
@@ -586,7 +586,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1307: ['#a37df4'], // blackswan
     1308: ['#837bd4'], // acheron
     1309: ['#bb9cf4'], // robin
-    1310: ['#94c7d6'], // firefly
+    1310: ['#8bdee1'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#7e95e9'], // sunday
     1314: ['#8a74dc'], // jade
@@ -600,12 +600,12 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8006: ['#8d7abc'], // trailblazerharmony
 
     1401: ['#8e5eef'], // the herta
-    1402: ['#8cb7e7'], // aglaea
+    1402: ['#86bdf1'], // aglaea
     8007: ['#f0a4fa'], // trailblazerremembrance
     8008: ['#f0a4fa'], // trailblazerremembrance
 
     1403: ['#8c8fec'], // tribbie
-    1404: ['#ff87a7'], // mydei
+    1404: ['#ff8fad'], // mydei
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

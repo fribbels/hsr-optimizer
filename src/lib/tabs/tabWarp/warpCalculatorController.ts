@@ -1,4 +1,4 @@
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { SaveState } from 'lib/state/saveState'
 import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
 
 // Notes: 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
@@ -10,10 +10,10 @@ const character5050 = 0.5625
 const lightCone5050 = 0.78125
 
 export enum WarpIncomeType {
-  NONE,
-  F2P,
-  EXPRESS,
-  BP_EXPRESS,
+  NONE = 'None',
+  F2P = 'F2P',
+  EXPRESS = 'Express',
+  BP_EXPRESS = 'BP & Express'
 }
 
 export const NONE_WARP_INCOME_OPTION = generateOption('NONE', WarpIncomeType.NONE, 0, 0)
@@ -107,232 +107,60 @@ function generateOptionKey(version: string, type: WarpIncomeType) {
   return `${version}/${type}`
 }
 
-type TempConditional = {
-  id: string
-  type: number
-  activation: number
-  dependsOn: string[]
-  chainsTo: string[]
-}
-
-const conditionals = [
-  {
-    id: 'RutilantArenaConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.CR],
-    chainsTo: [],
-  },
-  {
-    id: 'InertSalsottoConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.CR],
-    chainsTo: [],
-  },
-  {
-    id: 'SpaceSealingStationConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.SPD],
-    chainsTo: [Stats.ATK],
-  }, {
-    id: 'FleetOfTheAgelessConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.SPD],
-    chainsTo: [Stats.ATK],
-  },
-  {
-    id: 'BelobogOfTheArchitectsConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.EHR],
-    chainsTo: [Stats.DEF],
-  },
-  {
-    id: 'IronCavalryAgainstTheScourge150Conditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.BE],
-    chainsTo: [],
-  },
-  {
-    id: 'IronCavalryAgainstTheScourge250Conditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.BE],
-    chainsTo: [],
-  },
-  {
-    id: 'PanCosmicCommercialEnterpriseConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.CONTINUOUS,
-    dependsOn: [Stats.EHR],
-    chainsTo: [Stats.ATK],
-  },
-  {
-    id: 'BrokenKeelConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.RES],
-    chainsTo: [Stats.CD],
-  },
-  {
-    id: 'CelestialDifferentiatorConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.CD],
-    chainsTo: [Stats.CR],
-  },
-  {
-    id: 'TaliaKingdomOfBanditryConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.SPD],
-    chainsTo: [Stats.BE],
-  },
-  {
-    id: 'FirmamentFrontlineGlamoth135Conditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.SPD],
-    chainsTo: [],
-  },
-  {
-    id: 'FirmamentFrontlineGlamoth160Conditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.SPD],
-    chainsTo: [],
-  },
-  {
-    id: 'GiantTreeOfRaptBrooding135Conditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.SPD],
-    chainsTo: [Stats.OHB],
-  },
-  {
-    id: 'GiantTreeOfRaptBrooding180Conditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.SPD],
-    chainsTo: [Stats.OHB],
-  },
-  {
-    id: 'BoneCollectionsSereneDemesneConditional',
-    type: ConditionalType.SET,
-    activation: ConditionalActivation.SINGLE,
-    dependsOn: [Stats.HP],
-    chainsTo: [Stats.CD],
-  },
-]
-
-function emptyRegistry(): Record<string, TempConditional[]> {
-  return {
-    [Stats.HP]: [],
-    [Stats.ATK]: [],
-    [Stats.DEF]: [],
-    [Stats.SPD]: [],
-    [Stats.CR]: [],
-    [Stats.CD]: [],
-    [Stats.EHR]: [],
-    [Stats.RES]: [],
-    [Stats.BE]: [],
-    [Stats.OHB]: [],
-    [Stats.ERR]: [],
-  }
-}
-
-const statOrder = [
-  Stats.SPD,
-  Stats.BE,
-  Stats.EHR,
-  Stats.CR,
-  Stats.CD,
-  Stats.RES,
-  Stats.HP,
-  Stats.DEF,
-  Stats.ATK,
-  Stats.OHB,
-  Stats.ERR,
-]
-
 export function simulateWarps(originalRequest: WarpRequest) {
   console.log('simulate Warps', originalRequest)
 
-  const registry = emptyRegistry()
-  const conditionalMap: Record<string, TempConditional> = {}
-  const totalConditionals = Object.keys(conditionalMap).length
+  window.store.getState().setWarpRequest(originalRequest)
 
-  for (const conditional of conditionals) {
-    conditionalMap[conditional.id] = conditional
-    for (const stat of conditional.dependsOn) {
-      registry[stat].push(conditional)
+  const request = enrichWarpRequest(originalRequest)
+  const milestones = generateWarpMilestones(request)
+
+  const milestoneResults: Record<string, WarpMilestoneResult> = Object.fromEntries(
+    milestones.map(({ label }) => [label, { warps: 0, wins: 0 }]),
+  )
+
+  for (let i = 0; i < simulations; i++) {
+    let count = 0
+
+    for (const milestone of milestones) {
+      const {
+        warpType,
+        label,
+        pity,
+        guaranteed,
+        redistributedCumulative,
+        redistributedCumulativeNonPity,
+        warpCap,
+      } = milestone
+
+      const rate = warpType == WarpType.CHARACTER ? character5050 : lightCone5050
+      const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
+      if (Math.random() < rate || guaranteed) {
+        count += index
+      } else {
+        const index2 = getNextSuccessIndex(redistributedCumulativeNonPity ?? redistributedCumulative, warpCap, 0) + 1
+        count += index + index2
+      }
+
+      milestoneResults[label].warps += count
+      if (count <= request.warps) {
+        milestoneResults[label].wins++
+      }
     }
   }
 
-  const stack = [...statOrder]
-
-  while (stack.length) {
-    const stat = stack.pop()!
-
-    const statConditionals = registry[stat]
-
+  for (const milestone of milestones) {
+    milestoneResults[milestone.label].warps /= simulations
+    milestoneResults[milestone.label].wins /= simulations
   }
 
-  // window.store.getState().setWarpRequest(originalRequest)
-  //
-  // const request = enrichWarpRequest(originalRequest)
-  // const milestones = generateWarpMilestones(request)
-  //
-  // const milestoneResults: Record<string, WarpMilestoneResult> = Object.fromEntries(
-  //   milestones.map(({ label }) => [label, { warps: 0, wins: 0 }]),
-  // )
-  //
-  // for (let i = 0; i < simulations; i++) {
-  //   let count = 0
-  //
-  //   for (const milestone of milestones) {
-  //     const {
-  //       warpType,
-  //       label,
-  //       pity,
-  //       guaranteed,
-  //       redistributedCumulative,
-  //       redistributedCumulativeNonPity,
-  //       warpCap,
-  //     } = milestone
-  //
-  //     const rate = warpType == WarpType.CHARACTER ? character5050 : lightCone5050
-  //     const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
-  //     if (Math.random() < rate || guaranteed) {
-  //       count += index
-  //     } else {
-  //       const index2 = getNextSuccessIndex(redistributedCumulativeNonPity ?? redistributedCumulative, warpCap, 0) + 1
-  //       count += index + index2
-  //     }
-  //
-  //     milestoneResults[label].warps += count
-  //     if (count <= request.warps) {
-  //       milestoneResults[label].wins++
-  //     }
-  //   }
-  // }
-  //
-  // for (const milestone of milestones) {
-  //   milestoneResults[milestone.label].warps /= simulations
-  //   milestoneResults[milestone.label].wins /= simulations
-  // }
-  //
-  // const warpResult: WarpResult = {
-  //   milestoneResults: milestoneResults,
-  //   request: request,
-  // }
-  //
-  // window.store.getState().setWarpResult(warpResult)
-  // SaveState.delayedSave()
+  const warpResult: WarpResult = {
+    milestoneResults: milestoneResults,
+    request: request,
+  }
+
+  window.store.getState().setWarpResult(warpResult)
+  SaveState.delayedSave()
 }
 
 function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
@@ -413,7 +241,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
+    milestone.label = e == -1 ? `S${s}` : `E${e} S${s}`
   }
 
   return milestones
@@ -426,7 +254,7 @@ export type EnrichedWarpRequest = {
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  const additionalIncome = WarpIncomeOptions.find((option) => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
+  const additionalIncome = WarpIncomeOptions.find(option => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
   const totalJade = request.jades + additionalIncome.jades
   const totalPasses = request.passes + additionalIncome.passes
   const totalWarps = Math.floor(totalJade / 160) + totalPasses

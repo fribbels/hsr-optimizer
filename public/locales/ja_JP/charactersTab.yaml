@@ -75,7 +75,7 @@ CharacterPreview:
     RevertedPortrait: 画像を復元しました
     NoSelectedCharacter: キャラクターが選択されていません
   ScoreHeader:
-    Title: 戦闘シュミレーション
+    Title: 戦闘シミュレーション
     Score: "DPSスコア {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "スコア計算方法"

@@ -487,7 +487,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
             }
             type="primary"
             style={{ height: 50, width: 50, borderRadius: 8 }}
-          ></Button>
+          />
           <Button
             icon={<DownloadOutlined style={{ fontSize: 30 }} />}
             loading={loading}
@@ -496,7 +496,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
             }
             type="primary"
             style={{ height: 50, width: 50, borderRadius: 8 }}
-          ></Button>
+          />
         </Flex>
       </Flex>
     </Flex>

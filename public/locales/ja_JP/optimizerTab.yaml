@@ -483,7 +483,7 @@ StatSimulation:
     Import: グリッドからインポート
     Conditionals: セット効果を編集
   DeletePopup:
-    Title: ステータスシュミレーションを削除
+    Title: ステータスシミュレーションを削除
     Description: 本当にこのキャラクターのすべてのシミュレーションを削除しますか？
   SimulationNamePlaceholder: シミュレーション名（任意）
   OptionsHeader: オプション

@@ -234,9 +234,9 @@ export function scoreCharacterSimulation(
   if (simulationFlags.simPoetActive) {
     // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
     if (baselineSimResult[Stats.SPD] < 95) {
-      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.9, spdBenchmark ?? 94.9)
+      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.999, spdBenchmark ?? 94.999)
     } else if (baselineSimResult[Stats.SPD] < 110) {
-      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.9, spdBenchmark ?? 109.9)
+      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
     } else {
       // No-op
     }
@@ -259,10 +259,12 @@ export function scoreCharacterSimulation(
     // When the original character has poet, benchmark against the original character
     targetSpd = forcedSpdSimResult.x.SPD
   } else {
-    // When the original character does not have poet, benchmark against the forced speed
-    // Replace the original sim with the forced spd sim
-    originalSimResult = forcedSpdSimResult
-    originalSim = forcedSpdSim
+    if (simulationFlags.simPoetActive) {
+      // We don't want to have the original character's combat stats penalized by poet if they're not on poet
+    } else {
+      originalSimResult = forcedSpdSimResult
+      originalSim = forcedSpdSim
+    }
     targetSpd = originalSimResult.x.SPD
   }
 

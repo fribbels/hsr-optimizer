@@ -1,10 +1,32 @@
-import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
-import { Button, ColorPicker, Flex, InputNumber, Segmented, Select, ThemeConfig } from 'antd'
+import {
+  CameraOutlined,
+  DownloadOutlined,
+  MoonOutlined,
+  SettingOutlined,
+  SunOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  ColorPicker,
+  Flex,
+  InputNumber,
+  Segmented,
+  Select,
+  ThemeConfig,
+} from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { usePublish } from 'hooks/usePublish'
-import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import {
+  DEFAULT_SHOWCASE_COLOR,
+  editShowcasePreferences,
+} from 'lib/characterPreview/showcaseCustomizationController'
+import {
+  NONE_SCORE,
+  ShowcaseColorMode,
+  SIMULATION_SCORE,
+  Stats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
@@ -17,7 +39,12 @@ import { organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
-import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
@@ -44,380 +71,440 @@ const debugColors: { defaults: string[] } = {
   defaults: [],
 }
 
-export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
-  (props, ref) => {
-    const {
-      id,
-      characterId,
-      simScoringResult,
-      scoringType,
-      seedColor,
-      setSeedColor,
-      colorMode,
-      setColorMode,
-    } = props
+const ShowcaseCustomizationSidebar = forwardRef<
+  ShowcaseCustomizationSidebarRef,
+  ShowcaseCustomizationSidebarProps
+>((props, ref) => {
+  const {
+    id,
+    characterId,
+    simScoringResult,
+    scoringType,
+    seedColor,
+    setSeedColor,
+    colorMode,
+    setColorMode,
+  } = props
 
-    const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
-    const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
-    const pubRefreshRelicsScore = usePublish()
-    const [colors, setColors] = useState<string[]>([])
-    const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
-    const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
-    const [loading, setLoading] = useState<boolean>(false)
-    const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
-    const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
-    const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
-    const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
-    const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
+  const { t: tCustomization } = useTranslation('charactersTab', {
+    keyPrefix: 'CharacterPreview.CustomizationSidebar',
+  })
+  const { t: tScoring } = useTranslation('charactersTab', {
+    keyPrefix: 'CharacterPreview.ScoringSidebar',
+  })
+  const pubRefreshRelicsScore = usePublish()
+  const [colors, setColors] = useState<string[]>([])
+  const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
+  const setGlobalShowcasePreferences = window.store(
+    (s) => s.setShowcasePreferences
+  )
+  const [loading, setLoading] = useState<boolean>(false)
+  const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
+  const showcasePreciseSpd = window.store(
+    (s) => s.savedSession.showcasePreciseSpd
+  )
+  const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
+  const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
+  const deprioritizeBuffs = window.store(
+    () => scoringMetadata.simulation?.deprioritizeBuffs ?? false
+  )
 
-    useImperativeHandle(ref, () => ({
-      onPortraitLoad: (img: string, characterId: string) => {
-        if (DB.getCharacterById(characterId)?.portrait) {
+  useImperativeHandle(ref, () => ({
+    onPortraitLoad: (img: string, characterId: string) => {
+      if (DB.getCharacterById(characterId)?.portrait) {
+        getPalette(img, (palette: PaletteResponse) => {
+          const primary = selectClosestColor([
+            palette.Vibrant,
+            palette.DarkVibrant,
+            palette.Muted,
+            palette.DarkMuted,
+            palette.LightVibrant,
+            palette.LightMuted,
+          ])
+
+          setSeedColor(primary)
+          urlToColorCache[img] = primary
+
+          setColors(organizeColors(palette))
+          // debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
+        })
+      } else {
+        setTimeout(() => {
+          // Delayed to update color palette after render
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted])
-
-            setSeedColor(primary)
-            urlToColorCache[img] = primary
-
             setColors(organizeColors(palette))
             // debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
           })
-        } else {
-          setTimeout(() => {
-            // Delayed to update color palette after render
-            getPalette(img, (palette: PaletteResponse) => {
-              setColors(organizeColors(palette))
-              // debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
-            })
-          }, 1000)
-        }
-      },
-    }))
-
-    function onColorSelectorChange(newColor: string) {
-      if (newColor == DEFAULT_SHOWCASE_COLOR) return
-
-      editShowcasePreferences(
-        characterId,
-        globalShowcasePreferences,
-        setGlobalShowcasePreferences,
-        { color: newColor, colorMode: ShowcaseColorMode.CUSTOM },
-      )
-
-      console.log('Set seed color to', newColor)
-
-      setColorMode(ShowcaseColorMode.CUSTOM)
-      setSeedColor(newColor)
-    }
-
-    function onColorModeChange(newColorMode: ShowcaseColorMode) {
-      editShowcasePreferences(
-        characterId,
-        globalShowcasePreferences,
-        setGlobalShowcasePreferences,
-        { colorMode: newColorMode },
-      )
-
-      console.log('Set color mode to', newColorMode)
-
-      setColorMode(newColorMode)
-    }
-
-    function onBrightnessModeChange(darkMode: boolean) {
-      console.log('Set dark mode to', darkMode)
-
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
-    }
-
-    function onShowcasePreciseSpdChange(preciseSpd: boolean) {
-      console.log('Set precise spd to', preciseSpd)
-
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
-    }
-
-    function onShowcaseSpdValueChange(spdValue: number) {
-      console.log('Set spd value to', spdValue)
-
-      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-      scoringMetadata.stats[Stats.SPD] = spdValue
-
-      DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
-      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
-    }
-
-    function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
-      // @ts-ignore
-      const value: string = event?.target?.value
-      if (value == null) return onShowcaseSpdBenchmarkChange(undefined)
-
-      const spdBenchmark = parseFloat(value)
-      if (isNaN(spdBenchmark)) return onShowcaseSpdBenchmarkChange(undefined)
-
-      onShowcaseSpdBenchmarkChange(spdBenchmark)
-    }
-
-    function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
-      console.log('Set spd benchmark to', spdBenchmark)
-
-      const showcaseTemporaryOptions = TsUtils.clone(window.store.getState().showcaseTemporaryOptions)
-      if (!showcaseTemporaryOptions[characterId]) showcaseTemporaryOptions[characterId] = {}
-
-      // -1 is used as the "current" setting
-      const actualValue = spdBenchmark == -1 ? undefined : spdBenchmark
-
-      showcaseTemporaryOptions[characterId].spdBenchmark = actualValue
-
-      window.store.getState().setShowcaseTemporaryOptions(showcaseTemporaryOptions)
-    }
-
-    function onTraceClick() {
-      window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
-      window.store.getState().setStatTracesDrawerOpen(true)
-    }
-
-    function onShowcaseDeprioritizeBuffsChange(deprioritizeBuffs: boolean) {
-      const scoringMetadata = DB.getScoringMetadata(characterId)
-      if (scoringMetadata?.simulation) {
-        console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
-
-        const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
-        simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
-        DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
+        }, 1000)
       }
+    },
+  }))
+
+  function onColorSelectorChange(newColor: string) {
+    if (newColor == DEFAULT_SHOWCASE_COLOR) return
+
+    editShowcasePreferences(
+      characterId,
+      globalShowcasePreferences,
+      setGlobalShowcasePreferences,
+      { color: newColor, colorMode: ShowcaseColorMode.CUSTOM }
+    )
+
+    console.log('Set seed color to', newColor)
+
+    setColorMode(ShowcaseColorMode.CUSTOM)
+    setSeedColor(newColor)
+  }
+
+  function onColorModeChange(newColorMode: ShowcaseColorMode) {
+    editShowcasePreferences(
+      characterId,
+      globalShowcasePreferences,
+      setGlobalShowcasePreferences,
+      { colorMode: newColorMode }
+    )
+
+    console.log('Set color mode to', newColorMode)
+
+    setColorMode(newColorMode)
+  }
+
+  function onBrightnessModeChange(darkMode: boolean) {
+    console.log('Set dark mode to', darkMode)
+
+    window.store
+      .getState()
+      .setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
+  }
+
+  function onShowcasePreciseSpdChange(preciseSpd: boolean) {
+    console.log('Set precise spd to', preciseSpd)
+
+    window.store
+      .getState()
+      .setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
+  }
+
+  function onShowcaseSpdValueChange(spdValue: number) {
+    console.log('Set spd value to', spdValue)
+
+    const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+    scoringMetadata.stats[Stats.SPD] = spdValue
+
+    DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
+    // pubRefreshRelicsScore('refreshRelicsScore', 'null')
+  }
+
+  function onShowcaseSpdBenchmarkChangeEvent(
+    event:
+      | React.FocusEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ) {
+    // @ts-ignore
+    const value: string = event?.target?.value
+    if (value == null) return onShowcaseSpdBenchmarkChange(undefined)
+
+    const spdBenchmark = parseFloat(value)
+    if (isNaN(spdBenchmark)) return onShowcaseSpdBenchmarkChange(undefined)
+
+    onShowcaseSpdBenchmarkChange(spdBenchmark)
+  }
+
+  function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
+    console.log('Set spd benchmark to', spdBenchmark)
+
+    const showcaseTemporaryOptions = TsUtils.clone(
+      window.store.getState().showcaseTemporaryOptions
+    )
+    if (!showcaseTemporaryOptions[characterId])
+      showcaseTemporaryOptions[characterId] = {}
+
+    // -1 is used as the "current" setting
+    const actualValue = spdBenchmark == -1 ? undefined : spdBenchmark
+
+    showcaseTemporaryOptions[characterId].spdBenchmark = actualValue
+
+    window.store
+      .getState()
+      .setShowcaseTemporaryOptions(showcaseTemporaryOptions)
+  }
+
+  function onTraceClick() {
+    window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
+    window.store.getState().setStatTracesDrawerOpen(true)
+  }
+
+  function onShowcaseDeprioritizeBuffsChange(deprioritizeBuffs: boolean) {
+    const scoringMetadata = DB.getScoringMetadata(characterId)
+    if (scoringMetadata?.simulation) {
+      console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
+
+      const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
+      simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
+      DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
     }
+  }
 
-    const presets = [
-      {
-        label: tCustomization('PaletteLabel'),
-        colors: colors,
-      },
-      // {
-      //   label: 'DEBUG',
-      //   colors: debugColors.defaults,
-      // },
-    ]
+  const presets = [
+    {
+      label: tCustomization('PaletteLabel'),
+      colors: colors,
+    },
+    // {
+    //   label: 'DEBUG',
+    //   colors: debugColors.defaults,
+    // },
+  ]
 
-    const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => {
+  const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } =
+    useMemo(() => {
       return {
         spdPrecisionOptions: [
-          { value: false, label: tScoring('SpdPrecision.Low')/* '.0' */ },
-          { value: true, label: tScoring('SpdPrecision.High')/* '.000' */ },
+          { value: false, label: tScoring('SpdPrecision.Low') /* '.0' */ },
+          { value: true, label: tScoring('SpdPrecision.High') /* '.000' */ },
         ],
         spdWeightOptions: [
-          { value: 1, label: tScoring('SpdWeight.Max')/* '100%' */ },
-          { value: 0, label: tScoring('SpdWeight.Min')/* '0%' */ },
+          { value: 1, label: tScoring('SpdWeight.Max') /* '100%' */ },
+          { value: 0, label: tScoring('SpdWeight.Min') /* '0%' */ },
         ],
         buffPriorityOptions: [
-          { value: false, label: tScoring('BuffPriority.High')/* 'High' */ },
-          { value: true, label: tScoring('BuffPriority.Low')/* 'Low' */ },
+          { value: false, label: tScoring('BuffPriority.High') /* 'High' */ },
+          { value: true, label: tScoring('BuffPriority.Low') /* 'Low' */ },
         ],
       }
     }, [tScoring])
 
-    return (
+  return (
+    <Flex
+      vertical
+      gap={16}
+      style={{
+        position: 'absolute',
+        marginLeft: 1085,
+        width: 130,
+      }}
+    >
       <Flex
         vertical
-        gap={16}
+        gap={6}
         style={{
-          position: 'absolute',
-          marginLeft: 1085,
-          width: 130,
+          backgroundColor: 'rgb(29 42 71)',
+          boxShadow: shadow,
+          borderRadius: 5,
+          padding: defaultPadding,
         }}
       >
         <Flex
-          vertical
-          gap={6}
-          style={{
-            backgroundColor: 'rgb(29 42 71)',
-            boxShadow: shadow,
-            borderRadius: 5,
-            padding: defaultPadding,
-          }}
+          justify="space-between"
+          align="center"
+          style={{ position: 'relative' }}
         >
-          <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
-            <span></span>
-            <HeaderText style={{ textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-              {tScoring('Stats.Header')/* Stats */}
+          <span></span>
+          <HeaderText
+            style={{
+              textAlign: 'center',
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+            }}
+          >
+            {tScoring('Stats.Header') /* Stats */}
+          </HeaderText>
+
+          <a
+            href="https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md"
+            target="_blank"
+            style={{ display: 'inline-flex', alignItems: 'center' }}
+          >
+            <img
+              src={Assets.getQuestion()}
+              style={{
+                height: 16,
+                width: 16,
+                opacity: 0.6,
+                marginLeft: 'auto',
+              }}
+            />
+          </a>
+        </Flex>
+
+        <HorizontalDivider />
+
+        <Button icon={<SettingOutlined />} onClick={onTraceClick}>
+          {tScoring('Stats.ButtonText') /* Traces */}
+        </Button>
+
+        <HorizontalDivider />
+
+        <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+          {tScoring('SpdPrecision.Header') /* SPD precision */}
+        </HeaderText>
+
+        <Segmented
+          options={spdPrecisionOptions}
+          block
+          value={showcasePreciseSpd}
+          onChange={onShowcasePreciseSpdChange}
+        />
+
+        {scoringType != NONE_SCORE && (
+          <>
+            <HorizontalDivider />
+
+            <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+              {tScoring('SpdWeight.Header') /* SPD weight */}
             </HeaderText>
 
-            <a
-              href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
-              target='_blank'
-              style={{ display: 'inline-flex', alignItems: 'center' }}
-            >
-              <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
-            </a>
-          </Flex>
+            <Segmented
+              options={spdWeightOptions}
+              block
+              value={spdValue}
+              onChange={onShowcaseSpdValueChange}
+            />
+          </>
+        )}
 
-          <HorizontalDivider/>
+        {scoringType == SIMULATION_SCORE && (
+          <>
+            <HorizontalDivider />
 
-          <Button
-            icon={<SettingOutlined/>}
-            onClick={onTraceClick}
-          >
-            {tScoring('Stats.ButtonText')/* Traces */}
-          </Button>
+            <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+              {tScoring('BenchmarkSpd.Header') /* SPD benchmark */}
+            </HeaderText>
 
-          <HorizontalDivider/>
-
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {tScoring('SpdPrecision.Header')/* SPD precision */}
-          </HeaderText>
-
-          <Segmented
-            options={spdPrecisionOptions}
-            block
-            value={showcasePreciseSpd}
-            onChange={onShowcasePreciseSpdChange}
-          />
-
-          {scoringType != NONE_SCORE
-            && (
-              <>
-                <HorizontalDivider/>
-
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                  {tScoring('SpdWeight.Header')/* SPD weight */}
-                </HeaderText>
-
-                <Segmented
-                  options={spdWeightOptions}
-                  block
-                  value={spdValue}
-                  onChange={onShowcaseSpdValueChange}
+            <InputNumber
+              size="small"
+              controls={false}
+              style={{ width: '100%' }}
+              value={sanitizePositiveNumberElseUndefined(
+                window.store.getState().showcaseTemporaryOptions[characterId]
+                  ?.spdBenchmark
+              )}
+              addonAfter={
+                <SelectSpdPresets
+                  spdFilter={simScoringResult?.originalSpd}
+                  onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                  characterId={characterId}
+                  simScoringResult={simScoringResult}
                 />
-              </>
-            )
-          }
+              }
+              min={0}
+              onBlur={onShowcaseSpdBenchmarkChangeEvent}
+              onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
+            />
+          </>
+        )}
 
-          {scoringType == SIMULATION_SCORE
-            && (
-              <>
-                <HorizontalDivider/>
+        {scoringType == SIMULATION_SCORE && (
+          <>
+            <HorizontalDivider />
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                  {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
-                </HeaderText>
+            <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+              {tScoring('BuffPriority.Header') /* Buff priority */}
+            </HeaderText>
 
-                <InputNumber
-                  size='small'
-                  controls={false}
-                  style={{ width: '100%' }}
-                  value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
-                  addonAfter={(
-                    <SelectSpdPresets
-                      spdFilter={simScoringResult?.originalSpd}
-                      onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
-                      characterId={characterId}
-                      simScoringResult={simScoringResult}
-                    />
-                  )}
-                  min={0}
-                  onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                  onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
-                />
-              </>
-            )}
+            <Segmented
+              options={buffPriorityOptions}
+              block
+              value={deprioritizeBuffs}
+              onChange={onShowcaseDeprioritizeBuffsChange}
+            />
+          </>
+        )}
+      </Flex>
 
-          {scoringType == SIMULATION_SCORE
-            && (
-              <>
-                <HorizontalDivider/>
+      <Flex
+        vertical
+        gap={6}
+        style={{
+          backgroundColor: 'rgb(29 42 71)',
+          boxShadow: shadow,
+          borderRadius: 5,
+          padding: defaultPadding,
+        }}
+      >
+        <HeaderText style={{ textAlign: 'center' }}>
+          {tCustomization('Label')}
+        </HeaderText>
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                  {tScoring('BuffPriority.Header')/* Buff priority */}
-                </HeaderText>
+        <HorizontalDivider />
 
-                <Segmented
-                  options={buffPriorityOptions}
-                  block
-                  value={deprioritizeBuffs}
-                  onChange={onShowcaseDeprioritizeBuffsChange}
-                />
-              </>
-            )}
-
-        </Flex>
-
-        <Flex
-          vertical
-          gap={6}
-          style={{
-            backgroundColor: 'rgb(29 42 71)',
-            boxShadow: shadow,
-            borderRadius: 5,
-            padding: defaultPadding,
+        <ColorPicker
+          presets={presets}
+          defaultValue="#1677ff"
+          value={seedColor}
+          onChangeComplete={(value: AggregationColor) => {
+            const color = value.toHexString()
+            onColorSelectorChange(color)
           }}
-        >
-          <HeaderText style={{ textAlign: 'center' }}>
-            {tCustomization('Label')}
-          </HeaderText>
+          disabledAlpha
+          disabledFormat
+          showText
+        />
 
-          <HorizontalDivider/>
+        <HorizontalDivider />
 
-          <ColorPicker
-            presets={presets}
-            defaultValue='#1677ff'
-            value={seedColor}
-            onChangeComplete={(value: AggregationColor) => {
-              const color = value.toHexString()
-              onColorSelectorChange(color)
-            }}
-            disabledAlpha
-            disabledFormat
-            showText
-          />
+        <Segmented
+          vertical
+          options={[
+            {
+              value: ShowcaseColorMode.AUTO,
+              label: tCustomization('Modes.Auto'),
+            },
+            {
+              value: ShowcaseColorMode.CUSTOM,
+              label: tCustomization('Modes.Custom'),
+            },
+            {
+              value: ShowcaseColorMode.STANDARD,
+              label: tCustomization('Modes.Standard'),
+            },
+          ]}
+          value={colorMode}
+          onChange={onColorModeChange}
+        />
 
-          <HorizontalDivider/>
+        <HorizontalDivider />
 
-          <Segmented
-            vertical
-            options={[
-              { value: ShowcaseColorMode.AUTO, label: tCustomization('Modes.Auto') },
-              { value: ShowcaseColorMode.CUSTOM, label: tCustomization('Modes.Custom') },
-              { value: ShowcaseColorMode.STANDARD, label: tCustomization('Modes.Standard') },
-            ]}
-            value={colorMode}
-            onChange={onColorModeChange}
-          />
+        <Segmented
+          options={[
+            { value: false, label: <SunOutlined /> },
+            { value: true, label: <MoonOutlined /> },
+          ]}
+          block
+          value={showcaseDarkMode}
+          onChange={onBrightnessModeChange}
+        />
 
-          <HorizontalDivider/>
+        <HorizontalDivider />
 
-          <Segmented
-            options={[
-              { value: false, label: <SunOutlined/> },
-              { value: true, label: <MoonOutlined/> },
-            ]}
-            block
-            value={showcaseDarkMode}
-            onChange={onBrightnessModeChange}
-          />
-
-          <HorizontalDivider/>
-
-          <Flex justify='space-between'>
-            <Button
-              icon={<CameraOutlined style={{ fontSize: 30 }}/>}
-              loading={loading}
-              onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
-              type='primary'
-              style={{ height: 50, width: 50, borderRadius: 8 }}
-            >
-            </Button>
-            <Button
-              icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
-              loading={loading}
-              onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
-              type='primary'
-              style={{ height: 50, width: 50, borderRadius: 8 }}
-            >
-            </Button>
-          </Flex>
+        <Flex justify="space-between">
+          <Button
+            icon={<CameraOutlined style={{ fontSize: 30 }} />}
+            loading={loading}
+            onClick={() =>
+              clipboardClicked(id, 'clipboard', setLoading, props.seedColor)
+            }
+            type="primary"
+            style={{ height: 50, width: 50, borderRadius: 8 }}
+          ></Button>
+          <Button
+            icon={<DownloadOutlined style={{ fontSize: 30 }} />}
+            loading={loading}
+            onClick={() =>
+              clipboardClicked(id, 'download', setLoading, props.seedColor)
+            }
+            type="primary"
+            style={{ height: 50, width: 50, borderRadius: 8 }}
+          ></Button>
         </Flex>
       </Flex>
-    )
-  },
-)
+    </Flex>
+  )
+})
+
+ShowcaseCustomizationSidebar.displayName = 'ShowcaseCustomizationSidebar'
+export default ShowcaseCustomizationSidebar
 
 function SelectSpdPresets(props: {
   characterId: string
@@ -426,37 +513,76 @@ function SelectSpdPresets(props: {
   spdFilter?: number
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
-  const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
+  const { t: tCharacterTab } = useTranslation('charactersTab', {
+    keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd',
+  })
 
   const spdPresetOptions = useMemo(() => {
     const presets = Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
     if (props.spdFilter != null) {
       presets.map((preset) => {
-        preset.disabled = preset.value != null && preset.value > props.spdFilter!
+        preset.disabled =
+          preset.value != null && preset.value > props.spdFilter!
       })
     }
 
     return [
       {
-        label: <span>{tCharacterTab('BenchmarkOptionsLabel')/* Benchmark options */}</span>,
+        label: (
+          <span>
+            {tCharacterTab('BenchmarkOptionsLabel') /* Benchmark options */}
+          </span>
+        ),
         title: 'benchmark',
         options: [
           {
-            label: <b><span>{tCharacterTab('CurrentSpdLabel')/* Current SPD - The benchmark will match your basic SPD */}</span></b>,
+            label: (
+              <b>
+                <span>
+                  {
+                    tCharacterTab(
+                      'CurrentSpdLabel'
+                    ) /* Current SPD - The benchmark will match your basic SPD */
+                  }
+                </span>
+              </b>
+            ),
             value: -1,
           },
           {
-            label: <span>{tCharacterTab('BaseSpdLabel')/* Base SPD - The benchmark will target a minimal SPD build */}</span>,
+            label: (
+              <span>
+                {
+                  tCharacterTab(
+                    'BaseSpdLabel'
+                  ) /* Base SPD - The benchmark will target a minimal SPD build */
+                }
+              </span>
+            ),
             value: 0,
           },
         ],
       },
       {
-        label: <span>{tCharacterTab('CommonBreakpointsLabel')/* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
+        label: (
+          <span>
+            {
+              tCharacterTab(
+                'CommonBreakpointsLabel'
+              ) /* Common SPD breakpoint presets (SPD buffs considered separately) */
+            }
+          </span>
+        ),
         options: presets,
       },
     ]
-  }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
+  }, [
+    t,
+    tCharacterTab,
+    props.spdFilter,
+    props.characterId,
+    props.simScoringResult,
+  ])
 
   return (
     <Select
@@ -464,7 +590,7 @@ function SelectSpdPresets(props: {
       labelRender={() => <></>}
       dropdownStyle={{ width: 'fit-content' }}
       options={spdPresetOptions}
-      placement='bottomRight'
+      placement="bottomRight"
       listHeight={800}
       value={null}
       onChange={props.onShowcaseSpdBenchmarkChange}
@@ -472,7 +598,12 @@ function SelectSpdPresets(props: {
   )
 }
 
-function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, color: string) {
+function clipboardClicked(
+  elementId: string,
+  action: string,
+  setLoading: (b: boolean) => void,
+  color: string
+) {
   setLoading(true)
   setTimeout(() => {
     Utils.screenshotElementById(elementId, action).finally(() => {
@@ -485,7 +616,8 @@ function sanitizePositiveNumberElseUndefined(n?: number) {
   return n == undefined || n < 0 ? undefined : n
 }
 
-const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
+const shadow =
+  'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
 const STANDARD_COLOR = '#799ef4'
 
@@ -508,7 +640,7 @@ export const urlToColorCache: Record<string, string> = {}
 export function getOverrideColorMode(
   colorMode: ShowcaseColorMode,
   globalShowcasePreferences: Record<string, ShowcasePreferences>,
-  character: Character,
+  character: Character
 ) {
   if (colorMode == ShowcaseColorMode.STANDARD) {
     return ShowcaseColorMode.STANDARD
@@ -523,12 +655,19 @@ export function getOverrideColorMode(
   return savedColorMode
 }
 
-export function getDefaultColor(characterId: string, portraitUrl: string, colorMode: ShowcaseColorMode) {
+export function getDefaultColor(
+  characterId: string,
+  portraitUrl: string,
+  colorMode: ShowcaseColorMode
+) {
   if (colorMode == ShowcaseColorMode.STANDARD) {
     return STANDARD_COLOR
   }
 
-  if (DB.getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
+  if (
+    DB.getCharacterById(characterId)?.portrait &&
+    urlToColorCache[portraitUrl]
+  ) {
     return urlToColorCache[portraitUrl]
   }
 

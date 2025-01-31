@@ -121,28 +121,28 @@ export function CharacterPreview(props: {
   const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
     window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode]
       ? ShowcaseColorMode.STANDARD
-      : ShowcaseColorMode.AUTO
+      : ShowcaseColorMode.AUTO,
   )
   const activeKey = window.store((s) => s.activeKey)
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
   const refreshOnSpdValueChange = window.store(
-    (s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD]
+    (s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD],
   )
   const refreshOnTraceChange = window.store(
-    (s) => s.scoringMetadataOverrides[character?.id]?.traces
+    (s) => s.scoringMetadataOverrides[character?.id]?.traces,
   )
   const refreshOnDeprioritizeBuffsChange = window.store(
     (s) =>
-      s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs
+      s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs,
   )
   const showcaseTemporaryOptions = window.store(
-    (s) => s.showcaseTemporaryOptions
+    (s) => s.showcaseTemporaryOptions,
   )
 
   if (
-    !character ||
-    (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)
+    !character
+    || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)
   ) {
     return (
       <div
@@ -159,7 +159,7 @@ export function CharacterPreview(props: {
 
   console.log(
     '======================================================================= RENDER CharacterPreview',
-    source
+    source,
   )
 
   function wrappedSetTeamSelectionByCharacter(update: Record<string, string>) {
@@ -174,7 +174,7 @@ export function CharacterPreview(props: {
   const { scoringResults, displayRelics } = getPreviewRelics(
     source,
     character,
-    relicsById
+    relicsById,
   )
   const scoredRelics = scoringResults.relics || []
 
@@ -185,7 +185,7 @@ export function CharacterPreview(props: {
   const currentSelection = handleTeamSelection(
     character,
     prevCharId,
-    teamSelectionByCharacter
+    teamSelectionByCharacter,
   )
   const simScoringResult = getShowcaseSimScoringResult(
     character,
@@ -193,30 +193,30 @@ export function CharacterPreview(props: {
     scoringType,
     currentSelection,
     showcaseMetadata,
-    showcaseTemporaryOptions
+    showcaseTemporaryOptions,
   )
 
   // ===== Portrait =====
 
-  const portraitToUse =
-    DB.getCharacterById(character?.id)?.portrait ?? undefined
-  const portraitUrl =
-    portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
+  const portraitToUse
+    = DB.getCharacterById(character?.id)?.portrait ?? undefined
+  const portraitUrl
+    = portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
 
   // ===== Color =====
 
   const defaultColor = getDefaultColor(character.id, portraitUrl, colorMode)
 
-  const characterShowcasePreferences =
-    colorMode == ShowcaseColorMode.STANDARD
+  const characterShowcasePreferences
+    = colorMode == ShowcaseColorMode.STANDARD
       ? standardShowcasePreferences()
-      : globalShowcasePreferences[character.id] ??
-        defaultShowcasePreferences(defaultColor)
+      : globalShowcasePreferences[character.id]
+      ?? defaultShowcasePreferences(defaultColor)
 
   const overrideColorMode = getOverrideColorMode(
     colorMode,
     globalShowcasePreferences,
-    character
+    character,
   )
 
   const overrideSeedColor = portraitToUse
@@ -226,8 +226,8 @@ export function CharacterPreview(props: {
         : characterShowcasePreferences.color ?? defaultColor
       : prevSeedColor.current
     : overrideColorMode == ShowcaseColorMode.AUTO
-    ? defaultColor
-    : characterShowcasePreferences.color ?? defaultColor
+      ? defaultColor
+      : characterShowcasePreferences.color ?? defaultColor
 
   prevSeedColor.current = overrideSeedColor
 
@@ -251,23 +251,23 @@ export function CharacterPreview(props: {
   const derivedShowcaseTheme: ShowcaseTheme = {
     cardBackgroundColor: showcaseCardBackgroundColor(
       seedToken.colorPrimaryActive,
-      darkMode
+      darkMode,
     ),
     cardBorderColor: showcaseCardBorderColor(
       seedToken.colorPrimaryActive,
-      darkMode
+      darkMode,
     ),
   }
 
   // ===== Display =====
 
-  const displayDimensions: ShowcaseDisplayDimensions =
-    getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
+  const displayDimensions: ShowcaseDisplayDimensions
+    = getShowcaseDisplayDimensions(character, Boolean(simScoringResult))
   const artistName = getArtistName(character)
   const finalStats = getShowcaseStats(
     character,
     displayRelics,
-    showcaseMetadata
+    showcaseMetadata,
   )
 
   return (
@@ -276,8 +276,7 @@ export function CharacterPreview(props: {
         selectedRelic={selectedRelic}
         type='edit'
         onOk={(relic: Relic) =>
-          showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)
-        }
+          showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)}
         setOpen={setEditModalOpen}
         open={editModalOpen}
       />
@@ -357,10 +356,9 @@ export function CharacterPreview(props: {
                     character,
                     payload,
                     setCustomPortrait,
-                    setEditPortraitModalOpen
-                  )
-                }
-                simScoringResult={simScoringResult as SimulationScore}
+                    setEditPortraitModalOpen,
+                  )}
+                simScoringResult={simScoringResult!}
                 artistName={artistName}
                 setOriginalCharacterModalInitialCharacter={
                   setOriginalCharacterModalInitialCharacter
@@ -368,8 +366,7 @@ export function CharacterPreview(props: {
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
                 setCharacterModalAdd={setCharacterModalAdd}
                 onPortraitLoad={(img: string) =>
-                  sidebarRef.current?.onPortraitLoad!(img, character.id)
-                }
+                  sidebarRef.current?.onPortraitLoad!(img, character.id)}
               />
 
               {simScoringResult && (
@@ -456,7 +453,7 @@ export function CharacterPreview(props: {
               {!simScoringResult && (
                 <>
                   {scoringType != NONE_SCORE && (
-                    <ShowcaseStatScore scoringResults={scoringResults} />
+                    <ShowcaseStatScore scoringResults={scoringResults}/>
                   )}
 
                   <ShowcaseLightConeLargeName
@@ -502,7 +499,7 @@ export function CharacterPreview(props: {
       {source != ShowcaseSource.BUILDS_MODAL && (
         <MemoizedShowcaseBuildAnalysis
           token={token}
-          simScoringResult={simScoringResult as SimulationScore}
+          simScoringResult={simScoringResult!}
           combatScoreDetails={combatScoreDetails}
           showcaseMetadata={showcaseMetadata}
           scoringType={scoringType}

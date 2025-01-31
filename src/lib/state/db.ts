@@ -420,9 +420,9 @@ export const DB = {
         DB.unequipRelicById(relic.id)
         setRelic(relic)
       }
-      const relicIsNotEquippedByRelicOwner =
-        relic.equippedBy &&
-        DB.getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
+      const relicIsNotEquippedByRelicOwner
+        = relic.equippedBy
+        && DB.getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
       if (relicIsNotEquippedByRelicOwner) {
         DB.equipRelic(relic, relic.equippedBy)
       }
@@ -440,12 +440,12 @@ export const DB = {
   getScoringMetadata: (id: string) => {
     const dbMetadata = DB.getMetadata()
     const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
-    const scoringMetadataOverrides =
-      window.store.getState().scoringMetadataOverrides
+    const scoringMetadataOverrides
+      = window.store.getState().scoringMetadataOverrides
     const override = scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(
       override || {},
-      defaultScoringMetadata
+      defaultScoringMetadata,
     ) as ScoringMetadata
 
     // POST MIGRATION UNCOMMENT
@@ -496,8 +496,8 @@ export const DB = {
       // overrides.modified = true
     }
 
-    const defaultScoringMetadata =
-      DB.getMetadata().characters[id].scoringMetadata
+    const defaultScoringMetadata
+      = DB.getMetadata().characters[id].scoringMetadata
 
     setModifiedScoringMetadata(defaultScoringMetadata, overrides[id])
 
@@ -507,7 +507,7 @@ export const DB = {
   },
   updateSimulationScoreOverrides: (
     id: string,
-    updatedSimulation: SimulationMetadata
+    updatedSimulation: SimulationMetadata,
   ) => {
     if (!updatedSimulation) return
 
@@ -538,9 +538,9 @@ export const DB = {
 
       // Previously sim requests didn't use the stats field
       if (character.form?.statSim?.simulations) {
-        character.form.statSim.simulations =
-          character.form.statSim.simulations.filter(
-            (simulation) => simulation.request?.stats
+        character.form.statSim.simulations
+          = character.form.statSim.simulations.filter(
+            (simulation) => simulation.request?.stats,
           )
       }
 
@@ -569,18 +569,18 @@ export const DB = {
       character.form.mainBody = deduplicateStringArray(character.form.mainBody)
       character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
       character.form.mainPlanarSphere = deduplicateStringArray(
-        character.form.mainPlanarSphere
+        character.form.mainPlanarSphere,
       )
       character.form.mainLinkRope = deduplicateStringArray(
-        character.form.mainLinkRope
+        character.form.mainLinkRope,
       )
 
       // In beta, Duran maxed out at 6
       if (
         character.form.setConditionals?.[
           Sets.DuranDynastyOfRunningWolves
-        ]?.[1] ??
-        0 > 5
+        ]?.[1]
+        ?? 0 > 5
       ) {
         character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
       }
@@ -599,7 +599,7 @@ export const DB = {
       // Deduplicate scoring optimal main stat
       for (const part of Object.keys(Constants.Parts)) {
         character.scoringMetadata.parts[part] = deduplicateStringArray(
-          character.scoringMetadata.parts[part]
+          character.scoringMetadata.parts[part],
         )
       }
     }
@@ -617,7 +617,7 @@ export const DB = {
 
     if (saveData.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(
-        saveData.scoringMetadataOverrides
+        saveData.scoringMetadataOverrides,
       )) {
         // Migration: previously the overrides were an array, invalidate the arrays
         // @ts-ignore
@@ -642,8 +642,8 @@ export const DB = {
           let isOldScoring = true
           for (const stat of Object.values(Constants.Stats)) {
             if (
-              Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) !=
-              Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])
+              Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat])
+              != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])
             ) {
               isOldScoring = false
               break
@@ -653,7 +653,7 @@ export const DB = {
           // Migrate old scoring to new scoring
           if (isOldScoring) {
             scoringMetadataOverrides.stats = Utils.clone(
-              defaultScoringMetadata.stats
+              defaultScoringMetadata.stats,
             )
             scoringMetadataOverrides.modified = false
           } else {
@@ -662,9 +662,9 @@ export const DB = {
             for (const stat of Object.values(Constants.Stats)) {
               if (
                 Utils.nullUndefinedToZero(
-                  scoringMetadataOverrides.stats[stat]
-                ) !=
-                Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])
+                  scoringMetadataOverrides.stats[stat],
+                )
+                != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])
               ) {
                 statWeightsModified = true
                 break
@@ -679,7 +679,7 @@ export const DB = {
           // Just use this post migration? I don't quite remember what the above does
           setModifiedScoringMetadata(
             defaultScoringMetadata,
-            scoringMetadataOverrides
+            scoringMetadataOverrides,
           )
         }
       }
@@ -734,7 +734,7 @@ export const DB = {
     window.store
       .getState()
       .setExcludedRelicPotentialCharacters(
-        saveData.excludedRelicPotentialCharacters || []
+        saveData.excludedRelicPotentialCharacters || [],
       )
     window.store.getState().setVersion(saveData.version)
     window.store
@@ -809,7 +809,7 @@ export const DB = {
           setSelected: (b: boolean) => void
         }) => {
           node.data.id == found.id ? node.setSelected(true) : 0
-        }
+        },
       )
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
@@ -850,7 +850,7 @@ export const DB = {
     score: {
       rating: string
       score: string
-    }
+    },
   ) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
@@ -929,8 +929,8 @@ export const DB = {
     const characters = DB.getCharacters()
     for (const character of characters) {
       if (
-        character.equipped?.[relic.part] &&
-        character.equipped[relic.part] == relic.id
+        character.equipped?.[relic.part]
+        && character.equipped[relic.part] == relic.id
       ) {
         character.equipped[relic.part] = undefined
       }
@@ -949,7 +949,7 @@ export const DB = {
   equipRelic: (
     relic: Relic,
     characterId: string | undefined,
-    forceSwap = false
+    forceSwap = false,
   ) => {
     if (!relic?.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
@@ -964,9 +964,9 @@ export const DB = {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    const swap =
-      forceSwap ||
-      DB.getState().settings[
+    const swap
+      = forceSwap
+      || DB.getState().settings[
         SettingOptions.RelicEquippingBehavior.name as keyof UserSettings
       ] == SettingOptions.RelicEquippingBehavior.Swap
 
@@ -991,7 +991,7 @@ export const DB = {
   equipRelicIdsToCharacter: (
     relicIds: string[],
     characterId: string,
-    forceSwap = false
+    forceSwap = false,
   ) => {
     if (!characterId) return console.warn('No characterId to equip to')
     console.log('Equipping relics to character', relicIds, characterId)
@@ -1005,14 +1005,14 @@ export const DB = {
     if (!fromCharacterId) return console.warn('No characterId to equip from')
     if (!toCharacterId) return console.warn('No characterId to equip to')
     console.log(
-      `Switching relics from character ${fromCharacterId} to character ${toCharacterId}`
+      `Switching relics from character ${fromCharacterId} to character ${toCharacterId}`,
     )
 
     const fromCharacter = DB.getCharacterById(fromCharacterId)
     DB.equipRelicIdsToCharacter(
       Object.values(fromCharacter.equipped),
       toCharacterId,
-      true
+      true,
     )
   },
 
@@ -1110,8 +1110,8 @@ export const DB = {
     for (const character of characters) {
       for (const part of Object.values(Constants.Parts)) {
         if (
-          character.equipped?.[part] &&
-          !DB.getRelicById(character.equipped[part])
+          character.equipped?.[part]
+          && !DB.getRelicById(character.equipped[part])
         ) {
           character.equipped[part] = undefined
         }
@@ -1168,7 +1168,7 @@ export const DB = {
    */
   mergePartialRelicsWithState: (
     newRelics: Relic[],
-    sourceCharacters: Character[] = []
+    sourceCharacters: Character[] = [],
   ) => {
     const oldRelics = TsUtils.clone(DB.getRelics()) || []
     newRelics = TsUtils.clone(newRelics) || []
@@ -1211,7 +1211,7 @@ export const DB = {
     for (const equipUpdate of equipUpdates) {
       if (
         sourceCharacters.find(
-          (character) => character.id == equipUpdate.equippedBy
+          (character) => character.id == equipUpdate.equippedBy,
         )
       ) {
         DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
@@ -1232,14 +1232,14 @@ export const DB = {
         i18next.t('importSaveTab:PartialImport.OldRelics', {
           count: updatedOldRelics.length,
         }),
-        8
+        8,
       )
     if (addedNewRelics.length)
       Message.success(
         i18next.t('importSaveTab:PartialImport.NewRelics', {
           count: addedNewRelics.length,
         }),
-        8
+        8,
       )
   },
 }
@@ -1267,7 +1267,7 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
     for (let i = 0; i < partialMatch.substats.length; i++) {
       const matchSubstat = partialMatch.substats[i] as Stat
       const newSubstat = relic.substats.find(
-        (x) => x.stat == matchSubstat.stat
+        (x) => x.stat == matchSubstat.stat,
       ) as Stat
 
       // Different substats mean different relics - break
@@ -1293,9 +1293,9 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
     if (exit) continue
 
     const possibleUpgrades = Math.round(
-      (Math.floor(relic.enhance / 3) * 3 -
-        Math.floor(partialMatch.enhance / 3) * 3) /
-        3
+      (Math.floor(relic.enhance / 3) * 3
+      - Math.floor(partialMatch.enhance / 3) * 3)
+      / 3,
     )
     if (upgrades > possibleUpgrades) continue
 
@@ -1313,7 +1313,7 @@ function assignRanks(characters: Character[]) {
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
   const optimizerMatchingCharacter = DB.getCharacterById(
-    window.store.getState().optimizerTabFocusCharacter!
+    window.store.getState().optimizerTabFocusCharacter!,
   )
   if (optimizerMatchingCharacter) {
     window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
@@ -1333,7 +1333,7 @@ function hashRelic(relic: Relic) {
     } else {
       // Other values we match to 1 decimal point due to OCR
       substatValues.push(
-        Utils.precisionRound(Utils.truncate10ths(substat.value))
+        Utils.precisionRound(Utils.truncate10ths(substat.value)),
       )
     }
     substatStats.push(substat.stat)

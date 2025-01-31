@@ -83,28 +83,30 @@ export function ShowcasePortrait(props: {
         boxShadow: showcaseShadow,
       }}
     >
-      {character.portrait || customPortrait ? (
-        <CharacterCustomPortrait
-          customPortrait={customPortrait ?? character.portrait!}
-          parentW={parentW}
-          onPortraitLoad={onPortraitLoad}
-        />
-      ) : (
-        <LoadingBlurredImage
-          src={Assets.getCharacterPortraitById(character.id)}
-          style={{
-            position: 'absolute',
-            left:
-              (((-charCenter.x * charCenter.z) / 2) * tempInnerW) / 1024 +
-              parentW / 2,
-            top:
-              (((-charCenter.y * charCenter.z) / 2) * tempInnerW) / 1024 +
-              tempParentH / 2,
-            width: tempInnerW * charCenter.z,
-          }}
-          callback={onPortraitLoad}
-        />
-      )}
+      {character.portrait || customPortrait
+        ? (
+          <CharacterCustomPortrait
+            customPortrait={customPortrait ?? character.portrait!}
+            parentW={parentW}
+            onPortraitLoad={onPortraitLoad}
+          />
+        )
+        : (
+          <LoadingBlurredImage
+            src={Assets.getCharacterPortraitById(character.id)}
+            style={{
+              position: 'absolute',
+              left:
+              (((-charCenter.x * charCenter.z) / 2) * tempInnerW) / 1024
+              + parentW / 2,
+              top:
+              (((-charCenter.y * charCenter.z) / 2) * tempInnerW) / 1024
+              + tempParentH / 2,
+              width: tempInnerW * charCenter.z,
+            }}
+            callback={onPortraitLoad}
+          />
+        )}
 
       <ConfigProvider theme={globalThemeConfig}>
         <Flex
@@ -116,7 +118,7 @@ export function ShowcasePortrait(props: {
             <Button
               style={showcaseButtonStyle}
               className='character-build-portrait-button'
-              icon={<EditOutlined />}
+              icon={<EditOutlined/>}
               onClick={() => {
                 setCharacterModalAdd(false)
                 setOriginalCharacterModalInitialCharacter(character)
@@ -131,7 +133,7 @@ export function ShowcasePortrait(props: {
             <Button
               style={showcaseButtonStyle}
               className='character-build-portrait-button'
-              icon={<EditOutlined />}
+              icon={<EditOutlined/>}
               onClick={() => {
                 setOriginalCharacterModalInitialCharacter(character)
                 setOriginalCharacterModalOpen(true)
@@ -144,7 +146,7 @@ export function ShowcasePortrait(props: {
           <Button
             style={showcaseButtonStyle}
             className='character-build-portrait-button'
-            icon={<EditOutlined />}
+            icon={<EditOutlined/>}
             onClick={() => setEditPortraitModalOpen(true)}
             type='primary'
           >

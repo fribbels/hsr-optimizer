@@ -446,9 +446,9 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ minWidth: 240 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
-            ...{ display: 'block', width: '100%', height: parentH },
-            ...getGridTheme(token),
-          }}
+              ...{ display: 'block', width: '100%', height: parentH },
+              ...getGridTheme(token),
+            }}
           >
             <CharacterGrid
               characterGrid={characterGrid}

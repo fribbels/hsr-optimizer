@@ -98,18 +98,18 @@ const ShowcaseCustomizationSidebar = forwardRef<
   const [colors, setColors] = useState<string[]>([])
   const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
   const setGlobalShowcasePreferences = window.store(
-    (s) => s.setShowcasePreferences
+    (s) => s.setShowcasePreferences,
   )
   const [loading, setLoading] = useState<boolean>(false)
   const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
   const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
   const showcasePreciseSpd = window.store(
-    (s) => s.savedSession.showcasePreciseSpd
+    (s) => s.savedSession.showcasePreciseSpd,
   )
   const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
   const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
   const deprioritizeBuffs = window.store(
-    () => scoringMetadata.simulation?.deprioritizeBuffs ?? false
+    () => scoringMetadata.simulation?.deprioritizeBuffs ?? false,
   )
 
   useImperativeHandle(ref, () => ({
@@ -150,7 +150,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
       characterId,
       globalShowcasePreferences,
       setGlobalShowcasePreferences,
-      { color: newColor, colorMode: ShowcaseColorMode.CUSTOM }
+      { color: newColor, colorMode: ShowcaseColorMode.CUSTOM },
     )
 
     console.log('Set seed color to', newColor)
@@ -164,7 +164,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
       characterId,
       globalShowcasePreferences,
       setGlobalShowcasePreferences,
-      { colorMode: newColorMode }
+      { colorMode: newColorMode },
     )
 
     console.log('Set color mode to', newColorMode)
@@ -209,7 +209,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
   function onShowcaseSpdBenchmarkChangeEvent(
     event:
       | React.FocusEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
   ) {
     // @ts-ignore
     const value: string = event?.target?.value
@@ -225,7 +225,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
     console.log('Set spd benchmark to', spdBenchmark)
 
     const showcaseTemporaryOptions = TsUtils.clone(
-      window.store.getState().showcaseTemporaryOptions
+      window.store.getState().showcaseTemporaryOptions,
     )
     if (!showcaseTemporaryOptions[characterId])
       showcaseTemporaryOptions[characterId] = {}
@@ -267,8 +267,8 @@ const ShowcaseCustomizationSidebar = forwardRef<
     // },
   ]
 
-  const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } =
-    useMemo(() => {
+  const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions }
+    = useMemo(() => {
       return {
         spdPrecisionOptions: [
           { value: false, label: tScoring('SpdPrecision.Low') /* '.0' */ },
@@ -339,13 +339,13 @@ const ShowcaseCustomizationSidebar = forwardRef<
           </a>
         </Flex>
 
-        <HorizontalDivider />
+        <HorizontalDivider/>
 
-        <Button icon={<SettingOutlined />} onClick={onTraceClick}>
+        <Button icon={<SettingOutlined/>} onClick={onTraceClick}>
           {tScoring('Stats.ButtonText') /* Traces */}
         </Button>
 
-        <HorizontalDivider />
+        <HorizontalDivider/>
 
         <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
           {tScoring('SpdPrecision.Header') /* SPD precision */}
@@ -360,7 +360,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
 
         {scoringType != NONE_SCORE && (
           <>
-            <HorizontalDivider />
+            <HorizontalDivider/>
 
             <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
               {tScoring('SpdWeight.Header') /* SPD weight */}
@@ -377,7 +377,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
 
         {scoringType == SIMULATION_SCORE && (
           <>
-            <HorizontalDivider />
+            <HorizontalDivider/>
 
             <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
               {tScoring('BenchmarkSpd.Header') /* SPD benchmark */}
@@ -389,16 +389,16 @@ const ShowcaseCustomizationSidebar = forwardRef<
               style={{ width: '100%' }}
               value={sanitizePositiveNumberElseUndefined(
                 window.store.getState().showcaseTemporaryOptions[characterId]
-                  ?.spdBenchmark
+                  ?.spdBenchmark,
               )}
-              addonAfter={
+              addonAfter={(
                 <SelectSpdPresets
                   spdFilter={simScoringResult?.originalSpd}
                   onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
                   characterId={characterId}
                   simScoringResult={simScoringResult}
                 />
-              }
+              )}
               min={0}
               onBlur={onShowcaseSpdBenchmarkChangeEvent}
               onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
@@ -408,7 +408,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
 
         {scoringType == SIMULATION_SCORE && (
           <>
-            <HorizontalDivider />
+            <HorizontalDivider/>
 
             <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
               {tScoring('BuffPriority.Header') /* Buff priority */}
@@ -438,7 +438,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
           {tCustomization('Label')}
         </HeaderText>
 
-        <HorizontalDivider />
+        <HorizontalDivider/>
 
         <ColorPicker
           presets={presets}
@@ -453,7 +453,7 @@ const ShowcaseCustomizationSidebar = forwardRef<
           showText
         />
 
-        <HorizontalDivider />
+        <HorizontalDivider/>
 
         <Segmented
           vertical
@@ -475,49 +475,47 @@ const ShowcaseCustomizationSidebar = forwardRef<
           onChange={onColorModeChange}
         />
 
-        <HorizontalDivider />
+        <HorizontalDivider/>
 
         <Segmented
           options={[
-            { value: false, label: <SunOutlined /> },
-            { value: true, label: <MoonOutlined /> },
+            { value: false, label: <SunOutlined/> },
+            { value: true, label: <MoonOutlined/> },
           ]}
           block
           value={showcaseDarkMode}
           onChange={onBrightnessModeChange}
         />
-        <HorizontalDivider />
+        <HorizontalDivider/>
 
         <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
           Show UID
         </HeaderText>
         <Segmented
           options={[
-            { value: true, label: <CheckOutlined /> },
-            { value: false, label: <CloseOutlined /> },
+            { value: true, label: <CheckOutlined/> },
+            { value: false, label: <CloseOutlined/> },
           ]}
           block
           value={showcaseUID}
           onChange={onShowUIDChange}
         />
 
-        <HorizontalDivider />
+        <HorizontalDivider/>
         <Flex justify='space-between'>
           <Button
-            icon={<CameraOutlined style={{ fontSize: 30 }} />}
+            icon={<CameraOutlined style={{ fontSize: 30 }}/>}
             loading={loading}
             onClick={() =>
-              clipboardClicked(id, 'clipboard', setLoading, props.seedColor)
-            }
+              clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
             type='primary'
             style={{ height: 50, width: 50, borderRadius: 8 }}
           />
           <Button
-            icon={<DownloadOutlined style={{ fontSize: 30 }} />}
+            icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
             loading={loading}
             onClick={() =>
-              clipboardClicked(id, 'download', setLoading, props.seedColor)
-            }
+              clipboardClicked(id, 'download', setLoading, props.seedColor)}
             type='primary'
             style={{ height: 50, width: 50, borderRadius: 8 }}
           />
@@ -545,8 +543,8 @@ function SelectSpdPresets(props: {
     const presets = Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
     if (props.spdFilter != null) {
       presets.map((preset) => {
-        preset.disabled =
-          preset.value != null && preset.value > props.spdFilter!
+        preset.disabled
+          = preset.value != null && preset.value > props.spdFilter!
       })
     }
 
@@ -565,7 +563,7 @@ function SelectSpdPresets(props: {
                 <span>
                   {
                     tCharacterTab(
-                      'CurrentSpdLabel'
+                      'CurrentSpdLabel',
                     ) /* Current SPD - The benchmark will match your basic SPD */
                   }
                 </span>
@@ -578,7 +576,7 @@ function SelectSpdPresets(props: {
               <span>
                 {
                   tCharacterTab(
-                    'BaseSpdLabel'
+                    'BaseSpdLabel',
                   ) /* Base SPD - The benchmark will target a minimal SPD build */
                 }
               </span>
@@ -592,7 +590,7 @@ function SelectSpdPresets(props: {
           <span>
             {
               tCharacterTab(
-                'CommonBreakpointsLabel'
+                'CommonBreakpointsLabel',
               ) /* Common SPD breakpoint presets (SPD buffs considered separately) */
             }
           </span>
@@ -620,7 +618,7 @@ function clipboardClicked(
   elementId: string,
   action: string,
   setLoading: (b: boolean) => void,
-  color: string
+  color: string,
 ) {
   setLoading(true)
   setTimeout(() => {
@@ -634,8 +632,8 @@ function sanitizePositiveNumberElseUndefined(n?: number) {
   return n == undefined || n < 0 ? undefined : n
 }
 
-const shadow =
-  'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
+const shadow
+  = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
 const STANDARD_COLOR = '#799ef4'
 
@@ -658,7 +656,7 @@ export const urlToColorCache: Record<string, string> = {}
 export function getOverrideColorMode(
   colorMode: ShowcaseColorMode,
   globalShowcasePreferences: Record<string, ShowcasePreferences>,
-  character: Character
+  character: Character,
 ) {
   if (colorMode == ShowcaseColorMode.STANDARD) {
     return ShowcaseColorMode.STANDARD
@@ -676,15 +674,15 @@ export function getOverrideColorMode(
 export function getDefaultColor(
   characterId: string,
   portraitUrl: string,
-  colorMode: ShowcaseColorMode
+  colorMode: ShowcaseColorMode,
 ) {
   if (colorMode == ShowcaseColorMode.STANDARD) {
     return STANDARD_COLOR
   }
 
   if (
-    DB.getCharacterById(characterId)?.portrait &&
-    urlToColorCache[portraitUrl]
+    DB.getCharacterById(characterId)?.portrait
+    && urlToColorCache[portraitUrl]
   ) {
     return urlToColorCache[portraitUrl]
   }

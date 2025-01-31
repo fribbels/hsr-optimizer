@@ -352,7 +352,7 @@ EnemyConfiguration:
   WeaknessLabel: 弱点属性
   BrokenLabel: 弱点撃破済み
 WeightFilter:
-  WeightFilterHeader: サブステータスの重み付け
+  WeightFilterHeader: 重み付けフィルター
   RollFilterHeader: 最低サブステータス出現回数
   HPFilterText: HP
   ATKFilterText: 攻撃力

@@ -178,7 +178,8 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversion(Stats.ATK, Stats.BE, this, x, action, context,
-            (convertibleValue) => 0.008 * Math.floor((convertibleValue - 1800) / 10))
+            (convertibleValue) => 0.008 * Math.floor((convertibleValue - 1800) / 10),
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

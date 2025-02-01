@@ -1,10 +1,9 @@
 import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -148,22 +147,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.skillActive)}) {
-  return;
-}
-
-let stateValue: f32 = (*p_state).FuXuanHpConditional;
-let convertibleHpValue: f32 = (*p_x).HP - (*p_x).RATIO_BASED_HP_BUFF;
-
-var buffHP: f32 = ${skillHpBuffValue} * convertibleHpValue;
-let finalBuffHp = buffHP - stateValue;
-
-(*p_state).FuXuanHpConditional += finalBuffHp;
-(*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
-
-(*p_x).HP += finalBuffHp;
-    `)
+          return gpuDynamicStatConversion(Stats.HP, Stats.HP, this, action, context,
+            `${skillHpBuffValue} * convertibleValue`,
+            `${wgslTrue(r.skillActive)}`,
+          )
         },
       },
     ],

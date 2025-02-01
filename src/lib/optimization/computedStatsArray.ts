@@ -119,7 +119,7 @@ export class ComputedStatsArrayCore {
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             // Infinite loop guard so self buffing stats will asymptotically reach 0
-            if (value < 0.0001) {
+            if (value < 0.001) {
               return
             }
 

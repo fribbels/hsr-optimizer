@@ -165,14 +165,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         chainsTo: [Stats.CD],
         ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.ultBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.ultBuff) {
-            return
-          }
-
           dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context,
             (value) => value * ultCdBoostValue,
           )

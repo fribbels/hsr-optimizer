@@ -25,6 +25,18 @@ export function dynamicStatConversion(
   const buffDelta = buffFull - stateValue
 
   action.conditionalState[conditional.id] = buffFull
+
   sourceStat == destinationStat && x[statConfig.preconvertedProperty]?.buff(buffDelta, Source.NONE)
   x[destConfig.property].buffDynamic(buffDelta, Source.NONE, action, context)
+}
+
+export function gpuDynamicStatConversion(
+  sourceStat: ConvertibleStatsType,
+  destinationStat: ConvertibleStatsType,
+  conditional: DynamicConditional,
+  action: OptimizerAction,
+  context: OptimizerContext,
+  buffFn: (convertibleValue: number) => string,
+) {
+
 }

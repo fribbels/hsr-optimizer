@@ -199,15 +199,15 @@ Scoring:
     MIN_DOT:
       SuccessMessage: "Đặt lại bộ lọc sát thương theo thời gian tối thiểu"
       Description: "Sát thương theo thời gian tối thiểu quá cao"
-      ButtonText: "Đặt lại bộ lọc sát thương theo thời gian tối thiểu"
+      ButtonText: "Đặt lại bộ lọc Sát Thương Theo Thời Gian tối thiểu"
     MAX_BREAK:
-      SuccessMessage: "Đặt lại bộ lọc sát thương phá vỡ tối đa"
-      Description: "Sát thương phá vỡ tối đa quá thấp"
-      ButtonText: "Đặt lại bộ lọc sát thương phá vỡ tối đa"
+      SuccessMessage: "Đặt lại bộ lọc ST Kích Phá tối đa"
+      Description: "Sát Thương Kích Phá tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc ST Kích Phá tối đa"
     MIN_BREAK:
-      SuccessMessage: "Đặt lại bộ lọc sát thương phá vỡ tối thiểu"
-      Description: "Sát thương phá vỡ tối thiểu quá cao"
-      ButtonText: "Đặt lại bộ lọc sát thương phá vỡ tối thiểu"
+      SuccessMessage: "Đặt lại bộ lọc ST Kích Phá tối thiểu"
+      Description: "Sát Thương Kích Phá tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc ST Kích Phá tối thiểu"
     MAX_HEAL:
       SuccessMessage: "Đặt lại bộ lọc lượng hồi máu tối đa"
       Description: "Lượng hồi máu tối đa quá thấp"
@@ -225,11 +225,13 @@ Scoring:
       Description: "Lượng lá chắn tối thiểu quá cao"
       ButtonText: "Đặt lại bộ lọc lượng LÁ CHẮN tối thiểu"
     MAX_COMBO:
-      Description: "Sát thương combo tối đa quá thấp"
+      SuccessMessage: "Đặt lại bộ lọc ST Combo tối đa"
+      Description: "Sát Thương Combo tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc Sát Thương Combo tối đa"
     MIN_COMBO:
-      SuccessMessage: "Đặt lại bộ lọc sát thương combo tối thiểu"
-      Description: "Sát thương combo tối thiểu quá cao"
-      ButtonText: "Đặt lại bộ lọc sát thương combo tối thiểu"
+      SuccessMessage: "Đặt lại bộ lọc Sát Thương Combo tối thiểu"
+      Description: "Sát Thương Combo tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc Sát Thương Combo tối thiểu"
 ManyPerms:
   Title: Đã yêu cầu tìm kiếm quy mô lớn
   Text: >-

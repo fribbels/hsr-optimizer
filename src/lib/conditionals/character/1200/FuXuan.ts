@@ -1,10 +1,11 @@
 import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { selfBuffingStat } from 'lib/conditionals/evaluation/selfBuffingConditionals'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -144,18 +145,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             return
           }
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const convertibleHpValue = x.a[Key.HP] - x.a[Key.RATIO_BASED_HP_BUFF]
-
-          const buffHP = skillHpBuffValue * convertibleHpValue
-          const stateBuffHP = skillHpBuffValue * stateValue
-
-          action.conditionalState[this.id] = x.a[Key.HP]
-
-          const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
-          x.a[Key.RATIO_BASED_HP_BUFF] += finalBuffHp
-
-          x.HP.buffDynamic(finalBuffHp, Source.NONE, action, context)
+          selfBuffingStat(Stats.HP, skillHpBuffValue, this, x, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -176,7 +166,7 @@ var stateBuffHP: f32 = ${skillHpBuffValue} * stateValue;
 let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
 (*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
 
-buffNonRatioDynamicHP(finalBuffHp, p_x, p_m, p_state);
+(*p_x).HP += finalBuffHp;
     `)
         },
       },

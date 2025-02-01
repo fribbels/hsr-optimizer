@@ -1,11 +1,12 @@
 import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { selfBuffingStat } from 'lib/conditionals/evaluation/selfBuffingConditionals'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCr } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -115,10 +116,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
       buffAbilityCr(x, BASIC_DMG_TYPE, 1.00, Source.NONE)
 
       x.BASIC_SCALING.buff(basicScaling, Source.NONE)
       x.FUA_SCALING.buff((e >= 4) ? fuaScaling : 0, Source.NONE)
+
+      if (r.ultBuff) {
+        x.CD.buff(ultCdBoostBaseValue, Source.NONE)
+        x.RATIO_BASED_CD_BUFF.buff(ultCdBoostBaseValue, Source.NONE)
+      }
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 30 : 0, Source.NONE)
@@ -165,18 +173,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             return
           }
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const convertibleCdValue = x.a[Key.CD] - x.a[Key.RATIO_BASED_CD_BUFF]
-
-          const buffCD = ultCdBoostValue * convertibleCdValue + ultCdBoostBaseValue
-          const stateBuffCD = ultCdBoostValue * stateValue + ultCdBoostBaseValue
-
-          action.conditionalState[this.id] = x.a[Key.CD]
-
-          const finalBuffCd = buffCD - (stateValue ? stateBuffCD : 0)
-          x.RATIO_BASED_CD_BUFF.buff(finalBuffCd, Source.NONE)
-
-          x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
+          selfBuffingStat(Stats.CD, ultCdBoostValue, this, x, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -189,15 +186,13 @@ if (${wgslFalse(r.ultBuff)}) {
 let stateValue: f32 = (*p_state).BronyaCdConditional;
 let convertibleCdValue: f32 = (*p_x).CD - (*p_x).RATIO_BASED_CD_BUFF;
 
-var buffCD: f32 = ${ultCdBoostValue} * convertibleCdValue + ${ultCdBoostBaseValue};
-var stateBuffCD: f32 = ${ultCdBoostValue} * stateValue + ${ultCdBoostBaseValue};
+let buffCD = ${ultCdBoostValue} * convertibleCdValue;
+let finalBuffCd = buffCD - stateValue;
 
-(*p_state).BronyaCdConditional = (*p_x).CD;
-
-let finalBuffCd = buffCD - select(0, stateBuffCD, stateValue > 0);
+(*p_state).BronyaCdConditional += finalBuffCd;
 (*p_x).RATIO_BASED_CD_BUFF += finalBuffCd;
 
-buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
+(*p_x).CD += finalBuffCd;
     `)
         },
       },

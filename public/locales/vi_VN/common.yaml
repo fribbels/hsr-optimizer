@@ -52,7 +52,7 @@ Stats:
   "SPD%": Tốc Độ%
   SPD: Tốc Độ
   CRIT Rate: Tỷ Lệ Bạo Kích
-  CRIT DMG: Sát Thương Bạo Kích
+  CRIT DMG: ST Bạo Kích
   Effect Hit Rate: Chính Xác Hiệu Ứng
   Effect RES: Kháng Hiệu Ứng
   Break Effect: Tấn Công Kích Phá
@@ -145,7 +145,7 @@ ShortReadableStats:
   "SPD%": SPD %
   SPD: SPD
   CRIT Rate: Tỷ Lệ Bạo Kích
-  CRIT DMG: Sát Thương Bạo Kích
+  CRIT DMG: ST Bạo Kích
   Effect Hit Rate: Chính Xác
   Effect RES: Kháng
   Break Effect: Kích Phá
@@ -159,14 +159,14 @@ ShortReadableStats:
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
-  simScore: Sát Thương Combo
-  BASIC: Sát Thương Đánh Thường
-  SKILL: Sát Thương Chiến Kỹ
-  ULT: Sát Thương Tuyệt Kỹ
-  FUA: Sát Thương Đòn Đánh Theo Sau
+  simScore: ST Combo
+  BASIC: ST Đánh Thường
+  SKILL: ST Chiến Kỹ
+  ULT: ST Tuyệt Kỹ
+  FUA: ST Đòn Đánh Theo Sau
   MEMO_SKILL: Sát thương linh hồn ký ức
-  DOT: Sát Thương Duy Trì
-  BREAK: Sát Thương Phá Vỡ
+  DOT: ST Duy Trì
+  BREAK: ST Kích Phá
   CV: CV
 ShortDMGTypes:
   Basic: ST Đánh Thường
@@ -175,5 +175,5 @@ ShortDMGTypes:
   Fua: ST Đòn Đánh Theo Sau
   Memo_Skill: Skillᴹ DMG
   Dot: ST Duy Trì
-  Break: ST Phá Vỡ
+  Break: ST Kích Phá
   CV: CV

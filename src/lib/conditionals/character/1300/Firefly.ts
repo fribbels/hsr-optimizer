@@ -1,6 +1,6 @@
 import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { statConversion } from 'lib/conditionals/evaluation/statConversion'
+import { dynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -178,7 +178,7 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
           return r.atkToBeConversion && x.a[Key.ATK] > 1800
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          statConversion(Stats.ATK, Stats.BE, this, x, action, context,
+          dynamicStatConversion(Stats.ATK, Stats.BE, this, x, action, context,
             (value) => 0.008 * Math.floor((value - 1800) / 10))
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {

@@ -119,9 +119,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Main damage type
       x.ATK_P.buffTeam(0.15, Source.NONE)
       x.ATK_P.buff(context.elementalDamageType == Stats.Quantum_DMG
-          ? (atkBoostByQuantumAllies[m.quantumAllies] || 0)
-          : 0,
-        Source.NONE)
+        ? (atkBoostByQuantumAllies[m.quantumAllies] || 0)
+        : 0,
+      Source.NONE)
       x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, Source.NONE)
 
       x.ELEMENTAL_DMG.buffTeam(

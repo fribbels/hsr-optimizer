@@ -1,7 +1,7 @@
 import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { selfBuffingStat } from 'lib/conditionals/evaluation/selfBuffingConditionals'
+import { dynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
@@ -136,16 +136,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         dependsOn: [Stats.HP],
         chainsTo: [Stats.HP],
         ratioConversion: true,
-        condition: function () {
-          return true
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.skillActive
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.skillActive) {
-            return
-          }
-
-          selfBuffingStat(Stats.HP, skillHpBuffValue, this, x, action, context)
+          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context,
+            (value) => value * skillHpBuffValue,
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -159,11 +157,9 @@ let stateValue: f32 = (*p_state).FuXuanHpConditional;
 let convertibleHpValue: f32 = (*p_x).HP - (*p_x).RATIO_BASED_HP_BUFF;
 
 var buffHP: f32 = ${skillHpBuffValue} * convertibleHpValue;
-var stateBuffHP: f32 = ${skillHpBuffValue} * stateValue;
+let finalBuffHp = buffHP - stateValue;
 
-(*p_state).FuXuanHpConditional = (*p_x).HP;
-
-let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
+(*p_state).FuXuanHpConditional += finalBuffHp;
 (*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
 
 (*p_x).HP += finalBuffHp;

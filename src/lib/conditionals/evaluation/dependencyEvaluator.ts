@@ -2,6 +2,8 @@ import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 
+const MAX_EVALUATIONS = 3
+
 export function evaluateDependencyOrder(registeredConditionals: ConditionalRegistry) {
   let conditionals: DynamicConditional[] = []
   Object.values(registeredConditionals).forEach((conditionalChain) => conditionals = [...conditionals, ...conditionalChain])
@@ -11,7 +13,6 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
   const executedConditionals = new Set<string>()
   const pendingEvaluations = new Set<string>()
   const res: string[] = []
-  const res2: string[] = []
   const conditionalMap: Record<string, DynamicConditional> = {}
   const conditionalOrder: DynamicConditional[] = []
 
@@ -70,7 +71,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
 
     for (const conditional of registry[stat]) {
       if (executedConditionals.has(conditional.id) || remainingConditionals.has(conditional.id)) {
-        if (activationCount[conditional.id] > 3) continue
+        if (activationCount[conditional.id] >= MAX_EVALUATIONS) continue
         if (activationCount[conditional.id] == null) activationCount[conditional.id] = 0
         activationCount[conditional.id]++
 
@@ -78,7 +79,6 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
         remainingConditionals.delete(conditional.id)
         console.log(`  -> Executed Conditional: ${conditional.id}`)
 
-        res2.push(conditional.id + ' ' + stat)
         conditionalOrder.push(conditional)
 
         for (const chainedStat of conditional.chainsTo) {
@@ -101,9 +101,6 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
 
     priorityQueue = Array.from(new Set(priorityQueue))
   }
-
-  console.log(res)
-  console.log(res2)
 
   return conditionalOrder
 }

@@ -16,7 +16,7 @@ CharacterMenu:
     Label: ビルド
     Options:
       Save: 現在のビルドを保存
-      View: 保存したビルドを表示
+      View: 保存されたビルドを表示
   Scoring:
     Label: スコア計算
     Options:

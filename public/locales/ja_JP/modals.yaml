@@ -320,7 +320,7 @@ Builds:
     SuccessMessageAll: "{{characterName}}のすべてのビルドを削除しました"
     SuccessMessageSingle: "ビルドを削除しました：{{name}}"
   NoBuilds:
-    NoneSaved: 保存したビルドなし
+    NoneSaved: 保存されたビルドなし
 ScoreFooter:
   ModalTitle: 戦闘シミュレーションのスコア計算方法の設定
   OkText: OK
@@ -345,4 +345,4 @@ CharacterSelect:
   ClearButton: クリア
 LightconeSelect:
   Placeholder: 光円錐
-  Title: 光円錐の選択
+  Title: 光円錐を選択

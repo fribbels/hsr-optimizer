@@ -126,11 +126,6 @@ Lightcones:
       targetVulnerability:
         text: Debuff điểm yếu của mục tiêu.
         content: Khi người trang bị phát động Đòn Đánh Theo Sau tấn công kẻ địch, có {{baseChance}}% xác suất cơ bản khiến sát thương phải chịu của kẻ địch bị tấn công tăng {{Vulnerability}}%, duy trì 2 hiệp.
-  InTheNight:
-    Content:
-      spdScalingBuffs:
-        content: >-
-          Khi Tốc Độ trong chiến đấu của người trang bị lớn hơn 100, mỗi khi vượt trên 10 điểm sẽ tăng {{DmgBuff}}% sát thương Tấn Công Thường và Chiến Kỹ, đồng thời tăng {{CritBuff}}% Sát Thương Bạo Kích Tuyệt Kỹ, hiệu ứng này có thể cộng dồn 6 tầng.
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -142,19 +137,6 @@ Lightcones:
       weaknessBreakDmgBuff:
         text: Tăng ST phá vỡ điểm yếu
         content: Sau khi người trang bị phá vỡ điểm yếu của kẻ địch, sát thương gây ra tăng {{DmgBuff}}%, duy trì hiệp.
-  SleepLikeTheDead:
-    Content:
-      missedCritCrBuff:
-        content: Khi sát thương Tấn Công Thường hoặc Chiến Kỹ của người trang bị chưa tạo thành Bạo Kích, sẽ khiến Tỷ Lệ Bạo Kích của bản thân tăng {{CritBuff}}%, duy trì 1 hiệp. Hiệu ứng này mỗi 3 hiệp có thể kích hoạt một lần.
-  WorrisomeBlissful:
-    Content:
-      targetTameStacks:
-        content: >-
-          Sau khi người trang bị thi triển Đòn Đánh Theo Sau, khiến mục tiêu rơi vào trạng thái Ôn Hòa, hiệu ứng này tối đa cộng dồn 2 tầng. Khi mục tiêu phe ta đánh trúng kẻ địch ở trạng thái Ôn Hòa, mỗi tầng Ôn Hòa sẽ tăng {{CritBuff}}% Sát Thương Bạo Kích gây ra.
-  YetHopeIsPriceless:
-    Content:
-      fuaDmgBoost:
-        content: Khi Sát Thương Bạo Kích của người trang bị trong trận lớn hơn 120%, mỗi 20% vượt quá thì Sát Thương Đòn Đánh Theo Sau gây ra tăng {{DmgBuff}}%, hiệu ứng này có thể cộng dồn 4 tầng
   PastAndFuture:
     Content:
       postSkillDmgBuff:
@@ -167,33 +149,3 @@ Lightcones:
     Content:
       maxEnergyStacks:
         text: Năng lượng tối đa
-Characters:
-  Yunli:
-    Content:
-      blockActive:
-        text: Chống Đỡ
-        content: Trong trạng thái Chống Đỡ, kháng Hiệu Ứng Xấu dạng khống chế và giảm 20% sát thương phải chịu.
-      ultCull:
-        text: "Nhìn Thấu - Diệt"
-        content: >-
-          Nhìn Thấu - Diệt: Gây cho mục tiêu Sát Thương Vật Lý bằng {{CullScaling}}% Tấn Công của Yunli, gây cho mục tiêu lân cận kẻ đó Sát Thương Vật Lý bằng {{CullAdjacentScaling}}% Tấn Công của Yunli, sau đó gây thêm 6 lần sát thương, mỗi lần sát thương sẽ gây cho 1 kẻ địch ngẫu nhiên Sát Thương Vật Lý bằng {{CullAdditionalScaling}}% Tấn Công của Yunli.
-      ultCullHits:
-        text: "Nhìn Thấu - Diệt"
-        content: >-
-          Nhìn Thấu - Diệt: Gây cho mục tiêu Sát Thương Vật Lý bằng {{CullScaling}}% Tấn Công của Yunli, gây cho mục tiêu lân cận kẻ đó Sát Thương Vật Lý bằng {{CullAdjacentScaling}}% Tấn Công của Yunli, sau đó gây thêm 6 lần sát thương, mỗi lần sát thương sẽ gây cho 1 kẻ địch ngẫu nhiên Sát Thương Vật Lý bằng {{CullAdditionalScaling}}% Tấn Công của Yunli.
-      counterAtkBuff:
-        text: Tăng ST Phản Kích
-        content: Khi thi triển Phản Kích, tấn công của Yunli tăng 30%, duy trì 1 hiệp.
-      e1UltBuff:
-        text: E1 Ult buff
-        content: "Sát thương Nhìn Thấu - Chém và Nhìn Thấu - Diệt gây ra tăng 20%, số lần sát thương thêm của Nhìn Thấu - Diệt tăng 3."
-      e2DefShred:
-        text: E2 FUA DEF PEN
-        content: Khi phát động Phản Kích gây sát thương, sẽ bỏ qua 20% Phòng Thủ của kẻ địch.
-      e4ResBuff:
-        text: E4 RES buff
-        content: "Sau khi phát động Nhìn Thấu - Chém hoặc Nhìn Thấu - Diệt sẽ khiến Kháng Hiệu Ứng của bản thân tăng 50%, duy trì 1 hiệp."
-      e6Buffs:
-        text: E6 buffs
-        content: >-
-          Trong thời gian Chống Đỡ, khi phe địch chủ động thi triển kỹ năng, cho dù có tấn công Yunli hay không đều sẽ kích hoạt Nhìn Thấu - Diệt đồng thời xóa hiệu ứng Chống Đỡ, khi phát động Nhìn Thấu - Chém hoặc Nhìn Thấu - Diệt gây sát thương, Tỷ Lệ Bạo Kích sẽ tăng 15%, Xuyên Kháng Vật Lý tăng 20%.

@@ -111,7 +111,6 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
-DamagePercent: 데미지 %
 ReadableStats:
   "HP%": 체력 %
   HP: 체력
@@ -164,7 +163,6 @@ DMGTypes:
   SKILL: 전투 스킬 피해량
   ULT: 필살기 피해량
   FUA: 추가 공격 피해량
-  MEMO_SKILL: 기억정령 스킬 피해량
   DOT: 지속 피해량
   BREAK: 격파 피해량
   CV: 치명타 계수
@@ -173,7 +171,6 @@ ShortDMGTypes:
   Skill: 전투 스킬 피해량
   Ult: 필살기 피해량
   Fua: 추가 공격 피해량
-  Memo_Skill: 전투 스킬 피해량
   Dot: 지속 피해량
   Break: 격파 피해량
   CV: 치명타 계수

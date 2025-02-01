@@ -1,4 +1,4 @@
-import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
+import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Button, ColorPicker, Flex, InputNumber, Segmented, Select, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
@@ -65,6 +65,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
     const [loading, setLoading] = useState<boolean>(false)
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
+    const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
     const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
     const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
@@ -127,6 +128,14 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       console.log('Set dark mode to', darkMode)
 
       window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
+    }
+    
+    const onShowUIDChange = (showUID: boolean) => {
+      console.log('Set show UID to', showUID)
+  
+      window.store
+        .getState()
+        .setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
     }
 
     function onShowcasePreciseSpdChange(preciseSpd: boolean) {
@@ -390,6 +399,21 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             block
             value={showcaseDarkMode}
             onChange={onBrightnessModeChange}
+          />
+          
+          <HorizontalDivider/>
+
+          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+            Show UID
+          </HeaderText>
+          <Segmented
+            options={[
+              { value: true, label: <CheckOutlined/> },
+              { value: false, label: <CloseOutlined/> },
+            ]}
+            block
+            value={showcaseUID}
+            onChange={onShowUIDChange}
           />
 
           <HorizontalDivider/>

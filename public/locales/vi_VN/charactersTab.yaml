@@ -114,7 +114,7 @@ CharacterPreview:
       FUA: Đòn Đánh Theo Sau
       MEMO_SKILL: SKILLᴹ
       DOTS: "Sát thương duy trì:"
-      BREAKS: "Sát thương phá vỡ:"
+      BREAKS: "ST Kích Phá:"
     CombatResults:
       Header: Kết quả sát thương
       Primary: "Kĩ năng gây sát thương chính:"
@@ -128,7 +128,7 @@ CharacterPreview:
         SKILL: 'ST CHIẾN KỸ:'
         ULT: 'ST TUYỆT KỸ:'
         FUA: 'ST ĐÒN ĐÁNH THEO SAU:'
-        BREAK: 'ST PHÁ VỠ:'
+        BREAK: 'ST Kích Phá:'
         COMBO: 'ST COMBO:'
   ScoringColumn:
     Character:

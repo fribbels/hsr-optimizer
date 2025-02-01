@@ -32,8 +32,14 @@ import { Relic } from 'types/relic'
 import { HsrOptimizerStore } from 'types/store'
 import { StoreApi, UseBoundStore } from 'zustand'
 
+type Jipt = {
+  start()
+  stop()
+}
+
 declare global {
   interface Window {
+    jipt: Jipt
     notificationApi: NotificationInstance
     messageApi: MessageInstance
     modalApi: HookAPI

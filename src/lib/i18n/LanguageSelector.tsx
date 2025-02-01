@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 export function LanguageSelector() {
   const { i18n } = useTranslation()
   // @ts-ignore
-  const isBeta = BASE_PATH == '/dreary-quibbles'
+  const isBeta = BASE_PATH !== '/dreary-quibbles'
   const selectOptions = Object.values(languages)
     .filter((x) => isBeta || completedLocales.includes(x.locale))
     .map(({ locale, nativeName, shortName }) => ({
@@ -34,6 +34,7 @@ export function LanguageSelector() {
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
         void i18n.changeLanguage(e)
+        e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
       placement='bottomLeft'

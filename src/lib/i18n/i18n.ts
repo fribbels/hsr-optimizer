@@ -63,6 +63,11 @@ export const languages = {
     nativeName: '中文',
     shortName: '中文',
   },
+  aa_ER: {
+    locale: 'aa_ER',
+    nativeName: 'inContext',
+    shortName: 'inContext',
+  },
   /*
       de_DE: {
         locale: 'de_DE',
@@ -85,7 +90,7 @@ export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'pt_BR', 'zh_CN'] as const
 
 // @ts-ignore
-export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales
+export const supportedLanguages = BASE_PATH !== '/dreary-quibbles' ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)
   .use(LanguageDetector)

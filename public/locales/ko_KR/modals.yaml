@@ -34,14 +34,315 @@ Scoring:
       Description: "$t(common:Parts.LinkRope)의 주옵 필터가 너무 엄격할 수 있습니다."
       ButtonText: "$t(common:Parts.LinkRope)의 주옵션 필터를 지웁니다."
       SuccessMessage: "$t(common:Parts.LinkRope)의 주옵션 필터를 지웠습니다."
+    RELIC_SETS:
+      Description: 유물 세트의 필터가 너무 엄격할 수 있습니다.
+      ButtonText: 유물 세트 필터 초기화
+      SuccessMessage: 유물 세트 필터를 지웠습니다.
+    ORNAMENT_SETS:
+      Description: 장신구 세트의 필터가 너무 엄격할 수 있습니다.
+      ButtonText: 장신구 세트 필터 초기화
+      SuccessMessage: 장신구 세트 필터를 지웠습니다.
+    KEEP_CURRENT:
+      Description: '"현재 유물 유지" 옵션이 활성화되어 있어, 검색 시 해당 캐릭터에 현재 장착된 유물은 변경되지 않도록 강제됩니다.'
+      ButtonText: '"현재 유물 유지" 비활성화'
+      SuccessMessage: 착용 중인 유물 제외 했습니다.
+    PRIORITY:
+      Description: 해당 캐릭터는 우선순위 목록에서 다른 캐릭터보다 순위가 낮습니다. "우선 순위 필터"를 사용할 때 캐릭터는 현재 캐릭터보다 우선 순위보다 낮은 캐릭터만 사용할 수 있습니다
+      ButtonText: "캐릭터를 우선순위 #1로 변경"
+      SuccessMessage: "캐릭터의 우선 순위를 #1 로 설정했습니다."
+    EXCLUDE_ENABLED:
+      Description: 제외 필터에 여러 캐릭터가 선택되어 있습니다. 따라서 이 캐릭터는 선택한 캐릭터의 유물을 사용할 수 없습니다.
+      ButtonText: 제외 필터 삭제
+      SuccessMessage: 제외된 캐릭터를 초기화 했습니다.
+    EQUIPPED_DISABLED:
+      Description: '"장비된 유물 포함" 옵션이 비활성화되어 있습니다. 따라서 이 캐릭터는 다른 캐릭터의 유물을 사용할 수 없습니다.'
+      ButtonText: '"장비된 유물 포함"  비활성화'
+      SuccessMessage: 착용 중인 유물을 포함 했습니다.
+    MINIMUM_ROLLS:
+      Description: 부 옵션의 유효 값을 너무 높게 설정하였습니다.
+      ButtonText: 부 옵션의 유효 값을 0으로 설정
+      SuccessMessage: 부 옵션의 유효 값을 0으로 설정
+0Results:
+  Title: 검색 결과가 없습니다.
+  ResetAll:
+    ButtonText: 모든 필터 초기화
+    SuccessMessage: 모든 필터를 초기화 했습니다.
+    Description: 이러한 결과는 필터가 너무 제한적이라는 뜻입니다.
+  RootCauses:
+    StatView:
+      SuccessMessage: "전투 중 스텟으로 변경했습니다."
+      Description: "설정한 필터는 비전투 시 상태이며 전투 중 버프는 적용되지 않습니다. 전투 중 상태 표시로 전환하면 추가 능력, 팀, 유물 세트 등 전투 중 버프를 적용한 상태가 표시됩니다."
+      ButtonText: "전투 중 상태로 보기"
+    MAX_HP:
+      SuccessMessage: "$t(common:Stats.HP)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.HP) 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.HP)의 최댓값을 초기화 했습니다."
+    MIN_HP:
+      SuccessMessage: "$t(common:Stats.HP)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.HP) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.HP)의 최솟값을 초기화 했습니다."
+    MAX_ATK:
+      SuccessMessage: "$t(common:Stats.ATK)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.ATK) 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.ATK)의 최댓값을 초기화 했습니다."
+    MIN_ATK:
+      SuccessMessage: "$t(common:Stats.ATK)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.ATK) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.ATK)의 최솟값을 초기화 했습니다."
+    MAX_DEF:
+      SuccessMessage: "$t(common:Stats.DEF)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.DEF) 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.DEF)의 최댓값을 초기화 했습니다."
+    MIN_DEF:
+      SuccessMessage: "$t(common:Stats.DEF)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.DEF) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.DEF)의 최솟값을 초기화 했습니다."
+    MAX_SPD:
+      SuccessMessage: "$t(common:Stats.SPD)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.SPD)  필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.SPD)의 최댓값을 초기화 했습니다."
+    MIN_SPD:
+      SuccessMessage: "$t(common:Stats.SPD)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.SPD) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.SPD)의 최솟값을 초기화 했습니다."
+    MAX_CR:
+      SuccessMessage: "$t(common:Stats.CRIT Rate)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.CRIT Rate) 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.CRIT Rate)의 최댓값을 초기화 했습니다."
+    MIN_CR:
+      SuccessMessage: "$t(common:Stats.CRIT Rate)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.CRIT Rate) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.CRIT Rate)의 최솟값을 초기화 했습니다."
+    MAX_CD:
+      SuccessMessage: "$t(common:Stats.CRIT DMG)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.CRIT DMG) 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.CRIT DMG)의 최댓값을 초기화 했습니다."
+    MIN_CD:
+      SuccessMessage: "$t(common:Stats.CRIT DMG)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.CRIT DMG) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.CRIT DMG)의 최솟값을 초기화 했습니다."
+    MAX_EHR:
+      SuccessMessage: "$t(common:Stats.Effect Hit Rate)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.Effect Hit Rate)  필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.Effect Hit Rate)의 최댓값을 초기화 했습니다."
+    MIN_EHR:
+      SuccessMessage: "$t(common:Stats.Effect Hit Rate)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.Effect Hit Rate) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.Effect Hit Rate)의 최솟값을 초기화 했습니다."
+    MAX_RES:
+      SuccessMessage: "$t(common:Stats.Effect RES)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.Effect RES) 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.Effect RES)의 최댓값을 초기화 했습니다."
+    MIN_RES:
+      SuccessMessage: "$t(common:Stats.Effect RES)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.Effect RES) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.Effect RES)의 최솟값을 초기화 했습니다."
+    MAX_BE:
+      SuccessMessage: "$t(common:Stats.Break Effect)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.Break Effect)  필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.Break Effect)의 최댓값을 초기화 했습니다."
+    MIN_BE:
+      SuccessMessage: "$t(common:Stats.Break Effect)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.Break Effect) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.Break Effect)의 최솟값을 초기화 했습니다."
+    MAX_ERR:
+      SuccessMessage: "$t(common:Stats.Energy Regeneration Rate)의 최댓값을 초기화 했습니다."
+      Description: "$t(common:Stats.Energy Regeneration Rate) 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "$t(common:Stats.Energy Regeneration Rate)의 최댓값을 초기화 했습니다."
+    MIN_ERR:
+      SuccessMessage: "$t(common:Stats.Energy Regeneration Rate)의 최솟값을 초기화 했습니다."
+      Description: "$t(common:Stats.Energy Regeneration Rate) 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "$t(common:Stats.Energy Regeneration Rate)의 최솟값을 초기화 했습니다."
+    MAX_EHP:
+      SuccessMessage: "EHP 필터의 최댓값을 초기화 했습니다."
+      Description: "EHP  필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "EHP 필터의 최댓값을 초기화 했습니다."
+    MIN_EHP:
+      SuccessMessage: "EHP 필터의 최솟값을 초기화 했습니다."
+      Description: "EHP 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "EHP 필터의 최솟값을 초기화 했습니다."
+    MAX_BASIC:
+      SuccessMessage: "기초 공격력 필터의 최댓값을 초기화 했습니다."
+      Description: "기초 공격 데미지 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "기초 공격력 필터의 최댓값을 초기화 했습니다."
+    MIN_BASIC:
+      SuccessMessage: "기초 공격력 필터의 최솟값을 초기화 했습니다."
+      Description: "기초 공격 데미지 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "기초 공격력 필터의 최솟값을 초기화 했습니다."
+    MAX_SKILL:
+      SuccessMessage: "전투 스킬 필터의 최댓값을 초기화 했습니다."
+      Description: "전투 스킬 데미지 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "전투 스킬 필터의 최댓값을 초기화 했습니다."
+    MIN_SKILL:
+      SuccessMessage: "전투 스킬 필터의 최솟값을 초기화 했습니다."
+      Description: "전투 스킬 데미지 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "전투 스킬 필터의 최솟값을 초기화 했습니다."
+    MAX_ULT:
+      SuccessMessage: "필살기 필터의 최댓값을 초기화 했습니다."
+      Description: "필살기 데미지 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "필살기 필터의 최댓값을 초기화 했습니다."
+    MIN_ULT:
+      SuccessMessage: "필살기 필터의 최솟값을 초기화 했습니다."
+      Description: "필살기 데미지 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "필살기 필터의 최솟값을 초기화 했습니다."
+    MAX_FUA:
+      SuccessMessage: "추가 공격 필터의 최댓값을 초기화 했습니다."
+      Description: "추가 공격 데미지 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "추가 공격 필터의 최댓값을 초기화 했습니다."
+    MIN_FUA:
+      SuccessMessage: "추가 공격 필터의 최솟값을 초기화 했습니다."
+      Description: "추가 공격 데미지 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "추가 공격 필터의 최솟값을 초기화 했습니다."
+    MAX_DOT:
+      SuccessMessage: "지속 피해 필터의 최댓값을 초기화 했습니다."
+      Description: "지속 피해 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "지속 피해 필터의 최댓값을 초기화 했습니다."
+    MIN_DOT:
+      SuccessMessage: "지속 피해 필터의 최솟값을 초기화 했습니다."
+      Description: "지속 피해 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "지속 피해 필터의 최솟값을 초기화 했습니다."
+    MAX_BREAK:
+      SuccessMessage: "격파 피해 필터의 최댓값을 초기화 했습니다."
+      Description: "격파 피해 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "격파 피해 필터의 최댓값을 초기화 했습니다."
+    MIN_BREAK:
+      SuccessMessage: "격파 피해 필터의 최솟값을 초기화 했습니다."
+      Description: "곂파 피해 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "격파 피해 필터의 최솟값을 초기화 했습니다."
+    MAX_HEAL:
+      SuccessMessage: "치유 필터의 최댓값을 초기화 했습니다."
+      Description: "치유 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "치유 필터의 최댓값을 초기화 했습니다."
+    MIN_HEAL:
+      SuccessMessage: "치유 필터의 최솟값을 초기화 했습니다."
+      Description: "치유 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "치유 필터의 최솟값을 초기화 했습니다."
+    MAX_SHIELD:
+      SuccessMessage: "실드 필터의 최댓값을 초기화 했습니다."
+      Description: "쉴드 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "실드 필터의 최댓값을 초기화 했습니다."
+    MIN_SHIELD:
+      SuccessMessage: "실드 필터의 최솟값을 초기화 했습니다."
+      Description: "쉴드 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "실드 필터의 최솟값을 초기화 했습니다."
+    MAX_COMBO:
+      SuccessMessage: "콤보 필터의 최댓값을 초기화 했습니다."
+      Description: "콤보 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "콤보 필터의 최댓값을 초기화 했습니다."
+    MIN_COMBO:
+      SuccessMessage: "콤보 필터의 최솟값을 초기화 했습니다."
+      Description: "콤보 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "콤보 필터의 최솟값을 초기화 했습니다."
+ManyPerms:
+  Title: 많은 검색이 요청되었습니다.
+  Text: >-
+    이 검색은 완료까지 많은 시간이 소요됩니다. GPU 가속도 설정을 활성화하거나 검색 대상을 특정 세트나 주 옵션으로 좁히거나 부 옵션 가중치를 사용하여 조합 수를 줄이는 것을 추천합니다.
+  Cancel: 검색 취소
+  Proceed: 계속 검색
 EditCharacter:
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: 캐릭터
   Lightcone: 광추
+Relic:
+  Part: 부위
+  Wearer: '장착됨 : '
+  Set: 세트
+  Enhance: 강화 / 등급
+  Mainstat: 주 옵션
+  Substat: 부 옵션
+  SubstatPlaceholder: 부 옵션
+  Upgrades: 부 옵션 레벨업
+  Messages:
+    SubmitFail: 제출 실패!
+    EditSuccess: 유물을 수정했습니다.
+    Error:
+      PartMissing: 장착 부위를 입력해주세요.
+      MainstatMissing: 주 옵션을 입력해주세요.
+      SetMissing: 유물 세트를 입력해주세요.
+      EnhanceMissing: 강화 수치를 입력해주세요
+      GradeMissing: 유물 등급을 입력해주세요.
+      EnhanceInvalid: 강화 수치가 유효하지 않습니다.
+      GradeInvalid: 유물 등급이 유효하지 않습니다.
+      EnhanceTooHigh: 유물 등급에 비해 수치가 높습니다.
+      SetInvalid: 유효하지 않는 세트입니다.
+      SetNotOrnament: 선택된 세트는 장신구 세트가 아닙니다.
+      SetNotRelic: 선택된 세트는 유물 세트가 아닙니다.
+      SubNInvalid: "부 옵션 {{number}}가 유효하지 않습니다."
+      SubsOutOfOrder: 부 옵션의 순서가 잘못되었습니다.
+      DuplicateSubs: 부 옵션이 중복되었습니다. 각 타입은 한개만 작성해주세요.
+      MainAsSub: 부 옵션과 주 옵션이 같습니다.
+      SubTooBig: 부 옵션 값이 너무 큽니다.
+      MainTooBig: 주 옵션 값이 너무 큽니다.
+      SubTooSmall: 부 옵션 값은 양수여야합니다.
+      MainTooSmall: 주 옵션 값은 양수여야합니다.
+EditImage:
+  DefaultTitle: 이미지 편집
+  Upload:
+    Title: 이미지 제출
+    Radio:
+      Upload: 이미지 업로드
+      Url: 이미지 URL 넣기
+      Default: 기본 이미지 사용
+    Upload:
+      Method: 끌어당겨 이미지를 해당 영역에 업로드
+      Limit: "사용 가능한 포멧 : .jpg .jpeg .png .gif (Max: 20MB)"
+    Url:
+      Label: 이미지
+      Rule: 유효한 URL를 넣어주세요
+  Edit:
+    Title: 이미지 자르기
+    Zoom: 줌
+    Drag: 드래그
+    Pinch: 스크롤하여 줌
+    ArtBy: "(선택 사항) 출처 : "
+    CreditPlaceholder: 가능하다면 출처를 작성해주세요
+  Footer:
+    Change: 이미지 변경
+    Previous: 이전
+    Next: 다음
+SaveBuild:
+  Label: 빌드 이름
+  Rule: 이름을 넣어주세요
+SwitchRelics:
+  Title: 캐릭터의 유물 교체
+Builds:
+  DeleteAll: 모두 삭제
+  Equip: 장착
+  ConfirmEquip:
+    Content: 이것을 장비하면 이 빌드의 유물을 사용하고 있는 캐릭터의 장비가 해제됩니다.
+    SuccessMessage: "{{buildName}} 빌드를 적용했습니다."
+  ConfirmDelete:
+    DeleteAll: 정말 이 빌드를 삭제할까요?
+    DeleteSingle: "{{name}}를 정말로 삭제할까요?"
+    SuccessMessageAll: "{{characterName}}의 모든 빌드를 삭제했습니다."
+    SuccessMessageSingle: "{{name}} 빌드를 삭제했습니다."
+  NoBuilds:
+    NoneSaved: 저장된 빌드 없음
 ScoreFooter:
+  ModalTitle: 전투 시뮬레이션 점수 설정
+  OkText: 네
+  ResetButtonText: 사용자 지정 팀을 기본 팀으로 리셋
+  ResetSuccessMsg: 기본 팀으로 리셋
+  SyncButtonText: 가져온 돌파 / 광추 동기화
+  SyncSuccessMsg: 팀이 동기화되었습니다.
   TeamOptions:
+    Default: 기본
     Custom: 커스텀
 CharacterSelect:
+  MultiSelect:
+    Placeholder: 캐릭터 커스터마이즈
+    MaxTagPlaceholderSome: "{{count}}명의 캐릭터가 제외"
+    MaxTagPlaceholderNone: 모든 캐릭터 유효
+    ModalTitle: 선택된 캐릭터 유효
   SingleSelect:
     Placeholder: 캐릭터
+    ModalTitle: 캐릭터 선택
+  SearchPlaceholder: 캐릭터 이름 검색
+  ExcludeButton: 모두 제외
+  ClearButton: 삭제
 LightconeSelect:
   Placeholder: 광추
+  Title: 모든 광추 선택

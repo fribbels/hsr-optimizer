@@ -1,5 +1,6 @@
 import { ConvertibleStatsType, statConversionConfig } from 'lib/conditionals/evaluation/statConversionConfig'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -59,7 +60,10 @@ let buffFull = ${buffWgsl};
 let buffDelta = buffFull - stateValue;
 
 (*p_state).${conditional.id} += buffDelta;
-(*p_x).${statConfig.preconvertedProperty} += buffDelta;
+
+if (${wgslTrue(sourceStat == destinationStat)}) {
+  (*p_x).${statConfig.preconvertedProperty} += buffDelta;
+}
 
 (*p_x).${destConfig.property} += buffDelta;
 `,

@@ -1,10 +1,10 @@
 import { NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardHpFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -31,6 +31,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const talentHealScaling = talent(e, 0.036, 0.0384)
   const talentHealFlat = talent(e, 96, 106.8)
+
+  const atkBuffPercent = (e >= 4 ? 0.03 : 0)
 
   const content: ContentDefinition<typeof defaults> = {
     healAbility: {
@@ -146,69 +148,54 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
-        chainsTo: [Stats.HP, Stats.ATK],
+        chainsTo: [Stats.HP],
         ratioConversion: true,
-        supplementalState: ['LynxAtkConversionConditional'],
-        condition: function () {
-          return true
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.skillBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.skillBuff) {
-            return
-          }
-          const supplementalStateId = this.supplementalState![0]
-
           const hpBuffPercent = skillHpPercentBuff + (e >= 6 ? 0.06 : 0)
-          const atkBuffPercent = (e >= 4 ? 0.03 : 0)
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const supplementalStateValue = action.conditionalState[this.id] || 0
-          const convertibleHpValue = x.a[Key.HP] - x.a[Key.RATIO_BASED_HP_BUFF]
+          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context,
+            (convertibleValue) => convertibleValue * hpBuffPercent,
+          )
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          const hpBuffPercent = skillHpPercentBuff + (e >= 6 ? 0.06 : 0)
 
-          const buffHP = hpBuffPercent * convertibleHpValue
-          const finalBuffHP = buffHP - stateValue
+          return gpuDynamicStatConversion(Stats.HP, Stats.HP, this, action, context,
+            `${hpBuffPercent} * convertibleValue`,
+            `${wgslTrue(r.skillBuff)}`,
+          )
+        },
+      },
+      {
+        id: 'LynxHpAtkConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.HP],
+        chainsTo: [Stats.ATK],
+        ratioConversion: true,
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
 
-          const buffATK = atkBuffPercent * convertibleHpValue
-          const finalBuffATK = buffATK - supplementalStateValue
-
-          action.conditionalState[this.id] = (action.conditionalState[this.id] ?? 0) + finalBuffHP
-          action.conditionalState[supplementalStateId] = (action.conditionalState[supplementalStateId] ?? 0) + finalBuffATK
-
-          x.RATIO_BASED_HP_BUFF.buff(finalBuffHP, Source.NONE)
-
-          x.HP.buffDynamic(finalBuffHP, Source.NONE, action, context)
-          x.ATK.buffDynamic(finalBuffATK, Source.NONE, action, context)
+          return r.skillBuff
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(Stats.HP, Stats.ATK, this, x, action, context,
+            (convertibleValue) => convertibleValue * atkBuffPercent,
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.skillBuff)}) {
-  return;
-}
-
-let hpBuffPercent = ${skillHpPercentBuff + (e >= 6 ? 0.06 : 0)};
-let atkBuffPercent = ${(e >= 4 ? 0.03 : 0)};
-
-let stateValue: f32 = (*p_state).LynxHpConversionConditional;
-let supplementalStateValue: f32 = (*p_state).LynxAtkConversionConditional;
-let convertibleHpValue: f32 = (*p_x).HP - (*p_x).RATIO_BASED_HP_BUFF;
-
-let buffHP = hpBuffPercent * convertibleHpValue;
-let finalBuffHP = buffHP - stateValue;
-
-let buffATK = atkBuffPercent * convertibleHpValue;
-let finalBuffATK = buffATK - supplementalStateValue;
-
-(*p_state).LynxHpConversionConditional += finalBuffHP;
-(*p_state).LynxAtkConversionConditional += finalBuffATK;
-
-(*p_x).RATIO_BASED_HP_BUFF += finalBuffHP;
-
-(*p_x).HP += finalBuffHP;
-(*p_x).ATK += finalBuffATK;
-    `)
+          return gpuDynamicStatConversion(Stats.HP, Stats.ATK, this, action, context,
+            `${atkBuffPercent} * convertibleValue`,
+            `${wgslTrue(r.skillBuff)}`,
+          )
         },
       },
     ],

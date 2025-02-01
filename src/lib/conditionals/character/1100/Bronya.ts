@@ -1,7 +1,7 @@
 import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { selfBuffingStat } from 'lib/conditionals/evaluation/selfBuffingConditionals'
+import { statSelfConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
@@ -173,7 +173,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             return
           }
 
-          selfBuffingStat(Stats.CD, ultCdBoostValue, this, x, action, context)
+          statSelfConversion(Stats.CD, this, x, action, context, (value) => value * ultCdBoostValue)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

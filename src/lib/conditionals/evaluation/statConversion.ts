@@ -6,11 +6,11 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export function statConversion(
   sourceStat: ConvertibleStatsType,
   destinationStat: ConvertibleStatsType,
-  valueFn: (convertibleValue: number) => number,
   conditional: DynamicConditional,
   x: ComputedStatsArray,
   action: OptimizerAction,
   context: OptimizerContext,
+  valueFn: (convertibleValue: number) => number,
 ) {
   const statConfig = statConversionConfig[sourceStat]
   const destConfig = statConversionConfig[destinationStat]
@@ -29,11 +29,11 @@ export function statConversion(
 
 export function statSelfConversion(
   stat: ConvertibleStatsType,
-  valueFn: (convertibleValue: number) => number,
   conditional: DynamicConditional,
   x: ComputedStatsArray,
   action: OptimizerAction,
   context: OptimizerContext,
+  valueFn: (convertibleValue: number) => number,
 ) {
   const statConfig = statConversionConfig[stat]
 

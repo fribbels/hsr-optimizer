@@ -20,22 +20,24 @@ export function ShowcasePortraitLarge() {
 }
 
 export function ShowcasePortrait(props: {
-  source: ShowcaseSource,
-  character: Character,
-  displayDimensions: ShowcaseDisplayDimensions,
+  source: ShowcaseSource
+  character: Character
+  displayDimensions: ShowcaseDisplayDimensions
   customPortrait: CustomImageConfig | undefined
   editPortraitModalOpen: boolean
   setEditPortraitModalOpen: (b: boolean) => void
   onEditPortraitOk: (p: CustomImagePayload) => void
   simScoringResult: SimulationScore
-  artistName: string | undefined,
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
-  setOriginalCharacterModalOpen: (b: boolean) => void,
-  setCharacterModalAdd: (b: boolean) => void,
-  onPortraitLoad: (img: string) => void,
+  artistName: string | undefined
+  setOriginalCharacterModalInitialCharacter: (c: Character) => void
+  setOriginalCharacterModalOpen: (b: boolean) => void
+  setCharacterModalAdd: (b: boolean) => void
+  onPortraitLoad: (img: string) => void
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
+  const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
+  const UID = window.store((s) => s.scorerId)
 
   const {
     source,
@@ -79,7 +81,7 @@ export function ShowcasePortrait(props: {
       }}
     >
       {
-        (character.portrait || customPortrait)
+        (character.portrait ?? customPortrait)
           ? (
             <CharacterCustomPortrait
               customPortrait={customPortrait ?? character.portrait!}
@@ -158,8 +160,36 @@ export function ShowcasePortrait(props: {
       <Flex
         vertical
         style={{
-          position: 'relative',
-          top: simScoringResult ? tempParentH - 119 : tempParentH - 112,
+          position: 'absolute',
+          bottom: artistName ? 35 : 0,
+          height: 34,
+          paddingLeft: 3,
+          display: showcaseUID ? 'flex' : 'none',
+        }}
+        align='flex-start'
+      >
+        <Text
+          style={{
+            backgroundColor: 'rgb(0 0 0 / 40%)',
+            padding: '4px 12px',
+            borderRadius: 8,
+            fontSize: 14,
+            maxWidth: parentW - 150,
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            zIndex: 2,
+            textShadow: '0px 0px 10px black',
+          }}
+        >
+          {UID}
+        </Text>
+      </Flex>
+      <Flex
+        vertical
+        style={{
+          position: 'absolute',
+          bottom: 0,
           height: 34,
           paddingLeft: 3,
           display: artistName ? 'flex' : 'none',
@@ -180,7 +210,7 @@ export function ShowcasePortrait(props: {
             textShadow: '0px 0px 10px black',
           }}
         >
-          {t('CharacterPreview.ArtBy', { artistName: artistName || '' })/* Art by {{artistName}} */}
+          {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' })/* Art by {{artistName}} */}
         </Text>
       </Flex>
     </div>

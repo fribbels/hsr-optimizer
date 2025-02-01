@@ -1,9 +1,8 @@
 import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -179,26 +178,16 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversion(Stats.ATK, Stats.BE, this, x, action, context,
-            (value) => 0.008 * Math.floor((value - 1800) / 10))
+            (convertibleValue) => 0.008 * Math.floor((convertibleValue - 1800) / 10))
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.atkToBeConversion)}) {
-  return;
-}
-let atk = (*p_x).ATK;
-let stateValue = (*p_state).FireflyConversionConditional;
-let trueAtk = atk - (*p_x).RATIO_BASED_ATK_BUFF - (*p_x).RATIO_BASED_ATK_P_BUFF * baseATK;
-
-if (trueAtk > 1800) {
-  let buffValue: f32 = 0.008 * floor((trueAtk - 1800) / 10);
-
-  (*p_state).FireflyConversionConditional = buffValue;
-  (*p_x).BE += buffValue - stateValue;
-}
-    `)
+          return gpuDynamicStatConversion(Stats.ATK, Stats.BE, this, action, context,
+            `0.008 * floor((convertibleValue - 1800) / 10)`,
+            `${wgslTrue(r.atkToBeConversion)}`,
+            `convertibleValue > 1800`,
+          )
         },
       },
     ],

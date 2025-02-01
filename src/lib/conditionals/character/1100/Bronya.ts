@@ -1,10 +1,9 @@
 import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCr } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -170,28 +169,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context,
-            (value) => value * ultCdBoostValue,
+            (convertibleValue) => convertibleValue * ultCdBoostValue,
           )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.ultBuff)}) {
-  return;
-}
-
-let stateValue: f32 = (*p_state).BronyaCdConditional;
-let convertibleCdValue: f32 = (*p_x).CD - (*p_x).RATIO_BASED_CD_BUFF;
-
-let buffCD = ${ultCdBoostValue} * convertibleCdValue;
-let finalBuffCd = buffCD - stateValue;
-
-(*p_state).BronyaCdConditional += finalBuffCd;
-(*p_x).RATIO_BASED_CD_BUFF += finalBuffCd;
-
-(*p_x).CD += finalBuffCd;
-    `)
+          return gpuDynamicStatConversion(Stats.CD, Stats.CD, this, action, context,
+            `${ultCdBoostValue} * convertibleValue`,
+            `${wgslTrue(r.ultBuff)}`,
+          )
         },
       },
     ],

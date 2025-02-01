@@ -1,5 +1,5 @@
 import { ConvertibleStatsType, statConversionConfig } from 'lib/conditionals/evaluation/statConversionConfig'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -36,7 +36,32 @@ export function gpuDynamicStatConversion(
   conditional: DynamicConditional,
   action: OptimizerAction,
   context: OptimizerContext,
-  buffFn: (convertibleValue: number) => string,
+  buffWgsl: string,
+  activeConditionWgsl: string,
+  thresholdConditionWgsl: string = 'true',
 ) {
+  const statConfig = statConversionConfig[sourceStat]
+  const destConfig = statConversionConfig[destinationStat]
 
+  return conditionalWgslWrapper(conditional, `
+if (!(${activeConditionWgsl})) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).${conditional.id};
+let convertibleValue: f32 = (*p_x).${statConfig.property} - (*p_x).${statConfig.preconvertedProperty};
+
+if (!(${thresholdConditionWgsl})) {
+  return;
+}
+
+let buffFull = ${buffWgsl};
+let buffDelta = buffFull - stateValue;
+
+(*p_state).${conditional.id} += buffDelta;
+(*p_x).${statConfig.preconvertedProperty} += buffDelta;
+
+(*p_x).${destConfig.property} += buffDelta;
+`,
+  )
 }

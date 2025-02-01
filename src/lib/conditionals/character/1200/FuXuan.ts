@@ -142,7 +142,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context,
-            (value) => value * skillHpBuffValue,
+            (convertibleValue) => convertibleValue * skillHpBuffValue,
           )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {

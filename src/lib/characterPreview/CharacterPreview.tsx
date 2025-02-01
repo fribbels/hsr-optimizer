@@ -22,11 +22,11 @@ import {
   defaultShowcasePreferences,
   getDefaultColor,
   getOverrideColorMode,
-  ShowcaseCustomizationSidebar,
   ShowcaseCustomizationSidebarRef,
   standardShowcasePreferences,
   urlToColorCache,
 } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import ShowcaseCustomizationSidebar from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
@@ -155,16 +155,14 @@ export function CharacterPreview(props: {
   const overrideColorMode = getOverrideColorMode(colorMode, globalShowcasePreferences, character)
 
   const overrideSeedColor = portraitToUse
-    ?
-    (
+    ? (
       urlToColorCache[portraitUrl]
         ? (overrideColorMode == ShowcaseColorMode.AUTO)
           ? (defaultColor)
           : (characterShowcasePreferences.color ?? defaultColor)
         : prevSeedColor.current
     )
-    :
-    (
+    : (
       (overrideColorMode == ShowcaseColorMode.AUTO)
         ? (defaultColor)
         : (characterShowcasePreferences.color ?? defaultColor)
@@ -270,7 +268,8 @@ export function CharacterPreview(props: {
           />
 
           {/* Portrait left panel */}
-          {source != ShowcaseSource.BUILDS_MODAL &&
+          {source != ShowcaseSource.BUILDS_MODAL
+          && (
             <Flex vertical gap={8} className='character-build-portrait'>
               <ShowcasePortrait
                 source={source}
@@ -280,7 +279,7 @@ export function CharacterPreview(props: {
                 editPortraitModalOpen={editPortraitModalOpen}
                 setEditPortraitModalOpen={setEditPortraitModalOpen}
                 onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
-                simScoringResult={simScoringResult as SimulationScore}
+                simScoringResult={simScoringResult!}
                 artistName={artistName}
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
@@ -300,7 +299,7 @@ export function CharacterPreview(props: {
                 />
               )}
             </Flex>
-          }
+          )}
 
           {/* Character details middle panel */}
           <Flex vertical justify='space-between' gap={8} style={{}}>
@@ -336,45 +335,53 @@ export function CharacterPreview(props: {
                 simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
               />
 
-              {simScoringResult && <>
-                <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
+              {simScoringResult && (
+                <>
+                  <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
 
-                <ShowcaseDpsScorePanel
-                  characterId={showcaseMetadata.characterId}
-                  token={seedToken}
-                  simScoringResult={simScoringResult}
-                  teamSelection={currentSelection}
-                  combatScoreDetails={combatScoreDetails}
-                  displayRelics={displayRelics}
-                  setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
-                  setRedrawTeammates={setRedrawTeammates}
-                />
+                  <ShowcaseDpsScorePanel
+                    characterId={showcaseMetadata.characterId}
+                    token={seedToken}
+                    simScoringResult={simScoringResult}
+                    teamSelection={currentSelection}
+                    combatScoreDetails={combatScoreDetails}
+                    displayRelics={displayRelics}
+                    setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
+                    setRedrawTeammates={setRedrawTeammates}
+                  />
 
-                <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>
-              </>}
+                  <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>
+                </>
+              )}
 
-              {!simScoringResult && <>
-                {scoringType != NONE_SCORE && <ShowcaseStatScore
-                  scoringResults={scoringResults}
-                />}
+              {!simScoringResult && (
+                <>
+                  {scoringType != NONE_SCORE && (
+                    <ShowcaseStatScore
+                      scoringResults={scoringResults}
+                    />
+                  )}
 
-                <ShowcaseLightConeLargeName
-                  showcaseMetadata={showcaseMetadata}
-                />
-              </>}
+                  <ShowcaseLightConeLargeName
+                    showcaseMetadata={showcaseMetadata}
+                  />
+                </>
+              )}
             </Flex>
 
-            {!simScoringResult && <>
-              <ShowcaseLightConeLarge
-                source={source}
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                setCharacterModalAdd={setCharacterModalAdd}
-              />
-            </>}
+            {!simScoringResult && (
+              <>
+                <ShowcaseLightConeLarge
+                  source={source}
+                  character={character}
+                  showcaseMetadata={showcaseMetadata}
+                  displayDimensions={displayDimensions}
+                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                  setCharacterModalAdd={setCharacterModalAdd}
+                />
+              </>
+            )}
           </Flex>
 
           {/* Relics right panel */}
@@ -393,17 +400,18 @@ export function CharacterPreview(props: {
       </ConfigProvider>
 
       {/* Showcase analysis footer */}
-      {source != ShowcaseSource.BUILDS_MODAL &&
+      {source != ShowcaseSource.BUILDS_MODAL
+      && (
         <MemoizedShowcaseBuildAnalysis
           token={token}
-          simScoringResult={simScoringResult as SimulationScore}
+          simScoringResult={simScoringResult!}
           combatScoreDetails={combatScoreDetails}
           showcaseMetadata={showcaseMetadata}
           scoringType={scoringType}
           setScoringType={setScoringType}
           setCombatScoreDetails={setCombatScoreDetails}
         />
-      }
+      )}
     </Flex>
   )
 }

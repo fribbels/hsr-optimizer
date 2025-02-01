@@ -44,7 +44,7 @@ const debugColors: { defaults: string[] } = {
   defaults: [],
 }
 
-export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
+const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
   (props, ref) => {
     const {
       id,
@@ -243,7 +243,7 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
             <a
               href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
               target='_blank'
-              style={{ display: 'inline-flex', alignItems: 'center' }}
+              style={{ display: 'inline-flex', alignItems: 'center' }} rel='noreferrer'
             >
               <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
             </a>
@@ -272,70 +272,69 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
           />
 
           {scoringType != NONE_SCORE
-            && (
-              <>
-                <HorizontalDivider/>
+          && (
+            <>
+              <HorizontalDivider/>
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                  {tScoring('SpdWeight.Header')/* SPD weight */}
-                </HeaderText>
+              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                {tScoring('SpdWeight.Header')/* SPD weight */}
+              </HeaderText>
 
-                <Segmented
-                  options={spdWeightOptions}
-                  block
-                  value={spdValue}
-                  onChange={onShowcaseSpdValueChange}
-                />
-              </>
-            )
-          }
-
-          {scoringType == SIMULATION_SCORE
-            && (
-              <>
-                <HorizontalDivider/>
-
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                  {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
-                </HeaderText>
-
-                <InputNumber
-                  size='small'
-                  controls={false}
-                  style={{ width: '100%' }}
-                  value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
-                  addonAfter={(
-                    <SelectSpdPresets
-                      spdFilter={simScoringResult?.originalSpd}
-                      onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
-                      characterId={characterId}
-                      simScoringResult={simScoringResult}
-                    />
-                  )}
-                  min={0}
-                  onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                  onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
-                />
-              </>
-            )}
+              <Segmented
+                options={spdWeightOptions}
+                block
+                value={spdValue}
+                onChange={onShowcaseSpdValueChange}
+              />
+            </>
+          )}
 
           {scoringType == SIMULATION_SCORE
-            && (
-              <>
-                <HorizontalDivider/>
+          && (
+            <>
+              <HorizontalDivider/>
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                  {tScoring('BuffPriority.Header')/* Buff priority */}
-                </HeaderText>
+              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
+              </HeaderText>
 
-                <Segmented
-                  options={buffPriorityOptions}
-                  block
-                  value={deprioritizeBuffs}
-                  onChange={onShowcaseDeprioritizeBuffsChange}
-                />
-              </>
-            )}
+              <InputNumber
+                size='small'
+                controls={false}
+                style={{ width: '100%' }}
+                value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
+                addonAfter={(
+                  <SelectSpdPresets
+                    spdFilter={simScoringResult?.originalSpd}
+                    onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                    characterId={characterId}
+                    simScoringResult={simScoringResult}
+                  />
+                )}
+                min={0}
+                onBlur={onShowcaseSpdBenchmarkChangeEvent}
+                onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
+              />
+            </>
+          )}
+
+          {scoringType == SIMULATION_SCORE
+          && (
+            <>
+              <HorizontalDivider/>
+
+              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                {tScoring('BuffPriority.Header')/* Buff priority */}
+              </HeaderText>
+
+              <Segmented
+                options={buffPriorityOptions}
+                block
+                value={deprioritizeBuffs}
+                onChange={onShowcaseDeprioritizeBuffsChange}
+              />
+            </>
+          )}
 
         </Flex>
 
@@ -418,6 +417,9 @@ export const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSide
     )
   },
 )
+
+ShowcaseCustomizationSidebar.displayName = 'ShowcaseCustomizationSidebar'
+export default ShowcaseCustomizationSidebar
 
 function SelectSpdPresets(props: {
   characterId: string

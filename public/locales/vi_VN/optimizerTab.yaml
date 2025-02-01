@@ -1,6 +1,7 @@
 CharacterSelector:
   Character: Nhân vật
   Lightcone: Nón Ánh Sáng
+  Presets: Mẫu Cho Sẵn
   Target: Mục tiêu tối ưu hóa
   ResultsPlaceholder: Tìm kết quả tốt nhất
   TargetPlaceholder: 'Sắp xếp theo:'

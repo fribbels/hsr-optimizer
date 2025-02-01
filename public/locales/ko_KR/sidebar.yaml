@@ -1,2 +1,21 @@
+Tools:
+  Title: 툴
+  Showcase: 쇼케이스
+  WarpPlanner: 워프 계획
 Optimization:
+  Title: 최적화
+  Optimizer: 옵티마이저
   Relics: 유물
+  Characters: 캐릭터
+  Import: 가져오기 / 저장
+  Settings: 설정
+  Start: 사용해 보기
+Links:
+  Home: 메인
+  Title: 링크
+  Changelog: 변경 내역
+  Discord: Discord
+  Github: GitHub
+  Kofi: Ko-fi
+  Unleak: 유출 내용 미포함
+  Leaks: 테스트 서버 포함

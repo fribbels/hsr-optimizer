@@ -30,7 +30,7 @@ SortOptions:
   FUA: Sắp xếp theo ST Đòn đánh theo sau
   MEMO_SKILL: Sắp xếp theo sát thương của Linh hồn ký ức
   DOT: Sắp xếp theo ST theo thời gian
-  BREAK: Sắp xếp theo ST Phá vỡ
+  BREAK: Sắp xếp theo ST Kích Phá
   HEAL: Sắp xếp theo trị liệu
   SHIELD: Sắp xếp theo lượng lá chắn
   HP: "Sắp xếp theo $t(common:ReadableStats.HP)"
@@ -127,7 +127,7 @@ Grid:
         DUY TRÌ
       BREAK: |-
         ST
-        PHÁ VỠ
+        KÍCH PHÁ
       COMBO: |-
         ST
         COMBO
@@ -171,7 +171,7 @@ Grid:
         DUY TRÌ
       BREAK: |-
         ST
-        PHÁ VỠ
+        KÍCH PHÁ
       COMBO: |-
         ST
         COMBO
@@ -337,7 +337,7 @@ CombatBuffs:
   DEF: Phòng Thủ
   DEF_P: DEF %
   CR: Tỷ Lệ Bạo Kích %
-  CD: Sát Thương Bạo Kích %
+  CD: ST Bạo Kích %
   SPD: Tốc Độ
   SPD_P: SPD %
   BE: BE %

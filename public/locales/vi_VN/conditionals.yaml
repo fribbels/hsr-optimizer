@@ -126,15 +126,45 @@ Lightcones:
       targetVulnerability:
         text: Debuff điểm yếu của mục tiêu.
         content: Khi người trang bị phát động Đòn Đánh Theo Sau tấn công kẻ địch, có {{baseChance}}% xác suất cơ bản khiến sát thương phải chịu của kẻ địch bị tấn công tăng {{Vulnerability}}%, duy trì 2 hiệp.
+  InTheNameOfTheWorld:
+    Content:
+      enemyDebuffedDmgBoost:
+        content: Khiến sát thương mà người trang bị gây cho kẻ địch đang trong Hiệu Ứng Xấu tăng {{DmgBuff}}%
   InTheNight:
     Content:
       spdScalingBuffs:
         content: >-
           Khi Tốc Độ trong chiến đấu của người trang bị lớn hơn 100, mỗi khi vượt trên 10 điểm sẽ tăng {{DmgBuff}}% sát thương Tấn Công Thường và Chiến Kỹ, đồng thời tăng {{CritBuff}}% Sát Thương Bạo Kích Tuyệt Kỹ, hiệu ứng này có thể cộng dồn 6 tầng.
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Tăng sát thương chiến kỹ / tuyệt kỹ
+        content: ' Khi người trang bị thi triển Tuyệt Kỹ, sẽ khiến sát thương Chiến Kỹ và Tuyệt Kỹ do người trang bị gây ra tăng {{DmgBuff}}%'
+  IShallBeMyOwnSword:
+    Content:
+      eclipseStacks:
+        content: >-
+          Sau khi đồng đội bị tấn công hoặc tiêu hao HP, người trang bị sẽ nhận 1 tầng Nguyệt Thực, tối đa cộng dồn 3 tầng. Mỗi tầng Nguyệt Thực khiến sát thương gây ra ở lần tấn công kế tiếp của người trang bị tăng {{DmgBuff}}%duy t
+  IVentureForthToHunt:
+    Content:
+      luminfluxUltStacks:
+        content: >-
+          Khi người trang bị thi triển Đòn Đánh Theo Sau sẽ nhận 1 tầng Lưu Quang, tối đa cộng dồn 2 tầng. Mỗi tầng Lưu Quang khiến sát thương Tuyệt Kỹ mà người trang bị gây ra bỏ qua {{DefIgnore}}% phòng thủ của mục tiêu. Khi hiệp của người trang bị kết thúc sẽ xóa bỏ 1 tầng Lưu Quang.
+  LongRoadLeadsHome:
+    Content:
+      breakVulnerabilityStacks:
+        text: Sát Thương Phá Vỡ phải chịu tăng
+        content: >-
+          Khi điểm yếu của mục tiêu phe địch bị phá vỡ sẽ có 100% xác suất cơ bản khiến kẻ đó rơi vào trạng thái Lửa Đốt, Sát Thương Phá Vỡ phải chịu tăng {{breakVulnerability}}%, duy trì 2 hiệp, hiệu ứng này có thể cộng dồn 2 tầng.
   NightOfFright:
     Content:
       atkBuffStacks:
         text: Các cộng dồn buff ATK
+  NightOnTheMilkyWay:
+    Content:
+      enemyWeaknessBreakDmgBuff:
+        text: Kẻ địch bị phá vỡ điểm yếu buff
+        content: Khi có kẻ địch bị phá vỡ Điểm Yếu, sát thương mà người trang bị gây ra sẽ tăng {{DmgBuff}}%, duy trì 1 hiệp.
   OnTheFallOfAnAeon:
     Content:
       atkBoostStacks:
@@ -142,10 +172,91 @@ Lightcones:
       weaknessBreakDmgBuff:
         text: Tăng ST phá vỡ điểm yếu
         content: Sau khi người trang bị phá vỡ điểm yếu của kẻ địch, sát thương gây ra tăng {{DmgBuff}}%, duy trì hiệp.
+  PastSelfInTheMirror:
+    Content:
+      postUltDmgBuff:
+        text: Tăng sát thương sau Tuyệt kỹ
+        content: Sau khi người trang bị thi triển Tuyệt Kỹ, sẽ khiến sát thương của toàn bộ phe ta tăng {{DmgBuff}}%, duy trì 3 hiệp
+  PatienceIsAllYouNeed:
+    Content:
+      dotEffect:
+        text: Sát thương duy trì (chưa tính)
+        content: >-
+          Khi người trang bị đánh trúng kẻ địch, nếu mục tiêu này không ở trạng thái Xói Mòn sẽ có 100% xác suất cơ bản khiến kẻ đó rơi vào trạng thái Xói Mòn. Khi kẻ địch đã ở trạng thái này sẽ được xem là rơi vào Sốc Điện. Ở trạng thái Xói Mòn, kẻ địch mỗi khi bắt đầu hiệp sẽ chịu Sát Thương Lôi Duy Trì bằng {{Multiplier}}% Tấn Công của người trang bị, duy trì 1 hiệp.
+  ReforgedRemembrance:
+    Content:
+      prophetStacks:
+        content: >-
+          Khi người trang bị gây sát thương cho kẻ địch đang trong trạng thái Bào Mòn, Thiêu Đốt, Sốc Điện, Chảy Máu, sẽ lần lượt nhận 1 tầng Tiên Tri, tối đa cộng dồn 4 tầng. Trong 1 trận đấu, mỗi loại trạng thái Sát Thương Duy Trì chỉ có thể cộng dồn hiệu ứng Tiên Tri 1 lần. Mỗi tầng Tiên Tri tăng {{AtkBuff}}% Tấn Công của người trang bị, Sát Thương Duy Trì gây ra bỏ qua {{DefIgnore}}% Phòng Thủ của mục tiêu.
+  SailingTowardsASecondLife:
+    Content:
+      breakDmgDefShred:
+        text: Sát thương kích phá giảm phòng ngự
+        content: Sát Thương Phá Vỡ gây ra sẽ bỏ qua {{DefIgnore}}% Phòng Thủ của mục tiêu
+  ScentAloneStaysTrue:
+    Content:
+      woefreeState:
+        content: >-
+          Sau khi người trang bị thi triển Tuyệt Kỹ tấn công kẻ địch, sẽ khiến kẻ đó rơi vào trạng thái Vong Ưu, duy trì 2 hiệp. Sát thương phải chịu của kẻ địch trong trạng thái Vong Ưu tăng {{Vulnerability}}%, nếu Tấn Công Kích Phá hiện tại của người trang bị lớn hơn hoặc bằng 150%, hiệu ứng tăng sát thương phải chịu sẽ tăng thêm {{AdditionalVulnerability}}%.
+    TeammateContent:
+      additionalVulnerability:
+        text: Tăng sát thương phải chịu
+        content: >-
+          Sau khi người trang bị thi triển Tuyệt Kỹ tấn công kẻ địch, sẽ khiến kẻ đó rơi vào trạng thái Vong Ưu, duy trì 2 hiệp. Sát thương phải chịu của kẻ địch trong trạng thái Vong Ưu tăng {{Vulnerability}}%, nếu Tấn Công Kích Phá hiện tại của người trang bị lớn hơn hoặc bằng 150%, hiệu ứng tăng sát thương phải chịu sẽ tăng thêm {{AdditionalVulnerability}}%.
+  SheAlreadyShutHerEyes:
+    Content:
+      hpLostDmgBuff:
+        text: Mất máu tăng sát thương
+        content: Khi HP của người trang bị xuống thấp, khiến toàn thể phe ta tăng {{DmgBuff}}% sát thương gây ra, duy trì 2 hiệp.
   SleepLikeTheDead:
     Content:
       missedCritCrBuff:
         content: Khi sát thương Tấn Công Thường hoặc Chiến Kỹ của người trang bị chưa tạo thành Bạo Kích, sẽ khiến Tỷ Lệ Bạo Kích của bản thân tăng {{CritBuff}}%, duy trì 1 hiệp. Hiệu ứng này mỗi 3 hiệp có thể kích hoạt một lần.
+  SolitaryHealing:
+    Content:
+      postUltDotDmgBuff:
+        content: Khi người trang bị thi triển Tuyệt Kỹ, sẽ khiến Sát Thương Duy Trì của người trang bị gây ra tăng {{DmgBuff}}%, duy trì trong 2 hiệp.
+  SomethingIrreplaceable:
+    Content:
+      dmgBuff:
+        content: >-
+          Sau khi người trang bị tiêu diệt kẻ địch hoặc bị tấn công sẽ hồi ngay HP bằng {{Multiplier}}% Tấn Công của người trang bị, đồng thời sát thương gây ra tăng {{DmgBuff}}%, duy trì đến hết hiệp sau của bản thân. Hiệu ứng này không thể cộng dồn, mỗi hiệp chỉ kích hoạt 1 lần.
+  TextureOfMemories:
+    Content:
+      activeShieldDmgDecrease:
+        text: Khiên đang có nhận sát thương
+        content: >-
+          Sau khi người trang bị bị tấn công, nếu bản thân chưa có khiên, sẽ nhận 1 khiên bằng {{ShieldHp}}% Giới Hạn HP của người trang bị, duy trì 2 hiệp. Hiệu ứng này mỗi 3 hiệp chỉ có thể kích hoạt 1 lần. Nếu người trang bị đã có khiên, sẽ khiến sát thương phải chịu của bản thân giảm {{DmgReduction}}%.
+  TheUnreachableSide:
+    Content:
+      dmgBuff:
+        content: Sau khi người trang bị chịu tấn công hoặc tiêu hao HP của bản thân, sát thương gây ra sẽ tăng {{DmgBuff}}%, hiệu ứng này sẽ giải trừ sau khi người trang bị thực hiện tấn công.
+  ThoseManySprings:
+    Content:
+      unarmoredVulnerability:
+        content: >-
+          Sau khi người trang bị thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ tấn công kẻ địch, sẽ có 60% xác suất cơ bản khiến kẻ đó rơi vào trạng thái Tháo Giáp. Trong trạng thái Tháo Giáp, sát thương kẻ địch phải chịu tăng {{UnarmoredVulnerability}}%, duy trì 2 hiệp. Nếu mục tiêu ở trạng thái Sát Thương Duy Trì do người trang bị thi triển, thì có 60% xác suất cơ bản khiến trạng thái Tháo Giáp mà người trang bị thi triển tăng cấp thành trạng thái Đường Cùng, khiến sát thương kẻ địch phải chịu tăng thêm {{CorneredVulnerability}}%, duy trì 2 hiệp
+      corneredVulnerability:
+        content: >-
+          Sau khi người trang bị thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ tấn công kẻ địch, sẽ có 60% xác suất cơ bản khiến kẻ đó rơi vào trạng thái Tháo Giáp. Trong trạng thái Tháo Giáp, sát thương kẻ địch phải chịu tăng {{UnarmoredVulnerability}}%, duy trì 2 hiệp. Nếu mục tiêu ở trạng thái Sát Thương Duy Trì do người trang bị thi triển, thì có 60% xác suất cơ bản khiến trạng thái Tháo Giáp mà người trang bị thi triển tăng cấp thành trạng thái Đường Cùng, khiến sát thương kẻ địch phải chịu tăng thêm {{CorneredVulnerability}}%, duy trì 2 hiệp
+  TimeWaitsForNoOne:
+    Content:
+      healingBasedDmgProc:
+        content: >-
+          Khi người trang bị cung cấp trị liệu cho mục tiêu phe ta, sẽ ghi lại lượng trị liệu. Sau khi mục tiêu bất kỳ của phe ta tấn công, sẽ căn cứ {{Multiplier}}% lượng trị liệu được ghi, gây sát thương kèm theo cho 1 kẻ địch bị tấn công ngẫu nhiên dựa trên thuộc tính người trang bị. Sát thương này không chịu ảnh hưởng bởi các buff khác, mỗi hiệp tối đa tổng kết 1 lần.
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        content: >-
+          Sau khi người trang bị và linh hồn ký ức tấn công, người trang bị nhận 1 stack "Brocade."::BR:: Mỗi stack "Brocade" tăng CRIT DMG của người trang bị và linh hồn ký ức {{CdBuff}}%, tối đa 6 tầng.::BR:: Khi đạt đến tầng tối đa, mỗi "Brocade" sẽ tăng thêm sát thương bởi đòn đánh cơ bản {{DmgBuff}}%.
+      maxStacksBasicDmgBoost:
+        content: >-
+          Sau khi người trang bị và linh hồn ký ức tấn công, người trang bị nhận 1 stack "Brocade."::BR:: Mỗi stack "Brocade" tăng CRIT DMG của người trang bị và linh hồn ký ức {{CdBuff}}%, tối đa 6 tầng.::BR:: Khi đạt đến tầng tối đa, mỗi "Brocade" sẽ tăng thêm sát thương bởi đòn đánh cơ bản {{DmgBuff}}%.
+  WhereaboutsShouldDreamsRest:
+    Content:
+      routedVulnerability:
+        content: >-
+          Khi người trang bị gây Sát Thương Phá Vỡ cho kẻ địch, sẽ khiến kẻ địch rơi vào trạng thái Thảm Bại, duy trì 2 hiệp. Ở trạng thái Thảm Bại, Sát Thương Phá Vỡ mục tiêu phải chịu do người trang bị gây ra tăng {{Vulnerability}}%, Tốc Độ giảm 20%. Hiệu ứng cùng loại không thể cộng dồn.
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -155,6 +266,12 @@ Lightcones:
     Content:
       fuaDmgBoost:
         content: Khi Sát Thương Bạo Kích của người trang bị trong trận lớn hơn 120%, mỗi 20% vượt quá thì Sát Thương Đòn Đánh Theo Sau gây ra tăng {{DmgBuff}}%, hiệu ứng này có thể cộng dồn 4 tầng
+      ultFuaDefShred:
+        content: Khi bắt đầu chiến đấu hoặc sau khi người trang bị dùng Tấn Công Thường sẽ khiến Tuyệt Kỹ hoặc sát thương Đòn Đánh Theo Sau gây ra bỏ qua {{DefShred}}% Phòng Thủ của mục tiêu, duy trì 2 hiệp.
+  ASecretVow:
+    Content:
+      enemyHpHigherDmgBoost:
+        text: Máu% địch cao hơn tăng sát thương
   PastAndFuture:
     Content:
       postSkillDmgBuff:
@@ -168,6 +285,50 @@ Lightcones:
       maxEnergyStacks:
         text: Năng lượng tối đa
 Characters:
+  Acheron:
+    Content:
+      crimsonKnotStacks:
+        text: Tầng Nút Thắt Đỏ
+        content: >-
+          Lưỡi Chém Mưa: Gây cho 1 kẻ địch chỉ định Sát Thương Lôi bằng {{RainbladeScaling}}% Tấn Công của Acheron đồng thời xóa tối đa 3 tầng Nút Thắt Đỏ của mục tiêu. Khi xóa Nút Thắt Đỏ sẽ lập tức gây cho toàn bộ phe địch Sát Thương Lôi bằng {{CrimsonKnotScaling}}% Tấn Công của Acheron, mỗi 1 tầng Nút Thắt Đỏ bị xóa sẽ tăng thêm Bội Số Sát Thương lần này.::BR:: Khi "Lưỡi Chém Mưa" của Tuyệt Kỹ đánh trúng mục tiêu phe địch có "Nút Thắt Đỏ", sẽ khiến sát thương Acheron gây ra tăng 30%, hiệu ứng này tối đa cộng dồn 3 tầng
+      nihilityTeammates:
+        text: Đồng đội hư vô
+        content: >-
+          Khi trong đội phe ta có 1 hoặc 2 nhân vật Vận Mệnh "Hư Vô" ngoài trừ Acheron, sẽ tăng sát thương gây ra bở Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ của Acheron bằng 115% hoặc 160% sát thương ban đầu. ::BR::E2::Giảm 1 nhân vật Vận Mệnh "Hư Vô" cần thiết để Vết Tích "Vực sâu" đạt được hiệu quả cao nhất. Khi hiệp của bản thân bắt đầu sẽ nhận 1 điểm Mộng Tàn, đồng thời kèm theo 1 tầng "Nút Thắt Đỏ" cho kẻ địch có nhiều "Nút Thắt Đỏ" nhất.
+      thunderCoreStacks:
+        text: Stack Trái Tim Sấm
+        content: Khi "Lưỡi Chém Mưa" của Tuyệt Kỹ đánh trúng mục tiêu phe địch có "Nút Thắt Đỏ", sẽ khiến sát thương Acheron gây ra tăng 30%, hiệu ứng này tối đa cộng dồn 3 tầng, duy trì 3 hiệp.
+      stygianResurgeHitsOnTarget:
+        text: Hoàng Tuyền Vượt Kiếp
+        content: >-
+          Khi phát động Hoàng Tuyền Vượt Kiếp sẽ gây thêm 6 lần sát thương, mỗi lần sát thương gây cho kẻ địch ngẫu nhiên Sát Thương Lôi bằng 25% Tấn Công của Acheron, sát thương này được xem là sát thương Tuyệt Kỹ.
+      e1EnemyDebuffed:
+        text: E1 tăng TLBK
+        content: Khi gây sát thương cho kẻ địch có Hiệu Ứng Xấu, Tỷ Lệ Bạo Kích tăng 18%.
+      e4UltVulnerability:
+        text: E4 Trọng Thương Tuyệt Kỹ
+        content: Khi kẻ địch vào chiến đấu, sẽ khiến kẻ đó rơi vào trạng thái Trọng Thương Tuyệt Kỹ, sát thương Tuyệt Kỹ phải chịu tăng 8%.
+      e6UltBuffs:
+        text: E6 Ult buffs
+        content: >-
+          Tăng 20% Xuyên Kháng Toàn Thuộc Tính mà sát thương Tuyệt Kỹ của Acheron gây ra, sát thương của tấn công thường và Chiến Kỹ gây ra cũng được xem là sát thương Tuyệt Kỹ, đồng thời bỏ qua thuộc tính Điểm Yếu và làm giảm Sức Bền của địch. Khi phá vỡ Điểm Yếu sẽ kích hoạt hiệu ứng Phá Vỡ Điểm Yếu Lôi.
+  Clara:
+    Content:
+      ultBuff:
+        content: "Sát thương Clara phải chịu giảm thêm {{ultDmgReductionValue}}% duy trì 2 hiệp.\nPhản Kích của Svarog được cường hóa Bội Số Sát Thương gây ra cho mục tiêu địch tăng {{ultFuaExtraScaling}}%."
+      talentEnemyMarked:
+        content: Gây thêm cho tất cả địch bị Svarog đánh dấu "Ký Hiệu Phản Kích" một lượng Sát Thương Vật Lý bằng {{skillScaling}}% Tấn Công của Clara.
+      e4DmgReductionBuff:
+        content: Sát thương Clara phải chịu giảm 30%
+  Firefly:
+    Content:
+      superBreakDmg:
+        text: Siêu Sát Thương Phá Vỡ (Trường hợp địch đang bị vỡ)
+        content: >-
+          Ở trạng thái Thiêu Đốt Hoàn Toàn, khi Tấn Công Kích Phá của Chiến Giáp SAM lớn hơn hoặc bằng 200%/360%, tấn công kẻ địch trong trạng thái Phá Vỡ Điểm Yếu, sẽ khiến Giảm Sức Bền của lần tấn công này chuyển hóa thành 1 lần 35%/50% Siêu Sát Thương Phá Vỡ.
+      talentDmgReductionBuff:
+        content: >-
+          HP càng thấp, sát thương phải chịu càng thấp, khi HP từ 20% trở xuống, hiệu ứng Giảm Sát Thương sẽ đạt mức tối đa, tối đa giảm {{talentDmgReductionBuff}}%. Hiệu ứng Giảm Sát Thương trong trạng thái Thiêu Đốt Hoàn Toàn duy trì mức tối đa, Kháng Hiệu Ứng tăng {{talentResBuff}}%.
   FuXuan:
     Content:
       talentActive:
@@ -185,6 +346,34 @@ Characters:
       teammateHPValue:
         text: Máu Trong Combat của Fu Xuan
         content: While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP,
+  Rappa:
+    Content:
+      sealformActive:
+        text: Trạng Thái Kết Ấn (Buộc Phá Vỡ điểm yếu)
+        content: >-
+          Vào trạng thái Kết Ấn, nhận ngay 1 hiệp tăng thêm và nhận 3 điểm Sắc Mực, đồng thời Hiệu Suất Phá Vỡ Điểm Yếu tăng 50%, Tấn Công Kích Phá tăng {{ultBeBuff}}%.
+      atkToBreakVulnerability:
+        text: Tấn Công sang ST Kích Phá
+        content: Khi điểm yếu của mục tiêu phe địch bị phá vỡ, Sát Thương Phá Vỡ phải chịu tăng 2%, nếu Tấn Công hiện tại của Rappa trên 2400 điểm, cứ vượt quá 100 điểm tấn công có thể khiến trị số này tăng thêm 1%, tối đa tăng thêm 8%.
+      chargeStacks:
+        text: Điểm Nạp Năng Lượng
+        content: Mỗi điểm Nạp Năng Lượng sẽ khiến Bội Số Sát Thương Phá Vỡ lần này tăng 25%—55%, đồng thời tăng 1 điểm Giảm Sức Bền bỏ qua thuộc tính điểm yếu.
+      e1DefPen:
+        text: E1 Xuyên Phòng Thủ
+        content: "Trong thời gian thi triển Tuyệt Kỹ để vào trạng thái Kết Ấn, sát thương Rappa gây ra bỏ qua 15% Phòng Thủ của mục tiêu.\n"
+      e2Buffs:
+        text: E2 Tăng ST Phá Vỡ
+        content: 2 đòn tấn công đầu tiên của Tấn Công Thường Cường Hóa sẽ tăng 50% Giảm Sức Bền của 1 kẻ địch chỉ định.
+      e4SpdBuff:
+        text: E4 Tăng SPD
+        content: Trong thời gian Kết Ấn, Tốc Độ của toàn bộ phe ta tăng 12%.
+    TeammateContent:
+      teammateBreakVulnerability:
+        text: ST Phá Vỡ Phải Chịu Tăng
+        content: Khi điểm yếu của mục tiêu phe địch bị phá vỡ, Sát Thương Phá Vỡ phải chịu tăng 2%, nếu Tấn Công hiện tại của Rappa trên 2400 điểm, cứ vượt quá 100 điểm tấn công có thể khiến trị số này tăng thêm 1%, tối đa tăng thêm 8%.
+      e4SpdBuff:
+        text: E4 Tăng SPD
+        content: Trong thời gian Kết Ấn, Tốc Độ của toàn bộ phe ta tăng 12%.
   Robin:
     Content:
       concertoActive:
@@ -250,6 +439,35 @@ Characters:
         text: E6 TLBK Đổi Sang STBK
         content: >-
           Khi hiệu ứng Tăng Tỷ Lệ Bạo Kích của Thiên Phú có hiệu lực, nếu Tỷ Lệ Bạo Kích của mục tiêu trên 100% thì cứ mỗi 1% Tỷ Lệ Bạo Kích vượt mức sẽ tăng 2% sát thương Bạo Kích.
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: Cường Hóa Chiến Kỹ
+        content: Sau khi thi triển Tuyệt Kỹ, khiến Đại Herta lập tức hành động, và nhận 1 tầng Cảm Hứng. Cảm Hứng tối đa có 4 tầng, khi có Cảm Hứng, cường hóa Chiến Kỹ thành "Tôi Có Một Suy Nghĩ Táo Bạo".
+      eruditionTeammate:
+        text: Đồng Đội Tri Thức
+        content: >-
+          Khi mục tiêu chính của Chiến Kỹ Cường Hóa có Diễn Giải, Bội Số Sát Thương gây ra sẽ tăng, mỗi tầng tăng {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% cho mục tiêu chính/mục tiêu khác.::BR:: Nếu nhân vật vận mệnh Tri Thức trong đội từ 2 người trở lên, mỗi tầng tăng thêm {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% cho mục tiêu chính/mục tiêu khác.::BR::A4:: Khi vào chiến đấu, nếu trong đội có từ 2 nhân vật vận mệnh Tri Thức trở lên, sẽ khiến sát thương bạo kích của toàn phe ta tăng 80%
+      ultAtkBuff:
+        text: Tuyệt Kỹ tăng ATK
+        content: >-
+          Khi thi triển Tuyệt Kỹ, khiến Tấn Công của Đại Herta tăng {{AtkBuff}}%, duy trì 3 hiệp
+      interpretationStacks:
+        text: Số Stack Diễn Giải
+        content: >-
+          Khi mục tiêu chính của Chiến Kỹ Cường Hóa có Diễn Giải, Bội Số Sát Thương gây ra sẽ tăng, mỗi tầng tăng {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% cho mục tiêu chính/mục tiêu khác.::BR:: Nếu nhân vật vận mệnh Tri Thức trong đội từ 2 người trở lên, mỗi tầng tăng thêm {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% cho mục tiêu chính/mục tiêu khác.::BR::E1:: Khi Chiến Kỹ Cường Hóa tính số tầng Diễn Giải, sẽ tính thêm 50% số tầng Diễn Giải hiện tại của 1 mục tiêu có số tầng cao nhất trong số mục tiêu chính và mục tiêu lân cận.
+      totalInterpretationStacks:
+        text: Stack Đáp Án
+        content: Mỗi khi mục tiêu phe địch bị thi triển 1 tầng Diễn Giải, Đại Herta sẽ nhận 1 tầng Đáp Án, tối đa cộng dồn 99 tầng. Khi thi triển Tuyệt Kỹ, cứ mỗi 1 tầng Đáp Án đang có sẽ khiến Bội Số Sát Thương của lần Tuyệt Kỹ này tăng 1%.
+      e1BonusStacks:
+        text: E1 Tăng Thêm Stacks
+        content: Khi Chiến Kỹ Cường Hóa tính số tầng Diễn Giải, sẽ tính thêm 50% số tầng Diễn Giải hiện tại của 1 mục tiêu có số tầng cao nhất trong số mục tiêu chính và mục tiêu lân cận.
+      e4EruditionSpdBuff:
+        text: E4 Tri Thức tăng Tốc Độ
+        content: Tốc độ của nhân vật vận mệnh Tri Thức trong đội tăng 12%.
+      e6Buffs:
+        text: E6 buffs
+        content: Xuyên Kháng Băng của Đại Herta tăng 20%, khi số lượng mục tiêu phe địch trong trận từ 3 trở lên/2/1, thì Bội Số Sát Thương của Tuyệt Kỹ sẽ tăng 140%/250%/400%.
   Yunli:
     Content:
       blockActive:

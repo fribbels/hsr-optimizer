@@ -165,6 +165,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+
           return r.ultBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
@@ -174,6 +175,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+
           return gpuDynamicStatConversion(Stats.CD, Stats.CD, this, action, context,
             `${ultCdBoostValue} * convertibleValue`,
             `${wgslTrue(r.ultBuff)}`,

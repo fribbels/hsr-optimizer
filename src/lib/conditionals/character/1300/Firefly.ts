@@ -174,6 +174,7 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
         chainsTo: [Stats.BE],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+
           return r.atkToBeConversion && x.a[Key.ATK] > 1800
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {

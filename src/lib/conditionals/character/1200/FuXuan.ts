@@ -137,6 +137,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+
           return r.skillActive
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {

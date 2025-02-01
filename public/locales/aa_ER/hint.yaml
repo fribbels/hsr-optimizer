@@ -1,0 +1,116 @@
+RatingFilter:
+  Title: crwdns41786:0crwdne41786:0
+  p1: >-
+    crwdns41788:0crwdne41788:0
+  p2: >-
+    crwdns41790:0crwdne41790:0
+  p3: >-
+    crwdns41792:0crwdne41792:0
+CombatBuffs:
+  Title: crwdns41794:0crwdne41794:0
+  p1: crwdns41796:0crwdne41796:0
+StatFilters:
+  Title: crwdns41798:0crwdne41798:0
+  p1: crwdns41800:0crwdne41800:0
+  p2: crwdns41802:0crwdne41802:0
+  p3: "crwdns41804:0crwdne41804:0"
+Mainstats:
+  Title: crwdns41806:0crwdne41806:0
+  p1: crwdns41808:0crwdne41808:0
+Sets:
+  Title: crwdns41810:0crwdne41810:0
+  p1: crwdns41812:0crwdne41812:0
+  p2: crwdns41814:0crwdne41814:0
+Character:
+  Title: crwdns41816:0crwdne41816:0
+  p1: crwdns41818:0crwdne41818:0
+CharacterPassives:
+  Title: crwdns41820:0crwdne41820:0
+  p1: crwdns41822:0crwdne41822:0
+  p2: crwdns41824:0crwdne41824:0
+LightconePassives:
+  Title: crwdns41826:0crwdne41826:0
+  p1: crwdns41828:0crwdne41828:0
+  p2: crwdns41830:0crwdne41830:0
+Lightcone:
+  Title: crwdns41832:0crwdne41832:0
+  p1: crwdns41834:0crwdne41834:0
+  p2: crwdns41836:0crwdne41836:0
+Actions:
+  Title: crwdns41838:0crwdne41838:0
+  p1: crwdns41840:0crwdne41840:0
+  p2: crwdns41842:0crwdne41842:0
+  p3: crwdns41844:0crwdne41844:0
+  p4: crwdns41846:0crwdne41846:0
+OptimizerOptions:
+  Title: crwdns41848:0crwdne41848:0
+  p1: >-
+    crwdns41850:0crwdne41850:0
+  p2: >-
+    crwdns41852:0crwdne41852:0
+  p3: crwdns41854:0crwdne41854:0
+  p4: crwdns41856:0crwdne41856:0
+  p5: "crwdns41858:0crwdne41858:0"
+  p6: crwdns41860:0crwdne41860:0
+  p7: crwdns41862:0crwdne41862:0
+Relics:
+  Title: crwdns41864:0crwdne41864:0
+  p1: >-
+    crwdns41866:0crwdne41866:0
+  p2: "crwdns41868:0crwdne41868:0"
+  p3: "crwdns41870:0crwdne41870:0"
+  p4: "crwdns41872:0crwdne41872:0"
+  p5: "crwdns41874:0crwdne41874:0"
+OptimizationDetails:
+  Title: crwdns41876:0crwdne41876:0
+  p1: crwdns41878:0crwdne41878:0
+  p2: crwdns41880:0crwdne41880:0
+  p3: crwdns41882:0crwdne41882:0
+  p4: crwdns41884:0crwdne41884:0
+EnemyOptions:
+  Title: crwdns41886:0crwdne41886:0
+  p1: crwdns41888:0crwdne41888:0
+  p2: crwdns41890:0crwdne41890:0
+  p3: crwdns41892:0crwdne41892:0
+  p4: crwdns41894:0crwdne41894:0
+  p5: crwdns41896:0crwdne41896:0
+  p6: crwdns41898:0crwdne41898:0
+  p7: crwdns41900:0crwdne41900:0
+SubstatWeightFilter:
+  Title: crwdns41902:0crwdne41902:0
+  p1: crwdns41904:0crwdne41904:0
+  p2: crwdns41906:0crwdne41906:0
+  p3: crwdns41908:0crwdne41908:0
+  p4: >-
+    crwdns41910:0crwdne41910:0
+StatDisplay:
+  Title: crwdns41912:0crwdne41912:0
+  p1: crwdns41914:0crwdne41914:0
+  p2: crwdns41916:0crwdne41916:0
+  p3: "crwdns41918:0crwdne41918:0"
+ValueColumns:
+  Title: crwdns41920:0crwdne41920:0
+  p1: crwdns41922:0crwdne41922:0
+  p2: crwdns41924:0crwdne41924:0
+  p3: crwdns41926:0crwdne41926:0
+  p4: crwdns41928:0crwdne41928:0
+  p5: crwdns41930:0crwdne41930:0
+  p6: "crwdns41932:0crwdne41932:0"
+RelicInsights:
+  Title: crwdns41934:0crwdne41934:0
+  p1: crwdns41936:0crwdne41936:0
+  p2: >-
+    crwdns41938:0crwdne41938:0
+  p3: "crwdns41940:0crwdne41940:0"
+RelicLocation:
+  Title: crwdns41942:0crwdne41942:0
+  p1: crwdns41944:0crwdne41944:0
+  p2: crwdns41946:0crwdne41946:0
+  p3: crwdns41948:0crwdne41948:0
+  p4: crwdns41950:0crwdne41950:0
+  p5: crwdns41952:0crwdne41952:0
+  p6: crwdns41954:0crwdne41954:0
+LocatorParams:
+  Title: crwdns41956:0crwdne41956:0
+  p1: crwdns41958:0crwdne41958:0
+  p2: crwdns41960:0crwdne41960:0

@@ -312,14 +312,43 @@ Characters:
         text: E6 Ult buffs
         content: >-
           Tăng 20% Xuyên Kháng Toàn Thuộc Tính mà sát thương Tuyệt Kỹ của Acheron gây ra, sát thương của tấn công thường và Chiến Kỹ gây ra cũng được xem là sát thương Tuyệt Kỹ, đồng thời bỏ qua thuộc tính Điểm Yếu và làm giảm Sức Bền của địch. Khi phá vỡ Điểm Yếu sẽ kích hoạt hiệu ứng Phá Vỡ Điểm Yếu Lôi.
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: Tuyệt Kỹ Nâng Cấp
+        content: >-
+          Tiêu hao 180 điểm Năng Lượng, gây Sát Thương Vật Lý lên toàn bộ địch tương đương {{ultEnhancedScaling}}% Tấn Công của Argenti, đồng thời gây thêm 6 lần sát thương, mỗi lần sát thương gây ra Sát Thương Vật Lý lên 1 kẻ địch ngẫu nhiên tương đương {{ultEnhancedExtraHitScaling}}% Tấn Công của Argenti.
+      enemyHp50:
+        text: HP địch ≤ 50% Sát Thương tăng
+        content: Tăng 15% sát thương gây ra cho kẻ địch có Phần Trăm HP hiện tại nhỏ hơn hoặc bằng 50%.
+      talentStacks:
+        text: Tầng Nâng Cấp
+        content: "Argenti tăng {{talentCrStackValue}}%Tỷ Lệ Bạo Kích, hiệu ứng này tối đa cộng dồn {{talentCrStackValue}} tầng.\n"
+      ultEnhancedExtraHits:
+        text: Tuyệt Kỹ Nâng Cấp hit kẻ địch nhiều
+        content: Tuyệt Kỹ gây Sát Thương Vật Lý lên kẻ địch ngẫu nhiên tương đương {{ultEnhancedExtraHitScaling}}% Tấn Công của Argenti.
+      e2UltAtkBuff:
+        text: E2 Tăng Tấn Công
+        content: Khi thi triển Tuyệt Kỹ, nếu số lượng kẻ địch từ 3 trở lên, Tấn Công tăng 40%, duy trì 1 hiệp.
   Clara:
     Content:
       ultBuff:
         content: "Sát thương Clara phải chịu giảm thêm {{ultDmgReductionValue}}% duy trì 2 hiệp.\nPhản Kích của Svarog được cường hóa Bội Số Sát Thương gây ra cho mục tiêu địch tăng {{ultFuaExtraScaling}}%."
       talentEnemyMarked:
         content: Gây thêm cho tất cả địch bị Svarog đánh dấu "Ký Hiệu Phản Kích" một lượng Sát Thương Vật Lý bằng {{skillScaling}}% Tấn Công của Clara.
+      e2UltAtkBuff:
+        text: E2 Tăng Tấn Công
       e4DmgReductionBuff:
         content: Sát thương Clara phải chịu giảm 30%
+  DrRatio:
+    Content:
+      summationStacks:
+        text: Stack Quy Nạp
+        content: Khi thi triển Chiến Kỹ, mỗi khi mục tiêu có 1 Hiệu Ứng Xấu, sẽ tăng 2.5% Tỷ Lệ Bạo Kích, tăng 5% Sát Thương Bạo Kích của Dr. Ratio, hiệu ứng này tối đa cộng dồn {{summationStacksMax}} tầng.
+      enemyDebuffStacks:
+        text: Số Hiệu Ứng Xấu Địch Có
+        content: >-
+          Khi thi triển Chiến Kỹ, có 40% xác suất cố định phát động 1 lần Đòn Đánh Theo Sau lên mục tiêu này, gây Sát Thương Số Ảo bằng {{FuaScaling}}% Tấn Công của Dr. Ratio. Mỗi khi mục tiêu có 1 Hiệu Ứng Xấu sẽ tăng 20% xác suất cố định phát động Đòn Đánh Theo Sau. Nếu mục tiêu bị tiêu diệt trước khi phát động Đòn Đánh Theo Sau thì sẽ phát động Đòn Đánh Theo Sau lên 1 kẻ địch ngẫu nhiên.::BR::Khi gây sát thương, nếu mục tiêu có từ 3 Hiệu Ứng Xấu trở lên, thì mỗi một Hiệu Ứng Xấu của mục tiêu sẽ tăng 10% sát thương Dr. Ratio gây ra cho mục tiêu đó, tối đa tăng 50%.::BR::E2: Khi Đòn Đánh Theo Sau của Thiên Phú đánh trúng mục tiêu, mỗi lần mục tiêu có 1 Hiệu Ứng Xấu, sẽ gây thêm Sát Thương Số Ảo kèm theo bằng 20% Tấn Công của Dr. Ratio. Hiệu ứng này trong mỗi Đòn Đánh Theo Sau tối đa kích hoạt 4 lần.
   Firefly:
     Content:
       superBreakDmg:
@@ -346,6 +375,52 @@ Characters:
       teammateHPValue:
         text: Máu Trong Combat của Fu Xuan
         content: While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP,
+  Himeko:
+    Content:
+      e2EnemyHp50DmgBoost:
+        content: Tăng 15% sát thương gây ra cho kẻ địch có Phần Trăm HP hiện tại nhỏ hơn hoặc bằng 50%.
+  JingYuan:
+    Content:
+      skillCritBuff:
+        text: Chiến kỹ tăng TLBK
+        content: Sau khi thi triển Chiến Kỹ, Tỷ Lệ Bạo Kích tăng 10%, duy trì 2 hiệp.
+      talentHitsPerAction:
+        text: Đòn Đánh Thần Quân
+        content: Thần Quân tối đa tích lũy 10 đòn đánh
+      talentAttacks:
+        text: Thần Quân gây ST lên địch
+        content: Số lần Thần Quân gây ST. Nên đặt bằng với số tích lũy đòn đánh của Thần Quân.
+      e2DmgBuff:
+        text: E2 Tăng ST
+        content: Sau khi Thần Quân hành động, sát thương do tấn công thường, Chiến Kỹ, Tuyệt Kỹ của Jing Yuan gây ra tăng 20%, duy trì 2 hiệp.
+      e6FuaVulnerabilityStacks:
+        text: E6 Trạng Thái Trọng Thương
+        content: "Thần Quân sau mỗi đòn đánh sẽ khiến mục tiêu địch chỉ định rơi vào trạng thái Trọng Thương.\nMục tiêu địch ở trạng thái Trọng Thương sẽ tăng 12% sát thương phải chịu, duy trì đến khi Thần Quân kết thúc lần tấn công này, hiệu ứng này tối đa cộng dồn 3 tầng."
+  Lingsha:
+    Content:
+      beConversion:
+        text: TKKP sang ATK / TLTL
+        content: Tăng Tấn Công/Lượng Trị Liệu của bản thân, mức tăng bằng 25%/10% Tấn Công Kích Phá, tối đa khiến Tấn Công/Lượng Trị Liệu tăng 50%/20%.
+      befogState:
+        text: Trạng thái Say Men
+        content: Trong trạng thái Say Men, Sát Thương Phá Vỡ mục tiêu phải chịu tăng {{BefogVulnerability}}% 
+      e1DefShred:
+        text: E1 Kích phá điểm yếu hiệu ứng xấu
+        content: Hiệu suất Phá Vỡ Điểm Yếu của Lingsha tăng 50%. Khi Điểm Yếu của kẻ địch bị phá vỡ, Phòng Thủ của kẻ địch đó sẽ giảm 20%.
+      e2BeBuff:
+        text: E2 Tăng Kích Phá
+        content: Khi thi triển Tuyệt Kỹ, khiến Tấn Công Kích Phá của toàn thể phe ta tăng 40%.
+      e6ResShred:
+        text: E6 Giảm Kháng
+        content: Khi Fuyuan trong trận, Kháng Toàn Thuộc Tính của toàn thể phe địch giảm 20%.
+  Luocha:
+    Content:
+      fieldActive:
+        text: Kết Giới Bật
+        content: Khi kết giới có hiệu lực, tấn công của toàn bộ phe ta tăng 20%.
+      e6ResReduction:
+        text: E6 Giảm Kháng
+        content: Khi thi triển Tuyệt Kỹ, khiến Kháng Toàn Thuộc Tính của toàn bộ địch giảm 20%, duy trì 2 hiệp.
   Rappa:
     Content:
       sealformActive:
@@ -407,6 +482,54 @@ Characters:
       e2UltSpdBuff:
         text: E2 Tăng Tốc Độ
         content: Khi ở trạng thái Hợp Tấu, Tốc Độ của toàn phe ta tăng 16%
+  RuanMei:
+    Content:
+      skillOvertoneBuff:
+        text: Bồi Âm
+        content: >-
+          Sau khi thi triển Chiến Kỹ, Ruan Mei nhận được Bồi Âm, duy trì 3 hiệp, mỗi khi bắt đầu hiệp của Ruan Mei, số hiệp duy trì sẽ giảm 1. Khi Ruan Mei có Bồi Âm, toàn thể phe ta tăng {{skillScaling}}% sát thương, tăng 50% Hiệu Suất Phá Vỡ Điểm Yếu.
+      teamBEBuff:
+        text: Tăng Kích Phá Đội
+        content: Tấn Công Kích Phá của toàn bộ phe ta tăng 20%.
+      ultFieldActive:
+        text: Kết Giới Tuyệt Kỹ
+        content: >-
+          Khi ở trong kết giới, toàn thể phe ta tăng {{fieldResPenValue}}% Xuyên Kháng Toàn Thuộc Tính.::BR::E1: Trong thời gian Tuyệt Kỹ mở kết giới, khi toàn bộ phe ta gây sát thương sẽ bỏ qua 20% phòng thủ của mục tiêu.
+
+      e2AtkBoost:
+        text: E2 Điểm Yếu tăng Tấn Công
+        content: Khi Ruan Mei trong trận, và toàn bộ phe ta gây sát thương lên kẻ địch ở trạng thái Phá Vỡ Điểm Yếu, Tấn Công sẽ tăng 40%.
+      e4BeBuff:
+        text: E4 Tăng TC Kích Phá
+        content: Khi Điểm Yếu của kẻ địch bị phá vỡ, Tấn Công Kích Phá của Ruan Mei tăng 100%, duy trì 3 hiệp.
+    TeammateContent:
+      teamSpdBuff:
+        text: Tốc độ đội tăng
+        content: Tăng {{talentSpdScaling}}% tốc độ cho cả đội (ngoại trừ bản thân).
+      teamDmgBuff:
+        text: TK Kích Phá sang ST tăng
+        content: Khi Tấn Công Kích Phá của Ruan Mei trong chiến đấu lớn hơn 120%, cứ mỗi khi vượt 10%, Chiến Kỹ sẽ khiến hiệu ứng tăng sát thương của toàn bộ phe ta tăng thêm 6%, tối đa không vượt quá 36%.
+  Sparkle:
+    Content:
+      skillCdBuff:
+        text: Chiến Kỹ Tăng STBK
+        content: >-
+          Tăng Sát Thương Bạo Kích của 1 đồng đội chỉ định, mức tăng bằng {{skillCdBuffScaling}}% Sát Thương Bạo Kích của Sparkle cộng thêm {{skillCdBuffBase}}%, duy trì 1 hiệp.::BR::E6:: Tăng thêm hiệu ứng Tăng Sát Thương Bạo Kích của Chiến Kỹ, mức tăng bằng 30% Sát Thương Bạo Kích của Sparkle, và khi Sparkle thi triển Chiến Kỹ, sẽ khiến hiệu ứng Tăng Sát Thương Bạo Kích của Chiến Kỹ có hiệu lực với đồng đội sở hữu Câu Đố Kỳ Dị, khi Sparkle thi triển Tuyệt Kỹ, nếu trong phe ta có mục tiêu mang hiệu ứng Tăng Sát Thương Bạo Kích của Chiến Kỹ, sẽ khiến hiệu ứng này khuếch tán đến đồng đội đang có Câu Đố Kỳ Dị.
+      cipherBuff:
+        text: Câu Đố Kỳ Dị
+        content: >-
+          When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns.::BR::E1: Thời gian duy trì Câu Đố Kỳ Dị thi triển bởi Tuyệt Kỹ tăng thêm 1 hiệp, mục tiêu phe ta sở hữu Câu Đố Kỳ Dị sẽ tăng 40% Tấn Công.
+      talentStacks:
+        text: Thiên Phú ST Tăng
+        content: >-
+          Mục tiêu phe ta mỗi khi tiêu hao 1 Điểm Chiến Kỹ, sẽ tăng 3%–6,6% sát thương do toàn bộ phe ta gây ra, hiệu ứng này duy trì 2 hiệp, tối đa có thể cộng dồn 3 tầng.::BR::E2: Mỗi tầng hiệu ứng của Thiên Phú khiến mục tiêu phe ta khi gây sát thương sẽ bỏ qua 8% Phòng Thủ của mục tiêu.
+      quantumAllies:
+        text: Đồng minh lượng từ
+        content: Tấn Công của toàn phe ta tăng 15%. Khi trong đội phe ta có 1/2/3 nhân vật thuộc tính Lượng Tử, tấn công của nhân vật có thuộc tính Lượng Tử phe ta tăng thêm 5%/15%/30%.
+    TeammateContent:
+      teammateCDValue:
+        text: STBK Combat của Sparkle
+        content: Tăng Sát Thương Bạo Kích của 1 đồng đội chỉ định, mức tăng bằng {{skillCdBuffScaling}}% Sát Thương Bạo Kích của Sparkle cộng thêm {{skillCdBuffBase}}%, duy trì 1 hiệp.
   Sunday:
     Content:
       skillDmgBuff:
@@ -468,6 +591,12 @@ Characters:
       e6Buffs:
         text: E6 buffs
         content: Xuyên Kháng Băng của Đại Herta tăng 20%, khi số lượng mục tiêu phe địch trong trận từ 3 trở lên/2/1, thì Bội Số Sát Thương của Tuyệt Kỹ sẽ tăng 140%/250%/400%.
+  Xueyi:
+    Content:
+      beToDmgBoost:
+        text: TK Kích Phá sang ST tăng
+      e4BeBuff:
+        text: E4 Tăng TC Kích Phá
   Yunli:
     Content:
       blockActive:

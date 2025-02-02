@@ -1,5 +1,5 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, Stats } from 'lib/constants/constants'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import {
@@ -22,12 +22,12 @@ import { OptimizerContext } from 'types/optimizer'
 
 function generateUnusedSets(relics: SingleRelicByPart) {
   const usedSets = new Set([
-    RelicSetToIndex[relics.Head.set],
-    RelicSetToIndex[relics.Hands.set],
-    RelicSetToIndex[relics.Body.set],
-    RelicSetToIndex[relics.Feet.set],
-    OrnamentSetToIndex[relics.PlanarSphere.set],
-    OrnamentSetToIndex[relics.LinkRope.set],
+    RelicSetToIndex[relics.Head.set as SetsRelics],
+    RelicSetToIndex[relics.Hands.set as SetsRelics],
+    RelicSetToIndex[relics.Body.set as SetsRelics],
+    RelicSetToIndex[relics.Feet.set as SetsRelics],
+    OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments],
+    OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments],
   ])
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
@@ -63,12 +63,12 @@ export function calculateBuild(
   const unusedSets = generateUnusedSets(relics)
   let unusedSetCounter = 0
 
-  const setH = RelicSetToIndex[relics.Head.set] ?? unusedSets[unusedSetCounter++]
-  const setG = RelicSetToIndex[relics.Hands.set] ?? unusedSets[unusedSetCounter++]
-  const setB = RelicSetToIndex[relics.Body.set] ?? unusedSets[unusedSetCounter++]
-  const setF = RelicSetToIndex[relics.Feet.set] ?? unusedSets[unusedSetCounter++]
-  const setP = OrnamentSetToIndex[relics.PlanarSphere.set] ?? unusedSets[unusedSetCounter++]
-  const setL = OrnamentSetToIndex[relics.LinkRope.set] ?? unusedSets[unusedSetCounter++]
+  const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setF = RelicSetToIndex[relics.Feet.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+  const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount

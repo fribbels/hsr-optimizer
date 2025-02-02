@@ -5,7 +5,6 @@ import {
   BelobogOfTheArchitectsConditional,
   BoneCollectionsSereneDemesneConditional,
   BrokenKeelConditional,
-  CelestialDifferentiatorConditional,
   FleetOfTheAgelessConditional,
   GiantTreeOfRaptBrooding135Conditional,
   GiantTreeOfRaptBrooding180Conditional,
@@ -241,6 +240,12 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     buffElementalDamageType(x.m, context.elementalDamageType, c.ELEMENTAL_DMG)
   }
 
+  // BASIC
+
+  if (p2(sets.CelestialDifferentiator) && setConditionals.enabledCelestialDifferentiator && c[Stats.CD] >= 1.20) {
+    x.CR.buff(0.60, Source.CelestialDifferentiator)
+  }
+
   // SPD
 
   if (p4(sets.MessengerTraversingHackerspace) && setConditionals.enabledMessengerTraversingHackerspace) {
@@ -248,7 +253,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   }
 
   if (p4(sets.HeroOfTriumphantSong) && setConditionals.enabledHeroOfTriumphantSong) {
-    x.SPD_P.buffTeam(0.06, Source.HeroOfTriumphantSong)
+    x.SPD_P.buff(0.06, Source.HeroOfTriumphantSong)
     x.CD.buffDual(0.30, Source.HeroOfTriumphantSong)
   }
 
@@ -389,7 +394,6 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
   p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
   p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, action, context)
-  p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, action, context)
   p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
   p2(sets.BoneCollectionsSereneDemesne) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
   p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)

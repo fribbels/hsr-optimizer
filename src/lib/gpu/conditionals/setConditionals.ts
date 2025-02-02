@@ -149,33 +149,6 @@ if (
   },
 }
 
-export const CelestialDifferentiatorConditional: DynamicConditional = {
-  id: 'CelestialDifferentiatorConditional',
-  type: ConditionalType.SET,
-  activation: ConditionalActivation.SINGLE,
-  dependsOn: [Stats.CD],
-  chainsTo: [Stats.CR],
-  condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.CelestialDifferentiator) && action.setConditionals.enabledCelestialDifferentiator && x.a[Key.CD] >= 1.20
-  },
-  effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    x.CR.buffDynamic(0.60, Source.CelestialDifferentiator, action, context)
-  },
-  gpu: function () {
-    return conditionalWgslWrapper(this, `
-if (
-  p2((*p_x).sets.CelestialDifferentiator) >= 1 &&
-  actions[(*p_state).actionIndex].setConditionals.enabledCelestialDifferentiator == true &&
-  (*p_state).CelestialDifferentiatorConditional == 0.0 &&
-  (*p_x).CD >= 1.20
-) {
-  (*p_state).CelestialDifferentiatorConditional = 1.0;
-  (*p_x).CR += 0.60;
-}
-    `)
-  },
-}
-
 export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   id: 'TaliaKingdomOfBanditryConditional',
   type: ConditionalType.SET,
@@ -268,7 +241,7 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
     return p2(x.c.sets.BoneCollectionsSereneDemesne) && x.a[Key.HP] >= 5000
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.CD.buffBaseDual(0.28, Source.BoneCollectionsSereneDemesne)
+    x.CD.buffBaseDualDynamic(0.28, Source.BoneCollectionsSereneDemesne, action, context)
   },
   gpu: function () {
     return conditionalWgslWrapper(this, `
@@ -291,7 +264,6 @@ export const ConditionalSets = [
   BelobogOfTheArchitectsConditional,
   PanCosmicCommercialEnterpriseConditional,
   BrokenKeelConditional,
-  CelestialDifferentiatorConditional,
   TaliaKingdomOfBanditryConditional,
   GiantTreeOfRaptBrooding135Conditional,
   GiantTreeOfRaptBrooding180Conditional,

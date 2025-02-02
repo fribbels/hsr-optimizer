@@ -334,6 +334,14 @@ fn main(
 
       x.sets = sets;
 
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == true && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
+
       if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
         x.SPD_P += 0.12;
         m.SPD_P += 0.12;

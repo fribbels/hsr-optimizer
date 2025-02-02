@@ -187,8 +187,7 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 
           return gpuDynamicStatConversion(Stats.ATK, Stats.BE, this, action, context,
             `0.008 * floor((convertibleValue - 1800) / 10)`,
-            `${wgslTrue(r.atkToBeConversion)}`,
-            `convertibleValue > 1800`,
+            `${wgslTrue(r.atkToBeConversion)} && x.ATK > 1800`,
           )
         },
       },

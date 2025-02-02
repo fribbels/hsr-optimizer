@@ -22,7 +22,10 @@ export function dynamicStatConversion(
 
   const stateValue = action.conditionalState[conditional.id] ?? 0
   const convertibleValue = statValue - statPreconvertedValue - statPreconvertedPercentValue
-  const buffFull = buffFn(convertibleValue)
+
+  if (convertibleValue <= 0) return
+
+  const buffFull = Math.max(0, buffFn(convertibleValue))
   const buffDelta = buffFull - stateValue
 
   action.conditionalState[conditional.id] = buffFull
@@ -52,11 +55,11 @@ if (!(${activeConditionWgsl})) {
 let stateValue: f32 = (*p_state).${conditional.id};
 let convertibleValue: f32 = (*p_x).${statConfig.property} - (*p_x).${statConfig.preconvertedProperty};
 
-if (!(${thresholdConditionWgsl})) {
+if (!(${thresholdConditionWgsl}) || convertibleValue <= 0) {
   return;
 }
 
-let buffFull = ${buffWgsl};
+let buffFull = max(0, ${buffWgsl});
 let buffDelta = buffFull - stateValue;
 
 (*p_state).${conditional.id} += buffDelta;

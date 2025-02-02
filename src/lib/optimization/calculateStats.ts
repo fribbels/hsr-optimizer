@@ -1,4 +1,4 @@
-import { BASIC_DMG_TYPE, BasicStatsObject, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
@@ -6,20 +6,14 @@ import {
   BoneCollectionsSereneDemesneConditional,
   BrokenKeelConditional,
   CelestialDifferentiatorConditional,
-  FirmamentFrontlineGlamoth135Conditional,
-  FirmamentFrontlineGlamoth160Conditional,
   FleetOfTheAgelessConditional,
   GiantTreeOfRaptBrooding135Conditional,
   GiantTreeOfRaptBrooding180Conditional,
-  InertSalsottoConditional,
-  IronCavalryAgainstTheScourge150Conditional,
-  IronCavalryAgainstTheScourge250Conditional,
   PanCosmicCommercialEnterpriseConditional,
-  RutilantArenaConditional,
   SpaceSealingStationConditional,
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -388,24 +382,20 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     xma[Key.HP] += xma[Key.HP_P] * (context.baseHP * x.a[Key.MEMO_HP_SCALING])
   }
 
-  // Dynamic - still need implementing
+  // Dynamic set conditionals
 
   p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-  p2(sets.RutilantArena) && evaluateConditional(RutilantArenaConditional, x, action, context)
-  p2(sets.InertSalsotto) && evaluateConditional(InertSalsottoConditional, x, action, context)
   p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
   p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge150Conditional, x, action, context)
-  p4(sets.IronCavalryAgainstTheScourge) && evaluateConditional(IronCavalryAgainstTheScourge250Conditional, x, action, context)
   p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
   p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, action, context)
   p2(sets.CelestialDifferentiator) && evaluateConditional(CelestialDifferentiatorConditional, x, action, context)
   p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth135Conditional, x, action, context)
-  p2(sets.FirmamentFrontlineGlamoth) && evaluateConditional(FirmamentFrontlineGlamoth160Conditional, x, action, context)
   p2(sets.BoneCollectionsSereneDemesne) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
   p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
   p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
+
+  // Dynamic character / lc conditionals
 
   for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
@@ -415,6 +405,25 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   }
   for (const conditional of action.teammateDynamicConditionals || []) {
     evaluateConditional(conditional, x, action, context)
+  }
+
+  // Terminal set conditionals
+
+  if (p2(sets.FirmamentFrontlineGlamoth) && x.a[Key.SPD] >= 135) {
+    x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
+  }
+
+  if (p2(sets.RutilantArena) && x.a[Key.CR] >= 0.70) {
+    buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
+  }
+
+  if (p2(sets.InertSalsotto) && x.a[Key.CR] >= 0.50) {
+    buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
+  }
+
+  if (p4(sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 1.50) {
+    buffAbilityDefPen(x, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
+    buffAbilityDefPen(x, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge)
   }
 
   return x

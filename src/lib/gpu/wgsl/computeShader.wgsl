@@ -520,6 +520,23 @@ fn main(
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
       // END COMBAT CONDITIONALS
 
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
+
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
+
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
+
       // START ACTION CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
       /* INJECT ACTION CONDITIONALS */

@@ -1,11 +1,11 @@
 import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -135,49 +135,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.SPD],
         ratioConversion: true,
-        condition: function () {
-          return true
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.ultBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.ultBuff) {
-            return
-          }
-
-          const stateValue = action.conditionalState[this.id] || 0
-          const convertibleSpdValue = x.a[Key.SPD] - x.a[Key.RATIO_BASED_SPD_BUFF]
-
-          const buffSPD = ultSpdBuffValue * convertibleSpdValue
-          const stateBuffSPD = ultSpdBuffValue * stateValue
-
-          action.conditionalState[this.id] = x.a[Key.SPD]
-
-          const finalBuffSpd = buffSPD - (stateValue ? stateBuffSPD : 0)
-          x.RATIO_BASED_SPD_BUFF.buff(finalBuffSpd, Source.NONE)
-
-          x.SPD.buffDynamic(finalBuffSpd, Source.NONE, action, context)
+          dynamicStatConversion(Stats.SPD, Stats.SPD, this, x, action, context,
+            (convertibleValue) => convertibleValue * ultSpdBuffValue,
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.ultBuff)}) {
-  return;
-}
-
-let stateValue: f32 = (*p_state).HanyaSpdConditional;
-let convertibleSpdValue: f32 = (*p_x).SPD - (*p_x).RATIO_BASED_SPD_BUFF;
-
-var buffSPD: f32 = ${ultSpdBuffValue} * convertibleSpdValue;
-var stateBuffSPD: f32 = ${ultSpdBuffValue} * stateValue;
-
-(*p_state).HanyaSpdConditional = (*p_x).SPD;
-
-let finalBuffSpd = buffSPD - select(0, stateBuffSPD, stateValue > 0);
-(*p_x).RATIO_BASED_SPD_BUFF += finalBuffSpd;
-
-buffNonRatioDynamicSPD(finalBuffSpd, p_x, p_m, p_state);
-    `)
+          return gpuDynamicStatConversion(Stats.SPD, Stats.SPD, this, action, context,
+            `${ultSpdBuffValue} * convertibleValue`,
+            `${wgslTrue(r.ultBuff)}`,
+          )
         },
       },
     ],

@@ -183,8 +183,8 @@ let cdBuffValue = min(1.50, 0.50 * be);
 
 (*p_state).BoothillConversionConditional = be;
 
-buffDynamicCR(crBuffValue - stateCrBuffValue, p_x, p_m, p_state);
-buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_m, p_state);
+(*p_x).CR += crBuffValue - stateCrBuffValue;
+(*p_x).CD += cdBuffValue - stateCdBuffValue;
     `)
       },
     }],

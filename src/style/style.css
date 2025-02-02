@@ -678,3 +678,7 @@ a {
     font-size: 14px !important;
     letter-spacing: 1px !important;
 }
+
+.ant-radio-group {
+    user-select: none !important;
+}

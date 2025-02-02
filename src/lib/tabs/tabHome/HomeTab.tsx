@@ -180,7 +180,6 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
           {props.content}
         </span>
         <Button
-          style={{ height: '100%' }}
           size='large'
           iconPosition='end'
           href={props.url}

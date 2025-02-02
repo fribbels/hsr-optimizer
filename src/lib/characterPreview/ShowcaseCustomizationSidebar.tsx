@@ -1,8 +1,9 @@
-import { CameraOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { CameraOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
 import { Button, ColorPicker, Flex, InputNumber, Segmented, Select, ThemeConfig } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { usePublish } from 'hooks/usePublish'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -28,6 +29,7 @@ export interface ShowcaseCustomizationSidebarRef {
 
 export interface ShowcaseCustomizationSidebarProps {
   id: string
+  source: ShowcaseSource
   characterId: string
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
@@ -48,6 +50,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
   (props, ref) => {
     const {
       id,
+      source,
       characterId,
       simScoringResult,
       scoringType,
@@ -401,20 +404,28 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             onChange={onBrightnessModeChange}
           />
 
-          <HorizontalDivider/>
+          {
+            source == ShowcaseSource.SHOWCASE_TAB
+            && (
+              <>
+                <HorizontalDivider/>
 
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {tCustomization('ShowUID')/* Show UID */}
-          </HeaderText>
-          <Segmented
-            options={[
-              { value: true, label: <CheckOutlined/> },
-              { value: false, label: <CloseOutlined/> },
-            ]}
-            block
-            value={showcaseUID}
-            onChange={onShowUIDChange}
-          />
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tCustomization('ShowUID')/* Show UID */}
+                </HeaderText>
+
+                <Segmented
+                  options={[
+                    { value: true, label: <CheckOutlined/> },
+                    { value: false, label: <CloseOutlined/> },
+                  ]}
+                  block
+                  value={showcaseUID}
+                  onChange={onShowUIDChange}
+                />
+              </>
+            )
+          }
 
           <HorizontalDivider/>
 

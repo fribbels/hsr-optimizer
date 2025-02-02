@@ -1,6 +1,6 @@
 import { ConfigProvider, Flex, theme } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
-import { showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getArtistName,
   getPreviewRelics,
@@ -18,7 +18,7 @@ import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { MemoizedShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
-import {
+import ShowcaseCustomizationSidebar, {
   defaultShowcasePreferences,
   getDefaultColor,
   getOverrideColorMode,
@@ -26,7 +26,6 @@ import {
   standardShowcasePreferences,
   urlToColorCache,
 } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
-import ShowcaseCustomizationSidebar from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
@@ -37,7 +36,6 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
@@ -92,6 +90,7 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
+  // Using these to trigger updates on changes
   const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD])
   const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
   const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs)
@@ -216,6 +215,7 @@ export function CharacterPreview(props: {
       />
       <ShowcaseCustomizationSidebar
         ref={sidebarRef}
+        source={source}
         id={props.id}
         characterId={character.id}
         simScoringResult={simScoringResult}
@@ -316,7 +316,7 @@ export function CharacterPreview(props: {
                 paddingRight: 2,
                 paddingLeft: 2,
                 paddingBottom: 3,
-                boxShadow: showcaseShadow,
+                boxShadow: showcaseShadow + showcaseShadowInsetAddition,
                 border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
               }}
               justify='space-between'

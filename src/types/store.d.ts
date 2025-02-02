@@ -179,6 +179,7 @@ export type SavedSession = {
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean
+  showcaseUID: boolean
   showcasePreciseSpd: boolean
 }
 

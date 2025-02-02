@@ -27,7 +27,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSkillScaling = memoSkill(e, 1.10, 1.21)
   const memoTalentSpd = memoTalent(e, 55, 57.2)
 
-  const memoSpdStacksMax = e > 4 ? 7 : 6
+  const memoSpdStacksMax = e >= 4 ? 7 : 6
 
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,

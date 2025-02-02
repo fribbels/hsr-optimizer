@@ -44,7 +44,7 @@ RelicGrid:
       Tỉ Lệ
       Bạo Kích
     CD: |-
-      Sát Thương
+      ST
       Bạo Kích
     EHR: |-
       Chính Xác
@@ -74,8 +74,8 @@ RelicGrid:
       MaxPotCol:
         Label: "Nhân vật được chọn: Tiềm năng tối đa"
         Header: |-
-          Nhân vật chọn
-          Tiềm năng tối đa
+          Tiềm Năng Nhân
+          Vật Tối Đa
       RerollAvg:
         Label: "Nhân vật đã chọn: Tiềm năng chia lại chỉ số trung bình."
         Header: |-
@@ -84,8 +84,8 @@ RelicGrid:
       RerollAvgDelta:
         Label: "Nhân vật đã chọn: Xoay lại tiềm năng delta trung bình"
         Header: |-
-          Nhân vật đã chọn  
-          Δ Xoay lại trung bình
+          Nhân vật chọn  
+          Δ Reroll trung bình
     CustomCharacters:
       Label: Tùy chọn nhân vật
       AvgPotCol:

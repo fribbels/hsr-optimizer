@@ -50,9 +50,11 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
+      Header: Tốc độ
       Max: 100%
       Min: 0%
     BenchmarkSpd:
+      Header: Mốc chuẩn SPD
       BenchmarkOptionsLabel: Chỉnh sửa chuẩn
       CurrentSpdLabel: Tốc độ hiện tại (SPD) - Mốc chuẩn sẽ khớp với tốc độ cơ bản
       BaseSpdLabel: Tốc độ cơ bản (Base SPD) - Mốc chuẩn sẽ nhắm đến một xây dựng SPD tối thiểu
@@ -112,7 +114,7 @@ CharacterPreview:
       FUA: Đòn Đánh Theo Sau
       MEMO_SKILL: SKILLᴹ
       DOTS: "Sát thương duy trì:"
-      BREAKS: "Sát thương phá vỡ:"
+      BREAKS: "ST Kích Phá:"
     CombatResults:
       Header: Kết quả sát thương
       Primary: "Kĩ năng gây sát thương chính:"
@@ -126,8 +128,7 @@ CharacterPreview:
         SKILL: 'ST CHIẾN KỸ:'
         ULT: 'ST TUYỆT KỸ:'
         FUA: 'ST ĐÒN ĐÁNH THEO SAU:'
-        DOT: 'ST DUY TRÌ:'
-        BREAK: 'ST PHÁ VỠ:'
+        BREAK: 'ST Kích Phá:'
         COMBO: 'ST COMBO:'
   ScoringColumn:
     Character:

@@ -1,7 +1,7 @@
 CharacterSelector:
   Character: Nhân vật
   Lightcone: Nón Ánh Sáng
-  Presets: Mẫu thiết lặp
+  Presets: Mẫu Cho Sẵn
   Target: Mục tiêu tối ưu hóa
   ResultsPlaceholder: Tìm kết quả tốt nhất
   TargetPlaceholder: 'Sắp xếp theo:'
@@ -31,7 +31,7 @@ SortOptions:
   FUA: Sắp xếp theo ST Đòn đánh theo sau
   MEMO_SKILL: Sắp xếp theo sát thương của Linh hồn ký ức
   DOT: Sắp xếp theo ST theo thời gian
-  BREAK: Sắp xếp theo ST Phá vỡ
+  BREAK: Sắp xếp theo ST Kích Phá
   HEAL: Sắp xếp theo trị liệu
   SHIELD: Sắp xếp theo lượng lá chắn
   HP: "Sắp xếp theo $t(common:ReadableStats.HP)"
@@ -58,7 +58,6 @@ OptimizerOptions:
   KeepCurrent: Giữ di vật hiện tại
   Exclude: Trừ đi
   MinEnhance:
-    Header: Cường hóa nhỏ nhất
     Label0: "+0"
     Label3: "+3"
     Label6: "+6"
@@ -72,7 +71,6 @@ OptimizerOptions:
     Label4: 4 ★ +
     Label5: 5 ★
   BoostMain:
-    Header: Tăng chỉ số chính
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -130,7 +128,7 @@ Grid:
         DUY TRÌ
       BREAK: |-
         ST
-        PHÁ VỠ
+        KÍCH PHÁ
       COMBO: |-
         ST
         COMBO
@@ -150,8 +148,8 @@ Grid:
       DMG: Σ DMG
       EHP: EHP
       WEIGHT: |-
-        ĐỘ TRỌNG
-        CHỈ SỐ
+        STAT
+        WEIGHT
       HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
@@ -174,7 +172,7 @@ Grid:
         DUY TRÌ
       BREAK: |-
         ST
-        PHÁ VỠ
+        KÍCH PHÁ
       COMBO: |-
         ST
         COMBO
@@ -203,7 +201,6 @@ Sidebar:
   ComputeEngine: Công cụ tính toán
   ProgressText:
     Progress: Tiến trình
-    CalculatingETA: Tiến trình (đang tính thời gian cần thiết)
     TimeRemaining: "{{rate}} / giây — còn {{timeRemaining}} nữa"
     Finished: "{{rate}} / giây - Đã Xong"
   ControlsGroup:
@@ -214,7 +211,6 @@ Sidebar:
       Description: Tất cả các bộ lọc sẽ được đem về giá trị ban đầu
   StatViewGroup:
     Header: Xem chỉ số và bộ lọc
-    CombatStats: Chỉ số trong combat
     BasicStats: Chỉ số cơ bản
     SummonerStats: Người triệu hồi
     MemospriteStats: Linh hồn ký ức
@@ -342,7 +338,7 @@ CombatBuffs:
   DEF: Phòng Thủ
   DEF_P: DEF %
   CR: Tỷ Lệ Bạo Kích %
-  CD: Sát Thương Bạo Kích %
+  CD: ST Bạo Kích %
   SPD: Tốc Độ
   SPD_P: SPD %
   BE: BE %
@@ -397,7 +393,7 @@ MinMaxFilters:
   SKILLLabel: Chiến kỹ
   ULTLabel: Tuyệt kỹ
   FUALabel: Đòn Đánh Theo Sau
-  MEMOSKILLLabel: SKILLᴹ
+  MEMOSKILLLabel: LINH HỒN KÝ ỨC
   DOTLabel: DOT
   BREAKLabel: BREAK
   HEALLabel: "TRỊ\nLIỆU"

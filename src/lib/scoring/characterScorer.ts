@@ -154,10 +154,10 @@ export function scoreCharacterSimulation(
 
   const simulationSets = calculateSimSets(metadata, relicsByPart)
 
-  if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse &&
-    relicsByPart.Hands.set == Sets.PoetOfMourningCollapse &&
-    relicsByPart.Body.set == Sets.PoetOfMourningCollapse &&
-    relicsByPart.Feet.set == Sets.PoetOfMourningCollapse
+  if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse
+    && relicsByPart.Hands.set == Sets.PoetOfMourningCollapse
+    && relicsByPart.Body.set == Sets.PoetOfMourningCollapse
+    && relicsByPart.Feet.set == Sets.PoetOfMourningCollapse
   ) {
     simulationFlags.characterPoetActive = true
   }
@@ -211,7 +211,7 @@ export function scoreCharacterSimulation(
     originalSim,
   } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
 
-  let originalSpd = TsUtils.precisionRound(originalSimResult[Stats.SPD])
+  const originalSpd = TsUtils.precisionRound(originalSimResult[Stats.SPD])
 
   // ===== Simulate the baseline build =====
 
@@ -480,8 +480,8 @@ function generateStatImprovements(
   const mainUpgradeResults: SimulationStatUpgrade[] = []
 
   function upgradeMain(part: string) {
-    const originalSimClone: Simulation = TsUtils.clone(originalSim)
     for (const upgradeMainStat of metadata.parts[part]) {
+      const originalSimClone: Simulation = TsUtils.clone(originalSim)
       const simMainName = {
         [Parts.Body]: 'simBody',
         [Parts.Feet]: 'simFeet',

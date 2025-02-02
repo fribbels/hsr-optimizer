@@ -16,6 +16,12 @@ jobs:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
           replace: "\"homepage\": \"https://fribbels.github.io/dreary-quibbles\""
           include: "package.json"
+      - name: Add in-Context script tags
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "<!--CROWDIN_IN-CONTEXT_SCRIPT-->"
+          replace: "<script type=\"text/javascript\">var _jipt = [];_jipt.push([ 'project', 'hsr-optimizer' ]);_jipt.push(['start_type', 'manual']);</script><script type=\"text/javascript\" src=\"//cdn.crowdin.com/jipt/jipt.js\"></script>"
+          include: "index.html"
       - name: Find and Replace vite page
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -25,8 +31,8 @@ jobs:
       - name: Find and Replace router path
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "const BASE_PATH = '/hsr-optimizer'"
-          replace: "const BASE_PATH = '/dreary-quibbles'"
+          find: "export const BASE_PATH: BasePath = BasePath.MAIN"
+          replace: "export const BASE_PATH: BasePath = BasePath.BETA"
           include: "src/lib/state/db.ts"
       - name: Find and Replace API endpoint
         uses: jacobtomlinson/gha-find-replace@v3

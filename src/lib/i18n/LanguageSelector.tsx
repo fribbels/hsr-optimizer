@@ -1,14 +1,14 @@
 import { Button, Flex, Select } from 'antd'
 import { completedLocales, languages } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
-import { BASE_PATH } from 'lib/state/db'
+import { BASE_PATH, BasePath } from 'lib/state/db'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
   // @ts-ignore
-  const isBeta = BASE_PATH == '/dreary-quibbles'
+  const isBeta = BASE_PATH === BasePath.BETA
   const selectOptions = Object.values(languages)
     .filter((x) => isBeta || completedLocales.includes(x.locale))
     .map(({ locale, nativeName, shortName }) => ({

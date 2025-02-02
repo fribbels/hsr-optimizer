@@ -10,7 +10,7 @@ CharacterSelector:
 LightconePassives: Kỹ Năng Nón Ánh Sáng
 CharacterPassives: Nội tại nhân vật
 NoConditionals: Không có nội tại được kích hoạt theo điều kiện.
-NoTeamConditionals: Không có nội tại của đội được kích hoạt theo điều kiện.
+NoTeamConditionals: Không có hiệu ứng để kích hoạt
 ResultLimitN: "Tìm {{limit}} kết quả hàng đầu."
 MainStats: Dòng Chính
 Sets: Bộ

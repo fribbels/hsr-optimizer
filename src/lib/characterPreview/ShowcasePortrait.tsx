@@ -37,7 +37,7 @@ export function ShowcasePortrait(props: {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
   const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
-  const UID = window.store((s) => s.scorerId)
+  const uid = window.store((s) => s.scorerId)
 
   const {
     source,
@@ -182,7 +182,7 @@ export function ShowcasePortrait(props: {
             textShadow: '0px 0px 10px black',
           }}
         >
-          {UID}
+          {uid}
         </Text>
       </Flex>
       <Flex

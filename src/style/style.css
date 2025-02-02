@@ -671,7 +671,7 @@ a {
 }
 
 .warp-table-row-disabled {
-    color: rgba(255, 255, 255, 0.15) !important;
+    color: rgba(255, 255, 255, 0.10) !important;
 }
 
 .warp-table-row .ant-tag {

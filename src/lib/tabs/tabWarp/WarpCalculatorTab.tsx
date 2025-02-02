@@ -1,4 +1,4 @@
-import { ThunderboltFilled } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
@@ -11,6 +11,7 @@ import {
   WarpIncomeOptions,
   WarpIncomeType,
   WarpMilestoneResult,
+  WarpRequest,
   WarpStrategy,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -42,7 +43,7 @@ export default function WarpCalculatorTab(): React.JSX.Element {
 function Inputs() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
   const warpRequest = window.store((s) => s.warpRequest)
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<WarpRequest>()
 
   const initialValues = useMemo(() => {
     if (!WarpIncomeOptions.find((option) => option.id == warpRequest.income)) {
@@ -228,7 +229,10 @@ function Results() {
       dataIndex: 'wins',
       width: 250,
       align: 'center',
-      render: (n: number) => `${Utils.truncate10ths(n * 100).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}%`,
+      render: (n: number) => `${Utils.truncate10ths(n * 100).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      })}%`,
     },
     {
       // title: 'Average # of warps required',
@@ -303,7 +307,7 @@ type WarpTableData = {
 } & WarpMilestoneResult
 
 function opacity(n: number) {
-  return n < chanceThreshold ? 0.2 : 1.0
+  return n < chanceThreshold ? 0.10 : 1.0
 }
 
 function PityInputs(props: { banner: string }) {
@@ -325,8 +329,8 @@ function PityInputs(props: { banner: string }) {
             optionType='button'
             buttonStyle='solid'
           >
-            <Radio.Button value={true}>{t('common:Yes')/* Yes */}</Radio.Button>
-            <Radio.Button value={false}>{t('common:No')/* No */}</Radio.Button>
+            <Radio.Button value={true}><CheckOutlined/></Radio.Button>
+            <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
         </Form.Item>
       </Flex>
@@ -390,6 +394,6 @@ function generateStrategyOptions() {
 
 function translateLabel(label: string) {
   const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
-  if (label == 'S1') return t('common:SuperimpositionNShort', { superimposition: 0 })
+  if (label == 'S1') return t('common:SuperimpositionNShort', { superimposition: 1 })
   return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
 }

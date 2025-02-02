@@ -730,7 +730,7 @@ export class RelicScorer {
     }
     const missingSets = 3 - countPairs(relics.filter((x) => x != undefined).map((x) => x.set))
     totalScore = Math.max(0, totalScore - missingSets * 3 * minRollValue)
-    const totalRating = scoreToRating((totalScore - 4 * 64.8) / 6)
+    const totalRating = scoredRelics.length < 6 ? '?' : scoreToRating((totalScore - 4 * 64.8) / 6)
     return {
       relics: scoredRelics,
       totalScore,

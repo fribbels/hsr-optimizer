@@ -331,7 +331,7 @@ export function scoreCharacterSimulation(
   const benchmarkSim = candidateBenchmarkSims[0]
   const benchmarkSimResult = benchmarkSim.result
 
-  console.log('bestSims', candidateBenchmarkSims)
+  // console.log('bestSims', candidateBenchmarkSims)
 
   // ===== Calculate the maximum build =====
 
@@ -418,7 +418,7 @@ export function scoreCharacterSimulation(
 
   cachedSims[cacheKey] = simScoringResult
 
-  console.log('simScoringResult', simScoringResult)
+  // console.log('simScoringResult', simScoringResult)
 
   return simScoringResult
 }
@@ -1018,7 +1018,11 @@ export function calculatePenaltyMultiplier(
 }
 
 // Score on 1.00 scale
-export function getSimScoreGrade(score: number, verified: boolean) {
+export function getSimScoreGrade(score: number, verified: boolean, numRelics: number) {
+  if (numRelics != 6) {
+    return '?'
+  }
+
   let best = 'WTF+'
   const percent = TsUtils.precisionRound(score * 100)
   for (const [key, value] of Object.entries(SimScoreGrades)) {

@@ -712,7 +712,7 @@ export const DB = {
       DB.addCharacter(found)
     }
 
-    console.log('Updated db characters', characters)
+    // console.log('Updated db characters', characters)
 
     /*
      * TODO: after render optimization, window.characterGrid is possibly undefined

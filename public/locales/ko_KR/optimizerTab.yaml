@@ -397,7 +397,7 @@ MinMaxFilters:
   SKILLLabel: 전투 스킬
   ULTLabel: 필살기
   FUALabel: 추가 공격
-  MEMOSKILLLabel: 기억 정령 스킬
+  MEMOSKILLLabel: 소환물 피해
   DOTLabel: 지속 피해
   BREAKLabel: 격파 피해
   HEALLabel: 치유량
@@ -421,7 +421,7 @@ ComboFilter:
     Skill: 전투 스킬
     Ult: 필살기
     Fua: 추가 공격
-    MemoSkill: 기억 정령 데미지
+    MemoSkill: 소환물 데미지
   RotationButton: 고급 사이클
 ComboDrawer:
   NoConditionals: 조건부 패시브 없음

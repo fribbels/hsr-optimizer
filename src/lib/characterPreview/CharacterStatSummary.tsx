@@ -5,7 +5,7 @@ import { NONE_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
-import { SimulationResult } from 'lib/scoring/characterScorer'
+import { SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 

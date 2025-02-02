@@ -26,6 +26,8 @@ const defaultHiddenColumns = [
   SortOption.MEMO_SKILL,
 ]
 
+const DATA_PANEL_HEIGHT = 200
+
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
 
@@ -45,7 +47,7 @@ export function OptimizerGrid() {
     return params.rowNode.rowPinned === 'bottom'
   }, [])
   const getRowHeight = useCallback((params) => {
-    if (params.node.rowPinned === 'bottom') return 200
+    if (params.node.rowPinned === 'bottom') return DATA_PANEL_HEIGHT
   }, [])
 
   const statDisplay = window.store((s) => s.statDisplay)

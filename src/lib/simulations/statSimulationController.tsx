@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic, Stat } from 'types/relic'
+import { T } from 'vitest/dist/reporters-yx5ZTtEV'
 
 // FIXME HIGH
 
@@ -461,9 +462,16 @@ export function importOptimizerBuild() {
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
 }
 
-export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, ornamentSet, quality = 1, speedRollValue = 2.6) {
+export function convertRelicsToSimulation(
+  relicsByPart: { Head: Relic; Hands: Relic; Body: Relic; Feet: Relic; PlanarSphere: Relic; LinkRope: Relic },
+  relicSet1: string,
+  relicSet2: string,
+  ornamentSet?: string,
+  quality = 1,
+  speedRollValue = 2.6,
+) {
   const relics: Relic[] = Object.values(relicsByPart)
-  const accumulatedSubstatRolls = {}
+  const accumulatedSubstatRolls = {} as Record<SubStats, number>
   SubStats.map((x) => accumulatedSubstatRolls[x] = 0)
 
   // Sum up substat rolls
@@ -503,7 +511,7 @@ export function convertRelicsToSimulation(relicsByPart, relicSet1, relicSet2, or
   }
 }
 
-export function calculateRelicSets(relicSets, nameProvided = false) {
+export function calculateRelicSets(relicSets: (string | number)[], nameProvided = false) {
   const relicSetNames: string[] = []
   while (relicSets.length > 0) {
     const value = relicSets[0]
@@ -520,9 +528,13 @@ export function calculateRelicSets(relicSets, nameProvided = false) {
   return relicSetNames
 }
 
-export function calculateOrnamentSets(ornamentSets, nameProvided = true) {
+export function calculateOrnamentSets<T, K extends boolean>(ornamentSets: T[], nameProvided: K | true = true) {
   if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
-    return nameProvided ? ornamentSets[1] : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
+    return (
+      nameProvided
+        ? ornamentSets[1]
+        : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
+    ) as K extends true ? T : string
   }
   return undefined
 }

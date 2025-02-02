@@ -682,3 +682,7 @@ a {
 .ant-radio-group {
     user-select: none !important;
 }
+
+.large-grid-column-header .ag-header-cell-text {
+    font-size: 14px !important;
+}

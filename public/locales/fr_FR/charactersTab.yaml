@@ -70,6 +70,7 @@ CharacterPreview:
       Custom: Custom
       Standard: Standard
     PaletteLabel: Palette de couleurs de portrait
+    ShowUID: Afficher l'UID
   ArtBy: "Art réalisé par {{artistName}}"
   EditCharacter: Modifier le personnage
   EditPortrait: Modifier le portrait

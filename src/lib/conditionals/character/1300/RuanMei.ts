@@ -1,7 +1,5 @@
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -131,42 +129,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
       x.RATIO_BASED_ATK_P_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
-    dynamicConditionals: [
-      {
-        id: 'RuanMeiConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.BE],
-        chainsTo: [],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
-        },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
-          const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
+      const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
+      const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
+      x.ELEMENTAL_DMG.buff(buffValue, Source.NONE)
 
-          action.conditionalState[this.id] = buffValue
-          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-
-          return conditionalWgslWrapper(this, `
-let be = (*p_x).BE;
-let stateValue: f32 = (*p_state).RuanMeiConversionConditional;
+      standardAtkFinalizer(x)
+    },
+    gpuFinalizeCalculations: () => {
+      return `
 let beOver = ((*p_x).BE * 100 - 120) / 10;
 let buffValue: f32 = floor(max(0, beOver)) * 0.06;
+(*p_x).ELEMENTAL_DMG += buffValue;
 
-(*p_state).RuanMeiConversionConditional = buffValue;
-(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
-    `)
-        },
-      },
-    ],
+${gpuStandardAtkFinalizer()}      
+      `
+    },
   }
 }

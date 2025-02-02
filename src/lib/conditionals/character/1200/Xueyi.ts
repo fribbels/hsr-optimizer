@@ -1,9 +1,7 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -105,45 +103,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits])
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.ELEMENTAL_DMG.buff((r.beToDmgBoost) ? Math.min(2.40, x.a[Key.BE]) : 0, Source.NONE)
+      standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits as number])
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits])
-    },
-    dynamicConditionals: [
-      {
-        id: 'XueyiConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.BE],
-        chainsTo: [],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          return r.beToDmgBoost
-        },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.min(2.40, x.a[Key.BE])
-
-          action.conditionalState[this.id] = buffValue
-          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.beToDmgBoost)}) {
-  return;
+      return `
+if (${wgslTrue(r.beToDmgBoost)}) {
+  (*p_x).ELEMENTAL_DMG += min(2.40, x.BE);
 }
-let be = (*p_x).BE;
-let stateValue: f32 = (*p_state).XueyiConversionConditional;
-let buffValue: f32 = min(2.40, be);
 
-(*p_state).XueyiConversionConditional = buffValue;
-(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
-    `)
-        },
-      },
-    ],
+${gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits as number])}
+`
+    },
   }
 }

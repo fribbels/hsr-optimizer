@@ -257,9 +257,9 @@ var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdB
 let finalBuffCd = max(0, buffCD - select(0, stateBuffCD, stateValue > 0));
 (*p_m).RATIO_BASED_CD_BUFF += finalBuffCd;
 
-buffMemoNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
-buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
-    `)
+(*p_m).CD += finalBuffCd;
+(*p_x).CD += finalBuffCd;
+`)
         },
       },
     ],

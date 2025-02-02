@@ -80,7 +80,7 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).SpaceSealingStationConditional = 1.0;
-  (*p_x).ATK_P += 0.12;
+  (*p_x).ATK += 0.12 * baseATK;
 }
     `)
   },
@@ -109,8 +109,8 @@ if (
   (*p_x).SPD >= 120
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
-  (*p_x).ATK_P += 0.08;
-  (*p_m).ATK_P += 0.08;
+  (*p_x).ATK += 0.08 * baseATK;
+  (*p_m).ATK += 0.08 * baseATK;
 }
     `)
   },
@@ -136,7 +136,7 @@ if (
   (*p_x).EHR >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional = 1.0;
-  (*p_x).DEF_P += 0.15;
+  (*p_x).DEF += 0.15 * baseDEF;
 }
     `)
   },

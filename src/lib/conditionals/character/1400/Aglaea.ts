@@ -239,8 +239,8 @@ let stateValue: f32 = (*p_state).AglaeaConversionConditional;
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
 (*p_state).AglaeaConversionConditional = buffValue;
-buffDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
-buffMemoDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
+(*p_x).ATK += buffValue - stateValue;
+(*p_m).ATK += buffValue - stateValue;
     `)
         },
       },

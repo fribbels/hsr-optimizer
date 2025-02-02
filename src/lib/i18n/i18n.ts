@@ -2,7 +2,7 @@ import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import yaml from 'js-yaml'
-import { BASE_PATH } from 'lib/state/db'
+import { BASE_PATH, BasePath } from 'lib/state/db'
 import { initReactI18next } from 'react-i18next'
 
 window.yaml = yaml
@@ -63,6 +63,11 @@ export const languages = {
     nativeName: '中文',
     shortName: '中文',
   },
+  aa_ER: {
+    locale: 'aa_ER',
+    nativeName: 'inContext',
+    shortName: 'inContext',
+  },
   /*
       de_DE: {
         locale: 'de_DE',
@@ -84,8 +89,7 @@ export const languages = {
 export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'pt_BR', 'zh_CN'] as const
 
-// @ts-ignore
-export const supportedLanguages = BASE_PATH == '/dreary-quibbles' ? Object.keys(languages) : completedLocales
+export const supportedLanguages = BASE_PATH === BasePath.BETA ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)
   .use(LanguageDetector)

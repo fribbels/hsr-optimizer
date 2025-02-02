@@ -27,6 +27,7 @@ export type StatController = {
   multiplyTeam: (value: number, source: string) => void
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
+  buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
   memoGet: () => number
 }
@@ -101,11 +102,23 @@ export class ComputedStatsArrayCore {
             }
           },
           buffBaseDual: (value: number, source: string) => {
-            if (value == 0) return
+            if (value < 0.001) return
             this.a[index] += value
 
             if (this.m) {
               this.m.a[index] += value
+            }
+          },
+          buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
+            if (value < 0.001) return
+            this.a[index] += value
+
+            if (this.m) {
+              this.m.a[index] += value
+            }
+
+            for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
+              evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
           multiply: (value: number, source: string) => {
@@ -118,11 +131,7 @@ export class ComputedStatsArrayCore {
             }
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
-            // Infinite loop guard so self buffing stats will asymptotically reach 0
-            if (value < 0.0001) {
-              return
-            }
-
+            if (value < 0.001) return
             this.a[index] += value
 
             for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {

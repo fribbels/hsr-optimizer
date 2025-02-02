@@ -144,6 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.BE],
+      chainsTo: [Stats.CR, Stats.CD],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -171,7 +172,7 @@ if (${wgslFalse(r.beToCritBoost)}) {
   return;
 }
 
-let be = (*p_x).BE;
+let be = x.BE;
 let stateValue = (*p_state).BoothillConversionConditional;
 
 let stateCrBuffValue = min(0.30, 0.10 * stateValue);
@@ -182,8 +183,8 @@ let cdBuffValue = min(1.50, 0.50 * be);
 
 (*p_state).BoothillConversionConditional = be;
 
-buffDynamicCR(crBuffValue - stateCrBuffValue, p_x, p_m, p_state);
-buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_m, p_state);
+(*p_x).CR += crBuffValue - stateCrBuffValue;
+(*p_x).CD += cdBuffValue - stateCdBuffValue;
     `)
       },
     }],

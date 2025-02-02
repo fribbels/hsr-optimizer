@@ -1,8 +1,6 @@
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -146,47 +144,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SPD_P.buffTeam((e >= 4 && t.e4SpdBuff) ? 0.12 : 0, Source.NONE)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
-    dynamicConditionals: [
-      {
-        id: 'RappaConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.ATK],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
-        },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.atkToBreakVulnerability) {
-            return
-          }
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const atkOverStacks = Math.floor(TsUtils.precisionRound((x.a[Key.ATK] - 2400) / 100))
-          const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
+      const atkOverStacks = Math.floor(TsUtils.precisionRound((x.a[Key.ATK] - 2400) / 100))
+      const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
+      x.BREAK_VULNERABILITY.buff(buffValue, Source.NONE)
 
-          action.conditionalState[this.id] = buffValue
-          x.BREAK_VULNERABILITY.buff(buffValue - stateValue, Source.NONE)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+      standardAtkFinalizer(x)
+    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.atkToBreakVulnerability)}) {
-  return;
+      return `
+if (${wgslTrue(r.atkToBreakVulnerability)}) {
+  let atkOverStacks: f32 = floor((x.ATK - 2400) / 100);
+  let buffValue: f32 = min(0.08, max(0, atkOverStacks) * 0.01) + 0.02;
+  
+  x.BREAK_VULNERABILITY += buffValue;
 }
-let atk = (*p_x).ATK;
-let stateValue: f32 = (*p_state).RappaConversionConditional;
-let atkOverStacks: f32 = floor((x.ATK - 2400) / 100);
-let buffValue: f32 = min(0.08, max(0, atkOverStacks) * 0.01) + 0.02;
-
-(*p_state).RappaConversionConditional = buffValue;
-(*p_x).BREAK_VULNERABILITY += buffValue - stateValue;
-    `)
-        },
-      },
-    ],
+${gpuStandardAtkFinalizer()}
+      `
+    },
   }
 }

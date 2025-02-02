@@ -151,8 +151,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.CD.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
       x.CD.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
@@ -166,7 +166,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
-        ratioConversion: true,
+        chainsTo: [Stats.CD],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.m.a[Key.CR] > 1.00
         },
@@ -201,7 +201,7 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;
-  buffMemoDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_m).CD += buffValue - stateValue;
 }
           `)
         },
@@ -211,7 +211,7 @@ if (cr > 1.00) {
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
-        ratioConversion: true,
+        chainsTo: [Stats.CD],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.a[Key.CR] > 1.00
         },
@@ -239,14 +239,12 @@ if (x.DEPRIORITIZE_BUFFS > 0) {
   return;
 }
 
-let cr = (*p_x).CR;
-
-if (cr > 1.00) {
-  let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
+if (x.CR > 1.00) {
+  let buffValue: f32 = floor((x.CR - 1.00) / 0.01) * 2.00 * 0.01;
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;
-  buffDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_x).CD += buffValue - stateValue;
 }
     `)
         },

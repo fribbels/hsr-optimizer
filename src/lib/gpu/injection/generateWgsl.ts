@@ -1,7 +1,6 @@
 import { Constants } from 'lib/constants/constants'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
-import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
@@ -11,18 +10,25 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
+function unindent(text: string): string {
+  return text.replace(/^\s+/gm, '')
+}
+
 export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   let wgsl = ''
 
   wgsl = injectSettings(wgsl, context, request)
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, context, gpuParams)
-  wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
+
+  if (!window.WEBGPU_DEBUG) {
+    wgsl = unindent(wgsl)
+  }
 
   return wgsl
 }
@@ -44,8 +50,8 @@ function filterFn(request: Form) {
     const min = threshold.includes('min')
     const max = threshold.includes('max')
 
-    if (max && request[threshold] == Constants.MAX_INT) return ''
-    if (min && request[threshold] == 0) return ''
+    if (max && request[threshold as keyof Form] == Constants.MAX_INT) return ''
+    if (min && request[threshold as keyof Form] == 0) return ''
 
     return text
   }
@@ -66,12 +72,13 @@ if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[orn
 }
 
 function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
-  const sortOption: string = SortOption[request.resultSort!].gpuProperty
-  const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
+  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
+  const sortOptionGpu: string = sortOption.gpuProperty
+  const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
 
-  let sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
-  if (sortOption == SortOption.COMBO.key) {
+  let sortString = sortOptionComputed ? `x.${sortOptionGpu} < threshold` : `c.${sortOptionGpu} < threshold`
+  if (sortOptionGpu == SortOption.COMBO.key) {
     sortString = ''
   }
 
@@ -115,7 +122,8 @@ ${format(basicFilters)}
 }
 
 function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
-  const sortOption: string = SortOption[request.resultSort!].gpuProperty
+  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
+  const sortOptionGpu: string = sortOption.gpuProperty
   const filter = filterFn(request)
 
   const combatFilters = [
@@ -159,7 +167,7 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.HEAL_VALUE > maxHeal'),
     filter('x.SHIELD_VALUE < minShield'),
     filter('x.SHIELD_VALUE > maxShield'),
-    sortOption == SortOption.COMBO.key ? '' : filter(`x.${sortOption} < threshold`),
+    sortOptionGpu == SortOption.COMBO.key ? '' : filter(`x.${sortOptionGpu} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
@@ -217,6 +225,7 @@ ${format(ratingFilters, 1)}
 }
 
 function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
+  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
 
   let debugValues = ''
@@ -249,10 +258,10 @@ ${debugValues}
   }
 
   // eslint-disable-next-line
-  const sortOption: string = SortOption[request.resultSort!].gpuProperty
-  const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
+  const sortOptionGpu: string = sortOption.gpuProperty
+  const sortOptionComputed = sortOption.isComputedRating
 
-  const valueString = sortOptionComputed ? `x.${sortOption}` : `c.${sortOption}`
+  const valueString = sortOptionComputed ? `x.${sortOptionGpu}` : `c.${sortOptionGpu}`
 
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
@@ -264,7 +273,7 @@ results[index + 1] = m; // DEBUG
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 if (statDisplay == 0) {
-  results[index] = x.${sortOption};
+  results[index] = x.${sortOptionGpu};
   failures = 1;
 } else {
   results[index] = ${valueString};

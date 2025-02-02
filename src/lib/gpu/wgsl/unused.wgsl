@@ -170,4 +170,31 @@ export const StatToOptimizerStat: Record<string, string> = {
   [Stats.Wind_DMG]: 'WIND_DMG_BOOST',
 } as const
 
+
+export function statSelfConversion(
+  stat: ConvertibleStatsType,
+  conditional: DynamicConditional,
+  x: ComputedStatsArray,
+  action: OptimizerAction,
+  context: OptimizerContext,
+  valueFn: (convertibleValue: number) => number,
+) {
+  const statConfig = statConversionConfig[stat]
+
+  const statValue = x.a[statConfig.key]
+  const statPreconvertedValue = x.a[statConfig.preconvertedKey!] ?? 0
+  const statPreconvertedPercentValue = statConfig.percentStat ? x.a[statConfig.percentPreconvertedKey!] * context[statConfig.baseProperty!] : 0
+
+  const stateValue = action.conditionalState[conditional.id] ?? 0
+  const convertibleValue = statValue - statPreconvertedValue - statPreconvertedPercentValue
+
+  const buffValue = valueFn(convertibleValue)
+  const finalBuffValue = buffValue - stateValue
+
+  action.conditionalState[conditional.id] = buffValue
+
+  x[statConfig.property].buffDynamic(finalBuffValue, Source.NONE, action, context)
+}
+
+
 */

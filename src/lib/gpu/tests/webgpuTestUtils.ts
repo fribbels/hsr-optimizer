@@ -108,6 +108,10 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   const P_5 = 0.00001
   const P_6 = 0.000001
 
+  analyze('HP%', P_2)
+  analyze('ATK%', P_2)
+  analyze('DEF%', P_2)
+  analyze('SPD%', P_2)
   analyze('HP', P_2)
   analyze('ATK', P_2)
   analyze('DEF', P_2)
@@ -119,6 +123,7 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   analyze('Break Effect', P_4)
   analyze('Energy Regeneration Rate', P_4)
   analyze('Outgoing Healing Boost', P_4)
+  // GPU handles DMG boosts differently
   // analyze('Physical DMG Boost', P_2)
   // analyze('Fire DMG Boost', P_2)
   // analyze('Ice DMG Boost', P_2)
@@ -146,6 +151,7 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   analyze('FUA_BOOST', P_2)
   analyze('DOT_BOOST', P_2)
   analyze('BREAK_BOOST', P_2)
+  analyze('ADDITIONAL_BOOST', P_2)
   analyze('VULNERABILITY', P_2)
   analyze('BASIC_VULNERABILITY', P_2)
   analyze('SKILL_VULNERABILITY', P_2)
@@ -196,6 +202,7 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   analyze('SKILL_TOUGHNESS_DMG', P_2)
   analyze('ULT_TOUGHNESS_DMG', P_2)
   analyze('FUA_TOUGHNESS_DMG', P_2)
+  analyze('TRUE_DMG_MODIFIER', P_2)
   analyze('BASIC_ORIGINAL_DMG_BOOST', P_2)
   analyze('SKILL_ORIGINAL_DMG_BOOST', P_2)
   analyze('ULT_ORIGINAL_DMG_BOOST', P_2)
@@ -219,21 +226,34 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   analyze('SKILL_ADDITIONAL_DMG', P_2)
   analyze('ULT_ADDITIONAL_DMG', P_2)
   analyze('FUA_ADDITIONAL_DMG', P_2)
-  analyze('RATIO_BASED_HP_BUFF', P_2)
-  analyze('RATIO_BASED_HP_P_BUFF', P_2)
-  analyze('RATIO_BASED_ATK_BUFF', P_2)
-  analyze('RATIO_BASED_ATK_P_BUFF', P_2)
-  analyze('RATIO_BASED_DEF_BUFF', P_2)
-  analyze('RATIO_BASED_DEF_P_BUFF', P_2)
-  analyze('RATIO_BASED_SPD_BUFF', P_2)
-  analyze('RATIO_BASED_CD_BUFF', P_2)
+  analyze('MEMO_BUFF_PRIORITY', P_2)
+  analyze('DEPRIORITIZE_BUFFS', P_2)
+  analyze('MEMO_HP_SCALING', P_2)
+  analyze('MEMO_HP_FLAT', P_2)
+  analyze('MEMO_DEF_SCALING', P_2)
+  analyze('MEMO_DEF_FLAT', P_2)
+  analyze('MEMO_ATK_SCALING', P_2)
+  analyze('MEMO_ATK_FLAT', P_2)
+  analyze('MEMO_SPD_SCALING', P_2)
+  analyze('MEMO_SPD_FLAT', P_2)
+  analyze('MEMO_SKILL_SCALING', P_2)
+  analyze('MEMO_TALENT_SCALING', P_2)
+  analyze('MEMO_SKILL_DMG', P_2)
+  analyze('MEMO_TALENT_DMG', P_2)
+  analyze('UNCONVERTIBLE_HP_BUFF', P_2)
+  analyze('UNCONVERTIBLE_ATK_BUFF', P_2)
+  analyze('UNCONVERTIBLE_DEF_BUFF', P_2)
+  analyze('UNCONVERTIBLE_SPD_BUFF', P_2)
+  analyze('UNCONVERTIBLE_CR_BUFF', P_2)
+  analyze('UNCONVERTIBLE_CD_BUFF', P_2)
+  analyze('UNCONVERTIBLE_EHR_BUFF', P_2)
+  analyze('UNCONVERTIBLE_BE_BUFF', P_2)
+  analyze('UNCONVERTIBLE_OHB_BUFF', P_2)
+  analyze('UNCONVERTIBLE_RES_BUFF', P_2)
+  analyze('UNCONVERTIBLE_ERR_BUFF', P_2)
   analyze('BREAK_EFFICIENCY_BOOST', P_2)
   analyze('BASIC_BREAK_EFFICIENCY_BOOST', P_2)
   analyze('ULT_BREAK_EFFICIENCY_BOOST', P_2)
-  analyze('HP%', P_2)
-  analyze('ATK%', P_2)
-  analyze('DEF%', P_2)
-  analyze('SPD%', P_2)
   analyze('BASIC_DMG_TYPE', EXACT)
   analyze('SKILL_DMG_TYPE', EXACT)
   analyze('ULT_DMG_TYPE', EXACT)
@@ -241,6 +261,8 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   analyze('DOT_DMG_TYPE', EXACT)
   analyze('BREAK_DMG_TYPE', EXACT)
   analyze('SUPER_BREAK_DMG_TYPE', EXACT)
+  analyze('MEMO_DMG_TYPE', EXACT)
+  analyze('ADDITIONAL_DMG_TYPE', EXACT)
 
   return {
     allPass,
@@ -275,6 +297,7 @@ export function uncondenseRelics(relicsByPart: RelicsByPart) {
       relic.substats = []
       condensedStats.map(([stat, value]) => {
         relic.substats.push({
+          // @ts-ignore
           stat,
           value,
         })

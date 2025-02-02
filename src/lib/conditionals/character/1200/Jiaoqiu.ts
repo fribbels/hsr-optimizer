@@ -1,8 +1,9 @@
 import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -145,30 +146,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.EHR],
+        chainsTo: [Stats.ATK],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.ehrToAtkBoost && x.a[Key.EHR] > 0.80
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.ehrToAtkBoost || x.a[Key.EHR] <= 0.80) {
-            return
-          }
-
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.min(2.40, 0.60 * Math.floor((x.a[Key.EHR] - 0.80) / 0.15)) * context.baseATK
-
-          action.conditionalState[this.id] = buffValue
-          x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          dynamicStatConversion(Stats.EHR, Stats.ATK, this, x, action, context,
+            (convertibleValue) => Math.min(2.40, 0.60 * Math.floor((convertibleValue - 0.80) / 0.15)) * context.baseATK,
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          return conditionalWgslWrapper(this, `
-let ehr = (*p_x).EHR;
-let stateValue: f32 = (*p_state).JiaoqiuConversionConditional;
-let buffValue: f32 = min(2.40, 0.60 * floor(((*p_x).EHR - 0.80) / 0.15));
+          const r = action.characterConditionals as Conditionals<typeof content>
 
-(*p_state).JiaoqiuConversionConditional = buffValue;
-buffDynamicATK_P(buffValue - stateValue, p_x, p_m, p_state);
-    `)
+          return gpuDynamicStatConversion(Stats.EHR, Stats.ATK, this, action, context,
+            `min(2.40, 0.60 * floor((convertibleValue - 0.80) / 0.15)) * baseATK`,
+            `${wgslTrue(r.ehrToAtkBoost)} && x.EHR > 0.80`,
+          )
         },
       },
     ],

@@ -1,9 +1,9 @@
 import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -167,36 +167,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.DEF],
+      chainsTo: [Stats.CR],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
         return r.defToCrBoost && x.a[Key.DEF] > 1600
       },
       effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        const stateValue = action.conditionalState[this.id] || 0
-        const buffValue = Math.min(0.48, 0.02 * Math.floor((x.a[Key.DEF] - 1600) / 100))
-
-        action.conditionalState[this.id] = buffValue
-        x.CR.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
-
-        return buffValue
+        dynamicStatConversion(Stats.DEF, Stats.CR, this, x, action, context,
+          (convertibleValue) => Math.min(0.48, 0.02 * Math.floor((convertibleValue - 1600) / 100)),
+        )
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
-        return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.defToCrBoost)}) {
-  return;
-}
-let def = (*p_x).DEF;
-let stateValue: f32 = (*p_state).AventurineConversionConditional;
-
-if (def > 1600) {
-  let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
-
-  (*p_state).AventurineConversionConditional = buffValue;
-  buffDynamicCR(buffValue - stateValue, p_x, p_m, p_state);
-}
-    `)
+        return gpuDynamicStatConversion(Stats.DEF, Stats.CR, this, action, context,
+          `min(0.48, 0.02 * floor((convertibleValue - 1600) / 100))`,
+          `${wgslTrue(r.defToCrBoost)} && x.DEF > 1600`,
+        )
       },
     }],
   }

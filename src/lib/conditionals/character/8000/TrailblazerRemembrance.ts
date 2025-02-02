@@ -184,7 +184,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.CD.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, Source.NONE)
+      x.UNCONVERTIBLE_CD_BUFF.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
@@ -210,7 +210,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
-        ratioConversion: true,
+        chainsTo: [Stats.CD],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
@@ -224,7 +224,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleCdValue = x.a[Key.CD] - x.a[Key.RATIO_BASED_CD_BUFF]
+          const convertibleCdValue = x.a[Key.CD] - x.a[Key.UNCONVERTIBLE_CD_BUFF]
 
           const buffCD = memoTalentCdBuffScaling * convertibleCdValue + memoTalentCdBuffFlat
           const stateBuffCD = memoTalentCdBuffScaling * stateValue + memoTalentCdBuffFlat
@@ -232,7 +232,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
           action.conditionalState[this.id] = convertibleCdValue
 
           const finalBuffCd = Math.max(0, buffCD - (stateValue ? stateBuffCD : 0))
-          x.RATIO_BASED_CD_BUFF.buff(finalBuffCd, Source.NONE)
+          x.UNCONVERTIBLE_CD_BUFF.buff(finalBuffCd, Source.NONE)
 
           x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
           x.summoner().CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
@@ -246,7 +246,7 @@ if (${wgslFalse(r.teamCdBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).TrailblazerRemembranceCdConditional;
-let convertibleCdValue: f32 = (*p_m).CD - (*p_m).RATIO_BASED_CD_BUFF;
+let convertibleCdValue: f32 = (*p_m).CD - (*p_m).UNCONVERTIBLE_CD_BUFF;
 
 var buffCD: f32 = ${memoTalentCdBuffScaling} * convertibleCdValue + ${memoTalentCdBuffFlat};
 var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdBuffFlat};
@@ -254,11 +254,11 @@ var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdB
 (*p_state).TrailblazerRemembranceCdConditional = (*p_m).CD;
 
 let finalBuffCd = max(0, buffCD - select(0, stateBuffCD, stateValue > 0));
-(*p_m).RATIO_BASED_CD_BUFF += finalBuffCd;
+(*p_m).UNCONVERTIBLE_CD_BUFF += finalBuffCd;
 
-buffMemoNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
-buffNonRatioDynamicCD(finalBuffCd, p_x, p_m, p_state);
-    `)
+(*p_m).CD += finalBuffCd;
+(*p_x).CD += finalBuffCd;
+`)
         },
       },
     ],

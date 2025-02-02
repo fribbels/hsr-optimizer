@@ -1,5 +1,7 @@
 import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityCd, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
@@ -133,6 +135,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
 
+      if (r.concertoActive) {
+        x.ATK.buff(ultAtkBuffFlatValue, Source.NONE)
+        x.UNCONVERTIBLE_ATK_BUFF.buff(ultAtkBuffFlatValue, Source.NONE)
+      }
+
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -148,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.ATK.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0, Source.NONE)
-      x.RATIO_BASED_ATK_BUFF.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_ATK_BUFF.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, Source.NONE)
 
       x.SPD_P.buffTeam((e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0, Source.NONE)
 
@@ -156,8 +163,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.ATK.buff((r.concertoActive) ? x.a[Key.ATK] * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0, Source.NONE)
 
       x.ULT_ADDITIONAL_DMG_CR_OVERRIDE.buff(1.00, Source.NONE)
       x.ULT_ADDITIONAL_DMG_CD_OVERRIDE.buff((e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50, Source.NONE)
@@ -168,10 +173,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       return `
-if (${wgslTrue(r.concertoActive)}) {
-  buffDynamicATK(x.ATK * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, p_x, p_m, p_state);
-}
-
 if (${wgslTrue(r.concertoActive)}) {
   x.ULT_ADDITIONAL_DMG_CR_OVERRIDE = 1.00;
 }
@@ -186,5 +187,32 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.ATK;
       `
     },
+    dynamicConditionals: [
+      {
+        id: 'RobinAtkConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.ATK],
+        chainsTo: [Stats.ATK],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.concertoActive
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(Stats.ATK, Stats.ATK, this, x, action, context,
+            (convertibleValue) => convertibleValue * ultAtkBuffScalingValue,
+          )
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return gpuDynamicStatConversion(Stats.ATK, Stats.ATK, this, action, context,
+            `convertibleValue * ${ultAtkBuffScalingValue}`,
+            `${wgslTrue(r.concertoActive)}`,
+          )
+        },
+      },
+    ],
   }
 }

@@ -50,9 +50,14 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
+      Header: 速度の重み
       Max: 100%
       Min: 0%
     BenchmarkSpd:
+      Header: 基準速度
+      BenchmarkOptionsLabel: 基準速度の設定
+      CurrentSpdLabel: 現ビルドの速度 - 基準となるビルドの速度を現ビルドの速度にします
+      BaseSpdLabel: 初期速度 - 基準となるビルドの速度を最小にします
       CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
     BuffPriority:
       Header: バフ優先度
@@ -76,6 +81,7 @@ CharacterPreview:
     NoSelectedCharacter: キャラクターが選択されていません
   ScoreHeader:
     Title: 戦闘シミュレーション
+    TitleBenchmark: "{{spd}} 基準速度"
     Score: "DPSスコア {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "スコア計算方法"

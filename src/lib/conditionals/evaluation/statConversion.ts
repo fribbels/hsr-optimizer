@@ -16,10 +16,10 @@ export function dynamicStatConversion(
   const destConfig = statConversionConfig[destinationStat]
 
   const statValue = x.a[statConfig.key]
-  const statPreconvertedValue = x.a[statConfig.preconvertedKey] ?? 0
+  const unconvertibleValue = x.a[statConfig.unconvertibleKey] ?? 0
 
   const stateValue = action.conditionalState[conditional.id] ?? 0
-  const convertibleValue = statValue - statPreconvertedValue
+  const convertibleValue = statValue - unconvertibleValue
 
   if (convertibleValue <= 0) return
 
@@ -28,7 +28,7 @@ export function dynamicStatConversion(
 
   action.conditionalState[conditional.id] = buffFull
 
-  x[destConfig.preconvertedProperty]?.buff(buffDelta, Source.NONE)
+  x[destConfig.unconvertibleProperty]?.buff(buffDelta, Source.NONE)
   x[destConfig.property].buffDynamic(buffDelta, Source.NONE, action, context)
 }
 
@@ -51,7 +51,7 @@ if (!(${activeConditionWgsl})) {
 }
 
 let stateValue: f32 = (*p_state).${conditional.id};
-let convertibleValue: f32 = (*p_x).${statConfig.property} - (*p_x).${statConfig.preconvertedProperty};
+let convertibleValue: f32 = x.${statConfig.property} - x.${statConfig.unconvertibleProperty};
 
 if (!(${thresholdConditionWgsl}) || convertibleValue <= 0) {
   return;
@@ -62,7 +62,7 @@ let buffDelta = buffFull - stateValue;
 
 (*p_state).${conditional.id} += buffDelta;
 
-(*p_x).${destConfig.preconvertedProperty} += buffDelta;
+(*p_x).${destConfig.unconvertibleProperty} += buffDelta;
 (*p_x).${destConfig.property} += buffDelta;
 `,
   )

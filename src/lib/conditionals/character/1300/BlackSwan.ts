@@ -142,7 +142,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return `
 if (${wgslTrue(r.ehrToDmgBoost)}) {
-  (*p_x).ELEMENTAL_DMG += min(0.72, 0.60 * x.EHR);
+  x.ELEMENTAL_DMG += min(0.72, 0.60 * x.EHR);
 }
 ${gpuStandardAtkFinalizer()}
 `

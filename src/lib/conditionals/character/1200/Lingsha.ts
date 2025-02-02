@@ -220,7 +220,7 @@ let buffValueOhb = min(0.20, 0.10 * x.BE);
 let stateBuffValueAtk = min(0.50, 0.25 * stateValue) * baseATK;
 let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
 
-(*p_state).LingshaConversionConditional = (*p_x).BE;
+(*p_state).LingshaConversionConditional = x.BE;
 
 let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
 let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);

@@ -161,7 +161,7 @@ if (${wgslTrue(r.atkToBreakVulnerability)}) {
   let atkOverStacks: f32 = floor((x.ATK - 2400) / 100);
   let buffValue: f32 = min(0.08, max(0, atkOverStacks) * 0.01) + 0.02;
   
-  (*p_x).BREAK_VULNERABILITY += buffValue;
+  x.BREAK_VULNERABILITY += buffValue;
 }
 ${gpuStandardAtkFinalizer()}
       `

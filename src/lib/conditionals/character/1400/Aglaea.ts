@@ -233,7 +233,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
 if (${wgslFalse(r.supremeStanceState)}) {
   return;
 }
-let spd = (*p_x).SPD;
+let spd = x.SPD;
 let memoSpd = (*p_m).SPD;
 let stateValue: f32 = (*p_state).AglaeaConversionConditional;
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;

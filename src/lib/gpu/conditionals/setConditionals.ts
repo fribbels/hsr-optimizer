@@ -19,9 +19,9 @@ export const SpaceSealingStationConditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.SpaceSealingStation) >= 1 &&
+  p2(x.sets.SpaceSealingStation) >= 1 &&
   (*p_state).SpaceSealingStationConditional == 0.0 &&
-  (*p_x).SPD >= 120
+  x.SPD >= 120
 ) {
   (*p_state).SpaceSealingStationConditional = 1.0;
   (*p_x).ATK += 0.12 * baseATK;
@@ -48,9 +48,9 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.FleetOfTheAgeless) >= 1 &&
+  p2(x.sets.FleetOfTheAgeless) >= 1 &&
   (*p_state).FleetOfTheAgelessConditional == 0.0 &&
-  (*p_x).SPD >= 120
+  x.SPD >= 120
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
   (*p_x).ATK += 0.08 * baseATK;
@@ -75,9 +75,9 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.BelobogOfTheArchitects) >= 1 &&
+  p2(x.sets.BelobogOfTheArchitects) >= 1 &&
   (*p_state).BelobogOfTheArchitectsConditional == 0.0 &&
-  (*p_x).EHR >= 0.50
+  x.EHR >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional = 1.0;
   (*p_x).DEF += 0.15 * baseDEF;
@@ -107,10 +107,10 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.PanCosmicCommercialEnterprise) >= 1
+  p2(x.sets.PanCosmicCommercialEnterprise) >= 1
 ) {
   let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional;
-  let buffValue: f32 = min(0.25, 0.25 * (*p_x).EHR) * baseATK;
+  let buffValue: f32 = min(0.25, 0.25 * x.EHR) * baseATK;
 
   (*p_state).PanCosmicCommercialEnterpriseConditional = buffValue;
   (*p_x).ATK += buffValue - stateValue;
@@ -137,9 +137,9 @@ export const BrokenKeelConditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.BrokenKeel) >= 1 &&
+  p2(x.sets.BrokenKeel) >= 1 &&
   (*p_state).BrokenKeelConditional == 0.0 &&
-  (*p_x).RES >= 0.30
+  x.RES >= 0.30
 ) {
   (*p_state).BrokenKeelConditional = 1.0;
   (*p_x).CD += 0.10;
@@ -164,9 +164,9 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.TaliaKingdomOfBanditry) >= 1 &&
+  p2(x.sets.TaliaKingdomOfBanditry) >= 1 &&
   (*p_state).TaliaKingdomOfBanditryConditional == 0.0 &&
-  (*p_x).SPD >= 145
+  x.SPD >= 145
 ) {
   (*p_state).TaliaKingdomOfBanditryConditional = 1.0;
   (*p_x).BE += 0.20;
@@ -191,9 +191,9 @@ export const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.GiantTreeOfRaptBrooding) >= 1 &&
+  p2(x.sets.GiantTreeOfRaptBrooding) >= 1 &&
   (*p_state).GiantTreeOfRaptBrooding135Conditional == 0.0 &&
-  (*p_x).SPD >= 135
+  x.SPD >= 135
 ) {
   (*p_state).GiantTreeOfRaptBrooding135Conditional = 1.0;
   (*p_x).OHB += 0.12;
@@ -219,9 +219,9 @@ export const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.GiantTreeOfRaptBrooding) >= 1 &&
+  p2(x.sets.GiantTreeOfRaptBrooding) >= 1 &&
   (*p_state).GiantTreeOfRaptBrooding180Conditional == 0.0 &&
-  (*p_x).SPD >= 180
+  x.SPD >= 180
 ) {
   (*p_state).GiantTreeOfRaptBrooding180Conditional = 1.0;
   (*p_x).OHB += 0.08;
@@ -246,9 +246,9 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
   gpu: function () {
     return conditionalWgslWrapper(this, `
 if (
-  p2((*p_x).sets.BoneCollectionsSereneDemesne) >= 1 &&
+  p2(x.sets.BoneCollectionsSereneDemesne) >= 1 &&
   (*p_state).BoneCollectionsSereneDemesneConditional == 0.0 &&
-  (*p_x).HP >= 5000
+  x.HP >= 5000
 ) {
   (*p_state).BoneCollectionsSereneDemesneConditional = 1.0;
   (*p_x).CD += 0.28;

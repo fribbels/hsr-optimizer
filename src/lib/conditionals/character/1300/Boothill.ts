@@ -172,7 +172,7 @@ if (${wgslFalse(r.beToCritBoost)}) {
   return;
 }
 
-let be = (*p_x).BE;
+let be = x.BE;
 let stateValue = (*p_state).BoothillConversionConditional;
 
 let stateCrBuffValue = min(0.30, 0.10 * stateValue);

@@ -241,10 +241,8 @@ if (x.DEPRIORITIZE_BUFFS > 0) {
   return;
 }
 
-let cr = (*p_x).CR;
-
-if (cr > 1.00) {
-  let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
+if (x.CR > 1.00) {
+  let buffValue: f32 = floor((x.CR - 1.00) / 0.01) * 2.00 * 0.01;
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;

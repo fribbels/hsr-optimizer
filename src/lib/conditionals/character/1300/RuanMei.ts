@@ -141,9 +141,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     gpuFinalizeCalculations: () => {
       return `
-let beOver = ((*p_x).BE * 100 - 120) / 10;
+let beOver = (x.BE * 100 - 120) / 10;
 let buffValue: f32 = floor(max(0, beOver)) * 0.06;
-(*p_x).ELEMENTAL_DMG += buffValue;
+x.ELEMENTAL_DMG += buffValue;
 
 ${gpuStandardAtkFinalizer()}      
       `

@@ -113,7 +113,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return `
 if (${wgslTrue(r.beToDmgBoost)}) {
-  (*p_x).ELEMENTAL_DMG += min(2.40, x.BE);
+  x.ELEMENTAL_DMG += min(2.40, x.BE);
 }
 
 ${gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits as number])}

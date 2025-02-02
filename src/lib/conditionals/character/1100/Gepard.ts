@@ -1,8 +1,8 @@
 import { gpuStandardAtkFinalizer, gpuStandardDefShieldFinalizer, standardAtkFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -78,21 +78,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = 0.35 * x.a[Key.DEF]
-
-          action.conditionalState[this.id] = buffValue
-          x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          dynamicStatConversion(Stats.DEF, Stats.ATK, this, x, action, context,
+            (convertibleValue) => convertibleValue * 0.35,
+          )
         },
-        gpu: function () {
-          return conditionalWgslWrapper(this, `
-let def = (*p_x).DEF;
-let stateValue: f32 = (*p_state).GepardConversionConditional;
-let buffValue: f32 = 0.35 * def;
-
-(*p_state).GepardConversionConditional = buffValue;
-(*p_x).ATK += buffValue - stateValue;
-    `)
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          return gpuDynamicStatConversion(Stats.DEF, Stats.ATK, this, action, context,
+            `0.35 * convertibleValue`,
+            `true`,
+          )
         },
       },
     ],

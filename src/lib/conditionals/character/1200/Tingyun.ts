@@ -1,8 +1,8 @@
 import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -162,49 +162,23 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
         dependsOn: [Stats.ATK],
         chainsTo: [Stats.ATK],
         ratioConversion: true,
-        condition: function () {
-          return true
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.benedictionBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.benedictionBuff) {
-            return
-          }
-
-          const stateValue = action.conditionalState[this.id] || 0
-          const convertibleAtkValue = x.a[Key.ATK] - x.a[Key.RATIO_BASED_ATK_BUFF]
-
-          const buffATK = skillAtkBoostMax * convertibleAtkValue
-          const stateBuffATK = skillAtkBoostMax * stateValue
-
-          action.conditionalState[this.id] = x.a[Key.ATK]
-
-          const finalBuffAtk = buffATK - (stateValue ? stateBuffATK : 0)
-          x.RATIO_BASED_ATK_BUFF.buff(finalBuffAtk, Source.NONE)
-
-          x.ATK.buffDynamic(finalBuffAtk, Source.NONE, action, context)
+          dynamicStatConversion(Stats.ATK, Stats.ATK, this, x, action, context,
+            (convertibleValue) => convertibleValue * skillAtkBoostMax,
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.benedictionBuff)}) {
-  return;
-}
-
-let stateValue: f32 = (*p_state).TingyunAtkConditional;
-let convertibleAtkValue: f32 = (*p_x).ATK - (*p_x).RATIO_BASED_ATK_BUFF;
-
-var buffATK: f32 = ${skillAtkBoostMax} * convertibleAtkValue;
-var stateBuffATK: f32 = ${skillAtkBoostMax} * stateValue;
-
-(*p_state).TingyunAtkConditional = (*p_x).ATK;
-
-let finalBuffAtk = buffATK - select(0, stateBuffATK, stateValue > 0);
-(*p_x).RATIO_BASED_ATK_BUFF += finalBuffAtk;
-
-buffNonRatioDynamicATK(finalBuffAtk, p_x, p_m, p_state);
-    `)
+          return gpuDynamicStatConversion(Stats.ATK, Stats.ATK, this, action, context,
+            `${skillAtkBoostMax} * convertibleValue`,
+            `${wgslTrue(r.benedictionBuff)}`,
+          )
         },
       },
     ],

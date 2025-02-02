@@ -151,8 +151,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.CD.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
       x.CD.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)

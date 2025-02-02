@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       if (r.skillCdBuff) {
         x.CD.buff(skillCdBuffBase, Source.NONE)
-        x.RATIO_BASED_CD_BUFF.buff(skillCdBuffBase, Source.NONE)
+        x.UNCONVERTIBLE_CD_BUFF.buff(skillCdBuffBase, Source.NONE)
       }
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -144,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,
         Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffSingle(
+      x.UNCONVERTIBLE_CD_BUFF.buffSingle(
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,

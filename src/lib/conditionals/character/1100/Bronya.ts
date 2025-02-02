@@ -124,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       if (r.ultBuff) {
         x.CD.buff(ultCdBoostBaseValue, Source.NONE)
-        x.RATIO_BASED_CD_BUFF.buff(ultCdBoostBaseValue, Source.NONE)
+        x.UNCONVERTIBLE_CD_BUFF.buff(ultCdBoostBaseValue, Source.NONE)
       }
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
@@ -146,8 +146,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.CD.buffTeam((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
       x.CD.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMulti)

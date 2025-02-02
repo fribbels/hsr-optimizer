@@ -187,15 +187,8 @@ function getRequestTeammateIndex(request: Form, conditional: DynamicConditional)
 function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
   const conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
-  const conditionalCallsWgsl = ''
-  const conditionalNonRatioCallsWgsl = ''
   let conditionalStateDefinition = ''
 
-  // conditionalCallsWgsl += registeredConditionals[stat]
-  //   .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
-  // conditionalNonRatioCallsWgsl += registeredConditionals[stat]
-  //   .filter((x) => !x.ratioConversion)
-  //   .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat]
     .map((conditional) => {
       if (conditional.teammateIndex == null) {
@@ -212,8 +205,6 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
         ...(conditional.supplementalState ?? []),
       ].map((id) => id + ': f32,\n')
     }).join('')
-  // conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
-  // conditionalEvaluators += generateConditionalNonRatioEvaluator(statName, conditionalNonRatioCallsWgsl)
 
   return {
     conditionalEvaluators,

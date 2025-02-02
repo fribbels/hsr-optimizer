@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       if (r.skillBuff) {
         x.HP.buff(skillHpFlatBuff, Source.NONE)
-        x.RATIO_BASED_HP_BUFF.buff(skillHpFlatBuff, Source.NONE)
+        x.UNCONVERTIBLE_HP_BUFF.buff(skillHpFlatBuff, Source.NONE)
       }
 
       return x

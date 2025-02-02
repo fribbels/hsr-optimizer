@@ -122,7 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SPD.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
-      x.RATIO_BASED_SPD_BUFF.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_SPD_BUFF.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
       x.ATK_P.buffSingle((t.ultBuff) ? ultAtkBuffValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),

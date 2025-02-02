@@ -128,7 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BE.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
-      x.RATIO_BASED_BE_BUFF.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_BE_BUFF.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

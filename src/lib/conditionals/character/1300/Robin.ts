@@ -137,7 +137,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       if (r.concertoActive) {
         x.ATK.buff(ultAtkBuffFlatValue, Source.NONE)
-        x.RATIO_BASED_ATK_BUFF.buff(ultAtkBuffFlatValue, Source.NONE)
+        x.UNCONVERTIBLE_ATK_BUFF.buff(ultAtkBuffFlatValue, Source.NONE)
       }
 
       return x
@@ -155,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.ATK.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0, Source.NONE)
-      x.RATIO_BASED_ATK_BUFF.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, Source.NONE)
+      x.UNCONVERTIBLE_ATK_BUFF.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, Source.NONE)
 
       x.SPD_P.buffTeam((e >= 2 && t.concertoActive && t.e2UltSpdBuff) ? 0.16 : 0, Source.NONE)
 

@@ -1,7 +1,7 @@
 import { EditOutlined } from '@ant-design/icons'
 import { Button, ConfigProvider, Flex, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { showcaseButtonStyle, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseBackdropFilter, showcaseButtonStyle, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
 import { parentH, parentW } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
@@ -161,7 +161,7 @@ export function ShowcasePortrait(props: {
         vertical
         style={{
           position: 'absolute',
-          bottom: artistName ? 35 : 0,
+          bottom: artistName ? 36 : 1,
           height: 34,
           paddingLeft: 3,
           display: showcaseUID ? 'flex' : 'none',
@@ -170,9 +170,11 @@ export function ShowcasePortrait(props: {
       >
         <Text
           style={{
-            backgroundColor: 'rgb(0 0 0 / 40%)',
+            backgroundColor: 'rgb(0 0 0 / 35%)',
             padding: '4px 12px',
             borderRadius: 8,
+            border: showcaseOutline,
+            backdropFilter: showcaseBackdropFilter,
             fontSize: 14,
             maxWidth: parentW - 150,
             textOverflow: 'ellipsis',
@@ -189,7 +191,7 @@ export function ShowcasePortrait(props: {
         vertical
         style={{
           position: 'absolute',
-          bottom: 0,
+          bottom: 1,
           height: 34,
           paddingLeft: 3,
           display: artistName ? 'flex' : 'none',
@@ -198,9 +200,11 @@ export function ShowcasePortrait(props: {
       >
         <Text
           style={{
-            backgroundColor: 'rgb(0 0 0 / 40%)',
+            backgroundColor: 'rgb(0 0 0 / 35%)',
             padding: '4px 12px',
             borderRadius: 8,
+            border: showcaseOutline,
+            backdropFilter: showcaseBackdropFilter,
             fontSize: 14,
             maxWidth: parentW - 150,
             textOverflow: 'ellipsis',

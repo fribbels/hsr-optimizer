@@ -5,8 +5,18 @@ import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 const MAX_EVALUATIONS = 3
 
 export function evaluateDependencyOrder(registeredConditionals: ConditionalRegistry) {
-  let conditionals: DynamicConditional[] = []
-  Object.values(registeredConditionals).forEach((conditionalChain) => conditionals = [...conditionals, ...conditionalChain])
+  const chainedConditionals: DynamicConditional[] = []
+  const terminalConditionals: DynamicConditional[] = []
+
+  Object.values(registeredConditionals).forEach((conditionalGroup) => {
+    for (const conditional of conditionalGroup) {
+      if (conditional.chainsTo.length == 0) {
+        terminalConditionals.push(conditional)
+      } else {
+        chainedConditionals.push(conditional)
+      }
+    }
+  })
 
   const registry = emptyRegistry()
   const activationCount: Record<string, number> = {}
@@ -14,16 +24,16 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
   const pendingEvaluations = new Set<string>()
   const res: string[] = []
   const conditionalMap: Record<string, DynamicConditional> = {}
-  const conditionalOrder: DynamicConditional[] = []
+  const conditionalSequence: DynamicConditional[] = []
 
-  for (const conditional of conditionals) {
+  for (const conditional of chainedConditionals) {
     conditionalMap[conditional.id] = conditional
     for (const stat of conditional.dependsOn) {
       registry[stat].push(conditional)
     }
   }
 
-  const remainingConditionals = new Set(conditionals.map((c) => c.id))
+  const remainingConditionals = new Set(chainedConditionals.map((c) => c.id))
 
   const bestStartingStat = statOrder.reduce((bestStat, currentStat) => {
     const currentReachable = getTotalReachableConditionals(currentStat, remainingConditionals, registry)
@@ -79,7 +89,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
         remainingConditionals.delete(conditional.id)
         console.log(`  -> Executed Conditional: ${conditional.id}`)
 
-        conditionalOrder.push(conditional)
+        conditionalSequence.push(conditional)
 
         for (const chainedStat of conditional.chainsTo) {
           if (!priorityQueue.includes(chainedStat) && !pendingEvaluations.has(chainedStat)) {
@@ -102,7 +112,10 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
     priorityQueue = Array.from(new Set(priorityQueue))
   }
 
-  return conditionalOrder
+  return {
+    conditionalSequence,
+    terminalConditionals,
+  }
 }
 
 const statOrder = [

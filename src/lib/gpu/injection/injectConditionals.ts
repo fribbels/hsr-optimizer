@@ -74,13 +74,16 @@ ${lightConeConditionalWgsl}
 
   // Combat conditionals
 
-  const conditionalOrder = evaluateDependencyOrder(context.actions[0].conditionalRegistry)
-  let conditionalOrderWgsl = '\n'
-  conditionalOrderWgsl += conditionalOrder.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+  const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(context.actions[0].conditionalRegistry)
+  let conditionalSequenceWgsl = '\n'
+  conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+
+  conditionalSequenceWgsl += '\n'
+  conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
 
   wgsl = wgsl.replace(
     '/* INJECT COMBAT CONDITIONALS */',
-    conditionalOrderWgsl,
+    conditionalSequenceWgsl,
   )
 
   // Dynamic conditionals

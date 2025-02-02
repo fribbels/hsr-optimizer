@@ -13,7 +13,6 @@ export type DynamicConditional = {
   condition: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => boolean | number
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpu: (action: OptimizerAction, context: OptimizerContext) => string
-  ratioConversion?: boolean
   teammateIndex?: number
 }
 

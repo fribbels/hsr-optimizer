@@ -161,7 +161,6 @@ x.ULT_DMG += x.ULT_SCALING * x.ATK;
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.ATK],
         chainsTo: [Stats.ATK],
-        ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 

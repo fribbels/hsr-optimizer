@@ -130,7 +130,6 @@ x.ULT_DMG += x.ULT_SCALING * x.HP;
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
         chainsTo: [Stats.HP],
-        ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 

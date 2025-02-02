@@ -149,7 +149,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
         chainsTo: [Stats.HP],
-        ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -178,7 +177,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
         chainsTo: [Stats.ATK],
-        ratioConversion: true,
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 

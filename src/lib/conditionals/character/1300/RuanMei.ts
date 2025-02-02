@@ -142,7 +142,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     gpuFinalizeCalculations: () => {
       return `
 let beOver = (x.BE * 100 - 120) / 10;
-let buffValue: f32 = floor(max(0, beOver)) * 0.06;
+let buffValue: f32 = min(0.36, floor(max(0, beOver)) * 0.06);
 x.ELEMENTAL_DMG += buffValue;
 
 ${gpuStandardAtkFinalizer()}      

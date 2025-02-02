@@ -312,7 +312,7 @@ Builds:
   DeleteAll: すべて削除
   Equip: 装備
   ConfirmEquip:
-    Content: これを装備すると、このビルドの遺物を使用しているキャラクターの装備が解除されます。
+    Content: 装備すると、このビルドの遺物を使用するキャラクターの装備が外されます。
     SuccessMessage: "ビルドを装備しました：{{buildName}}"
   ConfirmDelete:
     DeleteAll: 本当に全てのビルドを削除しますか？

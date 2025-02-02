@@ -20,7 +20,7 @@ Save: 저장
 Score: 점수
 Reset: 초기화
 EidolonNShort: "{{eidolon}}돌"
-SuperimpositionNShort: "{{superimposition}}중첩"
+SuperimpositionNShort: "{{superimposition}}재"
 LevelShort: "{{level}}레벨"
 CharacterWithCount_one: "{{count}} 명"
 CharacterWithCount_other: "{{count}} 명"
@@ -144,8 +144,8 @@ ShortReadableStats:
   DEF: 방어력
   "SPD%": 속도 %
   SPD: 속도
-  CRIT Rate: 치명타 확률
-  CRIT DMG: 치명타 피해
+  CRIT Rate: 치확
+  CRIT DMG: 치피
   Effect Hit Rate: 효명
   Effect RES: 효저
   Break Effect: 격파

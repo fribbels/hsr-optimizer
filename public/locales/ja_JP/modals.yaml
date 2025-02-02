@@ -304,7 +304,7 @@ EditImage:
     Previous: 前
     Next: 次
 SaveBuild:
-  Label: ビルドの名前
+  Label: ビルド名の入力
   Rule: 名前を入力してください
 SwitchRelics:
   Title: キャラクターと遺物を交換
@@ -312,7 +312,7 @@ Builds:
   DeleteAll: すべて削除
   Equip: 装備
   ConfirmEquip:
-    Content: これを装備すると、このビルドの遺物を使用しているキャラクターの装備が解除されます。
+    Content: 装備すると、このビルドの遺物を使用するキャラクターの装備が外されます。
     SuccessMessage: "ビルドを装備しました：{{buildName}}"
   ConfirmDelete:
     DeleteAll: 本当に全てのビルドを削除しますか？

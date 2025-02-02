@@ -74,13 +74,13 @@ RelicGrid:
       RerollAvg:
         Label: "선택된 캐릭터 : 리롤 후 평균 잠재력"
         Header: |-
-          선택된 캐릭터 
-          리롤 후 평균 잠재력
+          리롤 후 
+          평균 잠재력
       RerollAvgDelta:
         Label: "선택된 캐릭터 : 리롤 전/후 잠재력"
         Header: |-
-          선택된 캐릭터
-          리롤 전/후 잠재력
+          리롤 전/후
+          잠재력
     CustomCharacters:
       Label: 커스텀 캐릭터
       AvgPotCol:

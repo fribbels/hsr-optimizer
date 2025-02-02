@@ -31,8 +31,8 @@ jobs:
       - name: Find and Replace router path
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "export const BASE_PATH: BasePath = BasePath.MAIN"
-          replace: "export const BASE_PATH: BasePath = BasePath.BETA"
+          find: "const BASE_PATH: BasePath = BasePath.MAIN"
+          replace: "const BASE_PATH: BasePath = BasePath.BETA"
           include: "src/lib/state/db.ts"
       - name: Find and Replace API endpoint
         uses: jacobtomlinson/gha-find-replace@v3

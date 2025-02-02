@@ -4,6 +4,7 @@ import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
+import { ExpandedDataPanel } from 'lib/tabs/tabOptimizer/optimizerForm/grid/ExpandedDataPanel'
 import {
   getBasicColumnDefs,
   getCombatColumnDefs,
@@ -38,6 +39,13 @@ export function OptimizerGrid() {
 
   const datasource = useMemo(() => {
     return OptimizerTabController.getDataSource()
+  }, [])
+
+  const isFullWidthRow = useCallback((params) => {
+    return params.rowNode.rowPinned === 'bottom'
+  }, [])
+  const getRowHeight = useCallback((params) => {
+    if (params.node.rowPinned === 'bottom') return 200
   }, [])
 
   const statDisplay = window.store((s) => s.statDisplay)
@@ -110,6 +118,9 @@ export function OptimizerGrid() {
             gridOptions={optimizerGridOptions}
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
+            isFullWidthRow={isFullWidthRow}
+            fullWidthCellRenderer={ExpandedDataPanel}
+            getRowHeight={getRowHeight}
             ref={optimizerGrid}
             paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage.split('_')[0])}
             getLocaleText={getLocaleText}

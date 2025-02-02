@@ -1,6 +1,6 @@
 import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { IRowNode } from 'ag-grid-community'
-import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
+import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, RadioChangeEvent, theme, Typography } from 'antd'
 import i18next from 'i18next'
 import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -475,6 +475,8 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
         <StatsViewSelect/>
 
         <MemoViewSelect isFullSize={props.isFullSize}/>
+
+        <DataPanelToggle isFullSize={props.isFullSize}/>
       </Flex>
 
       {!props.isFullSize
@@ -557,4 +559,40 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
 function isRemembrance(characterId?: string) {
   if (!characterId) return false
   return DB.getMetadata().characters[characterId].path == 'Remembrance'
+}
+
+function DataPanelToggle(props: { isFullSize: boolean }) {
+  const dataPanelDisplay = window.store((s) => s.dataPanelDisplay)
+  const setDataPanelDisplay = window.store((s) => s.setDataPanelDisplay)
+  return (
+    <Radio.Group
+      onChange={(e) => onDataPanelDisplayChange(e, setDataPanelDisplay)}
+      optionType='button'
+      buttonStyle='solid'
+      style={{ width: '100%', display: 'flex' }}
+      value={dataPanelDisplay}
+    >
+      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'shown'}>
+        Shown
+      </Radio>
+      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'hidden'}>
+        Hidden
+      </Radio>
+    </Radio.Group>
+  )
+}
+
+function onDataPanelDisplayChange(e: RadioChangeEvent, setDataPanelDisplay: (x: string) => void) {
+  const gridApi = optimizerGridApi()
+  const value: string = e.target.value
+  setDataPanelDisplay(value)
+  if (value === 'shown') {
+    const selectedRows = gridApi.getSelectedRows()
+    if (selectedRows.length) {
+      gridApi.updateGridOptions({ pinnedBottomRowData: selectedRows })
+      console.log(selectedRows)
+    }
+  } else {
+    gridApi.updateGridOptions({ pinnedBottomRowData: [] })
+  }
 }

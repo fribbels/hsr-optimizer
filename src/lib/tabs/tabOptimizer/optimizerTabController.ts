@@ -193,6 +193,7 @@ export const OptimizerTabController = {
   cellClicked: (event: CellClickedEvent) => {
     const data = event.data as OptimizerDisplayDataStatSim
     const gridApi = optimizerGridApi()
+    if (window.store.getState().dataPanelDisplay === 'shown') gridApi.updateGridOptions({ pinnedBottomRowData: [data] })
 
     if (event.rowPinned == 'top') {
       // Clicking the top row should display current relics
@@ -432,7 +433,7 @@ export const OptimizerTabController = {
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
-    const displayFormValues = OptimizerTabController.formToDisplay(form as Form)
+    const displayFormValues = OptimizerTabController.formToDisplay(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
     const comboState = initializeComboState(displayFormValues, true)

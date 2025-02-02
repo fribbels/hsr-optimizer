@@ -70,6 +70,7 @@ CharacterPreview:
       Custom: 커스텀
       Standard: 표준
     PaletteLabel: 색 팔레트
+    ShowUID: UID 보기
   ArtBy: "아티스트: {{artistName}}"
   EditCharacter: 캐릭터 편집
   EditPortrait: 일러스트 변경

@@ -65,10 +65,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           return conditionalWgslWrapper(this, `
 if (
   (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&
-  (*p_x).BE >= 1.50
+  x.BE >= 1.50
 ) {
   (*p_state).SailingTowardsASecondLifeConditional = 1.0;
-  buffDynamicSPD_P(${sValuesSpdBuff[s]}, p_x, p_m, p_state);
+  (*p_x).SPD += ${sValuesSpdBuff[s]} * baseSPD;
 }
     `)
         },

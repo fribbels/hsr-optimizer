@@ -89,7 +89,6 @@ export const languages = {
 export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'pt_BR', 'zh_CN'] as const
 
-// @ts-ignore
 export const supportedLanguages = BASE_PATH === BasePath.BETA ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)

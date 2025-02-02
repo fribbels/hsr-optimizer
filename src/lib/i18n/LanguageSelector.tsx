@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
-  // @ts-ignore
   const isBeta = BASE_PATH === BasePath.BETA
   const selectOptions = Object.values(languages)
     .filter((x) => isBeta || completedLocales.includes(x.locale))

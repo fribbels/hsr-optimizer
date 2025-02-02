@@ -129,10 +129,10 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
       window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
     }
-    
+
     const onShowUIDChange = (showUID: boolean) => {
       console.log('Set show UID to', showUID)
-  
+
       window.store
         .getState()
         .setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
@@ -400,11 +400,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             value={showcaseDarkMode}
             onChange={onBrightnessModeChange}
           />
-          
+
           <HorizontalDivider/>
 
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            Show UID
+            {tCustomization('ShowUID')/* Show UID */}
           </HeaderText>
           <Segmented
             options={[

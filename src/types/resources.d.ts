@@ -66,12 +66,12 @@ interface Resources {
           "High": ".000"
         },
         "SpdWeight": {
-          "Header": "SPD Weight",
+          "Header": "SPD weight",
           "Max": "100%",
           "Min": "0%"
         },
         "BenchmarkSpd": {
-          "Header": "SPD Benchmark",
+          "Header": "SPD benchmark",
           "BenchmarkOptionsLabel": "Benchmark options",
           "CurrentSpdLabel": "Current SPD - The benchmark will match your basic SPD",
           "BaseSpdLabel": "Base SPD - The benchmark will target a minimal SPD build",
@@ -90,7 +90,8 @@ interface Resources {
           "Custom": "Custom",
           "Standard": "Standard"
         },
-        "PaletteLabel": "Portrait color palette"
+        "PaletteLabel": "Portrait color palette",
+        "ShowUID": "Show UID"
       },
       "ArtBy": "Art by {{artistName}}",
       "EditCharacter": "Edit character",
@@ -5245,11 +5246,11 @@ interface Resources {
       "Results": "Results",
       "Settings": "Settings",
       "Character": "Character",
-      "LightCone": "LightCone",
+      "LightCone": "Light Cone",
       "Passes": "Passes",
       "Jades": "Jades",
       "Strategy": "Strategy",
-      "AdditionalResources": "Additional Resources",
+      "AdditionalResources": "Additional resources",
       "Calculate": "Calculate"
     },
     "ColumnTitles": {
@@ -5257,7 +5258,7 @@ interface Resources {
       "Chance": "Success chance with {{ticketCount}} <1/>",
       "Average": "Average # of <1/> required"
     },
-    "TargetLabel": "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}) $t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}})"
+    "TargetLabel": "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}}) $t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})"
   }
 }
 

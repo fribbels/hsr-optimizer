@@ -32,9 +32,9 @@ RelicGrid:
     MainValue: |-
       メインステ
       の値
-    HPP: HP
-    ATKP: 攻撃力割合
-    DEFP: 防御力
+    HPP: HP割合
+    ATKP: "攻撃力\n割合"
+    DEFP: "防御力\n割合"
     HP: HP
     ATK: 攻撃力
     DEF: 防御力
@@ -135,7 +135,7 @@ Toolbar:
     Top10: "遺物インサイト：トップ10"
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
-    PlotCustom: 指定した対象のみ表示
+    PlotCustom: 指定対象のみ表示
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除

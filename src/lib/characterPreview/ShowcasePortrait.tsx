@@ -1,7 +1,7 @@
 import { EditOutlined } from '@ant-design/icons'
 import { Button, ConfigProvider, Flex, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { showcaseBackdropFilter, showcaseButtonStyle, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseBackdropFilter, showcaseButtonStyle, showcaseOutline, showcaseOutlineLight, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
 import { parentH, parentW } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
@@ -14,10 +14,6 @@ import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 
 const { Text } = Typography
-
-export function ShowcasePortraitLarge() {
-
-}
 
 export function ShowcasePortrait(props: {
   source: ShowcaseSource
@@ -38,6 +34,8 @@ export function ShowcasePortrait(props: {
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
   const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
   const uid = window.store((s) => s.scorerId)
+
+  const showUid = props.source == ShowcaseSource.SHOWCASE_TAB && showcaseUID
 
   const {
     source,
@@ -164,16 +162,17 @@ export function ShowcasePortrait(props: {
           bottom: artistName ? 36 : 1,
           height: 34,
           paddingLeft: 3,
-          display: showcaseUID ? 'flex' : 'none',
+          display: showUid ? 'flex' : 'none',
         }}
         align='flex-start'
       >
         <Text
           style={{
-            backgroundColor: 'rgb(0 0 0 / 35%)',
+            backgroundColor: 'rgb(20 20 20 / 30%)',
+            color: 'rgb(255 255 255 / 80%)',
             padding: '4px 12px',
             borderRadius: 8,
-            border: showcaseOutline,
+            border: showcaseOutlineLight,
             backdropFilter: showcaseBackdropFilter,
             fontSize: 14,
             maxWidth: parentW - 150,
@@ -184,7 +183,7 @@ export function ShowcasePortrait(props: {
             textShadow: '0px 0px 10px black',
           }}
         >
-          {uid}
+          UID: {uid}
         </Text>
       </Flex>
       <Flex
@@ -200,10 +199,11 @@ export function ShowcasePortrait(props: {
       >
         <Text
           style={{
-            backgroundColor: 'rgb(0 0 0 / 35%)',
+            backgroundColor: 'rgb(20 20 20 / 30%)',
+            color: 'rgb(255 255 255 / 80%)',
             padding: '4px 12px',
             borderRadius: 8,
-            border: showcaseOutline,
+            border: showcaseOutlineLight,
             backdropFilter: showcaseBackdropFilter,
             fontSize: 14,
             maxWidth: parentW - 150,

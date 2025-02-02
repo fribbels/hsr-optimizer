@@ -1,6 +1,6 @@
 import { ConfigProvider, Flex, theme } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
-import { showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getArtistName,
   getPreviewRelics,
@@ -215,6 +215,7 @@ export function CharacterPreview(props: {
       />
       <ShowcaseCustomizationSidebar
         ref={sidebarRef}
+        source={source}
         id={props.id}
         characterId={character.id}
         simScoringResult={simScoringResult}
@@ -315,7 +316,7 @@ export function CharacterPreview(props: {
                 paddingRight: 2,
                 paddingLeft: 2,
                 paddingBottom: 3,
-                boxShadow: showcaseShadow,
+                boxShadow: showcaseShadow + showcaseShadowInsetAddition,
                 border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
               }}
               justify='space-between'

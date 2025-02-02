@@ -16,11 +16,10 @@ export function dynamicStatConversion(
   const destConfig = statConversionConfig[destinationStat]
 
   const statValue = x.a[statConfig.key]
-  const statPreconvertedValue = x.a[statConfig.preconvertedKey!] ?? 0
-  const statPreconvertedPercentValue = statConfig.percentStat ? x.a[statConfig.percentPreconvertedKey!] * context[statConfig.baseProperty!] : 0
+  const statPreconvertedValue = x.a[statConfig.preconvertedKey] ?? 0
 
   const stateValue = action.conditionalState[conditional.id] ?? 0
-  const convertibleValue = statValue - statPreconvertedValue - statPreconvertedPercentValue
+  const convertibleValue = statValue - statPreconvertedValue
 
   if (convertibleValue <= 0) return
 

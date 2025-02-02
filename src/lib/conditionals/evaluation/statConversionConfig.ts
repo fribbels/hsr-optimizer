@@ -7,11 +7,9 @@ type StatConversionConfigEntry = {
   key: number
   property: StatProperty
   preconvertedProperty: PreconvertedProperty
-  preconvertedKey?: number
+  preconvertedKey: number
   percentStat?: string
   percentKey?: number
-  percentPreconvertedProperty?: PreconvertedProperty
-  percentPreconvertedKey?: number
   baseProperty?: 'baseHP' | 'baseATK' | 'baseDEF' | 'baseSPD'
 }
 
@@ -37,13 +35,16 @@ export type StatProperty = (typeof statToStatProperty)[keyof typeof statToStatPr
 
 const statToRatioProperty: Record<string, keyof ComputedStatsObject> = {
   [Stats.HP]: 'RATIO_BASED_HP_BUFF',
-  [Stats.HP_P]: 'RATIO_BASED_HP_P_BUFF',
   [Stats.ATK]: 'RATIO_BASED_ATK_BUFF',
-  [Stats.ATK_P]: 'RATIO_BASED_ATK_P_BUFF',
   [Stats.DEF]: 'RATIO_BASED_DEF_BUFF',
-  [Stats.DEF_P]: 'RATIO_BASED_DEF_P_BUFF',
   [Stats.SPD]: 'RATIO_BASED_SPD_BUFF',
+  [Stats.CR]: 'RATIO_BASED_CR_BUFF',
   [Stats.CD]: 'RATIO_BASED_CD_BUFF',
+  [Stats.EHR]: 'RATIO_BASED_EHR_BUFF',
+  [Stats.BE]: 'RATIO_BASED_BE_BUFF',
+  [Stats.OHB]: 'RATIO_BASED_OHB_BUFF',
+  [Stats.RES]: 'RATIO_BASED_RES_BUFF',
+  [Stats.ERR]: 'RATIO_BASED_ERR_BUFF',
 }
 
 export type PreconvertedProperty = (typeof statToRatioProperty)[keyof typeof statToRatioProperty]
@@ -57,8 +58,6 @@ export const statConversionConfig: Record<ConvertibleStatsType, StatConversionCo
     preconvertedKey: Key.RATIO_BASED_HP_BUFF,
     percentStat: Stats.HP_P,
     percentKey: Key.HP_P,
-    percentPreconvertedProperty: 'RATIO_BASED_HP_P_BUFF',
-    percentPreconvertedKey: Key.RATIO_BASED_HP_P_BUFF,
     baseProperty: 'baseHP',
   },
   [Stats.ATK]: {
@@ -69,8 +68,6 @@ export const statConversionConfig: Record<ConvertibleStatsType, StatConversionCo
     preconvertedKey: Key.RATIO_BASED_ATK_BUFF,
     percentStat: Stats.ATK_P,
     percentKey: Key.ATK_P,
-    percentPreconvertedProperty: 'RATIO_BASED_ATK_P_BUFF',
-    percentPreconvertedKey: Key.RATIO_BASED_ATK_P_BUFF,
     baseProperty: 'baseATK',
   },
   [Stats.DEF]: {
@@ -81,8 +78,6 @@ export const statConversionConfig: Record<ConvertibleStatsType, StatConversionCo
     preconvertedKey: Key.RATIO_BASED_DEF_BUFF,
     percentStat: Stats.DEF_P,
     percentKey: Key.DEF_P,
-    percentPreconvertedProperty: 'RATIO_BASED_DEF_P_BUFF',
-    percentPreconvertedKey: Key.RATIO_BASED_DEF_P_BUFF,
     baseProperty: 'baseDEF',
   },
   [Stats.SPD]: {
@@ -93,8 +88,6 @@ export const statConversionConfig: Record<ConvertibleStatsType, StatConversionCo
     preconvertedKey: Key.RATIO_BASED_SPD_BUFF,
     percentStat: Stats.SPD_P,
     percentKey: Key.SPD_P,
-    percentPreconvertedProperty: 'RATIO_BASED_SPD_P_BUFF',
-    percentPreconvertedKey: Key.RATIO_BASED_SPD_P_BUFF,
     baseProperty: 'baseSPD',
   },
   [Stats.CR]: {

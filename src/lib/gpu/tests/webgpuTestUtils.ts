@@ -220,11 +220,8 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   analyze('ULT_ADDITIONAL_DMG', P_2)
   analyze('FUA_ADDITIONAL_DMG', P_2)
   analyze('RATIO_BASED_HP_BUFF', P_2)
-  analyze('RATIO_BASED_HP_P_BUFF', P_2)
   analyze('RATIO_BASED_ATK_BUFF', P_2)
-  analyze('RATIO_BASED_ATK_P_BUFF', P_2)
   analyze('RATIO_BASED_DEF_BUFF', P_2)
-  analyze('RATIO_BASED_DEF_P_BUFF', P_2)
   analyze('RATIO_BASED_SPD_BUFF', P_2)
   analyze('RATIO_BASED_CD_BUFF', P_2)
   analyze('BREAK_EFFICIENCY_BOOST', P_2)
@@ -275,6 +272,7 @@ export function uncondenseRelics(relicsByPart: RelicsByPart) {
       relic.substats = []
       condensedStats.map(([stat, value]) => {
         relic.substats.push({
+          // @ts-ignore
           stat,
           value,
         })

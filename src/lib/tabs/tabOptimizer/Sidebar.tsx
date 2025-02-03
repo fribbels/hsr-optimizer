@@ -556,7 +556,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
   )
 }
 
-function isRemembrance(characterId?: string) {
+export function isRemembrance(characterId?: string) {
   if (!characterId) return false
   return DB.getMetadata().characters[characterId].path == 'Remembrance'
 }

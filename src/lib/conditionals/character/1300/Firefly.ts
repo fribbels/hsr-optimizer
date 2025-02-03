@@ -1,8 +1,8 @@
 import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -171,37 +171,24 @@ x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.ATK],
+        chainsTo: [Stats.BE],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return x.a[Key.ATK] > 1800
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.atkToBeConversion && x.a[Key.ATK] > 1800
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const stateValue = action.conditionalState[this.id] || 0
-          const trueAtk = x.a[Key.ATK] - x.a[Key.RATIO_BASED_ATK_BUFF] - x.a[Key.RATIO_BASED_ATK_P_BUFF] * context.baseATK
-          const buffValue = 0.008 * Math.floor((trueAtk - 1800) / 10)
-
-          action.conditionalState[this.id] = buffValue
-          x.BE.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
-
-          return buffValue
+          dynamicStatConversion(Stats.ATK, Stats.BE, this, x, action, context,
+            (convertibleValue) => 0.008 * Math.floor((convertibleValue - 1800) / 10),
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.atkToBeConversion)}) {
-  return;
-}
-let atk = (*p_x).ATK;
-let stateValue = (*p_state).FireflyConversionConditional;
-let trueAtk = atk - (*p_x).RATIO_BASED_ATK_BUFF - (*p_x).RATIO_BASED_ATK_P_BUFF * baseATK;
-
-if (trueAtk > 1800) {
-  let buffValue: f32 = 0.008 * floor((trueAtk - 1800) / 10);
-
-  (*p_state).FireflyConversionConditional = buffValue;
-  buffDynamicBE(buffValue - stateValue, p_x, p_m, p_state);
-}
-    `)
+          return gpuDynamicStatConversion(Stats.ATK, Stats.BE, this, action, context,
+            `0.008 * floor((convertibleValue - 1800) / 10)`,
+            `${wgslTrue(r.atkToBeConversion)} && x.ATK > 1800`,
+          )
         },
       },
     ],

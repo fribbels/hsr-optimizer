@@ -671,10 +671,18 @@ a {
 }
 
 .warp-table-row-disabled {
-    color: rgba(255, 255, 255, 0.15) !important;
+    color: rgba(255, 255, 255, 0.10) !important;
 }
 
 .warp-table-row .ant-tag {
     font-size: 14px !important;
     letter-spacing: 1px !important;
+}
+
+.ant-radio-group {
+    user-select: none !important;
+}
+
+.large-grid-column-header .ag-header-cell-text {
+    font-size: 14px !important;
 }

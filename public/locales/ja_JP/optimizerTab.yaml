@@ -186,6 +186,7 @@ Sidebar:
   Perms: 合計
   Searched: 検索済み
   Results: 結果
+  ComputeEngine: 計算エンジン
   ProgressText:
     Progress: 進行状況
     CalculatingETA: 進行状況（ETA計算中）

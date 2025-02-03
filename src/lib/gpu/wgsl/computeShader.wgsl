@@ -1,30 +1,14 @@
-// START CHARACTER CONDITIONAL CONSTANTS
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-/* INJECT CHARACTER CONDITIONAL CONSTANTS */
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-// END CHARACTER CONDITIONAL CONSTANTS
-
-
-// START LIGHT CONE CONDITIONAL CONSTANTS
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-/* INJECT LIGHT CONE CONDITIONAL CONSTANTS */
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-// END LIGHT CONE CONDITIONAL CONSTANTS
-
-
 // START GPU PARAMS
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT GPU PARAMS */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END GPU PARAMS
 
-
 // START ACTIONS DEFINITION
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT ACTIONS DEFINITION */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END ACTIONS DEFINITION
-
 
 const BASIC_DMG_TYPE = 1;
 const SKILL_DMG_TYPE = 2;
@@ -48,13 +32,11 @@ const MEMO_SKILL_ABILITY_TYPE = 16;
 @group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;
 @group(1) @binding(2) var<storage> relicSetSolutionsMatrix : array<i32>;
 
-
 // START RESULTS BUFFER
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT RESULTS BUFFER */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END RESULTS BUFFER
-
 
 @compute @workgroup_size(WORKGROUP_SIZE)
 fn main(
@@ -143,13 +125,11 @@ fn main(
     let relicSetIndex: u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
-
     // START SET FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     /* INJECT SET FILTERS */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END SET FILTERS
-
 
     // Calculate relic set counts
 
@@ -206,7 +186,6 @@ fn main(
     var c: BasicStats = BasicStats();
 
     // Calculate relic stat sums
-
     // NOTE: Performance is worse if we don't add elemental dmg from head/hands/body/feet/rope
 
     c.HP_P  = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
@@ -353,8 +332,15 @@ fn main(
       let p_m = &m;
       let p_state = &state;
 
-
       x.sets = sets;
+
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == true && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
 
       if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
         x.SPD_P += 0.12;
@@ -380,9 +366,7 @@ fn main(
 
       // DEF
 
-
       // HP
-
 
       // CD
 
@@ -493,8 +477,6 @@ fn main(
         x.Fire_DMG += 0.12;
       }
 
-      //
-
       x.ATK += diffATK;
       x.DEF += diffDEF;
       x.HP  += diffHP;
@@ -509,10 +491,6 @@ fn main(
 
       addElementalDmg(&c, &x);
 
-//      m.ATK += mc.ATK;
-//      m.DEF += mc.DEF;
-//      m.HP  += mc.HP;
-//      m.SPD += mc.SPD;
       m.CD  += mc.CD;
       m.CR  += mc.CR;
       m.EHR += mc.EHR;
@@ -528,13 +506,10 @@ fn main(
       x.VULNERABILITY += combatBuffsVULNERABILITY;
       x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
 
-      //
-
       x.ATK += x.ATK_P * baseATK;
       x.DEF += x.DEF_P * baseDEF;
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
-
 
       m.ATK += (m.ATK_P * baseATK + mc.ATK) * x.MEMO_ATK_SCALING + x.MEMO_ATK_FLAT;
       m.DEF += (m.DEF_P * baseDEF + mc.DEF) * x.MEMO_DEF_SCALING + x.MEMO_DEF_FLAT;
@@ -547,38 +522,34 @@ fn main(
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
       // END BASIC CONDITIONALS
 
-      evaluateDependenciesSPD(p_x, p_m, p_state);
-      evaluateDependenciesBE(p_x, p_m, p_state);
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
 
-      evaluateDependenciesHP(p_x, p_m, p_state);
-      evaluateDependenciesATK(p_x, p_m, p_state);
-      evaluateDependenciesDEF(p_x, p_m, p_state);
-      evaluateDependenciesCR(p_x, p_m, p_state);
-      evaluateDependenciesCD(p_x, p_m, p_state);
-      evaluateDependenciesEHR(p_x, p_m, p_state);
-      evaluateDependenciesRES(p_x, p_m, p_state);
-      evaluateDependenciesOHB(p_x, p_m, p_state);
-      evaluateDependenciesERR(p_x, p_m, p_state);
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
 
-      evaluateDependenciesSPD(p_x, p_m, p_state);
-      evaluateDependenciesBE(p_x, p_m, p_state);
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
 
-      evaluateDependenciesHP(p_x, p_m, p_state);
-      evaluateDependenciesATK(p_x, p_m, p_state);
-      evaluateDependenciesDEF(p_x, p_m, p_state);
-      evaluateDependenciesCR(p_x, p_m, p_state);
-      evaluateDependenciesCD(p_x, p_m, p_state);
-      evaluateDependenciesEHR(p_x, p_m, p_state);
-      evaluateDependenciesRES(p_x, p_m, p_state);
-      evaluateDependenciesOHB(p_x, p_m, p_state);
-      evaluateDependenciesERR(p_x, p_m, p_state);
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
 
       // START ACTION CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
       /* INJECT ACTION CONDITIONALS */
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
       // END ACTION CONDITIONALS
-
 
       // Calculate damage
 
@@ -607,7 +578,6 @@ fn main(
         /* INJECT COMBAT STAT FILTERS */
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
         // END COMBAT STAT FILTERS
-
 
 
         // START BASIC STAT FILTERS
@@ -981,6 +951,27 @@ fn p2(n: i32) -> f32 {
 fn p4(n: i32) -> f32 {
   return f32(n >> 2);
 }
+fn buffATK_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).ATK += value * baseATK;
+  }
+}
+fn buffHP_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).HP += value * baseHP;
+  }
+}
+fn buffDEF_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).DEF += value * baseDEF;
+  }
+}
+fn buffSPD_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).SPD += value * baseSPD;
+  }
+}
+
 
 fn buffAbilityDmg(
   p_x: ptr<function, ComputedStats>,

@@ -17,7 +17,7 @@ import { OptimizerContext } from 'types/optimizer'
 window.WEBGPU_DEBUG = false
 
 export async function gpuOptimize(props: {
-  device: GPUDevice | null,
+  device: GPUDevice | null
   context: OptimizerContext
   request: Form
   relics: RelicsByPart
@@ -60,7 +60,7 @@ export async function gpuOptimize(props: {
     Message.warning('Debug mode is ON', 5)
   }
 
-  console.log('Raw inputs', { context, request, relics, permutations })
+  // console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {

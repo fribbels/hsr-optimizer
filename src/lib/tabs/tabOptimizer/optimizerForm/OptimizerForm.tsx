@@ -28,6 +28,8 @@ import { Utils } from 'lib/utils/utils'
 import React, { useEffect } from 'react'
 import { Form } from 'types/form'
 
+export const optimizerFormCache: Record<string, Form> = {}
+
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
   const [optimizerForm] = AntDForm.useForm()
@@ -132,6 +134,8 @@ export default function OptimizerForm() {
     window.store.getState().setOptimizationId(optimizationId)
     form.optimizationId = optimizationId
     form.statDisplay = window.store.getState().statDisplay
+
+    optimizerFormCache[optimizationId] = form
 
     console.log('Form finished', form)
 

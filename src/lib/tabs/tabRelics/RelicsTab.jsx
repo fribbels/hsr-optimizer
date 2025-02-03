@@ -347,9 +347,17 @@ export default function RelicsTab() {
     },
     {
       field: 'grade',
-      width: 40,
+      width: 30,
       cellRenderer: Renderer.renderGradeCell,
-      headerName: t('RelicGrid.Headers.Grade')/* Grade */,
+      headerName: '★',
+      headerClass: 'large-grid-column-header',
+      filter: 'agNumberColumnFilter',
+    },
+    {
+      field: 'enhance',
+      width: 30,
+      headerName: '+',
+      headerClass: 'large-grid-column-header',
       filter: 'agNumberColumnFilter',
     },
     {
@@ -358,12 +366,6 @@ export default function RelicsTab() {
       width: 55,
       headerName: t('RelicGrid.Headers.Part')/* Part */,
       filter: 'agTextColumnFilter',
-    },
-    {
-      field: 'enhance',
-      width: 50,
-      headerName: t('RelicGrid.Headers.Enhance')/* Enhance */,
-      filter: 'agNumberColumnFilter',
     },
     {
       field: 'main.stat',
@@ -500,7 +502,7 @@ export default function RelicsTab() {
   // headerTooltip
   const defaultColDef = useMemo(() => ({
     sortable: true,
-    width: 44,
+    width: 46,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
     filterParams: { maxNumConditions: 200 },

@@ -14,6 +14,7 @@ import {
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -52,10 +53,13 @@ export function OptimizerGrid() {
 
   const statDisplay = window.store((s) => s.statDisplay)
   const memoDisplay = window.store((s) => s.memoDisplay)
+  const hasMemo = isRemembrance(optimizerTabFocusCharacter)
+  const showMemo = hasMemo && memoDisplay === 'memo'
+
   const columnDefs = useMemo(() => {
     let columnDefinitions = statDisplay === 'combat'
-      ? (memoDisplay === 'memo' ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
-      : (memoDisplay === 'memo' ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
+      ? (showMemo ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
+      : (showMemo ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
 
     if (optimizerTabFocusCharacter) {
       const scoringMetadata = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata
@@ -64,8 +68,8 @@ export function OptimizerGrid() {
 
       const hiddenFields = Array.from(hiddenColumns)
         .filter((column) => !addedColumns.has(column)).map((column) => statDisplay === 'combat'
-          ? (memoDisplay === 'memo' ? column.memoCombatGridColumn : column.combatGridColumn)
-          : (memoDisplay === 'memo' ? column.memoBasicGridColumn : column.basicGridColumn),
+          ? (showMemo ? column.memoCombatGridColumn : column.combatGridColumn)
+          : (showMemo ? column.memoBasicGridColumn : column.basicGridColumn),
         )
 
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))

@@ -8,6 +8,7 @@ import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/optimizat
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { GridAggregations } from 'lib/rendering/gradient'
+import { handleOptimizerExpandedRowData } from 'lib/simulations/expandedComputedStats'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -207,8 +208,11 @@ export const OptimizerTabController = {
         const character = DB.getCharacterById(form.characterId)
 
         if (character && data.id) {
+          // These are pinned rows
           const rowId = data.id
           const build = OptimizerTabController.calculateRelicIdsFromId(rowId)
+
+          handleOptimizerExpandedRowData(build)
           window.store.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
@@ -224,11 +228,14 @@ export const OptimizerTabController = {
             }
           }
         } else if (character) {
+          handleOptimizerExpandedRowData(character.equipped)
           window.store.getState().setOptimizerBuild(character.equipped)
         }
       }
       return
     }
+
+    console.log('cellClicked', event)
 
     if (data.statSim) {
       const key = data.statSim.key
@@ -238,10 +245,9 @@ export const OptimizerTabController = {
       return
     }
 
-    console.log('cellClicked', event)
-
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
-    console.log('build', build)
+
+    handleOptimizerExpandedRowData(build)
     window.store.getState().setOptimizerBuild(build)
   },
 

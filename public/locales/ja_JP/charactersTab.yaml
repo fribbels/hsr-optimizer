@@ -70,6 +70,7 @@ CharacterPreview:
       Custom: カスタム
       Standard: スタンダード
     PaletteLabel: カラーパレット
+    ShowUID: UID を表示
   ArtBy: "出典 {{artistName}}"
   EditCharacter: キャラクターを編集
   EditPortrait: 画像を変更

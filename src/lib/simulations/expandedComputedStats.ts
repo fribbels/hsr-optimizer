@@ -1,6 +1,7 @@
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { RelicFilters } from 'lib/relics/relicFilters'
+import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -35,6 +36,8 @@ export function getComputedStatsFromOptimizerBuild(build: Build) {
 
 export function handleOptimizerExpandedRowData(build: Build) {
   const computedStatsArray = getComputedStatsFromOptimizerBuild(build)
+  if (!computedStatsArray) return
 
   console.log(computedStatsArray)
+  aggregateCombatBuffs(computedStatsArray)
 }

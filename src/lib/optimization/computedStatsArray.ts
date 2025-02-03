@@ -111,7 +111,7 @@ export class ComputedStatsArrayCore {
             this.trace && this.buffs.push({ key: index, value: value, source: source })
           },
           buffBaseDual: (value: number, source: string) => {
-            if (value < 0.001) return
+            if (value == 0) return
             this.a[index] += value
 
             if (this.m) {

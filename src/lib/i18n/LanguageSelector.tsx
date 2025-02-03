@@ -1,13 +1,11 @@
 import { Button, Flex, Select } from 'antd'
-import { completedLocales, languages } from 'lib/i18n/i18n'
+import { completedLocales, isBeta, languages } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
-import { BASE_PATH, BasePath } from 'lib/state/db'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
-  const isBeta = BASE_PATH === BasePath.BETA
   const selectOptions = Object.values(languages)
     .filter((x) => isBeta || completedLocales.includes(x.locale))
     .map(({ locale, nativeName, shortName }) => ({
@@ -33,7 +31,8 @@ export function LanguageSelector() {
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
         void i18n.changeLanguage(e)
-        e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
+        /* JIPT START STOP */
+        // ^ do not touch this, it is modified during deployment to beta to enable in context translation
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
       placement='bottomLeft'

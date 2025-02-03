@@ -69,22 +69,22 @@ export const languages = {
     shortName: 'inContext',
   },
   /*
-        de_DE: {
-          locale: 'de_DE',
-          nativeName: 'Deutsch',
-          shortName: 'Deutsch',
-        },
-        id_ID: {
-          locale: 'id_ID',
-          nativeName: 'Bahasa Indonesia',
-          shortName: 'Bahasa Indonesia',
-        },
-        th_TH: {
-          locale: 'th_TH',
-          nativeName: ' ไทย',
-          shortName: ' ไทย',
-        },
-    */
+  de_DE: {
+    locale: 'de_DE',
+    nativeName: 'Deutsch',
+    shortName: 'Deutsch',
+  },
+  id_ID: {
+    locale: 'id_ID',
+    nativeName: 'Bahasa Indonesia',
+    shortName: 'Bahasa Indonesia',
+  },
+  th_TH: {
+    locale: 'th_TH',
+    nativeName: ' ไทย',
+    shortName: ' ไทย',
+  },
+  */
 } as const
 export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN'] as const

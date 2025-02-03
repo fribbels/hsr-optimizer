@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: Owner
     Set: Set
-    Grade: Grade
     Part: Part
-    Enhance: Enhance
     MainStat: |-
       Main
       Stat

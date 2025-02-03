@@ -53,6 +53,7 @@ Import:
         $t(common:Relic, {"count": {{relicCount}}}) & $t(common:Character, {"count": {{characterCount}}})를 불러오기
       WarningTitle: 옵티마이저 빌드 덮어쓰기
       WarningDescription: 정말로 옵티마이저의 빌드를 인게임 빌드로 덮어쓰시겠습니까?
+      OnlyImportExisting: "기존 캐릭터만 가져오기"
   Stage3:
     SuccessMessage: 완료!
 LoadData:

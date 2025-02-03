@@ -53,6 +53,7 @@ Import:
         crwdns42068:0$t(common:Relic, {"count": {{relicCount}}})crwdnd42068:0$t(common:Character, {"count": {{characterCount}}})crwdne42068:0
       WarningTitle: crwdns42070:0crwdne42070:0
       WarningDescription: crwdns42072:0crwdne42072:0
+      OnlyImportExisting: "crwdns44574:0crwdne44574:0"
   Stage3:
     SuccessMessage: crwdns42074:0crwdne42074:0
 LoadData:

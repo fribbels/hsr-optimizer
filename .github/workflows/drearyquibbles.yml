@@ -22,18 +22,6 @@ jobs:
           find: "<!--CROWDIN_IN-CONTEXT_SCRIPT-->"
           replace: "<script type=\"text/javascript\">var _jipt = [];_jipt.push([ 'project', 'hsr-optimizer' ]);_jipt.push(['start_type', 'manual']);</script><script type=\"text/javascript\" src=\"//cdn.crowdin.com/jipt/jipt.js\"></script>"
           include: "index.html"
-      - name: Add in-Context activation code
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "/* JIPT START STOP */"
-          replace: "e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()"
-          include: "src/lib/i18n/LanguageSelector.tsx"
-      - name: Add in-Context pseudo-language to selector options
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "/* IN_CONTEXT PSEUDO LANGUAGE */"
-          replace: "aa_ER: { locale: 'aa_ER', nativeName: 'inContext', shortName: 'inContext' },"
-          include: "src/lib/i18n/i18n.ts"
       - name: Find and Replace vite page
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -46,12 +34,6 @@ jobs:
           find: "const BASE_PATH: BasePath = BasePath.MAIN"
           replace: "const BASE_PATH: BasePath = BasePath.BETA"
           include: "src/lib/state/db.ts"
-      - name: Find and Replace API endpoint
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'"
-          replace: "const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'"
-          include: "src/lib/tabs/tabShowcase/RelicScorerTab.jsx"
       - name: Find and Replace Beta header
         uses: jacobtomlinson/gha-find-replace@v3
         with:

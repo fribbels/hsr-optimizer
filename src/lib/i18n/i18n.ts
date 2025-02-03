@@ -63,30 +63,33 @@ export const languages = {
     nativeName: '中文',
     shortName: '中文',
   },
+  aa_ER: {
+    locale: 'aa_ER',
+    nativeName: 'inContext',
+    shortName: 'inContext',
+  },
   /*
-      de_DE: {
-        locale: 'de_DE',
-        nativeName: 'Deutsch',
-        shortName: 'Deutsch',
-      },
-      id_ID: {
-        locale: 'id_ID',
-        nativeName: 'Bahasa Indonesia',
-        shortName: 'Bahasa Indonesia',
-      },
-      th_TH: {
-        locale: 'th_TH',
-        nativeName: ' ไทย',
-        shortName: ' ไทย',
-      },
-  */
-  /* IN_CONTEXT PSEUDO LANGUAGE */
-  // ^ do not touch this, it is modified during deployment to beta to enable in context translation
+        de_DE: {
+          locale: 'de_DE',
+          nativeName: 'Deutsch',
+          shortName: 'Deutsch',
+        },
+        id_ID: {
+          locale: 'id_ID',
+          nativeName: 'Bahasa Indonesia',
+          shortName: 'Bahasa Indonesia',
+        },
+        th_TH: {
+          locale: 'th_TH',
+          nativeName: ' ไทย',
+          shortName: ' ไทย',
+        },
+    */
 } as const
 export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN'] as const
 
-export const isBeta = BASE_PATH === BasePath.BETA
+export const isBeta = BASE_PATH !== BasePath.BETA
 
 export const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
 void i18next

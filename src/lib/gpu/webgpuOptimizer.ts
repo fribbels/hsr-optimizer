@@ -60,7 +60,7 @@ export async function gpuOptimize(props: {
     Message.warning('Debug mode is ON', 5)
   }
 
-  console.log('Raw inputs', { context, request, relics, permutations })
+  // console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {

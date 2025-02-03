@@ -44,7 +44,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
 
   let priorityQueue: string[] = [bestStartingStat]
 
-  console.log(`Starting with Best Stat: ${bestStartingStat}`)
+  // console.log(`Starting with best Stat: ${bestStartingStat}`)
 
   let iterationCount = 0
   const MAX_ITERATIONS = 100
@@ -87,13 +87,13 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
 
         executedConditionals.add(conditional.id)
         remainingConditionals.delete(conditional.id)
-        console.log(`  -> Executed Conditional: ${conditional.id}`)
+        // console.log(`  -> Executed conditional: ${conditional.id}`)
 
         conditionalSequence.push(conditional)
 
         for (const chainedStat of conditional.chainsTo) {
           if (!priorityQueue.includes(chainedStat) && !pendingEvaluations.has(chainedStat)) {
-            console.log(`    -> Queuing for Evaluation: ${chainedStat}`)
+            // console.log(`    -> Queuing for evaluation: ${chainedStat}`)
             priorityQueue.push(chainedStat)
           } else {
             // console.log(`Skipping redundant addition of ${chainedStat}`)

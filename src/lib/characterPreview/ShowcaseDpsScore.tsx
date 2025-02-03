@@ -185,6 +185,7 @@ export function ShowcaseDpsScoreHeader(props: {
 
   const result = props.result
   const verified = Object.values(props.relics).filter((x) => x?.verified).length == 6
+  const numRelics = Object.values(props.relics).filter((x) => !!x).length
 
   const textStyle: CSSProperties = {
     fontSize: 17,
@@ -210,7 +211,7 @@ export function ShowcaseDpsScoreHeader(props: {
             'CharacterPreview.ScoreHeader.Score',
             {
               score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1),
-              grade: getSimScoreGrade(result.percent, verified),
+              grade: getSimScoreGrade(result.percent, verified, numRelics),
             },
           )
           /* DPS Score {{score}}% {{grade}} */

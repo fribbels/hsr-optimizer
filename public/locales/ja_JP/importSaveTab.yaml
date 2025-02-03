@@ -53,6 +53,7 @@ Import:
         $t(common:Relic, {"count": {{relicCount}}})と$t(common:Character, {"count": {{characterCount}}})をインポート
       WarningTitle: オプティマイザーのビルドを上書き
       WarningDescription: 本当にオプティマイザーのビルドをゲーム内のビルドに置き換えますか？
+      OnlyImportExisting: "既存のキャラクターのみインポート"
   Stage3:
     SuccessMessage: 完了！
 LoadData:

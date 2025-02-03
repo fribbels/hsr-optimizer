@@ -5062,9 +5062,7 @@ interface Resources {
       "Headers": {
         "EquippedBy": "Owner",
         "Set": "Set",
-        "Grade": "Grade",
         "Part": "Part",
-        "Enhance": "Enhance",
         "MainStat": "Main\nStat",
         "MainValue": "Main\nValue",
         "HPP": "HP %",

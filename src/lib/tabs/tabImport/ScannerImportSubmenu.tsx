@@ -135,7 +135,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       const charactersToImport = onlyImportExisting 
-        ? currentCharacters?.filter(char => DB.getCharacterById(char.id))
+        ? currentCharacters?.filter((char) => DB.getCharacterById(char.id))
         : currentCharacters
 
       DB.mergeRelicsWithState(currentRelics, charactersToImport)
@@ -184,15 +184,19 @@ export function ScannerImportSubmenu() {
                   <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
                 </ul>
               </li>
-              <li>{t('Import.Stage1.HoyolabDesc.Title')} (<ColorizedLinkWithIcon
-                text={t('Import.Stage1.HoyolabDesc.Link')}
-                url='https://github.com/fribbels/hsr-optimizer/discussions/403'
-                linkIcon={true}
-              />)
+              <li>
+                {t('Import.Stage1.HoyolabDesc.Title')}
+                (
+                <ColorizedLinkWithIcon
+                  text={t('Import.Stage1.HoyolabDesc.Link')}
+                  url='https://github.com/fribbels/hsr-optimizer/discussions/403'
+                  linkIcon={true}
+                />
+                )
                 <ul>
-                <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
-              </ul>
+                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
+                </ul>
               </li>
             </ul>
           </Text>
@@ -280,7 +284,7 @@ export function ScannerImportSubmenu() {
             })}
           </Text>
 
-          <Checkbox 
+          <Checkbox
             checked={onlyImportExisting}
             onChange={(e) => setOnlyImportExisting(e.target.checked)}
           >

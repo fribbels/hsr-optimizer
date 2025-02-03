@@ -56,7 +56,7 @@ CharacterPreview:
     BenchmarkSpd:
       Header: 基準速度
       BenchmarkOptionsLabel: 基準速度の設定
-      CurrentSpdLabel: 現ビルドの速度 - 基準ビルドの速度を現ビルドの速度にします
+      CurrentSpdLabel: 選択キャラの速度 - 基準ビルドの速度を選択キャラの速度にします
       BaseSpdLabel: 初期速度 - 基準ビルドの速度を最小にします
       CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
     BuffPriority:
@@ -134,24 +134,24 @@ CharacterPreview:
         COMBO: コンボ
   ScoringColumn:
     Character:
-      Header: "現ビルド（{{score}}％）"
-      BasicStats: 非戦闘時のステータス（現ビルド）
-      CombatStats: <1>戦闘中の</1>ステータス（現ビルド）
-      Substats: 最小サブステータス出現回数（現ビルド）
-      Mainstats: メインステータス（現ビルド）
-      Abilities: 与ダメージ（現ビルド）
+      Header: "選択キャラのビルド（{{score}}％）"
+      BasicStats: 非戦闘ステータス（選択キャラ）
+      CombatStats: <1>戦闘</1>ステータス（選択キャラ）
+      Substats: サブステータス（最小数）（選択キャラ）
+      Mainstats: メインステータス（選択キャラ）
+      Abilities: 与ダメージ（選択キャラ）
     Benchmark:
       Header: "基準ビルド（{{score}}%）"
-      BasicStats: 非戦闘時のステータス（基準ビルド）
-      CombatStats: <1>戦闘中の</1>ステータス（基準ビルド）
-      Substats: 最小サブステータス出現回数（基準ビルド）
+      BasicStats: 非戦闘ステータス（基準ビルド）
+      CombatStats: <1>戦闘</1>ステータス（基準ビルド）
+      Substats: サブステータス（最小数）（基準ビルド）
       Mainstats: メインステータス（基準ビルド）
       Abilities: 与ダメージ（基準ビルド）
     Perfect:
       Header: "完璧ビルド（{{score}}%）"
-      BasicStats: 非戦闘時のステータス（完璧ビルド）
-      CombatStats: <1>戦闘中の</1>ステータス（完璧ビルド）
-      Substats: 最大サブステータス出現回数（完璧ビルド）
+      BasicStats: 非戦闘ステータス（完璧ビルド）
+      CombatStats: <1>戦闘</1>ステータス（完璧ビルド）
+      Substats: サブステータス（最大数）（完璧ビルド）
       Mainstats: メインステータス（完璧ビルド）
       Abilities: 与ダメージ（完璧ビルド）
   ScoringDetails:

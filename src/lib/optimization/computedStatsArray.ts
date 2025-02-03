@@ -51,6 +51,7 @@ export class ComputedStatsArrayCore {
   m: ComputedStatsArray
   summoner: () => ComputedStatsArray
   buffs: Buff[]
+  buffsMemo: Buff[]
   trace: boolean
 
   constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
@@ -60,6 +61,7 @@ export class ComputedStatsArrayCore {
     // @ts-ignore
     this.summoner = memosprite ? summonerFn : null
     this.buffs = []
+    this.buffsMemo = []
     this.trace = trace
     Object.keys(baseComputedStatsObject).forEach((key, index) => {
       Object.defineProperty(this, key, {
@@ -67,14 +69,17 @@ export class ComputedStatsArrayCore {
           buff: (value: number, source: string) => {
             if (value == 0) return
             this.a[index] += value
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
           },
           buffSingle: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.a[Key.MEMO_BUFF_PRIORITY]) {
               this.m.a[index] += value
+              this.trace && this.buffsMemo.push({ key: index, value: value, source: source })
             } else {
               this.a[index] += value
+              this.trace && this.buffs.push({ key: index, value: value, source: source })
             }
           },
           buffMemo: (value: number, source: string) => {
@@ -82,15 +87,17 @@ export class ComputedStatsArrayCore {
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.m) {
               this.m.a[index] += value
+              this.trace && this.buffsMemo.push({ key: index, value: value, source: source })
             }
           },
           buffTeam: (value: number, source: string) => {
             if (value == 0) return
             this.a[index] += value
-
             if (this.m) {
               this.m.a[index] += value
+              this.trace && this.buffsMemo.push({ key: index, value: value, source: source })
             }
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
           },
           buffDual: (value: number, source: string) => {
             if (value == 0) return
@@ -99,7 +106,9 @@ export class ComputedStatsArrayCore {
 
             if (this.m) {
               this.m.a[index] += value
+              this.trace && this.buffsMemo.push({ key: index, value: value, source: source })
             }
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
           },
           buffBaseDual: (value: number, source: string) => {
             if (value < 0.001) return
@@ -107,7 +116,9 @@ export class ComputedStatsArrayCore {
 
             if (this.m) {
               this.m.a[index] += value
+              this.trace && this.buffsMemo.push({ key: index, value: value, source: source })
             }
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
           },
           buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             if (value < 0.001) return
@@ -115,7 +126,9 @@ export class ComputedStatsArrayCore {
 
             if (this.m) {
               this.m.a[index] += value
+              this.trace && this.buffsMemo.push({ key: index, value: value, source: source })
             }
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
 
             for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
@@ -123,16 +136,20 @@ export class ComputedStatsArrayCore {
           },
           multiply: (value: number, source: string) => {
             this.a[index] *= value
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
           },
           multiplyTeam: (value: number, source: string) => {
             this.a[index] *= value
             if (this.m) {
               this.m.a[index] *= value
+              this.trace && this.buffsMemo.push({ key: index, value: value, source: source })
             }
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             if (value < 0.001) return
             this.a[index] += value
+            this.trace && this.buffs.push({ key: index, value: value, source: source })
 
             for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)

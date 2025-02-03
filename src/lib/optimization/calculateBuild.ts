@@ -103,6 +103,10 @@ export function calculateBuild(
     const a = x.a
     x.setPrecompute(action.precomputedX.a)
     m.setPrecompute(action.precomputedM.a)
+    if (x.trace) {
+      x.tracePrecompute(action.precomputedX)
+      m.tracePrecompute(action.precomputedM)
+    }
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)

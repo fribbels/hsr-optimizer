@@ -1,4 +1,5 @@
 import { calculateBuild } from 'lib/optimization/calculateBuild'
+import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
@@ -23,8 +24,11 @@ export function getComputedStatsFromOptimizerBuild(build: Build) {
   const nonNullRelics = Object.values(relics).filter((relic) => !!relic)
   if (nonNullRelics.length != 6) return null
 
+  const request = TsUtils.clone(cachedForm)
+  request.trace = true
+
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  const { c, computedStatsArray } = calculateBuild(cachedForm, relics, null, null)
+  const { c, computedStatsArray } = calculateBuild(request, relics, null, new ComputedStatsArrayCore(true))
 
   return computedStatsArray
 }

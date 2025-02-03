@@ -245,7 +245,6 @@ export const OptimizerTabController = {
     }
 
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
-    console.log('build', build)
 
     handleOptimizerExpandedRowData(build)
     window.store.getState().setOptimizerBuild(build)

@@ -17,7 +17,7 @@ export function LanguageSelector() {
         </Flex>
       ),
       label: (
-        <Flex gap={8}>
+        <Flex gap={8} title={locale}>
           {nativeName}
           {isBeta ? ` (${locale})` : ''}
           {completedLocales.includes(locale) ? '' : ' - (WIP)'}

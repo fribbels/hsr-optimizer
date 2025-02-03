@@ -1,7 +1,8 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
-import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
+import { HoyolabData, hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
+import { ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -135,7 +136,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       const charactersToImport = onlyImportExisting 
-        ? currentCharacters?.filter(char => DB.getCharacterById(char.id))
+        ? currentCharacters?.filter((char) => DB.getCharacterById(char.id))
         : currentCharacters
 
       DB.mergeRelicsWithState(currentRelics, charactersToImport)
@@ -184,15 +185,19 @@ export function ScannerImportSubmenu() {
                   <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
                 </ul>
               </li>
-              <li>{t('Import.Stage1.HoyolabDesc.Title')} (<ColorizedLinkWithIcon
-                text={t('Import.Stage1.HoyolabDesc.Link')}
-                url='https://github.com/fribbels/hsr-optimizer/discussions/403'
-                linkIcon={true}
-              />)
+              <li>
+                {t('Import.Stage1.HoyolabDesc.Title')}
+                (
+                <ColorizedLinkWithIcon
+                  text={t('Import.Stage1.HoyolabDesc.Link')}
+                  url='https://github.com/fribbels/hsr-optimizer/discussions/403'
+                  linkIcon={true}
+                />
+                )
                 <ul>
-                <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
-              </ul>
+                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
+                </ul>
               </li>
             </ul>
           </Text>
@@ -280,7 +285,7 @@ export function ScannerImportSubmenu() {
             })}
           </Text>
 
-          <Checkbox 
+          <Checkbox
             checked={onlyImportExisting}
             onChange={(e) => setOnlyImportExisting(e.target.checked)}
           >

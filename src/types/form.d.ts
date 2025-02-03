@@ -87,6 +87,7 @@ export type Form = {
   path?: string // remove?
   deprioritizeBuffs?: boolean
   resultMinFilter: number
+  trace?: boolean
 
   // Combo
   comboStateJson: string

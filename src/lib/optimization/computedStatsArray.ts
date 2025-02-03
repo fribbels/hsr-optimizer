@@ -4,6 +4,7 @@ import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 type Buff = {
+  stat: string
   key: number
   value: number
   source: string
@@ -51,6 +52,7 @@ export class ComputedStatsArrayCore {
   m: ComputedStatsArray
   summoner: () => ComputedStatsArray
   buffs: Buff[]
+  buffsMemo: Buff[]
   trace: boolean
 
   constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
@@ -60,96 +62,121 @@ export class ComputedStatsArrayCore {
     // @ts-ignore
     this.summoner = memosprite ? summonerFn : null
     this.buffs = []
+    this.buffsMemo = []
     this.trace = trace
-    Object.keys(baseComputedStatsObject).forEach((key, index) => {
-      Object.defineProperty(this, key, {
+    Object.keys(baseComputedStatsObject).forEach((stat, key) => {
+      const trace
+        = (value: number, source: string) => this.trace && this.buffs.push({ stat, key, value, source })
+      const traceMemo
+        = (value: number, source: string) => this.trace && this.buffsMemo.push({ stat, key, value, source })
+      const traceOverwrite
+        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key)).concat({ stat, key, value, source })
+
+      Object.defineProperty(this, stat, {
         value: {
           buff: (value: number, source: string) => {
             if (value == 0) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
           },
           buffSingle: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.a[Key.MEMO_BUFF_PRIORITY]) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             } else {
-              this.a[index] += value
+              this.a[key] += value
+              trace(value, source)
             }
           },
           buffMemo: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
           },
           buffTeam: (value: number, source: string) => {
             if (value == 0) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
 
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
           },
           buffDual: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
 
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
           },
           buffBaseDual: (value: number, source: string) => {
-            if (value < 0.001) return
-            this.a[index] += value
+            if (value == 0) return
+            this.a[key] += value
+            trace(value, source)
 
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
           },
           buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             if (value < 0.001) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
 
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
 
-            for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
+            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] ?? []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
           multiply: (value: number, source: string) => {
-            this.a[index] *= value
+            this.a[key] *= value
+            trace(value, source)
           },
           multiplyTeam: (value: number, source: string) => {
-            this.a[index] *= value
+            this.a[key] *= value
+            trace(value, source)
             if (this.m) {
-              this.m.a[index] *= value
+              this.m.a[key] *= value
+              traceMemo(value, source)
             }
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
             if (value < 0.001) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
 
-            for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
+            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] || []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
           set: (value: number, source: string) => {
-            this.a[index] = value
+            this.a[key] = value
+            traceOverwrite(value, source)
           },
-          get: () => this.a[index],
+          get: () => this.a[key],
         },
         writable: false,
         enumerable: true,
         configurable: true,
       })
 
-      Object.defineProperty(this, `$${key}`, {
-        get: () => this.a[index],
+      Object.defineProperty(this, `$${stat}`, {
+        get: () => this.a[key],
         enumerable: true,
         configurable: true,
       })
@@ -165,7 +192,12 @@ export class ComputedStatsArrayCore {
   setPrecompute(precompute: Float32Array) {
     this.a.set(precompute)
     this.buffs = []
-    this.trace = false
+    this.buffsMemo = []
+  }
+
+  tracePrecompute(precompute: ComputedStatsArray) {
+    this.buffs = precompute.buffs
+    this.buffsMemo = precompute.buffsMemo
   }
 
   setBasic(c: BasicStatsObject) {

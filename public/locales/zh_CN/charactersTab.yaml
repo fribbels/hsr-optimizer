@@ -70,6 +70,7 @@ CharacterPreview:
       Custom: 自定义
       Standard: 标准
     PaletteLabel: 头像色调
+    ShowUID: 显示UID
   ArtBy: "{{artistName}}的作品"
   EditCharacter: 编辑角色
   EditPortrait: 编辑角色图像

@@ -3952,7 +3952,8 @@ interface Resources {
           "Label": "Import $t(common:Relic, {\"count\": {{relicCount}}}) and $t(common:Character, {\"count\": {{characterCount}}}). Replaces the optimizer builds with ingame builds.",
           "ButtonText": "Import $t(common:Relic, {\"count\": {{relicCount}}}) & $t(common:Character, {\"count\": {{characterCount}}})",
           "WarningTitle": "Overwrite optimizer builds",
-          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
+          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?",
+          "OnlyImportExisting": "Only import existing characters"
         }
       },
       "Stage3": {

@@ -245,6 +245,8 @@ export class BasicStatsArrayCore {
       'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
       'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
       'WEIGHT': this.weight,
+      'relicSetIndex': this.relicSetIndex,
+      'ornamentSetIndex': this.ornamentSetIndex,
     }
 
     return result as BasicStatsObject

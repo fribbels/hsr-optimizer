@@ -1,6 +1,7 @@
 import { ThemeConfig } from 'antd'
 import { ComputeEngine } from 'lib/constants/constants'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { Simulation } from 'lib/simulations/statSimulationController'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
@@ -66,8 +67,8 @@ export type HsrOptimizerStore = {
   warpRequest: WarpRequest
   warpResult: WarpResult
   statSimulationDisplay: StatSimTypes
-  statSimulations: unknown
-  selectedStatSimulations: unknown
+  statSimulations: Simulation[]
+  selectedStatSimulations: Simulation['key'][]
   optimizationInProgress: boolean
   optimizationId: string | null
   teammateCount: number
@@ -136,9 +137,9 @@ export type HsrOptimizerStore = {
   setOptimizerFormSelectedLightCone: (x: any) => void
   setOptimizerFormCharacterEidolon: (x: any) => void
   setTeammateCount: (x: any) => void
-  setSelectedStatSimulations: (x: any) => void
-  setStatSimulations: (x: any) => void
-  setStatSimulationDisplay: (x: any) => void
+  setSelectedStatSimulations: (x: Simulation['key'][]) => void
+  setStatSimulations: (x: Simulation[]) => void
+  setStatSimulationDisplay: (x: StatSimTypes) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
   setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void

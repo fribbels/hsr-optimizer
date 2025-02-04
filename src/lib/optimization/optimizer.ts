@@ -1,4 +1,3 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
@@ -36,9 +35,9 @@ export async function calculateCurrentlyEquippedRow(request) {
   RelicFilters.condenseRelicSubstatsForOptimizer(relics)
   Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
-  const { c, computedStatsArray } = calculateBuild(request, relics, null, null)
-  renameFields(c, computedStatsArray)
-  OptimizerTabController.setTopRow(c, true)
+  const x = calculateBuild(request, relics, null, null)
+  const optimizerDisplayData = renameFields(x)
+  OptimizerTabController.setTopRow(optimizerDisplayData, true)
 }
 
 export const Optimizer = {
@@ -244,10 +243,18 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-export function renameFields(c: BasicStatsObject, x: ComputedStatsArray) {
-  const d: Partial<OptimizerDisplayData> = c
+export function renameFields(x: ComputedStatsArray) {
+  const c = x.c
+  const d: Partial<OptimizerDisplayData> = {
+    relicSetIndex: c.relicSetIndex,
+    ornamentSetIndex: c.ornamentSetIndex,
+    id: c.id,
+    high: c.high,
+    low: c.low,
+    WEIGHT: c.weight,
+  }
 
-  d.ED = c.ELEMENTAL_DMG
+  d.ED = c.ELEMENTAL_DMG.get()
   d.BASIC = x.BASIC_DMG.get()
   d.SKILL = x.SKILL_DMG.get()
   d.ULT = x.ULT_DMG.get()
@@ -272,7 +279,7 @@ export function renameFields(c: BasicStatsObject, x: ComputedStatsArray) {
   d.xOHB = x.OHB.get()
   d.xELEMENTAL_DMG = x.ELEMENTAL_DMG.get()
 
-  d.mELEMENTAL_DMG = c.ELEMENTAL_DMG
+  d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
   if (x.m) {
     const c = x.m.c
     d.mHP = c.HP.get()

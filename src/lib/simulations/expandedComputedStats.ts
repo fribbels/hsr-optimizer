@@ -29,15 +29,15 @@ export function getComputedStatsFromOptimizerBuild(build: Build) {
   request.trace = true
 
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  const { c, computedStatsArray } = calculateBuild(request, relics, null, new ComputedStatsArrayCore(true))
+  const x = calculateBuild(request, relics, null, new ComputedStatsArrayCore(true))
 
-  return computedStatsArray
+  return x
 }
 
 export function handleOptimizerExpandedRowData(build: Build) {
-  const computedStatsArray = getComputedStatsFromOptimizerBuild(build)
-  if (!computedStatsArray) return
+  const x = getComputedStatsFromOptimizerBuild(build)
+  if (!x) return
 
-  console.log(computedStatsArray)
-  aggregateCombatBuffs(computedStatsArray)
+  console.log(x.toComputedStatsObject(false))
+  aggregateCombatBuffs(x)
 }

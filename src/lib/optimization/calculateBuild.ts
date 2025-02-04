@@ -128,16 +128,7 @@ export function calculateBuild(
     }
   }
 
-  const basicStatsObject = c.toBasicStatsObject()
-  const computedStatsObject = x.toComputedStatsObject(internal)
-
-  basicStatsObject.x = computedStatsObject
-
-  return {
-    c: basicStatsObject,
-    computedStatsArray: x,
-    computedStatsObject: computedStatsObject,
-  }
+  return x
 }
 
 function extractRelics(relics: SingleRelicByPart) {

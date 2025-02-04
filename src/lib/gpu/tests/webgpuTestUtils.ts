@@ -37,15 +37,15 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
 
   const gpuComputedStats: ComputedStatsObjectExternal = debugWebgpuComputedStats(array)
   // @ts-ignore
-  const cpuComputedStats = calculateBuild(request, {
+  const x = calculateBuild(request, {
     Head: relics.Head[0],
     Hands: relics.Hands[0],
     Body: relics.Body[0],
     Feet: relics.Feet[0],
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
-  }).computedStatsObject as ComputedStatsObjectExternal
-
+  })
+  const cpuComputedStats = x.toComputedStatsObject(false) as ComputedStatsObjectExternal
   const deltas = deltaComputedStats(cpuComputedStats, gpuComputedStats)
 
   // console.log('CPU', cpuComputedStats)

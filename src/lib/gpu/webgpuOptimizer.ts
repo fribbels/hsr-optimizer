@@ -194,7 +194,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const { c, computedStatsArray } = calculateBuild(
+    const x = calculateBuild(
       gpuContext.request,
       {
         Head: relics.Head[h],
@@ -210,8 +210,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
       true,
     )
 
-    c.id = index
-    const optimizerDisplayData = renameFields(c, computedStatsArray)
+    const optimizerDisplayData = renameFields(x)
     outputs.push(optimizerDisplayData)
   }
 

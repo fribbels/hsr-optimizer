@@ -20,7 +20,7 @@ export function simulateMaximumBuild(
   simulationFlags: SimulationFlags,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
-  const spdDiff = targetSpd - baselineSimResult.x[Stats.SPD]
+  const spdDiff = targetSpd - baselineSimResult.x.$SPD
 
   const maximumSimulations: Simulation[] = []
 

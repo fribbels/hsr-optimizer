@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
@@ -254,6 +254,18 @@ export function renameFields(x: ComputedStatsArray) {
     WEIGHT: c.weight,
     x: x.toComputedStatsObject(false) as ComputedStatsObjectExternal,
   }
+
+  d[Stats.HP] = c.HP.get()
+  d[Stats.ATK] = c.ATK.get()
+  d[Stats.DEF] = c.DEF.get()
+  d[Stats.SPD] = c.SPD.get()
+  d[Stats.CR] = c.CR.get()
+  d[Stats.CD] = c.CD.get()
+  d[Stats.EHR] = c.EHR.get()
+  d[Stats.RES] = c.RES.get()
+  d[Stats.BE] = c.BE.get()
+  d[Stats.ERR] = c.ERR.get()
+  d[Stats.OHB] = c.OHB.get()
 
   d.ED = c.ELEMENTAL_DMG.get()
   d.BASIC = x.BASIC_DMG.get()

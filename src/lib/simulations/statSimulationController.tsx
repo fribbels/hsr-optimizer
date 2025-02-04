@@ -58,14 +58,14 @@ export function saveStatSimulationBuildFromForm() {
   // Check for invalid button presses
   if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
     console.warn('Invalid sim', form, simType)
-    return -1
+    return null
   }
 
   // Check for missing fields
   const simRequest: SimulationRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) {
     console.warn('Invalid sim', form, simType)
-    return -1
+    return null
   }
 
   return saveStatSimulationRequest(simRequest, simType, true)
@@ -89,7 +89,7 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
 
     if (hash == existingHash) {
       Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))// 'Identical stat simulation already exists')
-      return -1
+      return null
     }
   }
 
@@ -104,7 +104,6 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
   }
 
   autosave()
-  return 0
 }
 
 function hashSim(sim: Simulation) {
@@ -242,20 +241,24 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 }
 
 export function overwriteStatSimulationBuild() {
-  if (!saveStatSimulationBuildFromForm()) {
-    const selectedSim = window.store.getState().selectedStatSimulations
-    const statSims = window.store.getState().statSimulations
-    const updatedSims = statSims.map((x) => {
-      if (x.key === selectedSim[0]) {
-        return statSims.at(-1)
-      } else return x
-    }) as Simulation[]
-    const newSim = updatedSims.pop()! // remove what would otherwise be a duplicated sim
-    window.store.getState().setStatSimulations(updatedSims)
-    setFormStatSimulations(updatedSims)
-    window.store.getState().setSelectedStatSimulations([newSim.key])
-    autosave()
-  }
+  if (saveStatSimulationBuildFromForm() === null) return
+
+  const selectedSim = window.store.getState().selectedStatSimulations
+  const statSims: Simulation[] = window.store.getState().statSimulations
+
+  const updatedSims = statSims.map((x) => {
+    if (x.key === selectedSim[0]) {
+      return statSims.at(-1)
+    } else return x
+  }) as Simulation[]
+
+  const newSim = updatedSims.pop()! // remove what would otherwise be a duplicated sim
+
+  window.store.getState().setStatSimulations(updatedSims)
+  setFormStatSimulations(updatedSims)
+  window.store.getState().setSelectedStatSimulations([newSim.key])
+
+  autosave()
 }
 
 export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {

@@ -59,6 +59,7 @@ export class BasicStatsArrayCore {
   id: number
   high: number
   low: number
+  weight: number
 
   constructor(trace: boolean = false, memosprite = false) {
     // @ts-ignore
@@ -71,6 +72,7 @@ export class BasicStatsArrayCore {
     this.id = 0
     this.high = 0
     this.low = 0
+    this.weight = 0
 
     Object.keys(baseCharacterStats).forEach((stat, key) => {
       Object.defineProperty(this, stat, {
@@ -204,6 +206,10 @@ export class BasicStatsArrayCore {
     // this.buffsMemo = []
   }
 
+  setWeight(weight: number) {
+    this.weight = weight
+  }
+
   set(key: number, value: number, source?: string) {
     this.a[key] = value
   }
@@ -238,6 +244,7 @@ export class BasicStatsArrayCore {
       'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
       'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
       'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
+      'WEIGHT': this.weight,
     }
 
     return result as BasicStatsObject

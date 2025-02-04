@@ -468,13 +468,14 @@ export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Reli
     }
   }
 
-  // c.WEIGHT
-  //   = head.weightScore
-  //   + hands.weightScore
-  //   + body.weightScore
-  //   + feet.weightScore
-  //   + planarSphere.weightScore
-  //   + linkRope.weightScore
+  c.setWeight(
+    head.weightScore
+    + hands.weightScore
+    + body.weightScore
+    + feet.weightScore
+    + planarSphere.weightScore
+    + linkRope.weightScore,
+  )
 }
 
 function sumPercentStat(

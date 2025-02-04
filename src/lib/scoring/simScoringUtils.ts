@@ -1,6 +1,6 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -25,15 +25,19 @@ export type ScoringParams = {
     }) => number
 }
 
-export type SimulationResult = {
+export type SimulationResult = ComputedStatsObjectExternal & {
+  BASIC: number
+  SKILL: number
+  ULT: number
+  FUA: number
+  MEMO_SKILL: number
+  DOT: number
+  BREAK: number
   unpenalizedSimScore: number
   penaltyMultiplier: number
   simScore: number
-  // stat: string
-  x: ComputedStatsArray
-  statSim?: {
-    key: string
-  }
+  stat: string
+  x: ComputedStatsObjectExternal
 }
 
 export type SimulationScore = {
@@ -182,7 +186,7 @@ export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: n
   let low = previousRolls
   let high = rolls
   let mid = 0
-  const precision = 1e-6
+  let precision = 1e-6
 
   while (high - low > precision) {
     mid = (low + high) / 2

@@ -1,4 +1,4 @@
-import { ShowcaseColorMode, StatsValues, SubStats } from 'lib/constants/constants'
+import { ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 
@@ -33,7 +33,7 @@ export type SimulationMetadata = {
   parts: {
     [part: string]: string[]
   }
-  substats: SubStats[]
+  substats: string[]
   errRopeEidolon?: number
   deprioritizeBuffs?: boolean
   comboAbilities: string[]

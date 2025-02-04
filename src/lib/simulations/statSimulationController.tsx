@@ -5,13 +5,13 @@ import { Message } from 'lib/interactions/message'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
-import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
+import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimization/optimizer'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationResult } from 'lib/scoring/simScoringUtils'
+import { SimulationFlags, SimulationResult } from 'lib/scoring/characterScorer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -385,15 +385,12 @@ export function runSimulations(
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
     const x = calculateBuild(form, relics, context, cachedBasicStatsArray, cachedComputedStatsArray, true, true, false, forcedBasicSpd)
-    // const optimizerDisplayData = renameFields(x)
+    const optimizerDisplayData = renameFields(x)
     // For optimizer grid syncing with sim table
-    const simulationResult = {
-      x,
-      statSim: {
-        key: sim.key,
-      },
-    } as SimulationResult
-    simulationResults.push(simulationResult)
+    optimizerDisplayData.statSim = {
+      key: sim.key,
+    }
+    simulationResults.push(optimizerDisplayData)
   }
 
   return simulationResults

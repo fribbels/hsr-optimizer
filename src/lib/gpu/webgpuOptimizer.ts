@@ -214,6 +214,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     )
 
     const optimizerDisplayData = renameFields(x)
+    optimizerDisplayData.id = index
     outputs.push(optimizerDisplayData)
   }
 

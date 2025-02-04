@@ -1,4 +1,4 @@
-import { Constants, Stats } from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 
 export function p4(set: number) {
@@ -11,18 +11,17 @@ export function p2(set: number) {
 
 export function emptyRelic() {
   const augmentedStats = {
-    mainStat: Constants.Stats.HP,
+    mainStat: Stats.HP,
     mainValue: 0,
   } as AugmentedStats
 
-  for (const stat of Object.values(Constants.Stats)) {
+  for (const stat of Object.values(Stats)) {
     augmentedStats[stat] = 0
   }
   return {
     set: -1,
     augmentedStats: augmentedStats,
     substats: [],
-
   }
 }
 

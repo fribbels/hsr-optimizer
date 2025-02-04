@@ -1,3 +1,4 @@
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -29,7 +30,7 @@ export function getComputedStatsFromOptimizerBuild(build: Build) {
   request.trace = true
 
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  const x = calculateBuild(request, relics, null, new ComputedStatsArrayCore(true))
+  const x = calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 
   return x
 }

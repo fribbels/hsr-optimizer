@@ -19,22 +19,11 @@ import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-function generateUnusedSets(relics: SingleRelicByPart) {
-  const usedSets = new Set([
-    RelicSetToIndex[relics.Head.set as SetsRelics],
-    RelicSetToIndex[relics.Hands.set as SetsRelics],
-    RelicSetToIndex[relics.Body.set as SetsRelics],
-    RelicSetToIndex[relics.Feet.set as SetsRelics],
-    OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments],
-    OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments],
-  ])
-  return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
-}
-
 export function calculateBuild(
   request: Form,
   relics: SingleRelicByPart,
   cachedContext: OptimizerContext | null,
+  cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
@@ -69,7 +58,7 @@ export function calculateBuild(
   const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
   const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
 
-  const c = new BasicStatsArrayCore(false) as BasicStatsArray
+  const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
   const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
   const m = x.m
 
@@ -129,6 +118,18 @@ export function calculateBuild(
   }
 
   return x
+}
+
+function generateUnusedSets(relics: SingleRelicByPart) {
+  const usedSets = new Set([
+    RelicSetToIndex[relics.Head.set as SetsRelics],
+    RelicSetToIndex[relics.Hands.set as SetsRelics],
+    RelicSetToIndex[relics.Body.set as SetsRelics],
+    RelicSetToIndex[relics.Feet.set as SetsRelics],
+    OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments],
+    OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments],
+  ])
+  return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
 function extractRelics(relics: SingleRelicByPart) {

@@ -30,9 +30,7 @@ export function getComputedStatsFromOptimizerBuild(build: Build) {
   request.trace = true
 
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  const x = calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
-
-  return x
+  return calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 }
 
 export function handleOptimizerExpandedRowData(build: Build) {

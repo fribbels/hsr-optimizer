@@ -1,5 +1,5 @@
 import { BasicStatsObject, SetsType } from 'lib/conditionals/conditionalConstants'
-import { Key, StatController } from 'lib/optimization/computedStatsArray'
+import { Buff, Key, StatController } from 'lib/optimization/computedStatsArray'
 
 type BasicStatsArrayStatExtensions = {
   [K in keyof typeof baseCharacterStats]: StatController;
@@ -51,6 +51,8 @@ const cachedBasicBaseStatsArray = baseBasicStatsArray()
 export class BasicStatsArrayCore {
   a = baseBasicStatsArray()
   m: BasicStatsArray
+  buffs: Buff[]
+  buffsMemo: Buff[]
   trace: boolean
 
   relicSetIndex: number
@@ -64,6 +66,8 @@ export class BasicStatsArrayCore {
   constructor(trace: boolean = false, memosprite = false) {
     // @ts-ignore
     this.m = memosprite ? null : new BasicStatsArrayCore(trace, true, () => this)
+    this.buffs = []
+    this.buffsMemo = []
     this.trace = trace
     this.relicSetIndex = 0
     this.ornamentSetIndex = 0
@@ -75,12 +79,19 @@ export class BasicStatsArrayCore {
     this.weight = 0
 
     Object.keys(baseCharacterStats).forEach((stat, key) => {
+      const trace
+        = (value: number, source: string) => this.trace && this.buffs.push({ stat, key, value, source })
+      const traceMemo
+        = (value: number, source: string) => this.trace && this.buffsMemo.push({ stat, key, value, source })
+      const traceOverwrite
+        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
+
       Object.defineProperty(this, stat, {
         value: {
           buff: (value: number, source: string) => {
             if (value == 0) return
             this.a[key] += value
-            // trace(value, source)
+            trace(value, source)
           },
           //     buffSingle: (value: number, source: string) => {
           //       if (value == 0) return
@@ -169,7 +180,7 @@ export class BasicStatsArrayCore {
           //     },
           set: (value: number, source: string) => {
             this.a[key] = value
-            // traceOverwrite(value, source)
+            traceOverwrite(value, source)
           },
           get: () => this.a[key],
         },
@@ -202,8 +213,10 @@ export class BasicStatsArrayCore {
 
     this.a.set(cachedBasicBaseStatsArray)
     this.m.a.set(cachedBasicBaseStatsArray)
-    // this.buffs = []
-    // this.buffsMemo = []
+    if (this.trace) {
+      this.buffs = []
+      this.buffsMemo = []
+    }
   }
 
   setWeight(weight: number) {

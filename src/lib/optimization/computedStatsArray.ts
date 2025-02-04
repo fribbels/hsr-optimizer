@@ -4,7 +4,7 @@ import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-type Buff = {
+export type Buff = {
   stat: string
   key: number
   value: number
@@ -72,7 +72,7 @@ export class ComputedStatsArrayCore {
       const traceMemo
         = (value: number, source: string) => this.trace && this.buffsMemo.push({ stat, key, value, source })
       const traceOverwrite
-        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key)).concat({ stat, key, value, source })
+        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
 
       Object.defineProperty(this, stat, {
         value: {

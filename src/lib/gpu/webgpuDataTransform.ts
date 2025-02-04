@@ -114,7 +114,7 @@ function relicsToArray(relics: Relic[]) {
     const startIndex = RELIC_ARG_SIZE * i
     let j = 0
     const uncondensedStats: StringToNumberMap = {}
-    const condensedStats: [string, number][] = relic.condensedStats!
+    const condensedStats: [number, number][] = relic.condensedStats!
 
     for (const condensedStat of condensedStats) {
       uncondensedStats[condensedStat[0]] = condensedStat[1]

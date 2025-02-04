@@ -69,20 +69,19 @@ export function calculateBuild(
   const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
   const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
 
-  const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
-  const ornamentSetIndex = setP + setL * OrnamentSetCount
-
   const c = new BasicStatsArrayCore(false) as BasicStatsArray
   const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
   const m = x.m
 
+  const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
+  const ornamentSetIndex = setP + setL * OrnamentSetCount
   const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
 
   c.config(relicSetIndex, ornamentSetIndex, sets, 0, 0, 0)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
-  calculateBaseStats(c, sets, context)
-  calculateElementalStats(c, sets, context)
+  calculateBaseStats(c, context)
+  calculateElementalStats(c, context)
 
   if (forcedBasicSpd) {
     // Special scoring use case where basic spd stat needs to be enforced
@@ -106,10 +105,10 @@ export function calculateBuild(
     }
 
     calculateBasicEffects(x, action, context)
-    calculateComputedStats(x, sets, action, context)
+    calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
-    calculateDamage(x, sets, action, context)
+    calculateDamage(x, action, context)
 
     if (action.actionType === 'BASIC') {
       combo += a[Key.BASIC_DMG]

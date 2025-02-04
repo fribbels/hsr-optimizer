@@ -12,7 +12,7 @@ import {
   SpaceSealingStationConditional,
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
-import { BasicCharacterStats, BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, Source, StatToKey } from 'lib/optimization/computedStatsArray'
 import { p2, p4 } from 'lib/optimization/optimizerUtils'
@@ -70,7 +70,8 @@ export function calculateSetCounts(setH: number, setG: number, setB: number, set
   return sets
 }
 
-export function calculateElementalStats(c: BasicStatsArray, sets: SetsType, context: OptimizerContext) {
+export function calculateElementalStats(c: BasicStatsArray, context: OptimizerContext) {
+  const sets = c.sets
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
@@ -103,7 +104,8 @@ export function calculateElementalStats(c: BasicStatsArray, sets: SetsType, cont
   }
 }
 
-export function calculateBaseStats(c: BasicStatsArray, sets: SetsType, context: OptimizerContext) {
+export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext) {
+  const sets = c.sets
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
@@ -188,10 +190,11 @@ export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAc
   if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
-export function calculateComputedStats(x: ComputedStatsArray, sets: SetsType, action: OptimizerAction, context: OptimizerContext) {
+export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   const a = x.a
   const c = x.c
+  const sets = c.sets
   const buffs = context.combatBuffs
 
   // Add base to computed
@@ -433,34 +436,35 @@ export function calculateComputedStats(x: ComputedStatsArray, sets: SetsType, ac
 }
 
 export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic) {
+  const a = c.a
   if (head?.condensedStats) {
     for (const condensedStat of head.condensedStats) {
-      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
+      a[condensedStat[0]] += condensedStat[1]
     }
   }
   if (hands?.condensedStats) {
     for (const condensedStat of hands.condensedStats) {
-      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
+      a[condensedStat[0]] += condensedStat[1]
     }
   }
   if (body?.condensedStats) {
     for (const condensedStat of body.condensedStats) {
-      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
+      a[condensedStat[0]] += condensedStat[1]
     }
   }
   if (feet?.condensedStats) {
     for (const condensedStat of feet.condensedStats) {
-      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
+      a[condensedStat[0]] += condensedStat[1]
     }
   }
   if (planarSphere?.condensedStats) {
     for (const condensedStat of planarSphere.condensedStats) {
-      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
+      a[condensedStat[0]] += condensedStat[1]
     }
   }
   if (linkRope?.condensedStats) {
     for (const condensedStat of linkRope.condensedStats) {
-      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
+      a[condensedStat[0]] += condensedStat[1]
     }
   }
 

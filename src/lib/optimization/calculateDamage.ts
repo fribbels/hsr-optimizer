@@ -11,9 +11,10 @@ export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerActi
   if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
-export function calculateDamage(x: ComputedStatsArray, sets: SetsType, action: OptimizerAction, context: OptimizerContext) {
-  if (x.m) calculateDamage(x.m, sets, action, context)
+export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  if (x.m) calculateDamage(x.m, action, context)
 
+  const sets = x.c.sets
   const eLevel = context.enemyLevel
   const a = x.a
 

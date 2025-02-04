@@ -4,7 +4,7 @@ import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal, KeyToStat } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
@@ -291,14 +291,14 @@ export function testWrapper(name: string, request: Form, relics: RelicsByPart, d
 }
 
 export function uncondenseRelics(relicsByPart: RelicsByPart) {
-  for (const [key, relics] of Object.entries(relicsByPart)) {
+  for (const [_, relics] of Object.entries(relicsByPart)) {
     relics.map((relic) => {
       const condensedStats = relic.condensedStats!
       relic.substats = []
-      condensedStats.map(([stat, value]) => {
+      condensedStats.map(([key, value]) => {
         relic.substats.push({
           // @ts-ignore
-          stat,
+          stat: KeyToStat[key],
           value,
         })
       })

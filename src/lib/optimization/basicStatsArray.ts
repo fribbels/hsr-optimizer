@@ -46,10 +46,11 @@ export function baseBasicStatsArray() {
   return Float32Array.from(Object.values(baseCharacterStats))
 }
 
+const cachedBasicBaseStatsArray = baseBasicStatsArray()
+
 export class BasicStatsArrayCore {
   a = baseBasicStatsArray()
   m: BasicStatsArray
-  summoner: () => BasicStatsArray
   trace: boolean
 
   relicSetIndex: number
@@ -59,15 +60,13 @@ export class BasicStatsArrayCore {
   high: number
   low: number
 
-  constructor(trace: boolean = false, memosprite = false, summonerFn?: () => BasicStatsArray) {
+  constructor(trace: boolean = false, memosprite = false) {
     // @ts-ignore
     this.m = memosprite ? null : new BasicStatsArrayCore(trace, true, () => this)
-    // @ts-ignore
-    this.summoner = memosprite ? summonerFn : null
     this.trace = trace
-    // @ts-ignore
     this.relicSetIndex = 0
     this.ornamentSetIndex = 0
+    // @ts-ignore
     this.sets = {}
     this.id = 0
     this.high = 0
@@ -198,10 +197,11 @@ export class BasicStatsArrayCore {
     this.id = id
     this.low = low
     this.high = high
-  }
 
-  setPrecompute(precompute: Float32Array) {
-    this.a.set(precompute)
+    this.a.set(cachedBasicBaseStatsArray)
+    this.m.a.set(cachedBasicBaseStatsArray)
+    // this.buffs = []
+    // this.buffsMemo = []
   }
 
   set(key: number, value: number, source?: string) {

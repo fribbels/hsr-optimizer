@@ -1,14 +1,13 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants/constants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import {
-  baseCharacterStats,
   calculateBaseStats,
   calculateBasicEffects,
   calculateComputedStats,
@@ -16,7 +15,7 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType, Source } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -113,6 +112,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
+  const c = new BasicStatsArrayCore(false) as BasicStatsArray
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
   const m = x.m
 
@@ -156,14 +156,8 @@ self.onmessage = function (e: MessageEvent) {
       continue
     }
 
-    const c: BasicStatsObject = { ...baseCharacterStats } as BasicStatsObject
-
-    c.relicSetIndex = relicSetIndex
-    c.ornamentSetIndex = ornamentSetIndex
-    // @ts-ignore
-    c.x = {}
-
     const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
+    c.config(relicSetIndex, ornamentSetIndex, sets, col, 0, 0)
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateBaseStats(c, context)
@@ -171,11 +165,11 @@ self.onmessage = function (e: MessageEvent) {
 
     x.setBasic(c)
     if (x.m) {
-      m.setBasic({ ...c })
+      m.setBasic(c.m)
     }
 
     // Exit early on base display filters failing
-    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
+    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c.a) || failsBasicStatsFilter(c.a))) {
       continue
     }
 
@@ -211,7 +205,7 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     // Combat / rating filters
-    if (baseDisplay && memoDisplay && (failsBasicThresholdFilter(x.m.c) || failsBasicStatsFilter(x.m.c))) {
+    if (baseDisplay && memoDisplay && (failsBasicThresholdFilter(x.m.c.a) || failsBasicStatsFilter(x.m.c.a))) {
       continue
     }
     if (combatDisplay && summonerDisplay && (failsCombatThresholdFilter(x.a) || failsCombatStatsFilter(x.a))) {
@@ -226,8 +220,6 @@ self.onmessage = function (e: MessageEvent) {
     if (memoDisplay && failsRatingStatsFilter(x.m.a)) {
       continue
     }
-
-    c.id = col
 
     BufferPacker.packCharacter(arr, passCount, x)
     passCount++
@@ -318,17 +310,18 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
       },
     }
   } else {
-    const property = sortOption.basicProperty
+    const property = sortOption.gpuProperty as KeysType
+    const key = Key[property]
     return {
-      failsBasicThresholdFilter: (candidate: BasicStatsObject) => {
-        return candidate[property as StatsValues] < filter
+      failsBasicThresholdFilter: (candidate: Float32Array) => {
+        return candidate[key] < filter
       },
       failsCombatThresholdFilter: () => false,
     }
   }
 }
 
-function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) {
+function setupAction(c: BasicStatsArray, i: number, context: OptimizerContext) {
   const originalAction = context.actions[i]
   const action = {
     characterConditionals: originalAction.characterConditionals,

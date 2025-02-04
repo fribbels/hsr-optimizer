@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: Dono
     Set: Set
-    Grade: Raridade
     Part: Parte
-    Enhance: Melhoria
     MainStat: |-
       Atributo
       Principal

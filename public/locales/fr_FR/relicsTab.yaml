@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: Proprio
     Set: Set
-    Grade: Grade
     Part: Pièce
-    Enhance: Niveau
     MainStat: |-
       Main
       Stat

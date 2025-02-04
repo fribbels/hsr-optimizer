@@ -117,7 +117,7 @@ void i18next
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
-    debug: true,
+    debug: false,
     supportedLngs: supportedLanguages,
     load: 'currentOnly',
     fallbackLng: 'en_US',

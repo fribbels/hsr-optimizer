@@ -1,4 +1,4 @@
-import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SetsType, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
@@ -12,14 +12,15 @@ import {
   SpaceSealingStationConditional,
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
+import { BasicCharacterStats, BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { buffElementalDamageType, ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { buffElementalDamageType, ComputedStatsArray, Key, Source, StatToKey } from 'lib/optimization/computedStatsArray'
 import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
-export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
-  c.sets = {
+export function calculateSetCounts(setH: number, setG: number, setB: number, setF: number, setP: number, setL: number) {
+  const sets: SetsType = {
     PasserbyOfWanderingCloud: (1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)),
     MusketeerOfWildWheat: (1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)),
     KnightOfPurityPalace: (1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)),
@@ -66,65 +67,64 @@ export function calculateSetCounts(c: BasicStatsObject, setH: number, setG: numb
     BoneCollectionsSereneDemesne: (1 >> (setP ^ 18)) + (1 >> (setL ^ 18)),
     GiantTreeOfRaptBrooding: (1 >> (setP ^ 19)) + (1 >> (setL ^ 19)),
   }
-  return c.sets
+  return sets
 }
 
-export function calculateElementalStats(c: BasicStatsObject, context: OptimizerContext) {
+export function calculateElementalStats(c: BasicStatsArray, sets: SetsType, context: OptimizerContext) {
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
-  const sets = c.sets
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
-  c.ELEMENTAL_DMG = 0
+  c.ELEMENTAL_DMG.set(0, Source.NONE)
   switch (context.elementalDamageType) {
     case Stats.Physical_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing))
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing)), Source.NONE)
       break
     case Stats.Fire_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging))
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging)), Source.NONE)
       break
     case Stats.Ice_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest))
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest)), Source.NONE)
       break
     case Stats.Lightning_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0.10 * p2(sets.BandOfSizzlingThunder))
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0.10 * p2(sets.BandOfSizzlingThunder)), Source.NONE)
       break
     case Stats.Wind_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine))
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine)), Source.NONE)
       break
     case Stats.Quantum_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse))
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse)), Source.NONE)
       break
     case Stats.Imaginary_DMG:
-      c.ELEMENTAL_DMG = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert))
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert)), Source.NONE)
       break
   }
 }
 
-export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContext) {
+export function calculateBaseStats(c: BasicStatsArray, sets: SetsType, context: OptimizerContext) {
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
 
-  const sets = c.sets
-  c[Stats.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c,
+  // const sets = c.sets
+  c.SPD.set(sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)
     + 0.06 * p4(sets.MusketeerOfWildWheat)
     + 0.06 * p2(sets.SacerdosRelivedOrdeal)
     - 0.08 * p4(sets.PoetOfMourningCollapse)
     + 0.06 * p2(sets.GiantTreeOfRaptBrooding),
-  )
+  ), Source.NONE)
 
-  c[Stats.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c,
+  c.HP.set(sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c,
     0.12 * p2(sets.FleetOfTheAgeless)
     + 0.12 * p2(sets.LongevousDisciple)
     + 0.12 * p2(sets.BoneCollectionsSereneDemesne),
-  )
+  ), Source.NONE)
 
-  c[Stats.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c,
+  c.ATK.set(sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c,
     0.12 * p2(sets.SpaceSealingStation)
     + 0.12 * p2(sets.FirmamentFrontlineGlamoth)
     + 0.12 * p2(sets.MusketeerOfWildWheat)
@@ -132,52 +132,52 @@ export function calculateBaseStats(c: BasicStatsObject, context: OptimizerContex
     + 0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm)
     + 0.12 * p2(sets.TheWindSoaringValorous)
     + 0.12 * p2(sets.HeroOfTriumphantSong),
-  )
+  ), Source.NONE)
 
-  c[Stats.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c,
+  c.DEF.set(sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c,
     0.15 * p2(sets.BelobogOfTheArchitects)
     + 0.15 * p2(sets.KnightOfPurityPalace),
-  )
+  ), Source.NONE)
 
-  c[Stats.CR] = sumPercentStat(Stats.CR, base, lc, trace, c,
+  c.CR.set(sumPercentStat(Stats.CR, base, lc, trace, c,
     0.08 * p2(sets.InertSalsotto)
     + 0.08 * p2(sets.RutilantArena)
     + 0.04 * p4(sets.PioneerDiverOfDeadWaters)
     + 0.04 * p2(sets.SigoniaTheUnclaimedDesolation)
     + 0.06 * p4(sets.TheWindSoaringValorous)
     + 0.08 * p2(sets.ScholarLostInErudition),
-  )
+  ), Source.NONE)
 
-  c[Stats.CD] = sumPercentStat(Stats.CD, base, lc, trace, c,
+  c.CD.set(sumPercentStat(Stats.CD, base, lc, trace, c,
     0.16 * p2(sets.CelestialDifferentiator)
     + 0.16 * p2(sets.TheWondrousBananAmusementPark),
-  )
+  ), Source.NONE)
 
-  c[Stats.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c,
+  c.EHR.set(sumPercentStat(Stats.EHR, base, lc, trace, c,
     0.10 * p2(sets.PanCosmicCommercialEnterprise),
-  )
+  ), Source.NONE)
 
-  c[Stats.RES] = sumPercentStat(Stats.RES, base, lc, trace, c,
+  c.RES.set(sumPercentStat(Stats.RES, base, lc, trace, c,
     0.10 * p2(sets.BrokenKeel),
-  )
+  ), Source.NONE)
 
-  c[Stats.BE] = sumPercentStat(Stats.BE, base, lc, trace, c,
+  c.BE.set(sumPercentStat(Stats.BE, base, lc, trace, c,
     0.16 * p2(sets.TaliaKingdomOfBanditry)
     + 0.16 * p2(sets.ThiefOfShootingMeteor)
     + 0.16 * p4(sets.ThiefOfShootingMeteor)
     + 0.16 * p2(sets.WatchmakerMasterOfDreamMachinations)
     + 0.16 * p2(sets.IronCavalryAgainstTheScourge),
-  )
+  ), Source.NONE)
 
-  c[Stats.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c,
+  c.ERR.set(sumPercentStat(Stats.ERR, base, lc, trace, c,
     0.05 * p2(sets.SprightlyVonwacq)
     + 0.05 * p2(sets.PenaconyLandOfTheDreams)
     + 0.05 * p2(sets.LushakaTheSunkenSeas),
-  )
+  ), Source.NONE)
 
-  c[Stats.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c,
+  c.OHB.set(sumPercentStat(Stats.OHB, base, lc, trace, c,
     0.10 * p2(sets.PasserbyOfWanderingCloud),
-  )
+  ), Source.NONE)
 }
 
 export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
@@ -188,46 +188,45 @@ export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAc
   if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
-export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateComputedStats(x: ComputedStatsArray, sets: SetsType, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   const a = x.a
   const c = x.c
-  const sets = c.sets
   const buffs = context.combatBuffs
 
   // Add base to computed
-  a[Key.ATK] += c[Stats.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
-  a[Key.DEF] += c[Stats.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
-  a[Key.HP] += c[Stats.HP] + buffs.HP + buffs.HP_P * context.baseHP
-  a[Key.SPD] += c[Stats.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
-  a[Key.CD] += c[Stats.CD] + buffs.CD
-  a[Key.CR] += c[Stats.CR] + buffs.CR
-  a[Key.BE] += c[Stats.BE] + buffs.BE
-  a[Key.EHR] += c[Stats.EHR]
-  a[Key.RES] += c[Stats.RES]
-  a[Key.ERR] += c[Stats.ERR]
-  a[Key.OHB] += c[Stats.OHB]
+  a[Key.ATK] += c.a[Key.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
+  a[Key.DEF] += c.a[Key.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
+  a[Key.HP] += c.a[Key.HP] + buffs.HP + buffs.HP_P * context.baseHP
+  a[Key.SPD] += c.a[Key.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
+  a[Key.CD] += c.a[Key.CD] + buffs.CD
+  a[Key.CR] += c.a[Key.CR] + buffs.CR
+  a[Key.BE] += c.a[Key.BE] + buffs.BE
+  a[Key.EHR] += c.a[Key.EHR]
+  a[Key.RES] += c.a[Key.RES]
+  a[Key.ERR] += c.a[Key.ERR]
+  a[Key.OHB] += c.a[Key.OHB]
 
   if (x.m) {
     const xmc = x.m.c
     const xma = x.m.a
-    xmc.ATK = x.a[Key.MEMO_ATK_SCALING] * c.ATK + x.a[Key.MEMO_ATK_FLAT]
-    xmc.DEF = x.a[Key.MEMO_DEF_SCALING] * c.DEF + x.a[Key.MEMO_DEF_FLAT]
-    xmc.HP = x.a[Key.MEMO_HP_SCALING] * c.HP + x.a[Key.MEMO_HP_FLAT]
-    xmc.SPD = x.a[Key.MEMO_SPD_SCALING] * c.SPD + x.a[Key.MEMO_SPD_FLAT]
+    xmc.ATK.set(x.a[Key.MEMO_ATK_SCALING] * c.a[Key.ATK] + x.a[Key.MEMO_ATK_FLAT], Source.NONE)
+    xmc.DEF.set(x.a[Key.MEMO_DEF_SCALING] * c.a[Key.DEF] + x.a[Key.MEMO_DEF_FLAT], Source.NONE)
+    xmc.HP.set(x.a[Key.MEMO_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_HP_FLAT], Source.NONE)
+    xmc.SPD.set(x.a[Key.MEMO_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_SPD_FLAT], Source.NONE)
 
-    xma[Key.ATK] += xmc[Stats.ATK]
-    xma[Key.DEF] += xmc[Stats.DEF]
-    xma[Key.HP] += xmc[Stats.HP]
-    xma[Key.SPD] += xmc[Stats.SPD]
+    xma[Key.ATK] = xmc.a[Key.ATK]
+    xma[Key.DEF] = xmc.a[Key.DEF]
+    xma[Key.HP] = xmc.a[Key.HP]
+    xma[Key.SPD] = xmc.a[Key.SPD]
 
-    xma[Key.CD] += c[Stats.CD]
-    xma[Key.CR] += c[Stats.CR]
-    xma[Key.BE] += c[Stats.BE]
-    xma[Key.EHR] += c[Stats.EHR]
-    xma[Key.RES] += c[Stats.RES]
-    xma[Key.ERR] += c[Stats.ERR]
-    xma[Key.OHB] += c[Stats.OHB]
+    xma[Key.CD] = c.a[Key.CD]
+    xma[Key.CR] = c.a[Key.CR]
+    xma[Key.BE] = c.a[Key.BE]
+    xma[Key.EHR] = c.a[Key.EHR]
+    xma[Key.RES] = c.a[Key.RES]
+    xma[Key.ERR] = c.a[Key.ERR]
+    xma[Key.OHB] = c.a[Key.OHB]
   }
 
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
@@ -235,14 +234,14 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.VULNERABILITY] += buffs.VULNERABILITY
   a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
 
-  buffElementalDamageType(x, context.elementalDamageType, c.ELEMENTAL_DMG)
+  buffElementalDamageType(x, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
   if (x.m) {
-    buffElementalDamageType(x.m, context.elementalDamageType, c.ELEMENTAL_DMG)
+    buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
   }
 
   // BASIC
 
-  if (p2(sets.CelestialDifferentiator) && setConditionals.enabledCelestialDifferentiator && c[Stats.CD] >= 1.20) {
+  if (p2(sets.CelestialDifferentiator) && setConditionals.enabledCelestialDifferentiator && c.a[Key.CD] >= 1.20) {
     x.CR.buff(0.60, Source.CelestialDifferentiator)
   }
 
@@ -312,7 +311,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     x.CR.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
   }
   if (p4(sets.PoetOfMourningCollapse)) {
-    x.CR.buffBaseDual((c[Stats.SPD] < 110 ? 0.20 : 0) + (c[Stats.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
+    x.CR.buffBaseDual((c.a[Key.SPD] < 110 ? 0.20 : 0) + (c.a[Key.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
   }
 
   // BE
@@ -433,45 +432,45 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   return x
 }
 
-export function calculateRelicStats(c: BasicStatsObject, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic) {
+export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic) {
   if (head?.condensedStats) {
     for (const condensedStat of head.condensedStats) {
-      c[condensedStat[0] as StatsValues] += condensedStat[1]
+      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
     }
   }
   if (hands?.condensedStats) {
     for (const condensedStat of hands.condensedStats) {
-      c[condensedStat[0] as StatsValues] += condensedStat[1]
+      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
     }
   }
   if (body?.condensedStats) {
     for (const condensedStat of body.condensedStats) {
-      c[condensedStat[0] as StatsValues] += condensedStat[1]
+      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
     }
   }
   if (feet?.condensedStats) {
     for (const condensedStat of feet.condensedStats) {
-      c[condensedStat[0] as StatsValues] += condensedStat[1]
+      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
     }
   }
   if (planarSphere?.condensedStats) {
     for (const condensedStat of planarSphere.condensedStats) {
-      c[condensedStat[0] as StatsValues] += condensedStat[1]
+      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
     }
   }
   if (linkRope?.condensedStats) {
     for (const condensedStat of linkRope.condensedStats) {
-      c[condensedStat[0] as StatsValues] += condensedStat[1]
+      c[condensedStat[0] as BasicCharacterStats].buff(condensedStat[1], Source.NONE)
     }
   }
 
-  c.WEIGHT
-    = head.weightScore
-    + hands.weightScore
-    + body.weightScore
-    + feet.weightScore
-    + planarSphere.weightScore
-    + linkRope.weightScore
+  // c.WEIGHT
+  //   = head.weightScore
+  //   + hands.weightScore
+  //   + body.weightScore
+  //   + feet.weightScore
+  //   + planarSphere.weightScore
+  //   + linkRope.weightScore
 }
 
 function sumPercentStat(
@@ -479,9 +478,9 @@ function sumPercentStat(
   base: Record<string, number>,
   lc: Record<string, number>,
   trace: Record<string, number>,
-  relicSum: BasicStatsObject,
+  relicSum: BasicStatsArray,
   setEffects: number): number {
-  return base[stat] + lc[stat] + relicSum[stat] + trace[stat] + setEffects
+  return base[stat] + lc[stat] + relicSum.a[StatToKey[stat]] + trace[stat] + setEffects
 }
 
 function sumFlatStat(
@@ -490,10 +489,10 @@ function sumFlatStat(
   baseValue: number,
   lc: Record<string, number>,
   trace: Record<string, number>,
-  relicSum: BasicStatsObject,
+  relicSum: BasicStatsArray,
   setEffects: number,
 ): number {
-  return (baseValue) * (1 + setEffects + relicSum[statP] + trace[statP] + lc[statP]) + relicSum[stat] + trace[stat]
+  return (baseValue) * (1 + setEffects + relicSum.a[StatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[StatToKey[stat]] + trace[stat]
 }
 
 const pioneerSetIndexToCd: Record<number, number> = {

@@ -1,0 +1,245 @@
+import { BasicStatsObject, SetsType } from 'lib/conditionals/conditionalConstants'
+import { Key, StatController } from 'lib/optimization/computedStatsArray'
+
+type BasicStatsArrayStatExtensions = {
+  [K in keyof typeof baseCharacterStats]: StatController;
+}
+
+export type BasicStatsArray =
+  BasicStatsArrayCore
+  & BasicStatsArrayStatExtensions
+  & BasicStatsArrayStatDirectAccess
+
+type BasicStatsArrayStatDirectAccess = {
+  [K in keyof typeof baseCharacterStats as `$${K}`]: number;
+}
+
+const baseCharacterStats = {
+  HP_P: 0,
+  ATK_P: 0,
+  DEF_P: 0,
+  SPD_P: 0,
+  HP: 0.000001,
+  ATK: 0.000001,
+  DEF: 0.000001,
+  SPD: 0.000001,
+  CR: 0.000001,
+  CD: 0.000001,
+  EHR: 0.000001,
+  RES: 0.000001,
+  BE: 0.000001,
+  ERR: 0.000001,
+  OHB: 0.000001,
+  PHYSICAL_DMG_BOOST: 0.000001,
+  FIRE_DMG_BOOST: 0.000001,
+  ICE_DMG_BOOST: 0.000001,
+  LIGHTNING_DMG_BOOST: 0.000001,
+  WIND_DMG_BOOST: 0.000001,
+  QUANTUM_DMG_BOOST: 0.000001,
+  IMAGINARY_DMG_BOOST: 0.000001,
+  ELEMENTAL_DMG: 0.000001,
+}
+
+export type BasicCharacterStats = keyof typeof baseCharacterStats
+
+export function baseBasicStatsArray() {
+  return Float32Array.from(Object.values(baseCharacterStats))
+}
+
+export class BasicStatsArrayCore {
+  a = baseBasicStatsArray()
+  m: BasicStatsArray
+  summoner: () => BasicStatsArray
+  trace: boolean
+
+  relicSetIndex: number
+  ornamentSetIndex: number
+  sets: SetsType
+  id: number
+  high: number
+  low: number
+
+  constructor(trace: boolean = false, memosprite = false, summonerFn?: () => BasicStatsArray) {
+    // @ts-ignore
+    this.m = memosprite ? null : new BasicStatsArrayCore(trace, true, () => this)
+    // @ts-ignore
+    this.summoner = memosprite ? summonerFn : null
+    this.trace = trace
+    // @ts-ignore
+    this.relicSetIndex = 0
+    this.ornamentSetIndex = 0
+    this.sets = {}
+    this.id = 0
+    this.high = 0
+    this.low = 0
+
+    Object.keys(baseCharacterStats).forEach((stat, key) => {
+      Object.defineProperty(this, stat, {
+        value: {
+          buff: (value: number, source: string) => {
+            if (value == 0) return
+            this.a[key] += value
+            // trace(value, source)
+          },
+          //     buffSingle: (value: number, source: string) => {
+          //       if (value == 0) return
+          //       if (this.a[Key.DEPRIORITIZE_BUFFS]) return
+          //       if (this.a[Key.MEMO_BUFF_PRIORITY]) {
+          //         this.m.a[key] += value
+          //         traceMemo(value, source)
+          //       } else {
+          //         this.a[key] += value
+          //         trace(value, source)
+          //       }
+          //     },
+          //     buffMemo: (value: number, source: string) => {
+          //       if (value == 0) return
+          //       if (this.a[Key.DEPRIORITIZE_BUFFS]) return
+          //       if (this.m) {
+          //         this.m.a[key] += value
+          //         traceMemo(value, source)
+          //       }
+          //     },
+          //     buffTeam: (value: number, source: string) => {
+          //       if (value == 0) return
+          //       this.a[key] += value
+          //       trace(value, source)
+          //
+          //       if (this.m) {
+          //         this.m.a[key] += value
+          //         traceMemo(value, source)
+          //       }
+          //     },
+          //     buffDual: (value: number, source: string) => {
+          //       if (value == 0) return
+          //       if (this.a[Key.DEPRIORITIZE_BUFFS]) return
+          //       this.a[key] += value
+          //       trace(value, source)
+          //
+          //       if (this.m) {
+          //         this.m.a[key] += value
+          //         traceMemo(value, source)
+          //       }
+          //     },
+          //     buffBaseDual: (value: number, source: string) => {
+          //       if (value == 0) return
+          //       this.a[key] += value
+          //       trace(value, source)
+          //
+          //       if (this.m) {
+          //         this.m.a[key] += value
+          //         traceMemo(value, source)
+          //       }
+          //     },
+          //     buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
+          //       if (value < 0.001) return
+          //       this.a[key] += value
+          //       trace(value, source)
+          //
+          //       if (this.m) {
+          //         this.m.a[key] += value
+          //         traceMemo(value, source)
+          //       }
+          //
+          //       for (const conditional of action.conditionalRegistry[KeyToStat[stat]] ?? []) {
+          //         evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
+          //       }
+          //     },
+          //     multiply: (value: number, source: string) => {
+          //       this.a[key] *= value
+          //       trace(value, source)
+          //     },
+          //     multiplyTeam: (value: number, source: string) => {
+          //       this.a[key] *= value
+          //       trace(value, source)
+          //       if (this.m) {
+          //         this.m.a[key] *= value
+          //         traceMemo(value, source)
+          //       }
+          //     },
+          //     buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
+          //       if (value < 0.001) return
+          //       this.a[key] += value
+          //       trace(value, source)
+          //
+          //       for (const conditional of action.conditionalRegistry[KeyToStat[stat]] || []) {
+          //         evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
+          //       }
+          //     },
+          set: (value: number, source: string) => {
+            this.a[key] = value
+            // traceOverwrite(value, source)
+          },
+          get: () => this.a[key],
+        },
+        writable: false,
+        enumerable: true,
+        configurable: true,
+      })
+
+      Object.defineProperty(this, `$${stat}`, {
+        get: () => this.a[key],
+        enumerable: true,
+        configurable: true,
+      })
+    })
+
+    Object.defineProperty(this, `#show`, {
+      get: () => this.toBasicStatsObject(),
+      enumerable: true,
+      configurable: true,
+    })
+  }
+
+  config(relicSetIndex: number, ornamentSetIndex: number, sets: SetsType, id: number, low: number, high: number) {
+    this.relicSetIndex = relicSetIndex
+    this.ornamentSetIndex = ornamentSetIndex
+    this.sets = sets
+    this.id = id
+    this.low = low
+    this.high = high
+  }
+
+  setPrecompute(precompute: Float32Array) {
+    this.a.set(precompute)
+  }
+
+  set(key: number, value: number, source?: string) {
+    this.a[key] = value
+  }
+
+  get(key: number) {
+    return this.a[key]
+  }
+
+  toBasicStatsObject() {
+    const a = this.a
+    const result: Partial<BasicStatsObject> = {
+      'HP%': a[Key.HP_P],
+      'ATK%': a[Key.ATK_P],
+      'DEF%': a[Key.DEF_P],
+      'SPD%': a[Key.SPD_P],
+      'HP': a[Key.HP],
+      'ATK': a[Key.ATK],
+      'DEF': a[Key.DEF],
+      'SPD': a[Key.SPD],
+      'CRIT Rate': a[Key.CR],
+      'CRIT DMG': a[Key.CD],
+      'Effect Hit Rate': a[Key.EHR],
+      'Effect RES': a[Key.RES],
+      'Break Effect': a[Key.BE],
+      'Energy Regeneration Rate': a[Key.ERR],
+      'Outgoing Healing Boost': a[Key.OHB],
+      'Physical DMG Boost': a[Key.PHYSICAL_DMG_BOOST],
+      'Fire DMG Boost': a[Key.FIRE_DMG_BOOST],
+      'Ice DMG Boost': a[Key.ICE_DMG_BOOST],
+      'Lightning DMG Boost': a[Key.LIGHTNING_DMG_BOOST],
+      'Wind DMG Boost': a[Key.WIND_DMG_BOOST],
+      'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
+      'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
+      'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
+    }
+
+    return result as BasicStatsObject
+  }
+}

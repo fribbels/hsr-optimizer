@@ -1,9 +1,8 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import {
-  baseCharacterStats,
   calculateBaseStats,
   calculateBasicEffects,
   calculateComputedStats,
@@ -73,28 +72,26 @@ export function calculateBuild(
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
-  const c = {
-    ...baseCharacterStats,
-    relicSetIndex: relicSetIndex,
-    ornamentSetIndex: ornamentSetIndex,
-  } as BasicStatsObject
-
+  const c = new BasicStatsArrayCore(false) as BasicStatsArray
   const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
   const m = x.m
 
+  const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
+
+  c.config(relicSetIndex, ornamentSetIndex, sets, 0, 0, 0)
+
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
-  calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
-  calculateBaseStats(c, context)
-  calculateElementalStats(c, context)
+  calculateBaseStats(c, sets, context)
+  calculateElementalStats(c, sets, context)
 
   if (forcedBasicSpd) {
     // Special scoring use case where basic spd stat needs to be enforced
-    c[Stats.SPD] = forcedBasicSpd
+    c.SPD.set(forcedBasicSpd, Source.NONE)
   }
 
   x.setBasic(c)
   if (x.m) {
-    m.setBasic({ ...c })
+    m.setBasic(c.m)
   }
 
   let combo = 0
@@ -109,10 +106,10 @@ export function calculateBuild(
     }
 
     calculateBasicEffects(x, action, context)
-    calculateComputedStats(x, action, context)
+    calculateComputedStats(x, sets, action, context)
     calculateBaseMultis(x, action, context)
 
-    calculateDamage(x, action, context)
+    calculateDamage(x, sets, action, context)
 
     if (action.actionType === 'BASIC') {
       combo += a[Key.BASIC_DMG]
@@ -132,12 +129,15 @@ export function calculateBuild(
     }
   }
 
-  c.x = x.toComputedStatsObject(internal)
+  const basicStatsObject = c.toBasicStatsObject()
+  const computedStatsObject = x.toComputedStatsObject(internal)
+
+  basicStatsObject.x = computedStatsObject
 
   return {
-    c: c,
+    c: basicStatsObject,
     computedStatsArray: x,
-    computedStatsObject: c.x,
+    computedStatsObject: computedStatsObject,
   }
 }
 

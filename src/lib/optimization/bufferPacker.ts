@@ -1,4 +1,3 @@
-import { Stats } from 'lib/constants/constants'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
@@ -172,20 +171,21 @@ export const BufferPacker = {
     offset = offset * SIZE
     const c = x.c
     const a = x.a
+    const ca = c.a
 
     arr[offset] = c.id // 0
-    arr[offset + 1] = c[Stats.HP]
-    arr[offset + 2] = c[Stats.ATK]
-    arr[offset + 3] = c[Stats.DEF]
-    arr[offset + 4] = c[Stats.SPD]
-    arr[offset + 5] = c[Stats.CR]
-    arr[offset + 6] = c[Stats.CD]
-    arr[offset + 7] = c[Stats.EHR]
-    arr[offset + 8] = c[Stats.RES]
-    arr[offset + 9] = c[Stats.BE]
-    arr[offset + 10] = c[Stats.ERR] // 10
-    arr[offset + 11] = c[Stats.OHB]
-    arr[offset + 12] = c.ELEMENTAL_DMG
+    arr[offset + 1] = ca[Key.HP]
+    arr[offset + 2] = ca[Key.ATK]
+    arr[offset + 3] = ca[Key.DEF]
+    arr[offset + 4] = ca[Key.SPD]
+    arr[offset + 5] = ca[Key.CR]
+    arr[offset + 6] = ca[Key.CD]
+    arr[offset + 7] = ca[Key.EHR]
+    arr[offset + 8] = ca[Key.RES]
+    arr[offset + 9] = ca[Key.BE]
+    arr[offset + 10] = ca[Key.ERR] // 10
+    arr[offset + 11] = ca[Key.OHB]
+    arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
     arr[offset + 13] = c.WEIGHT
     arr[offset + 14] = a[Key.EHP]
     arr[offset + 15] = a[Key.HEAL_VALUE]
@@ -216,18 +216,18 @@ export const BufferPacker = {
     arr[offset + 40] = c.high
     if (x.m) {
       const c = x.m.c
-      arr[offset + 41] = c[Stats.HP]
-      arr[offset + 42] = c[Stats.ATK]
-      arr[offset + 43] = c[Stats.DEF]
-      arr[offset + 44] = c[Stats.SPD]
-      arr[offset + 45] = c[Stats.CR]
-      arr[offset + 46] = c[Stats.CD]
-      arr[offset + 47] = c[Stats.EHR]
-      arr[offset + 48] = c[Stats.RES]
-      arr[offset + 49] = c[Stats.BE]
-      arr[offset + 50] = c[Stats.ERR]
-      arr[offset + 51] = c[Stats.OHB]
-      arr[offset + 52] = c.ELEMENTAL_DMG
+      arr[offset + 41] = ca[Key.HP]
+      arr[offset + 42] = ca[Key.ATK]
+      arr[offset + 43] = ca[Key.DEF]
+      arr[offset + 44] = ca[Key.SPD]
+      arr[offset + 45] = ca[Key.CR]
+      arr[offset + 46] = ca[Key.CD]
+      arr[offset + 47] = ca[Key.EHR]
+      arr[offset + 48] = ca[Key.RES]
+      arr[offset + 49] = ca[Key.BE]
+      arr[offset + 50] = ca[Key.ERR]
+      arr[offset + 51] = ca[Key.OHB]
+      arr[offset + 52] = ca[Key.ELEMENTAL_DMG]
 
       const a = x.m.a
       arr[offset + 53] = a[Key.HP]

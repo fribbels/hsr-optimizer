@@ -1,5 +1,5 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Stats } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
@@ -148,7 +148,7 @@ export const Optimizer = {
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU) {
-      getWebgpuDevice().then(device => {
+      getWebgpuDevice().then((device) => {
         if (device == null) {
           Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
             15)
@@ -270,22 +270,22 @@ export function renameFields(c: BasicStatsObject, x: ComputedStatsArray) {
   d.xBE = x.BE.get()
   d.xERR = x.ERR.get()
   d.xOHB = x.OHB.get()
-  d.xELEMENTAL_DMG = c.x.ELEMENTAL_DMG
+  d.xELEMENTAL_DMG = x.ELEMENTAL_DMG.get()
 
   d.mELEMENTAL_DMG = c.ELEMENTAL_DMG
   if (x.m) {
     const c = x.m.c
-    d.mHP = c[Stats.HP]
-    d.mATK = c[Stats.ATK]
-    d.mDEF = c[Stats.DEF]
-    d.mSPD = c[Stats.SPD]
-    d.mCR = c[Stats.CR]
-    d.mCD = c[Stats.CD]
-    d.mEHR = c[Stats.EHR]
-    d.mRES = c[Stats.RES]
-    d.mBE = c[Stats.BE]
-    d.mERR = c[Stats.ERR]
-    d.mOHB = c[Stats.OHB]
+    d.mHP = c.HP.get()
+    d.mATK = c.ATK.get()
+    d.mDEF = c.DEF.get()
+    d.mSPD = c.SPD.get()
+    d.mCR = c.CR.get()
+    d.mCD = c.CD.get()
+    d.mEHR = c.EHR.get()
+    d.mRES = c.RES.get()
+    d.mBE = c.BE.get()
+    d.mERR = c.ERR.get()
+    d.mOHB = c.OHB.get()
 
     const m = x.m
     d.mxHP = m.HP.get()

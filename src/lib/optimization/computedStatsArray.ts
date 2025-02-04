@@ -1,6 +1,7 @@
-import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { ElementToResPenType, Sets, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 type Buff = {
@@ -48,7 +49,7 @@ export type ComputedStatsArray =
 
 export class ComputedStatsArrayCore {
   a = baseComputedStatsArray()
-  c: BasicStatsObject
+  c: BasicStatsArray
   m: ComputedStatsArray
   summoner: () => ComputedStatsArray
   buffs: Buff[]
@@ -56,7 +57,8 @@ export class ComputedStatsArrayCore {
   trace: boolean
 
   constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
-    this.c = {} as BasicStatsObject
+    // @ts-ignore
+    this.c = new BasicStatsArrayCore(trace, true, () => this)
     // @ts-ignore
     this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true, () => this)
     // @ts-ignore
@@ -200,7 +202,7 @@ export class ComputedStatsArrayCore {
     this.buffsMemo = precompute.buffsMemo
   }
 
-  setBasic(c: BasicStatsObject) {
+  setBasic(c: BasicStatsArray) {
     this.c = c
   }
 
@@ -422,4 +424,29 @@ export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,
   ['Wind DMG Boost']: number
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
+}
+
+export const StatToKey: Record<string, number> = {
+  [Stats.ATK_P]: Key.ATK_P,
+  [Stats.ATK]: Key.ATK,
+  [Stats.BE]: Key.BE,
+  [Stats.CD]: Key.CD,
+  [Stats.CR]: Key.CR,
+  [Stats.DEF_P]: Key.DEF_P,
+  [Stats.DEF]: Key.DEF,
+  [Stats.EHR]: Key.EHR,
+  [Stats.ERR]: Key.ERR,
+  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
+  [Stats.HP_P]: Key.HP_P,
+  [Stats.HP]: Key.HP,
+  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
+  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
+  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
+  [Stats.OHB]: Key.OHB,
+  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
+  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
+  [Stats.RES]: Key.RES,
+  [Stats.SPD_P]: Key.SPD_P,
+  [Stats.SPD]: Key.SPD,
+  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
 }

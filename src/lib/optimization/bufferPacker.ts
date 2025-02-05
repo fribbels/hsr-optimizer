@@ -74,6 +74,9 @@ export type OptimizerDisplayData = {
   'mxELEMENTAL_DMG': number
 
   'mxEHP': number
+
+  'xa': Float32Array
+  'ca': Float32Array
 }
 
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {

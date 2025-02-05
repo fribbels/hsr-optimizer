@@ -28,7 +28,8 @@ export function calculateBuild(
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
   internal: boolean = false,
-  forcedBasicSpd: number = 0) {
+  forcedBasicSpd: number = 0,
+  weightScore: false) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -45,7 +46,10 @@ export function calculateBuild(
 
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
-  RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
+
+  if (weightScore) {
+    RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
+  }
 
   // When the relic is empty / has no set, we have to use an unused set index to simulate a broken set
   const unusedSets = generateUnusedSets(relics)

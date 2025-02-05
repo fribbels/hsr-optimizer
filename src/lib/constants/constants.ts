@@ -376,6 +376,14 @@ export const Parts = {
 } as const
 export type Parts = typeof Parts[keyof typeof Parts]
 
+export const MainStatParts = {
+  Body: 'Body',
+  Feet: 'Feet',
+  PlanarSphere: 'PlanarSphere',
+  LinkRope: 'LinkRope',
+} as const
+export type MainStatParts = typeof MainStatParts[keyof typeof MainStatParts]
+
 export const PartsToReadable = {
   [Parts.Head]: 'Head',
   [Parts.Hands]: 'Hands',

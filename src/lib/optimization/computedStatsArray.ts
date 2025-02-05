@@ -236,6 +236,17 @@ export class ComputedStatsArrayCore {
   }
 }
 
+export function toComputedStatsObject(a: Float32Array) {
+  const result: Partial<ComputedStatsObjectExternal> = {}
+
+  for (const key in Key) {
+    const externalKey = InternalKeyToExternal[key] ?? key
+    const numericKey = Key[key as KeysType]
+    result[externalKey as keyof ComputedStatsObjectExternal] = a[numericKey]
+  }
+  return result as ComputedStatsObjectExternal
+}
+
 export function fromComputedStatsObject(x: ComputedStatsObject) {
   return Float32Array.from(Object.values(x))
 }

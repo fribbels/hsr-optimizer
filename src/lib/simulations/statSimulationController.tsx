@@ -11,7 +11,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/characterScorer'
+import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -290,7 +290,7 @@ export function runSimulations(
   const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
 
-  const simulationResults = []
+  const simulationResults: SimulationResult[] = []
   for (const sim of simulations) {
     const request = sim.request
 

@@ -435,7 +435,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   return x
 }
 
-export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic) {
+export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic, weights: boolean) {
   const a = c.a
   if (head?.condensedStats) {
     for (const condensedStat of head.condensedStats) {
@@ -468,14 +468,16 @@ export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Reli
     }
   }
 
-  c.setWeight(
-    head.weightScore
-    + hands.weightScore
-    + body.weightScore
-    + feet.weightScore
-    + planarSphere.weightScore
-    + linkRope.weightScore,
-  )
+  if (weights) {
+    c.setWeight(
+      head.weightScore
+      + hands.weightScore
+      + body.weightScore
+      + feet.weightScore
+      + planarSphere.weightScore
+      + linkRope.weightScore,
+    )
+  }
 }
 
 function sumPercentStat(

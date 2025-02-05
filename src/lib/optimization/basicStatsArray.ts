@@ -232,36 +232,39 @@ export class BasicStatsArrayCore {
   }
 
   toBasicStatsObject() {
-    const a = this.a
-    const result: Partial<BasicStatsObject> = {
-      'HP%': a[Key.HP_P],
-      'ATK%': a[Key.ATK_P],
-      'DEF%': a[Key.DEF_P],
-      'SPD%': a[Key.SPD_P],
-      'HP': a[Key.HP],
-      'ATK': a[Key.ATK],
-      'DEF': a[Key.DEF],
-      'SPD': a[Key.SPD],
-      'CRIT Rate': a[Key.CR],
-      'CRIT DMG': a[Key.CD],
-      'Effect Hit Rate': a[Key.EHR],
-      'Effect RES': a[Key.RES],
-      'Break Effect': a[Key.BE],
-      'Energy Regeneration Rate': a[Key.ERR],
-      'Outgoing Healing Boost': a[Key.OHB],
-      'Physical DMG Boost': a[Key.PHYSICAL_DMG_BOOST],
-      'Fire DMG Boost': a[Key.FIRE_DMG_BOOST],
-      'Ice DMG Boost': a[Key.ICE_DMG_BOOST],
-      'Lightning DMG Boost': a[Key.LIGHTNING_DMG_BOOST],
-      'Wind DMG Boost': a[Key.WIND_DMG_BOOST],
-      'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
-      'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
-      'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
-      'WEIGHT': this.weight,
-      'relicSetIndex': this.relicSetIndex,
-      'ornamentSetIndex': this.ornamentSetIndex,
-    }
-
-    return result as BasicStatsObject
+    return toBasicStatsObject(this.a, this.weight, this.relicSetIndex, this.ornamentSetIndex)
   }
+}
+
+export function toBasicStatsObject(a: Float32Array, weight: number = 0, relicSetIndex: number = 0, ornamentSetIndex: number = 0) {
+  const result: Partial<BasicStatsObject> = {
+    'HP%': a[Key.HP_P],
+    'ATK%': a[Key.ATK_P],
+    'DEF%': a[Key.DEF_P],
+    'SPD%': a[Key.SPD_P],
+    'HP': a[Key.HP],
+    'ATK': a[Key.ATK],
+    'DEF': a[Key.DEF],
+    'SPD': a[Key.SPD],
+    'CRIT Rate': a[Key.CR],
+    'CRIT DMG': a[Key.CD],
+    'Effect Hit Rate': a[Key.EHR],
+    'Effect RES': a[Key.RES],
+    'Break Effect': a[Key.BE],
+    'Energy Regeneration Rate': a[Key.ERR],
+    'Outgoing Healing Boost': a[Key.OHB],
+    'Physical DMG Boost': a[Key.PHYSICAL_DMG_BOOST],
+    'Fire DMG Boost': a[Key.FIRE_DMG_BOOST],
+    'Ice DMG Boost': a[Key.ICE_DMG_BOOST],
+    'Lightning DMG Boost': a[Key.LIGHTNING_DMG_BOOST],
+    'Wind DMG Boost': a[Key.WIND_DMG_BOOST],
+    'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
+    'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
+    'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
+    'WEIGHT': weight,
+    'relicSetIndex': relicSetIndex,
+    'ornamentSetIndex': ornamentSetIndex,
+  }
+
+  return result as BasicStatsObject
 }

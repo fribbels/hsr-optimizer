@@ -5,7 +5,7 @@ import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { Message } from 'lib/interactions/message'
 import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsArray, ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
@@ -35,7 +35,7 @@ export async function calculateCurrentlyEquippedRow(request) {
   RelicFilters.condenseRelicSubstatsForOptimizer(relics)
   Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
-  const x = calculateBuild(request, relics, null, null, null)
+  const x = calculateBuild(request, relics, null, null, null, undefined, undefined, undefined, undefined, false)
   const optimizerDisplayData = renameFields(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
 }
@@ -252,7 +252,9 @@ export function renameFields(x: ComputedStatsArray) {
     high: c.high,
     low: c.low,
     WEIGHT: c.weight,
-    x: x.toComputedStatsObject(false) as ComputedStatsObjectExternal,
+    xa: new Float32Array(x.a),
+    ca: new Float32Array(c.a),
+    // x: x.toComputedStatsObject(false) as ComputedStatsObjectExternal,
   }
 
   d.ED = c.ELEMENTAL_DMG.get()

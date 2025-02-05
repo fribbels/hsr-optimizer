@@ -8,7 +8,7 @@ Common:
   HealAbility:
     Text: "Kĩ năng hồi phục"
     Content: "Chọn kĩ năng hồi phục để tính"
-    Basic: "Kĩ năng hồi phục: Đánh Thường"
+    Basic: "Kĩ năng hồi phục: Tấn Công Thường"
     Skill: "Kĩ năng hồi phục: Chiến Kỹ"
     Ult: "Kĩ năng hồi phục: Tuyệt Kỹ"
     Talent: "Kĩ năng hồi phục: Thiên Phú"
@@ -16,7 +16,7 @@ Common:
   ShieldAbility:
     Text: "Kĩ năng lá chắn"
     Content: "Chọn kĩ năng lá chắn để tính"
-    Basic: "Kĩ năng lá chắn: Đánh Thường"
+    Basic: "Kĩ năng lá chắn: Tấn Công Thường"
     Skill: "Kĩ năng lá chắn: Chiến Kỹ"
     Ult: "Kĩ năng lá chắn: Tuyệt Kỹ"
     Talent: "Kĩ năng lá chắn: Thiên Phú"
@@ -315,7 +315,6 @@ Characters:
   Argenti:
     Content:
       ultEnhanced:
-        text: Tuyệt Kỹ Nâng Cấp
         content: >-
           Tiêu hao 180 điểm Năng Lượng, gây Sát Thương Vật Lý lên toàn bộ địch tương đương {{ultEnhancedScaling}}% Tấn Công của Argenti, đồng thời gây thêm 6 lần sát thương, mỗi lần sát thương gây ra Sát Thương Vật Lý lên 1 kẻ địch ngẫu nhiên tương đương {{ultEnhancedExtraHitScaling}}% Tấn Công của Argenti.
       enemyHp50:
@@ -325,8 +324,8 @@ Characters:
         text: Tầng Nâng Cấp
         content: "Argenti tăng {{talentCrStackValue}}%Tỷ Lệ Bạo Kích, hiệu ứng này tối đa cộng dồn {{talentCrStackValue}} tầng.\n"
       ultEnhancedExtraHits:
-        text: Tuyệt Kỹ Nâng Cấp hit kẻ địch nhiều
-        content: Tuyệt Kỹ gây Sát Thương Vật Lý lên kẻ địch ngẫu nhiên tương đương {{ultEnhancedExtraHitScaling}}% Tấn Công của Argenti.
+        text: Tuyệt Kỹ Cường Hóa hit kẻ địch nhiều
+        content: Tuyệt Kỹ Cường Hóa gây Sát Thương Vật Lý lên kẻ địch ngẫu nhiên tương đương {{ultEnhancedExtraHitScaling}}% Tấn Công của Argenti.
       e2UltAtkBuff:
         text: E2 Tăng Tấn Công
         content: Khi thi triển Tuyệt Kỹ, nếu số lượng kẻ địch từ 3 trở lên, Tấn Công tăng 40%, duy trì 1 hiệp.
@@ -375,6 +374,14 @@ Characters:
       teammateHPValue:
         text: Máu Trong Combat của Fu Xuan
         content: While affected by Matrix of Prescience, all team members gain the Knowledge effect, which increases their respective Max HP by {{skillHpBuffValue}}% of Fu Xuan's Max HP,
+  Gallagher:
+    Content:
+      basicEnhanced:
+        text: Tấn Công Thường Cường Hóa
+  Herta:
+    Content:
+      enemyHpLte50:
+        text: E1 Tấn Công Thường Tăng ST
   Himeko:
     Content:
       e2EnemyHp50DmgBoost:
@@ -413,6 +420,10 @@ Characters:
       e6ResShred:
         text: E6 Giảm Kháng
         content: Khi Fuyuan trong trận, Kháng Toàn Thuộc Tính của toàn thể phe địch giảm 20%.
+  Luka:
+    Content:
+      basicEnhanced:
+        text: Tấn Công Thường Cường Hóa
   Luocha:
     Content:
       fieldActive:
@@ -421,6 +432,22 @@ Characters:
       e6ResReduction:
         text: E6 Giảm Kháng
         content: Khi thi triển Tuyệt Kỹ, khiến Kháng Toàn Thuộc Tính của toàn bộ địch giảm 20%, duy trì 2 hiệp.
+  March7thImaginary:
+    Content:
+      enhancedBasic:
+        text: Tấn Công Thường Cường Hóa
+      basicAttackHits:
+        text: Số Hit Của Tấn Công Thường Cường Hóa
+      talentDmgBuff:
+        text: Thiên phú tăng ST Tấn Công Thường
+      e6CdBuff:
+        text: E6 Tăng Sát Thương Bạo Kích của Tấn Công Thường Cường Hóa
+  Qingque:
+    Content:
+      basicEnhanced:
+        text: Tấn Công Thường Cường Hóa
+      basicEnhancedSpdBuff:
+        text: Tấn Công Thường Cường Hóa Tăng Tốc Độ
   Rappa:
     Content:
       sealformActive:
@@ -459,7 +486,7 @@ Characters:
         text: Tăng ST Chiến Kỹ
         content: Tăng {{skillDmgBuffValue}}% sát thương do toàn phe ta gây ra, duy trì 3 hiệp
       talentCdBuff:
-        text: Thiên Phú STBK
+        text: Thiên Phú Tăng ST Bạo Kích
         content: Tăng {{talentCdBuffValue}}% Sát Thương Bạo Kích cho toàn phe ta
       e1UltResPen:
         text: E1 Xuyên Kháng
@@ -477,7 +504,7 @@ Characters:
         content: >-
           Khi trong trạng thái Hợp Tấu, tấn công của toàn thể phe ta tăng, giá trị tăng bằng {{ultAtkBuffScalingValue}}% Tấn Công của Robin +{{ultAtkBuffFlatValue}}. ::BR:: Đặt số này theo chỉ số Tấn Công của Robin
       traceFuaCdBoost:
-        text: FUA CD boost
+        text: Tăng Sát Thương Bạo Kích Của Đòn Đánh Theo Sau
         content: Trong trạng thái Hợp Tấu, Sát Thương Bạo Kích của toàn thể phe ta gây ra khi phát động Đòn Đánh Theo Sau tăng 25%.
       e2UltSpdBuff:
         text: E2 Tăng Tốc Độ
@@ -595,6 +622,10 @@ Characters:
     Content:
       superBreakDmg:
         text: Siêu Sát Thương Phá Vỡ (Trường hợp địch đang bị vỡ)
+  TrailblazerPreservation:
+    Content:
+      enhancedBasic:
+        text: Tấn Công Thường Cường Hóa
   TrailblazerRemembrance:
     Content:
       memoSkillHits:

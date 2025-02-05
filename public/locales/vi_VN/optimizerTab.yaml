@@ -25,7 +25,7 @@ SortOptions:
   DMGLabel: Tính Sát Thương
   StatLabel: Chỉ số
   COMBO: Sắp xếp theo ST Combo
-  BASIC: Sắp xếp theo ST đánh thường
+  BASIC: Sắp xếp theo ST Tấn Công Thường
   SKILL: Sắp xếp theo ST Chiến Kỹ
   ULT: Sắp xếp theo ST Tuyệt Kỹ
   FUA: Sắp xếp theo ST Đòn đánh theo sau
@@ -111,10 +111,8 @@ Grid:
       BASIC: |-
         TẤN CÔNG THƯỜNG
       SKILL: |-
-        ST
         CHIẾN KỸ
       ULT: |-
-        ST
         TUYỆT KỸ
       FUA: |-
         ĐÒN
@@ -411,6 +409,7 @@ ComboFilter:
     Dot: Dots
     Break: Kích Phá
   ComboOptions:
+    Basic: Tấn công thường
     Skill: Chiến kỹ
     Ult: Tuyệt Kỹ
     Fua: Đòn đánh theo sau

@@ -1,3 +1,4 @@
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -29,15 +30,13 @@ export function getComputedStatsFromOptimizerBuild(build: Build) {
   request.trace = true
 
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  const { c, computedStatsArray } = calculateBuild(request, relics, null, new ComputedStatsArrayCore(true))
-
-  return computedStatsArray
+  return calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 }
 
 export function handleOptimizerExpandedRowData(build: Build) {
-  const computedStatsArray = getComputedStatsFromOptimizerBuild(build)
-  if (!computedStatsArray) return
+  const x = getComputedStatsFromOptimizerBuild(build)
+  if (!x) return
 
-  console.log(computedStatsArray)
-  aggregateCombatBuffs(computedStatsArray)
+  console.log(x.toComputedStatsObject())
+  aggregateCombatBuffs(x)
 }

@@ -1,10 +1,10 @@
-import { COMPUTE_ENGINE_GPU_STABLE, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal, Key, KeyToStat } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
@@ -37,15 +37,15 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
 
   const gpuComputedStats: ComputedStatsObjectExternal = debugWebgpuComputedStats(array)
   // @ts-ignore
-  const cpuComputedStats = calculateBuild(request, {
+  const x = calculateBuild(request, {
     Head: relics.Head[0],
     Hands: relics.Hands[0],
     Body: relics.Body[0],
     Feet: relics.Feet[0],
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
-  }).computedStatsObject as ComputedStatsObjectExternal
-
+  })
+  const cpuComputedStats = x.toComputedStatsObject(false) as ComputedStatsObjectExternal
   const deltas = deltaComputedStats(cpuComputedStats, gpuComputedStats)
 
   // console.log('CPU', cpuComputedStats)
@@ -291,14 +291,14 @@ export function testWrapper(name: string, request: Form, relics: RelicsByPart, d
 }
 
 export function uncondenseRelics(relicsByPart: RelicsByPart) {
-  for (const [key, relics] of Object.entries(relicsByPart)) {
+  for (const [_, relics] of Object.entries(relicsByPart)) {
     relics.map((relic) => {
       const condensedStats = relic.condensedStats!
       relic.substats = []
-      condensedStats.map(([stat, value]) => {
+      condensedStats.map(([key, value]) => {
         relic.substats.push({
           // @ts-ignore
-          stat,
+          stat: KeyToStat[key],
           value,
         })
       })
@@ -317,18 +317,20 @@ export function generateTestRelics() {
         enhance: 15,
         grade: 5,
         main: {
-          stat: 'HP',
+          stat: Stats.HP,
           value: 705.6,
         },
         id: 'cd85c14c-a662-4413-a149-a379e6d538d3',
         equippedBy: '1212',
         condensedStats: [
-          ['CRIT Rate', 0.11016 + 0.25],
-          ['CRIT DMG', 0.10368],
-          ['Effect RES', 0.03456],
-          ['Break Effect', 0.05184],
-          ['HP', 705.6],
+          [Key.CR, 0.11016 + 0.25],
+          [Key.CD, 0.10368],
+          [Key.RES, 0.03456],
+          [Key.BE, 0.05184],
+          [Key.HP, 705.6],
         ],
+        weightScore: 0,
+        substats: [],
       },
     ],
     Hands: [
@@ -338,18 +340,20 @@ export function generateTestRelics() {
         enhance: 15,
         grade: 5,
         main: {
-          stat: 'ATK',
+          stat: Stats.ATK,
           value: 352.8,
         },
         id: '798657c8-5c5c-4b44-9c5f-f5f094414289',
         equippedBy: '1212',
         condensedStats: [
-          ['HP%', 0.03456],
-          ['SPD', 4],
-          ['CRIT DMG', 0.2268],
-          ['Effect Hit Rate', 0.03456],
-          ['ATK', 352.8],
+          [Key.HP_P, 0.03456],
+          [Key.SPD, 4],
+          [Key.CD, 0.2268],
+          [Key.EHR, 0.03456],
+          [Key.ATK, 352.8],
         ],
+        weightScore: 0,
+        substats: [],
       },
     ],
     Body: [
@@ -359,18 +363,20 @@ export function generateTestRelics() {
         enhance: 15,
         grade: 5,
         main: {
-          stat: 'CRIT DMG',
+          stat: Stats.CD,
           value: 64.8,
         },
         id: 'b3376a19-62f9-489e-80e6-8f98335af158',
         equippedBy: '1212',
         condensedStats: [
-          ['HP', 114.31138],
-          ['ATK%', 0.07344],
-          ['DEF%', 0.0432],
-          ['CRIT Rate', 0.081],
-          ['CRIT DMG', 0.648],
+          [Key.HP, 114.31138],
+          [Key.ATK_P, 0.07344],
+          [Key.DEF_P, 0.0432],
+          [Key.CR, 0.081],
+          [Key.CD, 0.648],
         ],
+        weightScore: 0,
+        substats: [],
       },
     ],
     Feet: [
@@ -380,18 +386,20 @@ export function generateTestRelics() {
         enhance: 15,
         grade: 5,
         main: {
-          stat: 'SPD',
+          stat: Stats.SPD,
           value: 25.032,
         },
         id: '92c53d06-80d0-43a8-b896-2feeda419674',
         equippedBy: '1212',
         condensedStats: [
-          ['ATK', 21.16877],
-          ['ATK%', 0.11664],
-          ['DEF%', 0.0486],
-          ['CRIT DMG', 0.17496],
-          ['SPD', 25.032],
+          [Key.ATK, 21.16877],
+          [Key.ATK_P, 0.11664],
+          [Key.DEF_P, 0.0486],
+          [Key.CD, 0.17496],
+          [Key.SPD, 25.032],
         ],
+        weightScore: 0,
+        substats: [],
       },
     ],
     PlanarSphere: [
@@ -401,18 +409,20 @@ export function generateTestRelics() {
         enhance: 15,
         grade: 5,
         main: {
-          stat: 'Ice DMG Boost',
+          stat: Stats.Ice_DMG,
           value: 38.8803,
         },
         id: '80abbd56-b1a0-4587-a349-754c33627217',
         equippedBy: '1212',
         condensedStats: [
-          ['DEF', 74.09071],
-          ['CRIT Rate', 0.05508],
-          ['CRIT DMG', 0.12312],
-          ['Effect Hit Rate', 0.0432],
-          ['Ice DMG Boost', 0.388803],
+          [Key.DEF, 74.09071],
+          [Key.CR, 0.05508],
+          [Key.CD, 0.12312],
+          [Key.EHR, 0.0432],
+          [Key.ICE_DMG_BOOST, 0.388803],
         ],
+        weightScore: 0,
+        substats: [],
       },
     ],
     LinkRope: [
@@ -422,18 +432,20 @@ export function generateTestRelics() {
         enhance: 15,
         grade: 5,
         main: {
-          stat: 'ATK%',
+          stat: Stats.ATK_P,
           value: 43.2,
         },
         id: 'c521dc03-6c6e-45ef-9933-811367312441',
         equippedBy: '1212',
         condensedStats: [
-          ['HP', 80.44134],
-          ['CRIT Rate', 0.08424],
-          ['CRIT DMG', 0.10368],
-          ['Break Effect', 0.05832],
-          ['ATK%', 0.43200000000000005],
+          [Key.HP, 80.44134],
+          [Key.CR, 0.08424],
+          [Key.CD, 0.10368],
+          [Key.BE, 0.05832],
+          [Key.ATK_P, 0.43200000000000005],
         ],
+        weightScore: 0,
+        substats: [],
       },
     ],
   } as RelicsByPart

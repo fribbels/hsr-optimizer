@@ -1,9 +1,10 @@
-import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { ElementToResPenType, Sets, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-type Buff = {
+export type Buff = {
   stat: string
   key: number
   value: number
@@ -48,7 +49,7 @@ export type ComputedStatsArray =
 
 export class ComputedStatsArrayCore {
   a = baseComputedStatsArray()
-  c: BasicStatsObject
+  c: BasicStatsArray
   m: ComputedStatsArray
   summoner: () => ComputedStatsArray
   buffs: Buff[]
@@ -56,7 +57,8 @@ export class ComputedStatsArrayCore {
   trace: boolean
 
   constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
-    this.c = {} as BasicStatsObject
+    // @ts-ignore
+    this.c = new BasicStatsArrayCore(trace, true, () => this)
     // @ts-ignore
     this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true, () => this)
     // @ts-ignore
@@ -70,7 +72,7 @@ export class ComputedStatsArrayCore {
       const traceMemo
         = (value: number, source: string) => this.trace && this.buffsMemo.push({ stat, key, value, source })
       const traceOverwrite
-        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key)).concat({ stat, key, value, source })
+        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
 
       Object.defineProperty(this, stat, {
         value: {
@@ -183,7 +185,7 @@ export class ComputedStatsArrayCore {
     })
 
     Object.defineProperty(this, `#show`, {
-      get: () => this.toComputedStatsObject(false),
+      get: () => this.toComputedStatsObject(),
       enumerable: true,
       configurable: true,
     })
@@ -200,7 +202,7 @@ export class ComputedStatsArrayCore {
     this.buffsMemo = precompute.buffsMemo
   }
 
-  setBasic(c: BasicStatsObject) {
+  setBasic(c: BasicStatsArray) {
     this.c = c
   }
 
@@ -212,26 +214,20 @@ export class ComputedStatsArrayCore {
     return this.a[key]
   }
 
-  toComputedStatsObject(internal: boolean) {
-    if (internal) {
-      const result: Partial<ComputedStatsObject> = {}
-
-      for (const key in Key) {
-        const numericKey = Key[key as KeysType]
-        result[key as keyof ComputedStatsObject] = this.a[numericKey]
-      }
-      return result as ComputedStatsObject
-    } else {
-      const result: Partial<ComputedStatsObjectExternal> = {}
-
-      for (const key in Key) {
-        const externalKey = InternalKeyToExternal[key] ?? key
-        const numericKey = Key[key as KeysType]
-        result[externalKey as keyof ComputedStatsObjectExternal] = this.a[numericKey]
-      }
-      return result as ComputedStatsObjectExternal
-    }
+  toComputedStatsObject() {
+    toComputedStatsObject(this.a)
   }
+}
+
+export function toComputedStatsObject(a: Float32Array) {
+  const result: Partial<ComputedStatsObjectExternal> = {}
+
+  for (const key in Key) {
+    const externalKey = InternalKeyToExternal[key] ?? key
+    const numericKey = Key[key as KeysType]
+    result[externalKey as keyof ComputedStatsObjectExternal] = a[numericKey]
+  }
+  return result as ComputedStatsObjectExternal
 }
 
 export function fromComputedStatsObject(x: ComputedStatsObject) {
@@ -422,4 +418,29 @@ export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,
   ['Wind DMG Boost']: number
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
+}
+
+export const StatToKey: Record<string, number> = {
+  [Stats.ATK_P]: Key.ATK_P,
+  [Stats.ATK]: Key.ATK,
+  [Stats.BE]: Key.BE,
+  [Stats.CD]: Key.CD,
+  [Stats.CR]: Key.CR,
+  [Stats.DEF_P]: Key.DEF_P,
+  [Stats.DEF]: Key.DEF,
+  [Stats.EHR]: Key.EHR,
+  [Stats.ERR]: Key.ERR,
+  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
+  [Stats.HP_P]: Key.HP_P,
+  [Stats.HP]: Key.HP,
+  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
+  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
+  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
+  [Stats.OHB]: Key.OHB,
+  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
+  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
+  [Stats.RES]: Key.RES,
+  [Stats.SPD_P]: Key.SPD_P,
+  [Stats.SPD]: Key.SPD,
+  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
 }

@@ -101,7 +101,7 @@ const StatRow = (props: {
   return (
     <Flex justify='space-between' align='center' title={value1000thsPrecision}>
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-      <StatText>{`${readableStat}${edits && edits[stat] ? ' *' : ''}`}</StatText>
+      <StatText>{`${readableStat}${edits?.[stat] ? ' *' : ''}`}</StatText>
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
       <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
     </Flex>

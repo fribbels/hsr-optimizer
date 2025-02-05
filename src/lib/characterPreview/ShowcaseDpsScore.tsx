@@ -196,6 +196,8 @@ export function ShowcaseDpsScoreHeader(props: {
     whiteSpace: 'nowrap',
   }
 
+  const lightCone = !!result.simulationForm.lightCone
+
   const titleRender = result.spdBenchmark == null
     ? t('CharacterPreview.ScoreHeader.Title') // Combat Sim
     : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(result.spdBenchmark) }) // Benchmark vs {{spd}} SPD
@@ -211,7 +213,7 @@ export function ShowcaseDpsScoreHeader(props: {
             'CharacterPreview.ScoreHeader.Score',
             {
               score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1),
-              grade: getSimScoreGrade(result.percent, verified, numRelics),
+              grade: getSimScoreGrade(result.percent, verified, numRelics, lightCone),
             },
           )
           /* DPS Score {{score}}% {{grade}} */

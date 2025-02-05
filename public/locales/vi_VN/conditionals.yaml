@@ -42,7 +42,7 @@ Lightcones:
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
-        text: Hiệu ứng xấu sát thương bạo kích
+        text: Hiệu ứng xấu tăng sát thương bạo kích
         content: Mỗi khi kẻ địch phải chịu Hiệu Ứng Xấu, sẽ tăng thêm {{DmgStep}}% Sát Thương Bạo Kích mà người trang bị gây lên kẻ này, tối đa cộng dồn 3 tầng.
       postUltBuff:
         text: hiệu ứng Biện Luận
@@ -309,7 +309,7 @@ Characters:
         text: E4 Trọng Thương Tuyệt Kỹ
         content: Khi kẻ địch vào chiến đấu, sẽ khiến kẻ đó rơi vào trạng thái Trọng Thương Tuyệt Kỹ, sát thương Tuyệt Kỹ phải chịu tăng 8%.
       e6UltBuffs:
-        text: E6 Ult buffs
+        text: E6 Tuyệt Kỹ buff
         content: >-
           Tăng 20% Xuyên Kháng Toàn Thuộc Tính mà sát thương Tuyệt Kỹ của Acheron gây ra, sát thương của tấn công thường và Chiến Kỹ gây ra cũng được xem là sát thương Tuyệt Kỹ, đồng thời bỏ qua thuộc tính Điểm Yếu và làm giảm Sức Bền của địch. Khi phá vỡ Điểm Yếu sẽ kích hoạt hiệu ứng Phá Vỡ Điểm Yếu Lôi.
   Argenti:
@@ -369,7 +369,7 @@ Characters:
           Mở Ma Trận Tiên Tri, khiến đồng đội của Fu Xuan chia sẻ 65% sát thương phải chịu (trước khi sát thương này được đỡ bởi Khiên) cho Fu Xuan trong 3 hiệp.
           Tất cả thành viên phe ta đang trong trạng thái Ma Trận Tiên Tri sẽ nhận Giám Tri, và tăng Giới Hạn HP bằng {{skillHpBuffValue}}% Giới Hạn HP của Fu Xuan, Tỷ Lệ Bạo Kích tăng {{skillCrBuffValue}}%.
       e6TeamHpLostPercent:
-        text: E6 Team Mất Máu
+        text: E6 Số Máu Team đã mất
         content: "Một khi kích hoạt \"Ma Trận Tiên Tri\", sẽ tích lũy HP đã tổn thất của toàn thể phe ta trong trận này. Tăng sát thương Tuyệt Kỹ của Fu Xuan bằng 200% HP đã tổn thất tích lũy trong trận này.\nHP đã tổn thất tích lũy trong trận này tối đa không quá 120% Giới Hạn HP của Fu Xuan, sau khi thi triển Tuyệt Kỹ sẽ xóa và tích lũy lại từ đầu."
     TeammateContent:
       teammateHPValue:
@@ -391,7 +391,7 @@ Characters:
         text: Thần Quân gây ST lên địch
         content: Số lần Thần Quân gây ST. Nên đặt bằng với số tích lũy đòn đánh của Thần Quân.
       e2DmgBuff:
-        text: E2 Tăng ST
+        text: E2 Tăng Sát Thương
         content: Sau khi Thần Quân hành động, sát thương do tấn công thường, Chiến Kỹ, Tuyệt Kỹ của Jing Yuan gây ra tăng 20%, duy trì 2 hiệp.
       e6FuaVulnerabilityStacks:
         text: E6 Trạng Thái Trọng Thương
@@ -500,7 +500,7 @@ Characters:
         text: E2 Điểm Yếu tăng Tấn Công
         content: Khi Ruan Mei trong trận, và toàn bộ phe ta gây sát thương lên kẻ địch ở trạng thái Phá Vỡ Điểm Yếu, Tấn Công sẽ tăng 40%.
       e4BeBuff:
-        text: E4 Tăng TC Kích Phá
+        text: E4 Tăng Tấn Công Kích Phá
         content: Khi Điểm Yếu của kẻ địch bị phá vỡ, Tấn Công Kích Phá của Ruan Mei tăng 100%, duy trì 3 hiệp.
     TeammateContent:
       teamSpdBuff:
@@ -533,14 +533,14 @@ Characters:
   Sunday:
     Content:
       skillDmgBuff:
-        text: Tăng ST Chiến Kỹ
+        text: Tăng Sát Thương Chiến Kỹ
         content: >-
           Khiến một nhân vật chỉ định phe ta và vật triệu hồi của nhân vật đó lập tức hành động, đồng thời tăng {{DmgBoost}}% sát thương họ gây ra, nếu mục tiêu có vật triệu hồi, sẽ tăng thêm {{SummonDmgBoost}}% hiệu ứng Tăng Sát Thương gây ra, duy trì hai hiệp.
       talentCrBuffStacks:
         text: Thiên Phú tích tăng TLBK
         content: Khi thi triển Chiến Kỹ sẽ tăng {{CritRateBoost}}% Tỷ Lệ Bạo Kích của mục tiêu, duy trì 3 hiệp.
       techniqueDmgBuff:
-        text: Bí Kỹ tăng ST
+        text: Bí Kỹ tăng Sát Thương
         content: Lần chiến đấu tiếp theo khi Sunday lần đầu tiên thi triển kỹ năng lên mục tiêu phe ta, sẽ khiến sát thương mục tiêu gây ra tăng 50%, duy trì 2 hiệp.
       e1DefPen:
         text: E1 Xuyên Phòng Thủ
@@ -559,7 +559,7 @@ Characters:
         content: >-
           Mục tiêu và vật triệu hồi của mục tiêu đó tăng Sát Thương Bạo Kích trị số tăng bằng {{CritBuffScaling}}% sát thương bạo kích của Sunday +{{CritBuffFlat}}%.
       e6CrToCdConversion:
-        text: E6 TLBK Đổi Sang STBK
+        text: E6 Tỉ Lệ Bạo Kích Đổi Sang Sát Thương Bạo Kích
         content: >-
           Khi hiệu ứng Tăng Tỷ Lệ Bạo Kích của Thiên Phú có hiệu lực, nếu Tỷ Lệ Bạo Kích của mục tiêu trên 100% thì cứ mỗi 1% Tỷ Lệ Bạo Kích vượt mức sẽ tăng 2% sát thương Bạo Kích.
   TheHerta:
@@ -589,14 +589,22 @@ Characters:
         text: E4 Tri Thức tăng Tốc Độ
         content: Tốc độ của nhân vật vận mệnh Tri Thức trong đội tăng 12%.
       e6Buffs:
-        text: E6 buffs
+        text: E6 Tăng Gì Đó
         content: Xuyên Kháng Băng của Đại Herta tăng 20%, khi số lượng mục tiêu phe địch trong trận từ 3 trở lên/2/1, thì Bội Số Sát Thương của Tuyệt Kỹ sẽ tăng 140%/250%/400%.
+  TrailblazerHarmony:
+    Content:
+      superBreakDmg:
+        text: Siêu Sát Thương Phá Vỡ (Trường hợp địch đang bị vỡ)
+  TrailblazerRemembrance:
+    Content:
+      memoSkillHits:
+        text: Số Địch Linh Hồn Ký Ức Đánh
   Xueyi:
     Content:
       beToDmgBoost:
         text: TK Kích Phá sang ST tăng
       e4BeBuff:
-        text: E4 Tăng TC Kích Phá
+        text: E4 Tăng Tấn Công Kích Phá
   Yunli:
     Content:
       blockActive:
@@ -614,15 +622,15 @@ Characters:
         text: Tăng ST Phản Kích
         content: Khi thi triển Phản Kích, tấn công của Yunli tăng 30%, duy trì 1 hiệp.
       e1UltBuff:
-        text: E1 Ult buff
+        text: E1 Tuyệt Kỹ buff
         content: "Sát thương Nhìn Thấu - Chém và Nhìn Thấu - Diệt gây ra tăng 20%, số lần sát thương thêm của Nhìn Thấu - Diệt tăng 3."
       e2DefShred:
-        text: E2 FUA DEF PEN
+        text: E2 Đòn Đánh Theo Sau Bỏ Qua Phòng Thủ
         content: Khi phát động Phản Kích gây sát thương, sẽ bỏ qua 20% Phòng Thủ của kẻ địch.
       e4ResBuff:
-        text: E4 RES buff
+        text: E4 Tăng Kháng Hiệu Ứng
         content: "Sau khi phát động Nhìn Thấu - Chém hoặc Nhìn Thấu - Diệt sẽ khiến Kháng Hiệu Ứng của bản thân tăng 50%, duy trì 1 hiệp."
       e6Buffs:
-        text: E6 buffs
+        text: E6 Tăng Gì Đó
         content: >-
           Trong thời gian Chống Đỡ, khi phe địch chủ động thi triển kỹ năng, cho dù có tấn công Yunli hay không đều sẽ kích hoạt Nhìn Thấu - Diệt đồng thời xóa hiệu ứng Chống Đỡ, khi phát động Nhìn Thấu - Chém hoặc Nhìn Thấu - Diệt gây sát thương, Tỷ Lệ Bạo Kích sẽ tăng 15%, Xuyên Kháng Vật Lý tăng 20%.

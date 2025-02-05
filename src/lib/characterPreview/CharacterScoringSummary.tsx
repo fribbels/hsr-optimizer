@@ -307,21 +307,81 @@ export const CharacterScoringSummary = (props: {
           {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
           <Flex justify='space-between'>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'} number={stats[Stats.ATK_P]} parens={diminishingReturns[Stats.ATK_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK}`) + ':'} number={stats[Stats.ATK]} parens={diminishingReturns[Stats.ATK]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP_P}`) + ':'} number={stats[Stats.HP_P]} parens={diminishingReturns[Stats.HP_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP}`) + ':'} number={stats[Stats.HP]} parens={diminishingReturns[Stats.HP]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'} number={stats[Stats.DEF_P]} parens={diminishingReturns[Stats.DEF_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF}`) + ':'} number={stats[Stats.DEF]} parens={diminishingReturns[Stats.DEF]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'}
+                number={stats[Stats.ATK_P]}
+                parens={diminishingReturns[Stats.ATK_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK}`) + ':'}
+                number={stats[Stats.ATK]}
+                parens={diminishingReturns[Stats.ATK]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP_P}`) + ':'}
+                number={stats[Stats.HP_P]}
+                parens={diminishingReturns[Stats.HP_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP}`) + ':'}
+                number={stats[Stats.HP]}
+                parens={diminishingReturns[Stats.HP]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'}
+                number={stats[Stats.DEF_P]}
+                parens={diminishingReturns[Stats.DEF_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF}`) + ':'}
+                number={stats[Stats.DEF]}
+                parens={diminishingReturns[Stats.DEF]}
+                precision={precision}
+              />
             </Flex>
             <VerticalDivider/>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={2}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={stats[Stats.CR]} parens={diminishingReturns[Stats.CR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={stats[Stats.CD]} parens={diminishingReturns[Stats.CD]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={stats[Stats.EHR]} parens={diminishingReturns[Stats.EHR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.RES}`) + ':'} number={stats[Stats.RES]} parens={diminishingReturns[Stats.RES]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.BE}`) + ':'} number={stats[Stats.BE]} parens={diminishingReturns[Stats.BE]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.SPD}`) + ':'}
+                number={stats[Stats.SPD]}
+                parens={diminishingReturns[Stats.SPD]}
+                precision={2}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CR}`) + ':'}
+                number={stats[Stats.CR]}
+                parens={diminishingReturns[Stats.CR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CD}`) + ':'}
+                number={stats[Stats.CD]}
+                parens={diminishingReturns[Stats.CD]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.EHR}`) + ':'}
+                number={stats[Stats.EHR]}
+                parens={diminishingReturns[Stats.EHR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.RES}`) + ':'}
+                number={stats[Stats.RES]}
+                parens={diminishingReturns[Stats.RES]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.BE}`) + ':'}
+                number={stats[Stats.BE]}
+                parens={diminishingReturns[Stats.BE]}
+                precision={precision}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -335,7 +395,10 @@ export const CharacterScoringSummary = (props: {
             <Flex vertical gap={10}>
               <ScoringStat stat={request.simBody !== 'NONE' ? t(`common:ReadableStats.${request.simBody as MainStats}`) : ''} part={Parts.Body}/>
               <ScoringStat stat={request.simFeet !== 'NONE' ? t(`common:ReadableStats.${request.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-              <ScoringStat stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
+              <ScoringStat
+                stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''}
+                part={Parts.PlanarSphere}
+              />
               <ScoringStat stat={request.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${request.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
             </Flex>
           </Flex>

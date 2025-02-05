@@ -16,11 +16,7 @@ import { getGridTheme } from 'lib/rendering/theme'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { cellImageRenderer, CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
-import {
-  generateElementTags,
-  generatePathTags,
-  SegmentedFilterRow,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
+import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import React, { Suspense, useCallback, useRef, useState } from 'react'
@@ -446,9 +442,9 @@ export default function CharacterTab() {
         <Flex vertical gap={8} style={{ minWidth: 240 }}>
           <div
             id='characterGrid' className='ag-theme-balham-dark' style={{
-            ...{ display: 'block', width: '100%', height: parentH },
-            ...getGridTheme(token),
-          }}
+              ...{ display: 'block', width: '100%', height: parentH },
+              ...getGridTheme(token),
+            }}
           >
             <CharacterGrid
               characterGrid={characterGrid}

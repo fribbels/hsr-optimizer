@@ -13,7 +13,7 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { runSimulations, Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -359,6 +359,8 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
+  const originalSimRerun = rerunOriginalSim(result)
+
   return (
     <Flex vertical gap={15} align='center'>
       <Flex align='center' style={{ marginTop: 15 }} vertical>
@@ -372,8 +374,8 @@ export const CharacterScoringSummary = (props: {
           }
         </pre>
       </Flex>
-      <Flex gap={25} style={{ width: '100%' }}>
-        <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
+      <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
+        <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
           </pre>
@@ -446,6 +448,12 @@ export const CharacterScoringSummary = (props: {
         </Flex>
       </Flex>
 
+      <Flex vertical>
+        <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+          Combat buffs
+        </pre>
+      </Flex>
+
       <Flex>
         <ScoringColumn
           simulation={result.originalSim}
@@ -493,6 +501,13 @@ export const CharacterScoringSummary = (props: {
       </Flex>
     </Flex>
   )
+}
+
+function rerunOriginalSim(result: SimulationScore) {
+  result.simulationForm.trace = true
+  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])
+
+  console.log(rerun)
 }
 
 export function ScoringTeammate(props: {

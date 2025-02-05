@@ -159,7 +159,7 @@ self.onmessage = function (e: MessageEvent) {
     const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
     c.config(relicSetIndex, ornamentSetIndex, sets, col, 0, 0)
 
-    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, false)
+    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 

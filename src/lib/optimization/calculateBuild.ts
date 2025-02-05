@@ -12,7 +12,6 @@ import {
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { Utils } from 'lib/utils/utils'
@@ -29,7 +28,7 @@ export function calculateBuild(
   reuseComboState: boolean = false,
   internal: boolean = false,
   forcedBasicSpd: number = 0,
-  weightScore: false) {
+  weightScore: boolean = false) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -72,7 +71,7 @@ export function calculateBuild(
 
   c.config(relicSetIndex, ornamentSetIndex, sets, 0, 0, 0)
 
-  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
+  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
 
@@ -138,7 +137,13 @@ function generateUnusedSets(relics: SingleRelicByPart) {
 
 function extractRelics(relics: SingleRelicByPart) {
   for (const part of Object.keys(Constants.Parts)) {
-    relics[part as Parts] = relics[part as Parts] || emptyRelic()
+    relics[part as Parts] = relics[part as Parts] || emptyRelicWithSet()
   }
   return relics
+}
+
+export function emptyRelicWithSet() {
+  return {
+    set: -1,
+  }
 }

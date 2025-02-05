@@ -1,10 +1,10 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { CUSTOM_TEAM, MainStatParts, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
+import { emptyRelicWithSet } from 'lib/optimization/calculateBuild'
 import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import {
@@ -906,7 +906,7 @@ function simulateBaselineCharacter(
   simulationFlags: SimulationFlags,
 ) {
   const relicsByPart: RelicBuild = TsUtils.clone(displayRelics)
-  Object.values(Parts).forEach((part) => relicsByPart[part] = relicsByPart[part] || emptyRelic())
+  Object.values(Parts).forEach((part) => relicsByPart[part] = relicsByPart[part] || emptyRelicWithSet())
   Object.values(Parts).forEach((part) => relicsByPart[part].part = part)
   Object.values(relicsByPart).map((relic: Relic) => {
     // Remove all subs
@@ -983,7 +983,7 @@ function simulateOriginalCharacter(
 }
 
 function calculateSetNames(relicsByPart: RelicBuild) {
-  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelic())
+  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelicWithSet())
   const relicSets = [
     relicsByPart[Parts.Head].set,
     relicsByPart[Parts.Hands].set,

@@ -211,6 +211,9 @@ function outputResults(gpuContext: GpuExecutionContext) {
       computedStatsArrayCore,
       true,
       true,
+      undefined,
+      undefined,
+      true,
     )
 
     const optimizerDisplayData = renameFields(x)

@@ -2,6 +2,7 @@ import { Flex, Tag } from 'antd'
 import i18next from 'i18next'
 import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimization/optimizer'
@@ -292,12 +293,14 @@ export type RunSimulationsParams = {
 }
 
 const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
+const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
 export function runSimulations(
   form: Form,
   context: OptimizerContext,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
+  weight: boolean = false,
 ): SimulationResult[] {
   const defaultParams: RunSimulationsParams = {
     quality: 1,
@@ -309,7 +312,7 @@ export function runSimulations(
   const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
 
-  const simulationResults = []
+  const simulationResults: SimulationResult[] = []
   for (const sim of simulations) {
     const request = sim.request
 
@@ -403,14 +406,13 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const { c, computedStatsArray } = calculateBuild(form, relics, context, cachedComputedStatsArray, true, true, false, forcedBasicSpd)
-
-    renameFields(c, computedStatsArray)
+    const x = calculateBuild(form, relics, context, cachedBasicStatsArray, cachedComputedStatsArray, true, true, false, forcedBasicSpd, weight)
+    const optimizerDisplayData = renameFields(x)
     // For optimizer grid syncing with sim table
-    c.statSim = {
+    optimizerDisplayData.statSim = {
       key: sim.key,
     }
-    simulationResults.push(c)
+    simulationResults.push(optimizerDisplayData)
   }
 
   return simulationResults
@@ -425,7 +427,7 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, null, existingSimulations)
+  const simulationResults = runSimulations(form, null, existingSimulations, undefined, true)
 
   OptimizerTabController.setRows(simulationResults)
 

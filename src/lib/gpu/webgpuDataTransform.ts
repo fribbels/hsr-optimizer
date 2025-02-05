@@ -1,6 +1,7 @@
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsRelicsNames, Stats } from 'lib/constants/constants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, SetsRelicsNames, Stats } from 'lib/constants/constants'
 import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { StringToNumberMap } from 'types/common'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
@@ -114,33 +115,33 @@ function relicsToArray(relics: Relic[]) {
     const startIndex = RELIC_ARG_SIZE * i
     let j = 0
     const uncondensedStats: StringToNumberMap = {}
-    const condensedStats: [string, number][] = relic.condensedStats!
+    const condensedStats: [number, number][] = relic.condensedStats!
 
     for (const condensedStat of condensedStats) {
       uncondensedStats[condensedStat[0]] = condensedStat[1]
     }
-    output[startIndex + j++] = uncondensedStats[Stats.HP_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.ATK_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.DEF_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.SPD_P] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.HP] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.ATK] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.DEF] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.SPD] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.CR] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.CD] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.EHR] || 0 // 10
-    output[startIndex + j++] = uncondensedStats[Stats.RES] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.BE] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.ERR] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.OHB] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Physical_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Fire_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Ice_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Lightning_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Wind_DMG] || 0
-    output[startIndex + j++] = uncondensedStats[Stats.Quantum_DMG] || 0 // 20
-    output[startIndex + j++] = uncondensedStats[Stats.Imaginary_DMG] || 0
+    output[startIndex + j++] = uncondensedStats[Key.HP_P] || 0
+    output[startIndex + j++] = uncondensedStats[Key.ATK_P] || 0
+    output[startIndex + j++] = uncondensedStats[Key.DEF_P] || 0
+    output[startIndex + j++] = uncondensedStats[Key.SPD_P] || 0
+    output[startIndex + j++] = uncondensedStats[Key.HP] || 0
+    output[startIndex + j++] = uncondensedStats[Key.ATK] || 0
+    output[startIndex + j++] = uncondensedStats[Key.DEF] || 0
+    output[startIndex + j++] = uncondensedStats[Key.SPD] || 0
+    output[startIndex + j++] = uncondensedStats[Key.CR] || 0
+    output[startIndex + j++] = uncondensedStats[Key.CD] || 0
+    output[startIndex + j++] = uncondensedStats[Key.EHR] || 0 // 10
+    output[startIndex + j++] = uncondensedStats[Key.RES] || 0
+    output[startIndex + j++] = uncondensedStats[Key.BE] || 0
+    output[startIndex + j++] = uncondensedStats[Key.ERR] || 0
+    output[startIndex + j++] = uncondensedStats[Key.OHB] || 0
+    output[startIndex + j++] = uncondensedStats[Key.PHYSICAL_DMG_BOOST] || 0
+    output[startIndex + j++] = uncondensedStats[Key.FIRE_DMG_BOOST] || 0
+    output[startIndex + j++] = uncondensedStats[Key.ICE_DMG_BOOST] || 0
+    output[startIndex + j++] = uncondensedStats[Key.LIGHTNING_DMG_BOOST] || 0
+    output[startIndex + j++] = uncondensedStats[Key.WIND_DMG_BOOST] || 0
+    output[startIndex + j++] = uncondensedStats[Key.QUANTUM_DMG_BOOST] || 0 // 20
+    output[startIndex + j++] = uncondensedStats[Key.IMAGINARY_DMG_BOOST] || 0
     output[startIndex + j++] = relicSetToIndex(relic) // 22
   }
 
@@ -149,7 +150,7 @@ function relicsToArray(relics: Relic[]) {
 
 function relicSetToIndex(relic: Relic) {
   if (SetsRelicsNames.some((name) => name === relic.set)) {
-    return RelicSetToIndex[relic.set]
+    return RelicSetToIndex[relic.set as SetsRelics]
   }
-  return OrnamentSetToIndex[relic.set]
+  return OrnamentSetToIndex[relic.set as SetsOrnaments]
 }

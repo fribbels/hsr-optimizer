@@ -4,6 +4,7 @@ import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'l
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { webgpuCrashNotification } from 'lib/interactions/notifications'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
@@ -182,6 +183,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const optimizerContext = gpuContext.context
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: OptimizerDisplayData[] = []
+  const basicStatsArrayCore = new BasicStatsArrayCore(false) as BasicStatsArray
   const computedStatsArrayCore = new ComputedStatsArrayCore(false) as ComputedStatsArray
 
   for (let i = 0; i < resultArray.length; i++) {
@@ -194,7 +196,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const { c, computedStatsArray } = calculateBuild(
+    const x = calculateBuild(
       gpuContext.request,
       {
         Head: relics.Head[h],
@@ -205,13 +207,17 @@ function outputResults(gpuContext: GpuExecutionContext) {
         LinkRope: relics.LinkRope[l],
       },
       optimizerContext,
+      basicStatsArrayCore,
       computedStatsArrayCore,
       true,
       true,
+      undefined,
+      undefined,
+      true,
     )
 
-    c.id = index
-    const optimizerDisplayData = renameFields(c, computedStatsArray)
+    const optimizerDisplayData = renameFields(x)
+    optimizerDisplayData.id = index
     outputs.push(optimizerDisplayData)
   }
 

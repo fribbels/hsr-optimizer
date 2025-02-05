@@ -6,6 +6,8 @@ import { StatTextSm } from 'lib/characterPreview/StatText'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
+import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
+import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
@@ -26,13 +28,15 @@ import { Trans, useTranslation } from 'react-i18next'
 export const CharacterScoringSummary = (props: {
   simScoringResult?: SimulationScore
 }) => {
-  const result = TsUtils.clone(props.simScoringResult)
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
-  if (!result) return (
+
+  if (!props.simScoringResult) return (
     <pre style={{ height: 200 }}>
       {' '}
     </pre>
   )
+
+  const result = TsUtils.clone(props.simScoringResult)
 
   const characterId = result.simulationForm.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
@@ -189,22 +193,25 @@ export const CharacterScoringSummary = (props: {
   }
 
   // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
+  const original = TsUtils.clone(result.originalSimResult)
+  const benchmark = TsUtils.clone(result.benchmarkSimResult)
+  const maximum = TsUtils.clone(result.maximumSimResult)
 
-  const originalBasicStats = TsUtils.clone(result.originalSimResult)
-  const benchmarkBasicStats = TsUtils.clone(result.benchmarkSimResult)
-  const maximumBasicStats = TsUtils.clone(result.maximumSimResult)
+  const originalBasicStats = original.ca
+  const benchmarkBasicStats = benchmark.ca
+  const maximumBasicStats = maximum.ca
 
-  const originalCombatStats = originalBasicStats.x
-  const benchmarkCombatStats = benchmarkBasicStats.x
-  const maximumCombatStats = maximumBasicStats.x
+  const originalCombatStats = original.xa
+  const benchmarkCombatStats = benchmark.xa
+  const maximumCombatStats = maximum.xa
 
-  originalBasicStats[elementalDmgValue] = originalBasicStats.ELEMENTAL_DMG
-  benchmarkBasicStats[elementalDmgValue] = benchmarkBasicStats.ELEMENTAL_DMG
-  maximumBasicStats[elementalDmgValue] = maximumBasicStats.ELEMENTAL_DMG
+  originalBasicStats[StatToKey[elementalDmgValue]] = originalBasicStats[Key.ELEMENTAL_DMG]
+  benchmarkBasicStats[StatToKey[elementalDmgValue]] = benchmarkBasicStats[Key.ELEMENTAL_DMG]
+  maximumBasicStats[StatToKey[elementalDmgValue]] = maximumBasicStats[Key.ELEMENTAL_DMG]
 
-  originalCombatStats[elementalDmgValue] = originalCombatStats.ELEMENTAL_DMG
-  benchmarkCombatStats[elementalDmgValue] = benchmarkCombatStats.ELEMENTAL_DMG
-  maximumCombatStats[elementalDmgValue] = maximumCombatStats.ELEMENTAL_DMG
+  originalCombatStats[StatToKey[elementalDmgValue]] = originalCombatStats[Key.ELEMENTAL_DMG]
+  benchmarkCombatStats[StatToKey[elementalDmgValue]] = benchmarkCombatStats[Key.ELEMENTAL_DMG]
+  maximumCombatStats[StatToKey[elementalDmgValue]] = maximumCombatStats[Key.ELEMENTAL_DMG]
 
   const statPreviewWidth = 300
   const divider = (
@@ -221,8 +228,8 @@ export const CharacterScoringSummary = (props: {
   }) {
     const request = props.simulation.request
     const simResult = TsUtils.clone(props.simulation.result)
-    const basicStats = simResult
-    const combatStats = basicStats.x
+    const basicStats = toBasicStatsObject(simResult.ca)
+    const combatStats = toComputedStatsObject(simResult.xa)
     const highlight = props.type == 'Character'
     const color = 'rgb(225, 165, 100)'
     basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
@@ -512,12 +519,18 @@ export function ScoringTeammate(props: {
 function addOnHitStats(simulationScore: SimulationScore) {
   const sortOption = simulationScore.characterMetadata.scoringMetadata.sortOption
   const ability = sortOption.key
-  const x = simulationScore.originalSimResult.x
+  const xa = simulationScore.originalSimResult.xa
 
-  x.ELEMENTAL_DMG += x[`${ability}_BOOST`]
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  xa[Key.ELEMENTAL_DMG] += xa[Key[`${ability}_BOOST`]]
   if (ability != SortOption.DOT.key) {
-    x[Stats.CR] += x[`${ability}_CR_BOOST`]
-    x[Stats.CD] += x[`${ability}_CD_BOOST`]
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    xa[Key[`${ability}_CR_BOOST`]] && (xa[Key.CR] += xa[Key[`${ability}_CR_BOOST`]])
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    xa[Key[`${ability}_CD_BOOST`]] && (xa[Key.CD] += xa[Key[`${ability}_CD_BOOST`]])
   }
 }
 
@@ -538,11 +551,8 @@ export function CharacterCardCombatStats(props: {
   const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
-  const simulationMetadata = result.simulationMetadata
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
-  const nonDisplayStats = simulationMetadata.nonDisplayStats || []
   let substats = originalSimulationMetadata.substats
-  substats = substats.filter((x) => !nonDisplayStats.includes(x))
   substats = Utils.filterUnique(substats).filter((x) => !percentFlatStats[x])
   if (substats.length < 5) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
@@ -553,11 +563,11 @@ export function CharacterCardCombatStats(props: {
   for (const stat of substats) {
     if (percentFlatStats[stat]) continue
 
-    const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
+    const value = damageStats[stat] ? result.originalSimResult.xa[Key.ELEMENTAL_DMG] : result.originalSimResult.xa[StatToKey[stat]]
     const flat = Utils.isFlat(stat)
     const upgraded = damageStats[stat]
-      ? Utils.precisionRound(result.originalSimResult.x.ELEMENTAL_DMG, 2) != Utils.precisionRound(result.originalSimResult.ELEMENTAL_DMG, 2)
-      : Utils.precisionRound(result.originalSimResult.x[stat], 2) != Utils.precisionRound(result.originalSimResult[stat], 2)
+      ? Utils.precisionRound(result.originalSimResult.xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
+      : Utils.precisionRound(result.originalSimResult.xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
 
     let display = `${Math.floor(value)}`
     if (stat == Stats.SPD) {

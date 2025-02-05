@@ -25,11 +25,11 @@ SortOptions:
   DMGLabel: Tính Sát Thương
   StatLabel: Chỉ số
   COMBO: Sắp xếp theo ST Combo
-  BASIC: Sắp xếp theo ST đánh thường
+  BASIC: Sắp xếp theo ST Tấn Công Thường
   SKILL: Sắp xếp theo ST Chiến Kỹ
   ULT: Sắp xếp theo ST Tuyệt Kỹ
   FUA: Sắp xếp theo ST Đòn đánh theo sau
-  MEMO_SKILL: Sắp xếp theo sát thương của Linh hồn ký ức
+  MEMO_SKILL: Sắp xếp theo ST của Linh hồn ký ức
   DOT: Sắp xếp theo ST theo thời gian
   BREAK: Sắp xếp theo ST Kích Phá
   HEAL: Sắp xếp theo trị liệu
@@ -56,7 +56,7 @@ OptimizerOptions:
     Name: "# {{rank}}"
   AllowEquipped: Cho phép sử dụng di vật đang được mặc
   KeepCurrent: Giữ di vật hiện tại
-  Exclude: Trừ đi
+  Exclude: Không lấy
   MinEnhance:
     Label0: "+0"
     Label3: "+3"
@@ -91,7 +91,7 @@ Grid:
     Basic:
       Set: Bộ
       ATK: Tấn Công
-      DEF: Phòng Thủ
+      DEF: DEF
       HP: HP
       SPD: Tốc Độ
       CR: CR
@@ -104,25 +104,22 @@ Grid:
       DMG: ST
       EHP: EHP
       WEIGHT: |-
-        STAT
-        WEIGHT
-      HEAL: "TRỊ\nLIỆU"
+        ĐIỂM CHỈ
+        SỐ
+      HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
-        ST
-        ĐÁNH THƯỜNG
+        TẤN CÔNG THƯỜNG
       SKILL: |-
-        ST
         CHIẾN KỸ
       ULT: |-
-        ST
         TUYỆT KỸ
       FUA: |-
-        ĐÒN ĐÁNH
+        ĐÒN
         THEO SAU
       MEMO_SKILL: |-
-        STᴹ
-        CHIẾN KỸ
+        LINH HỒN
+        KÝ ỨC
       DOT: |-
         ST
         DUY TRÌ
@@ -148,13 +145,12 @@ Grid:
       DMG: Σ DMG
       EHP: EHP
       WEIGHT: |-
-        STAT
-        WEIGHT
+        ĐIỂM CHỈ
+        SỐ
       HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
-        ST
-        ĐÁNH THƯỜNG
+        TẤN CÔNG THƯỜNG
       SKILL: |-
         ST
         CHIẾN KỸ
@@ -165,8 +161,8 @@ Grid:
         ĐÒN ĐÁNH
         THEO SAU
       MEMO_SKILL: |-
-        STᴹ
-        CHIẾN KỸ
+        LINH HỒN
+        KÝ ỨC
       DOT: |-
         ST
         DUY TRÌ
@@ -194,7 +190,7 @@ Sidebar:
       NoneSelected: Chưa chọn hàng nào
       SimSelected: Các hàng chỉ số có mô phỏng không thể được gắn pin
       AlreadyPinned: Lối lên đồ này đã được pin rồi
-  Permutations: Hoán vị
+  Permutations: Tìm Kiếm
   Perms: Khả năng
   Searched: Đã tìm
   Results: Kết quả
@@ -232,7 +228,7 @@ TracesDrawer:
   Header: Chỉ số vết tích đã kích hoạt (tất cả được bật theo mặc định)
   ButtonText: Lưu thay đổi
 SetConditionals:
-  Title: Hiệu ứng bộ có điều kiện
+  Title: Hiệu ứng và điều kiện
   DescriptionHeader: Mô tả bộ
   EffectHeader: Hiệu ứng đã kích hoạt
   SetName: "$t(gameData:RelicSets.{{id}}.Name)"
@@ -332,19 +328,19 @@ Presets:
   PresetNotAvailable: Đồ khuyên dùng không khả dụng, hãy chọn lựa chọn khác
 CombatBuffs:
   ATK: Tấn Công
-  ATK_P: ATK %
+  ATK_P: Tấn Công %
   HP: HP
   HP_P: HP %
   DEF: Phòng Thủ
-  DEF_P: DEF %
+  DEF_P: Phòng Thủ %
   CR: Tỷ Lệ Bạo Kích %
   CD: ST Bạo Kích %
   SPD: Tốc Độ
-  SPD_P: SPD %
-  BE: BE %
-  DMG_BOOST: Dmg Boost %
-  DEF_PEN: Def Pen %
-  RES_PEN: Dmg RES PEN %
+  SPD_P: Tốc Độ %
+  BE: Kích Phá %
+  DMG_BOOST: Tăng ST Nguyên Tố %
+  DEF_PEN: Xuyên Phòng Thủ %
+  RES_PEN: Xuyên Kháng ST Nguyên Tố %
   EFFECT_RES_PEN: Kháng Hiệu Ứng %
   VULNERABILITY: Yếu điểm %
   BREAK_EFFICIENCY: Hiệu Suất Phá Vỡ Điểm Yếu %
@@ -369,11 +365,11 @@ WeightFilter:
   ATKFilterText: Tấn Công
   DEFFilterText: Phòng Thủ
   SPDFilterText: Tốc Độ
-  CRFilterText: CR
-  CDFilterText: CD
-  EHRFilterText: EHR
-  RESFilterText: RES
-  BEFilterText: BE
+  CRFilterText: TL Bạo Kích
+  CDFilterText: ST Bạo Kích
+  EHRFilterText: CX Hiệu Ứng
+  RESFilterText: K. Hiệu Ứng
+  BEFilterText: Kích Phá
 MinMaxFilters:
   StatHeader: Bộ lọc chỉ số tối thiểu / tối đa
   RatingHeader: Bộ lọc xếp hạng tối thiểu / tối đa
@@ -381,23 +377,23 @@ MinMaxFilters:
   ATKLabel: Tấn Công
   DEFLabel: Phòng Thủ
   SPDLabel: Tốc Độ
-  CRLabel: CR
-  CDLabel: CD
-  EHRLabel: EHR
-  RESLabel: RES
-  BELabel: BE
-  ERRLabel: ERR
+  CRLabel: TL Bạo Kích
+  CDLabel: ST Bạo Kích
+  EHRLabel: CX Hiệu Ứng
+  RESLabel: K. Hiệu Ứng
+  BELabel: Kích Phá
+  ERRLabel: Năng Lượng
   WEIGHTLabel: WEIGHT
   EHPLabel: EHP
-  BASICLabel: Đánh Đơn
+  BASICLabel: Thường
   SKILLLabel: Chiến kỹ
   ULTLabel: Tuyệt kỹ
-  FUALabel: Đòn Đánh Theo Sau
-  MEMOSKILLLabel: LINH HỒN KÝ ỨC
+  FUALabel: FUA
+  MEMOSKILLLabel: Linh Ký Ức
   DOTLabel: DOT
-  BREAKLabel: BREAK
-  HEALLabel: "TRỊ\nLIỆU"
-  SHIELDLabel: LÁ CHẮN
+  BREAKLabel: Kích Phá
+  HEALLabel: Trị Liệu
+  SHIELDLabel: Lá Chắn
   COMBOLabel: COMBO
 ComboFilter:
   Header: Thứ tự dùng kỹ năng combo
@@ -416,8 +412,8 @@ ComboFilter:
     Basic: Tấn công thường
     Skill: Chiến kỹ
     Ult: Tuyệt Kỹ
-    Fua: FUA
-    MemoSkill: Skillᴹ
+    Fua: Đòn đánh theo sau
+    MemoSkill: Linh Hồn Ký Ức
   RotationButton: Thứ tự kỹ năng nâng cao
 ComboDrawer:
   NoConditionals: Không có nội tại được kích hoạt theo điều kiện.

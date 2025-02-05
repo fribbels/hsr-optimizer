@@ -67,8 +67,7 @@ RelicGrid:
       AvgPotCol:
         Label: "Nhân vật được chọn: Tiềm năng trung bình"
         Header: |-
-          Nhân vật chọn
-          Tiềm năng trung bình
+          Nhân vật tiềm năng trung bình
       MaxPotCol:
         Label: "Nhân vật được chọn: Tiềm năng tối đa"
         Header: |-
@@ -77,25 +76,22 @@ RelicGrid:
       RerollAvg:
         Label: "Nhân vật đã chọn: Tiềm năng chia lại chỉ số trung bình."
         Header: |-
-          Nhân vật đã chọn  
-          Chia lại trung bình
+          Nhân vật chọn  
+          Chia lại
       RerollAvgDelta:
         Label: "Nhân vật đã chọn: Xoay lại tiềm năng delta trung bình"
         Header: |-
-          Nhân vật chọn  
-          Δ Reroll trung bình
+          Giá Trị Δ Reroll cho nhân vật
     CustomCharacters:
       Label: Tùy chọn nhân vật
       AvgPotCol:
         Label: "Tùy chọn nhân vật: Tiềm năng trung bình"
         Header: |-
-          Tùy chọn nhân vật
-          Tiềm năng trung bình
+          Nhân vật chọn tiềm năng
       MaxPotCol:
         Label: "Tùy chọn nhân vật: Tiềm năng tối đa"
         Header: |-
-          Tùy chọn nhân vật
-          Tiềm năng tối đa
+          Nhân vật chọn tiềm năng tối đa
       RerollAvg:
         Label: "Nhân vật tùy chỉnh: Tiềm năng xoay lại trung bình"
         Header: |-

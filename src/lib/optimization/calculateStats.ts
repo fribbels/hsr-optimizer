@@ -254,7 +254,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   }
 
   if (p4(sets.HeroOfTriumphantSong) && setConditionals.enabledHeroOfTriumphantSong) {
-    x.SPD_P.buffTeam(0.06, Source.HeroOfTriumphantSong)
+    x.SPD_P.buff(0.06, Source.HeroOfTriumphantSong)
     x.CD.buffDual(0.30, Source.HeroOfTriumphantSong)
   }
 

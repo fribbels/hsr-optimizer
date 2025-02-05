@@ -215,7 +215,7 @@ export class ComputedStatsArrayCore {
   }
 
   toComputedStatsObject() {
-    toComputedStatsObject(this.a)
+    return toComputedStatsObject(this.a)
   }
 }
 

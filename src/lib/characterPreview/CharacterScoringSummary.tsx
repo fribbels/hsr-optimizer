@@ -425,7 +425,7 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
-  const buffsRender = []// generateBuffs(result)
+  const buffsRender = generateBuffs(result)
 
   return (
     <Flex vertical gap={15} align='center' style={{ width: 1068 }}>

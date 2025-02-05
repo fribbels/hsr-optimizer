@@ -168,8 +168,8 @@ export default function CharacterTab() {
     const data = event.data
 
     // Only blur if different character
-    setCharacterTabFocusCharacter(data?.id)
-    console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data?.id}]`, event.data)
+    setCharacterTabFocusCharacter(data.id)
+    console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data)
   }, [setCharacterTabFocusCharacter])
 
   // TODO: implement routing to handle this

@@ -279,6 +279,7 @@ export function runSimulations(
   context: OptimizerContext,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
+  weight: boolean = false,
 ): SimulationResult[] {
   const defaultParams: RunSimulationsParams = {
     quality: 1,
@@ -384,7 +385,7 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const x = calculateBuild(form, relics, context, cachedBasicStatsArray, cachedComputedStatsArray, true, true, false, forcedBasicSpd)
+    const x = calculateBuild(form, relics, context, cachedBasicStatsArray, cachedComputedStatsArray, true, true, false, forcedBasicSpd, weight)
     const optimizerDisplayData = renameFields(x)
     // For optimizer grid syncing with sim table
     optimizerDisplayData.statSim = {
@@ -405,7 +406,7 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, null, existingSimulations)
+  const simulationResults = runSimulations(form, null, existingSimulations, undefined, true)
 
   OptimizerTabController.setRows(simulationResults)
 

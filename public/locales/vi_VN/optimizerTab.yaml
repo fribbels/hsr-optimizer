@@ -106,10 +106,10 @@ Grid:
       WEIGHT: |-
         ĐIỂM CHỈ
         SỐ
-      HEAL: "TRỊ\nLIỆU"
+      HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
-        ĐÁNH THƯỜNG
+        TẤN CÔNG THƯỜNG
       SKILL: |-
         ST
         CHIẾN KỸ
@@ -152,7 +152,7 @@ Grid:
       HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
-        ĐÁNH THƯỜNG
+        TẤN CÔNG THƯỜNG
       SKILL: |-
         ST
         CHIẾN KỸ
@@ -330,19 +330,19 @@ Presets:
   PresetNotAvailable: Đồ khuyên dùng không khả dụng, hãy chọn lựa chọn khác
 CombatBuffs:
   ATK: Tấn Công
-  ATK_P: ATK %
+  ATK_P: Tấn Công %
   HP: HP
   HP_P: HP %
   DEF: Phòng Thủ
-  DEF_P: DEF %
+  DEF_P: Phòng Thủ %
   CR: Tỷ Lệ Bạo Kích %
   CD: ST Bạo Kích %
   SPD: Tốc Độ
-  SPD_P: SPD %
-  BE: BE %
-  DMG_BOOST: Dmg Boost %
-  DEF_PEN: Def Pen %
-  RES_PEN: Dmg RES PEN %
+  SPD_P: Tốc Độ %
+  BE: Kích Phá %
+  DMG_BOOST: Tăng ST Nguyên Tố %
+  DEF_PEN: Xuyên Phòng Thủ %
+  RES_PEN: Xuyên Kháng ST Nguyên Tố %
   EFFECT_RES_PEN: Kháng Hiệu Ứng %
   VULNERABILITY: Yếu điểm %
   BREAK_EFFICIENCY: Hiệu Suất Phá Vỡ Điểm Yếu %

@@ -67,8 +67,8 @@ export function calculateBuild(
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
-  const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
 
+  const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
   c.config(relicSetIndex, ornamentSetIndex, sets, 0, 0, 0)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
@@ -83,6 +83,7 @@ export function calculateBuild(
   x.setBasic(c)
   if (x.m) {
     m.setBasic(c.m)
+    c.configMemo()
   }
 
   let combo = 0

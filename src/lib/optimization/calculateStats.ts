@@ -218,18 +218,17 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     xmc.HP.set(x.a[Key.MEMO_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_HP_FLAT], Source.NONE)
     xmc.SPD.set(x.a[Key.MEMO_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_SPD_FLAT], Source.NONE)
 
-    xma[Key.ATK] = xmc.a[Key.ATK]
-    xma[Key.DEF] = xmc.a[Key.DEF]
-    xma[Key.HP] = xmc.a[Key.HP]
-    xma[Key.SPD] = xmc.a[Key.SPD]
-
-    xma[Key.CD] = c.a[Key.CD]
-    xma[Key.CR] = c.a[Key.CR]
-    xma[Key.BE] = c.a[Key.BE]
-    xma[Key.EHR] = c.a[Key.EHR]
-    xma[Key.RES] = c.a[Key.RES]
-    xma[Key.ERR] = c.a[Key.ERR]
-    xma[Key.OHB] = c.a[Key.OHB]
+    xma[Key.ATK] += xmc.a[Key.ATK]
+    xma[Key.DEF] += xmc.a[Key.DEF]
+    xma[Key.HP] += xmc.a[Key.HP]
+    xma[Key.SPD] += xmc.a[Key.SPD]
+    xma[Key.CD] += c.a[Key.CD]
+    xma[Key.CR] += c.a[Key.CR]
+    xma[Key.BE] += c.a[Key.BE]
+    xma[Key.EHR] += c.a[Key.EHR]
+    xma[Key.RES] += c.a[Key.RES]
+    xma[Key.ERR] += c.a[Key.ERR]
+    xma[Key.OHB] += c.a[Key.OHB]
   }
 
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST

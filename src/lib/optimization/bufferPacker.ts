@@ -218,7 +218,7 @@ export const BufferPacker = {
     arr[offset + 39] = c.low
     arr[offset + 40] = c.high
     if (x.m) {
-      const c = x.m.c
+      const ca = x.m.c.a
       arr[offset + 41] = ca[Key.HP]
       arr[offset + 42] = ca[Key.ATK]
       arr[offset + 43] = ca[Key.DEF]

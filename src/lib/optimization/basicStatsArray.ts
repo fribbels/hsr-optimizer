@@ -212,10 +212,17 @@ export class BasicStatsArrayCore {
     this.high = high
 
     this.a.set(cachedBasicBaseStatsArray)
-    this.m.a.set(cachedBasicBaseStatsArray)
     if (this.trace) {
       this.buffs = []
       this.buffsMemo = []
+    }
+  }
+
+  configMemo() {
+    this.m.a.set(this.a)
+    if (this.trace) {
+      this.m.buffs = []
+      this.m.buffsMemo = []
     }
   }
 

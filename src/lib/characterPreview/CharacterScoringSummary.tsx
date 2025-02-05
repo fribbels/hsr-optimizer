@@ -566,8 +566,8 @@ export function CharacterCardCombatStats(props: {
     const value = damageStats[stat] ? result.originalSimResult.xa[Key.ELEMENTAL_DMG] : result.originalSimResult.xa[StatToKey[stat]]
     const flat = Utils.isFlat(stat)
     const upgraded = damageStats[stat]
-      ? Utils.precisionRound(result.originalSimResult.xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.xa[Key.ELEMENTAL_DMG], 2)
-      : Utils.precisionRound(result.originalSimResult.xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.xa[StatToKey[stat]], 2)
+      ? Utils.precisionRound(result.originalSimResult.xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
+      : Utils.precisionRound(result.originalSimResult.xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
 
     let display = `${Math.floor(value)}`
     if (stat == Stats.SPD) {

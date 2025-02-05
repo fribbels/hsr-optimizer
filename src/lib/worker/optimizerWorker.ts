@@ -163,14 +163,15 @@ self.onmessage = function (e: MessageEvent) {
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 
-    x.setBasic(c)
-    if (x.m) {
-      m.setBasic(c.m)
-    }
-
     // Exit early on base display filters failing
     if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c.a) || failsBasicStatsFilter(c.a))) {
       continue
+    }
+
+    x.setBasic(c)
+    if (x.m) {
+      m.setBasic(c.m)
+      c.configMemo()
     }
 
     let combo = 0

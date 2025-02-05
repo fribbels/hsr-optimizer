@@ -35,6 +35,7 @@ export function LanguageSelector() {
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
         void i18n.changeLanguage(e)
+        console.log(e)
         // !!do not replace this check with isBeta!!
         if (BASE_PATH === BasePath.BETA) {
           e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()

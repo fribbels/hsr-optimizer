@@ -8,7 +8,7 @@ import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStat
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
-import { renameFields } from 'lib/optimization/optimizer'
+import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -216,7 +216,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
       true,
     )
 
-    const optimizerDisplayData = renameFields(x)
+    const optimizerDisplayData = formatOptimizerDisplayData(x)
     optimizerDisplayData.id = index
     outputs.push(optimizerDisplayData)
   }

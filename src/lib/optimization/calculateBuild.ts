@@ -69,7 +69,7 @@ export function calculateBuild(
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
   const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
-  c.init(relicSetIndex, ornamentSetIndex, sets, 0, 0, 0)
+  c.init(relicSetIndex, ornamentSetIndex, sets, 0)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
   calculateBaseStats(c, context)

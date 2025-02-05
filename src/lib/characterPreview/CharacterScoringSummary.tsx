@@ -1,4 +1,4 @@
-import { Divider, Flex } from 'antd'
+import { Divider, Flex, Tag, Typography } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
@@ -7,12 +7,13 @@ import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
+import { Buff, Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
+import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runSimulations, Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -24,6 +25,8 @@ import React, { ReactElement } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 // FIXME MED
+
+const { Text } = Typography
 
 export const CharacterScoringSummary = (props: {
   simScoringResult?: SimulationScore
@@ -359,10 +362,10 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
-  const originalSimRerun = rerunOriginalSim(result)
+  const buffsRender = generateBuffs(result)
 
   return (
-    <Flex vertical gap={15} align='center'>
+    <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
       <Flex align='center' style={{ marginTop: 15 }} vertical>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
@@ -448,12 +451,6 @@ export const CharacterScoringSummary = (props: {
         </Flex>
       </Flex>
 
-      <Flex vertical>
-        <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-          Combat buffs
-        </pre>
-      </Flex>
-
       <Flex>
         <ScoringColumn
           simulation={result.originalSim}
@@ -481,6 +478,16 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
+      <Flex vertical align='center'>
+        <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+          Combat buffs (WIP)
+        </pre>
+
+        <Flex gap={8} wrap style={{ marginLeft: 15, marginRight: 15 }}>
+          {buffsRender}
+        </Flex>
+      </Flex>
+
       <Flex gap={defaultGap} justify='space-around'>
         <Flex vertical gap={defaultGap}>
           <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
@@ -503,11 +510,36 @@ export const CharacterScoringSummary = (props: {
   )
 }
 
-function rerunOriginalSim(result: SimulationScore) {
+function generateBuffs(result: SimulationScore) {
   result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])
+  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
+  const x = rerun.tracedX!
+  const combatBuffs = aggregateCombatBuffs(x)
+
+  const buffsDisplay: ReactElement[] = []
+  let id = 0
+
+  for (const buff of combatBuffs.buffs) {
+    buffsDisplay.push(<BuffTag buff={buff} memo={false} id={id++}/>)
+  }
+  for (const buff of combatBuffs.buffsMemo) {
+    buffsDisplay.push(<BuffTag buff={buff} memo={true} id={id++}/>)
+  }
 
   console.log(rerun)
+
+  return buffsDisplay
+}
+
+function BuffTag(props: { buff: Buff; memo: boolean; id: number }) {
+  const { buff, memo, id } = props
+  return (
+    <Tag style={{ paddingInline: '5px', marginInlineEnd: '0px' }} key={id}>
+      <Text style={{ margin: 0, alignItems: 'center', fontSize: 12 }}>
+        {`${buff.stat}${memo ? 'ᴹ' : ''} : ${TsUtils.precisionRound(buff.value)} (Source: ${buff.source})`}
+      </Text>
+    </Tag>
+  )
 }
 
 export function ScoringTeammate(props: {

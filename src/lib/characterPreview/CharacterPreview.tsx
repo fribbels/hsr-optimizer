@@ -240,6 +240,7 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
+            width: 1068,
             background: showcaseBackgroundColor(token.colorBgLayout, darkMode),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',

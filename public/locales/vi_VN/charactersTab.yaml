@@ -28,7 +28,7 @@ CharacterMenu:
       MoveToTop: Đưa nhân vật lên đầu
 SearchPlaceholder: Tìm Kiếm
 GridHeaders:
-  Icon: Biểu tượng
+  Icon: Ảnh
   Priority: Ưu tiên
   Character: Nhân vật
 Messages:
@@ -70,6 +70,7 @@ CharacterPreview:
       Custom: Tự chỉnh
       Standard: Mặc định
     PaletteLabel: Bảng màu khung
+    ShowUID: Hiện UID
   ArtBy: "Tranh bởi {{artistName}}"
   EditCharacter: Sửa đổi nhân vật
   EditPortrait: Sửa đổi ảnh
@@ -102,7 +103,7 @@ CharacterPreview:
     Roll: Roll
     Damage: Sát thương
   BuildAnalysis:
-    ScoringNote: "Lưu ý: Điểm DPS và Sát thương chiến kỹ Kết hợp (Combo DMG) là các thước đo điểm số cho một vòng xoay kỹ năng duy nhất, không dùng để so sánh giữa các đội"
+    ScoringNote: "Lưu ý: Điểm DPS và Sát thương Kết hợp (Combo DMG) là các thước đo điểm số cho một vòng kỹ năng duy nhất, không dùng để so sánh giữa các đội"
     Header: Phân tích lối lên đồ nhân vật
     SimulationTeammates: Đồng đội thí nghiệm
     SimulationSets: Bộ dị vật thí nghiệm
@@ -117,7 +118,7 @@ CharacterPreview:
       BREAKS: "ST Kích Phá:"
     CombatResults:
       Header: Kết quả sát thương
-      Primary: "Kĩ năng gây sát thương chính:"
+      Primary: "Kĩ năng chính:"
       Character: "ST nhân vật:"
       Benchmark: "ST tiêu chuẩn:"
       Baseline: "ST cơ bản:"
@@ -126,13 +127,13 @@ CharacterPreview:
       Abilities:
         BASIC: ST ĐÁNH ĐƠN
         SKILL: 'ST CHIẾN KỸ:'
-        ULT: 'ST TUYỆT KỸ:'
+        ULT: 'TUYỆT KỸ:'
         FUA: 'ST ĐÒN ĐÁNH THEO SAU:'
         BREAK: 'ST Kích Phá:'
         COMBO: 'ST COMBO:'
   ScoringColumn:
     Character:
-      Header: "Lối lên đồ nhân vật ({{score}}%)"
+      Header: "Lối lên đồ của bạn ({{score}}%)"
       BasicStats: Chỉ số cơ bản
       CombatStats: <1>Chỉ số combat</1> nhân vật
       Substats: Thuộc tính phụ nhân vật (Roll tối thiểu)

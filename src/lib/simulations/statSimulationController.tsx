@@ -1,6 +1,7 @@
 import { Flex, Tag } from 'antd'
 import i18next from 'i18next'
 import { Constants, MainStats, Parts, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
@@ -73,7 +74,7 @@ export function saveStatSimulationBuildFromForm() {
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
-  const existingSimulations = (window.store.getState().statSimulations || []) as Simulation[]
+  const existingSimulations = (window.store.getState().statSimulations || [])
   const key = Utils.randomId()
   const name = simRequest.name || undefined
   const simulation = {
@@ -265,7 +266,7 @@ export function overwriteStatSimulationBuild() {
 
 export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {
   console.log('Delete sim', record)
-  const statSims = window.store.getState().statSimulations as Simulation[]
+  const statSims = window.store.getState().statSimulations
   const updatedSims: Simulation[] = Utils.clone(statSims.filter((x) => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
@@ -435,7 +436,7 @@ export function runSimulations(
 
 export function startOptimizerStatSimulation() {
   const form: Form = OptimizerTabController.getForm()
-  const existingSimulations = (window.store.getState().statSimulations || []) as Simulation[]
+  const existingSimulations = (window.store.getState().statSimulations || [])
 
   if (existingSimulations.length == 0) return
   if (!OptimizerTabController.validateForm(form)) return
@@ -479,28 +480,36 @@ export function importOptimizerBuild() {
   const relicsByPart = OptimizerTabController.calculateRelicsFromId(selectedRow.id)
 
   // Calculate relic sets
-  const relicSetIndex = selectedRow.relicSetIndex
+  const relicSetIndex: number = selectedRow.relicSetIndex
+  const relicSetNames: string[] = relicSetIndexToNames(relicSetIndex)
+
+  // Calculate ornament sets
+  const ornamentSetIndex: number = selectedRow.ornamentSetIndex
+  const ornamentSetName: string | undefined = ornamentSetIndexToName(ornamentSetIndex)
+
+  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1)
+  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
+}
+
+export function relicSetIndexToNames(relicSetIndex: number) {
   const numSetsR = Object.values(Constants.SetsRelics).length
   const s1 = relicSetIndex % numSetsR
   const s2 = ((relicSetIndex - s1) / numSetsR) % numSetsR
   const s3 = ((relicSetIndex - s2 * numSetsR - s1) / (numSetsR * numSetsR)) % numSetsR
   const s4 = ((relicSetIndex - s3 * numSetsR * numSetsR - s2 * numSetsR - s1) / (numSetsR * numSetsR * numSetsR)) % numSetsR
   const relicSets = [s1, s2, s3, s4]
-  const relicSetNames: string[] = calculateRelicSets(relicSets)
+  return calculateRelicSets(relicSets)
+}
 
-  // Calculate ornament sets
-  const ornamentSetIndex = selectedRow.ornamentSetIndex
+export function ornamentSetIndexToName(ornamentSetIndex: number) {
   const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
   const os1 = ornamentSetIndex % ornamentSetCount
   const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
-  const ornamentSetName: string | undefined = calculateOrnamentSets([os1, os2], false)
-
-  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1)
-  saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
+  return calculateOrnamentSets([os1, os2], false)
 }
 
 export function convertRelicsToSimulation(
-  relicsByPart: { Head: Relic; Hands: Relic; Body: Relic; Feet: Relic; PlanarSphere: Relic; LinkRope: Relic },
+  relicsByPart: SingleRelicByPart,
   relicSet1: string,
   relicSet2: string,
   ornamentSet?: string,

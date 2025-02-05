@@ -58,17 +58,17 @@ export function saveStatSimulationBuildFromForm() {
   // Check for invalid button presses
   if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
     console.warn('Invalid sim', form, simType)
-    return
+    return null
   }
 
   // Check for missing fields
   const simRequest: SimulationRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) {
     console.warn('Invalid sim', form, simType)
-    return
+    return null
   }
 
-  saveStatSimulationRequest(simRequest, simType, true)
+  return saveStatSimulationRequest(simRequest, simType, true)
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
@@ -89,7 +89,7 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
 
     if (hash == existingHash) {
       Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))// 'Identical stat simulation already exists')
-      return
+      return null
     }
   }
 
@@ -239,6 +239,27 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
       }
     </Flex>
   )
+}
+
+export function overwriteStatSimulationBuild() {
+  if (saveStatSimulationBuildFromForm() === null) return
+
+  const selectedSim = window.store.getState().selectedStatSimulations
+  const statSims: Simulation[] = window.store.getState().statSimulations
+
+  const updatedSims = statSims.map((x) => {
+    if (x.key === selectedSim[0]) {
+      return statSims.at(-1)
+    } else return x
+  }) as Simulation[]
+
+  const newSim = updatedSims.pop()! // remove what would otherwise be a duplicated sim
+
+  window.store.getState().setStatSimulations(updatedSims)
+  setFormStatSimulations(updatedSims)
+  window.store.getState().setSelectedStatSimulations([newSim.key])
+
+  autosave()
 }
 
 export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {

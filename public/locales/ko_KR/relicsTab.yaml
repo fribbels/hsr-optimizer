@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: 주인
     Set: 세트
-    Grade: 등급
     Part: 부위
-    Enhance: 강화
     MainStat: |-
       주
       옵션

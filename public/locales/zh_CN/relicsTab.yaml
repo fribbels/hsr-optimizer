@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: 装备者
     Set: 套装
-    Grade: 稀有度
     Part: 部件
-    Enhance: 强化等级
     MainStat: |-
       主属性
     MainValue: |-

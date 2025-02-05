@@ -365,7 +365,7 @@ export const CharacterScoringSummary = (props: {
           }
         </pre>
       </Flex>
-      <Flex gap={25}>
+      <Flex gap={25} style={{ width: '100%' }}>
         <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
@@ -398,7 +398,7 @@ export const CharacterScoringSummary = (props: {
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.Rotation.Header')/* Combo damage rotation */}
           </pre>
-          <Flex gap={30} style={{ width: 183 }}>
+          <Flex gap={30}>
             <Flex vertical gap={2}>
               <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={1}/>
               <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={2}/>

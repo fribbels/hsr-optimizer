@@ -6,3 +6,5 @@ LoadData:
     SuccessMessage: Готово!
 SaveData:
   SuccessMessage: Готово
+ClearData:
+  SuccessMessage: Данные очищены

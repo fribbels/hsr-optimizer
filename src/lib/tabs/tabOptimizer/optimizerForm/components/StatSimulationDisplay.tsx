@@ -1,8 +1,14 @@
-import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, UpOutlined } from '@ant-design/icons'
+import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, SwapOutlined, UpOutlined } from '@ant-design/icons'
 import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { deleteAllStatSimulationBuilds, importOptimizerBuild, saveStatSimulationBuildFromForm, startOptimizerStatSimulation } from 'lib/simulations/statSimulationController'
+import {
+  deleteAllStatSimulationBuilds,
+  importOptimizerBuild,
+  overwriteStatSimulationBuild,
+  saveStatSimulationBuildFromForm,
+  startOptimizerStatSimulation,
+} from 'lib/simulations/statSimulationController'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
@@ -103,6 +109,14 @@ export function StatSimulationDisplay() {
               disabled={isHidden()}
             >
               <DoubleLeftOutlined/>
+            </Button>
+            <Button
+              type='dashed'
+              style={{ width: 35, height: 35, padding: 0 }}
+              disabled={isHidden()}
+              onClick={overwriteStatSimulationBuild}
+            >
+              <SwapOutlined/>
             </Button>
             <Popconfirm
               title={t('DeletePopup.Title')}// 'Erase stat simulations'

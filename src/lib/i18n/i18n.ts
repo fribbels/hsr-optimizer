@@ -69,27 +69,29 @@ export const languages = {
     shortName: 'inContext',
   },
   /*
-      de_DE: {
-        locale: 'de_DE',
-        nativeName: 'Deutsch',
-        shortName: 'Deutsch',
-      },
-      id_ID: {
-        locale: 'id_ID',
-        nativeName: 'Bahasa Indonesia',
-        shortName: 'Bahasa Indonesia',
-      },
-      th_TH: {
-        locale: 'th_TH',
-        nativeName: ' ไทย',
-        shortName: ' ไทย',
-      },
+  de_DE: {
+    locale: 'de_DE',
+    nativeName: 'Deutsch',
+    shortName: 'Deutsch',
+  },
+  id_ID: {
+    locale: 'id_ID',
+    nativeName: 'Bahasa Indonesia',
+    shortName: 'Bahasa Indonesia',
+  },
+  th_TH: {
+    locale: 'th_TH',
+    nativeName: ' ไทย',
+    shortName: ' ไทย',
+  },
   */
 } as const
 export type Languages = keyof typeof languages
-export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'pt_BR', 'zh_CN'] as const
+export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN'] as const
 
-export const supportedLanguages = BASE_PATH === BasePath.BETA ? Object.keys(languages) : completedLocales
+export const isBeta = BASE_PATH === BasePath.BETA
+
+export const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)
   .use(LanguageDetector)
@@ -115,7 +117,7 @@ void i18next
     ],
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
-    debug: true,
+    debug: false,
     supportedLngs: supportedLanguages,
     load: 'currentOnly',
     fallbackLng: 'en_US',

@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: 所有者
     Set: セット
-    Grade: レア度
     Part: 部位
-    Enhance: 強化
     MainStat: |-
       メインステ
     MainValue: |-

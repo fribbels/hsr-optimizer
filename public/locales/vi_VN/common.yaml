@@ -40,7 +40,7 @@ ReadableParts:
   Hands: Tay
   Body: Thân
   Feet: Chân
-  PlanarSphere: Cầu Vi Diện
+  PlanarSphere: Cầu
   LinkRope: Dây
 Stats:
   "HP%": HP%
@@ -111,7 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
-DamagePercent: DMG %
+DamagePercent: ST %
 ReadableStats:
   "HP%": HP %
   HP: HP
@@ -160,7 +160,7 @@ ShortReadableStats:
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
   simScore: ST Combo
-  BASIC: ST Đánh Thường
+  BASIC: ST Tấn Công Thường
   SKILL: ST Chiến Kỹ
   ULT: ST Tuyệt Kỹ
   FUA: ST Đòn Đánh Theo Sau
@@ -169,7 +169,7 @@ DMGTypes:
   BREAK: ST Kích Phá
   CV: CV
 ShortDMGTypes:
-  Basic: ST Đánh Thường
+  Basic: ST Tấn Công Thường
   Skill: ST Chiến Kỹ
   Ult: ST Tuyệt Kỹ
   Fua: ST Đánh Theo Sau

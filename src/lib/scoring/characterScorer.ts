@@ -1024,8 +1024,8 @@ export function calculatePenaltyMultiplier(
 }
 
 // Score on 1.00 scale
-export function getSimScoreGrade(score: number, verified: boolean, numRelics: number) {
-  if (numRelics != 6) {
+export function getSimScoreGrade(score: number, verified: boolean, numRelics: number, lightCone: boolean = true) {
+  if (numRelics != 6 || !lightCone) {
     return '?'
   }
 

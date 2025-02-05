@@ -128,33 +128,31 @@ export const BufferPacker = {
       'xELEMENTAL_DMG': arr[offset + 36],
       'relicSetIndex': arr[offset + 37],
       'ornamentSetIndex': arr[offset + 38],
-      'low': arr[offset + 39],
-      'high': arr[offset + 40],
-      'mHP': arr[offset + 41],
-      'mATK': arr[offset + 42],
-      'mDEF': arr[offset + 43],
-      'mSPD': arr[offset + 44],
-      'mCR': arr[offset + 45],
-      'mCD': arr[offset + 46],
-      'mEHR': arr[offset + 47],
-      'mRES': arr[offset + 48],
-      'mBE': arr[offset + 49], // 32
-      'mERR': arr[offset + 50],
-      'mOHB': arr[offset + 51],
-      'mELEMENTAL_DMG': arr[offset + 52],
-      'mxHP': arr[offset + 53],
-      'mxATK': arr[offset + 54],
-      'mxDEF': arr[offset + 55],
-      'mxSPD': arr[offset + 56],
-      'mxCR': arr[offset + 57],
-      'mxCD': arr[offset + 58],
-      'mxEHR': arr[offset + 59],
-      'mxRES': arr[offset + 60],
-      'mxBE': arr[offset + 61], // 32
-      'mxERR': arr[offset + 62],
-      'mxOHB': arr[offset + 63],
-      'mxELEMENTAL_DMG': arr[offset + 64],
-      'mxEHP': arr[offset + 65],
+      'mHP': arr[offset + 39],
+      'mATK': arr[offset + 40],
+      'mDEF': arr[offset + 41],
+      'mSPD': arr[offset + 42],
+      'mCR': arr[offset + 43],
+      'mCD': arr[offset + 44],
+      'mEHR': arr[offset + 45],
+      'mRES': arr[offset + 46],
+      'mBE': arr[offset + 47], // 32
+      'mERR': arr[offset + 48],
+      'mOHB': arr[offset + 49],
+      'mELEMENTAL_DMG': arr[offset + 50],
+      'mxHP': arr[offset + 51],
+      'mxATK': arr[offset + 52],
+      'mxDEF': arr[offset + 53],
+      'mxSPD': arr[offset + 54],
+      'mxCR': arr[offset + 55],
+      'mxCD': arr[offset + 56],
+      'mxEHR': arr[offset + 57],
+      'mxRES': arr[offset + 58],
+      'mxBE': arr[offset + 59], // 32
+      'mxERR': arr[offset + 60],
+      'mxOHB': arr[offset + 61],
+      'mxELEMENTAL_DMG': arr[offset + 62],
+      'mxEHP': arr[offset + 63],
     }
   },
 
@@ -215,37 +213,35 @@ export const BufferPacker = {
     arr[offset + 36] = a[Key.ELEMENTAL_DMG]
     arr[offset + 37] = c.relicSetIndex
     arr[offset + 38] = c.ornamentSetIndex
-    arr[offset + 39] = c.low
-    arr[offset + 40] = c.high
     if (x.m) {
       const ca = x.m.c.a
-      arr[offset + 41] = ca[Key.HP]
-      arr[offset + 42] = ca[Key.ATK]
-      arr[offset + 43] = ca[Key.DEF]
-      arr[offset + 44] = ca[Key.SPD]
-      arr[offset + 45] = ca[Key.CR]
-      arr[offset + 46] = ca[Key.CD]
-      arr[offset + 47] = ca[Key.EHR]
-      arr[offset + 48] = ca[Key.RES]
-      arr[offset + 49] = ca[Key.BE]
-      arr[offset + 50] = ca[Key.ERR]
-      arr[offset + 51] = ca[Key.OHB]
-      arr[offset + 52] = ca[Key.ELEMENTAL_DMG]
+      arr[offset + 39] = ca[Key.HP]
+      arr[offset + 40] = ca[Key.ATK]
+      arr[offset + 41] = ca[Key.DEF]
+      arr[offset + 42] = ca[Key.SPD]
+      arr[offset + 43] = ca[Key.CR]
+      arr[offset + 44] = ca[Key.CD]
+      arr[offset + 45] = ca[Key.EHR]
+      arr[offset + 46] = ca[Key.RES]
+      arr[offset + 47] = ca[Key.BE]
+      arr[offset + 48] = ca[Key.ERR]
+      arr[offset + 49] = ca[Key.OHB]
+      arr[offset + 50] = ca[Key.ELEMENTAL_DMG]
 
       const a = x.m.a
-      arr[offset + 53] = a[Key.HP]
-      arr[offset + 54] = a[Key.ATK]
-      arr[offset + 55] = a[Key.DEF]
-      arr[offset + 56] = a[Key.SPD]
-      arr[offset + 57] = a[Key.CR]
-      arr[offset + 58] = a[Key.CD]
-      arr[offset + 59] = a[Key.EHR]
-      arr[offset + 60] = a[Key.RES]
-      arr[offset + 61] = a[Key.BE]
-      arr[offset + 62] = a[Key.ERR]
-      arr[offset + 63] = a[Key.OHB]
-      arr[offset + 64] = a[Key.ELEMENTAL_DMG]
-      arr[offset + 65] = a[Key.EHP]
+      arr[offset + 51] = a[Key.HP]
+      arr[offset + 52] = a[Key.ATK]
+      arr[offset + 53] = a[Key.DEF]
+      arr[offset + 54] = a[Key.SPD]
+      arr[offset + 55] = a[Key.CR]
+      arr[offset + 56] = a[Key.CD]
+      arr[offset + 57] = a[Key.EHR]
+      arr[offset + 58] = a[Key.RES]
+      arr[offset + 59] = a[Key.BE]
+      arr[offset + 60] = a[Key.ERR]
+      arr[offset + 61] = a[Key.OHB]
+      arr[offset + 62] = a[Key.ELEMENTAL_DMG]
+      arr[offset + 63] = a[Key.EHP]
     }
   },
 

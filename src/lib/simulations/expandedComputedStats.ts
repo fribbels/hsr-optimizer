@@ -37,6 +37,6 @@ export function handleOptimizerExpandedRowData(build: Build) {
   const x = getComputedStatsFromOptimizerBuild(build)
   if (!x) return
 
-  console.log(x.toComputedStatsObject(false))
+  console.log(x.toComputedStatsObject())
   aggregateCombatBuffs(x)
 }

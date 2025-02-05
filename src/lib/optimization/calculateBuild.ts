@@ -69,7 +69,7 @@ export function calculateBuild(
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
   const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
-  c.config(relicSetIndex, ornamentSetIndex, sets, 0, 0, 0)
+  c.init(relicSetIndex, ornamentSetIndex, sets, 0, 0, 0)
 
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
   calculateBaseStats(c, context)
@@ -83,7 +83,7 @@ export function calculateBuild(
   x.setBasic(c)
   if (x.m) {
     m.setBasic(c.m)
-    c.configMemo()
+    c.initMemo()
   }
 
   let combo = 0

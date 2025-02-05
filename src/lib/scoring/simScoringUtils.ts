@@ -26,17 +26,9 @@ export type ScoringParams = {
 }
 
 export type SimulationResult = OptimizerDisplayData & {
-  // BASIC: number
-  // SKILL: number
-  // ULT: number
-  // FUA: number
-  // MEMO_SKILL: number
-  // DOT: number
-  // BREAK: number
   unpenalizedSimScore: number
   penaltyMultiplier: number
   simScore: number
-  // stat: string
   xa: Float32Array
   ca: Float32Array
 }

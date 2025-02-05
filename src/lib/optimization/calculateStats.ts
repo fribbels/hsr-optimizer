@@ -110,7 +110,6 @@ export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
 
-  // const sets = c.sets
   c.SPD.set(sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c,
     0.06 * p2(sets.MessengerTraversingHackerspace)
     + 0.06 * p2(sets.ForgeOfTheKalpagniLantern)

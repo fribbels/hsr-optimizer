@@ -185,7 +185,7 @@ export class ComputedStatsArrayCore {
     })
 
     Object.defineProperty(this, `#show`, {
-      get: () => this.toComputedStatsObject(false),
+      get: () => this.toComputedStatsObject(),
       enumerable: true,
       configurable: true,
     })
@@ -214,25 +214,8 @@ export class ComputedStatsArrayCore {
     return this.a[key]
   }
 
-  toComputedStatsObject(internal: boolean) {
-    if (internal) {
-      const result: Partial<ComputedStatsObject> = {}
-
-      for (const key in Key) {
-        const numericKey = Key[key as KeysType]
-        result[key as keyof ComputedStatsObject] = this.a[numericKey]
-      }
-      return result as ComputedStatsObject
-    } else {
-      const result: Partial<ComputedStatsObjectExternal> = {}
-
-      for (const key in Key) {
-        const externalKey = InternalKeyToExternal[key] ?? key
-        const numericKey = Key[key as KeysType]
-        result[externalKey as keyof ComputedStatsObjectExternal] = this.a[numericKey]
-      }
-      return result as ComputedStatsObjectExternal
-    }
+  toComputedStatsObject() {
+    toComputedStatsObject(this.a)
   }
 }
 

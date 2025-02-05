@@ -157,7 +157,7 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
-    c.config(relicSetIndex, ornamentSetIndex, sets, col, 0, 0)
+    c.init(relicSetIndex, ornamentSetIndex, sets, col, 0, 0)
 
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
     calculateBaseStats(c, context)
@@ -171,7 +171,7 @@ self.onmessage = function (e: MessageEvent) {
     x.setBasic(c)
     if (x.m) {
       m.setBasic(c.m)
-      c.configMemo()
+      c.initMemo()
     }
 
     let combo = 0

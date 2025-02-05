@@ -59,8 +59,6 @@ export class BasicStatsArrayCore {
   ornamentSetIndex: number
   sets: SetsType
   id: number
-  high: number
-  low: number
   weight: number
 
   constructor(trace: boolean = false, memosprite = false) {
@@ -74,8 +72,6 @@ export class BasicStatsArrayCore {
     // @ts-ignore
     this.sets = {}
     this.id = 0
-    this.high = 0
-    this.low = 0
     this.weight = 0
 
     Object.keys(baseCharacterStats).forEach((stat, key) => {
@@ -203,13 +199,11 @@ export class BasicStatsArrayCore {
     })
   }
 
-  config(relicSetIndex: number, ornamentSetIndex: number, sets: SetsType, id: number, low: number, high: number) {
+  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetsType, id: number) {
     this.relicSetIndex = relicSetIndex
     this.ornamentSetIndex = ornamentSetIndex
     this.sets = sets
     this.id = id
-    this.low = low
-    this.high = high
 
     this.a.set(cachedBasicBaseStatsArray)
     if (this.trace) {
@@ -218,7 +212,7 @@ export class BasicStatsArrayCore {
     }
   }
 
-  configMemo() {
+  initMemo() {
     this.m.a.set(this.a)
     if (this.trace) {
       this.m.buffs = []

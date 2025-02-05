@@ -249,12 +249,9 @@ export function renameFields(x: ComputedStatsArray) {
     relicSetIndex: c.relicSetIndex,
     ornamentSetIndex: c.ornamentSetIndex,
     id: c.id,
-    high: c.high,
-    low: c.low,
     WEIGHT: c.weight,
     xa: new Float32Array(x.a),
     ca: new Float32Array(c.a),
-    // x: x.toComputedStatsObject(false) as ComputedStatsObjectExternal,
   }
 
   d[Stats.HP] = c.HP.get()

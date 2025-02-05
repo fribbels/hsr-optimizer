@@ -240,8 +240,9 @@ const TeammateCard = (props: {
       characterEidolon: teammateValues.characterEidolon,
     })
 
-    if (!characterConditionals.teammateDefaults) return
-    teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
+    if (characterConditionals.teammateDefaults) {
+      teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
+    }
 
     window.optimizerForm.setFieldValue([teammateProperty], teammateValues)
   }

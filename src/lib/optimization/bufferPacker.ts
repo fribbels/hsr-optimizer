@@ -1,4 +1,4 @@
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { Buff, ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
 const SIZE = 66
@@ -45,8 +45,6 @@ export type OptimizerDisplayData = {
   'xELEMENTAL_DMG': number
   'relicSetIndex': number
   'ornamentSetIndex': number
-  'low': number
-  'high': number
 
   'mHP': number
   'mATK': number
@@ -77,6 +75,16 @@ export type OptimizerDisplayData = {
 
   'xa': Float32Array
   'ca': Float32Array
+
+  // Not safe to use unless trace is activated with a new instance
+  'tracedX'?: ComputedStatsArray
+
+  'statSim': { key: string }
+}
+
+export type CombatBuffsTracker = {
+  buffs: Buff[]
+  buffsMemo: Buff[]
 }
 
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
@@ -153,7 +161,7 @@ export const BufferPacker = {
       'mxOHB': arr[offset + 61],
       'mxELEMENTAL_DMG': arr[offset + 62],
       'mxEHP': arr[offset + 63],
-    }
+    } as OptimizerDisplayData
   },
 
   extractArrayToResults: (arr: Float32Array, length: number, queueResults: FixedSizePriorityQueue<OptimizerDisplayData>, skip: number) => {

@@ -36,7 +36,7 @@ export async function calculateCurrentlyEquippedRow(request) {
   Object.keys(relics).map((key) => relics[key] = relics[key][0])
 
   const x = calculateBuild(request, relics, null, null, null, undefined, undefined, undefined, undefined, true)
-  const optimizerDisplayData = renameFields(x)
+  const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
 }
 
@@ -243,7 +243,7 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-export function renameFields(x: ComputedStatsArray) {
+export function formatOptimizerDisplayData(x: ComputedStatsArray) {
   const c = x.c
   const d: Partial<OptimizerDisplayData> = {
     relicSetIndex: c.relicSetIndex,
@@ -252,6 +252,7 @@ export function renameFields(x: ComputedStatsArray) {
     WEIGHT: c.weight,
     xa: new Float32Array(x.a),
     ca: new Float32Array(c.a),
+    tracedX: x,
   }
 
   d[Stats.HP] = c.HP.get()

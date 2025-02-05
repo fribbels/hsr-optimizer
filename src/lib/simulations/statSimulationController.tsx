@@ -5,7 +5,7 @@ import { Message } from 'lib/interactions/message'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
-import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimization/optimizer'
+import { calculateCurrentlyEquippedRow, formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -297,7 +297,7 @@ const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
 export function runSimulations(
   form: Form,
-  context: OptimizerContext,
+  context: OptimizerContext | null,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
   weight: boolean = false,
@@ -406,8 +406,22 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const x = calculateBuild(form, relics, context, cachedBasicStatsArray, cachedComputedStatsArray, true, true, false, forcedBasicSpd, weight)
-    const optimizerDisplayData = renameFields(x)
+    const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
+    const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
+
+    const x = calculateBuild(
+      form,
+      relics,
+      context,
+      basicStatsArray,
+      computedStatsArray,
+      true,
+      true,
+      false,
+      forcedBasicSpd,
+      weight,
+    )
+    const optimizerDisplayData = formatOptimizerDisplayData(x)
     // For optimizer grid syncing with sim table
     optimizerDisplayData.statSim = {
       key: sim.key,

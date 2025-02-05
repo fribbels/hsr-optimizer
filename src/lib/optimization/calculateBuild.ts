@@ -138,13 +138,14 @@ function generateUnusedSets(relics: SingleRelicByPart) {
 
 function extractRelics(relics: SingleRelicByPart) {
   for (const part of Object.keys(Constants.Parts)) {
-    relics[part as Parts] = relics[part as Parts] || emptyRelicWithSet()
+    relics[part as Parts] = relics[part as Parts] || emptyRelicWithSetAndSubstats()
   }
   return relics
 }
 
-export function emptyRelicWithSet() {
+export function emptyRelicWithSetAndSubstats() {
   return {
     set: -1,
+    substats: [],
   }
 }

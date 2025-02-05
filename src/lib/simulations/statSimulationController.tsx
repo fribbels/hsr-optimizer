@@ -1,6 +1,6 @@
 import { Flex, Tag } from 'antd'
 import i18next from 'i18next'
-import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
+import { Constants, MainStats, Parts, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
@@ -10,7 +10,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/characterScorer'
+import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -21,14 +21,13 @@ import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic, Stat } from 'types/relic'
-import { T } from 'vitest/dist/reporters-yx5ZTtEV'
 
 // FIXME HIGH
 
 export type Simulation = {
   name?: string
   key: string
-  simType: string
+  simType: StatSimTypes
   request: SimulationRequest
   result: SimulationResult
   penaltyMultiplier: number
@@ -73,15 +72,15 @@ export function saveStatSimulationBuildFromForm() {
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
-  const existingSimulations: Simulation[] = window.store.getState().statSimulations || []
+  const existingSimulations = (window.store.getState().statSimulations || []) as Simulation[]
   const key = Utils.randomId()
   const name = simRequest.name || undefined
-  const simulation: Simulation = {
+  const simulation = {
     name: name,
     key: key,
     simType: simType,
     request: simRequest,
-  }
+  } as Simulation
 
   // Check for dupes
   const hash = hashSim(simulation)
@@ -111,6 +110,7 @@ function hashSim(sim: Simulation) {
   const cleanedRequest = {}
   for (const entry of Object.entries(sim.request)) {
     if (entry[1] != null) {
+      // @ts-ignore
       cleanedRequest[entry[0]] = entry[1]
     }
   }
@@ -202,7 +202,7 @@ const substatToPriority = {
 
 function SimSubstatsDisplay(props: { sim: Simulation }) {
   const { t } = useTranslation('common', { keyPrefix: 'ShortStats' })
-  const renderArray: Stat[] = []
+  const renderArray: { stat: SubStats; value: number }[] = []
   const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
     const value = substats[stat]
@@ -243,7 +243,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 
 export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {
   console.log('Delete sim', record)
-  const statSims: Simulation[] = window.store.getState().statSimulations
+  const statSims = window.store.getState().statSimulations as Simulation[]
   const updatedSims: Simulation[] = Utils.clone(statSims.filter((x) => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
@@ -267,7 +267,7 @@ export type RunSimulationsParams = {
   quality: number
   speedRollValue: number
   mainStatMultiplier: number
-  substatRollsModifier: (num: number, stat: string, relics: { [key: Parts]: Relic }) => number
+  substatRollsModifier: (num: number, stat: string, relics: Record<Parts, Relic>) => number
   simulationFlags: SimulationFlags
 }
 
@@ -275,7 +275,7 @@ const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedSt
 
 export function runSimulations(
   form: Form,
-  context: OptimizerContext,
+  context: OptimizerContext | null,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
 ): SimulationResult[] {
@@ -289,7 +289,7 @@ export function runSimulations(
   const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
 
-  const simulationResults = []
+  const simulationResults: SimulationResult[] = []
   for (const sim of simulations) {
     const request = sim.request
 
@@ -300,19 +300,19 @@ export function runSimulations(
     const linkRope: Relic = emptyRelic()
     const planarSphere: Relic = emptyRelic()
 
-    head.augmentedStats.mainStat = Constants.Stats.HP
-    hands.augmentedStats.mainStat = Constants.Stats.ATK
-    body.augmentedStats.mainStat = request.simBody
-    feet.augmentedStats.mainStat = request.simFeet
-    linkRope.augmentedStats.mainStat = request.simLinkRope
-    planarSphere.augmentedStats.mainStat = request.simPlanarSphere
+    head.augmentedStats!.mainStat = Constants.Stats.HP
+    hands.augmentedStats!.mainStat = Constants.Stats.ATK
+    body.augmentedStats!.mainStat = request.simBody
+    feet.augmentedStats!.mainStat = request.simFeet
+    linkRope.augmentedStats!.mainStat = request.simLinkRope
+    planarSphere.augmentedStats!.mainStat = request.simPlanarSphere
 
-    head.augmentedStats.mainValue = 705.600// * params.mainStatMultiplier
-    hands.augmentedStats.mainValue = 352.800// * params.mainStatMultiplier
-    body.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simBody) * params.mainStatMultiplier
-    feet.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simFeet) * params.mainStatMultiplier
-    linkRope.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope) * params.mainStatMultiplier
-    planarSphere.augmentedStats.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere) * params.mainStatMultiplier
+    head.augmentedStats!.mainValue = 705.600// * params.mainStatMultiplier
+    hands.augmentedStats!.mainValue = 352.800// * params.mainStatMultiplier
+    body.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier
+    feet.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier
+    linkRope.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier
+    planarSphere.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier
 
     // Generate relic sets
     // Since the optimizer uses index based relic set identification, it can't handle an empty set
@@ -320,12 +320,12 @@ export function runSimulations(
     // For planar sets we can't the index be negative or NaN, so we just use two unmatched sets
     const unusedRelicSets = SetsRelicsNames.filter((x) => x != request.simRelicSet1 && x != request.simRelicSet2)
 
-    head.set = request.simRelicSet1 || unusedRelicSets[0]
-    hands.set = request.simRelicSet1 || unusedRelicSets[1]
-    body.set = request.simRelicSet2 || unusedRelicSets[2]
-    feet.set = request.simRelicSet2 || unusedRelicSets[3]
-    linkRope.set = request.simOrnamentSet || SetsOrnamentsNames[0]
-    planarSphere.set = request.simOrnamentSet || SetsOrnamentsNames[1]
+    head.set = request.simRelicSet1 as SetsRelics || unusedRelicSets[0]
+    hands.set = request.simRelicSet1 as SetsRelics || unusedRelicSets[1]
+    body.set = request.simRelicSet2 as SetsRelics || unusedRelicSets[2]
+    feet.set = request.simRelicSet2 as SetsRelics || unusedRelicSets[3]
+    linkRope.set = request.simOrnamentSet as SetsOrnaments || SetsOrnamentsNames[0]
+    planarSphere.set = request.simOrnamentSet as SetsOrnaments || SetsOrnamentsNames[1]
 
     head.part = Parts.Head
     hands.part = Parts.Hands
@@ -342,7 +342,7 @@ export function runSimulations(
       [Parts.LinkRope]: [linkRope],
       [Parts.PlanarSphere]: [planarSphere],
     }
-    const relics: { [key: string]: Relic } = {
+    const relics: Record<Parts, Relic> = {
       [Parts.Head]: head,
       [Parts.Hands]: hands,
       [Parts.Body]: body,
@@ -352,7 +352,7 @@ export function runSimulations(
     }
 
     // Convert substat rolls to value totals
-    const substatValues: Stat[] = []
+    const substatValues: { stat: SubStats; value: number }[] = []
 
     // Convert value totals to substat objects
     for (const substat of SubStats) {
@@ -398,7 +398,7 @@ export function runSimulations(
 
 export function startOptimizerStatSimulation() {
   const form: Form = OptimizerTabController.getForm()
-  const existingSimulations: Simulation[] = window.store.getState().statSimulations || []
+  const existingSimulations = (window.store.getState().statSimulations || []) as Simulation[]
 
   if (existingSimulations.length == 0) return
   if (!OptimizerTabController.validateForm(form)) return
@@ -517,7 +517,7 @@ export function calculateRelicSets(relicSets: (string | number)[], nameProvided 
     const value = relicSets[0]
     if (relicSets.lastIndexOf(value)) {
       const setName = nameProvided ? value : Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
-      relicSetNames.push(setName)
+      relicSetNames.push(setName as string)
 
       const otherIndex = relicSets.lastIndexOf(value)
       relicSets.splice(otherIndex, 1)

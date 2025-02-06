@@ -48,9 +48,9 @@ export type WarpRequest = {
   income: string
   strategy: WarpStrategy
   pityCharacter: number
-  guaranteedCharacter: false
+  guaranteedCharacter: boolean
   pityLightCone: number
-  guaranteedLightCone: false
+  guaranteedLightCone: boolean
 }
 
 export type WarpMilestoneResult = { warps: number; wins: number }
@@ -107,11 +107,17 @@ function generateOptionKey(version: string, type: WarpIncomeType) {
   return `${version}/${type}`
 }
 
-export function simulateWarps(originalRequest: WarpRequest) {
+export function handleWarpRequest(originalRequest: WarpRequest) {
   console.log('simulate Warps', originalRequest)
-
   window.store.getState().setWarpRequest(originalRequest)
 
+  const warpResult = simulateWarps(originalRequest)
+
+  window.store.getState().setWarpResult(warpResult)
+  SaveState.delayedSave()
+}
+
+export function simulateWarps(originalRequest: WarpRequest) {
   const request = enrichWarpRequest(originalRequest)
   const milestones = generateWarpMilestones(request)
 
@@ -159,8 +165,7 @@ export function simulateWarps(originalRequest: WarpRequest) {
     request: request,
   }
 
-  window.store.getState().setWarpResult(warpResult)
-  SaveState.delayedSave()
+  return warpResult
 }
 
 function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {

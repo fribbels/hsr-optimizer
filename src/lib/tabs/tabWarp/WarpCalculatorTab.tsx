@@ -1,12 +1,25 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Flex,
+  Form,
+  InputNumber,
+  Radio,
+  Select,
+  SelectProps,
+  Table,
+  TableProps,
+  Tag,
+  Typography,
+} from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import {
   DEFAULT_WARP_REQUEST,
+  handleWarpRequest,
   NONE_WARP_INCOME_OPTION,
-  simulateWarps,
   WarpIncomeDefinition,
   WarpIncomeOptions,
   WarpIncomeType,
@@ -149,7 +162,7 @@ function Inputs() {
             onClick={() => {
               // @ts-ignore
               window.store.getState().setWarpResult(null)
-              setTimeout(() => simulateWarps(form.getFieldsValue()), 50)
+              setTimeout(() => handleWarpRequest(form.getFieldsValue()), 50)
             }}
             icon={<ThunderboltFilled/>}
           >
@@ -318,7 +331,11 @@ function PityInputs(props: { banner: string }) {
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
         <Form.Item name={`pity${props.banner}`}>
-          <InputNumber placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79} style={{ width: '100%' }} controls={false}/>
+          <InputNumber
+            placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}
+            style={{ width: '100%' }}
+            controls={false}
+          />
         </Form.Item>
       </Flex>
       <Flex vertical flex={1}>

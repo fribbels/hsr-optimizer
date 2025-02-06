@@ -1,5 +1,5 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
-import gameData from 'data/game_data.json'
+import gameData from 'data/game_data.json' with { type: 'json' }
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v3.1.3'
@@ -723,7 +723,10 @@ export const COMBAT_STATS = 'Combat Stats'
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'
 export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'
-export type ComputeEngine = typeof COMPUTE_ENGINE_CPU | typeof COMPUTE_ENGINE_GPU_EXPERIMENTAL | typeof COMPUTE_ENGINE_GPU_STABLE
+export type ComputeEngine =
+  typeof COMPUTE_ENGINE_CPU
+  | typeof COMPUTE_ENGINE_GPU_EXPERIMENTAL
+  | typeof COMPUTE_ENGINE_GPU_STABLE
 
 export const SACERDOS_RELIVED_ORDEAL_1_STACK = 'Sacerdos\' Relived Ordeal 1x'
 export const SACERDOS_RELIVED_ORDEAL_2_STACK = 'Sacerdos\' Relived Ordeal 2x'

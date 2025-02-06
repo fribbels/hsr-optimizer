@@ -101,6 +101,7 @@ export function ScannerImportSubmenu() {
         setCurrentRelics(relics)
         setCurrentCharacters(characters)
         setCurrentStage(Stages.CONFIRM_DATA)
+        setOnlyImportExisting(false)
       }, importerTabSpinnerMs)
     } catch (e) {
       let message: string = t('Import.ErrorMsg.Unknown'/* Unknown Error */)
@@ -134,7 +135,7 @@ export function ScannerImportSubmenu() {
   function mergeCharactersConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      const charactersToImport = onlyImportExisting 
+      const charactersToImport = onlyImportExisting
         ? currentCharacters?.filter((char) => DB.getCharacterById(char.id))
         : currentCharacters
 
@@ -286,6 +287,7 @@ export function ScannerImportSubmenu() {
 
           <Checkbox
             checked={onlyImportExisting}
+            disabled={loading2}
             onChange={(e) => setOnlyImportExisting(e.target.checked)}
           >
             {t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}

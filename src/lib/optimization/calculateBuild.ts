@@ -1,6 +1,7 @@
 import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
@@ -10,7 +11,7 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { RelicFilters } from 'lib/relics/relicFilters'

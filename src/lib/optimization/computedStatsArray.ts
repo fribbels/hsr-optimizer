@@ -1,5 +1,5 @@
 import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { ElementToResPenType, Sets, Stats } from 'lib/constants/constants'
+import { ElementToResPenType, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -206,10 +206,6 @@ export class ComputedStatsArrayCore {
     this.c = c
   }
 
-  set(key: number, value: number, source?: string) {
-    this.a[key] = value
-  }
-
   get(key: number) {
     return this.a[key]
   }
@@ -230,17 +226,8 @@ export function toComputedStatsObject(a: Float32Array) {
   return result as ComputedStatsObjectExternal
 }
 
-export function fromComputedStatsObject(x: ComputedStatsObject) {
-  return Float32Array.from(Object.values(x))
-}
-
 export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
-}
-
-export function baseMemoComputedStatsArray() {
-  const values = Object.values(baseComputedStatsObject)
-  return Float32Array.from([...values, ...values])
 }
 
 export const InternalKeyToExternal: Record<string, string> = {
@@ -291,23 +278,6 @@ export const KeyToStat: Record<string, string> = {
   SPD_P: Stats.SPD_P,
   SPD: Stats.SPD,
   WIND_DMG_BOOST: Stats.Wind_DMG,
-}
-
-export const Source = {
-  character(name: string) {
-    return {
-      SOURCE_BASIC: `${name}_BASIC`,
-      SOURCE_SKILL: `${name}_SKILL`,
-      SOURCE_ULT: `${name}_ULT`,
-      SOURCE_TALENT: `${name}_TALENT`,
-      SOURCE_TECHNIQUE: `${name}_TECHNIQUE`,
-      SOURCE_TRACE: `${name}_TRACE`,
-    }
-  },
-  NONE: 'NONE',
-  BASIC_STATS: 'BASIC_STATS',
-  COMBAT_BUFFS: 'COMBAT_BUFFS',
-  ...Sets,
 }
 
 export function getResPenType(x: ComputedStatsArray, type: string) {

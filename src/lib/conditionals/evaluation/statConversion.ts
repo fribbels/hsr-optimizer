@@ -1,6 +1,7 @@
 import { ConvertibleStatsType, statConversionConfig } from 'lib/conditionals/evaluation/statConversionConfig'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function dynamicStatConversion(

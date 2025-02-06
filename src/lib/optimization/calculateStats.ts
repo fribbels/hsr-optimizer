@@ -13,8 +13,9 @@ import {
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { buffElementalDamageType, ComputedStatsArray, Key, Source, StatToKey } from 'lib/optimization/computedStatsArray'
+import { buffElementalDamageType, ComputedStatsArray, Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'

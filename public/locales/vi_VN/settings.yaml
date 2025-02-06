@@ -4,7 +4,7 @@ RelicEquippingBehaviour:
   Replace: "Mặc định: Thay thế di vật mà không hoán đổi"
   Swap: Hoán đổi di vật với chủ sở hữu trước đó
 PermutationSidebarBehaviour:
-  Label: Thu nhỏ thanh bên của bộ tối ưu hóa trên màn hình nhỏ hơn
+  Label: Thu nhỏ thanh bên của bộ tối ưu hóa trên màn hình nhỏ
   XL: "Mặc định: Thu nhỏ nếu phần lớn thanh bên bị ẩn"
   XXL: Thu nhỏ nếu bất kỳ phần nào của thanh bên bị ẩn
   NoShow: Luôn giữ thanh bên ở bên phải

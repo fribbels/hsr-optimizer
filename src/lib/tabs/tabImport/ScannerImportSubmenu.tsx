@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons'
-import { Button, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
+import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
@@ -33,6 +33,7 @@ export function ScannerImportSubmenu() {
   const [currentCharacters, setCurrentCharacters] = useState<ParsedCharacter[] | undefined>([])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
+  const [onlyImportExisting, setOnlyImportExisting] = useState(false)
   const { t } = useTranslation(['importSaveTab', 'common'])
 
   function beforeUpload(file): Promise<any> {
@@ -100,6 +101,7 @@ export function ScannerImportSubmenu() {
         setCurrentRelics(relics)
         setCurrentCharacters(characters)
         setCurrentStage(Stages.CONFIRM_DATA)
+        setOnlyImportExisting(false)
       }, importerTabSpinnerMs)
     } catch (e) {
       let message: string = t('Import.ErrorMsg.Unknown'/* Unknown Error */)
@@ -133,7 +135,11 @@ export function ScannerImportSubmenu() {
   function mergeCharactersConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.mergeRelicsWithState(currentRelics, currentCharacters)
+      const charactersToImport = onlyImportExisting
+        ? currentCharacters?.filter((char) => DB.getCharacterById(char.id))
+        : currentCharacters
+
+      DB.mergeRelicsWithState(currentRelics, charactersToImport)
       SaveState.delayedSave()
 
       setTimeout(() => {
@@ -179,15 +185,19 @@ export function ScannerImportSubmenu() {
                   <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
                 </ul>
               </li>
-              <li>{t('Import.Stage1.HoyolabDesc.Title')} (<ColorizedLinkWithIcon
-                text={t('Import.Stage1.HoyolabDesc.Link')}
-                url='https://github.com/fribbels/hsr-optimizer/discussions/403'
-                linkIcon={true}
-              />)
+              <li>
+                {t('Import.Stage1.HoyolabDesc.Title')}
+                (
+                <ColorizedLinkWithIcon
+                  text={t('Import.Stage1.HoyolabDesc.Link')}
+                  url='https://github.com/fribbels/hsr-optimizer/discussions/403'
+                  linkIcon={true}
+                />
+                )
                 <ul>
-                <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
-              </ul>
+                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
+                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
+                </ul>
               </li>
             </ul>
           </Text>
@@ -274,6 +284,14 @@ export function ScannerImportSubmenu() {
               characterCount: currentCharacters?.length ?? 0,
             })}
           </Text>
+
+          <Checkbox
+            checked={onlyImportExisting}
+            disabled={loading2}
+            onChange={(e) => setOnlyImportExisting(e.target.checked)}
+          >
+            {t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}
+          </Checkbox>
 
           <Popconfirm
             title={t('Import.Stage2.CharactersImport.WarningTitle')}

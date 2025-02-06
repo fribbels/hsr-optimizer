@@ -1,9 +1,11 @@
-import { baseComputedStatsObject, BasicStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
-import { ElementToResPenType, Sets, Stats } from 'lib/constants/constants'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
+import { ElementToResPenType, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-type Buff = {
+export type Buff = {
+  stat: string
   key: number
   value: number
   source: string
@@ -27,6 +29,7 @@ export type StatController = {
   multiplyTeam: (value: number, source: string) => void
   set: (value: number, source: string) => void
   buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
+  buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
   memoGet: () => number
 }
@@ -46,108 +49,143 @@ export type ComputedStatsArray =
 
 export class ComputedStatsArrayCore {
   a = baseComputedStatsArray()
-  c: BasicStatsObject
+  c: BasicStatsArray
   m: ComputedStatsArray
   summoner: () => ComputedStatsArray
   buffs: Buff[]
+  buffsMemo: Buff[]
   trace: boolean
 
   constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
-    this.c = {} as BasicStatsObject
+    // @ts-ignore
+    this.c = new BasicStatsArrayCore(trace, true, () => this)
     // @ts-ignore
     this.m = memosprite ? null : new ComputedStatsArrayCore(trace, true, () => this)
     // @ts-ignore
     this.summoner = memosprite ? summonerFn : null
     this.buffs = []
+    this.buffsMemo = []
     this.trace = trace
-    Object.keys(baseComputedStatsObject).forEach((key, index) => {
-      Object.defineProperty(this, key, {
+    Object.keys(baseComputedStatsObject).forEach((stat, key) => {
+      const trace
+        = (value: number, source: string) => this.trace && this.buffs.push({ stat, key, value, source })
+      const traceMemo
+        = (value: number, source: string) => this.trace && this.buffsMemo.push({ stat, key, value, source })
+      const traceOverwrite
+        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
+
+      Object.defineProperty(this, stat, {
         value: {
           buff: (value: number, source: string) => {
             if (value == 0) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
           },
           buffSingle: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.a[Key.MEMO_BUFF_PRIORITY]) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             } else {
-              this.a[index] += value
+              this.a[key] += value
+              trace(value, source)
             }
           },
           buffMemo: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
           },
           buffTeam: (value: number, source: string) => {
             if (value == 0) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
 
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
           },
           buffDual: (value: number, source: string) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
 
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
             }
           },
           buffBaseDual: (value: number, source: string) => {
             if (value == 0) return
-            this.a[index] += value
+            this.a[key] += value
+            trace(value, source)
 
             if (this.m) {
-              this.m.a[index] += value
+              this.m.a[key] += value
+              traceMemo(value, source)
+            }
+          },
+          buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
+            if (value < 0.001) return
+            this.a[key] += value
+            trace(value, source)
+
+            if (this.m) {
+              this.m.a[key] += value
+              traceMemo(value, source)
+            }
+
+            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] ?? []) {
+              evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
           multiply: (value: number, source: string) => {
-            this.a[index] *= value
+            this.a[key] *= value
+            trace(value, source)
           },
           multiplyTeam: (value: number, source: string) => {
-            this.a[index] *= value
+            this.a[key] *= value
+            trace(value, source)
             if (this.m) {
-              this.m.a[index] *= value
+              this.m.a[key] *= value
+              traceMemo(value, source)
             }
           },
           buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
-            // Infinite loop guard so self buffing stats will asymptotically reach 0
-            if (value < 0.0001) {
-              return
-            }
+            if (value < 0.001) return
+            this.a[key] += value
+            trace(value, source)
 
-            this.a[index] += value
-
-            for (const conditional of action.conditionalRegistry[KeyToStat[key]] || []) {
+            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] || []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
           set: (value: number, source: string) => {
-            this.a[index] = value
+            this.a[key] = value
+            traceOverwrite(value, source)
           },
-          get: () => this.a[index],
+          get: () => this.a[key],
         },
         writable: false,
         enumerable: true,
         configurable: true,
       })
 
-      Object.defineProperty(this, `$${key}`, {
-        get: () => this.a[index],
+      Object.defineProperty(this, `$${stat}`, {
+        get: () => this.a[key],
         enumerable: true,
         configurable: true,
       })
     })
 
     Object.defineProperty(this, `#show`, {
-      get: () => this.toComputedStatsObject(false),
+      get: () => this.toComputedStatsObject(),
       enumerable: true,
       configurable: true,
     })
@@ -156,54 +194,40 @@ export class ComputedStatsArrayCore {
   setPrecompute(precompute: Float32Array) {
     this.a.set(precompute)
     this.buffs = []
-    this.trace = false
+    this.buffsMemo = []
   }
 
-  setBasic(c: BasicStatsObject) {
+  tracePrecompute(precompute: ComputedStatsArray) {
+    this.buffs = precompute.buffs
+    this.buffsMemo = precompute.buffsMemo
+  }
+
+  setBasic(c: BasicStatsArray) {
     this.c = c
-  }
-
-  set(key: number, value: number, source?: string) {
-    this.a[key] = value
   }
 
   get(key: number) {
     return this.a[key]
   }
 
-  toComputedStatsObject(internal: boolean) {
-    if (internal) {
-      const result: Partial<ComputedStatsObject> = {}
-
-      for (const key in Key) {
-        const numericKey = Key[key as KeysType]
-        result[key as keyof ComputedStatsObject] = this.a[numericKey]
-      }
-      return result as ComputedStatsObject
-    } else {
-      const result: Partial<ComputedStatsObjectExternal> = {}
-
-      for (const key in Key) {
-        const externalKey = InternalKeyToExternal[key] ?? key
-        const numericKey = Key[key as KeysType]
-        result[externalKey as keyof ComputedStatsObjectExternal] = this.a[numericKey]
-      }
-      return result as ComputedStatsObjectExternal
-    }
+  toComputedStatsObject() {
+    return toComputedStatsObject(this.a)
   }
 }
 
-export function fromComputedStatsObject(x: ComputedStatsObject) {
-  return Float32Array.from(Object.values(x))
+export function toComputedStatsObject(a: Float32Array) {
+  const result: Partial<ComputedStatsObjectExternal> = {}
+
+  for (const key in Key) {
+    const externalKey = InternalKeyToExternal[key] ?? key
+    const numericKey = Key[key as KeysType]
+    result[externalKey as keyof ComputedStatsObjectExternal] = a[numericKey]
+  }
+  return result as ComputedStatsObjectExternal
 }
 
 export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
-}
-
-export function baseMemoComputedStatsArray() {
-  const values = Object.values(baseComputedStatsObject)
-  return Float32Array.from([...values, ...values])
 }
 
 export const InternalKeyToExternal: Record<string, string> = {
@@ -254,23 +278,6 @@ export const KeyToStat: Record<string, string> = {
   SPD_P: Stats.SPD_P,
   SPD: Stats.SPD,
   WIND_DMG_BOOST: Stats.Wind_DMG,
-}
-
-export const Source = {
-  character(name: string) {
-    return {
-      SOURCE_BASIC: `${name}_BASIC`,
-      SOURCE_SKILL: `${name}_SKILL`,
-      SOURCE_ULT: `${name}_ULT`,
-      SOURCE_TALENT: `${name}_TALENT`,
-      SOURCE_TECHNIQUE: `${name}_TECHNIQUE`,
-      SOURCE_TRACE: `${name}_TRACE`,
-    }
-  },
-  NONE: 'NONE',
-  BASIC_STATS: 'BASIC_STATS',
-  COMBAT_BUFFS: 'COMBAT_BUFFS',
-  ...Sets,
 }
 
 export function getResPenType(x: ComputedStatsArray, type: string) {
@@ -381,4 +388,29 @@ export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,
   ['Wind DMG Boost']: number
   ['Quantum DMG Boost']: number
   ['Imaginary DMG Boost']: number
+}
+
+export const StatToKey: Record<string, number> = {
+  [Stats.ATK_P]: Key.ATK_P,
+  [Stats.ATK]: Key.ATK,
+  [Stats.BE]: Key.BE,
+  [Stats.CD]: Key.CD,
+  [Stats.CR]: Key.CR,
+  [Stats.DEF_P]: Key.DEF_P,
+  [Stats.DEF]: Key.DEF,
+  [Stats.EHR]: Key.EHR,
+  [Stats.ERR]: Key.ERR,
+  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
+  [Stats.HP_P]: Key.HP_P,
+  [Stats.HP]: Key.HP,
+  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
+  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
+  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
+  [Stats.OHB]: Key.OHB,
+  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
+  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
+  [Stats.RES]: Key.RES,
+  [Stats.SPD_P]: Key.SPD_P,
+  [Stats.SPD]: Key.SPD,
+  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
 }

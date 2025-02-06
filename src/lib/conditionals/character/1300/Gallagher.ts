@@ -1,10 +1,12 @@
 import { BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -142,29 +144,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.BE],
+        chainsTo: [Stats.OHB],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.breakEffectToOhbBoost
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.min(0.75, 0.50 * x.a[Key.BE])
-
-          action.conditionalState[this.id] = buffValue
-          x.OHB.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          dynamicStatConversion(Stats.BE, Stats.OHB, this, x, action, context,
+            (convertibleValue) => Math.min(0.75, 0.50 * convertibleValue),
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-let be = (*p_x).BE;
-let stateValue: f32 = (*p_state).GallagherConversionConditional;
-let buffValue: f32 = min(0.75, 0.50 * (*p_x).BE);
-
-(*p_state).GallagherConversionConditional = buffValue;
-buffDynamicOHB(buffValue - stateValue, p_x, p_m, p_state);
-    `)
+          return gpuDynamicStatConversion(Stats.BE, Stats.OHB, this, action, context,
+            `min(0.75, 0.50 * convertibleValue)`,
+            `${wgslTrue(r.breakEffectToOhbBoost)}`,
+          )
         },
       },
     ],

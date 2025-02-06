@@ -1,4 +1,4 @@
-import { Divider, Flex } from 'antd'
+import { Divider, Flex, Tag, Typography } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
@@ -6,12 +6,15 @@ import { StatTextSm } from 'lib/characterPreview/StatText'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
+import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
+import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { aggregateCombatBuffs, NamedBuff } from 'lib/simulations/combatBuffsAnalysis'
+import { runSimulations, Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -23,16 +26,20 @@ import { Trans, useTranslation } from 'react-i18next'
 
 // FIXME MED
 
+const { Text } = Typography
+
 export const CharacterScoringSummary = (props: {
   simScoringResult?: SimulationScore
 }) => {
-  const result = TsUtils.clone(props.simScoringResult)
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
-  if (!result) return (
+
+  if (!props.simScoringResult) return (
     <pre style={{ height: 200 }}>
       {' '}
     </pre>
   )
+
+  const result = TsUtils.clone(props.simScoringResult)
 
   const characterId = result.simulationForm.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
@@ -189,22 +196,25 @@ export const CharacterScoringSummary = (props: {
   }
 
   // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
+  const original = TsUtils.clone(result.originalSimResult)
+  const benchmark = TsUtils.clone(result.benchmarkSimResult)
+  const maximum = TsUtils.clone(result.maximumSimResult)
 
-  const originalBasicStats = TsUtils.clone(result.originalSimResult)
-  const benchmarkBasicStats = TsUtils.clone(result.benchmarkSimResult)
-  const maximumBasicStats = TsUtils.clone(result.maximumSimResult)
+  const originalBasicStats = original.ca
+  const benchmarkBasicStats = benchmark.ca
+  const maximumBasicStats = maximum.ca
 
-  const originalCombatStats = originalBasicStats.x
-  const benchmarkCombatStats = benchmarkBasicStats.x
-  const maximumCombatStats = maximumBasicStats.x
+  const originalCombatStats = original.xa
+  const benchmarkCombatStats = benchmark.xa
+  const maximumCombatStats = maximum.xa
 
-  originalBasicStats[elementalDmgValue] = originalBasicStats.ELEMENTAL_DMG
-  benchmarkBasicStats[elementalDmgValue] = benchmarkBasicStats.ELEMENTAL_DMG
-  maximumBasicStats[elementalDmgValue] = maximumBasicStats.ELEMENTAL_DMG
+  originalBasicStats[StatToKey[elementalDmgValue]] = originalBasicStats[Key.ELEMENTAL_DMG]
+  benchmarkBasicStats[StatToKey[elementalDmgValue]] = benchmarkBasicStats[Key.ELEMENTAL_DMG]
+  maximumBasicStats[StatToKey[elementalDmgValue]] = maximumBasicStats[Key.ELEMENTAL_DMG]
 
-  originalCombatStats[elementalDmgValue] = originalCombatStats.ELEMENTAL_DMG
-  benchmarkCombatStats[elementalDmgValue] = benchmarkCombatStats.ELEMENTAL_DMG
-  maximumCombatStats[elementalDmgValue] = maximumCombatStats.ELEMENTAL_DMG
+  originalCombatStats[StatToKey[elementalDmgValue]] = originalCombatStats[Key.ELEMENTAL_DMG]
+  benchmarkCombatStats[StatToKey[elementalDmgValue]] = benchmarkCombatStats[Key.ELEMENTAL_DMG]
+  maximumCombatStats[StatToKey[elementalDmgValue]] = maximumCombatStats[Key.ELEMENTAL_DMG]
 
   const statPreviewWidth = 300
   const divider = (
@@ -221,8 +231,8 @@ export const CharacterScoringSummary = (props: {
   }) {
     const request = props.simulation.request
     const simResult = TsUtils.clone(props.simulation.result)
-    const basicStats = simResult
-    const combatStats = basicStats.x
+    const basicStats = toBasicStatsObject(simResult.ca)
+    const combatStats = toComputedStatsObject(simResult.xa)
     const highlight = props.type == 'Character'
     const color = 'rgb(225, 165, 100)'
     basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
@@ -297,21 +307,81 @@ export const CharacterScoringSummary = (props: {
           {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
           <Flex justify='space-between'>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'} number={stats[Stats.ATK_P]} parens={diminishingReturns[Stats.ATK_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK}`) + ':'} number={stats[Stats.ATK]} parens={diminishingReturns[Stats.ATK]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP_P}`) + ':'} number={stats[Stats.HP_P]} parens={diminishingReturns[Stats.HP_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP}`) + ':'} number={stats[Stats.HP]} parens={diminishingReturns[Stats.HP]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'} number={stats[Stats.DEF_P]} parens={diminishingReturns[Stats.DEF_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF}`) + ':'} number={stats[Stats.DEF]} parens={diminishingReturns[Stats.DEF]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'}
+                number={stats[Stats.ATK_P]}
+                parens={diminishingReturns[Stats.ATK_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK}`) + ':'}
+                number={stats[Stats.ATK]}
+                parens={diminishingReturns[Stats.ATK]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP_P}`) + ':'}
+                number={stats[Stats.HP_P]}
+                parens={diminishingReturns[Stats.HP_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP}`) + ':'}
+                number={stats[Stats.HP]}
+                parens={diminishingReturns[Stats.HP]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'}
+                number={stats[Stats.DEF_P]}
+                parens={diminishingReturns[Stats.DEF_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF}`) + ':'}
+                number={stats[Stats.DEF]}
+                parens={diminishingReturns[Stats.DEF]}
+                precision={precision}
+              />
             </Flex>
             <VerticalDivider/>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={2}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={stats[Stats.CR]} parens={diminishingReturns[Stats.CR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={stats[Stats.CD]} parens={diminishingReturns[Stats.CD]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={stats[Stats.EHR]} parens={diminishingReturns[Stats.EHR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.RES}`) + ':'} number={stats[Stats.RES]} parens={diminishingReturns[Stats.RES]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.BE}`) + ':'} number={stats[Stats.BE]} parens={diminishingReturns[Stats.BE]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.SPD}`) + ':'}
+                number={stats[Stats.SPD]}
+                parens={diminishingReturns[Stats.SPD]}
+                precision={2}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CR}`) + ':'}
+                number={stats[Stats.CR]}
+                parens={diminishingReturns[Stats.CR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CD}`) + ':'}
+                number={stats[Stats.CD]}
+                parens={diminishingReturns[Stats.CD]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.EHR}`) + ':'}
+                number={stats[Stats.EHR]}
+                parens={diminishingReturns[Stats.EHR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.RES}`) + ':'}
+                number={stats[Stats.RES]}
+                parens={diminishingReturns[Stats.RES]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.BE}`) + ':'}
+                number={stats[Stats.BE]}
+                parens={diminishingReturns[Stats.BE]}
+                precision={precision}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -325,7 +395,10 @@ export const CharacterScoringSummary = (props: {
             <Flex vertical gap={10}>
               <ScoringStat stat={request.simBody !== 'NONE' ? t(`common:ReadableStats.${request.simBody as MainStats}`) : ''} part={Parts.Body}/>
               <ScoringStat stat={request.simFeet !== 'NONE' ? t(`common:ReadableStats.${request.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-              <ScoringStat stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
+              <ScoringStat
+                stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''}
+                part={Parts.PlanarSphere}
+              />
               <ScoringStat stat={request.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${request.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
             </Flex>
           </Flex>
@@ -352,8 +425,10 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
+  const buffsRender = generateBuffs(result)
+
   return (
-    <Flex vertical gap={15} align='center'>
+    <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
       <Flex align='center' style={{ marginTop: 15 }} vertical>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
@@ -365,8 +440,8 @@ export const CharacterScoringSummary = (props: {
           }
         </pre>
       </Flex>
-      <Flex gap={25}>
-        <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
+      <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
+        <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
           </pre>
@@ -398,7 +473,7 @@ export const CharacterScoringSummary = (props: {
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.Rotation.Header')/* Combo damage rotation */}
           </pre>
-          <Flex gap={30} style={{ width: 183 }}>
+          <Flex gap={30}>
             <Flex vertical gap={2}>
               <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={1}/>
               <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={2}/>
@@ -466,6 +541,16 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
+      <Flex vertical align='center'>
+        <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+          Combat buffs (WIP)
+        </pre>
+
+        <Flex gap={8} wrap style={{ marginLeft: 15, marginRight: 15 }}>
+          {buffsRender}
+        </Flex>
+      </Flex>
+
       <Flex gap={defaultGap} justify='space-around'>
         <Flex vertical gap={defaultGap}>
           <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
@@ -485,6 +570,38 @@ export const CharacterScoringSummary = (props: {
         </pre>
       </Flex>
     </Flex>
+  )
+}
+
+function generateBuffs(result: SimulationScore) {
+  result.simulationForm.trace = true
+  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
+  const x = rerun.tracedX!
+  const namedCombatBuffs = aggregateCombatBuffs(x)
+
+  const buffsDisplay: ReactElement[] = []
+  let id = 0
+
+  for (const buff of namedCombatBuffs.buffs) {
+    buffsDisplay.push(<BuffTag buff={buff} memo={false} id={id++}/>)
+  }
+  for (const buff of namedCombatBuffs.buffsMemo) {
+    buffsDisplay.push(<BuffTag buff={buff} memo={true} id={id++}/>)
+  }
+
+  console.log(rerun)
+
+  return buffsDisplay
+}
+
+function BuffTag(props: { buff: NamedBuff; memo: boolean; id: number }) {
+  const { buff, memo, id } = props
+  return (
+    <Tag style={{ paddingInline: '5px', marginInlineEnd: '0px' }} key={id}>
+      <Text style={{ margin: 0, alignItems: 'center', fontSize: 12 }}>
+        {`${buff.stat}${memo ? 'ᴹ' : ''} : ${TsUtils.precisionRound(buff.value)} (${buff.name})`}
+      </Text>
+    </Tag>
   )
 }
 
@@ -512,12 +629,18 @@ export function ScoringTeammate(props: {
 function addOnHitStats(simulationScore: SimulationScore) {
   const sortOption = simulationScore.characterMetadata.scoringMetadata.sortOption
   const ability = sortOption.key
-  const x = simulationScore.originalSimResult.x
+  const xa = simulationScore.originalSimResult.xa
 
-  x.ELEMENTAL_DMG += x[`${ability}_BOOST`]
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  xa[Key.ELEMENTAL_DMG] += xa[Key[`${ability}_BOOST`]]
   if (ability != SortOption.DOT.key) {
-    x[Stats.CR] += x[`${ability}_CR_BOOST`]
-    x[Stats.CD] += x[`${ability}_CD_BOOST`]
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    xa[Key[`${ability}_CR_BOOST`]] && (xa[Key.CR] += xa[Key[`${ability}_CR_BOOST`]])
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    xa[Key[`${ability}_CD_BOOST`]] && (xa[Key.CD] += xa[Key[`${ability}_CD_BOOST`]])
   }
 }
 
@@ -538,11 +661,8 @@ export function CharacterCardCombatStats(props: {
   const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
-  const simulationMetadata = result.simulationMetadata
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
-  const nonDisplayStats = simulationMetadata.nonDisplayStats || []
   let substats = originalSimulationMetadata.substats
-  substats = substats.filter((x) => !nonDisplayStats.includes(x))
   substats = Utils.filterUnique(substats).filter((x) => !percentFlatStats[x])
   if (substats.length < 5) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
@@ -553,11 +673,11 @@ export function CharacterCardCombatStats(props: {
   for (const stat of substats) {
     if (percentFlatStats[stat]) continue
 
-    const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
+    const value = damageStats[stat] ? result.originalSimResult.xa[Key.ELEMENTAL_DMG] : result.originalSimResult.xa[StatToKey[stat]]
     const flat = Utils.isFlat(stat)
     const upgraded = damageStats[stat]
-      ? Utils.precisionRound(result.originalSimResult.x.ELEMENTAL_DMG, 2) != Utils.precisionRound(result.originalSimResult.ELEMENTAL_DMG, 2)
-      : Utils.precisionRound(result.originalSimResult.x[stat], 2) != Utils.precisionRound(result.originalSimResult[stat], 2)
+      ? Utils.precisionRound(result.originalSimResult.xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
+      : Utils.precisionRound(result.originalSimResult.xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
 
     let display = `${Math.floor(value)}`
     if (stat == Stats.SPD) {

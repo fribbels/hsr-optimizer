@@ -1,9 +1,10 @@
 import i18next from 'i18next'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -87,14 +88,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buff((r.hpToCrConversion) ? Math.min(0.48, 0.016 * Math.floor((x.c[Stats.HP] - 5000) / 100)) : 0, Source.NONE)
+      x.CR.buff((r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0, Source.NONE)
     },
     gpuCalculateBasicEffects: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return `
 if (${wgslTrue(r.hpToCrConversion)}) {
-  let buffValue: f32 = min(0.48, 0.016 * floor((c.HP - 5000) / 100));
+  let buffValue: f32 = max(0, min(0.48, 0.016 * floor((c.HP - 5000) / 100)));
   x.CR += buffValue;
 }
 `
@@ -129,50 +130,26 @@ x.ULT_DMG += x.ULT_SCALING * x.HP;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
-        ratioConversion: true,
-        condition: function () {
-          return true
+        chainsTo: [Stats.HP],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.vendettaState
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.vendettaState) {
-            return
-          }
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const convertibleHpValue = x.a[Key.HP] - x.a[Key.RATIO_BASED_HP_BUFF]
-
-          const buffHP = 0.50 * convertibleHpValue
-          const stateBuffHP = 0.50 * stateValue
-
-          action.conditionalState[this.id] = x.a[Key.HP]
-
-          const finalBuffHp = buffHP - (stateValue ? stateBuffHP : 0)
-          x.a[Key.RATIO_BASED_HP_BUFF] += finalBuffHp
-
-          x.HP.buffDynamic(finalBuffHp, Source.NONE, action, context)
+          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context,
+            (convertibleValue) => convertibleValue * 0.50,
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.vendettaState)}) {
-  return;
-}
-
-let stateValue: f32 = (*p_state).MydeiHpConditional;
-let convertibleHpValue: f32 = (*p_x).HP - (*p_x).RATIO_BASED_HP_BUFF;
-
-var buffHP: f32 = ${0.50} * convertibleHpValue;
-var stateBuffHP: f32 = ${0.50} * stateValue;
-
-(*p_state).MydeiHpConditional = (*p_x).HP;
-
-let finalBuffHp = buffHP - select(0, stateBuffHP, stateValue > 0);
-(*p_x).RATIO_BASED_HP_BUFF += finalBuffHp;
-
-buffNonRatioDynamicHP(finalBuffHp, p_x, p_m, p_state);
-    `)
+          return gpuDynamicStatConversion(Stats.HP, Stats.HP, this, action, context,
+            `0.50 * convertibleValue`,
+            `${wgslTrue(r.vendettaState)}`,
+          )
         },
       },
     ],

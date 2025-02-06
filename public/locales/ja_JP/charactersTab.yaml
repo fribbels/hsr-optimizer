@@ -8,15 +8,15 @@ CharacterMenu:
     Label: キャラクター
     Options:
       Add: 新しいキャラクターを追加
-      Edit: キャラクター/光円錐を編集
-      Switch: 遺物を交換
-      Unequip: 全ての遺物を外す
-      Delete: キャラクターを削除
+      Edit: キャラクター・光円錐を編集
+      Switch: 別キャラクターと遺物を交換
+      Unequip: 選択キャラの遺物を外す
+      Delete: 選択キャラを削除
   Build:
     Label: ビルド
     Options:
       Save: 現在のビルドを保存
-      View: 保存されたビルドを表示
+      View: 保存したビルドを表示
   Scoring:
     Label: スコア計算
     Options:
@@ -25,7 +25,7 @@ CharacterMenu:
     Label: 優先順位
     Options:
       SortByScore: スコア順に並べ替え
-      MoveToTop: キャラクターを先頭に移動
+      MoveToTop: 選択キャラを先頭に移動
 SearchPlaceholder: 検索
 GridHeaders:
   Icon: アイコン
@@ -34,7 +34,7 @@ GridHeaders:
 Messages:
   RemoveSuccess: キャラクターを削除しました
   UnequipSuccess: キャラクターの遺物を外しました
-  NoSelectedCharacter: キャラクターが選択されていません
+  NoSelectedCharacter: キャラクターを選択してください
   SwitchSuccess: "$t(gameData:Characters.{{charId}}.Name) と遺物を交換しました"
   SortByScoreWarning: 本当にすべてのキャラクターを並び替えますか？以前の設定内容はすべて失われます。
   SaveSuccess: "ビルドを保存しました: {{name}}"
@@ -54,6 +54,10 @@ CharacterPreview:
       Max: 100%
       Min: 0%
     BenchmarkSpd:
+      Header: 基準速度
+      BenchmarkOptionsLabel: 基準速度の設定
+      CurrentSpdLabel: 選択キャラの速度 - 基準ビルドの速度を選択キャラの速度にします
+      BaseSpdLabel: 初期速度 - 基準ビルドの速度を最小にします
       CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
     BuffPriority:
       Header: バフ優先度
@@ -66,6 +70,7 @@ CharacterPreview:
       Custom: カスタム
       Standard: スタンダード
     PaletteLabel: カラーパレット
+    ShowUID: UID を表示
   ArtBy: "出典 {{artistName}}"
   EditCharacter: キャラクターを編集
   EditPortrait: 画像を変更
@@ -76,7 +81,8 @@ CharacterPreview:
     RevertedPortrait: 画像を復元しました
     NoSelectedCharacter: キャラクターが選択されていません
   ScoreHeader:
-    Title: 戦闘シュミレーション
+    Title: 戦闘シミュレーション
+    TitleBenchmark: "{{spd}} 基準速度"
     Score: "DPSスコア {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "スコア計算方法"
@@ -128,25 +134,25 @@ CharacterPreview:
         COMBO: コンボ
   ScoringColumn:
     Character:
-      Header: "現在のビルド（{{score}}％）"
-      BasicStats: 現在の非戦闘時のステータス
-      CombatStats: 現在の<1>戦闘中の</1>ステータス
-      Substats: 現在のサブステータス出現回数（最小）
-      Mainstats: 現在のメインステータス
-      Abilities: 現在の与ダメージ
+      Header: "選択キャラのビルド（{{score}}％）"
+      BasicStats: 非戦闘ステータス（選択キャラ）
+      CombatStats: <1>戦闘</1>ステータス（選択キャラ）
+      Substats: サブステータス（最小数）（選択キャラ）
+      Mainstats: メインステータス（選択キャラ）
+      Abilities: 与ダメージ（選択キャラ）
     Benchmark:
-      Header: "基準となるビルド（{{score}}%）"
-      BasicStats: 基準となる非戦闘時のステータス
-      CombatStats: 基準となる<1>戦闘中の</1>ステータス
-      Substats: 基準となるサブステータス出現回数（最小）
-      Mainstats: 基準となるメインステータス
-      Abilities: 基準となる与ダメージ
+      Header: "基準ビルド（{{score}}%）"
+      BasicStats: 非戦闘ステータス（基準ビルド）
+      CombatStats: <1>戦闘</1>ステータス（基準ビルド）
+      Substats: サブステータス（最小数）（基準ビルド）
+      Mainstats: メインステータス（基準ビルド）
+      Abilities: 与ダメージ（基準ビルド）
     Perfect:
-      Header: "完璧なビルド（{{score}}%）"
-      BasicStats: 完璧な非戦闘時のステータス
-      CombatStats: 完璧な<1>戦闘中の</1>ステータス
-      Substats: 完璧なサブステータス出現回数（最大）
-      Mainstats: 完璧なメインステータス
-      Abilities: 完璧な与ダメージ
+      Header: "完璧ビルド（{{score}}%）"
+      BasicStats: 非戦闘ステータス（完璧ビルド）
+      CombatStats: <1>戦闘</1>ステータス（完璧ビルド）
+      Substats: サブステータス（最大数）（完璧ビルド）
+      Mainstats: メインステータス（完璧ビルド）
+      Abilities: 与ダメージ（完璧ビルド）
   ScoringDetails:
     Header: DPSスコアはどのように計算されますか？

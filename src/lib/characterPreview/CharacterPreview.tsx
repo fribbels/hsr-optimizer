@@ -1,6 +1,6 @@
 import { ConfigProvider, Flex, theme } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
-import { showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getArtistName,
   getPreviewRelics,
@@ -18,11 +18,10 @@ import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { MemoizedShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
-import {
+import ShowcaseCustomizationSidebar, {
   defaultShowcasePreferences,
   getDefaultColor,
   getOverrideColorMode,
-  ShowcaseCustomizationSidebar,
   ShowcaseCustomizationSidebarRef,
   standardShowcasePreferences,
   urlToColorCache,
@@ -37,7 +36,6 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
@@ -92,6 +90,7 @@ export function CharacterPreview(props: {
   const activeKey = window.store((s) => s.activeKey)
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
+  // Using these to trigger updates on changes
   const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD])
   const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
   const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs)
@@ -155,16 +154,14 @@ export function CharacterPreview(props: {
   const overrideColorMode = getOverrideColorMode(colorMode, globalShowcasePreferences, character)
 
   const overrideSeedColor = portraitToUse
-    ?
-    (
+    ? (
       urlToColorCache[portraitUrl]
         ? (overrideColorMode == ShowcaseColorMode.AUTO)
           ? (defaultColor)
           : (characterShowcasePreferences.color ?? defaultColor)
         : prevSeedColor.current
     )
-    :
-    (
+    : (
       (overrideColorMode == ShowcaseColorMode.AUTO)
         ? (defaultColor)
         : (characterShowcasePreferences.color ?? defaultColor)
@@ -218,6 +215,7 @@ export function CharacterPreview(props: {
       />
       <ShowcaseCustomizationSidebar
         ref={sidebarRef}
+        source={source}
         id={props.id}
         characterId={character.id}
         simScoringResult={simScoringResult}
@@ -242,6 +240,7 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
+            width: 1068,
             background: showcaseBackgroundColor(token.colorBgLayout, darkMode),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
@@ -264,13 +263,14 @@ export function CharacterPreview(props: {
               right: 0,
               bottom: 0,
               zIndex: 0,
-              filter: `blur(20px) brightness(${darkMode ? 0.50 : 0.65}) saturate(${darkMode ? 0.80 : 0.80})`,
-              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.50 : 0.65}) saturate(${darkMode ? 0.80 : 0.80})`,
+              filter: `blur(20px) brightness(${darkMode ? 0.50 : 0.665}) saturate(${darkMode ? 0.80 : 0.80})`,
+              WebkitFilter: `blur(20px) brightness(${darkMode ? 0.50 : 0.665}) saturate(${darkMode ? 0.80 : 0.80})`,
             }}
           />
 
           {/* Portrait left panel */}
-          {source != ShowcaseSource.BUILDS_MODAL &&
+          {source != ShowcaseSource.BUILDS_MODAL
+          && (
             <Flex vertical gap={8} className='character-build-portrait'>
               <ShowcasePortrait
                 source={source}
@@ -280,7 +280,7 @@ export function CharacterPreview(props: {
                 editPortraitModalOpen={editPortraitModalOpen}
                 setEditPortraitModalOpen={setEditPortraitModalOpen}
                 onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
-                simScoringResult={simScoringResult as SimulationScore}
+                simScoringResult={simScoringResult!}
                 artistName={artistName}
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
@@ -300,7 +300,7 @@ export function CharacterPreview(props: {
                 />
               )}
             </Flex>
-          }
+          )}
 
           {/* Character details middle panel */}
           <Flex vertical justify='space-between' gap={8} style={{}}>
@@ -317,7 +317,7 @@ export function CharacterPreview(props: {
                 paddingRight: 2,
                 paddingLeft: 2,
                 paddingBottom: 3,
-                boxShadow: showcaseShadow,
+                boxShadow: showcaseShadow + showcaseShadowInsetAddition,
                 border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
               }}
               justify='space-between'
@@ -336,45 +336,53 @@ export function CharacterPreview(props: {
                 simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
               />
 
-              {simScoringResult && <>
-                <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
+              {simScoringResult && (
+                <>
+                  <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/>
 
-                <ShowcaseDpsScorePanel
-                  characterId={showcaseMetadata.characterId}
-                  token={seedToken}
-                  simScoringResult={simScoringResult}
-                  teamSelection={currentSelection}
-                  combatScoreDetails={combatScoreDetails}
-                  displayRelics={displayRelics}
-                  setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
-                  setRedrawTeammates={setRedrawTeammates}
-                />
+                  <ShowcaseDpsScorePanel
+                    characterId={showcaseMetadata.characterId}
+                    token={seedToken}
+                    simScoringResult={simScoringResult}
+                    teamSelection={currentSelection}
+                    combatScoreDetails={combatScoreDetails}
+                    displayRelics={displayRelics}
+                    setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
+                    setRedrawTeammates={setRedrawTeammates}
+                  />
 
-                <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>
-              </>}
+                  <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} simScoringResult={simScoringResult}/>
+                </>
+              )}
 
-              {!simScoringResult && <>
-                {scoringType != NONE_SCORE && <ShowcaseStatScore
-                  scoringResults={scoringResults}
-                />}
+              {!simScoringResult && (
+                <>
+                  {scoringType != NONE_SCORE && (
+                    <ShowcaseStatScore
+                      scoringResults={scoringResults}
+                    />
+                  )}
 
-                <ShowcaseLightConeLargeName
-                  showcaseMetadata={showcaseMetadata}
-                />
-              </>}
+                  <ShowcaseLightConeLargeName
+                    showcaseMetadata={showcaseMetadata}
+                  />
+                </>
+              )}
             </Flex>
 
-            {!simScoringResult && <>
-              <ShowcaseLightConeLarge
-                source={source}
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                setCharacterModalAdd={setCharacterModalAdd}
-              />
-            </>}
+            {!simScoringResult && (
+              <>
+                <ShowcaseLightConeLarge
+                  source={source}
+                  character={character}
+                  showcaseMetadata={showcaseMetadata}
+                  displayDimensions={displayDimensions}
+                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                  setCharacterModalAdd={setCharacterModalAdd}
+                />
+              </>
+            )}
           </Flex>
 
           {/* Relics right panel */}
@@ -393,17 +401,18 @@ export function CharacterPreview(props: {
       </ConfigProvider>
 
       {/* Showcase analysis footer */}
-      {source != ShowcaseSource.BUILDS_MODAL &&
+      {source != ShowcaseSource.BUILDS_MODAL
+      && (
         <MemoizedShowcaseBuildAnalysis
           token={token}
-          simScoringResult={simScoringResult as SimulationScore}
+          simScoringResult={simScoringResult!}
           combatScoreDetails={combatScoreDetails}
           showcaseMetadata={showcaseMetadata}
           scoringType={scoringType}
           setScoringType={setScoringType}
           setCombatScoreDetails={setCombatScoreDetails}
         />
-      }
+      )}
     </Flex>
   )
 }

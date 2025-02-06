@@ -1,4 +1,5 @@
 import { Stats, SubStats } from 'lib/constants/constants'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { PartialSimulationWrapper, ScoringParams, SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { SimulationStats } from 'lib/simulations/statSimulationController'
@@ -35,7 +36,7 @@ export function calculateMaxSubstatRollCounts(
   simulationFlags: SimulationFlags,
 ): SimulationStats {
   const request = partialSimulationWrapper.simulation.request
-  const maxCounts = {
+  const maxCounts: Record<string, number> = {
     [Stats.HP_P]: 0,
     [Stats.ATK_P]: 0,
     [Stats.DEF_P]: 0,
@@ -93,7 +94,7 @@ export function calculateMaxSubstatRollCounts(
   // Assumes maximum 100 CR is needed ever
   if (!simulationFlags.overcapCritRate) {
     const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-    const missingCrit = Math.max(0, 100 - baselineSimResult.x[Stats.CR] * 100)
+    const missingCrit = Math.max(0, 100 - baselineSimResult.xa[Key.CR] * 100)
     maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
       ? 6
       : 0, Math.min(
@@ -108,15 +109,17 @@ export function calculateMaxSubstatRollCounts(
   // Assumes 20 enemy effect RES
   // Assumes maximum 120 EHR is needed ever
   const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-  const missingEhr = Math.max(0, 120 - baselineSimResult.x[Stats.EHR] * 100)
-  maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0 ? 0 : Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
-    ? 6
-    : 0, Math.min(
-    request.simBody == Stats.EHR
-      ? Math.ceil((missingEhr - 43.2) / ehrValue)
-      : Math.ceil(missingEhr / ehrValue),
-    maxCounts[Stats.EHR],
-  )))
+  const missingEhr = Math.max(0, 120 - baselineSimResult.xa[Key.EHR] * 100)
+  maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0
+    ? 0
+    : Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
+      ? 6
+      : 0, Math.min(
+      request.simBody == Stats.EHR
+        ? Math.ceil((missingEhr - 43.2) / ehrValue)
+        : Math.ceil(missingEhr / ehrValue),
+      maxCounts[Stats.EHR],
+    )))
 
   // Forced speed rolls will take up slots from the 36 potential max rolls of other stats
   const nonSpeedSubsCapDeduction = Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 6

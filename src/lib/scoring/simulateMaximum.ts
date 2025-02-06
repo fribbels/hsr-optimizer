@@ -1,4 +1,5 @@
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { computeOptimalSimulation } from 'lib/scoring/characterScorer'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import { maximumScoringParams, PartialSimulationWrapper, ScoringFunction, simSorter, SimulationFlags, SimulationResult, spdRollsCap } from 'lib/scoring/simScoringUtils'
@@ -20,7 +21,7 @@ export function simulateMaximumBuild(
   simulationFlags: SimulationFlags,
 ) {
   // Convert the benchmark spd rolls to max spd rolls
-  const spdDiff = targetSpd - baselineSimResult.x[Stats.SPD]
+  const spdDiff = targetSpd - baselineSimResult.xa[Key.SPD]
 
   const maximumSimulations: Simulation[] = []
 

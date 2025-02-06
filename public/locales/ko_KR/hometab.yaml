@@ -23,5 +23,8 @@ FeatureCards:
       유물을 점수나 잠재력에 따라 점수화하고 정렬하여 각 캐릭터에 가장 적합한 강화 대상 유물을 찾아보세요.
 Welcome: Fribbels Str Rail Optimizer<1/>오신 것을 환영합니다!
 SearchBar:
+  Placeholder: UID
+  Label: "UID를 입력하고 캐릭터 쇼케이스 확인하세요"
+  Api: "Enka.Network 사용하기"
   Message: 잘못된 입력 - 9자리의 인게임 UUID여야 합니다.
   Search: 검색

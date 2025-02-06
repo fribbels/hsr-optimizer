@@ -3,7 +3,8 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -27,7 +28,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSkillScaling = memoSkill(e, 1.10, 1.21)
   const memoTalentSpd = memoTalent(e, 55, 57.2)
 
-  const memoSpdStacksMax = e > 4 ? 7 : 6
+  const memoSpdStacksMax = e >= 4 ? 7 : 6
 
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,
@@ -210,6 +211,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
+        chainsTo: [Stats.ATK],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
@@ -232,14 +234,14 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
 if (${wgslFalse(r.supremeStanceState)}) {
   return;
 }
-let spd = (*p_x).SPD;
+let spd = x.SPD;
 let memoSpd = (*p_m).SPD;
 let stateValue: f32 = (*p_state).AglaeaConversionConditional;
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
 (*p_state).AglaeaConversionConditional = buffValue;
-buffDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
-buffMemoDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
+(*p_x).ATK += buffValue - stateValue;
+(*p_m).ATK += buffValue - stateValue;
     `)
         },
       },

@@ -4,8 +4,9 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -179,6 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.BE],
+      chainsTo: [Stats.ATK, Stats.OHB],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         return true
       },
@@ -219,14 +221,14 @@ let buffValueOhb = min(0.20, 0.10 * x.BE);
 let stateBuffValueAtk = min(0.50, 0.25 * stateValue) * baseATK;
 let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
 
-(*p_state).LingshaConversionConditional = (*p_x).BE;
+(*p_state).LingshaConversionConditional = x.BE;
 
 let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
 let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);
 
-buffDynamicATK(finalBuffAtk, p_x, p_m, p_state);
-buffDynamicOHB(finalBuffOhb, p_x, p_m, p_state);
-    `)
+(*p_x).ATK += finalBuffAtk;
+(*p_x).OHB += finalBuffOhb;
+`)
       },
     }],
   }

@@ -1,7 +1,8 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -46,31 +47,24 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       {
         id: 'ItsShowtimeConversionConditional',
         type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
+        activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.EHR],
+        chainsTo: [Stats.ATK],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.a[Key.EHR] >= 0.80
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.lightConeConditionals as Conditionals<typeof content>
-
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = sValuesAtkBuff[s] * context.baseATK
-
-          action.conditionalState[this.id] = buffValue
-          x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          x.ATK.buffDynamic(sValuesAtkBuff[s] * context.baseATK, Source.NONE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `
-if (x.EHR < 0.80) {
-  return;
+if (
+  (*p_state).ItsShowtimeConversionConditional == 0.0 &&
+  x.EHR >= 0.80
+) {
+  (*p_state).ItsShowtimeConversionConditional = 1.0;
+  (*p_x).ATK += ${sValuesAtkBuff[s]} * baseATK;
 }
-
-let stateValue: f32 = (*p_state).ItsShowtimeConversionConditional;
-let buffValue: f32 = ${sValuesAtkBuff[s]};
-
-(*p_state).ItsShowtimeConversionConditional = buffValue;
-buffDynamicATK_P(buffValue - stateValue, p_x, p_m, p_state);
     `)
         },
       },

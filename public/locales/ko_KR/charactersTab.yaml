@@ -41,6 +41,28 @@ Messages:
   UnequipWarning: "정말로 $t(gameData:Characters.{{charId}}.Name)의 유물을 제거하시겠습니까?"
   DeleteWarning: "정말로 $t(gameData:Characters.{{charId}}.Name)를 삭제하시겠습니까?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: 스탯
+      ButtonText: 행적
+    SpdPrecision:
+      Header: 속도 상세값
+      Low: ".0"
+      High: ".000"
+    SpdWeight:
+      Header: 속도 가중치
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: 속도 벤치마크
+      BenchmarkOptionsLabel: 벤치마크 설정
+      CurrentSpdLabel: 현재 속도 - 벤치마크와 현재 속도를 일치시킵니다.
+      BaseSpdLabel: 기본 속도 - 벤치마크를 기본 속도로 설정합니다.
+      CommonBreakpointsLabel: 일반적인 속도 프리셋 (속도 버프는 계산 안함)
+    BuffPriority:
+      Header: 버프 우선도
+      High: 높음
+      Low: 낮음
   CustomizationSidebar:
     Label: 커스텀
     Modes:
@@ -48,6 +70,7 @@ CharacterPreview:
       Custom: 커스텀
       Standard: 표준
     PaletteLabel: 색 팔레트
+    ShowUID: UID 보기
   ArtBy: "아티스트: {{artistName}}"
   EditCharacter: 캐릭터 편집
   EditPortrait: 일러스트 변경
@@ -59,16 +82,20 @@ CharacterPreview:
     NoSelectedCharacter: 선택된 캐릭터가 없습니다.
   ScoreHeader:
     Title: 전투 시뮬레이션
+    TitleBenchmark: "{{spd}} 속도 벤치마크"
     Score: "DPS 점수 {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "점수 계산 알고리즘:"
     Labels:
       CombatScore: 전투 점수
+      CombatScoreTBD: 전투 (TBD)
       StatScore: 스탯 점수
+      NoneScore: 없음
   DetailsSlider:
     Title: "전투 점수 상세:"
     Labels:
       CombatStats: 전투 스탯
+      SubDpsCombatStats: 전투 스텟 (보조 DPS)
       DMGUpgrades: 대미지 강화
   DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
@@ -76,6 +103,7 @@ CharacterPreview:
     Roll: 유효옵
     Damage: 피해량
   BuildAnalysis:
+    ScoringNote: "주의:  DPS 점수 및 콤보 데미지는 단일 스킬 회전에 대한 평가 척도로, 다른 팀 편성 간 비교를 위한 것이 아닙니다."
     Header: 캐릭터 빌드 분석
     SimulationTeammates: 시뮬레이션 파티
     SimulationSets: 시뮬레이션 세팅
@@ -85,6 +113,7 @@ CharacterPreview:
       SKILL: 전투 스킬
       ULT: 필살기
       FUA: 추가 공격
+      MEMO_SKILL: 기억 정령 스킬
       DOTS: "지속 피해:"
       BREAKS: "격파 피해:"
     CombatResults:

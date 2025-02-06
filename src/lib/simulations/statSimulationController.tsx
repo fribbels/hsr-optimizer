@@ -2,15 +2,16 @@ import { Flex, Tag } from 'antd'
 import i18next from 'i18next'
 import { Constants, Parts, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
-import { calculateCurrentlyEquippedRow, renameFields } from 'lib/optimization/optimizer'
+import { calculateCurrentlyEquippedRow, formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/characterScorer'
+import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -58,17 +59,17 @@ export function saveStatSimulationBuildFromForm() {
   // Check for invalid button presses
   if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
     console.warn('Invalid sim', form, simType)
-    return
+    return null
   }
 
   // Check for missing fields
   const simRequest: SimulationRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) {
     console.warn('Invalid sim', form, simType)
-    return
+    return null
   }
 
-  saveStatSimulationRequest(simRequest, simType, true)
+  return saveStatSimulationRequest(simRequest, simType, true)
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
@@ -89,7 +90,7 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
 
     if (hash == existingHash) {
       Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))// 'Identical stat simulation already exists')
-      return
+      return null
     }
   }
 
@@ -240,6 +241,27 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
   )
 }
 
+export function overwriteStatSimulationBuild() {
+  if (saveStatSimulationBuildFromForm() === null) return
+
+  const selectedSim = window.store.getState().selectedStatSimulations
+  const statSims: Simulation[] = window.store.getState().statSimulations
+
+  const updatedSims = statSims.map((x) => {
+    if (x.key === selectedSim[0]) {
+      return statSims.at(-1)
+    } else return x
+  }) as Simulation[]
+
+  const newSim = updatedSims.pop()! // remove what would otherwise be a duplicated sim
+
+  window.store.getState().setStatSimulations(updatedSims)
+  setFormStatSimulations(updatedSims)
+  window.store.getState().setSelectedStatSimulations([newSim.key])
+
+  autosave()
+}
+
 export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {
   console.log('Delete sim', record)
   const statSims: Simulation[] = window.store.getState().statSimulations
@@ -271,12 +293,14 @@ export type RunSimulationsParams = {
 }
 
 const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
+const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
 export function runSimulations(
   form: Form,
-  context: OptimizerContext,
+  context: OptimizerContext | null,
   simulations: Simulation[],
   inputParams: Partial<RunSimulationsParams> = {},
+  weight: boolean = false,
 ): SimulationResult[] {
   const defaultParams: RunSimulationsParams = {
     quality: 1,
@@ -288,7 +312,7 @@ export function runSimulations(
   const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
 
-  const simulationResults = []
+  const simulationResults: SimulationResult[] = []
   for (const sim of simulations) {
     const request = sim.request
 
@@ -382,14 +406,27 @@ export function runSimulations(
 
     RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
 
-    const { c, computedStatsArray } = calculateBuild(form, relics, context, cachedComputedStatsArray, true, true, false, forcedBasicSpd)
+    const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
+    const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
 
-    renameFields(c, computedStatsArray)
+    const x = calculateBuild(
+      form,
+      relics,
+      context,
+      basicStatsArray,
+      computedStatsArray,
+      true,
+      true,
+      false,
+      forcedBasicSpd,
+      weight,
+    )
+    const optimizerDisplayData = formatOptimizerDisplayData(x)
     // For optimizer grid syncing with sim table
-    c.statSim = {
+    optimizerDisplayData.statSim = {
       key: sim.key,
     }
-    simulationResults.push(c)
+    simulationResults.push(optimizerDisplayData)
   }
 
   return simulationResults
@@ -404,7 +441,7 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, null, existingSimulations)
+  const simulationResults = runSimulations(form, null, existingSimulations, undefined, true)
 
   OptimizerTabController.setRows(simulationResults)
 

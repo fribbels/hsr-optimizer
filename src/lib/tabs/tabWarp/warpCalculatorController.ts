@@ -10,10 +10,10 @@ const character5050 = 0.5625
 const lightCone5050 = 0.78125
 
 export enum WarpIncomeType {
-  NONE = 'None',
-  F2P = 'F2P',
-  EXPRESS = 'Express',
-  BP_EXPRESS = 'BP & Express'
+  NONE,
+  F2P,
+  EXPRESS,
+  BP_EXPRESS,
 }
 
 export const NONE_WARP_INCOME_OPTION = generateOption('NONE', WarpIncomeType.NONE, 0, 0)
@@ -48,9 +48,9 @@ export type WarpRequest = {
   income: string
   strategy: WarpStrategy
   pityCharacter: number
-  guaranteedCharacter: false
+  guaranteedCharacter: boolean
   pityLightCone: number
-  guaranteedLightCone: false
+  guaranteedLightCone: boolean
 }
 
 export type WarpMilestoneResult = { warps: number; wins: number }
@@ -107,11 +107,17 @@ function generateOptionKey(version: string, type: WarpIncomeType) {
   return `${version}/${type}`
 }
 
-export function simulateWarps(originalRequest: WarpRequest) {
+export function handleWarpRequest(originalRequest: WarpRequest) {
   console.log('simulate Warps', originalRequest)
-
   window.store.getState().setWarpRequest(originalRequest)
 
+  const warpResult = simulateWarps(originalRequest)
+
+  window.store.getState().setWarpResult(warpResult)
+  SaveState.delayedSave()
+}
+
+export function simulateWarps(originalRequest: WarpRequest) {
   const request = enrichWarpRequest(originalRequest)
   const milestones = generateWarpMilestones(request)
 
@@ -159,8 +165,7 @@ export function simulateWarps(originalRequest: WarpRequest) {
     request: request,
   }
 
-  window.store.getState().setWarpResult(warpResult)
-  SaveState.delayedSave()
+  return warpResult
 }
 
 function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
@@ -241,7 +246,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == -1 ? `S${s}` : `E${e} S${s}`
+    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
   }
 
   return milestones
@@ -254,7 +259,7 @@ export type EnrichedWarpRequest = {
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  const additionalIncome = WarpIncomeOptions.find(option => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
+  const additionalIncome = WarpIncomeOptions.find((option) => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
   const totalJade = request.jades + additionalIncome.jades
   const totalPasses = request.passes + additionalIncome.passes
   const totalWarps = Math.floor(totalJade / 160) + totalPasses

@@ -21,7 +21,7 @@ FeatureCards:
     Title: Trình quản lý di vật
     Content: >-
       Quản lý di vật của bạn bằng cách đánh giá và sắp xếp chúng theo tiềm năng, và tìm ra những di vật tốt nhất để nâng cấp cho từng nhân vật.
-Welcome: Chào mừng đến với <1/>Trình tối ưu hóa Star Rail của Fribbels!
+Welcome: Chào mừng đến <1/>Trình tối ưu hóa Star Rail của Fribbels!
 SearchBar:
   Placeholder: UID
   Label: "Hãy nhập UID để xem showcase nhân vật "

@@ -304,7 +304,7 @@ EditImage:
     Previous: 前
     Next: 次
 SaveBuild:
-  Label: ビルドの名前
+  Label: ビルド名の入力
   Rule: 名前を入力してください
 SwitchRelics:
   Title: キャラクターと遺物を交換
@@ -312,7 +312,7 @@ Builds:
   DeleteAll: すべて削除
   Equip: 装備
   ConfirmEquip:
-    Content: これを装備すると、このビルドで使用している遺物を装備しているキャラクターが装備解除されます。
+    Content: 装備すると、このビルドの遺物を使用するキャラクターの装備が外されます。
     SuccessMessage: "ビルドを装備しました：{{buildName}}"
   ConfirmDelete:
     DeleteAll: 本当に全てのビルドを削除しますか？
@@ -320,7 +320,7 @@ Builds:
     SuccessMessageAll: "{{characterName}}のすべてのビルドを削除しました"
     SuccessMessageSingle: "ビルドを削除しました：{{name}}"
   NoBuilds:
-    NoneSaved: 保存されたビルドなし
+    NoneSaved: 保存したビルドなし
 ScoreFooter:
   ModalTitle: 戦闘シミュレーションのスコア計算方法の設定
   OkText: OK
@@ -336,13 +336,13 @@ CharacterSelect:
     Placeholder: キャラクターをカスタマイズ
     MaxTagPlaceholderSome: "{{count}}人のキャラクターが除外されました"
     MaxTagPlaceholderNone: すべてのキャラクターが有効です。
-    ModalTitle: 除外するキャラクターを選択
+    ModalTitle: 除外するキャラクターの選択
   SingleSelect:
     Placeholder: キャラクター
-    ModalTitle: キャラクターを選択
+    ModalTitle: キャラクターの選択
   SearchPlaceholder: キャラクター名を検索
   ExcludeButton: すべて除外
   ClearButton: クリア
 LightconeSelect:
   Placeholder: 光円錐
-  Title: 光円錐を選択
+  Title: 光円錐の選択

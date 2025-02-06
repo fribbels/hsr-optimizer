@@ -1,0 +1,158 @@
+ScreenshotMessages:
+  ScreenshotSuccess: crwdns39596:0crwdne39596:0
+  ScreenshotFailed: crwdns39598:0crwdne39598:0
+  DownloadSuccess: crwdns39600:0crwdne39600:0
+CharacterMenu:
+  ButtonText: crwdns39602:0crwdne39602:0
+  Character:
+    Label: crwdns39604:0crwdne39604:0
+    Options:
+      Add: crwdns39606:0crwdne39606:0
+      Edit: crwdns39608:0crwdne39608:0
+      Switch: crwdns39610:0crwdne39610:0
+      Unequip: crwdns39612:0crwdne39612:0
+      Delete: crwdns39614:0crwdne39614:0
+  Build:
+    Label: crwdns39616:0crwdne39616:0
+    Options:
+      Save: crwdns39618:0crwdne39618:0
+      View: crwdns39620:0crwdne39620:0
+  Scoring:
+    Label: crwdns39622:0crwdne39622:0
+    Options:
+      ScoringModal: crwdns39624:0crwdne39624:0
+  Priority:
+    Label: crwdns39626:0crwdne39626:0
+    Options:
+      SortByScore: crwdns39628:0crwdne39628:0
+      MoveToTop: crwdns39630:0crwdne39630:0
+SearchPlaceholder: crwdns39632:0crwdne39632:0
+GridHeaders:
+  Icon: crwdns39634:0crwdne39634:0
+  Priority: crwdns39636:0crwdne39636:0
+  Character: crwdns39638:0crwdne39638:0
+Messages:
+  RemoveSuccess: crwdns39640:0crwdne39640:0
+  UnequipSuccess: crwdns39642:0crwdne39642:0
+  NoSelectedCharacter: crwdns39644:0crwdne39644:0
+  SwitchSuccess: "crwdns39646:0$t(gameData:Characters.{{charId}}.Name)crwdne39646:0"
+  SortByScoreWarning: crwdns39648:0crwdne39648:0
+  SaveSuccess: "crwdns39650:0{{name}}crwdne39650:0"
+  UnequipWarning: "crwdns39652:0$t(gameData:Characters.{{charId}}.Name)crwdne39652:0"
+  DeleteWarning: "crwdns39654:0$t(gameData:Characters.{{charId}}.Name)crwdne39654:0"
+CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: crwdns44470:0crwdne44470:0
+      ButtonText: crwdns44472:0crwdne44472:0
+    SpdPrecision:
+      Header: crwdns44474:0crwdne44474:0
+      Low: "crwdns44476:0crwdne44476:0"
+      High: "crwdns44478:0crwdne44478:0"
+    SpdWeight:
+      Header: crwdns44568:0crwdne44568:0
+      Max: crwdns44482:0crwdne44482:0
+      Min: crwdns44484:0crwdne44484:0
+    BenchmarkSpd:
+      Header: crwdns44570:0crwdne44570:0
+      BenchmarkOptionsLabel: crwdns44488:0crwdne44488:0
+      CurrentSpdLabel: crwdns44490:0crwdne44490:0
+      BaseSpdLabel: crwdns44492:0crwdne44492:0
+      CommonBreakpointsLabel: crwdns44494:0crwdne44494:0
+    BuffPriority:
+      Header: crwdns44496:0crwdne44496:0
+      High: crwdns44498:0crwdne44498:0
+      Low: crwdns44500:0crwdne44500:0
+  CustomizationSidebar:
+    Label: crwdns39656:0crwdne39656:0
+    Modes:
+      Auto: crwdns39658:0crwdne39658:0
+      Custom: crwdns39660:0crwdne39660:0
+      Standard: crwdns39662:0crwdne39662:0
+    PaletteLabel: crwdns39664:0crwdne39664:0
+    ShowUID: crwdns44572:0crwdne44572:0
+  ArtBy: "crwdns39666:0{{artistName}}crwdne39666:0"
+  EditCharacter: crwdns39668:0crwdne39668:0
+  EditPortrait: crwdns39670:0crwdne39670:0
+  CharacterScore: "crwdns39672:0{{score}}crwdnd39672:0{{grade}}crwdne39672:0"
+  Messages:
+    AddedRelic: crwdns39674:0crwdne39674:0
+    SavedPortrait: crwdns39676:0crwdne39676:0
+    RevertedPortrait: crwdns39678:0crwdne39678:0
+    NoSelectedCharacter: crwdns39680:0crwdne39680:0
+  ScoreHeader:
+    Title: crwdns39682:0crwdne39682:0
+    TitleBenchmark: "crwdns44466:0{{spd}}crwdne44466:0"
+    Score: "crwdns39684:0{{score}}crwdnd39684:0{{grade}}crwdne39684:0"
+  AlgorithmSlider:
+    Title: "crwdns39686:0crwdne39686:0"
+    Labels:
+      CombatScore: crwdns39688:0crwdne39688:0
+      CombatScoreTBD: crwdns43670:0crwdne43670:0
+      StatScore: crwdns39692:0crwdne39692:0
+      NoneScore: crwdns43672:0crwdne43672:0
+  DetailsSlider:
+    Title: "crwdns39694:0crwdne39694:0"
+    Labels:
+      CombatStats: crwdns39696:0crwdne39696:0
+      SubDpsCombatStats: crwdns44468:0crwdne44468:0
+      DMGUpgrades: crwdns39698:0crwdne39698:0
+  DMGUpgrades: crwdns39700:0crwdne39700:0
+  SubstatUpgradeComparisons:
+    Header: crwdns39702:0crwdne39702:0
+    Roll: crwdns39704:0crwdne39704:0
+    Damage: crwdns39706:0crwdne39706:0
+  BuildAnalysis:
+    ScoringNote: "crwdns44444:0crwdne44444:0"
+    Header: crwdns39708:0crwdne39708:0
+    SimulationTeammates: crwdns39710:0crwdne39710:0
+    SimulationSets: crwdns39712:0crwdne39712:0
+    Rotation:
+      Header: crwdns39714:0crwdne39714:0
+      BASIC: crwdns39716:0crwdne39716:0
+      SKILL: crwdns39718:0crwdne39718:0
+      ULT: crwdns39720:0crwdne39720:0
+      FUA: crwdns39722:0crwdne39722:0
+      MEMO_SKILL: crwdns39724:0crwdne39724:0
+      DOTS: "crwdns39726:0crwdne39726:0"
+      BREAKS: "crwdns39728:0crwdne39728:0"
+    CombatResults:
+      Header: crwdns39730:0crwdne39730:0
+      Primary: "crwdns39732:0crwdne39732:0"
+      Character: "crwdns39734:0crwdne39734:0"
+      Benchmark: "crwdns39736:0crwdne39736:0"
+      Baseline: "crwdns39738:0crwdne39738:0"
+      Maximum: "crwdns39740:0crwdne39740:0"
+      Score: "crwdns39742:0crwdne39742:0"
+      Abilities:
+        BASIC: crwdns39744:0crwdne39744:0
+        SKILL: crwdns39746:0crwdne39746:0
+        ULT: crwdns39748:0crwdne39748:0
+        FUA: crwdns39750:0crwdne39750:0
+        DOT: crwdns39752:0crwdne39752:0
+        BREAK: crwdns39754:0crwdne39754:0
+        COMBO: crwdns39756:0crwdne39756:0
+  ScoringColumn:
+    Character:
+      Header: "crwdns39758:0{{score}}crwdne39758:0"
+      BasicStats: crwdns39760:0crwdne39760:0
+      CombatStats: crwdns39762:0crwdne39762:0
+      Substats: crwdns39764:0crwdne39764:0
+      Mainstats: crwdns39766:0crwdne39766:0
+      Abilities: crwdns39768:0crwdne39768:0
+    Benchmark:
+      Header: "crwdns39770:0{{score}}crwdne39770:0"
+      BasicStats: crwdns39772:0crwdne39772:0
+      CombatStats: crwdns39774:0crwdne39774:0
+      Substats: crwdns39776:0crwdne39776:0
+      Mainstats: crwdns39778:0crwdne39778:0
+      Abilities: crwdns39780:0crwdne39780:0
+    Perfect:
+      Header: "crwdns39782:0{{score}}crwdne39782:0"
+      BasicStats: crwdns39784:0crwdne39784:0
+      CombatStats: crwdns39786:0crwdne39786:0
+      Substats: crwdns39788:0crwdne39788:0
+      Mainstats: crwdns39790:0crwdne39790:0
+      Abilities: crwdns39792:0crwdne39792:0
+  ScoringDetails:
+    Header: crwdns39794:0crwdne39794:0

@@ -2,8 +2,9 @@ import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -52,6 +53,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
+        chainsTo: [Stats.SPD],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals as Conditionals<typeof content>
 
@@ -64,10 +66,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           return conditionalWgslWrapper(this, `
 if (
   (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&
-  (*p_x).BE >= 1.50
+  x.BE >= 1.50
 ) {
   (*p_state).SailingTowardsASecondLifeConditional = 1.0;
-  buffDynamicSPD_P(${sValuesSpdBuff[s]}, p_x, p_m, p_state);
+  (*p_x).SPD += ${sValuesSpdBuff[s]} * baseSPD;
 }
     `)
         },

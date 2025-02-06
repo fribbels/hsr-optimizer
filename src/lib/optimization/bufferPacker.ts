@@ -1,5 +1,4 @@
-import { Stats } from 'lib/constants/constants'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { Buff, ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
 const SIZE = 66
@@ -46,8 +45,6 @@ export type OptimizerDisplayData = {
   'xELEMENTAL_DMG': number
   'relicSetIndex': number
   'ornamentSetIndex': number
-  'low': number
-  'high': number
 
   'mHP': number
   'mATK': number
@@ -75,6 +72,19 @@ export type OptimizerDisplayData = {
   'mxELEMENTAL_DMG': number
 
   'mxEHP': number
+
+  'xa': Float32Array
+  'ca': Float32Array
+
+  // Not safe to use unless trace is activated with a new instance
+  'tracedX'?: ComputedStatsArray
+
+  'statSim': { key: string }
+}
+
+export type CombatBuffsTracker = {
+  buffs: Buff[]
+  buffsMemo: Buff[]
 }
 
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
@@ -126,34 +136,32 @@ export const BufferPacker = {
       'xELEMENTAL_DMG': arr[offset + 36],
       'relicSetIndex': arr[offset + 37],
       'ornamentSetIndex': arr[offset + 38],
-      'low': arr[offset + 39],
-      'high': arr[offset + 40],
-      'mHP': arr[offset + 41],
-      'mATK': arr[offset + 42],
-      'mDEF': arr[offset + 43],
-      'mSPD': arr[offset + 44],
-      'mCR': arr[offset + 45],
-      'mCD': arr[offset + 46],
-      'mEHR': arr[offset + 47],
-      'mRES': arr[offset + 48],
-      'mBE': arr[offset + 49], // 32
-      'mERR': arr[offset + 50],
-      'mOHB': arr[offset + 51],
-      'mELEMENTAL_DMG': arr[offset + 52],
-      'mxHP': arr[offset + 53],
-      'mxATK': arr[offset + 54],
-      'mxDEF': arr[offset + 55],
-      'mxSPD': arr[offset + 56],
-      'mxCR': arr[offset + 57],
-      'mxCD': arr[offset + 58],
-      'mxEHR': arr[offset + 59],
-      'mxRES': arr[offset + 60],
-      'mxBE': arr[offset + 61], // 32
-      'mxERR': arr[offset + 62],
-      'mxOHB': arr[offset + 63],
-      'mxELEMENTAL_DMG': arr[offset + 64],
-      'mxEHP': arr[offset + 65],
-    }
+      'mHP': arr[offset + 39],
+      'mATK': arr[offset + 40],
+      'mDEF': arr[offset + 41],
+      'mSPD': arr[offset + 42],
+      'mCR': arr[offset + 43],
+      'mCD': arr[offset + 44],
+      'mEHR': arr[offset + 45],
+      'mRES': arr[offset + 46],
+      'mBE': arr[offset + 47], // 32
+      'mERR': arr[offset + 48],
+      'mOHB': arr[offset + 49],
+      'mELEMENTAL_DMG': arr[offset + 50],
+      'mxHP': arr[offset + 51],
+      'mxATK': arr[offset + 52],
+      'mxDEF': arr[offset + 53],
+      'mxSPD': arr[offset + 54],
+      'mxCR': arr[offset + 55],
+      'mxCD': arr[offset + 56],
+      'mxEHR': arr[offset + 57],
+      'mxRES': arr[offset + 58],
+      'mxBE': arr[offset + 59], // 32
+      'mxERR': arr[offset + 60],
+      'mxOHB': arr[offset + 61],
+      'mxELEMENTAL_DMG': arr[offset + 62],
+      'mxEHP': arr[offset + 63],
+    } as OptimizerDisplayData
   },
 
   extractArrayToResults: (arr: Float32Array, length: number, queueResults: FixedSizePriorityQueue<OptimizerDisplayData>, skip: number) => {
@@ -172,21 +180,22 @@ export const BufferPacker = {
     offset = offset * SIZE
     const c = x.c
     const a = x.a
+    const ca = c.a
 
     arr[offset] = c.id // 0
-    arr[offset + 1] = c[Stats.HP]
-    arr[offset + 2] = c[Stats.ATK]
-    arr[offset + 3] = c[Stats.DEF]
-    arr[offset + 4] = c[Stats.SPD]
-    arr[offset + 5] = c[Stats.CR]
-    arr[offset + 6] = c[Stats.CD]
-    arr[offset + 7] = c[Stats.EHR]
-    arr[offset + 8] = c[Stats.RES]
-    arr[offset + 9] = c[Stats.BE]
-    arr[offset + 10] = c[Stats.ERR] // 10
-    arr[offset + 11] = c[Stats.OHB]
-    arr[offset + 12] = c.ELEMENTAL_DMG
-    arr[offset + 13] = c.WEIGHT
+    arr[offset + 1] = ca[Key.HP]
+    arr[offset + 2] = ca[Key.ATK]
+    arr[offset + 3] = ca[Key.DEF]
+    arr[offset + 4] = ca[Key.SPD]
+    arr[offset + 5] = ca[Key.CR]
+    arr[offset + 6] = ca[Key.CD]
+    arr[offset + 7] = ca[Key.EHR]
+    arr[offset + 8] = ca[Key.RES]
+    arr[offset + 9] = ca[Key.BE]
+    arr[offset + 10] = ca[Key.ERR] // 10
+    arr[offset + 11] = ca[Key.OHB]
+    arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
+    arr[offset + 13] = c.weight
     arr[offset + 14] = a[Key.EHP]
     arr[offset + 15] = a[Key.HEAL_VALUE]
     arr[offset + 16] = a[Key.SHIELD_VALUE]
@@ -212,37 +221,35 @@ export const BufferPacker = {
     arr[offset + 36] = a[Key.ELEMENTAL_DMG]
     arr[offset + 37] = c.relicSetIndex
     arr[offset + 38] = c.ornamentSetIndex
-    arr[offset + 39] = c.low
-    arr[offset + 40] = c.high
     if (x.m) {
-      const c = x.m.c
-      arr[offset + 41] = c[Stats.HP]
-      arr[offset + 42] = c[Stats.ATK]
-      arr[offset + 43] = c[Stats.DEF]
-      arr[offset + 44] = c[Stats.SPD]
-      arr[offset + 45] = c[Stats.CR]
-      arr[offset + 46] = c[Stats.CD]
-      arr[offset + 47] = c[Stats.EHR]
-      arr[offset + 48] = c[Stats.RES]
-      arr[offset + 49] = c[Stats.BE]
-      arr[offset + 50] = c[Stats.ERR]
-      arr[offset + 51] = c[Stats.OHB]
-      arr[offset + 52] = c.ELEMENTAL_DMG
+      const ca = x.m.c.a
+      arr[offset + 39] = ca[Key.HP]
+      arr[offset + 40] = ca[Key.ATK]
+      arr[offset + 41] = ca[Key.DEF]
+      arr[offset + 42] = ca[Key.SPD]
+      arr[offset + 43] = ca[Key.CR]
+      arr[offset + 44] = ca[Key.CD]
+      arr[offset + 45] = ca[Key.EHR]
+      arr[offset + 46] = ca[Key.RES]
+      arr[offset + 47] = ca[Key.BE]
+      arr[offset + 48] = ca[Key.ERR]
+      arr[offset + 49] = ca[Key.OHB]
+      arr[offset + 50] = ca[Key.ELEMENTAL_DMG]
 
       const a = x.m.a
-      arr[offset + 53] = a[Key.HP]
-      arr[offset + 54] = a[Key.ATK]
-      arr[offset + 55] = a[Key.DEF]
-      arr[offset + 56] = a[Key.SPD]
-      arr[offset + 57] = a[Key.CR]
-      arr[offset + 58] = a[Key.CD]
-      arr[offset + 59] = a[Key.EHR]
-      arr[offset + 60] = a[Key.RES]
-      arr[offset + 61] = a[Key.BE]
-      arr[offset + 62] = a[Key.ERR]
-      arr[offset + 63] = a[Key.OHB]
-      arr[offset + 64] = a[Key.ELEMENTAL_DMG]
-      arr[offset + 65] = a[Key.EHP]
+      arr[offset + 51] = a[Key.HP]
+      arr[offset + 52] = a[Key.ATK]
+      arr[offset + 53] = a[Key.DEF]
+      arr[offset + 54] = a[Key.SPD]
+      arr[offset + 55] = a[Key.CR]
+      arr[offset + 56] = a[Key.CD]
+      arr[offset + 57] = a[Key.EHR]
+      arr[offset + 58] = a[Key.RES]
+      arr[offset + 59] = a[Key.BE]
+      arr[offset + 60] = a[Key.ERR]
+      arr[offset + 61] = a[Key.OHB]
+      arr[offset + 62] = a[Key.ELEMENTAL_DMG]
+      arr[offset + 63] = a[Key.EHP]
     }
   },
 

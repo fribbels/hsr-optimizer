@@ -62,16 +62,16 @@ interface Resources {
         },
         "SpdPrecision": {
           "Header": "SPD precision",
-          "Low": 0,
-          "High": 0
+          "Low": ".0",
+          "High": ".000"
         },
         "SpdWeight": {
-          "Header": "SPD Weight",
+          "Header": "SPD weight",
           "Max": "100%",
           "Min": "0%"
         },
         "BenchmarkSpd": {
-          "Header": "SPD Benchmark",
+          "Header": "SPD benchmark",
           "BenchmarkOptionsLabel": "Benchmark options",
           "CurrentSpdLabel": "Current SPD - The benchmark will match your basic SPD",
           "BaseSpdLabel": "Base SPD - The benchmark will target a minimal SPD build",
@@ -90,7 +90,8 @@ interface Resources {
           "Custom": "Custom",
           "Standard": "Standard"
         },
-        "PaletteLabel": "Portrait color palette"
+        "PaletteLabel": "Portrait color palette",
+        "ShowUID": "Show UID"
       },
       "ArtBy": "Art by {{artistName}}",
       "EditCharacter": "Edit character",
@@ -3951,7 +3952,8 @@ interface Resources {
           "Label": "Import $t(common:Relic, {\"count\": {{relicCount}}}) and $t(common:Character, {\"count\": {{characterCount}}}). Replaces the optimizer builds with ingame builds.",
           "ButtonText": "Import $t(common:Relic, {\"count\": {{relicCount}}}) & $t(common:Character, {\"count\": {{characterCount}}})",
           "WarningTitle": "Overwrite optimizer builds",
-          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
+          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?",
+          "OnlyImportExisting": "Only import existing characters"
         }
       },
       "Stage3": {
@@ -5060,9 +5062,7 @@ interface Resources {
       "Headers": {
         "EquippedBy": "Owner",
         "Set": "Set",
-        "Grade": "Grade",
         "Part": "Part",
-        "Enhance": "Enhance",
         "MainStat": "Main\nStat",
         "MainValue": "Main\nValue",
         "HPP": "HP %",
@@ -5190,9 +5190,10 @@ interface Resources {
     }
   },
   "sidebar": {
-    "Showcase": {
-      "Title": "Showcase",
-      "Scorer": "Relic Scorer"
+    "Tools": {
+      "Title": "Tools",
+      "Showcase": "Showcase",
+      "WarpPlanner": "Warp Planner"
     },
     "Optimization": {
       "Title": "Optimization",
@@ -5213,6 +5214,50 @@ interface Resources {
       "Unleak": "No leaks",
       "Leaks": "Beta content"
     }
+  },
+  "warpCalculatorTab": {
+    "StrategyLabels": {
+      "S1": "S1 first",
+      "E0": "E0 first",
+      "E1": "E1 first",
+      "E2": "E2 first",
+      "E3": "E3 first",
+      "E4": "E4 first",
+      "E5": "E5 first",
+      "E6": "E6 first"
+    },
+    "IncomeOptions": {
+      "Label": "[v{{versionNumber}} {{type}}]: ",
+      "Type": {
+        "0": "None",
+        "1": "F2P",
+        "2": "Express",
+        "3": "BP & Express"
+      }
+    },
+    "PityCounter": {
+      "PityCounter": "Pity counter",
+      "Guaranteed": "Guaranteed"
+    },
+    "TotalAvailable": "Total warps available:",
+    "SectionTitles": {
+      "Planner": "Warp Planner",
+      "Results": "Results",
+      "Settings": "Settings",
+      "Character": "Character",
+      "LightCone": "Light Cone",
+      "Passes": "Passes",
+      "Jades": "Jades",
+      "Strategy": "Strategy",
+      "AdditionalResources": "Additional resources",
+      "Calculate": "Calculate"
+    },
+    "ColumnTitles": {
+      "Goal": "Goal",
+      "Chance": "Success chance with {{ticketCount}} <1/>",
+      "Average": "Average # of <1/> required"
+    },
+    "TargetLabel": "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}}) $t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})"
   }
 }
 

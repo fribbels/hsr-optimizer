@@ -43,8 +43,13 @@ const state: HsrOptimizerMetadataState = {
   metadata: {} as DBMetadata, // generated, not saved
 }
 
+export enum BasePath {
+  MAIN = '/hsr-optimizer',
+  BETA = '/dreary-quibbles',
+}
+
 // This string is replaced by /dreary-quibbles by github actions, don't change
-export const BASE_PATH = '/hsr-optimizer'
+export const BASE_PATH: BasePath = BasePath.MAIN
 
 export const AppPages = {
   OPTIMIZER: 'OPTIMIZER',
@@ -106,6 +111,7 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
+  [SavedSessionKeys.showcaseUID]: true,
   [SavedSessionKeys.showcasePreciseSpd]: false,
 }
 
@@ -706,7 +712,7 @@ export const DB = {
       DB.addCharacter(found)
     }
 
-    console.log('Updated db characters', characters)
+    // console.log('Updated db characters', characters)
 
     /*
      * TODO: after render optimization, window.characterGrid is possibly undefined

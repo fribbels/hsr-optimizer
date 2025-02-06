@@ -25,7 +25,7 @@ export type Relic = {
     stat: MainStats
     value: number
   }
-  condensedStats?: [string, number][]
+  condensedStats?: [number, number][]
   augmentedStats?: AugmentedStats
   part: Parts
   set: Sets

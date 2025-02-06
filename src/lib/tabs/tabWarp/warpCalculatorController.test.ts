@@ -1,10 +1,5 @@
 import { Metadata } from 'lib/state/metadata'
-import {
-  NONE_WARP_INCOME_OPTION,
-  simulateWarps,
-  WarpRequest,
-  WarpStrategy,
-} from 'lib/tabs/tabWarp/warpCalculatorController'
+import { NONE_WARP_INCOME_OPTION, simulateWarps, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { expect, test } from 'vitest'
 
 const DEFAULT_WARP_REQUEST: WarpRequest = {
@@ -118,8 +113,6 @@ test('expected pity values', () => {
     pityLightCone: 50,
   })
   const m = result.milestoneResults
-
-  console.log(m)
 
   expectWithin3(m.E0S0.warps, 25)
   expectWithin3(m.E0S1.warps, 43)

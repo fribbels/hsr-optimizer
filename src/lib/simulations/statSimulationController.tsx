@@ -391,9 +391,7 @@ export function runSimulations(
         let substatCount = Utils.precisionRound((sim.request.stats[substat] || 0))
         substatCount = params.substatRollsModifier(substatCount, substat, relics)
 
-        value = substat == Stats.SPD
-          ? substatCount * substatValue
-          : substatCount * substatValue
+        value = substatCount * substatValue
       }
 
       if (value) {

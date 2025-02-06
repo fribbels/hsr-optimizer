@@ -5,6 +5,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
+import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import {
@@ -15,7 +16,7 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'

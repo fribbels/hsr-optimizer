@@ -7,13 +7,13 @@ import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import { Buff, Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
+import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
-import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
+import { aggregateCombatBuffs, NamedBuff } from 'lib/simulations/combatBuffsAnalysis'
 import { runSimulations, Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -307,21 +307,81 @@ export const CharacterScoringSummary = (props: {
           {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
           <Flex justify='space-between'>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'} number={stats[Stats.ATK_P]} parens={diminishingReturns[Stats.ATK_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK}`) + ':'} number={stats[Stats.ATK]} parens={diminishingReturns[Stats.ATK]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP_P}`) + ':'} number={stats[Stats.HP_P]} parens={diminishingReturns[Stats.HP_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP}`) + ':'} number={stats[Stats.HP]} parens={diminishingReturns[Stats.HP]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'} number={stats[Stats.DEF_P]} parens={diminishingReturns[Stats.DEF_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF}`) + ':'} number={stats[Stats.DEF]} parens={diminishingReturns[Stats.DEF]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'}
+                number={stats[Stats.ATK_P]}
+                parens={diminishingReturns[Stats.ATK_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK}`) + ':'}
+                number={stats[Stats.ATK]}
+                parens={diminishingReturns[Stats.ATK]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP_P}`) + ':'}
+                number={stats[Stats.HP_P]}
+                parens={diminishingReturns[Stats.HP_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP}`) + ':'}
+                number={stats[Stats.HP]}
+                parens={diminishingReturns[Stats.HP]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'}
+                number={stats[Stats.DEF_P]}
+                parens={diminishingReturns[Stats.DEF_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF}`) + ':'}
+                number={stats[Stats.DEF]}
+                parens={diminishingReturns[Stats.DEF]}
+                precision={precision}
+              />
             </Flex>
             <VerticalDivider/>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={2}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={stats[Stats.CR]} parens={diminishingReturns[Stats.CR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={stats[Stats.CD]} parens={diminishingReturns[Stats.CD]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={stats[Stats.EHR]} parens={diminishingReturns[Stats.EHR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.RES}`) + ':'} number={stats[Stats.RES]} parens={diminishingReturns[Stats.RES]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.BE}`) + ':'} number={stats[Stats.BE]} parens={diminishingReturns[Stats.BE]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.SPD}`) + ':'}
+                number={stats[Stats.SPD]}
+                parens={diminishingReturns[Stats.SPD]}
+                precision={2}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CR}`) + ':'}
+                number={stats[Stats.CR]}
+                parens={diminishingReturns[Stats.CR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CD}`) + ':'}
+                number={stats[Stats.CD]}
+                parens={diminishingReturns[Stats.CD]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.EHR}`) + ':'}
+                number={stats[Stats.EHR]}
+                parens={diminishingReturns[Stats.EHR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.RES}`) + ':'}
+                number={stats[Stats.RES]}
+                parens={diminishingReturns[Stats.RES]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.BE}`) + ':'}
+                number={stats[Stats.BE]}
+                parens={diminishingReturns[Stats.BE]}
+                precision={precision}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -335,7 +395,10 @@ export const CharacterScoringSummary = (props: {
             <Flex vertical gap={10}>
               <ScoringStat stat={request.simBody !== 'NONE' ? t(`common:ReadableStats.${request.simBody as MainStats}`) : ''} part={Parts.Body}/>
               <ScoringStat stat={request.simFeet !== 'NONE' ? t(`common:ReadableStats.${request.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-              <ScoringStat stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
+              <ScoringStat
+                stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''}
+                part={Parts.PlanarSphere}
+              />
               <ScoringStat stat={request.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${request.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
             </Flex>
           </Flex>
@@ -514,15 +577,15 @@ function generateBuffs(result: SimulationScore) {
   result.simulationForm.trace = true
   const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
   const x = rerun.tracedX!
-  const combatBuffs = aggregateCombatBuffs(x)
+  const namedCombatBuffs = aggregateCombatBuffs(x)
 
   const buffsDisplay: ReactElement[] = []
   let id = 0
 
-  for (const buff of combatBuffs.buffs) {
+  for (const buff of namedCombatBuffs.buffs) {
     buffsDisplay.push(<BuffTag buff={buff} memo={false} id={id++}/>)
   }
-  for (const buff of combatBuffs.buffsMemo) {
+  for (const buff of namedCombatBuffs.buffsMemo) {
     buffsDisplay.push(<BuffTag buff={buff} memo={true} id={id++}/>)
   }
 
@@ -531,12 +594,12 @@ function generateBuffs(result: SimulationScore) {
   return buffsDisplay
 }
 
-function BuffTag(props: { buff: Buff; memo: boolean; id: number }) {
+function BuffTag(props: { buff: NamedBuff; memo: boolean; id: number }) {
   const { buff, memo, id } = props
   return (
     <Tag style={{ paddingInline: '5px', marginInlineEnd: '0px' }} key={id}>
       <Text style={{ margin: 0, alignItems: 'center', fontSize: 12 }}>
-        {`${buff.stat}${memo ? 'ᴹ' : ''} : ${TsUtils.precisionRound(buff.value)} (Source: ${buff.source})`}
+        {`${buff.stat}${memo ? 'ᴹ' : ''} : ${TsUtils.precisionRound(buff.value)} (${buff.name})`}
       </Text>
     </Tag>
   )

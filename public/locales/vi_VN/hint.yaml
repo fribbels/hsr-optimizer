@@ -3,7 +3,7 @@ RatingFilter:
   p1: >-
     Ehp - HP hiệu quả, đo lường mức độ chống chịu của một nhân vật cấp tối đa. Được tính bằng HP, phòng thủ và các nội tại giảm sát thương
   p2: >-
-    Đánh Thường / Chiến Kỹ / Tuyệt Kỹ / Fua (Đòn đánh Theo Sau) / Dot (Sát thương theo thời gian) / Tấn Công Kích Phá - Các tính toán sát thương dựa trên các yếu tố trong nội tại nhân vật / nội tại nón ánh sáng / các tùy chọn của kẻ địch.
+    Tấn Công Thường / Chiến Kỹ / Tuyệt Kỹ / Fua (Đòn đánh Theo Sau) / Linh Hồn Ký Ức / Dot (Sát thương theo thời gian) / Tấn Công Kích Phá - Các tính toán sát thương dựa trên các yếu tố trong nội tại nhân vật / nội tại nón ánh sáng / các tùy chọn của kẻ địch.
   p3: >-
     Trị Liệu / Lá Chắn - Các tính toán kĩ năng khác, dựa trên các yếu tố trong nội tại nhân vật / nội tại nón ánh sáng / các tùy chọn của kẻ địch.
 CombatBuffs:

@@ -72,6 +72,7 @@ Scoring:
     StatView:
       SuccessMessage: "Đã chuyển sang chỉ số trong combat"
       Description: "Chỉ số hiện tại đang được lọc cho chỉ số cơ bản, việc này không bao gồm buffs. Bật Combat để thấy chỉ số sau khi nhân vật được buff từ kỹ năng, đồng đội hoặc di vật, vân vân"
+      ButtonText: "Chuyển sang chỉ số combat"
     MAX_HP:
       SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.HP)"
       Description: "$t(common:Stats.HP) tối đa quá thấp"
@@ -162,11 +163,11 @@ Scoring:
       ButtonText: "Đặt lại bộ lọc EHP tối thiểu"
     MAX_BASIC:
       SuccessMessage: "Đặt lại bộ lọc tấn công thường tối đa"
-      Description: "Sát thương đòn đánh cơ bản tối đa quá thấp"
+      Description: "Sát thương Tấn Công Thường tối đa quá thấp"
       ButtonText: "Đặt lại bộ lọc tấn công thường tối đa"
     MIN_BASIC:
       SuccessMessage: "Đặt lại bộ lọc tấn công thường tối thiểu"
-      Description: "Sát thương đòn đánh cơ bản tối thiểu quá cao"
+      Description: "Sát thương Tấn Công Thường tối thiểu quá cao"
       ButtonText: "Đặt lại bộ lọc tấn công thường tối thiểu"
     MAX_SKILL:
       SuccessMessage: "Đặt lại bộ lọc chiến kỹ tối đa"

@@ -80,5 +80,5 @@ test('relic-perfect', () => {
   } as Relic
 
   const score = RelicScorer.scoreRelicPotential(relic, character)
-  expect(score.bestPct).greaterThan(99).lessThanOrEqual(100)
+  expect(score.bestPct).greaterThan(222).lessThanOrEqual(100)
 })

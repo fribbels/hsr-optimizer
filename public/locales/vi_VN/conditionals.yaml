@@ -325,14 +325,21 @@ Lightcones:
     Content:
       atkBuffActive:
         text: Tăng tấn công
+        content: >-
+          Khi bắt đầu chiến đấu và khi người trang bị bắt đầu hiệp, sẽ có 1 hiệu ứng ngẫu nhiên phát huy hiệu lực. Hiệu ứng này khi phát huy hiệu lực, sẽ thay thế hiệu ứng của lần trước và không trùng với lần trước. Hiệu ứng bao gồm:::BR:: Tăng {{AtkBuff}}% Tấn Công của toàn phe ta;::BR:: Tăng {{CritBuff}}% Sát Thương Bạo Kích của toàn phe ta;::BR:: Tăng {{RegenBuff}}% hiệu suất hồi Năng Lượng của toàn phe ta.::BR:: Hiệu ứng cùng loại không thể cộng dồn, khi người trang bị rơi vào trạng thái không thể chiến đấu sẽ giải trừ.
       cdBuffActive:
         text: Tăng STBK
+        content: >-
+          Khi bắt đầu chiến đấu và khi người trang bị bắt đầu hiệp, sẽ có 1 hiệu ứng ngẫu nhiên phát huy hiệu lực. Hiệu ứng này khi phát huy hiệu lực, sẽ thay thế hiệu ứng của lần trước và không trùng với lần trước. Hiệu ứng bao gồm:::BR:: Tăng {{AtkBuff}}% Tấn Công của toàn phe ta;::BR:: Tăng {{CritBuff}}% Sát Thương Bạo Kích của toàn phe ta;::BR:: Tăng {{RegenBuff}}% hiệu suất hồi Năng Lượng của toàn phe ta.::BR:: Hiệu ứng cùng loại không thể cộng dồn, khi người trang bị rơi vào trạng thái không thể chiến đấu sẽ giải trừ.
       errBuffActive:
         text: Tăng Hiệu quả nạp
+        content: >-
+          Khi bắt đầu chiến đấu và khi người trang bị bắt đầu hiệp, sẽ có 1 hiệu ứng ngẫu nhiên phát huy hiệu lực. Hiệu ứng này khi phát huy hiệu lực, sẽ thay thế hiệu ứng của lần trước và không trùng với lần trước. Hiệu ứng bao gồm:::BR:: Tăng {{AtkBuff}}% Tấn Công của toàn phe ta;::BR:: Tăng {{CritBuff}}% Sát Thương Bạo Kích của toàn phe ta;::BR:: Tăng {{RegenBuff}}% hiệu suất hồi Năng Lượng của toàn phe ta.::BR:: Hiệu ứng cùng loại không thể cộng dồn, khi người trang bị rơi vào trạng thái không thể chiến đấu sẽ giải trừ.
   ConcertForTwo:
     Content:
       teammateShieldStacks:
         text: Số lượng khiên đồng đội tăng ST
+        content: Mỗi khi trên trận có 1 nhân vật sở hữu Khiên, sát thương do người trang bị gây ra tăng {{DmgBuff}}%.
   DayOneOfMyNewLife:
     Content:
       dmgResBuff:
@@ -341,10 +348,16 @@ Lightcones:
     Content:
       ultDmgBuff:
         text: Tăng Sát Thương Tuyệt Kỹ
+        content: >-
+          Sau khi người trang bị thi triển một trong các loại kỹ năng Tấn Công Thường/Chiến Kỹ/Tuyệt Kỹ, sẽ kèm theo Trái Tim Trẻ Thơ lên toàn bộ phe ta, Trái Tim Trẻ Thơ tăng {{DmgBuff}}% sát thương do kỹ năng loại tương ứng của mục tiêu phe ta gây ra. Trái Tim Trẻ Thơ chỉ có hiệu lực với loại kỹ năng mà người trang bị vừa mới sử dụng, và không thể cộng dồn.
       skillDmgBuff:
         text: Tăng Sát Thương Chiến Kỹ
+        content: >-
+          Sau khi người trang bị thi triển một trong các loại kỹ năng Tấn Công Thường/Chiến Kỹ/Tuyệt Kỹ, sẽ kèm theo Trái Tim Trẻ Thơ lên toàn bộ phe ta, Trái Tim Trẻ Thơ tăng {{DmgBuff}}% sát thương do kỹ năng loại tương ứng của mục tiêu phe ta gây ra. Trái Tim Trẻ Thơ chỉ có hiệu lực với loại kỹ năng mà người trang bị vừa mới sử dụng, và không thể cộng dồn.
       basicDmgBuff:
         text: Tăng Sát Thương Tấn Công Thường
+        content: >-
+          Sau khi người trang bị thi triển một trong các loại kỹ năng Tấn Công Thường/Chiến Kỹ/Tuyệt Kỹ, sẽ kèm theo Trái Tim Trẻ Thơ lên toàn bộ phe ta, Trái Tim Trẻ Thơ tăng {{DmgBuff}}% sát thương do kỹ năng loại tương ứng của mục tiêu phe ta gây ra. Trái Tim Trẻ Thơ chỉ có hiệu lực với loại kỹ năng mà người trang bị vừa mới sử dụng, và không thể cộng dồn.
   Fermata:
     Content:
       enemyShockWindShear:
@@ -353,6 +366,8 @@ Lightcones:
     Content:
       goodFortuneStacks:
         text: Tầng May Mắn
+        content: >-
+          Sau khi người trang bị gây ra bạo kích lên kẻ địch, sẽ nhận 1 tầng May Mắn, tối đa cộng dồn 4 tầng. Mỗi tầng May Mắn khiến Sát Thương Bạo Kích của người trang bị tăng {{CritBuff}}%, May Mắn sẽ mất khi kết thúc hiệp của người trang bị.
   FlamesAfar:
     Content:
       dmgBuff:
@@ -361,66 +376,83 @@ Lightcones:
     Content:
       ultDmgBuff:
         text: Tăng ST sau tuyệt kỹ
+        content: Sau khi người trang bị thi triển Tuyệt Kỹ, sát thương gây ra tăng {{DmgBuff}}%, duy trì 1 hiệp.
   GeniusesGreetings:
     Content:
       basicDmgBoost:
         text: Tăng Sát Thương Tấn Công Thường
+        content: Sau khi người trang bị thi triển Tuyệt Kỹ, khiến sát thương Tấn Công Thường mà người trang bị và Linh Hồn Ký Ức gây ra tăng {{DmgBuff}}%.
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
         text: Kẻ Địch bị hạ để tăng Sát Thương Bạo Kích
+        content: Sau khi người trang bị tiêu diệt kẻ địch, Sát Thương Bạo Kích tăng {{DmgBuff}}%, duy trì 3 hiệp.
   GoodNightAndSleepWell:
     Content:
       debuffStacksDmgIncrease:
         text: Số Hiệu Ứng Xấu Tăng Sát Thương Gây Ra
+        content: Mỗi khi kẻ địch nhận phải 1 Hiệu Ứng Xấu, thì sát thương người trang bị gây ra cho kẻ đó sẽ tăng {{DmgBuff}}%, tối đa cộng dồn 3 tầng. Hiệu ứng này cũng có hiệu lực với sát thương duy trì.
   HeyOverHere:
     Content:
       postSkillHealBuff:
         text: Tăng Hồi Phục Sau Khi Dùng Chiến Kỹ
+        content: Khi người trang bị thi triển Chiến Kỹ, lượng trị liệu tăng {{HealingBoost}}%, duy trì 2 hiệp.
   IndeliblePromise:
     Content:
       crBuff:
         text: Tuyệt Kỹ tăng TL Bạo Kích
+        content: Sau khi người trang bị thi triển Tuyệt Kỹ, Tỉ Lệ Bạo Kích tăng {{CritBuff}}%, duy trì 2 hiệp
   ItsShowtime:
     Content:
       trickStacks:
         text: Tầng Vai Diễn
+        content: >-
+          Sau khi người trang bị thi triển Hiệu Ứng Xấu lên kẻ địch, sẽ nhận 1 tầng Vai Diễn, mỗi tầng Vai Diễn tăng {{DmgBuff}}% sát thương do người trang bị gây ra, tối đa cộng dồn 3 tầng, duy trì 1 hiệp. Khi Chính Xác Hiệu Ứng của người trang bị lớn hơn hoặc bằng 80%, Tấn Công sẽ tăng {{AtkBuff}}%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
         text: Tuyệt Kỹ Tăng Sát Thương
+        content: Khiến người trang bị khi vào chiến đấu sẽ hồi ngay {{Energy}} điểm Năng Lượng, đồng thời khiến sát thương Tuyệt Kỹ mà người đó gây ra tăng {{DmgBuff}}%.
   NinjaRecordSoundHunt:
     Content:
       cdBuff:
         text: Tăng Sát Thương Bạo Kích
+        content: Sau khi tổn thất hoặc hồi HP của bản thân, Sát Thương Bạo Kích tăng {{sValuesCd}}%, duy trì 2 hiệp, hiệu ứng này mỗi hiệp chỉ có thể kích hoạt 1 lần.
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
         text: 'Nếu ≤ 2 địch tăng Tỉ lệ Bạo Kích'
+        content: Khi trong trận có 2 kẻ địch trở xuống, Tỷ Lệ Bạo Kích của người trang bị tăng {{CritBuff}}%.
   PastAndFuture:
     Content:
       postSkillDmgBuff:
         text: Tăng ST sau chiến kỹ
+        content: Sau khi người trang bị thi triển Chiến Kỹ, sẽ khiến sát thương gây ra bởi mục tiêu khác của phe ta trong hành động tiếp theo tăng {{DmgBuff}}%, duy trì 1 hiệp.
   PerfectTiming:
     Content:
       resToHealingBoost:
         text: Kháng hiệu ứng sang Trị Liệu
+        content: Kháng Hiệu Ứng của người trang bị tăng 16%, đồng thời tăng lượng trị liệu của người trang bị, trị số tăng tương đương {{Scaling}}% Kháng Hiệu Ứng, tối đa tăng trị liệu {{Limit}}%.
   PlanetaryRendezvous:
     Content:
       alliesSameElement:
         text: Đồng Minh cùng thuộc tính tăng sát thương
+        content: Sau khi vào chiến đấu, khi mục tiêu phe ta gây sát thương cùng thuộc tính với người trang bị, sẽ khiến sát thương gây ra tăng {{DmgBuff}}%.
   PoisedToBloom:
     Content:
       cdBuff:
         text: Đồng Minh Có Vận Mệnh Giống Nhau
+        content: "Khi vào chiến đấu, nếu có từ 2 nhân vật phe ta trở lên có cùng vận mệnh bất kỳ, sẽ khiến Sát Thương Bạo Kích của những nhân vật này tăng {{CritBuff}}%."
   PostOpConversation:
     Content:
       postUltHealingBoost:
         text: Tuyệt Kỹ Tăng Trị Liệu
+        content: Lượng trị liệu khi thi triển Tuyệt Kỹ tăng {{HealingBoost}}%.	
   ResolutionShinesAsPearlsOfSweat:
     Content:
       targetEnsnared:
         text: Mục Tiêu ở trạng thái Đánh Hạ
+        content: Khi người trang bị đánh trúng mục tiêu địch, nếu mục tiêu này không ở trạng thái Đánh Hạ, sẽ có {{BaseChance}}% xác suất cơ bản khiến địch rơi vào trạng thái Đánh Hạ. Kẻ địch ở trạng thái Đánh Hạ sẽ giảm {{DefShred}}% Phòng Thủ, duy trì 1 hiệp.
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:

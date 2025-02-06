@@ -8,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NightOfFright')
+  const { SOURCE_LC } = Source.lightCone('23019')
 
   const sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
 
@@ -45,7 +46,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam(m.atkBuffStacks * sValues[s], Source.NONE)
+      x.ATK_P.buffTeam(m.atkBuffStacks * sValues[s], SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

@@ -8,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ButTheBattleIsntOver')
+  const { SOURCE_LC } = Source.lightCone('23003')
 
   const sValuesDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
 
@@ -35,7 +36,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffSingle((t.postSkillDmgBuff) ? sValuesDmg[s] : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffSingle((t.postSkillDmgBuff) ? sValuesDmg[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

@@ -12,6 +12,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
+  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
@@ -25,7 +26,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1212')
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
 
   const talentCrBuff = talent(e, 0.50, 0.52)
   const basicScaling = basic(e, 1.00, 1.10)

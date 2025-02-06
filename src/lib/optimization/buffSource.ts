@@ -16,6 +16,11 @@ export const Source = {
       SOURCE_E6: `${id}_E6`,
     }
   },
+  lightCone(id: string) {
+    return {
+      SOURCE_LC: `${id}_LIGHTCONE`,
+    }
+  },
   NONE: 'NONE',
   BASIC_STATS: 'BASIC_STATS',
   COMBAT_BUFFS: 'COMBAT_BUFFS',

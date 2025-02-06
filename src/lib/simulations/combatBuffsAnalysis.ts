@@ -66,7 +66,7 @@ function extractSingleBuffName(buff: Buff, metadata: DBMetadata, setMap: Map<str
   const [id, label] = source.split('_')
 
   if (metadata.characters[id]) {
-    const name = metadata.characters[id].name + ' ' + label
+    const name = metadata.characters[id].name + ' - ' + sourceToLabelMapping[label]
     return { name, ...buff }
   }
 
@@ -76,4 +76,18 @@ function extractSingleBuffName(buff: Buff, metadata: DBMetadata, setMap: Map<str
   }
 
   return { name: 'None', ...buff }
+}
+
+const sourceToLabelMapping: Record<string, string> = {
+  BASIC: 'Basic',
+  SKILL: 'Skill',
+  ULT: 'Ult',
+  TALENT: 'Talent',
+  TECHNIQUE: 'Technique',
+  TRACE: 'Trace',
+  MEMO: 'Memosprite',
+  E1: 'E1',
+  E2: 'E2',
+  E4: 'E4',
+  E6: 'E6',
 }

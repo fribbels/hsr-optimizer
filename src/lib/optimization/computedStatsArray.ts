@@ -206,10 +206,6 @@ export class ComputedStatsArrayCore {
     this.c = c
   }
 
-  set(key: number, value: number, source?: string) {
-    this.a[key] = value
-  }
-
   get(key: number) {
     return this.a[key]
   }
@@ -230,17 +226,8 @@ export function toComputedStatsObject(a: Float32Array) {
   return result as ComputedStatsObjectExternal
 }
 
-export function fromComputedStatsObject(x: ComputedStatsObject) {
-  return Float32Array.from(Object.values(x))
-}
-
 export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
-}
-
-export function baseMemoComputedStatsArray() {
-  const values = Object.values(baseComputedStatsObject)
-  return Float32Array.from([...values, ...values])
 }
 
 export const InternalKeyToExternal: Record<string, string> = {

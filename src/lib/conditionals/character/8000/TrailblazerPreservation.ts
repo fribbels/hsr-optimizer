@@ -24,7 +24,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1004')
+  } = Source.character('8004')
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
 

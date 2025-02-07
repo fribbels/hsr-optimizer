@@ -25,7 +25,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1004')
+  } = Source.character('8002')
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 

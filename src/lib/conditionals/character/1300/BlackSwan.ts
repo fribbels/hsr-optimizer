@@ -27,7 +27,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1004')
+  } = Source.character('1307')
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
   const epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)

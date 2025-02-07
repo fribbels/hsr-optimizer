@@ -27,7 +27,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1004')
+  } = Source.character('1202')
 
   const skillAtkBoostMax = skill(e, 0.25, 0.27)
   const ultDmgBoost = ult(e, 0.50, 0.56)

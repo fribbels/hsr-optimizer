@@ -26,7 +26,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1004')
+  } = Source.character('1206')
 
   const talentSpdBuffValue = talent(e, 0.20, 0.21)
   const ultBuffedAtk = ult(e, 0.30, 0.324)

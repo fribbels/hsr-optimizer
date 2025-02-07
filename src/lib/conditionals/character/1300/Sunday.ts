@@ -26,7 +26,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1004')
+  } = Source.character('1313')
 
   const skillDmgBoostValue = skill(e, 0.30, 0.33)
   const skillDmgBoostSummonValue = skill(e, 0.50, 0.55)

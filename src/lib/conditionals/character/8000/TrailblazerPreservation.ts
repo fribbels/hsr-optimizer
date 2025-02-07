@@ -141,8 +141,6 @@ if (${wgslTrue(r.enhancedBasic)}) {
   x.BASIC_DMG += ${basicDefScaling} * x.DEF;
 }      
 
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-
 x.ULT_DMG += ${ultAtkScaling} * x.ATK;
 x.ULT_DMG += ${ultDefScaling} * x.DEF;
 ` + gpuStandardDefShieldFinalizer()

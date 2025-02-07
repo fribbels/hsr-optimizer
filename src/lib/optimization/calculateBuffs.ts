@@ -39,6 +39,20 @@ function targetSelection(target: Target, statController: StatController, value: 
   }
 }
 
+export function allTypesExcept(abilityTypeFlags: number) {
+  return ~abilityTypeFlags
+}
+
+export function buffAbilityTrueDmg(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string, target = Target.MAIN) {
+  if (value == 0) return
+
+  if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_TRUE_DMG_MODIFIER, value, source)
+  if (abilityTypeFlags & x.a[Key.SKILL_DMG_TYPE]) targetSelection(target, x.SKILL_TRUE_DMG_MODIFIER, value, source)
+  if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) targetSelection(target, x.ULT_TRUE_DMG_MODIFIER, value, source)
+  if (abilityTypeFlags & x.a[Key.FUA_DMG_TYPE]) targetSelection(target, x.FUA_TRUE_DMG_MODIFIER, value, source)
+  if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_TRUE_DMG_MODIFIER, value, source)
+}
+
 export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: string, target = Target.MAIN) {
   if (value == 0) return
 

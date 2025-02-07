@@ -10,6 +10,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.MakeTheWorldClamor')
+  const { SOURCE_LC } = Source.lightCone('21013')
 
   const sValues = [0.32, 0.40, 0.48, 0.56, 0.64]
   const sValuesEnergy = [20, 23, 26, 29, 32]
@@ -37,7 +38,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, ULT_DMG_TYPE, (r.ultDmgBuff) ? sValues[s] : 0, Source.NONE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (r.ultDmgBuff) ? sValues[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

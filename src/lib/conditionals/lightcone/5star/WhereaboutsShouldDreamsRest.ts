@@ -8,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WhereaboutsShouldDreamsRest')
+  const { SOURCE_LC } = Source.lightCone('23025')
 
   const sValuesVulnerability = [0.24, 0.28, 0.32, 0.36, 0.40]
 
@@ -33,7 +34,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.VULNERABILITY.buff((r.routedVulnerability) ? sValuesVulnerability[s] : 0, Source.NONE)
+      x.VULNERABILITY.buff((r.routedVulnerability) ? sValuesVulnerability[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

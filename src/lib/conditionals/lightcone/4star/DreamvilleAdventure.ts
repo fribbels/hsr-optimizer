@@ -10,6 +10,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.DreamvilleAdventure')
+  const { SOURCE_LC } = Source.lightCone('21036')
 
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
 
@@ -65,9 +66,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityDmg(x, BASIC_DMG_TYPE, (m.basicDmgBuff) ? sValues[s] : 0, Source.NONE, Target.TEAM)
-      buffAbilityDmg(x, SKILL_DMG_TYPE, (m.skillDmgBuff) ? sValues[s] : 0, Source.NONE, Target.TEAM)
-      buffAbilityDmg(x, ULT_DMG_TYPE, (m.ultDmgBuff) ? sValues[s] : 0, Source.NONE, Target.TEAM)
+      buffAbilityDmg(x, BASIC_DMG_TYPE, (m.basicDmgBuff) ? sValues[s] : 0, SOURCE_LC, Target.TEAM)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, (m.skillDmgBuff) ? sValues[s] : 0, SOURCE_LC, Target.TEAM)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (m.ultDmgBuff) ? sValues[s] : 0, SOURCE_LC, Target.TEAM)
     },
     finalizeCalculations: () => {
     },

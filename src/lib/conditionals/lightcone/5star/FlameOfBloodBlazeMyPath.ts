@@ -11,6 +11,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.x')
+  const { SOURCE_LC } = Source.lightCone('23039')
 
   const sValuesSkillUltDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
 
@@ -42,8 +43,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, Source.NONE)
-      buffAbilityDmg(x, SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillUltDmgBoost && r.bonusBoost) ? sValuesSkillUltDmg[s] : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, SOURCE_LC)
+      buffAbilityDmg(x, SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillUltDmgBoost && r.bonusBoost) ? sValuesSkillUltDmg[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

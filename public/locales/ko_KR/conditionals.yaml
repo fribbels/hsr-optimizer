@@ -866,6 +866,8 @@ Characters:
       enemySlowed:
         text: 적 감속
         content: 일반 공격이 감속 상태의 적에게 가하는 피해가 40% 증가한다
+      spdBuff:
+        text: 속도 버프
       e1EnemyHp50:
         text: 1돌 적 HP ≥ 50% 치확 버프
         content: 피격된 적의 현재 HP 백분율이 50% 이상이면, 치명타 확률이 12% 증가한다.

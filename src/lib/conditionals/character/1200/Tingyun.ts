@@ -15,6 +15,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tingyun')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1202')
 
   const skillAtkBoostMax = skill(e, 0.25, 0.27)
   const ultDmgBoost = ult(e, 0.50, 0.56)
@@ -100,31 +113,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.SPD_P.buff((r.skillSpdBuff) ? 0.20 : 0, Source.NONE)
+      x.SPD_P.buff((r.skillSpdBuff) ? 0.20 : 0, SOURCE_TRACE)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
       // Boost
-      buffAbilityDmg(x, BASIC_DMG_TYPE, 0.40, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE, 0.40, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buffSingle((e >= 1 && m.ultSpdBuff) ? 0.20 : 0, Source.NONE)
+      x.SPD_P.buffSingle((e >= 1 && m.ultSpdBuff) ? 0.20 : 0, SOURCE_E1)
 
-      x.ELEMENTAL_DMG.buffSingle((m.ultDmgBuff) ? ultDmgBoost : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffSingle((m.ultDmgBuff) ? ultDmgBoost : 0, SOURCE_ULT)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffSingle((t.benedictionBuff) ? t.teammateAtkBuffValue : 0, Source.NONE)
+      x.ATK_P.buffSingle((t.benedictionBuff) ? t.teammateAtkBuffValue : 0, SOURCE_SKILL)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -138,10 +151,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             ? skillLightningDmgBoostScaling + talentScaling
             : 0
         ) * x.a[Key.ATK],
-        Source.NONE)
-
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
+        SOURCE_BASIC)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -150,9 +160,6 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 if (${wgslTrue(r.benedictionBuff)}) {
   x.BASIC_DMG += (${skillLightningDmgBoostScaling + talentScaling}) * x.ATK;
 }
-
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
     `
     },
     dynamicConditionals: [

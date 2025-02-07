@@ -16,6 +16,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FuXuan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1208')
 
   const skillCrBuffValue = skill(e, 0.12, 0.132)
   const skillHpBuffValue = skill(e, 0.06, 0.066)
@@ -90,36 +103,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling + ((e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0), Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_SCALING.buff((e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
-      x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
-      x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
-      x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
+      x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_TRACE)
+      x.HEAL_SCALING.buff(ultHealScaling, SOURCE_TRACE)
+      x.HEAL_FLAT.buff(ultHealFlat, SOURCE_TRACE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CR.buffTeam((m.skillActive) ? skillCrBuffValue : 0, Source.NONE)
-      x.CD.buffTeam((e >= 1 && m.skillActive) ? 0.30 : 0, Source.NONE)
+      x.CR.buffTeam((m.skillActive) ? skillCrBuffValue : 0, SOURCE_SKILL)
+      x.CD.buffTeam((e >= 1 && m.skillActive) ? 0.30 : 0, SOURCE_E1)
 
       // Talent ehp buff is shared
-      x.DMG_RED_MULTI.multiplyTeam((m.talentActive) ? (1 - talentDmgReductionValue) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((m.talentActive) ? (1 - talentDmgReductionValue) : 1, SOURCE_TALENT)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, Source.NONE)
-      x.UNCONVERTIBLE_HP_BUFF.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, Source.NONE)
+      x.HP.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, SOURCE_SKILL)
+      x.UNCONVERTIBLE_HP_BUFF.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, SOURCE_SKILL)
 
       // Skill ehp buff only applies to teammates
-      x.DMG_RED_MULTI.multiplyTeam((t.skillActive) ? (1 - 0.65) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((t.skillActive) ? (1 - 0.65) : 1, SOURCE_SKILL)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)

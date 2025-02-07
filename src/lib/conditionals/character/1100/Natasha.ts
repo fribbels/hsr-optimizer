@@ -14,6 +14,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1105')
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -47,28 +60,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.OHB.buff(0.10, Source.NONE)
+      x.OHB.buff(0.10, SOURCE_TRACE)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
+        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
+        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
       }
       if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
+        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
+        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
       }
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.BASIC_DMG.buff((e >= 6) ? 0.40 * x.a[Key.HP] : 0, Source.NONE)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
+      x.BASIC_DMG.buff((e >= 6) ? 0.40 * x.a[Key.HP] : 0, SOURCE_E6)
 
       standardHpHealFinalizer(x)
     },

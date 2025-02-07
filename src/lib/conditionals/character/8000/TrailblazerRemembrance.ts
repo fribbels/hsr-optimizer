@@ -16,6 +16,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1004')
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -145,24 +158,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, Source.NONE)
+      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.MEMO_HP_SCALING.buff(memoHpScaling, Source.NONE)
-      x.MEMO_HP_FLAT.buff(memoHpFlat, Source.NONE)
-      x.MEMO_SPD_SCALING.buff(0, Source.NONE)
-      x.MEMO_SPD_FLAT.buff(130, Source.NONE)
-      x.MEMO_DEF_SCALING.buff(1, Source.NONE)
-      x.MEMO_ATK_SCALING.buff(1, Source.NONE)
+      x.MEMO_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
+      x.MEMO_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
+      x.MEMO_SPD_SCALING.buff(0, SOURCE_MEMO)
+      x.MEMO_SPD_FLAT.buff(130, SOURCE_MEMO)
+      x.MEMO_DEF_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_ATK_SCALING.buff(1, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, Source.NONE)
-      x.m.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.m.MEMO_SKILL_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, SOURCE_MEMO)
+      x.m.ULT_SCALING.buff(ultScaling, SOURCE_MEMO)
 
-      x.m.ULT_CR_BOOST.buff((e >= 6 && r.e6UltCrBoost) ? 1.00 : 0, Source.NONE)
+      x.m.ULT_CR_BOOST.buff((e >= 6 && r.e6UltCrBoost) ? 1.00 : 0, SOURCE_E6)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -174,24 +187,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0)
 
         if (e >= 1) {
-          x.CR.buffDual((m.e1CrBuff) ? 0.10 : 0, Source.NONE)
-          x.TRUE_DMG_MODIFIER.buffDual(trueDmg, Source.NONE)
+          x.CR.buffDual((m.e1CrBuff) ? 0.10 : 0, SOURCE_E1)
+          x.TRUE_DMG_MODIFIER.buffDual(trueDmg, SOURCE_MEMO)
         } else {
-          x.TRUE_DMG_MODIFIER.buffSingle(trueDmg, Source.NONE)
+          x.TRUE_DMG_MODIFIER.buffSingle(trueDmg, SOURCE_MEMO)
         }
       }
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, Source.NONE)
-      x.UNCONVERTIBLE_CD_BUFF.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, Source.NONE)
+      x.CD.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, SOURCE_MEMO)
+      x.UNCONVERTIBLE_CD_BUFF.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
 
-      x.m.ULT_DMG.buff(x.m.a[Key.ULT_SCALING] * x.m.a[Key.ATK], Source.NONE)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], Source.NONE)
+      x.m.ULT_DMG.buff(x.m.a[Key.ULT_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return `
@@ -233,10 +246,10 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
           action.conditionalState[this.id] = convertibleCdValue
 
           const finalBuffCd = Math.max(0, buffCD - (stateValue ? stateBuffCD : 0))
-          x.UNCONVERTIBLE_CD_BUFF.buff(finalBuffCd, Source.NONE)
+          x.UNCONVERTIBLE_CD_BUFF.buff(finalBuffCd, SOURCE_MEMO)
 
-          x.CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
-          x.summoner().CD.buffDynamic(finalBuffCd, Source.NONE, action, context)
+          x.CD.buffDynamic(finalBuffCd, SOURCE_MEMO, action, context)
+          x.summoner().CD.buffDynamic(finalBuffCd, SOURCE_MEMO, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

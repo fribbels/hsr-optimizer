@@ -8,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.RiverFlowsInSpring')
+  const { SOURCE_LC } = Source.lightCone('21024')
 
   const sValuesSpd = [0.08, 0.09, 0.10, 0.11, 0.12]
   const sValuesDmg = [0.12, 0.15, 0.18, 0.21, 0.24]
@@ -35,8 +36,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.SPD_P.buff((r.spdDmgBuff) ? sValuesSpd[s] : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((r.spdDmgBuff) ? sValuesDmg[s] : 0, Source.NONE)
+      x.SPD_P.buff((r.spdDmgBuff) ? sValuesSpd[s] : 0, SOURCE_LC)
+      x.ELEMENTAL_DMG.buff((r.spdDmgBuff) ? sValuesDmg[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

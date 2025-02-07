@@ -8,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.InTheNameOfTheWorld')
+  const { SOURCE_LC } = Source.lightCone('23004')
 
   const sValuesDmg = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesAtk = [0.24, 0.28, 0.32, 0.36, 0.40]
@@ -44,7 +45,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

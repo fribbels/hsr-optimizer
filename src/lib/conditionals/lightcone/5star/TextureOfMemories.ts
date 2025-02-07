@@ -8,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TextureOfMemories')
+  const { SOURCE_LC } = Source.lightCone('24002')
 
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesShieldHp = [0.16, 0.2, 0.24, 0.28, 0.32]
@@ -35,7 +36,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.DMG_RED_MULTI.multiply((r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiply((r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 1, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

@@ -14,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1205')
 
   const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
   const hpPercentLostTotalMax = 0.90
@@ -73,19 +86,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, Source.NONE)
-      x.HP_P.buff((e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, Source.NONE)
+      x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E2)
+      x.HP_P.buff((e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
       // Boost
-      x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, Source.NONE)
-      buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.NONE)
+      x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, SOURCE_SKILL)
+      buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 60 : 30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 60 : 30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
 
       return x
     },
@@ -94,23 +107,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const a = x.a
 
       if (r.enhancedStateActive) {
-        x.BASIC_DMG.buff(basicEnhancedAtkScaling * a[Key.ATK], Source.NONE)
-        x.BASIC_DMG.buff(basicEnhancedHpScaling * a[Key.HP], Source.NONE)
+        x.BASIC_DMG.buff(basicEnhancedAtkScaling * a[Key.ATK], SOURCE_BASIC)
+        x.BASIC_DMG.buff(basicEnhancedHpScaling * a[Key.HP], SOURCE_BASIC)
       } else {
-        x.BASIC_DMG.buff(a[Key.BASIC_SCALING] * a[Key.ATK], Source.NONE)
+        x.BASIC_DMG.buff(a[Key.BASIC_SCALING] * a[Key.ATK], SOURCE_BASIC)
       }
 
-      x.ULT_DMG.buff(ultAtkScaling * a[Key.ATK], Source.NONE)
-      x.ULT_DMG.buff(ultHpScaling * a[Key.HP], Source.NONE)
-      x.ULT_DMG.buff(ultLostHpScaling * r.hpPercentLostTotal * a[Key.HP], Source.NONE)
-      x.ULT_DMG.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * a[Key.HP] : 0, Source.NONE)
+      x.ULT_DMG.buff(ultAtkScaling * a[Key.ATK], SOURCE_ULT)
+      x.ULT_DMG.buff(ultHpScaling * a[Key.HP], SOURCE_ULT)
+      x.ULT_DMG.buff(ultLostHpScaling * r.hpPercentLostTotal * a[Key.HP], SOURCE_ULT)
+      x.ULT_DMG.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * a[Key.HP] : 0, SOURCE_E1)
 
       const hitMulti = hitMultiByTargets[context.enemyCount]
       const ashblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
-      x.FUA_DMG.buff(fuaAtkScaling * (a[Key.ATK] + ashblazingAtk), Source.NONE)
+      x.FUA_DMG.buff(fuaAtkScaling * (a[Key.ATK] + ashblazingAtk), SOURCE_TALENT)
 
-      x.FUA_DMG.buff(fuaHpScaling * a[Key.HP], Source.NONE)
-      x.FUA_DMG.buff((e >= 6) ? 0.50 * a[Key.HP] : 0, Source.NONE)
+      x.FUA_DMG.buff(fuaHpScaling * a[Key.HP], SOURCE_TALENT)
+      x.FUA_DMG.buff((e >= 6) ? 0.50 * a[Key.HP] : 0, SOURCE_E6)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

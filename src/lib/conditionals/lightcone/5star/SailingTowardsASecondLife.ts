@@ -12,6 +12,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
+  const { SOURCE_LC } = Source.lightCone('23027')
 
   const sValuesSpdBuff = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDefShred = [0.20, 0.23, 0.26, 0.29, 0.32]
@@ -43,7 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
-      buffAbilityDefPen(x, BREAK_DMG_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, Source.NONE)
+      buffAbilityDefPen(x, BREAK_DMG_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
@@ -60,7 +61,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           return r.spdBuffConditional && x.a[Key.BE] >= 1.50
         },
         effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-          x.SPD.buffDynamic((sValuesSpdBuff[s]) * context.baseSPD, Source.NONE, action, context)
+          x.SPD.buffDynamic((sValuesSpdBuff[s]) * context.baseSPD, SOURCE_LC, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           return conditionalWgslWrapper(this, `

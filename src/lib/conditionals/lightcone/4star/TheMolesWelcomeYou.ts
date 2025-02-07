@@ -8,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheMolesWelcomeYou')
+  const { SOURCE_LC } = Source.lightCone('21005')
 
   const sValues = [0.12, 0.15, 0.18, 0.21, 0.24]
 
@@ -33,7 +34,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ATK_P.buff((r.atkBuffStacks) * sValues[s], Source.NONE)
+      x.ATK_P.buff((r.atkBuffStacks) * sValues[s], SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

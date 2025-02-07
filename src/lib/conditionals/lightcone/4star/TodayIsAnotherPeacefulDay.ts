@@ -9,6 +9,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TodayIsAnotherPeacefulDay')
+  const { SOURCE_LC } = Source.lightCone('21034')
 
   const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
 
@@ -34,7 +35,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff(r.maxEnergyStacks * sValues[s], Source.NONE)
+      x.ELEMENTAL_DMG.buff(r.maxEnergyStacks * sValues[s], SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

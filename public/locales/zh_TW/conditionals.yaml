@@ -688,6 +688,8 @@ Characters:
       enemySlowed:
         text: 敵人處於減速狀態
         content: 普攻對減速狀態下的敵方目標造成的傷害提高40%。
+      spdBuff:
+        text: 速度增益
       e1EnemyHp50:
         text: 1魂敵人生命值≥50%時暴擊率提高
   DrRatio:

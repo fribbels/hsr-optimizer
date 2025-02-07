@@ -876,6 +876,8 @@ Characters:
       enemySlowed:
         text: Inimigo desacelerado
         content: O ATK Básico causa 40% a mais de dano a inimigos Desacelerados.
+      spdBuff:
+        text: Buff de SPD
       e1EnemyHp50:
         text: E1 inimigo HP ≥ 50% aumento de CR
         content: Quando a porcentagem de HP atual do inimigo alvo é maior ou igual a 50%, a Taxa de CRIT aumenta em 12%.

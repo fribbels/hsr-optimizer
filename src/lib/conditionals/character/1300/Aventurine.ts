@@ -16,6 +16,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
   const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1004')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.70, 2.916)
@@ -126,24 +139,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, Source.NONE)
+      x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, SOURCE_E4)
+      x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.FUA_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, SOURCE_TALENT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, SOURCE_TALENT)
 
       if (r.shieldAbility == SKILL_DMG_TYPE) {
-        x.SHIELD_SCALING.buff(skillShieldScaling, Source.NONE)
-        x.SHIELD_FLAT.buff(skillShieldFlat, Source.NONE)
+        x.SHIELD_SCALING.buff(skillShieldScaling, SOURCE_SKILL)
+        x.SHIELD_FLAT.buff(skillShieldFlat, SOURCE_SKILL)
       }
       if (r.shieldAbility == 0) {
-        x.SHIELD_SCALING.buff(traceShieldScaling, Source.NONE)
-        x.SHIELD_FLAT.buff(traceShieldFlat, Source.NONE)
+        x.SHIELD_SCALING.buff(traceShieldScaling, SOURCE_SKILL)
+        x.SHIELD_FLAT.buff(traceShieldFlat, SOURCE_SKILL)
       }
 
       return x
@@ -151,10 +164,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buffTeam((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
-      x.CD.buffTeam((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
-      x.CD.buffTeam((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, Source.NONE)
-      x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, Source.NONE)
+      x.RES.buffTeam((m.fortifiedWagerBuff) ? talentResScaling : 0, SOURCE_TALENT)
+      x.CD.buffTeam((m.enemyUnnervedDebuff) ? ultCdBoost : 0, SOURCE_ULT)
+      x.CD.buffTeam((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, SOURCE_E1)
+      x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardDefFinalizer(x)

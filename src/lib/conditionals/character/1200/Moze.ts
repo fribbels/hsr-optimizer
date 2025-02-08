@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
@@ -127,9 +127,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
+        + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

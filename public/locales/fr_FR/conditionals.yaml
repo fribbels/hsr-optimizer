@@ -864,6 +864,9 @@ Characters:
       enemySlowed:
         text: Ennemi ralenti
         content: L'ATQ normale inflige 40% de DGT supplémentaires aux ennemis ralentis.
+      spdBuff:
+        text: Bonus de VIT
+        content: Dan Heng a 50% de chances fixes d'augmenter sa propre VIT de 20% pendant 2 tours après avoir lancé une attaque.
       e1EnemyHp50:
         text: 'E1: Bonus de TC ennemi PV ≥ 50%'
         content: Lorsque le pourcentage de PV actuel de la cible ennemie est supérieur ou égal à 50%, les chances de coup critique augmentent de 12%.

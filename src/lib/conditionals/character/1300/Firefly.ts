@@ -16,6 +16,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1310')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.00, 2.20)
@@ -103,46 +116,46 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
+        x.ENEMY_WEAKNESS_BROKEN.set(1, SOURCE_TRACE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.RES.buff((r.enhancedStateActive) ? talentResBuff : 0, Source.NONE)
-      x.SPD.buff((r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0, Source.NONE)
-      x.BREAK_EFFICIENCY_BOOST.buff((r.enhancedStateActive) ? 0.50 : 0, Source.NONE)
-      x.DMG_RED_MULTI.multiply((r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1, Source.NONE)
+      x.RES.buff((r.enhancedStateActive) ? talentResBuff : 0, SOURCE_TALENT)
+      x.SPD.buff((r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0, SOURCE_ULT)
+      x.BREAK_EFFICIENCY_BOOST.buff((r.enhancedStateActive) ? 0.50 : 0, SOURCE_ULT)
+      x.DMG_RED_MULTI.multiply((r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1, SOURCE_TALENT)
 
       // Should be skill def pen but skill doesnt apply to super break
-      x.DEF_PEN.buff((e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0, Source.NONE)
-      x.RES.buff((e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0, Source.NONE)
-      x.FIRE_RES_PEN.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0, Source.NONE)
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E1)
+      x.RES.buff((e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0, SOURCE_E4)
+      x.FIRE_RES_PEN.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0, SOURCE_E6)
+      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 45 : 30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 90 : 60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 45 : 30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 90 : 60, SOURCE_SKILL)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? ultWeaknessBrokenBreakVulnerability : 0, Source.NONE)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? ultWeaknessBrokenBreakVulnerability : 0, SOURCE_ULT)
 
-      x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 2.00) ? 0.35 : 0, Source.NONE)
-      x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 3.60) ? 0.15 : 0, Source.NONE)
+      x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 2.00) ? 0.35 : 0, SOURCE_TRACE)
+      x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 3.60) ? 0.15 : 0, SOURCE_TRACE)
 
       x.SKILL_SCALING.buff(
         (r.enhancedStateActive)
           ? (0.2 * Math.min(3.60, x.a[Key.BE]) + skillEnhancedAtkScaling)
           : skillScaling
-        , Source.NONE)
+        , SOURCE_SKILL)
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], SOURCE_SKILL)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

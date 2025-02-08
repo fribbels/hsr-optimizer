@@ -1611,6 +1611,10 @@ interface Resources {
             "text": "Enemy slowed",
             "content": "Basic ATK deals 40% more damage to Slowed enemies."
           },
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "After launching an attack, there is a 50% fixed chance to increase this unit's SPD by 20% for 2 turn(s)."
+          },
           "e1EnemyHp50": {
             "text": "E1 enemy HP ≥ 50% CR boost",
             "content": "When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."

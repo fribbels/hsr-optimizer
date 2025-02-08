@@ -1,5 +1,6 @@
 Relic_one: Реликвии
 Relic_other: реликвии
+RelicWithCount_one: "{{count}} реликвия"
 RelicWithCount_other: "{{count}} реликвии"
 Lightcone_one: световой конус
 Lightcone_other: световые конусы
@@ -110,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+DamagePercent: Урон %
 ReadableStats:
   "HP%": HP %
   HP: HP
@@ -162,6 +164,7 @@ DMGTypes:
   SKILL: Урон навыка
   ULT: Урон сверхспособности
   FUA: Урон бонус-атаки
+  MEMO_SKILL: Урон навыка Мемо
   DOT: Периодический урон
   BREAK: Урон пробития
   CV: КМ
@@ -170,6 +173,7 @@ ShortDMGTypes:
   Skill: Урон навыка
   Ult: Урон сверхспособности
   Fua: Урон бонус-атаки
+  Memo_Skill: Урон Навыкаᴹ
   Dot: Периодический урон
   Break: Урон пробития
   CV: КМ

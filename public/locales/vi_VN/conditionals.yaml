@@ -737,6 +737,8 @@ Characters:
         text: Thiên Phú Xuyên Kháng
       enemySlowed:
         text: Kẻ Địch Bị Làm Chậm
+      spdBuff:
+        text: Tăng Tốc Độ
       e1EnemyHp50:
         text: E1 HP Địch ≥ 50% tăng Tỉ Lệ Bạo Kích
   DrRatio:

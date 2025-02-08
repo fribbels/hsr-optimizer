@@ -865,6 +865,8 @@ Characters:
       enemySlowed:
         text: 敵減速状態
         content: 減速状態の敵に対する、通常攻撃によるダメージ+40%。
+      spdBuff:
+        text: 速度バフ
       e1EnemyHp50:
         text: 1凸 敵HP≥50%での会心率バフ
         content: 攻撃が命中した敵の残りHPが50%以上の場合、会心率+12%。

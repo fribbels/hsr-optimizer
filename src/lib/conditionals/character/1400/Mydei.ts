@@ -13,6 +13,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.x')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1404')
 
   const basicScaling = basic(e, 0.50, 0.55)
 
@@ -71,24 +84,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.SKILL_SCALING.buff((r.skillEnhances == 0) ? skillScaling : 0, Source.NONE)
-      x.SKILL_SCALING.buff((r.skillEnhances == 1) ? skillEnhanced1Scaling : 0, Source.NONE)
-      x.SKILL_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, Source.NONE)
+      x.SKILL_SCALING.buff((r.skillEnhances == 0) ? skillScaling : 0, SOURCE_SKILL)
+      x.SKILL_SCALING.buff((r.skillEnhances == 1) ? skillEnhanced1Scaling : 0, SOURCE_SKILL)
+      x.SKILL_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, SOURCE_SKILL)
 
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.DEF_PEN.buff((e >= 1 && r.e1DefPen && r.vendettaState) ? 0.15 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 1 && r.e1DefPen && r.vendettaState) ? 0.15 : 0, SOURCE_E1)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 90 : 60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 90 : 60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
     },
     calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buff((r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0, Source.NONE)
+      x.CR.buff((r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0, SOURCE_TRACE)
     },
     gpuCalculateBasicEffects: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -104,12 +117,12 @@ if (${wgslTrue(r.hpToCrConversion)}) {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.vendettaState) {
-        x.DEF.set(0, Source.NONE)
+        x.DEF.set(0, SOURCE_TALENT)
       }
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], Source.NONE)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], SOURCE_BASIC)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], SOURCE_SKILL)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], SOURCE_ULT)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

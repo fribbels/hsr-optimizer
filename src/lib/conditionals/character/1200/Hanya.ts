@@ -17,6 +17,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hanya')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1215')
 
   const ultSpdBuffValue = ult(e, 0.20, 0.21)
   const ultAtkBuffValue = ult(e, 0.60, 0.648)
@@ -101,30 +114,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Stats
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.SPD_P.buff((e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0, Source.NONE)
+      x.SPD_P.buff((e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0, SOURCE_E2)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((m.burdenAtkBuff) ? 0.10 : 0, Source.NONE)
+      x.ATK_P.buffTeam((m.burdenAtkBuff) ? 0.10 : 0, SOURCE_TRACE)
 
-      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, Source.NONE, Target.TEAM)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, SOURCE_TALENT, Target.TEAM)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
-      x.UNCONVERTIBLE_SPD_BUFF.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, Source.NONE)
-      x.ATK_P.buffSingle((t.ultBuff) ? ultAtkBuffValue : 0, Source.NONE)
+      x.SPD.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, SOURCE_ULT)
+      x.UNCONVERTIBLE_SPD_BUFF.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, SOURCE_ULT)
+      x.ATK_P.buffSingle((t.ultBuff) ? ultAtkBuffValue : 0, SOURCE_ULT)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

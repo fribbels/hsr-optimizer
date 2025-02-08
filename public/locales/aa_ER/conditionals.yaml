@@ -864,6 +864,9 @@ Characters:
       enemySlowed:
         text: crwdns40846:0crwdne40846:0
         content: crwdns40848:0crwdne40848:0
+      spdBuff:
+        text: crwdns44576:0crwdne44576:0
+        content: crwdns44578:0crwdne44578:0
       e1EnemyHp50:
         text: crwdns40850:0crwdne40850:0
         content: crwdns44318:0crwdne44318:0

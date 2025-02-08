@@ -15,6 +15,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparkle')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1306')
 
   const skillCdBuffScaling = skill(e, 0.24, 0.264)
   const skillCdBuffBase = skill(e, 0.45, 0.486)
@@ -22,8 +35,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentBaseStackBoost = talent(e, 0.06, 0.066)
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0, 0)
-  const ultScaling = ult(e, 0, 0)
 
   const atkBoostByQuantumAllies: Record<number, number> = {
     0: 0,
@@ -108,34 +119,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 
       if (r.skillCdBuff) {
-        x.CD.buff(skillCdBuffBase, Source.NONE)
-        x.UNCONVERTIBLE_CD_BUFF.buff(skillCdBuffBase, Source.NONE)
+        x.CD.buff(skillCdBuffBase, SOURCE_SKILL)
+        x.UNCONVERTIBLE_CD_BUFF.buff(skillCdBuffBase, SOURCE_SKILL)
       }
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Main damage type
-      x.ATK_P.buffTeam(0.15, Source.NONE)
+      x.ATK_P.buffTeam(0.15, SOURCE_TRACE)
       x.ATK_P.buff(context.elementalDamageType == Stats.Quantum_DMG
         ? (atkBoostByQuantumAllies[m.quantumAllies] || 0)
-        : 0,
-      Source.NONE)
-      x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, Source.NONE)
+        : 0, SOURCE_TRACE)
+      x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, SOURCE_E1)
 
       x.ELEMENTAL_DMG.buffTeam(
         (m.cipherBuff)
           ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost)
           : m.talentStacks * talentBaseStackBoost,
-        Source.NONE)
-      x.DEF_PEN.buffTeam((e >= 2) ? 0.08 * m.talentStacks : 0, Source.NONE)
+        SOURCE_TALENT)
+      x.DEF_PEN.buffTeam((e >= 2) ? 0.08 * m.talentStacks : 0, SOURCE_E2)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -144,12 +152,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,
-        Source.NONE)
+        SOURCE_SKILL)
       x.UNCONVERTIBLE_CD_BUFF.buffSingle(
         (t.skillCdBuff)
           ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
           : 0,
-        Source.NONE)
+        SOURCE_SKILL)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

@@ -1,17 +1,7 @@
 import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SetsType, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  BelobogOfTheArchitectsConditional,
-  BoneCollectionsSereneDemesneConditional,
-  BrokenKeelConditional,
-  FleetOfTheAgelessConditional,
-  GiantTreeOfRaptBrooding135Conditional,
-  GiantTreeOfRaptBrooding180Conditional,
-  PanCosmicCommercialEnterpriseConditional,
-  SpaceSealingStationConditional,
-  TaliaKingdomOfBanditryConditional,
-} from 'lib/gpu/conditionals/setConditionals'
+import { BelobogOfTheArchitectsConditional, BoneCollectionsSereneDemesneConditional, BrokenKeelConditional, FleetOfTheAgelessConditional, GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional, PanCosmicCommercialEnterpriseConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -408,7 +398,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
-  for (const conditional of action.teammateDynamicConditionals || []) {
+  for (const conditional of action.teammateDynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
 

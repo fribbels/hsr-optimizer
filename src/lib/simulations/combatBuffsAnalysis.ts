@@ -12,17 +12,17 @@ export function aggregateCombatBuffs(x: ComputedStatsArray, request: OptimizerFo
 }
 
 function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
-  const buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> = Object.fromEntries(
+  const buffGroups = Object.fromEntries(
     Object.values(BUFF_TYPE).map((type) => [type, {}]),
   ) as Record<BUFF_TYPE, Record<string, Buff[]>>
 
-  if (request.characterId) buffGroups[BUFF_TYPE.CHARACTER][request.characterId] = []
-  if (request.lightCone) buffGroups[BUFF_TYPE.LIGHTCONE][request.lightCone] = []
+  // if (request.characterId) buffGroups[BUFF_TYPE.CHARACTER][request.characterId] = []
+  // if (request.lightCone) buffGroups[BUFF_TYPE.LIGHTCONE][request.lightCone] = []
 
   for (const buff of [...combatBuffs.buffs]) {
     // for (const buff of [...combatBuffs.buffs, ...combatBuffs.buffsMemo]) {
     const id = buff.source.id
-    const buffType = buff.source.buffType
+    const buffType = request.characterId == id ? BUFF_TYPE.PRIMARY : buff.source.buffType
 
     const group = buffGroups[buffType]
 

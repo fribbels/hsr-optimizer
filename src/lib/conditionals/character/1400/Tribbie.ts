@@ -3,7 +3,7 @@ import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { allTypesExcept, buffAbilityTrueDmg } from 'lib/optimization/calculateBuffs'
+import { allTypesExcept, buffAbilityTrueDmg, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 
 import { Eidolon } from 'types/character'
@@ -155,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buffTeam((m.numinosity ? skillResPen : 0), SOURCE_SKILL)
       x.VULNERABILITY.buffTeam((m.ultZone ? ultVulnerability : 0), SOURCE_ULT)
 
-      buffAbilityTrueDmg(x, allTypesExcept(DOT_DMG_TYPE), (e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0), SOURCE_E1)
+      buffAbilityTrueDmg(x, allTypesExcept(DOT_DMG_TYPE), (e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0), SOURCE_E1, Target.TEAM)
 
       x.DEF_PEN.buffTeam((e >= 2 && m.numinosity && m.e2DefPen) ? 0.18 : 0, SOURCE_E2)
     },

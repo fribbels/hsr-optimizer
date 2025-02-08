@@ -29,6 +29,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   } = Source.character('1314')
 
   const basicScaling = basic(e, 0.90, 0.99)
+  // Assuming jade is not the debt collector - skill disabled
   const skillScaling = skill(e, 0.25, 0.27)
   const ultScaling = ult(e, 2.40, 2.64)
   const ultFuaScalingBuff = ult(e, 0.80, 0.88)

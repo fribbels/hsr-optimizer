@@ -29,6 +29,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   const baseUniversalMulti = a[Key.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
   const baseResistance = context.enemyDamageResistance - a[Key.RES_PEN] - context.combatBuffs.RES_PEN - getResPenType(x, context.elementalResPenType)
   const baseBreakEfficiencyBoost = 1 + a[Key.BREAK_EFFICIENCY_BOOST]
+  const baseTrueDmgMulti = 1 + a[Key.TRUE_DMG_MODIFIER]
 
   // === Default ===
 
@@ -40,6 +41,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     const dotEhrMulti = calculateEhrMulti(x, context)
 
     a[Key.DOT_DMG] = calculateDotDmg(
+      x,
       a[Key.DOT_DMG],
       (baseUniversalMulti),
       (dotDmgBoostMulti),
@@ -47,6 +49,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       (dotVulnerabilityMulti),
       (dotResMulti),
       (dotEhrMulti),
+      (baseTrueDmgMulti),
     )
   }
 
@@ -106,6 +109,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.BASIC_ADDITIONAL_DMG],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
+      a[Key.BASIC_TRUE_DMG_MODIFIER],
       x.m ? x.m.a[Key.BASIC_DMG] : 0,
     )
   }
@@ -137,6 +141,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.SKILL_ADDITIONAL_DMG],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
+      a[Key.SKILL_TRUE_DMG_MODIFIER],
       x.m ? x.m.a[Key.SKILL_DMG] : 0,
     )
   }
@@ -168,6 +173,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.ULT_ADDITIONAL_DMG],
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
+      a[Key.ULT_TRUE_DMG_MODIFIER],
       x.m ? x.m.a[Key.ULT_DMG] : 0,
     )
   }
@@ -199,6 +205,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.FUA_ADDITIONAL_DMG],
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
+      a[Key.FUA_TRUE_DMG_MODIFIER],
       x.m ? x.m.a[Key.FUA_DMG] : 0,
     )
   }
@@ -233,10 +240,14 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
+        0, // a[Key.MEMO_TRUE_DMG_MODIFIER],
         0, // No memo joint
       )
     }
   }
+
+  // Break True DMG is handled separately due to break being re-used in ability calcs
+  a[Key.BREAK_DMG] *= baseTrueDmgMulti + a[Key.BREAK_TRUE_DMG_MODIFIER]
 }
 
 const cLevelConst = 20 + 80
@@ -295,6 +306,7 @@ function calculateAbilityDmg(
   abilityAdditionalDmg: number,
   abilityAdditionalCrOverride: number,
   abilityAdditionalCdOverride: number,
+  abilityTrueDmgModifier: number,
   abilityMemoJointDamage: number,
 ) {
   const a = x.a
@@ -370,7 +382,7 @@ function calculateAbilityDmg(
 
   // === True DMG ===
 
-  const trueDmgOutput = a[Key.TRUE_DMG_MODIFIER] * primaryDmgOutput
+  const trueDmgOutput = (a[Key.TRUE_DMG_MODIFIER] + abilityTrueDmgModifier) * primaryDmgOutput
 
   // === Memo Joint DMG ===
 
@@ -415,6 +427,7 @@ function calculateCritDmg(
 }
 
 function calculateDotDmg(
+  x: ComputedStatsArray,
   baseDmg: number,
   universalMulti: number,
   dmgBoostMulti: number,
@@ -422,6 +435,7 @@ function calculateDotDmg(
   vulnerabilityMulti: number,
   resMulti: number,
   ehrMulti: number,
+  trueDmgMulti: number,
 ) {
   return baseDmg
     * universalMulti
@@ -430,6 +444,7 @@ function calculateDotDmg(
     * vulnerabilityMulti
     * resMulti
     * ehrMulti
+    * trueDmgMulti
 }
 
 function calculateEhrMulti(

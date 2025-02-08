@@ -45,7 +45,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
   })
-  const cpuComputedStats = x.toComputedStatsObject(false) as ComputedStatsObjectExternal
+  const cpuComputedStats = x.toComputedStatsObject()
   const deltas = deltaComputedStats(cpuComputedStats, gpuComputedStats)
 
   // console.log('CPU', cpuComputedStats)
@@ -180,12 +180,12 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
   analyze('ULT_RES_PEN', P_2)
   analyze('FUA_RES_PEN', P_2)
   analyze('DOT_RES_PEN', P_2)
-  analyze('BASIC_DMG', P_1)
-  analyze('SKILL_DMG', P_1)
-  analyze('ULT_DMG', P_1)
-  analyze('FUA_DMG', P_1)
-  analyze('DOT_DMG', P_1)
-  analyze('BREAK_DMG', P_1)
+  analyze('BASIC_DMG', P_0)
+  analyze('SKILL_DMG', P_0)
+  analyze('ULT_DMG', P_0)
+  analyze('FUA_DMG', P_0)
+  analyze('DOT_DMG', P_0)
+  analyze('BREAK_DMG', P_0)
   analyze('COMBO_DMG', P_0)
   analyze('DMG_RED_MULTI', P_2)
   analyze('EHP', P_2)

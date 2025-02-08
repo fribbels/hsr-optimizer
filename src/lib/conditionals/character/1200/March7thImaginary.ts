@@ -1,5 +1,5 @@
-import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { ADDITIONAL_DMG_TYPE, ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -126,15 +126,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.SPD_P.buff((e >= 1 && r.selfSpdBuff) ? 0.10 : 0, SOURCE_E1)
-      buffAbilityDmg(x, BASIC_DMG_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | ADDITIONAL_DMG_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
 
-      buffAbilityCd(x, BASIC_DMG_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, SOURCE_E6)
+      buffAbilityCd(x, BASIC_DMG_TYPE | ADDITIONAL_DMG_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, SOURCE_E6)
 
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff)
         ? basicExtraScalingMasterBuff * r.basicAttackHits
         : 0
       x.BASIC_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, SOURCE_BASIC)
-      x.BASIC_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, SOURCE_BASIC)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, SOURCE_SKILL)
       x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
       x.FUA_SCALING.buff((e >= 2) ? 0.60 : 0, SOURCE_E2)
 
@@ -155,9 +155,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
+      return gpuStandardFuaAtkFinalizer(fuaHitCountMulti) + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

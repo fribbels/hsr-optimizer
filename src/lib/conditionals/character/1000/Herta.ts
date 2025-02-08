@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -157,7 +157,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Scaling
       x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.BASIC_SCALING.buff((e >= 1 && r.enemyHpLte50) ? 0.40 : 0, SOURCE_E1)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 1 && r.enemyHpLte50) ? 0.40 : 0, SOURCE_E1)
       x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
       x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
       x.FUA_SCALING.buff(fuaScaling * r.fuaStacks, SOURCE_TALENT)
@@ -177,9 +177,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context))
+      return gpuStandardFuaAtkFinalizer(getHitMulti(action, context)) + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -83,7 +83,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {
+      standardAtkFinalizer(x)
+      standardAdditionalDmgAtkFinalizer(x)
+    },
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardAdditionalDmgAtkFinalizer(),
   }
 }

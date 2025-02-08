@@ -2,13 +2,14 @@ import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/c
 import { ElementToResPenType, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import { BuffSource } from 'lib/optimization/buffSource'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export type Buff = {
   stat: string
   key: number
   value: number
-  source: string
+  source: BuffSource
 }
 
 export type KeysType = keyof typeof baseComputedStatsObject
@@ -19,17 +20,17 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 }, {} as Record<KeysType, number>)
 
 export type StatController = {
-  buff: (value: number, source: string) => void
-  buffSingle: (value: number, source: string) => void
-  buffMemo: (value: number, source: string) => void
-  buffTeam: (value: number, source: string) => void
-  buffDual: (value: number, source: string) => void
-  buffBaseDual: (value: number, source: string) => void
-  multiply: (value: number, source: string) => void
-  multiplyTeam: (value: number, source: string) => void
-  set: (value: number, source: string) => void
-  buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
-  buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => void
+  buff: (value: number, source: BuffSource) => void
+  buffSingle: (value: number, source: BuffSource) => void
+  buffMemo: (value: number, source: BuffSource) => void
+  buffTeam: (value: number, source: BuffSource) => void
+  buffDual: (value: number, source: BuffSource) => void
+  buffBaseDual: (value: number, source: BuffSource) => void
+  multiply: (value: number, source: BuffSource) => void
+  multiplyTeam: (value: number, source: BuffSource) => void
+  set: (value: number, source: BuffSource) => void
+  buffDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void
+  buffBaseDualDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
   memoGet: () => number
 }
@@ -68,20 +69,20 @@ export class ComputedStatsArrayCore {
     this.trace = trace
     Object.keys(baseComputedStatsObject).forEach((stat, key) => {
       const trace
-        = (value: number, source: string) => this.trace && this.buffs.push({ stat, key, value, source })
+        = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
       const traceMemo
-        = (value: number, source: string) => this.trace && this.buffsMemo.push({ stat, key, value, source })
+        = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
       const traceOverwrite
-        = (value: number, source: string) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
+        = (value: number, source: BuffSource) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
 
       Object.defineProperty(this, stat, {
         value: {
-          buff: (value: number, source: string) => {
+          buff: (value: number, source: BuffSource) => {
             if (value == 0) return
             this.a[key] += value
             trace(value, source)
           },
-          buffSingle: (value: number, source: string) => {
+          buffSingle: (value: number, source: BuffSource) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.a[Key.MEMO_BUFF_PRIORITY]) {
@@ -92,7 +93,7 @@ export class ComputedStatsArrayCore {
               trace(value, source)
             }
           },
-          buffMemo: (value: number, source: string) => {
+          buffMemo: (value: number, source: BuffSource) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             if (this.m) {
@@ -100,7 +101,7 @@ export class ComputedStatsArrayCore {
               traceMemo(value, source)
             }
           },
-          buffTeam: (value: number, source: string) => {
+          buffTeam: (value: number, source: BuffSource) => {
             if (value == 0) return
             this.a[key] += value
             trace(value, source)
@@ -110,7 +111,7 @@ export class ComputedStatsArrayCore {
               traceMemo(value, source)
             }
           },
-          buffDual: (value: number, source: string) => {
+          buffDual: (value: number, source: BuffSource) => {
             if (value == 0) return
             if (this.a[Key.DEPRIORITIZE_BUFFS]) return
             this.a[key] += value
@@ -121,7 +122,7 @@ export class ComputedStatsArrayCore {
               traceMemo(value, source)
             }
           },
-          buffBaseDual: (value: number, source: string) => {
+          buffBaseDual: (value: number, source: BuffSource) => {
             if (value == 0) return
             this.a[key] += value
             trace(value, source)
@@ -131,7 +132,7 @@ export class ComputedStatsArrayCore {
               traceMemo(value, source)
             }
           },
-          buffBaseDualDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
+          buffBaseDualDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => {
             if (value < 0.001) return
             this.a[key] += value
             trace(value, source)
@@ -145,11 +146,11 @@ export class ComputedStatsArrayCore {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
-          multiply: (value: number, source: string) => {
+          multiply: (value: number, source: BuffSource) => {
             this.a[key] *= value
             trace(value, source)
           },
-          multiplyTeam: (value: number, source: string) => {
+          multiplyTeam: (value: number, source: BuffSource) => {
             this.a[key] *= value
             trace(value, source)
             if (this.m) {
@@ -157,7 +158,7 @@ export class ComputedStatsArrayCore {
               traceMemo(value, source)
             }
           },
-          buffDynamic: (value: number, source: string, action: OptimizerAction, context: OptimizerContext) => {
+          buffDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => {
             if (value < 0.001) return
             this.a[key] += value
             trace(value, source)
@@ -166,7 +167,7 @@ export class ComputedStatsArrayCore {
               evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
             }
           },
-          set: (value: number, source: string) => {
+          set: (value: number, source: BuffSource) => {
             this.a[key] = value
             traceOverwrite(value, source)
           },

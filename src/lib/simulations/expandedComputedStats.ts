@@ -1,15 +1,21 @@
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Build } from 'types/character'
+import { OptimizerForm } from 'types/form'
+
+type BuildData = {
+  x: ComputedStatsArray
+  request: OptimizerForm
+}
 
 // Reconstruct computed stats from an optimization ID
-export function getComputedStatsFromOptimizerBuild(build: Build) {
+export function getComputedStatsFromOptimizerBuild(build: Build): BuildData | null {
   const optimizationId = window.store.getState().optimizationId
   const cachedForm = optimizerFormCache[optimizationId!]
   if (!cachedForm) return null
@@ -30,13 +36,17 @@ export function getComputedStatsFromOptimizerBuild(build: Build) {
   request.trace = true
 
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  return calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const x = calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+
+  return { x, request: cachedForm }
 }
 
 export function handleOptimizerExpandedRowData(build: Build) {
-  const x = getComputedStatsFromOptimizerBuild(build)
-  if (!x) return
+  const buildData = getComputedStatsFromOptimizerBuild(build)
+  if (!buildData) return
+
+  const { x, request } = buildData
 
   console.log(x.toComputedStatsObject())
-  aggregateCombatBuffs(x)
+  aggregateCombatBuffs(x, request)
 }

@@ -53,6 +53,7 @@ Import:
         Importar $t(common:Relic, {"count": {{relicCount}}}) e $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Substituir builds do otimizador
       WarningDescription: Você tem certeza que quer substituir suas builds do otimizador com as builds in-game?
+      OnlyImportExisting: "Importar apenas caracteres existentes"
   Stage3:
     SuccessMessage: Feito!
 LoadData:

@@ -27,7 +27,12 @@ const defaultHiddenColumns = [
   SortOption.MEMO_SKILL,
 ]
 
-const DATA_PANEL_HEIGHT = 200
+export const GRID_DIMENSIONS = {
+  WIDTH: 1225,
+  HEIGHT: 600,
+  MIN_HEIGHT: 300,
+  PANEL_HEIGHT: 150,
+}
 
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
@@ -48,7 +53,7 @@ export function OptimizerGrid() {
     return params.rowNode.rowPinned === 'bottom'
   }, [])
   const getRowHeight = useCallback((params) => {
-    if (params.node.rowPinned === 'bottom') return DATA_PANEL_HEIGHT
+    if (params.node.rowPinned === 'bottom') return GRID_DIMENSIONS.PANEL_HEIGHT
   }, [])
 
   const statDisplay = window.store((s) => s.statDisplay)
@@ -102,15 +107,16 @@ export function OptimizerGrid() {
   // TODO: I think these things need memos: https://www.ag-grid.com/react-data-grid/react-hooks/
   return (
     <Flex>
+      {gridDestroyed && <div style={{ width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT }}/>}
       {!gridDestroyed && (
         <div
           id='optimizerGridContainer'
           className='ag-theme-balham-dark'
           style={{
             ...{
-              width: 1225,
-              minHeight: 300,
-              height: 600,
+              width: GRID_DIMENSIONS.WIDTH,
+              minHeight: GRID_DIMENSIONS.MIN_HEIGHT,
+              height: GRID_DIMENSIONS.HEIGHT,
               resize: 'vertical',
               overflow: 'hidden',
             },

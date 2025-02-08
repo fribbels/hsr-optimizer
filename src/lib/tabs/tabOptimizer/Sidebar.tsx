@@ -572,10 +572,10 @@ function DataPanelToggle(props: { isFullSize: boolean }) {
       style={{ width: '100%', display: 'flex' }}
       value={dataPanelDisplay}
     >
-      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'shown'}>
+      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='shown'>
         Shown
       </Radio>
-      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value={'hidden'}>
+      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='hidden'>
         Hidden
       </Radio>
     </Radio.Group>

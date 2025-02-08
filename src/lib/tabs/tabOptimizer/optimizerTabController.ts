@@ -1,8 +1,8 @@
 import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
-import { Constants, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants/constants'
+import { Constants, DEFAULT_STAT_DISPLAY, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -311,6 +311,14 @@ export const OptimizerTabController = {
 
   // Unpack a permutation ID to its respective relics
   calculateRelicsFromId: (id: number) => {
+    if (id === 0) { // special case for equipped build optimizer row
+      const build = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter!).equipped
+      const out = {} as SingleRelicByPart
+      for (const key of Object.keys(build)) {
+        out[key as Parts] = DB.getRelicById(build[key as Parts]!)
+      }
+      return out
+    }
     const lSize = permutationSizes.lSize
     const pSize = permutationSizes.pSize
     const fSize = permutationSizes.fSize

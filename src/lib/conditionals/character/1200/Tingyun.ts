@@ -120,6 +120,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
       x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.benedictionBuff) ? skillLightningDmgBoostScaling + talentScaling : 0, SOURCE_SKILL)
+
       // Boost
       buffAbilityDmg(x, BASIC_DMG_TYPE, 0.40, SOURCE_TRACE)
 
@@ -142,24 +144,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // x[Stats.ATK] += (r.benedictionBuff) ? x[Stats.ATK] * skillAtkBoostMax : 0
-
-      x.BASIC_DMG.buff(
-        x.a[Key.BASIC_SCALING] * x.a[Key.ATK]
-        + (
-          (r.benedictionBuff)
-            ? skillLightningDmgBoostScaling + talentScaling
-            : 0
-        ) * x.a[Key.ATK],
-        SOURCE_BASIC)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
+      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], SOURCE_SKILL)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-if (${wgslTrue(r.benedictionBuff)}) {
-  x.BASIC_DMG += (${skillLightningDmgBoostScaling + talentScaling}) * x.ATK;
-}
+x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.ATK;
     `
     },
     dynamicConditionals: [

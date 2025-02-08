@@ -45,7 +45,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
   })
-  const cpuComputedStats = x.toComputedStatsObject(false) as ComputedStatsObjectExternal
+  const cpuComputedStats = x.toComputedStatsObject()
   const deltas = deltaComputedStats(cpuComputedStats, gpuComputedStats)
 
   // console.log('CPU', cpuComputedStats)

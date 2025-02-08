@@ -618,6 +618,7 @@ fn calculateDamage(
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
   let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
+  let baseTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER;
 
   // === Super / Break ===
 
@@ -658,7 +659,8 @@ fn calculateDamage(
         * (dotDefMulti)
         * (dotVulnerabilityMulti)
         * (dotResMulti)
-        * (dotEhrMulti);
+        * (dotEhrMulti)
+        * (baseTrueDmgMulti);
     }
 
     if (x.HEAL_VALUE > 0) {
@@ -702,6 +704,7 @@ fn calculateDamage(
       x.BASIC_ADDITIONAL_DMG,
       0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.BASIC_TRUE_DMG_MODIFIER,
       m.BASIC_DMG,
     );
   }
@@ -731,6 +734,7 @@ fn calculateDamage(
       x.SKILL_ADDITIONAL_DMG,
       0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.SKILL_TRUE_DMG_MODIFIER,
       0, // m.SKILL_DMG,
     );
   }
@@ -760,6 +764,7 @@ fn calculateDamage(
       x.ULT_ADDITIONAL_DMG,
       x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
       x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.ULT_TRUE_DMG_MODIFIER,
       m.ULT_DMG,
     );
   }
@@ -789,6 +794,7 @@ fn calculateDamage(
       x.FUA_ADDITIONAL_DMG,
       0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.FUA_TRUE_DMG_MODIFIER,
       0, // m.FUA_DMG,
     );
   }
@@ -818,10 +824,12 @@ fn calculateDamage(
       0, // x.MEMO_SKILL_ADDITIONAL_DMG,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      0, // m.FUA_DMG,
+      0, // x.MEMO_TRUE_DMG_MODIFIER,
+      0, // m.MEMO_DMG,
     );
 
     (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
+    (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
   }
 }
 
@@ -867,6 +875,7 @@ fn calculateAbilityDmg(
   abilityAdditionalDmg: f32,
   abilityAdditionalCrOverride: f32,
   abilityAdditionalCdOverride: f32,
+  abilityTrueDmgModifier: f32,
   abilityMemoJointDamage: f32,
 ) -> f32 {
   let x = *p_x;
@@ -933,7 +942,7 @@ fn calculateAbilityDmg(
 
   // === True DMG ===
 
-  let trueDmgOutput = x.TRUE_DMG_MODIFIER * primaryDmgOutput;
+  let trueDmgOutput = (x.TRUE_DMG_MODIFIER + abilityTrueDmgModifier) * primaryDmgOutput;
 
   // === Memo Joint DMG ===
 
@@ -972,6 +981,28 @@ fn buffSPD_P(p_x: ptr<function, ComputedStats>, value: f32) {
   }
 }
 
+fn buffAbilityTrueDmg(
+  p_x: ptr<function, ComputedStats>,
+  abilityTypeFlags: i32,
+  value: f32,
+  condition: i32
+) {
+  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+    (*p_x).BASIC_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+    (*p_x).SKILL_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+    (*p_x).ULT_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+    (*p_x).FUA_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+    (*p_x).BREAK_TRUE_DMG_MODIFIER += value;
+  }
+}
 
 fn buffAbilityDmg(
   p_x: ptr<function, ComputedStats>,

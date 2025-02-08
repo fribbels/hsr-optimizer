@@ -1,5 +1,6 @@
-import { Divider, Flex, Tag, Typography } from 'antd'
+import { Divider, Flex, Typography } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
+import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
@@ -13,8 +14,7 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
-import { aggregateCombatBuffs, NamedBuff } from 'lib/simulations/combatBuffsAnalysis'
-import { runSimulations, Simulation } from 'lib/simulations/statSimulationController'
+import { Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -425,8 +425,6 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
-  const buffsRender = generateBuffs(result)
-
   return (
     <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
       <Flex align='center' style={{ marginTop: 15 }} vertical>
@@ -546,9 +544,7 @@ export const CharacterScoringSummary = (props: {
           Combat buffs (WIP)
         </pre>
 
-        <Flex gap={8} wrap style={{ marginLeft: 15, marginRight: 15 }}>
-          {buffsRender}
-        </Flex>
+        <BuffsAnalysisDisplay result={result}/>
       </Flex>
 
       <Flex gap={defaultGap} justify='space-around'>
@@ -570,38 +566,6 @@ export const CharacterScoringSummary = (props: {
         </pre>
       </Flex>
     </Flex>
-  )
-}
-
-function generateBuffs(result: SimulationScore) {
-  result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
-  const x = rerun.tracedX!
-  const namedCombatBuffs = aggregateCombatBuffs(x)
-
-  const buffsDisplay: ReactElement[] = []
-  let id = 0
-
-  for (const buff of namedCombatBuffs.buffs) {
-    buffsDisplay.push(<BuffTag buff={buff} memo={false} id={id++}/>)
-  }
-  for (const buff of namedCombatBuffs.buffsMemo) {
-    buffsDisplay.push(<BuffTag buff={buff} memo={true} id={id++}/>)
-  }
-
-  console.log(rerun)
-
-  return buffsDisplay
-}
-
-function BuffTag(props: { buff: NamedBuff; memo: boolean; id: number }) {
-  const { buff, memo, id } = props
-  return (
-    <Tag style={{ paddingInline: '5px', marginInlineEnd: '0px' }} key={id}>
-      <Text style={{ margin: 0, alignItems: 'center', fontSize: 12 }}>
-        {`${buff.stat}${memo ? 'ᴹ' : ''} : ${TsUtils.precisionRound(buff.value)} (${buff.name})`}
-      </Text>
-    </Tag>
   )
 }
 

@@ -1,14 +1,39 @@
-import { Sets } from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff, ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import DB from 'lib/state/db'
-import { DBMetadata } from 'types/metadata'
+import { OptimizerForm } from 'types/form'
 
-export function aggregateCombatBuffs(x: ComputedStatsArray) {
+export function aggregateCombatBuffs(x: ComputedStatsArray, request: OptimizerForm) {
   const combatBuffs = extractCombatBuffs(x)
-  const namedBuffs = extractBuffNames(combatBuffs)
+  const buffGroups = groupCombatBuffs(combatBuffs, request)
 
-  return namedBuffs
+  console.log(buffGroups)
+
+  return buffGroups
+}
+
+function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
+  const buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> = Object.fromEntries(
+    Object.values(BUFF_TYPE).map((type) => [type, {}]),
+  ) as Record<BUFF_TYPE, Record<string, Buff[]>>
+
+  if (request.characterId) buffGroups[BUFF_TYPE.CHARACTER][request.characterId] = []
+  if (request.lightCone) buffGroups[BUFF_TYPE.LIGHTCONE][request.lightCone] = []
+
+  for (const buff of [...combatBuffs.buffs]) {
+    // for (const buff of [...combatBuffs.buffs, ...combatBuffs.buffsMemo]) {
+    const id = buff.source.id
+    const buffType = buff.source.buffType
+
+    const group = buffGroups[buffType]
+
+    if (!group[id]) {
+      group[id] = []
+    }
+
+    group[id].push(buff)
+  }
+
+  return buffGroups
 }
 
 export function extractCombatBuffs(x: ComputedStatsArray) {
@@ -28,54 +53,9 @@ export function extractCombatBuffs(x: ComputedStatsArray) {
   return combatBuffs
 }
 
-export type NamedBuff = {
-  name: string
-} & Buff
-
 type CombatBuffs = {
   buffs: Buff[]
   buffsMemo: Buff[]
-}
-type NamedCombatBuffs = {
-  buffs: NamedBuff[]
-  buffsMemo: NamedBuff[]
-}
-
-function extractBuffNames(combatBuffs: CombatBuffs): NamedCombatBuffs {
-  const metadata = DB.getMetadata()
-  const setMap = new Map(Object.entries(Sets))
-
-  return {
-    buffs: combatBuffs.buffs.map((buff) => extractSingleBuffName(buff, metadata, setMap)),
-    buffsMemo: combatBuffs.buffsMemo.map((buff) => extractSingleBuffName(buff, metadata, setMap)),
-  }
-}
-
-function extractSingleBuffName(buff: Buff, metadata: DBMetadata, setMap: Map<string, string>): NamedBuff {
-  const source = buff.source
-
-  if (source == Source.NONE) {
-    return { name: 'None', ...buff }
-  }
-
-  if (setMap.has(source)) {
-    const name = setMap.get(source)!
-    return { name, ...buff }
-  }
-
-  const [id, label] = source.split('_')
-
-  if (metadata.characters[id]) {
-    const name = metadata.characters[id].name + ' - ' + sourceToLabelMapping[label]
-    return { name, ...buff }
-  }
-
-  if (metadata.lightCones[id]) {
-    const name = metadata.lightCones[id].name
-    return { name, ...buff }
-  }
-
-  return { name: 'None', ...buff }
 }
 
 const sourceToLabelMapping: Record<string, string> = {

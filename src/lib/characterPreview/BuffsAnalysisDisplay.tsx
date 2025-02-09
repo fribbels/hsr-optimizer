@@ -87,7 +87,7 @@ function BuffTag(props: { buff: Buff }) {
   const { buff } = props
 
   return (
-    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6 }}>
+    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginInlineEnd: 0 }}>
       <Flex justify='space-between' style={{ width: 425 }}>
         <Text style={{ fontSize: 14, width: 70 }}>
           {`${buff.value > 100 ? Math.floor(buff.value) : TsUtils.precisionRound(buff.value)}`}

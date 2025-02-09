@@ -45,7 +45,7 @@ export enum WarpStrategy {
 export type WarpRequest = {
   passes: number
   jades: number
-  income: string
+  income: string[]
   strategy: WarpStrategy
   pityCharacter: number
   guaranteedCharacter: boolean
@@ -67,7 +67,7 @@ export enum WarpType {
 export const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
-  income: NONE_WARP_INCOME_OPTION.id,
+  income: [],
   strategy: WarpStrategy.E0,
   pityCharacter: 0,
   guaranteedCharacter: false,
@@ -259,9 +259,22 @@ export type EnrichedWarpRequest = {
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  const additionalIncome = WarpIncomeOptions.find((option) => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
-  const totalJade = request.jades + additionalIncome.jades
-  const totalPasses = request.passes + additionalIncome.passes
+  // Accounts for all selected income options.
+  const selectedIncome = request.income.map(
+    (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId) ?? NONE_WARP_INCOME_OPTION,
+  )
+
+  let additionalJades = 0
+  let additionalPasses = 0
+ 
+  // Sum all jades and passes.
+  for (const income of selectedIncome) {
+    additionalJades += income.jades
+    additionalPasses += income.passes
+  }
+
+  const totalJade = request.jades + additionalJades
+  const totalPasses = request.passes + additionalPasses
   const totalWarps = Math.floor(totalJade / 160) + totalPasses
 
   // Treat null form values as empty and use defaults

@@ -59,8 +59,12 @@ function Inputs() {
   const [form] = Form.useForm<WarpRequest>()
 
   const initialValues = useMemo(() => {
-    if (!WarpIncomeOptions.find((option) => option.id == warpRequest.income)) {
-      warpRequest.income = NONE_WARP_INCOME_OPTION.id
+    // if (!WarpIncomeOptions.find((option) => option.id == warpRequest.income)) {
+    //   warpRequest.income = NONE_WARP_INCOME_OPTION.id
+    // }
+    if (!Array.isArray(warpRequest.income) ||  
+      !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
+      warpRequest.income = []
     }
     return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
   }, [])
@@ -132,6 +136,7 @@ function Inputs() {
                   <Form.Item name='income'>
                     <Select
                       options={generateIncomeOptions()}
+                      mode='multiple'
                     />
                   </Form.Item>
                 </Flex>

@@ -20,7 +20,6 @@ export const NONE_WARP_INCOME_OPTION = generateOption('NONE', WarpIncomeType.NON
 
 // Modified each patch
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
-  NONE_WARP_INCOME_OPTION,
 
   generateOption('3.0', WarpIncomeType.F2P, 25, 13490),
   generateOption('3.0', WarpIncomeType.EXPRESS, 25, 17270),

@@ -59,9 +59,6 @@ function Inputs() {
   const [form] = Form.useForm<WarpRequest>()
 
   const initialValues = useMemo(() => {
-    // if (!WarpIncomeOptions.find((option) => option.id == warpRequest.income)) {
-    //   warpRequest.income = NONE_WARP_INCOME_OPTION.id
-    // }
     if (!Array.isArray(warpRequest.income) ||  
       !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
       warpRequest.income = []

@@ -49,7 +49,7 @@ export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
   console.log(rerun)
 
   return (
-    <Flex gap={100}>
+    <Flex justify='space-between' style={{ width: '100%' }}>
       <Flex gap={20} vertical>
         {buffsDisplayLeft}
       </Flex>
@@ -71,7 +71,7 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
   else src = Assets.getBlank()
 
   return (
-    <Flex align='center' gap={10}>
+    <Flex align='center' gap={5}>
       <img src={src} style={{ width: 64, height: 64 }}/>
 
       <Flex vertical>
@@ -85,16 +85,18 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
 
 function BuffTag(props: { buff: Buff }) {
   const { buff } = props
-  const memo = false
 
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6 }}>
-      <Flex justify='space-between' style={{ width: 400 }}>
-        <Text style={{ fontSize: 14 }}>
-          {`${buff.stat} (${buff.source.label})`}
+      <Flex justify='space-between' style={{ width: 425 }}>
+        <Text style={{ fontSize: 14, width: 70 }}>
+          {`${buff.value > 100 ? Math.floor(buff.value) : TsUtils.precisionRound(buff.value)}`}
+        </Text>
+        <Text style={{ fontSize: 14, alignItems: 'flex-start', flex: 1 }}>
+          {`${buff.stat}`} {buff.memo ? 'ᴹ' : ''}
         </Text>
         <Text style={{ fontSize: 14 }}>
-          {`${TsUtils.precisionRound(buff.value)}`}
+          {buff.source.label}
         </Text>
       </Flex>
     </Tag>

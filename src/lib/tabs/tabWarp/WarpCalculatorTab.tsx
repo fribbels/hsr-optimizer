@@ -288,10 +288,14 @@ function Results() {
           <Flex align='center' gap={10}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
-            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}  
-              <img style={{ height: 18 }} src={Assets.getPass()}/>
-            </span>
+            {`( ${warpResult.request.totalJade.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            <img style={{ height: 18 }} src={Assets.getJade()}/>
+            <span>) + (</span>
+            {`${warpResult.request.totalPasses.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            <img style={{ height: 18 }} src={Assets.getPass()}/>
+            <span>) =</span>
+            {warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
+            <img style={{ height: 18 }} src={Assets.getPass()}/>
           </Flex>
         </pre>
       </Text>

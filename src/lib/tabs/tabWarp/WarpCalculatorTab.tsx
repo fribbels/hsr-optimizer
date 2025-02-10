@@ -284,17 +284,13 @@ function Results() {
 
       <Text style={{ fontSize: 18 }}>
         <pre style={{ margin: 0 }}>
-          <Flex align='center' gap={5}>
+          <Flex align='center' gap={10}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
-            {`( ${warpResult.request.totalJade.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
-            <img style={{ height: 18 }} src={Assets.getJade()}/>
-            <span>) + (</span>
-            {`${warpResult.request.totalPasses.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
-            <span>) =</span>
-            {warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              {warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}  
+              <img style={{ height: 18 }} src={Assets.getPass()}/>
+            </span>
           </Flex>
         </pre>
       </Text>
@@ -386,6 +382,7 @@ function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
         t('Label',
           {
             versionNumber: props.option.version,
+            partNumber: props.option.part,
             type: t(`Type.${props.option.type}`),
           },
         )

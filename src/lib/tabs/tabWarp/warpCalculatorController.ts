@@ -16,18 +16,19 @@ export enum WarpIncomeType {
   BP_EXPRESS,
 }
 
-export const NONE_WARP_INCOME_OPTION = generateOption('NONE', WarpIncomeType.NONE, 0, 0)
+export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0, 0)
 
 // Modified each patch
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
 
-  generateOption('3.0', WarpIncomeType.F2P, 25, 13490),
-  generateOption('3.0', WarpIncomeType.EXPRESS, 25, 17270),
-  generateOption('3.0', WarpIncomeType.BP_EXPRESS, 29, 17950),
+  generateOption('3.0', 1, WarpIncomeType.F2P, 25, 13490),
+  generateOption('3.0', 2, WarpIncomeType.F2P, 15, 0), // Test
+  generateOption('3.0', 1, WarpIncomeType.EXPRESS, 25, 17270),
+  generateOption('3.0', 1, WarpIncomeType.BP_EXPRESS, 29, 17950),
 
-  generateOption('3.1', WarpIncomeType.F2P, 20, 13355),
-  generateOption('3.1', WarpIncomeType.EXPRESS, 20, 17135),
-  generateOption('3.1', WarpIncomeType.BP_EXPRESS, 24, 17815),
+  generateOption('3.1', 1, WarpIncomeType.F2P, 20, 13355),
+  generateOption('3.1', 1, WarpIncomeType.EXPRESS, 20, 17135),
+  generateOption('3.1', 1, WarpIncomeType.BP_EXPRESS, 24, 17815),
 ]
 
 export enum WarpStrategy {
@@ -80,6 +81,7 @@ export type WarpIncomeDefinition = {
   id: string
   version: string
   type: WarpIncomeType
+  part: number
 }
 
 type WarpMilestone = {
@@ -92,18 +94,19 @@ type WarpMilestone = {
   warpCap: number
 }
 
-function generateOption(version: string, type: WarpIncomeType, passes: number, jades: number) {
+function generateOption(version: string, part: number, type: WarpIncomeType, passes: number, jades: number) {
   return {
     passes,
     jades,
     version,
+    part,
     type,
-    id: generateOptionKey(version, type),
+    id: generateOptionKey(version, part, type),
   }
 }
 
-function generateOptionKey(version: string, type: WarpIncomeType) {
-  return `${version}/${type}`
+function generateOptionKey(version: string, part: number, type: WarpIncomeType) {
+  return `${version}_p${part}_${type}`
 }
 
 export function handleWarpRequest(originalRequest: WarpRequest) {

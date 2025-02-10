@@ -16,19 +16,24 @@ export enum WarpIncomeType {
   BP_EXPRESS,
 }
 
-export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0, 0)
+export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0)
 
 // Modified each patch
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
 
-  generateOption('3.0', 1, WarpIncomeType.F2P, 25, 13490),
-  generateOption('3.0', 2, WarpIncomeType.F2P, 15, 0), // Test
-  generateOption('3.0', 1, WarpIncomeType.EXPRESS, 25, 17270),
-  generateOption('3.0', 1, WarpIncomeType.BP_EXPRESS, 29, 17950),
+  generateOption('3.0', 1, WarpIncomeType.F2P, 75),
+  generateOption('3.0', 2, WarpIncomeType.F2P, 34), 
+  generateOption('3.0', 1, WarpIncomeType.EXPRESS, 86),
+  generateOption('3.0', 2, WarpIncomeType.EXPRESS, 46),
+  generateOption('3.0', 1, WarpIncomeType.BP_EXPRESS, 90),
+  generateOption('3.0', 2, WarpIncomeType.BP_EXPRESS, 51),
 
-  generateOption('3.1', 1, WarpIncomeType.F2P, 20, 13355),
-  generateOption('3.1', 1, WarpIncomeType.EXPRESS, 20, 17135),
-  generateOption('3.1', 1, WarpIncomeType.BP_EXPRESS, 24, 17815),
+  generateOption('3.1', 1, WarpIncomeType.F2P, 80),
+  generateOption('3.1', 2, WarpIncomeType.F2P, 23),
+  generateOption('3.1', 1, WarpIncomeType.EXPRESS, 93),
+  generateOption('3.1', 2, WarpIncomeType.EXPRESS, 34),
+  generateOption('3.1', 1, WarpIncomeType.BP_EXPRESS, 96),
+  generateOption('3.1', 2, WarpIncomeType.BP_EXPRESS, 39),
 ]
 
 export enum WarpStrategy {
@@ -77,7 +82,6 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
 
 export type WarpIncomeDefinition = {
   passes: number
-  jades: number
   id: string
   version: string
   type: WarpIncomeType
@@ -94,10 +98,9 @@ type WarpMilestone = {
   warpCap: number
 }
 
-function generateOption(version: string, part: number, type: WarpIncomeType, passes: number, jades: number) {
+function generateOption(version: string, part: number, type: WarpIncomeType, passes: number) {
   return {
     passes,
-    jades,
     version,
     part,
     type,
@@ -266,16 +269,14 @@ function enrichWarpRequest(request: WarpRequest) {
     (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId) ?? NONE_WARP_INCOME_OPTION,
   )
 
-  let additionalJades = 0
   let additionalPasses = 0
  
-  // Sum all jades and passes.
+  // Sum all passes.
   for (const income of selectedIncome) {
-    additionalJades += income.jades
     additionalPasses += income.passes
   }
 
-  const totalJade = request.jades + additionalJades
+  const totalJade = request.jades
   const totalPasses = request.passes + additionalPasses
   const totalWarps = Math.floor(totalJade / 160) + totalPasses
 

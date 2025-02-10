@@ -361,20 +361,20 @@ function PityInputs(props: { banner: string }) {
 function generateIncomeOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
   const locale = i18next.resolvedLanguage?.split('_')[0]
-  const options: SelectProps['options'] = WarpIncomeOptions.map((option) => ({
-    value: option.id,
-    label: option.type == WarpIncomeType.NONE
-      ? t('Type.0')
-      : (
-        <Flex align='center' gap={3}>
-          <IncomeOptionLabel option={option}/>
-          {`+${option.passes.toLocaleString(locale)}`}
-          <img style={{ height: 18 }} src={Assets.getPass()}/>
-          {/* {`+${option.jades.toLocaleString(locale)}`}
-          <img style={{ height: 18 }} src={Assets.getJade()}/> */}
-        </Flex>
-      ),
-  }))
+  const options: SelectProps['options'] = WarpIncomeOptions
+    .sort((a, b) => a.type - b.type) // Sort by type
+    .map((option) => ({
+      value: option.id,
+      label: option.type == WarpIncomeType.NONE
+        ? t('Type.0')
+        : (
+          <Flex align='center' gap={3}>
+            <IncomeOptionLabel option={option}/>
+            {`+${option.passes.toLocaleString(locale)}`}
+            <img style={{ height: 18 }} src={Assets.getPass()}/>
+          </Flex>
+        ),
+    }))
 
   return options
 }

@@ -134,6 +134,7 @@ function Inputs() {
                     <Select
                       options={generateIncomeOptions()}
                       mode='multiple'
+                      maxTagCount={1}
                     />
                   </Form.Item>
                 </Flex>
@@ -365,8 +366,8 @@ function generateIncomeOptions() {
           <IncomeOptionLabel option={option}/>
           {`+${option.passes.toLocaleString(locale)}`}
           <img style={{ height: 18 }} src={Assets.getPass()}/>
-          {`+${option.jades.toLocaleString(locale)}`}
-          <img style={{ height: 18 }} src={Assets.getJade()}/>
+          {/* {`+${option.jades.toLocaleString(locale)}`}
+          <img style={{ height: 18 }} src={Assets.getJade()}/> */}
         </Flex>
       ),
   }))

@@ -61,7 +61,7 @@ function Inputs() {
   const initialValues = useMemo(() => {
     if (!Array.isArray(warpRequest.income) ||  
       !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
-      warpRequest.income = []
+      warpRequest.income = [] // Initialize the form to empty.
     }
     return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
   }, [])
@@ -285,7 +285,7 @@ function Results() {
 
       <Text style={{ fontSize: 18 }}>
         <pre style={{ margin: 0 }}>
-          <Flex align='center' gap={10}>
+          <Flex align='center' gap={5}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
             {`( ${warpResult.request.totalJade.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}

@@ -20,7 +20,7 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
 
   const hasMemo = DB.getMetadata().characters[request.characterId].path == PathNames.Remembrance
 
-  for (const buff of [...combatBuffs.buffs, ...(hasMemo ? combatBuffs.buffsMemo : [])]) {
+  for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(hasMemo ? combatBuffs.buffsMemo : [])]) {
     // for (const buff of [...combatBuffs.buffs, ...combatBuffs.buffsMemo]) {
     const id = buff.source.id
     const buffType = request.characterId == id ? BUFF_TYPE.PRIMARY : buff.source.buffType
@@ -39,6 +39,7 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
 
 export function extractCombatBuffs(x: ComputedStatsArray) {
   const buffs = x.buffs
+  const buffsBasic = x.c.buffs
   const buffsMemo = x.m
     ? [...x.buffsMemo, ...x.m.buffs]
     : []
@@ -48,6 +49,7 @@ export function extractCombatBuffs(x: ComputedStatsArray) {
   const combatBuffs = {
     buffs,
     buffsMemo,
+    buffsBasic,
   }
 
   console.log(combatBuffs)
@@ -59,6 +61,7 @@ export function extractCombatBuffs(x: ComputedStatsArray) {
 type CombatBuffs = {
   buffs: Buff[]
   buffsMemo: Buff[]
+  buffsBasic: Buff[]
 }
 
 const sourceToLabelMapping: Record<string, string> = {

@@ -25,14 +25,14 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     key: 'SpaceSealingStation',
     index: 0,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.ATK.buff(0.12 * context.baseATK, Source.SpaceSealingStation)
+      c.ATK_P.buff(0.12, Source.SpaceSealingStation)
     },
   },
   FleetOfTheAgeless: {
     key: 'FleetOfTheAgeless',
     index: 1,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.HP.buff(0.12 * context.baseHP, Source.FleetOfTheAgeless)
+      c.HP_P.buff(0.12, Source.FleetOfTheAgeless)
     },
   },
   PanCosmicCommercialEnterprise: {
@@ -46,7 +46,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     key: 'BelobogOfTheArchitects',
     index: 3,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.DEF.buff(0.15 * context.baseDEF, Source.BelobogOfTheArchitects)
+      c.DEF_P.buff(0.15, Source.BelobogOfTheArchitects)
     },
   },
   CelestialDifferentiator: {
@@ -100,7 +100,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     key: 'FirmamentFrontlineGlamoth',
     index: 10,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.ATK.buff(0.12 * context.baseATK, Source.FirmamentFrontlineGlamoth)
+      c.ATK_P.buff(0.12, Source.FirmamentFrontlineGlamoth)
     },
   },
   PenaconyLandOfTheDreams: {
@@ -124,7 +124,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     key: 'IzumoGenseiAndTakamaDivineRealm',
     index: 13,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.ATK.buff(0.12 * context.baseATK, Source.IzumoGenseiAndTakamaDivineRealm)
+      c.ATK_P.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
     },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
@@ -147,7 +147,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     key: 'ForgeOfTheKalpagniLantern',
     index: 15,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.SPD.buff(0.06 * context.baseSPD, Source.ForgeOfTheKalpagniLantern)
+      c.SPD_P.buff(0.06, Source.ForgeOfTheKalpagniLantern)
     },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledForgeOfTheKalpagniLantern) {
@@ -178,14 +178,14 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     key: 'BoneCollectionsSereneDemesne',
     index: 18,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.HP.buff(0.12 * context.baseHP, Source.BoneCollectionsSereneDemesne)
+      c.HP_P.buff(0.12, Source.BoneCollectionsSereneDemesne)
     },
   },
   GiantTreeOfRaptBrooding: {
     key: 'GiantTreeOfRaptBrooding',
     index: 19,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.SPD.buff(0.06 * context.baseSPD, Source.GiantTreeOfRaptBrooding)
+      c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
     },
   },
 }
@@ -202,10 +202,10 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'MusketeerOfWildWheat',
     index: 1,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.ATK.buff(0.12 * context.baseATK, Source.MusketeerOfWildWheat)
+      c.ATK_P.buff(0.12, Source.MusketeerOfWildWheat)
     },
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.SPD.buff(0.06 * context.baseSPD, Source.MusketeerOfWildWheat)
+      c.SPD_P.buff(0.06, Source.MusketeerOfWildWheat)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       buffAbilityDmg(x, BASIC_DMG_TYPE, 0.10, Source.MusketeerOfWildWheat)
@@ -215,7 +215,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'KnightOfPurityPalace',
     index: 2,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.DEF.buff(0.15 * context.baseDEF, Source.KnightOfPurityPalace)
+      c.DEF_P.buff(0.15, Source.KnightOfPurityPalace)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.SHIELD_BOOST.buff(0.20, Source.KnightOfPurityPalace)
@@ -320,7 +320,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'LongevousDisciple',
     index: 12,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.HP.buff(0.12 * context.baseHP, Source.LongevousDisciple)
+      c.HP_P.buff(0.12, Source.LongevousDisciple)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.CR.buff(0.08 * setConditionals.valueLongevousDisciple, Source.LongevousDisciple)
@@ -330,7 +330,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'MessengerTraversingHackerspace',
     index: 13,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.SPD.buff(0.06 * context.baseSPD, Source.MessengerTraversingHackerspace)
+      c.SPD_P.buff(0.06, Source.MessengerTraversingHackerspace)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledMessengerTraversingHackerspace) {
@@ -353,7 +353,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'PrisonerInDeepConfinement',
     index: 15,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.ATK.buff(0.12 * context.baseATK, Source.PrisonerInDeepConfinement)
+      c.ATK_P.buff(0.12, Source.PrisonerInDeepConfinement)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.DEF_PEN.buff(0.06 * setConditionals.valuePrisonerInDeepConfinement, Source.PrisonerInDeepConfinement)
@@ -400,7 +400,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'TheWindSoaringValorous',
     index: 19,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.ATK.buff(0.12 * context.baseATK, Source.TheWindSoaringValorous)
+      c.ATK_P.buff(0.12, Source.TheWindSoaringValorous)
     },
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CR.buff(0.06, Source.TheWindSoaringValorous)
@@ -415,7 +415,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'SacerdosRelivedOrdeal',
     index: 20,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.SPD.buff(0.06 * context.baseSPD, Source.SacerdosRelivedOrdeal)
+      c.SPD_P.buff(0.06, Source.SacerdosRelivedOrdeal)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.CD.buff(0.18 * setConditionals.valueSacerdosRelivedOrdeal, Source.SacerdosRelivedOrdeal)
@@ -438,7 +438,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'HeroOfTriumphantSong',
     index: 22,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.ATK.buff(0.12 * context.baseATK, Source.HeroOfTriumphantSong)
+      c.ATK_P.buff(0.12, Source.HeroOfTriumphantSong)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledHeroOfTriumphantSong) {
@@ -454,7 +454,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       context.elementalDamageType == Stats.Quantum_DMG && c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
     },
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.SPD.buff(-0.08 * context.baseSPD, Source.PoetOfMourningCollapse)
+      c.SPD_P.buff(-0.08, Source.PoetOfMourningCollapse)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.CR.buffBaseDual((x.c.a[Key.SPD] < 110 ? 0.20 : 0) + (x.c.a[Key.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)

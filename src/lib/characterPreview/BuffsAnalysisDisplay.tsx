@@ -90,7 +90,7 @@ function BuffTag(props: { buff: Buff }) {
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginInlineEnd: 0 }}>
       <Flex justify='space-between' style={{ width: 425 }}>
         <Text style={{ fontSize: 14, width: 70 }}>
-          {`${buff.value > 100 ? Math.floor(buff.value) : TsUtils.precisionRound(buff.value)}`}
+          {`${buff.value > 50 ? Math.floor(buff.value) : TsUtils.precisionRound(buff.value, 3)}`}
         </Text>
         <Text style={{ fontSize: 14, alignItems: 'flex-start', flex: 1 }}>
           {`${buff.stat}`} {buff.memo ? 'ᴹ' : ''}

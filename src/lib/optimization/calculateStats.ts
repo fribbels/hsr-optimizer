@@ -1,4 +1,4 @@
-import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SetsType, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Sets, Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BelobogOfTheArchitectsConditional, BoneCollectionsSereneDemesneConditional, BrokenKeelConditional, FleetOfTheAgelessConditional, GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional, PanCosmicCommercialEnterpriseConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
@@ -6,8 +6,7 @@ import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, StatToKey } from 'lib/optimization/computedStatsArray'
-import { OrnamentSetsConfig, RelicSetsConfig } from 'lib/optimization/config/setsConfig'
-import { p2, p4 } from 'lib/optimization/optimizerUtils'
+import { OrnamentSetsConfig, RelicSetsConfig, SetsConfig, SetsDefinition } from 'lib/optimization/config/setsConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
@@ -29,8 +28,6 @@ const relicIndexToSetKey = Object.entries(RelicSetsConfig)
   .sort((a, b) => a[1].index - b[1].index)
   .map((entry) => entry[0]) as (keyof typeof Sets)[]
 
-const SetsConfig = { ...RelicSetsConfig, ...OrnamentSetsConfig }
-
 export type SetCounts = Map<keyof typeof Sets, number>
 
 export function calculateSetCounts(
@@ -50,10 +47,10 @@ export function calculateSetCounts(
   return setCounts
 }
 
-export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, setCounts: SetsType, sets: number[]) {
+export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, setCounts: SetCounts, sets: number[]) {
   for (const set of new Set(sets)) {
     const key = relicIndexToSetKey[set]
-    const count = setCounts[key]
+    const count = setCounts.get(key) ?? 0
     const config = relicIndexToSetConfig[set]
 
     if (count >= 2) config.p2c && config.p2c(c, context)
@@ -67,37 +64,37 @@ export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerC
 }
 
 export function calculateElementalStats(c: BasicStatsArray, context: OptimizerContext) {
-  const sets = c.sets
-  const base = context.characterStatsBreakdown.base
-  const lc = context.characterStatsBreakdown.lightCone
-  const trace = context.characterStatsBreakdown.traces
-
-  // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
-  // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
-  c.ELEMENTAL_DMG.set(0, Source.NONE)
-  switch (context.elementalDamageType) {
-    case Stats.Physical_DMG:
-      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing)), Source.NONE)
-      break
-    case Stats.Fire_DMG:
-      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging)), Source.NONE)
-      break
-    case Stats.Ice_DMG:
-      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest)), Source.NONE)
-      break
-    case Stats.Lightning_DMG:
-      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0.10 * p2(sets.BandOfSizzlingThunder)), Source.NONE)
-      break
-    case Stats.Wind_DMG:
-      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine)), Source.NONE)
-      break
-    case Stats.Quantum_DMG:
-      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse)), Source.NONE)
-      break
-    case Stats.Imaginary_DMG:
-      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert)), Source.NONE)
-      break
-  }
+  // const sets = c.sets
+  // const base = context.characterStatsBreakdown.base
+  // const lc = context.characterStatsBreakdown.lightCone
+  // const trace = context.characterStatsBreakdown.traces
+  //
+  // // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
+  // // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
+  // c.ELEMENTAL_DMG.set(0, Source.NONE)
+  // switch (context.elementalDamageType) {
+  //   case Stats.Physical_DMG:
+  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing)), Source.NONE)
+  //     break
+  //   case Stats.Fire_DMG:
+  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging)), Source.NONE)
+  //     break
+  //   case Stats.Ice_DMG:
+  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest)), Source.NONE)
+  //     break
+  //   case Stats.Lightning_DMG:
+  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0.10 * p2(sets.BandOfSizzlingThunder)), Source.NONE)
+  //     break
+  //   case Stats.Wind_DMG:
+  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine)), Source.NONE)
+  //     break
+  //   case Stats.Quantum_DMG:
+  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse)), Source.NONE)
+  //     break
+  //   case Stats.Imaginary_DMG:
+  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert)), Source.NONE)
+  //     break
+  // }
 }
 
 export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext) {
@@ -127,7 +124,7 @@ export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAc
   if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
-export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, setCounts: SetsType) {
+export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, setCounts: SetCounts) {
   const setConditionals = action.setConditionals
   const a = x.a
   const c = x.c
@@ -180,16 +177,12 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // BASIC
 
-  for (const set of Object.keys(setCounts) as Array<keyof typeof Sets>) {
+  for (const set of setCounts.keys()) {
     const config = SetsConfig[set]
-    const count = setCounts[set]
+    const count = setCounts.get(set) ?? 0
 
-    if (count >= 2) {
-      config.p2x && config.p2x(c, context)
-    }
-    if (count >= 4) {
-      config.p4x && config.p4x(c, context)
-    }
+    if (count >= 2) config.p2x && config.p2x(x, context, setConditionals)
+    if (count >= 4) config.p4x && config.p4x(x, context, setConditionals)
   }
 
   // if (p2(sets.CelestialDifferentiator) && setConditionals.enabledCelestialDifferentiator && c.a[Key.CD] >= 1.20) {
@@ -339,15 +332,15 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // Dynamic set conditionals
 
-  p2(sets.SpaceSealingStation) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-  p2(sets.FleetOfTheAgeless) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
-  p2(sets.BelobogOfTheArchitects) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-  p2(sets.PanCosmicCommercialEnterprise) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
-  p2(sets.BrokenKeel) && evaluateConditional(BrokenKeelConditional, x, action, context)
-  p2(sets.TaliaKingdomOfBanditry) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-  p2(sets.BoneCollectionsSereneDemesne) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
-  p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
-  p2(sets.GiantTreeOfRaptBrooding) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
+  p2New(SetsConfig.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
+  p2New(SetsConfig.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
+  p2New(SetsConfig.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
+  p2New(SetsConfig.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
+  p2New(SetsConfig.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
+  p2New(SetsConfig.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
+  p2New(SetsConfig.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
+  p2New(SetsConfig.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
+  p2New(SetsConfig.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
 
   // Dynamic character / lc conditionals
 
@@ -363,25 +356,38 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // Terminal set conditionals
 
-  if (p2(sets.FirmamentFrontlineGlamoth) && x.a[Key.SPD] >= 135) {
+  if (p2New(SetsConfig.FirmamentFrontlineGlamoth, sets) && x.a[Key.SPD] >= 135) {
     x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
   }
 
-  if (p2(sets.RutilantArena) && x.a[Key.CR] >= 0.70) {
+  if (p2New(SetsConfig.RutilantArena, sets) && x.a[Key.CR] >= 0.70) {
     buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
   }
 
-  if (p2(sets.InertSalsotto) && x.a[Key.CR] >= 0.50) {
+  if (p2New(SetsConfig.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
     buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
   }
 
-  if (p4(sets.IronCavalryAgainstTheScourge) && x.a[Key.BE] >= 1.50) {
+  if (p4New(SetsConfig.IronCavalryAgainstTheScourge, sets) && x.a[Key.BE] >= 1.50) {
     buffAbilityDefPen(x, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
     buffAbilityDefPen(x, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge)
   }
 
   return x
 }
+
+export function p2New(setsDefinition: SetsDefinition, sets: SetCounts) {
+  return Math.min(1, (sets.get(setsDefinition.key) ?? 0) >> 1)
+}
+
+export function p4New(setsDefinition: SetsDefinition, sets: SetCounts) {
+  return (sets.get(setsDefinition.key) ?? 0) >> 2
+}
+
+// function p2x(x: ComputedStatsArray, context: OptimizerContext, setConfig: SetsDefinition) {
+//   if (!setConfig.p2x) return
+//   setConfig.p2x(x, context)
+// }
 
 export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic, weights: boolean) {
   const a = c.a

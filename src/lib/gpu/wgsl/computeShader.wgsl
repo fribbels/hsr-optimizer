@@ -684,7 +684,7 @@ fn calculateDamage(
       (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + x.SHIELD_BOOST);
     }
 
-    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / (x.DMG_RED_MULTI));
+    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
   if (action.abilityType == 1 || actionIndex == 0) {

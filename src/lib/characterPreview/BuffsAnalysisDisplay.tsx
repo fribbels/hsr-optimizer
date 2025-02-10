@@ -38,14 +38,6 @@ export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
     buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
   }
 
-  // for (let i = buffsDisplayLeft.length - 1; i > 0; i--) {
-  //   buffsDisplayLeft.splice(i, 0, <CustomHorizontalDivider height={10}/>)
-  // }
-  //
-  // for (let i = buffsDisplayRight.length - 1; i > 0; i--) {
-  //   buffsDisplayRight.splice(i, 0, <CustomHorizontalDivider height={10}/>)
-  // }
-
   console.log(rerun)
 
   return (
@@ -87,7 +79,7 @@ function BuffTag(props: { buff: Buff }) {
   const { buff } = props
 
   return (
-    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginInlineEnd: 0 }}>
+    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Flex justify='space-between' style={{ width: 425 }}>
         <Text style={{ fontSize: 14, width: 70 }}>
           {`${buff.value > 50 ? Math.floor(buff.value) : TsUtils.precisionRound(buff.value, 3)}`}
@@ -102,5 +94,3 @@ function BuffTag(props: { buff: Buff }) {
     </Tag>
   )
 }
-
-// ${memo ? 'ᴹ' : ''} :

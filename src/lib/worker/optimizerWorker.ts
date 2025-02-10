@@ -178,7 +178,7 @@ self.onmessage = function (e: MessageEvent) {
       m.setPrecompute(action.precomputedM.a)
 
       calculateBasicEffects(x, action, context)
-      calculateComputedStats(x, action, context, setCounts)
+      calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
       calculateDamage(x, action, context)

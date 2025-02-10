@@ -125,7 +125,7 @@ export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAc
   if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
-export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, setCounts: SetCounts) {
+export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   const a = x.a
   const c = x.c
@@ -178,9 +178,9 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // BASIC
 
-  for (const set of setCounts.keys()) {
+  for (const set of sets.keys()) {
     const config = SetsConfig[set]
-    const count = setCounts.get(set) ?? 0
+    const count = sets.get(set) ?? 0
 
     if (count >= 2) config.p2x && config.p2x(x, context, setConditionals)
     if (count >= 4) config.p4x && config.p4x(x, context, setConditionals)

@@ -118,6 +118,7 @@ export const baseComputedStatsObject = {
 
   DMG_RED_MULTI: 1, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
   EHP: 0,
+  SHIELD_BOOST: 0,
 
   DOT_CHANCE: 0,
   EFFECT_RES_PEN: 0,

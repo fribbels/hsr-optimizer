@@ -1,8 +1,9 @@
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
+import { p2New } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
-import { p2 } from 'lib/optimization/optimizerUtils'
+import { SetsConfig } from 'lib/optimization/config/setsConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export const SpaceSealingStationConditional: DynamicConditional = {
@@ -12,7 +13,7 @@ export const SpaceSealingStationConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.SpaceSealingStation) && x.a[Key.SPD] >= 120
+    return p2New(SetsConfig.SpaceSealingStation, x.c.sets) && x.a[Key.SPD] >= 120
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.ATK.buffDynamic(0.12 * context.baseATK, Source.SpaceSealingStation, action, context)
@@ -38,7 +39,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.FleetOfTheAgeless) && x.a[Key.SPD] >= 120
+    return p2New(SetsConfig.FleetOfTheAgeless, x.c.sets) && x.a[Key.SPD] >= 120
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.ATK.buffDynamic(0.08 * context.baseATK, Source.FleetOfTheAgeless, action, context)
@@ -68,7 +69,7 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.DEF],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.BelobogOfTheArchitects) && x.a[Key.EHR] >= 0.50
+    return p2New(SetsConfig.BelobogOfTheArchitects, x.c.sets) && x.a[Key.EHR] >= 0.50
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.DEF.buffDynamic(0.15 * context.baseDEF, Source.BelobogOfTheArchitects, action, context)
@@ -94,7 +95,7 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.ATK],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.PanCosmicCommercialEnterprise)
+    return p2New(SetsConfig.PanCosmicCommercialEnterprise, x.c.sets)
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
@@ -127,7 +128,7 @@ export const BrokenKeelConditional: DynamicConditional = {
   dependsOn: [Stats.RES],
   chainsTo: [Stats.CD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.BrokenKeel) && x.a[Key.RES] >= 0.30
+    return p2New(SetsConfig.BrokenKeel, x.c.sets) && x.a[Key.RES] >= 0.30
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
@@ -157,7 +158,7 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.BE],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.TaliaKingdomOfBanditry) && x.a[Key.SPD] >= 145
+    return p2New(SetsConfig.TaliaKingdomOfBanditry, x.c.sets) && x.a[Key.SPD] >= 145
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.BE.buffDynamic(0.20, Source.TaliaKingdomOfBanditry, action, context)
@@ -183,7 +184,7 @@ export const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.GiantTreeOfRaptBrooding) && x.a[Key.SPD] >= 135
+    return p2New(SetsConfig.GiantTreeOfRaptBrooding, x.c.sets) && x.a[Key.SPD] >= 135
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.OHB.buffDynamic(0.12, Source.GiantTreeOfRaptBrooding, action, context)
@@ -211,7 +212,7 @@ export const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.GiantTreeOfRaptBrooding) && x.a[Key.SPD] >= 180
+    return p2New(SetsConfig.GiantTreeOfRaptBrooding, x.c.sets) && x.a[Key.SPD] >= 180
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.OHB.buffDynamic(0.08, Source.GiantTreeOfRaptBrooding, action, context)
@@ -239,7 +240,7 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
   dependsOn: [Stats.HP],
   chainsTo: [Stats.CD],
   condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(x.c.sets.BoneCollectionsSereneDemesne) && x.a[Key.HP] >= 5000
+    return p2New(SetsConfig.BoneCollectionsSereneDemesne, x.c.sets) && x.a[Key.HP] >= 5000
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.CD.buffBaseDualDynamic(0.28, Source.BoneCollectionsSereneDemesne, action, context)

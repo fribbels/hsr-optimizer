@@ -1,4 +1,5 @@
 import { SetsType, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SetCounts } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
 import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -256,11 +257,11 @@ function calculateDefMulti(eLevel: number, defPen: number) {
   return cLevelConst / ((eLevel + 20) * Math.max(0, 1 - defPen) + cLevelConst)
 }
 
-function calculateEhp(x: ComputedStatsArray, sets: SetsType, context: OptimizerContext) {
+function calculateEhp(x: ComputedStatsArray, sets: SetCounts, context: OptimizerContext) {
   const a = x.a
 
   let ehp = a[Key.HP] / (1 - a[Key.DEF] / (a[Key.DEF] + 200 + 10 * context.enemyLevel))
-  ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * a[Key.DMG_RED_MULTI])
+  ehp *= 1 / ((1 - 0.08 * p2(sets.get('GuardOfWutheringSnow'))) * a[Key.DMG_RED_MULTI])
   a[Key.EHP] = ehp
 }
 

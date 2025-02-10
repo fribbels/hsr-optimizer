@@ -217,12 +217,15 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.DEF.buff(0.15 * context.baseDEF, Source.KnightOfPurityPalace)
     },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.SHIELD_BOOST.buff(0.20, Source.KnightOfPurityPalace)
+    },
   },
   HunterOfGlacialForest: {
     key: 'HunterOfGlacialForest',
     index: 3,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Ice_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.HunterOfGlacialForest)
+      context.elementalDamageType == Stats.Ice_DMG && c.ICE_DMG_BOOST.buff(0.10, Source.HunterOfGlacialForest)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledHunterOfGlacialForest) {
@@ -234,7 +237,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'ChampionOfStreetwiseBoxing',
     index: 4,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Physical_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.ChampionOfStreetwiseBoxing)
+      context.elementalDamageType == Stats.Physical_DMG && c.PHYSICAL_DMG_BOOST.buff(0.10, Source.ChampionOfStreetwiseBoxing)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.ATK_P.buff(0.05 * setConditionals.valueChampionOfStreetwiseBoxing, Source.ChampionOfStreetwiseBoxing)
@@ -244,12 +247,15 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'GuardOfWutheringSnow',
     index: 5,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {},
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.DMG_RED_MULTI.multiply((1 - 0.08), Source.GuardOfWutheringSnow)
+    },
   },
   FiresmithOfLavaForging: {
     key: 'FiresmithOfLavaForging',
     index: 6,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Fire_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.FiresmithOfLavaForging)
+      context.elementalDamageType == Stats.Fire_DMG && c.FIRE_DMG_BOOST.buff(0.10, Source.FiresmithOfLavaForging)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       buffAbilityDmg(x, SKILL_DMG_TYPE, 0.12, Source.FiresmithOfLavaForging)
@@ -262,7 +268,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'GeniusOfBrilliantStars',
     index: 7,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Quantum_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.GeniusOfBrilliantStars)
+      context.elementalDamageType == Stats.Quantum_DMG && c.QUANTUM_DMG_BOOST.buff(0.10, Source.GeniusOfBrilliantStars)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.DEF_PEN.buff(setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10, Source.GeniusOfBrilliantStars)
@@ -272,7 +278,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'BandOfSizzlingThunder',
     index: 8,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Lightning_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.BandOfSizzlingThunder)
+      context.elementalDamageType == Stats.Lightning_DMG && c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledBandOfSizzlingThunder) {
@@ -284,7 +290,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'EagleOfTwilightLine',
     index: 9,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Wind_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.EagleOfTwilightLine)
+      context.elementalDamageType == Stats.Wind_DMG && c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
     },
   },
   ThiefOfShootingMeteor: {
@@ -301,7 +307,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'WastelanderOfBanditryDesert',
     index: 11,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Imaginary_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.WastelanderOfBanditryDesert)
+      context.elementalDamageType == Stats.Imaginary_DMG && c.IMAGINARY_DMG_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.CD.buff(0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
@@ -445,7 +451,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'PoetOfMourningCollapse',
     index: 23,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Quantum_DMG && c.ELEMENTAL_DMG.buff(0.10, Source.PoetOfMourningCollapse)
+      context.elementalDamageType == Stats.Quantum_DMG && c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
     },
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD.buff(-0.08 * context.baseSPD, Source.PoetOfMourningCollapse)

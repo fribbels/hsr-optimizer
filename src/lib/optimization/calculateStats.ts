@@ -63,38 +63,39 @@ export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerC
   }
 }
 
+// TODO: Cleanup
 export function calculateElementalStats(c: BasicStatsArray, context: OptimizerContext) {
-  // const sets = c.sets
-  // const base = context.characterStatsBreakdown.base
-  // const lc = context.characterStatsBreakdown.lightCone
-  // const trace = context.characterStatsBreakdown.traces
-  //
-  // // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
-  // // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
-  // c.ELEMENTAL_DMG.set(0, Source.NONE)
-  // switch (context.elementalDamageType) {
-  //   case Stats.Physical_DMG:
-  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0.10 * p2(sets.ChampionOfStreetwiseBoxing)), Source.NONE)
-  //     break
-  //   case Stats.Fire_DMG:
-  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0.10 * p2(sets.FiresmithOfLavaForging)), Source.NONE)
-  //     break
-  //   case Stats.Ice_DMG:
-  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0.10 * p2(sets.HunterOfGlacialForest)), Source.NONE)
-  //     break
-  //   case Stats.Lightning_DMG:
-  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0.10 * p2(sets.BandOfSizzlingThunder)), Source.NONE)
-  //     break
-  //   case Stats.Wind_DMG:
-  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0.10 * p2(sets.EagleOfTwilightLine)), Source.NONE)
-  //     break
-  //   case Stats.Quantum_DMG:
-  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse)), Source.NONE)
-  //     break
-  //   case Stats.Imaginary_DMG:
-  //     c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0.10 * p2(sets.WastelanderOfBanditryDesert)), Source.NONE)
-  //     break
-  // }
+  const sets = c.sets
+  const base = context.characterStatsBreakdown.base
+  const lc = context.characterStatsBreakdown.lightCone
+  const trace = context.characterStatsBreakdown.traces
+
+  // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
+  // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
+  c.ELEMENTAL_DMG.set(0, Source.NONE)
+  switch (context.elementalDamageType) {
+    case Stats.Physical_DMG:
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0), Source.NONE)
+      break
+    case Stats.Fire_DMG:
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0), Source.NONE)
+      break
+    case Stats.Ice_DMG:
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0), Source.NONE)
+      break
+    case Stats.Lightning_DMG:
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0), Source.NONE)
+      break
+    case Stats.Wind_DMG:
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0), Source.NONE)
+      break
+    case Stats.Quantum_DMG:
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0), Source.NONE)
+      break
+    case Stats.Imaginary_DMG:
+      c.ELEMENTAL_DMG.set(sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0), Source.NONE)
+      break
+  }
 }
 
 export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext) {

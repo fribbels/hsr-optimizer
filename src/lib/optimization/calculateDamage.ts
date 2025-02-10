@@ -259,7 +259,7 @@ function calculateEhp(x: ComputedStatsArray, context: OptimizerContext) {
 
   let ehp = a[Key.HP] / (1 - a[Key.DEF] / (a[Key.DEF] + 200 + 10 * context.enemyLevel))
   // TODO: EHP boost variable
-  ehp *= 1 / (/* (1 - 0.08 * p2(sets.get('GuardOfWutheringSnow'))) * */ a[Key.DMG_RED_MULTI])
+  ehp *= 1 / a[Key.DMG_RED_MULTI]
   a[Key.EHP] = ehp
 }
 
@@ -276,8 +276,7 @@ function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
 function calculateShield(x: ComputedStatsArray, context: OptimizerContext) {
   const a = x.a
 
-  // TODO: Shield boost variable
-  // a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + 0.20 * p4(sets.KnightOfPurityPalace))
+  a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + a[Key.SHIELD_BOOST])
 }
 
 function calculateAbilityDmg(

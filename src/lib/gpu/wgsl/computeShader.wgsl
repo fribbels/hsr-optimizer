@@ -641,7 +641,7 @@ fn calculateDamage(
     * (1 + x.BE)
     * (1 + x.BREAK_BOOST);
 
-  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
+  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER;
 
   let baseSuperBreakInstanceDmg
     = baseUniversalMulti

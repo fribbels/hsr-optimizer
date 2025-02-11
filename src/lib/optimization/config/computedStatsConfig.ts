@@ -121,7 +121,6 @@ const BaseComputedStatsConfig: Record<string, ComputedStatsConfigBaseType> = {
 
   SUPER_BREAK_MODIFIER: {},
   BASIC_SUPER_BREAK_MODIFIER: {},
-  SUPER_BREAK_HMC_MODIFIER: {},
   BASIC_TOUGHNESS_DMG: { flat: true },
   SKILL_TOUGHNESS_DMG: { flat: true },
   ULT_TOUGHNESS_DMG: { flat: true },

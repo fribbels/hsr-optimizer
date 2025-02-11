@@ -66,7 +66,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.BREAK_BOOST])
 
   // The % of Super Break instance dmg
-  const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER] + a[Key.SUPER_BREAK_HMC_MODIFIER]
+  const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER]
 
   // The multiplier for an instance of 100% Super Break damage
   // Multiply this by the (1 + BREAK_EFFICIENCY_BOOST) * (SUPER_BREAK_MODIFIER)

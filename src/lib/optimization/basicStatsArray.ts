@@ -1,5 +1,6 @@
-import { BasicStatsObject, SetsType } from 'lib/conditionals/conditionalConstants'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BuffSource } from 'lib/optimization/buffSource'
+import { SetCounts } from 'lib/optimization/calculateStats'
 import { Buff, Key, StatController } from 'lib/optimization/computedStatsArray'
 
 type BasicStatsArrayStatExtensions = {
@@ -58,7 +59,7 @@ export class BasicStatsArrayCore {
 
   relicSetIndex: number
   ornamentSetIndex: number
-  sets: SetsType
+  sets: SetCounts
   id: number
   weight: number
 
@@ -115,7 +116,7 @@ export class BasicStatsArrayCore {
     })
   }
 
-  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetsType, id: number) {
+  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetCounts, id: number) {
     this.relicSetIndex = relicSetIndex
     this.ornamentSetIndex = ornamentSetIndex
     this.sets = sets

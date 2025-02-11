@@ -477,6 +477,14 @@ fn main(
         x.Fire_DMG += 0.12;
       }
 
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
+
       x.ATK += diffATK;
       x.DEF += diffDEF;
       x.HP  += diffHP;
@@ -633,7 +641,7 @@ fn calculateDamage(
     * (1 + x.BE)
     * (1 + x.BREAK_BOOST);
 
-  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
+  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER;
 
   let baseSuperBreakInstanceDmg
     = baseUniversalMulti
@@ -673,10 +681,10 @@ fn calculateDamage(
     }
 
     if (x.SHIELD_VALUE > 0) {
-      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + x.SHIELD_BOOST);
     }
 
-    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
   if (action.abilityType == 1 || actionIndex == 0) {
@@ -696,7 +704,7 @@ fn calculateDamage(
       x.BASIC_RES_PEN,
       x.BASIC_CR_BOOST,
       x.BASIC_CD_BOOST,
-      x.BASIC_ORIGINAL_DMG_BOOST,
+      x.BASIC_FINAL_DMG_BOOST,
       x.BASIC_BREAK_EFFICIENCY_BOOST,
       x.BASIC_SUPER_BREAK_MODIFIER,
       x.BASIC_BREAK_DMG_MODIFIER,
@@ -726,7 +734,7 @@ fn calculateDamage(
       x.SKILL_RES_PEN,
       x.SKILL_CR_BOOST,
       x.SKILL_CD_BOOST,
-      x.SKILL_ORIGINAL_DMG_BOOST,
+      x.SKILL_FINAL_DMG_BOOST,
       0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
       0, // x.SKILL_SUPER_BREAK_MODIFIER,
       0, // x.SKILL_BREAK_DMG_MODIFIER,
@@ -756,7 +764,7 @@ fn calculateDamage(
       x.ULT_RES_PEN,
       x.ULT_CR_BOOST,
       x.ULT_CD_BOOST,
-      x.ULT_ORIGINAL_DMG_BOOST,
+      x.ULT_FINAL_DMG_BOOST,
       x.ULT_BREAK_EFFICIENCY_BOOST,
       0, // x.ULT_SUPER_BREAK_MODIFIER,
       0, // x.ULT_BREAK_DMG_MODIFIER,
@@ -786,7 +794,7 @@ fn calculateDamage(
       x.FUA_RES_PEN,
       x.FUA_CR_BOOST,
       x.FUA_CD_BOOST,
-      0, // x.FUA_ORIGINAL_DMG_BOOST,
+      0, // x.FUA_FINAL_DMG_BOOST,
       0, // x.FUA_BREAK_EFFICIENCY_BOOST,
       0, // x.FUA_SUPER_BREAK_MODIFIER,
       0, // x.FUA_BREAK_DMG_MODIFIER,
@@ -816,7 +824,7 @@ fn calculateDamage(
       0, // x.MEMO_SKILL_RES_PEN,
       0, // x.MEMO_SKILL_CR_BOOST,
       0, // x.MEMO_SKILL_CD_BOOST,
-      0, // x.MEMO_SKILL_ORIGINAL_DMG_BOOST,
+      0, // x.MEMO_SKILL_FINAL_DMG_BOOST,
       0, // x.MEMO_SKILL_BREAK_EFFICIENCY_BOOST,
       0, // x.MEMO_SKILL_SUPER_BREAK_MODIFIER,
       0, // x.MEMO_SKILL_BREAK_DMG_MODIFIER,

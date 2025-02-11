@@ -8,14 +8,7 @@ import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
-import {
-  calculateBaseStats,
-  calculateBasicEffects,
-  calculateComputedStats,
-  calculateElementalStats,
-  calculateRelicStats,
-  calculateSetCounts,
-} from 'lib/optimization/calculateStats'
+import { calculateBaseStats, calculateBasicEffects, calculateBasicSetEffects, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
@@ -157,9 +150,11 @@ self.onmessage = function (e: MessageEvent) {
       continue
     }
 
-    const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
-    c.init(relicSetIndex, ornamentSetIndex, sets, col)
+    const sets = [setH, setG, setB, setF, setP, setL]
+    const setCounts = calculateSetCounts(sets)
+    c.init(relicSetIndex, ornamentSetIndex, setCounts, col)
 
+    calculateBasicSetEffects(c, context, setCounts, sets)
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)

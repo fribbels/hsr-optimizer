@@ -1,4 +1,6 @@
+import { p4New } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { SetsConfig } from 'lib/optimization/config/setsConfig'
 import { ContentItem } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -19,7 +21,7 @@ export type Conditionals<T extends ContentDefinition<T>> = {
 
 // Remove the ashblazing set atk bonus only when calc-ing fua attacks
 export const calculateAshblazingSet = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
-  const enabled = p4(x.c.sets.TheAshblazingGrandDuke)
+  const enabled = p4New(SetsConfig.TheAshblazingGrandDuke, x.c.sets)
   const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
   const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * context.baseATK
   const ashblazingMulti = hitMulti * enabled * context.baseATK

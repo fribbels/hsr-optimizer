@@ -13,3 +13,12 @@ export function VerticalDivider(props: { width?: number }) {
 export const HorizontalDivider = styled(Divider)`
     margin: 5px 0px;
 `
+
+export function CustomHorizontalDivider(props: { height?: number }) {
+  const height = props.height ?? 5
+  return (
+    <Flex vertical>
+      <Divider type='horizontal' style={{ flexGrow: 1, margin: `${height}px 10px` }}/>
+    </Flex>
+  )
+}

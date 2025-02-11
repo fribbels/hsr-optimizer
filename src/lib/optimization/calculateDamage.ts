@@ -1,6 +1,5 @@
-import { SetsType, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
-import { p2, p4 } from 'lib/optimization/optimizerUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
@@ -14,13 +13,12 @@ export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerActi
 export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   if (x.m) calculateDamage(x.m, action, context)
 
-  const sets = x.c.sets
   const eLevel = context.enemyLevel
   const a = x.a
 
-  calculateEhp(x, sets, context)
+  calculateEhp(x, context)
   calculateHeal(x, context)
-  calculateShield(x, sets, context)
+  calculateShield(x, context)
 
   a[Key.ELEMENTAL_DMG] += getElementalDamageType(x, context.elementalDamageType)
 
@@ -68,7 +66,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.BREAK_BOOST])
 
   // The % of Super Break instance dmg
-  const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER] + a[Key.SUPER_BREAK_HMC_MODIFIER]
+  const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER]
 
   // The multiplier for an instance of 100% Super Break damage
   // Multiply this by the (1 + BREAK_EFFICIENCY_BOOST) * (SUPER_BREAK_MODIFIER)
@@ -101,7 +99,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.BASIC_RES_PEN],
       a[Key.BASIC_CR_BOOST],
       a[Key.BASIC_CD_BOOST],
-      a[Key.BASIC_ORIGINAL_DMG_BOOST],
+      a[Key.BASIC_FINAL_DMG_BOOST],
       a[Key.BASIC_BREAK_EFFICIENCY_BOOST],
       a[Key.BASIC_SUPER_BREAK_MODIFIER],
       a[Key.BASIC_BREAK_DMG_MODIFIER],
@@ -133,7 +131,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.SKILL_RES_PEN],
       a[Key.SKILL_CR_BOOST],
       a[Key.SKILL_CD_BOOST],
-      a[Key.SKILL_ORIGINAL_DMG_BOOST],
+      a[Key.SKILL_FINAL_DMG_BOOST],
       0, // a[Key.SKILL_BREAK_EFFICIENCY_BOOST],
       0, // a[Key.SKILL_SUPER_BREAK_MODIFIER],
       0, // a[Key.SKILL_BREAK_DMG_MODIFIER],
@@ -165,7 +163,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.ULT_RES_PEN],
       a[Key.ULT_CR_BOOST],
       a[Key.ULT_CD_BOOST],
-      a[Key.ULT_ORIGINAL_DMG_BOOST],
+      a[Key.ULT_FINAL_DMG_BOOST],
       a[Key.ULT_BREAK_EFFICIENCY_BOOST],
       0, // a[Key.ULT_SUPER_BREAK_MODIFIER],
       0, // a[Key.ULT_BREAK_DMG_MODIFIER],
@@ -197,7 +195,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.FUA_RES_PEN],
       a[Key.FUA_CR_BOOST],
       a[Key.FUA_CD_BOOST],
-      0, // a[Key.FUA_ORIGINAL_DMG_BOOST],
+      0, // a[Key.FUA_FINAL_DMG_BOOST],
       0, // a[Key.FUA_BREAK_EFFICIENCY_BOOST],
       0, // a[Key.FUA_SUPER_BREAK_MODIFIER],
       0, // a[Key.FUA_BREAK_DMG_MODIFIER],
@@ -232,7 +230,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_RES_PEN],
         0, // a[Key.MEMO_SKILL_CR_BOOST],
         0, // a[Key.MEMO_SKILL_CD_BOOST],
-        0, // a[Key.MEMO_SKILL_ORIGINAL_DMG_BOOST],
+        0, // a[Key.MEMO_SKILL_FINAL_DMG_BOOST],
         0, // a[Key.MEMO_SKILL_BREAK_EFFICIENCY_BOOST],
         0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
@@ -256,11 +254,11 @@ function calculateDefMulti(eLevel: number, defPen: number) {
   return cLevelConst / ((eLevel + 20) * Math.max(0, 1 - defPen) + cLevelConst)
 }
 
-function calculateEhp(x: ComputedStatsArray, sets: SetsType, context: OptimizerContext) {
+function calculateEhp(x: ComputedStatsArray, context: OptimizerContext) {
   const a = x.a
 
   let ehp = a[Key.HP] / (1 - a[Key.DEF] / (a[Key.DEF] + 200 + 10 * context.enemyLevel))
-  ehp *= 1 / ((1 - 0.08 * p2(sets.GuardOfWutheringSnow)) * a[Key.DMG_RED_MULTI])
+  ehp *= 1 / a[Key.DMG_RED_MULTI]
   a[Key.EHP] = ehp
 }
 
@@ -274,10 +272,10 @@ function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
   )
 }
 
-function calculateShield(x: ComputedStatsArray, sets: SetsType, context: OptimizerContext) {
+function calculateShield(x: ComputedStatsArray, context: OptimizerContext) {
   const a = x.a
 
-  a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + 0.20 * p4(sets.KnightOfPurityPalace))
+  a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + a[Key.SHIELD_BOOST])
 }
 
 function calculateAbilityDmg(

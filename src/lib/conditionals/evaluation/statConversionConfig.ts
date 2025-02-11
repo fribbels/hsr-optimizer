@@ -1,6 +1,6 @@
-import { ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 
 type StatConversionConfigEntry = {
   stat: string

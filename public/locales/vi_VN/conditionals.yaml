@@ -313,14 +313,17 @@ Lightcones:
     Content:
       spdBuff:
         text: Tăng Tốc Độ
+        content: Sau khi người trang bị thi triển Tuyệt Kỹ, Tốc Độ tăng {{SpdBuff}}%, duy trì 2 hiệp.
   ASecretVow:
     Content:
       enemyHpHigherDmgBoost:
         text: HP% địch cao hơn tăng sát thương
+        content: Tăng {{DmgBuff}}% sát thương gây ra cho kẻ địch có phần trăm HP hiện tại cao hơn hoặc bằng phần trăm HP hiện tại của người trang bị.
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
         text: Sát Thương tăng khi Phòng Thủ của kẻ địch bị giảm/làm chậm
+        content: Sát Thương Bạo Kích mà người trang bị gây cho kẻ địch ở trạng thái Giảm Phòng Thủ hoặc Giảm Tốc tăng {{CritBuff}}%.
   CarveTheMoonWeaveTheClouds:
     Content:
       atkBuffActive:
@@ -344,6 +347,7 @@ Lightcones:
     Content:
       dmgResBuff:
         text: Tăng ST Kháng
+        content: Sau khi vào chiến đấu, Kháng Toàn Thuộc Tính của toàn bộ phe ta tăng {{ResBuff}}%. Hiệu ứng cùng loại sẽ không thể cộng dồn.
   DreamvilleAdventure:
     Content:
       ultDmgBuff:
@@ -362,6 +366,7 @@ Lightcones:
     Content:
       enemyShockWindShear:
         text: Địch bị sốc điện / bào mòn
+        content: Sát thương gây ra cho địch ở trạng thái Sốc Điện hoặc Bào Mòn tăng {{DmgBuff}}%, hiệu ứng này cũng có hiệu lực với sát thương duy trì.
   FinalVictor:
     Content:
       goodFortuneStacks:
@@ -372,6 +377,8 @@ Lightcones:
     Content:
       dmgBuff:
         text: Tăng Sát Thương
+        content: >-
+          Khi người trang bị trong 1 lần bị tấn công tích lũy lượng HP tổn thất vượt quá 25% Giới Hạn HP, hoặc tiêu hao HP bản thân trong 1 lần vượt quá 25% Giới Hạn HP, sẽ hồi ngay HP bằng 15% Giới Hạn HP của người trang bị, đồng thời tăng {{DmgBuff}}% Sát Thương do người trang bị gây ra, duy trì 2 hiệp. Hiệu ứng này mỗi 3 hiệp chỉ có thể kích hoạt 1 lần.
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:

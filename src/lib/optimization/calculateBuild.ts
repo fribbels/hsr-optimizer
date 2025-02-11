@@ -3,14 +3,7 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
-import {
-  calculateBaseStats,
-  calculateBasicEffects,
-  calculateComputedStats,
-  calculateElementalStats,
-  calculateRelicStats,
-  calculateSetCounts,
-} from 'lib/optimization/calculateStats'
+import { calculateBaseStats, calculateBasicEffects, calculateBasicSetEffects, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
@@ -69,9 +62,11 @@ export function calculateBuild(
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
-  const sets = calculateSetCounts(setH, setG, setB, setF, setP, setL)
-  c.init(relicSetIndex, ornamentSetIndex, sets, 0)
+  const sets = [setH, setG, setB, setF, setP, setL]
+  const setCounts = calculateSetCounts(sets)
+  c.init(relicSetIndex, ornamentSetIndex, setCounts, 0)
 
+  calculateBasicSetEffects(c, context, setCounts, sets)
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)

@@ -5,7 +5,7 @@ import { expect, test } from 'vitest'
 const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
-  income: [NONE_WARP_INCOME_OPTION.id],
+  income: [[0, NONE_WARP_INCOME_OPTION.id]],
   strategy: WarpStrategy.E0,
   pityCharacter: 0,
   guaranteedCharacter: false,

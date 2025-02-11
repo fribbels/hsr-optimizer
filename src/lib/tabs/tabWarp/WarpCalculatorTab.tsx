@@ -61,7 +61,7 @@ function Inputs() {
 
   const initialValues = useMemo(() => {
     if (!Array.isArray(warpRequest.income) ||  
-      !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
+      !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId[1]))) {
       warpRequest.income = []
     }
     return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
@@ -132,11 +132,6 @@ function Inputs() {
                 <Flex vertical flex={1}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
-                    {/* <Select
-                      options={generateIncomeOptions()}
-                      mode='multiple'
-                      maxTagCount={1}
-                    /> */}
                     <Cascader
                       options={generateIncomeOptions()}
                       expandTrigger='hover'
@@ -370,21 +365,6 @@ function PityInputs(props: { banner: string }) {
 function generateIncomeOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
   const locale = i18next.resolvedLanguage?.split('_')[0]
-  // const options: SelectProps['options'] = WarpIncomeOptions
-  //   .sort((a, b) => a.type - b.type)
-  //   .map((option) => ({
-  //     value: option.id,
-  //     label: option.type == WarpIncomeType.NONE
-  //       ? t('Type.0')
-  //       : (
-  //         <Flex align='center' gap={3}>
-  //           <IncomeOptionLabel option={option}/>
-  //           {`+${option.passes.toLocaleString(locale)}`}
-  //           <img style={{ height: 18 }} src={Assets.getPass()}/>
-  //         </Flex>
-  //       ),
-  //   }))
-
   const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]  
 
   const options = types.map((type) => ({

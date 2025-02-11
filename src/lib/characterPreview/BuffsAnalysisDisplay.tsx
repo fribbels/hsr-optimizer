@@ -92,9 +92,9 @@ function BuffTag(props: { buff: Buff }) {
 
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
-      <Flex justify='space-between' style={{ width: 425 }}>
-        <Text style={{ minWidth: 70 }}>
-          <Flex gap={3}>
+      <Text>
+        <Flex justify='space-between' style={{ width: 425 }}>
+          <Flex gap={3} style={{ minWidth: 70 }}>
             <span>
               {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
             </span>
@@ -102,14 +102,14 @@ function BuffTag(props: { buff: Buff }) {
               {`${percent ? '%' : ''}`}
             </span>
           </Flex>
-        </Text>
-        <Text style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10 }}>
-          {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
-        </Text>
-        <Text style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
-          {sourceLabel}
-        </Text>
-      </Flex>
+          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10 }}>
+            {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
+          </span>
+          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
+            {sourceLabel}
+          </span>
+        </Flex>
+      </Text>
     </Tag>
   )
 }

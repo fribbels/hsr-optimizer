@@ -1,4 +1,5 @@
 import { Flex, Tag, Typography } from 'antd'
+import i18next from 'i18next'
 import { Sets } from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
@@ -77,16 +78,22 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
 }
 
 function BuffTag(props: { buff: Buff }) {
-  // const { t, i18n } = useTranslation('common')
+  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
   const { buff } = props
   const stat = buff.stat as keyof ComputedStatsObject
   const percent = !StatsConfig[stat].flat
-  const buffLabel = computedStatsTempI18NTranslations[stat]
+  const statLabel = computedStatsTempI18NTranslations[stat]
+
+  let sourceLabel
+
+  if (buff.source.buffType == BUFF_TYPE.CHARACTER) sourceLabel = buff.source.ability
+  else if (buff.source.buffType == BUFF_TYPE.LIGHTCONE) sourceLabel = t(`gameData:Lightcones.${buff.source.id}.Name` as never)
+  else sourceLabel = buff.source.label
 
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Flex justify='space-between' style={{ width: 425 }}>
-        <Text style={{ width: 70 }}>
+        <Text style={{ minWidth: 70 }}>
           <Flex gap={3}>
             <span>
               {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
@@ -96,11 +103,11 @@ function BuffTag(props: { buff: Buff }) {
             </span>
           </Flex>
         </Text>
-        <Text style={{ alignItems: 'flex-start', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 5 }}>
-          {`${buffLabel}`} {buff.memo ? 'ᴹ' : ''}
+        <Text style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10 }}>
+          {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
         </Text>
-        <Text style={{ overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 125 }}>
-          {buff.source.label}
+        <Text style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
+          {sourceLabel}
         </Text>
       </Flex>
     </Tag>

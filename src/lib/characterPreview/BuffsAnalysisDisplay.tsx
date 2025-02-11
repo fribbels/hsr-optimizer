@@ -9,6 +9,7 @@ import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runSimulations } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -77,8 +78,10 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
 }
 
 function BuffTag(props: { buff: Buff }) {
+  const { t, i18n } = useTranslation('common')
   const { buff } = props
   const percent = !StatsConfig[buff.stat].flat
+  const buffLabel = t(`ComputedStats.${buff.stat}`)
 
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
@@ -94,7 +97,7 @@ function BuffTag(props: { buff: Buff }) {
           </Flex>
         </Text>
         <Text style={{ fontSize: 14, alignItems: 'flex-start', flex: 1 }}>
-          {`${buff.stat}`} {buff.memo ? 'ᴹ' : ''}
+          {`${buffLabel}`} {buff.memo ? 'ᴹ' : ''}
         </Text>
         <Text style={{ fontSize: 14 }}>
           {buff.source.label}

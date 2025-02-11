@@ -2,7 +2,7 @@ import { ElementToResPenType, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
+import { BaseComputedStatsConfig, baseComputedStatsObject, ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export type Buff = {
@@ -13,12 +13,15 @@ export type Buff = {
   memo?: boolean
 }
 
-export type KeysType = keyof typeof baseComputedStatsObject
+export type KeysType = keyof ComputedStatsObject
 
-export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject).reduce((acc, key, index) => {
-  acc[key] = index
-  return acc
-}, {} as Record<KeysType, number>)
+export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject).reduce(
+  (acc, key, index) => {
+    acc[key as KeysType] = index
+    return acc
+  },
+  {} as Record<KeysType, number>,
+)
 
 export type StatController = {
   buff: (value: number, source: BuffSource) => void
@@ -37,11 +40,11 @@ export type StatController = {
 }
 
 type ComputedStatsArrayStatExtensions = {
-  [K in keyof typeof baseComputedStatsObject]: StatController;
+  [K in keyof typeof BaseComputedStatsConfig]: StatController;
 }
 
 type ComputedStatsArrayStatDirectAccess = {
-  [K in keyof typeof baseComputedStatsObject as `$${K}`]: number;
+  [K in keyof typeof BaseComputedStatsConfig as `$${K}`]: number;
 }
 
 export type ComputedStatsArray =
@@ -221,10 +224,13 @@ export function toComputedStatsObject(a: Float32Array) {
   const result: Partial<ComputedStatsObjectExternal> = {}
 
   for (const key in Key) {
-    const externalKey = InternalKeyToExternal[key] ?? key
-    const numericKey = Key[key]
+    const typedKey = key as KeysType
+
+    const externalKey = InternalKeyToExternal[typedKey] ?? typedKey
+    const numericKey = Key[typedKey]
     result[externalKey] = a[numericKey]
   }
+
   return result as ComputedStatsObjectExternal
 }
 
@@ -232,7 +238,7 @@ export function baseComputedStatsArray() {
   return Float32Array.from(Object.values(baseComputedStatsObject))
 }
 
-export const InternalKeyToExternal: Record<string, string> = {
+export const InternalKeyToExternal: Record<string, keyof ComputedStatsObjectExternal> = {
   ATK_P: Stats.ATK_P,
   ATK: Stats.ATK,
   BE: Stats.BE,

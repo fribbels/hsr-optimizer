@@ -1,4 +1,14 @@
-import { ADDITIONAL_DMG_TYPE, BASIC_DMG_TYPE, BREAK_DMG_TYPE, DOT_DMG_TYPE, FUA_DMG_TYPE, MEMO_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  ADDITIONAL_DMG_TYPE,
+  BASIC_DMG_TYPE,
+  BREAK_DMG_TYPE,
+  DOT_DMG_TYPE,
+  FUA_DMG_TYPE,
+  MEMO_DMG_TYPE,
+  SKILL_DMG_TYPE,
+  SUPER_BREAK_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 
 enum StatCategory {
   CD,
@@ -12,7 +22,7 @@ export type ComputedStatsConfigBaseType = {
   whole?: boolean
 }
 
-const BaseComputedStatsConfig: Record<string, ComputedStatsConfigBaseType> = {
+export const BaseComputedStatsConfig = {
   HP_P: {},
   ATK_P: {},
   DEF_P: {},
@@ -209,42 +219,41 @@ const BaseComputedStatsConfig: Record<string, ComputedStatsConfigBaseType> = {
   SUPER_BREAK_DMG_TYPE: { flat: true, default: SUPER_BREAK_DMG_TYPE },
   MEMO_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE },
-}
+} as const
 
 type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
 
 export type ComputedStatsConfigType = {
   [K in ComputedStatKeys]: {
-    key: K
     index: number
     default: number
     flat: boolean
+    whole: boolean
     category: StatCategory
-  }
-}
-export type BaseComputedStatsObjectType = {
-  [K in ComputedStatKeys]: number
+  };
 }
 
-export const StatsConfig: ComputedStatsConfigType = Object.keys(BaseComputedStatsConfig)
-  .reduce((acc, key, index) => {
-    const value = BaseComputedStatsConfig[key]
+export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
+  Object.entries(BaseComputedStatsConfig).map(([key, value], index) => {
+    const baseValue = value as ComputedStatsConfigBaseType
 
-    acc[key] = {
-      index,
-      key: key,
-      default: value.default ?? 0,
-      flat: value.flat ?? false,
-      category: value.category ?? StatCategory.NONE,
-    }
+    return [
+      key,
+      {
+        index: index,
+        default: baseValue.default ?? 0,
+        flat: baseValue.flat ?? false,
+        whole: baseValue.whole ?? false,
+        category: baseValue.category ?? StatCategory.NONE,
+      },
+    ]
+  }),
+) as ComputedStatsConfigType
 
-    return acc
-  }, {} as ComputedStatsConfigType)
+export type ComputedStatsObject = {
+  [K in keyof typeof StatsConfig]: number;
+}
 
-export const baseComputedStatsObject: BaseComputedStatsObjectType = Object.keys(StatsConfig)
-  .reduce((acc, key) => {
-    acc[key] = StatsConfig[key].default
-    return acc
-  }, {} as BaseComputedStatsObjectType)
-
-export type ComputedStatsObject = BaseComputedStatsObjectType
+export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
+  Object.entries(StatsConfig).map(([key, value]) => [key, value.default]),
+) as ComputedStatsObject

@@ -86,7 +86,7 @@ function BuffTag(props: { buff: Buff }) {
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Flex justify='space-between' style={{ width: 425 }}>
-        <Text style={{ fontSize: 14, width: 70 }}>
+        <Text style={{ width: 70 }}>
           <Flex gap={3}>
             <span>
               {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
@@ -96,10 +96,10 @@ function BuffTag(props: { buff: Buff }) {
             </span>
           </Flex>
         </Text>
-        <Text style={{ fontSize: 14, alignItems: 'flex-start', flex: 1 }}>
+        <Text style={{ alignItems: 'flex-start', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 5 }}>
           {`${buffLabel}`} {buff.memo ? 'ᴹ' : ''}
         </Text>
-        <Text style={{ fontSize: 14 }}>
+        <Text style={{ overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 125 }}>
           {buff.source.label}
         </Text>
       </Flex>

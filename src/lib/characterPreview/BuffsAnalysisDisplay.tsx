@@ -13,12 +13,27 @@ import React, { ReactElement } from 'react'
 
 const { Text } = Typography
 
-export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
-  const { result } = props
-  result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
-  const x = rerun.tracedX!
-  const buffGroups = aggregateCombatBuffs(x, result.simulationForm)
+interface BuffsAnalysisFromResult {
+  result: SimulationScore
+  buffGroups?: never
+}
+
+interface BuffsAnalysisFromBuffGroups {
+  result?: never
+  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
+}
+
+type BuffsAnalysisProps = BuffsAnalysisFromBuffGroups | BuffsAnalysisFromResult
+
+export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
+  const buffGroups = props.buffGroups ?? (() => {
+    const { result } = props
+    result.simulationForm.trace = true
+    const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
+    const x = rerun.tracedX!
+    console.log(rerun)
+    return aggregateCombatBuffs(x, result.simulationForm)
+  })()
 
   const buffsDisplayLeft: ReactElement[] = []
   const buffsDisplayRight: ReactElement[] = []
@@ -39,8 +54,6 @@ export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
   for (const [id, buffs] of Object.entries(buffGroups.LIGHTCONE)) {
     buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
   }
-
-  console.log(rerun)
 
   return (
     <Flex justify='space-between' style={{ width: '100%' }}>

@@ -1,5 +1,8 @@
 import { ThemeConfig } from 'antd'
 import { ComputeEngine } from 'lib/constants/constants'
+import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { BuildData } from 'lib/simulations/expandedComputedStats'
 import { Simulation } from 'lib/simulations/statSimulationController'
@@ -91,11 +94,12 @@ export type HsrOptimizerStore = {
   relicsById: Record<string, Relic>
   statDisplay: string
   memoDisplay: string
-  dataPanelDisplay: string
   menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
-  optimizerExpandedRowBuildData: BuildData | null
+  optimizerExpandedPanelBuildData: BuildData | null
+  optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
+  optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | null
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
@@ -131,13 +135,14 @@ export type HsrOptimizerStore = {
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: string) => void
   setMemoDisplay: (display: string) => void
-  setDataPanelDisplay: (display: string) => void
   setCharacters: (characters: Character[]) => void
   setCharactersById: (charactersById: Record<string, Character>) => void
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
   setOptimizerBuild: (x: Build) => void
-  setOptimizerExpandedRowBuildData: (x: BuildData) => void
+  setOptimizerExpandedPanelBuildData: (x: BuildData) => void
+  setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim) => void
+  setOptimizerBuffGroups: (x: Record<BUFF_TYPE, Record<string, Buff[]>>) => void
   setSavedSession: (x: SavedSession) => void
   setOptimizerFormSelectedLightCone: (x: any) => void
   setOptimizerFormCharacterEidolon: (x: any) => void
@@ -193,6 +198,7 @@ export type UserSettings = {
   RelicEquippingBehavior: string
   PermutationsSidebarBehavior: string
   RelicPotentialLoadBehavior: string
+  ExpandedInfoPanelPosition: string
 }
 
 // The JSON format we save to localstorage / save file

@@ -15,6 +15,7 @@ import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerCon
 import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { Build } from 'types/character'
 import { Form } from 'types/form'
 
 type PermutationSizes = {
@@ -181,7 +182,7 @@ export const OptimizerTabController = {
     }
 
     const row = selectedNodes[0].data!
-    const build = OptimizerTabController.calculateRelicIdsFromId(row.id)
+    const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
@@ -194,7 +195,8 @@ export const OptimizerTabController = {
   cellClicked: (event: CellClickedEvent) => {
     const data = event.data as OptimizerDisplayDataStatSim
     const gridApi = optimizerGridApi()
-    if (window.store.getState().dataPanelDisplay === 'shown') gridApi.updateGridOptions({ pinnedBottomRowData: [data] })
+
+    window.store.getState().setOptimizerSelectedRowData(data)
 
     if (event.rowPinned == 'top') {
       // Clicking the top row should display current relics
@@ -304,6 +306,16 @@ export const OptimizerTabController = {
             window.optimizerGrid.current?.api.setGridOption('loading', false)
           }
           OptimizerTabController.redrawRows()
+        }).then(() => { // update the expanded data panel after a fresh optimizer run
+          let selectedRow: OptimizerDisplayDataStatSim | undefined = window.optimizerGrid.current?.api.getSelectedRows()[0]
+          // default to equipped build if no selected row
+          if (!selectedRow) selectedRow = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim> | undefined)?.data
+          if (selectedRow) {
+            const build = OptimizerTabController.calculateRelicIdsFromId(selectedRow.id)
+            window.store.getState().setOptimizerBuild(build)
+            window.store.getState().setOptimizerSelectedRowData(selectedRow)
+            handleOptimizerExpandedRowData(build)
+          }
         })
       },
     }
@@ -313,7 +325,7 @@ export const OptimizerTabController = {
   calculateRelicsFromId: (id: number) => {
     if (id === 0) { // special case for equipped build optimizer row
       const build = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter!).equipped
-      const out = {} as SingleRelicByPart
+      const out = {} as Partial<SingleRelicByPart>
       for (const key of Object.keys(build)) {
         out[key as Parts] = DB.getRelicById(build[key as Parts]!)
       }
@@ -348,12 +360,12 @@ export const OptimizerTabController = {
     const relicsFromId = OptimizerTabController.calculateRelicsFromId(id)
 
     return {
-      Head: relicsFromId.Head.id,
-      Hands: relicsFromId.Hands.id,
-      Body: relicsFromId.Body.id,
-      Feet: relicsFromId.Feet.id,
-      PlanarSphere: relicsFromId.PlanarSphere.id,
-      LinkRope: relicsFromId.LinkRope.id,
+      Head: relicsFromId.Head?.id,
+      Hands: relicsFromId.Hands?.id,
+      Body: relicsFromId.Body?.id,
+      Feet: relicsFromId.Feet?.id,
+      PlanarSphere: relicsFromId.PlanarSphere?.id,
+      LinkRope: relicsFromId.LinkRope?.id,
     }
   },
 
@@ -549,7 +561,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
 
   for (const row of subArray) {
     for (const column of OptimizerTabController.getColumnsToAggregate()) {
-      const value: number = row[column as keyof OptimizerDisplayData]
+      const value = row[column as keyof OptimizerDisplayData] as number
       if (value < minAgg[column]) minAgg[column] = value
       if (value > maxAgg[column]) maxAgg[column] = value
     }

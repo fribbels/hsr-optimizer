@@ -5,7 +5,6 @@ import {
   Constants,
   CURRENT_OPTIMIZER_VERSION,
   DAMAGE_UPGRADES,
-  DEFAULT_DATAPANEL_DISPLAY,
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
   Parts,
@@ -163,7 +162,6 @@ window.store = create((set) => {
     warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
-    dataPanelDisplay: DEFAULT_DATAPANEL_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
     statSimulations: [],
     selectedStatSimulations: [],
@@ -228,7 +226,9 @@ window.store = create((set) => {
 
     settings: DefaultSettingOptions,
     optimizerBuild: null,
-    optimizerExpandedRowBuildData: null,
+    optimizerExpandedPanelBuildData: null,
+    optimizerSelectedRowData: null,
+    optimizerBuffGroups: null,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
@@ -265,7 +265,6 @@ window.store = create((set) => {
     setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
-    setDataPanelDisplay: (x) => set(() => ({ dataPanelDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
     setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
     setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
@@ -292,7 +291,9 @@ window.store = create((set) => {
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
-    setOptimizerExpandedRowBuildData: (x) => set(() => ({ optimizerExpandedRowBuildData: x })),
+    setOptimizerExpandedPanelBuildData: (x) => set(() => ({ optimizerExpandedPanelBuildData: x })),
+    setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
+    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store

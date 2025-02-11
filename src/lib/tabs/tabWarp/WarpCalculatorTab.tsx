@@ -2,6 +2,7 @@ import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/ico
 import {
   Button,
   Card,
+  Cascader,
   Flex,
   Form,
   InputNumber,
@@ -131,9 +132,17 @@ function Inputs() {
                 <Flex vertical flex={1}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
-                    <Select
+                    {/* <Select
                       options={generateIncomeOptions()}
                       mode='multiple'
+                      maxTagCount={1}
+                    /> */}
+                    <Cascader
+                      options={generateIncomeOptions()}
+                      expandTrigger='hover'
+                      placeholder='Additional resources'
+                      multiple
+                      showCheckedStrategy={Cascader.SHOW_CHILD}
                       maxTagCount={1}
                     />
                   </Form.Item>
@@ -361,20 +370,41 @@ function PityInputs(props: { banner: string }) {
 function generateIncomeOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
   const locale = i18next.resolvedLanguage?.split('_')[0]
-  const options: SelectProps['options'] = WarpIncomeOptions
-    .sort((a, b) => a.type - b.type) // Sort by type
-    .map((option) => ({
-      value: option.id,
-      label: option.type == WarpIncomeType.NONE
-        ? t('Type.0')
-        : (
-          <Flex align='center' gap={3}>
-            <IncomeOptionLabel option={option}/>
-            {`+${option.passes.toLocaleString(locale)}`}
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
-          </Flex>
-        ),
-    }))
+  // const options: SelectProps['options'] = WarpIncomeOptions
+  //   .sort((a, b) => a.type - b.type)
+  //   .map((option) => ({
+  //     value: option.id,
+  //     label: option.type == WarpIncomeType.NONE
+  //       ? t('Type.0')
+  //       : (
+  //         <Flex align='center' gap={3}>
+  //           <IncomeOptionLabel option={option}/>
+  //           {`+${option.passes.toLocaleString(locale)}`}
+  //           <img style={{ height: 18 }} src={Assets.getPass()}/>
+  //         </Flex>
+  //       ),
+  //   }))
+
+  const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]  
+
+  const options = types.map((type) => ({
+    label: t(`Type.${type}`),
+    value: type,
+    children: WarpIncomeOptions
+      .filter((option) => option.type === type)
+      .map((option) => ({
+        value: option.id,
+        label: option.type == WarpIncomeType.NONE
+          ? t('Type.0')
+          : (
+            <Flex align='center' gap={3}>
+              <IncomeOptionLabel option={option}/>
+              {`+${option.passes.toLocaleString(locale)}`}
+              <img style={{ height: 18 }} src={Assets.getPass()}/>
+            </Flex>
+          ),
+      })),
+  }))
 
   return options
 }

@@ -274,6 +274,8 @@ function enrichWarpRequest(request: WarpRequest) {
     additionalPasses += income.passes
   }
 
+  console.log('selectedIncome', selectedIncome) // Debug
+
   const totalJade = request.jades
   const totalPasses = request.passes + additionalPasses
   const totalWarps = Math.floor(totalJade / 160) + totalPasses

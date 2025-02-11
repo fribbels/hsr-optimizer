@@ -391,6 +391,18 @@ function calculateAbilityDmg(
     memoJointDmgOutput += abilityMemoJointDamage
   }
 
+  if (x.trace) {
+    x.dmgSplits.push({
+      abilityType: action.actionType,
+      critDmg: abilityCritDmgOutput,
+      breakDmg: abilityBreakDmgOutput,
+      superBreakDmg: abilitySuperBreakDmgOutput,
+      additionalDmg: abilityAdditionalDmgOutput,
+      trueDmg: trueDmgOutput,
+      jointDmg: memoJointDmgOutput,
+    })
+  }
+
   return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput
 }
 

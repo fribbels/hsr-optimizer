@@ -11,6 +11,15 @@ export type Buff = {
   value: number
   source: BuffSource
 }
+export type DmgContribution = {
+  abilityType: string
+  critDmg: number
+  breakDmg: number
+  superBreakDmg: number
+  additionalDmg: number
+  trueDmg: number
+  jointDmg: number
+}
 
 export type KeysType = keyof typeof baseComputedStatsObject
 
@@ -56,6 +65,7 @@ export class ComputedStatsArrayCore {
   buffs: Buff[]
   buffsMemo: Buff[]
   trace: boolean
+  dmgSplits: DmgContribution[]
 
   constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
     // @ts-ignore
@@ -67,6 +77,7 @@ export class ComputedStatsArrayCore {
     this.buffs = []
     this.buffsMemo = []
     this.trace = trace
+    this.dmgSplits = []
     Object.keys(baseComputedStatsObject).forEach((stat, key) => {
       const trace
         = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })

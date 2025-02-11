@@ -9,7 +9,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Build } from 'types/character'
 import { OptimizerForm } from 'types/form'
 
-type BuildData = {
+export type BuildData = {
   x: ComputedStatsArray
   request: OptimizerForm
 }
@@ -47,6 +47,8 @@ export function handleOptimizerExpandedRowData(build: Build) {
 
   const { x, request } = buildData
 
-  console.log(x.toComputedStatsObject())
+  window.store.getState().setOptimizerExpandedRowBuildData(buildData)
+
+  console.log('computed stats object', x.toComputedStatsObject())
   aggregateCombatBuffs(x, request)
 }

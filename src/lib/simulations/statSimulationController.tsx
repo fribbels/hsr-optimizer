@@ -297,6 +297,14 @@ export type RunSimulationsParams = {
 const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
 const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
+export const defaultSimulationParams: RunSimulationsParams = {
+  quality: 1,
+  speedRollValue: 2.6,
+  mainStatMultiplier: 1,
+  substatRollsModifier: (num: number) => num,
+  simulationFlags: {} as SimulationFlags,
+}
+
 export function runSimulations(
   form: Form,
   context: OptimizerContext | null,
@@ -304,14 +312,7 @@ export function runSimulations(
   inputParams: Partial<RunSimulationsParams> = {},
   weight: boolean = false,
 ): SimulationResult[] {
-  const defaultParams: RunSimulationsParams = {
-    quality: 1,
-    speedRollValue: 2.6,
-    mainStatMultiplier: 1,
-    substatRollsModifier: (num: number) => num,
-    simulationFlags: {} as SimulationFlags,
-  }
-  const params: RunSimulationsParams = { ...defaultParams, ...inputParams }
+  const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
 
   const simulationResults: SimulationResult[] = []

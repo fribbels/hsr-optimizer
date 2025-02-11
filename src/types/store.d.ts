@@ -1,6 +1,7 @@
 import { ThemeConfig } from 'antd'
 import { ComputeEngine } from 'lib/constants/constants'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { BuildData } from 'lib/simulations/expandedComputedStats'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -94,6 +95,7 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
+  optimizerExpandedRowBuildData: BuildData | null
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
@@ -135,6 +137,7 @@ export type HsrOptimizerStore = {
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
   setOptimizerBuild: (x: Build) => void
+  setOptimizerExpandedRowBuildData: (x: BuildData) => void
   setSavedSession: (x: SavedSession) => void
   setOptimizerFormSelectedLightCone: (x: any) => void
   setOptimizerFormCharacterEidolon: (x: any) => void

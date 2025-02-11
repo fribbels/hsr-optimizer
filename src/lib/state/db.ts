@@ -4,7 +4,8 @@ import {
   ComputeEngine,
   Constants,
   CURRENT_OPTIMIZER_VERSION,
-  DAMAGE_UPGRADES, DEFAULT_DATAPANEL_DISPLAY,
+  DAMAGE_UPGRADES,
+  DEFAULT_DATAPANEL_DISPLAY,
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
   Parts,
@@ -227,6 +228,7 @@ window.store = create((set) => {
 
     settings: DefaultSettingOptions,
     optimizerBuild: null,
+    optimizerExpandedRowBuildData: null,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
@@ -290,6 +292,7 @@ window.store = create((set) => {
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
+    setOptimizerExpandedRowBuildData: (x) => set(() => ({ optimizerExpandedRowBuildData: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store

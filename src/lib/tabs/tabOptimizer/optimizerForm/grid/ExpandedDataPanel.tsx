@@ -5,11 +5,13 @@ import { StatTextSm } from 'lib/characterPreview/StatText'
 import { Stats, SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { Buff, ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams } from 'lib/scoring/simScoringUtils'
 import {
   convertRelicsToSimulation,
+  defaultSimulationParams,
   ornamentSetIndexToName,
   relicSetIndexToNames,
   runSimulations,
@@ -22,12 +24,15 @@ import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/Optimize
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { optimizerGridApi } from 'lib/utils/gridUtils'
+import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React from 'react'
 import { Build } from 'types/character'
 
 export function ExpandedDataPanel(props: CustomCellRendererProps<OptimizerDisplayDataStatSim>) {
+  const optimizerBuildData = window.store((s) => s.optimizerExpandedRowBuildData)
   return !props.data
     ? (<></>)
     : (
@@ -44,31 +49,56 @@ export function ExpandedDataPanel(props: CustomCellRendererProps<OptimizerDispla
 
         <VerticalDivider/>
 
-        <BuffTracing id={props.data.id}/>
+        <BuffTracing/>
 
         <VerticalDivider/>
 
-        <Flex vertical flex={1} style={{ alignItems: 'center' }}>
-          <div>id = {props.data.id}</div>
-        </Flex>
-
-        <VerticalDivider/>
-
-        <Flex vertical flex={1} style={{ alignItems: 'center' }}>
-          <div>id = {props.data.id}</div>
-        </Flex>
+        <DamageSplits splits={optimizerBuildData?.x.dmgSplits}/>
 
       </Flex>
     )
 }
 
-function BuffTracing(props: { id: number }) {
-  const buffs = []
-  return (
-    <Flex flex={2} justify='center'>
-      <div>id = {props.id}</div>
-    </Flex>
-  )
+function BuffTracing() {
+  const optimizerBuildData = window.store((s) => s.optimizerExpandedRowBuildData)
+  const buffs = optimizerBuildData?.x.buffs
+  const buffsByStat: Record<string, Buff[]> = {}
+  for (const buff of buffs ?? []) {
+    if (!buffsByStat[buff.stat]) buffsByStat[buff.stat] = []
+    buffsByStat[buff.stat].push(buff)
+  }
+  return !buffs
+    ? (
+      <Flex flex={2} justify='center'>
+        <></>
+      </Flex>
+    )
+    : (
+      <Flex flex={2} justify='center'>
+        <> </>
+        {/* <Button onClick={() => console.log(buffsByStat)}>test good</Button> */}
+      </Flex>
+    )
+}
+
+function DamageSplits(props: { splits?: ComputedStatsArray['dmgSplits'] }) {
+  return !props.splits
+    ? (
+      <Flex flex={2}><></>
+      </Flex>
+    )
+    : (
+      <Flex vertical flex={2} align='center'>
+        <HeaderText>Damage split</HeaderText>
+        <Flex justify='space-between' style={{ width: '100%' }}>
+          {
+            props.splits
+              // .filter((action) => action.abilityType !== 'DEFAULT')
+              .map((action, index) => index > 4 ? <></> : <DmgSplitDisplay action={action} key={index}/>)
+          }
+        </Flex>
+      </Flex>
+    )
 }
 
 function DamageUpgrades(props: { id: number; relicIndex: number; ornamentIndex: number; combo: number; optimizerBuild: Build | null }) {
@@ -83,14 +113,14 @@ function DamageUpgrades(props: { id: number; relicIndex: number; ornamentIndex: 
             <img src={Assets.getStatIcon(result.statSim.key)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
             <StatTextSm>{`+1x ${result.statSim.key}`}</StatTextSm>
             <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-            <StatTextSm>{`+ ${TsUtils.precisionRound(((result.COMBO / props.combo) - 1) * 100, 2).toLocaleString('en-US', { minimumFractionDigits: 2 })}%`}</StatTextSm>
+            <StatTextSm>{`+ ${numberToLocaleString((result.COMBO / props.combo - 1) * 100, 2)}%`}</StatTextSm>
           </Flex>
         )
     ),
     )
-
-  const equippedBuildComboDmg = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim>).data?.COMBO
+  const equippedBuildComboDmg = (optimizerGridApi().getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim>).data?.COMBO
   const dmgChange = props.combo / (equippedBuildComboDmg ?? 1)
+
   return (
     <Flex vertical flex={1} align='center'>
       <HeaderText>Dmg Upgrades</HeaderText>
@@ -101,7 +131,7 @@ function DamageUpgrades(props: { id: number; relicIndex: number; ornamentIndex: 
           <StatTextSm>vs equipped</StatTextSm>
           <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
           <StatTextSm>
-            {`${dmgChange >= 1 ? '+' : '-'} ${TsUtils.precisionRound(Math.abs(dmgChange - 1) * 100, 2).toLocaleString('en-US', { minimumFractionDigits: 2 })}%`}
+            {`${dmgChange >= 1 ? '+' : '-'} ${numberToLocaleString(Math.abs(props.combo / equippedBuildComboDmg - 1) * 100, 2)}%`}
           </StatTextSm>
         </Flex>
       )}
@@ -114,7 +144,7 @@ function DamageUpgrades(props: { id: number; relicIndex: number; ornamentIndex: 
 function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: number) {
   // pull from cache instead of current form as the form may change since last optimizer run, and we want to match optimizer run's conditionals
   const optimizationID = window.store.getState().optimizationId!
-  const form = optimizerFormCache[optimizationID] //
+  const form = optimizerFormCache[optimizationID]
   const context = generateContext(form)
 
   const simulations: Simulation[] = []
@@ -126,9 +156,13 @@ function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: nu
   for (const substat of SubStats) {
     const upgradeSim = TsUtils.clone(simulation)
     if (upgradeSim.stats[substat]) {
-      upgradeSim.stats[substat] += substat === Stats.SPD ? originalScoringParams.speedRollValue : originalScoringParams.quality
-    } else {
-      upgradeSim.stats[substat] = substat === Stats.SPD ? originalScoringParams.speedRollValue : originalScoringParams.quality
+      upgradeSim.stats[substat] += substat === Stats.SPD
+        ? originalScoringParams.speedRollValue / defaultSimulationParams.speedRollValue
+        : originalScoringParams.quality
+    } else { // we divide the additional speed so that it gets properly converted to a stat total during the sim
+      upgradeSim.stats[substat] = substat === Stats.SPD
+        ? originalScoringParams.speedRollValue / defaultSimulationParams.speedRollValue
+        : originalScoringParams.quality
     }
     simulations.push({ request: upgradeSim as SimulationRequest, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation)
   }
@@ -137,5 +171,19 @@ function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: nu
     form,
     context,
     simulations,
+  )
+}
+
+function DmgSplitDisplay(props: { action: ComputedStatsArray['dmgSplits'][number]; key: number }) {
+  return (
+    <Flex vertical align='center'>
+      <HeaderText>{props.action.abilityType}</HeaderText>
+      <span>Crit dmg: {numberToLocaleString(props.action.critDmg)}</span>
+      <span>True dmg: {numberToLocaleString(props.action.trueDmg)}</span>
+      <span>Additional dmg: {numberToLocaleString(props.action.additionalDmg)}</span>
+      <span>Break dmg: {numberToLocaleString(props.action.breakDmg)}</span>
+      <span>SuperBreak dmg: {numberToLocaleString(props.action.superBreakDmg)}</span>
+      <span>Joint dmg: {numberToLocaleString(props.action.jointDmg)}</span>
+    </Flex>
   )
 }

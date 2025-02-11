@@ -221,7 +221,10 @@ export type ComputedStatsConfigType = {
     default: number
     flat: boolean
     category: StatCategory
-  };
+  }
+}
+export type BaseComputedStatsObjectType = {
+  [K in ComputedStatKeys]: number
 }
 
 export const StatsConfig: ComputedStatsConfigType = Object.keys(BaseComputedStatsConfig)
@@ -238,3 +241,11 @@ export const StatsConfig: ComputedStatsConfigType = Object.keys(BaseComputedStat
 
     return acc
   }, {} as ComputedStatsConfigType)
+
+export const baseComputedStatsObject: BaseComputedStatsObjectType = Object.keys(StatsConfig)
+  .reduce((acc, key) => {
+    acc[key] = StatsConfig[key].default
+    return acc
+  }, {} as BaseComputedStatsObjectType)
+
+export type ComputedStatsObject = BaseComputedStatsObjectType

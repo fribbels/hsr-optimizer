@@ -1,8 +1,8 @@
-import { baseComputedStatsObject, ComputedStatsObject } from 'lib/conditionals/conditionalConstants'
 import { ElementToResPenType, Stats } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
+import { baseComputedStatsObject, ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export type Buff = {
@@ -16,7 +16,7 @@ export type Buff = {
 export type KeysType = keyof typeof baseComputedStatsObject
 
 export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject).reduce((acc, key, index) => {
-  acc[key as KeysType] = index
+  acc[key] = index
   return acc
 }, {} as Record<KeysType, number>)
 
@@ -222,8 +222,8 @@ export function toComputedStatsObject(a: Float32Array) {
 
   for (const key in Key) {
     const externalKey = InternalKeyToExternal[key] ?? key
-    const numericKey = Key[key as KeysType]
-    result[externalKey as keyof ComputedStatsObjectExternal] = a[numericKey]
+    const numericKey = Key[key]
+    result[externalKey] = a[numericKey]
   }
   return result as ComputedStatsObjectExternal
 }

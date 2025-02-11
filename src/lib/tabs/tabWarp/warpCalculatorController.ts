@@ -85,7 +85,7 @@ export type WarpIncomeDefinition = {
   id: string
   version: string
   type: WarpIncomeType
-  part: number
+  phase: number
 }
 
 type WarpMilestone = {
@@ -98,18 +98,18 @@ type WarpMilestone = {
   warpCap: number
 }
 
-function generateOption(version: string, part: number, type: WarpIncomeType, passes: number) {
+function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number) {
   return {
     passes,
     version,
-    part,
+    phase,
     type,
-    id: generateOptionKey(version, part, type),
+    id: generateOptionKey(version, phase, type),
   }
 }
 
-function generateOptionKey(version: string, part: number, type: WarpIncomeType) {
-  return `${version}_p${part}_${type}`
+function generateOptionKey(version: string, phase: number, type: WarpIncomeType) {
+  return `${version}_p${phase}_${type}`
 }
 
 export function handleWarpRequest(originalRequest: WarpRequest) {
@@ -264,14 +264,12 @@ export type EnrichedWarpRequest = {
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  // Accounts for all selected income options.
   const selectedIncome = request.income.map(
     (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId) ?? NONE_WARP_INCOME_OPTION,
   )
 
   let additionalPasses = 0
  
-  // Sum all passes.
   for (const income of selectedIncome) {
     additionalPasses += income.passes
   }

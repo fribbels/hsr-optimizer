@@ -61,7 +61,7 @@ function Inputs() {
   const initialValues = useMemo(() => {
     if (!Array.isArray(warpRequest.income) ||  
       !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
-      warpRequest.income = [] // Initialize the form to empty.
+      warpRequest.income = []
     }
     return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
   }, [])
@@ -387,7 +387,7 @@ function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
         t('Label',
           {
             versionNumber: props.option.version,
-            partNumber: props.option.part,
+            phaseNumber: props.option.phase,
             type: t(`Type.${props.option.type}`),
           },
         )

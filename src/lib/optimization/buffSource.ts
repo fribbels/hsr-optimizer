@@ -1,6 +1,7 @@
 import { Sets } from 'lib/constants/constants'
 
 export enum BUFF_TYPE {
+  PRIMARY = 'PRIMARY', // Not to be used on buffs - only an organizational token
   CHARACTER = 'CHARACTER',
   LIGHTCONE = 'LIGHTCONE',
   SETS = 'SETS',

@@ -539,7 +539,7 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
-      <Flex vertical align='center'>
+      <Flex vertical align='center' style={{ width: '100%' }}>
         <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
           Combat buffs (WIP)
         </pre>

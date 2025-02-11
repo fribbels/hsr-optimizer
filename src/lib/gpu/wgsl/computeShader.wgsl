@@ -477,6 +477,14 @@ fn main(
         x.Fire_DMG += 0.12;
       }
 
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
+
       x.ATK += diffATK;
       x.DEF += diffDEF;
       x.HP  += diffHP;
@@ -673,10 +681,10 @@ fn calculateDamage(
     }
 
     if (x.SHIELD_VALUE > 0) {
-      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + x.SHIELD_BOOST);
     }
 
-    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
   if (action.abilityType == 1 || actionIndex == 0) {

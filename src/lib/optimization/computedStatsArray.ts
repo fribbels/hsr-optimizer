@@ -10,6 +10,7 @@ export type Buff = {
   key: number
   value: number
   source: BuffSource
+  memo?: boolean
 }
 
 export type KeysType = keyof typeof baseComputedStatsObject

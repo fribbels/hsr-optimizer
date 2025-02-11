@@ -144,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.ULT_SCALING.buff(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling, SOURCE_ULT)
 
-      x.ULT_ORIGINAL_DMG_BOOST.buff((e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, SOURCE_E1)
+      x.ULT_FINAL_DMG_BOOST.buff((e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, SOURCE_E1)
 
       if (e >= 4) {
         x.SPD_P.buff(0.08, SOURCE_E1)

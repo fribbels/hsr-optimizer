@@ -8,6 +8,11 @@ import { initReactI18next } from 'react-i18next'
 window.yaml = yaml
 
 export const languages = {
+  de_DE: {
+    locale: 'de_DE',
+    nativeName: 'Deutsch',
+    shortName: 'Deutsch',
+  },
   en_US: {
     locale: 'en_US',
     nativeName: 'English',
@@ -69,11 +74,6 @@ export const languages = {
     shortName: 'inContext',
   },
   /*
-  de_DE: {
-    locale: 'de_DE',
-    nativeName: 'Deutsch',
-    shortName: 'Deutsch',
-  },
   id_ID: {
     locale: 'id_ID',
     nativeName: 'Bahasa Indonesia',

@@ -1,5 +1,7 @@
+import { PathNames } from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff, ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import DB from 'lib/state/db'
 import { OptimizerForm } from 'types/form'
 
 export function aggregateCombatBuffs(x: ComputedStatsArray, request: OptimizerForm) {
@@ -12,17 +14,16 @@ export function aggregateCombatBuffs(x: ComputedStatsArray, request: OptimizerFo
 }
 
 function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
-  const buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> = Object.fromEntries(
+  const buffGroups = Object.fromEntries(
     Object.values(BUFF_TYPE).map((type) => [type, {}]),
   ) as Record<BUFF_TYPE, Record<string, Buff[]>>
 
-  if (request.characterId) buffGroups[BUFF_TYPE.CHARACTER][request.characterId] = []
-  if (request.lightCone) buffGroups[BUFF_TYPE.LIGHTCONE][request.lightCone] = []
+  const hasMemo = DB.getMetadata().characters[request.characterId].path == PathNames.Remembrance
 
-  for (const buff of [...combatBuffs.buffs]) {
+  for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(hasMemo ? combatBuffs.buffsMemo : [])]) {
     // for (const buff of [...combatBuffs.buffs, ...combatBuffs.buffsMemo]) {
     const id = buff.source.id
-    const buffType = buff.source.buffType
+    const buffType = request.characterId == id ? BUFF_TYPE.PRIMARY : buff.source.buffType
 
     const group = buffGroups[buffType]
 
@@ -38,13 +39,17 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
 
 export function extractCombatBuffs(x: ComputedStatsArray) {
   const buffs = x.buffs
+  const buffsBasic = x.c.buffs
   const buffsMemo = x.m
     ? [...x.buffsMemo, ...x.m.buffs]
     : []
 
+  buffsMemo.forEach((buff) => buff.memo = true)
+
   const combatBuffs = {
     buffs,
     buffsMemo,
+    buffsBasic,
   }
 
   console.log(combatBuffs)
@@ -56,6 +61,7 @@ export function extractCombatBuffs(x: ComputedStatsArray) {
 type CombatBuffs = {
   buffs: Buff[]
   buffsMemo: Buff[]
+  buffsBasic: Buff[]
 }
 
 const sourceToLabelMapping: Record<string, string> = {

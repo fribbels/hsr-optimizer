@@ -93,6 +93,7 @@ struct ComputedStats {
 
   DMG_RED_MULTI: f32,
   EHP: f32,
+  SHIELD_BOOST: f32,
 
   DOT_CHANCE: f32,
   EFFECT_RES_PEN: f32,

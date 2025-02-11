@@ -2,6 +2,7 @@ import { Flex, Tag, Typography } from 'antd'
 import { Sets } from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
+import { StatsConfig } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
@@ -77,12 +78,20 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
 
 function BuffTag(props: { buff: Buff }) {
   const { buff } = props
+  const percent = !StatsConfig[buff.stat].flat
 
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Flex justify='space-between' style={{ width: 425 }}>
         <Text style={{ fontSize: 14, width: 70 }}>
-          {`${buff.value > 50 ? Math.floor(buff.value) : TsUtils.precisionRound(buff.value, 3)}`}
+          <Flex gap={3}>
+            <span>
+              {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
+            </span>
+            <span>
+              {`${percent ? '%' : ''}`}
+            </span>
+          </Flex>
         </Text>
         <Text style={{ fontSize: 14, alignItems: 'flex-start', flex: 1 }}>
           {`${buff.stat}`} {buff.memo ? 'ᴹ' : ''}

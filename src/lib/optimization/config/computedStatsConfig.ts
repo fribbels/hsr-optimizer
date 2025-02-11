@@ -136,9 +136,9 @@ const BaseComputedStatsConfig: Record<string, ComputedStatsConfigBaseType> = {
   BREAK_TRUE_DMG_MODIFIER: {},
 
   // e.g. Acheron multiplier
-  BASIC_ORIGINAL_DMG_BOOST: {},
-  SKILL_ORIGINAL_DMG_BOOST: {},
-  ULT_ORIGINAL_DMG_BOOST: {},
+  BASIC_FINAL_DMG_BOOST: {},
+  SKILL_FINAL_DMG_BOOST: {},
+  ULT_FINAL_DMG_BOOST: {},
 
   // Boothill
   BASIC_BREAK_DMG_MODIFIER: {},

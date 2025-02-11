@@ -278,9 +278,9 @@ ComputedStats:
   ULT_TRUE_DMG_MODIFIER: Ult True DMG multiplier
   FUA_TRUE_DMG_MODIFIER: FUA True DMG multiplier
   BREAK_TRUE_DMG_MODIFIER: Break True DMG multiplier
-  BASIC_ORIGINAL_DMG_BOOST: Basic Final DMG boost
-  SKILL_ORIGINAL_DMG_BOOST: Skill Final DMG boost
-  ULT_ORIGINAL_DMG_BOOST: Ult Final DMG boost
+  BASIC_FINAL_DMG_BOOST: Basic Final DMG boost
+  SKILL_FINAL_DMG_BOOST: Skill Final DMG boost
+  ULT_FINAL_DMG_BOOST: Ult Final DMG boost
   BASIC_BREAK_DMG_MODIFIER: Basic Break DMG multiplier
   ULT_ADDITIONAL_DMG_CR_OVERRIDE: Ult Additional DMG CR override
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: Ult Additional DMG CD override

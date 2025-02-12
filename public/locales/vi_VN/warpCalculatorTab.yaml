@@ -8,6 +8,7 @@ StrategyLabels:
   E5: Tinh Hồn 5
   E6: Tinh Hồn 6
 IncomeOptions:
+  Label: "[PB{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: Không có
     1: F2P

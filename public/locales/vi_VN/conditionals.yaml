@@ -1039,6 +1039,8 @@ Characters:
     Content:
       basicEnhanced:
         text: Cường Hóa Tấn Công Thường
+        content: >-
+          Cường hóa 0 lần: Thi triển 2 đòn tấn công gây cho 1 kẻ địch Sát Thương Số Ảo bằng {{basicScaling}}% Tấn Công của Dan Heng - Ẩm Nguyệt.::BR::Cường hóa 1 lần: Thi triển 3 đòn tấn công gây cho 1 kẻ địch Sát Thương Số Ảo bằng {{basicEnhanced1Scaling}}% Tấn Công của Dan Heng - Ẩm Nguyệt.::BR::Cường hóa 2 lần: Thi triển 5 đòn tấn công lên 1 kẻ địch chỉ định và gây ra Sát Thương Số Ảo bằng {{basicEnhanced2Scaling}}% Tấn Công của Dan Heng - Ẩm Nguyệt, cùng lúc gây ra Sát Thương giảm lên mục tiêu lân cận.::BR::Cường hóa 3 lần: Thi triển 7 đòn tấn công lên 1 kẻ địch chỉ định và gây ra Sát Thương Số Ảo bằng {{basicEnhanced3Scaling}}% Tấn Công của Dan Heng - Ẩm Nguyệt, cùng lúc gây ra Sát Thương giảm lên mục tiêu lân cận.
       skillOutroarStacks:
         text: Hô Phong Hoán Vũ
       talentRighteousHeartStacks:

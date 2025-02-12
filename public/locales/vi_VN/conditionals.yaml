@@ -1149,6 +1149,9 @@ Characters:
     Content:
       skillBuff:
         text: Chiến Kỹ Tăng HP Tối Đa
+    TeammateContent:
+      teammateHPValue:
+        text: HP của Lynx
   March7thImaginary:
     Content:
       enhancedBasic:
@@ -1185,6 +1188,8 @@ Characters:
         text: E4 Tăng Sát Thương
       e6MultiplierIncrease:
         text: E6 Đòn Đánh Theo Sau Tăng Bội Số
+  Natasha:
+    Content:
   Pela:
     Content:
       teamEhrBuff:

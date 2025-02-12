@@ -38,3 +38,4 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
   }
 }
+

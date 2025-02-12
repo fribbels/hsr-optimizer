@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.BE.buffTeam((m.backupDancer) ? ultBeScaling : 0, SOURCE_ULT)
-      x.SUPER_BREAK_HMC_MODIFIER.buffTeam(
+      x.SUPER_BREAK_MODIFIER.buffTeam(
         (m.backupDancer && m.superBreakDmg)
           ? targetsToSuperBreakMulti[context.enemyCount]
           : 0,

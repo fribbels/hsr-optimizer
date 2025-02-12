@@ -11,6 +11,7 @@ import {
   Table,
   TableProps,
   Tag,
+  TreeSelect,
   Typography,
 } from 'antd'
 import chroma from 'chroma-js'
@@ -19,7 +20,6 @@ import { Assets } from 'lib/rendering/assets'
 import {
   DEFAULT_WARP_REQUEST,
   handleWarpRequest,
-  NONE_WARP_INCOME_OPTION,
   WarpIncomeDefinition,
   WarpIncomeOptions,
   WarpIncomeType,
@@ -59,8 +59,9 @@ function Inputs() {
   const [form] = Form.useForm<WarpRequest>()
 
   const initialValues = useMemo(() => {
-    if (!WarpIncomeOptions.find((option) => option.id == warpRequest.income)) {
-      warpRequest.income = NONE_WARP_INCOME_OPTION.id
+    if (!Array.isArray(warpRequest.income) ||  
+      !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
+      warpRequest.income = []
     }
     return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
   }, [])
@@ -130,8 +131,14 @@ function Inputs() {
                 <Flex vertical flex={1}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
-                    <Select
-                      options={generateIncomeOptions()}
+                    <TreeSelect
+                      multiple
+                      placeholder='Additional resources'
+                      showCheckedStrategy={TreeSelect.SHOW_CHILD}
+                      maxTagCount={1}
+                      treeCheckable
+                      allowClear
+                      treeData={generateIncomeOptions()}
                     />
                   </Form.Item>
                 </Flex>
@@ -358,19 +365,26 @@ function PityInputs(props: { banner: string }) {
 function generateIncomeOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
   const locale = i18next.resolvedLanguage?.split('_')[0]
-  const options: SelectProps['options'] = WarpIncomeOptions.map((option) => ({
-    value: option.id,
-    label: option.type == WarpIncomeType.NONE
-      ? t('Type.0')
-      : (
-        <Flex align='center' gap={3}>
-          <IncomeOptionLabel option={option}/>
-          {`+${option.passes.toLocaleString(locale)}`}
-          <img style={{ height: 18 }} src={Assets.getPass()}/>
-          {`+${option.jades.toLocaleString(locale)}`}
-          <img style={{ height: 18 }} src={Assets.getJade()}/>
-        </Flex>
-      ),
+  const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]  
+
+  const options = types.map((type) => ({
+    title: t(`Type.${type}`),
+    value: type,
+    selectable: false,
+    children: WarpIncomeOptions
+      .filter((option) => option.type === type)
+      .map((option) => ({
+        value: option.id,
+        title: option.type == WarpIncomeType.NONE
+          ? t('Type.0')
+          : (
+            <Flex align='center' gap={3}>
+              <IncomeOptionLabel option={option}/>
+              {`+${option.passes.toLocaleString(locale)}`}
+              <img style={{ height: 18 }} src={Assets.getPass()}/>
+            </Flex>
+          ),
+      })),
   }))
 
   return options
@@ -384,6 +398,7 @@ function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
         t('Label',
           {
             versionNumber: props.option.version,
+            phaseNumber: props.option.phase,
             type: t(`Type.${props.option.type}`),
           },
         )

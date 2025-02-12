@@ -149,14 +149,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
       x.ULT_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
       // Each ult is 3 rainblades, 3 base crimson knots, and then 1 crimson knot per stack, then 1 stygian resurge, and 6 thunder cores from trace
-      x.ULT_SCALING.buff(3 * ultRainbladeScaling, SOURCE_ULT)
-      x.ULT_SCALING.buff(3 * ultCrimsonKnotScaling, SOURCE_ULT)
-      x.ULT_SCALING.buff(ultCrimsonKnotScaling * (r.crimsonKnotStacks), SOURCE_ULT)
-      x.ULT_SCALING.buff(ultStygianResurgeScaling, SOURCE_ULT)
-      x.ULT_SCALING.buff(r.stygianResurgeHitsOnTarget * ultThunderCoreScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(3 * ultRainbladeScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(3 * ultCrimsonKnotScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(ultCrimsonKnotScaling * (r.crimsonKnotStacks), SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(ultStygianResurgeScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(r.stygianResurgeHitsOnTarget * ultThunderCoreScaling, SOURCE_ULT)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)

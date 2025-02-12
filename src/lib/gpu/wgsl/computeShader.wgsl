@@ -519,10 +519,10 @@ fn main(
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
 
-      m.ATK += (m.ATK_P * baseATK + mc.ATK) * x.MEMO_ATK_SCALING + x.MEMO_ATK_FLAT;
-      m.DEF += (m.DEF_P * baseDEF + mc.DEF) * x.MEMO_DEF_SCALING + x.MEMO_DEF_FLAT;
-      m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_HP_SCALING + x.MEMO_HP_FLAT;
-      m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_SPD_SCALING + x.MEMO_SPD_FLAT;
+      m.ATK += (m.ATK_P * baseATK + mc.ATK) * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.DEF += (m.DEF_P * baseDEF + mc.DEF) * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
 
       // START BASIC CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

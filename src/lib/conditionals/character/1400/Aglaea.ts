@@ -138,15 +138,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
 
-      x.MEMO_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
-      x.MEMO_SPD_SCALING.buff(0.35, SOURCE_MEMO)
-      x.MEMO_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
 
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
 
-      x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
+      x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
 
       x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
 
@@ -183,7 +183,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], SOURCE_TALENT)
 
       x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], SOURCE_BASIC)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_ATK_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -207,7 +207,7 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.ATK;
 
 m.BASIC_DMG += m.BASIC_SCALING * m.ATK;
-m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
+m.MEMO_SKILL_DMG += m.MEMO_SKILL_ATK_SCALING * m.ATK;
 `
     },
     dynamicConditionals: [

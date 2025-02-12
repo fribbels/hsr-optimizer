@@ -6,11 +6,11 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 // Standard ATK
 
 export function standardAtkFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
+  // x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+  // x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+  // x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
+  // x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.ATK], Source.NONE)
+  // x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
 }
 
 export function gpuStandardAtkFinalizer() {
@@ -26,11 +26,11 @@ x.DOT_DMG += x.DOT_SCALING * x.ATK;
 // Standard HP
 
 export function standardHpFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.HP], Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.HP], Source.NONE)
+  // x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
+  // x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], Source.NONE)
+  // x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
+  // x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.HP], Source.NONE)
+  // x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.HP], Source.NONE)
 }
 
 export function gpuStandardHpFinalizer() {
@@ -46,11 +46,11 @@ x.DOT_DMG += x.DOT_SCALING * x.HP;
 // Standard DEF
 
 export function standardDefFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.DEF], Source.NONE)
+  // x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.DEF], Source.NONE)
+  // x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.DEF], Source.NONE)
+  // x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.DEF], Source.NONE)
+  // x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.DEF], Source.NONE)
+  // x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.DEF], Source.NONE)
 }
 
 export function gpuStandardDefFinalizer() {

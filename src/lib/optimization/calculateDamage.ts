@@ -81,6 +81,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 / 30)
 
   if (action.actionType == 'BASIC' || action.actionType == 'DEFAULT') {
+    const baseAbilityDmg = calculateBaseDmg(a, a[Key.BASIC_HP_SCALING], a[Key.BASIC_ATK_SCALING], a[Key.BASIC_DEF_SCALING])
+    const baseAbilityAdditionalDmg = calculateBaseAdditionalDmg(a, a[Key.BASIC_ADDITIONAL_DMG_ATK_SCALING])
     a[Key.BASIC_DMG] = calculateAbilityDmg(
       x,
       action,
@@ -92,7 +94,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
-      a[Key.BASIC_DMG],
+      baseAbilityDmg,
+      baseAbilityAdditionalDmg,
       a[Key.BASIC_BOOST],
       a[Key.BASIC_VULNERABILITY],
       a[Key.BASIC_DEF_PEN],
@@ -104,7 +107,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.BASIC_SUPER_BREAK_MODIFIER],
       a[Key.BASIC_BREAK_DMG_MODIFIER],
       a[Key.BASIC_TOUGHNESS_DMG],
-      a[Key.BASIC_ADDITIONAL_DMG],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.BASIC_TRUE_DMG_MODIFIER],
@@ -113,6 +115,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if (action.actionType == 'SKILL' || action.actionType == 'DEFAULT') {
+    const baseAbilityDmg = calculateBaseDmg(a, a[Key.SKILL_HP_SCALING], a[Key.SKILL_ATK_SCALING], a[Key.SKILL_DEF_SCALING])
+    const baseAbilityAdditionalDmg = calculateBaseAdditionalDmg(a, a[Key.SKILL_ADDITIONAL_DMG_ATK_SCALING])
     a[Key.SKILL_DMG] = calculateAbilityDmg(
       x,
       action,
@@ -124,7 +128,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
-      a[Key.SKILL_DMG],
+      baseAbilityDmg,
+      baseAbilityAdditionalDmg,
       a[Key.SKILL_BOOST],
       a[Key.SKILL_VULNERABILITY],
       a[Key.SKILL_DEF_PEN],
@@ -136,7 +141,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.SKILL_SUPER_BREAK_MODIFIER],
       0, // a[Key.SKILL_BREAK_DMG_MODIFIER],
       a[Key.SKILL_TOUGHNESS_DMG],
-      a[Key.SKILL_ADDITIONAL_DMG],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.SKILL_TRUE_DMG_MODIFIER],
@@ -145,6 +149,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if (action.actionType == 'ULT' || action.actionType == 'DEFAULT') {
+    const baseAbilityDmg = calculateBaseDmg(a, a[Key.ULT_HP_SCALING], a[Key.ULT_ATK_SCALING], a[Key.ULT_DEF_SCALING])
+    const baseAbilityAdditionalDmg = calculateBaseAdditionalDmg(a, a[Key.ULT_ADDITIONAL_DMG_ATK_SCALING])
     a[Key.ULT_DMG] = calculateAbilityDmg(
       x,
       action,
@@ -156,7 +162,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
-      a[Key.ULT_DMG],
+      baseAbilityDmg,
+      baseAbilityAdditionalDmg,
       a[Key.ULT_BOOST],
       a[Key.ULT_VULNERABILITY],
       a[Key.ULT_DEF_PEN],
@@ -168,7 +175,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.ULT_SUPER_BREAK_MODIFIER],
       0, // a[Key.ULT_BREAK_DMG_MODIFIER],
       a[Key.ULT_TOUGHNESS_DMG],
-      a[Key.ULT_ADDITIONAL_DMG],
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.ULT_TRUE_DMG_MODIFIER],
@@ -177,6 +183,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if (action.actionType == 'FUA' || action.actionType == 'DEFAULT') {
+    const baseAbilityDmg = calculateBaseDmg(a, a[Key.FUA_HP_SCALING], a[Key.FUA_ATK_SCALING], a[Key.FUA_DEF_SCALING])
+    const baseAbilityAdditionalDmg = calculateBaseAdditionalDmg(a, a[Key.FUA_ADDITIONAL_DMG_ATK_SCALING])
     a[Key.FUA_DMG] = calculateAbilityDmg(
       x,
       action,
@@ -188,7 +196,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
-      a[Key.FUA_DMG],
+      baseAbilityDmg,
+      baseAbilityAdditionalDmg,
       a[Key.FUA_BOOST],
       a[Key.FUA_VULNERABILITY],
       a[Key.FUA_DEF_PEN],
@@ -200,7 +209,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.FUA_SUPER_BREAK_MODIFIER],
       0, // a[Key.FUA_BREAK_DMG_MODIFIER],
       a[Key.FUA_TOUGHNESS_DMG],
-      a[Key.FUA_ADDITIONAL_DMG],
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.FUA_TRUE_DMG_MODIFIER],
@@ -212,6 +220,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     if (x.m) {
       a[Key.MEMO_SKILL_DMG] += x.m.a[Key.MEMO_SKILL_DMG]
     } else {
+      const baseAbilityDmg = calculateBaseDmg(a, 0, a[Key.MEMO_SKILL_ATK_SCALING], 0)
+      const baseAbilityAdditionalDmg = calculateBaseAdditionalDmg(a, 0)
       a[Key.MEMO_SKILL_DMG] = calculateAbilityDmg(
         x,
         action,
@@ -223,7 +233,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseSuperBreakInstanceDmg,
         baseSuperBreakModifier,
         baseBreakEfficiencyBoost,
-        a[Key.MEMO_SKILL_DMG],
+        baseAbilityDmg,
+        baseAbilityAdditionalDmg,
         0, // a[Key.MEMO_SKILL_BOOST],
         0, // a[Key.MEMO_SKILL_VULNERABILITY],
         0, // a[Key.MEMO_SKILL_DEF_PEN],
@@ -235,7 +246,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
         0, // a[Key.MEMO_SKILL_TOUGHNESS_DMG],
-        0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
         0, // a[Key.MEMO_TRUE_DMG_MODIFIER],
@@ -249,6 +259,24 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
 }
 
 const cLevelConst = 20 + 80
+
+function calculateBaseDmg(
+  a: Float32Array,
+  hpScaling: number,
+  atkScaling: number,
+  defScaling: number,
+) {
+  return hpScaling * a[Key.HP]
+    + atkScaling * (a[Key.ATK] + a[Key.HIDDEN_ATK_P] * a[Key.BASE_ATK])
+    + defScaling * a[Key.DEF]
+}
+
+function calculateBaseAdditionalDmg(
+  a: Float32Array,
+  atkScaling: number,
+) {
+  return atkScaling * (a[Key.ATK] + a[Key.HIDDEN_ATK_P] * a[Key.BASE_ATK])
+}
 
 function calculateDefMulti(eLevel: number, defPen: number) {
   return cLevelConst / ((eLevel + 20) * Math.max(0, 1 - defPen) + cLevelConst)
@@ -290,6 +318,7 @@ function calculateAbilityDmg(
   baseSuperBreakModifier: number,
   baseBreakEfficiencyBoost: number,
   abilityDmg: number,
+  abilityAdditionalDmg: number,
   abilityDmgBoost: number,
   abilityVulnerability: number,
   abilityDefPen: number,
@@ -301,7 +330,6 @@ function calculateAbilityDmg(
   abilitySuperBreakModifier: number,
   abilityBreakDmgModifier: number,
   abilityToughnessDmg: number,
-  abilityAdditionalDmg: number,
   abilityAdditionalCrOverride: number,
   abilityAdditionalCdOverride: number,
   abilityTrueDmgModifier: number,

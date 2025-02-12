@@ -44,7 +44,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.ATK.buffDynamic(0.08 * context.baseATK, Source.FleetOfTheAgeless, action, context)
     if (x.m) {
-      x.m.ATK.buffDynamic(0.08 * (context.baseATK * x.a[Key.MEMO_ATK_SCALING]), Source.FleetOfTheAgeless, action, context)
+      x.m.ATK.buffDynamic(0.08 * (context.baseATK * x.a[Key.MEMO_BASE_ATK_SCALING]), Source.FleetOfTheAgeless, action, context)
     }
   },
   gpu: function () {

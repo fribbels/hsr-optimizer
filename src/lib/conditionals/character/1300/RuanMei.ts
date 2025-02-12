@@ -140,9 +140,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SPD_P.buffTeam((t.teamSpdBuff) ? talentSpdScaling : 0, SOURCE_TALENT)
       x.ELEMENTAL_DMG.buffTeam(t.teamDmgBuff, SOURCE_TRACE)
 
-      // TODO: This is an on-hit ATK boost not an unconvertible ATK buff
-      x.ATK_P.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
-      x.UNCONVERTIBLE_ATK_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 * context.baseATK : 0, SOURCE_E2)
+      x.HIDDEN_ATK_P.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

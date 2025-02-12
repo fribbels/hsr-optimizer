@@ -133,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FIRE_RES_PEN.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0, SOURCE_E6)
       x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
 
       x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 45 : 30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 90 : 60, SOURCE_SKILL)
@@ -148,14 +148,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 2.00) ? 0.35 : 0, SOURCE_TRACE)
       x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 3.60) ? 0.15 : 0, SOURCE_TRACE)
 
-      x.SKILL_SCALING.buff(
+      x.SKILL_ATK_SCALING.buff(
         (r.enhancedStateActive)
           ? (0.2 * Math.min(3.60, x.a[Key.BE]) + skillEnhancedAtkScaling)
           : skillScaling
         , SOURCE_SKILL)
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], SOURCE_SKILL)
+      // x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
+      // x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], SOURCE_SKILL)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

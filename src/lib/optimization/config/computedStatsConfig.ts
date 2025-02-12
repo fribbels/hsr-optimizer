@@ -49,11 +49,45 @@ export const BaseComputedStatsConfig = {
 
   ELEMENTAL_DMG: {},
 
-  BASIC_SCALING: {},
-  SKILL_SCALING: {},
-  ULT_SCALING: {},
-  FUA_SCALING: {},
-  DOT_SCALING: {},
+  BASE_HP: {},
+  BASE_ATK: {},
+  BASE_DEF: {},
+  BASE_SPD: {},
+
+  HIDDEN_ATK_P: {},
+  HIDDEN_CR: {},
+  HIDDEN_CD: {},
+
+  // BASIC_SCALING: {},
+  // SKILL_SCALING: {},
+  // ULT_SCALING: {},
+  // FUA_SCALING: {},
+  // DOT_SCALING: {},
+
+  BASIC_ATK_SCALING: {},
+  SKILL_ATK_SCALING: {},
+  ULT_ATK_SCALING: {},
+  FUA_ATK_SCALING: {},
+  DOT_ATK_SCALING: {},
+  MEMO_SKILL_ATK_SCALING: {},
+  MEMO_TALENT_ATK_SCALING: {},
+
+  BASIC_HP_SCALING: {},
+  SKILL_HP_SCALING: {},
+  ULT_HP_SCALING: {},
+  FUA_HP_SCALING: {},
+  DOT_HP_SCALING: {},
+
+  BASIC_DEF_SCALING: {},
+  SKILL_DEF_SCALING: {},
+  ULT_DEF_SCALING: {},
+  FUA_DEF_SCALING: {},
+  DOT_DEF_SCALING: {},
+
+  BASIC_ADDITIONAL_DMG_ATK_SCALING: {},
+  SKILL_ADDITIONAL_DMG_ATK_SCALING: {},
+  ULT_ADDITIONAL_DMG_ATK_SCALING: {},
+  FUA_ADDITIONAL_DMG_ATK_SCALING: {},
 
   BASIC_CR_BOOST: {},
   SKILL_CR_BOOST: {},
@@ -112,6 +146,8 @@ export const BaseComputedStatsConfig = {
   FUA_DMG: { flat: true },
   DOT_DMG: { flat: true },
   BREAK_DMG: { flat: true },
+  MEMO_SKILL_DMG: { flat: true },
+  MEMO_TALENT_DMG: { flat: true },
   COMBO_DMG: { flat: true },
 
   DMG_RED_MULTI: { default: 1 }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
@@ -131,6 +167,10 @@ export const BaseComputedStatsConfig = {
 
   SUPER_BREAK_MODIFIER: {},
   BASIC_SUPER_BREAK_MODIFIER: {},
+
+  // Boothill
+  BASIC_BREAK_DMG_MODIFIER: {},
+
   BASIC_TOUGHNESS_DMG: { flat: true },
   SKILL_TOUGHNESS_DMG: { flat: true },
   ULT_TOUGHNESS_DMG: { flat: true },
@@ -149,9 +189,6 @@ export const BaseComputedStatsConfig = {
   SKILL_FINAL_DMG_BOOST: {},
   ULT_FINAL_DMG_BOOST: {},
 
-  // Boothill
-  BASIC_BREAK_DMG_MODIFIER: {},
-
   // Robin
   ULT_ADDITIONAL_DMG_CR_OVERRIDE: {},
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: {},
@@ -166,11 +203,6 @@ export const BaseComputedStatsConfig = {
   SHIELD_SCALING: {},
   SHIELD_VALUE: { flat: true },
 
-  BASIC_ADDITIONAL_DMG_SCALING: {},
-  SKILL_ADDITIONAL_DMG_SCALING: {},
-  ULT_ADDITIONAL_DMG_SCALING: {},
-  FUA_ADDITIONAL_DMG_SCALING: {},
-
   BASIC_ADDITIONAL_DMG: { flat: true },
   SKILL_ADDITIONAL_DMG: { flat: true },
   ULT_ADDITIONAL_DMG: { flat: true },
@@ -179,20 +211,14 @@ export const BaseComputedStatsConfig = {
   MEMO_BUFF_PRIORITY: { flat: true },
   DEPRIORITIZE_BUFFS: { flat: true },
 
-  MEMO_HP_SCALING: {},
-  MEMO_HP_FLAT: { flat: true },
-  MEMO_DEF_SCALING: {},
-  MEMO_DEF_FLAT: { flat: true },
-  MEMO_ATK_SCALING: {},
-  MEMO_ATK_FLAT: { flat: true },
-  MEMO_SPD_SCALING: {},
-  MEMO_SPD_FLAT: { flat: true },
-
-  MEMO_SKILL_SCALING: {},
-  MEMO_TALENT_SCALING: {},
-
-  MEMO_SKILL_DMG: { flat: true },
-  MEMO_TALENT_DMG: { flat: true },
+  MEMO_BASE_HP_SCALING: {},
+  MEMO_BASE_HP_FLAT: { flat: true },
+  MEMO_BASE_DEF_SCALING: {},
+  MEMO_BASE_DEF_FLAT: { flat: true },
+  MEMO_BASE_ATK_SCALING: {},
+  MEMO_BASE_ATK_FLAT: { flat: true },
+  MEMO_BASE_SPD_SCALING: {},
+  MEMO_BASE_SPD_FLAT: { flat: true },
 
   UNCONVERTIBLE_HP_BUFF: { flat: true },
   UNCONVERTIBLE_ATK_BUFF: { flat: true },

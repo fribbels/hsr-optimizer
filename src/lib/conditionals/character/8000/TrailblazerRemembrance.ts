@@ -163,17 +163,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.MEMO_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
-      x.MEMO_SPD_SCALING.buff(0, SOURCE_MEMO)
-      x.MEMO_SPD_FLAT.buff(130, SOURCE_MEMO)
-      x.MEMO_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_SCALING.buff(0, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_FLAT.buff(130, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, SOURCE_MEMO)
-      x.m.ULT_SCALING.buff(ultScaling, SOURCE_MEMO)
+      x.m.MEMO_SKILL_ATK_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, SOURCE_MEMO)
+      x.m.ULT_ATK_SCALING.buff(ultScaling, SOURCE_MEMO)
 
       x.m.ULT_CR_BOOST.buff((e >= 6 && r.e6UltCrBoost) ? 1.00 : 0, SOURCE_E6)
     },
@@ -203,8 +203,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
 
-      x.m.ULT_DMG.buff(x.m.a[Key.ULT_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
+      x.m.ULT_DMG.buff(x.m.a[Key.ULT_ATK_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_ATK_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return `
@@ -215,7 +215,7 @@ x.FUA_DMG += x.FUA_SCALING * x.ATK;
 x.DOT_DMG += x.DOT_SCALING * x.ATK;
 
 m.ULT_DMG += m.ULT_SCALING * m.ATK;
-m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
+m.MEMO_SKILL_DMG += m.MEMO_SKILL_ATK_SCALING * m.ATK;
 `
     },
     dynamicConditionals: [

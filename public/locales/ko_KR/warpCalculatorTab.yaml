@@ -8,7 +8,6 @@ StrategyLabels:
   E5: 5돌 우선
   E6: 6돌 우선
 IncomeOptions:
-  Label: "[v{{versionNumber}} {{type}}]: "
   Type:
     0: 없음
     1: 무과금

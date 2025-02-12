@@ -37,10 +37,11 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     const dotVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + a[Key.DOT_VULNERABILITY]
     const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
     const dotEhrMulti = calculateEhrMulti(x, context)
+    const baseAbilityDmg = calculateBaseDmg(a, a[Key.DOT_HP_SCALING], a[Key.DOT_ATK_SCALING], a[Key.DOT_DEF_SCALING])
 
     a[Key.DOT_DMG] = calculateDotDmg(
       x,
-      a[Key.DOT_DMG],
+      baseAbilityDmg,
       (baseUniversalMulti),
       (dotDmgBoostMulti),
       (dotDefMulti),

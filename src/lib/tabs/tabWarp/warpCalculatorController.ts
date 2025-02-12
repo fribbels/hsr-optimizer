@@ -50,7 +50,7 @@ export enum WarpStrategy {
 export type WarpRequest = {
   passes: number
   jades: number
-  income: [number, string][]
+  income: string[]
   strategy: WarpStrategy
   pityCharacter: number
   guaranteedCharacter: boolean
@@ -265,7 +265,7 @@ export type EnrichedWarpRequest = {
 
 function enrichWarpRequest(request: WarpRequest) {
   const selectedIncome = request.income.map(
-    (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId[1]) ?? NONE_WARP_INCOME_OPTION,
+    (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId) ?? NONE_WARP_INCOME_OPTION,
   )
 
   let additionalPasses = 0

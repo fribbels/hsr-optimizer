@@ -2,7 +2,6 @@ import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/ico
 import {
   Button,
   Card,
-  Cascader,
   Flex,
   Form,
   InputNumber,
@@ -12,6 +11,7 @@ import {
   Table,
   TableProps,
   Tag,
+  TreeSelect,
   Typography,
 } from 'antd'
 import chroma from 'chroma-js'
@@ -20,7 +20,6 @@ import { Assets } from 'lib/rendering/assets'
 import {
   DEFAULT_WARP_REQUEST,
   handleWarpRequest,
-  NONE_WARP_INCOME_OPTION,
   WarpIncomeDefinition,
   WarpIncomeOptions,
   WarpIncomeType,
@@ -61,7 +60,7 @@ function Inputs() {
 
   const initialValues = useMemo(() => {
     if (!Array.isArray(warpRequest.income) ||  
-      !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId[1]))) {
+      !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
       warpRequest.income = []
     }
     return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
@@ -132,13 +131,14 @@ function Inputs() {
                 <Flex vertical flex={1}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
-                    <Cascader
-                      options={generateIncomeOptions()}
-                      expandTrigger='hover'
-                      placeholder='Additional resources'
+                    <TreeSelect
                       multiple
-                      showCheckedStrategy={Cascader.SHOW_CHILD}
+                      placeholder='Additional resources'
+                      showCheckedStrategy={TreeSelect.SHOW_CHILD}
                       maxTagCount={1}
+                      treeCheckable
+                      allowClear
+                      treeData={generateIncomeOptions()}
                     />
                   </Form.Item>
                 </Flex>
@@ -368,13 +368,14 @@ function generateIncomeOptions() {
   const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]  
 
   const options = types.map((type) => ({
-    label: t(`Type.${type}`),
+    title: t(`Type.${type}`),
     value: type,
+    selectable: false,
     children: WarpIncomeOptions
       .filter((option) => option.type === type)
       .map((option) => ({
         value: option.id,
-        label: option.type == WarpIncomeType.NONE
+        title: option.type == WarpIncomeType.NONE
           ? t('Type.0')
           : (
             <Flex align='center' gap={3}>

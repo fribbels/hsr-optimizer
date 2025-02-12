@@ -175,6 +175,7 @@ export const BaseComputedStatsConfig = {
   SKILL_TOUGHNESS_DMG: { flat: true },
   ULT_TOUGHNESS_DMG: { flat: true },
   FUA_TOUGHNESS_DMG: { flat: true },
+  MEMO_SKILL_TOUGHNESS_DMG: { flat: true },
 
   // True dmg
   TRUE_DMG_MODIFIER: {},

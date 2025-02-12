@@ -133,8 +133,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
-      x.m.BASIC_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
+      x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
 
       x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
 
@@ -144,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
+      x.BASIC_ADDITIONAL_DMG_ATK_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
 
       x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
 
@@ -155,6 +155,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
       x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+
+      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 60 : 30, SOURCE_BASIC)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(30, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -178,11 +181,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.m.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
       }
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_ATK_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
 
-      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], SOURCE_TALENT)
+      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_ATK_SCALING] * x.a[Key.ATK], SOURCE_TALENT)
 
-      x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], SOURCE_BASIC)
+      x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_ATK_SCALING] * x.m.a[Key.ATK], SOURCE_BASIC)
       x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_ATK_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

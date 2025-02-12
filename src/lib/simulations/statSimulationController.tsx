@@ -573,13 +573,13 @@ export function calculateRelicSets(relicSets: (string | number)[], nameProvided 
   return relicSetNames
 }
 
-export function calculateOrnamentSets<T, K extends boolean>(ornamentSets: T[], nameProvided: K | true = true) {
+export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = true): string | undefined {
   if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
     return (
       nameProvided
-        ? ornamentSets[1]
+        ? ornamentSets[1] as string
         : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
-    ) as K extends true ? T : string
+    )
   }
   return undefined
 }

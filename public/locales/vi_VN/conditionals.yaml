@@ -464,112 +464,168 @@ Lightcones:
     Content:
       spdDmgBuff:
         text: Tăng Tốc Độ và Sát Thương 
+        content: >-
+          Sau khi vào chiến đấu, tăng {{SpdBuff}}% tốc độ của người trang bị, sát thương gây ra tăng {{DmgBuff}}%. Sau khi người trang bị chịu sát thương, hiệu ứng này sẽ mất hiệu lực, kết thúc hiệp kế tiếp sẽ hồi phục lại hiệu ứng này.
   ShadowedByNight:
     Content:
       spdBuff:
         text: Tăng Tốc Độ
+        content: "Khi vào chiến đấu hoặc sau khi gây Sát Thương Phá Vỡ, Tốc Độ tăng {{SpdBuff}}%, duy trì 2 hiệp.\n"
   SubscribeForMore:
     Content:
       maxEnergyDmgBoost:
         text: Năng Lượng Tối Đa Tăng Sát Thương
+        content: Tăng {{DmgBuff}}% sát thương tấn công thường và Chiến Kỹ của người trang bị, khi Năng Lượng hiện tại của người trang bị bằng giới hạn Năng Lượng, thì hiệu quả này sẽ tăng thêm {{DmgBuff}}%.
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: Linh Hồn Ký Ức / người trang bị tăng sát thương
+        content: Khi Linh Hồn Ký Ức của người trang bị trong trận, Sát Thương người trang bị và Linh Hồn Ký Ức gây ra tăng {{DmgBuff}}%.
   Swordplay:
     Content:
       sameTargetHitStacks:
         text: Cùng mục tiêu bị đánh
+        content: Khi người trang bị đánh trúng cùng một kẻ địch nhiều lần, sát thương gây ra mỗi lần sẽ tăng {{DmgBuff}}%, hiệu quả này tối đa cộng dồn 5 tầng. Nếu mục tiêu tấn công có thay đổi, sẽ xóa ngay hiệu ứng buff hiện tại.
   TheBirthOfTheSelf:
     Content:
       enemyHp50FuaBuff:
         text: HP địch ≤ 50% tăng ST Đòn đánh Theo Sau
+        content: Nếu Phần Trăm HP hiện tại của kẻ địch này nhỏ hơn hoặc bằng 50%, thì sát thương của Đòn Đánh Theo Sau tăng thêm {{DmgBuff}}%.
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
         text: '≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK'
+        content: Sau khi người trang bị tấn công, nếu có từ 2 kẻ địch bị tấn công trở lên mang Điểm Yếu thuộc tính tương ứng, thì Sát Thương Bạo Kích của người trang bị tăng {{CritBuff}}%, duy trì 2 hiệp.
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
         text: Các cộng dồn buff ATK
+        content: Sau khi người trang bị thi triển Tấn Công Thường, Chiến Kỹ hoặc Tuyệt Kỹ lên kẻ địch, sẽ lần lượt nhận 1 tầng "Trêu Chọc". Mỗi tầng khiến Tấn Công của người trang bị tăng {{AtkBuff}}%.
   TheSeriousnessOfBreakfast:
     Content:
       dmgBoost:
         text: Tăng Sát Thương
+        content: Khiến sát thương gây ra bởi người trang bị tăng {{DmgBuff}}%
       defeatedEnemyAtkStacks:
         text: Số kẻ địch bị tiêu diệt để tăng Tấn Công
+        content: Mỗi khi tiêu diệt 1 kẻ địch, Tấn Công của người trang bị tăng {{AtkBuff}}%, hiệu ứng này tối đa cộng dồn 3 tầng.
+  ThisIsMe:
+    Content:
+      defScalingUltDmg:
+        text: Tuyệt Kỹ tăng sát thương theo phòng thủ
+        content: >-
+          Tăng sát thương gây ra khi người trang bị thi triển Tuyệt Kỹ, mức tăng tương đương {{Multiplier}}% Phòng Thủ của người trang bị. Mỗi lần dùng Tuyệt Kỹ, hiệu ứng này chỉ có hiệu lực 1 lần cho mỗi kẻ địch.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyStacks:
         text: Năng lượng tối đa
+        content: 'Sau khi vào chiến đấu, dựa theo giới hạn Năng Lượng của người trang bị để tăng sát thương mà người trang bị gây ra: Mỗi điểm Năng Lượng tăng {{DmgStep}}%, tối đa tính 160 điểm.'
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
         text: Kẻ Địch bị hạ để tăng Tỉ Lệ Bạo Kích
+        content: Sau khi người trang bị tiêu diệt kẻ địch, Tỷ Lệ Bạo Kích tăng {{CritBuff}}%, duy trì 3 hiệp.
   VictoryInABlink:
     Content:
       teamDmgBuff:
         text: Tăng Sát Thương Đội
+        content: Khi Linh Hồn Ký Ức của người trang bị thi triển kỹ năng với mục tiêu phe ta, sẽ khiến Sát Thương toàn bộ mục tiêu phe ta gây ra tăng {{DmgBuff}}%, duy trì 3 hiệp.
+  WeAreWildfire:
+    Content:
+      initialDmgReductionBuff:
+        text: Bắt đầu chiến đấu khiến sát thương phải chịu giảm
+        content: >-
+          Khi bắt đầu chiến đấu sẽ khiến sát thương toàn phe ta phải chịu giảm {{DmgReduction}}%, duy trì 5 hiệp. Đồng thời hồi HP cho toàn phe ta tương đương {{Healing}}% HP đã mất của mỗi người.
   WeWillMeetAgain:
     Content:
       extraDmgProc:
         text: Sát Thương Kèm Theo
+        content: Sau khi người trang bị thi triển Tấn Công Thường hoặc Chiến Kỹ, sẽ gây cho 1 kẻ địch ngẫu nhiên bị đánh trúng một lượng sát thương kèm theo bằng {{Multiplier}}% Tấn Công của bản thân.
   WoofWalkTime:
     Content:
       enemyBurnedBleeding:
         text: Kẻ địch bị thiêu đốt / chảy máu Tăng Sát Thương
+        content: Sát thương gây ra cho kẻ địch ở trạng thái Thiêu Đốt hoặc Chảy Máu tăng {{DmgBuff}}%. Hiệu ứng này cũng có hiệu lực với sát thương duy trì.
   Adversarial:
     Content:
       defeatedEnemySpdBuff:
         text: Địch bị hạ tăng Tốc Độ
+        content: Sau khi người trang bị tiêu diệt kẻ địch, Tốc Độ sẽ tăng {{SpdBuff}}%, duy trì 2 hiệp.
+  Amber:
+    Content:
+      hp50DefBuff:
+        text: HP < 50% DEF buff
+        content: Khi Phần Trăm HP hiện tại của người trang bị nhỏ hơn 50%, Phòng Thủ của người đó sẽ tăng thêm {{DefBuff}}%.
   Arrows:
     Content:
       critBuff:
         text: Tăng Tỉ Lệ Bạo Kích Khi Bắt Đầu Combat
+        content: Khi bắt đầu chiến đấu sẽ khiến Tỷ Lệ Bạo Kích của người trang bị tăng {{CritBuff}}%, duy trì 3 hiệp.
   Chorus:
     Content:
       inBattleAtkBuff:
         text: Tăng Tấn Công Khi Bắt Đầu Combat
+        content: Sau khi vào chiến đấu, khiến Tấn Công của toàn thể phe ta tăng {{AtkBuff}}%. Kỹ năng cùng loại sẽ không có hiệu lực trùng lặp.
   CollapsingSky:
     Content:
       basicSkillDmgBuff:
         text: Tấn Công Thường và Chiến Kỹ Tăng Sát Thương
+        content: Khiến sát thương do Tấn Công Thường và Chiến Kỹ gây ra của người trang bị tăng {{DmgBuff}}%.
   Cornucopia:
     Content:
       healingBuff:
         text: Tăng Trị Liệu
+        content: Khi người trang bị thi triển Chiến Kỹ và Tuyệt Kỹ, lượng Trị Liệu tăng {{HealingBuff}}%.
   DartingArrow:
     Content:
       defeatedEnemyAtkBuff:
         text: Địch bị hạ tăng Tấn Công
+        content: Sau khi người trang bị tiêu diệt kẻ địch, Tấn Công sẽ tăng %, duy trì 3 hiệp.
   DataBank:
     Content:
       ultDmgBuff:
         text: Tuyệt Kỹ Tăng Sát Thương
+        content: Khiến sát thương do Tuyệt Kỹ gây ra của người trang bị tăng {{DmgBuff}}%.
   HiddenShadow:
     Content:
       basicAtkBuff:
         text: Tấn Công Thường Gây Thêm Sát Thương Kèm Theo
+        content: Sau khi thi triển Chiến Kỹ, sẽ khiến đòn tấn công thường tiếp theo của người trang bị gây cho kẻ địch một lượng sát thương kèm theo bằng {{MultiplierBonus}}% Tấn Công của bản thân.
   Loop:
     Content:
       enemySlowedDmgBuff:
         text: Kẻ Địch Bị Làm Chậm Tăng Sát Thương
+        content: Tăng {{DmgBuff}}% sát thương mà người trang bị gây ra cho kẻ địch trong trạng thái Giảm Tốc.
   Mediation:
     Content:
       initialSpdBuff:
         text: Tăng Tốc Độ Khi Vào Combat
+        content: Khi vào chiến đấu, Tốc Độ của toàn bộ phe ta tăng {{SpdBuff}} điểm, duy trì 1 hiệp.
   MutualDemise:
     Content:
       selfHp80CrBuff:
         text: HP Bản Thân < 80% tăng Tỉ Lệ Bạo Kích
+        content: If the wearer's current HP is lower than 80%, CRIT Rate increases by {{CritBuff}}%.
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: Tăng Sát Thương
+        content: Khi bắt đầu hiệp của Linh Hồn Ký Ức, khiến người trang bị và Linh Hồn Ký Ức lần lượt nhận 1 tầng Tưởng Nhớ. Mỗi tầng khiến Sát Thương gây ra tăng {{DmgBuff}}%, tối đa cộng dồn 4 tầng. Khi Linh Hồn Ký Ức biến mất, sẽ xóa Tưởng Nhớ của người trang bị và Linh Hồn Ký Ức.
   Sagacity:
     Content:
       postUltAtkBuff:
         text: Tăng Tấn Công Sau Khi Dùng Tuyệt Kỹ
+        content: Khi người trang bị thi triển Tuyệt Kỹ, Tấn Công sẽ tăng {{AtkBuff}}%, duy trì 2 hiệp.
   ShatteredHome:
     Content:
       enemyHp50Buff:
         text: HP Địch > 50% tăng Sát Thương 
+        content: Khiến sát thương mà người trang bị gây ra cho kẻ địch có Phần Trăm HP lớn hơn 50% tăng {{DmgBuff}}%.
   Void:
     Content:
       initialEhrBuff:
         text: Tăng Chính Xác Hiệu Ứng Khi Bắt Đầu Combat
+        content: Khi bắt đầu chiến đấu sẽ khiến Chính Xác Hiệu Ứng của người trang bị tăng {{EhrBuff}}%, duy trì 3 hiệp.
 Characters:
   Acheron:
     Content:
@@ -602,16 +658,27 @@ Characters:
     Content:
       supremeStanceState:
         text: Trạng Thái Tư Thế Tối Cao
+        content: >-
+          Ở trạng thái Tư Thế Tối Cao, Aglaea sẽ nhận được số tầng tăng Tốc Độ của Thiên Phú Linh Hồn Ký Ức Thợ May, mỗi tầng khiến Tốc Độ của bản thân tăng {{SpdBuff}}%, Cường Hóa Tấn Công Thường thành Ngàn Nụ Hôn Trên Lưỡi Kiếm và không thể thi triển Chiến Kỹ.
       seamStitch:
         text: Đường Khâu
+        content: >-
+          Khi Thợ May trong trận, Aglaea tấn công sẽ khiến mục tiêu rơi vào trạng thái Đường Khâu, sau khi tấn công kẻ địch ở trạng thái Đường Khâu sẽ gây thêm Sát Thương Lôi Kèm Theo bằng {{Scaling}}% Tấn Công của Aglaea. Đường Khâu chỉ có hiệu lực với mục tiêu được thi triển mới nhất.
       memoSpdStacks:
         text: 'Linh Hồn: Ký Ức Tích Tốc Độ'
+        content: >-
+          Sau khi tấn công kẻ địch ở trạng thái Đường Khâu, sẽ khiến Tốc Độ của bản thân tăng {{SpdBuff}} điểm, hiệu ứng này tối đa cộng dồn {{StackLimit}} tầng.
       e1Vulnerability:
         text: E1 Tăng Sát Thương Phải Chịu
+        content: Tinh Hồn Bậc 1 Trôi Dạt Theo Sao Kim khiến sát thương kẻ địch trong trạng thái Đường Khâu phải chịu tăng 15%.
       e2DefShredStacks:
         text: E2 Tích Xuyên Phòng Thủ
+        content: >-
+          Khi Aglaea hoặc Thợ May hành động, Sát Thương gây ra của Aglaea và Thợ May sẽ bỏ qua 14% Phòng Thủ của mục tiêu, hiệu ứng này tối đa cộng dồn 3 tầng, duy trì đến khi đơn vị bất kỳ ngoại trừ bản thân và Thợ May chủ động thi triển kỹ năng.
       e6Buffs:
         text: E6 Tăng Gì Đó
+        content: >-
+          Khi Aglaea ở trạng thái Tư Thế Tối Cao, Xuyên Kháng Lôi của bản thân và Thợ May tăng 20%. Khi Aglaea và [sic] Thợ May có tốc độ cao hơn 160/240/320 điểm, sát thương gây ra bởi Tấn Công Phối Hợp sẽ tăng 10%/30%/60%.
   Argenti:
     Content:
       ultEnhanced:
@@ -634,96 +701,148 @@ Characters:
     Content:
       selfCurrentHpPercent:
         text: HP% của bản thân
+        content: Tăng sát thương dựa trên phần trăm HP mất đi hiện tại của Arlan, tối đa tăng {{talentMissingHpDmgBoostMax}}% sát thương Arlan gây ra.
   Asta:
     Content:
       skillExtraDmgHits:
         text: Số lần chiến kỹ trúng 1 mục tiêu
+        content: "Gây Sát Thương Hỏa cho 1 kẻ địch chỉ định tương đương {{skillScaling}}% Tấn Công của Asta, đồng thời gây thêm {{skillExtraDmgHitsMax}} lần sát thương. Mỗi lần sát thương gây Sát Thương Hỏa cho kẻ địch ngẫu nhiên tương đương {{skillScaling}}% Tấn Công của Asta.::BR::E1: Khi thi triển Chiến Kỹ sẽ gây thêm 1 lần sát thương cho 1 kẻ địch ngẫu nhiên."
       talentBuffStacks:
         text: Số Tích Thiên Phú Tăng Tấn Công
+        content: "Asta cứ có 1 tầng Tụ Năng, sẽ khiến toàn bộ phe ta tăng {{talentStacksAtkBuff}}% Tấn Công.::BR::E4: Khi số tầng Tụ Năng của Thiên Phú từ 2 trở lên, hiệu suất hồi Năng Lượng của Asta tăng 15%."
       ultSpdBuff:
         text: Tuyệt Kỹ Tăng Tốc Độ
+        content: Khiến Tốc Độ của toàn phe ta tăng {{ultSpdBuffValue}} điểm, duy trì 2 hiệp.
       fireDmgBoost:
         text: Tăng Sát Thương Hỏa
+        content: Khi Asta trong trận, Sát Thương Hỏa của toàn bộ phe ta tăng 18%.
   Aventurine:
     Content:
       defToCrBoost:
         text: Phòng Thủ sang TLBK
+        content: Nếu Phòng Thủ của Aventurine cao hơn 1600 điểm, mỗi 100 điểm Phòng Thủ vượt quá sẽ giúp tăng 2% Tỷ Lệ Bạo Kích của bản thân, tối đa tăng 48%.
       fortifiedWagerBuff:
         text: Khiên "Xu Cược Kiên Cố"
+        content: >-
+          Tăng {{talentResScaling}}% Kháng Hiệu Ứng cho 1 đồng đội phe ta có "Xu Cược Kiên Cố" và khi đồng đội này bị tấn công, Aventurine sẽ nhận 1 điểm "Cược Mù".::BR::E1: Mục tiêu phe ta có Xu Cược Kiên Cố sẽ tăng 20% Sát Thương Bạo Kích. Sau khi thi triển Tuyệt Kỹ, sẽ cung cấp Khiên "Xu Cược Kiên Cố" cho toàn bộ phe ta, lượng Khiên bằng 100% lượng Khiên mà Chiến Kỹ cung cấp, duy trì 3 hiệp.
       enemyUnnervedDebuff:
         text: Địch bị "Cược Mù"
+        content: ' Khi mục tiêu phe ta đánh trúng mục tiêu phe địch đang trong trạng thái "Hoảng Hốt", Sát Thương Bạo Kích gây ra tăng {{ultCdBoost}}%.'
       fuaHitsOnTarget:
         text: Số Lần Đòn Đánh Theo Sau Dính Mục Tiêu
+        content: >-
+          Sau khi "Cược Mù" đạt 7 điểm, Aventurine sẽ tiêu hao 7 điểm phát động Đòn Đánh Theo Sau gồm 7 đòn đánh, mỗi đòn đánh sẽ gây cho 1 kẻ địch ngẫu nhiên Sát Thương Số Ảo bằng {{talentDmgScaling}}% Phòng Thủ của Aventurine. "Cược Mù" tối đa giới hạn 10 điểm.::BR::E4: Sau khi thi triển Tuyệt Kỹ, sẽ cung cấp Khiên "Xu Cược Kiên Cố" cho toàn bộ phe ta, lượng Khiên bằng 100% lượng Khiên mà Chiến Kỹ cung cấp, duy trì 3 hiệp.
       e2ResShred:
         text: E2 Giảm Kháng
+        content: Khi thi triển Tấn Công Thường sẽ khiến Kháng Toàn Thuộc Tính của mục tiêu giảm 12%, duy trì 3 hiệp.
       e4DefBuff:
         text: E4 Tăng Phòng Thủ
+        content: Khi kích hoạt Đòn Đánh Theo Sau của Thiên Phú, sẽ tăng 40% Phòng Thủ của Aventurine trước, duy trì 2 hiệp, đồng thời tăng thêm 3 số đòn đánh trong một lượt của Đòn Đánh Theo Sau của Thiên Phú.
       e6ShieldStacks:
         text: E6 Tích Khiên
+        content: Mỗi khi có 1 đồng đội sở hữu Khiên, sát thương gây ra bởi Aventurine tăng 50%, tối đa không quá 150%.
   Bailu:
     Content:
       healingMaxHpBuff:
         text: Hồi phục vào HP tối đa tăng HP giới hạn
+        content: Khi Bailu trị liệu quá mức cho mục tiêu của phe ta sẽ tăng 10% Giới Hạn HP của mục tiêu, duy trì 2 hiệp.
       talentDmgReductionBuff:
         text: Tuyệt Kỹ Giảm Sát Thương Nhận Vào
+        content: Giảm 10% sát thương mà nhân vật sở hữu "Sinh Mệnh" phải chịu.
       e2UltHealingBuff:
         text: E2 Tăng Trị Liệu Tuyệt Kỹ
+        content: Sau khi thi triển Tuyệt Kỹ, lượng Trị Liệu của Bailu tăng 15%, duy trì 2 hiệp.
       e4SkillHealingDmgBuffStacks:
         text: E4 Chiến Kỹ tăng ST
+        content: Mỗi 1 lần trị liệu mà Chiến Kỹ mang lại sẽ khiến sát thương gây ra bởi người được trị liệu tăng thêm 10%, tối đa cộng dồn 3 tầng, duy trì 2 hiệp.
   BlackSwan:
     Content:
       ehrToDmgBoost:
         text: Chính Xác Hiệu Ứng sang Sát Thương Tăng
+        content: Tăng sát thương do bản thân gây ra, mức tăng bằng 60% Chính Xác Hiệu Ứng, tối đa khiến Sát Thương gây ra tăng 72%.
       epiphanyDebuff:
         text: Hiệu ứng "Vạch Trần"
+        content: Ở trạng thái Vạch Trần, sát thương phải chịu trong hiệp của chính kẻ địch tăng {{epiphanyDmgTakenBoost}}%.
       defDecreaseDebuff:
         text: Hiệu ứng Giảm Phòng Thủ
+        content: Giảm {{defShredValue}}% Phòng Thủ của mục tiêu.
       arcanaStacks:
         text: Dấu Tích Bí Ẩn
+        content: >-
+          Ở trạng thái Dấu Tích Bí Ẩn, mỗi khi bắt đầu hiệp kẻ địch sẽ chịu Sát Thương Phong Duy Trì bằng {{dotScaling}}% Tấn Công của Black Swan, mỗi tầng Dấu Tích Bí Ẩn khiến Bội Số Sát Thương này tăng {{arcanaStackMultiplier}}%, sau đó làm mới về tầng 1. Dấu Tích Bí Ẩn tối đa cộng dồn 50 tầng.::BR::Từ 3 tầng trở lên: Gây Sát Thương Phong Duy Trì cho mục tiêu lân cận. Từ 7 tầng trở lên: Khiến Sát Thương Duy Trì gây ra lần này bỏ qua 20% Phòng Thủ của mục tiêu này và mục tiêu lân cận.
       e1ResReduction:
         text: E1 Giảm Kháng
+        content: Khi Black Swan ở trạng thái có thể chiến đấu, kháng thuộc tính Phong, Vật Lý, Hỏa, Lôi tương ứng của kẻ địch ở trạng thái Bào Mòn, Chảy Máu, Thiêu Đốt, Sốc Điện lần lượt giảm 25%.
       e4EffResPen:
         text: E4 Giảm Kháng Hiệu Ứng
+        content: Ở trạng thái Vạch Trần, Kháng Hiệu Ứng của kẻ địch giảm 10%.
   Blade:
     Content:
       enhancedStateActive:
         text: Trạng Thái Địa Ngục Biến
+        content: "Khi ở trạng thái Địa Ngục Biến không thể thi triển Chiến Kỹ, đồng thời khiến sát thương do bản thân gây ra tăng {{enhancedStateDmgBoost}}%.::BR::E2: Khi Blade ở trạng thái Địa Ngục Biến, Tỷ Lệ Bạo Kích tăng 15%."
       hpPercentLostTotal:
         text: Tổng HP% đã mất
+        content: Sát Thương Tuyệt Kỹ dựa vào giới hạn {{hpPercentLostTotalMax}}% HP đã mất tích lũy trong trận này của Blade.
       e4MaxHpIncreaseStacks:
         text: E4 HP Tối Đa Tích
+        content: Giới Hạn HP tăng 20%, hiệu ứng này tối đa cộng dồn 2 tầng.
   Boothill:
     Content:
       standoffActive:
         text: Đối Đầu Tuyệt Mệnh
+        content: >-
+          Khiến 1 kẻ địch chỉ định và bản thân vào trạng thái Đối Đầu Tuyệt Mệnh, Tấn Công Thường của Boothill được cường hóa và không thể thi triển Chiến Kỹ, duy trì 2 hiệp. Khi bắt đầu mỗi hiệp của Boothill, số hiệp duy trì giảm 1.
+          Kẻ địch có Đối Đầu Tuyệt Mệnh sẽ rơi vào trạng thái Khiêu Khích. Khi mục tiêu này/Boothill bị đối phương tấn công, sát thương phải chịu tăng {{standoffVulnerabilityBoost}}/15%.
       pocketTrickshotStacks:
         text: Cú Lừa Bỏ Túi
+        content: Mỗi tầng Cú Lừa Bỏ Túi giúp điểm Giảm Sức Bền của Tấn Công Thường Cường Hóa tăng 50%, tối đa cộng dồn 3 tầng.
       beToCritBoost:
         text: Kích Phá sang Tỉ Lệ và Sát Thương Bạo Kích
+        content: Tăng Tỷ Lệ Bạo Kích/Sát Thương Bạo Kích của bản thân, mức tăng bằng 10%/50% Tấn Công Kích Phá, tối đa khiến Tỷ Lệ Bạo Kích/Sát Thương Bạo Kích tăng 30%/150%.
       talentBreakDmgScaling:
         text: Kích Phá ST Thiên Phú 
+        content: >-
+          Trong thời gian thi triển Tấn Công Thường Cường Hóa, nếu mục tiêu trong trạng thái Phá Vỡ Điểm Yếu, sẽ căn cứ vào số tầng Cú Lừa Bỏ Túi, gây cho mục tiêu Sát Thương Phá Vỡ bằng Sát Thương Phá Vỡ Vật Lý của Boothill. Sức Bền tối đa được tính vào của đòn sát thương này không vượt quá 16 lần điểm Giảm Sức Bền cơ bản của đòn Tấn Công Thường Móng Sắt Nứt Sọ.
       e1DefShred:
         text: E1 Xuyên Phòng Thủ
+        content: Khi bắt đầu chiến đấu, nhận 1 tầng Cú Lừa Bỏ Túi. Khi Boothill gây sát thương sẽ bỏ qua 16% Phòng Thủ của mục tiêu.
       e2BeBuff:
         text: E2 Tăng Kích Phá
+        content: >-
+          Khi trong Đối Đầu Tuyệt Mệnh và nhận Cú Lừa Bỏ Túi, hồi 1 Điểm Chiến Kỹ, hơn nữa Tấn Công Kích Phá tăng 30%, duy trì 2 hiệp. Hiệu ứng này không thể kích hoạt trùng lặp trong 1 hiệp, khi nhận Cú Lừa Bỏ Túi vượt mức cũng sẽ kích hoạt.
       e4TargetStandoffVulnerability:
         text: E4 Trọng Thương Chiến Kỹ
+        content: >-
+          Kẻ địch trong trạng thái Đối Đầu Tuyệt Mệnh bị Boothill tấn công, sát thương phải chịu sẽ tăng thêm 12%. Khi Boothill bị kẻ địch trong trạng thái Đối Đầu Tuyệt Mệnh tấn công, hiệu ứng Tăng Sát Thương phải chịu sẽ giảm 12%.
       e6AdditionalBreakDmg:
         text: E6 Tăng Sát Thương Kích Phá
+        content: >-
+          Khi kích hoạt Thiên Phú gây Sát Thương Phá Vỡ, sẽ gây thêm cho mục tiêu Sát Thương Phá Vỡ bằng 40% bội số sát thương ban đầu, gây thêm cho mục tiêu lân cận Sát Thương Phá Vỡ bằng 70% bội số sát thương ban đầu.
   Bronya:
     Content:
       teamDmgBuff:
         text: Team tăng Sát Thương
+        content: Khi bắt đầu chiến đấu, Phòng Thủ của toàn phe ta tăng 20%, duy trì 2 hiệp.
       skillBuff:
         text: Chiến Kỹ Tăng Sát Thương
+        content: Xóa 1 Hiệu Ứng Xấu cho 1 đồng đội, đồng thời khiến mục tiêu này hành động ngay, sát thương gây ra tăng {{skillDmgBoostValue}}%, duy trì 1 hiệp.
       ultBuff:
         text: Tuyệt Kỹ Tăng Tấn Công và Sát Thương  Bạo Kích
+        content: Khiến toàn bộ phe ta tăng {{ultAtkBoostValue}}% tấn công, đồng thời tăng sát thương bạo kích bằng {{ultCdBoostValue}}% sát thương bạo kích của Bronya {{ultCdBoostBaseValue}}%, duy trì 2 hiệp.
       battleStartDefBuff:
         text: Tăng Phòng Thủ Khi Bắt Đầu Combat
+        content: Khi bắt đầu chiến đấu, Phòng Thủ của toàn phe ta tăng 20%, duy trì 2 hiệp.
       techniqueBuff:
         text: Bí Kỹ tăng Tấn Công
+        content: Sau khi dùng Bí Kỹ, lần khai chiến tiếp theo, khiến toàn phe ta sẽ tăng 15% Tấn Công, duy trì 2 hiệp.
       e2SkillSpdBuff:
         text: E2 Chiến Kỹ Tăng Tốc Độ
+        content: Khi thi triển Chiến Kỹ, mục tiêu được chỉ định của phe ta sẽ tăng 30% tốc độ sau khi hành động, duy trì 1 hiệp.
+    TeammateContent:
+      teammateCDValue:
+        text: Sát Thương Bạo Kích trong Combat của Bronya
+        content: Khiến toàn bộ phe ta tăng {{ultAtkBoostValue}}% tấn công, đồng thời tăng sát thương bạo kích bằng {{ultCdBoostValue}}% sát thương bạo kích của Bronya {{ultCdBoostBaseValue}}%, duy trì 2 hiệp.
   Clara:
     Content:
       ultBuff:
@@ -742,10 +861,13 @@ Characters:
     Content:
       talentPenBuff:
         text: Thiên Phú Xuyên Kháng
+        content: "Khi Dan Heng trở thành mục tiêu thi triển kỹ năng của phe ta, Xuyên Kháng Phong của lần tấn công tiếp theo tăng {{extraPenValue}}%.\n"
       enemySlowed:
         text: Kẻ Địch Bị Làm Chậm
+        content: Sát thương tấn công thường gây ra cho mục tiêu địch đang ở trạng thái giảm tốc tăng 40%.
       spdBuff:
         text: Tăng Tốc Độ
+        content: Sau khi tấn công có 50% xác suất cố định khiến Tốc Độ bản thân tăng 20%, duy trì 2 hiệp.
       e1EnemyHp50:
         text: E1 HP Địch ≥ 50% tăng Tỉ Lệ Bạo Kích
   DrRatio:

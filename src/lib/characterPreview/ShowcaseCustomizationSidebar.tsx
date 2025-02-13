@@ -616,7 +616,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1225: ['#fce4f7'], // fugue
     1301: ['#7c7c99'], // gallagher
     1302: ['#f77784'], // argenti
-    1303: ['#1a48ba'], // ruanmei
+    1303: ['#3964d1'], // ruanmei
     1304: ['#7cbcea'], // aventurine
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle

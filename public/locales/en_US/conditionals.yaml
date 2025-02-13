@@ -1359,23 +1359,29 @@ Characters:
         content: >-
           Select the level of enhancement of Mydei's skill.
           ::BR::
-          Death are Legion (enhancement 0): Consumes HP by an amount equal to 50% of Mydei's current HP. Deals Imaginary DMG equal to 90% of Mydei's Max HP to one designated enemy and Imaginary DMG equal to 50% of Mydei's Max HP to adjacent targets.
+          Death are Legion (enhancement 0): Consumes HP by an amount equal to 50% of Mydei's current HP. Deals Imaginary DMG equal to {{SkillPrimaryScaling}}% of Mydei's Max HP to one designated enemy and Imaginary DMG equal to {{SkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets.
           ::BR::
-          Kingslayer Be King (enhancement 1): Consumes HP by an amount equal to 35% of Mydei's current HP. Deals Imaginary DMG equal to 110% of Mydei's Max HP to one enemy and Imaginary DMG equal to 66% of Mydei's Max HP to adjacent targets.
+          Kingslayer Be King (enhancement 1): Consumes HP by an amount equal to 35% of Mydei's current HP. Deals Imaginary DMG equal to {{EnhancedSkillPrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets.
           ::BR::
-          Godslayer be God (enhancement 2): Consumes 150 points of Charge. Deals Imaginary DMG equal to 280% of Mydei's Max HP to one enemy and Imaginary DMG equal to 168% of Mydei's Max HP to adjacent targets.
+          Godslayer be God (enhancement 2): Consumes 150 points of Charge. Deals Imaginary DMG equal to {{EnhancedSkill2PrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkill2AdjacentScaling}}% of Mydei's Max HP to adjacent targets.
       vendettaState:
         text: Vendetta state
         content: >-
-          For each 1% of HP lost, accumulates 1 point of Charge (up to 200 points). When Charge reaches 100, consumes 100 points of Charge to enter the "Vendetta" state, restores HP equal to 25% of Mydei's Max HP, and advances action by 100%.
+          For each 1% of HP lost, accumulates 1 point of Charge (up to 200 points). When Charge reaches 100, consumes 100 points of Charge to enter the "Vendetta" state, restores HP equal to {{HpRestoration}}% of Mydei's Max HP, and advances action by 100%.
           ::BR::
           While the "Vendetta" state is active, Max HP increases by 50% of the current Max HP and DEF remains at 0. At the start of this unit's turn, automatically uses "Kingslayer Be King." When Charge reaches 150 points during the "Vendetta" state, Mydei immediately gains 1 extra turn and automatically uses "Godslayer Be God."
       hpToCrConversion:
         text: HP to CR conversion
         content: When battle starts, if Mydei's Max HP exceeds 4000, for every 100 excess HP, Mydei's CRIT Rate increases by 1.2%, his Charge ratio from enemy targets' DMG increases by 2.5%, and his Incoming Healing increases by 0.75%. Up to 4000 excess HP can be taken into account for this effect.
-      e1DefPen:
-        text: E1 DEF PEN
-        content:
+      e1EnhancedSkillBuff:
+        text: E1 Enhanced Skill boost
+        content: The DMG multiplier applied by "Godslayer Be God" to the primary target increases by 30%. And "Godslayer Be God" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target.
+      e2DefPen:
+        text: E2 DEF PEN
+        content: During "Vendetta," the DMG dealt by Mydei ignores 15% of enemy targets' DEF. And when receiving healing, converts 40% of the healed amount to Charge. The tally of the converted Charge cannot exceed 40 points. Resets this tally of Charge after any unit takes action.
+      e4CdBuff:
+        text: E4 CD buff
+        content: While in "Vendetta," increases CRIT DMG by 30% and restores HP by 10% of this unit's Max HP after receiving attacks from enemy targets.
   Pela:
     Content:
       teamEhrBuff:
@@ -1763,6 +1769,32 @@ Characters:
           Mem's combat CD
         content: >-
           All allies' CRIT DMG increases by {{ScalingBuff}}% of Mem's CRIT DMG plus {{FlatBuff}}%.
+  Tribbie:
+    Content:
+      numinosity:
+        text: Numinosity
+        content: After using Skill, Tribbie gains "Numinosity," lasting for 3 turns. This duration decreases by 1 at the start of this unit's every turn. While Tribbie has "Numinosity," increases all ally targets' All-Type RES PEN by {{ResPen}}%.
+      ultZone:
+        text: Ult Zone active
+        content: After Tribbie uses her Ultimate, activates a Zone and deals Quantum DMG equal to {{UltScaling}}% of her Max HP to all enemies. While the Zone lasts, increases enemy targets' DMG taken by {{ZoneVulnerability}}%. After an ally target attacks, for every 1 target hit, deals 1 instance of Quantum Additional DMG equal to {{AdditionalDmgScaling}}% of Tribbie's Max HP to the target that has the highest HP among the hit targets. The Zone lasts for 2 turns. This duration decreases by 1 at the start of this unit's every turn.
+      alliesMaxHp:
+        text: Allies max HP
+        content: While the Zone from her her Ultimate lasts, Tribbie's Max HP increases by an amount equal to 9% of the sum of all ally characters' Max HP.
+      talentFuaStacks:
+        text: FUA stacks
+        content: After using Talent's Follow-up ATK, increases the DMG dealt by Tribbie by 72%. This effect can stack up to 3 times, lasting for 3 turns.
+      e1TrueDmg:
+        text: E1 True DMG
+        content: While the Zone from her Ultimate lasts and after ally targets attack enemies, additionally deals True DMG equal to 24% of the total DMG of this attack to targets that have been dealt Additional DMG by the Zone.
+      e2AdditionalDmg:
+        text: E2 Additional DMG
+        content: The Additional DMG dealt by the Zone increases to 120% of the original DMG. When the Zone deals Additional DMG, further deals 1 instance of Additional DMG.
+      e4DefPen:
+        text: E4 DEF PEN
+        content: While "Numinosity" lasts, the DMG dealt by all allies ignores 18% of the target's DEF.
+      e6FuaScaling:
+        text: E6 FUA DMG
+        content: After Tribbie uses Ultimate, launches her Talent's Follow-up ATK against all enemies. The DMG dealt by Talent's Follow-up ATK increases by 729%.
   Welt:
     Content:
       enemyDmgTakenDebuff:

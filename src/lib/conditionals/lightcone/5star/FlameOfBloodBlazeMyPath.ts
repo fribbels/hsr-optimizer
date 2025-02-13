@@ -1,16 +1,15 @@
-import i18next from 'i18next'
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.x')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlameOfBloodBlazeMyPath.Content')
   const { SOURCE_LC } = Source.lightCone('23039')
 
   const sValuesSkillUltDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
@@ -25,15 +24,18 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'skillUltDmgBoost',
       formItem: 'switch',
-      text: 'Skill / Ult DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('skillUltDmgBoost.text'),
+      content: t('skillUltDmgBoost.content', { DmgBoost: TsUtils.precisionRound(sValuesSkillUltDmg[s] * 100) }),
     },
     bonusBoost: {
       lc: true,
       id: 'bonusBoost',
       formItem: 'switch',
-      text: 'Bonus DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('bonusBoost.text'),
+      content: t('bonusBoost.content', {
+        HpConsumption: TsUtils.precisionRound((0.06 + 0.005 * s) * 100),
+        BonusDmgBoost: TsUtils.precisionRound(sValuesSkillUltDmg[s] * 100),
+      }),
     },
   }
 

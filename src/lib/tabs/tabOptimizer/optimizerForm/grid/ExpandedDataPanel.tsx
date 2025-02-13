@@ -130,7 +130,7 @@ function DamageUpgrades(props: {
     )
   const equippedBuildComboDmg = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim>)?.data?.COMBO
   let dmgChange = 0
-  if (equippedBuildComboDmg) dmgChange = Math.abs(props.combo / equippedBuildComboDmg - 1) * 100
+  if (equippedBuildComboDmg) dmgChange = (props.combo / equippedBuildComboDmg - 1) * 100
 
   return (
     <Flex vertical align='center'>
@@ -142,7 +142,7 @@ function DamageUpgrades(props: {
           <StatTextSm>vs equipped</StatTextSm>
           <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
           <StatTextSm>
-            {`${dmgChange >= 0 ? '+' : '-'} ${numberToLocaleString(dmgChange, 2)}%`}
+            {`${dmgChange >= 0 ? '+' : '-'} ${numberToLocaleString(Math.abs(dmgChange), 2)}%`}
           </StatTextSm>
         </Flex>
       )}

@@ -82,7 +82,8 @@ function BuffTag(props: { buff: Buff }) {
   const { buff } = props
   const stat = buff.stat as keyof ComputedStatsObject
   const percent = !StatsConfig[stat].flat
-  const statLabel = computedStatsTempI18NTranslations[stat]
+  // @ts-ignore
+  const statLabel = computedStatsTempI18NTranslations[stat] ?? stat
 
   let sourceLabel
 
@@ -165,14 +166,14 @@ const computedStatsTempI18NTranslations = {
   FUA_VULNERABILITY: 'Fua DMG vulnerability',
   DOT_VULNERABILITY: 'Dot DMG vulnerability',
   BREAK_VULNERABILITY: 'Break DMG vulnerability',
-  DEF_PEN: 'Def PEN',
-  BASIC_DEF_PEN: 'Basic Def PEN',
-  SKILL_DEF_PEN: 'Skill Def PEN',
-  ULT_DEF_PEN: 'Ult Def PEN',
-  FUA_DEF_PEN: 'Fua Def PEN',
-  DOT_DEF_PEN: 'Dot Def PEN',
-  BREAK_DEF_PEN: 'Break Def PEN',
-  SUPER_BREAK_DEF_PEN: 'Super Break Def PEN',
+  DEF_PEN: 'DEF PEN',
+  BASIC_DEF_PEN: 'Basic DEF PEN',
+  SKILL_DEF_PEN: 'Skill DEF PEN',
+  ULT_DEF_PEN: 'Ult DEF PEN',
+  FUA_DEF_PEN: 'Fua DEF PEN',
+  DOT_DEF_PEN: 'Dot DEF PEN',
+  BREAK_DEF_PEN: 'Break DEF PEN',
+  SUPER_BREAK_DEF_PEN: 'Super Break DEF PEN',
   RES_PEN: 'All-Type RES PEN',
   PHYSICAL_RES_PEN: 'Physical RES PEN',
   FIRE_RES_PEN: 'Fire RES PEN',

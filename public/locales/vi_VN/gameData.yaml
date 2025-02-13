@@ -308,7 +308,7 @@ RelicSets:
   "124":
     Name: Nhà Thơ Khúc Bi Ca Vong Quốc
     Description2pc: Sát Thương Lượng Tử tăng 10%.
-    Description4pc: Khiến Tốc Độ của người trang bị giảm 8%. Trước khi vào chiến đấu, nếu Tốc Độ của trang bị dưới 110/95, sẽ khiến Tỷ Lệ Bạo Kích của người trang bị tăng 20%/32%. Hiệu ứng này đồng thời có hiệu lực với Linh Hồn Ký Ức của người trang bị.
+    Description4pc: Khiến Tốc Độ của người trang bị giảm 8%. Trước khi vào chiến đấu, nếu Tốc Độ của người trang bị dưới 110/95, sẽ khiến Tỷ Lệ Bạo Kích của người trang bị tăng 20%/32%. Hiệu ứng này đồng thời có hiệu lực với Linh Hồn Ký Ức của người trang bị.
   "301":
     Name: Trạm Phong Ấn Không Gian
     Description2pc: Tăng 12% Tấn Công của người trang bị. Khi tốc độ của người trang bị từ 120 trở lên, Tấn Công tăng thêm 12%.
@@ -365,10 +365,10 @@ RelicSets:
     Description2pc: Khiến Sát Thương Bạo Kích của người trang bị tăng 16%, khi tồn tại mục tiêu mà người trang bị triệu hồi, Sát Thương Bạo Kích sẽ tăng thêm 32%.
   "319":
     Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
 Lightcones:
   "20000":
     Name: Mũi Tên

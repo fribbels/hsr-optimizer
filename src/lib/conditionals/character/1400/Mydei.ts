@@ -1,17 +1,17 @@
-import i18next from 'i18next'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.x')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Mydei.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -50,42 +50,49 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillEnhances: {
       id: 'skillEnhances',
       formItem: 'slider',
-      text: 'Skill Enhances',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('skillEnhances.text'),
+      content: t('skillEnhances.content', {
+        SkillPrimaryScaling: TsUtils.precisionRound(skillScaling * 100),
+        SkillAdjacentScaling: TsUtils.precisionRound(skill(e, 50, 55)),
+        EnhancedSkillPrimaryScaling: TsUtils.precisionRound(skillEnhanced1Scaling * 100),
+        EnhancedSkillAdjacentScaling: TsUtils.precisionRound(skill(e, 66, 72.6)),
+        EnhancedSkill2PrimaryScaling: TsUtils.precisionRound(skillEnhanced2Scaling * 100),
+        EnhancedSkill2AdjacentScaling: TsUtils.precisionRound(skill(e, 168, 184.8)),
+      }),
       min: 0,
       max: 2,
     },
     vendettaState: {
       id: 'vendettaState',
       formItem: 'switch',
-      text: 'Vendetta state',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('vendettaState.text'),
+      content: t('vendettaState.content', { HpRestoration: TsUtils.precisionRound(talent(e, 25, 27)) }),
     },
     hpToCrConversion: {
       id: 'hpToCrConversion',
       formItem: 'switch',
-      text: 'HP to CR conversion',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('hpToCrConversion.text'),
+      content: t('hpToCrConversion.content'),
     },
     e1EnhancedSkillBuff: {
       id: 'e1EnhancedSkillBuff',
       formItem: 'switch',
-      text: 'E1 Enhanced Skill boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1EnhancedSkillBuff.text'),
+      content: t('e1EnhancedSkillBuff.content'),
       disabled: e < 1,
     },
     e2DefPen: {
       id: 'e2DefPen',
       formItem: 'switch',
-      text: 'E2 DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2DefPen.text'),
+      content: t('e2DefPen.content'),
       disabled: e < 2,
     },
     e4CdBuff: {
       id: 'e4CdBuff',
       formItem: 'switch',
-      text: 'E4 CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4CdBuff.text'),
+      content: t('e4CdBuff.content'),
       disabled: e < 4,
     },
   }

@@ -97,14 +97,14 @@ export const betaInformation: betaInformation = {
         id: 319,
         value: {
           Name: "Bone Collection's Serene Demesne",
-          Description2pc: "Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.",
+          Description2pc: "Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.",
         },
       },
       {
         id: 320,
         value: {
           Name: 'Giant Tree of Rapt Brooding',
-          Description2pc: "The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.",
+          Description2pc: "Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.",
         },
       },
     ],
@@ -146,22 +146,22 @@ export const betaInformation: betaInformation = {
         },
       },
     ],
-    /* RelicSets: [
+    RelicSets: [
       {
         id: 319,
         value: {
           Name: '静謐な拾骨地',
-          Description2pc: '装備キャラの最大HP+ 12% 。装備キャラの最大HPが 5000 以上の場合、装備キャラおよびその記憶の精霊の会心ダメージ+ 28% 。',
+          Description2pc: '装備キャラの最大HP+ 12% 。装備キャラの最大HPが 5000 以上の時、装備キャラおよびその記憶の精霊の会心ダメージ+ 28% 。',
         },
       },
       {
         id: 320,
         value: {
           Name: '深慮に浸る巨樹',
-          Description2pc: '装備キャラの会心率+ 6% 。装備キャラの会心率が 13500% 以上の時、付加ダメージ+ 18000% 。',
+          Description2pc: '装備キャラの速度+ 6% 。装備キャラの速度が 135 / 180 以上の時、装備キャラ及びその記憶の精霊の治癒量+ 12% / 20% 。',
         },
       },
-    ], */
+    ],
   },
   ko_KR: {
     Characters: [
@@ -200,22 +200,22 @@ export const betaInformation: betaInformation = {
         },
       },
     ],
-    /* RelicSets: [
+    RelicSets: [
       {
         id: 319,
         value: {
           Name: '고요한 습골지',
-          Description2pc: '장착한 캐릭터의 HP 최대치가 12% 증가한다. 장착한 캐릭터의 HP 최대치가 5000 이상일 경우, 장착한 캐릭터 및 해당 기억 정령의 치명타 피해가 28% 증가한다',
+          Description2pc: '장착한 캐릭터의 HP 최대치가 12% 증가한다. 장착한 캐릭터의 HP 최대치가 5000pt 이상일 경우, 장착한 캐릭터와 해당 캐릭터의 기억 정령의 치명타 피해가 28% 증가한다',
         },
       },
       {
         id: 320,
         value: {
           Name: '사색하는 거목',
-          Description2pc: '장착한 캐릭터의 치명타 확률이 6% 증가한다. 장착한 캐릭터의 현재 치명타 확률이 13500% 이상일 경우, 가하는 추가 피해가 18000% 증가한다',
+          Description2pc: '장착한 캐릭터의 속도가 6% 증가한다. 장착한 캐릭터의 속도가 135/180 이상일 경우, 장착한 캐릭터와 해당 캐릭터의 기억 정령의 치유량이 12%/20% 증가한다',
         },
       },
-    ], */
+    ],
   },
 }
 

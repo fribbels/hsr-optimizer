@@ -99,6 +99,10 @@ Lightcones:
       spdBuff:
         text: 3体攻撃時の速度バフ
         content: 攻撃が3体以上の敵に命中した場合、自身の速度+{{SpdBuff}}%、1ターン継続。
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: スキル/必殺技ダメ増加
   FlowingNightglow:
     Content:
       cadenzaActive:

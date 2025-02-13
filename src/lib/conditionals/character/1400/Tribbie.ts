@@ -27,8 +27,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     alliesMaxHp: 25000,
     talentFuaStacks: 3,
     e1TrueDmg: true,
-    e2DefPen: true,
-    e4AdditionalDmg: true,
+    e2AdditionalDmg: true,
+    e4DefPen: true,
     e6FuaScaling: true,
   }
 
@@ -36,7 +36,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     numinosity: true,
     ultZone: true,
     e1TrueDmg: true,
-    e2DefPen: true,
+    e4DefPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -75,17 +75,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
-    e2DefPen: {
-      id: 'e2DefPen',
+    e2AdditionalDmg: {
+      id: 'e2AdditionalDmg',
       formItem: 'switch',
-      text: 'E2 DEF PEN',
+      text: 'E2 Additional DMG',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
-    e4AdditionalDmg: {
-      id: 'e4AdditionalDmg',
+    e4DefPen: {
+      id: 'e4DefPen',
       formItem: 'switch',
-      text: 'E4 Additional DMG',
+      text: 'E4 DEF PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
@@ -102,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     numinosity: content.numinosity,
     ultZone: content.ultZone,
     e1TrueDmg: content.e1TrueDmg,
-    e2DefPen: content.e2DefPen,
+    e4DefPen: content.e4DefPen,
   }
 
   return {
@@ -118,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_SCALING.buff(talentScaling, Source.NONE)
 
       const additionalScaling = (r.ultZone ? ultAdditionalDmgScaling : 0)
-        * ((e >= 4 && r.e4AdditionalDmg) ? 1.20 * 2 : 1)
+        * ((e >= 2 && r.e2AdditionalDmg) ? 1.20 * 2 : 1)
       x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.NONE)
       x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.NONE)
       x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.NONE)
@@ -141,7 +141,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.TRUE_DMG_MODIFIER.buffTeam((e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0), Source.NONE)
 
-      x.DEF_PEN.buffTeam((e >= 2 && m.numinosity && m.e2DefPen) ? 0.18 : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, Source.NONE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)

@@ -25,7 +25,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillEnhances: 2,
     vendettaState: true,
     hpToCrConversion: true,
-    e1DefPen: true,
+    e1EnhancedSkillBuff: true,
+    e2DefPen: true,
+    e4CdBuff: true,
   }
 
   const teammateDefaults = {}
@@ -51,12 +53,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'HP to CR conversion',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    e1DefPen: {
-      id: 'e1DefPen',
+    e1EnhancedSkillBuff: {
+      id: 'e1EnhancedSkillBuff',
       formItem: 'switch',
-      text: 'E1 DEF PEN',
+      text: 'E1 Enhanced Skill boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
+    },
+    e2DefPen: {
+      id: 'e2DefPen',
+      formItem: 'switch',
+      text: 'E2 DEF PEN',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 2,
+    },
+    e4CdBuff: {
+      id: 'e4CdBuff',
+      formItem: 'switch',
+      text: 'E4 CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 4,
     },
   }
 
@@ -75,10 +91,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_SCALING.buff((r.skillEnhances == 0) ? skillScaling : 0, Source.NONE)
       x.SKILL_SCALING.buff((r.skillEnhances == 1) ? skillEnhanced1Scaling : 0, Source.NONE)
       x.SKILL_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, Source.NONE)
+      x.SKILL_SCALING.buff((e >= 1 && r.e1EnhancedSkillBuff && r.skillEnhances == 2) ? 0.30 : 0, Source.NONE)
 
       x.ULT_SCALING.buff(ultScaling, Source.NONE)
 
-      x.DEF_PEN.buff((e >= 1 && r.e1DefPen && r.vendettaState) ? 0.15 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 2 && r.e2DefPen && r.vendettaState) ? 0.15 : 0, Source.NONE)
+      x.CD.buff((e >= 4 && r.e4CdBuff) ? 0.30 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
       x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 90 : 60, Source.NONE)

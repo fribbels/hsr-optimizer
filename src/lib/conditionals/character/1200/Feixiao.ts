@@ -118,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
 
       if (r.weaknessBrokenUlt) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, SOURCE_ULT)
+        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
       }
 
       if (e >= 6 && r.e6Buffs) {

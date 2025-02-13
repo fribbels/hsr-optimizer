@@ -16,7 +16,7 @@ import {
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 const { Text } = Typography
@@ -39,23 +39,28 @@ export default function WarpCalculatorTab(): React.JSX.Element {
   )
 }
 
+export function sanitizeWarpRequest(warpRequest: WarpRequest) {
+  if (!warpRequest) return { ...DEFAULT_WARP_REQUEST }
+
+  if (!Array.isArray(warpRequest.income)
+    || !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
+    warpRequest.income = []
+  }
+
+  return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
+}
+
 function Inputs() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
-  const warpRequest = window.store((s) => s.warpRequest)
+  const storedWarpRequest = window.store((s) => s.warpRequest)
   const [form] = Form.useForm<WarpRequest>()
 
-  const initialValues = useMemo(() => {
-    if (!Array.isArray(warpRequest.income)
-      || !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
-      warpRequest.income = []
-    }
-    return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
-  }, [])
+  const warpRequest = sanitizeWarpRequest(storedWarpRequest)
 
   return (
     <Form
       form={form}
-      initialValues={initialValues}
+      initialValues={warpRequest}
       style={{
         width: 900,
       }}

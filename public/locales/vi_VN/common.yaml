@@ -126,7 +126,7 @@ ReadableStats:
   Effect Hit Rate: CX Hiệu Ứng
   Effect RES: Kháng Hiệu Ứng
   Break Effect: Kích Phá
-  Energy Regeneration Rate: Hồi Năng Lượng
+  Energy Regeneration Rate: Năng Lượng
   Outgoing Healing Boost: Tăng Trị Liệu
   Physical DMG Boost: "ST $t(gameData:Elements.Physical)"
   Fire DMG Boost: "ST $t(gameData:Elements.Fire)"

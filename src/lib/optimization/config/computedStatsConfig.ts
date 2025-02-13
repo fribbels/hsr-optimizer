@@ -49,6 +49,11 @@ export const BaseComputedStatsConfig = {
 
   ELEMENTAL_DMG: {},
 
+  BASE_HP: {},
+  BASE_ATK: {},
+  BASE_DEF: {},
+  BASE_SPD: {},
+
   BASIC_SCALING: {},
   SKILL_SCALING: {},
   ULT_SCALING: {},
@@ -122,7 +127,7 @@ export const BaseComputedStatsConfig = {
   EFFECT_RES_PEN: {},
 
   // Black swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
-  DOT_SPLIT: { flat: true },
+  DOT_SPLIT: {},
   DOT_STACKS: { flat: true },
 
   SUMMONS: { flat: true },
@@ -135,6 +140,7 @@ export const BaseComputedStatsConfig = {
   SKILL_TOUGHNESS_DMG: { flat: true },
   ULT_TOUGHNESS_DMG: { flat: true },
   FUA_TOUGHNESS_DMG: { flat: true },
+  MEMO_SKILL_TOUGHNESS_DMG: { flat: true },
 
   // True dmg
   TRUE_DMG_MODIFIER: {},
@@ -179,14 +185,14 @@ export const BaseComputedStatsConfig = {
   MEMO_BUFF_PRIORITY: { flat: true },
   DEPRIORITIZE_BUFFS: { flat: true },
 
-  MEMO_HP_SCALING: {},
-  MEMO_HP_FLAT: { flat: true },
-  MEMO_DEF_SCALING: {},
-  MEMO_DEF_FLAT: { flat: true },
-  MEMO_ATK_SCALING: {},
-  MEMO_ATK_FLAT: { flat: true },
-  MEMO_SPD_SCALING: {},
-  MEMO_SPD_FLAT: { flat: true },
+  MEMO_BASE_HP_SCALING: {},
+  MEMO_BASE_HP_FLAT: { flat: true },
+  MEMO_BASE_DEF_SCALING: {},
+  MEMO_BASE_DEF_FLAT: { flat: true },
+  MEMO_BASE_ATK_SCALING: {},
+  MEMO_BASE_ATK_FLAT: { flat: true },
+  MEMO_BASE_SPD_SCALING: {},
+  MEMO_BASE_SPD_FLAT: { flat: true },
 
   MEMO_SKILL_SCALING: {},
   MEMO_TALENT_SCALING: {},

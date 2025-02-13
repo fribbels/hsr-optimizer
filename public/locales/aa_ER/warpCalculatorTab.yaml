@@ -8,7 +8,7 @@ StrategyLabels:
   E5: crwdns44520:0crwdne44520:0
   E6: crwdns44522:0crwdne44522:0
 IncomeOptions:
-  Label: "crwdns44524:0{{versionNumber}}crwdnd44524:0{{type}}crwdne44524:0"
+  Label: "crwdns44580:0{{versionNumber}}crwdnd44580:0{{phaseNumber}}crwdnd44580:0{{type}}crwdne44580:0"
   Type:
     0: crwdns44526:0crwdne44526:0
     1: crwdns44528:0crwdne44528:0

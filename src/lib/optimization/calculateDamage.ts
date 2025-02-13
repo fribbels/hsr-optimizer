@@ -234,7 +234,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_BREAK_EFFICIENCY_BOOST],
         0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
-        0, // a[Key.MEMO_SKILL_TOUGHNESS_DMG],
+        a[Key.MEMO_SKILL_TOUGHNESS_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -457,7 +457,7 @@ function calculateEhrMulti(
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
   const effectiveDotChance = Math.min(1, a[Key.DOT_CHANCE] * (1 + a[Key.EHR]) * (1 - enemyEffectRes + a[Key.EFFECT_RES_PEN]))
   return a[Key.DOT_SPLIT]
-    ? (1 + a[Key.DOT_SPLIT] * effectiveDotChance * (a[Key.DOT_STACKS] - 1)) / (1 + 0.05 * (a[Key.DOT_STACKS] - 1))
+    ? (1 + a[Key.DOT_SPLIT] * effectiveDotChance * (a[Key.DOT_STACKS] - 1)) / (1 + a[Key.DOT_SPLIT] * (a[Key.DOT_STACKS] - 1))
     : effectiveDotChance
 }
 

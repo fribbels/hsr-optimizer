@@ -138,11 +138,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
 
-      x.MEMO_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
-      x.MEMO_SPD_SCALING.buff(0.35, SOURCE_MEMO)
-      x.MEMO_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
 
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
 
@@ -155,6 +155,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
       x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+
+      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 60 : 30, SOURCE_BASIC)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(30, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

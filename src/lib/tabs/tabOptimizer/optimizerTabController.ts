@@ -12,6 +12,8 @@ import { handleOptimizerExpandedRowData } from 'lib/simulations/expandedComputed
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { updateExpandedDataPanel } from 'lib/tabs/tabOptimizer/optimizerForm/grid/ExpandedDataPanel'
+import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -279,44 +281,36 @@ export const OptimizerTabController = {
         }
 
         // Give it time to show the loading page before we block
-        void TsUtils.sleep(100).then(() => {
-          if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
-            sortModel = params.sortModel[0]
-            sort()
-          }
-
-          if (filterModel) {
-            filter(filterModel)
-            const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
-            const subArray: OptimizerDisplayData[] = []
-            for (const index of indicesSubArray) {
-              subArray.push(rows[index])
+        void TsUtils.sleep(100)
+          .then(() => {
+            if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
+              sortModel = params.sortModel[0]
+              sort()
             }
-            aggregate(subArray)
-            params.successCallback(subArray, filteredIndices.length)
-          } else {
-            const subArray = rows.slice(params.startRow, params.endRow)
-            aggregate(subArray)
 
-            params.successCallback(subArray, rows.length)
-          }
+            if (filterModel) {
+              filter(filterModel)
+              const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
+              const subArray: OptimizerDisplayData[] = []
+              for (const index of indicesSubArray) {
+                subArray.push(rows[index])
+              }
+              aggregate(subArray)
+              params.successCallback(subArray, filteredIndices.length)
+            } else {
+              const subArray = rows.slice(params.startRow, params.endRow)
+              aggregate(subArray)
 
-          // cannot assume a fast click race-condition didn't happen
-          if (window?.optimizerGrid?.current?.api) {
-            window.optimizerGrid.current?.api.setGridOption('loading', false)
-          }
-          OptimizerTabController.redrawRows()
-        }).then(() => { // update the expanded data panel after a fresh optimizer run
-          let selectedRow: OptimizerDisplayDataStatSim | undefined = window.optimizerGrid.current?.api.getSelectedRows()[0]
-          // default to equipped build if no selected row
-          if (!selectedRow) selectedRow = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim> | undefined)?.data
-          if (selectedRow) {
-            const build = OptimizerTabController.calculateRelicIdsFromId(selectedRow.id)
-            window.store.getState().setOptimizerBuild(build)
-            window.store.getState().setOptimizerSelectedRowData(selectedRow)
-            handleOptimizerExpandedRowData(build)
-          }
-        })
+              params.successCallback(subArray, rows.length)
+            }
+
+            // cannot assume a fast click race-condition didn't happen
+            if (window?.optimizerGrid?.current?.api) {
+              window.optimizerGrid.current?.api.setGridOption('loading', false)
+            }
+            OptimizerTabController.redrawRows()
+          })
+          .then(updateExpandedDataPanel)
       },
     }
   },
@@ -324,7 +318,7 @@ export const OptimizerTabController = {
   // Unpack a permutation ID to its respective relics
   calculateRelicsFromId: (id: number) => {
     if (id === 0) { // special case for equipped build optimizer row
-      const build = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter!).equipped
+      const build = DB.getCharacterById(optimizerFormCache[window.store.getState().optimizationId!].characterId).equipped
       const out = {} as Partial<SingleRelicByPart>
       for (const key of Object.keys(build)) {
         out[key as Parts] = DB.getRelicById(build[key as Parts]!)
@@ -353,7 +347,7 @@ export const OptimizerTabController = {
       Feet: relics.Feet[f],
       PlanarSphere: relics.PlanarSphere[p],
       LinkRope: relics.LinkRope[l],
-    }
+    } as SingleRelicByPart
   },
 
   calculateRelicIdsFromId: (id: number) => {

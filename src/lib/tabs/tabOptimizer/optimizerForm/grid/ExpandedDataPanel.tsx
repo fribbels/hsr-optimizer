@@ -1,5 +1,5 @@
 import { IRowNode } from 'ag-grid-community'
-import { Divider, Flex } from 'antd'
+import { Button, Divider, Flex } from 'antd'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { Stats, SubStats } from 'lib/constants/constants'
@@ -10,6 +10,7 @@ import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams } from 'lib/scoring/simScoringUtils'
+import { handleOptimizerExpandedRowData } from 'lib/simulations/expandedComputedStats'
 import {
   convertRelicsToSimulation,
   defaultSimulationParams,
@@ -26,17 +27,21 @@ import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import React from 'react'
 import { Build } from 'types/character'
 
 export function ExpandedDataPanel() {
   const selectedRowData = window.store((s) => s.optimizerSelectedRowData)
+
   // selectedBuildData and buffGroups come from expandedComputedStats.ts
   const selectedBuildData = window.store((s) => s.optimizerExpandedPanelBuildData)
   const buffGroups = window.store((s) => s.optimizerBuffGroups)
+
   const optimizerBuild = window.store((s) => s.optimizerBuild)
-  return !selectedRowData
+
+  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+
+  return !selectedRowData || optimizerFormCache[window.store.getState().optimizationId!].characterId !== optimizerTabFocusCharacter
     ? (<></>)
     : (
       <Flex gap={16}>
@@ -108,13 +113,13 @@ function DamageUpgrades(props: {
   optimizerBuild: Build | null
 }) {
   const statUpgrades = calculateStatUpgrades(props.id, props.ornamentIndex, props.relicIndex)
-    .filter((result) => result.COMBO >= props.combo)
+    // .filter((result) => result.COMBO >= props.combo)
     .sort((a, b) => a.COMBO > b.COMBO ? -1 : 1)
     .map((result, index) => (
       index >= 4
         ? null
         : (
-          <Flex key={Utils.randomId()} align='center' justify='space-between' style={{ width: '100%' }}>
+          <Flex key={index} align='center' justify='space-between' style={{ width: '100%' }}>
             <img src={Assets.getStatIcon(result.statSim.key)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
             <StatTextSm>{`+1x ${result.statSim.key}`}</StatTextSm>
             <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
@@ -125,19 +130,20 @@ function DamageUpgrades(props: {
     )
   const equippedBuildComboDmg = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim>)?.data?.COMBO
   let dmgChange = 0
-  if (equippedBuildComboDmg) dmgChange = props.combo / equippedBuildComboDmg
+  if (equippedBuildComboDmg) dmgChange = Math.abs(props.combo / equippedBuildComboDmg - 1) * 100
 
   return (
     <Flex vertical align='center'>
       <HeaderText>Dmg Upgrades</HeaderText>
+      <Button onClick={() => console.log(props)}>test</Button>
 
       {equippedBuildComboDmg && (
-        <Flex key={Utils.randomId()} align='center' justify='space-between' style={{ width: '100%' }}>
+        <Flex align='center' justify='space-between' style={{ width: '100%' }}>
           {/* <img src={Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/> */}
           <StatTextSm>vs equipped</StatTextSm>
           <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
           <StatTextSm>
-            {`${dmgChange >= 1 ? '+' : '-'} ${numberToLocaleString(Math.abs(props.combo / equippedBuildComboDmg - 1) * 100, 2)}%`}
+            {`${dmgChange >= 0 ? '+' : '-'} ${numberToLocaleString(dmgChange, 2)}%`}
           </StatTextSm>
         </Flex>
       )}
@@ -179,4 +185,17 @@ function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: nu
     context,
     simulations,
   )
+}
+
+export async function updateExpandedDataPanel() {
+  await TsUtils.sleep(200)
+  let selectedRow: OptimizerDisplayDataStatSim | undefined = window.optimizerGrid.current?.api.getSelectedRows()[0]
+  // default to equipped build if no selected row
+  if (!selectedRow) selectedRow = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim> | undefined)?.data
+  if (selectedRow) {
+    const build = OptimizerTabController.calculateRelicIdsFromId(selectedRow.id)
+    window.store.getState().setOptimizerBuild(build)
+    window.store.getState().setOptimizerSelectedRowData(selectedRow)
+    handleOptimizerExpandedRowData(build)
+  }
 }

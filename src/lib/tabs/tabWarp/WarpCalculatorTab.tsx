@@ -173,7 +173,7 @@ function Inputs() {
 
 // When users have a saved warp income type, we should expand the parent by default so it doesn't get lost
 function extractEnabledIncomeTypes(warpRequest: WarpRequest) {
-  return warpRequest.income.map((incomeOption) => parseInt(incomeOption.substring(incomeOption.length - 1)))
+  return (warpRequest.income ?? []).map((incomeOption) => parseInt(incomeOption.substring(incomeOption.length - 1)))
 }
 
 function Title(props: { children: React.ReactNode }) {

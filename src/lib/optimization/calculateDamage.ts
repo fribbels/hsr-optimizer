@@ -457,7 +457,7 @@ function calculateEhrMulti(
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
   const effectiveDotChance = Math.min(1, a[Key.DOT_CHANCE] * (1 + a[Key.EHR]) * (1 - enemyEffectRes + a[Key.EFFECT_RES_PEN]))
   return a[Key.DOT_SPLIT]
-    ? (1 + a[Key.DOT_SPLIT] * effectiveDotChance * (a[Key.DOT_STACKS] - 1)) / (1 + 0.05 * (a[Key.DOT_STACKS] - 1))
+    ? (1 + a[Key.DOT_SPLIT] * effectiveDotChance * (a[Key.DOT_STACKS] - 1)) / (1 + a[Key.DOT_SPLIT] * (a[Key.DOT_STACKS] - 1))
     : effectiveDotChance
 }
 

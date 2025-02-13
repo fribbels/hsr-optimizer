@@ -127,7 +127,7 @@ export const BaseComputedStatsConfig = {
   EFFECT_RES_PEN: {},
 
   // Black swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
-  DOT_SPLIT: { flat: true },
+  DOT_SPLIT: {},
   DOT_STACKS: { flat: true },
 
   SUMMONS: { flat: true },

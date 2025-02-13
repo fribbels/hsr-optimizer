@@ -857,7 +857,7 @@ fn calculateEhrMulti(
   let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - enemyEffectResistance + x.EFFECT_RES_PEN));
   let dotEhrMulti = select(
     (effectiveDotChance),
-    (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)),
+    (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + x.DOT_SPLIT * (x.DOT_STACKS - 1)),
     x.DOT_SPLIT > 0
   );
 

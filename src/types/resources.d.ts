@@ -3413,7 +3413,7 @@ interface Resources {
       },
       "320": {
         "Name": "Giant Tree of Rapt Brooding",
-        "Description2pc": "Increases the wearer's by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
+        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
       }
     },
     "Lightcones": {

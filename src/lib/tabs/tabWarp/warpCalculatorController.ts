@@ -22,7 +22,7 @@ export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
 
   generateOption('3.0', 1, WarpIncomeType.F2P, 75),
-  generateOption('3.0', 2, WarpIncomeType.F2P, 34), 
+  generateOption('3.0', 2, WarpIncomeType.F2P, 34),
   generateOption('3.0', 1, WarpIncomeType.EXPRESS, 86),
   generateOption('3.0', 2, WarpIncomeType.EXPRESS, 46),
   generateOption('3.0', 1, WarpIncomeType.BP_EXPRESS, 90),
@@ -269,7 +269,7 @@ function enrichWarpRequest(request: WarpRequest) {
   )
 
   let additionalPasses = 0
- 
+
   for (const income of selectedIncome) {
     additionalPasses += income.passes
   }

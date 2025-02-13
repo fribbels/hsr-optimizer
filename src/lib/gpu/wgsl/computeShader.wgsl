@@ -519,10 +519,15 @@ fn main(
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
 
-      m.ATK += (m.ATK_P * baseATK + mc.ATK) * x.MEMO_ATK_SCALING + x.MEMO_ATK_FLAT;
-      m.DEF += (m.DEF_P * baseDEF + mc.DEF) * x.MEMO_DEF_SCALING + x.MEMO_DEF_FLAT;
-      m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_HP_SCALING + x.MEMO_HP_FLAT;
-      m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_SPD_SCALING + x.MEMO_SPD_FLAT;
+      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+
+      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
+      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
+      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
+      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
 
       // START BASIC CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -828,7 +833,7 @@ fn calculateDamage(
       0, // x.MEMO_SKILL_BREAK_EFFICIENCY_BOOST,
       0, // x.MEMO_SKILL_SUPER_BREAK_MODIFIER,
       0, // x.MEMO_SKILL_BREAK_DMG_MODIFIER,
-      0, // x.MEMO_SKILL_TOUGHNESS_DMG,
+      x.MEMO_SKILL_TOUGHNESS_DMG,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,

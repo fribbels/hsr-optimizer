@@ -165,17 +165,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.MEMO_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
-      x.MEMO_SPD_SCALING.buff(0, SOURCE_MEMO)
-      x.MEMO_SPD_FLAT.buff(130, SOURCE_MEMO)
-      x.MEMO_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_SCALING.buff(0, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_FLAT.buff(130, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
 
       x.m.MEMO_SKILL_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, SOURCE_MEMO)
       x.m.ULT_SCALING.buff(ultScaling, SOURCE_MEMO)
 
       x.m.ULT_CR_BOOST.buff((e >= 6 && r.e6UltCrBoost) ? 1.00 : 0, SOURCE_E6)
+
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(45, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

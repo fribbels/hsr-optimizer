@@ -1,5 +1,5 @@
 import { IRowNode } from 'ag-grid-community'
-import { Button, Divider, Flex } from 'antd'
+import { Divider, Flex } from 'antd'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { Stats, SubStats } from 'lib/constants/constants'
@@ -113,7 +113,7 @@ function DamageUpgrades(props: {
   optimizerBuild: Build | null
 }) {
   const statUpgrades = calculateStatUpgrades(props.id, props.ornamentIndex, props.relicIndex)
-    // .filter((result) => result.COMBO >= props.combo)
+    .filter((result) => result.COMBO >= props.combo)
     .sort((a, b) => a.COMBO > b.COMBO ? -1 : 1)
     .map((result, index) => (
       index >= 4
@@ -135,7 +135,6 @@ function DamageUpgrades(props: {
   return (
     <Flex vertical align='center'>
       <HeaderText>Dmg Upgrades</HeaderText>
-      <Button onClick={() => console.log(props)}>test</Button>
 
       {equippedBuildComboDmg && (
         <Flex align='center' justify='space-between' style={{ width: '100%' }}>

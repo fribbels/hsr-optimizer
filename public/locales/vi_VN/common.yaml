@@ -144,8 +144,8 @@ ShortReadableStats:
   DEF: Phòng Thủ
   "SPD%": SPD %
   SPD: Tốc Độ
-  CRIT Rate: Tỉ Lệ BK
-  CRIT DMG: Sát Thương BK
+  CRIT Rate: TL Bạo Kích
+  CRIT DMG: ST Bạo Kích
   Effect Hit Rate: Chính Xác
   Effect RES: Kháng
   Break Effect: Kích Phá

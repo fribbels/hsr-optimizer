@@ -99,6 +99,10 @@ Lightcones:
       spdBuff:
         text: 3명 명중 속도 버프
         content: '3기 이상의 적을 명중하면 자신의 속도가 {{SpdBuff}}% 증가한다, 지속 시간: 1턴'
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: 전투 스킬 / 필살기 버프
   FlowingNightglow:
     Content:
       cadenzaActive:

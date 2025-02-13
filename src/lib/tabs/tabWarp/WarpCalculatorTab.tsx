@@ -1,25 +1,11 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import {
-  Button,
-  Card,
-  Flex,
-  Form,
-  InputNumber,
-  Radio,
-  Select,
-  SelectProps,
-  Table,
-  TableProps,
-  Tag,
-  Typography,
-} from 'antd'
+import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import {
   DEFAULT_WARP_REQUEST,
   handleWarpRequest,
-  NONE_WARP_INCOME_OPTION,
   WarpIncomeDefinition,
   WarpIncomeOptions,
   WarpIncomeType,
@@ -30,7 +16,7 @@ import {
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 const { Text } = Typography
@@ -53,27 +39,33 @@ export default function WarpCalculatorTab(): React.JSX.Element {
   )
 }
 
+export function sanitizeWarpRequest(warpRequest: WarpRequest) {
+  if (!warpRequest) return { ...DEFAULT_WARP_REQUEST }
+
+  if (!Array.isArray(warpRequest.income)
+    || !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
+    warpRequest.income = []
+  }
+
+  return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
+}
+
 function Inputs() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
-  const warpRequest = window.store((s) => s.warpRequest)
+  const storedWarpRequest = window.store((s) => s.warpRequest)
   const [form] = Form.useForm<WarpRequest>()
 
-  const initialValues = useMemo(() => {
-    if (!WarpIncomeOptions.find((option) => option.id == warpRequest.income)) {
-      warpRequest.income = NONE_WARP_INCOME_OPTION.id
-    }
-    return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
-  }, [])
+  const warpRequest = sanitizeWarpRequest(storedWarpRequest)
 
   return (
     <Form
       form={form}
-      initialValues={initialValues}
+      initialValues={warpRequest}
       style={{
-        width: 800,
+        width: 900,
       }}
     >
-      <Card style={{ width: 800 }}>
+      <Card style={{ width: 900 }}>
         <Flex style={{ marginBottom: 30 }}>
           <Flex vertical style={{ flex: 1 }}>
             <Title>
@@ -130,8 +122,18 @@ function Inputs() {
                 <Flex vertical flex={1}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
-                    <Select
-                      options={generateIncomeOptions()}
+                    <TreeSelect
+                      multiple
+                      showCheckedStrategy={TreeSelect.SHOW_CHILD}
+                      maxTagCount={1}
+                      listHeight={500}
+                      showSearch={false}
+                      treeCheckable={false}
+                      treeExpandAction='click'
+                      placeholder='None'
+                      treeDefaultExpandedKeys={extractEnabledIncomeTypes(warpRequest)}
+                      allowClear
+                      treeData={generateIncomeOptions()}
                     />
                   </Form.Item>
                 </Flex>
@@ -172,6 +174,11 @@ function Inputs() {
       </Card>
     </Form>
   )
+}
+
+// When users have a saved warp income type, we should expand the parent by default so it doesn't get lost
+function extractEnabledIncomeTypes(warpRequest: WarpRequest) {
+  return (warpRequest.income ?? []).map((incomeOption) => parseInt(incomeOption.substring(incomeOption.length - 1)))
 }
 
 function Title(props: { children: React.ReactNode }) {
@@ -285,13 +292,14 @@ function Results() {
           <Flex align='center' gap={5}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
-            {`( ${warpResult.request.totalJade.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            {`( ${(warpResult.request.totalJade ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
             <img style={{ height: 18 }} src={Assets.getJade()}/>
             <span>) + (</span>
-            {`${warpResult.request.totalPasses.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            {`${(warpResult.request.totalPasses ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
             <img style={{ height: 18 }} src={Assets.getPass()}/>
-            <span>) =</span>
-            {warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
+            <span>) </span>
+            <span>= </span>
+            {(warpResult.request.warps ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
             <img style={{ height: 18 }} src={Assets.getPass()}/>
           </Flex>
         </pre>
@@ -358,19 +366,26 @@ function PityInputs(props: { banner: string }) {
 function generateIncomeOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
   const locale = i18next.resolvedLanguage?.split('_')[0]
-  const options: SelectProps['options'] = WarpIncomeOptions.map((option) => ({
-    value: option.id,
-    label: option.type == WarpIncomeType.NONE
-      ? t('Type.0')
-      : (
-        <Flex align='center' gap={3}>
-          <IncomeOptionLabel option={option}/>
-          {`+${option.passes.toLocaleString(locale)}`}
-          <img style={{ height: 18 }} src={Assets.getPass()}/>
-          {`+${option.jades.toLocaleString(locale)}`}
-          <img style={{ height: 18 }} src={Assets.getJade()}/>
-        </Flex>
-      ),
+  const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]
+
+  const options = types.map((type) => ({
+    title: t(`Type.${type}`),
+    value: type,
+    selectable: false,
+    children: WarpIncomeOptions
+      .filter((option) => option.type === type)
+      .map((option) => ({
+        value: option.id,
+        title: option.type == WarpIncomeType.NONE
+          ? t('Type.0')
+          : (
+            <Flex align='center' gap={3}>
+              <IncomeOptionLabel option={option}/>
+              {`+${option.passes.toLocaleString(locale)}`}
+              <img style={{ height: 18 }} src={Assets.getPass()}/>
+            </Flex>
+          ),
+      })),
   }))
 
   return options
@@ -384,6 +399,7 @@ function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
         t('Label',
           {
             versionNumber: props.option.version,
+            phaseNumber: props.option.phase,
             type: t(`Type.${props.option.type}`),
           },
         )

@@ -13,12 +13,16 @@ import React, { ReactElement } from 'react'
 
 const { Text } = Typography
 
-interface BuffsAnalysisFromResult {
+interface BuffsAnalysisGenericProps {
+  singleColumn?: boolean
+}
+
+interface BuffsAnalysisFromResult extends BuffsAnalysisGenericProps {
   result: SimulationScore
   buffGroups?: never
 }
 
-interface BuffsAnalysisFromBuffGroups {
+interface BuffsAnalysisFromBuffGroups extends BuffsAnalysisGenericProps {
   result?: never
   buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
 }
@@ -55,6 +59,14 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
     buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
   }
 
+  if (props.singleColumn) {
+    return (
+      <Flex gap={20} vertical>
+        {buffsDisplayLeft}
+        {buffsDisplayRight}
+      </Flex>
+    )
+  }
   return (
     <Flex justify='space-between' style={{ width: '100%' }}>
       <Flex gap={20} vertical>
@@ -95,7 +107,8 @@ function BuffTag(props: { buff: Buff }) {
   const { buff } = props
   const stat = buff.stat as keyof ComputedStatsObject
   const percent = !StatsConfig[stat].flat
-  const statLabel = computedStatsTempI18NTranslations[stat]
+  // @ts-ignore
+  const statLabel = computedStatsTempI18NTranslations[stat] ?? stat
 
   let sourceLabel
 
@@ -178,14 +191,14 @@ const computedStatsTempI18NTranslations = {
   FUA_VULNERABILITY: 'Fua DMG vulnerability',
   DOT_VULNERABILITY: 'Dot DMG vulnerability',
   BREAK_VULNERABILITY: 'Break DMG vulnerability',
-  DEF_PEN: 'Def PEN',
-  BASIC_DEF_PEN: 'Basic Def PEN',
-  SKILL_DEF_PEN: 'Skill Def PEN',
-  ULT_DEF_PEN: 'Ult Def PEN',
-  FUA_DEF_PEN: 'Fua Def PEN',
-  DOT_DEF_PEN: 'Dot Def PEN',
-  BREAK_DEF_PEN: 'Break Def PEN',
-  SUPER_BREAK_DEF_PEN: 'Super Break Def PEN',
+  DEF_PEN: 'DEF PEN',
+  BASIC_DEF_PEN: 'Basic DEF PEN',
+  SKILL_DEF_PEN: 'Skill DEF PEN',
+  ULT_DEF_PEN: 'Ult DEF PEN',
+  FUA_DEF_PEN: 'Fua DEF PEN',
+  DOT_DEF_PEN: 'Dot DEF PEN',
+  BREAK_DEF_PEN: 'Break DEF PEN',
+  SUPER_BREAK_DEF_PEN: 'Super Break DEF PEN',
   RES_PEN: 'All-Type RES PEN',
   PHYSICAL_RES_PEN: 'Physical RES PEN',
   FIRE_RES_PEN: 'Fire RES PEN',
@@ -252,18 +265,16 @@ const computedStatsTempI18NTranslations = {
   FUA_ADDITIONAL_DMG: 'Fua Additional DMG',
   MEMO_BUFF_PRIORITY: 'Prioritize Memo buffs',
   DEPRIORITIZE_BUFFS: 'Deprioritize buffs',
-  MEMO_HP_SCALING: 'Memo HP scaling',
-  MEMO_HP_FLAT: 'Memo HP flat',
-  MEMO_DEF_SCALING: 'Memo DEF scaling',
-  MEMO_DEF_FLAT: 'Memo DEF flat',
-  MEMO_ATK_SCALING: 'Memo ATK scaling',
-  MEMO_ATK_FLAT: 'Memo ATK flat',
-  MEMO_SPD_SCALING: 'Memo SPD scaling',
-  MEMO_SPD_FLAT: 'Memo SPD flat',
+  MEMO_BASE_HP_SCALING: 'Memo HP scaling',
+  MEMO_BASE_HP_FLAT: 'Memo HP flat',
+  MEMO_BASE_DEF_SCALING: 'Memo DEF scaling',
+  MEMO_BASE_DEF_FLAT: 'Memo DEF flat',
+  MEMO_BASE_ATK_SCALING: 'Memo ATK scaling',
+  MEMO_BASE_ATK_FLAT: 'Memo ATK flat',
+  MEMO_BASE_SPD_SCALING: 'Memo SPD scaling',
+  MEMO_BASE_SPD_FLAT: 'Memo SPD flat',
   MEMO_SKILL_SCALING: 'Memo Skill scaling',
   MEMO_TALENT_SCALING: 'Memo Talent scaling',
-  MEMO_SKILL_DMG: 'Memo Skill DMG',
-  MEMO_TALENT_DMG: 'Memo Talent DMG',
   UNCONVERTIBLE_HP_BUFF: 'Unconvertible HP buff',
   UNCONVERTIBLE_ATK_BUFF: 'Unconvertible ATK buff',
   UNCONVERTIBLE_DEF_BUFF: 'Unconvertible DEF buff',

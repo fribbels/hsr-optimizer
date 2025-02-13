@@ -308,7 +308,7 @@ RelicSets:
   "124":
     Name: Poetisa del colapso elegíaco
     Description2pc: Daño Cuántico +10%.
-    Description4pc: La VEL del portador se reduce en un 8%. Antes de entrar en combate, si la VEL del portador es inferior a 110/95, su Prob. CRIT aumenta en un 20%/32%. Esto también afecta al mnemoduende del portador.
+    Description4pc: La VEL del portador se reduce en un 8%. Antes de entrar en combate, si la VEL del portador es inferior a 110/95, su Prob. CRIT aumenta en un 20%/32%. Este efecto también aplica al mnemoduende del portador.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -365,10 +365,10 @@ RelicSets:
     Description2pc: El Daño CRIT del portador aumenta en un 16%. Cuando hay un objetivo invocado por el portador, el Daño CRIT aumenta en un 32% adicional.
   "319":
     Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
 Lightcones:
   "20000":
     Name: Flechas

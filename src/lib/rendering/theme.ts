@@ -57,13 +57,6 @@ export function getGlobalThemeConfigFromColorTheme(colorTheme: ColorThemeOverrid
       screenXXLMin: 1660,
     },
     components: {
-      Cascader: {
-        dropdownHeight: 730,
-        controlItemWidth: 100,
-        controlWidth: 100,
-        optionPadding: '2px 12px',
-      },
-
       Collapse: {
         contentPadding: '0px 0px',
       },

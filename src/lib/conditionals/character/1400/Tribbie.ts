@@ -1,17 +1,16 @@
-import i18next from 'i18next'
 import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { allTypesExcept, buffAbilityTrueDmg, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.x')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -43,8 +42,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     alliesMaxHp: 25000,
     talentFuaStacks: 3,
     e1TrueDmg: true,
-    e2DefPen: true,
-    e4AdditionalDmg: true,
+    e2AdditionalDmg: true,
+    e4DefPen: true,
     e6FuaScaling: true,
   }
 
@@ -52,64 +51,68 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     numinosity: true,
     ultZone: true,
     e1TrueDmg: true,
-    e2DefPen: true,
+    e4DefPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
     numinosity: {
       id: 'numinosity',
       formItem: 'switch',
-      text: 'Numinosity',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('numinosity.text'),
+      content: t('numinosity.content', { ResPen: TsUtils.precisionRound(skillResPen * 100) }),
     },
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
-      text: 'Ult Zone active',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('ultZone.text'),
+      content: t('ultZone.content', {
+        UltScaling: TsUtils.precisionRound(100 * ultScaling),
+        ZoneVulnerability: TsUtils.precisionRound(100 * ultVulnerability),
+        AdditionalDmgScaling: TsUtils.precisionRound(100 * ultAdditionalDmgScaling),
+      }),
     },
     alliesMaxHp: {
       id: 'alliesMaxHp',
       formItem: 'slider',
-      text: 'Allies max HP',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('alliesMaxHp.text'),
+      content: t('alliesMaxHp.content'),
       min: 0,
       max: 50000,
     },
     talentFuaStacks: {
       id: 'talentFuaStacks',
       formItem: 'slider',
-      text: 'FUA stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('talentFuaStacks.text'),
+      content: t('talentFuaStacks.content'),
       min: 0,
       max: 3,
     },
     e1TrueDmg: {
       id: 'e1TrueDmg',
       formItem: 'switch',
-      text: 'E1 True DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1TrueDmg.text'),
+      content: t('e1TrueDmg.content'),
       disabled: e < 1,
     },
-    e2DefPen: {
-      id: 'e2DefPen',
+    e2AdditionalDmg: {
+      id: 'e2AdditionalDmg',
       formItem: 'switch',
-      text: 'E2 DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2AdditionalDmg.text'),
+      content: t('e2AdditionalDmg.content'),
       disabled: e < 2,
     },
-    e4AdditionalDmg: {
-      id: 'e4AdditionalDmg',
+    e4DefPen: {
+      id: 'e4DefPen',
       formItem: 'switch',
-      text: 'E4 Additional DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4DefPen.text'),
+      content: t('e4DefPen.content'),
       disabled: e < 4,
     },
     e6FuaScaling: {
       id: 'e6FuaScaling',
       formItem: 'switch',
-      text: 'E6 FUA DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6FuaScaling.text'),
+      content: t('e6FuaScaling.content'),
       disabled: e < 6,
     },
   }
@@ -118,7 +121,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     numinosity: content.numinosity,
     ultZone: content.ultZone,
     e1TrueDmg: content.e1TrueDmg,
-    e2DefPen: content.e2DefPen,
+    e4DefPen: content.e4DefPen,
   }
 
   return {
@@ -134,7 +137,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_SCALING.buff(talentScaling, SOURCE_TALENT)
 
       const additionalScaling = (r.ultZone ? ultAdditionalDmgScaling : 0)
-        * ((e >= 4 && r.e4AdditionalDmg) ? 1.20 * 2 : 1)
+        * ((e >= 2 && r.e2AdditionalDmg) ? 1.20 * 2 : 1)
+
       x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_ULT)
       x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_ULT)
       x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_ULT)
@@ -157,7 +161,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       buffAbilityTrueDmg(x, allTypesExcept(DOT_DMG_TYPE), (e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0), SOURCE_E1, Target.TEAM)
 
-      x.DEF_PEN.buffTeam((e >= 2 && m.numinosity && m.e2DefPen) ? 0.18 : 0, SOURCE_E2)
+      x.DEF_PEN.buffTeam((e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, SOURCE_E4)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], SOURCE_BASIC)

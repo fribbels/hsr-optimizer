@@ -1,7 +1,17 @@
 import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Sets, Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { BelobogOfTheArchitectsConditional, BoneCollectionsSereneDemesneConditional, BrokenKeelConditional, FleetOfTheAgelessConditional, GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional, PanCosmicCommercialEnterpriseConditional, SpaceSealingStationConditional, TaliaKingdomOfBanditryConditional } from 'lib/gpu/conditionals/setConditionals'
+import {
+  BelobogOfTheArchitectsConditional,
+  BoneCollectionsSereneDemesneConditional,
+  BrokenKeelConditional,
+  FleetOfTheAgelessConditional,
+  GiantTreeOfRaptBrooding135Conditional,
+  GiantTreeOfRaptBrooding180Conditional,
+  PanCosmicCommercialEnterpriseConditional,
+  SpaceSealingStationConditional,
+  TaliaKingdomOfBanditryConditional,
+} from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -145,13 +155,23 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.ERR] += c.a[Key.ERR]
   a[Key.OHB] += c.a[Key.OHB]
 
+  x.BASE_ATK.set(context.baseATK, Source.NONE)
+  x.BASE_DEF.set(context.baseDEF, Source.NONE)
+  x.BASE_HP.set(context.baseHP, Source.NONE)
+  x.BASE_SPD.set(context.baseSPD, Source.NONE)
+
   if (x.m) {
     const xmc = x.m.c
     const xma = x.m.a
-    xmc.ATK.set(x.a[Key.MEMO_ATK_SCALING] * c.a[Key.ATK] + x.a[Key.MEMO_ATK_FLAT], Source.NONE)
-    xmc.DEF.set(x.a[Key.MEMO_DEF_SCALING] * c.a[Key.DEF] + x.a[Key.MEMO_DEF_FLAT], Source.NONE)
-    xmc.HP.set(x.a[Key.MEMO_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_HP_FLAT], Source.NONE)
-    xmc.SPD.set(x.a[Key.MEMO_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_SPD_FLAT], Source.NONE)
+    xmc.ATK.set(x.a[Key.MEMO_BASE_ATK_SCALING] * c.a[Key.ATK] + x.a[Key.MEMO_BASE_ATK_FLAT], Source.NONE)
+    xmc.DEF.set(x.a[Key.MEMO_BASE_DEF_SCALING] * c.a[Key.DEF] + x.a[Key.MEMO_BASE_DEF_FLAT], Source.NONE)
+    xmc.HP.set(x.a[Key.MEMO_BASE_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_BASE_HP_FLAT], Source.NONE)
+    xmc.SPD.set(x.a[Key.MEMO_BASE_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_BASE_SPD_FLAT], Source.NONE)
+
+    x.m.BASE_ATK.set(xmc.a[Key.ATK], Source.NONE)
+    x.m.BASE_DEF.set(xmc.a[Key.DEF], Source.NONE)
+    x.m.BASE_HP.set(xmc.a[Key.HP], Source.NONE)
+    x.m.BASE_SPD.set(xmc.a[Key.SPD], Source.NONE)
 
     xma[Key.ATK] += xmc.a[Key.ATK]
     xma[Key.DEF] += xmc.a[Key.DEF]
@@ -193,10 +213,10 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   if (x.m) {
     const xma = x.m.a
-    xma[Key.SPD] += xma[Key.SPD_P] * (context.baseSPD * x.a[Key.MEMO_SPD_SCALING])
-    xma[Key.ATK] += xma[Key.ATK_P] * (context.baseATK * x.a[Key.MEMO_ATK_SCALING])
-    xma[Key.DEF] += xma[Key.DEF_P] * (context.baseDEF * x.a[Key.MEMO_DEF_SCALING])
-    xma[Key.HP] += xma[Key.HP_P] * (context.baseHP * x.a[Key.MEMO_HP_SCALING])
+    xma[Key.SPD] += xma[Key.SPD_P] * (xma[Key.BASE_SPD])
+    xma[Key.ATK] += xma[Key.ATK_P] * (xma[Key.BASE_ATK])
+    xma[Key.DEF] += xma[Key.DEF_P] * (xma[Key.BASE_DEF])
+    xma[Key.HP] += xma[Key.HP_P] * (xma[Key.BASE_HP])
   }
 
   // Dynamic set conditionals

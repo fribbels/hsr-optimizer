@@ -7,6 +7,7 @@ import DB from 'lib/state/db'
 import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import { ConditionalValueMap } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
 
@@ -351,5 +352,19 @@ function cloneTeammate(teammate: Teammate | undefined) {
     characterEidolon: teammate.characterEidolon ?? null,
     lightCone: teammate.lightCone ?? null,
     lightConeSuperimposition: teammate.lightConeSuperimposition ?? null,
+    characterConditionals: sanitizeConditionals(teammate.characterConditionals),
+    lightConeConditionals: sanitizeConditionals(teammate.lightConeConditionals),
   } as Teammate
+}
+
+function sanitizeConditionals(conditionals: ConditionalValueMap) {
+  if (!conditionals) return null
+
+  for (const key of Object.keys(conditionals)) {
+    if (conditionals[key] == null) {
+      delete conditionals[key]
+    }
+  }
+
+  return conditionals
 }

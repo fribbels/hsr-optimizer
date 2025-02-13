@@ -8,7 +8,6 @@ StrategyLabels:
   E5: Сначала Э5
   E6: Сначала Э6
 IncomeOptions:
-  Label: "[v{{versionNumber}} {{type}}]: "
   Type:
     0: Нет
     1: Ф2П

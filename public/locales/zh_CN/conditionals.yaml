@@ -99,6 +99,10 @@ Lightcones:
       spdBuff:
         text: 击中3个目标后的速度提高
         content: 若击中大于等于3名敌方目标，使自身速度提高{{SpdBuff}}%，持续1回合。
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: 战技 / 终结技伤害提升
   FlowingNightglow:
     Content:
       cadenzaActive:

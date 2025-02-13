@@ -125,6 +125,7 @@ function Inputs() {
                       showSearch={false}
                       treeCheckable={false}
                       treeExpandAction='click'
+                      placeholder='None'
                       treeDefaultExpandedKeys={extractEnabledIncomeTypes(warpRequest)}
                       allowClear
                       treeData={generateIncomeOptions()}
@@ -286,14 +287,14 @@ function Results() {
           <Flex align='center' gap={5}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
-            {`( ${warpResult.request.totalJade.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            {`( ${(warpResult.request.totalJade ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
             <img style={{ height: 18 }} src={Assets.getJade()}/>
             <span>) + (</span>
-            {`${warpResult.request.totalPasses.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            {`${(warpResult.request.totalPasses ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
             <img style={{ height: 18 }} src={Assets.getPass()}/>
             <span>) </span>
             <span>= </span>
-            {warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
+            {(warpResult.request.warps ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
             <img style={{ height: 18 }} src={Assets.getPass()}/>
           </Flex>
         </pre>

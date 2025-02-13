@@ -54,8 +54,10 @@ export function showcaseTransition() {
   return 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
 }
 
+export const TARGET_BLUE = '#2241be'
+
 export function selectClosestColor(colors: string[]): string {
-  const targetBlue = '#2d58b6'
+  const targetBlue = TARGET_BLUE
 
   if (!colors || colors.length === 0) {
     return targetBlue
@@ -63,7 +65,7 @@ export function selectClosestColor(colors: string[]): string {
 
   const orangenessValues = colors.map(measureOrangeness)
 
-  if (orangenessValues.every((orangeness) => orangeness > 0.3)) {
+  if (orangenessValues.every((orangeness) => orangeness > 0.4)) {
     return targetBlue
   }
 
@@ -138,4 +140,20 @@ export function organizeColors(palette: PaletteResponse) {
   ].slice(0, 64)
 
   return sortColorsByGroups(colors, 8)
+}
+
+export function modifyCustomColor(hex: string) {
+  if (hex == TARGET_BLUE) return hex
+
+  const color = chroma(hex)
+
+  const currentV = color.get('hsv.v')
+  const newV = currentV + (1 - currentV) * 0.45
+
+  const currentS = color.get('hsv.s')
+  const newS = currentS - (currentS * 0.15)
+
+  const primary = color.set('hsv.v', newV).set('hsv.s', newS).hex()
+
+  return primary
 }

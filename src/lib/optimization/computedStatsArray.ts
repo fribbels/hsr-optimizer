@@ -33,6 +33,7 @@ export type StatController = {
   multiply: (value: number, source: BuffSource) => void
   multiplyTeam: (value: number, source: BuffSource) => void
   set: (value: number, source: BuffSource) => void
+  config: (value: number, source: BuffSource) => void
   buffDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void
   buffBaseDualDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void
   get: () => number
@@ -78,6 +79,8 @@ export class ComputedStatsArrayCore {
         = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
       const traceOverwrite
         = (value: number, source: BuffSource) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
+      const traceMemoOverwrite
+        = (value: number, source: BuffSource) => this.trace && (this.buffsMemo = this.buffsMemo.filter((b) => b.key !== key).concat({ stat, key, value, source }))
 
       Object.defineProperty(this, stat, {
         value: {
@@ -174,6 +177,15 @@ export class ComputedStatsArrayCore {
           set: (value: number, source: BuffSource) => {
             this.a[key] = value
             traceOverwrite(value, source)
+          },
+          config: (value: number, source: BuffSource) => {
+            this.a[key] = value
+            traceOverwrite(value, source)
+
+            if (this.m) {
+              this.m.a[key] = value
+              traceMemoOverwrite(value, source)
+            }
           },
           get: () => this.a[key],
         },

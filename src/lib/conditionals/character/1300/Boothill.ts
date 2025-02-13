@@ -117,7 +117,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.talentBreakDmgScaling) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, SOURCE_TALENT)
+        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

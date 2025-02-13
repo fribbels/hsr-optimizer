@@ -116,7 +116,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, SOURCE_TRACE)
+        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TRACE)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

@@ -89,7 +89,7 @@ export const languages = {
 export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'zh_CN'] as const
 
-export const isBeta = BASE_PATH === BasePath.BETA
+export const isBeta = BASE_PATH !== BasePath.BETA
 
 export const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
 void i18next

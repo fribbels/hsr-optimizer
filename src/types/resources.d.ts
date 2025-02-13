@@ -1613,7 +1613,7 @@ interface Resources {
           },
           "spdBuff": {
             "text": "SPD buff",
-            "content": "After launching an attack, there is a 50% fixed chance to increase this unit's SPD by 20% for 2 turn(s)."
+            "content": "After launching an attack, there is a 50% fixed chance to increase this unit's SPD by 20% for 2 turns."
           },
           "e1EnemyHp50": {
             "text": "E1 enemy HP ≥ 50% CR boost",
@@ -4877,6 +4877,7 @@ interface Resources {
     },
     "ComboFilter": {
       "Header": "Combo DMG ability rotation",
+      "AbilityLabel": "Abilities",
       "ModeSelector": {
         "Simple": "Simple",
         "Advanced": "Advanced"
@@ -5231,7 +5232,7 @@ interface Resources {
       "E6": "E6 first"
     },
     "IncomeOptions": {
-      "Label": "[v{{versionNumber}} {{type}}]: ",
+      "Label": "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: ",
       "Type": {
         "0": "None",
         "1": "F2P",

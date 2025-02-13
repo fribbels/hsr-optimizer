@@ -14,6 +14,7 @@ function generateStyling(language?: Languages) {
   switch (language) {
     case 'fr_FR':
     case 'pt_BR':
+    case 'vi_VN':
       return `
         white-space: nowrap;
         letter-spacing: -0.2px;

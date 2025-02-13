@@ -6752,7 +6752,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0.75,
         [Stats.HP_P]: 0.75,
-        [Stats.SPD]: 0,
+        [Stats.SPD]: 1,
         [Stats.CR]: 1,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
@@ -6822,6 +6822,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         deprioritizeBuffs: true,
         relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],

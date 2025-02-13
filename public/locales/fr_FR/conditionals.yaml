@@ -99,6 +99,10 @@ Lightcones:
       spdBuff:
         text: Bonus de VIT 3 cibles attaquées
         content: La VIT du personnage augmente de {{SpdBuff}}% s'il y a au moins 3 cibles ennemies touchées. Dure 1 tour.
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: Bonus de DGT Compétence / Ult
   FlowingNightglow:
     Content:
       cadenzaActive:

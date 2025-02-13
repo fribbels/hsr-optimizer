@@ -13,7 +13,10 @@ import React, { ReactElement } from 'react'
 
 const { Text } = Typography
 
-export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
+export function BuffsAnalysisDisplay(props: {
+  result: SimulationScore
+  singleColumn?: boolean
+}) {
   const { result } = props
   result.simulationForm.trace = true
   const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
@@ -41,6 +44,15 @@ export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
   }
 
   console.log(rerun)
+
+  if (props.singleColumn) {
+    return (
+      <Flex gap={20} vertical>
+        {buffsDisplayLeft}
+        {buffsDisplayRight}
+      </Flex>
+    )
+  }
 
   return (
     <Flex justify='space-between' style={{ width: '100%' }}>

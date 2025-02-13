@@ -14,7 +14,7 @@ import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/componen
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
+import { modifyCustomColor, organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
@@ -78,7 +78,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       onPortraitLoad: (img: string, characterId: string) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted])
+            const primary = modifyCustomColor(selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]))
 
             setSeedColor(primary)
             urlToColorCache[img] = primary
@@ -596,34 +596,34 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1203: ['#8ce2f4'], // luocha
     1204: ['#94e6f1'], // jingyuan
     1205: ['#4d69be'], // blade
-    1206: ['#154da1'], // sushang
+    1206: ['#81adf1'], // sushang
     1207: ['#90a0e6'], // yukong
-    1208: ['#da91f2'], // fuxuan
+    1208: ['#dd9cf2'], // fuxuan
     1209: ['#6db1f4'], // yanqing
     1210: ['#88aade'], // guinaifen
-    1211: ['#2a415c'], // bailu
+    1211: ['#5f9ce2'], // bailu
     1212: ['#3e65f2'], // jingliu
     1213: ['#72c3de'], // imbibitorlunae
     1214: ['#3571e7'], // xueyi
     1215: ['#9a90e6'], // hanya
     1217: ['#8cf4fc'], // huohuo
-    1218: ['#f4dfe7'], // jiaoqiu
+    1218: ['#fff4f8'], // jiaoqiu
     1220: ['#7fd9e1'], // feixiao
     1221: ['#a2e9f5'], // yunli
-    1222: ['#ffdbee'], // lingsha
+    1222: ['#ffeef5'], // lingsha
     1223: ['#575aa0'], // moze
-    1224: ['#f2a8f2'], // march7thImaginary
+    1224: ['#f7b6f7'], // march7thImaginary
     1225: ['#fce4f7'], // fugue
     1301: ['#7c7c99'], // gallagher
-    1302: ['#d6616c'], // argenti
-    1303: ['#1a48ba'], // ruanmei
+    1302: ['#f77784'], // argenti
+    1303: ['#3964d1'], // ruanmei
     1304: ['#7cbcea'], // aventurine
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
     1307: ['#a37df4'], // blackswan
     1308: ['#837bd4'], // acheron
-    1309: ['#bb9cf4'], // robin
-    1310: ['#8bdee1'], // firefly
+    1309: ['#d7a4f1'], // robin
+    1310: ['#a0efec'], // firefly
     1312: ['#b0b7d0'], // misha
     1313: ['#7e95e9'], // sunday
     1314: ['#8a74dc'], // jade
@@ -636,13 +636,13 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     8005: ['#8d7abc'], // trailblazerharmony
     8006: ['#8d7abc'], // trailblazerharmony
 
-    1401: ['#8e5eef'], // the herta
+    1401: ['#aa81fa'], // the herta
     1402: ['#86bdf1'], // aglaea
-    8007: ['#f0a4fa'], // trailblazerremembrance
-    8008: ['#f0a4fa'], // trailblazerremembrance
+    8007: ['#f0a1fa'], // trailblazerremembrance
+    8008: ['#f0a1fa'], // trailblazerremembrance
 
-    1403: ['#8c8fec'], // tribbie
-    1404: ['#ff8fad'], // mydei
+    1403: ['#979af7'], // tribbie
+    1404: ['#ff94b1'], // mydei
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

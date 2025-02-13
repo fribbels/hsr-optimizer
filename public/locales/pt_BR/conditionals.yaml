@@ -99,6 +99,10 @@ Lightcones:
       spdBuff:
         text: Buff de SPD ao atingir 3 alvos
         content: Se houver 3 ou mais alvos inimigos atingidos, a SPD desta unidade aumenta em {{SpdBuff}}%, durando por 1 turno.
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de DMG Perícia / Ult
   FlowingNightglow:
     Content:
       cadenzaActive:

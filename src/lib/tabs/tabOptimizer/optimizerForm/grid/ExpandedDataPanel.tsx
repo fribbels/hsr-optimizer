@@ -82,6 +82,8 @@ function DamageSplits(props: { splits?: ComputedStatsArray['dmgSplits'] }) {
 
   props.splits
     .reverse()
+  const clonedSplits = TsUtils.clone(props.splits)
+  clonedSplits
     .filter((action) => action.abilityType !== 'DEFAULT')
     .forEach((action) => {
       (Object.entries(action) as [keyof ComputedStatsArray['dmgSplits'][number], ComputedStatsArray['dmgSplits'][number][keyof ComputedStatsArray['dmgSplits'][number]]][])
@@ -115,6 +117,35 @@ function DamageSplits(props: { splits?: ComputedStatsArray['dmgSplits'] }) {
       <Flex justify='space-between' gap={24}>
         {dmgSplitColumns}
       </Flex>
+      {/* {
+        props.splits
+          .filter((action) => action.abilityType !== 'DEFAULT')
+          .map((action, index) => <DmgSplitDisplay key={index} action={action}/>)
+      } */}
+    </Flex>
+  )
+}
+
+function DmgSplitDisplay(props: { action: ComputedStatsArray['dmgSplits'][number] }) {
+  return (
+    <Flex vertical align='center' style={{ borderColor: '#354b7d', borderRadius: 5, borderWidth: 1, borderStyle: 'solid', padding: 8, width: '100%' }}>
+      <HeaderText>{props.action.abilityType}</HeaderText>
+      <DmgSplitRow label='Crit dmg:' value={props.action.critDmg}/>
+      <DmgSplitRow label='True dmg:' value={props.action.trueDmg}/>
+      <DmgSplitRow label='Additional dmg:' value={props.action.additionalDmg}/>
+      <DmgSplitRow label='Break dmg:' value={props.action.breakDmg}/>
+      <DmgSplitRow label='SuperBreak dmg:' value={props.action.superBreakDmg}/>
+      <DmgSplitRow label='Joint dmg:' value={props.action.jointDmg}/>
+    </Flex>
+  )
+}
+
+function DmgSplitRow(props: { label: string; value: number }) {
+  return (
+    <Flex justify='space-between' style={{ width: '100%' }}>
+      <span>{props.label}</span>
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
+      <span>{numberToLocaleString(props.value)}</span>
     </Flex>
   )
 }
@@ -143,7 +174,7 @@ function DamageSplitColumn(props: {
         if (key === 'abilityType') return null
         return (
           <span key={index}>
-            {numberToLocaleString(props.dmgSplitsByDmgType[key as Exclude<keyof ComputedStatsArray['dmgSplits'][number], 'abilityType'>]![0])}
+            {numberToLocaleString(props.dmgSplitsByDmgType[key as Exclude<keyof ComputedStatsArray['dmgSplits'][number], 'abilityType'>]![props.index])}
           </span>
         )
       })}

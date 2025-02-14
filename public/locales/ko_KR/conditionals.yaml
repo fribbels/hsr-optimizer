@@ -103,6 +103,9 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: 전투 스킬 / 필살기 버프
+        content: 전투 스킬 또는 필살기 발동 시 이번 공격으로 가하는 피해를 {{DmgBoost}}%증가시킨다.
+      bonusBoost:
+        text: 가하는 피해 보너스
   FlowingNightglow:
     Content:
       cadenzaActive:

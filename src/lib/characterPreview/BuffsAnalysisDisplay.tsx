@@ -14,7 +14,7 @@ import React, { ReactElement } from 'react'
 const { Text } = Typography
 
 type BuffsAnalysisProps = {
-  result: SimulationScore
+  result?: SimulationScore
   buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
 }
 

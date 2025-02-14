@@ -34,8 +34,8 @@ export const SettingOptions = {
   },
   ExpandedInfoPanelPosition: {
     name: 'ExpandedInfoPanelPosition',
-    above: 'above',
-    below: 'below',
+    Above: 'Above',
+    Below: 'Below',
   },
 } as const
 
@@ -43,7 +43,7 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace,
   [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
   [SettingOptions.RelicPotentialLoadBehavior.name]: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
-  [SettingOptions.ExpandedInfoPanelPosition.name]: SettingOptions.ExpandedInfoPanelPosition.below,
+  [SettingOptions.ExpandedInfoPanelPosition.name]: SettingOptions.ExpandedInfoPanelPosition.Below,
 } as Record<keyof UserSettings, string>
 
 export const SettingsDrawer = () => {
@@ -96,12 +96,12 @@ export const SettingsDrawer = () => {
 
   const optionsExpandedInfoPanelPosition = [
     {
-      value: SettingOptions.ExpandedInfoPanelPosition.above,
-      label: <span>above</span>,
+      value: SettingOptions.ExpandedInfoPanelPosition.Above,
+      label: <span>Show expanded info above relics preview</span>,
     },
     {
-      value: SettingOptions.ExpandedInfoPanelPosition.below,
-      label: <span>below</span>,
+      value: SettingOptions.ExpandedInfoPanelPosition.Below,
+      label: <span>Default: Show expanded info below relics preview</span>,
     },
   ]
 

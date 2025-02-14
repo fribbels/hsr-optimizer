@@ -12,7 +12,7 @@ import { handleOptimizerExpandedRowData } from 'lib/simulations/expandedComputed
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { updateExpandedDataPanel } from 'lib/tabs/tabOptimizer/optimizerForm/grid/ExpandedDataPanel'
+import { updateExpandedDataPanel } from 'lib/tabs/tabOptimizer/optimizerForm/grid/expandedDataPanelController'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
@@ -309,8 +309,7 @@ export const OptimizerTabController = {
               window.optimizerGrid.current?.api.setGridOption('loading', false)
             }
             OptimizerTabController.redrawRows()
-          })
-          .then(updateExpandedDataPanel)
+          }).then(updateExpandedDataPanel)
       },
     }
   },

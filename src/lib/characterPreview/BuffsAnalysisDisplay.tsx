@@ -13,31 +13,13 @@ import React, { ReactElement } from 'react'
 
 const { Text } = Typography
 
-interface BuffsAnalysisGenericProps {
-  singleColumn?: boolean
-}
-
-interface BuffsAnalysisFromResult extends BuffsAnalysisGenericProps {
+type BuffsAnalysisProps = {
   result: SimulationScore
-  buffGroups?: never
-}
-
-interface BuffsAnalysisFromBuffGroups extends BuffsAnalysisGenericProps {
-  result?: never
   buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
 }
 
-type BuffsAnalysisProps = BuffsAnalysisFromBuffGroups | BuffsAnalysisFromResult
-
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
-  const buffGroups = props.buffGroups ?? (() => {
-    const { result } = props
-    result.simulationForm.trace = true
-    const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
-    const x = rerun.tracedX!
-    console.log(rerun)
-    return aggregateCombatBuffs(x, result.simulationForm)
-  })()
+  const buffGroups = props.buffGroups ?? rerunSim(props.result)
 
   const buffsDisplayLeft: ReactElement[] = []
   const buffsDisplayRight: ReactElement[] = []
@@ -59,14 +41,6 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
     buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
   }
 
-  if (props.singleColumn) {
-    return (
-      <Flex gap={20} vertical>
-        {buffsDisplayLeft}
-        {buffsDisplayRight}
-      </Flex>
-    )
-  }
   return (
     <Flex justify='space-between' style={{ width: '100%' }}>
       <Flex gap={20} vertical>
@@ -77,6 +51,14 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
       </Flex>
     </Flex>
   )
+}
+
+function rerunSim(result: SimulationScore) {
+  result.simulationForm.trace = true
+  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
+  const x = rerun.tracedX!
+  console.log(rerun)
+  return aggregateCombatBuffs(x, result.simulationForm)
 }
 
 function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {

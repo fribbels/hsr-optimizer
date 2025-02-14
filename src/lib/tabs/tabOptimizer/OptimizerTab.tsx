@@ -1,5 +1,6 @@
 import { Flex } from 'antd'
 import 'ag-grid-community/styles/ag-grid.css'
+import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import OptimizerBuildPreview from 'lib/tabs/tabOptimizer/OptimizerBuildPreview'
 import { ExpandedDataPanel } from 'lib/tabs/tabOptimizer/optimizerForm/grid/ExpandedDataPanel'
 import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'
@@ -18,11 +19,9 @@ export default function OptimizerTab() {
       <Flex vertical gap={10} style={{ marginBottom: 100 }}>
         <OptimizerForm/>
         <OptimizerGrid/>
-        {expandedPanelPosition === 'below'
-        && <OptimizerBuildPreview/>}
+        {expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below && <OptimizerBuildPreview/>}
         <ExpandedDataPanel/> {/* toggle preview position instead of panel as the preview re-renders faster */}
-        {expandedPanelPosition === 'above'
-        && <OptimizerBuildPreview/>}
+        {expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Above && <OptimizerBuildPreview/>}
       </Flex>
       <ZeroPermutationsSuggestionsModal/>
       <ZeroResultSuggestionModal/>

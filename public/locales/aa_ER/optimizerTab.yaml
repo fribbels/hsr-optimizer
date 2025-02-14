@@ -387,6 +387,7 @@ MinMaxFilters:
   COMBOLabel: crwdns43252:0crwdne43252:0
 ComboFilter:
   Header: crwdns43254:0crwdne43254:0
+  AbilityLabel: crwdns44654:0crwdne44654:0
   ModeSelector:
     Simple: crwdns43256:0crwdne43256:0
     Advanced: crwdns43258:0crwdne43258:0

@@ -5,14 +5,15 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { GridAggregations } from 'lib/rendering/gradient'
 import { handleOptimizerExpandedRowData } from 'lib/simulations/expandedComputedStats'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { updateExpandedDataPanel } from 'lib/tabs/tabOptimizer/optimizerForm/grid/expandedDataPanelController'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
@@ -309,7 +310,7 @@ export const OptimizerTabController = {
               window.optimizerGrid.current?.api.setGridOption('loading', false)
             }
             OptimizerTabController.redrawRows()
-          }).then(updateExpandedDataPanel)
+          })
       },
     }
   },
@@ -467,6 +468,9 @@ export const OptimizerTabController = {
       window.store.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
       window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
       // console.log('@updateForm', displayFormValues, character)
+
+      generateContext(form)
+      void calculateCurrentlyEquippedRow(form)
 
       window.onOptimizerFormValuesChange({} as Form, displayFormValues)
     }, 50)

@@ -512,7 +512,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             />
           </div>
           <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align='center'>
-            <label>{t('Edit.Zoom')/* Zoom */}</label>
+            <label style={{ whiteSpace: 'nowrap' }}>
+              {t('Edit.Zoom')/* Zoom */}
+            </label>
             <Slider
               style={{ width: '100%' }}
               min={MIN_ZOOM}
@@ -602,13 +604,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       >
         <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig
-            && (
-              <Steps current={current} style={{ marginBottom: 12 }}>
-                {steps.map((item) => (// make this cleaner if ever adding more steps
-                  <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('Upload.Title')/* Provide image */ : t('Edit.Title')/* Crop image */}/>
-                ))}
-              </Steps>
-            )}
+          && (
+            <Steps current={current} style={{ marginBottom: 12 }}>
+              {steps.map((item) => (// make this cleaner if ever adding more steps
+                <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('Upload.Title')/* Provide image */ : t('Edit.Title')/* Crop image */}/>
+              ))}
+            </Steps>
+          )}
           {steps.map((step, index) => (
             <div key={step.title} style={{ display: current === index ? 'block' : 'none' }}>
               {step.content}

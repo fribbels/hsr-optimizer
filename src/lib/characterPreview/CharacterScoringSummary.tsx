@@ -261,7 +261,7 @@ export const CharacterScoringSummary = (props: {
     const precision = props.precision
 
     return (
-      <Flex vertical gap={25}>
+      <Flex vertical gap={25} style={{ margin: 'auto' }}>
         <Flex vertical gap={defaultGap}>
           <Flex justify='space-around'>
             <pre style={{ fontSize: 20, fontWeight: 'bold', color: highlight ? color : '' }}>
@@ -271,7 +271,7 @@ export const CharacterScoringSummary = (props: {
           </Flex>
         </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth, margin: 'auto' }}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
           </pre>
@@ -285,7 +285,7 @@ export const CharacterScoringSummary = (props: {
           />
         </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth, margin: 'auto' }}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
               build type <u>combat stats</u>

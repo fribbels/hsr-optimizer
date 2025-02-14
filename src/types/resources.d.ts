@@ -4966,6 +4966,7 @@ interface Resources {
     },
     "ComboFilter": {
       "Header": "Combo DMG ability rotation",
+      "AbilityLabel": "Abilities",
       "ModeSelector": {
         "Simple": "Simple",
         "Advanced": "Advanced"

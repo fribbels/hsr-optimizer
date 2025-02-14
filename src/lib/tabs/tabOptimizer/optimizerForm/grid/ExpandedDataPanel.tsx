@@ -23,7 +23,7 @@ import {
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { HorizontalDivider } from 'lib/ui/Dividers'
+import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -44,8 +44,8 @@ export function ExpandedDataPanel() {
   return !selectedRowData || optimizerFormCache[window.store.getState().optimizationId!].characterId !== optimizerTabFocusCharacter
     ? (<></>)
     : (
-      <Flex gap={16}>
-        <Flex vertical>
+      <Flex vertical gap={16} justify='center'>
+        <Flex justify='center'>
           <DamageUpgrades
             id={selectedRowData.id}
             ornamentIndex={selectedRowData.ornamentSetIndex}
@@ -54,7 +54,7 @@ export function ExpandedDataPanel() {
             // optimizerBuild used only to trigger a re-render when equipped build changes
             optimizerBuild={optimizerBuild}
           />
-          <HorizontalDivider/>
+          <VerticalDivider/>
           <DamageSplits splits={selectedBuildData?.x.dmgSplits}/>
         </Flex>
         {buffGroups && <BuffsAnalysisDisplay buffGroups={buffGroups}/>}
@@ -63,44 +63,90 @@ export function ExpandedDataPanel() {
 }
 
 function DamageSplits(props: { splits?: ComputedStatsArray['dmgSplits'] }) {
-  return !props.splits
-    ? (
+  if (!props.splits) {
+    return (
       <Flex><></>
       </Flex>
     )
-    : (
-      <Flex vertical align='center' gap={8}>
-        <HeaderText>Damage split</HeaderText>
-        {
-          props.splits
-            .filter((action) => action.abilityType !== 'DEFAULT')
-            .map((action, index) => <DmgSplitDisplay key={index} action={action}/>)
-            .reverse()
-        }
-      </Flex>
-    )
-}
+  }
 
-function DmgSplitDisplay(props: { action: ComputedStatsArray['dmgSplits'][number] }) {
+  const dmgSplitsByDmgType: Partial<{ [K in keyof ComputedStatsArray['dmgSplits'][number]]: ComputedStatsArray['dmgSplits'][number][K][] }> = {
+    abilityType: [],
+    critDmg: [],
+    trueDmg: [],
+    additionalDmg: [],
+    breakDmg: [],
+    superBreakDmg: [],
+    jointDmg: [],
+  }
+
+  props.splits
+    .reverse()
+    .filter((action) => action.abilityType !== 'DEFAULT')
+    .forEach((action) => {
+      (Object.entries(action) as [keyof ComputedStatsArray['dmgSplits'][number], ComputedStatsArray['dmgSplits'][number][keyof ComputedStatsArray['dmgSplits'][number]]][])
+        .forEach(([key, value]) => {
+          dmgSplitsByDmgType[key]!.push(value as never)
+        })
+    })
+
+  for (const key of Object.keys(dmgSplitsByDmgType)) {
+    const values = dmgSplitsByDmgType[key as keyof ComputedStatsArray['dmgSplits'][number]]!
+    let hasNon0Value = false
+    for (const value of values) {
+      if (value !== 0) {
+        hasNon0Value = true
+        break
+      }
+    }
+    if (!hasNon0Value) {
+      delete dmgSplitsByDmgType[key as keyof ComputedStatsArray['dmgSplits'][number]]
+    }
+  }
+
+  const dmgSplitColumns: JSX.Element[] = []
+  for (let i = -1; i < dmgSplitsByDmgType.abilityType!.length; i++) {
+    dmgSplitColumns.push(<DamageSplitColumn key={i} dmgSplitsByDmgType={dmgSplitsByDmgType} index={i}/>)
+  }
+
   return (
-    <Flex vertical align='center' style={{ borderColor: '#354b7d', borderRadius: 5, borderWidth: 1, borderStyle: 'solid', padding: 8, width: '100%' }}>
-      <HeaderText>{props.action.abilityType}</HeaderText>
-      <DmgSplitRow label='Crit dmg:' value={props.action.critDmg}/>
-      <DmgSplitRow label='True dmg:' value={props.action.trueDmg}/>
-      <DmgSplitRow label='Additional dmg:' value={props.action.additionalDmg}/>
-      <DmgSplitRow label='Break dmg:' value={props.action.breakDmg}/>
-      <DmgSplitRow label='SuperBreak dmg:' value={props.action.superBreakDmg}/>
-      <DmgSplitRow label='Joint dmg:' value={props.action.jointDmg}/>
+    <Flex vertical align='center' gap={8}>
+      <HeaderText>Damage split</HeaderText>
+      <Flex justify='space-between' gap={24}>
+        {dmgSplitColumns}
+      </Flex>
     </Flex>
   )
 }
 
-function DmgSplitRow(props: { label: string; value: number }) {
+function DamageSplitColumn(props: {
+  dmgSplitsByDmgType: Partial<{ [K in keyof ComputedStatsArray['dmgSplits'][number]]: ComputedStatsArray['dmgSplits'][number][K][] }>
+  index: number
+}) {
+  if (props.index === -1) return (
+    <Flex vertical justify='center'>
+      <HeaderText>Damage sources</HeaderText>
+      {Object.keys(props.dmgSplitsByDmgType).map((key, index) => {
+        if (key === 'abilityType') return null
+        return (
+          <span key={index}>
+            {key}
+          </span>
+        )
+      })}
+    </Flex>
+  )
   return (
-    <Flex justify='space-between' style={{ width: '100%' }}>
-      <span>{props.label}</span>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-      <span>{numberToLocaleString(props.value)}</span>
+    <Flex vertical justify='center'>
+      <HeaderText>{props.dmgSplitsByDmgType.abilityType![props.index]}</HeaderText>
+      {Object.keys(props.dmgSplitsByDmgType).map((key, index) => {
+        if (key === 'abilityType') return null
+        return (
+          <span key={index}>
+            {numberToLocaleString(props.dmgSplitsByDmgType[key as Exclude<keyof ComputedStatsArray['dmgSplits'][number], 'abilityType'>]![0])}
+          </span>
+        )
+      })}
     </Flex>
   )
 }
@@ -187,6 +233,8 @@ function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: nu
 }
 
 export async function updateExpandedDataPanel() {
+  // running synchronously ends up trying to fetch the pinned/selected row before the grid updates
+  // if a better spot to call this from is found maybe sleep() can be removed
   await TsUtils.sleep(200)
   let selectedRow: OptimizerDisplayDataStatSim | undefined = window.optimizerGrid.current?.api.getSelectedRows()[0]
   // default to equipped build if no selected row

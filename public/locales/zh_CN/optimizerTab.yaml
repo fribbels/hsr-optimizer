@@ -405,6 +405,7 @@ MinMaxFilters:
   COMBOLabel: 连招
 ComboFilter:
   Header: 连招伤害技能循环
+  AbilityLabel: 技能
   ModeSelector:
     Simple: 简易
     Advanced: 高级

@@ -15,30 +15,34 @@ import React from 'react'
 
 export function ExpandedDataPanel() {
   const selectedRowData = window.store((s) => s.optimizerSelectedRowData)
-  const selectedBuildData = window.store((s) => s.optimizerExpandedPanelBuildData)
   const buffGroups = window.store((s) => s.optimizerBuffGroups)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  return !selectedRowData || mismatchedCharacter(optimizerTabFocusCharacter)
-    ? (<></>)
-    : (
-      <Flex vertical gap={16} justify='center'>
-        <Flex justify='center'>
-          <DamageUpgrades selectedRowData={selectedRowData}/>
-          <VerticalDivider/>
-          <DamageSplits splits={selectedBuildData?.x.dmgSplits}/>
-        </Flex>
-        {buffGroups && <BuffsAnalysisDisplay buffGroups={buffGroups}/>}
+  if (mismatchedCharacter(optimizerTabFocusCharacter) || selectedRowData == null) {
+    return <></>
+  }
+
+  return (
+    <Flex vertical gap={16} justify='center'>
+      <Flex justify='center'>
+        <DamageUpgrades selectedRowData={selectedRowData}/>
+        <VerticalDivider/>
+        <DamageSplits/>
       </Flex>
-    )
+      <BuffsAnalysisDisplay buffGroups={buffGroups}/>
+    </Flex>
+  )
 }
 
 function mismatchedCharacter(optimizerTabFocusCharacter?: string) {
   return optimizerFormCache[window.store.getState().optimizationId!]?.characterId !== optimizerTabFocusCharacter
 }
 
-function DamageSplits(props: { splits?: ComputedStatsArray['dmgSplits'] }) {
-  if (!props.splits) {
+function DamageSplits() {
+  const selectedBuildData = window.store((s) => s.optimizerExpandedPanelBuildData)
+  const splits = selectedBuildData?.x.dmgSplits
+
+  if (!splits) {
     return (
       <div/>
     )
@@ -54,7 +58,7 @@ function DamageSplits(props: { splits?: ComputedStatsArray['dmgSplits'] }) {
     jointDmg: [],
   }
 
-  props.splits
+  splits
     .reverse()
     .filter((action) => action.abilityType !== 'DEFAULT')
     .forEach((action) => {
@@ -146,7 +150,9 @@ function DamageUpgrades(props: {
           </Flex>
         )
     ))
+
   const equippedBuildComboDmg = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim>)?.data?.COMBO
+
   let dmgChange = 0
   if (equippedBuildComboDmg) dmgChange = (COMBO / equippedBuildComboDmg - 1) * 100
 

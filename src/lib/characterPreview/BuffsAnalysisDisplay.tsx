@@ -15,11 +15,15 @@ const { Text } = Typography
 
 type BuffsAnalysisProps = {
   result?: SimulationScore
-  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
+  buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>
 }
 
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   const buffGroups = props.buffGroups ?? rerunSim(props.result)
+
+  if (!buffGroups) {
+    return <></>
+  }
 
   const buffsDisplayLeft: ReactElement[] = []
   const buffsDisplayRight: ReactElement[] = []
@@ -53,7 +57,8 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   )
 }
 
-function rerunSim(result: SimulationScore) {
+function rerunSim(result?: SimulationScore) {
+  if (!result) return null
   result.simulationForm.trace = true
   const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
   const x = rerun.tracedX!

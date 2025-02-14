@@ -99,7 +99,7 @@ export type HsrOptimizerStore = {
   optimizerBuild: Build | null
   optimizerExpandedPanelBuildData: BuildData | null
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
-  optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | null
+  optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void

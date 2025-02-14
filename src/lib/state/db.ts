@@ -228,7 +228,7 @@ window.store = create((set) => {
     optimizerBuild: null,
     optimizerExpandedPanelBuildData: null,
     optimizerSelectedRowData: null,
-    optimizerBuffGroups: null,
+    optimizerBuffGroups: undefined,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),

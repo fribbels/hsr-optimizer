@@ -467,6 +467,8 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
       window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
+      window.store.getState().setOptimizerSelectedRowData(null)
+      window.optimizerGrid.current?.api?.deselectAll()
       // console.log('@updateForm', displayFormValues, character)
 
       generateContext(form)

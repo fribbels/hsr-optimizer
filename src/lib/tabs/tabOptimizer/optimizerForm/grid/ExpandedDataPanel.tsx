@@ -34,7 +34,7 @@ export function ExpandedDataPanel() {
 }
 
 function mismatchedCharacter(optimizerTabFocusCharacter?: string) {
-  return optimizerFormCache[window.store.getState().optimizationId!].characterId !== optimizerTabFocusCharacter
+  return optimizerFormCache[window.store.getState().optimizationId!]?.characterId !== optimizerTabFocusCharacter
 }
 
 function DamageSplits(props: { splits?: ComputedStatsArray['dmgSplits'] }) {

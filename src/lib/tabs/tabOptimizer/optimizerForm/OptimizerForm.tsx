@@ -1,7 +1,8 @@
 import { Flex, Form as AntDForm } from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { Optimizer } from 'lib/optimization/optimizer'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -49,6 +50,10 @@ export default function OptimizerForm() {
     if (keys.length == 1 && (keys[0] == 'characterConditionals' || keys[0] == 'lightConeConditionals' || keys[0] == 'setConditionals' || keys[0].startsWith('teammate'))) {
       updateConditionalChange(changedValues)
     }
+
+    const form = OptimizerTabController.displayToForm(allValues)
+    generateContext(form)
+    calculateCurrentlyEquippedRow(form)
 
     if (bypass) {
       // Only allow certain values to refresh permutations.

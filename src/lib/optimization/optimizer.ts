@@ -123,11 +123,6 @@ export const Optimizer = {
 
     const context = generateContext(request)
 
-    // Create a special optimization request for the top row, ignoring filters and with a custom callback
-    setTimeout(() => {
-      calculateCurrentlyEquippedRow(request)
-    }, 200)
-
     let searched = 0
     let resultsShown = false
     let results = []

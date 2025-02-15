@@ -23,6 +23,15 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { TsUtils } from 'lib/utils/TsUtils'
 import { OptimizerForm } from 'types/form'
 
+export type OptimizerResultAnalysis = {
+  oldRelics: SingleRelicByPart
+  newRelics: SingleRelicByPart
+  request: OptimizerForm
+  oldX: ComputedStatsArray
+  newX: ComputedStatsArray
+  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
+}
+
 export function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: number) {
   // pull from cache instead of current form as the form may change since last optimizer run, and we want to match optimizer run's conditionals
   const optimizationID = window.store.getState().optimizationId!
@@ -55,15 +64,6 @@ export function calculateStatUpgrades(id: number, ornamentIndex: number, relicIn
     context,
     simulations,
   )
-}
-
-export type OptimizerResultAnalysis = {
-  oldRelics: SingleRelicByPart
-  newRelics: SingleRelicByPart
-  request: OptimizerForm
-  oldX: ComputedStatsArray
-  newX: ComputedStatsArray
-  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
 }
 
 export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {

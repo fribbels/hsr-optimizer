@@ -1,8 +1,8 @@
 import { Flex } from 'antd'
 import 'ag-grid-community/styles/ag-grid.css'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { ExpandedDataPanel } from 'lib/tabs/tabOptimizer/analysis/ExpandedDataPanel'
 import OptimizerBuildPreview from 'lib/tabs/tabOptimizer/OptimizerBuildPreview'
-import { ExpandedDataPanel } from 'lib/tabs/tabOptimizer/optimizerForm/grid/ExpandedDataPanel'
 import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'
 
 import OptimizerForm from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'

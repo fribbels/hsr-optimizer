@@ -1,6 +1,4 @@
 import { Divider, Flex } from 'antd'
-
-import StatText from 'lib/characterPreview/StatText'
 import { Constants, StatsValues } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 
@@ -11,17 +9,17 @@ import { useTranslation } from 'react-i18next'
 
 // FIXME HIGH
 
-const checkSpeedInBreakpoint = (speedValue: number): boolean => {
-  const breakpointPresets = [
-    [111.1, 111.2],
-    [114.2, 114.3],
-    [133.3, 133.4],
-    [142.8, 142.9],
-    [155.5, 155.6],
-    [171.4, 171.5],
-    [177.7, 177.8],
-  ]
+const breakpointPresets = [
+  [111.1, 111.2],
+  [114.2, 114.3],
+  [133.3, 133.4],
+  [142.8, 142.9],
+  [155.5, 155.6],
+  [171.4, 171.5],
+  [177.7, 177.8],
+]
 
+const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   return breakpointPresets.some(([min, max]) => {
     return speedValue >= min && speedValue < max
   })
@@ -55,13 +53,13 @@ export const displayTextMap = {
   'DOT': 'DoT Damage',
 }
 
-const StatRow = (props: {
+export function StatRow(props: {
   stat: string
   finalStats: object
   value?: number
   edits?: Record<string, boolean>
   preciseSpd?: boolean
-}): JSX.Element => {
+}): JSX.Element {
   const { stat, finalStats, edits } = props
   const value = TsUtils.precisionRound(finalStats[stat])
 
@@ -73,26 +71,7 @@ const StatRow = (props: {
       : t(`DMGTypes.${stat}`))
     : t(`Stats.${stat}`)
 
-  let valueDisplay
-  let value1000thsPrecision
-
-  if (stat == 'CV') {
-    valueDisplay = Utils.precisionRound(props.value).toFixed(1)
-    value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
-  } else if (stat == 'simScore') {
-    valueDisplay = `${Utils.truncate10ths(Utils.precisionRound((props.value ?? 0) / 1000)).toFixed(1)}${t('ThousandsSuffix')}`
-    value1000thsPrecision = Utils.precisionRound(props.value).toFixed(3)
-  } else if (stat == Constants.Stats.SPD) {
-    const is1000thSpeed = checkSpeedInBreakpoint(value)
-    valueDisplay = (is1000thSpeed || props.preciseSpd) ? Utils.precisionRound(value, 3).toFixed(3) : Utils.truncate10ths(Utils.precisionRound(value, 3)).toFixed(1)
-    value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
-  } else if (Utils.isFlat(stat)) {
-    valueDisplay = Math.floor(value)
-    value1000thsPrecision = Utils.precisionRound(value).toFixed(3)
-  } else {
-    valueDisplay = Utils.truncate10ths(Utils.precisionRound(value * 100)).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(Utils.precisionRound(value * 100)).toFixed(3)
-  }
+  const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, props.value!, props.stat, props.preciseSpd)
 
   if (!finalStats) {
     console.log('No final stats')
@@ -101,11 +80,34 @@ const StatRow = (props: {
   return (
     <Flex justify='space-between' align='center' title={value1000thsPrecision}>
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-      <StatText>{`${readableStat}${edits?.[stat] ? ' *' : ''}`}</StatText>
+      {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-      <StatText>{`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}`}</StatText>
+      {`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}
     </Flex>
   )
 }
 
-export default StatRow
+export function getStatRenderValues(statValue: number, customValue: number, stat: string, preciseSpd?: boolean) {
+  let valueDisplay
+  let value1000thsPrecision
+
+  if (stat == 'CV') {
+    valueDisplay = Utils.precisionRound(customValue).toFixed(1)
+    value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
+  } else if (stat == 'simScore') {
+    valueDisplay = `${Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)).toFixed(1)}`
+    value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
+  } else if (stat == Constants.Stats.SPD) {
+    const is1000thSpeed = checkSpeedInBreakpoint(statValue)
+    valueDisplay = (is1000thSpeed || preciseSpd) ? Utils.precisionRound(statValue, 3).toFixed(3) : Utils.truncate10ths(Utils.precisionRound(statValue, 3)).toFixed(1)
+    value1000thsPrecision = Utils.precisionRound(statValue).toFixed(3)
+  } else if (Utils.isFlat(stat)) {
+    valueDisplay = Math.floor(statValue)
+    value1000thsPrecision = Utils.precisionRound(statValue).toFixed(3)
+  } else {
+    valueDisplay = Utils.truncate10ths(Utils.precisionRound(statValue * 100)).toFixed(1)
+    value1000thsPrecision = Utils.truncate1000ths(Utils.precisionRound(statValue * 100)).toFixed(3)
+  }
+
+  return { valueDisplay, value1000thsPrecision }
+}

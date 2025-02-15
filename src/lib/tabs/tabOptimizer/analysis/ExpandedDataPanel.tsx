@@ -6,7 +6,8 @@ import { iconSize } from 'lib/constants/constantsUi'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Assets } from 'lib/rendering/assets'
-import { calculateStatUpgrades, generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/grid/expandedDataPanelController'
+import { calculateStatUpgrades, generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
@@ -34,7 +35,8 @@ export function ExpandedDataPanel() {
         <DamageSplits/>
       </Flex>
 
-      <Flex justify='flex-end'>
+      <Flex justify='space-between'>
+        <StatsDiffCard analysis={analysis}/>
         <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
       </Flex>
     </Flex>

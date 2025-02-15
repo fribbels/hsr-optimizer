@@ -52,19 +52,19 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
   return (
     <StatText style={{ width: '100%' }}>
       <Flex vertical gap={5}>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.HP}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.ATK}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.DEF}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.SPD}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.CR}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.CD}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.EHR}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.RES}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.BE}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.OHB}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.ERR}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={props.analysis.elementalDmgValue}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat='COMBO_DMG'/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.DEF}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.SPD}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CD}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.EHR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.RES}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.BE}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={props.analysis.elementalDmgValue}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG'/>
       </Flex>
     </StatText>
   )

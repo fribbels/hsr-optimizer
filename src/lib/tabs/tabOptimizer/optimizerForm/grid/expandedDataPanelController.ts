@@ -1,7 +1,13 @@
 import { Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import { calculateBuild } from 'lib/optimization/calculateBuild'
+import { Buff, ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { originalScoringParams } from 'lib/scoring/simScoringUtils'
+import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import {
   convertRelicsToSimulation,
   defaultSimulationParams,
@@ -15,18 +21,7 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/Sta
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
-
-export function updateExpandedDataPanel() {
-  // let selectedRow: OptimizerDisplayDataStatSim | undefined = window.optimizerGrid.current?.api.getSelectedRows()[0]
-  // // default to equipped build if no selected row
-  // if (!selectedRow) selectedRow = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim> | undefined)?.data
-  // if (selectedRow) {
-  //   const build = OptimizerTabController.calculateRelicIdsFromId(selectedRow.id)
-  //   window.store.getState().setOptimizerBuild(build)
-  //   window.store.getState().setOptimizerSelectedRowData(selectedRow)
-  //   handleOptimizerExpandedRowData(build)
-  // }
-}
+import { OptimizerForm } from 'types/form'
 
 export function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: number) {
   // pull from cache instead of current form as the form may change since last optimizer run, and we want to match optimizer run's conditionals
@@ -60,4 +55,48 @@ export function calculateStatUpgrades(id: number, ornamentIndex: number, relicIn
     context,
     simulations,
   )
+}
+
+export type OptimizerResultAnalysis = {
+  oldRelics: SingleRelicByPart
+  newRelics: SingleRelicByPart
+  request: OptimizerForm
+  oldX: ComputedStatsArray
+  newX: ComputedStatsArray
+  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
+}
+
+export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
+  const oldRelics = OptimizerTabController.calculateRelicsFromId(currentRowData.id) as SingleRelicByPart
+  const newRelics = OptimizerTabController.calculateRelicsFromId(selectedRowData.id) as SingleRelicByPart
+  const request = TsUtils.clone(form)
+
+  request.trace = true
+
+  const oldX = calculateBuild(request, oldRelics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const newX = calculateBuild(request, newRelics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+
+  const buffGroups = aggregateCombatBuffs(newX, request)
+
+  return {
+    oldRelics,
+    newRelics,
+    request,
+    oldX,
+    newX,
+    buffGroups,
+  }
+}
+
+export function getPinnedRowData() {
+  const currentPinned = window.optimizerGrid.current?.api.getGridOption('pinnedTopRowData') as OptimizerDisplayData[] ?? []
+  return currentPinned && currentPinned.length ? currentPinned[0] : null
+}
+
+export function mismatchedCharacter(optimizerTabFocusCharacter?: string, form?: OptimizerForm) {
+  return form?.characterId !== optimizerTabFocusCharacter
+}
+
+export function getCachedForm() {
+  return optimizerFormCache[window.store.getState().optimizationId!]
 }

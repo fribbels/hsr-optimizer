@@ -16,6 +16,7 @@ const { Text } = Typography
 type BuffsAnalysisProps = {
   result?: SimulationScore
   buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>
+  singleColumn?: boolean
 }
 
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
@@ -43,6 +44,15 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
 
   for (const [id, buffs] of Object.entries(buffGroups.LIGHTCONE)) {
     buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
+  }
+
+  if (props.singleColumn) {
+    return (
+      <Flex gap={20} vertical>
+        {buffsDisplayLeft}
+        {buffsDisplayRight}
+      </Flex>
+    )
   }
 
   return (

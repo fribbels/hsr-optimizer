@@ -6,8 +6,7 @@ import { iconSize } from 'lib/constants/constantsUi'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Assets } from 'lib/rendering/assets'
-import { calculateStatUpgrades } from 'lib/tabs/tabOptimizer/optimizerForm/grid/expandedDataPanelController'
-import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
+import { calculateStatUpgrades, generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/grid/expandedDataPanelController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
@@ -15,12 +14,17 @@ import React from 'react'
 
 export function ExpandedDataPanel() {
   const selectedRowData = window.store((s) => s.optimizerSelectedRowData)
-  const buffGroups = window.store((s) => s.optimizerBuffGroups)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  if (mismatchedCharacter(optimizerTabFocusCharacter) || selectedRowData == null) {
+  const form = getCachedForm()
+  const pinnedRowData = getPinnedRowData()
+
+  if (mismatchedCharacter(optimizerTabFocusCharacter, form) || selectedRowData == null || selectedRowData.tracedX == null || pinnedRowData == null || form == null) {
     return <></>
   }
+
+  const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
+  console.log('analysis', analysis)
 
   return (
     <Flex vertical gap={16} justify='center'>
@@ -29,13 +33,12 @@ export function ExpandedDataPanel() {
         <VerticalDivider/>
         <DamageSplits/>
       </Flex>
-      <BuffsAnalysisDisplay buffGroups={buffGroups}/>
+
+      <Flex justify='flex-end'>
+        <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
+      </Flex>
     </Flex>
   )
-}
-
-function mismatchedCharacter(optimizerTabFocusCharacter?: string) {
-  return optimizerFormCache[window.store.getState().optimizationId!]?.characterId !== optimizerTabFocusCharacter
 }
 
 function DamageSplits() {

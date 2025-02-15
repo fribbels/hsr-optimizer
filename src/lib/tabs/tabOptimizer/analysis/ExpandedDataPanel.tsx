@@ -28,15 +28,18 @@ export function ExpandedDataPanel() {
   console.log('analysis', analysis)
 
   return (
-    <Flex vertical gap={16} justify='center'>
-      <Flex justify='center'>
-        <DamageUpgrades selectedRowData={selectedRowData}/>
-        <VerticalDivider/>
-        <DamageSplits/>
-      </Flex>
-
+    <Flex vertical gap={16} justify='center' style={{ marginTop: 2 }}>
       <Flex justify='space-between'>
-        <StatsDiffCard analysis={analysis}/>
+        <Flex vertical gap={50}>
+          <StatsDiffCard analysis={analysis}/>
+
+          <Flex justify='center'>
+            <DamageUpgrades selectedRowData={selectedRowData}/>
+            <VerticalDivider/>
+            <DamageSplits/>
+          </Flex>
+        </Flex>
+
         <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
       </Flex>
     </Flex>

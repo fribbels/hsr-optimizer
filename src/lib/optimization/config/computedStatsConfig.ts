@@ -227,7 +227,7 @@ export const BaseComputedStatsConfig = {
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE },
 } as const
 
-type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
+export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
 
 export type ComputedStatsConfigType = {
   [K in ComputedStatKeys]: {

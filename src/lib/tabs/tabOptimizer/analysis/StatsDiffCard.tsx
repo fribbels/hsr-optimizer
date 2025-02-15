@@ -1,12 +1,13 @@
 import { Flex } from 'antd'
 import { getStatRenderValues, StatRow } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
-import { Stats, StatsValues } from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import { useTranslation } from 'react-i18next'
 
 const cardHeight = 408
 const cardWidth = 730
@@ -41,22 +42,29 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
   const oldStats = props.analysis.oldX.toComputedStatsObject()
   const newStats = props.analysis.newX.toComputedStatsObject()
 
+  oldStats[props.analysis.elementalDmgValue] = oldStats.ELEMENTAL_DMG
+  newStats[props.analysis.elementalDmgValue] = newStats.ELEMENTAL_DMG
+  // @ts-ignore For compatibility with StatRow
+  oldStats.simScore = oldStats.COMBO_DMG
+  // @ts-ignore For compatibility with StatRow
+  newStats.simScore = newStats.COMBO_DMG
+
   return (
     <StatText style={{ width: '100%' }}>
       <Flex vertical gap={5}>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.DEF}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.SPD}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CR}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CD}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.EHR}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.RES}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.BE}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat='ELEMENTAL_DMG'/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG'/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.HP}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.ATK}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.DEF}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.SPD}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.CR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.CD}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.EHR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.RES}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.BE}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.OHB}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={Stats.ERR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat={props.analysis.elementalDmgValue}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} analysis={props.analysis} stat='COMBO_DMG'/>
       </Flex>
     </StatText>
   )
@@ -65,7 +73,7 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
 function DiffRow(props: {
   oldStats: ComputedStatsObjectExternal
   newStats: ComputedStatsObjectExternal
-  stat: StatsValues
+  stat: keyof ComputedStatsObjectExternal
 }) {
   const { oldStats, newStats, stat } = props
   const oldValue = TsUtils.precisionRound(oldStats[stat])
@@ -75,21 +83,21 @@ function DiffRow(props: {
     newValue,
     newValue,
     stat,
-    true,
+    false,
   )
 
   return (
     <Flex gap={10} align='center'>
       <div style={{ width: 240 }}>
-        <StatRow finalStats={oldStats} stat={stat}/>
+        <StatRow finalStats={oldStats} stat={stat == 'COMBO_DMG' ? 'simScore' : stat} value={stat == 'COMBO_DMG' ? oldValue : undefined}/>
       </div>
 
-      <span style={{ marginLeft: 20, marginRight: 20, fontSize: 14, lineHeight: '17px' }}>
+      <span style={{ marginLeft: 15, marginRight: 15, fontSize: 14, lineHeight: '17px' }}>
         ⮞
       </span>
 
-      <Flex style={{ width: 50, marginRight: 10 }} justify='end'>
-        {renderValue(valueDisplay, stat)}
+      <Flex style={{ width: 55 }} justify='end'>
+        <RenderValue value={valueDisplay} stat={stat}/>
       </Flex>
 
       <DiffRender oldValue={oldValue} newValue={newValue} stat={stat}/>
@@ -97,35 +105,63 @@ function DiffRow(props: {
   )
 }
 
-function renderValue(value: string | number, stat: string) {
-  if (Utils.isFlat(stat)) {
+function RenderValue(props: { value: string | number; stat: string; comboDiff?: boolean }) {
+  const { t } = useTranslation('common')
+  const { value, stat } = props
+  if (stat == 'COMBO_DMG') {
+    return value + (props.comboDiff ? '%' : t('ThousandsSuffix'))
+  } else if (Utils.isFlat(stat)) {
     return value
   }
   return value + '%'
 }
 
-const GREEN = '#90EF90'
-const RED = '#FA6B84'
+const GREEN = '#95ef90'
+const RED = '#ff97a9'
 
-function DiffRender(props: { oldValue: number; newValue: number; stat: StatsValues }) {
+function DiffRender(props: { oldValue: number; newValue: number; stat: string }) {
   const { newValue, oldValue, stat } = props
 
   if (oldValue == newValue) return <></>
 
   const increase = newValue > oldValue
-  const diff = increase ? TsUtils.precisionRound(newValue - oldValue) : TsUtils.precisionRound(oldValue - newValue)
+  const diff = increase ? visualDiff(newValue, oldValue, stat) : visualDiff(oldValue, newValue, stat)
   const icon = increase ? '▲' : '▼'
   const color = increase ? GREEN : RED
-  const { valueDisplay } = getStatRenderValues(diff, diff, stat)
+  const { valueDisplay } = getStatDiffRenderValues(diff, diff, stat)
 
   return (
-    <Flex style={{ lineHeight: '17px', color: color, width: 75 }} gap={10} justify='end'>
-      {renderValue(valueDisplay, stat)}
-      <span style={{ fontSize: 10 }}>
+    <Flex style={{ color: color, width: 90 }} gap={10} justify='end' align='center'>
+      <RenderValue value={valueDisplay} stat={stat} comboDiff={true}/>
+      <span style={{ fontSize: 10, lineHeight: '17px' }}>
         {icon}
       </span>
     </Flex>
   )
+}
+
+function getStatDiffRenderValues(statValue: number, customValue: number, stat: string) {
+  if (stat == 'COMBO_DMG') {
+    const valueDisplay = `${Utils.truncate10ths(Utils.precisionRound((customValue ?? 0))).toFixed(1)}`
+    const value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
+    return {
+      valueDisplay,
+      value1000thsPrecision,
+    }
+  }
+  return getStatRenderValues(statValue, customValue, stat)
+}
+
+function visualDiff(n1: number, n2: number, stat: string) {
+  if (stat == Stats.SPD) {
+    return TsUtils.precisionRound(Utils.truncate10ths(n1) - Utils.truncate10ths(n2))
+  } else if (Utils.isFlat(stat)) {
+    return TsUtils.precisionRound(Math.floor(n1) - Math.floor(n2))
+  } else if (stat == 'COMBO_DMG') {
+    return TsUtils.precisionRound((n1 / n2 - 1) * 100)
+  } else {
+    return TsUtils.precisionRound((Utils.truncate1000ths(n1) - Utils.truncate1000ths(n2)))
+  }
 }
 
 function CardImage(props: { analysis: OptimizerResultAnalysis }) {

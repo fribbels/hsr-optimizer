@@ -1,4 +1,4 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import { ElementToDamage, Stats, StatsValues, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
@@ -18,6 +18,7 @@ import {
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationController'
+import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -31,6 +32,7 @@ export type OptimizerResultAnalysis = {
   oldX: ComputedStatsArray
   newX: ComputedStatsArray
   buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
+  elementalDmgValue: StatsValues
 }
 
 export function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: number) {
@@ -82,6 +84,9 @@ export function generateAnalysisData(currentRowData: OptimizerDisplayData, selec
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 
+  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  const elementalDmgValue = ElementToDamage[characterMetadata.element]
+
   return {
     oldRelics,
     newRelics,
@@ -89,6 +94,7 @@ export function generateAnalysisData(currentRowData: OptimizerDisplayData, selec
     oldX,
     newX,
     buffGroups,
+    elementalDmgValue,
   }
 }
 

@@ -94,7 +94,7 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   if (stat == 'CV') {
     valueDisplay = Utils.precisionRound(customValue).toFixed(1)
     value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
-  } else if (stat == 'simScore') {
+  } else if (stat == 'simScore' || stat == 'COMBO_DMG') {
     valueDisplay = `${Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)).toFixed(1)}`
     value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
   } else if (stat == Constants.Stats.SPD) {

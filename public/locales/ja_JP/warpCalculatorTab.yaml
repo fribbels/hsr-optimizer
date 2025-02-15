@@ -8,6 +8,7 @@ StrategyLabels:
   E5: 5凸優先
   E6: 完凸優先
 IncomeOptions:
+  Label: "［ver{{versionNumber}}（{{phaseNumber}}/2）｜{{type}}］："
   Type:
     0: なし
     1: 無課金

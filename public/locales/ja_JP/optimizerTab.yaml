@@ -391,6 +391,7 @@ MinMaxFilters:
   COMBOLabel: コンボ
 ComboFilter:
   Header: コンボダメージの編集
+  AbilityLabel: アビリティ
   ModeSelector:
     Simple: シンプル
     Advanced: 高度

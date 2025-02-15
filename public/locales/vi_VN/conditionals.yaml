@@ -99,6 +99,10 @@ Lightcones:
       spdBuff:
         text: Đánh trúng 3 kẻ địch tăng Tốc Độ
         content: Nếu đánh trúng 3 kẻ địch trở lên, sẽ tăng {{SpdBuff}}% Tốc Độ của bản thân, duy trì 1 hiệp.
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: Tăng sát thương chiến kỹ / tuyệt kỹ
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -1321,8 +1325,6 @@ Characters:
       e6MultiplierIncrease:
         text: E6 Đòn Đánh Theo Sau Tăng Bội Số
         content: Bội Số Sát Thương Đòn Đánh Theo Sau của Thiên Phú tăng 25%.
-  Natasha:
-    Content:
   Pela:
     Content:
       teamEhrBuff:
@@ -1407,7 +1409,7 @@ Characters:
         content: >-
           Khi trong trạng thái Hợp Tấu, tấn công của toàn thể phe ta tăng, giá trị tăng bằng {{ultAtkBuffScalingValue}}% Tấn Công của Robin +{{ultAtkBuffFlatValue}}. ::BR:: Đặt số này theo chỉ số Tấn Công của Robin
       traceFuaCdBoost:
-        text: Tăng Sát Thương Bạo Kích Của Đòn Đánh Theo Sau
+        text: Tăng Sát Thương BK Đòn Sau
         content: Trong trạng thái Hợp Tấu, Sát Thương Bạo Kích của toàn thể phe ta gây ra khi phát động Đòn Đánh Theo Sau tăng 25%.
       e2UltSpdBuff:
         text: E2 Tăng Tốc Độ
@@ -1513,7 +1515,7 @@ Characters:
         content: Tấn Công của toàn phe ta tăng 15%. Khi trong đội phe ta có 1/2/3 nhân vật thuộc tính Lượng Tử, tấn công của nhân vật có thuộc tính Lượng Tử phe ta tăng thêm 5%/15%/30%.
     TeammateContent:
       teammateCDValue:
-        text: STBK Combat của Sparkle
+        text: Sát Thương Bạo Kích trong Combat của Sparkle
         content: Tăng Sát Thương Bạo Kích của 1 đồng đội chỉ định, mức tăng bằng {{skillCdBuffScaling}}% Sát Thương Bạo Kích của Sparkle cộng thêm {{skillCdBuffBase}}%, duy trì 1 hiệp.
   Sunday:
     Content:
@@ -1544,7 +1546,7 @@ Characters:
         content: >-
           Mục tiêu và vật triệu hồi của mục tiêu đó tăng Sát Thương Bạo Kích trị số tăng bằng {{CritBuffScaling}}% sát thương bạo kích của Sunday +{{CritBuffFlat}}%.
       e6CrToCdConversion:
-        text: E6 Tỉ Lệ Bạo Kích Đổi Sang Sát Thương Bạo Kích
+        text: E6 Tỉ Lệ BK sang Sát Thương BK
         content: >-
           Khi hiệu ứng Tăng Tỷ Lệ Bạo Kích của Thiên Phú có hiệu lực, nếu Tỷ Lệ Bạo Kích của mục tiêu trên 100% thì cứ mỗi 1% Tỷ Lệ Bạo Kích vượt mức sẽ tăng 2% sát thương Bạo Kích.
   Sushang:

@@ -405,6 +405,7 @@ MinMaxFilters:
   COMBOLabel: 콤보
 ComboFilter:
   Header: 콤보 데미지 기본 사이클
+  AbilityLabel: 능력
   ModeSelector:
     Simple: 심플
     Advanced: 고급

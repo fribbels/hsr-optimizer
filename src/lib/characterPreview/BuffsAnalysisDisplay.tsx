@@ -116,7 +116,7 @@ function BuffTag(props: { buff: Buff }) {
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Text>
-        <Flex justify='space-between' style={{ width: 425 }}>
+        <Flex justify='space-between' style={{ width: 400 }}>
           <Flex gap={3} style={{ minWidth: 70 }}>
             <span>
               {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}

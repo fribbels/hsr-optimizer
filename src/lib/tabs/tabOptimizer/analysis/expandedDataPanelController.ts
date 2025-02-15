@@ -6,6 +6,7 @@ import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { Buff, ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { RelicFilters } from 'lib/relics/relicFilters'
 import { originalScoringParams } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import {
@@ -67,9 +68,12 @@ export function calculateStatUpgrades(id: number, ornamentIndex: number, relicIn
 }
 
 export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
-  const oldRelics = OptimizerTabController.calculateRelicsFromId(currentRowData.id) as SingleRelicByPart
-  const newRelics = OptimizerTabController.calculateRelicsFromId(selectedRowData.id) as SingleRelicByPart
+  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id) as SingleRelicByPart)
+  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id) as SingleRelicByPart)
   const request = TsUtils.clone(form)
+
+  RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)
+  RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(newRelics)
 
   request.trace = true
 

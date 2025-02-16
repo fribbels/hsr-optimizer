@@ -4,7 +4,6 @@ import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
-import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import React from 'react'
@@ -29,10 +28,8 @@ export function ExpandedDataPanel() {
         <Flex vertical gap={20}>
           <StatsDiffCard analysis={analysis}/>
 
-          <Flex vertical justify='center' gap={20}>
-            <HorizontalDivider/>
+          <Flex justify='space-between' gap={20}>
             <DamageUpgrades analysis={analysis}/>
-            <HorizontalDivider/>
             <DamageSplits analysis={analysis}/>
           </Flex>
         </Flex>

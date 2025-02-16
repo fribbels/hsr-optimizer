@@ -28,6 +28,7 @@ export function StatsDiffCard(props: {
         height: 'fit-content',
         overflow: 'hidden',
         padding: gap,
+        background: '#243356',
       }}
     >
       <Flex gap={gap}>

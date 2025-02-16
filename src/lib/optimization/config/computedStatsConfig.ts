@@ -227,16 +227,19 @@ export const BaseComputedStatsConfig = {
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE },
 } as const
 
-type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
+export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
+
+export type StatConfig = {
+  name: string
+  index: number
+  default: number
+  flat: boolean
+  whole: boolean
+  category: StatCategory
+}
 
 export type ComputedStatsConfigType = {
-  [K in ComputedStatKeys]: {
-    index: number
-    default: number
-    flat: boolean
-    whole: boolean
-    category: StatCategory
-  };
+  [K in ComputedStatKeys]: StatConfig;
 }
 
 export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
@@ -246,6 +249,7 @@ export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
     return [
       key,
       {
+        name: key,
         index: index,
         default: baseValue.default ?? 0,
         flat: baseValue.flat ?? false,
@@ -263,3 +267,5 @@ export type ComputedStatsObject = {
 export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
   Object.entries(StatsConfig).map(([key, value]) => [key, value.default]),
 ) as ComputedStatsObject
+
+export const StatsConfigByIndex: StatConfig[] = Object.values(StatsConfig).sort((a, b) => a.index - b.index)

@@ -13,15 +13,18 @@ import React, { ReactElement } from 'react'
 
 const { Text } = Typography
 
-export function BuffsAnalysisDisplay(props: {
-  result: SimulationScore
+type BuffsAnalysisProps = {
+  result?: SimulationScore
+  buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>
   singleColumn?: boolean
-}) {
-  const { result } = props
-  result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
-  const x = rerun.tracedX!
-  const buffGroups = aggregateCombatBuffs(x, result.simulationForm)
+}
+
+export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
+  const buffGroups = props.buffGroups ?? rerunSim(props.result)
+
+  if (!buffGroups) {
+    return <></>
+  }
 
   const buffsDisplayLeft: ReactElement[] = []
   const buffsDisplayRight: ReactElement[] = []
@@ -43,8 +46,6 @@ export function BuffsAnalysisDisplay(props: {
     buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
   }
 
-  console.log(rerun)
-
   if (props.singleColumn) {
     return (
       <Flex gap={20} vertical>
@@ -64,6 +65,15 @@ export function BuffsAnalysisDisplay(props: {
       </Flex>
     </Flex>
   )
+}
+
+function rerunSim(result?: SimulationScore) {
+  if (!result) return null
+  result.simulationForm.trace = true
+  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
+  const x = rerun.tracedX!
+  console.log(rerun)
+  return aggregateCombatBuffs(x, result.simulationForm)
 }
 
 function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
@@ -106,7 +116,7 @@ function BuffTag(props: { buff: Buff }) {
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Text>
-        <Flex justify='space-between' style={{ width: 425 }}>
+        <Flex justify='space-between' style={{ width: 400 }}>
           <Flex gap={3} style={{ minWidth: 70 }}>
             <span>
               {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}

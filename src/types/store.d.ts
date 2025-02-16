@@ -1,6 +1,10 @@
 import { ThemeConfig } from 'antd'
 import { ComputeEngine } from 'lib/constants/constants'
+import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { BuildData } from 'lib/simulations/expandedComputedStats'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -93,6 +97,9 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
+  optimizerExpandedPanelBuildData: BuildData | null
+  optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
+  optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
@@ -133,7 +140,10 @@ export type HsrOptimizerStore = {
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
   setOptimizerBuild: (x: Build) => void
-  setSavedSession: (x: any) => void
+  setOptimizerExpandedPanelBuildData: (x: BuildData) => void
+  setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void
+  setOptimizerBuffGroups: (x: Record<BUFF_TYPE, Record<string, Buff[]>>) => void
+  setSavedSession: (x: SavedSession) => void
   setOptimizerFormSelectedLightCone: (x: any) => void
   setOptimizerFormCharacterEidolon: (x: any) => void
   setTeammateCount: (x: any) => void
@@ -145,7 +155,7 @@ export type HsrOptimizerStore = {
   setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void
   setWarpRequest: (x: WarpRequest) => void
   setWarpResult: (x: WarpResult) => void
-  setScorerId: (x: any) => void
+  setScorerId: (x: string) => void
   setCharacterTabFilters: (x: any) => void
   setPermutations: (x: any) => void
   setPermutationDetails: (x: any) => void
@@ -188,6 +198,7 @@ export type UserSettings = {
   RelicEquippingBehavior: string
   PermutationsSidebarBehavior: string
   RelicPotentialLoadBehavior: string
+  ExpandedInfoPanelPosition: string
 }
 
 // The JSON format we save to localstorage / save file

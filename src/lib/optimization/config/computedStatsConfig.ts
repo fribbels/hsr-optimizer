@@ -229,14 +229,16 @@ export const BaseComputedStatsConfig = {
 
 export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
 
+export type StatConfig = {
+  index: number
+  default: number
+  flat: boolean
+  whole: boolean
+  category: StatCategory
+}
+
 export type ComputedStatsConfigType = {
-  [K in ComputedStatKeys]: {
-    index: number
-    default: number
-    flat: boolean
-    whole: boolean
-    category: StatCategory
-  };
+  [K in ComputedStatKeys]: StatConfig;
 }
 
 export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(

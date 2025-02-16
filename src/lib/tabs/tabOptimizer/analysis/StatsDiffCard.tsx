@@ -52,6 +52,7 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
   return (
     <StatText style={{ width: '100%' }}>
       <Flex vertical gap={5}>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG'/>
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP}/>
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK}/>
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.DEF}/>
@@ -64,7 +65,6 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB}/>
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR}/>
         <DiffRow oldStats={oldStats} newStats={newStats} stat={props.analysis.elementalDmgValue}/>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG'/>
       </Flex>
     </StatText>
   )

@@ -1,14 +1,10 @@
-import { IRowNode } from 'ag-grid-community'
-import { Divider, Flex } from 'antd'
+import { Flex } from 'antd'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
-import { StatTextSm } from 'lib/characterPreview/StatText'
-import { iconSize } from 'lib/constants/constantsUi'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { Assets } from 'lib/rendering/assets'
-import { calculateStatUpgrades, generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
-import { VerticalDivider } from 'lib/ui/Dividers'
+import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
+import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import React from 'react'
@@ -30,13 +26,14 @@ export function ExpandedDataPanel() {
   return (
     <Flex vertical gap={16} justify='center' style={{ marginTop: 2 }}>
       <Flex justify='space-between'>
-        <Flex vertical gap={50}>
+        <Flex vertical gap={20}>
           <StatsDiffCard analysis={analysis}/>
 
-          <Flex justify='center'>
-            <DamageUpgrades selectedRowData={selectedRowData}/>
-            <VerticalDivider/>
-            <DamageSplits/>
+          <Flex vertical justify='center' gap={20}>
+            <HorizontalDivider/>
+            <DamageUpgrades analysis={analysis}/>
+            <HorizontalDivider/>
+            <DamageSplits analysis={analysis}/>
           </Flex>
         </Flex>
 
@@ -133,53 +130,6 @@ function DamageSplitColumn(props: {
           </span>
         )
       })}
-    </Flex>
-  )
-}
-
-function DamageUpgrades(props: {
-  selectedRowData: OptimizerDisplayDataStatSim
-}) {
-  const { id, relicSetIndex, ornamentSetIndex, COMBO } = props.selectedRowData
-  const optimizerBuild = window.store((s) => s.optimizerBuild) // For rerender trigger
-
-  const statUpgrades = calculateStatUpgrades(id, ornamentSetIndex, relicSetIndex)
-    .filter((result) => result.COMBO >= COMBO)
-    .sort((a, b) => a.COMBO > b.COMBO ? -1 : 1)
-    .map((result, index) => (
-      index >= 4
-        ? null
-        : (
-          <Flex key={index} align='center' justify='space-between' style={{ width: '100%' }}>
-            <img src={Assets.getStatIcon(result.statSim.key)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-            <StatTextSm>{`+1x ${result.statSim.key}`}</StatTextSm>
-            <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-            <StatTextSm>{`+ ${numberToLocaleString((result.COMBO / COMBO - 1) * 100, 2)}%`}</StatTextSm>
-          </Flex>
-        )
-    ))
-
-  const equippedBuildComboDmg = (window.optimizerGrid.current?.api.getPinnedTopRow(0) as IRowNode<OptimizerDisplayDataStatSim>)?.data?.COMBO
-
-  let dmgChange = 0
-  if (equippedBuildComboDmg) dmgChange = (COMBO / equippedBuildComboDmg - 1) * 100
-
-  return (
-    <Flex vertical align='center'>
-      <HeaderText>Dmg Upgrades</HeaderText>
-
-      {equippedBuildComboDmg && (
-        <Flex align='center' justify='space-between' style={{ width: '100%' }}>
-          {/* <img src={Assets.getBlank()} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/> */}
-          <StatTextSm>vs equipped</StatTextSm>
-          <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-          <StatTextSm>
-            {`${dmgChange >= 0 ? '+' : '-'} ${numberToLocaleString(Math.abs(dmgChange), 2)}%`}
-          </StatTextSm>
-        </Flex>
-      )}
-
-      {statUpgrades}
     </Flex>
   )
 }

@@ -7,7 +7,7 @@ import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { Buff, ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { originalScoringParams } from 'lib/scoring/simScoringUtils'
+import { originalScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import {
   convertRelicsToSimulation,
@@ -26,6 +26,8 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { OptimizerForm } from 'types/form'
 
 export type OptimizerResultAnalysis = {
+  oldRowData: OptimizerDisplayData
+  newRowData: OptimizerDisplayData
   oldRelics: SingleRelicByPart
   newRelics: SingleRelicByPart
   request: OptimizerForm
@@ -35,38 +37,40 @@ export type OptimizerResultAnalysis = {
   elementalDmgValue: StatsValues
 }
 
-export function calculateStatUpgrades(id: number, ornamentIndex: number, relicIndex: number) {
-  // pull from cache instead of current form as the form may change since last optimizer run, and we want to match optimizer run's conditionals
-  const optimizationID = window.store.getState().optimizationId!
-  const form = optimizerFormCache[optimizationID]
-  const context = generateContext(form)
+type StatUpgrade = {
+  stat: SubStats
+  simRequest: SimulationRequest
+  simResult: SimulationResult
+}
 
-  const simulations: Simulation[] = []
+export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
+  const { id, relicSetIndex, ornamentSetIndex } = analysis.newRowData
+
+  const request = analysis.request
+  const context = generateContext(request)
+
   const relics = OptimizerTabController.calculateRelicsFromId(id)
-  if (Object.values(relics).length !== 6) return []
-  const relicSets = relicSetIndexToNames(relicIndex)
-  const ornamentSets = ornamentSetIndexToName(ornamentIndex)
-  const simulation = convertRelicsToSimulation(relics as SingleRelicByPart, relicSets[0], relicSets[1], ornamentSets)
+  const relicSets = relicSetIndexToNames(relicSetIndex)
+  const ornamentSets = ornamentSetIndexToName(ornamentSetIndex)
+  const simulationRequest = convertRelicsToSimulation(relics as SingleRelicByPart, relicSets[0], relicSets[1], ornamentSets) as SimulationRequest
+  const statUpgrades: StatUpgrade[] = []
 
   for (const substat of SubStats) {
-    const upgradeSim = TsUtils.clone(simulation)
-    if (upgradeSim.stats[substat]) {
-      upgradeSim.stats[substat] += substat === Stats.SPD
-        ? originalScoringParams.speedRollValue / defaultSimulationParams.speedRollValue
-        : originalScoringParams.quality
-    } else { // we divide the additional speed so that it gets properly converted to a stat total during the sim
-      upgradeSim.stats[substat] = substat === Stats.SPD
-        ? originalScoringParams.speedRollValue / defaultSimulationParams.speedRollValue
-        : originalScoringParams.quality
-    }
-    simulations.push({ request: upgradeSim as SimulationRequest, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation)
+    const upgradeSim = TsUtils.clone(simulationRequest)
+    upgradeSim.stats[substat] = upgradeSim.stats[substat] ?? 0
+    upgradeSim.stats[substat] += substat === Stats.SPD
+      ? originalScoringParams.speedRollValue / defaultSimulationParams.speedRollValue
+      : originalScoringParams.quality
+
+    const simResult = runSimulations(request, context, [{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation])[0]
+    statUpgrades.push({
+      stat: substat,
+      simRequest: upgradeSim,
+      simResult: simResult,
+    })
   }
 
-  return runSimulations(
-    form,
-    context,
-    simulations,
-  )
+  return statUpgrades
 }
 
 export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
@@ -88,6 +92,8 @@ export function generateAnalysisData(currentRowData: OptimizerDisplayData, selec
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
   return {
+    oldRowData: currentRowData,
+    newRowData: selectedRowData,
     oldRelics,
     newRelics,
     request,

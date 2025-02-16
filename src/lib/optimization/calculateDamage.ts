@@ -1,5 +1,6 @@
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, DefaultActionDamageValues, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
+import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
@@ -92,6 +93,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.BASIC_DMG,
       a[Key.BASIC_DMG],
       a[Key.BASIC_BOOST],
       a[Key.BASIC_VULNERABILITY],
@@ -124,6 +126,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.SKILL_DMG,
       a[Key.SKILL_DMG],
       a[Key.SKILL_BOOST],
       a[Key.SKILL_VULNERABILITY],
@@ -156,6 +159,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.ULT_DMG,
       a[Key.ULT_DMG],
       a[Key.ULT_BOOST],
       a[Key.ULT_VULNERABILITY],
@@ -188,6 +192,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.FUA_DMG,
       a[Key.FUA_DMG],
       a[Key.FUA_BOOST],
       a[Key.FUA_VULNERABILITY],
@@ -223,6 +228,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseSuperBreakInstanceDmg,
         baseSuperBreakModifier,
         baseBreakEfficiencyBoost,
+        Key.MEMO_SKILL_DMG,
         a[Key.MEMO_SKILL_DMG],
         0, // a[Key.MEMO_SKILL_BOOST],
         0, // a[Key.MEMO_SKILL_VULNERABILITY],
@@ -289,6 +295,7 @@ function calculateAbilityDmg(
   baseSuperBreakInstanceDmg: number,
   baseSuperBreakModifier: number,
   baseBreakEfficiencyBoost: number,
+  abilityKey: number,
   abilityDmg: number,
   abilityDmgBoost: number,
   abilityVulnerability: number,
@@ -389,18 +396,18 @@ function calculateAbilityDmg(
     memoJointDmgOutput += abilityMemoJointDamage
   }
 
-  if (x.trace) {
-    x.dmgSplits.push({
-      abilityType: action.actionType,
-      critDmg: abilityCritDmgOutput,
+  if (x.trace && action.actionType == 'DEFAULT') {
+    const name = StatsConfigByIndex[abilityKey].name
+    x.dmgSplits[name as keyof DefaultActionDamageValues] = {
+      name: name,
+      abilityDmg: abilityCritDmgOutput,
       breakDmg: abilityBreakDmgOutput,
       superBreakDmg: abilitySuperBreakDmgOutput,
       additionalDmg: abilityAdditionalDmgOutput,
       trueDmg: trueDmgOutput,
       jointDmg: memoJointDmgOutput,
-    })
+    }
   }
-
   return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput
 }
 

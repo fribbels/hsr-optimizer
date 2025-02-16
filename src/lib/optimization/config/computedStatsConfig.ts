@@ -230,6 +230,7 @@ export const BaseComputedStatsConfig = {
 export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
 
 export type StatConfig = {
+  name: string
   index: number
   default: number
   flat: boolean
@@ -248,6 +249,7 @@ export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
     return [
       key,
       {
+        name: key,
         index: index,
         default: baseValue.default ?? 0,
         flat: baseValue.flat ?? false,
@@ -265,3 +267,5 @@ export type ComputedStatsObject = {
 export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
   Object.entries(StatsConfig).map(([key, value]) => [key, value.default]),
 ) as ComputedStatsObject
+
+export const StatsConfigByIndex: StatConfig[] = Object.values(StatsConfig).sort((a, b) => a.index - b.index)

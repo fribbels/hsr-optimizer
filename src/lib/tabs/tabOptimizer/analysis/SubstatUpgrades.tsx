@@ -11,7 +11,7 @@ type StatUpgradeGroup = {
 }
 
 type StatUpgradeItem = {
-  stat: SubStats
+  key: SubStats
   value: number
 }
 
@@ -41,7 +41,7 @@ export function DamageUpgrades(props: {
       if (diff > 1) {
         const percent = diff / baseValue
         group.upgrades.push({
-          stat: statUpgrade.stat,
+          key: statUpgrade.stat,
           value: percent,
         })
         hasValue = true
@@ -63,7 +63,7 @@ export function DamageUpgrades(props: {
     const columns: TableProps<StatUpgradeItem>['columns'] = [
       {
         title: '+1x Stat',
-        dataIndex: 'stat',
+        dataIndex: 'key',
         align: 'center',
         width: 100,
         render: (text: SubStats) => <>{StatsToShort[text]}</>,
@@ -83,6 +83,7 @@ export function DamageUpgrades(props: {
 
     displays.push(
       <Table<StatUpgradeItem>
+        key={group.key}
         style={{ width: 200 }}
         columns={columns}
         dataSource={group.upgrades}
@@ -93,7 +94,7 @@ export function DamageUpgrades(props: {
   }
 
   return (
-    <Flex vertical align='center'>
+    <Flex vertical align='center' gap={10}>
       {displays}
     </Flex>
   )

@@ -15,6 +15,7 @@
     "@ant-design/icons": "^5.4.0",
     "@js-sdsl/priority-queue": "^4.4.0",
     "@viselect/react": "^3.6.0",
+    "@visx/visx": "^3.12.0",
     "ag-grid-community": "32.1.0",
     "ag-grid-react": "32.1.0",
     "antd": "5.22.7",

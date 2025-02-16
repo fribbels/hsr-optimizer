@@ -686,3 +686,10 @@ a {
 .large-grid-column-header .ag-header-cell-text {
     font-size: 14px !important;
 }
+
+.visx-legend {
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px
+}

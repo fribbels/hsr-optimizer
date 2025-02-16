@@ -12,14 +12,46 @@ export type Buff = {
   source: BuffSource
   memo?: boolean
 }
-export type DmgContribution = {
-  abilityType: string
-  critDmg: number
+export type DefaultActionDamageValues = {
+  BASIC_DMG: DamageBreakdown
+  SKILL_DMG: DamageBreakdown
+  ULT_DMG: DamageBreakdown
+  FUA_DMG: DamageBreakdown
+  DOT_DMG: DamageBreakdown
+  BREAK_DMG: DamageBreakdown
+}
+
+export type DamageBreakdown = {
+  name: string
+  abilityDmg: number
+  additionalDmg: number
   breakDmg: number
   superBreakDmg: number
-  additionalDmg: number
-  trueDmg: number
   jointDmg: number
+  trueDmg: number
+}
+
+function generateDefaultDamageValues() {
+  function generateDefaultDamageBreakdown(name: string) {
+    return {
+      name: name,
+      abilityDmg: 0,
+      additionalDmg: 0,
+      breakDmg: 0,
+      superBreakDmg: 0,
+      jointDmg: 0,
+      trueDmg: 0,
+    }
+  }
+
+  return {
+    BASIC_DMG: generateDefaultDamageBreakdown('BASIC_DMG'),
+    SKILL_DMG: generateDefaultDamageBreakdown('SKILL_DMG'),
+    ULT_DMG: generateDefaultDamageBreakdown('ULT_DMG'),
+    FUA_DMG: generateDefaultDamageBreakdown('FUA_DMG'),
+    DOT_DMG: generateDefaultDamageBreakdown('DOT_DMG'),
+    BREAK_DMG: generateDefaultDamageBreakdown('BREAK_DMG'),
+  }
 }
 
 export type KeysType = keyof ComputedStatsObject
@@ -70,7 +102,7 @@ export class ComputedStatsArrayCore {
   buffs: Buff[]
   buffsMemo: Buff[]
   trace: boolean
-  dmgSplits: DmgContribution[]
+  dmgSplits: DefaultActionDamageValues
 
   constructor(trace: boolean = false, memosprite = false, summonerFn?: () => ComputedStatsArray) {
     // @ts-ignore
@@ -82,7 +114,8 @@ export class ComputedStatsArrayCore {
     this.buffs = []
     this.buffsMemo = []
     this.trace = trace
-    this.dmgSplits = []
+    // @ts-ignore
+    this.dmgSplits = this.trace ? generateDefaultDamageValues() : null
     Object.keys(baseComputedStatsObject).forEach((stat, key) => {
       const trace
         = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })

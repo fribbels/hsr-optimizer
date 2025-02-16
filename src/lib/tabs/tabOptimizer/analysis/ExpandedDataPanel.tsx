@@ -23,13 +23,10 @@ export function ExpandedDataPanel() {
   return (
     <Flex vertical gap={16} justify='center' style={{ marginTop: 2 }}>
       <Flex justify='space-between'>
-        <Flex vertical gap={20}>
+        <Flex vertical gap={10}>
           <StatsDiffCard analysis={analysis}/>
-
-          <Flex justify='space-between' gap={8}>
-            <DamageSplits analysis={analysis}/>
-            <DamageUpgrades analysis={analysis}/>
-          </Flex>
+          <DamageSplits analysis={analysis}/>
+          <DamageUpgrades analysis={analysis}/>
         </Flex>
 
         <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>

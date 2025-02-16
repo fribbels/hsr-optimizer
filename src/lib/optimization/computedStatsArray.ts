@@ -19,6 +19,7 @@ export type DefaultActionDamageValues = {
   FUA_DMG: DamageBreakdown
   DOT_DMG: DamageBreakdown
   BREAK_DMG: DamageBreakdown
+  MEMO_SKILL_DMG: DamageBreakdown
 }
 
 export type DamageBreakdown = {
@@ -29,6 +30,8 @@ export type DamageBreakdown = {
   superBreakDmg: number
   jointDmg: number
   trueDmg: number
+  dotDmg: number
+  memoDmg: number
 }
 
 function generateDefaultDamageValues() {
@@ -41,6 +44,8 @@ function generateDefaultDamageValues() {
       superBreakDmg: 0,
       jointDmg: 0,
       trueDmg: 0,
+      dotDmg: 0,
+      memoDmg: 0,
     }
   }
 
@@ -51,6 +56,7 @@ function generateDefaultDamageValues() {
     FUA_DMG: generateDefaultDamageBreakdown('FUA_DMG'),
     DOT_DMG: generateDefaultDamageBreakdown('DOT_DMG'),
     BREAK_DMG: generateDefaultDamageBreakdown('BREAK_DMG'),
+    MEMO_SKILL_DMG: generateDefaultDamageBreakdown('MEMO_SKILL_DMG'),
   }
 }
 

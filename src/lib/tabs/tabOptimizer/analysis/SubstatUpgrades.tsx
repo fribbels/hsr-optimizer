@@ -1,4 +1,5 @@
 import { Flex, Table, TableProps } from 'antd'
+import { computedStatsTempI18NTranslations } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { StatsToShort, SubStats } from 'lib/constants/constants'
 import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
 import { calculateStatUpgrades, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
@@ -69,7 +70,7 @@ export function DamageUpgrades(props: {
         render: (text: SubStats) => <>{StatsToShort[text]}</>,
       },
       {
-        title: group.key,
+        title: metricToColumnTitle[group.key as keyof typeof metricToColumnTitle],
         dataIndex: 'value',
         align: 'center',
         width: 100,
@@ -94,8 +95,15 @@ export function DamageUpgrades(props: {
   }
 
   return (
-    <Flex vertical align='center' gap={10}>
+    <Flex align='start' gap={10} justify='start'>
       {displays}
     </Flex>
   )
+}
+
+const metricToColumnTitle = {
+  COMBO_DMG: 'Combo DMG',
+  EHP: 'EHP',
+  HEAL_VALUE: 'Heal',
+  SHIELD_VALUE: 'Shield',
 }

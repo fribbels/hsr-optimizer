@@ -8,24 +8,19 @@ import { defaultStyles, Tooltip, withTooltip } from '@visx/tooltip'
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip'
 import chroma from 'chroma-js'
 import { DamageBreakdown, DefaultActionDamageValues } from 'lib/optimization/computedStatsArray'
-import { number } from 'prop-types'
 import React from 'react'
 
-type DamageBreakdownKeys =
-  'abilityDmg' |
-  'breakDmg' |
-  'superBreakDmg' |
-  'additionalDmg' |
-  'trueDmg' |
-  'jointDmg'
+type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
 
 const keys: DamageBreakdownKeys[] = [
   'abilityDmg',
-  'additionalDmg',
+  'dotDmg',
   'superBreakDmg',
   'jointDmg',
-  'trueDmg',
+  'memoDmg',
+  'additionalDmg',
   'breakDmg',
+  'trueDmg',
 ]
 
 type TooltipData = {
@@ -49,22 +44,18 @@ export type BarStackHorizontalProps = {
 
 const darkBackground = '#243356'
 const darkAxisColor = '#CCCCCC'
-const darkTooltipBackground = 'rgba(255, 255, 255, 0.9)'
-const barColors = chroma.scale('Paired').colors(6)
-const defaultMargin = { top: 50, left: 50, right: 40, bottom: 50 }
+const darkTooltipBackground = 'rgb(69,93,154)'
+const barColors = chroma.scale('Paired').colors(9).map((color) => chroma(color).desaturate(0.5).hex())
+
+const defaultMargin = { top: 70, left: 70, right: 70, bottom: 70 }
 const tooltipStyles = {
   ...defaultStyles,
   minWidth: 60,
   backgroundColor: darkTooltipBackground,
-  color: '#000',
+  color: '#fff',
 }
 
 const getAbilityName = (d: DamageBreakdown) => d.name
-
-const colorScale = scaleOrdinal<DamageBreakdownKeys, string>({
-  domain: keys,
-  range: barColors,
-})
 
 let tooltipTimeout: number
 
@@ -85,8 +76,12 @@ export default withTooltip<BarStackHorizontalProps, TooltipData>(
     const xMax = width - margin.left - margin.right
     const yMax = height - margin.top - margin.bottom
 
+    const filteredData = data.filter((row) =>
+      keys.some((key) => row[key] !== 0), // Keep only rows with non-zero values
+    )
+
     let maxValue = 0
-    data.sort((a, b) => {
+    filteredData.sort((a, b) => {
       const sumA = Object.values(a)
         .filter((value): value is number => typeof value === 'number')
         .reduce((n, store) => n + store, 0)
@@ -101,9 +96,19 @@ export default withTooltip<BarStackHorizontalProps, TooltipData>(
       return sumB - sumA
     })
 
+    // Uncomment to hide unused dmg values
+    // const activeKeys = keys.filter((key) => filteredData.some((row) => row[key] !== 0))
+    const activeKeys = keys
+
+    const colorScale = scaleOrdinal({
+      domain: activeKeys,
+      range: barColors.slice(0, activeKeys.length),
+    })
+
     const abilityScale = scaleBand<string>({
-      domain: data.map(getAbilityName),
+      domain: filteredData.map(getAbilityName),
       range: [0, 250],
+      padding: 0.3,
     })
 
     const damageScale = scaleLinear<number>({
@@ -121,8 +126,8 @@ export default withTooltip<BarStackHorizontalProps, TooltipData>(
           <rect width={width} height={height} fill={darkBackground} rx={8}/>
           <Group top={margin.top} left={margin.left}>
             <BarStackHorizontal<DamageBreakdown, DamageBreakdownKeys>
-              data={data}
-              keys={keys}
+              data={filteredData}
+              keys={activeKeys}
               height={yMax}
               y={getAbilityName}
               xScale={damageScale}
@@ -175,6 +180,7 @@ export default withTooltip<BarStackHorizontalProps, TooltipData>(
             <AxisBottom
               top={yMax}
               scale={damageScale}
+              tickFormat={(n) => `${Number(n) / 1000}K`}
               tickValues={tickValues}
               stroke={darkAxisColor}
               tickStroke={darkAxisColor}
@@ -189,12 +195,14 @@ export default withTooltip<BarStackHorizontalProps, TooltipData>(
         <div
           style={{
             position: 'absolute',
-            top: margin.top / 2 - 10,
-            width: '100%',
+            top: margin.top / 2 - 5,
             display: 'flex',
+            width: '100%',
             justifyContent: 'center',
-            fontSize: '14px',
+            fontSize: '12px',
             color: darkAxisColor,
+            paddingLeft: 30,
+            paddingRight: 30,
           }}
         >
           <LegendOrdinal
@@ -208,9 +216,7 @@ export default withTooltip<BarStackHorizontalProps, TooltipData>(
 
         {tooltipOpen && tooltipData && (
           <Tooltip top={tooltipTop} left={tooltipLeft} style={tooltipStyles}>
-            <div style={{ color: colorScale(tooltipData.key) }}>
-              <strong>{tooltipDataKeyToDisplay[tooltipData.key] + ' DMG'}</strong>
-            </div>
+            <strong>{tooltipDataKeyToDisplay[tooltipData.key] + ' DMG'}</strong>
             <div>{tooltipData.bar.data[tooltipData.key].toFixed(0)}</div>
           </Tooltip>
         )}
@@ -219,13 +225,15 @@ export default withTooltip<BarStackHorizontalProps, TooltipData>(
   },
 )
 
-const tooltipDataKeyToDisplay = {
+const tooltipDataKeyToDisplay: Record<DamageBreakdownKeys, string> = {
   abilityDmg: 'Ability',
   breakDmg: 'Break',
   superBreakDmg: 'Super Break',
   additionalDmg: 'Additional',
   trueDmg: 'True',
   jointDmg: 'Joint',
+  dotDmg: 'Dot',
+  memoDmg: 'Memo',
 }
 
 const dataKeyToDisplay = {
@@ -235,4 +243,5 @@ const dataKeyToDisplay = {
   FUA_DMG: 'Fua',
   DOT_DMG: 'Dot',
   BREAK_DMG: 'Break',
+  MEMO_SKILL_DMG: 'Skillᴹ',
 }

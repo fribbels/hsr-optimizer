@@ -5,6 +5,7 @@ import { Stats } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
+import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
@@ -170,6 +171,7 @@ function CardImage(props: { analysis: OptimizerResultAnalysis }) {
     <div
       style={{
         overflow: 'hidden',
+        boxShadow: cardShadow,
         border: border,
         borderRadius: 10,
         minWidth: 233,

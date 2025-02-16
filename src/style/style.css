@@ -688,7 +688,7 @@ a {
 }
 
 .visx-legend {
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
     margin-left: 10px;
     margin-right: 10px

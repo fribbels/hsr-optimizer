@@ -41,6 +41,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
 
     a[Key.DOT_DMG] = calculateDotDmg(
       x,
+      action,
+      Key.DOT_DMG,
       a[Key.DOT_DMG],
       (baseUniversalMulti),
       (dotDmgBoostMulti),
@@ -48,7 +50,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       (dotVulnerabilityMulti),
       (dotResMulti),
       (dotEhrMulti),
-      (baseTrueDmgMulti),
     )
   }
 
@@ -251,7 +252,16 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   // Break True DMG is handled separately due to break being re-used in ability calcs
-  a[Key.BREAK_DMG] *= baseTrueDmgMulti + a[Key.BREAK_TRUE_DMG_MODIFIER]
+  const breakTrueDmg = a[Key.BREAK_DMG] * (a[Key.TRUE_DMG_MODIFIER] + a[Key.BREAK_TRUE_DMG_MODIFIER])
+
+  if (x.trace && action.actionType == 'DEFAULT') {
+    const name = StatsConfigByIndex[Key.BREAK_DMG].name
+    const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
+    splits.breakDmg = a[Key.BREAK_DMG]
+    splits.trueDmg = breakTrueDmg
+  }
+
+  a[Key.BREAK_DMG] += breakTrueDmg
 }
 
 const cLevelConst = 20 + 80
@@ -398,15 +408,13 @@ function calculateAbilityDmg(
 
   if (x.trace && action.actionType == 'DEFAULT') {
     const name = StatsConfigByIndex[abilityKey].name
-    x.dmgSplits[name as keyof DefaultActionDamageValues] = {
-      name: name,
-      abilityDmg: abilityCritDmgOutput,
-      breakDmg: abilityBreakDmgOutput,
-      superBreakDmg: abilitySuperBreakDmgOutput,
-      additionalDmg: abilityAdditionalDmgOutput,
-      trueDmg: trueDmgOutput,
-      jointDmg: memoJointDmgOutput,
-    }
+    const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
+    splits.abilityDmg = abilityCritDmgOutput
+    splits.breakDmg = abilityBreakDmgOutput
+    splits.superBreakDmg = abilitySuperBreakDmgOutput
+    splits.additionalDmg = abilityAdditionalDmgOutput
+    splits.trueDmg = trueDmgOutput
+    splits.jointDmg = memoJointDmgOutput
   }
   return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput
 }
@@ -445,6 +453,8 @@ function calculateCritDmg(
 
 function calculateDotDmg(
   x: ComputedStatsArray,
+  action: OptimizerAction,
+  abilityKey: number,
   baseDmg: number,
   universalMulti: number,
   dmgBoostMulti: number,
@@ -452,16 +462,25 @@ function calculateDotDmg(
   vulnerabilityMulti: number,
   resMulti: number,
   ehrMulti: number,
-  trueDmgMulti: number,
 ) {
-  return baseDmg
+  const dotDmg = baseDmg
     * universalMulti
     * dmgBoostMulti
     * defMulti
     * vulnerabilityMulti
     * resMulti
     * ehrMulti
-    * trueDmgMulti
+
+  const trueDmg = dotDmg * x.a[Key.TRUE_DMG_MODIFIER]
+
+  if (x.trace && action.actionType == 'DEFAULT') {
+    const name = StatsConfigByIndex[abilityKey].name
+    const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
+    splits.dotDmg = dotDmg
+    splits.trueDmg = trueDmg
+  }
+
+  return dotDmg
 }
 
 function calculateEhrMulti(

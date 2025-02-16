@@ -14,20 +14,16 @@ export function DamageSplits(props: {
     )
   }
 
-  console.debug(splits)
+  splits.MEMO_SKILL_DMG = props.analysis.newX.m.dmgSplits.MEMO_SKILL_DMG
 
   const data = Object.values(splits)
 
+  console.debug(data)
+  console.debug(splits)
+
   return (
     <Flex vertical align='center' gap={8}>
-      <div
-        style={{
-          width: 520,
-          height: 400,
-        }}
-      >
-        <DamageSplitsChart width={520} height={400} data={data}/>
-      </div>
+      <DamageSplitsChart width={730} height={400} data={data}/>
     </Flex>
   )
 }

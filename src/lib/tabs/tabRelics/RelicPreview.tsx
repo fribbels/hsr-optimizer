@@ -1,7 +1,9 @@
 import { Card, Divider, Flex } from 'antd'
+import i18next from 'i18next'
 import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { NONE_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
+import { Languages } from 'lib/i18n/i18n'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
@@ -92,59 +94,55 @@ export function RelicPreview(props: {
         boxShadow: source == null ? undefined : showcaseShadow + showcaseShadowInsetAddition,
       }}
     >
-      <Flex
-        vertical
-        justify={JUSTIFY}
-        style={{
-          height: 255,
-        }}
-      >
-        <Flex justify='space-between' align='center'>
-          <img
-            style={{
-              height: ICON_SIZE,
-              width: ICON_SIZE,
-            }}
-            title={relic.set}
-            src={relicSrc}
-          />
-          <Flex vertical align='center'>
-            <Flex align='center' gap={5}>
-              {Renderer.renderGrade(relic)}
-              <Flex style={{ width: 30 }} justify='space-around'>
-                <RelicStatText>
-                  {relic.id != undefined ? `+${relic.enhance}` : ''}
-                </RelicStatText>
-              </Flex>
+      <RelicStatText language={i18next.resolvedLanguage as Languages}>
+        <Flex
+          vertical
+          justify={JUSTIFY}
+          style={{
+            height: 255,
+          }}
+        >
+          <Flex justify='space-between' align='center'>
+            <img
+              style={{
+                height: ICON_SIZE,
+                width: ICON_SIZE,
+              }}
+              title={relic.set}
+              src={relicSrc}
+            />
+            <Flex align='center' gap={8}>
+              <span>{Renderer.renderGrade(relic)}</span>
+              <span>{relic.id != undefined ? `+${relic.enhance}` : ''}</span>
             </Flex>
+            <img
+              style={{
+                height: ICON_SIZE,
+                width: ICON_SIZE,
+                borderRadius: ICON_SIZE / 2,
+                outline: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
+                backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
+              }}
+              src={equippedBySrc}
+            />
           </Flex>
-          <img
-            style={{
-              height: ICON_SIZE,
-              width: ICON_SIZE,
-              borderRadius: ICON_SIZE / 2,
-              outline: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
-              backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
-            }}
-            src={equippedBySrc}
-          />
+
+          <Divider style={{ margin: '6px 0px 6px 0px' }}/>
+
+          {GenerateStat(relic.main as SubstatDetails, true, relic)}
+
+          <Divider style={{ margin: '6px 0px 6px 0px' }}/>
+
+          <Flex vertical gap={STAT_GAP}>
+            {GenerateStat(relic.substats[0], false, relic)}
+            {GenerateStat(relic.substats[1], false, relic)}
+            {GenerateStat(relic.substats[2], false, relic)}
+            {GenerateStat(relic.substats[3], false, relic)}
+          </Flex>
+
+          {scoringType != NONE_SCORE && <ScoreFooter score={score}/>}
         </Flex>
-
-        <Divider style={{ margin: '6px 0px 6px 0px' }}/>
-
-        {GenerateStat(relic.main as SubstatDetails, true, relic)}
-
-        <Divider style={{ margin: '6px 0px 6px 0px' }}/>
-
-        <Flex vertical gap={STAT_GAP}>
-          {GenerateStat(relic.substats[0], false, relic)}
-          {GenerateStat(relic.substats[1], false, relic)}
-          {GenerateStat(relic.substats[2], false, relic)}
-          {GenerateStat(relic.substats[3], false, relic)}
-        </Flex>
-
-        {scoringType != NONE_SCORE && <ScoreFooter score={score}/>}
-      </Flex>
+      </RelicStatText>
     </Card>
   )
 }
@@ -178,13 +176,9 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
       <Flex justify='space-between'>
         <Flex>
           <img src={icon} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
-          <RelicStatText>
-            {(scored) ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
-          </RelicStatText>
+          {(scored) ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
         </Flex>
-        <RelicStatText>
-          {(scored) ? `${score.score} (${score.rating})` : ''}
-        </RelicStatText>
+        {(scored) ? `${score.score} (${score.rating})` : ''}
       </Flex>
     </>
   )

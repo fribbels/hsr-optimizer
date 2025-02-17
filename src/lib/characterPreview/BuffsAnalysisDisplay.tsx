@@ -72,7 +72,6 @@ function rerunSim(result?: SimulationScore) {
   result.simulationForm.trace = true
   const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
   const x = rerun.tracedX!
-  console.log(rerun)
   return aggregateCombatBuffs(x, result.simulationForm)
 }
 

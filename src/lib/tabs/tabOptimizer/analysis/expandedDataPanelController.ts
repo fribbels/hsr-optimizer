@@ -44,15 +44,14 @@ type StatUpgrade = {
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
-  const { id, relicSetIndex, ornamentSetIndex } = analysis.newRowData
+  const { relicSetIndex, ornamentSetIndex } = analysis.newRowData
 
   const request = analysis.request
   const context = generateContext(request)
 
-  const relics = OptimizerTabController.calculateRelicsFromId(id)
   const relicSets = relicSetIndexToNames(relicSetIndex)
   const ornamentSets = ornamentSetIndexToName(ornamentSetIndex)
-  const simulationRequest = convertRelicsToSimulation(relics as SingleRelicByPart, relicSets[0], relicSets[1], ornamentSets) as SimulationRequest
+  const simulationRequest = convertRelicsToSimulation(analysis.newRelics, relicSets[0], relicSets[1], ornamentSets) as SimulationRequest
   const statUpgrades: StatUpgrade[] = []
 
   for (const substat of SubStats) {
@@ -74,8 +73,8 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 }
 
 export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
-  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id) as SingleRelicByPart)
-  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id) as SingleRelicByPart)
+  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form) as SingleRelicByPart)
+  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form) as SingleRelicByPart)
   const request = TsUtils.clone(form)
 
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)
@@ -110,7 +109,7 @@ export function getPinnedRowData() {
 }
 
 export function mismatchedCharacter(optimizerTabFocusCharacter?: string, form?: OptimizerForm) {
-  return form?.characterId !== optimizerTabFocusCharacter
+  return form?.characterId != optimizerTabFocusCharacter
 }
 
 export function getCachedForm() {

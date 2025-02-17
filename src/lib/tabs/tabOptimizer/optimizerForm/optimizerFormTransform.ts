@@ -66,6 +66,9 @@ export function displayToForm(form: Form) {
     form.combatBuffs[buff.key] = getNumber(form.combatBuffs[buff.key], 0, buff.percent ? 100 : 0)
   }
 
+  if (!form.characterConditionals) form.characterConditionals = {}
+  if (!form.lightConeConditionals) form.lightConeConditionals = {}
+
   form.mainHead = form.mainHead || []
   form.mainHands = form.mainHands || []
   form.mainBody = form.mainBody || []

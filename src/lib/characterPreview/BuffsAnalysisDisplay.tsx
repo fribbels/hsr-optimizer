@@ -124,7 +124,7 @@ function BuffTag(props: { buff: Buff }) {
               {`${percent ? '%' : ''}`}
             </span>
           </Flex>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10 }}>
+          <span style={{ flex: '1 1 auto', marginRight: 10 }}>
             {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
           </span>
           <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>

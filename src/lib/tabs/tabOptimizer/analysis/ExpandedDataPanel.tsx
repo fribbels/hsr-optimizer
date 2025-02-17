@@ -1,6 +1,6 @@
 import { Flex, Form as AntDForm } from 'antd'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
@@ -15,6 +15,10 @@ export function ExpandedDataPanel() {
   // For triggering updates
   const characterId: string = AntDForm.useWatch(['characterId'], window.optimizerForm)
   const lightConeId: string = AntDForm.useWatch(['lightCone'], window.optimizerForm)
+
+  if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
+    return <></>
+  }
 
   let form = getCachedForm() ?? OptimizerTabController.getForm()
   const pinnedRowData = getPinnedRowData()

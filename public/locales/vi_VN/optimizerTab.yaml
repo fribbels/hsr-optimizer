@@ -369,8 +369,8 @@ WeightFilter:
   ATKFilterText: Tấn Công
   DEFFilterText: Phòng Thủ
   SPDFilterText: Tốc Độ
-  CRFilterText: TL Bạo Kích
-  CDFilterText: ST Bạo Kích
+  CRFilterText: Tỉ Lệ BK
+  CDFilterText: Sát Thương BK
   EHRFilterText: CX Hiệu Ứng
   RESFilterText: K. Hiệu Ứng
   BEFilterText: Kích Phá
@@ -416,12 +416,12 @@ ComboFilter:
     Basic: Tấn công thường
     Skill: Chiến kỹ
     Ult: Tuyệt Kỹ
-    Fua: Đòn đánh theo sau
+    Fua: Đòn theo sau
     MemoSkill: Linh Hồn Ký Ức
   RotationButton: Thứ tự kỹ năng nâng cao
 ComboDrawer:
   NoConditionals: Không có nội tại được kích hoạt theo điều kiện.
-  Title: Hưỡng dẫn người dùng thứ tự kỹ năng nâng cao
+  Title: Hướng dẫn dùng thứ tự kỹ năng nâng cao
   Placeholders:
     Sets: Điều kiện của bộ di vật
     Ornaments: Điều kiện của bộ vị diện

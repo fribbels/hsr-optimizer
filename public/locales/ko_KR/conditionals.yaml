@@ -99,6 +99,14 @@ Lightcones:
       spdBuff:
         text: 3명 명중 속도 버프
         content: '3기 이상의 적을 명중하면 자신의 속도가 {{SpdBuff}}% 증가한다, 지속 시간: 1턴'
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: 전투 스킬 / 필살기 버프
+        content: 전투 스킬 또는 필살기 발동 시 이번 공격으로 가하는 피해를 {{DmgBoost}}%증가시킨다.
+      bonusBoost:
+        text: 가하는 피해 보너스
+        content: 전투 스킬 또는 필살기 발동 시 자신의  HP를 소모해 이번 공격으로 가하는 피해를 {{HpConsumption}}% 증가시킨다. 해당 효과로 소모된 HP가 500pt보다 높을 경우 피해가 추가로 {{BonusDmgBoost}}% 증가한다.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -109,6 +117,11 @@ Lightcones:
         text: '[노래] 스택'
         content: >-
           아군 캐릭터가 공격할 때마다 장착한 캐릭터가 [노래]를 1스택 획득한다. [노래] 스택마다 장착한 캐릭터의 에너지 회복효율이 {{RegenBuff}}% 증가한다. 최대 중첩수: 5스택. 장착한 캐릭터가 필살기를 발동하면 [노래]가 해제되고 [카덴차]를 획득한다. [카덴차]는 장착한 캐릭터의 공격력을 {{AtkBuff}}% 증가시키고, 모든 아군이 가하는 피해를 {{DmgBuff}}% 증가시킨다, 지속 시간: 1턴
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: '[지시]상태'
+        content: '장착한 캐릭터가 추가 공격 발동 후 추가로 에너지를 12pt 회복하고 [지시]를 획득한다, 지속 시간: 2턴. 장착한 캐릭터가 [지시] 보유 시 모든 아군의 치명타 피해가 {{CdBuff}}% 증가한다. 전투 진입 시 장착한 캐릭터가 에너지를 21pt 회복하고 [지시]를 획득한다, 지속 시간: 2턴'
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -166,6 +179,11 @@ Lightcones:
         text: '[타오름] 스택'
         content: >-
           적의 약점이 격파될 시 100%의 기본 확률로 대상을 [타오름] 상태에 빠트리고 받는 격파 피해를 {{breakVulnerability}}% 증가시킨다, 지속 시간: 2턴. 해당 효과는 2스택 중첩 가능하다.
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: 아군 가하는 피해 증가
+        content: '장착한 캐릭터가 전투 스킬을 발동하면 모든 아군이 가하는 피해가 {{DmgBoost}}% 증가한다, 지속 시간: 3턴'
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -1321,6 +1339,30 @@ Characters:
       e6MultiplierIncrease:
         text: 6돌 추공 배율 버프
         content: 특성의 추가 공격 피해 배율이 25% 증가한다.
+  Mydei:
+    Content:
+      skillEnhances:
+        text: 강화 전투스킬
+        content: >-
+          강화 전투스킬 단계 선택. ::BR:: 후회 없는 수많은 죽음 (0단계) : 마이데이 현재 HP의 50%만큼 HP를 소모해 지정된 단일 적에게 마이데이 HP 최대치의 {{SkillPrimaryScaling}}%만큼 허수 속성 피해를 가하고, 인접한 목표에게 마이데이 HP 최대치의 {{SkillAdjacentScaling}}%만큼 허수 속성 피해를 가한다. ::BR:: 왕을 죽여 왕이 된 자 (1단계) : 마이데이 현재 HP의 35%만큼 HP를 소모해 단일 적에게 마이데이 HP 최대치의 {{EnhancedSkillPrimaryScaling}}%만큼 허수 속성 피해를 가하고, 인접한 목표에게 마이데이 HP 최대치의 {{EnhancedSkillAdjacentScaling}}%만큼 허수 속성 피해를 가한다.
+          현재 HP가 부족하면 전투 스킬 발동 시 마이데이의 현재 HP가 1pt까지 감소한다. ::BR:: 신을 죽여 신이 된 자 (2단계) : 단일 적에게 마이데이 HP 최대치의 {{EnhancedSkill2PrimaryScaling}}%만큼 허수 속성 피해를 가하고 인접한 목표에게 마이데이 HP 최대치의 {{EnhancedSkill2AdjacentScaling}}%만큼 허수 속성 피해를 가한다.
+      vendettaState:
+        text: '[피의 원한] 상태'
+        content: >-
+          HP를 1% 잃을 때마다 충전을 1pt 적립하고, 최대 200pt까지 적립할 수 있다. 충전이 100에 도달하면 충전을 100pt 소모해 [피의 원한] 상태에 진입하고 마이데이의 HP 최대치 {{HpRestoration}}%만큼 HP를 회복하며 행동 게이지가 100% 증가한다. ::BR:: [피의 원한] 상태에서는 HP 최대치가 현재 HP 최대치의 50%만큼 증가하고 방어력이 0으로 유지된다. 자신의 턴이 시작되면 [왕을 죽여 왕이 된 자]가 자동으로 발동된다.
+          [피의 원한] 상태 동안 충전이 150pt에 도달하면 마이데이가 보너스 턴을 1회 획득하고, [신을 죽여 신이 된 자]가 자동으로 발동된다.
+      hpToCrConversion:
+        text: HP 비레 치확 증가
+        content: 전투 시작 시 마이데이의 HP 최대치가 4000pt보다 높으면 4000pt 초과할 때마다 자신의 치명타 확률이 1.2% 증가하며, 최대 2.5% 증가한다.
+      e1EnhancedSkillBuff:
+        text: 1돌 강화 전투스킬 버프
+        content: '[신을 죽여 신이 된 자]의 주 목표에 대한 데미지가 30% 증가한다. 그리고 [신을 죽여 신이 된 자]가 모든 적에게 주목표 피해 배율 만큼의 허수 속성 피해을 가한다.'
+      e2DefPen:
+        text: 2돌 방어력 무시
+        content: '[피의 원한] 상태 동안, 마이데이가 가하는 피해는 적의 방어력을 15% 무시하며, 치유를 받을 때마다 치유량의 40%가 마이데이 HP 최대치에 따라 충전으로 전환된다. 변환된 충전은 40pt를 넘을 수 없습니다.'
+      e4CdBuff:
+        text: 4돌 치피 버프
+        content: '[피의 원한] 상태 동안, 치명타 피해가 30% 증가하고 공격받은 후 최대 HP의 10%를 회복한다.'
   Pela:
     Content:
       teamEhrBuff:
@@ -1702,6 +1744,32 @@ Characters:
           [미미]의 치피 (전투시)
         content: >-
           모든 아군의 치명타 피해가 미미 치명타 피해의 {{ScalingBuff}}%에 {{FlatBuff}}%를 더한 값만큼 증가한다.
+  Tribbie:
+    Content:
+      numinosity:
+        text: '[신의 계시] 상태'
+        content: 3턴 동안 지속되는 [신의 계시]를 획득하며, 자신의 턴이 시작될 때마다 지속 턴 수가 1 감소한다. 트리비가 [신의 계시]를 보유할 시 모든 아군의 모든 속성 저항 관통이 {{ResPen}}% 증가한다.
+      ultZone:
+        text: '[결계] 상태'
+        content: "결계를 활성화하고, 모든 적에게 트리비 HP 최대치의 {{UltScaling}}%만큼 양자 속성 피해를 가한다.\n결계 지속 시간 동안 적이 받는 피해가 {{ZoneVulnerability}}% 증가한다. 아군에게 피격 후, 피격된 목표가 1기 있을 때마다 피격된 목표 중 현재 HP가 가장 높은 목표에게 트리비 HP 최대치의 {{AdditionalDmgScaling}}%만큼 양자 속성 추가 피해를 1회 가한다.\n결계는 2턴 동안 지속되며, 자신의 턴이 시작될 때마다 결계 지속 턴 수가 1 감소한다."
+      alliesMaxHp:
+        text: 아군의 최대 HP
+        content: 결계 지속 시간 동안 트리비의 HP 최대치가 모든 아군 캐릭터 HP 최대치 총합의 9%만큼 증가한다.
+      talentFuaStacks:
+        text: 추가 공격 스택
+        content: '특성의 추가 공격 발동 후, 트리비가 가하는 피해가 72% 증가한다, 해당 효과 최대 중첩수: 3스택. 지속 시간: 3턴'
+      e1TrueDmg:
+        text: 1돌 확정 피해
+        content: 결계 지속 시간 동안 아군이 적을 공격하면 결계가 추가 피해를 가하는 목표에게 추가로 이번 공격 총 피해량의 24%만큼 확정 피해를 가한다.
+      e2AdditionalDmg:
+        text: 2돌 추가 피해
+        content: 결계가 가하는 추가 피해가 기존 피해의 120%로 증가한다. 결계가 추가 피해를 가할 시 추가 피해를 1회 추가로 가한다.
+      e4DefPen:
+        text: 4돌 방어력 무시
+        content: '[신의 계시] 지속 시간 동안, 모든 아군이 피해를 가할 시 목표의 방어력을 18% 무시한다.'
+      e6FuaScaling:
+        text: 6돌 추가공격 피해량
+        content: 트리비가 필살기 발동 후, 모든 적에게 특성의 추가 공격을 발동한다. 특성의 추가 공격이 가하는 피해가 729% 증가한다.
   Welt:
     Content:
       enemyDmgTakenDebuff:

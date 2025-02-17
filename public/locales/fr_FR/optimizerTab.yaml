@@ -405,6 +405,7 @@ MinMaxFilters:
   COMBOLabel: COMBO
 ComboFilter:
   Header: Rotation des capacités combo
+  AbilityLabel: Capacités
   ModeSelector:
     Simple: Simple
     Advanced: Avancé

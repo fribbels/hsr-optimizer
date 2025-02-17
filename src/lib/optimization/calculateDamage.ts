@@ -1,5 +1,6 @@
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ComputedStatsArray, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, DefaultActionDamageValues, getElementalDamageType, getResPenType, Key } from 'lib/optimization/computedStatsArray'
+import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
@@ -40,6 +41,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
 
     a[Key.DOT_DMG] = calculateDotDmg(
       x,
+      action,
+      Key.DOT_DMG,
       a[Key.DOT_DMG],
       (baseUniversalMulti),
       (dotDmgBoostMulti),
@@ -47,7 +50,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       (dotVulnerabilityMulti),
       (dotResMulti),
       (dotEhrMulti),
-      (baseTrueDmgMulti),
     )
   }
 
@@ -92,6 +94,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.BASIC_DMG,
       a[Key.BASIC_DMG],
       a[Key.BASIC_BOOST],
       a[Key.BASIC_VULNERABILITY],
@@ -124,6 +127,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.SKILL_DMG,
       a[Key.SKILL_DMG],
       a[Key.SKILL_BOOST],
       a[Key.SKILL_VULNERABILITY],
@@ -156,6 +160,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.ULT_DMG,
       a[Key.ULT_DMG],
       a[Key.ULT_BOOST],
       a[Key.ULT_VULNERABILITY],
@@ -188,6 +193,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseSuperBreakInstanceDmg,
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
+      Key.FUA_DMG,
       a[Key.FUA_DMG],
       a[Key.FUA_BOOST],
       a[Key.FUA_VULNERABILITY],
@@ -223,6 +229,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseSuperBreakInstanceDmg,
         baseSuperBreakModifier,
         baseBreakEfficiencyBoost,
+        Key.MEMO_SKILL_DMG,
         a[Key.MEMO_SKILL_DMG],
         0, // a[Key.MEMO_SKILL_BOOST],
         0, // a[Key.MEMO_SKILL_VULNERABILITY],
@@ -234,7 +241,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_BREAK_EFFICIENCY_BOOST],
         0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
-        0, // a[Key.MEMO_SKILL_TOUGHNESS_DMG],
+        a[Key.MEMO_SKILL_TOUGHNESS_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -245,7 +252,16 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   // Break True DMG is handled separately due to break being re-used in ability calcs
-  a[Key.BREAK_DMG] *= baseTrueDmgMulti + a[Key.BREAK_TRUE_DMG_MODIFIER]
+  const breakTrueDmg = a[Key.BREAK_DMG] * (a[Key.TRUE_DMG_MODIFIER] + a[Key.BREAK_TRUE_DMG_MODIFIER])
+
+  if (x.trace && action.actionType == 'DEFAULT') {
+    const name = StatsConfigByIndex[Key.BREAK_DMG].name
+    const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
+    splits.breakDmg = a[Key.BREAK_DMG]
+    splits.trueDmg = breakTrueDmg
+  }
+
+  a[Key.BREAK_DMG] += breakTrueDmg
 }
 
 const cLevelConst = 20 + 80
@@ -289,6 +305,7 @@ function calculateAbilityDmg(
   baseSuperBreakInstanceDmg: number,
   baseSuperBreakModifier: number,
   baseBreakEfficiencyBoost: number,
+  abilityKey: number,
   abilityDmg: number,
   abilityDmgBoost: number,
   abilityVulnerability: number,
@@ -389,6 +406,16 @@ function calculateAbilityDmg(
     memoJointDmgOutput += abilityMemoJointDamage
   }
 
+  if (x.trace && action.actionType == 'DEFAULT') {
+    const name = StatsConfigByIndex[abilityKey].name
+    const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
+    splits.abilityDmg = abilityCritDmgOutput
+    splits.breakDmg = abilityBreakDmgOutput
+    splits.superBreakDmg = abilitySuperBreakDmgOutput
+    splits.additionalDmg = abilityAdditionalDmgOutput
+    splits.trueDmg = trueDmgOutput
+    splits.jointDmg = memoJointDmgOutput
+  }
   return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput
 }
 
@@ -426,6 +453,8 @@ function calculateCritDmg(
 
 function calculateDotDmg(
   x: ComputedStatsArray,
+  action: OptimizerAction,
+  abilityKey: number,
   baseDmg: number,
   universalMulti: number,
   dmgBoostMulti: number,
@@ -433,16 +462,25 @@ function calculateDotDmg(
   vulnerabilityMulti: number,
   resMulti: number,
   ehrMulti: number,
-  trueDmgMulti: number,
 ) {
-  return baseDmg
+  const dotDmg = baseDmg
     * universalMulti
     * dmgBoostMulti
     * defMulti
     * vulnerabilityMulti
     * resMulti
     * ehrMulti
-    * trueDmgMulti
+
+  const trueDmg = dotDmg * x.a[Key.TRUE_DMG_MODIFIER]
+
+  if (x.trace && action.actionType == 'DEFAULT') {
+    const name = StatsConfigByIndex[abilityKey].name
+    const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
+    splits.dotDmg = dotDmg
+    splits.trueDmg = trueDmg
+  }
+
+  return dotDmg
 }
 
 function calculateEhrMulti(
@@ -457,7 +495,7 @@ function calculateEhrMulti(
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
   const effectiveDotChance = Math.min(1, a[Key.DOT_CHANCE] * (1 + a[Key.EHR]) * (1 - enemyEffectRes + a[Key.EFFECT_RES_PEN]))
   return a[Key.DOT_SPLIT]
-    ? (1 + a[Key.DOT_SPLIT] * effectiveDotChance * (a[Key.DOT_STACKS] - 1)) / (1 + 0.05 * (a[Key.DOT_STACKS] - 1))
+    ? (1 + a[Key.DOT_SPLIT] * effectiveDotChance * (a[Key.DOT_STACKS] - 1)) / (1 + a[Key.DOT_SPLIT] * (a[Key.DOT_STACKS] - 1))
     : effectiveDotChance
 }
 

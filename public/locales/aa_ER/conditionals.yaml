@@ -99,6 +99,14 @@ Lightcones:
       spdBuff:
         text: crwdns40222:0crwdne40222:0
         content: crwdns43964:0{{SpdBuff}}crwdne43964:0
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: crwdns44582:0crwdne44582:0
+        content: crwdns44584:0{{DmgBoost}}crwdne44584:0
+      bonusBoost:
+        text: crwdns44586:0crwdne44586:0
+        content: crwdns44588:0{{HpConsumption}}crwdnd44588:0{{BonusDmgBoost}}crwdne44588:0
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -109,6 +117,11 @@ Lightcones:
         text: crwdns40230:0crwdne40230:0
         content: >-
           crwdns43968:0{{RegenBuff}}crwdnd43968:0{{AtkBuff}}crwdnd43968:0{{DmgBuff}}crwdne43968:0
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: crwdns44590:0crwdne44590:0
+        content: crwdns44592:0{{CdBuff}}crwdne44592:0
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -166,6 +179,11 @@ Lightcones:
         text: crwdns40274:0crwdne40274:0
         content: >-
           crwdns43982:0{{breakVulnerability}}crwdne43982:0
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: crwdns44594:0crwdne44594:0
+        content: crwdns44596:0{{DmgBoost}}crwdne44596:0
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -1318,8 +1336,28 @@ Characters:
       e6MultiplierIncrease:
         text: crwdns41334:0crwdne41334:0
         content: crwdns44206:0crwdne44206:0
-  Natasha:
-    Content: crwdns41338:0crwdne41338:0
+  Mydei:
+    Content:
+      skillEnhances:
+        text: crwdns44598:0crwdne44598:0
+        content: >-
+          crwdns44600:0:BR:crwdnd44600:0{{SkillPrimaryScaling}}crwdnd44600:0{{SkillAdjacentScaling}}crwdnd44600:0:BR:crwdnd44600:0{{EnhancedSkillPrimaryScaling}}crwdnd44600:0{{EnhancedSkillAdjacentScaling}}crwdnd44600:0:BR:crwdnd44600:0{{EnhancedSkill2PrimaryScaling}}crwdnd44600:0{{EnhancedSkill2AdjacentScaling}}crwdne44600:0
+      vendettaState:
+        text: crwdns44602:0crwdne44602:0
+        content: >-
+          crwdns44604:0{{HpRestoration}}crwdnd44604:0:BR:crwdne44604:0
+      hpToCrConversion:
+        text: crwdns44606:0crwdne44606:0
+        content: crwdns44608:0crwdne44608:0
+      e1EnhancedSkillBuff:
+        text: crwdns44610:0crwdne44610:0
+        content: crwdns44612:0crwdne44612:0
+      e2DefPen:
+        text: crwdns44614:0crwdne44614:0
+        content: crwdns44616:0crwdne44616:0
+      e4CdBuff:
+        text: crwdns44618:0crwdne44618:0
+        content: crwdns44620:0crwdne44620:0
   Pela:
     Content:
       teamEhrBuff:
@@ -1701,6 +1739,32 @@ Characters:
           crwdns43936:0crwdne43936:0
         content: >-
           crwdns43938:0{{ScalingBuff}}crwdnd43938:0{{FlatBuff}}crwdne43938:0
+  Tribbie:
+    Content:
+      numinosity:
+        text: crwdns44622:0crwdne44622:0
+        content: crwdns44624:0{{ResPen}}crwdne44624:0
+      ultZone:
+        text: crwdns44626:0crwdne44626:0
+        content: crwdns44628:0{{UltScaling}}crwdnd44628:0{{ZoneVulnerability}}crwdnd44628:0{{AdditionalDmgScaling}}crwdne44628:0
+      alliesMaxHp:
+        text: crwdns44630:0crwdne44630:0
+        content: crwdns44632:0crwdne44632:0
+      talentFuaStacks:
+        text: crwdns44634:0crwdne44634:0
+        content: crwdns44636:0crwdne44636:0
+      e1TrueDmg:
+        text: crwdns44638:0crwdne44638:0
+        content: crwdns44640:0crwdne44640:0
+      e2AdditionalDmg:
+        text: crwdns44642:0crwdne44642:0
+        content: crwdns44644:0crwdne44644:0
+      e4DefPen:
+        text: crwdns44646:0crwdne44646:0
+        content: crwdns44648:0crwdne44648:0
+      e6FuaScaling:
+        text: crwdns44650:0crwdne44650:0
+        content: crwdns44652:0crwdne44652:0
   Welt:
     Content:
       enemyDmgTakenDebuff:

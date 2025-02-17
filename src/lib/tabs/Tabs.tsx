@@ -8,7 +8,6 @@ import ImportTab from 'lib/tabs/tabImport/ImportTab'
 import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
 
 import OptimizerTab from 'lib/tabs/tabOptimizer/OptimizerTab'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
 import RelicScorerTab from 'lib/tabs/tabShowcase/RelicScorerTab'
 import WarpCalculatorTab from 'lib/tabs/tabWarp/WarpCalculatorTab'
@@ -16,7 +15,6 @@ import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
 import React, { ReactElement, useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Form } from 'types/form'
 
 const defaultErrorRender = ({ error: { message } }: {
   error: {
@@ -54,8 +52,6 @@ const Tabs = () => {
     window.history.pushState({}, window.title, route)
 
     if (activeKey == AppPages.OPTIMIZER) {
-      window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
-
       // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
       if (!optimizerInitialized) {
         optimizerInitialized = true

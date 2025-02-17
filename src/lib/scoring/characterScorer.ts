@@ -23,15 +23,7 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { simulateMaximumBuild } from 'lib/scoring/simulateMaximum'
-import {
-  calculateOrnamentSets,
-  calculateRelicSets,
-  convertRelicsToSimulation,
-  runSimulations,
-  Simulation,
-  SimulationRequest,
-  SimulationStats,
-} from 'lib/simulations/statSimulationController'
+import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -480,11 +472,14 @@ function generateStatImprovements(
   // Upgrade mains
   const mainUpgradeResults: SimulationStatUpgrade[] = []
 
+  const forceErrRope = isErrRopeForced(simulationForm, metadata, originalSim)
+
   function upgradeMain(part: MainStatParts) {
     for (const upgradeMainStat of metadata.parts[part]) {
       const originalSimClone: Simulation = TsUtils.clone(originalSim)
       const simMainName = partsToFilterMapping[part]
       const simMainStat: string = originalSimClone.request[simMainName]
+      if (forceErrRope && simMainStat == Stats.ERR) continue
       if (upgradeMainStat == simMainStat) continue
       if (upgradeMainStat == Stats.SPD) continue
       if (simMainStat == Stats.SPD) continue
@@ -833,6 +828,14 @@ function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild
   return { relicSet1, relicSet2, ornamentSet }
 }
 
+function isErrRopeForced(
+  form: Form,
+  metadata: SimulationMetadata,
+  originalSim: Simulation,
+) {
+  return originalSim.request.simLinkRope == Stats.ERR && metadata.errRopeEidolon != null && form.characterEidolon >= metadata.errRopeEidolon
+}
+
 // Generate all main stat possibilities
 function generatePartialSimulations(
   character: Character,
@@ -843,7 +846,7 @@ function generatePartialSimulations(
   const forceSpdBoots = false // originalBaseSpeed - baselineSimResult.x[Stats.SPD] > 2.0 * 2 * 5 // 3 min spd rolls per piece
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
 
-  const forceErrRope = originalSim.request.simLinkRope == Stats.ERR && metadata.errRopeEidolon != null && character.form.characterEidolon >= metadata.errRopeEidolon
+  const forceErrRope = isErrRopeForced(character.form, metadata, originalSim)
   const ropeParts: string[] = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets

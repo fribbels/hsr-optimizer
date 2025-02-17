@@ -226,6 +226,9 @@ window.store = create((set) => {
 
     settings: DefaultSettingOptions,
     optimizerBuild: null,
+    optimizerExpandedPanelBuildData: null,
+    optimizerSelectedRowData: null,
+    optimizerBuffGroups: undefined,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
@@ -288,6 +291,9 @@ window.store = create((set) => {
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
+    setOptimizerExpandedPanelBuildData: (x) => set(() => ({ optimizerExpandedPanelBuildData: x })),
+    setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
+    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store

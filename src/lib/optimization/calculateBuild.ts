@@ -3,7 +3,15 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
-import { calculateBaseStats, calculateBasicEffects, calculateBasicSetEffects, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
+import {
+  calculateBaseStats,
+  calculateBasicEffects,
+  calculateBasicSetEffects,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts,
+} from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'

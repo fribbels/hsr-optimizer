@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import DB from 'lib/state/db'
+import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { DBMetadataCharacter, DBMetadataLightCone } from 'types/metadata'
@@ -14,7 +15,7 @@ export function generateCharacterOptions() {
   }
 
   return Object.values(characterData)
-    .sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage!.split('_')[0]))
+    .sort((a, b) => a.label.localeCompare(b.label, currentLocale()))
 }
 
 // Light cone selector options from current db metadata
@@ -35,7 +36,7 @@ export function generateLightConeOptions(characterId?: CharacterId) {
 
   return Object.values(lcData)
     .filter((lc) => !pathFilter || lc.path === pathFilter)
-    .sort((a, b) => a.label.localeCompare(b.label, i18next.resolvedLanguage!.split('_')[0]))
+    .sort((a, b) => a.label.localeCompare(b.label, currentLocale()))
 }
 
 type LcOptions = Record<string, DBMetadataLightCone & { value: string; label: string; id: string }>

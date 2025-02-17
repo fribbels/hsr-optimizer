@@ -6,11 +6,7 @@ import { OptimizerForm } from 'types/form'
 
 export function aggregateCombatBuffs(x: ComputedStatsArray, request: OptimizerForm) {
   const combatBuffs = extractCombatBuffs(x)
-  const buffGroups = groupCombatBuffs(combatBuffs, request)
-
-  console.log(buffGroups)
-
-  return buffGroups
+  return groupCombatBuffs(combatBuffs, request)
 }
 
 function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {

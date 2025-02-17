@@ -1,5 +1,5 @@
 ScreenshotMessages:
-  ScreenshotSuccess: Anh chụp màn hình được sao chép vào clipboard
+  ScreenshotSuccess: Ảnh chụp màn hình được sao chép vào clipboard
   ScreenshotFailed: Không thể lưu ảnh chụp màn hình vào clipboard, hãy thử tải xuống ở nút bên phải
   DownloadSuccess: Tải ảnh chụp màn hình
 CharacterMenu:
@@ -109,7 +109,7 @@ CharacterPreview:
     SimulationSets: Bộ dị vật thí nghiệm
     Rotation:
       Header: Thứ tự sử dụng kĩ năng
-      BASIC: Đánh Đơn
+      BASIC: TẤN CÔNG THƯỜNG
       SKILL: Chiến kỹ
       ULT: Tuyệt kỹ
       FUA: Đòn Đánh Theo Sau

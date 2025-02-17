@@ -142,7 +142,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   return (
     <Flex>
       <Flex vertical flex={1} style={{ marginLeft: 2 }}>
-        <HeaderText>Abilities</HeaderText>
+        <HeaderText>{t('AbilityLabel')/* Abilities */}</HeaderText>
         <ComboOptionRowSelect index={1} comboOptions={props.comboOptions}/>
         <ComboOptionRowSelect index={2} comboOptions={props.comboOptions}/>
         <ComboOptionRowSelect index={3} comboOptions={props.comboOptions}/>

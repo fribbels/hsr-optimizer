@@ -365,10 +365,10 @@ RelicSets:
     Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Befindet sich ein vom Träger beschworenes Objekt auf dem Kampffeld, wird der KRIT-SCH zusätzlich um 32% erhöht.
   "319":
     Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
 Lightcones:
   "20000":
     Name: Pfeile

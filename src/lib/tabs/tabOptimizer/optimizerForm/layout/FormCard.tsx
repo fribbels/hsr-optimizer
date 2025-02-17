@@ -3,7 +3,7 @@ import { defaultPadding, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/
 import { CSSProperties, ReactElement } from 'react'
 
 const { useToken } = theme
-const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
+export const cardShadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
 const defaultGap = 5
 
@@ -36,7 +36,7 @@ export default function FormCard(props: {
         backgroundColor: token.colorBgContainer,
         height: props.height ?? 350,
         padding: defaultPadding,
-        boxShadow: shadow,
+        boxShadow: cardShadow,
         overflow: props.style?.overflow,
       }}
     >

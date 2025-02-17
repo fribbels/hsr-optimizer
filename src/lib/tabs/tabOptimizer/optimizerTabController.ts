@@ -1,20 +1,23 @@
 import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
-import { Constants, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants/constants'
+import { Constants, DEFAULT_STAT_DISPLAY, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { GridAggregations } from 'lib/rendering/gradient'
-import { handleOptimizerExpandedRowData } from 'lib/simulations/expandedComputedStats'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { Build } from 'types/character'
 import { Form } from 'types/form'
 
 type PermutationSizes = {
@@ -181,7 +184,7 @@ export const OptimizerTabController = {
     }
 
     const row = selectedNodes[0].data!
-    const build = OptimizerTabController.calculateRelicIdsFromId(row.id)
+    const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
@@ -194,6 +197,8 @@ export const OptimizerTabController = {
   cellClicked: (event: CellClickedEvent) => {
     const data = event.data as OptimizerDisplayDataStatSim
     const gridApi = optimizerGridApi()
+
+    window.store.getState().setOptimizerSelectedRowData(data)
 
     if (event.rowPinned == 'top') {
       // Clicking the top row should display current relics
@@ -211,7 +216,6 @@ export const OptimizerTabController = {
           const rowId = data.id
           const build = OptimizerTabController.calculateRelicIdsFromId(rowId)
 
-          handleOptimizerExpandedRowData(build)
           window.store.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
@@ -227,7 +231,6 @@ export const OptimizerTabController = {
             }
           }
         } else if (character) {
-          handleOptimizerExpandedRowData(character.equipped)
           window.store.getState().setOptimizerBuild(character.equipped)
         }
       }
@@ -246,7 +249,6 @@ export const OptimizerTabController = {
 
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
 
-    handleOptimizerExpandedRowData(build)
     window.store.getState().setOptimizerBuild(build)
   },
 
@@ -276,40 +278,49 @@ export const OptimizerTabController = {
         }
 
         // Give it time to show the loading page before we block
-        void TsUtils.sleep(100).then(() => {
-          if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
-            sortModel = params.sortModel[0]
-            sort()
-          }
-
-          if (filterModel) {
-            filter(filterModel)
-            const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
-            const subArray: OptimizerDisplayData[] = []
-            for (const index of indicesSubArray) {
-              subArray.push(rows[index])
+        void TsUtils.sleep(100)
+          .then(() => {
+            if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
+              sortModel = params.sortModel[0]
+              sort()
             }
-            aggregate(subArray)
-            params.successCallback(subArray, filteredIndices.length)
-          } else {
-            const subArray = rows.slice(params.startRow, params.endRow)
-            aggregate(subArray)
 
-            params.successCallback(subArray, rows.length)
-          }
+            if (filterModel) {
+              filter(filterModel)
+              const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
+              const subArray: OptimizerDisplayData[] = []
+              for (const index of indicesSubArray) {
+                subArray.push(rows[index])
+              }
+              aggregate(subArray)
+              params.successCallback(subArray, filteredIndices.length)
+            } else {
+              const subArray = rows.slice(params.startRow, params.endRow)
+              aggregate(subArray)
 
-          // cannot assume a fast click race-condition didn't happen
-          if (window?.optimizerGrid?.current?.api) {
-            window.optimizerGrid.current?.api.setGridOption('loading', false)
-          }
-          OptimizerTabController.redrawRows()
-        })
+              params.successCallback(subArray, rows.length)
+            }
+
+            // cannot assume a fast click race-condition didn't happen
+            if (window?.optimizerGrid?.current?.api) {
+              window.optimizerGrid.current?.api.setGridOption('loading', false)
+            }
+            OptimizerTabController.redrawRows()
+          })
       },
     }
   },
 
   // Unpack a permutation ID to its respective relics
   calculateRelicsFromId: (id: number) => {
+    if (id === 0) { // special case for equipped build optimizer row
+      const build = DB.getCharacterById(optimizerFormCache[window.store.getState().optimizationId!].characterId).equipped
+      const out = {} as Partial<SingleRelicByPart>
+      for (const key of Object.keys(build)) {
+        out[key as Parts] = DB.getRelicById(build[key as Parts]!)
+      }
+      return out
+    }
     const lSize = permutationSizes.lSize
     const pSize = permutationSizes.pSize
     const fSize = permutationSizes.fSize
@@ -332,19 +343,19 @@ export const OptimizerTabController = {
       Feet: relics.Feet[f],
       PlanarSphere: relics.PlanarSphere[p],
       LinkRope: relics.LinkRope[l],
-    }
+    } as SingleRelicByPart
   },
 
   calculateRelicIdsFromId: (id: number) => {
     const relicsFromId = OptimizerTabController.calculateRelicsFromId(id)
 
     return {
-      Head: relicsFromId.Head.id,
-      Hands: relicsFromId.Hands.id,
-      Body: relicsFromId.Body.id,
-      Feet: relicsFromId.Feet.id,
-      PlanarSphere: relicsFromId.PlanarSphere.id,
-      LinkRope: relicsFromId.LinkRope.id,
+      Head: relicsFromId.Head?.id,
+      Hands: relicsFromId.Hands?.id,
+      Body: relicsFromId.Body?.id,
+      Feet: relicsFromId.Feet?.id,
+      PlanarSphere: relicsFromId.PlanarSphere?.id,
+      LinkRope: relicsFromId.LinkRope?.id,
     }
   },
 
@@ -452,7 +463,12 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
       window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
+      window.store.getState().setOptimizerSelectedRowData(null)
+      window.optimizerGrid.current?.api?.deselectAll()
       // console.log('@updateForm', displayFormValues, character)
+
+      generateContext(form)
+      void calculateCurrentlyEquippedRow(form)
 
       window.onOptimizerFormValuesChange({} as Form, displayFormValues)
     }, 50)
@@ -540,7 +556,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
 
   for (const row of subArray) {
     for (const column of OptimizerTabController.getColumnsToAggregate()) {
-      const value: number = row[column as keyof OptimizerDisplayData]
+      const value = row[column as keyof OptimizerDisplayData] as number
       if (value < minAgg[column]) minAgg[column] = value
       if (value > maxAgg[column]) maxAgg[column] = value
     }

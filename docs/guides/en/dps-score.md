@@ -98,9 +98,9 @@ the baseline.
 The resulting formula is:
 
 * If DMG < 100% benchmark
-  * `DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)`
+    * `DMG Score = (character dmg - 0% baseline dmg) / (100% benchmark dmg - 0% baseline dmg)`
 * If DMG ≥ 100% benchmark
-  * `DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)`
+    * `DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)`
 
 ## What are the grade thresholds?
 
@@ -183,7 +183,7 @@ and feedback on the scoring design.
 ### Why is a character scoring low?
 
 The `Damage Upgrades` section will give a quick overview of the sets and stats that could be improved. Substat upgrades
-will show the damage increase for a single max roll. For a more detailed explanation, the full simulation is detailed
+will show the damage increase for a single min roll. For a more detailed explanation, the full simulation is detailed
 below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main
 stats. Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in
 builds and see where to improve.

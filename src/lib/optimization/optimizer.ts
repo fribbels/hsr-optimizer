@@ -125,7 +125,7 @@ export const Optimizer = {
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     setTimeout(() => {
-      calculateCurrentlyEquippedRow(request)
+      void calculateCurrentlyEquippedRow(request)
     }, 200)
 
     let searched = 0

@@ -13,12 +13,18 @@ import React, { ReactElement } from 'react'
 
 const { Text } = Typography
 
-export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
-  const { result } = props
-  result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
-  const x = rerun.tracedX!
-  const buffGroups = aggregateCombatBuffs(x, result.simulationForm)
+type BuffsAnalysisProps = {
+  result?: SimulationScore
+  buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>
+  singleColumn?: boolean
+}
+
+export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
+  const buffGroups = props.buffGroups ?? rerunSim(props.result)
+
+  if (!buffGroups) {
+    return <></>
+  }
 
   const buffsDisplayLeft: ReactElement[] = []
   const buffsDisplayRight: ReactElement[] = []
@@ -40,7 +46,14 @@ export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
     buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
   }
 
-  console.log(rerun)
+  if (props.singleColumn) {
+    return (
+      <Flex gap={20} vertical>
+        {buffsDisplayLeft}
+        {buffsDisplayRight}
+      </Flex>
+    )
+  }
 
   return (
     <Flex justify='space-between' style={{ width: '100%' }}>
@@ -52,6 +65,15 @@ export function BuffsAnalysisDisplay(props: { result: SimulationScore }) {
       </Flex>
     </Flex>
   )
+}
+
+function rerunSim(result?: SimulationScore) {
+  if (!result) return null
+  result.simulationForm.trace = true
+  const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
+  const x = rerun.tracedX!
+  console.log(rerun)
+  return aggregateCombatBuffs(x, result.simulationForm)
 }
 
 function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
@@ -82,7 +104,8 @@ function BuffTag(props: { buff: Buff }) {
   const { buff } = props
   const stat = buff.stat as keyof ComputedStatsObject
   const percent = !StatsConfig[stat].flat
-  const statLabel = computedStatsTempI18NTranslations[stat]
+  // @ts-ignore
+  const statLabel = computedStatsTempI18NTranslations[stat] ?? stat
 
   let sourceLabel
 
@@ -93,7 +116,7 @@ function BuffTag(props: { buff: Buff }) {
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Text>
-        <Flex justify='space-between' style={{ width: 425 }}>
+        <Flex justify='space-between' style={{ width: 400 }}>
           <Flex gap={3} style={{ minWidth: 70 }}>
             <span>
               {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
@@ -165,14 +188,14 @@ const computedStatsTempI18NTranslations = {
   FUA_VULNERABILITY: 'Fua DMG vulnerability',
   DOT_VULNERABILITY: 'Dot DMG vulnerability',
   BREAK_VULNERABILITY: 'Break DMG vulnerability',
-  DEF_PEN: 'Def PEN',
-  BASIC_DEF_PEN: 'Basic Def PEN',
-  SKILL_DEF_PEN: 'Skill Def PEN',
-  ULT_DEF_PEN: 'Ult Def PEN',
-  FUA_DEF_PEN: 'Fua Def PEN',
-  DOT_DEF_PEN: 'Dot Def PEN',
-  BREAK_DEF_PEN: 'Break Def PEN',
-  SUPER_BREAK_DEF_PEN: 'Super Break Def PEN',
+  DEF_PEN: 'DEF PEN',
+  BASIC_DEF_PEN: 'Basic DEF PEN',
+  SKILL_DEF_PEN: 'Skill DEF PEN',
+  ULT_DEF_PEN: 'Ult DEF PEN',
+  FUA_DEF_PEN: 'Fua DEF PEN',
+  DOT_DEF_PEN: 'Dot DEF PEN',
+  BREAK_DEF_PEN: 'Break DEF PEN',
+  SUPER_BREAK_DEF_PEN: 'Super Break DEF PEN',
   RES_PEN: 'All-Type RES PEN',
   PHYSICAL_RES_PEN: 'Physical RES PEN',
   FIRE_RES_PEN: 'Fire RES PEN',
@@ -239,18 +262,16 @@ const computedStatsTempI18NTranslations = {
   FUA_ADDITIONAL_DMG: 'Fua Additional DMG',
   MEMO_BUFF_PRIORITY: 'Prioritize Memo buffs',
   DEPRIORITIZE_BUFFS: 'Deprioritize buffs',
-  MEMO_HP_SCALING: 'Memo HP scaling',
-  MEMO_HP_FLAT: 'Memo HP flat',
-  MEMO_DEF_SCALING: 'Memo DEF scaling',
-  MEMO_DEF_FLAT: 'Memo DEF flat',
-  MEMO_ATK_SCALING: 'Memo ATK scaling',
-  MEMO_ATK_FLAT: 'Memo ATK flat',
-  MEMO_SPD_SCALING: 'Memo SPD scaling',
-  MEMO_SPD_FLAT: 'Memo SPD flat',
+  MEMO_BASE_HP_SCALING: 'Memo HP scaling',
+  MEMO_BASE_HP_FLAT: 'Memo HP flat',
+  MEMO_BASE_DEF_SCALING: 'Memo DEF scaling',
+  MEMO_BASE_DEF_FLAT: 'Memo DEF flat',
+  MEMO_BASE_ATK_SCALING: 'Memo ATK scaling',
+  MEMO_BASE_ATK_FLAT: 'Memo ATK flat',
+  MEMO_BASE_SPD_SCALING: 'Memo SPD scaling',
+  MEMO_BASE_SPD_FLAT: 'Memo SPD flat',
   MEMO_SKILL_SCALING: 'Memo Skill scaling',
   MEMO_TALENT_SCALING: 'Memo Talent scaling',
-  MEMO_SKILL_DMG: 'Memo Skill DMG',
-  MEMO_TALENT_DMG: 'Memo Talent DMG',
   UNCONVERTIBLE_HP_BUFF: 'Unconvertible HP buff',
   UNCONVERTIBLE_ATK_BUFF: 'Unconvertible ATK buff',
   UNCONVERTIBLE_DEF_BUFF: 'Unconvertible DEF buff',

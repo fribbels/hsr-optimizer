@@ -371,7 +371,7 @@ export default function RelicsTab() {
       field: 'main.stat',
       valueFormatter: Renderer.readableStat,
       headerName: t('RelicGrid.Headers.MainStat')/* Main\nStat */,
-      width: 68,
+      width: 78,
       filter: 'agTextColumnFilter',
     },
     {

@@ -60,6 +60,7 @@ export default function RelicsTab() {
   const setRowLimit = window.store((s) => s.setRowLimit)
 
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
+  const initialLanguage = useRef(i18n.resolvedLanguage)
 
   const relicInsightOptions = [
     { value: 'buckets', label: t('Toolbar.InsightOptions.Buckets')/* Relic Insight: Buckets */ },
@@ -71,9 +72,12 @@ export default function RelicsTab() {
   ]
 
   useEffect(() => {
-    setGridDestroyed(true) // locale updates require the grid to be destroyed and reconstructed in order to take effect
-    setTimeout(() => setGridDestroyed(false), 50) // 0 delay doesn't seem to work
-  }, [i18n.resolvedLanguage]) // manually decrease until minimum found? is minimum delay consistent across users?
+    // locale updates require the grid to be destroyed and reconstructed in order to take effect
+    if (i18n.resolvedLanguage !== initialLanguage.current) {
+      setGridDestroyed(true)
+      setTimeout(() => setGridDestroyed(false), 100)
+    }
+  }, [i18n.resolvedLanguage])
 
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return

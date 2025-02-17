@@ -1,20 +1,21 @@
 import { Flex, Form as AntDForm } from 'antd'
+import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import DB, { AppPages } from 'lib/state/db'
 import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
-import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 export function ExpandedDataPanel() {
   const selectedRowData = window.store((s) => s.optimizerSelectedRowData)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   // For triggering updates
-  const characterId: string = AntDForm.useWatch(['characterId'], window.optimizerForm)
-  const lightConeId: string = AntDForm.useWatch(['lightCone'], window.optimizerForm)
+  const characterId = AntDForm.useWatch(['characterId'], window.optimizerForm)
+  const lightConeId = AntDForm.useWatch(['lightCone'], window.optimizerForm)
 
   if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
     return <></>
@@ -37,18 +38,34 @@ export function ExpandedDataPanel() {
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
   console.log('Optimizer result', analysis)
 
-  return (
-    <Flex vertical gap={16} justify='center' style={{ marginTop: 2 }}>
-      <Flex justify='space-between'>
-        <Flex vertical gap={10}>
-          <StatsDiffCard analysis={analysis}/>
-          <DamageSplits analysis={analysis}/>
-          <DamageUpgrades analysis={analysis}/>
-        </Flex>
+  return <MemoizedExpandedDataPanel analysis={analysis}/>
+}
 
-        <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
+function MemoizedExpandedDataPanel(props: { analysis: OptimizerResultAnalysis }) {
+  const delayedProps = useDelayedProps(props, 100)
+
+  const memoized = useMemo(() => {
+    return delayedProps
+      ? <AnalysisRender analysis={delayedProps.analysis}/>
+      : null
+  }, [delayedProps])
+
+  if (!delayedProps) return null
+  return memoized
+}
+
+function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
+  const { analysis } = props
+
+  return (
+    <Flex justify='space-between' style={{ width: '100%', marginTop: 2 }}>
+      <Flex vertical gap={10}>
+        <StatsDiffCard analysis={analysis}/>
+        <DamageSplits analysis={analysis}/>
+        <DamageUpgrades analysis={analysis}/>
       </Flex>
+
+      <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
     </Flex>
   )
 }
-

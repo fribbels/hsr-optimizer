@@ -40,6 +40,7 @@ export function OptimizerGrid() {
   const optimizerGrid = useRef()
   const [gridDestroyed, setGridDestroyed] = useState(false)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const initialLanguage = useRef(i18n.resolvedLanguage)
 
   window.optimizerGrid = optimizerGrid
 
@@ -81,9 +82,12 @@ export function OptimizerGrid() {
   }, [])
 
   useEffect(() => {
-    setGridDestroyed(true) // locale updates require the grid to be destroyed and reconstructed in order to take effect
-    setTimeout(() => setGridDestroyed(false), 50) // 0 delay doesn't seem to work, can be manually decreased until minimum found
-  }, [i18n.resolvedLanguage]) // is minimum delay consistent across users?
+    // locale updates require the grid to be destroyed and reconstructed in order to take effect
+    if (i18n.resolvedLanguage !== initialLanguage.current) {
+      setGridDestroyed(true)
+      setTimeout(() => setGridDestroyed(false), 100)
+    }
+  }, [i18n.resolvedLanguage])
 
   const getLocaleText = useCallback((param) => {
     const localeLookup = {

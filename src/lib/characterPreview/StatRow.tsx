@@ -25,7 +25,7 @@ const checkSpeedInBreakpoint = (speedValue: number): boolean => {
   })
 }
 
-export const damageStats = {
+export const damageStats: Record<string, string> = {
   'Fire DMG Boost': 'Fire DMG',
   'Ice DMG Boost': 'Ice DMG',
   'Imaginary DMG Boost': 'Imaginary DMG',

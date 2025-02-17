@@ -72,7 +72,6 @@ function rerunSim(result?: SimulationScore) {
   result.simulationForm.trace = true
   const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
   const x = rerun.tracedX!
-  console.log(rerun)
   return aggregateCombatBuffs(x, result.simulationForm)
 }
 
@@ -125,7 +124,7 @@ function BuffTag(props: { buff: Buff }) {
               {`${percent ? '%' : ''}`}
             </span>
           </Flex>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10 }}>
+          <span style={{ flex: '1 1 auto', marginRight: 10 }}>
             {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
           </span>
           <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>

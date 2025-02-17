@@ -198,7 +198,7 @@ export function CharacterPreview(props: {
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ width: 1068 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         type='edit'
@@ -240,7 +240,6 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            width: 1068,
             background: showcaseBackgroundColor(token.colorBgLayout, darkMode),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',

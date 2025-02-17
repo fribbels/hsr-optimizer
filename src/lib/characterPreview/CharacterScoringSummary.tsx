@@ -9,7 +9,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
-import { SortOption } from 'lib/optimization/sortOptions'
+import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
@@ -19,6 +19,7 @@ import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { filterUnique } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
@@ -590,10 +591,8 @@ export function ScoringTeammate(props: {
   )
 }
 
-function addOnHitStats(simulationScore: SimulationScore) {
-  const sortOption = simulationScore.characterMetadata.scoringMetadata.sortOption
+function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
   const ability = sortOption.key
-  const xa = simulationScore.originalSimResult.xa
 
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -608,7 +607,7 @@ function addOnHitStats(simulationScore: SimulationScore) {
   }
 }
 
-const percentFlatStats = {
+const percentFlatStats: Record<string, boolean> = {
   [Stats.ATK_P]: true,
   [Stats.DEF_P]: true,
   [Stats.HP_P]: true,
@@ -617,31 +616,33 @@ const percentFlatStats = {
 export function CharacterCardCombatStats(props: {
   result: SimulationScore
 }) {
-  const result = TsUtils.clone(props.result)
-  addOnHitStats(result)
+  const result = props.result
+  const xa = new Float32Array(result.originalSimResult.xa)
+  const sortOption = result.characterMetadata.scoringMetadata.sortOption
+  addOnHitStats(xa, sortOption)
 
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
   const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
-  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
+  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation!
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
-  let substats = originalSimulationMetadata.substats
-  substats = Utils.filterUnique(substats).filter((x) => !percentFlatStats[x])
+  let substats = originalSimulationMetadata.substats as SubStats[]
+  substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
   if (substats.length < 5) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
-  substats.push(elementalDmgValue)
+  const upgradeStats: StatsValues[] = [...substats, elementalDmgValue]
 
   const rows: ReactElement[] = []
 
-  for (const stat of substats) {
+  for (const stat of upgradeStats) {
     if (percentFlatStats[stat]) continue
 
-    const value = damageStats[stat] ? result.originalSimResult.xa[Key.ELEMENTAL_DMG] : result.originalSimResult.xa[StatToKey[stat]]
+    const value = damageStats[stat] ? xa[Key.ELEMENTAL_DMG] : xa[StatToKey[stat]]
     const flat = Utils.isFlat(stat)
     const upgraded = damageStats[stat]
-      ? Utils.precisionRound(result.originalSimResult.xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
-      : Utils.precisionRound(result.originalSimResult.xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
+      ? Utils.precisionRound(xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
+      : Utils.precisionRound(xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
 
     let display = `${Math.floor(value)}`
     if (stat == Stats.SPD) {
@@ -650,7 +651,7 @@ export function CharacterCardCombatStats(props: {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
 
-    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat as StatsValues}`)
+    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
@@ -674,11 +675,9 @@ export function CharacterCardCombatStats(props: {
 
   return (
     <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
-      <Flex vertical align='center'>
-        <HeaderText style={{ fontSize: 16 }}>
-          {titleRender}
-        </HeaderText>
-      </Flex>
+      <HeaderText style={{ fontSize: 16 }}>
+        {titleRender}
+      </HeaderText>
       {rows}
     </Flex>
   )
@@ -686,7 +685,7 @@ export function CharacterCardCombatStats(props: {
 
 function Arrow() {
   return (
-    <Flex style={{}} align='center'>
+    <Flex align='center'>
       <UpArrow/>
     </Flex>
   )

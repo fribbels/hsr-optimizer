@@ -1,13 +1,13 @@
 import { Flex, Segmented, Typography } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
+import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
-import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
@@ -22,22 +22,26 @@ interface ShowcaseBuildAnalysisProps {
   setCombatScoreDetails: (s: string) => void
 }
 
-// !! NOTE - Props are manually memoized for performance, remember to update the comparator
-// Currently the memo doesn't actually help if the component is unmounted
 export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const delayedProps = useDelayedProps(props, 250)
+
+  const memoizedCharacterScoringSummary = useMemo(() => {
+    return delayedProps ? <CharacterScoringSummary simScoringResult={delayedProps.simScoringResult}/> : null
+  }, [delayedProps])
+
+  if (!delayedProps) return null
 
   console.log('======================================================================= RENDER ShowcaseBuildAnalysis')
 
   const {
     token,
-    simScoringResult,
     combatScoreDetails,
     showcaseMetadata,
     scoringType,
     setScoringType,
     setCombatScoreDetails,
-  } = props
+  } = delayedProps
 
   const {
     characterMetadata,
@@ -132,25 +136,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           />
         </Flex>
       </Flex>
-      <CharacterScoringSummary simScoringResult={simScoringResult}/>
+      {memoizedCharacterScoringSummary}
     </Flex>
   )
 }
-
-const arePropsEqual = (
-  prevProps: ShowcaseBuildAnalysisProps,
-  nextProps: ShowcaseBuildAnalysisProps,
-): boolean => {
-  return (
-    prevProps.token === nextProps.token &&
-    prevProps.scoringType === nextProps.scoringType &&
-    prevProps.combatScoreDetails === nextProps.combatScoreDetails &&
-    TsUtils.objectHash(prevProps.simScoringResult) === TsUtils.objectHash(nextProps.simScoringResult) &&
-    TsUtils.objectHash(prevProps.showcaseMetadata) === TsUtils.objectHash(nextProps.showcaseMetadata)
-  )
-}
-
-export const MemoizedShowcaseBuildAnalysis = React.memo(
-  ShowcaseBuildAnalysis,
-  arePropsEqual,
-)

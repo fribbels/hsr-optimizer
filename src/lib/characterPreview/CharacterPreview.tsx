@@ -15,7 +15,7 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
-import { MemoizedShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
+import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
 import ShowcaseCustomizationSidebar, {
@@ -403,7 +403,7 @@ export function CharacterPreview(props: {
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL
       && (
-        <MemoizedShowcaseBuildAnalysis
+        <ShowcaseBuildAnalysis
           token={token}
           simScoringResult={simScoringResult!}
           combatScoreDetails={combatScoreDetails}

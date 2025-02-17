@@ -18,9 +18,6 @@ export function DamageSplits(props: {
 
   const data = Object.values(splits)
 
-  console.debug(data)
-  console.debug(splits)
-
   return (
     <Flex vertical align='center' gap={8}>
       <DamageSplitsChart width={730} height={400} data={data}/>

@@ -1,7 +1,8 @@
 import { Flex, Table, TableProps } from 'antd'
-import { computedStatsTempI18NTranslations } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { StatsToShort, SubStats } from 'lib/constants/constants'
+import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
+import { Assets } from 'lib/rendering/assets'
 import { calculateStatUpgrades, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
@@ -59,8 +60,6 @@ export function DamageUpgrades(props: {
     }
   }
 
-  console.debug(upgradeGroups)
-
   const displays: ReactElement[] = []
 
   for (const group of upgradeGroups) {
@@ -68,17 +67,22 @@ export function DamageUpgrades(props: {
 
     const columns: TableProps<StatUpgradeItem>['columns'] = [
       {
-        title: '+1x Stat',
+        title: '+1x Substat',
         dataIndex: 'key',
         align: 'center',
-        width: 100,
-        render: (text: SubStats) => <>{StatsToShort[text]}</>,
+        width: 110,
+        render: (text: SubStats) => (
+          <Flex>
+            <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
+            {StatsToShort[text]}
+          </Flex>
+        ),
       },
       {
-        title: metricToColumnTitle[group.key as keyof typeof metricToColumnTitle],
+        title: `Δ ${metricToColumnTitle[group.key as keyof typeof metricToColumnTitle]}`,
         dataIndex: 'value',
         align: 'center',
-        width: 100,
+        width: 110,
         render: (n: number) => (
           <>
             {n == 0 ? '' : `${Utils.truncate100ths(n * 100).toFixed(2)}%`}
@@ -90,7 +94,6 @@ export function DamageUpgrades(props: {
     displays.push(
       <Table<StatUpgradeItem>
         key={group.key}
-        style={{ width: 200 }}
         columns={columns}
         dataSource={group.upgrades}
         pagination={false}

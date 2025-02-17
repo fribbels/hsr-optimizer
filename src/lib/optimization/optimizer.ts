@@ -2,6 +2,7 @@ import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Stats } from 'lib/const
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
@@ -18,31 +19,36 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
-import { Form } from 'types/form'
+import { Form, OptimizerForm } from 'types/form'
 
 // FIXME HIGH
 
 let CANCEL = false
 const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
-export async function calculateCurrentlyEquippedRow(request) {
+export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   let relics = DB.getRelics()
   relics = relics.filter((x) => x.equippedBy == request.characterId)
   relics = TsUtils.clone(relics)
   RelicFilters.calculateWeightScore(request, relics)
   relics = RelicFilters.applyMainStatsFilter(request, relics)
-  relics = RelicFilters.splitRelicsByPart(relics)
-  RelicFilters.condenseRelicSubstatsForOptimizer(relics)
-  Object.keys(relics).map((key) => relics[key] = relics[key][0])
+  const relicsByPart: RelicsByPart = RelicFilters.splitRelicsByPart(relics)
+  RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
+  Object.keys(relicsByPart).map((key) => relicsByPart[key] = relicsByPart[key][0])
 
-  const x = calculateBuild(request, relics, null, null, null, undefined, undefined, undefined, undefined, true)
+  const x = calculateBuild(request, relicsByPart, null, null, null, undefined, undefined, undefined, undefined, true)
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
   window.store.getState().setOptimizerSelectedRowData(optimizerDisplayData)
+
+  const character = DB.getCharacterById(request.characterId)
+  if (character) {
+    window.store.getState().setOptimizerBuild(character.equipped)
+  }
 }
 
 export const Optimizer = {
-  cancel: (id) => {
+  cancel: (id: string) => {
     CANCEL = true
     WorkerPool.cancel(id)
   },

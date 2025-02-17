@@ -44,12 +44,11 @@ type StatUpgrade = {
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
-  const { id, relicSetIndex, ornamentSetIndex } = analysis.newRowData
+  const { relicSetIndex, ornamentSetIndex } = analysis.newRowData
 
   const request = analysis.request
   const context = generateContext(request)
 
-  const relics = analysis.newRelics
   const relicSets = relicSetIndexToNames(relicSetIndex)
   const ornamentSets = ornamentSetIndexToName(ornamentSetIndex)
   const simulationRequest = convertRelicsToSimulation(analysis.newRelics, relicSets[0], relicSets[1], ornamentSets) as SimulationRequest
@@ -110,7 +109,7 @@ export function getPinnedRowData() {
 }
 
 export function mismatchedCharacter(optimizerTabFocusCharacter?: string, form?: OptimizerForm) {
-  return form?.characterId !== optimizerTabFocusCharacter
+  return form?.characterId != optimizerTabFocusCharacter
 }
 
 export function getCachedForm() {

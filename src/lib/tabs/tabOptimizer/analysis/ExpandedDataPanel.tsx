@@ -11,41 +11,27 @@ import React from 'react'
 export function ExpandedDataPanel() {
   const selectedRowData = window.store((s) => s.optimizerSelectedRowData)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
-  const charId: string = AntDForm.useWatch(['characterId'], window.optimizerForm)
-  const eidolon: string = AntDForm.useWatch(['characterEidolon'], window.optimizerForm)
-  const lcId: string = AntDForm.useWatch(['lightCone'], window.optimizerForm)
-  const superimposition: string = AntDForm.useWatch(['lightConeSuperimposition'], window.optimizerForm)
+
+  // For triggering updates
+  const characterId: string = AntDForm.useWatch(['characterId'], window.optimizerForm)
+  const lightConeId: string = AntDForm.useWatch(['lightCone'], window.optimizerForm)
 
   let form = getCachedForm() ?? OptimizerTabController.getForm()
   const pinnedRowData = getPinnedRowData()
 
+  // Check the cached form first, otherwise try the current form
   if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
     form = OptimizerTabController.getForm()
-    console.debug('exit mismatch', form, form?.characterId, optimizerTabFocusCharacter)
+    if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
+      return <></>
+    }
   }
-  if (selectedRowData == null) {
-    console.debug('exit null selected')
-    return <></>
-  }
-  if (selectedRowData.tracedX == null) {
-    console.debug('exit null trace')
-    return <></>
-  }
-  if (pinnedRowData == null) {
-    console.debug('exit null pinned')
-    return <></>
-  }
-  if (form == null) {
-    console.debug('exit null form')
-    return <></>
-  }
-  if (DB.getCharacterById(form.characterId) == null) {
-    console.debug('exit null character')
+  if (selectedRowData == null || selectedRowData.tracedX == null || pinnedRowData == null || form == null || DB.getCharacterById(form.characterId) == null) {
     return <></>
   }
 
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
-  console.log('analysis', analysis)
+  console.log('Optimizer result', analysis)
 
   return (
     <Flex vertical gap={16} justify='center' style={{ marginTop: 2 }}>

@@ -9,7 +9,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
-import { SortOption } from 'lib/optimization/sortOptions'
+import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
@@ -591,10 +591,8 @@ export function ScoringTeammate(props: {
   )
 }
 
-function addOnHitStats(simulationScore: SimulationScore) {
-  const sortOption = simulationScore.characterMetadata.scoringMetadata.sortOption
+function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
   const ability = sortOption.key
-  const xa = simulationScore.originalSimResult.xa
 
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -618,8 +616,10 @@ const percentFlatStats: Record<string, boolean> = {
 export function CharacterCardCombatStats(props: {
   result: SimulationScore
 }) {
-  const result = TsUtils.clone(props.result)
-  addOnHitStats(result)
+  const result = props.result
+  const xa = new Float32Array(result.originalSimResult.xa)
+  const sortOption = result.characterMetadata.scoringMetadata.sortOption
+  addOnHitStats(xa, sortOption)
 
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
@@ -638,11 +638,11 @@ export function CharacterCardCombatStats(props: {
   for (const stat of upgradeStats) {
     if (percentFlatStats[stat]) continue
 
-    const value = damageStats[stat] ? result.originalSimResult.xa[Key.ELEMENTAL_DMG] : result.originalSimResult.xa[StatToKey[stat]]
+    const value = damageStats[stat] ? xa[Key.ELEMENTAL_DMG] : xa[StatToKey[stat]]
     const flat = Utils.isFlat(stat)
     const upgraded = damageStats[stat]
-      ? Utils.precisionRound(result.originalSimResult.xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
-      : Utils.precisionRound(result.originalSimResult.xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
+      ? Utils.precisionRound(xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
+      : Utils.precisionRound(xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
 
     let display = `${Math.floor(value)}`
     if (stat == Stats.SPD) {

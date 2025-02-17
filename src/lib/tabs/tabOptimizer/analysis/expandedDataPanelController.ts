@@ -49,10 +49,10 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
   const request = analysis.request
   const context = generateContext(request)
 
-  const relics = OptimizerTabController.calculateRelicsFromId(id)
+  const relics = analysis.newRelics
   const relicSets = relicSetIndexToNames(relicSetIndex)
   const ornamentSets = ornamentSetIndexToName(ornamentSetIndex)
-  const simulationRequest = convertRelicsToSimulation(relics as SingleRelicByPart, relicSets[0], relicSets[1], ornamentSets) as SimulationRequest
+  const simulationRequest = convertRelicsToSimulation(analysis.newRelics, relicSets[0], relicSets[1], ornamentSets) as SimulationRequest
   const statUpgrades: StatUpgrade[] = []
 
   for (const substat of SubStats) {
@@ -74,8 +74,8 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 }
 
 export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
-  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id) as SingleRelicByPart)
-  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id) as SingleRelicByPart)
+  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form) as SingleRelicByPart)
+  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form) as SingleRelicByPart)
   const request = TsUtils.clone(form)
 
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)

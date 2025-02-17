@@ -38,6 +38,7 @@ export async function calculateCurrentlyEquippedRow(request) {
   const x = calculateBuild(request, relics, null, null, null, undefined, undefined, undefined, undefined, true)
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
+  window.store.getState().setOptimizerSelectedRowData(optimizerDisplayData)
 }
 
 export const Optimizer = {

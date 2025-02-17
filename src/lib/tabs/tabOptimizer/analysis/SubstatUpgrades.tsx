@@ -20,6 +20,11 @@ export function DamageUpgrades(props: {
   analysis: OptimizerResultAnalysis
 }) {
   const analysis = props.analysis
+  // @ts-ignore
+  if (Object.values(analysis.newRelics).some((relic) => relic.set == -1)) {
+    return <></>
+  }
+
   const statUpgrades = calculateStatUpgrades(analysis)
   const metrics: ComputedStatKeys[] = [
     'COMBO_DMG',

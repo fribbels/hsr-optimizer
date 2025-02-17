@@ -29,6 +29,8 @@ const { useToken } = theme
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
 
+const TAB_WIDTH = 1460
+
 export default function RelicsTab() {
   const { token } = useToken()
 
@@ -637,7 +639,7 @@ export default function RelicsTab() {
   }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters, t])
 
   return (
-    <Flex style={{ width: 1450, marginBottom: 100 }}>
+    <Flex style={{ width: TAB_WIDTH, marginBottom: 100 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         type='add'
@@ -663,7 +665,7 @@ export default function RelicsTab() {
         {!gridDestroyed && (
           <div
             id='relicGrid' className='ag-theme-balham-dark' style={{
-              ...{ width: 1450, height: 500, resize: 'vertical', overflow: 'hidden' },
+              ...{ width: TAB_WIDTH, height: 500, resize: 'vertical', overflow: 'hidden' },
               ...getGridTheme(token),
             }}
           >
@@ -695,7 +697,7 @@ export default function RelicsTab() {
           </div>
         )}
         {gridDestroyed && (
-          <div style={{ width: 1450, height: 500 }}/>
+          <div style={{ width: TAB_WIDTH, height: 500 }}/>
         )}
         <Flex gap={10} justify='space-between'>
           <Button
@@ -1019,7 +1021,7 @@ export default function RelicsTab() {
                   },
                   autosize: true,
                   height: 278,
-                  width: 1212,
+                  width: 1222,
                   margin: {
                     b: 5,
                     l: 50,

@@ -19,6 +19,7 @@ import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { filterUnique } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
@@ -608,7 +609,7 @@ function addOnHitStats(simulationScore: SimulationScore) {
   }
 }
 
-const percentFlatStats = {
+const percentFlatStats: Record<string, boolean> = {
   [Stats.ATK_P]: true,
   [Stats.DEF_P]: true,
   [Stats.HP_P]: true,
@@ -624,17 +625,17 @@ export function CharacterCardCombatStats(props: {
   const { t: tCharactersTab } = useTranslation('charactersTab')
   const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
-  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
+  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation!
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
-  let substats = originalSimulationMetadata.substats
-  substats = Utils.filterUnique(substats).filter((x) => !percentFlatStats[x])
+  let substats = originalSimulationMetadata.substats as SubStats[]
+  substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
   if (substats.length < 5) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
-  substats.push(elementalDmgValue)
+  const upgradeStats: StatsValues[] = [...substats, elementalDmgValue]
 
   const rows: ReactElement[] = []
 
-  for (const stat of substats) {
+  for (const stat of upgradeStats) {
     if (percentFlatStats[stat]) continue
 
     const value = damageStats[stat] ? result.originalSimResult.xa[Key.ELEMENTAL_DMG] : result.originalSimResult.xa[StatToKey[stat]]
@@ -650,7 +651,7 @@ export function CharacterCardCombatStats(props: {
       display = Utils.truncate10ths(value * 100).toFixed(1)
     }
 
-    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat as StatsValues}`)
+    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
@@ -674,11 +675,9 @@ export function CharacterCardCombatStats(props: {
 
   return (
     <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
-      <Flex vertical align='center'>
-        <HeaderText style={{ fontSize: 16 }}>
-          {titleRender}
-        </HeaderText>
-      </Flex>
+      <HeaderText style={{ fontSize: 16 }}>
+        {titleRender}
+      </HeaderText>
       {rows}
     </Flex>
   )
@@ -686,7 +685,7 @@ export function CharacterCardCombatStats(props: {
 
 function Arrow() {
   return (
-    <Flex style={{}} align='center'>
+    <Flex align='center'>
       <UpArrow/>
     </Flex>
   )

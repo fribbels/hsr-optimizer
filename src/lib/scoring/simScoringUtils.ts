@@ -5,7 +5,7 @@ import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
-import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
+import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ScoringParams = {
@@ -57,15 +57,11 @@ export type SimulationScore = {
 
   simulationForm: Form
   simulationMetadata: SimulationMetadata
-  characterMetadata: CharacterMetadata
+  characterMetadata: DBMetadataCharacter
 
   originalSpd: number
   spdBenchmark: number | null
   simulationFlags: SimulationFlags
-}
-
-export type CharacterMetadata = {
-  scoringMetadata: ScoringMetadata
 }
 
 export type RelicBuild = {

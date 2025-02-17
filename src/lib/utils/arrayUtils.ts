@@ -21,3 +21,8 @@ export function stringArrayToMap<T extends string>(array: T[]) {
     return map
   }, {} as Record<T, true>)
 }
+
+// [1, 2, 2, 3] => [1, 2, 3]
+export function filterUnique<T>(arr: T[]) {
+  return arr.filter((value, index, array) => array.indexOf(value) === index)
+}

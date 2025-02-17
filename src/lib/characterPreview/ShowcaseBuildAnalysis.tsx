@@ -24,13 +24,6 @@ interface ShowcaseBuildAnalysisProps {
 
 export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const delayedProps = useDelayedProps(props, 250)
-
-  const memoizedCharacterScoringSummary = useMemo(() => {
-    return delayedProps ? <CharacterScoringSummary simScoringResult={delayedProps.simScoringResult}/> : null
-  }, [delayedProps])
-
-  if (!delayedProps) return null
 
   console.log('======================================================================= RENDER ShowcaseBuildAnalysis')
 
@@ -41,7 +34,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
     scoringType,
     setScoringType,
     setCombatScoreDetails,
-  } = delayedProps
+  } = props
 
   const {
     characterMetadata,
@@ -136,7 +129,18 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           />
         </Flex>
       </Flex>
-      {memoizedCharacterScoringSummary}
+      <MemoizedCharacterScoringSummary simScoringResult={props.simScoringResult}/>
     </Flex>
   )
+}
+
+function MemoizedCharacterScoringSummary(props: { simScoringResult?: SimulationScore }) {
+  const delayedProps = useDelayedProps(props, 150)
+
+  const memoizedCharacterScoringSummary = useMemo(() => {
+    return delayedProps ? <CharacterScoringSummary simScoringResult={delayedProps.simScoringResult}/> : null
+  }, [delayedProps])
+
+  if (!delayedProps) return null
+  return memoizedCharacterScoringSummary
 }

@@ -1,5 +1,5 @@
 import { Flex, Table, TableProps } from 'antd'
-import { StatsToShort, SubStats } from 'lib/constants/constants'
+import { StatsToShortSpaced, SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
@@ -76,7 +76,7 @@ export function DamageUpgrades(props: {
         render: (text: SubStats) => (
           <Flex>
             <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
-            {StatsToShort[text]}
+            {StatsToShortSpaced[text]}
           </Flex>
         ),
       },

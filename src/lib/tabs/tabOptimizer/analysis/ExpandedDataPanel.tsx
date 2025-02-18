@@ -6,6 +6,7 @@ import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
+import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import React, { useMemo } from 'react'
 
@@ -58,14 +59,16 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
   const { analysis } = props
 
   return (
-    <Flex justify='space-between' style={{ width: '100%', marginTop: 2 }}>
-      <Flex vertical gap={10}>
-        <StatsDiffCard analysis={analysis}/>
-        <DamageSplits analysis={analysis}/>
-        <DamageUpgrades analysis={analysis}/>
-      </Flex>
+    <FilterContainer>
+      <Flex justify='space-between' style={{ width: '100%', padding: 10 }} gap={10}>
+        <Flex vertical gap={10}>
+          <StatsDiffCard analysis={analysis}/>
+          <DamageSplits analysis={analysis}/>
+          <DamageUpgrades analysis={analysis}/>
+        </Flex>
 
-      <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
-    </Flex>
+        <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
+      </Flex>
+    </FilterContainer>
   )
 }

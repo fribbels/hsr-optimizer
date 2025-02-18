@@ -1,6 +1,6 @@
 import { Divider, Flex, Typography } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
-import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
+import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
@@ -545,7 +545,7 @@ export const CharacterScoringSummary = (props: {
           Combat buffs (WIP)
         </pre>
 
-        <BuffsAnalysisDisplay result={result}/>
+        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>
       </Flex>
 
       <Flex gap={defaultGap} justify='space-around'>

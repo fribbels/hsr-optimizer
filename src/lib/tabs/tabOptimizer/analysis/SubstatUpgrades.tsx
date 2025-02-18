@@ -106,18 +106,29 @@ export function DamageUpgrades(props: {
 
     displays.push(
       <Table<StatUpgradeItem>
+        className='stat-upgrade-table'
         key={group.key}
         columns={columns}
         dataSource={group.upgrades}
         pagination={false}
         size='small'
-        style={{ flex: 1 }}
+        style={{ flex: '1 1 calc(30% - 10px)', border: '1px solid #354b7d', borderRadius: 8 }}
       />,
     )
   }
 
   return (
-    <Flex align='start' gap={10} justify='start'>
+    <Flex
+      align='start'
+      gap={10}
+      justify='space-between'
+      wrap={true}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '10px',
+      }}
+    >
       {displays}
     </Flex>
   )

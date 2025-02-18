@@ -697,3 +697,7 @@ a {
 .pre-font {
     font-family: "Consolas", "Courier New", "Menlo", "Monaco", monospace !important;
 }
+
+.stat-upgrade-table .ant-table-row:last-child .ant-table-cell {
+    border-bottom: none !important;
+}

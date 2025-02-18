@@ -1,6 +1,7 @@
 import { Flex } from 'antd'
 import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import React from 'react'
 
 export function DamageSplits(props: {
@@ -24,8 +25,8 @@ export function DamageSplits(props: {
       style={{
         width: 730,
         height: 400,
-        border: '1px solid rgb(53, 75, 125)',
-        borderRadius: 10,
+        boxShadow: cardShadow,
+        borderRadius: 5,
         overflow: 'hidden',
         padding: 8,
         background: '#243356',

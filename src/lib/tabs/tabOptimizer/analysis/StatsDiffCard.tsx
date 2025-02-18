@@ -22,7 +22,7 @@ export function StatsDiffCard(props: {
   return (
     <Flex
       style={{
-        borderRadius: 10,
+        borderRadius: 5,
         width: cardWidth,
         height: cardHeight,
       }}
@@ -32,12 +32,13 @@ export function StatsDiffCard(props: {
 
       <Flex
         style={{
-          border: border,
+          // border: border,
           borderRadius: 10,
           width: cardWidth,
           overflow: 'hidden',
           padding: 10,
           background: '#243356',
+          boxShadow: cardShadow,
         }}
       >
         <StatDiffSummary analysis={analysis}/>
@@ -178,7 +179,7 @@ function CardImage(props: { analysis: OptimizerResultAnalysis }) {
       style={{
         overflow: 'hidden',
         boxShadow: cardShadow,
-        borderRadius: 10,
+        borderRadius: 5,
         minWidth: 233,
         height: '100%',
         background: '#243356',

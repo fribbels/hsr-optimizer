@@ -4,6 +4,7 @@ import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
 import { calculateStatUpgrades, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
 
@@ -112,7 +113,13 @@ export function DamageUpgrades(props: {
         dataSource={group.upgrades}
         pagination={false}
         size='small'
-        style={{ flex: '1 1 calc(30% - 10px)', border: '1px solid #354b7d', borderRadius: 8, overflow: 'hidden' }}
+        style={{
+          flex: '1 1 calc(30% - 10px)',
+          border: '1px solid #354b7d',
+          boxShadow: cardShadowNonInset,
+          borderRadius: 5,
+          overflow: 'hidden',
+        }}
       />,
     )
   }

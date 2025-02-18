@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { DamageBreakdown, DefaultActionDamageValues } from 'lib/optimization/computedStatsArray'
 import React, { useState } from 'react'
-import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
 
@@ -16,6 +16,8 @@ const keys: DamageBreakdownKeys[] = [
   'trueDmg',
 ]
 
+type SummedDamageBreakdown = DamageBreakdown & { sum: number }
+
 const chartColor = '#DDD'
 
 export function DamageSplitsChart(props: {
@@ -24,9 +26,17 @@ export function DamageSplitsChart(props: {
   const [barHovered, setBarHovered] = useState<string | null>(null)
 
   const data = props.data
-  const filteredData = data.filter((row) =>
+  const filteredData: SummedDamageBreakdown[] = data.filter((row) =>
     keys.some((key) => row[key] !== 0), // Keep only rows with non-zero values
-  )
+  ).map((item) => {
+    const summed = item as SummedDamageBreakdown
+    let sum = 0
+    for (const key of keys) {
+      sum += item[key] ?? 0
+    }
+    summed.sum = sum
+    return summed
+  })
 
   let maxValue = 0
   filteredData.sort((a, b) => {
@@ -61,7 +71,7 @@ export function DamageSplitsChart(props: {
         <XAxis
           type='number'
           tick={{ fill: chartColor }}
-          tickFormatter={(n) => `${Number(n) / 1000}K`}
+          tickFormatter={renderThousands}
         />
         <YAxis
           dataKey='name'
@@ -91,7 +101,7 @@ export function DamageSplitsChart(props: {
         {renderBar('dotDmg', '#45b39d', setBarHovered)}
         {renderBar('memoDmg', '#cd6155', setBarHovered)}
         {renderBar('breakDmg', '#f8c471', setBarHovered)}
-        {renderBar('trueDmg', '#cacfd2', setBarHovered)}
+        {renderBar('trueDmg', '#cacfd2', setBarHovered, true)}
       </BarChart>
     </ResponsiveContainer>
   )
@@ -101,6 +111,7 @@ function renderBar(
   dataKey: string,
   color: string,
   setBarHovered: (s: string | null) => void,
+  label: boolean = false,
 ) {
   return (
     <Bar
@@ -112,7 +123,9 @@ function renderBar(
       isAnimationActive={false}
       onMouseEnter={() => setBarHovered(dataKey)}
       onMouseLeave={() => setBarHovered(null)}
-    />
+    >
+      {label && <LabelList dataKey='sum' position='right' formatter={renderThousands}/>}
+    </Bar>
   )
 }
 
@@ -143,7 +156,6 @@ const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; lab
     >
       <span style={{ fontSize: 14, fontWeight: 'bold' }}>{`${tooltipDataKeyToDisplay[bar]} DMG`}</span>
       <span>{Math.floor(damageItem.value).toLocaleString()}</span>
-
     </Flex>
   )
 }
@@ -167,4 +179,8 @@ const dataKeyToDisplay = {
   DOT_DMG: 'Dot',
   BREAK_DMG: 'Break',
   MEMO_SKILL_DMG: 'Skillᴹ',
+}
+
+function renderThousands(n: number) {
+  return `${Math.floor(Number(n) / 1000)}K`
 }

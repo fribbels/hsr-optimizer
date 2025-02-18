@@ -23,7 +23,7 @@ export function FormRow(props: { id: string; label?: string; children: ReactElem
     {
       key: props.id,
       label: (
-        <Flex style={{ paddingTop: 8 }}>
+        <Flex style={{ paddingTop: 6 }}>
           {
             // @ts-ignore
             props.label ?? t(`${props.id}`)

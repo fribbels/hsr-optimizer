@@ -72,7 +72,7 @@ export function DamageUpgrades(props: {
         title: '+1x Substat',
         dataIndex: 'key',
         align: 'center',
-        width: 110,
+        width: 100,
         render: (text: SubStats) => (
           <Flex>
             <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
@@ -112,7 +112,7 @@ export function DamageUpgrades(props: {
         dataSource={group.upgrades}
         pagination={false}
         size='small'
-        style={{ flex: '1 1 calc(30% - 10px)', border: '1px solid #354b7d', borderRadius: 8 }}
+        style={{ flex: '1 1 calc(30% - 10px)', border: '1px solid #354b7d', borderRadius: 8, overflow: 'hidden' }}
       />,
     )
   }

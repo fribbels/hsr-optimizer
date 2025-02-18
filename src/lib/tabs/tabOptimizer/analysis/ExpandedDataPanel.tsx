@@ -7,6 +7,7 @@ import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharac
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
+import { FormRow, OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import React, { useMemo } from 'react'
 
@@ -60,15 +61,17 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
 
   return (
     <FilterContainer>
-      <Flex justify='space-between' style={{ width: '100%', padding: 10 }} gap={10}>
-        <Flex vertical gap={10}>
-          <StatsDiffCard analysis={analysis}/>
-          <DamageSplits analysis={analysis}/>
-          <DamageUpgrades analysis={analysis}/>
-        </Flex>
+      <FormRow id={OptimizerMenuIds.analysis}>
+        <Flex justify='space-between' style={{ width: '100%', paddingTop: 4, paddingBottom: 30 }} gap={10}>
+          <Flex vertical gap={10}>
+            <StatsDiffCard analysis={analysis}/>
+            <DamageSplits analysis={analysis}/>
+            <DamageUpgrades analysis={analysis}/>
+          </Flex>
 
-        <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
-      </Flex>
+          <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
+        </Flex>
+      </FormRow>
     </FilterContainer>
   )
 }

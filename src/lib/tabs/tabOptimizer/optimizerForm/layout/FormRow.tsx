@@ -7,6 +7,7 @@ export const OptimizerMenuIds = {
   relicAndStatFilters: 'Relic & stat filters',
   teammates: 'Teammates',
   characterStatsSimulation: 'Character custom stats simulation',
+  analysis: 'Analysis',
 }
 
 export function FormRow(props: { id: string; label?: string; children: ReactElement | ReactElement[] }) {

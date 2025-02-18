@@ -4,6 +4,9 @@ import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expanded
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import React from 'react'
 
+export const DAMAGE_SPLITS_CHART_WIDTH = 730
+export const DAMAGE_SPLITS_CHART_HEIGHT = 400
+
 export function DamageSplits(props: {
   analysis: OptimizerResultAnalysis
 }) {
@@ -23,8 +26,8 @@ export function DamageSplits(props: {
     <Flex
       vertical align='center' gap={8}
       style={{
-        width: 730,
-        height: 400,
+        width: DAMAGE_SPLITS_CHART_WIDTH,
+        height: DAMAGE_SPLITS_CHART_HEIGHT,
         boxShadow: cardShadow,
         borderRadius: 5,
         overflow: 'hidden',

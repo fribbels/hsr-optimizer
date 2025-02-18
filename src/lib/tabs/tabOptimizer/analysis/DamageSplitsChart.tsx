@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { DamageBreakdown, DefaultActionDamageValues } from 'lib/optimization/computedStatsArray'
 import React, { useState } from 'react'
-import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 
 type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
 
@@ -55,55 +55,53 @@ export function DamageSplitsChart(props: {
   })
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
-      <BarChart
-        className='pre-font'
-        layout='vertical'
-        data={filteredData}
-        margin={{
-          top: 20,
-          right: 40,
-          bottom: 20,
-          left: 20,
-        }}
-        barCategoryGap='25%'
-      >
-        <XAxis
-          type='number'
-          tick={{ fill: chartColor }}
-          tickFormatter={renderThousands}
-        />
-        <YAxis
-          dataKey='name'
-          type='category'
-          axisLine={false}
-          tickLine={false}
-          tick={{ fill: chartColor }}
-          tickFormatter={(key) => dataKeyToDisplay[key as keyof DefaultActionDamageValues]}
-          tickMargin={10}
-          width={60}
-        />
-        <Tooltip
-          cursor={false}
-          isAnimationActive={false}
-          // @ts-ignore
-          content={<CustomTooltip bar={barHovered}/>}
-        />
-        <Legend
-          formatter={(s: DamageBreakdownKeys) => tooltipDataKeyToDisplay[s]}
-          wrapperStyle={{ paddingTop: 20 }}
-        />
+    <BarChart
+      className='pre-font'
+      layout='vertical'
+      data={filteredData}
+      margin={{
+        top: 20,
+        right: 40,
+        bottom: 20,
+        left: 20,
+      }}
+      barCategoryGap='25%'
+    >
+      <XAxis
+        type='number'
+        tick={{ fill: chartColor }}
+        tickFormatter={renderThousands}
+      />
+      <YAxis
+        dataKey='name'
+        type='category'
+        axisLine={false}
+        tickLine={false}
+        tick={{ fill: chartColor }}
+        tickFormatter={(key) => dataKeyToDisplay[key as keyof DefaultActionDamageValues]}
+        tickMargin={10}
+        width={60}
+      />
+      <Tooltip
+        cursor={false}
+        isAnimationActive={false}
+        // @ts-ignore
+        content={<CustomTooltip bar={barHovered}/>}
+      />
+      <Legend
+        formatter={(s: DamageBreakdownKeys) => tooltipDataKeyToDisplay[s]}
+        wrapperStyle={{ paddingTop: 20 }}
+      />
 
-        {renderBar('abilityDmg', '#85c1e9', setBarHovered)}
-        {renderBar('jointDmg', '#2980b9', setBarHovered)}
-        {renderBar('superBreakDmg', '#e59866', setBarHovered)}
-        {renderBar('additionalDmg', '#bb8fce', setBarHovered)}
-        {renderBar('dotDmg', '#45b39d', setBarHovered)}
-        {renderBar('memoDmg', '#cd6155', setBarHovered)}
-        {renderBar('breakDmg', '#f8c471', setBarHovered)}
-        {renderBar('trueDmg', '#cacfd2', setBarHovered, true)}
-      </BarChart>
-    </ResponsiveContainer>
+      {renderBar('abilityDmg', '#85c1e9', setBarHovered)}
+      {renderBar('jointDmg', '#2980b9', setBarHovered)}
+      {renderBar('superBreakDmg', '#e59866', setBarHovered)}
+      {renderBar('additionalDmg', '#bb8fce', setBarHovered)}
+      {renderBar('dotDmg', '#45b39d', setBarHovered)}
+      {renderBar('memoDmg', '#cd6155', setBarHovered)}
+      {renderBar('breakDmg', '#f8c471', setBarHovered)}
+      {renderBar('trueDmg', '#cacfd2', setBarHovered, true)}
+    </BarChart>
   )
 }
 

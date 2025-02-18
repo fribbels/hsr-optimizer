@@ -124,7 +124,7 @@ const RED = '#ff97a9'
 function DiffRender(props: { oldValue: number; newValue: number; stat: string }) {
   const { newValue, oldValue, stat } = props
 
-  if (oldValue == newValue) return <></>
+  if (visualDiff(newValue, oldValue, stat) == 0) return <></>
 
   const increase = newValue > oldValue
   const diff = increase ? visualDiff(newValue, oldValue, stat) : visualDiff(oldValue, newValue, stat)

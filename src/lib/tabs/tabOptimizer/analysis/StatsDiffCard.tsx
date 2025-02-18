@@ -10,9 +10,8 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 
-const cardHeight = 408
+const cardHeight = 429
 const cardWidth = 730
-const gap = 12
 const border = '1px solid rgb(53, 75, 125)'
 
 export function StatsDiffCard(props: {
@@ -21,22 +20,29 @@ export function StatsDiffCard(props: {
   const { analysis } = props
 
   return (
-    <div
+    <Flex
       style={{
-        border: border,
         borderRadius: 10,
         width: cardWidth,
-        height: 'fit-content',
-        overflow: 'hidden',
-        padding: gap,
-        background: '#243356',
+        height: cardHeight,
       }}
+      gap={10}
     >
-      <Flex gap={gap}>
-        <CardImage analysis={analysis}/>
+      <CardImage analysis={analysis}/>
+
+      <Flex
+        style={{
+          border: border,
+          borderRadius: 10,
+          width: cardWidth,
+          overflow: 'hidden',
+          padding: 10,
+          background: '#243356',
+        }}
+      >
         <StatDiffSummary analysis={analysis}/>
       </Flex>
-    </div>
+    </Flex>
   )
 }
 
@@ -89,7 +95,7 @@ function DiffRow(props: {
   )
 
   return (
-    <Flex gap={10} align='center'>
+    <Flex gap={12} align='center'>
       <div style={{ width: 240 }}>
         <StatRow finalStats={oldStats} stat={stat == 'COMBO_DMG' ? 'simScore' : stat} value={stat == 'COMBO_DMG' ? oldValue : undefined}/>
       </div>
@@ -124,7 +130,7 @@ const RED = '#ff97a9'
 function DiffRender(props: { oldValue: number; newValue: number; stat: string }) {
   const { newValue, oldValue, stat } = props
 
-  if (oldValue == newValue) return <></>
+  if (visualDiff(newValue, oldValue, stat) == 0) return <></>
 
   const increase = newValue > oldValue
   const diff = increase ? visualDiff(newValue, oldValue, stat) : visualDiff(oldValue, newValue, stat)
@@ -168,18 +174,17 @@ function visualDiff(n1: number, n2: number, stat: string) {
 
 function CardImage(props: { analysis: OptimizerResultAnalysis }) {
   return (
-    <div
+    <Flex
       style={{
         overflow: 'hidden',
         boxShadow: cardShadow,
-        border: border,
         borderRadius: 10,
         minWidth: 233,
-        height: cardHeight,
+        height: '100%',
         background: '#243356',
       }}
     >
       <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true}/>
-    </div>
+    </Flex>
   )
 }

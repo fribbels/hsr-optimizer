@@ -1,5 +1,5 @@
 import { Flex, Table, TableProps } from 'antd'
-import { StatsToShort, SubStats } from 'lib/constants/constants'
+import { StatsToShortSpaced, SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
@@ -15,6 +15,7 @@ type StatUpgradeGroup = {
 type StatUpgradeItem = {
   key: SubStats
   value: number
+  percent: number
 }
 
 export function DamageUpgrades(props: {
@@ -49,7 +50,8 @@ export function DamageUpgrades(props: {
         const percent = diff / baseValue
         group.upgrades.push({
           key: statUpgrade.stat,
-          value: percent,
+          value: diff,
+          percent: percent,
         })
         hasValue = true
       }
@@ -70,17 +72,28 @@ export function DamageUpgrades(props: {
         title: '+1x Substat',
         dataIndex: 'key',
         align: 'center',
-        width: 110,
+        width: 100,
         render: (text: SubStats) => (
           <Flex>
             <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
-            {StatsToShort[text]}
+            {StatsToShortSpaced[text]}
           </Flex>
         ),
       },
       {
         title: `Δ ${metricToColumnTitle[group.key as keyof typeof metricToColumnTitle]}`,
         dataIndex: 'value',
+        align: 'center',
+        width: 110,
+        render: (n: number) => (
+          <>
+            {n == 0 ? '' : `${n.toFixed(1)}`}
+          </>
+        ),
+      },
+      {
+        title: `Δ% ${metricToColumnTitle[group.key as keyof typeof metricToColumnTitle]}`,
+        dataIndex: 'percent',
         align: 'center',
         width: 110,
         render: (n: number) => (
@@ -93,17 +106,29 @@ export function DamageUpgrades(props: {
 
     displays.push(
       <Table<StatUpgradeItem>
+        className='stat-upgrade-table'
         key={group.key}
         columns={columns}
         dataSource={group.upgrades}
         pagination={false}
         size='small'
+        style={{ flex: '1 1 calc(30% - 10px)', border: '1px solid #354b7d', borderRadius: 8, overflow: 'hidden' }}
       />,
     )
   }
 
   return (
-    <Flex align='start' gap={10} justify='start'>
+    <Flex
+      align='start'
+      gap={10}
+      justify='space-between'
+      wrap={true}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '10px',
+      }}
+    >
       {displays}
     </Flex>
   )

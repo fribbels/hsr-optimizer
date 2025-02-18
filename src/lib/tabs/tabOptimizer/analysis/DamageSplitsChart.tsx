@@ -1,5 +1,6 @@
 import { Flex } from 'antd'
 import { DamageBreakdown, DefaultActionDamageValues } from 'lib/optimization/computedStatsArray'
+import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import React, { useState } from 'react'
 import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 
@@ -66,6 +67,8 @@ export function DamageSplitsChart(props: {
         left: 20,
       }}
       barCategoryGap='25%'
+      width={DAMAGE_SPLITS_CHART_WIDTH}
+      height={DAMAGE_SPLITS_CHART_HEIGHT}
     >
       <XAxis
         type='number'

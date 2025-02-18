@@ -73,7 +73,7 @@ export class BasicStatsArrayCore {
     this.ornamentSetIndex = 0
     // @ts-ignore
     this.sets = {}
-    this.id = 0
+    this.id = -1
     this.weight = 0
 
     Object.keys(baseCharacterStats).forEach((stat, key) => {

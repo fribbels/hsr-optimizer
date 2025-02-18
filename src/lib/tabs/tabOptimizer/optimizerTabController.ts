@@ -313,7 +313,7 @@ export const OptimizerTabController = {
 
   // Unpack a permutation ID to its respective relics
   calculateRelicsFromId: (id: number, form?: OptimizerForm) => {
-    if (id === 0) { // special case for equipped build optimizer row
+    if (id === -1) { // special case for equipped build optimizer row
       const request = form ?? optimizerFormCache[window.store.getState().optimizationId!]
 
       const build = DB.getCharacterById(request.characterId).equipped

@@ -31,7 +31,7 @@ export function ExpandedDataPanel() {
       return <></>
     }
   }
-  if (selectedRowData == null || selectedRowData.tracedX == null || pinnedRowData == null || form == null || DB.getCharacterById(form.characterId) == null) {
+  if (selectedRowData == null || pinnedRowData == null || form == null || DB.getCharacterById(form.characterId) == null) {
     return <></>
   }
 

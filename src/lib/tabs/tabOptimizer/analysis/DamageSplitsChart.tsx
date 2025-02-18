@@ -47,6 +47,7 @@ export function DamageSplitsChart(props: {
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <BarChart
+        className='pre-font'
         layout='vertical'
         data={filteredData}
         margin={{
@@ -70,7 +71,7 @@ export function DamageSplitsChart(props: {
           tick={{ fill: chartColor }}
           tickFormatter={(key) => dataKeyToDisplay[key as keyof DefaultActionDamageValues]}
           tickMargin={10}
-          width={50}
+          width={60}
         />
         <Tooltip
           cursor={false}
@@ -78,7 +79,11 @@ export function DamageSplitsChart(props: {
           // @ts-ignore
           content={<CustomTooltip bar={barHovered}/>}
         />
-        <Legend formatter={(s: DamageBreakdownKeys) => tooltipDataKeyToDisplay[s]}/>
+        <Legend
+          formatter={(s: DamageBreakdownKeys) => tooltipDataKeyToDisplay[s]}
+          wrapperStyle={{ paddingTop: 20 }}
+        />
+
         {renderBar('abilityDmg', '#85c1e9', setBarHovered)}
         {renderBar('jointDmg', '#2980b9', setBarHovered)}
         {renderBar('superBreakDmg', '#e59866', setBarHovered)}
@@ -129,6 +134,7 @@ const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; lab
   return (
     <Flex
       vertical
+      className='pre-font'
       style={{
         background: 'rgb(69,93,154)',
         padding: 8,
@@ -136,7 +142,7 @@ const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; lab
       }}
     >
       <span style={{ fontSize: 14, fontWeight: 'bold' }}>{`${tooltipDataKeyToDisplay[bar]} DMG`}</span>
-      <span>{damageItem.value.toFixed(0)}</span>
+      <span>{Math.floor(damageItem.value).toLocaleString()}</span>
 
     </Flex>
   )

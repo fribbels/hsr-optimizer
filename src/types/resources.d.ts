@@ -4764,7 +4764,8 @@ interface Resources {
       "Character options": "Character options",
       "Relic & stat filters": "Relic & stat filters",
       "Teammates": "Teammates",
-      "Character custom stats simulation": "Character custom stats simulation"
+      "Character custom stats simulation": "Character custom stats simulation",
+      "Analysis": "Optimization results analysis"
     },
     "TracesDrawer": {
       "Title": "Custom stat traces",

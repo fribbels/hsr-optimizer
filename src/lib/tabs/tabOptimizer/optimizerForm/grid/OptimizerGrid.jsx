@@ -16,6 +16,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 
 const { useToken } = theme
 
@@ -27,7 +28,7 @@ const defaultHiddenColumns = [
 ]
 
 export const GRID_DIMENSIONS = {
-  WIDTH: 1225,
+  WIDTH: 1227,
   HEIGHT: 600,
   MIN_HEIGHT: 300,
 }
@@ -114,6 +115,7 @@ export function OptimizerGrid() {
               height: GRID_DIMENSIONS.HEIGHT,
               resize: 'vertical',
               overflow: 'hidden',
+              boxShadow: cardShadowNonInset,
             },
             ...getGridTheme(token),
           }}

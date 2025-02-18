@@ -62,7 +62,7 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
   return (
     <FilterContainer>
       <FormRow id={OptimizerMenuIds.analysis}>
-        <Flex justify='space-between' style={{ width: '100%', paddingTop: 4, paddingBottom: 30 }} gap={10}>
+        <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
           <Flex vertical gap={10}>
             <StatsDiffCard analysis={analysis}/>
             <DamageSplits analysis={analysis}/>

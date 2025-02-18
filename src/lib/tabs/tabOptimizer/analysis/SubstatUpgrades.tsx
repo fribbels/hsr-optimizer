@@ -15,6 +15,7 @@ type StatUpgradeGroup = {
 type StatUpgradeItem = {
   key: SubStats
   value: number
+  percent: number
 }
 
 export function DamageUpgrades(props: {
@@ -49,7 +50,8 @@ export function DamageUpgrades(props: {
         const percent = diff / baseValue
         group.upgrades.push({
           key: statUpgrade.stat,
-          value: percent,
+          value: diff,
+          percent: percent,
         })
         hasValue = true
       }
@@ -85,6 +87,17 @@ export function DamageUpgrades(props: {
         width: 110,
         render: (n: number) => (
           <>
+            {n == 0 ? '' : `${n.toFixed(1)}`}
+          </>
+        ),
+      },
+      {
+        title: `Δ% ${metricToColumnTitle[group.key as keyof typeof metricToColumnTitle]}`,
+        dataIndex: 'percent',
+        align: 'center',
+        width: 110,
+        render: (n: number) => (
+          <>
             {n == 0 ? '' : `${Utils.truncate100ths(n * 100).toFixed(2)}%`}
           </>
         ),
@@ -98,6 +111,7 @@ export function DamageUpgrades(props: {
         dataSource={group.upgrades}
         pagination={false}
         size='small'
+        style={{ flex: 1 }}
       />,
     )
   }

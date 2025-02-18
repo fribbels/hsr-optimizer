@@ -43,7 +43,7 @@ export function ExpandedDataPanel() {
 }
 
 function MemoizedExpandedDataPanel(props: { analysis: OptimizerResultAnalysis }) {
-  const delayedProps = useDelayedProps(props, 100)
+  const delayedProps = useDelayedProps(props, 50)
 
   const memoized = useMemo(() => {
     return delayedProps

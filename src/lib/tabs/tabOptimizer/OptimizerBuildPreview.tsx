@@ -43,7 +43,7 @@ export default function OptimizerBuildPreview() {
 
   return (
     <div>
-      <Flex gap={5} id='optimizerBuildPreviewContainer'>
+      <Flex gap={5} id='optimizerBuildPreviewContainer' justify='space-between' style={{ paddingLeft: 1, paddingRight: 1 }}>
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={headRelic} score={headScore}/>
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={handsRelic} score={handsScore}/>
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={bodyRelic} score={bodyScore}/>

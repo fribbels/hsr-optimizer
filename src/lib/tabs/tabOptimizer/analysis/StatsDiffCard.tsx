@@ -32,8 +32,7 @@ export function StatsDiffCard(props: {
 
       <Flex
         style={{
-          // border: border,
-          borderRadius: 10,
+          borderRadius: 5,
           width: cardWidth,
           overflow: 'hidden',
           padding: 10,

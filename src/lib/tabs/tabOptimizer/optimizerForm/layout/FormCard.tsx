@@ -47,7 +47,7 @@ export default function FormCard(props: {
       >
         <Flex
           vertical
-          style={{ width: width - 0.5 }}
+          style={{ width: width }}
           gap={defaultGap}
           justify={props.justify ?? undefined}
         >

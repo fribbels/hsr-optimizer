@@ -121,25 +121,23 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
   else sourceLabel = buff.source.label
 
   return (
-    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
-      <Text>
-        <Flex justify='space-between' style={{ width: size }}>
-          <Flex gap={3} style={{ minWidth: 70 }}>
-            <span>
-              {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
-            </span>
-            <span>
-              {`${percent ? '%' : ''}`}
-            </span>
-          </Flex>
-          <span style={{ flex: '1 1 auto', marginRight: 10 }}>
-            {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
+    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0, fontSize: 14 }} className='text-font'>
+      <Flex justify='space-between' style={{ width: size }}>
+        <Flex gap={3} style={{ minWidth: 60 }}>
+          <span>
+            {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
           </span>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
-            {sourceLabel}
+          <span>
+            {`${percent ? '%' : ''}`}
           </span>
         </Flex>
-      </Text>
+        <span style={{ flex: '1 1 auto', marginRight: 10, minWidth: 130 }}>
+          {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
+        </span>
+        <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
+          {sourceLabel}
+        </span>
+      </Flex>
     </Tag>
   )
 }

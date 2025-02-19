@@ -231,6 +231,7 @@ FormRowLabels:
   Relic & stat filters: 遗器和属性筛选
   Teammates: 队友
   Character custom stats simulation: 角色自定义属性模拟
+  Analysis: 优化结果分析
 TracesDrawer:
   Title: 自定义属性行迹
   Header: 已激活的属性行迹（默认全部启用）

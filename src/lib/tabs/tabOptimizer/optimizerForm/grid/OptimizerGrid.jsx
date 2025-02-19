@@ -16,6 +16,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 
 const { useToken } = theme
 
@@ -27,7 +28,7 @@ const defaultHiddenColumns = [
 ]
 
 export const GRID_DIMENSIONS = {
-  WIDTH: 1225,
+  WIDTH: 1227,
   HEIGHT: 600,
   MIN_HEIGHT: 300,
 }
@@ -40,6 +41,7 @@ export function OptimizerGrid() {
   const optimizerGrid = useRef()
   const [gridDestroyed, setGridDestroyed] = useState(false)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const initialLanguage = useRef(i18n.resolvedLanguage)
 
   window.optimizerGrid = optimizerGrid
 
@@ -81,9 +83,12 @@ export function OptimizerGrid() {
   }, [])
 
   useEffect(() => {
-    setGridDestroyed(true) // locale updates require the grid to be destroyed and reconstructed in order to take effect
-    setTimeout(() => setGridDestroyed(false), 50) // 0 delay doesn't seem to work, can be manually decreased until minimum found
-  }, [i18n.resolvedLanguage]) // is minimum delay consistent across users?
+    // locale updates require the grid to be destroyed and reconstructed in order to take effect
+    if (i18n.resolvedLanguage !== initialLanguage.current) {
+      setGridDestroyed(true)
+      setTimeout(() => setGridDestroyed(false), 100)
+    }
+  }, [i18n.resolvedLanguage])
 
   const getLocaleText = useCallback((param) => {
     const localeLookup = {
@@ -110,6 +115,7 @@ export function OptimizerGrid() {
               height: GRID_DIMENSIONS.HEIGHT,
               resize: 'vertical',
               overflow: 'hidden',
+              boxShadow: cardShadowNonInset,
             },
             ...getGridTheme(token),
           }}

@@ -48,9 +48,6 @@ export function extractCombatBuffs(x: ComputedStatsArray) {
     buffsBasic,
   }
 
-  console.log(combatBuffs)
-  console.log(x)
-
   return combatBuffs
 }
 

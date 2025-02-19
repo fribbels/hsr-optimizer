@@ -25,6 +25,7 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/Sta
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -220,6 +221,7 @@ window.store = create((set) => {
       [OptimizerMenuIds.relicAndStatFilters]: true,
       [OptimizerMenuIds.teammates]: true,
       [OptimizerMenuIds.characterStatsSimulation]: false,
+      [OptimizerMenuIds.analysis]: true,
     },
 
     savedSession: savedSessionDefaults,
@@ -896,6 +898,8 @@ export const DB = {
     relic.equippedBy = character.id
     DB.setCharacter(character)
     setRelic(relic)
+
+    debounceEffect('refreshRelics', 500, () => window.relicsGrid?.current?.api.refreshCells())
   },
 
   equipRelicIdsToCharacter: (relicIds: string[], characterId: string, forceSwap = false) => {

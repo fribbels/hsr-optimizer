@@ -18,7 +18,7 @@ import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerFor
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Build } from 'types/character'
-import { Form } from 'types/form'
+import { Form, OptimizerForm } from 'types/form'
 
 type PermutationSizes = {
   hSize: number
@@ -260,7 +260,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    window.optimizerGrid.current?.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
+    window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
   getDataSource: (newSortModel?: SortModel, newFilterModel?: Form) => {
@@ -312,9 +312,11 @@ export const OptimizerTabController = {
   },
 
   // Unpack a permutation ID to its respective relics
-  calculateRelicsFromId: (id: number) => {
-    if (id === 0) { // special case for equipped build optimizer row
-      const build = DB.getCharacterById(optimizerFormCache[window.store.getState().optimizationId!].characterId).equipped
+  calculateRelicsFromId: (id: number, form?: OptimizerForm) => {
+    if (id === -1) { // special case for equipped build optimizer row
+      const request = form ?? optimizerFormCache[window.store.getState().optimizationId!]
+
+      const build = DB.getCharacterById(request.characterId).equipped
       const out = {} as Partial<SingleRelicByPart>
       for (const key of Object.keys(build)) {
         out[key as Parts] = DB.getRelicById(build[key as Parts]!)
@@ -446,13 +448,17 @@ export const OptimizerTabController = {
   updateCharacter: (characterId: string) => {
     console.log('@updateCharacter', characterId)
     if (!characterId) return
+
+    OptimizerTabController.setRows([])
+    OptimizerTabController.resetDataSource()
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
     const displayFormValues = OptimizerTabController.formToDisplay(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
-    const comboState = initializeComboState(displayFormValues, true)
+    const request = OptimizerTabController.displayToForm(displayFormValues)
+    const comboState = initializeComboState(request, true)
     window.store.getState().setComboState(comboState)
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
@@ -467,8 +473,8 @@ export const OptimizerTabController = {
       window.optimizerGrid.current?.api?.deselectAll()
       // console.log('@updateForm', displayFormValues, character)
 
-      generateContext(form)
-      void calculateCurrentlyEquippedRow(form)
+      generateContext(request)
+      void calculateCurrentlyEquippedRow(request)
 
       window.onOptimizerFormValuesChange({} as Form, displayFormValues)
     }, 50)

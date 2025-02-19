@@ -89,11 +89,13 @@ export function initializeComboState(request: Form, merge: boolean) {
   const actionCount = 9
   // @ts-ignore
   comboState.comboAbilities = [null]
-  for (let i = 1; i <= 9; i++) {
-    const action = request.comboAbilities[i]
-    if (action == null) break
+  if (request.comboAbilities) {
+    for (let i = 1; i <= 9; i++) {
+      const action = request.comboAbilities[i]
+      if (action == null) break
 
-    comboState.comboAbilities.push(action)
+      comboState.comboAbilities.push(action)
+    }
   }
 
   const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(request)

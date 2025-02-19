@@ -15,7 +15,7 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
-import { MemoizedShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
+import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
 import ShowcaseCustomizationSidebar, {
@@ -198,7 +198,7 @@ export function CharacterPreview(props: {
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ width: 1068 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         type='edit'
@@ -240,7 +240,6 @@ export function CharacterPreview(props: {
             position: 'relative',
             display: character ? 'flex' : 'none',
             height: parentH,
-            width: 1068,
             background: showcaseBackgroundColor(token.colorBgLayout, darkMode),
             backgroundBlendMode: 'screen',
             overflow: 'hidden',
@@ -403,7 +402,7 @@ export function CharacterPreview(props: {
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL
       && (
-        <MemoizedShowcaseBuildAnalysis
+        <ShowcaseBuildAnalysis
           token={token}
           simScoringResult={simScoringResult!}
           combatScoreDetails={combatScoreDetails}

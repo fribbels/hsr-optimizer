@@ -72,7 +72,7 @@ export function calculateBuild(
 
   const sets = [setH, setG, setB, setF, setP, setL]
   const setCounts = calculateSetCounts(sets)
-  c.init(relicSetIndex, ornamentSetIndex, setCounts, 0)
+  c.init(relicSetIndex, ornamentSetIndex, setCounts, -1)
 
   calculateBasicSetEffects(c, context, setCounts, sets)
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)

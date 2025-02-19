@@ -3,7 +3,7 @@ import { Flex } from 'antd'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import React, { useState } from 'react'
@@ -14,6 +14,10 @@ export default function OptimizerBuildPreview() {
 
   const [selectedRelic, setSelectedRelic] = useState<Relic>()
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
+
+  if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
+    return <></>
+  }
 
   function onEditOk(relic: Relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
@@ -39,7 +43,7 @@ export default function OptimizerBuildPreview() {
 
   return (
     <div>
-      <Flex gap={5} id='optimizerBuildPreviewContainer'>
+      <Flex gap={5} id='optimizerBuildPreviewContainer' justify='space-between' style={{ paddingLeft: 1, paddingRight: 1 }}>
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={headRelic} score={headScore}/>
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={handsRelic} score={handsScore}/>
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={bodyRelic} score={bodyScore}/>

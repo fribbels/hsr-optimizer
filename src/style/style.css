@@ -419,7 +419,7 @@ a {
 }
 
 .ag-root-wrapper {
-    border-radius: 8px !important;
+    border-radius: 5px !important;
 }
 
 #optimizerGridContainer .ag-cell-value {
@@ -692,4 +692,12 @@ a {
     width: 100%;
     margin-left: 10px;
     margin-right: 10px
+}
+
+.pre-font {
+    font-family: "Consolas", "Courier New", "Menlo", "Monaco", monospace !important;
+}
+
+.stat-upgrade-table .ant-table-row:last-child .ant-table-cell {
+    border-bottom: none !important;
 }

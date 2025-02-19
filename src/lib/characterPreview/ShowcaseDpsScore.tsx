@@ -203,7 +203,7 @@ export function ShowcaseDpsScoreHeader(props: {
     : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(result.spdBenchmark) }) // Benchmark vs {{spd}} SPD
 
   const textDisplay = (
-    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
+    <Flex align='center' vertical style={{ marginBottom: 6, paddingTop: 3, paddingBottom: 3 }}>
       <StatText style={textStyle}>
         {titleRender}
       </StatText>

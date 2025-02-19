@@ -17,6 +17,7 @@ type BuffsAnalysisProps = {
   result?: SimulationScore
   buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>
   singleColumn?: boolean
+  size?: BuffDisplaySize
 }
 
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
@@ -30,20 +31,22 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   const buffsDisplayRight: ReactElement[] = []
   let groupKey = 0
 
+  const size = props.size ?? BuffDisplaySize.SMALL
+
   for (const [id, buffs] of Object.entries(buffGroups.PRIMARY)) {
-    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.PRIMARY} key={groupKey++}/>)
+    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.PRIMARY} key={groupKey++} size={size}/>)
   }
 
   for (const [id, buffs] of Object.entries(buffGroups.SETS)) {
-    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.SETS} key={groupKey++}/>)
+    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.SETS} key={groupKey++} size={size}/>)
   }
 
   for (const [id, buffs] of Object.entries(buffGroups.CHARACTER)) {
-    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.CHARACTER} key={groupKey++}/>)
+    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.CHARACTER} key={groupKey++} size={size}/>)
   }
 
   for (const [id, buffs] of Object.entries(buffGroups.LIGHTCONE)) {
-    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++}/>)
+    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++} size={size}/>)
   }
 
   if (props.singleColumn) {
@@ -72,12 +75,11 @@ function rerunSim(result?: SimulationScore) {
   result.simulationForm.trace = true
   const rerun = runSimulations(result.simulationForm, null, [result.originalSim])[0]
   const x = rerun.tracedX!
-  console.log(rerun)
   return aggregateCombatBuffs(x, result.simulationForm)
 }
 
-function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
-  const { id, buffs, buffType } = props
+function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE; size: BuffDisplaySize }) {
+  const { id, buffs, buffType, size } = props
 
   let src
   if (buffType == BUFF_TYPE.PRIMARY) src = Assets.getCharacterAvatarById(id)
@@ -92,16 +94,21 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE }) {
 
       <Flex vertical>
         {buffs.map((buff, i) => (
-          <BuffTag buff={buff} key={i}/>
+          <BuffTag buff={buff} key={i} size={size}/>
         ))}
       </Flex>
     </Flex>
   )
 }
 
-function BuffTag(props: { buff: Buff }) {
+export enum BuffDisplaySize {
+  SMALL = 375,
+  LARGE = 425,
+}
+
+function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
   const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
-  const { buff } = props
+  const { buff, size } = props
   const stat = buff.stat as keyof ComputedStatsObject
   const percent = !StatsConfig[stat].flat
   // @ts-ignore
@@ -116,7 +123,7 @@ function BuffTag(props: { buff: Buff }) {
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
       <Text>
-        <Flex justify='space-between' style={{ width: 400 }}>
+        <Flex justify='space-between' style={{ width: size }}>
           <Flex gap={3} style={{ minWidth: 70 }}>
             <span>
               {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
@@ -125,7 +132,7 @@ function BuffTag(props: { buff: Buff }) {
               {`${percent ? '%' : ''}`}
             </span>
           </Flex>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10 }}>
+          <span style={{ flex: '1 1 auto', marginRight: 10 }}>
             {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
           </span>
           <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>

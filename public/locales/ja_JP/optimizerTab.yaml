@@ -217,6 +217,7 @@ FormRowLabels:
   Relic & stat filters: 遺物とステータスのフィルター
   Teammates: チームメイト
   Character custom stats simulation: カスタムステータスシミュレーション
+  Analysis: 最適化結果分析
 TracesDrawer:
   Title: 軌跡を編集
   Header: 覚醒した軌跡（デフォルトで全て有効）
@@ -354,7 +355,7 @@ EnemyConfiguration:
   BrokenLabel: 弱点撃破済み
 WeightFilter:
   WeightFilterHeader: 重み付けフィルター
-  RollFilterHeader: 最低サブステータス出現回数
+  RollFilterHeader: 遺物当たりの重み付きサブステ数
   HPFilterText: HP
   ATKFilterText: 攻撃力
   DEFFilterText: 防御力
@@ -478,7 +479,7 @@ StatSimulation:
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: "無効"
-    RollCount: サブステータスの出現回数でシュミレート
+    RollCount: サブステータス強化数でシュミレート
     Totals: サブステータスの値でシュミレート
   FooterLabels:
     Simulate: ビルドをシュミレート
@@ -489,7 +490,7 @@ StatSimulation:
     Description: 本当にこのキャラクターのすべてのシミュレーションを削除しますか？
   SimulationNamePlaceholder: シミュレーション名（任意）
   OptionsHeader: オプション
-  RollsHeader: 最大サブステータス出現回数
+  RollsHeader: 最大サブステータス強化数
   TotalsHeader: サブステータス合計
   MainStatsSelection:
     Header: メインステータス

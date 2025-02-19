@@ -55,8 +55,8 @@ export const languages = {
   },
   vi_VN: {
     locale: 'vi_VN',
-    nativeName: 'tiếng việt',
-    shortName: 'tiếng việt',
+    nativeName: 'Tiếng Việt',
+    shortName: 'Tiếng Việt',
   },
   zh_CN: {
     locale: 'zh_CN',
@@ -74,17 +74,17 @@ export const languages = {
     shortName: 'inContext',
   },
   /*
-  id_ID: {
-    locale: 'id_ID',
-    nativeName: 'Bahasa Indonesia',
-    shortName: 'Bahasa Indonesia',
-  },
-  th_TH: {
-    locale: 'th_TH',
-    nativeName: ' ไทย',
-    shortName: ' ไทย',
-  },
-  */
+   id_ID: {
+   locale: 'id_ID',
+   nativeName: 'Bahasa Indonesia',
+   shortName: 'Bahasa Indonesia',
+   },
+   th_TH: {
+   locale: 'th_TH',
+   nativeName: ' ไทย',
+   shortName: ' ไทย',
+   },
+   */
 } as const
 export type Languages = keyof typeof languages
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'vi_VN', 'zh_CN'] as const

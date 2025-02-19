@@ -8,7 +8,15 @@ import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
-import { calculateBaseStats, calculateBasicEffects, calculateBasicSetEffects, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
+import {
+  calculateBaseStats,
+  calculateBasicEffects,
+  calculateBasicSetEffects,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts,
+} from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'

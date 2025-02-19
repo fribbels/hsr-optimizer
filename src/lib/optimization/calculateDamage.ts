@@ -480,7 +480,7 @@ function calculateDotDmg(
     splits.trueDmg = trueDmg
   }
 
-  return dotDmg
+  return dotDmg + trueDmg
 }
 
 function calculateEhrMulti(

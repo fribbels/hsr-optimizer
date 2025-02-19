@@ -1,10 +1,4 @@
-import Icon, {
-  CameraOutlined,
-  DownloadOutlined,
-  EditOutlined,
-  ExperimentOutlined,
-  ImportOutlined,
-} from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -32,17 +26,9 @@ function presetCharacters() {
   return [
     { characterId: char(1403), lightConeId: lc(23038) },
     { characterId: char(1404), lightConeId: lc(23039) },
-    { characterId: char(1401), lightConeId: lc(23037) },
-    { characterId: char(1402), lightConeId: lc(23036) },
-    { characterId: char(8007), lightConeId: lc(21050), lightConeSuperimposition: 5 },
-    { characterId: char(8008), lightConeId: lc(21050), lightConeSuperimposition: 5 },
 
-    { characterId: char(1222), lightConeId: lc(23032), rerun: true },
-    { characterId: char(1220), lightConeId: lc(23031), rerun: true },
-    { characterId: char(1314), lightConeId: lc(23028), rerun: true },
-    { characterId: char(1315), lightConeId: lc(23027), rerun: true },
-    { characterId: char(1309), lightConeId: lc(23026), rerun: true },
-    { characterId: char(1006), lightConeId: lc(23007), rerun: true },
+    { characterId: char(1221), lightConeId: lc(23030), rerun: true },
+    { characterId: char(1217), lightConeId: lc(23017), rerun: true },
 
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
@@ -217,10 +203,10 @@ export default function RelicScorerTab() {
     <div>
       <Flex vertical gap={0} align='center'>
         {/*
-        <Flex gap={10} vertical align='center'>
-        <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 2.6 })}</h3></Text>
-        </Flex>
-        */}
+         <Flex gap={10} vertical align='center'>
+         <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 2.6 })}</h3></Text>
+         </Flex>
+         */}
         <Flex gap={10} vertical align='center'>
           <Text>
             {officialOnly
@@ -228,9 +214,9 @@ export default function RelicScorerTab() {
               : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
             {
               /*
-              "WithVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
-              "WithoutVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly."
-              */
+               "WithVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
+               "WithoutVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly."
+               */
             }
           </Text>
         </Flex>
@@ -468,7 +454,7 @@ function CharacterPreviewSelection(props) {
           <Sidebar presetClicked={presetClicked} activeKey={activeKey}/>
 
           <Flex
-            style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}
+            style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', marginBottom: 5 }}
             justify='space-between'
             gap={10}
           >

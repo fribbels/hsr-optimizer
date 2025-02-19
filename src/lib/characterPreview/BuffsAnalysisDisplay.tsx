@@ -123,7 +123,7 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0, fontSize: 14 }} className='text-font'>
       <Flex justify='space-between' style={{ width: size }}>
-        <Flex gap={3} style={{ minWidth: 60 }}>
+        <Flex gap={3} style={{ minWidth: 70 }}>
           <span>
             {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
           </span>
@@ -224,7 +224,7 @@ const computedStatsTempI18NTranslations = {
   DMG_RED_MULTI: 'Damage reduction',
   EHP: 'Effective HP',
   SHIELD_BOOST: 'Shield boost',
-  DOT_CHANCE: 'Dot chance',
+  DOT_CHANCE: 'Dot base chance',
   EFFECT_RES_PEN: 'Effect RES PEN',
   DOT_SPLIT: 'Dot split',
   DOT_STACKS: 'Dot stacks',

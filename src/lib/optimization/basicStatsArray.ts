@@ -93,7 +93,7 @@ export class BasicStatsArrayCore {
           },
           set: (value: number, source: BuffSource) => {
             this.a[key] = value
-            traceOverwrite(value, source)
+            trace(value, source)
           },
           get: () => this.a[key],
         },

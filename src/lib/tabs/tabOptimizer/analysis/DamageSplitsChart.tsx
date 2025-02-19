@@ -56,55 +56,61 @@ export function DamageSplitsChart(props: {
   })
 
   return (
-    <BarChart
-      className='pre-font'
-      layout='vertical'
-      data={filteredData}
-      margin={{
-        top: 20,
-        right: 40,
-        bottom: 20,
-        left: 20,
-      }}
-      barCategoryGap='25%'
-      width={DAMAGE_SPLITS_CHART_WIDTH}
-      height={DAMAGE_SPLITS_CHART_HEIGHT}
-    >
-      <XAxis
-        type='number'
-        tick={{ fill: chartColor }}
-        tickFormatter={renderThousands}
-      />
-      <YAxis
-        dataKey='name'
-        type='category'
-        axisLine={false}
-        tickLine={false}
-        tick={{ fill: chartColor }}
-        tickFormatter={(key) => dataKeyToDisplay[key as keyof DefaultActionDamageValues]}
-        tickMargin={10}
-        width={60}
-      />
-      <Tooltip
-        cursor={false}
-        isAnimationActive={false}
-        // @ts-ignore
-        content={<CustomTooltip bar={barHovered}/>}
-      />
-      <Legend
-        formatter={(s: DamageBreakdownKeys) => tooltipDataKeyToDisplay[s]}
-        wrapperStyle={{ paddingTop: 20 }}
-      />
 
-      {renderBar('abilityDmg', '#85c1e9', setBarHovered)}
-      {renderBar('jointDmg', '#2980b9', setBarHovered)}
-      {renderBar('superBreakDmg', '#e59866', setBarHovered)}
-      {renderBar('additionalDmg', '#bb8fce', setBarHovered)}
-      {renderBar('dotDmg', '#45b39d', setBarHovered)}
-      {renderBar('memoDmg', '#cd6155', setBarHovered)}
-      {renderBar('breakDmg', '#f8c471', setBarHovered)}
-      {renderBar('trueDmg', '#cacfd2', setBarHovered, true)}
-    </BarChart>
+    <Flex justify='center' className='pre-font'>
+      <text style={{ position: 'absolute', marginTop: 20 }}>
+        <tspan fontSize='14'>Damage Type Distribution</tspan>
+      </text>
+      <BarChart
+        layout='vertical'
+        data={filteredData}
+        margin={{
+          top: 50,
+          right: 60,
+          bottom: 20,
+          left: 60,
+        }}
+        barCategoryGap='25%'
+        width={DAMAGE_SPLITS_CHART_WIDTH}
+        height={DAMAGE_SPLITS_CHART_HEIGHT}
+      >
+        <XAxis
+          type='number'
+          tick={{ fill: chartColor }}
+          tickFormatter={renderThousands}
+          width={100}
+        />
+        <YAxis
+          dataKey='name'
+          type='category'
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: chartColor }}
+          tickFormatter={(key) => dataKeyToDisplay[key as keyof DefaultActionDamageValues]}
+          tickMargin={10}
+          width={20}
+        />
+        <Tooltip
+          cursor={false}
+          isAnimationActive={false}
+          // @ts-ignore
+          content={<CustomTooltip bar={barHovered}/>}
+        />
+        <Legend
+          formatter={(s: DamageBreakdownKeys) => tooltipDataKeyToDisplay[s]}
+          wrapperStyle={{ paddingTop: 10 }}
+        />
+
+        {renderBar('abilityDmg', '#85c1e9', setBarHovered)}
+        {renderBar('jointDmg', '#2980b9', setBarHovered)}
+        {renderBar('superBreakDmg', '#e59866', setBarHovered)}
+        {renderBar('additionalDmg', '#bb8fce', setBarHovered)}
+        {renderBar('dotDmg', '#45b39d', setBarHovered)}
+        {renderBar('memoDmg', '#cd6155', setBarHovered)}
+        {renderBar('breakDmg', '#f8c471', setBarHovered)}
+        {renderBar('trueDmg', '#cacfd2', setBarHovered, true)}
+      </BarChart>
+    </Flex>
   )
 }
 

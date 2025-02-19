@@ -542,7 +542,7 @@ export const CharacterScoringSummary = (props: {
 
       <Flex vertical align='center' style={{ width: '100%' }}>
         <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-          Combat buffs (WIP)
+          Combat buffs
         </pre>
 
         <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>

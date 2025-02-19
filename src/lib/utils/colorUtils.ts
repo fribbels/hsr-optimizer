@@ -42,7 +42,7 @@ export function showcaseBackgroundColor(color: string, darkMode: boolean) {
 }
 
 export function showcaseSegmentedColor(color: string, darkMode: boolean) {
-  const finalColor = chroma(color).desaturate(0.5).luminance(0.1).alpha(0.6)
+  const finalColor = chroma(color).desaturate(0.5).luminance(0.2).alpha(0.3)
   return darkModeModifier(finalColor, darkMode).css()
 }
 

@@ -121,25 +121,23 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
   else sourceLabel = buff.source.label
 
   return (
-    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
-      <Text>
-        <Flex justify='space-between' style={{ width: size }}>
-          <Flex gap={3} style={{ minWidth: 70 }}>
-            <span>
-              {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
-            </span>
-            <span>
-              {`${percent ? '%' : ''}`}
-            </span>
-          </Flex>
-          <span style={{ flex: '1 1 auto', marginRight: 10 }}>
-            {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
+    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0, fontSize: 14 }} className='text-font'>
+      <Flex justify='space-between' style={{ width: size }}>
+        <Flex gap={3} style={{ minWidth: 60 }}>
+          <span>
+            {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
           </span>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
-            {sourceLabel}
+          <span>
+            {`${percent ? '%' : ''}`}
           </span>
         </Flex>
-      </Text>
+        <span style={{ flex: '1 1 auto', marginRight: 10, minWidth: 130 }}>
+          {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
+        </span>
+        <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
+          {sourceLabel}
+        </span>
+      </Flex>
     </Tag>
   )
 }
@@ -208,7 +206,7 @@ const computedStatsTempI18NTranslations = {
   FIRE_RES_PEN: 'Fire RES PEN',
   ICE_RES_PEN: 'Ice RES PEN',
   LIGHTNING_RES_PEN: 'Lightning RES PEN',
-  WIND_RES_PEN: 'Wing RES PEN',
+  WIND_RES_PEN: 'Wind RES PEN',
   QUANTUM_RES_PEN: 'Quantum RES PEN',
   IMAGINARY_RES_PEN: 'Imaginary RES PEN',
   BASIC_RES_PEN: 'Basic DMG RES PEN',
@@ -231,7 +229,7 @@ const computedStatsTempI18NTranslations = {
   DOT_SPLIT: 'Dot split',
   DOT_STACKS: 'Dot stacks',
   SUMMONS: 'Summons',
-  ENEMY_WEAKNESS_BROKEN: 'Enemy Weakness Broken',
+  ENEMY_WEAKNESS_BROKEN: 'Enemy weakness broken',
   SUPER_BREAK_MODIFIER: 'Super Break multiplier',
   BASIC_SUPER_BREAK_MODIFIER: 'Basic Super Break multiplier',
   BASIC_TOUGHNESS_DMG: 'Basic Toughness DMG',
@@ -252,9 +250,9 @@ const computedStatsTempI18NTranslations = {
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: 'Ult Additional DMG CD override',
   SKILL_OHB: 'Skill Outgoing Healing Boost',
   ULT_OHB: 'Ult Outgoing Healing Boost',
-  HEAL_TYPE: 'Healing ability type',
-  HEAL_FLAT: 'Healing flat',
-  HEAL_SCALING: 'Healing scaling',
+  HEAL_TYPE: 'Heal ability type',
+  HEAL_FLAT: 'Heal flat',
+  HEAL_SCALING: 'Heal scaling',
   HEAL_VALUE: 'Heal value',
   SHIELD_FLAT: 'Shield flat',
   SHIELD_SCALING: 'Shield scaling',
@@ -279,17 +277,17 @@ const computedStatsTempI18NTranslations = {
   MEMO_BASE_SPD_FLAT: 'Memo SPD flat',
   MEMO_SKILL_SCALING: 'Memo Skill scaling',
   MEMO_TALENT_SCALING: 'Memo Talent scaling',
-  UNCONVERTIBLE_HP_BUFF: 'Unconvertible HP buff',
-  UNCONVERTIBLE_ATK_BUFF: 'Unconvertible ATK buff',
-  UNCONVERTIBLE_DEF_BUFF: 'Unconvertible DEF buff',
-  UNCONVERTIBLE_SPD_BUFF: 'Unconvertible SPD buff',
-  UNCONVERTIBLE_CR_BUFF: 'Unconvertible Crit Rate buff',
-  UNCONVERTIBLE_CD_BUFF: 'Unconvertible Crit DMG buff',
-  UNCONVERTIBLE_EHR_BUFF: 'Unconvertible Effect Hit Rate buff',
-  UNCONVERTIBLE_BE_BUFF: 'Unconvertible Break Effect buff',
-  UNCONVERTIBLE_OHB_BUFF: 'Unconvertible Outgoing Healing Boost buff',
-  UNCONVERTIBLE_RES_BUFF: 'Unconvertible Effect RES buff',
-  UNCONVERTIBLE_ERR_BUFF: 'Unconvertible Energy Regeneration Rate buff',
+  UNCONVERTIBLE_HP_BUFF: 'Unconvertible HP',
+  UNCONVERTIBLE_ATK_BUFF: 'Unconvertible ATK',
+  UNCONVERTIBLE_DEF_BUFF: 'Unconvertible DEF',
+  UNCONVERTIBLE_SPD_BUFF: 'Unconvertible SPD',
+  UNCONVERTIBLE_CR_BUFF: 'Unconvertible Crit Rate',
+  UNCONVERTIBLE_CD_BUFF: 'Unconvertible Crit DMG',
+  UNCONVERTIBLE_EHR_BUFF: 'Unconvertible Effect Hit Rate',
+  UNCONVERTIBLE_BE_BUFF: 'Unconvertible Break Effect',
+  UNCONVERTIBLE_OHB_BUFF: 'Unconvertible Outgoing Healing Boost',
+  UNCONVERTIBLE_RES_BUFF: 'Unconvertible Effect RES',
+  UNCONVERTIBLE_ERR_BUFF: 'Unconvertible Energy Regeneration Rate',
   BREAK_EFFICIENCY_BOOST: 'Break efficiency boost',
   BASIC_BREAK_EFFICIENCY_BOOST: 'Basic Break efficiency boost',
   ULT_BREAK_EFFICIENCY_BOOST: 'Ult Break efficiency boost',

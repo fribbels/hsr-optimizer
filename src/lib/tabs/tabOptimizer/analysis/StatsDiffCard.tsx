@@ -174,7 +174,7 @@ function visualDiff(n1: number, n2: number, stat: string) {
 
 function CardImage(props: { analysis: OptimizerResultAnalysis }) {
   return (
-    <Flex
+    <div
       style={{
         overflow: 'hidden',
         boxShadow: cardShadow,
@@ -184,7 +184,7 @@ function CardImage(props: { analysis: OptimizerResultAnalysis }) {
         background: '#243356',
       }}
     >
-      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true}/>
-    </Flex>
+      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={400}/>
+    </div>
   )
 }

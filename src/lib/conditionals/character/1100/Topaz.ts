@@ -138,9 +138,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       const basicAshblazingAtk = calculateAshblazingSet(x, action, context, basicHitCountMulti)
       const fuaAshblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * (x.a[Key.ATK] + basicAshblazingAtk), SOURCE_BASIC)
-      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + fuaAshblazingAtk), SOURCE_TALENT)
-      x.SKILL_DMG.set(x.a[Key.FUA_DMG], SOURCE_SKILL)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * (x.a[Key.ATK] + basicAshblazingAtk), Source.NONE)
+      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + fuaAshblazingAtk), Source.NONE)
+      x.SKILL_DMG.set(x.a[Key.FUA_DMG], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

@@ -207,8 +207,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
 
-      x.m.ULT_DMG.buff(x.m.a[Key.ULT_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
+      x.m.ULT_DMG.buff(x.m.a[Key.ULT_SCALING] * x.m.a[Key.ATK], Source.NONE)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return `

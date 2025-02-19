@@ -128,7 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buffTeam((m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, SOURCE_TALENT)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], SOURCE_ULT)
+      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
 
       return standardAtkFinalizer(x)
     },

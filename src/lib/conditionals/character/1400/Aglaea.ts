@@ -181,12 +181,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.m.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
       }
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
 
-      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], SOURCE_TALENT)
+      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
 
-      x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], SOURCE_BASIC)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], SOURCE_MEMO)
+      x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], Source.NONE)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

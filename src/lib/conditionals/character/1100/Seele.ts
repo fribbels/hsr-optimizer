@@ -102,13 +102,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], SOURCE_SKILL)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], SOURCE_ULT)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
 
-      x.BASIC_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, SOURCE_E6)
-      x.SKILL_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, SOURCE_E6)
-      x.ULT_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, SOURCE_E6)
+      x.BASIC_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
+      x.SKILL_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
+      x.ULT_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

@@ -31,7 +31,6 @@ export function DamageSplits(props: {
         boxShadow: cardShadow,
         borderRadius: 5,
         overflow: 'hidden',
-        padding: 8,
         background: '#243356',
       }}
     >

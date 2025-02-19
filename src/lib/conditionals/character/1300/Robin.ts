@@ -183,8 +183,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ADDITIONAL_DMG_CR_OVERRIDE.buff(1.00, SOURCE_ULT)
       x.ULT_ADDITIONAL_DMG_CD_OVERRIDE.buff((e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50, SOURCE_ULT)
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
-      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], SOURCE_ULT)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

@@ -479,7 +479,7 @@ StatSimulation:
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: "無効"
-    RollCount: サブステータスの出現回数でシュミレート
+    RollCount: サブステータス強化数でシュミレート
     Totals: サブステータスの値でシュミレート
   FooterLabels:
     Simulate: ビルドをシュミレート
@@ -490,7 +490,7 @@ StatSimulation:
     Description: 本当にこのキャラクターのすべてのシミュレーションを削除しますか？
   SimulationNamePlaceholder: シミュレーション名（任意）
   OptionsHeader: オプション
-  RollsHeader: 最大サブステータス出現回数
+  RollsHeader: 最大サブステータス強化数
   TotalsHeader: サブステータス合計
   MainStatsSelection:
     Header: メインステータス

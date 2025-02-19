@@ -9,7 +9,7 @@ export const OptimizerTabCharacterPanel = () => {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   return (
-    <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px', position: 'relative' }}>
+    <div style={{ width: parentW, height: parentH, borderRadius: 10, position: 'relative' }}>
       <CharacterPreviewInternalImage id={optimizerTabFocusCharacter!}/>
     </div>
   )
@@ -17,11 +17,12 @@ export const OptimizerTabCharacterPanel = () => {
 
 export function CharacterPreviewInternalImage(props: { id: string; disableClick?: boolean; parentH?: number }) {
   const customParentH = props.parentH ?? parentH
+  const customInnerH = customParentH >= innerH ? customParentH : innerH
   return (
     <img
       width={innerW}
       src={Assets.getCharacterPreviewById(props.id)}
-      style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - customParentH) / 2 / innerH * -100}%)`, cursor: props.disableClick ? '' : 'pointer' }}
+      style={{ transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(customInnerH - customParentH) / 2 / customInnerH * -100}%)`, cursor: props.disableClick ? '' : 'pointer' }}
       onClick={() => {
         if (props.disableClick) return
         window.store.getState().setOptimizerTabFocusCharacterSelectModalOpen(true)

@@ -454,7 +454,7 @@ function CharacterPreviewSelection(props) {
           <Sidebar presetClicked={presetClicked} activeKey={activeKey}/>
 
           <Flex
-            style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none' }}
+            style={{ display: (props.availableCharacters.length > 0) ? 'flex' : 'none', marginBottom: 5 }}
             justify='space-between'
             gap={10}
           >

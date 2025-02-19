@@ -184,7 +184,7 @@ function CardImage(props: { analysis: OptimizerResultAnalysis }) {
         background: '#243356',
       }}
     >
-      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true}/>
+      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={400}/>
     </Flex>
   )
 }

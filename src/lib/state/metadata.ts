@@ -6816,7 +6816,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP,
           Stats.ATK_P,
         ],
-        comboAbilities: [NULL, ULT, FUA, FUA, BASIC, FUA, FUA],
+        comboAbilities: [NULL, ULT, FUA, BASIC, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,

@@ -58,9 +58,9 @@ export function DamageSplitsChart(props: {
   return (
 
     <Flex justify='center' className='pre-font'>
-      <text style={{ position: 'absolute', marginTop: 20 }}>
-        <tspan fontSize='14'>Damage Type Distribution</tspan>
-      </text>
+      <span style={{ position: 'absolute', marginTop: 20, fontSize: 14 }}>
+        Damage Type Distribution
+      </span>
       <BarChart
         layout='vertical'
         data={filteredData}

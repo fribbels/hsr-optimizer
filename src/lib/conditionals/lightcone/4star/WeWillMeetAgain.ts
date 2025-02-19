@@ -37,8 +37,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.BASIC_ADDITIONAL_DMG.buff(((r.extraDmgProc) ? sValues[s] : 0) * x.a[Key.ATK], SOURCE_LC)
-      x.SKILL_ADDITIONAL_DMG.buff(((r.extraDmgProc) ? sValues[s] : 0) * x.a[Key.ATK], SOURCE_LC)
+      x.BASIC_ADDITIONAL_DMG.buff(((r.extraDmgProc) ? sValues[s] : 0) * x.a[Key.ATK], Source.NONE)
+      x.SKILL_ADDITIONAL_DMG.buff(((r.extraDmgProc) ? sValues[s] : 0) * x.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>

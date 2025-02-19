@@ -117,15 +117,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.enhancedBasic) {
-        x.BASIC_DMG.buff(basicEnhancedAtkScaling * x.a[Key.ATK], SOURCE_BASIC)
-        x.BASIC_DMG.buff(basicEnhancedDefScaling * x.a[Key.DEF], SOURCE_BASIC)
+        x.BASIC_DMG.buff(basicEnhancedAtkScaling * x.a[Key.ATK], Source.NONE)
+        x.BASIC_DMG.buff(basicEnhancedDefScaling * x.a[Key.DEF], Source.NONE)
       } else {
-        x.BASIC_DMG.buff(basicAtkScaling * x.a[Key.ATK], SOURCE_BASIC)
-        x.BASIC_DMG.buff(basicDefScaling * x.a[Key.DEF], SOURCE_BASIC)
+        x.BASIC_DMG.buff(basicAtkScaling * x.a[Key.ATK], Source.NONE)
+        x.BASIC_DMG.buff(basicDefScaling * x.a[Key.DEF], Source.NONE)
       }
 
-      x.ULT_DMG.buff(ultAtkScaling * x.a[Key.ATK], SOURCE_ULT)
-      x.ULT_DMG.buff(ultDefScaling * x.a[Key.DEF], SOURCE_ULT)
+      x.ULT_DMG.buff(ultAtkScaling * x.a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(ultDefScaling * x.a[Key.DEF], Source.NONE)
 
       standardDefShieldFinalizer(x)
     },

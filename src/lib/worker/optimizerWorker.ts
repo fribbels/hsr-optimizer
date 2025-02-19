@@ -162,9 +162,9 @@ self.onmessage = function (e: MessageEvent) {
     const setCounts = calculateSetCounts(sets)
     c.init(relicSetIndex, ornamentSetIndex, setCounts, col)
 
+    calculateBasicSetEffects(c, context, setCounts, sets)
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
     calculateBaseStats(c, context)
-    calculateBasicSetEffects(c, context, setCounts, sets)
     calculateElementalStats(c, context)
 
     // Exit early on base display filters failing

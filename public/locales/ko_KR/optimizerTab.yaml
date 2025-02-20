@@ -514,3 +514,22 @@ StatSimulation:
     RopePlaceholder: 매듭
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 기본 공격
+      Skill: 전투 스킬
+      Ult: 필살기
+  DamageSplits:
+    Legend:
+      breakDmg: 격파
+    YAxisLabel:
+      BASIC_DMG: 기본 공격
+      SKILL_DMG: 전투 스킬
+      ULT_DMG: 필살기
+      FUA_DMG: 추가 공격
+      BREAK_DMG: 격파
+      MEMO_SKILL_DMG: 소환물 데미지
+    TooltipText:
+      breakDmg: 격파 피해량
+      dotDmg: 지속 피해량

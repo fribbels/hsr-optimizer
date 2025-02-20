@@ -12,6 +12,7 @@ import { ScoreCategory } from 'lib/scoring/scoreComparison'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
+import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
@@ -178,7 +179,7 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
           <img src={icon} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
           {(scored) ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
         </Flex>
-        {(scored) ? `${score.score} (${score.rating})` : ''}
+        {(scored) ? `${numberToLocaleString(Number(score.score), 1)} (${score.rating})` : ''}
       </Flex>
     </>
   )

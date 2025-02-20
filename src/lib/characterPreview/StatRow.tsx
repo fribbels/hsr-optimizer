@@ -3,6 +3,7 @@ import { Constants, StatsValues } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 
 import { Assets } from 'lib/rendering/assets'
+import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
@@ -69,7 +70,7 @@ export function StatRow(props: {
     ? (i18n.exists(`ReadableStats.${stat}`)
       ? t(`ReadableStats.${stat as StatsValues}`)
       : t(`DMGTypes.${stat}`))
-    : t(`Stats.${stat}`)
+    : t(`Stats.${stat as StatsValues}`)
 
   const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, props.value!, props.stat, props.preciseSpd)
 
@@ -88,25 +89,25 @@ export function StatRow(props: {
 }
 
 export function getStatRenderValues(statValue: number, customValue: number, stat: string, preciseSpd?: boolean) {
-  let valueDisplay
-  let value1000thsPrecision
+  let valueDisplay: string
+  let value1000thsPrecision: string
 
   if (stat == 'CV') {
-    valueDisplay = Utils.precisionRound(customValue).toFixed(1)
-    value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
+    valueDisplay = numberToLocaleString(Utils.precisionRound(customValue), 1)
+    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(customValue), 3)
   } else if (stat == 'simScore' || stat == 'COMBO_DMG') {
-    valueDisplay = `${Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)).toFixed(1)}`
-    value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
+    valueDisplay = numberToLocaleString(Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)), 1)
+    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(customValue), 3)
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(statValue)
-    valueDisplay = (is1000thSpeed || preciseSpd) ? Utils.precisionRound(statValue, 3).toFixed(3) : Utils.truncate10ths(Utils.precisionRound(statValue, 3)).toFixed(1)
-    value1000thsPrecision = Utils.precisionRound(statValue).toFixed(3)
+    valueDisplay = numberToLocaleString((is1000thSpeed || preciseSpd) ? Utils.precisionRound(statValue, 3) : Utils.truncate10ths(Utils.precisionRound(statValue, 3)), 1)
+    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(statValue), 3)
   } else if (Utils.isFlat(stat)) {
-    valueDisplay = Math.floor(statValue)
-    value1000thsPrecision = Utils.precisionRound(statValue).toFixed(3)
+    valueDisplay = numberToLocaleString(Math.floor(statValue), 0)
+    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(statValue), 3)
   } else {
-    valueDisplay = Utils.truncate10ths(Utils.precisionRound(statValue * 100)).toFixed(1)
-    value1000thsPrecision = Utils.truncate1000ths(Utils.precisionRound(statValue * 100)).toFixed(3)
+    valueDisplay = numberToLocaleString(Utils.truncate10ths(Utils.precisionRound(statValue * 100)), 1)
+    value1000thsPrecision = numberToLocaleString(Utils.truncate1000ths(Utils.precisionRound(statValue * 100)), 3)
   }
 
   return { valueDisplay, value1000thsPrecision }

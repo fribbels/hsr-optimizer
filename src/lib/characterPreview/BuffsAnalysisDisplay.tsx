@@ -1,15 +1,16 @@
 import { Flex, Tag, Typography } from 'antd'
-import i18next from 'i18next'
-import { Sets } from 'lib/constants/constants'
-import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import { Sets, setToId } from 'lib/constants/constants'
+import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runSimulations } from 'lib/simulations/statSimulationController'
+import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -79,6 +80,7 @@ function rerunSim(result?: SimulationScore) {
 }
 
 function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE; size: BuffDisplaySize }) {
+  const { i18n } = useTranslation() // needed to trigger re-render on language change
   const { id, buffs, buffType, size } = props
 
   let src
@@ -107,7 +109,7 @@ export enum BuffDisplaySize {
 }
 
 function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
-  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
+  const { t } = useTranslation(['gameData', 'optimizerTab'])
   const { buff, size } = props
   const stat = buff.stat as keyof ComputedStatsObject
   const percent = !StatsConfig[stat].flat
@@ -115,17 +117,26 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
   const statLabel = computedStatsTempI18NTranslations[stat] ?? stat
 
   let sourceLabel
-
-  if (buff.source.buffType == BUFF_TYPE.CHARACTER) sourceLabel = buff.source.ability
-  else if (buff.source.buffType == BUFF_TYPE.LIGHTCONE) sourceLabel = t(`gameData:Lightcones.${buff.source.id}.Name` as never)
-  else sourceLabel = buff.source.label
+  switch (buff.source.buffType) {
+    case BUFF_TYPE.CHARACTER:
+      sourceLabel = t(`optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Sources.${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
+      break
+    case BUFF_TYPE.LIGHTCONE:
+      sourceLabel = t(`Lightcones.${buff.source.id}.Name` as never)
+      break
+    case BUFF_TYPE.SETS:
+      sourceLabel = t(`RelicSets.${setToId[Sets[buff.source.id as keyof typeof Sets]]}.Name`)
+      break
+    default:
+      sourceLabel = buff.source.label
+  }
 
   return (
     <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0, fontSize: 14 }} className='text-font'>
       <Flex justify='space-between' style={{ width: size }}>
         <Flex gap={3} style={{ minWidth: 70 }}>
           <span>
-            {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
+            {`${(percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)).toLocaleString(currentLocale())}`}
           </span>
           <span>
             {`${percent ? '%' : ''}`}

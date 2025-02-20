@@ -19,9 +19,14 @@ export default function OptimizerTab() {
       <Flex vertical gap={10} style={{ marginBottom: 100 }}>
         <OptimizerForm/>
         <OptimizerGrid/>
-        {expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below && <OptimizerBuildPreview/>}
-        <ExpandedDataPanel/> {/* toggle preview position instead of panel as the preview re-renders faster */}
-        {expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Above && <OptimizerBuildPreview/>}
+        <Flex
+          vertical
+          gap={10}
+          style={{ flexDirection: expandedPanelPosition == SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
+        >
+          <OptimizerBuildPreview/>
+          <ExpandedDataPanel/>
+        </Flex>
       </Flex>
       <ZeroPermutationsSuggestionsModal/>
       <ZeroResultSuggestionModal/>

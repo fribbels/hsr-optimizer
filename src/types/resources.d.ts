@@ -5097,6 +5097,68 @@ interface Resources {
         "ShortStat": "$t(common:ShortReadableStats.{{stat}})",
         "LabelStat": "$t(common:ReadableStats.{{stat}})"
       }
+    },
+    "ExpandedDataPanel": {
+      "BuffsAnalysisDisplay": {
+        "Sources": {
+          "Basic": "Basic",
+          "Skill": "Skill",
+          "Ult": "Ult",
+          "Talent": "Talent",
+          "Technique": "Technique",
+          "Trace": "Trace",
+          "Memo": "Memo",
+          "E1": "E1",
+          "E2": "E2",
+          "E4": "E4",
+          "E6": "E6"
+        }
+      },
+      "SubstatUpgrades": {
+        "ColumnHeaders": {
+          "Substat": "+1x Substat",
+          "COMBO_DMG": "Δ Combo DMG",
+          "COMBO_DMG_P": "Δ% Combo DMG",
+          "EHP": "Δ EHP",
+          "EHP_P": "Δ% EHP",
+          "HEAL_VALUE": "Δ Heal",
+          "HEAL_VALUE_P": "Δ% Heal",
+          "SHIELD_VALUE": "Δ Shield",
+          "SHIELD_VALUE_P": "Δ% Shield"
+        }
+      },
+      "DamageSplits": {
+        "Title": "Damage Type Distribution",
+        "Legend": {
+          "abilityDmg": "Ability",
+          "breakDmg": "Break",
+          "superBreakDmg": "Super Break",
+          "additionalDmg": "Additional",
+          "trueDmg": true,
+          "jointDmg": "Joint",
+          "dotDmg": "Dot",
+          "memoDmg": "Memo"
+        },
+        "YAxisLabel": {
+          "BASIC_DMG": "Basic",
+          "SKILL_DMG": "Skill",
+          "ULT_DMG": "Ult",
+          "FUA_DMG": "Fua",
+          "DOT_DMG": "Dot",
+          "BREAK_DMG": "Break",
+          "MEMO_SKILL_DMG": "Skillᴹ"
+        },
+        "TooltipText": {
+          "abilityDmg": "Ability DMG",
+          "breakDmg": "Break DMG",
+          "superBreakDmg": "Super Break DMG",
+          "additionalDmg": "Additional DMG",
+          "trueDmg": "True DMG",
+          "jointDmg": "Joint DMG",
+          "dotDmg": "Dot DMG",
+          "memoDmg": "Memo DMG"
+        }
+      }
     }
   },
   "relicScorerTab": {

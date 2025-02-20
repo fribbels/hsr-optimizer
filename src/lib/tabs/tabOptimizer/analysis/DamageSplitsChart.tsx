@@ -1,7 +1,10 @@
 import { Flex } from 'antd'
+import i18next from 'i18next'
 import { DamageBreakdown, DefaultActionDamageValues } from 'lib/optimization/computedStatsArray'
 import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 
 type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
@@ -24,6 +27,7 @@ const chartColor = '#DDD'
 export function DamageSplitsChart(props: {
   data: DamageBreakdown[]
 }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits' })
   const [barHovered, setBarHovered] = useState<string | null>(null)
 
   const data = props.data
@@ -59,7 +63,7 @@ export function DamageSplitsChart(props: {
 
     <Flex justify='center' className='pre-font'>
       <span style={{ position: 'absolute', marginTop: 20, fontSize: 14 }}>
-        Damage Type Distribution
+        {t('Title')/* Damage Type Distribution */}
       </span>
       <BarChart
         layout='vertical'
@@ -86,7 +90,7 @@ export function DamageSplitsChart(props: {
           axisLine={false}
           tickLine={false}
           tick={{ fill: chartColor }}
-          tickFormatter={(key) => dataKeyToDisplay[key as keyof DefaultActionDamageValues]}
+          tickFormatter={(key: keyof DefaultActionDamageValues) => t(`YAxisLabel.${key}`)}
           tickMargin={10}
           width={20}
         />
@@ -97,7 +101,7 @@ export function DamageSplitsChart(props: {
           content={<CustomTooltip bar={barHovered}/>}
         />
         <Legend
-          formatter={(s: DamageBreakdownKeys) => tooltipDataKeyToDisplay[s]}
+          formatter={(s: DamageBreakdownKeys) => t(`Legend.${s}`)}
           wrapperStyle={{ paddingTop: 10 }}
         />
 
@@ -143,7 +147,8 @@ type BarsTooltipData = {
 }
 
 const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; label: string; bar: DamageBreakdownKeys | null }) => {
-  const { active, payload, label, bar } = props
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits.TooltipText' })
+  const { active, payload, bar } = props
   if (!bar || !payload || !active) {
     return null
   }
@@ -161,33 +166,12 @@ const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; lab
         borderRadius: 3,
       }}
     >
-      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{`${tooltipDataKeyToDisplay[bar]} DMG`}</span>
-      <span>{Math.floor(damageItem.value).toLocaleString()}</span>
+      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{t(bar)}</span>
+      <span>{numberToLocaleString(Math.floor(damageItem.value))}</span>
     </Flex>
   )
 }
 
-const tooltipDataKeyToDisplay: Record<DamageBreakdownKeys, string> = {
-  abilityDmg: 'Ability',
-  breakDmg: 'Break',
-  superBreakDmg: 'Super Break',
-  additionalDmg: 'Additional',
-  trueDmg: 'True',
-  jointDmg: 'Joint',
-  dotDmg: 'Dot',
-  memoDmg: 'Memo',
-}
-
-const dataKeyToDisplay = {
-  BASIC_DMG: 'Basic',
-  SKILL_DMG: 'Skill',
-  ULT_DMG: 'Ult',
-  FUA_DMG: 'Fua',
-  DOT_DMG: 'Dot',
-  BREAK_DMG: 'Break',
-  MEMO_SKILL_DMG: 'Skillᴹ',
-}
-
 function renderThousands(n: number) {
-  return `${Math.floor(Number(n) / 1000)}K`
+  return `${Math.floor(Number(n) / 1000)}${i18next.t('common:ThousandsSuffix')}`
 }

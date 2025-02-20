@@ -5,7 +5,7 @@ import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
 import { calculateStatUpgrades, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { numberToLocaleString } from 'lib/utils/i18nUtils'
+import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -94,7 +94,7 @@ export function DamageUpgrades(props: {
         width: 110,
         render: (n: number) => (
           <>
-            {n == 0 ? '' : `${numberToLocaleString(n, 1, true)}`}
+            {n == 0 ? '' : `${localeNumber_0(n)}`}
           </>
         ),
       },
@@ -105,7 +105,7 @@ export function DamageUpgrades(props: {
         width: 110,
         render: (n: number) => (
           <>
-            {n == 0 ? '' : `${numberToLocaleString(Utils.truncate100ths(n * 100), 2, true)}%`}
+            {n == 0 ? '' : `${localeNumber_00(Utils.truncate100ths(n * 100))}%`}
           </>
         ),
       },

@@ -88,10 +88,32 @@ const languageToLocale = (() => Object.values(languages)
   }, {} as Record<Languages, Intl.LocalesArgument>)
 )()
 
-// to use in place of toFixed()
+// to use in place of toFixed() - Use the localeNumber helpers below, when possible
 export function numberToLocaleString(number: number, decimals: number = 0, useGrouping = false) {
   return number.toLocaleString(currentLocale(), { maximumFractionDigits: decimals, minimumFractionDigits: decimals, useGrouping })
 }
+
+const GROUPED = { maximumFractionDigits: 0, minimumFractionDigits: 0, useGrouping: true }
+const GROUPED_0 = { maximumFractionDigits: 1, minimumFractionDigits: 1, useGrouping: true }
+const GROUPED_00 = { maximumFractionDigits: 2, minimumFractionDigits: 2, useGrouping: true }
+const GROUPED_000 = { maximumFractionDigits: 3, minimumFractionDigits: 3, useGrouping: true }
+
+const UNGROUPED = { maximumFractionDigits: 0, minimumFractionDigits: 0, useGrouping: false }
+const UNGROUPED_0 = { maximumFractionDigits: 1, minimumFractionDigits: 1, useGrouping: false }
+const UNGROUPED_00 = { maximumFractionDigits: 2, minimumFractionDigits: 2, useGrouping: false }
+const UNGROUPED_000 = { maximumFractionDigits: 3, minimumFractionDigits: 3, useGrouping: false }
+
+// Shorthand helpers
+
+export const localeNumberComma = (n: number) => n.toLocaleString(currentLocale(), GROUPED)
+export const localeNumberComma_0 = (n: number) => n.toLocaleString(currentLocale(), GROUPED_0)
+export const localeNumberComma_00 = (n: number) => n.toLocaleString(currentLocale(), GROUPED_00)
+export const localeNumberComma_000 = (n: number) => n.toLocaleString(currentLocale(), GROUPED_000)
+
+export const localeNumber = (n: number) => n.toLocaleString(currentLocale(), UNGROUPED)
+export const localeNumber_0 = (n: number) => n.toLocaleString(currentLocale(), UNGROUPED_0)
+export const localeNumber_00 = (n: number) => n.toLocaleString(currentLocale(), UNGROUPED_00)
+export const localeNumber_000 = (n: number) => n.toLocaleString(currentLocale(), UNGROUPED_000)
 
 // can be used for toLocaleString() when a variable number of decimals is desired
 export function currentLocale() {

@@ -3,7 +3,7 @@ import { Constants, StatsValues } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 
 import { Assets } from 'lib/rendering/assets'
-import { numberToLocaleString } from 'lib/utils/i18nUtils'
+import { localeNumber, localeNumber_0, localeNumber_000 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
@@ -93,23 +93,23 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   let value1000thsPrecision: string
 
   if (stat == 'CV') {
-    valueDisplay = numberToLocaleString(Utils.precisionRound(customValue), 1)
-    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(customValue), 3)
+    valueDisplay = localeNumber_0(Utils.precisionRound(customValue))
+    value1000thsPrecision = localeNumber_000(Utils.precisionRound(customValue))
   } else if (stat == 'simScore' || stat == 'COMBO_DMG') {
-    valueDisplay = numberToLocaleString(Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)), 1)
-    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(customValue), 3)
+    valueDisplay = localeNumber_0(Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)))
+    value1000thsPrecision = localeNumber_000(Utils.precisionRound(customValue))
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(statValue)
     valueDisplay = is1000thSpeed || preciseSpd
-      ? numberToLocaleString(Utils.precisionRound(statValue, 3), 3)
-      : numberToLocaleString(Utils.truncate10ths(Utils.precisionRound(statValue, 3)), 1)
-    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(statValue), 3)
+      ? localeNumber_000(Utils.precisionRound(statValue, 3))
+      : localeNumber_0(Utils.truncate10ths(Utils.precisionRound(statValue)))
+    value1000thsPrecision = localeNumber_0(Utils.precisionRound(statValue))
   } else if (Utils.isFlat(stat)) {
-    valueDisplay = numberToLocaleString(Math.floor(statValue), 0)
-    value1000thsPrecision = numberToLocaleString(Utils.precisionRound(statValue), 3)
+    valueDisplay = localeNumber(Math.floor(statValue))
+    value1000thsPrecision = localeNumber_000(Utils.precisionRound(statValue))
   } else {
-    valueDisplay = numberToLocaleString(Utils.truncate10ths(Utils.precisionRound(statValue * 100)), 1)
-    value1000thsPrecision = numberToLocaleString(Utils.truncate1000ths(Utils.precisionRound(statValue * 100)), 3)
+    valueDisplay = localeNumber_0(Utils.truncate10ths(Utils.precisionRound(statValue * 100)))
+    value1000thsPrecision = localeNumber_000(Utils.truncate1000ths(Utils.precisionRound(statValue * 100)))
   }
 
   return { valueDisplay, value1000thsPrecision }

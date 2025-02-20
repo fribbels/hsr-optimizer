@@ -16,7 +16,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
-import { numberToLocaleString } from 'lib/utils/i18nUtils'
+import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -60,8 +60,8 @@ function getGpuOptions(computeEngine: ComputeEngine) {
 
 function PermutationDisplay(props: { total?: number; right: number; left: string }) {
   const rightText = props.total
-    ? `${numberToLocaleString(props.right, 0, true)} / ${numberToLocaleString(props.total, 0, true)} - (${numberToLocaleString(Math.ceil(props.right / props.total * 100), 0, true)}%)`
-    : `${numberToLocaleString(props.right, 0, true)}`
+    ? `${localeNumberComma(props.right)} / ${localeNumberComma(props.total)} - (${localeNumberComma(Math.ceil(props.right / props.total * 100))}%)`
+    : `${localeNumberComma(props.right)}`
   return (
     <Flex justify='space-between'>
       <Text style={{ lineHeight: '24px' }}>
@@ -197,12 +197,12 @@ function calculateProgressText(
   return optimizationInProgress
     ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {
       // {{rate}} / sec — ${{timeRemaining}} left
-      rate: numberToLocaleString(Math.floor(perSecond), 0, true),
+      rate: localeNumberComma(Math.floor(perSecond)),
       timeRemaining: Utils.msToReadable(msRemaining),
     })
     : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', {
       // {{rate}} / sec — Finished
-      rate: numberToLocaleString(Math.floor(perSecond), 0, true),
+      rate: localeNumberComma(Math.floor(perSecond)),
     })
 }
 

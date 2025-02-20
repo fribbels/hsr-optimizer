@@ -15,7 +15,7 @@ import {
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
-import { numberToLocaleString } from 'lib/utils/i18nUtils'
+import { localeNumber } from 'lib/utils/i18nUtils'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -130,7 +130,7 @@ export function OptimizerGrid() {
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
             ref={optimizerGrid}
-            paginationNumberFormatter={(param) => numberToLocaleString(param.value)}
+            paginationNumberFormatter={(param) => localeNumber(param.value)}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
             rowSelection='single'

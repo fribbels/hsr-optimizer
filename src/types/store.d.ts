@@ -43,6 +43,7 @@ type RelicTabFilters = {
 export type HsrOptimizerStore = {
   version: string
   colorTheme: ColorThemeOverrides
+  currentLocale: string | undefined
   optimizerGrid: unknown
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId
@@ -100,6 +101,7 @@ export type HsrOptimizerStore = {
   optimizerExpandedPanelBuildData: BuildData | null
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
   optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
+  setCurrentLocale: (locale: string | undefined) => void
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void

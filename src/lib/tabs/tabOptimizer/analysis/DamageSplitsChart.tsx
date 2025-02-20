@@ -167,7 +167,7 @@ const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; lab
       }}
     >
       <span style={{ fontSize: 14, fontWeight: 'bold' }}>{t(bar)}</span>
-      <span>{numberToLocaleString(Math.floor(damageItem.value))}</span>
+      <span>{numberToLocaleString(Math.floor(damageItem.value), 0, true)}</span>
     </Flex>
   )
 }

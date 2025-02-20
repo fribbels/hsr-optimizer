@@ -100,7 +100,9 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
     value1000thsPrecision = numberToLocaleString(Utils.precisionRound(customValue), 3)
   } else if (stat == Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(statValue)
-    valueDisplay = numberToLocaleString((is1000thSpeed || preciseSpd) ? Utils.precisionRound(statValue, 3) : Utils.truncate10ths(Utils.precisionRound(statValue, 3)), 1)
+    valueDisplay = is1000thSpeed || preciseSpd
+      ? numberToLocaleString(Utils.precisionRound(statValue, 3), 3)
+      : numberToLocaleString(Utils.truncate10ths(Utils.precisionRound(statValue, 3)), 1)
     value1000thsPrecision = numberToLocaleString(Utils.precisionRound(statValue), 3)
   } else if (Utils.isFlat(stat)) {
     valueDisplay = numberToLocaleString(Math.floor(statValue), 0)

@@ -126,6 +126,7 @@ window.store = create((set) => {
   const store: HsrOptimizerStore = {
     version: CURRENT_OPTIMIZER_VERSION,
     colorTheme: Themes.BLUE,
+    currentLocale: undefined,
     globalThemeConfig: getGlobalThemeConfigFromColorTheme(Themes.BLUE),
 
     formValues: undefined,
@@ -234,6 +235,7 @@ window.store = create((set) => {
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
+    setCurrentLocale: (x) => set(() => ({ currentLocale: x })),
     setActiveKey: (x) => set(() => ({ activeKey: x })),
     setFormValues: (x) => set(() => ({ formValues: x })),
     setCharacters: (x) => set(() => ({ characters: x })),

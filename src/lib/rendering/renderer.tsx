@@ -10,7 +10,7 @@ import { Relic, Stat } from 'types/relic'
 export const Renderer = {
   floor: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return Math.floor(x.value)
+    return numberToLocaleString(Math.floor(x.value))
   },
 
   x100Tenths: (x: { value: number }) => {

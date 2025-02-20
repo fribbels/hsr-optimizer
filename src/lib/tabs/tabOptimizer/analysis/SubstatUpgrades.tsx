@@ -94,7 +94,7 @@ export function DamageUpgrades(props: {
         width: 110,
         render: (n: number) => (
           <>
-            {n == 0 ? '' : `${numberToLocaleString(n, 1)}`}
+            {n == 0 ? '' : `${numberToLocaleString(n, 1, true)}`}
           </>
         ),
       },
@@ -105,7 +105,7 @@ export function DamageUpgrades(props: {
         width: 110,
         render: (n: number) => (
           <>
-            {n == 0 ? '' : `${numberToLocaleString(Utils.truncate100ths(n * 100), 2)}%`}
+            {n == 0 ? '' : `${numberToLocaleString(Utils.truncate100ths(n * 100), 2, true)}%`}
           </>
         ),
       },

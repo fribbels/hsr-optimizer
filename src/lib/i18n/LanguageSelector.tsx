@@ -34,11 +34,15 @@ export function LanguageSelector() {
       options={selectOptions}
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
-        void i18n.changeLanguage(e)
-        // !!do not replace this check with isBeta!!
-        if (BASE_PATH === BasePath.BETA) {
-          e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
-        }
+        i18n.changeLanguage(e)
+          .then(() => {
+            // !!do not replace this check with isBeta!!
+            if (BASE_PATH === BasePath.BETA) {
+              e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
+            }
+            window.store.getState().setCurrentLocale(i18n.resolvedLanguage?.replace('_', '-'))
+            console.log('setting language to:', i18n.resolvedLanguage)
+          })
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
       placement='bottomLeft'

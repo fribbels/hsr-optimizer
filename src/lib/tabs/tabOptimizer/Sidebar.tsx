@@ -60,8 +60,8 @@ function getGpuOptions(computeEngine: ComputeEngine) {
 
 function PermutationDisplay(props: { total?: number; right: number; left: string }) {
   const rightText = props.total
-    ? `${numberToLocaleString(props.right)} / ${numberToLocaleString(props.total)} - (${numberToLocaleString(Math.ceil(props.right / props.total * 100))}%)`
-    : `${numberToLocaleString(props.right)}`
+    ? `${numberToLocaleString(props.right, 0, true)} / ${numberToLocaleString(props.total, 0, true)} - (${numberToLocaleString(Math.ceil(props.right / props.total * 100), 0, true)}%)`
+    : `${numberToLocaleString(props.right, 0, true)}`
   return (
     <Flex justify='space-between'>
       <Text style={{ lineHeight: '24px' }}>
@@ -197,12 +197,12 @@ function calculateProgressText(
   return optimizationInProgress
     ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {
       // {{rate}} / sec — ${{timeRemaining}} left
-      rate: numberToLocaleString(Math.floor(perSecond)),
+      rate: numberToLocaleString(Math.floor(perSecond), 0, true),
       timeRemaining: Utils.msToReadable(msRemaining),
     })
     : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', {
       // {{rate}} / sec — Finished
-      rate: numberToLocaleString(Math.floor(perSecond)),
+      rate: numberToLocaleString(Math.floor(perSecond), 0, true),
     })
 }
 
@@ -479,13 +479,13 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       </Flex>
 
       {!props.isFullSize
-        && (
-          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-            <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
-            <ComputeEngineSelect/>
-            <ProgressDisplay/>
-          </Flex>
-        )}
+      && (
+        <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+          <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
+          <ComputeEngineSelect/>
+          <ProgressDisplay/>
+        </Flex>
+      )}
     </Flex>
   )
 }

@@ -37,10 +37,6 @@ const App = () => {
     checkForUpdatesNotification(DB.getState().version)
   }, [])
 
-  useEffect(() => {
-    console.log('setting language to:', i18n.resolvedLanguage)
-  }, [i18n.resolvedLanguage])
-
   return (
     <ConfigProvider theme={globalThemeConfig}>
       {messageContextHolder}

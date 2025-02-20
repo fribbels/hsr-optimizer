@@ -70,3 +70,12 @@ StatSimulation:
     FeetPlaceholder: Ноги
     SpherePlaceholder: Сфера
     RopePlaceholder: Верёвка
+ExpandedDataPanel:
+  DamageSplits:
+    Legend:
+      breakDmg: ЭП
+    YAxisLabel:
+      BREAK_DMG: ЭП
+    TooltipText:
+      breakDmg: Урон пробития
+      dotDmg: Периодический урон

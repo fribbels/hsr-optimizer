@@ -82,7 +82,7 @@ export const CharacterScoringSummary = (props: {
     return (
       <Flex gap={15} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, textAlign: 'right' }}>{show && localeNumber(value, precision, props.useGrouping)}</pre>
+        <pre style={{ margin: 0, textAlign: 'right' }}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
       </Flex>
     )
   }

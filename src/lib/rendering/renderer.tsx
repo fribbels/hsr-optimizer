@@ -146,7 +146,7 @@ export const Renderer = {
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
       return x.value == 0 ? '' : localeNumber(Math.floor(x.value))
     }
-    return x.value == 0 ? '' : localeNumber(Utils.truncate10ths(x.value))
+    return x.value == 0 ? '' : localeNumber_0(Utils.truncate10ths(x.value))
   },
 
   hideZeroesX100Tenths: (x: { value: number }) => {
@@ -163,16 +163,16 @@ export const Renderer = {
   renderSubstatNumber: (substat: Stat, relic: Relic) => {
     if (substat.stat == Constants.Stats.SPD) {
       if (relic.verified) {
-        return Utils.truncate10ths(substat.value).toFixed(1)
+        return localeNumber_0(Utils.truncate10ths(substat.value))
       }
       return Math.floor(substat.value)
     }
 
-    return Utils.isFlat(substat.stat) ? localeNumber_0(Math.floor(substat.value)) : localeNumber(Utils.truncate10ths(substat.value))
+    return Utils.isFlat(substat.stat) ? localeNumber(Math.floor(substat.value)) : localeNumber_0(Utils.truncate10ths(substat.value))
   },
 
   renderMainStatNumber: (mainstat: Stat) => {
-    return Utils.isFlat(mainstat.stat) ? localeNumber_0(Math.floor(mainstat.value)) : localeNumber(Utils.truncate10ths(mainstat.value))
+    return Utils.isFlat(mainstat.stat) ? localeNumber(Math.floor(mainstat.value)) : localeNumber_0(Utils.truncate10ths(mainstat.value))
   },
 
   renderGradeCell: (x: { data: Relic }) => {

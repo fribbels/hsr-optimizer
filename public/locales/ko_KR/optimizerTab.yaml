@@ -520,16 +520,50 @@ ExpandedDataPanel:
       Basic: 기본 공격
       Skill: 전투 스킬
       Ult: 필살기
+      Talent: 특성
+      Technique: 비술
+      Trace: 행적
+      Memo: 기억정령
+      E1: 1돌
+      E2: 2돌
+      E4: 4돌
+      E6: 6돌
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x 부 옵션'
+      COMBO_DMG: Δ사이클 총 피해량
+      COMBO_DMG_P: Δ%사이클 총 피해량
+      EHP: Δ EHP
+      EHP_P: Δ% EHP
+      HEAL_VALUE: Δ 힐
+      HEAL_VALUE_P: Δ% 힐
+      SHIELD_VALUE: Δ 실드
+      SHIELD_VALUE_P: Δ% 실드
   DamageSplits:
+    Title: 데미지 유형 분포
     Legend:
+      abilityDmg: 능력
       breakDmg: 격파
+      superBreakDmg: 슈퍼 격파
+      additionalDmg: 추가
+      trueDmg: '확정'
+      jointDmg: 연계
+      dotDmg: 지속피해
+      memoDmg: 기억정령
     YAxisLabel:
       BASIC_DMG: 기본 공격
       SKILL_DMG: 전투 스킬
       ULT_DMG: 필살기
       FUA_DMG: 추가 공격
+      DOT_DMG: 지속피해
       BREAK_DMG: 격파
       MEMO_SKILL_DMG: 소환물 데미지
     TooltipText:
+      abilityDmg: 특성 피해
       breakDmg: 격파 피해량
+      superBreakDmg: 슈퍼 격파 피해
+      additionalDmg: 추가 피해
+      trueDmg: 확정 피해
+      jointDmg: 연계 공격
       dotDmg: 지속 피해량
+      memoDmg: 기억정령 피해

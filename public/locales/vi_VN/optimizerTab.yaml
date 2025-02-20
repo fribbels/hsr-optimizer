@@ -508,3 +508,22 @@ StatSimulation:
     RopePlaceholder: Dây Liên Kết
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Tấn công thường
+      Skill: Chiến kỹ
+      Ult: Tuyệt Kỹ
+  DamageSplits:
+    Legend:
+      breakDmg: Kích Phá
+    YAxisLabel:
+      BASIC_DMG: Tấn công thường
+      SKILL_DMG: Chiến kỹ
+      ULT_DMG: Tuyệt Kỹ
+      FUA_DMG: Đòn theo sau
+      BREAK_DMG: Kích Phá
+      MEMO_SKILL_DMG: Linh Hồn Ký Ức
+    TooltipText:
+      breakDmg: ST Kích Phá
+      dotDmg: ST Duy Trì

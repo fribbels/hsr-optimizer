@@ -514,3 +514,22 @@ StatSimulation:
     RopePlaceholder: Corde
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Norm
+      Skill: Comp
+      Ult: Ult
+  DamageSplits:
+    Legend:
+      breakDmg: Rupture
+    YAxisLabel:
+      BASIC_DMG: Norm
+      SKILL_DMG: Comp
+      ULT_DMG: Ult
+      FUA_DMG: Ads
+      BREAK_DMG: Rupture
+      MEMO_SKILL_DMG: Mném
+    TooltipText:
+      breakDmg: DGT Rupture
+      dotDmg: DGT Dsd

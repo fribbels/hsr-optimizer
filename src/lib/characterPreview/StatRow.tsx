@@ -103,7 +103,7 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
     valueDisplay = is1000thSpeed || preciseSpd
       ? localeNumber_000(Utils.precisionRound(statValue, 3))
       : localeNumber_0(Utils.truncate10ths(Utils.precisionRound(statValue)))
-    value1000thsPrecision = localeNumber_0(Utils.precisionRound(statValue))
+    value1000thsPrecision = localeNumber_000(Utils.precisionRound(statValue))
   } else if (Utils.isFlat(stat)) {
     valueDisplay = localeNumber(Math.floor(statValue))
     value1000thsPrecision = localeNumber_000(Utils.precisionRound(statValue))

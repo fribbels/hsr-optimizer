@@ -179,7 +179,7 @@ export const CharacterScoringSummary = (props: {
           >{`+1x ${t('CharacterPreview.SubstatUpgradeComparisons.Roll')}: ${t(`common:ShortStats.${upgradeStat as SubStats}`)} +${localeNumber_0(rollValue)}${suffix}`}
           </pre>
           <pre style={{ margin: 0, width: 250 }}>
-            {`${t('common:Score')}: +${localeNumber_00((upgradePercent - basePercent) * 100)}% -> ${localeNumber_0(statUpgrade.percent! * 100)}%`}
+            {`${t('common:Score')}: +${localeNumber_00((upgradePercent - basePercent) * 100)}% -> ${localeNumber_00(statUpgrade.percent! * 100)}%`}
           </pre>
           <pre style={{ margin: 0, width: 300 }}>
             {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')}: +${localeNumber_0(upgradeSimScore - originalScore)} -> ${localeNumber_0(upgradeSimScore)}`}

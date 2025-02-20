@@ -3,7 +3,7 @@ import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
+import { currentLocale, localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import { Relic, Stat } from 'types/relic'
 
@@ -15,12 +15,12 @@ export const Renderer = {
 
   x100Tenths: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return localeNumber_0((Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10), 1)
+    return localeNumber_0((Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10))
   },
 
   tenths: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return localeNumber_0((Math.floor(Utils.precisionRound(x.value) * 10) / 10), 1)
+    return localeNumber_0((Math.floor(Utils.precisionRound(x.value) * 10) / 10))
   },
 
   relicSet: (x: { value: number }) => {
@@ -146,7 +146,7 @@ export const Renderer = {
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
       return x.value == 0 ? '' : localeNumber(Math.floor(x.value))
     }
-    return x.value == 0 ? '' : localeNumber_0(Utils.truncate10ths(x.value))
+    return x.value == 0 ? '' : Utils.truncate10ths(x.value).toLocaleString(currentLocale())
   },
 
   hideZeroesX100Tenths: (x: { value: number }) => {

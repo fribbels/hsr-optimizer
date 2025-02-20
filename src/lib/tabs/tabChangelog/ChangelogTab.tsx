@@ -150,6 +150,7 @@ function getChangelogContent() {
         `Balance: Tribbie's SPD weight updated 0 -> 1.0 again after buffs`,
         `Balance: Tribbie's benchmarks now match use of Genius of Brilliant Stars by default, while matching the user's Poet of Mourning Collapse set`,
         `Balance: Tribbie's combo rotation now uses 4 -> 3 FUAs`,
+        `Balance: Blade's default benchmark set is now Bone Collection's Serene Demesne`,
       ],
     },
     {

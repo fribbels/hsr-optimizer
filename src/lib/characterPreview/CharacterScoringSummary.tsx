@@ -20,6 +20,7 @@ import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { filterUnique } from 'lib/utils/arrayUtils'
+import { localeNumber, localeNumber_0, localeNumber_00, localeNumber_000, numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
@@ -73,6 +74,7 @@ export const CharacterScoringSummary = (props: {
     label: string
     number?: number
     precision?: number
+    useGrouping?: boolean
   }) {
     const precision = props.precision ?? 1
     const value = props.number ?? 0
@@ -80,7 +82,7 @@ export const CharacterScoringSummary = (props: {
     return (
       <Flex gap={15} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, textAlign: 'right' }}>{show && value.toFixed(precision)}</pre>
+        <pre style={{ margin: 0, textAlign: 'right' }}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
       </Flex>
     )
   }
@@ -101,9 +103,9 @@ export const CharacterScoringSummary = (props: {
       <Flex gap={5} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
         <pre style={{ margin: 0, textAlign: 'right' }}>
-          {show && value.toFixed(precision)}
+          {show && numberToLocaleString(value, precision)}
           {showParens && <span style={{ margin: 3 }}>-</span>}
-          {showParens && `${parens.toFixed(1)}`}
+          {showParens && numberToLocaleString(parens, 1)}
         </pre>
       </Flex>
     )
@@ -174,16 +176,16 @@ export const CharacterScoringSummary = (props: {
               margin: 0,
               width: 200,
             }}
-          >{`+1x ${t('CharacterPreview.SubstatUpgradeComparisons.Roll')}: ${t(`common:ShortStats.${upgradeStat as SubStats}`)} +${rollValue.toFixed(1)}${suffix}`}
+          >{`+1x ${t('CharacterPreview.SubstatUpgradeComparisons.Roll')}: ${t(`common:ShortStats.${upgradeStat as SubStats}`)} +${localeNumber_0(rollValue)}${suffix}`}
           </pre>
           <pre style={{ margin: 0, width: 250 }}>
-            {`${t('common:Score')}: +${((upgradePercent - basePercent) * 100).toFixed(2)}% -> ${(statUpgrade.percent! * 100).toFixed(2)}%`}
+            {`${t('common:Score')}: +${localeNumber_00((upgradePercent - basePercent) * 100)}% -> ${localeNumber_00(statUpgrade.percent! * 100)}%`}
           </pre>
           <pre style={{ margin: 0, width: 300 }}>
-            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')}: +${(upgradeSimScore - originalScore).toFixed(1)} -> ${upgradeSimScore.toFixed(1)}`}
+            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')}: +${localeNumber_0(upgradeSimScore - originalScore)} -> ${localeNumber_0(upgradeSimScore)}`}
           </pre>
           <pre style={{ margin: 0, width: 150 }}>
-            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')} %: +${((upgradeSimScore - originalScore) / originalScore * 100).toFixed(3)}%`}
+            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')} %: +${localeNumber_000((upgradeSimScore - originalScore) / originalScore * 100)}%`}
           </pre>
         </Flex>,
       )
@@ -644,11 +646,13 @@ export function CharacterCardCombatStats(props: {
       ? Utils.precisionRound(xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
       : Utils.precisionRound(xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
 
-    let display = `${Math.floor(value)}`
+    let display = localeNumber(Math.floor(value))
     if (stat == Stats.SPD) {
-      display = preciseSpd ? TsUtils.precisionRound(value, 4).toFixed(3) : Utils.truncate10ths(TsUtils.precisionRound(value, 4)).toFixed(1)
+      display = preciseSpd
+        ? localeNumber_000(TsUtils.precisionRound(value, 4))
+        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value, 4)))
     } else if (!flat) {
-      display = Utils.truncate10ths(value * 100).toFixed(1)
+      display = localeNumber_0(Utils.truncate10ths(value * 100))
     }
 
     const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat}`)
@@ -709,7 +713,7 @@ export function CharacterCardScoringStatUpgrades(props: {
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatTextSm>{`+1x ${t(`ShortReadableStats.${stat as SubStats}`)}`}</StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
+        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
       </Flex>,
     )
   }
@@ -727,7 +731,7 @@ export function CharacterCardScoringStatUpgrades(props: {
         <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatTextSm>{`➔ ${t(`ShortReadableStats.${stat as MainStats}`)}`}</StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
+        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
       </Flex>,
     )
   }
@@ -742,7 +746,7 @@ export function CharacterCardScoringStatUpgrades(props: {
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 5 }}/>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
+        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
       </Flex>,
     )
   }

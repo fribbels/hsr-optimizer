@@ -1,7 +1,8 @@
 import { Button, Flex, Select } from 'antd'
-import { completedLocales, isBeta, Languages, languages } from 'lib/i18n/i18n'
+import { completedLocales, isBeta } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH, BasePath } from 'lib/state/db'
+import { languages, Languages } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
@@ -34,11 +35,14 @@ export function LanguageSelector() {
       options={selectOptions}
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
-        void i18n.changeLanguage(e)
-        // !!do not replace this check with isBeta!!
-        if (BASE_PATH === BasePath.BETA) {
-          e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
-        }
+        i18n.changeLanguage(e)
+          .then(() => {
+            // !!do not replace this check with isBeta!!
+            if (BASE_PATH === BasePath.BETA) {
+              e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
+            }
+            console.log('setting language to:', i18n.resolvedLanguage)
+          })
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
       placement='bottomLeft'

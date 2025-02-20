@@ -2,7 +2,7 @@ import { Flex } from 'antd'
 import i18next from 'i18next'
 import { DamageBreakdown, DefaultActionDamageValues } from 'lib/optimization/computedStatsArray'
 import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
-import { numberToLocaleString } from 'lib/utils/i18nUtils'
+import { localeNumberComma } from 'lib/utils/i18nUtils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis } from 'recharts'
@@ -167,7 +167,7 @@ const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; lab
       }}
     >
       <span style={{ fontSize: 14, fontWeight: 'bold' }}>{t(bar)}</span>
-      <span>{numberToLocaleString(Math.floor(damageItem.value))}</span>
+      <span>{localeNumberComma(Math.floor(damageItem.value))}</span>
     </Flex>
   )
 }

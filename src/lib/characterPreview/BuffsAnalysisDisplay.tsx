@@ -136,7 +136,7 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
       <Flex justify='space-between' style={{ width: size }}>
         <Flex gap={3} style={{ minWidth: 70 }}>
           <span>
-            {`${(percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)).toLocaleString(currentLocale())}`}
+            {`${(percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)).toLocaleString(currentLocale(), { useGrouping: false })}`}
           </span>
           <span>
             {`${percent ? '%' : ''}`}

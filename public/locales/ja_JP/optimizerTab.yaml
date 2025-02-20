@@ -500,3 +500,22 @@ StatSimulation:
     RopePlaceholder: 縄
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 基礎
+      Skill: スキル
+      Ult: 必殺
+  DamageSplits:
+    Legend:
+      breakDmg: 撃破
+    YAxisLabel:
+      BASIC_DMG: 基礎
+      SKILL_DMG: スキル
+      ULT_DMG: 必殺
+      FUA_DMG: 追加
+      BREAK_DMG: 撃破
+      MEMO_SKILL_DMG: 精霊スキル
+    TooltipText:
+      breakDmg: 撃破
+      dotDmg: 持続

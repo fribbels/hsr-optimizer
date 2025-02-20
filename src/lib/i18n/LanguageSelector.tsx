@@ -1,7 +1,8 @@
 import { Button, Flex, Select } from 'antd'
-import { completedLocales, isBeta, Languages, languages } from 'lib/i18n/i18n'
+import { completedLocales, isBeta } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH, BasePath } from 'lib/state/db'
+import { languages, Languages } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
@@ -40,7 +41,6 @@ export function LanguageSelector() {
             if (BASE_PATH === BasePath.BETA) {
               e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
             }
-            window.store.getState().setCurrentLocale(i18n.resolvedLanguage?.replace('_', '-'))
             console.log('setting language to:', i18n.resolvedLanguage)
           })
       }}

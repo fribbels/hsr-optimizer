@@ -124,7 +124,7 @@ function getChangelogContent() {
         `uid.webp`,
         `Added a UID show / hide selector on the showcase customization toolbar`,
         `showUid.webp`,
-        `Added an import option to only import characters that are already in the optimizer`,
+        `Added an importer option to only import characters that are already in the optimizer`,
         `import.webp`,
         `Bronya / Remembrance Trailblazer / Sunday Crit DMG limits are increased to 400% on optimizer conditionals`,
         `cd.webp`,

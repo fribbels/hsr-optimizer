@@ -12,7 +12,7 @@ ThousandsSeparator: ","
 I18nNumber: "{{value, number}}"
 Cancel: Hủy
 Confirm: Xác nhận
-Submit: Áp dụng
+Submit: Tìm Kiếm
 Ok: OK
 Yes: "Có"
 No: "Không"
@@ -40,8 +40,8 @@ ReadableParts:
   Hands: Tay
   Body: Thân
   Feet: Chân
-  PlanarSphere: Quả Cầu Vi Diện
-  LinkRope: Dây Liên Kết
+  PlanarSphere: Cầu
+  LinkRope: Dây
 Stats:
   "HP%": HP%
   HP: HP
@@ -52,11 +52,11 @@ Stats:
   "SPD%": Tốc Độ%
   SPD: Tốc Độ
   CRIT Rate: Tỷ Lệ Bạo Kích
-  CRIT DMG: Sát Thương Bạo Kích
-  Effect Hit Rate: Chính Xác Hiệu Ứng
+  CRIT DMG: ST Bạo Kích
+  Effect Hit Rate: CX Hiệu Ứng
   Effect RES: Kháng Hiệu Ứng
-  Break Effect: Tấn Công Kích Phá
-  Energy Regeneration Rate: Hiệu Suất Hồi Năng Lượng
+  Break Effect: Kích Phá
+  Energy Regeneration Rate: Hồi Năng Lượng
   Outgoing Healing Boost: Tăng Lượng Trị Liệu
   Physical DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Physical)"
   Fire DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Fire)"
@@ -78,8 +78,8 @@ ShortStats:
   CRIT DMG: CD
   Effect Hit Rate: EHR
   Effect RES: RES
-  Break Effect: BE
-  Energy Regeneration Rate: ERR
+  Break Effect: Kích Phá
+  Energy Regeneration Rate: Năng Lượng
   Outgoing Healing Boost: OHB
   Physical DMG Boost: "$t(gameData:Elements.Physical)"
   Fire DMG Boost: "$t(gameData:Elements.Fire)"
@@ -111,7 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
-DamagePercent: DMG %
+DamagePercent: ST %
 ReadableStats:
   "HP%": HP %
   HP: HP
@@ -122,11 +122,11 @@ ReadableStats:
   "SPD%": Tốc Độ %
   SPD: Tốc Độ
   CRIT Rate: Tỷ Lệ Bạo Kích
-  CRIT DMG: Sát Thương Bạo Kích
-  Effect Hit Rate: Chính Xác Hiệu Ứng
-  Effect RES: Kháng Hiệu Ứng
-  Break Effect: Tấn Công Kích Phá
-  Energy Regeneration Rate: Hồi Năng Lượng
+  CRIT DMG: ST Bạo Kích
+  Effect Hit Rate: CX Hiệu Ứng
+  Effect RES: K. Hiệu Ứng
+  Break Effect: Kích Phá
+  Energy Regeneration Rate: Năng Lượng
   Outgoing Healing Boost: Tăng Trị Liệu
   Physical DMG Boost: "ST $t(gameData:Elements.Physical)"
   Fire DMG Boost: "ST $t(gameData:Elements.Fire)"
@@ -138,14 +138,14 @@ ReadableStats:
 ShortReadableStats:
   "HP%": HP %
   HP: HP
-  "ATK%": Tấn Công %
+  "ATK%": ATK %
   ATK: Tấn Công
-  "DEF%": Phòng Thủ %
+  "DEF%": DEF %
   DEF: Phòng Thủ
   "SPD%": SPD %
-  SPD: SPD
-  CRIT Rate: Tỷ Lệ Bạo Kích
-  CRIT DMG: Sát Thương Bạo Kích
+  SPD: Tốc Độ
+  CRIT Rate: TL Bạo Kích
+  CRIT DMG: ST Bạo Kích
   Effect Hit Rate: Chính Xác
   Effect RES: Kháng
   Break Effect: Kích Phá
@@ -159,21 +159,21 @@ ShortReadableStats:
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
-  simScore: Sát Thương Combo
-  BASIC: Sát Thương Đánh Thường
-  SKILL: Sát Thương Chiến Kỹ
-  ULT: Sát Thương Tuyệt Kỹ
-  FUA: Sát Thương Đòn Đánh Theo Sau
+  simScore: ST Combo
+  BASIC: ST Tấn Công Thường
+  SKILL: ST Chiến Kỹ
+  ULT: ST Tuyệt Kỹ
+  FUA: ST Đòn Đánh Theo Sau
   MEMO_SKILL: Sát thương linh hồn ký ức
-  DOT: Sát Thương Duy Trì
-  BREAK: Sát Thương Phá Vỡ
+  DOT: ST Duy Trì
+  BREAK: ST Kích Phá
   CV: CV
 ShortDMGTypes:
-  Basic: ST Đánh Thường
+  Basic: ST Tấn Công Thường
   Skill: ST Chiến Kỹ
   Ult: ST Tuyệt Kỹ
-  Fua: ST Đòn Đánh Theo Sau
-  Memo_Skill: Skillᴹ DMG
+  Fua: ST Đánh Theo Sau
+  Memo_Skill: ST Linh Hồn Ký Ức
   Dot: ST Duy Trì
-  Break: ST Phá Vỡ
+  Break: ST Kích Phá
   CV: CV

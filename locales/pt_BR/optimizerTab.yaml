@@ -231,6 +231,7 @@ FormRowLabels:
   Relic & stat filters: Filtros de relíquias e atributos
   Teammates: Membros de equipe
   Character custom stats simulation: Simulação de atributos personalizados de personagens
+  Analysis: Análise de resultados de otimização
 TracesDrawer:
   Title: Atributos personalizados de traços
   Header: Traços de atributos ativados (todos ativados por padrão)
@@ -405,6 +406,7 @@ MinMaxFilters:
   COMBOLabel: COMBO
 ComboFilter:
   Header: Rotação para Dano Combo
+  AbilityLabel: Habilidades
   ModeSelector:
     Simple: Simples
     Advanced: Avançado
@@ -512,3 +514,56 @@ StatSimulation:
     RopePlaceholder: Corda
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Basic
+      Skill: Skill
+      Ult: Ult
+      Talent: Talento
+      Technique: Técnica
+      Trace: Traço
+      Memo: Memo
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x Subatributo'
+      COMBO_DMG: Δ Dano Combo
+      COMBO_DMG_P: Δ% Dano Combo
+      EHP: '% EHP'
+      EHP_P: Δ% EHP
+      HEAL_VALUE: Δ Cura
+      HEAL_VALUE_P: Δ% Cura
+      SHIELD_VALUE: Δ Escudo
+      SHIELD_VALUE_P: Δ% Escudo
+  DamageSplits:
+    Title: Distribuição do Tipo de Dano
+    Legend:
+      abilityDmg: Habilidade
+      breakDmg: Quebra
+      superBreakDmg: Super Quebra
+      additionalDmg: Adicional
+      trueDmg: 'Real'
+      jointDmg: Conjunto
+      dotDmg: Dot
+      memoDmg: Memo
+    YAxisLabel:
+      BASIC_DMG: Basic
+      SKILL_DMG: Skill
+      ULT_DMG: Ult
+      FUA_DMG: FuA
+      DOT_DMG: Dot
+      BREAK_DMG: Quebra
+      MEMO_SKILL_DMG: Períciaᴹ
+    TooltipText:
+      abilityDmg: Dano da Habilidade
+      breakDmg: Dano Break
+      superBreakDmg: Dano Super Break
+      additionalDmg: Dano Adicional
+      trueDmg: Dano Real
+      jointDmg: Dano Conjunto
+      dotDmg: Dano DoT
+      memoDmg: Dano Memo

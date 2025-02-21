@@ -1,0 +1,10 @@
+CharacterMenu:
+  Character:
+    Label: Charakter
+  Priority:
+    Label: Priorität
+SearchPlaceholder: Suche
+GridHeaders:
+  Icon: Icon
+  Priority: Priorität
+  Character: Charakter

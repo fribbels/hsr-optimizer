@@ -1,6 +1,188 @@
+0Perms:
+  RootCauses:
+    IMPORT:
+      SuccessMessage: Выберите метод импорта и импортируйте ваши реликвии и персонажей
+    Body_MAIN:
+      SuccessMessage: "Очищены $t(common:Parts.Body) фильтры основных характеристик"
+    Feet_MAIN:
+      SuccessMessage: "Очищены $t(common:Parts.Feet) фильтры основных характеристик"
+    PlanarSphere_MAIN:
+      SuccessMessage: "Очищены $t(common:Parts.PlanarSphere) фильтры основных характеристик"
+    LinkRope_MAIN:
+      SuccessMessage: "Очищены $t(common:Parts.LinkRope) фильтры основных характеристик"
+    RELIC_SETS:
+      SuccessMessage: Очищены фильтры набора реликвий
+    ORNAMENT_SETS:
+      SuccessMessage: Очищены фильтры набора планарных украшений
+    KEEP_CURRENT:
+      SuccessMessage: Отключено "Оставлять текущие реликвии"
+    PRIORITY:
+      SuccessMessage: "Персонаж перемещен на приоритет #1"
+    EXCLUDE_ENABLED:
+      SuccessMessage: Очищены исключенные персонажи
+    EQUIPPED_DISABLED:
+      SuccessMessage: Включено "Включать экипированные реликвии"
+0Results:
+  ResetAll:
+    SuccessMessage: Очищены все фильтры
+  RootCauses:
+    StatView:
+      SuccessMessage: "Переключено на характеристики в бою"
+    MAX_HP:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.HP)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.HP)"
+    MIN_HP:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.HP)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.HP)"
+    MAX_ATK:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.ATK)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.ATK)"
+    MIN_ATK:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.ATK)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.ATK)"
+    MAX_DEF:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.DEF)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.DEF)"
+    MIN_DEF:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.DEF)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.DEF)"
+    MAX_SPD:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.SPD)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.SPD)"
+    MIN_SPD:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.SPD)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.SPD)"
+    MAX_CR:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.CRIT Rate)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.CRIT Rate)"
+    MIN_CR:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.CRIT Rate)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.CRIT Rate)"
+    MAX_CD:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.CRIT DMG)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.CRIT DMG)"
+    MIN_CD:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.CRIT DMG)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.CRIT DMG)"
+    MAX_EHR:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Effect Hit Rate)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Effect Hit Rate)"
+    MIN_EHR:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.Effect Hit Rate)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.Effect Hit Rate)"
+    MAX_RES:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Effect RES)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Effect RES)"
+    MIN_RES:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.Effect RES)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.Effect RES)"
+    MAX_BE:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Break Effect)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Break Effect)"
+    MIN_BE:
+      SuccessMessage: "Сброшен фильтр минимального$t(common:Stats.Break Effect)"
+      ButtonText: "Сброшен фильтр минимального$t(common:Stats.Break Effect)"
+    MAX_ERR:
+      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Energy Regeneration Rate)"
+      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Energy Regeneration Rate)"
+    MIN_ERR:
+      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.Energy Regeneration Rate)"
+      ButtonText: "Сброшен фильтр минимального $t(common:Stats.Energy Regeneration Rate)"
+    MAX_EHP:
+      SuccessMessage: "Сброшен фильтр максимального Эффективного ХП"
+      ButtonText: "Сброшен фильтр максимального Эффективного ХП"
+    MIN_EHP:
+      SuccessMessage: "Сброшен фильтр минимального Эффективного ХП"
+      ButtonText: "Сброшен фильтр минимального Эффективного ХП"
+    MAX_BASIC:
+      SuccessMessage: "Сброшен фильтр максимального урона Базовой атаки"
+      ButtonText: "Сброшен фильтр максимального урона Базовой атаки"
+    MIN_BASIC:
+      SuccessMessage: "Сброшен фильтр минимального урона Базовой атаки"
+      ButtonText: "Сброшен фильтр минимального урона Базовой атаки"
+    MAX_SKILL:
+      SuccessMessage: "Сброшен фильтр максимального урона Навыка"
+      ButtonText: "Сброшен фильтр максимального урона Навыка"
+    MIN_SKILL:
+      SuccessMessage: "Сброшен фильтр минимального урона Навыка"
+      ButtonText: "Сброшен фильтр минимального урона Навыка"
+    MAX_ULT:
+      SuccessMessage: "Сброшен фильтр максимального урона Ультимейта"
+      ButtonText: "Сброшен фильтр максимального урона Ультимейта"
+    MIN_ULT:
+      SuccessMessage: "Сброшен фильтр минимального урона Ультимейта"
+      ButtonText: "Сброшен фильтр минимального урона Ультимейта"
+    MAX_FUA:
+      SuccessMessage: "Сброшен фильтр максимального урона Бонус-атаки"
+      ButtonText: "Сброшен фильтр максимального урона Бонус-атаки"
+    MIN_FUA:
+      SuccessMessage: "Сброшен фильтр минимального урона Бонус-атаки"
+      ButtonText: "Сброшен фильтр минимального урона Бонус-атаки"
+    MAX_DOT:
+      SuccessMessage: "Сброшен фильтр максимального Периодического урона"
+      ButtonText: "Сброшен фильтр максимального Периодического урона"
+    MIN_DOT:
+      SuccessMessage: "Сброшен фильтр минимального Периодического урона"
+      ButtonText: "Сброшен фильтр минимального Периодического урона"
+    MAX_BREAK:
+      SuccessMessage: "Сброшен фильтр максимального урона Пробития"
+      ButtonText: "Сброшен фильтр максимального урона Пробития"
+    MIN_BREAK:
+      SuccessMessage: "Сброшен фильтр минимального урона Пробития"
+      ButtonText: "Сброшен фильтр минимального урона Пробития"
+    MAX_HEAL:
+      SuccessMessage: "Сброшен фильтр максимального Лечения"
+      ButtonText: "Сброшен фильтр максимального Лечения"
+    MIN_HEAL:
+      SuccessMessage: "Сброшен фильтр минимального Лечения"
+      ButtonText: "Сброшен фильтр минимального Лечения"
+    MAX_SHIELD:
+      SuccessMessage: "Сброшен фильтр максимального Щита"
+      ButtonText: "Сброшен фильтр максимального Щита"
+    MIN_SHIELD:
+      SuccessMessage: "Сброшен фильтр минимального Щита"
+      ButtonText: "Сброшен фильтр минимального Щита"
+    MAX_COMBO:
+      SuccessMessage: "Сброшен фильтр максимального урона Комбо"
+      ButtonText: "Сброшен фильтр максимального урона Комбо"
+    MIN_COMBO:
+      SuccessMessage: "Сброшен фильтр минимального урона Комбо"
+      ButtonText: "Сброшен фильтр минимального урона Комбо"
 EditCharacter:
   Character: Персонаж
+Relic:
+  Messages:
+    SubmitFail: Отправка не удалась!
+    EditSuccess: Реликвия успешно изменена
+    Error:
+      PartMissing: Отсутствует поле элемента
+      MainstatMissing: Отсутствует основная характеристика 
+      SetMissing: Отсутствует поле набора
+      EnhanceMissing: Отсутствует поле улучшения
+      GradeMissing: Отсутствует поле редкости
+      EnhanceInvalid: Отсутствует значение улучшения
+      GradeInvalid: Недопустимое значение редкости
+      EnhanceTooHigh: Значение улучшения является слишком большим для этой редкости
+      SetInvalid: Недопустимое значение набора
+      SetNotOrnament: Выбранный набор не является набором планарных украшений
+      SetNotRelic: Выбранный набор не является набором реликвий
+      SubNInvalid: "Доп. характеристика {{number}} недопустима"
+      SubsOutOfOrder: Доп. характеристики вышли за пределы
+      DuplicateSubs: Дублированные доп. характеристики, допускается только одна из каждого типа
+      MainAsSub: Тип доп. характеристики является таким же, как и тип основной характеристики
+      SubTooBig: Значение доп. характеристики является слишком большим
+      MainTooBig: Значение основной характеристики является слишком большим
+      SubTooSmall: Значение доп. характеристики должно быть положительным
+      MainTooSmall: Значение основной характеристики должно быть положительным
+Builds:
+  ConfirmEquip:
+    SuccessMessage: "Сборка: {{buildName}} успешно экипирована"
+  ConfirmDelete:
+    SuccessMessageAll: "Все сборки для {{characterName}} успешно удалены"
+    SuccessMessageSingle: "Сборка: {{name}} успешно удалена"
 ScoreFooter:
+  ResetSuccessMsg: Восстановить команды по умолчанию
+  SyncSuccessMsg: Союзники синхронизированы
   TeamOptions:
     Custom: Пользовательский
 CharacterSelect:

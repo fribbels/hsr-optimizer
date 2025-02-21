@@ -32,7 +32,7 @@ Import:
       Title: HoyoLab からインポート
       Link: 手順
       l1: 不正確な速度サブステータス、即時スキャン
-      l2: ダウンロードは必要ありませんが、遺物は装備したゲーム内キャラクターのものに限定されます
+      l2: ダウンロードは必要ありませんが、遺物はゲーム内キャラクターが装備したものに限定されます
     ButtonText: jsonファイルをアップロード
     Or: または
     Placeholder: jsonファイルの内容を貼り付け
@@ -53,6 +53,7 @@ Import:
         $t(common:Relic, {"count": {{relicCount}}})と$t(common:Character, {"count": {{characterCount}}})をインポート
       WarningTitle: オプティマイザーのビルドを上書き
       WarningDescription: 本当にオプティマイザーのビルドをゲーム内のビルドに置き換えますか？
+      OnlyImportExisting: "既存のキャラクターのみインポート"
   Stage3:
     SuccessMessage: 完了！
 LoadData:

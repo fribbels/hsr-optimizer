@@ -325,13 +325,13 @@ CombatBuffs:
   ATK: 攻撃力
   ATK_P: 攻撃力割合
   HP: HP
-  HP_P: HP
+  HP_P: HP割合
   DEF: 防御力
-  DEF_P: 防御力
+  DEF_P: 防御力割合
   CR: 会心率
   CD: 会心ダメージ
   SPD: 速度
-  SPD_P: 速度
+  SPD_P: 速度割合
   BE: 撃破特効
   DMG_BOOST: 与ダメージ増加
   DEF_PEN: 防御力無視

@@ -101,9 +101,8 @@ function calculateTeammateSets(teammateCharacter: Character) {
     if (relics.filter((relic) => relic.set == set).length == 4) {
       if (set == Sets.MessengerTraversingHackerspace) continue
       if (set == Sets.SacerdosRelivedOrdeal) {
-        if (teammateCharacter.id == '1313' // Sunday
-          || teammateCharacter.id == '1306' // Sparkle
-          || teammateCharacter.id == '1101' // Bronya
+        if (
+          teammateCharacter.id == '1313' // Sunday
         ) {
           activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_2_STACK
         } else {

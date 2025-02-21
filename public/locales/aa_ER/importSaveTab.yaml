@@ -1,0 +1,84 @@
+TabLabels:
+  Import: crwdns41996:0crwdne41996:0
+  Load: crwdns41998:0crwdne41998:0
+  Save: crwdns42000:0crwdne42000:0
+  Clear: crwdns42002:0crwdne42002:0
+Import:
+  ErrorMsg:
+    Unknown: crwdns42004:0crwdne42004:0
+    InvalidFile: crwdns42006:0crwdne42006:0
+    InvalidJson: crwdns42008:0crwdne42008:0
+    Fragment: "crwdns42010:0crwdne42010:0"
+  Stage1:
+    Header: "crwdns42012:0crwdne42012:0"
+    ReliquaryDesc:
+      Title: crwdns42014:0crwdne42014:0
+      Link: crwdns42016:0crwdne42016:0
+      OnlineMsg: "crwdns42018:0{{version}}crwdne42018:0"
+      OfflineMsg: "crwdns42020:0{{version}}crwdne42020:0"
+      l1: crwdns42022:0crwdne42022:0
+      l2: crwdns42024:0crwdne42024:0
+    KelzDesc:
+      Title: crwdns42026:0crwdne42026:0
+      Link: crwdns42028:0crwdne42028:0
+      l1: crwdns42030:0crwdne42030:0
+      l2: crwdns42032:0crwdne42032:0
+    ScorerDesc:
+      Title: crwdns42034:0crwdne42034:0
+      Link: crwdns42036:0crwdne42036:0
+      l1: crwdns42038:0crwdne42038:0
+      l2: crwdns42040:0crwdne42040:0
+    HoyolabDesc:
+      Title: crwdns42042:0crwdne42042:0
+      Link: crwdns42044:0crwdne42044:0
+      l1: crwdns42046:0crwdne42046:0
+      l2: crwdns42048:0crwdne42048:0
+    ButtonText: crwdns42050:0crwdne42050:0
+    Or: crwdns42052:0crwdne42052:0
+    Placeholder: crwdns42054:0crwdne42054:0
+  Stage2:
+    Or: crwdns42056:0crwdne42056:0
+    FileInfo: >-
+      crwdns42058:0$t(common:RelicWithCount, {"count": {{relicCount}}})crwdnd42058:0$t(common:CharacterWithCount, {"count": {{characterCount}}})crwdne42058:0
+    NoRelics: crwdns42060:0crwdne42060:0
+    RelicsImport:
+      Label: >-
+        crwdns42062:0$t(common:Relic, {"count": {{relicCount}}})crwdnd42062:0$t(common:Relic, {"count": {{relicCount}}})crwdne42062:0
+      ButtonText: >-
+        crwdns42064:0$t(common:Relic, {"count": {{relicCount}}})crwdne42064:0
+    CharactersImport:
+      Label: >-
+        crwdns42066:0$t(common:Relic, {"count": {{relicCount}}})crwdnd42066:0$t(common:Character, {"count": {{characterCount}}})crwdne42066:0
+      ButtonText: >-
+        crwdns42068:0$t(common:Relic, {"count": {{relicCount}}})crwdnd42068:0$t(common:Character, {"count": {{characterCount}}})crwdne42068:0
+      WarningTitle: crwdns42070:0crwdne42070:0
+      WarningDescription: crwdns42072:0crwdne42072:0
+      OnlyImportExisting: "crwdns44574:0crwdne44574:0"
+  Stage3:
+    SuccessMessage: crwdns42074:0crwdne42074:0
+LoadData:
+  Stage1:
+    Label: crwdns42076:0crwdne42076:0
+    ButtonText: crwdns42078:0crwdne42078:0
+  Stage2:
+    ErrorMsg: crwdns42080:0crwdne42080:0
+    Label: >-
+      crwdns42082:0$t(common:RelicWithCount, {"count": {{relicCount}}})crwdnd42082:0$t(common:CharacterWithCount, {"count": {{characterCount}}})crwdne42082:0
+    ButtonText: crwdns42084:0crwdne42084:0
+  Stage3:
+    SuccessMessage: crwdns42086:0crwdne42086:0
+SaveData:
+  Label: crwdns42088:0crwdne42088:0
+  ButtonText: crwdns42090:0crwdne42090:0
+  SuccessMessage: crwdns42092:0crwdne42092:0
+ClearData:
+  Label: crwdns42094:0crwdne42094:0
+  ButtonText: crwdns42096:0crwdne42096:0
+  SuccessMessage: crwdns42098:0crwdne42098:0
+  WarningTitle: crwdns42100:0crwdne42100:0
+  WarningDescription: crwdns42102:0crwdne42102:0
+PartialImport:
+  OldRelics: >-
+    crwdns42104:0{{count}}crwdnd42104:0$t(common:Relic, {"count": {{count}}})crwdne42104:0
+  NewRelics: >-
+    crwdns42106:0{{count}}crwdnd42106:0$t(common:Relic, {"count": {{count}}})crwdne42106:0

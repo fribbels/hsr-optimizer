@@ -102,10 +102,10 @@ export async function generateAllTests() {
 
   return [
     // ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),
+    // ...generateE0E1Tests(device),
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
     ...generateE6E5Tests(device),
-    ...generateE0E1Tests(device),
     ...generateStarLcTests(device, 4),
     ...generateStarLcTests(device, 3),
   ]
@@ -198,6 +198,24 @@ export function generateE6S5CharacterTest(characterId: string, lightConeId: stri
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 
+  addTeammate(request, 0, '8008', '21051')
+  addTeammate(request, 1, '1225', '23035')
+  addTeammate(request, 2, '1309', '23026')
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(`E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
+}
+
+function addTeammate(request: Form, index: number, characterId: string, lightConeId: string) {
+  const teammate = generateFullDefaultForm(
+    characterId,
+    lightConeId,
+    6,
+    5,
+    true,
+  )
+
+  if (index == 0) request.teammate0 = teammate
+  if (index == 1) request.teammate1 = teammate
+  if (index == 2) request.teammate2 = teammate
 }

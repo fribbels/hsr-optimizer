@@ -1,10 +1,11 @@
 import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -15,6 +16,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
   const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1304')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.70, 2.916)
@@ -125,24 +139,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, Source.NONE)
+      x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, SOURCE_E4)
+      x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.FUA_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, SOURCE_TALENT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, SOURCE_TALENT)
 
       if (r.shieldAbility == SKILL_DMG_TYPE) {
-        x.SHIELD_SCALING.buff(skillShieldScaling, Source.NONE)
-        x.SHIELD_FLAT.buff(skillShieldFlat, Source.NONE)
+        x.SHIELD_SCALING.buff(skillShieldScaling, SOURCE_SKILL)
+        x.SHIELD_FLAT.buff(skillShieldFlat, SOURCE_SKILL)
       }
       if (r.shieldAbility == 0) {
-        x.SHIELD_SCALING.buff(traceShieldScaling, Source.NONE)
-        x.SHIELD_FLAT.buff(traceShieldFlat, Source.NONE)
+        x.SHIELD_SCALING.buff(traceShieldScaling, SOURCE_SKILL)
+        x.SHIELD_FLAT.buff(traceShieldFlat, SOURCE_SKILL)
       }
 
       return x
@@ -150,10 +164,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buffTeam((m.fortifiedWagerBuff) ? talentResScaling : 0, Source.NONE)
-      x.CD.buffTeam((m.enemyUnnervedDebuff) ? ultCdBoost : 0, Source.NONE)
-      x.CD.buffTeam((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, Source.NONE)
-      x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, Source.NONE)
+      x.RES.buffTeam((m.fortifiedWagerBuff) ? talentResScaling : 0, SOURCE_TALENT)
+      x.CD.buffTeam((m.enemyUnnervedDebuff) ? ultCdBoost : 0, SOURCE_ULT)
+      x.CD.buffTeam((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, SOURCE_E1)
+      x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardDefFinalizer(x)
@@ -167,36 +181,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.DEF],
+      chainsTo: [Stats.CR],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
         return r.defToCrBoost && x.a[Key.DEF] > 1600
       },
       effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        const stateValue = action.conditionalState[this.id] || 0
-        const buffValue = Math.min(0.48, 0.02 * Math.floor((x.a[Key.DEF] - 1600) / 100))
-
-        action.conditionalState[this.id] = buffValue
-        x.CR.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
-
-        return buffValue
+        dynamicStatConversion(Stats.DEF, Stats.CR, this, x, action, context,
+          (convertibleValue) => Math.min(0.48, 0.02 * Math.floor((convertibleValue - 1600) / 100)),
+        )
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
-        return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.defToCrBoost)}) {
-  return;
-}
-let def = (*p_x).DEF;
-let stateValue: f32 = (*p_state).AventurineConversionConditional;
-
-if (def > 1600) {
-  let buffValue: f32 = min(0.48, 0.02 * floor((def - 1600) / 100));
-
-  (*p_state).AventurineConversionConditional = buffValue;
-  buffDynamicCR(buffValue - stateValue, p_x, p_m, p_state);
-}
-    `)
+        return gpuDynamicStatConversion(Stats.DEF, Stats.CR, this, action, context,
+          `min(0.48, 0.02 * floor((convertibleValue - 1600) / 100))`,
+          `${wgslTrue(r.defToCrBoost)} && x.DEF > 1600`,
+        )
       },
     }],
   }

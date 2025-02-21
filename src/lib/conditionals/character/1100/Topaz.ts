@@ -1,7 +1,8 @@
 import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -12,6 +13,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Topaz')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1112')
 
   const proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
   const enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
@@ -82,41 +96,41 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG_TYPE.set(BASIC_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
-      x.SKILL_DMG_TYPE.set(SKILL_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
-      x.SUMMONS.set(1, Source.NONE)
+      x.BASIC_DMG_TYPE.set(BASIC_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
+      x.SKILL_DMG_TYPE.set(SKILL_DMG_TYPE | FUA_DMG_TYPE, SOURCE_SKILL)
+      x.SUMMONS.set(1, SOURCE_TALENT)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      buffAbilityCd(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, Source.NONE)
-      buffAbilityResPen(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (e >= 6) ? 0.10 : 0, Source.NONE)
+      buffAbilityCd(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, SOURCE_ULT)
+      buffAbilityResPen(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (e >= 6) ? 0.10 : 0, SOURCE_E6)
 
       // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
-      buffAbilityCd(x, BASIC_DMG_TYPE, (r.numbyEnhancedState) ? -enhancedStateFuaCdBoost : 0, Source.NONE)
-      buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6) ? -0.10 : 0, Source.NONE)
+      buffAbilityCd(x, BASIC_DMG_TYPE, (r.numbyEnhancedState) ? -enhancedStateFuaCdBoost : 0, SOURCE_ULT)
+      buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6) ? -0.10 : 0, SOURCE_E6)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.SKILL_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
-      x.FUA_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.SKILL_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
+      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
 
       // Boost
-      x.ELEMENTAL_DMG.buff((context.enemyElementalWeak) ? 0.15 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((context.enemyElementalWeak) ? 0.15 : 0, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.FUA_TOUGHNESS_DMG.buff(60, SOURCE_TALENT)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, Source.NONE, Target.TEAM)
-      buffAbilityCd(x, FUA_DMG_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, SOURCE_SKILL, Target.TEAM)
+      buffAbilityCd(x, FUA_DMG_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, SOURCE_E1, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

@@ -1,8 +1,9 @@
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Arlan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1008')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.40, 2.64)
@@ -45,20 +59,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ELEMENTAL_DMG.buff(Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), Source.NONE)
+      x.ELEMENTAL_DMG.buff(Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), SOURCE_TALENT)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
       // Boost
-      buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, Source.NONE)
-      buffAbilityDmg(x, ULT_DMG_TYPE, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, SOURCE_E1)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
       return x
     },

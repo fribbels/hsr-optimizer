@@ -42,7 +42,6 @@ const statConversion = {
   QuantumAddedRatio: Constants.Stats.Quantum_DMG,
   ImaginaryAddedRatio: Constants.Stats.Imaginary_DMG,
 }
-export type PreconvertStatKey = keyof typeof statConversion
 
 export const CharacterConverter = {
   convert: (character) => {

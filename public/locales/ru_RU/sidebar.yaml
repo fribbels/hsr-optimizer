@@ -1,8 +1,7 @@
-Showcase:
-  Title: Витрина
-  Scorer: Счетчик Реликвии
 Tools:
+  Title: Инструменты
   Showcase: Витрина
+  WarpPlanner: Планировщик круток
 Optimization:
   Title: Оптимизация
   Optimizer: Оптимизатор

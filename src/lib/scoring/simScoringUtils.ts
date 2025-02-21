@@ -1,11 +1,11 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
-import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
+import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ScoringParams = {
@@ -25,19 +25,12 @@ export type ScoringParams = {
     }) => number
 }
 
-export type SimulationResult = ComputedStatsObjectExternal & {
-  BASIC: number
-  SKILL: number
-  ULT: number
-  FUA: number
-  MEMO_SKILL: number
-  DOT: number
-  BREAK: number
+export type SimulationResult = OptimizerDisplayData & {
   unpenalizedSimScore: number
   penaltyMultiplier: number
   simScore: number
-  stat: string
-  x: ComputedStatsObjectExternal
+  xa: Float32Array
+  ca: Float32Array
 }
 
 export type SimulationScore = {
@@ -64,15 +57,11 @@ export type SimulationScore = {
 
   simulationForm: Form
   simulationMetadata: SimulationMetadata
-  characterMetadata: CharacterMetadata
+  characterMetadata: DBMetadataCharacter
 
   originalSpd: number
   spdBenchmark: number | null
   simulationFlags: SimulationFlags
-}
-
-export type CharacterMetadata = {
-  scoringMetadata: ScoringMetadata
 }
 
 export type RelicBuild = {
@@ -186,7 +175,7 @@ export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: n
   let low = previousRolls
   let high = rolls
   let mid = 0
-  let precision = 1e-6
+  const precision = 1e-6
 
   while (high - low > precision) {
     mid = (low + high) / 2

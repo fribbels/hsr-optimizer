@@ -1,5 +1,6 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -7,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NinjaRecordSoundHunt')
+  const { SOURCE_LC } = Source.lightCone('22003')
 
   const sValuesCd = [0.18, 0.225, 0.27, 0.315, 0.36]
 
@@ -30,7 +32,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.CD.buff((r.cdBuff) ? sValuesCd[s] : 0, Source.NONE)
+      x.CD.buff((r.cdBuff) ? sValuesCd[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

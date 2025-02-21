@@ -25,6 +25,12 @@ export function calculateContextConditionalRegistry(action: OptimizerAction, con
   action.conditionalState = {}
 }
 
+export function fillConditionalState(action: OptimizerAction) {
+  Object.values(action.conditionalRegistry)
+    .flatMap((conditionals) => conditionals)
+    .forEach((conditional) => action.conditionalState[conditional.id] = 0)
+}
+
 export function registerTeammateConditionals(
   conditionalRegistry: {
     [key: string]: DynamicConditional[]

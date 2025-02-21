@@ -1,5 +1,6 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -7,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.DayOneOfMyNewLife')
+  const { SOURCE_LC } = Source.lightCone('21002')
 
   const sValues = [0.08, 0.09, 0.10, 0.11, 0.12]
 
@@ -43,7 +45,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       // TODO: This is technically a DMG RES buff not a DMG Reduction buff
-      x.DMG_RED_MULTI.multiplyTeam((m.dmgResBuff) ? (1 - sValues[s]) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((m.dmgResBuff) ? (1 - sValues[s]) : 1, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

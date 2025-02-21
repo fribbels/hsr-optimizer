@@ -3,7 +3,8 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -14,6 +15,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1402')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const enhancedBasicScaling = basic(e, 2.00, 2.20)
@@ -114,38 +128,42 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, Source.NONE)
+      x.SUMMONS.set(1, SOURCE_TALENT)
+      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, Source.NONE)
-      x.m.BASIC_SCALING.buff(enhancedBasicScaling, Source.NONE)
+      x.BASIC_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
+      x.m.BASIC_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
 
-      x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, Source.NONE)
+      x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
 
-      x.MEMO_HP_SCALING.buff(memoHpScaling, Source.NONE)
-      x.MEMO_HP_FLAT.buff(memoHpFlat, Source.NONE)
-      x.MEMO_SPD_SCALING.buff(0.35, Source.NONE)
-      x.MEMO_DEF_SCALING.buff(1, Source.NONE)
-      x.MEMO_ATK_SCALING.buff(1, Source.NONE)
+      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, Source.NONE)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
 
-      x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, Source.NONE)
+      x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
 
-      x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, Source.NONE)
+      x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
 
-      x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, Source.NONE)
-      x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
 
-      x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, Source.NONE)
-      x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, Source.NONE)
+      x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+
+      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 60 : 30, SOURCE_BASIC)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(30, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -160,15 +178,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           jointBoost = 0.10
         }
 
-        x.BASIC_BOOST.buff(jointBoost, Source.NONE)
-        x.m.BASIC_BOOST.buff(jointBoost, Source.NONE)
+        x.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
+        x.m.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
       }
 
       x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
 
       x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
 
@@ -193,10 +207,6 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
 }
 
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.FUA_DMG += x.FUA_SCALING * x.ATK;
-x.DOT_DMG += x.DOT_SCALING * x.ATK;
 
 x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.ATK;
 
@@ -210,6 +220,7 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
+        chainsTo: [Stats.ATK],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
@@ -222,8 +233,8 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
           const buffValue = 7.20 * x.a[Key.SPD] + 3.60 * x.m.a[Key.SPD]
 
           action.conditionalState[this.id] = buffValue
-          x.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
-          x.m.ATK.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          x.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
+          x.m.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -232,14 +243,14 @@ m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
 if (${wgslFalse(r.supremeStanceState)}) {
   return;
 }
-let spd = (*p_x).SPD;
+let spd = x.SPD;
 let memoSpd = (*p_m).SPD;
 let stateValue: f32 = (*p_state).AglaeaConversionConditional;
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
 (*p_state).AglaeaConversionConditional = buffValue;
-buffDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
-buffMemoDynamicATK(buffValue - stateValue, p_x, p_m, p_state);
+(*p_x).ATK += buffValue - stateValue;
+(*p_m).ATK += buffValue - stateValue;
     `)
         },
       },

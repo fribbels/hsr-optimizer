@@ -1,8 +1,9 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Clara')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1107')
 
   const ultDmgReductionValue = ult(e, 0.25, 0.27)
   const ultFuaExtraScaling = ult(e, 1.60, 1.728)
@@ -75,25 +89,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0, Source.NONE)
+      x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0, SOURCE_E2)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.SKILL_SCALING.buff(r.talentEnemyMarked ? skillScaling : 0, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.SKILL_SCALING.buff(r.talentEnemyMarked ? skillScaling : 0, SOURCE_SKILL)
 
-      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
-      x.FUA_SCALING.buff(r.ultBuff ? ultFuaExtraScaling : 0, Source.NONE)
+      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_SCALING.buff(r.ultBuff ? ultFuaExtraScaling : 0, SOURCE_ULT)
 
       // Boost
-      x.DMG_RED_MULTI.multiply((1 - 0.10), Source.NONE)
-      x.DMG_RED_MULTI.multiply((r.ultBuff) ? (1 - ultDmgReductionValue) : 1, Source.NONE)
-      x.DMG_RED_MULTI.multiply((e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1, Source.NONE)
-      buffAbilityDmg(x, FUA_DMG_TYPE, 0.30, Source.NONE)
+      x.DMG_RED_MULTI.multiply((1 - 0.10), SOURCE_TALENT)
+      x.DMG_RED_MULTI.multiply((r.ultBuff) ? (1 - ultDmgReductionValue) : 1, SOURCE_ULT)
+      x.DMG_RED_MULTI.multiply((e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1, SOURCE_E4)
+      buffAbilityDmg(x, FUA_DMG_TYPE, 0.30, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(30, SOURCE_SKILL)
+      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
 
       return x
     },

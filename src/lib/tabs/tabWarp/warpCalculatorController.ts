@@ -10,25 +10,30 @@ const character5050 = 0.5625
 const lightCone5050 = 0.78125
 
 export enum WarpIncomeType {
-  NONE = 'None',
-  F2P = 'F2P',
-  EXPRESS = 'Express',
-  BP_EXPRESS = 'BP & Express'
+  NONE,
+  F2P,
+  EXPRESS,
+  BP_EXPRESS,
 }
 
-export const NONE_WARP_INCOME_OPTION = generateOption('NONE', WarpIncomeType.NONE, 0, 0)
+export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0)
 
 // Modified each patch
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
-  NONE_WARP_INCOME_OPTION,
 
-  generateOption('3.0', WarpIncomeType.F2P, 25, 13490),
-  generateOption('3.0', WarpIncomeType.EXPRESS, 25, 17270),
-  generateOption('3.0', WarpIncomeType.BP_EXPRESS, 29, 17950),
+  generateOption('3.0', 1, WarpIncomeType.F2P, 75),
+  generateOption('3.0', 2, WarpIncomeType.F2P, 34),
+  generateOption('3.0', 1, WarpIncomeType.EXPRESS, 86),
+  generateOption('3.0', 2, WarpIncomeType.EXPRESS, 46),
+  generateOption('3.0', 1, WarpIncomeType.BP_EXPRESS, 90),
+  generateOption('3.0', 2, WarpIncomeType.BP_EXPRESS, 51),
 
-  generateOption('3.1', WarpIncomeType.F2P, 20, 13355),
-  generateOption('3.1', WarpIncomeType.EXPRESS, 20, 17135),
-  generateOption('3.1', WarpIncomeType.BP_EXPRESS, 24, 17815),
+  generateOption('3.1', 1, WarpIncomeType.F2P, 80),
+  generateOption('3.1', 2, WarpIncomeType.F2P, 27),
+  generateOption('3.1', 1, WarpIncomeType.EXPRESS, 91),
+  generateOption('3.1', 2, WarpIncomeType.EXPRESS, 40),
+  generateOption('3.1', 1, WarpIncomeType.BP_EXPRESS, 94),
+  generateOption('3.1', 2, WarpIncomeType.BP_EXPRESS, 45),
 ]
 
 export enum WarpStrategy {
@@ -45,12 +50,12 @@ export enum WarpStrategy {
 export type WarpRequest = {
   passes: number
   jades: number
-  income: string
+  income: string[]
   strategy: WarpStrategy
   pityCharacter: number
-  guaranteedCharacter: false
+  guaranteedCharacter: boolean
   pityLightCone: number
-  guaranteedLightCone: false
+  guaranteedLightCone: boolean
 }
 
 export type WarpMilestoneResult = { warps: number; wins: number }
@@ -67,7 +72,7 @@ export enum WarpType {
 export const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
-  income: NONE_WARP_INCOME_OPTION.id,
+  income: [],
   strategy: WarpStrategy.E0,
   pityCharacter: 0,
   guaranteedCharacter: false,
@@ -77,10 +82,10 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
 
 export type WarpIncomeDefinition = {
   passes: number
-  jades: number
   id: string
   version: string
   type: WarpIncomeType
+  phase: number
 }
 
 type WarpMilestone = {
@@ -93,25 +98,31 @@ type WarpMilestone = {
   warpCap: number
 }
 
-function generateOption(version: string, type: WarpIncomeType, passes: number, jades: number) {
+function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number) {
   return {
     passes,
-    jades,
     version,
+    phase,
     type,
-    id: generateOptionKey(version, type),
+    id: generateOptionKey(version, phase, type),
   }
 }
 
-function generateOptionKey(version: string, type: WarpIncomeType) {
-  return `${version}/${type}`
+function generateOptionKey(version: string, phase: number, type: WarpIncomeType) {
+  return `${version}_p${phase}_${type}`
+}
+
+export function handleWarpRequest(originalRequest: WarpRequest) {
+  console.log('simulate Warps', originalRequest)
+  window.store.getState().setWarpRequest(originalRequest)
+
+  const warpResult = simulateWarps(originalRequest)
+
+  window.store.getState().setWarpResult(warpResult)
+  SaveState.delayedSave()
 }
 
 export function simulateWarps(originalRequest: WarpRequest) {
-  console.log('simulate Warps', originalRequest)
-
-  window.store.getState().setWarpRequest(originalRequest)
-
   const request = enrichWarpRequest(originalRequest)
   const milestones = generateWarpMilestones(request)
 
@@ -159,8 +170,7 @@ export function simulateWarps(originalRequest: WarpRequest) {
     request: request,
   }
 
-  window.store.getState().setWarpResult(warpResult)
-  SaveState.delayedSave()
+  return warpResult
 }
 
 function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
@@ -241,7 +251,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == -1 ? `S${s}` : `E${e} S${s}`
+    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
   }
 
   return milestones
@@ -254,9 +264,18 @@ export type EnrichedWarpRequest = {
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  const additionalIncome = WarpIncomeOptions.find(option => option.id == request.income) ?? NONE_WARP_INCOME_OPTION
-  const totalJade = request.jades + additionalIncome.jades
-  const totalPasses = request.passes + additionalIncome.passes
+  const selectedIncome = request.income.map(
+    (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId) ?? NONE_WARP_INCOME_OPTION,
+  )
+
+  let additionalPasses = 0
+
+  for (const income of selectedIncome) {
+    additionalPasses += income.passes
+  }
+
+  const totalJade = request.jades
+  const totalPasses = request.passes + additionalPasses
   const totalWarps = Math.floor(totalJade / 160) + totalPasses
 
   // Treat null form values as empty and use defaults

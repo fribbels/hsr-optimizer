@@ -1,8 +1,7 @@
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -12,6 +11,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RuanMei')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1303')
 
   const fieldResPenValue = ult(e, 0.25, 0.27)
   const basicScaling = basic(e, 1.00, 1.10)
@@ -101,71 +113,54 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ATK_P.buff((e >= 2 && r.e2AtkBoost) ? 0.40 : 0, Source.NONE)
-      x.BE.buff((e >= 4 && r.e4BeBuff) ? 1.00 : 0, Source.NONE)
+      x.ATK_P.buff((e >= 2 && r.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
+      x.BE.buff((e >= 4 && r.e4BeBuff) ? 1.00 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffTeam((m.teamBEBuff) ? 0.20 : 0, Source.NONE)
+      x.BE.buffTeam((m.teamBEBuff) ? 0.20 : 0, SOURCE_TRACE)
 
-      x.ELEMENTAL_DMG.buffTeam((m.skillOvertoneBuff) ? skillScaling : 0, Source.NONE)
-      x.BREAK_EFFICIENCY_BOOST.buffTeam((m.skillOvertoneBuff) ? 0.50 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((m.skillOvertoneBuff) ? skillScaling : 0, SOURCE_SKILL)
+      x.BREAK_EFFICIENCY_BOOST.buffTeam((m.skillOvertoneBuff) ? 0.50 : 0, SOURCE_SKILL)
 
-      x.RES_PEN.buffTeam((m.ultFieldActive) ? fieldResPenValue : 0, Source.NONE)
-      x.DEF_PEN.buffTeam((e >= 1 && m.ultFieldActive) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((m.ultFieldActive) ? fieldResPenValue : 0, SOURCE_ULT)
+      x.DEF_PEN.buffTeam((e >= 1 && m.ultFieldActive) ? 0.20 : 0, SOURCE_E1)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buffTeam((t.teamSpdBuff) ? talentSpdScaling : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buffTeam(t.teamDmgBuff, Source.NONE)
+      x.SPD_P.buffTeam((t.teamSpdBuff) ? talentSpdScaling : 0, SOURCE_TALENT)
+      x.ELEMENTAL_DMG.buffTeam(t.teamDmgBuff, SOURCE_TRACE)
 
-      x.ATK_P.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
-      x.RATIO_BASED_ATK_P_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, Source.NONE)
+      // TODO: This is an on-hit ATK boost not an unconvertible ATK buff
+      x.ATK_P.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
+      x.UNCONVERTIBLE_ATK_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 * context.baseATK : 0, SOURCE_E2)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
-    dynamicConditionals: [
-      {
-        id: 'RuanMeiConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.BE],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
-        },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
-          const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
+      const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
+      const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
+      x.ELEMENTAL_DMG.buff(buffValue, SOURCE_TRACE)
 
-          action.conditionalState[this.id] = buffValue
-          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+      standardAtkFinalizer(x)
+    },
+    gpuFinalizeCalculations: () => {
+      return `
+let beOver = (x.BE * 100 - 120) / 10;
+let buffValue: f32 = min(0.36, floor(max(0, beOver)) * 0.06);
+x.ELEMENTAL_DMG += buffValue;
 
-          return conditionalWgslWrapper(this, `
-let be = (*p_x).BE;
-let stateValue: f32 = (*p_state).RuanMeiConversionConditional;
-let beOver = ((*p_x).BE * 100 - 120) / 10;
-let buffValue: f32 = floor(max(0, beOver)) * 0.06;
-
-(*p_state).RuanMeiConversionConditional = buffValue;
-(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
-    `)
-        },
-      },
-    ],
+${gpuStandardAtkFinalizer()}      
+      `
+    },
   }
 }

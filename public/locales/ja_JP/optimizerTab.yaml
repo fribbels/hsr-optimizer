@@ -2,8 +2,8 @@ CharacterSelector:
   Character: キャラクター
   Lightcone: 光円錐
   Presets: プリセット
-  Target: 最適化の対象
-  ResultsPlaceholder: トップ{}の検索結果
+  Target: 最適化の目標
+  ResultsPlaceholder: 検索結果表示数
   TargetPlaceholder: 並び順：
   EidolonPlaceholder: 凸
   SuperimpositionPlaceholder: 重
@@ -11,7 +11,7 @@ LightconePassives: 光円錐スキル
 CharacterPassives: キャラクターのパッシブ
 NoConditionals: 条件付き追加能力なし
 NoTeamConditionals: チームへの条件付き追加能力なし
-ResultLimitN: "トップ{{limit}}の検索結果"
+ResultLimitN: "上位{{limit}}件を表示"
 MainStats: メインステータス
 Sets: セット
 RelicSetSelector:
@@ -22,31 +22,31 @@ RelicSetSelector:
 OrnamentSetSelector:
   Placeholder: オーナメントセット
 SortOptions:
-  DMGLabel: ダメージ計算
+  DMGLabel: 与ダメージ計算
   StatLabel: ステータス
-  COMBO: コンボダメージで並べ替え
-  BASIC: 通常攻撃で並べ替え
-  SKILL: 戦闘スキルで並べ替え
-  ULT: 必殺技で並べ替え
-  FUA: 追加攻撃で並べ替え
-  MEMO_SKILL: 精霊スキルダメージで並べ替え
-  DOT: 持続ダメージで並べ替え
-  BREAK: 撃破ダメージで並べ替え
-  HEAL: 治癒量で並べ替え
-  SHIELD: シールド量で並べ替え
-  HP: "$t(common:ReadableStats.HP)で並べ替え"
-  ATK: "$t(common:ReadableStats.ATK)で並べ替え"
-  DEF: "$t(common:ReadableStats.DEF)で並べ替え"
-  SPD: "$t(common:ReadableStats.SPD)で並べ替え"
-  CR: "$t(common:ReadableStats.CRIT Rate)で並べ替え"
-  CD: "$t(common:ReadableStats.CRIT DMG)で並べ替え"
-  EHR: "$t(common:ReadableStats.Effect Hit Rate)で並べ替え"
-  RES: "$t(common:ReadableStats.Effect RES)で並べ替え"
-  BE: "$t(common:ReadableStats.Break Effect)で並べ替え"
-  OHB: "$t(common:ReadableStats.Outgoing Healing Boost)で並べ替え"
-  ERR: "$t(common:ReadableStats.Energy Regeneration Rate)で並べ替え"
-  DMG: 属性ダメージで並べ替え
-  EHP: EHPで並べ替え
+  COMBO: コンボダメージ順
+  BASIC: 通常攻撃ダメージ順
+  SKILL: 戦闘スキルダメージ順
+  ULT: 必殺技ダメージ順
+  FUA: 追加攻撃ダメージ順
+  MEMO_SKILL: 精霊スキルダメージ順
+  DOT: 持続ダメージ順
+  BREAK: 弱点撃破ダメージ順
+  HEAL: 治癒量順
+  SHIELD: シールド量順
+  HP: "$t(common:ReadableStats.HP)順"
+  ATK: "$t(common:ReadableStats.ATK)順"
+  DEF: "$t(common:ReadableStats.DEF)順"
+  SPD: "$t(common:ReadableStats.SPD)順"
+  CR: "$t(common:ReadableStats.CRIT Rate)順"
+  CD: "$t(common:ReadableStats.CRIT DMG)順"
+  EHR: "$t(common:ReadableStats.Effect Hit Rate)順"
+  RES: "$t(common:ReadableStats.Effect RES)順"
+  BE: "$t(common:ReadableStats.Break Effect)順"
+  OHB: "$t(common:ReadableStats.Outgoing Healing Boost)順"
+  ERR: "$t(common:ReadableStats.Energy Regeneration Rate)順"
+  DMG: 属性ダメージ順
+  EHP: EHP順
 OptimizerOptions:
   Header: 設定
   PriorityFilter: 優先順位でフィルター
@@ -88,7 +88,7 @@ Grid:
   To: "~"
   Of: /
   Page: ページ
-  PageSelectorLabel: "ページサイズ："
+  PageSelectorLabel: "表示件数："
   Headers:
     Basic:
       Set: セット
@@ -179,24 +179,25 @@ Sidebar:
       CPU: "アクセラレーション：無効"
   Pinning:
     Messages:
-      NoneSelected: 行が選択されていません
-      SimSelected: カスタムシミュレーションされた行はピン留めできません
-      AlreadyPinned: 既にピン留めされています
+      NoneSelected: 行を選択していません
+      SimSelected: カスタムシミュレーションはピン留めできません
+      AlreadyPinned: 既にピン留め済みです
   Permutations: 組み合わせ
   Perms: 合計
   Searched: 検索済み
   Results: 結果
+  ComputeEngine: 計算エンジン
   ProgressText:
     Progress: 進行状況
     CalculatingETA: 進行状況（ETA計算中）
-    TimeRemaining: "{{rate}} / 秒 — あと{{timeRemaining}}"
-    Finished: "{{rate}} / 秒 — 完了"
+    TimeRemaining: "{{rate}} 件/秒 — あと {{timeRemaining}}"
+    Finished: "{{rate}} 件/秒 — 完了"
   ControlsGroup:
     Header: 制御
     Start: オプティマイザーを開始
     ResetConfirm:
-      Title: すべてのフィルターをリセットしますか？
-      Description: すべてのフィルターは既定値にリセットされます
+      Title: すべてのフィルターを既定値に戻しますか？
+      Description: すべてのフィルターを既定値に戻します
   StatViewGroup:
     Header: ステータス表示の切り替え
     CombatStats: 戦闘
@@ -216,6 +217,7 @@ FormRowLabels:
   Relic & stat filters: 遺物とステータスのフィルター
   Teammates: チームメイト
   Character custom stats simulation: カスタムステータスシミュレーション
+  Analysis: 最適化結果分析
 TracesDrawer:
   Title: 軌跡を編集
   Header: 覚醒した軌跡（デフォルトで全て有効）
@@ -317,19 +319,19 @@ Presets:
     SPD177: 177.778 速度 - 最初の4ラウンドで8回のアクション
     SPD200: 200.000 速度 - 最初のラウンドで3回のアクション
   StandardLabel: "標準$t(gameData:Characters.{{id}}.Name)"
-  RecommendedPresets: おすすめのプリセット
+  RecommendedPresets: おすすめプリセット
   PresetNotAvailable: プリセットは利用できません。別のオプションを選択してください。
 CombatBuffs:
   ATK: 攻撃力
   ATK_P: 攻撃力割合
   HP: HP
-  HP_P: HP
+  HP_P: HP割合
   DEF: 防御力
-  DEF_P: 防御力
+  DEF_P: 防御力割合
   CR: 会心率
   CD: 会心ダメージ
   SPD: 速度
-  SPD_P: 速度
+  SPD_P: 速度割合
   BE: 撃破特効
   DMG_BOOST: 与ダメージ増加
   DEF_PEN: 防御力無視
@@ -344,16 +346,16 @@ EnemyConfiguration:
   LevelOptionLabel: "レベル{{level}} - 防御力{{defense}}"
   CountOptionLabel: >-
     {{targetCount}}$t(optimizerTab:Target, {"count": {{targetCount}}})
-  EffResOptionLabel: "効果抵抗{{resistance}}%"
-  DmgResOptionLabel: "ダメージ耐性{{resistance}}%"
-  ToughnessOptionLabel: "最大靭性値{{toughness}}"
+  EffResOptionLabel: "効果抵抗 {{resistance}}%"
+  DmgResOptionLabel: "ダメージ耐性 {{resistance}}%"
+  ToughnessOptionLabel: "最大靭性値 {{toughness}}"
   Title: 敵の設定
   StatHeader: 敵の設定
   WeaknessLabel: 弱点属性
   BrokenLabel: 弱点撃破済み
 WeightFilter:
-  WeightFilterHeader: サブステータスの重み付け
-  RollFilterHeader: 最低サブステータス出現回数
+  WeightFilterHeader: 重み付けフィルター
+  RollFilterHeader: 遺物当たりの重み付きサブステ数
   HPFilterText: HP
   ATKFilterText: 攻撃力
   DEFFilterText: 防御力
@@ -390,6 +392,7 @@ MinMaxFilters:
   COMBOLabel: コンボ
 ComboFilter:
   Header: コンボダメージの編集
+  AbilityLabel: アビリティ
   ModeSelector:
     Simple: シンプル
     Advanced: 高度
@@ -397,7 +400,7 @@ ComboFilter:
     Add: +
     Remove: "-"
     ResetConfirm:
-      Description: すべてのシンプル/高度なスキル回しの設定をデフォルトにリセットしますか？
+      Description: すべてのシンプル・高度なスキル回しの設定をデフォルトに戻しますか？
   CounterLabels:
     Dot: 持続
     Break: 撃破
@@ -476,18 +479,18 @@ StatSimulation:
   SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
   ModeSelector:
     Off: "無効"
-    RollCount: サブステータスの出現回数でシュミレート
+    RollCount: サブステータス強化数でシュミレート
     Totals: サブステータスの値でシュミレート
   FooterLabels:
     Simulate: ビルドをシュミレート
     Import: グリッドからインポート
     Conditionals: セット効果を編集
   DeletePopup:
-    Title: ステータスシュミレーションを削除
-    Description: 本当にこのキャラクターの保存されたシミュレーションをすべて削除しますか？
+    Title: ステータスシミュレーションを削除
+    Description: 本当にこのキャラクターのすべてのシミュレーションを削除しますか？
   SimulationNamePlaceholder: シミュレーション名（任意）
   OptionsHeader: オプション
-  RollsHeader: 最大サブステータス出現回数
+  RollsHeader: 最大サブステータス強化数
   TotalsHeader: サブステータス合計
   MainStatsSelection:
     Header: メインステータス
@@ -497,3 +500,56 @@ StatSimulation:
     RopePlaceholder: 縄
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 通常
+      Skill: スキル
+      Ult: 必殺
+      Talent: 天賦
+      Technique: 秘技
+      Trace: 軌跡
+      Memo: 精霊
+      E1: 1凸
+      E2: 2凸
+      E4: 4凸
+      E6: 6凸
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x サブステ'
+      COMBO_DMG: コンボダメ変化量
+      COMBO_DMG_P: コンボダメ変化率
+      EHP: EHP変化量
+      EHP_P: EHP変化率
+      HEAL_VALUE: 治癒量変化量
+      HEAL_VALUE_P: 治癒量変化率
+      SHIELD_VALUE: シールド量変化量
+      SHIELD_VALUE_P: シールド量変化率
+  DamageSplits:
+    Title: ダメージ種類別分布
+    Legend:
+      abilityDmg: アビリティ
+      breakDmg: 撃破
+      superBreakDmg: 超撃破
+      additionalDmg: 付加
+      trueDmg: '確定'
+      jointDmg: 連携
+      dotDmg: 持続
+      memoDmg: 精霊
+    YAxisLabel:
+      BASIC_DMG: 通常
+      SKILL_DMG: スキル
+      ULT_DMG: 必殺
+      FUA_DMG: 追加
+      DOT_DMG: 持続
+      BREAK_DMG: 撃破
+      MEMO_SKILL_DMG: 精霊スキル
+    TooltipText:
+      abilityDmg: アビリティダメージ
+      breakDmg: 撃破ダメージ
+      superBreakDmg: 超撃破ダメージ
+      additionalDmg: 付加ダメージ
+      trueDmg: 確定ダメージ
+      jointDmg: 連携ダメージ
+      dotDmg: 持続ダメージ
+      memoDmg: 精霊ダメージ

@@ -1,8 +1,9 @@
 import { ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Argenti')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1302')
 
   const talentMaxStacks = (e >= 4) ? 12 : 10
 
@@ -82,28 +96,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Skills
-      x.CR.buff((r.talentStacks) * talentCrStackValue, Source.NONE)
+      x.CR.buff((r.talentStacks) * talentCrStackValue, SOURCE_TALENT)
 
       // Traces
 
       // Eidolons
-      x.CD.buff((e >= 1) ? (r.talentStacks) * 0.04 : 0, Source.NONE)
-      x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.40 : 0, Source.NONE)
+      x.CD.buff((e >= 1) ? (r.talentStacks) * 0.04 : 0, SOURCE_E1)
+      x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.40 : 0, SOURCE_E2)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff((r.ultEnhanced) ? ultEnhancedScaling : ultScaling, Source.NONE)
-      x.ULT_SCALING.buff((r.ultEnhancedExtraHits) * ultEnhancedExtraHitScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff((r.ultEnhanced) ? ultEnhancedScaling : ultScaling, SOURCE_ULT)
+      x.ULT_SCALING.buff((r.ultEnhancedExtraHits) * ultEnhancedExtraHitScaling, SOURCE_ULT)
 
       // BOOST
-      x.ELEMENTAL_DMG.buff((r.enemyHp50) ? 0.15 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((r.enemyHp50) ? 0.15 : 0, SOURCE_TRACE)
       // Argenti's e6 ult buff is actually a cast type buff, not dmg type but we'll do it like this anyways
-      buffAbilityDefPen(x, ULT_DMG_TYPE, (e >= 6) ? 0.30 : 0, Source.NONE)
+      buffAbilityDefPen(x, ULT_DMG_TYPE, (e >= 6) ? 0.30 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff((r.ultEnhanced) ? 60 + 15 * r.ultEnhancedExtraHits : 60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(30, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff((r.ultEnhanced) ? 60 + 15 * r.ultEnhancedExtraHits : 60, SOURCE_ULT)
 
       return x
     },

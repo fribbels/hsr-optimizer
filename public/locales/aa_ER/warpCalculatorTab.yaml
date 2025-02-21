@@ -1,0 +1,36 @@
+StrategyLabels:
+  S1: crwdns44508:0crwdne44508:0
+  E0: crwdns44510:0crwdne44510:0
+  E1: crwdns44512:0crwdne44512:0
+  E2: crwdns44514:0crwdne44514:0
+  E3: crwdns44516:0crwdne44516:0
+  E4: crwdns44518:0crwdne44518:0
+  E5: crwdns44520:0crwdne44520:0
+  E6: crwdns44522:0crwdne44522:0
+IncomeOptions:
+  Label: "crwdns44580:0{{versionNumber}}crwdnd44580:0{{phaseNumber}}crwdnd44580:0{{type}}crwdne44580:0"
+  Type:
+    0: crwdns44526:0crwdne44526:0
+    1: crwdns44528:0crwdne44528:0
+    2: crwdns44530:0crwdne44530:0
+    3: crwdns44532:0crwdne44532:0
+PityCounter:
+  PityCounter: crwdns44534:0crwdne44534:0
+  Guaranteed: crwdns44536:0crwdne44536:0
+TotalAvailable: "crwdns44538:0crwdne44538:0"
+SectionTitles:
+  Planner: crwdns44540:0crwdne44540:0
+  Results: crwdns44542:0crwdne44542:0
+  Settings: crwdns44544:0crwdne44544:0
+  Character: crwdns44546:0crwdne44546:0
+  LightCone: crwdns44548:0crwdne44548:0
+  Passes: crwdns44550:0crwdne44550:0
+  Jades: crwdns44552:0crwdne44552:0
+  Strategy: crwdns44554:0crwdne44554:0
+  AdditionalResources: crwdns44556:0crwdne44556:0
+  Calculate: crwdns44558:0crwdne44558:0
+ColumnTitles:
+  Goal: crwdns44560:0crwdne44560:0
+  Chance: "crwdns44562:0{{ticketCount}}crwdne44562:0"
+  Average: "crwdns44564:0crwdne44564:0"
+TargetLabel: 'crwdns44566:0$t(common:EidolonNShort, {"eidolon": {{eidolon}}})crwdnd44566:0$t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})crwdne44566:0'

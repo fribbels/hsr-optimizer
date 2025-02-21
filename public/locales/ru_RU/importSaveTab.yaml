@@ -1,8 +1,86 @@
+TabLabels:
+  Import: Импорт сканера реликвий
+  Load: Загрузка данных оптимайзера
+  Save: Сохранить данные оптимайзера
+  Clear: Очистить данные оптимайзера
 Import:
+  ErrorMsg:
+    Unknown: Неизвестная ошибка
+    InvalidFile: Неверный файл сканера
+    InvalidJson: Неверный формат JSON
+    Fragment: "Произошла ошибка при импорте файла: "
+  Stage1:
+    Header: "Загрузите и запустите один из сканеров реликвий:"
+    ReliquaryDesc:
+      Title: (Рекомендуется) IceDynamix Reliquary Archiver
+      Link: Github
+      OnlineMsg: "Статус: обновлено до патча {{version}} — требуется новая загрузка"
+      OfflineMsg: "***** Статус: На обслуживании после патча {{version}} *****"
+      l1: Точные данные десятичных значений скорости, мгновенное сканирование
+      l2: Импорт полного инвентаря и персонажей
+    KelzDesc:
+      Title: Kel-Z HSR Scanner
+      Link: Github
+      l1: Неточные десятичные дроби скорости, 5-10 минут сканирования
+      l2: Импорт полного инвентаря и персонажей
+    ScorerDesc:
+      Title: Импорт оценщика реликвий
+      Link: Оценщик реликвий
+      l1: Точные данные десятичных значений скорости, мгновенное сканирование
+      l2: Загрузка не требуется, но ограничивается реликвиями 8 персонажей на витрине профиля
+    HoyolabDesc:
+      Title: Импорт с Hoyolab'а
+      Link: Инструкции
+      l1: Неточные десятичные дроби значений скорости, мгновенное сканирование
+      l2: Не нуждается в загрузке, но ограничен игровыми персонажами с их экипированными реликвиями
+    ButtonText: Загрузить json файл сканера
+    Or: или
+    Placeholder: Вставить содержимое файла json
+  Stage2:
+    Or: ИЛИ
+    FileInfo: >-
+      Файл содержит
+
+    NoRelics: Неверный файл сканера, пожалуйста, попробуйте другой файл
+    RelicsImport:
+      Label: >-
+        Импортировать только $t(common:Relic, {"count": {{relicCount}}}). Обновляет оптимайзер с новым набором данных: $t(common:Relic, {"count": {{relicCount}}}) и не перезаписывает сборки
+      ButtonText: >-
+        Импортировать
+    CharactersImport:
+      Label: >-
+        Импортировать $t(common:Relic, {"count": {{relicCount}}}) и $t(common:Character, {"count": {{characterCount}}}). Заменить оптимизированные сборки на внутреигровые сборки.
+      ButtonText: >-
+        Импортировать $t(common:Relic, {"count": {{relicCount}}}) и $t(common:Character, {"count": {{characterCount}}})
+      WarningTitle: Перезаписать оптимизированные сборки
+      WarningDescription: Вы уверены, что хотите перезаписать свои оптимизированные сборки с игровыми сборками?
+      OnlyImportExisting: "Импортировать только существующих персонажей"
   Stage3:
     SuccessMessage: Готово!
 LoadData:
+  Stage1:
+    Label: Загрузите данные оптимайзера из файла.
+    ButtonText: Загрузить сохраненные данные
+  Stage2:
+    ErrorMsg: Недопустимый файл сохранения, пожалуйста, попробуйте другой файл. Вы имели в виду использовать вкладку импорта реликвий?
+    Label: >-
+      Файл содержит $t(common:RelicWithCount, {"count": {{relicCount}}}) и $t(common:CharacterWithCount, {"count": {{characterCount}}})
+      Заменить текущие данные загруженными?
+    ButtonText: Использовать загруженные данные
   Stage3:
     SuccessMessage: Готово!
 SaveData:
+  Label: Сохраните данные оптимайзера в файл.
+  ButtonText: Сохранить данные
   SuccessMessage: Готово
+ClearData:
+  Label: Очистить все данные оптимайзера.
+  ButtonText: Очистить данные
+  SuccessMessage: Данные очищены
+  WarningTitle: Удалить все данные
+  WarningDescription: Вы уверены, что хотите удалить все реликвии и персонажей?
+PartialImport:
+  OldRelics: >-
+    Обновлены характеристики для {{count}} существующих $t(common:Relic, {"count": {{count}}})
+  NewRelics: >-
+    Добавлено {{count}} новых $t(common:Relic, {"count": {{count}}})

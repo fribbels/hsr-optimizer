@@ -180,7 +180,6 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
           {props.content}
         </span>
         <Button
-          style={{ height: '100%' }}
           size='large'
           iconPosition='end'
           href={props.url}
@@ -283,6 +282,19 @@ function SearchBar() {
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
   const inputRef = useRef<InputRef>(null)
 
+  function handleSearchSubmit() {
+    const uuid = inputRef?.current?.input?.value
+    if (!uuid) return
+
+    const validated = TsUtils.validateUuid(uuid)
+    if (!validated) {
+      return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
+    }
+
+    window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
+    window.store.getState().setActiveKey(AppPages.SHOWCASE)
+  }
+
   return (
     <Flex
       vertical
@@ -307,18 +319,7 @@ function SearchBar() {
           type='primary'
           icon={<SearchOutlined/>}
           style={{ width: 60 }}
-          onClick={() => {
-            const uuid = inputRef?.current?.input?.value
-            if (!uuid) return
-
-            const validated = TsUtils.validateUuid(uuid)
-            if (!validated) {
-              return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
-            }
-
-            window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
-            window.store.getState().setActiveKey(AppPages.SHOWCASE)
-          }}
+          onClick={handleSearchSubmit}
         />
         <Input
           ref={inputRef}
@@ -329,6 +330,7 @@ function SearchBar() {
           allowClear
           size='large'
           defaultValue={scorerId}
+          onPressEnter={handleSearchSubmit}
         />
       </Space.Compact>
     </Flex>

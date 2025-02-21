@@ -1,30 +1,14 @@
-// START CHARACTER CONDITIONAL CONSTANTS
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-/* INJECT CHARACTER CONDITIONAL CONSTANTS */
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-// END CHARACTER CONDITIONAL CONSTANTS
-
-
-// START LIGHT CONE CONDITIONAL CONSTANTS
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-/* INJECT LIGHT CONE CONDITIONAL CONSTANTS */
-// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-// END LIGHT CONE CONDITIONAL CONSTANTS
-
-
 // START GPU PARAMS
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT GPU PARAMS */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END GPU PARAMS
 
-
 // START ACTIONS DEFINITION
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT ACTIONS DEFINITION */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END ACTIONS DEFINITION
-
 
 const BASIC_DMG_TYPE = 1;
 const SKILL_DMG_TYPE = 2;
@@ -48,13 +32,11 @@ const MEMO_SKILL_ABILITY_TYPE = 16;
 @group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;
 @group(1) @binding(2) var<storage> relicSetSolutionsMatrix : array<i32>;
 
-
 // START RESULTS BUFFER
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT RESULTS BUFFER */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END RESULTS BUFFER
-
 
 @compute @workgroup_size(WORKGROUP_SIZE)
 fn main(
@@ -143,13 +125,11 @@ fn main(
     let relicSetIndex: u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
 
-
     // START SET FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     /* INJECT SET FILTERS */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END SET FILTERS
-
 
     // Calculate relic set counts
 
@@ -206,7 +186,6 @@ fn main(
     var c: BasicStats = BasicStats();
 
     // Calculate relic stat sums
-
     // NOTE: Performance is worse if we don't add elemental dmg from head/hands/body/feet/rope
 
     c.HP_P  = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
@@ -353,8 +332,15 @@ fn main(
       let p_m = &m;
       let p_state = &state;
 
-
       x.sets = sets;
+
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == true && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
 
       if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
         x.SPD_P += 0.12;
@@ -380,9 +366,7 @@ fn main(
 
       // DEF
 
-
       // HP
-
 
       // CD
 
@@ -493,7 +477,13 @@ fn main(
         x.Fire_DMG += 0.12;
       }
 
-      //
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
 
       x.ATK += diffATK;
       x.DEF += diffDEF;
@@ -509,10 +499,6 @@ fn main(
 
       addElementalDmg(&c, &x);
 
-//      m.ATK += mc.ATK;
-//      m.DEF += mc.DEF;
-//      m.HP  += mc.HP;
-//      m.SPD += mc.SPD;
       m.CD  += mc.CD;
       m.CR  += mc.CR;
       m.EHR += mc.EHR;
@@ -528,18 +514,20 @@ fn main(
       x.VULNERABILITY += combatBuffsVULNERABILITY;
       x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
 
-      //
-
       x.ATK += x.ATK_P * baseATK;
       x.DEF += x.DEF_P * baseDEF;
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
 
+      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
 
-      m.ATK += (m.ATK_P * baseATK + mc.ATK) * x.MEMO_ATK_SCALING + x.MEMO_ATK_FLAT;
-      m.DEF += (m.DEF_P * baseDEF + mc.DEF) * x.MEMO_DEF_SCALING + x.MEMO_DEF_FLAT;
-      m.HP += (m.HP_P * baseHP + mc.HP) * x.MEMO_HP_SCALING + x.MEMO_HP_FLAT;
-      m.SPD += (m.SPD_P * baseSPD + mc.SPD) * x.MEMO_SPD_SCALING + x.MEMO_SPD_FLAT;
+      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
+      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
+      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
+      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
 
       // START BASIC CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -547,38 +535,34 @@ fn main(
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
       // END BASIC CONDITIONALS
 
-      evaluateDependenciesSPD(p_x, p_m, p_state);
-      evaluateDependenciesBE(p_x, p_m, p_state);
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
 
-      evaluateDependenciesHP(p_x, p_m, p_state);
-      evaluateDependenciesATK(p_x, p_m, p_state);
-      evaluateDependenciesDEF(p_x, p_m, p_state);
-      evaluateDependenciesCR(p_x, p_m, p_state);
-      evaluateDependenciesCD(p_x, p_m, p_state);
-      evaluateDependenciesEHR(p_x, p_m, p_state);
-      evaluateDependenciesRES(p_x, p_m, p_state);
-      evaluateDependenciesOHB(p_x, p_m, p_state);
-      evaluateDependenciesERR(p_x, p_m, p_state);
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
 
-      evaluateDependenciesSPD(p_x, p_m, p_state);
-      evaluateDependenciesBE(p_x, p_m, p_state);
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
 
-      evaluateDependenciesHP(p_x, p_m, p_state);
-      evaluateDependenciesATK(p_x, p_m, p_state);
-      evaluateDependenciesDEF(p_x, p_m, p_state);
-      evaluateDependenciesCR(p_x, p_m, p_state);
-      evaluateDependenciesCD(p_x, p_m, p_state);
-      evaluateDependenciesEHR(p_x, p_m, p_state);
-      evaluateDependenciesRES(p_x, p_m, p_state);
-      evaluateDependenciesOHB(p_x, p_m, p_state);
-      evaluateDependenciesERR(p_x, p_m, p_state);
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
 
       // START ACTION CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
       /* INJECT ACTION CONDITIONALS */
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
       // END ACTION CONDITIONALS
-
 
       // Calculate damage
 
@@ -607,7 +591,6 @@ fn main(
         /* INJECT COMBAT STAT FILTERS */
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
         // END COMBAT STAT FILTERS
-
 
 
         // START BASIC STAT FILTERS
@@ -648,6 +631,7 @@ fn calculateDamage(
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
   let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
+  let baseTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER;
 
   // === Super / Break ===
 
@@ -662,7 +646,7 @@ fn calculateDamage(
     * (1 + x.BE)
     * (1 + x.BREAK_BOOST);
 
-  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER + x.SUPER_BREAK_HMC_MODIFIER;
+  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER;
 
   let baseSuperBreakInstanceDmg
     = baseUniversalMulti
@@ -688,7 +672,8 @@ fn calculateDamage(
         * (dotDefMulti)
         * (dotVulnerabilityMulti)
         * (dotResMulti)
-        * (dotEhrMulti);
+        * (dotEhrMulti)
+        * (baseTrueDmgMulti);
     }
 
     if (x.HEAL_VALUE > 0) {
@@ -701,10 +686,10 @@ fn calculateDamage(
     }
 
     if (x.SHIELD_VALUE > 0) {
-      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + 0.20 * p4(x.sets.KnightOfPurityPalace));
+      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + x.SHIELD_BOOST);
     }
 
-    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / ((1 - 0.08 * p2(x.sets.GuardOfWutheringSnow)) * x.DMG_RED_MULTI));
+    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
   if (action.abilityType == 1 || actionIndex == 0) {
@@ -724,7 +709,7 @@ fn calculateDamage(
       x.BASIC_RES_PEN,
       x.BASIC_CR_BOOST,
       x.BASIC_CD_BOOST,
-      x.BASIC_ORIGINAL_DMG_BOOST,
+      x.BASIC_FINAL_DMG_BOOST,
       x.BASIC_BREAK_EFFICIENCY_BOOST,
       x.BASIC_SUPER_BREAK_MODIFIER,
       x.BASIC_BREAK_DMG_MODIFIER,
@@ -732,6 +717,7 @@ fn calculateDamage(
       x.BASIC_ADDITIONAL_DMG,
       0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.BASIC_TRUE_DMG_MODIFIER,
       m.BASIC_DMG,
     );
   }
@@ -753,7 +739,7 @@ fn calculateDamage(
       x.SKILL_RES_PEN,
       x.SKILL_CR_BOOST,
       x.SKILL_CD_BOOST,
-      x.SKILL_ORIGINAL_DMG_BOOST,
+      x.SKILL_FINAL_DMG_BOOST,
       0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
       0, // x.SKILL_SUPER_BREAK_MODIFIER,
       0, // x.SKILL_BREAK_DMG_MODIFIER,
@@ -761,6 +747,7 @@ fn calculateDamage(
       x.SKILL_ADDITIONAL_DMG,
       0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.SKILL_TRUE_DMG_MODIFIER,
       0, // m.SKILL_DMG,
     );
   }
@@ -782,7 +769,7 @@ fn calculateDamage(
       x.ULT_RES_PEN,
       x.ULT_CR_BOOST,
       x.ULT_CD_BOOST,
-      x.ULT_ORIGINAL_DMG_BOOST,
+      x.ULT_FINAL_DMG_BOOST,
       x.ULT_BREAK_EFFICIENCY_BOOST,
       0, // x.ULT_SUPER_BREAK_MODIFIER,
       0, // x.ULT_BREAK_DMG_MODIFIER,
@@ -790,6 +777,7 @@ fn calculateDamage(
       x.ULT_ADDITIONAL_DMG,
       x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
       x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.ULT_TRUE_DMG_MODIFIER,
       m.ULT_DMG,
     );
   }
@@ -811,7 +799,7 @@ fn calculateDamage(
       x.FUA_RES_PEN,
       x.FUA_CR_BOOST,
       x.FUA_CD_BOOST,
-      0, // x.FUA_ORIGINAL_DMG_BOOST,
+      0, // x.FUA_FINAL_DMG_BOOST,
       0, // x.FUA_BREAK_EFFICIENCY_BOOST,
       0, // x.FUA_SUPER_BREAK_MODIFIER,
       0, // x.FUA_BREAK_DMG_MODIFIER,
@@ -819,6 +807,7 @@ fn calculateDamage(
       x.FUA_ADDITIONAL_DMG,
       0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
+      x.FUA_TRUE_DMG_MODIFIER,
       0, // m.FUA_DMG,
     );
   }
@@ -840,18 +829,20 @@ fn calculateDamage(
       0, // x.MEMO_SKILL_RES_PEN,
       0, // x.MEMO_SKILL_CR_BOOST,
       0, // x.MEMO_SKILL_CD_BOOST,
-      0, // x.MEMO_SKILL_ORIGINAL_DMG_BOOST,
+      0, // x.MEMO_SKILL_FINAL_DMG_BOOST,
       0, // x.MEMO_SKILL_BREAK_EFFICIENCY_BOOST,
       0, // x.MEMO_SKILL_SUPER_BREAK_MODIFIER,
       0, // x.MEMO_SKILL_BREAK_DMG_MODIFIER,
-      0, // x.MEMO_SKILL_TOUGHNESS_DMG,
+      x.MEMO_SKILL_TOUGHNESS_DMG,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      0, // m.FUA_DMG,
+      0, // x.MEMO_TRUE_DMG_MODIFIER,
+      0, // m.MEMO_DMG,
     );
 
     (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
+    (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
   }
 }
 
@@ -866,7 +857,7 @@ fn calculateEhrMulti(
   let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - enemyEffectResistance + x.EFFECT_RES_PEN));
   let dotEhrMulti = select(
     (effectiveDotChance),
-    (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + 0.05 * (x.DOT_STACKS - 1)),
+    (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + x.DOT_SPLIT * (x.DOT_STACKS - 1)),
     x.DOT_SPLIT > 0
   );
 
@@ -897,6 +888,7 @@ fn calculateAbilityDmg(
   abilityAdditionalDmg: f32,
   abilityAdditionalCrOverride: f32,
   abilityAdditionalCdOverride: f32,
+  abilityTrueDmgModifier: f32,
   abilityMemoJointDamage: f32,
 ) -> f32 {
   let x = *p_x;
@@ -963,7 +955,7 @@ fn calculateAbilityDmg(
 
   // === True DMG ===
 
-  let trueDmgOutput = x.TRUE_DMG_MODIFIER * primaryDmgOutput;
+  let trueDmgOutput = (x.TRUE_DMG_MODIFIER + abilityTrueDmgModifier) * primaryDmgOutput;
 
   // === Memo Joint DMG ===
 
@@ -980,6 +972,49 @@ fn p2(n: i32) -> f32 {
 }
 fn p4(n: i32) -> f32 {
   return f32(n >> 2);
+}
+fn buffATK_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).ATK += value * baseATK;
+  }
+}
+fn buffHP_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).HP += value * baseHP;
+  }
+}
+fn buffDEF_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).DEF += value * baseDEF;
+  }
+}
+fn buffSPD_P(p_x: ptr<function, ComputedStats>, value: f32) {
+  if (value > 0.0001) {
+    (*p_x).SPD += value * baseSPD;
+  }
+}
+
+fn buffAbilityTrueDmg(
+  p_x: ptr<function, ComputedStats>,
+  abilityTypeFlags: i32,
+  value: f32,
+  condition: i32
+) {
+  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+    (*p_x).BASIC_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+    (*p_x).SKILL_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+    (*p_x).ULT_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+    (*p_x).FUA_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+    (*p_x).BREAK_TRUE_DMG_MODIFIER += value;
+  }
 }
 
 fn buffAbilityDmg(

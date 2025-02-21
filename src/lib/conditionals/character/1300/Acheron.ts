@@ -1,8 +1,9 @@
 import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityResPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
@@ -12,6 +13,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Acheron')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1308')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -117,43 +131,43 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (e >= 6 && r.e6UltBuffs) {
-        x.BASIC_DMG_TYPE.set(ULT_DMG_TYPE | BASIC_DMG_TYPE, Source.NONE)
-        x.SKILL_DMG_TYPE.set(ULT_DMG_TYPE | SKILL_DMG_TYPE, Source.NONE)
+        x.BASIC_DMG_TYPE.set(ULT_DMG_TYPE | BASIC_DMG_TYPE, SOURCE_E6)
+        x.SKILL_DMG_TYPE.set(ULT_DMG_TYPE | SKILL_DMG_TYPE, SOURCE_E6)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, Source.NONE)
+      x.CR.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, SOURCE_E1)
 
-      x.ELEMENTAL_DMG.buff((r.thunderCoreStacks) * 0.30, Source.NONE)
-      buffAbilityResPen(x, ULT_DMG_TYPE, talentResPen, Source.NONE)
-      buffAbilityResPen(x, ULT_DMG_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((r.thunderCoreStacks) * 0.30, SOURCE_TRACE)
+      buffAbilityResPen(x, ULT_DMG_TYPE, talentResPen, SOURCE_TALENT)
+      buffAbilityResPen(x, ULT_DMG_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, SOURCE_E6)
 
       const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
-      x.BASIC_ORIGINAL_DMG_BOOST.buff(originalDmgBoost, Source.NONE)
-      x.SKILL_ORIGINAL_DMG_BOOST.buff(originalDmgBoost, Source.NONE)
-      x.ULT_ORIGINAL_DMG_BOOST.buff(originalDmgBoost, Source.NONE)
+      x.BASIC_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
+      x.SKILL_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
+      x.ULT_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
       // Each ult is 3 rainblades, 3 base crimson knots, and then 1 crimson knot per stack, then 1 stygian resurge, and 6 thunder cores from trace
-      x.ULT_SCALING.buff(3 * ultRainbladeScaling, Source.NONE)
-      x.ULT_SCALING.buff(3 * ultCrimsonKnotScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultCrimsonKnotScaling * (r.crimsonKnotStacks), Source.NONE)
-      x.ULT_SCALING.buff(ultStygianResurgeScaling, Source.NONE)
-      x.ULT_SCALING.buff(r.stygianResurgeHitsOnTarget * ultThunderCoreScaling, Source.NONE)
+      x.ULT_SCALING.buff(3 * ultRainbladeScaling, SOURCE_ULT)
+      x.ULT_SCALING.buff(3 * ultCrimsonKnotScaling, SOURCE_ULT)
+      x.ULT_SCALING.buff(ultCrimsonKnotScaling * (r.crimsonKnotStacks), SOURCE_ULT)
+      x.ULT_SCALING.buff(ultStygianResurgeScaling, SOURCE_ULT)
+      x.ULT_SCALING.buff(r.stygianResurgeHitsOnTarget * ultThunderCoreScaling, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(105, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(105, SOURCE_ULT)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, ULT_DMG_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, ULT_DMG_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, SOURCE_E4, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

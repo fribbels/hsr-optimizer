@@ -1,11 +1,10 @@
 import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -16,6 +15,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1307')
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
   const epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
@@ -104,73 +116,50 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.DOT_SCALING.buff(dotScaling + arcanaStackMultiplier * r.arcanaStacks, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.DOT_SCALING.buff(dotScaling + arcanaStackMultiplier * r.arcanaStacks, SOURCE_TALENT)
 
-      buffAbilityDefPen(x, DOT_DMG_TYPE, (r.arcanaStacks >= 7) ? 0.20 : 0, Source.NONE)
+      buffAbilityDefPen(x, DOT_DMG_TYPE, (r.arcanaStacks >= 7) ? 0.20 : 0, SOURCE_TALENT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
-      x.DOT_CHANCE.set(dotChance, Source.NONE)
-      x.DOT_SPLIT.set(0.05, Source.NONE)
-      x.DOT_STACKS.set(r.arcanaStacks, Source.NONE)
+      x.DOT_CHANCE.set(dotChance, SOURCE_TALENT)
+      x.DOT_SPLIT.set(0.05, SOURCE_TALENT)
+      x.DOT_STACKS.set(r.arcanaStacks, SOURCE_TALENT)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
-      buffAbilityVulnerability(x, DOT_DMG_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, DOT_DMG_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, SOURCE_ULT, Target.TEAM)
 
-      x.DEF_PEN.buffTeam((m.defDecreaseDebuff) ? defShredValue : 0, Source.NONE)
-      x.WIND_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
-      x.FIRE_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
-      x.PHYSICAL_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
-      x.LIGHTNING_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.defDecreaseDebuff) ? defShredValue : 0, SOURCE_SKILL)
+      x.WIND_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
+      x.FIRE_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
+      x.PHYSICAL_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
+      x.LIGHTNING_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
 
-      x.EFFECT_RES_PEN.buffTeam((e >= 4 && m.epiphanyDebuff && m.e4EffResPen) ? 0.10 : 0, Source.NONE)
+      x.EFFECT_RES_PEN.buffTeam((e >= 4 && m.epiphanyDebuff && m.e4EffResPen) ? 0.10 : 0, SOURCE_E4)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
-    dynamicConditionals: [
-      {
-        id: 'BlackSwanConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.EHR],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
-        },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.ehrToDmgBoost) {
-            return
-          }
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.min(0.72, 0.60 * x.a[Key.EHR])
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          action.conditionalState[this.id] = buffValue
-          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+      x.ELEMENTAL_DMG.buff((r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * x.a[Key.EHR]) : 0, SOURCE_TRACE)
+      standardAtkFinalizer(x)
+    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.ehrToDmgBoost)}) {
-  return;
+      return `
+if (${wgslTrue(r.ehrToDmgBoost)}) {
+  x.ELEMENTAL_DMG += min(0.72, 0.60 * x.EHR);
 }
-let ehr = (*p_x).EHR;
-let stateValue: f32 = (*p_state).BlackSwanConversionConditional;
-let buffValue: f32 = min(0.72, 0.60 * ehr);
-
-(*p_state).BlackSwanConversionConditional = buffValue;
-(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
-    `)
-        },
-      },
-    ],
+${gpuStandardAtkFinalizer()}
+`
+    },
   }
 }

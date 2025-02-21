@@ -1,8 +1,9 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Moze')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1223')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.50, 1.65)
@@ -79,38 +93,45 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
+      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((e >= 4 && r.e4DmgBuff) ? 0.30 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((e >= 4 && r.e4DmgBuff) ? 0.30 : 0, SOURCE_E4)
 
-      x.BASIC_SCALING.buff(basicScaling + ((r.preyMark) ? additionalDmgScaling : 0), Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling + ((r.preyMark) ? additionalDmgScaling : 0), Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling + ((r.preyMark) ? additionalDmgScaling : 0), Source.NONE)
-      x.FUA_SCALING.buff((e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling + ((r.preyMark) ? additionalDmgScaling : 0), Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_SCALING.buff((e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0, SOURCE_E6)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_BASIC)
+      x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_SKILL)
+      x.FUA_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_TALENT)
+      x.ULT_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_ULT)
+
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_TALENT)
+      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.preyMark) ? 0.25 : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.preyMark) ? 0.25 : 0, SOURCE_TRACE, Target.TEAM)
 
-      x.CD.buffTeam((e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0, Source.NONE)
+      x.CD.buffTeam((e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
+        + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

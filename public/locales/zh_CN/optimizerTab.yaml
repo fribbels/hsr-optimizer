@@ -231,6 +231,7 @@ FormRowLabels:
   Relic & stat filters: 遗器和属性筛选
   Teammates: 队友
   Character custom stats simulation: 角色自定义属性模拟
+  Analysis: 优化结果分析
 TracesDrawer:
   Title: 自定义属性行迹
   Header: 已激活的属性行迹（默认全部启用）
@@ -405,6 +406,7 @@ MinMaxFilters:
   COMBOLabel: 连招
 ComboFilter:
   Header: 连招伤害技能循环
+  AbilityLabel: 技能
   ModeSelector:
     Simple: 简易
     Advanced: 高级
@@ -512,3 +514,56 @@ StatSimulation:
     RopePlaceholder: 连结绳
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 普攻
+      Skill: 战技
+      Ult: 终结技
+      Talent: 天赋
+      Technique: 秘技
+      Trace: 行迹
+      Memo: 忆灵
+      E1: 1魂
+      E2: 2魂
+      E4: 4魂
+      E6: 6魂
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x 副词条'
+      COMBO_DMG: Δ连招伤害
+      COMBO_DMG_P: Δ%连招伤害
+      EHP: Δ有效生命
+      EHP_P: Δ%有效生命
+      HEAL_VALUE: Δ治疗量
+      HEAL_VALUE_P: Δ%治疗量
+      SHIELD_VALUE: Δ护盾值
+      SHIELD_VALUE_P: Δ%护盾值
+  DamageSplits:
+    Title: 伤害类型分布
+    Legend:
+      abilityDmg: 技能
+      breakDmg: 击破
+      superBreakDmg: 超击破
+      additionalDmg: 额外
+      trueDmg: '真实'
+      jointDmg: 连携
+      dotDmg: 持续
+      memoDmg: 忆灵
+    YAxisLabel:
+      BASIC_DMG: 普攻
+      SKILL_DMG: 战技
+      ULT_DMG: 终结技
+      FUA_DMG: 追加攻击
+      DOT_DMG: 持续
+      BREAK_DMG: 击破
+      MEMO_SKILL_DMG: 忆灵战技
+    TooltipText:
+      abilityDmg: 技能伤害
+      breakDmg: 击破伤害
+      superBreakDmg: 超击破伤害
+      additionalDmg: 额外伤害
+      trueDmg: 真实伤害
+      jointDmg: 连携伤害
+      dotDmg: 持续攻击伤害
+      memoDmg: 忆灵伤害

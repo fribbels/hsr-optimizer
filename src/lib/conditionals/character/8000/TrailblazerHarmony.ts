@@ -1,6 +1,7 @@
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -11,6 +12,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerHarmony')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('8006')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.50, 0.55)
@@ -89,45 +103,46 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
+        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
       }
     },
     initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
+        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ERR.buff((e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0, Source.NONE)
+      x.ERR.buff((e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0, SOURCE_E2)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.SKILL_SCALING.buff(r.skillHitsOnTarget * skillScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.SKILL_SCALING.buff(r.skillHitsOnTarget * skillScaling, SOURCE_SKILL)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(30 * r.skillHitsOnTarget, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(30 * r.skillHitsOnTarget, SOURCE_SKILL)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffTeam((m.backupDancer) ? ultBeScaling : 0, Source.NONE)
-      x.SUPER_BREAK_HMC_MODIFIER.buffTeam(
+      x.BE.buffTeam((m.backupDancer) ? ultBeScaling : 0, SOURCE_ULT)
+      x.SUPER_BREAK_MODIFIER.buffTeam(
         (m.backupDancer && m.superBreakDmg)
           ? targetsToSuperBreakMulti[context.enemyCount]
           : 0,
-        Source.NONE)
+        SOURCE_ULT)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, Source.NONE)
+      x.BE.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, SOURCE_E4)
+      x.UNCONVERTIBLE_BE_BUFF.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, SOURCE_E4)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

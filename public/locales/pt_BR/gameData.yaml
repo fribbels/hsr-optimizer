@@ -365,10 +365,10 @@ RelicSets:
     Description2pc: Aumenta o Dano CRIT do usuário em 16%. Quando um alvo invocado pelo usuário está em campo, o Dano CRIT aumenta adicionalmente em 32%.
   "319":
     Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -413,7 +413,7 @@ Lightcones:
   "20020":
     Name: Sagacidade
   "20021":
-    Name: Sombrardente
+    Name: Queimada
   "20022":
     Name: Reminiscência
   "21000":

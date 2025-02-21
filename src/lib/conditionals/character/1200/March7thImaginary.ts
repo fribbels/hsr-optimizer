@@ -1,8 +1,9 @@
-import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { ADDITIONAL_DMG_TYPE, ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.March7thImaginary')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1224')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 0.80, 0.88)
@@ -111,39 +125,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SPD_P.buff((e >= 1 && r.selfSpdBuff) ? 0.10 : 0, Source.NONE)
-      buffAbilityDmg(x, BASIC_DMG_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, Source.NONE)
+      x.SPD_P.buff((e >= 1 && r.selfSpdBuff) ? 0.10 : 0, SOURCE_E1)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | ADDITIONAL_DMG_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
 
-      buffAbilityCd(x, BASIC_DMG_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, Source.NONE)
+      buffAbilityCd(x, BASIC_DMG_TYPE | ADDITIONAL_DMG_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, SOURCE_E6)
 
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff)
         ? basicExtraScalingMasterBuff * r.basicAttackHits
         : 0
-      x.BASIC_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, Source.NONE)
-      x.BASIC_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.FUA_SCALING.buff((e >= 2) ? 0.60 : 0, Source.NONE)
+      x.BASIC_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, SOURCE_BASIC)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_SCALING.buff((e >= 2) ? 0.60 : 0, SOURCE_E2)
 
       const toughnessDmgBoost = (r.masterToughnessRedBuff) ? 2.0 : 1.0
-      x.BASIC_TOUGHNESS_DMG.buff(toughnessDmgBoost * ((r.enhancedBasic) ? 15 * r.basicAttackHits : 30), Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 2) ? 30 : 0, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(toughnessDmgBoost * ((r.enhancedBasic) ? 15 * r.basicAttackHits : 30), SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 2) ? 30 : 0, SOURCE_E2)
 
       return x
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buff((t.masterBuff) ? skillSpdScaling : 0, Source.NONE)
+      x.SPD_P.buff((t.masterBuff) ? skillSpdScaling : 0, SOURCE_SKILL)
 
-      x.CD.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, Source.NONE)
-      x.BE.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, Source.NONE)
+      x.CD.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, SOURCE_TRACE)
+      x.BE.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(fuaHitCountMulti)
+      return gpuStandardFuaAtkFinalizer(fuaHitCountMulti) + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

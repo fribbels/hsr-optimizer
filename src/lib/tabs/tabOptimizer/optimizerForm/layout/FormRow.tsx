@@ -7,6 +7,7 @@ export const OptimizerMenuIds = {
   relicAndStatFilters: 'Relic & stat filters',
   teammates: 'Teammates',
   characterStatsSimulation: 'Character custom stats simulation',
+  analysis: 'Analysis',
 }
 
 export function FormRow(props: { id: string; label?: string; children: ReactElement | ReactElement[] }) {
@@ -23,7 +24,7 @@ export function FormRow(props: { id: string; label?: string; children: ReactElem
     {
       key: props.id,
       label: (
-        <Flex style={{ paddingTop: 8 }}>
+        <Flex style={{ paddingTop: 6 }}>
           {
             // @ts-ignore
             props.label ?? t(`${props.id}`)

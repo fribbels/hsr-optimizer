@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: Dono
     Set: Set
-    Grade: Raridade
     Part: Parte
-    Enhance: Melhoria
     MainStat: |-
       Atributo
       Principal
@@ -64,7 +62,7 @@ RelicGrid:
       ScoreCol:
         Label: "Char selecionado: Pontuação"
         Header: |-
-          Char selecionado
+          Char Selecionado
           Pontuação
       AvgPotCol:
         Label: "Char selecionado: Potencial médio"
@@ -86,7 +84,7 @@ RelicGrid:
         Label: "Personagem selecionado: Potencial médio de reroll Δ"
         Header: |-
           Chars Selecionados
-          Média de Reroll Δ
+          Média Reroll Δ
     CustomCharacters:
       Label: Personagens selecionados
       AvgPotCol:
@@ -133,7 +131,7 @@ Toolbar:
     Width: Largura do inventário
     Filter: Filtrar automaticamente linhas
     NoneSelected: Selecione uma relíquia para localizar
-    Location: "Localização — Linha {{rowIndex}} / Coluna {{columnIndex}}"
+    Location: "Localização - Lin. {{rowIndex}} / Col. {{columnIndex}}"
   InsightOptions:
     Buckets: "Análise de Relíquia: Buckets"
     Top10: "Análise de Relíquia: Top 10"

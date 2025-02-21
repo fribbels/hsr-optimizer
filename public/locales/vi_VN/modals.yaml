@@ -72,7 +72,7 @@ Scoring:
     StatView:
       SuccessMessage: "Đã chuyển sang chỉ số trong combat"
       Description: "Chỉ số hiện tại đang được lọc cho chỉ số cơ bản, việc này không bao gồm buffs. Bật Combat để thấy chỉ số sau khi nhân vật được buff từ kỹ năng, đồng đội hoặc di vật, vân vân"
-      ButtonText: "Đã chuyển sang chỉ số trong combat"
+      ButtonText: "Chuyển sang chỉ số combat"
     MAX_HP:
       SuccessMessage: "Đặt lại bộ lọc tối đa $t(common:Stats.HP)"
       Description: "$t(common:Stats.HP) tối đa quá thấp"
@@ -163,11 +163,11 @@ Scoring:
       ButtonText: "Đặt lại bộ lọc EHP tối thiểu"
     MAX_BASIC:
       SuccessMessage: "Đặt lại bộ lọc tấn công thường tối đa"
-      Description: "Sát thương đòn đánh cơ bản tối đa quá thấp"
+      Description: "Sát thương Tấn Công Thường tối đa quá thấp"
       ButtonText: "Đặt lại bộ lọc tấn công thường tối đa"
     MIN_BASIC:
       SuccessMessage: "Đặt lại bộ lọc tấn công thường tối thiểu"
-      Description: "Sát thương đòn đánh cơ bản tối thiểu quá cao"
+      Description: "Sát thương Tấn Công Thường tối thiểu quá cao"
       ButtonText: "Đặt lại bộ lọc tấn công thường tối thiểu"
     MAX_SKILL:
       SuccessMessage: "Đặt lại bộ lọc chiến kỹ tối đa"
@@ -200,15 +200,15 @@ Scoring:
     MIN_DOT:
       SuccessMessage: "Đặt lại bộ lọc sát thương theo thời gian tối thiểu"
       Description: "Sát thương theo thời gian tối thiểu quá cao"
-      ButtonText: "Đặt lại bộ lọc sát thương theo thời gian tối thiểu"
+      ButtonText: "Đặt lại bộ lọc Sát Thương Theo Thời Gian tối thiểu"
     MAX_BREAK:
-      SuccessMessage: "Đặt lại bộ lọc sát thương phá vỡ tối đa"
-      Description: "Sát thương phá vỡ tối đa quá thấp"
-      ButtonText: "Đặt lại bộ lọc sát thương phá vỡ tối đa"
+      SuccessMessage: "Đặt lại bộ lọc ST Kích Phá tối đa"
+      Description: "Sát Thương Kích Phá tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc ST Kích Phá tối đa"
     MIN_BREAK:
-      SuccessMessage: "Đặt lại bộ lọc sát thương phá vỡ tối thiểu"
-      Description: "Sát thương phá vỡ tối thiểu quá cao"
-      ButtonText: "Đặt lại bộ lọc sát thương phá vỡ tối thiểu"
+      SuccessMessage: "Đặt lại bộ lọc ST Kích Phá tối thiểu"
+      Description: "Sát Thương Kích Phá tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc ST Kích Phá tối thiểu"
     MAX_HEAL:
       SuccessMessage: "Đặt lại bộ lọc lượng hồi máu tối đa"
       Description: "Lượng hồi máu tối đa quá thấp"
@@ -226,13 +226,13 @@ Scoring:
       Description: "Lượng lá chắn tối thiểu quá cao"
       ButtonText: "Đặt lại bộ lọc lượng LÁ CHẮN tối thiểu"
     MAX_COMBO:
-      SuccessMessage: "Đặt lại bộ lọc sát thương combo tối đa"
-      Description: "Sát thương combo tối đa quá thấp"
-      ButtonText: "Đặt lại bộ lọc sát thương combo tối đa"
+      SuccessMessage: "Đặt lại bộ lọc ST Combo tối đa"
+      Description: "Sát Thương Combo tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc Sát Thương Combo tối đa"
     MIN_COMBO:
-      SuccessMessage: "Đặt lại bộ lọc sát thương combo tối thiểu"
-      Description: "Sát thương combo tối thiểu quá cao"
-      ButtonText: "Đặt lại bộ lọc sát thương combo tối thiểu"
+      SuccessMessage: "Đặt lại bộ lọc Sát Thương Combo tối thiểu"
+      Description: "Sát Thương Combo tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc Sát Thương Combo tối thiểu"
 ManyPerms:
   Title: Đã yêu cầu tìm kiếm quy mô lớn
   Text: >-

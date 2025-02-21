@@ -4,8 +4,9 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -17,6 +18,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1222')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.80, 0.88)
@@ -120,52 +134,52 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, Source.NONE)
+      x.SUMMONS.set(1, SOURCE_TALENT)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling * 2, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.FUA_SCALING.buff(fuaScaling * 2, SOURCE_TALENT)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 1) ? 0.50 : 0, Source.NONE)
-      x.FUA_SCALING.buff((e >= 6 && r.e6ResShred) ? 0.50 : 0, Source.NONE)
+      x.BREAK_EFFICIENCY_BOOST.buff((e >= 1) ? 0.50 : 0, SOURCE_E1)
+      x.FUA_SCALING.buff((e >= 6 && r.e6ResShred) ? 0.50 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30 * 2, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 6) ? 15 : 0, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(30, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(30 * 2, SOURCE_TALENT)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 6) ? 15 : 0, SOURCE_E6)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
+        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
+        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
       }
       if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
+        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
+        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
       }
       if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(talentHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
+        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
+        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
       }
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       if (x.a[Key.ENEMY_WEAKNESS_BROKEN]) {
-        x.DEF_PEN.buffTeam((e >= 1 && m.e1DefShred) ? 0.20 : 0, Source.NONE)
+        x.DEF_PEN.buffTeam((e >= 1 && m.e1DefShred) ? 0.20 : 0, SOURCE_E1)
       }
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.befogState) ? ultBreakVulnerability : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.befogState) ? ultBreakVulnerability : 0, SOURCE_ULT, Target.TEAM)
 
-      x.BE.buffTeam((e >= 2 && m.e2BeBuff) ? 0.40 : 0, Source.NONE)
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? 0.20 : 0, Source.NONE)
+      x.BE.buffTeam((e >= 2 && m.e2BeBuff) ? 0.40 : 0, SOURCE_E2)
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
@@ -179,6 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.BE],
+      chainsTo: [Stats.ATK, Stats.OHB],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         return true
       },
@@ -200,8 +215,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         const finalBuffAtk = buffValueAtk - (stateValue ? stateBuffValueAtk : 0)
         const finalBuffOhb = buffValueOhb - (stateValue ? stateBuffValueOhb : 0)
 
-        x.ATK.buffDynamic(finalBuffAtk, Source.NONE, action, context)
-        x.OHB.buffDynamic(finalBuffOhb, Source.NONE, action, context)
+        x.ATK.buffDynamic(finalBuffAtk, SOURCE_TRACE, action, context)
+        x.OHB.buffDynamic(finalBuffOhb, SOURCE_TRACE, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
@@ -219,14 +234,14 @@ let buffValueOhb = min(0.20, 0.10 * x.BE);
 let stateBuffValueAtk = min(0.50, 0.25 * stateValue) * baseATK;
 let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
 
-(*p_state).LingshaConversionConditional = (*p_x).BE;
+(*p_state).LingshaConversionConditional = x.BE;
 
 let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
 let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);
 
-buffDynamicATK(finalBuffAtk, p_x, p_m, p_state);
-buffDynamicOHB(finalBuffOhb, p_x, p_m, p_state);
-    `)
+(*p_x).ATK += finalBuffAtk;
+(*p_x).OHB += finalBuffOhb;
+`)
       },
     }],
   }

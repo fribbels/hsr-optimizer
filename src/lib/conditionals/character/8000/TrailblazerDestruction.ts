@@ -1,8 +1,9 @@
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -12,6 +13,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('8002')
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
@@ -54,22 +68,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ATK_P.buff(r.talentStacks * talentAtkScalingValue, Source.NONE)
-      x.DEF_P.buff(r.talentStacks * 0.10, Source.NONE)
-      x.CR.buff((x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.25 : 0, Source.NONE)
+      x.ATK_P.buff(r.talentStacks * talentAtkScalingValue, SOURCE_TALENT)
+      x.DEF_P.buff(r.talentStacks * 0.10, SOURCE_TRACE)
+      x.CR.buff((e >= 4 && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.25 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff((r.enhancedUlt) ? ultEnhancedScaling : ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff((r.enhancedUlt) ? ultEnhancedScaling : ultScaling, SOURCE_ULT)
 
       // Boost
-      buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, Source.NONE)
-      buffAbilityDmg(x, ULT_DMG_TYPE, (r.enhancedUlt) ? 0.25 : 0, Source.NONE)
+      buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, SOURCE_TRACE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (r.enhancedUlt) ? 0.25 : 0, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff((r.enhancedUlt) ? 60 : 90, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff((r.enhancedUlt) ? 60 : 90, SOURCE_ULT)
 
       return x
     },

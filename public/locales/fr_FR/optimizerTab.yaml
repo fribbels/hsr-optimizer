@@ -230,7 +230,8 @@ FormRowLabels:
   Character options: Paramètres du personnage
   Relic & stat filters: Filtres de relique & stats
   Teammates: Coéquipiers
-  Character custom stats simulation: Simulation de stats customisée
+  Character custom stats simulation: Simulation de stats
+  Analysis: Analyse des résultats
 TracesDrawer:
   Title: Modification de Traces
   Header: Traces activées (toutes activées par défaut)
@@ -405,6 +406,7 @@ MinMaxFilters:
   COMBOLabel: COMBO
 ComboFilter:
   Header: Rotation des capacités combo
+  AbilityLabel: Capacités
   ModeSelector:
     Simple: Simple
     Advanced: Avancé
@@ -512,3 +514,56 @@ StatSimulation:
     RopePlaceholder: Corde
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Norm
+      Skill: Comp
+      Ult: Ult
+      Talent: Talent
+      Technique: Technique
+      Trace: Trace
+      Memo: Mnémesprit
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x Substat'
+      COMBO_DMG: Δ DGT Combo
+      COMBO_DMG_P: Δ% DGT Combo
+      EHP: Δ PVE
+      EHP_P: Δ% PVE
+      HEAL_VALUE: Δ Soins
+      HEAL_VALUE_P: Δ% Soins
+      SHIELD_VALUE: Δ Bouclier
+      SHIELD_VALUE_P: Δ% Bouclier
+  DamageSplits:
+    Title: Répartition des dégâts
+    Legend:
+      abilityDmg: Capacité
+      breakDmg: Rupture
+      superBreakDmg: Rupture Extrême
+      additionalDmg: Additionnels
+      trueDmg: 'Réels'
+      jointDmg: Conjointe
+      dotDmg: DsD
+      memoDmg: Mnémesprit
+    YAxisLabel:
+      BASIC_DMG: Norm
+      SKILL_DMG: Comp
+      ULT_DMG: Ult
+      FUA_DMG: Ads
+      DOT_DMG: DsD
+      BREAK_DMG: Rupture
+      MEMO_SKILL_DMG: Mném
+    TooltipText:
+      abilityDmg: DGT de Capacité
+      breakDmg: DGT Rupture
+      superBreakDmg: DGT de Rupture Extrême
+      additionalDmg: Dégâts additionnels
+      trueDmg: Dégâts réels
+      jointDmg: DGT Conjointe
+      dotDmg: DGT Dsd
+      memoDmg: DGT Mnémesprit

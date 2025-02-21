@@ -1,12 +1,9 @@
 import { Flex } from 'antd'
-import i18next from 'i18next'
 import { RightIcon } from 'icons/RightIcon'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { Languages } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
-import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,17 +19,7 @@ export type SubstatDetails = {
 export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) => {
   const { t } = useTranslation('common')
   if (!stat?.stat || stat.value == null) {
-    return (
-      <Flex justify='space-between'>
-        <Flex>
-          <img
-            src={Assets.getBlank()}
-            style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
-          >
-          </img>
-        </Flex>
-      </Flex>
-    )
+    return <></>
   }
 
   let displayValue
@@ -51,22 +38,18 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) 
           style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
         >
         </img>
-        <RelicStatText language={i18next.resolvedLanguage as Languages}>{t(`ReadableStats.${stat.stat}`)}</RelicStatText>
+        {t(`ReadableStats.${stat.stat}`)}
       </Flex>
       {!main
         ? (
-          // <Tooltip title={`Roll quality: ${RelicRollGrader.calculateStatSum(stat.rolls)}%`}>
           <Flex justify='space-between' style={{ width: '41.5%' }}>
             <Flex gap={0} align='center'>
               {stat.addedRolls != null && generateRolls(stat)}
             </Flex>
-            <RelicStatText>{displayValue}</RelicStatText>
+            {displayValue}
           </Flex>
-          // </Tooltip>
         )
-        : (
-          <RelicStatText>{displayValue}</RelicStatText>
-        )}
+        : <>{displayValue}</>}
     </Flex>
   )
 }

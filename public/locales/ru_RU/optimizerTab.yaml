@@ -17,6 +17,12 @@ Grid:
       BE: ЭП
       OHB: ИСЦ
       ERR: ВЭ
+Sidebar:
+  GPUOptions:
+    EngineSwitchSuccessMsg:
+      CPU: Переключение вычислительных ресурсов на видеокарту 
+      Stable: Переключение вычислительных ресурсов на видеокарту (стабильная версия)
+      Experimental: Переключение вычислительных ресурсов на видеокарту (экспериментальная версия)
 SetConditionals:
   SelectOptions:
     Wastelander:
@@ -56,9 +62,20 @@ MinMaxFilters:
   SKILLLabel: Навык
   ULTLabel: Ультимейт
   FUALabel: Бонусная атака
+TeammateCard:
+  TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
 StatSimulation:
   MainStatsSelection:
     BodyPlaceholder: Тело
     FeetPlaceholder: Ноги
     SpherePlaceholder: Сфера
     RopePlaceholder: Верёвка
+ExpandedDataPanel:
+  DamageSplits:
+    Legend:
+      breakDmg: ЭП
+    YAxisLabel:
+      BREAK_DMG: ЭП
+    TooltipText:
+      breakDmg: Урон пробития
+      dotDmg: Периодический урон

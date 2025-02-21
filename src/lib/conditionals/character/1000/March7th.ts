@@ -2,7 +2,8 @@ import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -10,6 +11,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1001')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
@@ -26,17 +40,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
 
-      x.SHIELD_SCALING.buff(skillShieldScaling, Source.NONE)
-      x.SHIELD_FLAT.buff(skillShieldFlat, Source.NONE)
+      x.SHIELD_SCALING.buff(skillShieldScaling, SOURCE_SKILL)
+      x.SHIELD_FLAT.buff(skillShieldFlat, SOURCE_SKILL)
 
       return x
     },

@@ -24,17 +24,15 @@ RelicGrid:
   Headers:
     EquippedBy: 所有者
     Set: セット
-    Grade: レア度
     Part: 部位
-    Enhance: 強化
     MainStat: |-
       メインステ
     MainValue: |-
       メインステ
       の値
-    HPP: HP
-    ATKP: 攻撃力割合
-    DEFP: 防御力
+    HPP: HP割合
+    ATKP: "攻撃力\n割合"
+    DEFP: "防御力\n割合"
     HP: HP
     ATK: 攻撃力
     DEF: 防御力
@@ -63,65 +61,67 @@ RelicGrid:
         Label: "選択キャラ：遺物スコア"
         Header: |-
           選択キャラ
-          のスコア
+          遺物スコア
       AvgPotCol:
         Label: "選択キャラ：平均遺物ポテンシャル"
         Header: |-
-          選択キャラの平
-          均ポテンシャル
+          選択キャラ 平均
+          ポテンシャル
       MaxPotCol:
         Label: "選択キャラ：最大遺物ポテンシャル"
         Header: |-
-          選択キャラの最
-          大ポテンシャル
+          選択キャラ 最大
+          ポテンシャル
       RerollAvg:
         Label: "選択キャラ：リロール後の平均遺物ポテンシャル"
         Header: |-
-          選択キャラ
-          リロール平均
+          選択 リロール
+          ポテンシャル
       RerollAvgDelta:
         Label: "選択キャラ：リロール前後のポテンシャル差異"
         Header: |-
-          選択キャラ
-          リロール差異
+          選択 リロール
+          ポテンシャル差
     CustomCharacters:
       Label: 指定した複数キャラクター
       AvgPotCol:
         Label: "指定対象：平均遺物ポテンシャル"
         Header: |-
-          指定対象の平均ポテンシャル
+          指定対象 平均
+          ポテンシャル
       MaxPotCol:
         Label: "指定対象：最大遺物ポテンシャル"
         Header: |-
-          指定対象の最大ポテンシャル
+          指定対象 最大
+          ポテンシャル
       RerollAvg:
         Label: "指定対象：リロール後の平均遺物ポテンシャル"
         Header: |-
-          指定対象
-          リロール平均
+          指定 リロール
+          ポテンシャル
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:
         Label: "全キャラ：平均遺物ポテンシャル"
         Header: |-
-          全キャラの平均
+          全キャラ 平均
           ポテンシャル
       MaxPotCol:
         Label: "全キャラ：最大遺物ポテンシャル"
         Header: |-
-          全キャラの最大
+          全キャラ 最大
           ポテンシャル
       RerollAvg:
         Label: "全キャラ：リロール後の平均遺物ポテンシャル"
         Header: |-
-          全キャラ
-          リロール平均
+          全 リロール
+          ポテンシャル
     ComingSoon:
       Label: 近日公開
       SetsPotential:
         Label: 遺物・オーナメントセットのポテンシャル
         Header: |-
-          全キャラの最大ポテンシャル+セット
+          全キャラ 最大ポテンシャル+セット
 Toolbar:
   RelicLocator:
     Width: インベントリの幅
@@ -133,7 +133,7 @@ Toolbar:
     Top10: "遺物インサイト：トップ10"
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
-    PlotCustom: 指定した対象のみ表示
+    PlotCustom: 指定対象のみ表示
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除
@@ -142,4 +142,4 @@ Toolbar:
   AddRelic: 新しい遺物を追加
 RelicInsights:
   NewStats: "新しいステータス："
-  UpgradedStats: "アップグレードしたステータス: "
+  UpgradedStats: "アップグレードしたステータス："

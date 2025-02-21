@@ -1,46 +1,36 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, Stats } from 'lib/constants/constants'
+import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
 import {
-  baseCharacterStats,
   calculateBaseStats,
   calculateBasicEffects,
+  calculateBasicSetEffects,
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-function generateUnusedSets(relics: SingleRelicByPart) {
-  const usedSets = new Set([
-    RelicSetToIndex[relics.Head.set],
-    RelicSetToIndex[relics.Hands.set],
-    RelicSetToIndex[relics.Body.set],
-    RelicSetToIndex[relics.Feet.set],
-    OrnamentSetToIndex[relics.PlanarSphere.set],
-    OrnamentSetToIndex[relics.LinkRope.set],
-  ])
-  return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
-}
-
 export function calculateBuild(
   request: Form,
   relics: SingleRelicByPart,
   cachedContext: OptimizerContext | null,
+  cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
   internal: boolean = false,
-  forcedBasicSpd: number = 0) {
+  forcedBasicSpd: number = 0,
+  weightScore: boolean = false) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -57,44 +47,47 @@ export function calculateBuild(
 
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
-  RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
+
+  if (weightScore) {
+    RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
+  }
 
   // When the relic is empty / has no set, we have to use an unused set index to simulate a broken set
   const unusedSets = generateUnusedSets(relics)
   let unusedSetCounter = 0
 
-  const setH = RelicSetToIndex[relics.Head.set] ?? unusedSets[unusedSetCounter++]
-  const setG = RelicSetToIndex[relics.Hands.set] ?? unusedSets[unusedSetCounter++]
-  const setB = RelicSetToIndex[relics.Body.set] ?? unusedSets[unusedSetCounter++]
-  const setF = RelicSetToIndex[relics.Feet.set] ?? unusedSets[unusedSetCounter++]
-  const setP = OrnamentSetToIndex[relics.PlanarSphere.set] ?? unusedSets[unusedSetCounter++]
-  const setL = OrnamentSetToIndex[relics.LinkRope.set] ?? unusedSets[unusedSetCounter++]
+  const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setF = RelicSetToIndex[relics.Feet.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+  const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+
+  const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
+  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
+  const m = x.m
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
 
-  const c = {
-    ...baseCharacterStats,
-    relicSetIndex: relicSetIndex,
-    ornamentSetIndex: ornamentSetIndex,
-  } as BasicStatsObject
+  const sets = [setH, setG, setB, setF, setP, setL]
+  const setCounts = calculateSetCounts(sets)
+  c.init(relicSetIndex, ornamentSetIndex, setCounts, -1)
 
-  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
-  const m = x.m
-
-  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
-  calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
+  calculateBasicSetEffects(c, context, setCounts, sets)
+  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
 
   if (forcedBasicSpd) {
     // Special scoring use case where basic spd stat needs to be enforced
-    c[Stats.SPD] = forcedBasicSpd
+    c.SPD.set(forcedBasicSpd, Source.NONE)
   }
 
   x.setBasic(c)
   if (x.m) {
-    m.setBasic({ ...c })
+    m.setBasic(c.m)
+    c.initMemo()
   }
 
   let combo = 0
@@ -103,6 +96,10 @@ export function calculateBuild(
     const a = x.a
     x.setPrecompute(action.precomputedX.a)
     m.setPrecompute(action.precomputedM.a)
+    if (x.trace) {
+      x.tracePrecompute(action.precomputedX)
+      m.tracePrecompute(action.precomputedM)
+    }
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
@@ -128,18 +125,31 @@ export function calculateBuild(
     }
   }
 
-  c.x = x.toComputedStatsObject(internal)
+  return x
+}
 
-  return {
-    c: c,
-    computedStatsArray: x,
-    computedStatsObject: c.x,
-  }
+function generateUnusedSets(relics: SingleRelicByPart) {
+  const usedSets = new Set([
+    RelicSetToIndex[relics.Head.set as SetsRelics],
+    RelicSetToIndex[relics.Hands.set as SetsRelics],
+    RelicSetToIndex[relics.Body.set as SetsRelics],
+    RelicSetToIndex[relics.Feet.set as SetsRelics],
+    OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments],
+    OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments],
+  ])
+  return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
 function extractRelics(relics: SingleRelicByPart) {
   for (const part of Object.keys(Constants.Parts)) {
-    relics[part as Parts] = relics[part as Parts] || emptyRelic()
+    relics[part as Parts] = relics[part as Parts] || emptyRelicWithSetAndSubstats()
   }
   return relics
+}
+
+export function emptyRelicWithSetAndSubstats() {
+  return {
+    set: -1,
+    substats: [],
+  }
 }

@@ -515,6 +515,14 @@ export const CharacterScoringSummary = (props: {
         </Flex>
       </Flex>
 
+      <Flex vertical align='center' style={{ width: '100%' }}>
+        <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
+          Combat buffs
+        </pre>
+
+        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>
+      </Flex>
+
       <Flex>
         <ScoringColumn
           simulation={result.originalSim}
@@ -540,14 +548,6 @@ export const CharacterScoringSummary = (props: {
           precision={0}
           type='Perfect'
         />
-      </Flex>
-
-      <Flex vertical align='center' style={{ width: '100%' }}>
-        <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-          Combat buffs
-        </pre>
-
-        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>
       </Flex>
 
       <Flex gap={defaultGap} justify='space-around'>

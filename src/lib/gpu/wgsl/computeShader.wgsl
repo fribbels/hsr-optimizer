@@ -321,7 +321,8 @@ fn main(
     var mc = c;
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      let action = actions[actionIndex];
+      var action: Action;        // Declare mutable struct variable
+      getAction(actionIndex, &action); // Pass as a pointer
       var x = action.x;
       var m = action.m;
       let setConditionals = action.setConditionals;
@@ -625,7 +626,9 @@ fn calculateDamage(
   let x = *p_x;
   let m = *p_m;
   let eLevel: f32 = f32(enemyLevel);
-  let action = actions[actionIndex];
+
+  var action: Action;
+  getAction(actionIndex, &action);
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
@@ -1268,12 +1271,31 @@ fn calculateAshblazingSet(
   p_state: ptr<function, ConditionalState>,
   hitMulti: f32,
 ) -> f32 {
+  var action: Action;        // Declare mutable struct variable
+  getAction((*p_state).actionIndex, &action); // Pass as a pointer
+
   if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-    let ashblazingAtk = 0.06 * f32(actions[(*p_state).actionIndex].setConditionals.valueTheAshblazingGrandDuke) * baseATK;
+    let ashblazingAtk = 0.06 * f32(action.setConditionals.valueTheAshblazingGrandDuke) * baseATK;
     let ashblazingMulti = hitMulti * baseATK;
 
     return ashblazingMulti - ashblazingAtk;
   }
 
   return 0;
+}
+
+fn getAction(actionIndex: i32, outAction: ptr<function, Action>) {
+    if (actionIndex == 1) {
+        (*outAction) = action1;
+    } else if (actionIndex == 2) {
+        (*outAction) = action2;
+    } else if (actionIndex == 3) {
+        (*outAction) = action3;
+    } else if (actionIndex == 4) {
+        (*outAction) = action4;
+    } else if (actionIndex == 5) {
+        (*outAction) = action5;
+    } else {
+        (*outAction) = action0;
+    }
 }

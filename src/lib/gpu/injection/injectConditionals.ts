@@ -93,12 +93,12 @@ ${lightConeConditionalWgsl}
   let actionsDefinition = `
 const comboDot: f32 = ${context.comboDot};
 const comboBreak: f32 = ${context.comboBreak};
-const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
+`
   for (let i = 0; i < actionLength; i++) {
     const action = context.actions[i]
 
     actionsDefinition += `
-  Action( // ${action.actionIndex}
+  const action${i} = Action( // ${action.actionIndex}
     ${getActionTypeToWgslMapping(action.actionType)},
     SetConditionals(
       ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
@@ -130,12 +130,10 @@ const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
     ),
     ConditionalState(
     ),
-  ),`
+  );`
   }
 
-  actionsDefinition += `
-);
-  `
+  actionsDefinition += ``
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
 

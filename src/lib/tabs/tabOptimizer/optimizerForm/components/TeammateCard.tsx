@@ -103,6 +103,7 @@ function calculateTeammateSets(teammateCharacter: Character) {
       if (set == Sets.SacerdosRelivedOrdeal) {
         if (
           teammateCharacter.id == '1313' // Sunday
+          || teammateCharacter.id == '1306' // Sparkle
         ) {
           activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_2_STACK
         } else {

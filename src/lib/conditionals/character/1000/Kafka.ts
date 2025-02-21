@@ -1,8 +1,9 @@
 import { ASHBLAZING_ATK_STACK, DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1005')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -61,26 +75,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
-      x.DOT_SCALING.buff(dotScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.DOT_SCALING.buff(dotScaling, SOURCE_ULT)
 
-      x.DOT_SCALING.buff((e >= 6) ? 1.56 : 0, Source.NONE)
+      x.DOT_SCALING.buff((e >= 6) ? 1.56 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
 
-      x.DOT_CHANCE.set(1.30, Source.NONE)
+      x.DOT_CHANCE.set(1.30, SOURCE_TRACE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, DOT_DMG_TYPE, (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0, Source.NONE, Target.TEAM)
-      buffAbilityDmg(x, DOT_DMG_TYPE, (e >= 2 && m.e2TeamDotBoost) ? 0.25 : 0, Source.NONE, Target.TEAM)
+      buffAbilityVulnerability(x, DOT_DMG_TYPE, (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0, SOURCE_E1, Target.TEAM)
+      buffAbilityDmg(x, DOT_DMG_TYPE, (e >= 2 && m.e2TeamDotBoost) ? 0.25 : 0, SOURCE_E2, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, hitMulti)

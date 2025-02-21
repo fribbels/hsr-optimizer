@@ -80,7 +80,7 @@ export function SimulatedBuildsGrid() {
     // Match the selected sim on the optimizer grid and select it
     let matchingNode: IRowNode | undefined
     window.optimizerGrid.current!.api.forEachNode((node) => {
-      if (node.data.statSim?.key == statSim.key) {
+      if (node.data?.statSim?.key == statSim.key) {
         matchingNode = node
       }
     })

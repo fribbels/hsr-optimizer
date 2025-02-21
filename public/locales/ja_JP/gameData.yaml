@@ -308,7 +308,7 @@ RelicSets:
   "124":
     Name: 亡国の悲哀を詠う詩人
     Description2pc: 量子属性ダメージ+10%。
-    Description4pc: 装備キャラの速度‑8%。戦闘に入る前、装備キャラの速度が110/95を下回る時、装備キャラの会心率+20%/32%。この効果は装備キャラの記憶の精霊にも有効。
+    Description4pc: 装備キャラの速度-8%。戦闘に入る前、装備キャラの速度が110/95を下回る時、装備キャラの会心率+20%/32%。この効果は装備キャラの記憶の精霊にも有効。
   "301":
     Name: 宇宙封印ステーション
     Description2pc: 装備キャラの攻撃力+12%。装備キャラの速度が120以上の場合、さらに攻撃力+12%。
@@ -364,11 +364,11 @@ RelicSets:
     Name: 奇想天外のバナダイス
     Description2pc: 装備キャラの会心ダメージ+16%。装備キャラが召喚したターゲットがフィールド上にいる場合、さらに会心ダメージ+32%。
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Name: 静謐な拾骨地
+    Description2pc: 装備キャラの最大HP+ 12% 。装備キャラの最大HPが 5000 以上の時、装備キャラおよびその記憶の精霊の会心ダメージ+ 28% 。
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
+    Name: 深慮に浸る巨樹
+    Description2pc: 装備キャラの速度+ 6% 。装備キャラの速度が 135 / 180 以上の時、装備キャラ及びその記憶の精霊の治癒量+ 12% / 20% 。
 Lightcones:
   "20000":
     Name: 矢じり

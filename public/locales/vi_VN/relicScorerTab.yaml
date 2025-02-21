@@ -13,7 +13,7 @@ Header:
   WithoutVersion: Hãy nhập UID của tài khoản để chấm điểm các nhân vật trên hồ sơ nhân vật ở level 80 với vết tích cấp tối đa. Đăng xuất trong game để tải lại hồ sơ.
 SubmissionBar:
   Placeholder: UID Tài Khoản
-  AlgorithmButton: Thuật toán chấm điểm
+  AlgorithmButton: Cách chấm điểm
 CopyScreenshot: Sao chép ảnh chụp màn hình
 ImportLabels:
   Relics: Nhập di vật vào trình tối ưu hóa

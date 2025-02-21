@@ -1,8 +1,9 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,8 +14,22 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jade')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1314')
 
   const basicScaling = basic(e, 0.90, 0.99)
+  // Assuming jade is not the debt collector - skill disabled
   const skillScaling = skill(e, 0.25, 0.27)
   const ultScaling = ult(e, 2.40, 2.64)
   const ultFuaScalingBuff = ult(e, 0.80, 0.88)
@@ -115,29 +130,29 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CD.buff(r.pawnedAssetStacks * pawnedAssetCdScaling, Source.NONE)
-      x.ATK_P.buff(r.pawnedAssetStacks * 0.005, Source.NONE)
-      x.CR.buff((e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, Source.NONE)
+      x.CD.buff(r.pawnedAssetStacks * pawnedAssetCdScaling, SOURCE_TALENT)
+      x.ATK_P.buff(r.pawnedAssetStacks * 0.005, SOURCE_TRACE)
+      x.CR.buff((e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, SOURCE_E2)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
-      x.FUA_SCALING.buff((r.enhancedFollowUp) ? ultFuaScalingBuff : 0, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_SCALING.buff((r.enhancedFollowUp) ? ultFuaScalingBuff : 0, SOURCE_ULT)
 
-      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, Source.NONE)
-      x.DEF_PEN.buff((e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, Source.NONE)
-      x.QUANTUM_RES_PEN.buff((e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, SOURCE_E1)
+      x.DEF_PEN.buff((e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, SOURCE_E4)
+      x.QUANTUM_RES_PEN.buff((e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
 
       return x
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buffSingle((t.debtCollectorSpdBuff) ? 30 : 0, Source.NONE)
+      x.SPD.buffSingle((t.debtCollectorSpdBuff) ? 30 : 0, SOURCE_SKILL)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFuaAtkFinalizer(x, action, context, getHitMulti(action, context))

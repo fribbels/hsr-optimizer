@@ -1,6 +1,7 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -11,6 +12,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Serval')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1103')
 
   const talentExtraDmgScaling = talent(e, 0.72, 0.792)
 
@@ -46,30 +60,33 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ATK_P.buff((r.enemyDefeatedBuff) ? 0.20 : 0, Source.NONE)
+      x.ATK_P.buff((r.enemyDefeatedBuff) ? 0.20 : 0, SOURCE_TRACE)
 
       // Scaling;
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.DOT_SCALING.buff(dotScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.DOT_SCALING.buff(dotScaling, SOURCE_SKILL)
 
-      x.BASIC_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, Source.NONE)
-      x.SKILL_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, Source.NONE)
-      x.ULT_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, Source.NONE)
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, SOURCE_TALENT)
+      x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, SOURCE_TALENT)
+      x.ULT_ADDITIONAL_DMG_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, SOURCE_TALENT)
 
       // Boost
-      x.ELEMENTAL_DMG.buff((e >= 6 && r.targetShocked) ? 0.30 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((e >= 6 && r.targetShocked) ? 0.30 : 0, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
-      x.DOT_CHANCE.set(0.65, Source.NONE)
+      x.DOT_CHANCE.set(1.00, SOURCE_SKILL)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {
+      standardAtkFinalizer(x)
+      standardAdditionalDmgAtkFinalizer(x)
+    },
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardAdditionalDmgAtkFinalizer(),
   }
 }

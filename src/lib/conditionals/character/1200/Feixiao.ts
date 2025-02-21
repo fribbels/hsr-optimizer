@@ -1,7 +1,8 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { buffAbilityCd } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { buffAbilityCd, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -12,6 +13,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Feixiao')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1220')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
@@ -101,14 +115,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
+      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
 
       if (r.weaknessBrokenUlt) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
+        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
       }
 
       if (e >= 6 && r.e6Buffs) {
-        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
+        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_E6)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -116,36 +130,36 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Special case where we force the weakness break on if the ult break option is enabled
       if (!r.weaknessBrokenUlt) {
-        x.ULT_BREAK_EFFICIENCY_BOOST.buff(1.00, Source.NONE)
+        x.ULT_BREAK_EFFICIENCY_BOOST.buff(1.00, SOURCE_ULT)
       }
 
-      buffAbilityCd(x, FUA_DMG_TYPE, 0.36, Source.NONE)
+      buffAbilityCd(x, FUA_DMG_TYPE, 0.36, SOURCE_TRACE)
 
-      x.ATK_P.buff((r.skillAtkBuff) ? 0.48 : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((r.talentDmgBuff) ? talentDmgBuff : 0, Source.NONE)
+      x.ATK_P.buff((r.skillAtkBuff) ? 0.48 : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff((r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
 
-      x.ULT_SCALING.buff(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling, Source.NONE)
+      x.ULT_SCALING.buff(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling, SOURCE_ULT)
 
-      x.ULT_ORIGINAL_DMG_BOOST.buff((e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, Source.NONE)
+      x.ULT_FINAL_DMG_BOOST.buff((e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, SOURCE_E1)
 
       if (e >= 4) {
-        x.SPD_P.buff(0.08, Source.NONE)
-        x.FUA_TOUGHNESS_DMG.buff(15, Source.NONE)
+        x.SPD_P.buff(0.08, SOURCE_E1)
+        x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_E1)
       }
 
       if (e >= 6 && r.e6Buffs) {
-        x.RES_PEN.buff(0.20, Source.NONE)
-        x.FUA_SCALING.buff(1.40, Source.NONE)
+        buffAbilityResPen(x, ULT_DMG_TYPE, 0.20, SOURCE_E6)
+        x.FUA_SCALING.buff(1.40, SOURCE_E6)
       }
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(15, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_TALENT)
 
       return x
     },
@@ -154,7 +168,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
       x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, getUltHitMulti(action, context))), Source.NONE)
       x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, ASHBLAZING_ATK_STACK * (1 * 1.00))), Source.NONE)
-      x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return `
@@ -162,7 +175,6 @@ x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${getUltHitMulti(action, context)}));
 x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * (1 * 1.00)}));
-x.DOT_DMG += x.DOT_SCALING * x.ATK;
     `
     },
   }

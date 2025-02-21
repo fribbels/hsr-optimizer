@@ -7,6 +7,7 @@ import DB from 'lib/state/db'
 import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import { ConditionalValueMap } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
 
@@ -64,6 +65,9 @@ export function displayToForm(form: Form) {
   for (const buff of Object.values(CombatBuffs)) {
     form.combatBuffs[buff.key] = getNumber(form.combatBuffs[buff.key], 0, buff.percent ? 100 : 0)
   }
+
+  if (!form.characterConditionals) form.characterConditionals = {}
+  if (!form.lightConeConditionals) form.lightConeConditionals = {}
 
   form.mainHead = form.mainHead || []
   form.mainHands = form.mainHands || []
@@ -351,5 +355,19 @@ function cloneTeammate(teammate: Teammate | undefined) {
     characterEidolon: teammate.characterEidolon ?? null,
     lightCone: teammate.lightCone ?? null,
     lightConeSuperimposition: teammate.lightConeSuperimposition ?? null,
+    characterConditionals: sanitizeConditionals(teammate.characterConditionals),
+    lightConeConditionals: sanitizeConditionals(teammate.lightConeConditionals),
   } as Teammate
+}
+
+function sanitizeConditionals(conditionals: ConditionalValueMap) {
+  if (!conditionals) return null
+
+  for (const key of Object.keys(conditionals)) {
+    if (conditionals[key] == null) {
+      delete conditionals[key]
+    }
+  }
+
+  return conditionals
 }

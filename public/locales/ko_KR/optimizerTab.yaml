@@ -1,17 +1,97 @@
 CharacterSelector:
   Character: 캐릭터
   Lightcone: 광추
+  Presets: 사전 설정
+  Target: 최적화 목표
+  ResultsPlaceholder: 상위 결과 찾기
+  TargetPlaceholder: 정렬 기준
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
 LightconePassives: 광추 효과
 CharacterPassives: 캐릭터 효과
+NoConditionals: 조건부 패시브 없음
+NoTeamConditionals: 조건부 팀 효과 없음
+ResultLimitN: "상위 {{limit}} 결과 찾기"
 MainStats: 주 스탯
 Sets: 세트
+RelicSetSelector:
+  Placeholder: 유물 세트
+  4pcLabel: 4 부위
+  2+2pcLabel: 2 + 2 부위
+  2pcLabel: 2 + 임의 부위
+OrnamentSetSelector:
+  Placeholder: 장신구 세트
+SortOptions:
+  DMGLabel: 피해 계산
+  StatLabel: 스탯
+  COMBO: 콤보 데미지 순으로 정렬
+  BASIC: 일방 공격 순으로 정렬
+  SKILL: 전투 스킬 데미지 순으로 정렬
+  ULT: 필살기 데미지 순으로 정렬
+  FUA: 추가 공격 데미지 순으로 정렬
+  MEMO_SKILL: 기억 정렬 데미지 순으로 정렬
+  DOT: 지속 피해 순으로 정렬
+  BREAK: 격파 데미지 순으로 정렬
+  HEAL: 치유량 순으로 정렬
+  SHIELD: 쉴드량 순으로 정렬
+  HP: "$t(common:ReadableStats.HP) 순으로 정렬"
+  ATK: "$t(common:ReadableStats.ATK) 순으로 정렬"
+  DEF: "$t(common:ReadableStats.DEF) 순으로 정렬"
+  SPD: "$t(common:ReadableStats.SPD) 순으로 정렬"
+  CR: "$t(common:ReadableStats.CRIT Rate) 순으로 정렬"
+  CD: "$t(common:ReadableStats.CRIT DMG) 순으로 정렬"
+  EHR: "$t(common:ReadableStats.Effect Hit Rate) 순으로 정렬"
+  RES: "$t(common:ReadableStats.Effect RES) 순으로 정렬"
+  BE: "$t(common:ReadableStats.Break Effect) 순으로 정렬"
+  OHB: "$t(common:ReadableStats.Outgoing Healing Boost) 순으로 정렬"
+  ERR: "$t(common:ReadableStats.Energy Regeneration Rate) 순으로 정렬"
+  DMG: 속성 데미지 순으로 정렬
+  EHP: EHP 순으로 정렬
 OptimizerOptions:
   Header: 최적화 설정
+  PriorityFilter: 캐릭터 우선순위 필터
   Priority:
     Header: 우선순위
+    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
+    Name: "# {{rank}}"
+  AllowEquipped: 장착된 유물 포함
+  KeepCurrent: 현재 유물 유지
+  Exclude: 제외
+  MinEnhance:
+    Header: 강화
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+  MinRarity:
+    Header: 등급
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4 ★ +
+    Label5: 5 ★
+  BoostMain:
+    Header: 주 옵션 스텟
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+AdvancedOptions:
+  Header: 고급 설정
+  EnemyConfigButtonText: 적 설정
+  CombatBuffsButtonTextNone: 추가 전투 버프
+  CombatBuffsButtonText: "추가 전투 버프 ({{activeCount}})"
+  CustomTracesButtonText: 행적 편집
 Grid:
+  To: "~"
+  Of: /
+  Page: 페이지
+  PageSelectorLabel: "페이지 크기 :"
   Headers:
     Basic:
+      Set: 세트
       ATK: 공격력
       DEF: 방어력
       HP: 체력
@@ -23,16 +103,238 @@ Grid:
       BE: 격특
       OHB: 힐증
       ERR: 에충
+      DMG: 데미지
+      EHP: EHP
+      WEIGHT: |-
+        스텟
+        가중치
+      HEAL: 치유량
+      SHIELD: 실드량
+      BASIC: |-
+        일방 공격
+        데미지
+      SKILL: |-
+        전투 스킬
+        데미지
+      ULT: |-
+        필살기
+        데미지
+      FUA: |-
+        추가 공격
+        데미지
+      MEMO_SKILL: |-
+        기억 정령
+        데미지
+      DOT: |-
+        지속
+        피해
+      BREAK: |-
+        격파
+        데미지
+      COMBO: |-
+        콤보
+        데미지
+    Combat:
+      Set: 세트
+      ATK: Σ 공격력
+      DEF: Σ 방어력
+      HP: Σ 체력
+      SPD: Σ 속도
+      CR: Σ 크확
+      CD: Σ 치피
+      EHR: Σ EHR
+      RES: Σ 효저
+      BE: Σ 격특
+      OHB: Σ 힐증
+      ERR: Σ 에충
+      DMG: Σ 데미지
+      EHP: EHP
+      WEIGHT: |-
+        스텟
+        가중치
+      HEAL: 치유량
+      SHIELD: 실드량
+      BASIC: |-
+        일방 공격
+        데미지
+      SKILL: |-
+        전투 스킬
+        데미지
+      ULT: |-
+        필살기
+        데미지
+      FUA: |-
+        추가 공격
+        데미지
+      MEMO_SKILL: |-
+        기억 정령
+        데미지
+      DOT: |-
+        지속
+        피해
+      BREAK: |-
+        격파
+        데미지
+      COMBO: |-
+        콤보
+        데미지
 Sidebar:
+  GPUOptions:
+    Experimental: GPU 가속 (실험)
+    Stable: GPU 가속 (안정)
+    CPU: CPU 사용
+    EngineSwitchSuccessMsg:
+      CPU: 엔진을 CPU로 전환했습니다.
+      Stable: 엔진을 GPU(안정)로 전환했습니다.
+      Experimental: 엔진을 GPU(실험)로 전환했습니다.
+    Display:
+      GPU Experimental: "GPU 가속 : 적용됨"
+      GPU Stable: "GPU 가속 : 적용됨"
+      CPU: "GPU 가속 : 해제됨"
+  Pinning:
+    Messages:
+      NoneSelected: 행이 선택되지 않았습니다.
+      SimSelected: 사용자 지정 시뮬레이션 행은 고정할 수 없습니다.
+      AlreadyPinned: 해당 빌드는 이미 고정되었습니다.
+  Permutations: 순서
+  Perms: 합계
+  Searched: 검색됨
+  Results: 결과
+  ComputeEngine: 엔진
+  ProgressText:
+    Progress: 진행
+    CalculatingETA: 진행 상황 (ETA 계산중..)
+    TimeRemaining: "{{rate}} / 초 — {{timeRemaining}}  후"
+    Finished: "{{rate}} / 초 — 완료"
+  ControlsGroup:
+    Header: 조작
+    Start: 최적화 시작
+    ResetConfirm:
+      Title: 모든 필터를 초기화할까요?
+      Description: 모든 필터를 기본값으로 초기화 합니다.
   StatViewGroup:
     Header: 스탯 및 필터 표시
+    CombatStats: 전투 중 스텟
+    BasicStats: 기본 스텟
+    SummonerStats: 소환수
+    MemospriteStats: 기억 정령
+  ResultsGroup:
+    Header: 결과
+    Equip: 장착
+    Filter: 필터
+    Pin: 빌드 고정
+    Clear: 고정 해제
+TeammateRow:
+  Header: "팀 {{teammateCount}}"
+FormRowLabels:
+  Character options: 캐릭터 설정
+  Relic & stat filters: 유물 & 스텟 필터
+  Teammates: 팀
+  Character custom stats simulation: 캐릭터 스텟 조정
+  Analysis: 옵티마이저 결과 분석
 TracesDrawer:
+  Title: 행적 편집
+  Header: '열린 행적 (기본값 : 열림)'
   ButtonText: 변경 사항 저장
 SetConditionals:
+  Title: 세트 효과 수정
+  DescriptionHeader: 세트 설명
+  EffectHeader: 유효 효과
+  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
+  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
+  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
   SelectOptions:
+    Streetwise:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} 스택 (+ {{buffValue}}% 공격력)"
     Wastelander:
+      Off:
+        Display: "Off"
+        Label: "Off"
       Debuffed:
         Display: 치확
+        Label: 디버프 (+10% 치확)
+      Imprisoned:
+        Display: 치확 + 치피
+        Label: 황야인 (+10% 치확 |  +20% 치피)
+    Longevous:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} 스택 (+{{buffValue}}% 치확)"
+    Ashblazing:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} 스택 (+ {{buffValue}}% 공격력)"
+    Prisoner:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} 스택 (+{{buffValue}}% 방어력 무시)"
+    Diver:
+      Off:
+        Display: 0x
+        Label: 디버프 없음 (+4% 기본 치확)
+      1Debuff:
+        Display: 1x
+        Label: 1 디버프 (+12% 데미지 | +4% 기본 치확)
+      2Debuff:
+        Display: 2x
+        Label: 2 디버프 (+12% 데미지 | +4% 기본 치확 | +8% 치피)
+      3Debuff:
+        Display: 3x
+        Label: 3 디버프 (+12% 데미지 | +4% 기본 치확 | +12% 치피)
+      2+Debuff:
+        Display: 2x+
+        Label: 2 디버프, 강화됨 (+12% 데미지 | +4% 기본 치확 | +4% 전투 치확 | +16% 치피)
+      3+Debuff:
+        Display: 3x+
+        Label: 3 디버프, 강화됨 (+12% 데미지 | +4% 기본 치확 | +4% 전투 치확 | +24% 치피)
+    Sigonia:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} 스택 (+{{buffValue}}% 치피)"
+    Duran:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} 스택 (+{{buffValue}}% 추공 데미지)"
+      Label5: 5 스택 (+25% 추공 데미지 +25% 치피)
+    Sacerdos:
+      Display: "{{stackCount}}x"
+      Label: "{{stackCount}} 스택 (+{{buffValue}}% 치피)"
+  Conditionals:
+    DefaultMessage: 기본 활성화 - 전투 스텟에 효과가 적용됩니다.
+    Hunter: 활성화되면 전투 스텟에 치명타 데미지 버프가 적용됩니다.
+    Streetwise: 선택된 공격력 % 버프는 스택 수를 기준으로 전투 스텟에 적용됩니다.
+    Firesmith: 전투 스킬 데미지 증가는 기본적으로 항상 활성화됩니다. 활성화되면 전투 스텟에 화염 데미지 증가 버프가 적용됩니다.
+    Genius: 10%의 방어력 무시는 항상 활성화 됩니다. 활성화되면 적은 양자 속성의 약점을 가지고 있다고 취급하며 추가 10%의 방어력 무시가 계산에 적용됩니다.
+    Thunder: 활성화되면 전투 스텟에 공격력 % 버프가 적용됩니다.
+    Wastelander: 계산에 선택한 버프를 적용합니다.
+    Longevous: 선택된 치명타 확률 버프는 스택 수를 기준으로 전투 스텟에 적용됩니다.
+    Messenger: 활성화되면 전투 스텟에 속도 버프가 적용됩니다.
+    Ashblazing: >-
+      선택한 공격력 % 버프는 추가 공격을 제외한 모든 계산에 적용됩니다. 그 대신 추가 공격 계산은 공격의 적중 횟수에 따라 0%의 공격력 % 버프로 시작되고 스택이 쌓입니다. 적중 횟수는 적의 숫자에 따라 증가하고, 적 타깃은 적 집단의 중앙에 배치되어 있다고 가정합니다.
+    Prisoner: 선택된 방어력 무시 버프는 스택 수를 기준으로 데미지에 적용됩니다.
+    Diver: 2세트 효과는 0x 옵션을 선택하여 비활성화할 수 있습니다. 4세트의 경우 선택한 옵션에 따라 전투 스탯에 다른 치명타 버프가 적용됩니다.
+    Watchmaker: 활성화되면 전투 스텟에 격파 특수효과 버프가 적용됩니다.
+    Valorous: 치명타 확률 버프는 기본적으로 항상 켜져 있습니다. 선택한 버프는 스택 수에 따른 데미지 계산에 적용됩니다.
+    Differentiator: 활성화되면 전투 스텟에 치명타 확률 버프가 적용됩니다.
+    Sigonia: 선택된 치명타 데미지 버프는 캐릭터가 적을 물리쳤다고 가정하여 전투 스텟에 적용됩니다
+    Izumo: 활성화되면 동일한 운명의 길을 가진 다른 팀이 있다고 가정하고 전투 스텟에 12% 치명타 확률 버프를 적용합니다.
+    Duran: 선택된 버프는 스택 수에 따른 피해 계산에 적용됩니다.
+    Kalpagni: 활성화되면 격파 특수효과 버프를 적용하여 전투 스텟에 적용됩니다.
+    Lushaka: 선택한 버프가 피해 계산에 적용됩니다.
+    Banana: 선택한 버프가 피해 계산에 적용됩니다.
+    Sacerdos: 선택한 버프가 피해 계산에 적용됩니다. 스스로 버프하는 캐릭터는 이 효과를 발동할 수 있습니다.
+Presets:
+  SpdValues:
+    SPD0: 최소 속도 없음
+    SPD111: 111.12 속도 - 4턴 동안 5행동
+    SPD114: 114.286 속도 - 3턴 동안 4행동
+    SPD120: 120.000 속도 - 2턴 동안 3행동
+    SPD133: 133.334 속도 - 첫 턴에 2행동, 4턴 동안 6행동
+    SPD142: 142.858 속도 - 3턴 동안 5행동
+    SPD155: 155.556 속도 - 4턴 동안 7행동
+    SPD160: 160.000 속도 - 2턴 동안 4행동
+    SPD171: 171.429 속도 - 3턴 동안 6행동
+    SPD177: 177.778 속도 - 4턴 동안 8행동
+    SPD200: 200.000 속도 - 첫 턴에 3행동
+  StandardLabel: "기본 $t(gameData:Characters.{{id}}.Name)"
+  RecommendedPresets: 추천 프리셋
+  PresetNotAvailable: 프리셋을 사용할 수 없습니다. 다른 옵션을 선택해 주세요
 CombatBuffs:
   ATK: 공격력
   ATK_P: 공격력 %
@@ -40,10 +342,34 @@ CombatBuffs:
   HP_P: 체력 %
   DEF: 방어력
   DEF_P: 방어력 %
+  CR: 치명타 확률 %
+  CD: 치명타 데미지 %
   SPD: 속도
   SPD_P: 속도 %
+  BE: 격특 %
+  DMG_BOOST: 가하는 피해 %
+  DEF_PEN: 방어력 무시 %
+  RES_PEN: 속성 저항 관통 %
+  EFFECT_RES_PEN: 속성 저항 감소 %
+  VULNERABILITY: 취약 %
+  BREAK_EFFICIENCY: 약점 격파 효율 %
+  Title: 추가 전투 버프
+Target_one: 목표
+Target_other: 목표
+EnemyConfiguration:
+  LevelOptionLabel: "Lv. {{level}} - 방어력{{defense}} "
+  CountOptionLabel: >-
+    {{targetCount}}$t(optimizerTab:Target, {"count": {{targetCount}}})
+  EffResOptionLabel: "효과 저항 {{resistance}}%"
+  DmgResOptionLabel: "데미지 저항 {{resistance}}%"
+  ToughnessOptionLabel: "최대 강인도 {{toughness}}"
+  Title: 적 설정
+  StatHeader: 적 스탯 옵션
+  WeaknessLabel: 약점 속성
+  BrokenLabel: 약점 격파
 WeightFilter:
   WeightFilterHeader: 부옵 가중치 필터
+  RollFilterHeader: 유물 유효옵 가중치
   HPFilterText: 체력
   ATKFilterText: 공격력
   DEFFilterText: 방어력
@@ -54,6 +380,8 @@ WeightFilter:
   RESFilterText: 효저
   BEFilterText: 격특
 MinMaxFilters:
+  StatHeader: 스텟 최소 / 최대 필터
+  RatingHeader: 레이팅 최소 / 최대 필터
   HPLabel: 체력
   ATKLabel: 공격력
   DEFLabel: 방어력
@@ -64,18 +392,178 @@ MinMaxFilters:
   RESLabel: 효저
   BELabel: 격특
   ERRLabel: 에충
+  WEIGHTLabel: 가중치
+  EHPLabel: EHP
   BASICLabel: 일반 공격
   SKILLLabel: 전투 스킬
   ULTLabel: 필살기
   FUALabel: 추가 공격
+  MEMOSKILLLabel: 소환물 피해
+  DOTLabel: 지속 피해
+  BREAKLabel: 격파 피해
+  HEALLabel: 치유량
+  SHIELDLabel: 실드량
+  COMBOLabel: 콤보
+ComboFilter:
+  Header: 콤보 데미지 기본 사이클
+  AbilityLabel: 능력
+  ModeSelector:
+    Simple: 심플
+    Advanced: 고급
+  RowControls:
+    Add: +
+    Remove: "-"
+    ResetConfirm:
+      Description: 모든 심플 / 고급 사이클 셋팅을 기본 값으로 변경할까요?
+  CounterLabels:
+    Dot: 지속 피해
+    Break: 격파 피해
+  ComboOptions:
+    Basic: 기본 공격
+    Skill: 전투 스킬
+    Ult: 필살기
+    Fua: 추가 공격
+    MemoSkill: 소환물 데미지
+  RotationButton: 고급 사이클
+ComboDrawer:
+  NoConditionals: 조건부 패시브 없음
+  Title: 고급 사이클 유저 가이드
+  Placeholders:
+    Sets: 유물 세트 조건
+    Ornaments: 장신구 세트 조건
+  GroupHeaders:
+    Sets: 유물 / 장신구 세트 조건
+    Teammate1: 팀원 1
+    Teammate2: 팀원 2
+    Teammate3: 팀원 3
 TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  EidolonPlaceholder: 돌파
+  SuperimpositionPlaceholder: 재련
   RelicsPlaceholder: 유물
+  OrnamentsPlaceholder: 장신구
+  TeammateSyncSuccessMessage: 팀이 동기화되었습니다.
+  TeammateSets:
+    Messenger:
+      Desc: "4 세트 :$t(gameData:RelicSets.114.Name) (+12% 속도)"
+      Set: "$t(gameData:RelicSets.114.Name)"
+      Text: 속도 12%
+    Watchmaker:
+      Desc: "4 세트 : $t(gameData:RelicSets.118.Name) (+30% 격특)"
+      Set: "$t(gameData:RelicSets.118.Name)"
+      Text: 격특 30%
+    Sacerdos1Stack:
+      Desc: "4 세트 : $t(gameData:RelicSets.121.Name) (+18% 치확)"
+      Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 치확 18%
+    Sacerdos2Stack:
+      Desc: "4 세트 : $t(gameData:RelicSets.121.Name) (+36% 치피)"
+      Set: "$t(gameData:RelicSets.121.Name)"
+      Text: 치피 36%
+    Keel:
+      Desc: "$t(gameData:RelicSets.310.Name) (+10% 치피)"
+      Set: "$t(gameData:RelicSets.310.Name)"
+      Text: 치피 10%
+    Ageless:
+      Desc: "$t(gameData:RelicSets.302.Name) (+8% 공격력)"
+      Set: "$t(gameData:RelicSets.302.Name)"
+      Text: 공격력 8%
+    Penacony:
+      Desc: "$t(gameData:RelicSets.312.Name) (+10% 같은 속성 가피증)"
+      Set: "$t(gameData:RelicSets.312.Name)"
+      Text: 가피증 10%
+    Lushaka:
+      Desc: "$t(gameData:RelicSets.317.Name) (+12% 공격력)"
+      Set: "$t(gameData:RelicSets.317.Name)"
+      Text: 공격력 12%
 StatSimulation:
+  DuplicateSimMessage: 동일한 스텟 시뮬레이션이 존재합니다.
+  MissingMainstatsMessage: 주 옵션을 입력해야합니다.
+  BuildAlreadyImported: 선택된 빌드는 이미 준비되었습니다.
+  NothingToImport: 우선 옵티마이저를 실행하고 그 후 결과에서 행을 선택하여 가져와 주세요.
+  NoStatSimulations: 사용자 지정 시뮬레이션이 선택되지 않았습니다.
   SetSelection:
     Header: 세트
+    RelicPlaceholder: 유물 세트
+    OrnamentPlaceholder: 장신구 세트
+  TotalRolls: 총 유효
+  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  ModeSelector:
+    Off: "Off"
+    RollCount: 부 옵션 유효 시뮬레이션
+    Totals: 부 옵션 합계 시뮬레이션
+  FooterLabels:
+    Simulate: 빌드 시뮬레이션
+    Import: 옵티마이저 빌드 가져오기
+    Conditionals: 세트 효과 수정
+  DeletePopup:
+    Title: 옵션 시뮬레이션 삭제
+    Description: 정말로 모든 캐릭터들의 시뮬레이션을 삭제할까요?
+  SimulationNamePlaceholder: 시뮬레이션 이름 (선택)
+  OptionsHeader: 옵션
+  RollsHeader: 부 옵션 최대 유효
+  TotalsHeader: 부 옵션 값 합계
   MainStatsSelection:
     Header: 주 스탯
     BodyPlaceholder: 몸통
     FeetPlaceholder: 다리
     SpherePlaceholder: 구체
     RopePlaceholder: 매듭
+    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
+    LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 기본 공격
+      Skill: 전투 스킬
+      Ult: 필살기
+      Talent: 특성
+      Technique: 비술
+      Trace: 행적
+      Memo: 기억정령
+      E1: 1돌
+      E2: 2돌
+      E4: 4돌
+      E6: 6돌
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x 부 옵션'
+      COMBO_DMG: Δ사이클 총 피해량
+      COMBO_DMG_P: Δ%사이클 총 피해량
+      EHP: Δ EHP
+      EHP_P: Δ% EHP
+      HEAL_VALUE: Δ 힐
+      HEAL_VALUE_P: Δ% 힐
+      SHIELD_VALUE: Δ 실드
+      SHIELD_VALUE_P: Δ% 실드
+  DamageSplits:
+    Title: 데미지 유형 분포
+    Legend:
+      abilityDmg: 능력
+      breakDmg: 격파
+      superBreakDmg: 슈퍼 격파
+      additionalDmg: 추가
+      trueDmg: '확정'
+      jointDmg: 연계
+      dotDmg: 지속피해
+      memoDmg: 기억정령
+    YAxisLabel:
+      BASIC_DMG: 기본 공격
+      SKILL_DMG: 전투 스킬
+      ULT_DMG: 필살기
+      FUA_DMG: 추가 공격
+      DOT_DMG: 지속피해
+      BREAK_DMG: 격파
+      MEMO_SKILL_DMG: 소환물 데미지
+    TooltipText:
+      abilityDmg: 특성 피해
+      breakDmg: 격파 피해량
+      superBreakDmg: 슈퍼 격파 피해
+      additionalDmg: 추가 피해
+      trueDmg: 확정 피해
+      jointDmg: 연계 공격
+      dotDmg: 지속 피해량
+      memoDmg: 기억정령 피해

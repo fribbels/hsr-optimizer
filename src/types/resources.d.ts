@@ -62,16 +62,16 @@ interface Resources {
         },
         "SpdPrecision": {
           "Header": "SPD precision",
-          "Low": 0,
-          "High": 0
+          "Low": ".0",
+          "High": ".000"
         },
         "SpdWeight": {
-          "Header": "SPD Weight",
+          "Header": "SPD weight",
           "Max": "100%",
           "Min": "0%"
         },
         "BenchmarkSpd": {
-          "Header": "SPD Benchmark",
+          "Header": "SPD benchmark",
           "BenchmarkOptionsLabel": "Benchmark options",
           "CurrentSpdLabel": "Current SPD - The benchmark will match your basic SPD",
           "BaseSpdLabel": "Base SPD - The benchmark will target a minimal SPD build",
@@ -90,7 +90,8 @@ interface Resources {
           "Custom": "Custom",
           "Standard": "Standard"
         },
-        "PaletteLabel": "Portrait color palette"
+        "PaletteLabel": "Portrait color palette",
+        "ShowUID": "Show UID"
       },
       "ArtBy": "Art by {{artistName}}",
       "EditCharacter": "Edit character",
@@ -522,6 +523,18 @@ interface Resources {
           }
         }
       },
+      "FlameOfBloodBlazeMyPath": {
+        "Content": {
+          "skillUltDmgBoost": {
+            "text": "Skill / Ult DMG boost",
+            "content": "When using Skill or Ultimate, increases the DMG dealt by this attack by {{DmgBoost}}%."
+          },
+          "bonusBoost": {
+            "text": "Bonus DMG boost",
+            "content": "When using Skill or Ultimate, consume HP equal to {{HpConsumption}}% of the wearer's Max HP. If the consumed HP is greater than 500, this attack's DMG additionally increases by {{BonusDmgBoost}}% ."
+          }
+        }
+      },
       "FlowingNightglow": {
         "Content": {
           "cadenzaActive": {
@@ -531,6 +544,14 @@ interface Resources {
           "cantillationStacks": {
             "text": "Cantillation stacks",
             "content": "Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 times. When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turn."
+          }
+        }
+      },
+      "IfTimeWereAFlower": {
+        "Content": {
+          "presage": {
+            "text": "Presage active",
+            "content": "After the wearer launches a Follow-up ATK, additionally regenerates 12 Energy and gains \"Presage,\" lasting for 2 turns. While the wearer has \"Presage,\" all ally targets' CRIT DMG increases by {{CdBuff}}%. When entering battle, the wearer regenerates 21 Energy and gains \"Presage,\" lasting for 2 turns."
           }
         }
       },
@@ -611,6 +632,14 @@ interface Resources {
           "breakVulnerabilityStacks": {
             "text": "Break vulnerability stacks",
             "content": "When an enemy target's Weakness gets broken, there is a 100% base chance to inflict the \"Charring\" state on it, which increases its Break DMG taken by {{breakVulnerability}}%, lasting for 2 turns. This effect can stack 2 times."
+          }
+        }
+      },
+      "MemorysCurtainNeverFalls": {
+        "Content": {
+          "teamDmgBoost": {
+            "text": "Team DMG boost",
+            "content": "After the wearer uses Skill, increases the DMG dealt by all allies by {{DmgBoost}}%, lasting for 3 turns."
           }
         }
       },
@@ -1610,6 +1639,10 @@ interface Resources {
             "text": "Enemy slowed",
             "content": "Basic ATK deals 40% more damage to Slowed enemies."
           },
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "After launching an attack, there is a 50% fixed chance to increase this unit's SPD by 20% for 2 turns."
+          },
           "e1EnemyHp50": {
             "text": "E1 enemy HP ≥ 50% CR boost",
             "content": "When the target enemy's current HP percentage is greater than or equal to 50%, CRIT Rate increases by 12%."
@@ -2216,8 +2249,33 @@ interface Resources {
           }
         }
       },
-      "Natasha": {
-        "Content": null
+      "Mydei": {
+        "Content": {
+          "skillEnhances": {
+            "text": "Skill Enhances",
+            "content": "Select the level of enhancement of Mydei's skill. ::BR:: Death are Legion (enhancement 0): Consumes HP by an amount equal to 50% of Mydei's current HP. Deals Imaginary DMG equal to {{SkillPrimaryScaling}}% of Mydei's Max HP to one designated enemy and Imaginary DMG equal to {{SkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Kingslayer Be King (enhancement 1): Consumes HP by an amount equal to 35% of Mydei's current HP. Deals Imaginary DMG equal to {{EnhancedSkillPrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Godslayer be God (enhancement 2): Consumes 150 points of Charge. Deals Imaginary DMG equal to {{EnhancedSkill2PrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkill2AdjacentScaling}}% of Mydei's Max HP to adjacent targets."
+          },
+          "vendettaState": {
+            "text": "Vendetta state",
+            "content": "For each 1% of HP lost, accumulates 1 point of Charge (up to 200 points). When Charge reaches 100, consumes 100 points of Charge to enter the \"Vendetta\" state, restores HP equal to {{HpRestoration}}% of Mydei's Max HP, and advances action by 100%. ::BR:: While the \"Vendetta\" state is active, Max HP increases by 50% of the current Max HP and DEF remains at 0. At the start of this unit's turn, automatically uses \"Kingslayer Be King.\" When Charge reaches 150 points during the \"Vendetta\" state, Mydei immediately gains 1 extra turn and automatically uses \"Godslayer Be God.\""
+          },
+          "hpToCrConversion": {
+            "text": "HP to CR conversion",
+            "content": "When battle starts, if Mydei's Max HP exceeds 4000, for every 100 excess HP, Mydei's CRIT Rate increases by 1.2%, his Charge ratio from enemy targets' DMG increases by 2.5%, and his Incoming Healing increases by 0.75%. Up to 4000 excess HP can be taken into account for this effect."
+          },
+          "e1EnhancedSkillBuff": {
+            "text": "E1 Enhanced Skill boost",
+            "content": "The DMG multiplier applied by \"Godslayer Be God\" to the primary target increases by 30%. And \"Godslayer Be God\" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target."
+          },
+          "e2DefPen": {
+            "text": "E2 DEF PEN",
+            "content": "During \"Vendetta,\" the DMG dealt by Mydei ignores 15% of enemy targets' DEF. And when receiving healing, converts 40% of the healed amount to Charge. The tally of the converted Charge cannot exceed 40 points. Resets this tally of Charge after any unit takes action."
+          },
+          "e4CdBuff": {
+            "text": "E4 CD buff",
+            "content": "While in \"Vendetta,\" increases CRIT DMG by 30% and restores HP by 10% of this unit's Max HP after receiving attacks from enemy targets."
+          }
+        }
       },
       "Pela": {
         "Content": {
@@ -2704,6 +2762,42 @@ interface Resources {
           "memCDValue": {
             "text": "Mem's combat CD",
             "content": "All allies' CRIT DMG increases by {{ScalingBuff}}% of Mem's CRIT DMG plus {{FlatBuff}}%."
+          }
+        }
+      },
+      "Tribbie": {
+        "Content": {
+          "numinosity": {
+            "text": "Numinosity",
+            "content": "After using Skill, Tribbie gains \"Numinosity,\" lasting for 3 turns. This duration decreases by 1 at the start of this unit's every turn. While Tribbie has \"Numinosity,\" increases all ally targets' All-Type RES PEN by {{ResPen}}%."
+          },
+          "ultZone": {
+            "text": "Ult Zone active",
+            "content": "After Tribbie uses her Ultimate, activates a Zone and deals Quantum DMG equal to {{UltScaling}}% of her Max HP to all enemies. While the Zone lasts, increases enemy targets' DMG taken by {{ZoneVulnerability}}%. After an ally target attacks, for every 1 target hit, deals 1 instance of Quantum Additional DMG equal to {{AdditionalDmgScaling}}% of Tribbie's Max HP to the target that has the highest HP among the hit targets. The Zone lasts for 2 turns. This duration decreases by 1 at the start of this unit's every turn."
+          },
+          "alliesMaxHp": {
+            "text": "Allies max HP",
+            "content": "While the Zone from her her Ultimate lasts, Tribbie's Max HP increases by an amount equal to 9% of the sum of all ally characters' Max HP."
+          },
+          "talentFuaStacks": {
+            "text": "FUA stacks",
+            "content": "After using Talent's Follow-up ATK, increases the DMG dealt by Tribbie by 72%. This effect can stack up to 3 times, lasting for 3 turns."
+          },
+          "e1TrueDmg": {
+            "text": "E1 True DMG",
+            "content": "While the Zone from her Ultimate lasts and after ally targets attack enemies, additionally deals True DMG equal to 24% of the total DMG of this attack to targets that have been dealt Additional DMG by the Zone."
+          },
+          "e2AdditionalDmg": {
+            "text": "E2 Additional DMG",
+            "content": "The Additional DMG dealt by the Zone increases to 120% of the original DMG. When the Zone deals Additional DMG, further deals 1 instance of Additional DMG."
+          },
+          "e4DefPen": {
+            "text": "E4 DEF PEN",
+            "content": "While \"Numinosity\" lasts, the DMG dealt by all allies ignores 18% of the target's DEF."
+          },
+          "e6FuaScaling": {
+            "text": "E6 FUA DMG",
+            "content": "After Tribbie uses Ultimate, launches her Talent's Follow-up ATK against all enemies. The DMG dealt by Talent's Follow-up ATK increases by 729%."
           }
         }
       },
@@ -3234,12 +3328,12 @@ interface Resources {
       "123": {
         "Name": "Hero of Triumphant Song",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer and memosprite's CRIT DMG by 30% for 2 turn(s)."
+        "Description4pc": "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for 2 turn(s)."
       },
       "124": {
         "Name": "Poet of Mourning Collapse",
-        "Description2pc": "Increases Quantum DMG dealt by 10%.",
-        "Description4pc": "Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is less than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect also applies to the wearer's memosprite."
+        "Description2pc": "Increases Quantum DMG by 10%.",
+        "Description4pc": "Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is lower than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect applies to the wearer's memosprite at the same time."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -3315,11 +3409,11 @@ interface Resources {
       },
       "319": {
         "Name": "Bone Collection's Serene Demesne",
-        "Description2pc": "Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%."
+        "Description2pc": "Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%."
       },
       "320": {
         "Name": "Giant Tree of Rapt Brooding",
-        "Description2pc": "The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%."
+        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
       }
     },
     "Lightcones": {
@@ -3951,7 +4045,8 @@ interface Resources {
           "Label": "Import $t(common:Relic, {\"count\": {{relicCount}}}) and $t(common:Character, {\"count\": {{characterCount}}}). Replaces the optimizer builds with ingame builds.",
           "ButtonText": "Import $t(common:Relic, {\"count\": {{relicCount}}}) & $t(common:Character, {\"count\": {{characterCount}}})",
           "WarningTitle": "Overwrite optimizer builds",
-          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?"
+          "WarningDescription": "Are you sure you want to overwrite your optimizer builds with ingame builds?",
+          "OnlyImportExisting": "Only import existing characters"
         }
       },
       "Stage3": {
@@ -4669,7 +4764,8 @@ interface Resources {
       "Character options": "Character options",
       "Relic & stat filters": "Relic & stat filters",
       "Teammates": "Teammates",
-      "Character custom stats simulation": "Character custom stats simulation"
+      "Character custom stats simulation": "Character custom stats simulation",
+      "Analysis": "Optimization results analysis"
     },
     "TracesDrawer": {
       "Title": "Custom stat traces",
@@ -4871,6 +4967,7 @@ interface Resources {
     },
     "ComboFilter": {
       "Header": "Combo DMG ability rotation",
+      "AbilityLabel": "Abilities",
       "ModeSelector": {
         "Simple": "Simple",
         "Advanced": "Advanced"
@@ -5000,6 +5097,68 @@ interface Resources {
         "ShortStat": "$t(common:ShortReadableStats.{{stat}})",
         "LabelStat": "$t(common:ReadableStats.{{stat}})"
       }
+    },
+    "ExpandedDataPanel": {
+      "BuffsAnalysisDisplay": {
+        "Sources": {
+          "Basic": "Basic",
+          "Skill": "Skill",
+          "Ult": "Ult",
+          "Talent": "Talent",
+          "Technique": "Technique",
+          "Trace": "Trace",
+          "Memo": "Memo",
+          "E1": "E1",
+          "E2": "E2",
+          "E4": "E4",
+          "E6": "E6"
+        }
+      },
+      "SubstatUpgrades": {
+        "ColumnHeaders": {
+          "Substat": "+1x Substat",
+          "COMBO_DMG": "Δ Combo DMG",
+          "COMBO_DMG_P": "Δ% Combo DMG",
+          "EHP": "Δ EHP",
+          "EHP_P": "Δ% EHP",
+          "HEAL_VALUE": "Δ Heal",
+          "HEAL_VALUE_P": "Δ% Heal",
+          "SHIELD_VALUE": "Δ Shield",
+          "SHIELD_VALUE_P": "Δ% Shield"
+        }
+      },
+      "DamageSplits": {
+        "Title": "Damage Type Distribution",
+        "Legend": {
+          "abilityDmg": "Ability",
+          "breakDmg": "Break",
+          "superBreakDmg": "Super Break",
+          "additionalDmg": "Additional",
+          "trueDmg": true,
+          "jointDmg": "Joint",
+          "dotDmg": "Dot",
+          "memoDmg": "Memo"
+        },
+        "YAxisLabel": {
+          "BASIC_DMG": "Basic",
+          "SKILL_DMG": "Skill",
+          "ULT_DMG": "Ult",
+          "FUA_DMG": "Fua",
+          "DOT_DMG": "Dot",
+          "BREAK_DMG": "Break",
+          "MEMO_SKILL_DMG": "Skillᴹ"
+        },
+        "TooltipText": {
+          "abilityDmg": "Ability DMG",
+          "breakDmg": "Break DMG",
+          "superBreakDmg": "Super Break DMG",
+          "additionalDmg": "Additional DMG",
+          "trueDmg": "True DMG",
+          "jointDmg": "Joint DMG",
+          "dotDmg": "Dot DMG",
+          "memoDmg": "Memo DMG"
+        }
+      }
     }
   },
   "relicScorerTab": {
@@ -5060,9 +5219,7 @@ interface Resources {
       "Headers": {
         "EquippedBy": "Owner",
         "Set": "Set",
-        "Grade": "Grade",
         "Part": "Part",
-        "Enhance": "Enhance",
         "MainStat": "Main\nStat",
         "MainValue": "Main\nValue",
         "HPP": "HP %",
@@ -5190,9 +5347,10 @@ interface Resources {
     }
   },
   "sidebar": {
-    "Showcase": {
-      "Title": "Showcase",
-      "Scorer": "Relic Scorer"
+    "Tools": {
+      "Title": "Tools",
+      "Showcase": "Showcase",
+      "WarpPlanner": "Warp Planner"
     },
     "Optimization": {
       "Title": "Optimization",
@@ -5213,6 +5371,50 @@ interface Resources {
       "Unleak": "No leaks",
       "Leaks": "Beta content"
     }
+  },
+  "warpCalculatorTab": {
+    "StrategyLabels": {
+      "S1": "S1 first",
+      "E0": "E0 first",
+      "E1": "E1 first",
+      "E2": "E2 first",
+      "E3": "E3 first",
+      "E4": "E4 first",
+      "E5": "E5 first",
+      "E6": "E6 first"
+    },
+    "IncomeOptions": {
+      "Label": "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: ",
+      "Type": {
+        "0": "None",
+        "1": "F2P",
+        "2": "Express",
+        "3": "BP & Express"
+      }
+    },
+    "PityCounter": {
+      "PityCounter": "Pity counter",
+      "Guaranteed": "Guaranteed"
+    },
+    "TotalAvailable": "Total warps available:",
+    "SectionTitles": {
+      "Planner": "Warp Planner",
+      "Results": "Results",
+      "Settings": "Settings",
+      "Character": "Character",
+      "LightCone": "Light Cone",
+      "Passes": "Passes",
+      "Jades": "Jades",
+      "Strategy": "Strategy",
+      "AdditionalResources": "Additional resources",
+      "Calculate": "Calculate"
+    },
+    "ColumnTitles": {
+      "Goal": "Goal",
+      "Chance": "Success chance with {{ticketCount}} <1/>",
+      "Average": "Average # of <1/> required"
+    },
+    "TargetLabel": "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}}) $t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})"
   }
 }
 

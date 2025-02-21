@@ -1,7 +1,8 @@
 import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardAtkHealFinalizer, standardAtkFinalizer, standardAtkHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -12,6 +13,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luocha')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1203')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
@@ -84,22 +98,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
+        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
+        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
       }
       if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(talentHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
+        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
+        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
       }
 
       return x
@@ -107,9 +121,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((e >= 1 && m.fieldActive) ? 0.20 : 0, Source.NONE)
+      x.ATK_P.buffTeam((e >= 1 && m.fieldActive) ? 0.20 : 0, SOURCE_E1)
 
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResReduction) ? 0.20 : 0, Source.NONE)
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResReduction) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)

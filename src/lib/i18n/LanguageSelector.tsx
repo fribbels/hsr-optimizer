@@ -1,16 +1,18 @@
 import { Button, Flex, Select } from 'antd'
-import { completedLocales, languages } from 'lib/i18n/i18n'
+import { completedLocales, isBeta } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
-import { BASE_PATH } from 'lib/state/db'
-import React from 'react'
+import { BASE_PATH, BasePath } from 'lib/state/db'
+import { languages, Languages } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
-  // @ts-ignore
-  const isBeta = BASE_PATH == '/dreary-quibbles'
-  const selectOptions = Object.values(languages)
-    .filter((x) => isBeta || completedLocales.includes(x.locale))
+  const selectOptions = Object.values(languages as Record<Languages, { locale: Languages; nativeName: string; shortName: string }>)
+    .filter((x) => {
+      if (x.locale !== 'aa_ER') return isBeta || completedLocales.includes(x.locale)
+      return BASE_PATH === BasePath.BETA
+      // !!do not replace this check with isBeta!!
+    })
     .map(({ locale, nativeName, shortName }) => ({
       value: locale,
       display: (
@@ -20,7 +22,7 @@ export function LanguageSelector() {
         </Flex>
       ),
       label: (
-        <Flex gap={8}>
+        <Flex gap={8} title={locale}>
           {nativeName}
           {isBeta ? ` (${locale})` : ''}
           {completedLocales.includes(locale) ? '' : ' - (WIP)'}
@@ -33,7 +35,14 @@ export function LanguageSelector() {
       options={selectOptions}
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
-        void i18n.changeLanguage(e)
+        i18n.changeLanguage(e)
+          .then(() => {
+            // !!do not replace this check with isBeta!!
+            if (BASE_PATH === BasePath.BETA) {
+              e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
+            }
+            console.log('setting language to:', i18n.resolvedLanguage)
+          })
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
       placement='bottomLeft'

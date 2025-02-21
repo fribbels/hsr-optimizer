@@ -99,6 +99,14 @@ Lightcones:
       spdBuff:
         text: 击中3个目标后的速度提高
         content: 若击中大于等于3名敌方目标，使自身速度提高{{SpdBuff}}%，持续1回合。
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: 战技 / 终结技伤害提升
+        content: 施放战技或终结技时，使本次攻击造成的伤害提高{{DmgBoost}}%
+      bonusBoost:
+        text: 额外伤害提升
+        content: 施放战技或终结技时消耗等同于自身{{HpConsumption}}%生命上限的生命值。若该效果消耗的生命值高于 500 点，可使伤害额外提高{{BonusDmgBoost}}%。
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -109,6 +117,11 @@ Lightcones:
         text: 歌咏层数
         content: >-
           我方角色每次攻击时，使装备者获得1层【歌咏】，每层【歌咏】使装备者的能量恢复效率提高{{RegenBuff}}%，最多叠加5层。装备者施放终结技时，移除【歌咏】并获得【华彩】，【华彩】使装备者的攻击力提高{{AtkBuff}}%，使我方全体造成的伤害提高{{DmgBuff}}%，持续1回合。
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: 谕示启用
+        content: 装备者施放追加攻击后额外恢复12点能量，并获得【谕示】，持续2回合。当装备者持有【谕示】时，我方全体目标的暴击伤害提高{{CdBuff}}%。进入战斗时，装备者恢复21点能量，并获得【谕示】，持续2回合。
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -166,6 +179,11 @@ Lightcones:
         text: 击破易伤层数
         content: >-
           当有敌方目标的弱点被击破时，有 100% 的基础概率使其陷入【焚灼】状态，受到的击破伤害提高{{breakVulnerability}}%，持续2回合，此效果可叠加2层。
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: 团队伤害提升
+        content: 装备者施放战技后，使我方全体造成的伤害提高{{DmgBoost}}%，持续3回合。
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -864,6 +882,9 @@ Characters:
       enemySlowed:
         text: 敌人处于减速状态
         content: 普攻对减速状态下的敌方目标造成的伤害提高40%。
+      spdBuff:
+        text: 速度增益
+        content: 施放攻击后有50%的固定概率使自身速度提高20%，持续2回合。
       e1EnemyHp50:
         text: 1魂敌人生命值≥50%时暴击率提高
         content: 当击中的敌方目标当前生命值百分比大于等于50%时，暴击率提高12%。
@@ -1315,6 +1336,28 @@ Characters:
       e6MultiplierIncrease:
         text: 6魂追加攻击倍率增益
         content: 天赋的追加攻击的伤害倍率提高25%。
+  Mydei:
+    Content:
+      skillEnhances:
+        text: 技能强化
+        content: >-
+          选择万敌战技的强化等级。::BR:: 万死无悔（强化等级0）：消耗等同于万敌当前生命值 50% 的生命值，对指定敌方单体造成等同于万敌{{SkillPrimaryScaling}}%生命上限的虚数属性伤害，同时对其相邻目标造成等同于万敌{{SkillAdjacentScaling}}%生命上限的虚数属性伤害。::BR:: 弑王成王（强化等级1）：消耗等同于万敌当前生命值 35% 的生命值，对敌方单体造成等同于万敌{{EnhancedSkillPrimaryScaling}}%生命上限的虚数属性伤害，同时对其相邻目标造成等同于万敌{{EnhancedSkillAdjacentScaling}}%生命上限的虚数属性伤害。::BR:: 弑神登神（强化等级2）：消耗 150 点充能，对敌方单体造成等同于万敌{{EnhancedSkill2PrimaryScaling}}%生命上限的虚数属性伤害，同时对其相邻目标造成等同于万敌{{EnhancedSkill2AdjacentScaling}}%生命上限的虚数属性伤害。
+      vendettaState:
+        text: 血仇状态
+        content: >-
+          每损失1%生命值积攒1点充能，最多积攒200点。充能达到 100 时消耗 100 点充能进入【血仇】状态并回复等同于万敌{{HpRestoration}}%生命上限的生命值，同时行动提前100%。::BR:: 【血仇】状态下生命上限提高，数值等同于当前生命上限的50%，防御力保持为0。自身回合开始时自动施放【弑王成王】。【血仇】状态期间充能达到150点时，万敌立即获得1个额外回合并自动施放【弑神登神】。
+      hpToCrConversion:
+        text: 生命值转换至暴击率
+        content: 战斗开始时，若万敌的生命上限高于4000点，每超过100点生命值可使自身暴击率提高1.2%，万敌受到来自敌方目标伤害造成的充能比例提高2.5%，受到治疗时的回复量提高0.75%，超出部分最多计入4000点生命值。
+      e1EnhancedSkillBuff:
+        text: 1魂强化战技提升
+        content: '【弑神登神】对主目标造成的伤害倍率提高30%，且变成对敌方全体造成等同于主目标伤害倍率的虚数属性伤害。'
+      e2DefPen:
+        text: 2魂防御穿透
+        content: '【血仇】状态期间，万敌造成的伤害无视敌方目标15%的防御力，且受到治疗时会将40%的治疗数值转化为充能，累计转化的充能不超过40点。任意单位行动后重置可累计的充能。'
+      e4CdBuff:
+        text: 4魂爆伤增益
+        content: '【血仇】状态期间暴击伤害提高30%，且受到来自敌方目标的攻击后回复等同于自身10%生命上限的生命值。'
   Pela:
     Content:
       teamEhrBuff:
@@ -1697,6 +1740,32 @@ Characters:
           迷迷战斗中的爆击伤害
         content: >-
           使我方全体的暴击伤害提高，提高数值等同于迷迷{{ScalingBuff}}%暴击伤害+{{FlatBuff}}% 。
+  Tribbie:
+    Content:
+      numinosity:
+        text: 神启
+        content: 使用战技后，提宝获得【神启】，持续3回合，自身每回合开始时持续回合数减1。当缇宝拥有【神启】时，我方全体目标全属性抗性穿透提高{{ResPen}}%。
+      ultZone:
+        text: 终结技结界启动
+        content: "提宝使用终结技后，开启结界，并对敌方全体造成等同于缇宝{{UltScaling}}%生命上限的量子属性伤害。结界持续期间，敌方目标受到的伤害提高{{ZoneVulnerability}}%。受到我方目标攻击后，每有1名目标受到攻击，会对被攻击目标中当前生命值最高的目标造成1次等同于缇宝{{AdditionalDmgScaling}}%生命上限的量子属性附加伤害。\n结界持续2回合，自身每回合开始时结界持续回合数减1。"
+      alliesMaxHp:
+        text: 队友最大生命值
+        content: 结界持续期间，缇宝的生命上限提高，提高数值等同于我方全体角色生命上限之和的9%。
+      talentFuaStacks:
+        text: 追加攻击层数
+        content: 施放天赋的追加攻击后，缇宝造成的伤害提高72%，该效果最多叠加3层，持续3回合。
+      e1TrueDmg:
+        text: 1魂真实伤害
+        content: 结界持续期间，我方目标攻击敌人后，对结界造成附加伤害的目标额外造成等同于本次攻击总伤害值24%的真实伤害。
+      e2AdditionalDmg:
+        text: 2魂额外伤害
+        content: 结界造成的附加伤害提高至原伤害的120%。结界造成附加伤害时，会额外造成1次附加伤害。
+      e4DefPen:
+        text: 4魂防御穿透
+        content: '【神启】持续期间，我方全体造成伤害时无视目标18%的防御力。'
+      e6FuaScaling:
+        text: 6魂追加攻击伤害
+        content: 缇宝施放终结技后，对敌方全体发动天赋的追加攻击。天赋的追加攻击造成的伤害提高729%。
   Welt:
     Content:
       enemyDmgTakenDebuff:

@@ -1,8 +1,9 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityCr, buffAbilityDefPen, buffAbilityDmg, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1221')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.20, 1.32)
@@ -128,7 +142,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.blockActive && r.ultCull) {
-        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, Source.NONE)
+        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_ULT)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -136,32 +150,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       if (r.blockActive) {
         if (r.ultCull) {
-          x.FUA_SCALING.buff(ultCullScaling + r.ultCullHits * ultCullHitsScaling, Source.NONE)
+          x.FUA_SCALING.buff(ultCullScaling + r.ultCullHits * ultCullHitsScaling, SOURCE_ULT)
         } else {
-          x.FUA_SCALING.buff(ultSlashScaling, Source.NONE)
+          x.FUA_SCALING.buff(ultSlashScaling, SOURCE_ULT)
         }
       } else {
-        x.FUA_SCALING.buff(talentCounterScaling, Source.NONE)
+        x.FUA_SCALING.buff(talentCounterScaling, SOURCE_TALENT)
       }
 
-      buffAbilityCd(x, FUA_DMG_TYPE, (r.blockActive) ? blockCdBuff : 0, Source.NONE)
-      x.ATK_P.buff((r.counterAtkBuff) ? 0.30 : 0, Source.NONE)
+      buffAbilityCd(x, FUA_DMG_TYPE, (r.blockActive) ? blockCdBuff : 0, SOURCE_ULT)
+      x.ATK_P.buff((r.counterAtkBuff) ? 0.30 : 0, SOURCE_TRACE)
 
-      x.DMG_RED_MULTI.multiply((r.blockActive) ? 1 - 0.20 : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiply((r.blockActive) ? 1 - 0.20 : 1, SOURCE_TRACE)
 
-      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, Source.NONE)
-      buffAbilityDefPen(x, FUA_DMG_TYPE, (e >= 2 && r.e2DefShred) ? 0.20 : 0, Source.NONE)
-      x.RES.buff((e >= 4 && r.e4ResBuff) ? 0.50 : 0, Source.NONE)
-      buffAbilityCr(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.15 : 0, Source.NONE)
-      buffAbilityResPen(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, SOURCE_E1)
+      buffAbilityDefPen(x, FUA_DMG_TYPE, (e >= 2 && r.e2DefShred) ? 0.20 : 0, SOURCE_E2)
+      x.RES.buff((e >= 4 && r.e4ResBuff) ? 0.50 : 0, SOURCE_E4)
+      buffAbilityCr(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.15 : 0, SOURCE_E6)
+      buffAbilityResPen(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.20 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff((r.blockActive) ? 60 : 30, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff((r.blockActive && r.ultCull) ? r.ultCullHits * 15 : 0, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.FUA_TOUGHNESS_DMG.buff((r.blockActive) ? 60 : 30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff((r.blockActive && r.ultCull) ? r.ultCullHits * 15 : 0, SOURCE_ULT)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
 
       return x
     },

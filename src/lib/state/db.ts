@@ -25,6 +25,7 @@ import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/Sta
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -43,8 +44,13 @@ const state: HsrOptimizerMetadataState = {
   metadata: {} as DBMetadata, // generated, not saved
 }
 
+export enum BasePath {
+  MAIN = '/hsr-optimizer',
+  BETA = '/dreary-quibbles',
+}
+
 // This string is replaced by /dreary-quibbles by github actions, don't change
-export const BASE_PATH = '/hsr-optimizer'
+export const BASE_PATH: BasePath = BasePath.MAIN
 
 export const AppPages = {
   OPTIMIZER: 'OPTIMIZER',
@@ -106,6 +112,7 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
+  [SavedSessionKeys.showcaseUID]: true,
   [SavedSessionKeys.showcasePreciseSpd]: false,
 }
 
@@ -214,12 +221,16 @@ window.store = create((set) => {
       [OptimizerMenuIds.relicAndStatFilters]: true,
       [OptimizerMenuIds.teammates]: true,
       [OptimizerMenuIds.characterStatsSimulation]: false,
+      [OptimizerMenuIds.analysis]: true,
     },
 
     savedSession: savedSessionDefaults,
 
     settings: DefaultSettingOptions,
     optimizerBuild: null,
+    optimizerExpandedPanelBuildData: null,
+    optimizerSelectedRowData: null,
+    optimizerBuffGroups: undefined,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
@@ -282,6 +293,9 @@ window.store = create((set) => {
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
+    setOptimizerExpandedPanelBuildData: (x) => set(() => ({ optimizerExpandedPanelBuildData: x })),
+    setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
+    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store
@@ -706,7 +720,7 @@ export const DB = {
       DB.addCharacter(found)
     }
 
-    console.log('Updated db characters', characters)
+    // console.log('Updated db characters', characters)
 
     /*
      * TODO: after render optimization, window.characterGrid is possibly undefined
@@ -884,6 +898,8 @@ export const DB = {
     relic.equippedBy = character.id
     DB.setCharacter(character)
     setRelic(relic)
+
+    debounceEffect('refreshRelics', 500, () => window.relicsGrid?.current?.api.refreshCells())
   },
 
   equipRelicIdsToCharacter: (relicIds: string[], characterId: string, forceSwap = false) => {

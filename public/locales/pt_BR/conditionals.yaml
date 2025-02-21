@@ -99,6 +99,14 @@ Lightcones:
       spdBuff:
         text: Buff de SPD ao atingir 3 alvos
         content: Se houver 3 ou mais alvos inimigos atingidos, a SPD desta unidade aumenta em {{SpdBuff}}%, durando por 1 turno.
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de DMG Perícia / Ult
+        content: Ao usar Perícia ou Ultimate, aumenta o DMG causado por este ataque em {{DmgBoost}}%.
+      bonusBoost:
+        text: Bônus de aumento de DMG
+        content: Ao usar Perícia ou Ultimate, consuma HP igual a {{HpConsumption}}% da vida máxima do usuário. Se o HP consumido for maior que 500, este ataque aumenta em {{BonusDmgBoost}}%.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -109,6 +117,11 @@ Lightcones:
         text: Acúmulos de Cantilação
         content: >-
           Toda vez que um aliado ataca, o portador ganha 1 acúmulo de Cantillação. Cada acúmulo de Cantillação aumenta a Taxa de Regeneração de Energia do portador em {{RegenBuff}}%, acumulando até 5 vezes. Quando o portador usa sua Ultimate, remove Cantillação e ganha Cadenza. Cadenza aumenta o ATK do portador em {{AtkBuff}}% e aumenta o DANO causado por todos os aliados em {{DmgBuff}}%, durando por 1 turno.
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: Presságio ativa
+        content: Depois que o usuário lançar um Ataque Extra, também regenera 12 Energia e ganha "Presságio" que dura 2 rodadas. Enquanto o usuário tiver "Presságio", todos os aliados alvo ganham {{CdBuff}}% de CRIT DMG. Ao entrar em batalha, o usuário regenera 21 Energia e ganha "Presságio", durando 2 turnos.
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -166,6 +179,11 @@ Lightcones:
         text: Vulnerabilidade de quebra acumula
         content: >-
           Quando a Fraqueza de um alvo inimigo é quebrada, há uma chance básica de 100% de infligir o estado “Charring” nele, o que aumenta o Dano de Quebra recebido em {{breakVulnerability}}%, com duração de 2 turnos. Esse efeito pode se acumular 2 vezes.
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: Aumento de Dano da Equipe
+        content: Depois que o usuário usar Perícia, aumenta o dano causado por todos os aliados em {{DmgBoost}}%, durando 3 rodadas.
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -876,6 +894,9 @@ Characters:
       enemySlowed:
         text: Inimigo desacelerado
         content: O ATK Básico causa 40% a mais de dano a inimigos Desacelerados.
+      spdBuff:
+        text: Buff de SPD
+        content: Após iniciar um ataque, há uma chance fixa de 50% de aumentar a VEL desta unidade em 20% por 2 turnos.
       e1EnemyHp50:
         text: E1 inimigo HP ≥ 50% aumento de CR
         content: Quando a porcentagem de HP atual do inimigo alvo é maior ou igual a 50%, a Taxa de CRIT aumenta em 12%.
@@ -1327,6 +1348,28 @@ Characters:
       e6MultiplierIncrease:
         text: Buff do multiplicador FUA E6
         content: Aumenta o multiplicador de DMG do ataque de acompanhamento do Talento em 25%.
+  Mydei:
+    Content:
+      skillEnhances:
+        text: Melhorias de perícia
+        content: >-
+          Selecione o nível de aprimoramento da perícia de Mydei. ::BR:: Morte é Legião (aprimoramento 0): Consome 50% da HP atual de Mydei. Causa Dano imaginários igual a {{SkillPrimaryScaling}}% do HP de Mydei para um DMG designado e imaginário igual a {{SkillAdjacentScaling}}% do HP Máximo da Mydei a alvos adjacentes. ::BR:: Kingslayer Seja Rei (aprimoramento 1): Consome 35% do HP atual do Mydei. Causa DMG imaginário igual a {{EnhancedSkillPrimaryScaling}}% do HP Máximo de Mydei para um inimigo e DMG imaginário igual a {{EnhancedSkillAdjacentScaling}}% do HP Máximo de Mydei para alvos adjacentes. ::BR:: Godslayer Seja Deus (aprimoramento 2): Consome 150 pontos de Carregamento. Causa DMG imaginário igual a {{EnhancedSkill2PrimaryScaling}}% da Vida Máxima de Mydei a um inimigo e um DMG imaginário igual a {{EnhancedSkill2AdjacentScaling}}% do HP Máximo de Mydei a alvos adjacentes.
+      vendettaState:
+        text: Estado Vendetta
+        content: >-
+          Para cada 1% de HP perdido, acumula 1 ponto de carga (até 200 pontos). Quando a carga atinge 100, consome 100 pontos de carga para entrar no estado "Vendetta", restaura HP igual a {{HpRestoration}}% do Max HP de Mydei, e avança a ação em 100%. ::BR:: Enquanto o estado "Vendetta" estiver ativo, o limite de HP aumenta em 50% do limite atual e a DEF permanece em 0. No início do turno dessa unidade, usa automaticamente o "Kingslayer Seja Rei." quando a carga atinge 150 pontos durante o estado "Vendetta", Mydei ganha imediatamente 1 turno extra e usa automaticamente "Godslayer Seja Deus."
+      hpToCrConversion:
+        text: Conversão de CR para HP
+        content: Quando a batalha começa, se o HP máximo do Mydei excede 4000, a cada 100 excesso de HP, a Taxa de CRIT do Mydei aumenta em 1,2%, sua taxa de carga de Danos dos alvos do inimigo aumenta em 2,5% e a sua Cura Recebida aumenta em 0,75%. Até 4000 excesso de HP é considerado para esse efeito.
+      e1EnhancedSkillBuff:
+        text: E1 Aumento de Melhoria de Perícia
+        content: O multiplicador de DMG aplicado por "Godslayer Seja Deus" no alvo primário aumenta em 30%. E "Godslayer Seja Deus" torna-se DMG imaginário dado a todos os inimigos igual ao multiplicador DMG aplicado ao alvo primário.
+      e2DefPen:
+        text: E2 DEF PEN
+        content: Durante "Vendetta", o DMG causado por Mydei ignora 15% da DEF dos alvos inimigos. E ao receber cura, converte 40% da quantidade de cura para Carga. A contagem da Carga convertida não pode exceder 40 pontos. Reinicia esta contagem de carga após qualquer unidade pegar turno.
+      e4CdBuff:
+        text: E4 Buff CD
+        content: Enquanto estiver em "Vendetta", aumenta o CRIT DMG em 30% e restaura em 10% o HP máximo desta unidade após receber ataques de alvos inimigos.
   Pela:
     Content:
       teamEhrBuff:
@@ -1461,6 +1504,7 @@ Characters:
           Entra no estado de buff ao derrotar um inimigo com ATK Básico, Habilidade ou Ultimativa, e recebe um turno extra. Enquanto estiver no estado de buff, o DMG dos ataques de Seele aumenta em {{buffedStateDmgBuff}}% por 1 turno.::BR::Enquanto Seele estiver no estado de buff, sua PEN de RES Quantum aumenta em 20%.
       speedBoostStacks:
         text: Acúmulos de buff de velocidade
+        content: "Após usar sua perícia, aumenta a VEL de Seele em 25% por 2 rodadas.:BR::E2: O aumento de VEL da perícia pode acumular até 2 vezes."
       e1EnemyHp80CrBoost:
         text: E1 HP do inimigo ≤ 80% aumento de CR
         content: Ao causar DMG a um inimigo cuja porcentagem de HP é 80% ou inferior, a Taxa de CRIT aumenta em 15%.
@@ -1707,6 +1751,32 @@ Characters:
           CD de Combate do Mem
         content: >-
           CRIT DMG de todos os aliados aumenta em {{ScalingBuff}}% do CRIT DMG do Mem's mais {{FlatBuff}}%
+  Tribbie:
+    Content:
+      numinosity:
+        text: Numinosidade
+        content: Após usar a Perícia, Tribbie ganha "Numinosidade", durando 3 turnos. Esta duração diminui em 1 no início do turno dessa unidade. Enquanto a Tribbie tem "Numinosidade", aumenta o RES PEN em {{ResPen}} % de todos os aliados alvo.
+      ultZone:
+        text: Zona de Ult ativa
+        content: Depois que Tribbie usa seu Ultimate, ativa uma Zona e dá DMG Quantum igual a {{UltScaling}}% de sua Vida Máxima para todos os inimigos. Enquanto a zona durar, aumenta o DMG recebido dos alvos inimigos em {{ZoneVulnerability}}%. Após um aliado atacar, a cada 1 acerto, dá 1 instância de Danos Adicionais Quantum iguais a {{AdditionalDmgScaling}}% do HP Máximo de Tribbie ao alvo que tem o HP mais alto entre os alvos de atingir. A Zona dura 2 jogadas. Esta duração diminui 1 no início de cada turno dessa unidade.
+      alliesMaxHp:
+        text: HP máximo dos aliados
+        content: Enquanto a zona de sua Ultimate durar, o HP máximo de Tribbie aumenta em uma quantidade igual a 9% da soma de vida máxima de todos os personagens aliados.
+      talentFuaStacks:
+        text: Acúmulos de ATQ. EXT.
+        content: Após usar o Ataque Extra do Talento, aumenta o dano causado por Tribbie em 72%. Esse efeito pode acúmular até 3 vezes, durando por 3 turnos.
+      e1TrueDmg:
+        text: E1 Dano Real
+        content: Enquanto a Zona de sua Ultimate durar e depois que aliados atacarem alvos inimigos, adicionalmente causa Dano Real igual a 24% do dano total desse ataque à alvos que tenham recebido Dano Adicional da Zona.
+      e2AdditionalDmg:
+        text: E2 Dano Adicional
+        content: O Dano Adicional causado pela Zona aumenta em 120% do dano original. Quando a Zona causa Dano Adicional, causa mais 1 instância de Dano Adicional.
+      e4DefPen:
+        text: E4 DEF PEN
+        content: Enquanto "Numinosidade" durar, o Dano causado por todos aliados ignora 18% da DEF do alvo.
+      e6FuaScaling:
+        text: E6 Dano ATQ. EXT.
+        content: Após Tribbie usar sua Ultimate, lança seu Ataque Extra do Talento contra todos os alvos inimigos. O Dano causado pelo Ataque Extra do Talento aumenta em 729%.
   Welt:
     Content:
       enemyDmgTakenDebuff:

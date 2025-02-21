@@ -1,10 +1,12 @@
 import { BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -15,6 +17,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gallagher')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1301')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.50, 2.75)
@@ -36,6 +51,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     targetBesotted: true,
+    e2ResBuff: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -93,6 +109,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     targetBesotted: content.targetBesotted,
+    e2ResBuff: content.e2ResBuff,
   }
 
   return {
@@ -103,25 +120,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.RES.buff((e >= 1 && r.e1ResBuff) ? 0.50 : 0, Source.NONE)
-      x.RES.buff((e >= 2 && r.e2ResBuff) ? 0.30 : 0, Source.NONE)
-      x.BE.buff((e >= 6) ? 0.20 : 0, Source.NONE)
+      x.RES.buff((e >= 1 && r.e1ResBuff) ? 0.50 : 0, SOURCE_E1)
+      x.BE.buff((e >= 6) ? 0.20 : 0, SOURCE_E6)
 
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6) ? 0.20 : 0, Source.NONE)
+      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6) ? 0.20 : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 90 : 30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 90 : 30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
-        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
+        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
       }
       if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
-        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
+        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
       }
 
       return x
@@ -129,7 +145,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, Source.NONE, Target.TEAM)
+      x.RES.buff((e >= 2 && m.e2ResBuff) ? 0.30 : 0, SOURCE_E2)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, SOURCE_TALENT, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)
@@ -142,29 +159,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.BE],
+        chainsTo: [Stats.OHB],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.breakEffectToOhbBoost
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.min(0.75, 0.50 * x.a[Key.BE])
-
-          action.conditionalState[this.id] = buffValue
-          x.OHB.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          dynamicStatConversion(Stats.BE, Stats.OHB, this, x, action, context,
+            (convertibleValue) => Math.min(0.75, 0.50 * convertibleValue),
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
-let be = (*p_x).BE;
-let stateValue: f32 = (*p_state).GallagherConversionConditional;
-let buffValue: f32 = min(0.75, 0.50 * (*p_x).BE);
-
-(*p_state).GallagherConversionConditional = buffValue;
-buffDynamicOHB(buffValue - stateValue, p_x, p_m, p_state);
-    `)
+          return gpuDynamicStatConversion(Stats.BE, Stats.OHB, this, action, context,
+            `min(0.75, 0.50 * convertibleValue)`,
+            `${wgslTrue(r.breakEffectToOhbBoost)}`,
+          )
         },
       },
     ],

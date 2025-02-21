@@ -1,0 +1,36 @@
+StrategyLabels:
+  S1: S1 primeiro
+  E0: E0 primeiro
+  E1: E1 primeiro
+  E2: E2 primeiro
+  E3: E3 primeiro
+  E4: E4 primeiro
+  E5: E5 primeiro
+  E6: E6 primeiro
+IncomeOptions:
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
+  Type:
+    0: Nenhum
+    1: F2P
+    2: Expresso
+    3: PB & Expresso
+PityCounter:
+  PityCounter: Contador de Pity
+  Guaranteed: Garantido
+TotalAvailable: "Tiros disponíveis:"
+SectionTitles:
+  Planner: Planejador de Tiros
+  Results: Resultados
+  Settings: Configurações
+  Character: Personagem 
+  LightCone: Cone de Luz
+  Passes: Passes
+  Jades: Jades
+  Strategy: Estratégia
+  AdditionalResources: Recursos adicionais
+  Calculate: Calcular
+ColumnTitles:
+  Goal: Objetivo
+  Chance: "Chance de sucesso com {{ticketCount}} <1/>"
+  Average: "Média # de <1/> necessária"
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

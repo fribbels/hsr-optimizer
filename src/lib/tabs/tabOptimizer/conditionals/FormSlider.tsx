@@ -31,7 +31,7 @@ export interface FormSliderProps {
 }
 
 export const FormSlider: ComponentType<FormSliderProps> = (props) => {
-  const [state, setState] = useState(props.value ?? undefined)
+  const [state, setState] = useState(props?.value ?? undefined)
 
   const multiplier = (props.percent ? 100 : 1)
   const step = props.percent ? 0.01 : 1

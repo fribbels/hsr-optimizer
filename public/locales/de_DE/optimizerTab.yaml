@@ -1,0 +1,5 @@
+CharacterSelector:
+  Character: Charakter
+OptimizerOptions:
+  Priority:
+    Header: Priorität

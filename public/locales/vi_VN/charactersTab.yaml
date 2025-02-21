@@ -1,5 +1,5 @@
 ScreenshotMessages:
-  ScreenshotSuccess: Anh chụp màn hình được sao chép vào clipboard
+  ScreenshotSuccess: Ảnh chụp màn hình được sao chép vào clipboard
   ScreenshotFailed: Không thể lưu ảnh chụp màn hình vào clipboard, hãy thử tải xuống ở nút bên phải
   DownloadSuccess: Tải ảnh chụp màn hình
 CharacterMenu:
@@ -28,7 +28,7 @@ CharacterMenu:
       MoveToTop: Đưa nhân vật lên đầu
 SearchPlaceholder: Tìm Kiếm
 GridHeaders:
-  Icon: Biểu tượng
+  Icon: Ảnh
   Priority: Ưu tiên
   Character: Nhân vật
 Messages:
@@ -50,7 +50,7 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: Độ Tốc độ
+      Header: Tốc độ
       Max: 100%
       Min: 0%
     BenchmarkSpd:
@@ -70,6 +70,7 @@ CharacterPreview:
       Custom: Tự chỉnh
       Standard: Mặc định
     PaletteLabel: Bảng màu khung
+    ShowUID: Hiện UID
   ArtBy: "Tranh bởi {{artistName}}"
   EditCharacter: Sửa đổi nhân vật
   EditPortrait: Sửa đổi ảnh
@@ -102,38 +103,38 @@ CharacterPreview:
     Roll: Roll
     Damage: Sát thương
   BuildAnalysis:
-    ScoringNote: "Lưu ý: Điểm DPS và Sát thương chiến kỹ Kết hợp (Combo DMG) là các thước đo điểm số cho một vòng xoay kỹ năng duy nhất, không dùng để so sánh giữa các đội"
+    ScoringNote: "Lưu ý: Điểm DPS và Sát thương Kết hợp (ST Combo) là các thước đo điểm số cho một vòng kỹ năng duy nhất, không dùng để so sánh giữa các đội"
     Header: Phân tích lối lên đồ nhân vật
     SimulationTeammates: Đồng đội thí nghiệm
     SimulationSets: Bộ dị vật thí nghiệm
     Rotation:
       Header: Thứ tự sử dụng kĩ năng
-      BASIC: Đánh Đơn
+      BASIC: TẤN CÔNG THƯỜNG
       SKILL: Chiến kỹ
       ULT: Tuyệt kỹ
       FUA: Đòn Đánh Theo Sau
       MEMO_SKILL: SKILLᴹ
       DOTS: "Sát thương duy trì:"
-      BREAKS: "Sát thương phá vỡ:"
+      BREAKS: "ST Kích Phá:"
     CombatResults:
       Header: Kết quả sát thương
-      Primary: "Kĩ năng gây sát thương chính:"
+      Primary: "Kĩ năng chính:"
       Character: "ST nhân vật:"
       Benchmark: "ST tiêu chuẩn:"
       Baseline: "ST cơ bản:"
       Maximum: "ST tối đa:"
       Score: "Điểm DPS:"
       Abilities:
-        BASIC: ST ĐÁNH ĐƠN
+        BASIC: ST TẤN CÔNG THƯỜNG
         SKILL: 'ST CHIẾN KỸ:'
-        ULT: 'ST TUYỆT KỸ:'
-        FUA: 'ST ĐÒN ĐÁNH THEO SAU:'
+        ULT: 'TUYỆT KỸ:'
+        FUA: 'ĐÒN ĐÁNH THEO SAU:'
         DOT: 'ST DUY TRÌ:'
-        BREAK: 'ST PHÁ VỠ:'
+        BREAK: 'ST Kích Phá:'
         COMBO: 'ST COMBO:'
   ScoringColumn:
     Character:
-      Header: "Lối lên đồ nhân vật ({{score}}%)"
+      Header: "Lối lên đồ của bạn ({{score}}%)"
       BasicStats: Chỉ số cơ bản
       CombatStats: <1>Chỉ số combat</1> nhân vật
       Substats: Thuộc tính phụ nhân vật (Roll tối thiểu)

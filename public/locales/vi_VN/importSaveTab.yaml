@@ -53,6 +53,7 @@ Import:
         Nhập $t(common:Relic, {"count": {{relicCount}}}) & $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Ghi đè lên các lối lên đồ của trình tối ưu hóa
       WarningDescription: Bạn có chắc rằng bạn muốn ghi đè lên lối lên đồ của trình tối ưu với lối lên đồ trong game?
+      OnlyImportExisting: "Chỉ nhập những nhân vật đã có"
   Stage3:
     SuccessMessage: Xong!
 LoadData:

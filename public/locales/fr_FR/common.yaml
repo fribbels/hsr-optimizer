@@ -93,7 +93,7 @@ ShortSpacedStats:
   HP: PV
   "ATK%": ATQ %
   ATK: ATQ
-  "DEF%": DEF %
+  "DEF%": DÉF %
   DEF: DÉF
   "SPD%": VIT %
   SPD: VIT
@@ -117,7 +117,7 @@ ReadableStats:
   HP: PV
   "ATK%": ATQ %
   ATK: ATQ
-  "DEF%": DEF %
+  "DEF%": DÉF %
   DEF: DÉF
   "SPD%": VIT %
   SPD: VIT
@@ -140,7 +140,7 @@ ShortReadableStats:
   HP: PV
   "ATK%": ATQ %
   ATK: ATQ
-  "DEF%": DEF %
+  "DEF%": DÉF %
   DEF: DÉF
   "SPD%": VIT %
   SPD: VIT

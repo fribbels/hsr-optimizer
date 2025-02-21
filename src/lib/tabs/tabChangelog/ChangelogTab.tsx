@@ -100,11 +100,59 @@ function leaks(str: string) {
 }
 
 /*
-NOTES:
+ NOTES:
  */
 
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
+    {
+      title: '',
+      date: '2025-02-21',
+      content: [
+        `Added an Optimization Results Analysis panel with in depth information & comparisons for optimizer results`,
+        `analysis.webp`,
+        `Enabled i18n support for Korean`,
+        `Enabled i18n support for Vietnamese`,
+        `vnkr.webp`,
+        `Added a display for tracking sources of combat buffs on the showcase analysis and optimizer analysis`,
+        `buffs.webp`,
+        `Improved the additional warp resources selector to include warp income per half patch`,
+        `income.webp`,
+        `Added an overwrite button to the custom stats simulation tool, to edit and replace an existing simulation`,
+        `replace.webp`,
+        `UID is now shown by default on the character showcase`,
+        `uid.webp`,
+        `Added a UID show / hide selector on the showcase customization toolbar`,
+        `showUid.webp`,
+        `Added an importer option to only import characters that are already in the optimizer`,
+        `import.webp`,
+        `Bronya / Remembrance Trailblazer / Sunday Crit DMG limits are increased to 400% on optimizer conditionals`,
+        `cd.webp`,
+        `The optimizer now selects the character's currently equipped relics for stat display and the analysis panel`,
+        `Character scores are now set to "?" ranking for non-6 piece builds and missing light cones`,
+        `Improved UI performance for loading showcases`,
+        `Optimization performance improvements for CPU engine`,
+        `Fix: Forcing weakness break from certain character conditionals now also correctly applies the global weakness broken DMG multiplier`,
+        `Fix: Optimizer input changes now save correctly after page refresh`,
+        `Fix: Aglaea and Remembrance Trailblazer conditionals now enable The Wondrous BananAmusement Park set by default`,
+        `Fix: Memosprites now correctly receive SPD buffs`,
+        `Fix: Memosprites now correctly calculate Super Break DMG`,
+        `Fix: Additional DMG instances now correctly get calculated without ability-type DMG boosts`,
+        `Fix: Tribbie E1 now correctly applies to the entire team`,
+        `Fix: True DMG now correctly applies to DOT and Break DMG instances`,
+        `Fix: Home page UID input now searches on Enter key press`,
+        `Fix: Damage upgrades will no longer recommend an existing main stat`,
+        `Fix: Damage upgrades will no longer recommend other ropes when the benchmark is matching Energy Regen rope`,
+        `Fix: Mydei now correctly uses basic HP for conversion instead of combat HP`,
+        `Fix: Sacerdos' Relived Ordeal set now syncs correctly on optimizer teammates`,
+        `Fix: Bone Collection's Serene Demesne and Giant Tree of Rapt Brooding sets are now applied correctly in SubDPS scoring mode`,
+        `Balance: Argenti's benchmarks now equalize for Energy Regen rope`,
+        `Balance: Tribbie's SPD weight updated 0 -> 1.0 again after buffs`,
+        `Balance: Tribbie's benchmarks now use Genius of Brilliant Stars by default, while matching the user's Poet of Mourning Collapse set`,
+        `Balance: Tribbie's combo rotation now uses 4 -> 3 FUAs`,
+        `Balance: Blade's default benchmark set is now Bone Collection's Serene Demesne`,
+      ],
+    },
     {
       title: '',
       date: '2025-01-26',

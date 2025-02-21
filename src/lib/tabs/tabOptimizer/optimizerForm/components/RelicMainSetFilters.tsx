@@ -1,5 +1,5 @@
 import { SettingOutlined } from '@ant-design/icons'
-import { Button, Cascader, Flex, Form, Select } from 'antd'
+import { Button, Cascader, ConfigProvider, Flex, Form, Select } from 'antd'
 import { Constants, Parts } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
@@ -119,18 +119,30 @@ export default function RelicMainSetFilters() {
           <HeaderText>{t('Sets')/* Sets */}</HeaderText>
           <TooltipImage type={Hint.sets()}/>
         </Flex>
-        <Form.Item name='relicSets'>
-          <Cascader
-            placeholder={t('RelicSetSelector.Placeholder')}
-            options={useMemo(() => GenerateSetsOptions(), [t])}
-            showCheckedStrategy={SHOW_CHILD}
-            tagRender={RelicSetTagRenderer}
-            placement='bottomLeft'
-            maxTagCount='responsive'
-            multiple={true}
-            expandTrigger='hover'
-          />
-        </Form.Item>
+        <ConfigProvider theme={{
+          components: {
+            Cascader: {
+              dropdownHeight: 730,
+              controlItemWidth: 100,
+              controlWidth: 100,
+              optionPadding: '2px 12px',
+            },
+          },
+        }}
+        >
+          <Form.Item name='relicSets'>
+            <Cascader
+              placeholder={t('RelicSetSelector.Placeholder')}
+              options={useMemo(() => GenerateSetsOptions(), [t])}
+              showCheckedStrategy={SHOW_CHILD}
+              tagRender={RelicSetTagRenderer}
+              placement='bottomLeft'
+              maxTagCount='responsive'
+              multiple={true}
+              expandTrigger='hover'
+            />
+          </Form.Item>
+        </ConfigProvider>
 
         <Form.Item name='ornamentSets'>
           <Select

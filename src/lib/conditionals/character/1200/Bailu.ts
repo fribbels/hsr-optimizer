@@ -1,7 +1,8 @@
 import { NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, gpuStandardHpHealFinalizer, standardAtkFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1211')
 
   const basicScaling = basic(e, 1.0, 1.1)
   const skillScaling = skill(e, 0, 0)
@@ -99,40 +113,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.OHB.buff((e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0, Source.NONE)
+      x.OHB.buff((e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0, SOURCE_E2)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(skillHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(skillHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
+        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
+        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
       }
       if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(ultHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(ultHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
+        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
+        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
       }
       if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, Source.NONE)
-        x.HEAL_SCALING.buff(talentHealScaling, Source.NONE)
-        x.HEAL_FLAT.buff(talentHealFlat, Source.NONE)
+        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
+        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
+        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
       }
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP_P.buffTeam((m.healingMaxHpBuff) ? 0.10 : 0, Source.NONE)
+      x.HP_P.buffTeam((m.healingMaxHpBuff) ? 0.10 : 0, SOURCE_TRACE)
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, Source.NONE)
-      x.DMG_RED_MULTI.multiplyTeam((m.talentDmgReductionBuff) ? (1 - 0.10) : 1, Source.NONE)
+      x.ELEMENTAL_DMG.buffTeam((e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, SOURCE_E4)
+      x.DMG_RED_MULTI.multiplyTeam((m.talentDmgReductionBuff) ? (1 - 0.10) : 1, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
       standardAtkFinalizer(x)

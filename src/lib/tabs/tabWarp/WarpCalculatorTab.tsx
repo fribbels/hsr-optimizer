@@ -1,32 +1,34 @@
-import { ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, Typography } from 'antd'
+import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
+import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
+import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import {
   DEFAULT_WARP_REQUEST,
-  NONE_WARP_INCOME_OPTION,
-  simulateWarps,
+  handleWarpRequest,
   WarpIncomeDefinition,
   WarpIncomeOptions,
   WarpIncomeType,
   WarpMilestoneResult,
+  WarpRequest,
   WarpStrategy,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import React, { useMemo } from 'react'
+import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
 export default function WarpCalculatorTab(): React.JSX.Element {
-  const activeKey = window.store((s) => s.activeKey)
+  const { t } = useTranslation('warpCalculatorTab')
 
   return (
     <Flex vertical style={{ height: 1400, width: 950 }} align='center'>
       <Flex justify='space-around' style={{ margin: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          Warp Planner
+          {t('SectionTitles.Planner')/* Warp Planner */}
         </pre>
       </Flex>
 
@@ -37,35 +39,42 @@ export default function WarpCalculatorTab(): React.JSX.Element {
   )
 }
 
-function Inputs() {
-  const warpRequest = window.store((s) => s.warpRequest)
-  const [form] = Form.useForm()
+export function sanitizeWarpRequest(warpRequest: WarpRequest) {
+  if (!warpRequest) return { ...DEFAULT_WARP_REQUEST }
 
-  const initialValues = useMemo(() => {
-    if (!WarpIncomeOptions.find(option => option.id == warpRequest.income)) {
-      warpRequest.income = NONE_WARP_INCOME_OPTION.id
-    }
-    return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
-  }, [])
+  if (!Array.isArray(warpRequest.income)
+    || !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
+    warpRequest.income = []
+  }
+
+  return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
+}
+
+function Inputs() {
+  const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
+  const storedWarpRequest = window.store((s) => s.warpRequest)
+  const [form] = Form.useForm<WarpRequest>()
+
+  const warpRequest = sanitizeWarpRequest(storedWarpRequest)
 
   return (
     <Form
       form={form}
-      initialValues={initialValues}
+      initialValues={warpRequest}
       style={{
-        width: 800,
+        width: 900,
       }}
     >
-      <Card style={{ width: 800 }}>
+      <Card style={{ width: 900 }}>
         <Flex style={{ marginBottom: 30 }}>
           <Flex vertical style={{ flex: 1 }}>
             <Title>
               <Flex justify='center' gap={10}>
-                Settings
+                {t('Settings')/* Settings */}
                 <a
                   href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
                   target='_blank'
-                  style={{ display: 'inline-flex', alignItems: 'center' }}
+                  style={{ display: 'inline-flex', alignItems: 'center' }} rel='noreferrer'
                 >
                   <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
                 </a>
@@ -76,7 +85,7 @@ function Inputs() {
               <Flex gap={50} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex vertical>
-                    <HeaderText>Passes</HeaderText>
+                    <HeaderText>{t('Passes')/* Passes */}</HeaderText>
                     <Form.Item name='passes'>
                       <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false}/>
                     </Form.Item>
@@ -88,7 +97,7 @@ function Inputs() {
 
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex vertical>
-                    <HeaderText>Jades</HeaderText>
+                    <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
                       <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false}/>
                     </Form.Item>
@@ -99,7 +108,7 @@ function Inputs() {
 
               <Flex gap={20}>
                 <Flex vertical flex={1}>
-                  <HeaderText>Strategy</HeaderText>
+                  <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
 
                   <Form.Item name='strategy'>
                     <Select
@@ -111,10 +120,20 @@ function Inputs() {
 
               <Flex gap={20}>
                 <Flex vertical flex={1}>
-                  <HeaderText>Additional resources</HeaderText>
+                  <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
-                    <Select
-                      options={generateIncomeOptions()}
+                    <TreeSelect
+                      multiple
+                      showCheckedStrategy={TreeSelect.SHOW_CHILD}
+                      maxTagCount={1}
+                      listHeight={500}
+                      showSearch={false}
+                      treeCheckable={false}
+                      treeExpandAction='click'
+                      placeholder='None'
+                      treeDefaultExpandedKeys={extractEnabledIncomeTypes(warpRequest)}
+                      allowClear
+                      treeData={generateIncomeOptions()}
                     />
                   </Form.Item>
                 </Flex>
@@ -126,12 +145,12 @@ function Inputs() {
 
           <Flex vertical style={{ flex: 1 }} justify='space-between'>
             <Flex vertical>
-              <Title>Character</Title>
+              <Title>{t('Character')/* Character */}</Title>
               <PityInputs banner='Character'/>
             </Flex>
 
             <Flex vertical>
-              <Title>Light Cone</Title>
+              <Title>{t('LightCone')/* Light Cone */}</Title>
               <PityInputs banner='LightCone'/>
             </Flex>
           </Flex>
@@ -145,16 +164,21 @@ function Inputs() {
             onClick={() => {
               // @ts-ignore
               window.store.getState().setWarpResult(null)
-              setTimeout(() => simulateWarps(form.getFieldsValue()), 50)
+              setTimeout(() => handleWarpRequest(form.getFieldsValue()), 50)
             }}
             icon={<ThunderboltFilled/>}
           >
-            Calculate
+            {t('Calculate')/* Calculate */}
           </Button>
         </Flex>
       </Card>
     </Form>
   )
+}
+
+// When users have a saved warp income type, we should expand the parent by default so it doesn't get lost
+function extractEnabledIncomeTypes(warpRequest: WarpRequest) {
+  return (warpRequest.income ?? []).map((incomeOption) => parseInt(incomeOption.substring(incomeOption.length - 1)))
 }
 
 function Title(props: { children: React.ReactNode }) {
@@ -166,6 +190,7 @@ function Title(props: { children: React.ReactNode }) {
 }
 
 function Results() {
+  const { t, i18n } = useTranslation('warpCalculatorTab')
   const warpResult = window.store((s) => s.warpResult)
 
   if (!warpResult?.request) {
@@ -175,13 +200,11 @@ function Results() {
   const warpTableData: WarpTableData[] = Object.entries(warpResult.milestoneResults ?? {})
     .map(([label, result]) => ({ key: label, warps: result.warps, wins: result.wins }))
 
-  const title = `Results`
-
   console.log(warpResult)
 
   const columns: TableProps<WarpMilestoneResult>['columns'] = [
     {
-      title: 'Goal',
+      title: t('ColumnTitles.Goal'),
       dataIndex: 'key',
       key: 'key',
       align: 'center',
@@ -201,9 +224,9 @@ function Results() {
           />
 
           <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
-            <Tag color={'#000000aa'} style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
+            <Tag color='#000000aa' style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
               <Text style={{ margin: 0, alignItems: 'center' }}>
-                {key}
+                {translateLabel(key)}
               </Text>
             </Tag>
           </Flex>
@@ -213,22 +236,33 @@ function Results() {
     {
       title: (
         <Flex justify='center' align='center' gap={5}>
-          {`Success chance with ${warpResult.request.warps.toLocaleString()}`}
-          <img style={{ height: 18 }} src={Assets.getPass()}/>
+          <Trans
+            t={t}
+            i18nKey='ColumnTitles.Chance'
+            values={{ ticketCount: warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0]) }}
+          >
+            Success chance with [[ticketCount]]
+            <img style={{ height: 18 }} src={Assets.getPass()}/>
+          </Trans>
         </Flex>
       ),
       dataIndex: 'wins',
       width: 250,
       align: 'center',
-      render: (n: number) => `${Utils.truncate10ths(n * 100).toFixed(1)}%`,
+      render: (n: number) => `${Utils.truncate10ths(n * 100).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      })}%`,
     },
     {
       // title: 'Average # of warps required',
       title: (
         <Flex justify='center' align='center' gap={5}>
-          {`Average # of`}
-          <img style={{ height: 18 }} src={Assets.getPass()}/>
-          {`required`}
+          <Trans t={t} i18nKey='ColumnTitles.Average'>
+            Average # of
+            <img style={{ height: 18 }} src={Assets.getPass()}/>
+            required
+          </Trans>
         </Flex>
       ),
       dataIndex: 'warps',
@@ -249,22 +283,23 @@ function Results() {
     <Flex vertical gap={20} style={{}} align='center'>
       <Flex justify='space-around' style={{ marginTop: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {title}
+          {t('SectionTitles.Results')/* Results */}
         </pre>
       </Flex>
 
       <Text style={{ fontSize: 18 }}>
         <pre style={{ margin: 0 }}>
           <Flex align='center' gap={5}>
-            <span>{'Total warps available:'}</span>
+            <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
-            {`( ${warpResult.request.totalJade.toLocaleString()}`}
+            {`( ${(warpResult.request.totalJade ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
             <img style={{ height: 18 }} src={Assets.getJade()}/>
-            <span>{') + ('}</span>
-            {`${warpResult.request.totalPasses.toLocaleString()}`}
+            <span>) + (</span>
+            {`${(warpResult.request.totalPasses ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
             <img style={{ height: 18 }} src={Assets.getPass()}/>
-            <span>{') ='}</span>
-            {warpResult.request.warps.toLocaleString()}
+            <span>) </span>
+            <span>= </span>
+            {(warpResult.request.warps ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
             <img style={{ height: 18 }} src={Assets.getPass()}/>
           </Flex>
         </pre>
@@ -289,33 +324,38 @@ function Results() {
 const chanceThreshold = 0.001
 
 type WarpTableData = {
-  key: string;
+  key: string
 } & WarpMilestoneResult
 
 function opacity(n: number) {
-  return n < chanceThreshold ? 0.2 : 1.0
+  return n < chanceThreshold ? 0.10 : 1.0
 }
 
 function PityInputs(props: { banner: string }) {
+  const { t } = useTranslation(['warpCalculatorTab', 'common'])
   return (
     <Flex gap={50} style={{ width: '100%' }}>
       <Flex vertical flex={1}>
-        <HeaderText>Pity counter</HeaderText>
+        <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
         <Form.Item name={`pity${props.banner}`}>
-          <InputNumber placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79} style={{ width: '100%' }} controls={false}/>
+          <InputNumber
+            placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}
+            style={{ width: '100%' }}
+            controls={false}
+          />
         </Form.Item>
       </Flex>
       <Flex vertical flex={1}>
-        <HeaderText>Guaranteed</HeaderText>
+        <HeaderText>{t('PityCounter.Guaranteed')/* Guaranteed */}</HeaderText>
         <Form.Item name={`guaranteed${props.banner}`}>
           <Radio.Group
             block
             optionType='button'
             buttonStyle='solid'
           >
-            <Radio.Button value={true}>Yes</Radio.Button>
-            <Radio.Button value={false}>No</Radio.Button>
+            <Radio.Button value={true}><CheckOutlined/></Radio.Button>
+            <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
         </Form.Item>
       </Flex>
@@ -324,43 +364,84 @@ function PityInputs(props: { banner: string }) {
 }
 
 function generateIncomeOptions() {
-  const options: SelectProps['options'] = WarpIncomeOptions.map((option) => ({
-    value: option.id,
-    label: option.type == WarpIncomeType.NONE
-      ? 'None'
-      : (
-        <Flex align='center' gap={3}>
-          <IncomeOptionLabel option={option}/>
-          {`+${option.passes.toLocaleString()}`}
-          <img style={{ height: 18 }} src={Assets.getPass()}/>
-          {`+${option.jades.toLocaleString()}`}
-          <img style={{ height: 18 }} src={Assets.getJade()}/>
-        </Flex>
-      ),
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
+  const locale = i18next.resolvedLanguage?.split('_')[0]
+  const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]
+
+  const options = types.map((type) => ({
+    title: t(`Type.${type}`),
+    value: type,
+    selectable: false,
+    children: WarpIncomeOptions
+      .filter((option) => option.type === type)
+      .flatMap((option) => {
+        const results = [{
+          value: option.id,
+          title: option.type == WarpIncomeType.NONE
+            ? t('Type.0')
+            : (
+              <Flex align='center' gap={3}>
+                <IncomeOptionLabel option={option}/>
+                {`+${option.passes.toLocaleString(locale)}`}
+                <img style={{ height: 18 }} src={Assets.getPass()}/>
+              </Flex>
+            ),
+        }]
+
+        if (option.phase == 2) {
+          results.push({
+            title: <></>,
+            value: option.id + 'divider',
+            // @ts-ignore
+            className: 'tree-select-divider',
+            // @ts-ignore
+            disabled: true,
+          })
+        }
+
+        return results
+      }).slice(0, -1),
   }))
 
   return options
 }
 
 function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
   return (
     <div style={{ marginRight: 2 }}>
-      {`[v${props.option.version} ${props.option.type}]: `}
+      {
+        t('Label',
+          {
+            versionNumber: props.option.version,
+            phaseNumber: props.option.phase,
+            type: t(`Type.${props.option.type}`),
+          },
+        )
+        /* `[v${props.option.version} ${props.option.type}]: ` */
+      }
     </div>
   )
 }
 
 function generateStrategyOptions() {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'StrategyLabels')
   const options: SelectProps['options'] = [
-    { value: WarpStrategy.S1, label: 'S1 first' },
-    { value: WarpStrategy.E0, label: 'E0 first' },
-    { value: WarpStrategy.E1, label: 'E1 first' },
-    { value: WarpStrategy.E2, label: 'E2 first' },
-    { value: WarpStrategy.E3, label: 'E3 first' },
-    { value: WarpStrategy.E4, label: 'E4 first' },
-    { value: WarpStrategy.E5, label: 'E5 first' },
-    { value: WarpStrategy.E6, label: 'E6 first' },
+    { value: WarpStrategy.S1, label: t('S1')/* 'S1 first' */ },
+    { value: WarpStrategy.E0, label: t('E0')/* 'E0 first' */ },
+    { value: WarpStrategy.E1, label: t('E1')/* 'E1 first' */ },
+    { value: WarpStrategy.E2, label: t('E2')/* 'E2 first' */ },
+    { value: WarpStrategy.E3, label: t('E3')/* 'E3 first' */ },
+    { value: WarpStrategy.E4, label: t('E4')/* 'E4 first' */ },
+    { value: WarpStrategy.E5, label: t('E5')/* 'E5 first' */ },
+    { value: WarpStrategy.E6, label: t('E6')/* 'E6 first' */ },
   ]
 
   return options
+}
+
+function translateLabel(label: string) {
+  const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
+  if (label == 'S1') return t('common:SuperimpositionNShort', { superimposition: 1 })
+  return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
 }

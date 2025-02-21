@@ -1,0 +1,21 @@
+name: Vitest Tests
+on:
+  push:
+    branches: [ main, beta ]
+  pull_request:
+    branches: [ main, beta ]
+    types: [ opened, reopened, synchronize, review_requested, ready_for_review ]
+jobs:
+  test:
+    if: github.event.pull_request.draft == false
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Vitest tests
+        run: npm run vitest

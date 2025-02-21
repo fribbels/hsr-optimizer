@@ -3,7 +3,8 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1313')
 
   const skillDmgBoostValue = skill(e, 0.30, 0.33)
   const skillDmgBoostSummonValue = skill(e, 0.50, 0.55)
@@ -129,30 +143,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.set(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.set(30, SOURCE_BASIC)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CR.buffDual(m.talentCrBuffStacks * talentCrBuffValue, Source.NONE)
-      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff) ? skillDmgBoostValue : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buffDual((m.techniqueDmgBuff) ? 0.50 : 0, Source.NONE)
+      x.CR.buffDual(m.talentCrBuffStacks * talentCrBuffValue, SOURCE_TALENT)
+      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff) ? skillDmgBoostValue : 0, SOURCE_SKILL)
+      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, SOURCE_SKILL)
+      x.ELEMENTAL_DMG.buffDual((m.techniqueDmgBuff) ? 0.50 : 0, SOURCE_TECHNIQUE)
 
-      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, Source.NONE)
-      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, Source.NONE)
+      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, SOURCE_E1)
+      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, SOURCE_E1)
 
-      x.ELEMENTAL_DMG.buffDual((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buffDual((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, SOURCE_E2)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
-      x.CD.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, Source.NONE)
-      x.RATIO_BASED_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, Source.NONE)
+      x.CD.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, SOURCE_ULT)
+      x.CD.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
+      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, SOURCE_ULT)
+      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
@@ -166,7 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
-        ratioConversion: true,
+        chainsTo: [Stats.CD],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.m.a[Key.CR] > 1.00
         },
@@ -180,7 +194,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const buffValue = Math.floor((x.m.a[Key.CR] - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.m.CD.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          x.m.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -201,7 +215,7 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;
-  buffMemoDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_m).CD += buffValue - stateValue;
 }
           `)
         },
@@ -211,7 +225,7 @@ if (cr > 1.00) {
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
-        ratioConversion: true,
+        chainsTo: [Stats.CD],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.a[Key.CR] > 1.00
         },
@@ -225,7 +239,7 @@ if (cr > 1.00) {
           const buffValue = Math.floor((x.a[Key.CR] - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.CD.buffDynamic(buffValue - stateValue, Source.NONE, action, context)
+          x.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -239,14 +253,12 @@ if (x.DEPRIORITIZE_BUFFS > 0) {
   return;
 }
 
-let cr = (*p_x).CR;
-
-if (cr > 1.00) {
-  let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
+if (x.CR > 1.00) {
+  let buffValue: f32 = floor((x.CR - 1.00) / 0.01) * 2.00 * 0.01;
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;
-  buffDynamicCD(buffValue - stateValue, p_x, p_m, p_state);
+  (*p_x).CD += buffValue - stateValue;
 }
     `)
         },

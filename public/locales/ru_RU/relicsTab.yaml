@@ -2,6 +2,7 @@ RelicFilterBar:
   ScoringButton: Алгоритм подсчета очков
 Messages:
   AddRelicSuccess: Реликвия успешно добавлена
+  DeleteRelicSuccess: Реликвия успешно удалена
 RelicGrid:
   Headers:
     HPP: HP %

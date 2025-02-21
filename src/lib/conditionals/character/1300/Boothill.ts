@@ -3,7 +3,8 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -14,6 +15,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1315')
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
 
@@ -103,25 +117,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.talentBreakDmgScaling) {
-        x.ENEMY_WEAKNESS_BROKEN.set(1, Source.NONE)
+        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
       }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BE.buff((e >= 2 && r.e2BeBuff) ? 0.30 : 0, Source.NONE)
-      x.VULNERABILITY.buff((r.standoffActive) ? standoffVulnerabilityBoost : 0, Source.NONE)
+      x.BE.buff((e >= 2 && r.e2BeBuff) ? 0.30 : 0, SOURCE_E2)
+      x.VULNERABILITY.buff((r.standoffActive) ? standoffVulnerabilityBoost : 0, SOURCE_SKILL)
 
-      x.DEF_PEN.buff((e >= 1 && r.e1DefShred) ? 0.16 : 0, Source.NONE)
-      x.VULNERABILITY.buff((e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, Source.NONE)
+      x.DEF_PEN.buff((e >= 1 && r.e1DefShred) ? 0.16 : 0, SOURCE_E1)
+      x.VULNERABILITY.buff((e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, SOURCE_E4)
 
-      x.BASIC_SCALING.buff((r.standoffActive) ? basicEnhancedScaling : basicScaling, Source.NONE)
-      x.BASIC_BREAK_EFFICIENCY_BOOST.buff((r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0, Source.NONE)
+      x.BASIC_SCALING.buff((r.standoffActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.BASIC_BREAK_EFFICIENCY_BOOST.buff((r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0, SOURCE_TALENT)
 
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.standoffActive) ? 60 : 30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(90, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff((r.standoffActive) ? 60 : 30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
 
       // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
       const newMaxToughness = Math.min(16.00 * 30, context.enemyMaxToughness)
@@ -133,7 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         (r.talentBreakDmgScaling && r.standoffActive)
           ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling
           : 0
-        , Source.NONE)
+        , SOURCE_TALENT)
 
       return x
     },
@@ -144,6 +158,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.BE],
+      chainsTo: [Stats.CR, Stats.CD],
       condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -160,8 +175,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
         action.conditionalState[this.id] = x.a[Key.BE]
 
-        x.CR.buffDynamic(crBuffValue - stateCrBuffValue, Source.NONE, action, context)
-        x.CD.buffDynamic(cdBuffValue - stateCdBuffValue, Source.NONE, action, context)
+        x.CR.buffDynamic(crBuffValue - stateCrBuffValue, SOURCE_TRACE, action, context)
+        x.CD.buffDynamic(cdBuffValue - stateCdBuffValue, SOURCE_TRACE, action, context)
       },
       gpu: function (action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
@@ -171,7 +186,7 @@ if (${wgslFalse(r.beToCritBoost)}) {
   return;
 }
 
-let be = (*p_x).BE;
+let be = x.BE;
 let stateValue = (*p_state).BoothillConversionConditional;
 
 let stateCrBuffValue = min(0.30, 0.10 * stateValue);
@@ -182,8 +197,8 @@ let cdBuffValue = min(1.50, 0.50 * be);
 
 (*p_state).BoothillConversionConditional = be;
 
-buffDynamicCR(crBuffValue - stateCrBuffValue, p_x, p_m, p_state);
-buffDynamicCD(cdBuffValue - stateCdBuffValue, p_x, p_m, p_state);
+(*p_x).CR += crBuffValue - stateCrBuffValue;
+(*p_x).CD += cdBuffValue - stateCdBuffValue;
     `)
       },
     }],

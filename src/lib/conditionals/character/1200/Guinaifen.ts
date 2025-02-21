@@ -1,6 +1,7 @@
 import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -11,6 +12,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Guinaifen')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1210')
 
   const talentDebuffDmgIncreaseValue = talent(e, 0.07, 0.076)
   const talentDebuffMax = (e >= 6) ? 4 : 3
@@ -87,28 +101,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.DOT_SCALING.buff(dotScaling, Source.NONE)
-      x.DOT_SCALING.buff((e >= 2 && r.e2BurnMultiBoost) ? 0.40 : 0, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.DOT_SCALING.buff(dotScaling, SOURCE_SKILL)
+      x.DOT_SCALING.buff((e >= 2 && r.e2BurnMultiBoost) ? 0.40 : 0, SOURCE_E2)
 
       // Boost
-      x.ELEMENTAL_DMG.buff((r.enemyBurned) ? 0.20 : 0, Source.NONE)
+      x.ELEMENTAL_DMG.buff((r.enemyBurned) ? 0.20 : 0, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
-      x.DOT_CHANCE.set(r.skillDot ? 1.00 : 0.80, Source.NONE)
+      x.DOT_CHANCE.set(r.skillDot ? 1.00 : 0.80, r.skillDot ? SOURCE_SKILL : SOURCE_TRACE)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam(m.talentDebuffStacks * talentDebuffDmgIncreaseValue, Source.NONE)
-      x.EFFECT_RES_PEN.buffTeam(m.e1EffectResShred ? 0.10 : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam(m.talentDebuffStacks * talentDebuffDmgIncreaseValue, SOURCE_TALENT)
+      x.EFFECT_RES_PEN.buffTeam((e >= 1 && m.e1EffectResShred) ? 0.10 : 0, SOURCE_E1)
     },
     finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),

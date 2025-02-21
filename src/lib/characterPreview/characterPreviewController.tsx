@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
 import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -9,7 +9,6 @@ import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
@@ -149,11 +148,11 @@ export function getShowcaseStats(
   showcaseMetadata: ShowcaseMetadata,
 ) {
   const statCalculationRelics = TsUtils.clone(displayRelics)
-  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter(relic => !!relic))
-  const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null, null)
-  const finalStats: BasicStatsObjectCV = {
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
+  const x = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null, null, null)
+  const basicStats = x.c.toBasicStatsObject()
+  const finalStats: BasicStatsObject = {
     ...basicStats,
-    CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
   }
 
   finalStats[showcaseMetadata.elementalDmgType] = finalStats.ELEMENTAL_DMG

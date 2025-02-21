@@ -28,6 +28,8 @@ import { Utils } from 'lib/utils/utils'
 import React, { useEffect } from 'react'
 import { Form } from 'types/form'
 
+export const optimizerFormCache: Record<string, Form> = {}
+
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
   const [optimizerForm] = AntDForm.useForm()
@@ -133,6 +135,8 @@ export default function OptimizerForm() {
     form.optimizationId = optimizationId
     form.statDisplay = window.store.getState().statDisplay
 
+    optimizerFormCache[optimizationId] = form
+
     console.log('Form finished', form)
 
     setTimeout(() => Optimizer.optimize(form), 50)
@@ -151,9 +155,9 @@ export default function OptimizerForm() {
 
         {/* Row 1 */}
 
-        <FilterContainer>
+        <FilterContainer bottomPadding={true}>
           <FormRow id={OptimizerMenuIds.characterOptions}>
-            <FormCard style={{ overflow: 'hidden' }}>
+            <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
               <OptimizerTabCharacterPanel/>
             </FormCard>
 
@@ -221,13 +225,15 @@ export default function OptimizerForm() {
 
 // Wrap these and use local state to limit rerenders
 function CharacterConditionalDisplayWrapper() {
+  const charId: string = AntDForm.useWatch(['characterId'], window.optimizerForm)
+  const eidolon: string = AntDForm.useWatch(['characterEidolon'], window.optimizerForm)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const optimizerFormCharacterEidolon = window.store((s) => s.optimizerFormCharacterEidolon)
 
   return (
     <CharacterConditionalsDisplay
-      id={optimizerTabFocusCharacter}
-      eidolon={optimizerFormCharacterEidolon}
+      id={charId}
+      eidolon={eidolon}
     />
   )
 }
@@ -236,6 +242,8 @@ function LightConeConditionalDisplayWrapper() {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const optimizerFormSelectedLightCone = window.store((s) => s.optimizerFormSelectedLightCone)
   const optimizerFormSelectedLightConeSuperimposition = window.store((s) => s.optimizerFormSelectedLightConeSuperimposition)
+  const lcId: string = AntDForm.useWatch(['lightCone'], window.optimizerForm)
+  const superimposition: string = AntDForm.useWatch(['lightConeSuperimposition'], window.optimizerForm)
 
   // Hook into light cone changes to set defaults
   useEffect(() => {
@@ -256,8 +264,8 @@ function LightConeConditionalDisplayWrapper() {
   return (
     <Flex vertical justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
       <LightConeConditionalDisplay
-        id={optimizerFormSelectedLightCone}
-        superImposition={optimizerFormSelectedLightConeSuperimposition}
+        id={lcId}
+        superImposition={superimposition}
       />
       <AdvancedOptionsPanel/>
     </Flex>

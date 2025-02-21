@@ -27,15 +27,9 @@ jobs:
       - name: Find and Replace router path
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "const BASE_PATH = '/hsr-optimizer'"
+          find: "const BASE_PATH: BasePath = BasePath.MAIN"
           replace: "const BASE_PATH = ''"
           include: "src/lib/state/db.ts"
-      - name: Find and Replace API endpoint
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "const API_ENDPOINT = 'https://o4b6dqwu5a.execute-api.us-east-1.amazonaws.com/prod'"
-          replace: "const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'"
-          include: "src/lib/tabs/tabShowcase/RelicScorerTab.jsx"
       - name: Find and Replace Beta header
         uses: jacobtomlinson/gha-find-replace@v3
         with:

@@ -419,7 +419,7 @@ a {
 }
 
 .ag-root-wrapper {
-    border-radius: 8px !important;
+    border-radius: 5px !important;
 }
 
 #optimizerGridContainer .ag-cell-value {
@@ -671,10 +671,42 @@ a {
 }
 
 .warp-table-row-disabled {
-    color: rgba(255, 255, 255, 0.15) !important;
+    color: rgba(255, 255, 255, 0.10) !important;
 }
 
 .warp-table-row .ant-tag {
     font-size: 14px !important;
     letter-spacing: 1px !important;
+}
+
+.ant-radio-group {
+    user-select: none !important;
+}
+
+.large-grid-column-header .ag-header-cell-text {
+    font-size: 14px !important;
+}
+
+.visx-legend {
+    justify-content: space-around;
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px
+}
+
+.pre-font {
+    font-family: "Consolas", "Courier New", "Menlo", "Monaco", monospace !important;
+}
+
+.stat-upgrade-table .ant-table-row:last-child .ant-table-cell {
+    border-bottom: none !important;
+}
+
+.text-font {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+}
+
+.tree-select-divider {
+    height: 8px !important;
 }

@@ -1,7 +1,8 @@
 import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -11,6 +12,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('8004')
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
 
@@ -18,7 +32,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const basicDefScaling = (e >= 1) ? 0.25 : 0
   const basicEnhancedAtkScaling = basic(e, 1.35, 1.463)
   const basicEnhancedDefScaling = (e >= 1) ? 0.50 : 0
-  const skillScaling = skill(e, 0, 0)
   const ultAtkScaling = ult(e, 1.00, 1.10)
   const ultDefScaling = ult(e, 1.50, 1.65)
 
@@ -79,21 +92,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.DEF_P.buff((e >= 6) ? r.e6DefStacks * 0.10 : 0, Source.NONE)
-      x.ATK_P.buff((r.shieldActive) ? 0.15 : 0, Source.NONE)
-
-      // Scaling
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
+      x.DEF_P.buff((e >= 6) ? r.e6DefStacks * 0.10 : 0, SOURCE_E6)
+      x.ATK_P.buff((r.shieldActive) ? 0.15 : 0, SOURCE_TRACE)
 
       // Boost
       // This EHP buff only applies to self
-      x.DMG_RED_MULTI.multiply((r.skillActive) ? (1 - skillDamageReductionValue) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiply((r.skillActive) ? (1 - skillDamageReductionValue) : 1, SOURCE_SKILL)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedBasic) ? 60 : 30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedBasic) ? 60 : 30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
 
-      x.SHIELD_SCALING.buff(talentShieldScaling, Source.NONE)
-      x.SHIELD_FLAT.buff(talentShieldFlat, Source.NONE)
+      x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
+      x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
 
       return x
     },
@@ -101,7 +111,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // This EHP buff applies to all
-      x.DMG_RED_MULTI.multiplyTeam((m.skillActive) ? (1 - 0.15) : 1, Source.NONE)
+      x.DMG_RED_MULTI.multiplyTeam((m.skillActive) ? (1 - 0.15) : 1, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -113,8 +123,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.BASIC_DMG.buff(basicAtkScaling * x.a[Key.ATK], Source.NONE)
         x.BASIC_DMG.buff(basicDefScaling * x.a[Key.DEF], Source.NONE)
       }
-
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
 
       x.ULT_DMG.buff(ultAtkScaling * x.a[Key.ATK], Source.NONE)
       x.ULT_DMG.buff(ultDefScaling * x.a[Key.DEF], Source.NONE)
@@ -132,8 +140,6 @@ if (${wgslTrue(r.enhancedBasic)}) {
   x.BASIC_DMG += ${basicAtkScaling} * x.ATK;
   x.BASIC_DMG += ${basicDefScaling} * x.DEF;
 }      
-
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 
 x.ULT_DMG += ${ultAtkScaling} * x.ATK;
 x.ULT_DMG += ${ultDefScaling} * x.DEF;

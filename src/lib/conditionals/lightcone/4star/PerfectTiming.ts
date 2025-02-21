@@ -1,7 +1,9 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -9,6 +11,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PerfectTiming')
+  const { SOURCE_LC } = Source.lightCone('21014')
 
   const sValues = [0.33, 0.36, 0.39, 0.42, 0.45]
   const sMaxValues = [0.15, 0.18, 0.21, 0.24, 0.27]
@@ -41,28 +44,26 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       {
         id: 'PerfectTimingConditional',
         type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.SINGLE,
+        activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.RES],
+        chainsTo: [Stats.OHB],
         condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.resToHealingBoost
         },
-        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-          const boost = Math.min(sMaxValues[s], sValues[s] * x.a[Key.RES])
-          x.OHB.buffDynamic(boost, Source.NONE, action, context)
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(Stats.RES, Stats.OHB, this, x, action, context,
+            (convertibleValue) => Math.min(sMaxValues[s], sValues[s] * convertibleValue),
+          )
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          return conditionalWgslWrapper(this, `
-if (
-  (*p_state).PerfectTimingConditional == 0.0
-) {
-  (*p_state).PerfectTimingConditional = 1.0;
-  
-  let boost = min(${sMaxValues[s]}, ${sValues[s]} * x.RES);
-  buffDynamicOHB(boost, p_x, p_m, p_state);
-}
-    `)
+          const r = action.lightConeConditionals as Conditionals<typeof content>
+
+          return gpuDynamicStatConversion(Stats.RES, Stats.OHB, this, action, context,
+            `min(${sMaxValues[s]}, ${sValues[s]} * convertibleValue)`,
+            `${wgslTrue(r.resToHealingBoost)}`,
+          )
         },
       },
     ],

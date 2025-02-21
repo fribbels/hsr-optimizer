@@ -2,11 +2,12 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
+import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
-import { Form } from 'types/form'
+import { Form, OptimizerForm } from 'types/form'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
 
 const SUNDAY_ID = '1313'
@@ -31,7 +32,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   const comboAbilities = getComboAbilities(request.comboAbilities)
   const actions: OptimizerAction[] = []
   for (let i = 0; i < comboAbilities.length; i++) {
-    actions.push(transformAction(i, comboState, comboAbilities, context))
+    actions.push(transformAction(i, comboState, comboAbilities, request, context))
   }
 
   context.actions = actions
@@ -39,7 +40,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.comboBreak = request.comboBreak || 0
 }
 
-function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], context: OptimizerContext) {
+function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], request: OptimizerForm, context: OptimizerContext) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},
@@ -66,7 +67,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
   action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
 
-  action.precomputedX = new ComputedStatsArrayCore(false) as ComputedStatsArray
+  action.precomputedX = new ComputedStatsArrayCore(request.trace) as ComputedStatsArray
   action.precomputedX.setPrecompute(baseComputedStatsArray())
   action.precomputedM = action.precomputedX.m
   action.precomputedM.setPrecompute(baseComputedStatsArray())
@@ -140,7 +141,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  x.ENEMY_WEAKNESS_BROKEN.set((x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0), Source.NONE)
+  x.ENEMY_WEAKNESS_BROKEN.config((x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0), Source.NONE)
 }
 
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {

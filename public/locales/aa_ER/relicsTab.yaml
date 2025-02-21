@@ -1,0 +1,128 @@
+RelicFilterBar:
+  Part: crwdns43456:0crwdne43456:0
+  Enhance: crwdns43458:0crwdne43458:0
+  Grade: crwdns43460:0crwdne43460:0
+  Verified: crwdns43462:0crwdne43462:0
+  Equipped: crwdns43464:0crwdne43464:0
+  Clear: crwdns43466:0crwdne43466:0
+  ClearButton: crwdns43468:0crwdne43468:0
+  Set: crwdns43470:0crwdne43470:0
+  Mainstat: crwdns43472:0crwdne43472:0
+  Substat: crwdns43474:0crwdne43474:0
+  ReapplyButton: crwdns43476:0crwdne43476:0
+  ScoringButton: crwdns43478:0crwdne43478:0
+  RecommendationHeader: crwdns43480:0crwdne43480:0
+  Rating: crwdns43482:0crwdne43482:0
+  CustomCharsHeader: crwdns43484:0crwdne43484:0
+Messages:
+  AddRelicSuccess: crwdns43486:0crwdne43486:0
+  NoRelicSelected: crwdns43488:0crwdne43488:0
+  DeleteRelicSuccess: crwdns43490:0crwdne43490:0
+RelicGrid:
+  To: crwdns43492:0crwdne43492:0
+  Of: crwdns43494:0crwdne43494:0
+  Headers:
+    EquippedBy: crwdns43496:0crwdne43496:0
+    Set: crwdns43498:0crwdne43498:0
+    Part: crwdns43502:0crwdne43502:0
+    MainStat: |-
+      crwdns43506:0crwdne43506:0
+    MainValue: |-
+      crwdns43508:0crwdne43508:0
+    HPP: crwdns43510:0crwdne43510:0
+    ATKP: crwdns43512:0crwdne43512:0
+    DEFP: crwdns43514:0crwdne43514:0
+    HP: crwdns43516:0crwdne43516:0
+    ATK: crwdns43518:0crwdne43518:0
+    DEF: crwdns43520:0crwdne43520:0
+    SPD: crwdns43522:0crwdne43522:0
+    CR: |-
+      crwdns43524:0crwdne43524:0
+    CD: |-
+      crwdns43526:0crwdne43526:0
+    EHR: |-
+      crwdns43528:0crwdne43528:0
+    RES: |-
+      crwdns43530:0crwdne43530:0
+    BE: |-
+      crwdns43532:0crwdne43532:0
+    CV: |-
+      crwdns43534:0crwdne43534:0
+  ValueColumns:
+    SelectedCharacter:
+      Label: crwdns43536:0crwdne43536:0
+      ScoreCol:
+        Label: "crwdns43538:0crwdne43538:0"
+        Header: |-
+          crwdns43540:0crwdne43540:0
+      AvgPotCol:
+        Label: "crwdns43542:0crwdne43542:0"
+        Header: |-
+          crwdns43544:0crwdne43544:0
+      MaxPotCol:
+        Label: "crwdns43546:0crwdne43546:0"
+        Header: |-
+          crwdns43548:0crwdne43548:0
+      RerollAvg:
+        Label: "crwdns43674:0crwdne43674:0"
+        Header: |-
+          crwdns43676:0crwdne43676:0
+      RerollAvgDelta:
+        Label: "crwdns43678:0crwdne43678:0"
+        Header: |-
+          crwdns43680:0crwdne43680:0
+    CustomCharacters:
+      Label: crwdns43550:0crwdne43550:0
+      AvgPotCol:
+        Label: "crwdns43552:0crwdne43552:0"
+        Header: |-
+          crwdns43554:0crwdne43554:0
+      MaxPotCol:
+        Label: "crwdns43556:0crwdne43556:0"
+        Header: |-
+          crwdns43558:0crwdne43558:0
+      RerollAvg:
+        Label: "crwdns43682:0crwdne43682:0"
+        Header: |-
+          crwdns43684:0crwdne43684:0
+    AllCharacters:
+      Label: crwdns43560:0crwdne43560:0
+      AvgPotCol:
+        Label: "crwdns43562:0crwdne43562:0"
+        Header: |-
+          crwdns43564:0crwdne43564:0
+      MaxPotCol:
+        Label: "crwdns43566:0crwdne43566:0"
+        Header: |-
+          crwdns43568:0crwdne43568:0
+      RerollAvg:
+        Label: "crwdns43686:0crwdne43686:0"
+        Header: |-
+          crwdns43688:0crwdne43688:0
+    ComingSoon:
+      Label: crwdns43570:0crwdne43570:0
+      SetsPotential:
+        Label: crwdns43572:0crwdne43572:0
+        Header: |-
+          crwdns43574:0crwdne43574:0
+Toolbar:
+  RelicLocator:
+    Width: crwdns43576:0crwdne43576:0
+    Filter: crwdns43578:0crwdne43578:0
+    NoneSelected: crwdns43580:0crwdne43580:0
+    Location: "crwdns43582:0{{rowIndex}}crwdnd43582:0{{columnIndex}}crwdne43582:0"
+  InsightOptions:
+    Buckets: "crwdns43584:0crwdne43584:0"
+    Top10: "crwdns43586:0crwdne43586:0"
+  PlotOptions:
+    PlotAll: crwdns43588:0crwdne43588:0
+    PlotCustom: crwdns43590:0crwdne43590:0
+  EditRelic: crwdns43592:0crwdne43592:0
+  DeleteRelic:
+    ButtonText: crwdns43594:0crwdne43594:0
+    Warning_one: crwdns43596:0crwdne43596:0
+    Warning_other: "crwdns43598:0{{count}}crwdne43598:0"
+  AddRelic: crwdns43600:0crwdne43600:0
+RelicInsights:
+  NewStats: "crwdns43602:0crwdne43602:0"
+  UpgradedStats: "crwdns43604:0crwdne43604:0"

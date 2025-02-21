@@ -12,7 +12,10 @@ import {
   optimizerGridDefaultColDef,
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
+import { localeNumber } from 'lib/utils/i18nUtils'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -25,6 +28,12 @@ const defaultHiddenColumns = [
   SortOption.MEMO_SKILL,
 ]
 
+export const GRID_DIMENSIONS = {
+  WIDTH: 1227,
+  HEIGHT: 600,
+  MIN_HEIGHT: 300,
+}
+
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
 
@@ -33,6 +42,7 @@ export function OptimizerGrid() {
   const optimizerGrid = useRef()
   const [gridDestroyed, setGridDestroyed] = useState(false)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const initialLanguage = useRef(i18n.resolvedLanguage)
 
   window.optimizerGrid = optimizerGrid
 
@@ -42,10 +52,13 @@ export function OptimizerGrid() {
 
   const statDisplay = window.store((s) => s.statDisplay)
   const memoDisplay = window.store((s) => s.memoDisplay)
+  const hasMemo = isRemembrance(optimizerTabFocusCharacter)
+  const showMemo = hasMemo && memoDisplay === 'memo'
+
   const columnDefs = useMemo(() => {
     let columnDefinitions = statDisplay === 'combat'
-      ? (memoDisplay === 'memo' ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
-      : (memoDisplay === 'memo' ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
+      ? (showMemo ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
+      : (showMemo ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
 
     if (optimizerTabFocusCharacter) {
       const scoringMetadata = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata
@@ -54,8 +67,8 @@ export function OptimizerGrid() {
 
       const hiddenFields = Array.from(hiddenColumns)
         .filter((column) => !addedColumns.has(column)).map((column) => statDisplay === 'combat'
-          ? (memoDisplay === 'memo' ? column.memoCombatGridColumn : column.combatGridColumn)
-          : (memoDisplay === 'memo' ? column.memoBasicGridColumn : column.basicGridColumn),
+          ? (showMemo ? column.memoCombatGridColumn : column.combatGridColumn)
+          : (showMemo ? column.memoBasicGridColumn : column.basicGridColumn),
         )
 
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
@@ -71,9 +84,13 @@ export function OptimizerGrid() {
   }, [])
 
   useEffect(() => {
-    setGridDestroyed(true) // locale updates require the grid to be destroyed and reconstructed in order to take effect
-    setTimeout(() => setGridDestroyed(false), 50) // 0 delay doesn't seem to work, can be manually decreased until minimum found
-  }, [i18n.resolvedLanguage]) // is minimum delay consistent across users?
+    // locale updates require the grid to be destroyed and reconstructed in order to take effect
+    if (i18n.resolvedLanguage !== initialLanguage.current) {
+      setGridDestroyed(true)
+      initialLanguage.current = i18n.resolvedLanguage
+      setTimeout(() => setGridDestroyed(false), 100)
+    }
+  }, [i18n.resolvedLanguage])
 
   const getLocaleText = useCallback((param) => {
     const localeLookup = {
@@ -88,17 +105,19 @@ export function OptimizerGrid() {
   // TODO: I think these things need memos: https://www.ag-grid.com/react-data-grid/react-hooks/
   return (
     <Flex>
+      {gridDestroyed && <div style={{ width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT }}/>}
       {!gridDestroyed && (
         <div
           id='optimizerGridContainer'
           className='ag-theme-balham-dark'
           style={{
             ...{
-              width: 1225,
-              minHeight: 300,
-              height: 600,
+              width: GRID_DIMENSIONS.WIDTH,
+              minHeight: GRID_DIMENSIONS.MIN_HEIGHT,
+              height: GRID_DIMENSIONS.HEIGHT,
               resize: 'vertical',
               overflow: 'hidden',
+              boxShadow: cardShadowNonInset,
             },
             ...getGridTheme(token),
           }}
@@ -111,7 +130,7 @@ export function OptimizerGrid() {
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
             ref={optimizerGrid}
-            paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage.split('_')[0])}
+            paginationNumberFormatter={(param) => localeNumber(param.value)}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
             rowSelection='single'

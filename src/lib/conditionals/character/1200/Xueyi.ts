@@ -1,11 +1,10 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -16,6 +15,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Xueyi')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1214')
 
   const ultBoostMax = ult(e, 0.60, 0.648)
   const basicScaling = basic(e, 1.00, 1.10)
@@ -84,65 +96,42 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.BE.buff((e >= 4 && r.e4BeBuff) ? 0.40 : 0, Source.NONE)
+      x.BE.buff((e >= 4 && r.e4BeBuff) ? 0.40 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
-      x.FUA_SCALING.buff(fuaScaling * (r.fuaHits), Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_SCALING.buff(fuaScaling * (r.fuaHits), SOURCE_TALENT)
 
       // Boost
-      buffAbilityDmg(x, ULT_DMG_TYPE, r.toughnessReductionDmgBoost, Source.NONE)
-      buffAbilityDmg(x, ULT_DMG_TYPE, (r.enemyToughness50) ? 0.10 : 0, Source.NONE)
-      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1) ? 0.40 : 0, Source.NONE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, r.toughnessReductionDmgBoost, SOURCE_ULT)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (r.enemyToughness50) ? 0.10 : 0, SOURCE_TRACE)
+      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1) ? 0.40 : 0, SOURCE_E1)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(120, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(15 * (r.fuaHits), Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(120, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(15 * (r.fuaHits), SOURCE_TALENT)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits])
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.ELEMENTAL_DMG.buff((r.beToDmgBoost) ? Math.min(2.40, x.a[Key.BE]) : 0, SOURCE_TRACE)
+      standardFuaAtkFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits as number])
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits])
-    },
-    dynamicConditionals: [
-      {
-        id: 'XueyiConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.BE],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-          return r.beToDmgBoost
-        },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.min(2.40, x.a[Key.BE])
-
-          action.conditionalState[this.id] = buffValue
-          x.ELEMENTAL_DMG.buff(buffValue - stateValue, Source.NONE)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.beToDmgBoost)}) {
-  return;
+      return `
+if (${wgslTrue(r.beToDmgBoost)}) {
+  x.ELEMENTAL_DMG += min(2.40, x.BE);
 }
-let be = (*p_x).BE;
-let stateValue: f32 = (*p_state).XueyiConversionConditional;
-let buffValue: f32 = min(2.40, be);
 
-(*p_state).XueyiConversionConditional = buffValue;
-(*p_x).ELEMENTAL_DMG += buffValue - stateValue;
-    `)
-        },
-      },
-    ],
+${gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits as number])}
+`
+    },
   }
 }

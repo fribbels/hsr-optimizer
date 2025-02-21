@@ -364,11 +364,11 @@ RelicSets:
     Name: "기묘한\_나나\_낙원"
     Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가한다.\_장착한\_캐릭터가\_소환한\_목표가\_있을\_시,\_치명타\_피해가\_추가로\_32%\_증가한다"
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Name: 고요한 습골지
+    Description2pc: 장착한 캐릭터의 HP 최대치가 12% 증가한다. 장착한 캐릭터의 HP 최대치가 5000pt 이상일 경우, 장착한 캐릭터와 해당 캐릭터의 기억 정령의 치명타 피해가 28% 증가한다
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
+    Name: 사색하는 거목
+    Description2pc: 장착한 캐릭터의 속도가 6% 증가한다. 장착한 캐릭터의 속도가 135/180 이상일 경우, 장착한 캐릭터와 해당 캐릭터의 기억 정령의 치유량이 12%/20% 증가한다
 Lightcones:
   "20000":
     Name: 화살촉

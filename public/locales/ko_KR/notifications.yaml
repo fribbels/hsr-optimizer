@@ -1,0 +1,18 @@
+GPU:
+  Message: 해당 브라우저에서 WebGPU를 지원하지 않습니다.
+  Description:
+    l1: "GPU 가속을 켜려면 다음의 지원 환경 중 하나를 사용해 주세요:"
+    l2: "Windows & Mac — Chrome, Opera, Edge"
+    l3: >-
+      Linux — <CustomLink text="Behind a flag"/>
+    l4: "지원 브라우저 중 하나를 사용 중이고 작동하지 않는다면, 다른 브라우저를 시도하거나, 내장 그래픽 카드 대신 외장 그래픽 카드로 브라우저를 사용하세요. "
+GPUCrash:
+  Message: WebGPU 에러
+  Description:
+    l1: GPU 가속 프로세스가 충돌했습니다. 결과가 이상할 수 있습니다. 다시 시도하거나 Discord 서버에서 버그를 제보해주세요.
+    l2: 문제 해결 절차를 확인하시려면, <CustomLink text="documentation page."/>를 클릭해주세요
+Changelog:
+  View: 변경 사항 보기
+  Dismiss: 닫기
+  Message: 신규 업데이트!
+  Description: 변경 내역을 통하여 Optimizer의 업데이트를 확인하세요

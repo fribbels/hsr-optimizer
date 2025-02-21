@@ -99,6 +99,14 @@ Lightcones:
       spdBuff:
         text: 3体攻撃時の速度バフ
         content: 攻撃が3体以上の敵に命中した場合、自身の速度+{{SpdBuff}}%、1ターン継続。
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: スキル/必殺技ダメ増加
+        content: 戦闘スキル、または必殺技を発動した時、その回の攻撃の与ダメージ+30%。
+      bonusBoost:
+        text: さらなるダメージバフ
+        content: 戦闘スキル、または必殺技を発動した時、その回の攻撃の与ダメージ+{{HpConsumption}}%。この効果で消費したHPが500を超えると、さらに与ダメージ+{{BonusDmgBoost}}%。
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -109,6 +117,11 @@ Lightcones:
         text: '「朗唱」層数'
         content: >-
           味方が攻撃を行うたび、装備キャラは「朗唱」を1層獲得する。「朗唱」1層につき、装備キャラのEP回復効率+{{RegenBuff}}%、最大で5層累積できる。装備キャラが必殺技を発動する時、「朗唱」を解除し「華彩」を獲得する。「華彩」がある時、装備キャラの攻撃力+{{AtkBuff}}%、味方全体の与ダメージ+{{DmgBuff}}%、1ターン継続。
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: '「啓示」有効'
+        content: 装備キャラが追加攻撃を行った後、さらにEPを12回復し、「啓示」を獲得する、2ターン継続。装備キャラが「啓示」を所持している場合、味方全体の会心ダメージ+{{CdBuff}}%。戦闘に入る時、装備キャラのEPが21回復し、「啓示」を獲得する、2ターン継続。
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -166,6 +179,11 @@ Lightcones:
         text: '「着火」層数'
         content: >-
           敵が弱点撃破される時、100%の基礎確率で「着火」状態を付与し、敵が受ける弱点撃破ダメージ+{{breakVulnerability}}%。2ターン継続、最大2層累積できる。
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: 味方与ダメージ増加
+        content: 装備キャラの速度+6%。装備キャラが戦闘スキルを発動した後、味方全体の与ダメージ+{{DmgBoost}}%。この効果は3ターン継続。
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -865,6 +883,9 @@ Characters:
       enemySlowed:
         text: 敵減速状態
         content: 減速状態の敵に対する、通常攻撃によるダメージ+40%。
+      spdBuff:
+        text: 速度バフ
+        content: 攻撃を行った後、50%の固定確率で自身の速度+20%、2ターン継続。
       e1EnemyHp50:
         text: 1凸 敵HP≥50%での会心率バフ
         content: 攻撃が命中した敵の残りHPが50%以上の場合、会心率+12%。
@@ -1318,6 +1339,28 @@ Characters:
       e6MultiplierIncrease:
         text: 6凸 追加攻撃ダメ増加
         content: 天賦による追加攻撃のダメージ倍率+25%。
+  Mydei:
+    Content:
+      skillEnhances:
+        text: スキル強化
+        content: >-
+          モーディスのスキルの強化レベルを選択します。::BR:: 万死に悔いなし（強化レベル0）：モーディスの現在の残りHP50%分のHPを消費し、指定した敵単体にモーディスの最大HP{{SkillPrimaryScaling}}%分の虚数属性ダメージを与え、隣接する敵にモーディスの最大HP{{SkillAdjacentScaling}}%分の虚数属性ダメージを与える。::BR:: 王を殺め王となる（強化レベル1）： モーディスの現在の残りHP35%分のHPを消費する。敵単体にモーディスの最大HP{{EnhancedSkillPrimaryScaling}}%分の虚数属性ダメージを与え、隣接する敵にモーディスの最大HP{{EnhancedSkillAdjacentScaling}}%分の虚数属性ダメージを与える。::BR:: 神を殺め神となる （強化レベル2）： チャージを150消費して、敵単体にモーディスの最大HP{{EnhancedSkill2PrimaryScaling}}%分の虚数属性ダメージを与え、隣接する敵にモーディスの最大HP{{EnhancedSkill2AdjacentScaling}}%分の虚数属性ダメージを与える。
+      vendettaState:
+        text: '「血の報復」状態'
+        content: >-
+          HPを1%失うごとにチャージを1貯める、最大200までチャージ可能。チャージが100になると、チャージを100消費して「血の報復」状態に入り、モーディスの最大HP{{HpRestoration}}%分のHPを回復し、行動順を100%早める。::BR::「血の報復」状態では最大HPが現在の最大HPの50%分アップする。防御力は0に固定される。チャージが150に達した時、モーディスは追加ターンを1つ獲得し、「神を殺め神となる」を発動する。
+      hpToCrConversion:
+        text: HPと会心率の変換
+        content: 戦闘開始時、モーディスの最大HPが4000を超えた場合、超過したHP100につき、自身の会心率+1.2% 。モーディスが敵からの攻撃でダメージを受けた際に得られるチャージ割合+2.5% 、治癒を受けた時の回復量+0.75% 。超過したHPは最大で4000までカウントされる。
+      e1EnhancedSkillBuff:
+        text: 1凸 強化スキル強化
+        content: '「神を殺め神となる」のメインターゲットに対するダメージ倍率+30% 、敵全体にメインターゲットに対するダメージ倍率分の虚数属性ダメージを与える。'
+      e2DefPen:
+        text: 2凸 敵防御力無視
+        content: '「血の報復」状態の間、モーディスが与えるダメージは敵の防御力を15%無視する。治癒を受けた時に治癒量の 40% 分がチャージに変換され、累計で40まで変換できる。任意のユニットが行動した後、累積可能なチャージはリセットされる。'
+      e4CdBuff:
+        text: 4凸 会心ダメバフ
+        content: '「血の報復」状態の間、会心ダメージ+30% 。敵から攻撃を受けた後、自身の最大HP10%分のHPを回復する。'
   Pela:
     Content:
       teamEhrBuff:
@@ -1699,6 +1742,32 @@ Characters:
           ミュリオンの会心ダメージ
         content: >-
           味方全体の会心ダメージを、「ミュリオン」の会心ダメージ{{ScalingBuff}}%分+{{FlatBuff}}%アップする。
+  Tribbie:
+    Content:
+      numinosity:
+        text: '「天啓」有効'
+        content: スキル使用後、「天啓」を獲得し、3ターン継続する。自身のターンが回ってくるたびに、「天啓」の継続時間-1ターン。トリビーに「天啓」がある時、味方全体の全属性耐性貫通+{{ResPen}}%。
+      ultZone:
+        text: 必殺技の結界有効
+        content: "\n結界を展開し、敵全体にトリビーの最大HP{{UltScaling}}%分の量子属性ダメージを与える。結界の継続期間中、敵の受けるダメージ+{{ZoneVulnerability}}%。味方の攻撃を受けた後、攻撃を受けた敵1体につき、攻撃を受けた敵の中で残りHPが最も高い敵に、トリビーの最大HP{{AdditionalDmgScaling}}%分の量子属性付加ダメージを1回与える。結界は2ターン継続する。自身のターンが回ってくるたびに結界の継続時間-1ターン。"
+      alliesMaxHp:
+        text: 味方の最大HP
+        content: 結界が継続している間、トリビーの最大HPを味方全体の最大HP合計値9%分アップする。
+      talentFuaStacks:
+        text: 追加攻撃数
+        content: 天賦の追加攻撃を行った後、トリビーの与ダメージ+72%。この効果は最大で3層累積できる、3ターン継続する。
+      e1TrueDmg:
+        text: 1凸 確定ダメージ
+        content: 結界が継続している間、味方が敵を攻撃した後、結界に付加ダメージを与えた敵に、その回の攻撃の総ダメージ24%分の確定ダメージを追加で与える。
+      e2AdditionalDmg:
+        text: 2凸 付加ダメージ
+        content: 結界による付加ダメージが本来のダメージの120%にアップする。結界が付加ダメージを与えた時、さらに1回付加ダメージを与える。
+      e4DefPen:
+        text: 4凸 敵防御力無視
+        content: '「神の啓示」が継続している間、味方全体がダメージを与える時、敵の防御力を18%無視する。'
+      e6FuaScaling:
+        text: 6凸 追加攻撃ダメージ
+        content: トリビーが必殺技を発動した後、敵全体に天賦による追加攻撃を行う。天賦による追加攻撃が与えるダメージが729%アップ。
   Welt:
     Content:
       enemyDmgTakenDebuff:

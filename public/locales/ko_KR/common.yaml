@@ -20,7 +20,7 @@ Save: 저장
 Score: 점수
 Reset: 초기화
 EidolonNShort: "{{eidolon}}돌"
-SuperimpositionNShort: "{{superimposition}}중첩"
+SuperimpositionNShort: "{{superimposition}}재"
 LevelShort: "{{level}}레벨"
 CharacterWithCount_one: "{{count}} 명"
 CharacterWithCount_other: "{{count}} 명"
@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+DamagePercent: 데미지 %
 ReadableStats:
   "HP%": 체력 %
   HP: 체력
@@ -143,8 +144,8 @@ ShortReadableStats:
   DEF: 방어력
   "SPD%": 속도 %
   SPD: 속도
-  CRIT Rate: 치명타 확률
-  CRIT DMG: 치명타 피해
+  CRIT Rate: 치확
+  CRIT DMG: 치피
   Effect Hit Rate: 효명
   Effect RES: 효저
   Break Effect: 격파
@@ -163,6 +164,7 @@ DMGTypes:
   SKILL: 전투 스킬 피해량
   ULT: 필살기 피해량
   FUA: 추가 공격 피해량
+  MEMO_SKILL: 기억정령 스킬 피해량
   DOT: 지속 피해량
   BREAK: 격파 피해량
   CV: 치명타 계수
@@ -171,6 +173,7 @@ ShortDMGTypes:
   Skill: 전투 스킬 피해량
   Ult: 필살기 피해량
   Fua: 추가 공격 피해량
+  Memo_Skill: 전투 스킬 피해량
   Dot: 지속 피해량
   Break: 격파 피해량
   CV: 치명타 계수

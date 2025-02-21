@@ -304,11 +304,11 @@ RelicSets:
   "123":
     Name: Héros de la chanson triomphale
     Description2pc: Augmente l'ATQ de 12%.
-    Description4pc: Augmente la VIT du porteur de 6% tant que son mnémesprit est sur le champ de bataille. Lorsque le mnémesprit attaque, ses DGT critiques ainsi que ceux du porteur augmentent de 30% pendant 2 tours.
+    Description4pc: Augmente la VIT du porteur de 6% tant que son mnémesprit est sur le champ de bataille. Lorsque le mnémesprit du porteur attaque, ses DGT critiques ainsi que ceux du porteur augmentent de 30% pendant 2 tours.
   "124":
     Name: Poétesse du déclin funèbre
     Description2pc: Augmente les DGT quantiques infligés de 10%.
-    Description4pc: Réduit la VIT du porteur de 8%. Si sa VIT est inférieure à 110/95 en entrant en combat, ses chances de coup critique augmentent de 20%/32%. Cet effet s'applique également au mnémesprit du porteur.
+    Description4pc: Réduit la VIT du porteur de 8%. Si sa VIT est inférieure à 110/95 en entrant en combat, ses chances de coup critique augmentent de 20%/32%. Cet effet s'applique également au mnémesprit du porteur au même moment.
   "301":
     Name: Station de scellement spatial
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, son ATQ augmente encore de 12%.
@@ -365,10 +365,10 @@ RelicSets:
     Description2pc: Augmente les DGT critiques du porteur de 16%. Lorsqu'une cible invoquée par le porteur est sur le champ de bataille, augmente les DGT critiques de 32% supplémentaires.
   "319":
     Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: The wearer's SPD increases by 6%. When the wearer's SPD is 135/180 or more, the wearer and their memosprite's Outgoing Healing is increased by 12%/20%.
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
 Lightcones:
   "20000":
     Name: Flèches

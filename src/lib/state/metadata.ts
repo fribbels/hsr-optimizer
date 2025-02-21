@@ -3365,6 +3365,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
           Sets.RutilantArena,
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
@@ -6486,7 +6487,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
@@ -6529,7 +6532,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
@@ -6681,7 +6686,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
@@ -6787,7 +6794,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.FUA,
       hiddenColumns: [],
       simulation: {
@@ -6816,7 +6825,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP,
           Stats.ATK_P,
         ],
-        comboAbilities: [NULL, ULT, FUA, FUA, BASIC, FUA, FUA],
+        comboAbilities: [NULL, ULT, FUA, BASIC, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -6897,7 +6906,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WASTELANDER_SET,
+      ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [],
       simulation: {

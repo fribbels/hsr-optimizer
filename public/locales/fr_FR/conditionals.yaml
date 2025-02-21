@@ -99,6 +99,12 @@ Lightcones:
       spdBuff:
         text: Bonus de VIT 3 cibles attaquées
         content: La VIT du personnage augmente de {{SpdBuff}}% s'il y a au moins 3 cibles ennemies touchées. Dure 1 tour.
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: Bonus de DGT Compétence / Ult
+      bonusBoost:
+        text: Bonus supplémentaire de dégâts
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -166,6 +172,10 @@ Lightcones:
         text: Cumuls de vulnérabilité de rupture
         content: >-
           Lorsqu'une cible ennemie subit une Rupture de faiblesse, il y a 100% de chances de base de lui infliger l'état Incinération, ce qui augmente les DGT de rupture qu'elle subit de {{breakVulnerability}}%. Dure 2 tours. Cet effet peut être cumulé jusqu'à 2 fois.
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: Bonus d'équipe de DGT
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -864,6 +874,9 @@ Characters:
       enemySlowed:
         text: Ennemi ralenti
         content: L'ATQ normale inflige 40% de DGT supplémentaires aux ennemis ralentis.
+      spdBuff:
+        text: Bonus de VIT
+        content: Dan Heng a 50% de chances fixes d'augmenter sa propre VIT de 20% pendant 2 tours après avoir lancé une attaque.
       e1EnemyHp50:
         text: 'E1: Bonus de TC ennemi PV ≥ 50%'
         content: Lorsque le pourcentage de PV actuel de la cible ennemie est supérieur ou égal à 50%, les chances de coup critique augmentent de 12%.
@@ -1315,6 +1328,18 @@ Characters:
       e6MultiplierIncrease:
         text: 'E6: Bonus de multiplicateur d''ADS'
         content: Le multiplicateur de DGT de l'attaque de suivi du talent augmente de 25%.
+  Mydei:
+    Content:
+      skillEnhances:
+        text: 'Améliorations de Compétence:'
+      hpToCrConversion:
+        text: Conversion PV à TC
+      e1EnhancedSkillBuff:
+        text: 'E1: Amélioration de Compétence améliorée'
+      e2DefPen:
+        text: 'E2: PÉN de DÉF'
+      e4CdBuff:
+        text: 'E4: Bonus de DC'
   Pela:
     Content:
       teamEhrBuff:
@@ -1696,6 +1721,22 @@ Characters:
           DC en combat de Mem
         content: >-
           Les DGT critiques de tous les alliés augmentent d'un montant équivalent à {{ScalingBuff}}% des DGT critiques de Mem + {{FlatBuff}}%.
+  Tribbie:
+    Content:
+      ultZone:
+        text: Zone d'ULT active
+      alliesMaxHp:
+        text: PV max des alliés
+      talentFuaStacks:
+        text: Cumuls d'ADS
+      e1TrueDmg:
+        text: 'E1: Dégâts réels'
+      e2AdditionalDmg:
+        text: 'E2: Dégâts additionnels'
+      e4DefPen:
+        text: 'E4: PÉN de DÉF'
+      e6FuaScaling:
+        text: 'E6: Dégâts d''ADS'
   Welt:
     Content:
       enemyDmgTakenDebuff:

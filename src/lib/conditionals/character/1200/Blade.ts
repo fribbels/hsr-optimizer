@@ -1,8 +1,9 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1205')
 
   const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
   const hpPercentLostTotalMax = 0.90
@@ -72,19 +86,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, Source.NONE)
-      x.HP_P.buff((e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, Source.NONE)
+      x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E2)
+      x.HP_P.buff((e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
 
       // Boost
-      x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, Source.NONE)
-      buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.NONE)
+      x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, SOURCE_SKILL)
+      buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 60 : 30, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.FUA_TOUGHNESS_DMG.buff(30, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 60 : 30, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
 
       return x
     },

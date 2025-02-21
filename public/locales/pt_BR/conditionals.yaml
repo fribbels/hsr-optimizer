@@ -103,6 +103,10 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Aumento de DMG Perícia / Ult
+        content: Ao usar Perícia ou Ultimate, aumenta o DMG causado por este ataque em {{DmgBoost}}%.
+      bonusBoost:
+        text: Bônus de aumento de DMG
+        content: Ao usar Perícia ou Ultimate, consuma HP igual a {{HpConsumption}}% da vida máxima do usuário. Se o HP consumido for maior que 500, este ataque aumenta em {{BonusDmgBoost}}%.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -113,6 +117,11 @@ Lightcones:
         text: Acúmulos de Cantilação
         content: >-
           Toda vez que um aliado ataca, o portador ganha 1 acúmulo de Cantillação. Cada acúmulo de Cantillação aumenta a Taxa de Regeneração de Energia do portador em {{RegenBuff}}%, acumulando até 5 vezes. Quando o portador usa sua Ultimate, remove Cantillação e ganha Cadenza. Cadenza aumenta o ATK do portador em {{AtkBuff}}% e aumenta o DANO causado por todos os aliados em {{DmgBuff}}%, durando por 1 turno.
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: Presságio ativa
+        content: Depois que o usuário lançar um Ataque Extra, também regenera 12 Energia e ganha "Presságio" que dura 2 rodadas. Enquanto o usuário tiver "Presságio", todos os aliados alvo ganham {{CdBuff}}% de CRIT DMG. Ao entrar em batalha, o usuário regenera 21 Energia e ganha "Presságio", durando 2 turnos.
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -170,6 +179,11 @@ Lightcones:
         text: Vulnerabilidade de quebra acumula
         content: >-
           Quando a Fraqueza de um alvo inimigo é quebrada, há uma chance básica de 100% de infligir o estado “Charring” nele, o que aumenta o Dano de Quebra recebido em {{breakVulnerability}}%, com duração de 2 turnos. Esse efeito pode se acumular 2 vezes.
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: Aumento de Dano da Equipe
+        content: Depois que o usuário usar Perícia, aumenta o dano causado por todos os aliados em {{DmgBoost}}%, durando 3 rodadas.
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -1334,6 +1348,10 @@ Characters:
       e6MultiplierIncrease:
         text: Buff do multiplicador FUA E6
         content: Aumenta o multiplicador de DMG do ataque de acompanhamento do Talento em 25%.
+  Mydei:
+    Content:
+      skillEnhances:
+        text: Melhorias de perícia
   Pela:
     Content:
       teamEhrBuff:

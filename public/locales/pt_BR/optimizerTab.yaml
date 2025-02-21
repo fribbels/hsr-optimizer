@@ -512,3 +512,22 @@ StatSimulation:
     RopePlaceholder: Corda
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Basic
+      Skill: Skill
+      Ult: Ult
+  DamageSplits:
+    Legend:
+      breakDmg: Quebra
+    YAxisLabel:
+      BASIC_DMG: Basic
+      SKILL_DMG: Skill
+      ULT_DMG: Ult
+      FUA_DMG: FuA
+      BREAK_DMG: Quebra
+      MEMO_SKILL_DMG: Períciaᴹ
+    TooltipText:
+      breakDmg: Dano Break
+      dotDmg: Dano DoT

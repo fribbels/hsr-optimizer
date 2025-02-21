@@ -134,7 +134,7 @@ export const OptimizerTabController = {
       return
     }
 
-    const currentPinned = window.optimizerGrid.current?.api.getGridOption('pinnedTopRowData') ?? []
+    const currentPinned = window.optimizerGrid?.current?.api?.getGridOption('pinnedTopRowData') ?? []
     currentPinned[0] = row
     window.optimizerGrid.current?.api.updateGridOptions({ pinnedTopRowData: currentPinned })
   },

@@ -10,9 +10,9 @@ export function injectPrecomputedStatsContext(x: ComputedStatsArray, gpuParams: 
     .map((key) => {
       const value = a[Key[key as KeysType]]
       const comment = gpuParams.DEBUG ? ` // Stats.${key}` : ''
-      return `${value},${comment}`
+      return `${value},`
     })
-    .join('\n') + '\nSets(),'
+    .join('') + '\nSets(),'
 
   return computedStatsWgsl
 }

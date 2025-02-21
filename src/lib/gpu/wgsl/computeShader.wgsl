@@ -319,9 +319,9 @@ fn main(
     var combo = 0.0;
 
     var mc = c;
-
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      let action = actions[actionIndex];
+      let index = select(actionIndex, 0, false);
+      let action = actions[index];
       var x = action.x;
       var m = action.m;
       let setConditionals = action.setConditionals;
@@ -336,17 +336,17 @@ fn main(
 
       // BASIC
 
-      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == true && c.CD >= 1.20) {
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
         x.CR += 0.60;
       }
 
       // SPD
 
-      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
         x.SPD_P += 0.12;
         m.SPD_P += 0.12;
       }
-      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == true) {
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
         x.SPD_P += 0.06;
         x.CD += 0.30;
         m.CD += 0.30;
@@ -357,7 +357,7 @@ fn main(
       if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
         x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
       }
-      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == true) {
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
         x.ATK_P += 0.20;
       }
       if (p4(sets.TheAshblazingGrandDuke) >= 1) {
@@ -370,7 +370,7 @@ fn main(
 
       // CD
 
-      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == true) {
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
         x.CD += 0.25;
       }
       if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
@@ -385,7 +385,7 @@ fn main(
       if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
         x.CD += 0.25;
       }
-      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == true) {
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
         x.CD += 0.32;
       }
       if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
@@ -403,7 +403,7 @@ fn main(
       if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
         x.CR += 0.04;
       }
-      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true) {
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
         x.CR += 0.12;
       }
       if (p4(sets.PoetOfMourningCollapse) >= 1) {
@@ -414,11 +414,11 @@ fn main(
 
       // BE
 
-      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true) {
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
         x.BE += 0.30;
         m.BE += 0.30;
       }
-      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == true) {
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
         x.BE += 0.40;
       }
 
@@ -450,7 +450,7 @@ fn main(
       if (p4(sets.ScholarLostInErudition) >= 1) {
         buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
 
-        if (setConditionals.enabledScholarLostInErudition == true) {
+        if (setConditionals.enabledScholarLostInErudition == 1) {
           buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
         }
       }
@@ -458,7 +458,7 @@ fn main(
       // Other boosts
 
       if (p4(sets.GeniusOfBrilliantStars) >= 1) {
-        if (setConditionals.enabledGeniusOfBrilliantStars == true) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
           x.DEF_PEN += 0.20;
         } else {
           x.DEF_PEN += 0.10;
@@ -473,7 +473,7 @@ fn main(
         x.ELEMENTAL_DMG += 0.12;
       }
 
-      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
         x.Fire_DMG += 0.12;
       }
 
@@ -584,7 +584,7 @@ fn main(
           combo += x.MEMO_SKILL_DMG;
         }
       } else {
-        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+        x.COMBO_DMG = combo + 0 * x.DOT_DMG + 0 * x.BREAK_DMG;
 
         // START COMBAT STAT FILTERS
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

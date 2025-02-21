@@ -70,7 +70,9 @@ export async function gpuOptimize(props: {
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
     if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
+      console.time('compile')
       await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
+      console.timeEnd('compile')
       const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
       gpuReadBuffer.unmap()
 

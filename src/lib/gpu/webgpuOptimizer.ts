@@ -15,7 +15,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-window.WEBGPU_DEBUG = false
+window.WEBGPU_DEBUG = true
 
 export async function gpuOptimize(props: {
   device: GPUDevice | null
@@ -70,7 +70,9 @@ export async function gpuOptimize(props: {
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
     if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
+      console.time('Compile ms')
       await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
+      console.timeEnd('Compile ms')
       const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
       gpuReadBuffer.unmap()
 

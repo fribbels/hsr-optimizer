@@ -1283,19 +1283,3 @@ fn calculateAshblazingSet(
 
   return 0;
 }
-
-fn getAction(actionIndex: i32, outAction: ptr<function, Action>) {
-    if (actionIndex == 1) {
-        (*outAction) = action1;
-    } else if (actionIndex == 2) {
-        (*outAction) = action2;
-    } else if (actionIndex == 3) {
-        (*outAction) = action3;
-    } else if (actionIndex == 4) {
-        (*outAction) = action4;
-    } else if (actionIndex == 5) {
-        (*outAction) = action5;
-    } else {
-        (*outAction) = action0;
-    }
-}

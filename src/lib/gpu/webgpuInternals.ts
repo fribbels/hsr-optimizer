@@ -1,11 +1,74 @@
+import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
+import { Key, KeysType } from 'lib/optimization/computedStatsArray'
+import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { StringToNumberMap } from 'types/common'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
+
+const actionTypeToWgslMapping: StringToNumberMap = {
+  BASIC: BASIC_ABILITY_TYPE,
+  SKILL: SKILL_ABILITY_TYPE,
+  ULT: ULT_ABILITY_TYPE,
+  FUA: FUA_ABILITY_TYPE,
+  MEMO_SKILL: MEMO_SKILL_ABILITY_TYPE,
+}
+
+function getActionTypeToWgslMapping(actionType: string) {
+  return actionTypeToWgslMapping[actionType] ?? 0
+}
+
+function boolToNum(b: boolean) {
+  return b ? 1 : 0
+}
+
+function generateActionsArray(context: OptimizerContext) {
+  let actionArray: number[] = []
+  for (const action of context.actions) {
+    actionArray = actionArray.concat([getActionTypeToWgslMapping(action.actionType)])
+    actionArray = actionArray.concat([
+      boolToNum(action.setConditionals.enabledHunterOfGlacialForest),
+      boolToNum(action.setConditionals.enabledFiresmithOfLavaForging),
+      boolToNum(action.setConditionals.enabledGeniusOfBrilliantStars),
+      boolToNum(action.setConditionals.enabledBandOfSizzlingThunder),
+      boolToNum(action.setConditionals.enabledMessengerTraversingHackerspace),
+      boolToNum(action.setConditionals.enabledCelestialDifferentiator),
+      boolToNum(action.setConditionals.enabledWatchmakerMasterOfDreamMachinations),
+      boolToNum(action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm),
+      boolToNum(action.setConditionals.enabledForgeOfTheKalpagniLantern),
+      boolToNum(action.setConditionals.enabledTheWindSoaringValorous),
+      boolToNum(action.setConditionals.enabledTheWondrousBananAmusementPark),
+      boolToNum(action.setConditionals.enabledScholarLostInErudition),
+      boolToNum(action.setConditionals.enabledHeroOfTriumphantSong),
+      action.setConditionals.valueChampionOfStreetwiseBoxing,
+      action.setConditionals.valueWastelanderOfBanditryDesert,
+      action.setConditionals.valueLongevousDisciple,
+      action.setConditionals.valueTheAshblazingGrandDuke,
+      action.setConditionals.valuePrisonerInDeepConfinement,
+      action.setConditionals.valuePioneerDiverOfDeadWaters,
+      action.setConditionals.valueSigoniaTheUnclaimedDesolation,
+      action.setConditionals.valueDuranDynastyOfRunningWolves,
+      action.setConditionals.valueSacerdosRelivedOrdeal,
+    ])
+    actionArray = actionArray.concat(Object.keys(baseComputedStatsObject)
+      .map((key) => {
+        return action.precomputedX.a[Key[key as KeysType]]
+      }))
+    actionArray = actionArray.concat(new Array(44).fill(0))
+    actionArray = actionArray.concat(Object.keys(baseComputedStatsObject)
+      .map((key) => {
+        return action.precomputedM.a[Key[key as KeysType]]
+      }))
+    actionArray = actionArray.concat(new Array(44).fill(0))
+    actionArray = actionArray.concat(new Array(10).fill(0))
+  }
+  return actionArray
+}
 
 export function initializeGpuPipeline(
   device: GPUDevice,
@@ -50,10 +113,15 @@ export function initializeGpuPipeline(
   // console.log('Results buffer length: ', BLOCK_SIZE * CYCLES_PER_INVOCATION)
 
   const mergedRelics = mergeRelicsIntoArray(relics)
+  const actionsArray = generateActionsArray(context)
 
   const relicsMatrixBuffer = createGpuBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
   const relicSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const ornamentSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
+  const actionsMatrixBuffer = createGpuBuffer(device, new Float32Array(actionsArray), GPUBufferUsage.STORAGE)
+
+  console.debug(actionsArray)
+  // TODO: actions buffer
 
   const bindGroup1 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(1),
@@ -61,6 +129,7 @@ export function initializeGpuPipeline(
       { binding: 0, resource: { buffer: relicsMatrixBuffer } },
       { binding: 1, resource: { buffer: ornamentSetSolutionsMatrixBuffer } },
       { binding: 2, resource: { buffer: relicSetSolutionsMatrixBuffer } },
+      { binding: 3, resource: { buffer: actionsMatrixBuffer } },
     ],
   })
 
@@ -225,6 +294,7 @@ function generateLayouts(device: GPUDevice) {
         { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
         { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
         { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+        { binding: 3, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
       ],
     }),
     device.createBindGroupLayout({

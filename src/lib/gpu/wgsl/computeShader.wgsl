@@ -6,9 +6,12 @@
 
 // START ACTIONS DEFINITION
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-/* INJECT ACTIONS DEFINITION */
+/* INJECT //// ACTIONS DEFINITION */
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END ACTIONS DEFINITION
+
+const comboDot = 0;
+const comboBreak = 0;
 
 const BASIC_DMG_TYPE = 1;
 const SKILL_DMG_TYPE = 2;
@@ -31,6 +34,7 @@ const MEMO_SKILL_ABILITY_TYPE = 16;
 @group(1) @binding(0) var<storage> relics : array<Relic>;
 @group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;
 @group(1) @binding(2) var<storage> relicSetSolutionsMatrix : array<i32>;
+@group(1) @binding(3) var<storage> actions : array<Action>;
 
 // START RESULTS BUFFER
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -321,8 +325,7 @@ fn main(
     var mc = c;
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      var action: Action;        // Declare mutable struct variable
-      getAction(actionIndex, &action); // Pass as a pointer
+      let action = actions[actionIndex];
       var x = action.x;
       var m = action.m;
       let setConditionals = action.setConditionals;
@@ -1270,15 +1273,6 @@ fn calculateAshblazingSet(
   p_state: ptr<function, ConditionalState>,
   hitMulti: f32,
 ) -> f32 {
-  var action: Action;        // Declare mutable struct variable
-  getAction((*p_state).actionIndex, &action); // Pass as a pointer
-
-  if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-    let ashblazingAtk = 0.06 * f32(action.setConditionals.valueTheAshblazingGrandDuke) * baseATK;
-    let ashblazingMulti = hitMulti * baseATK;
-
-    return ashblazingMulti - ashblazingAtk;
-  }
 
   return 0;
 }

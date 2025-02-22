@@ -330,8 +330,1491 @@ fn main(
     var combo = 0.0;
 
     var mc = c;
+    {
+      let actionIndex = 5;
+      let action = action5; // Default value
 
-    for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
+      var x = action.x;
+      var m = action.m;
+      let setConditionals = action.setConditionals;
+      var state = ConditionalState();
+      state.actionIndex = actionIndex;
+
+      let p_x = &x;
+      let p_m = &m;
+      let p_state = &state;
+
+      x.sets = sets;
+
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
+
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
+        x.SPD_P += 0.12;
+        m.SPD_P += 0.12;
+      }
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
+        x.SPD_P += 0.06;
+        x.CD += 0.30;
+        m.CD += 0.30;
+      }
+
+      // ATK
+
+      if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
+        x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
+      }
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
+        x.ATK_P += 0.20;
+      }
+      if (p4(sets.TheAshblazingGrandDuke) >= 1) {
+        x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+
+      // DEF
+
+      // HP
+
+      // CD
+
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
+        x.CD += 0.25;
+      }
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
+        x.CD += 0.10;
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
+        x.CD += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+      }
+      if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
+        x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+        x.CD += 0.25;
+      }
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
+        x.CD += 0.32;
+      }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
+      }
+
+      // CR
+
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert > 0) {
+        x.CR += 0.10;
+      }
+      if (p4(sets.LongevousDisciple) >= 1) {
+        x.CR += 0.08 * f32(setConditionals.valueLongevousDisciple);
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+        x.CR += 0.04;
+      }
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+        x.CR += 0.12;
+      }
+      if (p4(sets.PoetOfMourningCollapse) >= 1) {
+        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        x.CR += crValue;
+        m.CR += crValue;
+      }
+
+      // BE
+
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
+        x.BE += 0.30;
+        m.BE += 0.30;
+      }
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
+        x.BE += 0.40;
+      }
+
+      // Buffs
+
+      // Basic boost
+      if (p4(sets.MusketeerOfWildWheat) >= 1) {
+        buffAbilityDmg(&x, BASIC_DMG_TYPE, 0.10, 1);
+      }
+
+      // Skill boost
+      if (p4(sets.FiresmithOfLavaForging) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.12, 1);
+      }
+
+      // Fua boost
+      if (p2(sets.TheAshblazingGrandDuke) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.20, 1);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+      }
+
+      // Ult boost
+      if (p4(sets.TheWindSoaringValorous) >= 1) {
+        buffAbilityDmg(&x, ULT_DMG_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+      }
+
+      if (p4(sets.ScholarLostInErudition) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
+
+        if (setConditionals.enabledScholarLostInErudition == 1) {
+          buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
+        }
+      }
+
+      // Other boosts
+
+      if (p4(sets.GeniusOfBrilliantStars) >= 1) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
+          x.DEF_PEN += 0.20;
+        } else {
+          x.DEF_PEN += 0.10;
+        }
+      }
+
+      if (p4(sets.PrisonerInDeepConfinement) >= 1) {
+        x.DEF_PEN += 0.06 * f32(setConditionals.valuePrisonerInDeepConfinement);
+      }
+
+      if (p2(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+        x.ELEMENTAL_DMG += 0.12;
+      }
+
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
+        x.Fire_DMG += 0.12;
+      }
+
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
+
+      x.ATK += diffATK;
+      x.DEF += diffDEF;
+      x.HP  += diffHP;
+      x.SPD += diffSPD;
+      x.CD  += diffCD;
+      x.CR  += diffCR;
+      x.EHR += diffEHR;
+      x.RES += diffRES;
+      x.BE  += diffBE;
+      x.ERR += diffERR;
+      x.OHB += diffOHB;
+
+      addElementalDmg(&c, &x);
+
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
+      x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
+      x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
+      x.VULNERABILITY += combatBuffsVULNERABILITY;
+      x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
+
+      x.ATK += x.ATK_P * baseATK;
+      x.DEF += x.DEF_P * baseDEF;
+      x.HP += x.HP_P * baseHP;
+      x.SPD += x.SPD_P * baseSPD;
+
+      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+
+      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
+      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
+      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
+      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+
+      // START BASIC CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT BASIC CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END BASIC CONDITIONALS
+
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
+
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
+
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
+
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
+
+      // START ACTION CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT ACTION CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END ACTION CONDITIONALS
+
+      // Calculate damage
+
+      addComputedElementalDmg(&x);
+
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
+
+      if (actionIndex > 0) {
+        if (action.abilityType == BASIC_ABILITY_TYPE) {
+          combo += x.BASIC_DMG;
+        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
+          combo += x.SKILL_DMG;
+        } else if (action.abilityType == ULT_ABILITY_TYPE) {
+          combo += x.ULT_DMG;
+        } else if (action.abilityType == FUA_ABILITY_TYPE) {
+          combo += x.FUA_DMG;
+        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+          combo += x.MEMO_SKILL_DMG;
+        }
+      } else {
+        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+
+        // START COMBAT STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBAT STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBAT STAT FILTERS
+
+
+        // START BASIC STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT BASIC STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END BASIC STAT FILTERS
+
+
+        // START RATING STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RATING STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RATING STAT FILTERS
+
+
+        // START RETURN VALUE
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RETURN VALUE */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RETURN VALUE
+      }
+    }
+
+    {
+      let actionIndex = 4;
+      let action = action4; // Default value
+
+      var x = action.x;
+      var m = action.m;
+      let setConditionals = action.setConditionals;
+      var state = ConditionalState();
+      state.actionIndex = actionIndex;
+
+      let p_x = &x;
+      let p_m = &m;
+      let p_state = &state;
+
+      x.sets = sets;
+
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
+
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
+        x.SPD_P += 0.12;
+        m.SPD_P += 0.12;
+      }
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
+        x.SPD_P += 0.06;
+        x.CD += 0.30;
+        m.CD += 0.30;
+      }
+
+      // ATK
+
+      if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
+        x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
+      }
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
+        x.ATK_P += 0.20;
+      }
+      if (p4(sets.TheAshblazingGrandDuke) >= 1) {
+        x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+
+      // DEF
+
+      // HP
+
+      // CD
+
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
+        x.CD += 0.25;
+      }
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
+        x.CD += 0.10;
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
+        x.CD += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+      }
+      if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
+        x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+        x.CD += 0.25;
+      }
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
+        x.CD += 0.32;
+      }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
+      }
+
+      // CR
+
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert > 0) {
+        x.CR += 0.10;
+      }
+      if (p4(sets.LongevousDisciple) >= 1) {
+        x.CR += 0.08 * f32(setConditionals.valueLongevousDisciple);
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+        x.CR += 0.04;
+      }
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+        x.CR += 0.12;
+      }
+      if (p4(sets.PoetOfMourningCollapse) >= 1) {
+        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        x.CR += crValue;
+        m.CR += crValue;
+      }
+
+      // BE
+
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
+        x.BE += 0.30;
+        m.BE += 0.30;
+      }
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
+        x.BE += 0.40;
+      }
+
+      // Buffs
+
+      // Basic boost
+      if (p4(sets.MusketeerOfWildWheat) >= 1) {
+        buffAbilityDmg(&x, BASIC_DMG_TYPE, 0.10, 1);
+      }
+
+      // Skill boost
+      if (p4(sets.FiresmithOfLavaForging) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.12, 1);
+      }
+
+      // Fua boost
+      if (p2(sets.TheAshblazingGrandDuke) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.20, 1);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+      }
+
+      // Ult boost
+      if (p4(sets.TheWindSoaringValorous) >= 1) {
+        buffAbilityDmg(&x, ULT_DMG_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+      }
+
+      if (p4(sets.ScholarLostInErudition) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
+
+        if (setConditionals.enabledScholarLostInErudition == 1) {
+          buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
+        }
+      }
+
+      // Other boosts
+
+      if (p4(sets.GeniusOfBrilliantStars) >= 1) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
+          x.DEF_PEN += 0.20;
+        } else {
+          x.DEF_PEN += 0.10;
+        }
+      }
+
+      if (p4(sets.PrisonerInDeepConfinement) >= 1) {
+        x.DEF_PEN += 0.06 * f32(setConditionals.valuePrisonerInDeepConfinement);
+      }
+
+      if (p2(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+        x.ELEMENTAL_DMG += 0.12;
+      }
+
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
+        x.Fire_DMG += 0.12;
+      }
+
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
+
+      x.ATK += diffATK;
+      x.DEF += diffDEF;
+      x.HP  += diffHP;
+      x.SPD += diffSPD;
+      x.CD  += diffCD;
+      x.CR  += diffCR;
+      x.EHR += diffEHR;
+      x.RES += diffRES;
+      x.BE  += diffBE;
+      x.ERR += diffERR;
+      x.OHB += diffOHB;
+
+      addElementalDmg(&c, &x);
+
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
+      x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
+      x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
+      x.VULNERABILITY += combatBuffsVULNERABILITY;
+      x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
+
+      x.ATK += x.ATK_P * baseATK;
+      x.DEF += x.DEF_P * baseDEF;
+      x.HP += x.HP_P * baseHP;
+      x.SPD += x.SPD_P * baseSPD;
+
+      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+
+      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
+      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
+      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
+      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+
+      // START BASIC CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT BASIC CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END BASIC CONDITIONALS
+
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
+
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
+
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
+
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
+
+      // START ACTION CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT ACTION CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END ACTION CONDITIONALS
+
+      // Calculate damage
+
+      addComputedElementalDmg(&x);
+
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
+
+      if (actionIndex > 0) {
+        if (action.abilityType == BASIC_ABILITY_TYPE) {
+          combo += x.BASIC_DMG;
+        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
+          combo += x.SKILL_DMG;
+        } else if (action.abilityType == ULT_ABILITY_TYPE) {
+          combo += x.ULT_DMG;
+        } else if (action.abilityType == FUA_ABILITY_TYPE) {
+          combo += x.FUA_DMG;
+        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+          combo += x.MEMO_SKILL_DMG;
+        }
+      } else {
+        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+
+        // START COMBAT STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBAT STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBAT STAT FILTERS
+
+
+        // START BASIC STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT BASIC STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END BASIC STAT FILTERS
+
+
+        // START RATING STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RATING STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RATING STAT FILTERS
+
+
+        // START RETURN VALUE
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RETURN VALUE */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RETURN VALUE
+      }
+    }
+    {
+      let actionIndex = 3;
+      let action = action3; // Default value
+
+      var x = action.x;
+      var m = action.m;
+      let setConditionals = action.setConditionals;
+      var state = ConditionalState();
+      state.actionIndex = actionIndex;
+
+      let p_x = &x;
+      let p_m = &m;
+      let p_state = &state;
+
+      x.sets = sets;
+
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
+
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
+        x.SPD_P += 0.12;
+        m.SPD_P += 0.12;
+      }
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
+        x.SPD_P += 0.06;
+        x.CD += 0.30;
+        m.CD += 0.30;
+      }
+
+      // ATK
+
+      if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
+        x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
+      }
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
+        x.ATK_P += 0.20;
+      }
+      if (p4(sets.TheAshblazingGrandDuke) >= 1) {
+        x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+
+      // DEF
+
+      // HP
+
+      // CD
+
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
+        x.CD += 0.25;
+      }
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
+        x.CD += 0.10;
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
+        x.CD += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+      }
+      if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
+        x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+        x.CD += 0.25;
+      }
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
+        x.CD += 0.32;
+      }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
+      }
+
+      // CR
+
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert > 0) {
+        x.CR += 0.10;
+      }
+      if (p4(sets.LongevousDisciple) >= 1) {
+        x.CR += 0.08 * f32(setConditionals.valueLongevousDisciple);
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+        x.CR += 0.04;
+      }
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+        x.CR += 0.12;
+      }
+      if (p4(sets.PoetOfMourningCollapse) >= 1) {
+        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        x.CR += crValue;
+        m.CR += crValue;
+      }
+
+      // BE
+
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
+        x.BE += 0.30;
+        m.BE += 0.30;
+      }
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
+        x.BE += 0.40;
+      }
+
+      // Buffs
+
+      // Basic boost
+      if (p4(sets.MusketeerOfWildWheat) >= 1) {
+        buffAbilityDmg(&x, BASIC_DMG_TYPE, 0.10, 1);
+      }
+
+      // Skill boost
+      if (p4(sets.FiresmithOfLavaForging) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.12, 1);
+      }
+
+      // Fua boost
+      if (p2(sets.TheAshblazingGrandDuke) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.20, 1);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+      }
+
+      // Ult boost
+      if (p4(sets.TheWindSoaringValorous) >= 1) {
+        buffAbilityDmg(&x, ULT_DMG_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+      }
+
+      if (p4(sets.ScholarLostInErudition) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
+
+        if (setConditionals.enabledScholarLostInErudition == 1) {
+          buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
+        }
+      }
+
+      // Other boosts
+
+      if (p4(sets.GeniusOfBrilliantStars) >= 1) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
+          x.DEF_PEN += 0.20;
+        } else {
+          x.DEF_PEN += 0.10;
+        }
+      }
+
+      if (p4(sets.PrisonerInDeepConfinement) >= 1) {
+        x.DEF_PEN += 0.06 * f32(setConditionals.valuePrisonerInDeepConfinement);
+      }
+
+      if (p2(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+        x.ELEMENTAL_DMG += 0.12;
+      }
+
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
+        x.Fire_DMG += 0.12;
+      }
+
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
+
+      x.ATK += diffATK;
+      x.DEF += diffDEF;
+      x.HP  += diffHP;
+      x.SPD += diffSPD;
+      x.CD  += diffCD;
+      x.CR  += diffCR;
+      x.EHR += diffEHR;
+      x.RES += diffRES;
+      x.BE  += diffBE;
+      x.ERR += diffERR;
+      x.OHB += diffOHB;
+
+      addElementalDmg(&c, &x);
+
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
+      x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
+      x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
+      x.VULNERABILITY += combatBuffsVULNERABILITY;
+      x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
+
+      x.ATK += x.ATK_P * baseATK;
+      x.DEF += x.DEF_P * baseDEF;
+      x.HP += x.HP_P * baseHP;
+      x.SPD += x.SPD_P * baseSPD;
+
+      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+
+      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
+      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
+      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
+      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+
+      // START BASIC CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT BASIC CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END BASIC CONDITIONALS
+
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
+
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
+
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
+
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
+
+      // START ACTION CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT ACTION CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END ACTION CONDITIONALS
+
+      // Calculate damage
+
+      addComputedElementalDmg(&x);
+
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
+
+      if (actionIndex > 0) {
+        if (action.abilityType == BASIC_ABILITY_TYPE) {
+          combo += x.BASIC_DMG;
+        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
+          combo += x.SKILL_DMG;
+        } else if (action.abilityType == ULT_ABILITY_TYPE) {
+          combo += x.ULT_DMG;
+        } else if (action.abilityType == FUA_ABILITY_TYPE) {
+          combo += x.FUA_DMG;
+        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+          combo += x.MEMO_SKILL_DMG;
+        }
+      } else {
+        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+
+        // START COMBAT STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBAT STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBAT STAT FILTERS
+
+
+        // START BASIC STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT BASIC STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END BASIC STAT FILTERS
+
+
+        // START RATING STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RATING STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RATING STAT FILTERS
+
+
+        // START RETURN VALUE
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RETURN VALUE */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RETURN VALUE
+      }
+    }
+
+    {
+      let actionIndex = 2;
+      let action = action2; // Default value
+
+      var x = action.x;
+      var m = action.m;
+      let setConditionals = action.setConditionals;
+      var state = ConditionalState();
+      state.actionIndex = actionIndex;
+
+      let p_x = &x;
+      let p_m = &m;
+      let p_state = &state;
+
+      x.sets = sets;
+
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
+
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
+        x.SPD_P += 0.12;
+        m.SPD_P += 0.12;
+      }
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
+        x.SPD_P += 0.06;
+        x.CD += 0.30;
+        m.CD += 0.30;
+      }
+
+      // ATK
+
+      if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
+        x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
+      }
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
+        x.ATK_P += 0.20;
+      }
+      if (p4(sets.TheAshblazingGrandDuke) >= 1) {
+        x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+
+      // DEF
+
+      // HP
+
+      // CD
+
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
+        x.CD += 0.25;
+      }
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
+        x.CD += 0.10;
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
+        x.CD += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+      }
+      if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
+        x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+        x.CD += 0.25;
+      }
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
+        x.CD += 0.32;
+      }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
+      }
+
+      // CR
+
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert > 0) {
+        x.CR += 0.10;
+      }
+      if (p4(sets.LongevousDisciple) >= 1) {
+        x.CR += 0.08 * f32(setConditionals.valueLongevousDisciple);
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+        x.CR += 0.04;
+      }
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+        x.CR += 0.12;
+      }
+      if (p4(sets.PoetOfMourningCollapse) >= 1) {
+        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        x.CR += crValue;
+        m.CR += crValue;
+      }
+
+      // BE
+
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
+        x.BE += 0.30;
+        m.BE += 0.30;
+      }
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
+        x.BE += 0.40;
+      }
+
+      // Buffs
+
+      // Basic boost
+      if (p4(sets.MusketeerOfWildWheat) >= 1) {
+        buffAbilityDmg(&x, BASIC_DMG_TYPE, 0.10, 1);
+      }
+
+      // Skill boost
+      if (p4(sets.FiresmithOfLavaForging) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.12, 1);
+      }
+
+      // Fua boost
+      if (p2(sets.TheAshblazingGrandDuke) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.20, 1);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+      }
+
+      // Ult boost
+      if (p4(sets.TheWindSoaringValorous) >= 1) {
+        buffAbilityDmg(&x, ULT_DMG_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+      }
+
+      if (p4(sets.ScholarLostInErudition) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
+
+        if (setConditionals.enabledScholarLostInErudition == 1) {
+          buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
+        }
+      }
+
+      // Other boosts
+
+      if (p4(sets.GeniusOfBrilliantStars) >= 1) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
+          x.DEF_PEN += 0.20;
+        } else {
+          x.DEF_PEN += 0.10;
+        }
+      }
+
+      if (p4(sets.PrisonerInDeepConfinement) >= 1) {
+        x.DEF_PEN += 0.06 * f32(setConditionals.valuePrisonerInDeepConfinement);
+      }
+
+      if (p2(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+        x.ELEMENTAL_DMG += 0.12;
+      }
+
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
+        x.Fire_DMG += 0.12;
+      }
+
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
+
+      x.ATK += diffATK;
+      x.DEF += diffDEF;
+      x.HP  += diffHP;
+      x.SPD += diffSPD;
+      x.CD  += diffCD;
+      x.CR  += diffCR;
+      x.EHR += diffEHR;
+      x.RES += diffRES;
+      x.BE  += diffBE;
+      x.ERR += diffERR;
+      x.OHB += diffOHB;
+
+      addElementalDmg(&c, &x);
+
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
+      x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
+      x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
+      x.VULNERABILITY += combatBuffsVULNERABILITY;
+      x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
+
+      x.ATK += x.ATK_P * baseATK;
+      x.DEF += x.DEF_P * baseDEF;
+      x.HP += x.HP_P * baseHP;
+      x.SPD += x.SPD_P * baseSPD;
+
+      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+
+      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
+      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
+      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
+      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+
+      // START BASIC CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT BASIC CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END BASIC CONDITIONALS
+
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
+
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
+
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
+
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
+
+      // START ACTION CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT ACTION CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END ACTION CONDITIONALS
+
+      // Calculate damage
+
+      addComputedElementalDmg(&x);
+
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
+
+      if (actionIndex > 0) {
+        if (action.abilityType == BASIC_ABILITY_TYPE) {
+          combo += x.BASIC_DMG;
+        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
+          combo += x.SKILL_DMG;
+        } else if (action.abilityType == ULT_ABILITY_TYPE) {
+          combo += x.ULT_DMG;
+        } else if (action.abilityType == FUA_ABILITY_TYPE) {
+          combo += x.FUA_DMG;
+        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+          combo += x.MEMO_SKILL_DMG;
+        }
+      } else {
+        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+
+        // START COMBAT STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBAT STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBAT STAT FILTERS
+
+
+        // START BASIC STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT BASIC STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END BASIC STAT FILTERS
+
+
+        // START RATING STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RATING STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RATING STAT FILTERS
+
+
+        // START RETURN VALUE
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RETURN VALUE */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RETURN VALUE
+      }
+    }
+
+    {
+      let actionIndex = 1;
+      let action = action1; // Default value
+
+      var x = action.x;
+      var m = action.m;
+      let setConditionals = action.setConditionals;
+      var state = ConditionalState();
+      state.actionIndex = actionIndex;
+
+      let p_x = &x;
+      let p_m = &m;
+      let p_state = &state;
+
+      x.sets = sets;
+
+      // BASIC
+
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
+        x.CR += 0.60;
+      }
+
+      // SPD
+
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
+        x.SPD_P += 0.12;
+        m.SPD_P += 0.12;
+      }
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
+        x.SPD_P += 0.06;
+        x.CD += 0.30;
+        m.CD += 0.30;
+      }
+
+      // ATK
+
+      if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
+        x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
+      }
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
+        x.ATK_P += 0.20;
+      }
+      if (p4(sets.TheAshblazingGrandDuke) >= 1) {
+        x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+
+      // DEF
+
+      // HP
+
+      // CD
+
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
+        x.CD += 0.25;
+      }
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
+        x.CD += 0.10;
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
+        x.CD += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+      }
+      if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
+        x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+        x.CD += 0.25;
+      }
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
+        x.CD += 0.32;
+      }
+      if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
+        x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
+      }
+
+      // CR
+
+      if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert > 0) {
+        x.CR += 0.10;
+      }
+      if (p4(sets.LongevousDisciple) >= 1) {
+        x.CR += 0.08 * f32(setConditionals.valueLongevousDisciple);
+      }
+      if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+        x.CR += 0.04;
+      }
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+        x.CR += 0.12;
+      }
+      if (p4(sets.PoetOfMourningCollapse) >= 1) {
+        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        x.CR += crValue;
+        m.CR += crValue;
+      }
+
+      // BE
+
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
+        x.BE += 0.30;
+        m.BE += 0.30;
+      }
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
+        x.BE += 0.40;
+      }
+
+      // Buffs
+
+      // Basic boost
+      if (p4(sets.MusketeerOfWildWheat) >= 1) {
+        buffAbilityDmg(&x, BASIC_DMG_TYPE, 0.10, 1);
+      }
+
+      // Skill boost
+      if (p4(sets.FiresmithOfLavaForging) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.12, 1);
+      }
+
+      // Fua boost
+      if (p2(sets.TheAshblazingGrandDuke) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.20, 1);
+      }
+      if (p2(sets.DuranDynastyOfRunningWolves) >= 1) {
+        buffAbilityDmg(&x, FUA_DMG_TYPE, 0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves), 1);
+      }
+
+      // Ult boost
+      if (p4(sets.TheWindSoaringValorous) >= 1) {
+        buffAbilityDmg(&x, ULT_DMG_TYPE, 0.36 * f32(setConditionals.enabledTheWindSoaringValorous), 1);
+      }
+
+      if (p4(sets.ScholarLostInErudition) >= 1) {
+        buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
+
+        if (setConditionals.enabledScholarLostInErudition == 1) {
+          buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
+        }
+      }
+
+      // Other boosts
+
+      if (p4(sets.GeniusOfBrilliantStars) >= 1) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
+          x.DEF_PEN += 0.20;
+        } else {
+          x.DEF_PEN += 0.10;
+        }
+      }
+
+      if (p4(sets.PrisonerInDeepConfinement) >= 1) {
+        x.DEF_PEN += 0.06 * f32(setConditionals.valuePrisonerInDeepConfinement);
+      }
+
+      if (p2(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+        x.ELEMENTAL_DMG += 0.12;
+      }
+
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
+        x.Fire_DMG += 0.12;
+      }
+
+      if (p2(sets.GuardOfWutheringSnow) >= 1) {
+        x.DMG_RED_MULTI *= (1 - 0.08);
+      }
+
+      if (p2(sets.KnightOfPurityPalace) >= 1) {
+        x.SHIELD_BOOST += 0.20;
+      }
+
+      x.ATK += diffATK;
+      x.DEF += diffDEF;
+      x.HP  += diffHP;
+      x.SPD += diffSPD;
+      x.CD  += diffCD;
+      x.CR  += diffCR;
+      x.EHR += diffEHR;
+      x.RES += diffRES;
+      x.BE  += diffBE;
+      x.ERR += diffERR;
+      x.OHB += diffOHB;
+
+      addElementalDmg(&c, &x);
+
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
+      x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
+      x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
+      x.VULNERABILITY += combatBuffsVULNERABILITY;
+      x.BREAK_EFFICIENCY_BOOST += combatBuffsBREAK_EFFICIENCY;
+
+      x.ATK += x.ATK_P * baseATK;
+      x.DEF += x.DEF_P * baseDEF;
+      x.HP += x.HP_P * baseHP;
+      x.SPD += x.SPD_P * baseSPD;
+
+      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
+      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
+      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
+      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+
+      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
+      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
+      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
+      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+
+      // START BASIC CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT BASIC CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END BASIC CONDITIONALS
+
+      // START COMBAT CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT COMBAT CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END COMBAT CONDITIONALS
+
+      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
+        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);
+      }
+
+      if (p2(sets.RutilantArena) >= 1 && x.CR >= 0.70) {
+        buffAbilityDmg(p_x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, 1);
+      }
+
+      if (p2(sets.InertSalsotto) >= 1 && x.CR >= 0.50) {
+        buffAbilityDmg(p_x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, 1);
+      }
+
+      if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
+        buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+      }
+
+      // START ACTION CONDITIONALS
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+      /* INJECT ACTION CONDITIONALS */
+      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+      // END ACTION CONDITIONALS
+
+      // Calculate damage
+
+      addComputedElementalDmg(&x);
+
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
+
+      if (actionIndex > 0) {
+        if (action.abilityType == BASIC_ABILITY_TYPE) {
+          combo += x.BASIC_DMG;
+        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
+          combo += x.SKILL_DMG;
+        } else if (action.abilityType == ULT_ABILITY_TYPE) {
+          combo += x.ULT_DMG;
+        } else if (action.abilityType == FUA_ABILITY_TYPE) {
+          combo += x.FUA_DMG;
+        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+          combo += x.MEMO_SKILL_DMG;
+        }
+      } else {
+        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+
+        // START COMBAT STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT COMBAT STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END COMBAT STAT FILTERS
+
+
+        // START BASIC STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT BASIC STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END BASIC STAT FILTERS
+
+
+        // START RATING STAT FILTERS
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RATING STAT FILTERS */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RATING STAT FILTERS
+
+
+        // START RETURN VALUE
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+        /* INJECT RETURN VALUE */
+        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+        // END RETURN VALUE
+      }
+    }
+    {
+      let actionIndex = 0;
       let action = action0; // Default value
 
       var x = action.x;

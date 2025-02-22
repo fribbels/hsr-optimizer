@@ -113,7 +113,7 @@ if (statDisplay == 1) {
 ${format(basicFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-    break;
+    continue;
   }
 }
   `, 4))
@@ -177,7 +177,7 @@ if (statDisplay == 0) {
 ${format(combatFilters)}
   ) {
     results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-    break;
+    continue;
   }
 }
   `, 4))
@@ -217,7 +217,7 @@ if (
 ${format(ratingFilters, 1)}
 ) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-  break;
+  continue;
 }
   `, 4))
 

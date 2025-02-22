@@ -337,17 +337,17 @@ fn main(
 
       // BASIC
 
-      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == true && c.CD >= 1.20) {
         x.CR += 0.60;
       }
 
       // SPD
 
-      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
         x.SPD_P += 0.12;
         m.SPD_P += 0.12;
       }
-      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == true) {
         x.SPD_P += 0.06;
         x.CD += 0.30;
         m.CD += 0.30;
@@ -358,7 +358,7 @@ fn main(
       if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
         x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
       }
-      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == true) {
         x.ATK_P += 0.20;
       }
       if (p4(sets.TheAshblazingGrandDuke) >= 1) {
@@ -371,7 +371,7 @@ fn main(
 
       // CD
 
-      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == true) {
         x.CD += 0.25;
       }
       if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
@@ -386,7 +386,7 @@ fn main(
       if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
         x.CD += 0.25;
       }
-      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == true) {
         x.CD += 0.32;
       }
       if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
@@ -404,7 +404,7 @@ fn main(
       if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
         x.CR += 0.04;
       }
-      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true) {
         x.CR += 0.12;
       }
       if (p4(sets.PoetOfMourningCollapse) >= 1) {
@@ -415,11 +415,11 @@ fn main(
 
       // BE
 
-      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true) {
         x.BE += 0.30;
         m.BE += 0.30;
       }
-      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == true) {
         x.BE += 0.40;
       }
 
@@ -451,7 +451,7 @@ fn main(
       if (p4(sets.ScholarLostInErudition) >= 1) {
         buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
 
-        if (setConditionals.enabledScholarLostInErudition == 1) {
+        if (setConditionals.enabledScholarLostInErudition == true) {
           buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
         }
       }
@@ -459,7 +459,7 @@ fn main(
       // Other boosts
 
       if (p4(sets.GeniusOfBrilliantStars) >= 1) {
-        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == true) {
           x.DEF_PEN += 0.20;
         } else {
           x.DEF_PEN += 0.10;
@@ -474,7 +474,7 @@ fn main(
         x.ELEMENTAL_DMG += 0.12;
       }
 
-      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
         x.Fire_DMG += 0.12;
       }
 

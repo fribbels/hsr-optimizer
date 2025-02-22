@@ -2,7 +2,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.1.3'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.1.5'
 // Represents the beta data content version, used for display but not for update notifications
 
 export const CURRENT_DATA_VERSION = '3.1v5'

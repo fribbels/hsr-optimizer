@@ -79,6 +79,13 @@ fn main(
 
   var emptyComputedStats = ComputedStats();
 
+  let action0 = actions[0];
+  let action1 = actions[1];
+  let action2 = actions[2];
+  let action3 = actions[3];
+  let action4 = actions[4];
+  let action5 = actions[5];
+
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
 
     // Calculate global_invocation_index
@@ -325,7 +332,8 @@ fn main(
     var mc = c;
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      let action = actions[actionIndex];
+      let action = action0; // Default value
+
       var x = action.x;
       var m = action.m;
       let setConditionals = action.setConditionals;

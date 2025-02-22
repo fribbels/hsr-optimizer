@@ -14,6 +14,10 @@ import { CharacterConditionalsController, LightConeConditionalsController } from
 import { Form, Teammate } from 'types/form'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+export function replaceAllInjection(str: string) {
+  return new RegExp(str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')
+}
+
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(request)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(request)
@@ -68,7 +72,7 @@ ${lightConeConditionalWgsl}
     basicConditionalsWgsl += indent(lightConeConditionals.gpuCalculateBasicEffects(context.actions[0], context), 1)
   }
   wgsl = wgsl.replace(
-    '/* INJECT BASIC CONDITIONALS */',
+    replaceAllInjection('/* INJECT BASIC CONDITIONALS */'),
     indent(basicConditionalsWgsl, 2),
   )
 
@@ -82,7 +86,7 @@ ${lightConeConditionalWgsl}
   conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
 
   wgsl = wgsl.replace(
-    '/* INJECT COMBAT CONDITIONALS */',
+    replaceAllInjection('/* INJECT COMBAT CONDITIONALS */'),
     conditionalSequenceWgsl,
   )
 
@@ -135,7 +139,7 @@ const comboBreak: f32 = ${context.comboBreak};
 
   actionsDefinition += ``
 
-  wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
+  wgsl = wgsl.replace(replaceAllInjection('/* INJECT ACTIONS DEFINITION */'), actionsDefinition)
 
   wgsl += `
 const actionCount = ${actionLength};

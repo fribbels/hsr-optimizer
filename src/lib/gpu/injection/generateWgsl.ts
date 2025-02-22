@@ -1,5 +1,5 @@
 import { Constants } from 'lib/constants/constants'
-import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
+import { injectConditionals, replaceAllInjection } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
@@ -107,7 +107,7 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(replaceAllInjection('/* INJECT BASIC STAT FILTERS */'), indent(`
 if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
@@ -171,7 +171,7 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(replaceAllInjection('/* INJECT COMBAT STAT FILTERS */'), indent(`
 if (statDisplay == 0) {
   if (
 ${format(combatFilters)}
@@ -212,7 +212,7 @@ function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstant
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT RATING STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(replaceAllInjection('/* INJECT RATING STAT FILTERS */'), indent(`
 if (
 ${format(ratingFilters, 1)}
 ) {
@@ -265,13 +265,13 @@ ${debugValues}
 
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
-    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+    wgsl = wgsl.replace(replaceAllInjection('/* INJECT RETURN VALUE */'), indent(`
 x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
 results[index] = x; // DEBUG
 results[index + 1] = m; // DEBUG
     `, 4))
   } else {
-    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+    wgsl = wgsl.replace(replaceAllInjection('/* INJECT RETURN VALUE */'), indent(`
 if (statDisplay == 0) {
   results[index] = x.${sortOptionGpu};
   failures = 1;

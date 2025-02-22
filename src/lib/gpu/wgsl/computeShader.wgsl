@@ -321,10 +321,11 @@ fn main(
     var mc = c;
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      var action: Action;        // Declare mutable struct variable
+      var action: Action;
       var x: ComputedStats;
       var m: ComputedStats;
-      getAction(actionIndex, &action, &x, &m); // Pass as a pointer
+      getAction(actionIndex, &action, &x, &m);
+
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;

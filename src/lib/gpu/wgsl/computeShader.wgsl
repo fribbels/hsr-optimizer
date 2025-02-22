@@ -337,17 +337,17 @@ fn main(
 
       // BASIC
 
-      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == true && c.CD >= 1.20) {
+      if (p2(sets.CelestialDifferentiator) >= 1 && setConditionals.enabledCelestialDifferentiator == 1 && c.CD >= 1.20) {
         x.CR += 0.60;
       }
 
       // SPD
 
-      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == true) {
+      if (p4(sets.MessengerTraversingHackerspace) >= 1 && setConditionals.enabledMessengerTraversingHackerspace == 1) {
         x.SPD_P += 0.12;
         m.SPD_P += 0.12;
       }
-      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == true) {
+      if (p4(sets.HeroOfTriumphantSong) >= 1 && setConditionals.enabledHeroOfTriumphantSong == 1) {
         x.SPD_P += 0.06;
         x.CD += 0.30;
         m.CD += 0.30;
@@ -358,7 +358,7 @@ fn main(
       if (p4(sets.ChampionOfStreetwiseBoxing) >= 1) {
         x.ATK_P += 0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing);
       }
-      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == true) {
+      if (p4(sets.BandOfSizzlingThunder) >= 1 && setConditionals.enabledBandOfSizzlingThunder == 1) {
         x.ATK_P += 0.20;
       }
       if (p4(sets.TheAshblazingGrandDuke) >= 1) {
@@ -371,7 +371,7 @@ fn main(
 
       // CD
 
-      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == true) {
+      if (p4(sets.HunterOfGlacialForest) >= 1 && setConditionals.enabledHunterOfGlacialForest == 1) {
         x.CD += 0.25;
       }
       if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
@@ -386,7 +386,7 @@ fn main(
       if (p2(sets.DuranDynastyOfRunningWolves) >= 1 && setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
         x.CD += 0.25;
       }
-      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == true) {
+      if (p2(sets.TheWondrousBananAmusementPark) >= 1 && setConditionals.enabledTheWondrousBananAmusementPark == 1) {
         x.CD += 0.32;
       }
       if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
@@ -404,7 +404,7 @@ fn main(
       if (p4(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters > 2) {
         x.CR += 0.04;
       }
-      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true) {
+      if (p2(sets.IzumoGenseiAndTakamaDivineRealm) >= 1 && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == 1) {
         x.CR += 0.12;
       }
       if (p4(sets.PoetOfMourningCollapse) >= 1) {
@@ -415,11 +415,11 @@ fn main(
 
       // BE
 
-      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true) {
+      if (p4(sets.WatchmakerMasterOfDreamMachinations) >= 1 && setConditionals.enabledWatchmakerMasterOfDreamMachinations == 1) {
         x.BE += 0.30;
         m.BE += 0.30;
       }
-      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == true) {
+      if (p2(sets.ForgeOfTheKalpagniLantern) >= 1 && setConditionals.enabledForgeOfTheKalpagniLantern == 1) {
         x.BE += 0.40;
       }
 
@@ -451,7 +451,7 @@ fn main(
       if (p4(sets.ScholarLostInErudition) >= 1) {
         buffAbilityDmg(&x, SKILL_DMG_TYPE | ULT_DMG_TYPE, 0.20, 1);
 
-        if (setConditionals.enabledScholarLostInErudition == true) {
+        if (setConditionals.enabledScholarLostInErudition == 1) {
           buffAbilityDmg(&x, SKILL_DMG_TYPE, 0.25, 1);
         }
       }
@@ -459,7 +459,7 @@ fn main(
       // Other boosts
 
       if (p4(sets.GeniusOfBrilliantStars) >= 1) {
-        if (setConditionals.enabledGeniusOfBrilliantStars == true) {
+        if (setConditionals.enabledGeniusOfBrilliantStars == 1) {
           x.DEF_PEN += 0.20;
         } else {
           x.DEF_PEN += 0.10;
@@ -474,7 +474,7 @@ fn main(
         x.ELEMENTAL_DMG += 0.12;
       }
 
-      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
+      if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == 1) {
         x.Fire_DMG += 0.12;
       }
 
@@ -569,8 +569,8 @@ fn main(
 
       addComputedElementalDmg(&x);
 
-      calculateDamage(&m, &emptyComputedStats, actionIndex);
-      calculateDamage(&x, &m, actionIndex);
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
 
       if (actionIndex > 0) {
         if (action.abilityType == BASIC_ABILITY_TYPE) {
@@ -621,14 +621,13 @@ fn main(
 fn calculateDamage(
   p_x: ptr<function, ComputedStats>,
   p_m: ptr<function, ComputedStats>,
-  actionIndex: i32
+  actionIndex: i32,
+  abilityType: f32,
 ) {
   let x = *p_x;
   let m = *p_m;
   let eLevel: f32 = f32(enemyLevel);
 
-  var action: Action;
-  getAction(actionIndex, &action);
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
@@ -695,7 +694,7 @@ fn calculateDamage(
     (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
-  if (action.abilityType == 1 || actionIndex == 0) {
+  if (abilityType == 1 || actionIndex == 0) {
     (*p_x).BASIC_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -725,7 +724,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 2 || actionIndex == 0) {
+  if (abilityType == 2 || actionIndex == 0) {
     (*p_x).SKILL_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -755,7 +754,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 4 || actionIndex == 0) {
+  if (abilityType == 4 || actionIndex == 0) {
     (*p_x).ULT_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -785,7 +784,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 8 || actionIndex == 0) {
+  if (abilityType == 8 || actionIndex == 0) {
     (*p_x).FUA_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -815,7 +814,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
+  if (abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
     (*p_x).MEMO_SKILL_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,

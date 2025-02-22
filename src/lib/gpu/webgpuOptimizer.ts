@@ -15,7 +15,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-window.WEBGPU_DEBUG = true
+window.WEBGPU_DEBUG = false
 
 export async function gpuOptimize(props: {
   device: GPUDevice | null
@@ -65,14 +65,16 @@ export async function gpuOptimize(props: {
   // console.log('GPU execution context', gpuContext)
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
+    console.time('=== Iteration ===')
     const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
     if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
-      console.time('Compile ms')
+      console.time('WGSL')
       await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
-      console.timeEnd('Compile ms')
+      console.timeEnd('WGSL')
+      console.time('JS')
       const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
       gpuReadBuffer.unmap()
 
@@ -86,6 +88,7 @@ export async function gpuOptimize(props: {
       } else {
         await readBuffer(offset, gpuReadBuffer, gpuContext)
       }
+      console.timeEnd('JS')
     } else {
       await readBuffer(offset, gpuReadBuffer, gpuContext)
     }
@@ -98,6 +101,7 @@ export async function gpuOptimize(props: {
 
     gpuReadBuffer.unmap()
     gpuReadBuffer.destroy()
+    console.timeEnd('=== Iteration ===')
 
     if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
       gpuContext.cancelled = true

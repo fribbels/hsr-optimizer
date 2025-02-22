@@ -101,19 +101,19 @@ const comboBreak: f32 = ${context.comboBreak};
   const action${i} = Action( // ${action.actionIndex}
     ${getActionTypeToWgslMapping(action.actionType)},
     SetConditionals(
-      ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
-      ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
-      ${action.setConditionals.enabledGeniusOfBrilliantStars},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
-      ${action.setConditionals.enabledBandOfSizzlingThunder},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
-      ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
-      ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
-      ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
-      ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
-      ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
-      ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
-      ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
-      ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
-      ${action.setConditionals.enabledHeroOfTriumphantSong},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
+      ${boolToNum(action.setConditionals.enabledHunterOfGlacialForest)},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
+      ${boolToNum(action.setConditionals.enabledFiresmithOfLavaForging)},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
+      ${boolToNum(action.setConditionals.enabledGeniusOfBrilliantStars)},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
+      ${boolToNum(action.setConditionals.enabledBandOfSizzlingThunder)},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
+      ${boolToNum(action.setConditionals.enabledMessengerTraversingHackerspace)},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
+      ${boolToNum(action.setConditionals.enabledCelestialDifferentiator)},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
+      ${boolToNum(action.setConditionals.enabledWatchmakerMasterOfDreamMachinations)},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
+      ${boolToNum(action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm)},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
+      ${boolToNum(action.setConditionals.enabledForgeOfTheKalpagniLantern)},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
+      ${boolToNum(action.setConditionals.enabledTheWindSoaringValorous)},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
+      ${boolToNum(action.setConditionals.enabledTheWondrousBananAmusementPark)},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
+      ${boolToNum(action.setConditionals.enabledScholarLostInErudition)},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
+      ${boolToNum(action.setConditionals.enabledHeroOfTriumphantSong)},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
       ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
       ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
       ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
@@ -142,6 +142,10 @@ const actionCount = ${actionLength};
 `
 
   return wgsl
+}
+
+function boolToNum(b: boolean) {
+  return b ? 1 : 0
 }
 
 function generateDependencyCall(conditionalName: string) {

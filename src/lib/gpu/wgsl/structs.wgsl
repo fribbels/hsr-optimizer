@@ -97,19 +97,19 @@ struct Sets {
 }
 
 struct SetConditionals {
-  enabledHunterOfGlacialForest: bool,
-  enabledFiresmithOfLavaForging: bool,
-  enabledGeniusOfBrilliantStars: bool,
-  enabledBandOfSizzlingThunder: bool,
-  enabledMessengerTraversingHackerspace: bool,
-  enabledCelestialDifferentiator: bool,
-  enabledWatchmakerMasterOfDreamMachinations: bool,
-  enabledIzumoGenseiAndTakamaDivineRealm: bool,
-  enabledForgeOfTheKalpagniLantern: bool,
-  enabledTheWindSoaringValorous: bool,
-  enabledTheWondrousBananAmusementPark: bool,
-  enabledScholarLostInErudition: bool,
-  enabledHeroOfTriumphantSong: bool,
+  enabledHunterOfGlacialForest: f32,
+  enabledFiresmithOfLavaForging: f32,
+  enabledGeniusOfBrilliantStars: f32,
+  enabledBandOfSizzlingThunder: f32,
+  enabledMessengerTraversingHackerspace: f32,
+  enabledCelestialDifferentiator: f32,
+  enabledWatchmakerMasterOfDreamMachinations: f32,
+  enabledIzumoGenseiAndTakamaDivineRealm: f32,
+  enabledForgeOfTheKalpagniLantern: f32,
+  enabledTheWindSoaringValorous: f32,
+  enabledTheWondrousBananAmusementPark: f32,
+  enabledScholarLostInErudition: f32,
+  enabledHeroOfTriumphantSong: f32,
   valueChampionOfStreetwiseBoxing: i32,
   valueWastelanderOfBanditryDesert: i32,
   valueLongevousDisciple: i32,
@@ -122,7 +122,7 @@ struct SetConditionals {
 }
 
 struct Action {
-  abilityType: i32,
+  abilityType: f32,
   setConditionals: SetConditionals,
   x: ComputedStats,
   m: ComputedStats,

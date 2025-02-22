@@ -124,8 +124,6 @@ struct SetConditionals {
 struct Action {
   abilityType: f32,
   setConditionals: SetConditionals,
-  x: ComputedStats,
-  m: ComputedStats,
 }
 
 struct Params {

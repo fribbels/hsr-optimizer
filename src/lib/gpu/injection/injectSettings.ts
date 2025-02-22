@@ -22,14 +22,16 @@ function generateActions(context: OptimizerContext) {
   const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
   let actionSwitcher = ``
   for (let i = 0; i < actionLength; i++) {
-    actionSwitcher += indent(`case ${i}: { (*outAction) = action${i}; }\n`, 1)
+    actionSwitcher += indent(`case ${i}: { (*outAction) = action${i}; (*outX) = computedStatsX${i}; (*outM) = computedStatsM${i}; }\n`, 1)
   }
 
   const wgsl = `
-fn getAction(actionIndex: i32, outAction: ptr<function, Action>) {
+fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, ComputedStats>, outM: ptr<function, ComputedStats>) {
   switch (actionIndex) {
     ${actionSwitcher}
-    default: { (*outAction) = action0; }
+    default: { 
+      (*outAction) = action0; 
+    }
   }
 }
   `

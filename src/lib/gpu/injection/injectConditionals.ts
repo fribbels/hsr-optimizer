@@ -124,11 +124,21 @@ const comboBreak: f32 = ${context.comboBreak};
       ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
       ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
     ),
-    ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
-    ),
-    ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
-    ),
   );`
+  }
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
+
+    actionsDefinition += `
+  const computedStatsX${i} = ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
+    );`
+  }
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
+
+    actionsDefinition += `
+  const computedStatsM${i} = ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
+    );`
   }
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)

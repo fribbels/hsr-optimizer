@@ -322,9 +322,9 @@ fn main(
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
       var action: Action;        // Declare mutable struct variable
-      getAction(actionIndex, &action); // Pass as a pointer
-      var x = action.x;
-      var m = action.m;
+      var x: ComputedStats;
+      var m: ComputedStats;
+      getAction(actionIndex, &action, &x, &m); // Pass as a pointer
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
@@ -1270,15 +1270,15 @@ fn calculateAshblazingSet(
   p_state: ptr<function, ConditionalState>,
   hitMulti: f32,
 ) -> f32 {
-  var action: Action;        // Declare mutable struct variable
-  getAction((*p_state).actionIndex, &action); // Pass as a pointer
-
-  if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-    let ashblazingAtk = 0.06 * f32(action.setConditionals.valueTheAshblazingGrandDuke) * baseATK;
-    let ashblazingMulti = hitMulti * baseATK;
-
-    return ashblazingMulti - ashblazingAtk;
-  }
+//  var action: Action;        // Declare mutable struct variable
+//  getAction((*p_state).actionIndex, &action); // Pass as a pointer
+//
+//  if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
+//    let ashblazingAtk = 0.06 * f32(action.setConditionals.valueTheAshblazingGrandDuke) * baseATK;
+//    let ashblazingMulti = hitMulti * baseATK;
+//
+//    return ashblazingMulti - ashblazingAtk;
+//  }
 
   return 0;
 }

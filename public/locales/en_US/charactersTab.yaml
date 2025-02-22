@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: DOT DMG
         BREAK: BREAK DMG
         COMBO: COMBO DMG
+    CombatBuffs:
+      Header: Combat buffs
   ScoringColumn:
     Character:
       Header: "Character build ({{score}}%)"

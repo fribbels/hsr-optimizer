@@ -173,8 +173,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${getUltHitMulti(action, context)}));
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * (1 * 1.00)}));
+x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_sets, p_state, ${getUltHitMulti(action, context)}));
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_sets, p_state, ${ASHBLAZING_ATK_STACK * (1 * 1.00)}));
     `
     },
   }

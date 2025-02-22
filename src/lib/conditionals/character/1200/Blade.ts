@@ -144,7 +144,7 @@ if (${wgslTrue(e >= 1 && context.enemyCount == 1)}) {
   x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
 }
 
-x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[context.enemyCount]}));
+x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_sets, p_state, ${hitMultiByTargets[context.enemyCount]}));
 x.FUA_DMG += ${fuaHpScaling} * x.HP;
 
 if (e >= 6) {

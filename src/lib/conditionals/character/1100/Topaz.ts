@@ -147,8 +147,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
       return `
-x.BASIC_DMG += x.BASIC_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${basicHitCountMulti}));
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
+x.BASIC_DMG += x.BASIC_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_sets, p_state, ${basicHitCountMulti}));
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_sets, p_state, ${hitMulti}));
 x.SKILL_DMG = x.FUA_DMG;
     `
     },

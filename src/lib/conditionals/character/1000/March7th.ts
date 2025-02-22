@@ -70,7 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
 x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_sets, p_state, ${hitMulti}));
 if (${wgslTrue(e >= 4)}) {
   x.FUA_DMG += 0.30 * x.DEF;
 }

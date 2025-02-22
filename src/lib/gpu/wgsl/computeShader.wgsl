@@ -331,9 +331,8 @@ fn main(
 
       let p_x = &x;
       let p_m = &m;
+      let p_sets = &sets;
       let p_state = &state;
-
-      x.sets = sets;
 
       // BASIC
 
@@ -1267,6 +1266,7 @@ fn getPioneerSetCd(
 
 fn calculateAshblazingSet(
   p_x: ptr<function, ComputedStats>,
+  p_sets: ptr<function, Sets>,
   p_state: ptr<function, ConditionalState>,
   hitMulti: f32,
 ) -> f32 {

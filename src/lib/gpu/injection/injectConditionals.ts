@@ -154,28 +154,8 @@ function boolToNum(b: boolean) {
   return b ? 1 : 0
 }
 
-function generateDependencyCall(conditionalName: string) {
-  return `evaluate${conditionalName}(p_x, p_m, p_state);`
-}
-
-function generateConditionalEvaluator(statName: string, conditionalCallsWgsl: string) {
-  return `
-fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
-${indent(conditionalCallsWgsl, 1)}
-}
-  `
-}
-
-function generateConditionalNonRatioEvaluator(statName: string, conditionalCallsWgsl: string) {
-  return `
-fn evaluateNonRatioDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
-${indent(conditionalCallsWgsl, 1)}
-}
-  `
-}
-
 function generateConditionalExecution(conditional: DynamicConditional) {
-  return `evaluate${conditional.id}(p_x, p_m, p_state);`
+  return `evaluate${conditional.id}(p_x, p_m, p_sets, p_state);`
 }
 
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {

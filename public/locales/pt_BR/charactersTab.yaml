@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: Dano de DOT
         BREAK: DANO BREAK
         COMBO: Dano do combo
+    CombatBuffs:
+      Header: Buffs de combate
   ScoringColumn:
     Character:
       Header: "Build do personagem ({{score}}%)"

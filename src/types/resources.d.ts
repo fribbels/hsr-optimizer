@@ -163,6 +163,9 @@ interface Resources {
             "BREAK": "BREAK DMG",
             "COMBO": "COMBO DMG"
           }
+        },
+        "CombatBuffs": {
+          "Header": "Combat buffs"
         }
       },
       "ScoringColumn": {
@@ -5134,7 +5137,7 @@ interface Resources {
           "breakDmg": "Break",
           "superBreakDmg": "Super Break",
           "additionalDmg": "Additional",
-          "trueDmg": true,
+          "trueDmg": "True",
           "jointDmg": "Joint",
           "dotDmg": "Dot",
           "memoDmg": "Memo"

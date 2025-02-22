@@ -1265,20 +1265,16 @@ fn getPioneerSetCd(
 }
 
 fn calculateAshblazingSet(
-  p_x: ptr<function, ComputedStats>,
-  p_sets: ptr<function, Sets>,
-  p_state: ptr<function, ConditionalState>,
+  setCount: i32,
+  valueTheAshblazingGrandDuke: i32,
   hitMulti: f32,
 ) -> f32 {
-//  var action: Action;        // Declare mutable struct variable
-//  getAction((*p_state).actionIndex, &action); // Pass as a pointer
-//
-//  if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-//    let ashblazingAtk = 0.06 * f32(action.setConditionals.valueTheAshblazingGrandDuke) * baseATK;
-//    let ashblazingMulti = hitMulti * baseATK;
-//
-//    return ashblazingMulti - ashblazingAtk;
-//  }
+  if (p4(setCount) >= 1) {
+    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
+    let ashblazingMulti = hitMulti * baseATK;
+
+    return ashblazingMulti - ashblazingAtk;
+  }
 
   return 0;
 }

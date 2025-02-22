@@ -11,7 +11,7 @@ export function injectSettings(wgsl: string, context: OptimizerContext, request:
   wgsl += generateAggregateStats()
   wgsl += generateElement(context)
   wgsl += generateRequest(request)
-  // wgsl += generateActions(context)
+  wgsl += generateActions(context)
 
   wgsl += '\n'
 

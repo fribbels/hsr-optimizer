@@ -128,12 +128,8 @@ const comboBreak: f32 = ${context.comboBreak};
     ),
     ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
     ),
-    ConditionalState(
-    ),
   );`
   }
-
-  actionsDefinition += ``
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
 

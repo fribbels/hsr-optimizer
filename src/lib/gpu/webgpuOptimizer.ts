@@ -117,8 +117,8 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.top()?.value ?? 0
 
-  let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION - elementOffset
-  const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION - elementOffset
+  let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
   const diff = gpuContext.permutations - maxPermNumber
   if (diff < 0) {
     limit += diff
@@ -126,7 +126,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
 
   const indexOffset = offset + elementOffset
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
-    for (let j = limit - 1; j >= 0; j--) {
+    for (let j = limit - elementOffset - 1; j >= 0; j--) {
       const value = array[j]
       if (value < 0) {
         j += value + 1
@@ -140,7 +140,7 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
       }).value
     }
   } else {
-    for (let j = limit - 1; j >= 0; j--) {
+    for (let j = limit - elementOffset - 1; j >= 0; j--) {
       const value = array[j]
       if (value < 0) {
         j += value + 1

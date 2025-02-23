@@ -1,6 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
@@ -237,8 +237,8 @@ self.onmessage = function (e: MessageEvent) {
 }
 
 function addConditionIfNeeded(
-  conditions: ((stats: Record<number | string, number>) => boolean)[],
-  statKey: number | string,
+  conditions: ((stats: Float32Array) => boolean)[],
+  statKey: number,
   min: number,
   max: number,
 ) {
@@ -248,24 +248,7 @@ function addConditionIfNeeded(
 }
 
 function basicStatsFilter(request: Form) {
-  const conditions: ((stats: Record<string, number>) => boolean)[] = []
-
-  addConditionIfNeeded(conditions, Stats.HP, request.minHp, request.maxHp)
-  addConditionIfNeeded(conditions, Stats.ATK, request.minAtk, request.maxAtk)
-  addConditionIfNeeded(conditions, Stats.DEF, request.minDef, request.maxDef)
-  addConditionIfNeeded(conditions, Stats.SPD, request.minSpd, request.maxSpd)
-  addConditionIfNeeded(conditions, Stats.CR, request.minCr, request.maxCr)
-  addConditionIfNeeded(conditions, Stats.CD, request.minCd, request.maxCd)
-  addConditionIfNeeded(conditions, Stats.EHR, request.minEhr, request.maxEhr)
-  addConditionIfNeeded(conditions, Stats.RES, request.minRes, request.maxRes)
-  addConditionIfNeeded(conditions, Stats.BE, request.minBe, request.maxBe)
-  addConditionIfNeeded(conditions, Stats.ERR, request.minErr, request.maxErr)
-
-  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
-}
-
-function combatStatsFilter(request: Form) {
-  const conditions: ((stats: Record<number, number>) => boolean)[] = []
+  const conditions: ((stats: Float32Array) => boolean)[] = []
 
   addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
   addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
@@ -278,11 +261,28 @@ function combatStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
   addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
 
-  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
+}
+
+function combatStatsFilter(request: Form) {
+  const conditions: ((stats: Float32Array) => boolean)[] = []
+
+  addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Key.DEF, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Key.SPD, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Key.CR, request.minCr, request.maxCr)
+  addConditionIfNeeded(conditions, Key.CD, request.minCd, request.maxCd)
+  addConditionIfNeeded(conditions, Key.EHR, request.minEhr, request.maxEhr)
+  addConditionIfNeeded(conditions, Key.RES, request.minRes, request.maxRes)
+  addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
+  addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
+
+  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
 }
 
 function ratingStatsFilter(request: Form) {
-  const conditions: ((stats: Record<number, number>) => boolean)[] = []
+  const conditions: ((stats: Float32Array) => boolean)[] = []
 
   addConditionIfNeeded(conditions, Key.EHP, request.minEhp, request.maxEhp)
   addConditionIfNeeded(conditions, Key.BASIC_DMG, request.minBasic, request.maxBasic)
@@ -295,7 +295,7 @@ function ratingStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)
   addConditionIfNeeded(conditions, Key.SHIELD_VALUE, request.minShield, request.maxShield)
 
-  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
 }
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {

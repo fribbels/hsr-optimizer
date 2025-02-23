@@ -1,0 +1,9 @@
+Import:
+  ErrorMsg:
+    Unknown: Bilinmeyen Hata
+    InvalidFile: Geçersiz tarayıcı dosyası
+    InvalidJson: Geçersiz JSON
+    Fragment: "Dosyayı içe aktarırken hata meydana geldi."
+LoadData:
+  Stage2:
+    ErrorMsg: Geçersiz kayıt dosyası, lütfen başka bir dosya deneyin. Relic tarayıcı içe aktarma sayfsınımı kullanmak istediniz?

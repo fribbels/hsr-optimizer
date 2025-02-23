@@ -122,11 +122,8 @@ struct SetConditionals {
 }
 
 struct Action {
-  abilityType: i32,
+  abilityType: f32,
   setConditionals: SetConditionals,
-  x: ComputedStats,
-  m: ComputedStats,
-  state: ConditionalState,
 }
 
 struct Params {

@@ -10,10 +10,6 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-function unindent(text: string): string {
-  return text.replace(/^\s+/gm, '')
-}
-
 export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   let wgsl = ''
 
@@ -25,10 +21,6 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
-
-  if (!window.WEBGPU_DEBUG) {
-    wgsl = unindent(wgsl)
-  }
 
   return wgsl
 }

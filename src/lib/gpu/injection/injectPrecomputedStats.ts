@@ -12,7 +12,7 @@ export function injectPrecomputedStatsContext(x: ComputedStatsArray, gpuParams: 
       const comment = gpuParams.DEBUG ? ` // Stats.${key}` : ''
       return `${value},${comment}`
     })
-    .join('\n') + '\nSets(),'
+    .join('\n')
 
   return computedStatsWgsl
 }

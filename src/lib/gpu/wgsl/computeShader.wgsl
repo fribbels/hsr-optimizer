@@ -321,18 +321,19 @@ fn main(
     var mc = c;
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      let action = actions[actionIndex];
-      var x = action.x;
-      var m = action.m;
+      var action: Action;
+      var x: ComputedStats;
+      var m: ComputedStats;
+      getAction(actionIndex, &action, &x, &m);
+
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
 
       let p_x = &x;
       let p_m = &m;
+      let p_sets = &sets;
       let p_state = &state;
-
-      x.sets = sets;
 
       // BASIC
 
@@ -568,8 +569,8 @@ fn main(
 
       addComputedElementalDmg(&x);
 
-      calculateDamage(&m, &emptyComputedStats, actionIndex);
-      calculateDamage(&x, &m, actionIndex);
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
 
       if (actionIndex > 0) {
         if (action.abilityType == BASIC_ABILITY_TYPE) {
@@ -620,12 +621,13 @@ fn main(
 fn calculateDamage(
   p_x: ptr<function, ComputedStats>,
   p_m: ptr<function, ComputedStats>,
-  actionIndex: i32
+  actionIndex: i32,
+  abilityType: f32,
 ) {
   let x = *p_x;
   let m = *p_m;
   let eLevel: f32 = f32(enemyLevel);
-  let action = actions[actionIndex];
+
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
@@ -692,7 +694,7 @@ fn calculateDamage(
     (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
-  if (action.abilityType == 1 || actionIndex == 0) {
+  if (abilityType == 1 || actionIndex == 0) {
     (*p_x).BASIC_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -722,7 +724,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 2 || actionIndex == 0) {
+  if (abilityType == 2 || actionIndex == 0) {
     (*p_x).SKILL_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -752,7 +754,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 4 || actionIndex == 0) {
+  if (abilityType == 4 || actionIndex == 0) {
     (*p_x).ULT_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -782,7 +784,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 8 || actionIndex == 0) {
+  if (abilityType == 8 || actionIndex == 0) {
     (*p_x).FUA_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -812,7 +814,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
+  if (abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
     (*p_x).MEMO_SKILL_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -1264,12 +1266,12 @@ fn getPioneerSetCd(
 }
 
 fn calculateAshblazingSet(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>,
+  setCount: i32,
+  valueTheAshblazingGrandDuke: i32,
   hitMulti: f32,
 ) -> f32 {
-  if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-    let ashblazingAtk = 0.06 * f32(actions[(*p_state).actionIndex].setConditionals.valueTheAshblazingGrandDuke) * baseATK;
+  if (p4(setCount) >= 1) {
+    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
     let ashblazingMulti = hitMulti * baseATK;
 
     return ashblazingMulti - ashblazingAtk;

@@ -1,4 +1,5 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -144,7 +145,7 @@ if (${wgslTrue(e >= 1 && context.enemyCount == 1)}) {
   x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
 }
 
-x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[context.enemyCount]}));
+x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + ${ashblazingWgsl(hitMultiByTargets[context.enemyCount])});
 x.FUA_DMG += ${fuaHpScaling} * x.HP;
 
 if (e >= 6) {

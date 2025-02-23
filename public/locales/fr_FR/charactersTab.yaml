@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: DSD
         BREAK: RUPTURE
         COMBO: COMBO
+    CombatBuffs:
+      Header: Buffs de combat
   ScoringColumn:
     Character:
       Header: "Build personnage ({{score}}%)"

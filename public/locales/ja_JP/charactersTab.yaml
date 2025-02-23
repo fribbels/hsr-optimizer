@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: 持続
         BREAK: 弱点撃破
         COMBO: コンボ
+    CombatBuffs:
+      Header: 戦闘バフ
   ScoringColumn:
     Character:
       Header: "選択キャラのビルド（{{score}}％）"

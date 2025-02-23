@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: crwdns39752:0crwdne39752:0
         BREAK: crwdns39754:0crwdne39754:0
         COMBO: crwdns39756:0crwdne39756:0
+    CombatBuffs:
+      Header: crwdns44746:0crwdne44746:0
   ScoringColumn:
     Character:
       Header: "crwdns39758:0{{score}}crwdne39758:0"

@@ -151,6 +151,7 @@ export const BaseComputedStatsConfig = {
   BREAK_TRUE_DMG_MODIFIER: {},
 
   // e.g. Acheron multiplier
+  FINAL_DMG_BOOST: {},
   BASIC_FINAL_DMG_BOOST: {},
   SKILL_FINAL_DMG_BOOST: {},
   ULT_FINAL_DMG_BOOST: {},

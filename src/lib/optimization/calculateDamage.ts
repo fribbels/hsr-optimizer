@@ -337,7 +337,7 @@ function calculateAbilityDmg(
     const abilityVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + abilityVulnerability
     const abilityDefMulti = calculateDefMulti(eLevel, baseDefPen + abilityDefPen)
     const abilityResMulti = 1 - (baseResistance - abilityResPen)
-    const abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost
+    const abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost + a[Key.FINAL_DMG_BOOST]
 
     abilityCritDmgOutput = calculateCritDmg(
       abilityDmg,

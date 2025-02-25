@@ -903,7 +903,7 @@ fn calculateAbilityDmg(
     let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
     let abilityDefMulti = calculateDefMulti(baseDefPen + abilityDefPen);
     let abilityResMulti = 1 - (baseResistance - abilityResPen);
-    let abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost;
+    let abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost + x.FINAL_DMG_BOOST;
 
     abilityCritDmgOutput = abilityDmg
       * (baseUniversalMulti)

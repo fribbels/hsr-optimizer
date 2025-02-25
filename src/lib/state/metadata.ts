@@ -7046,7 +7046,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
-      sortOption: SortOption.ULT,
+      sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {

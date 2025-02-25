@@ -178,8 +178,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
       x.m.MEMO_TALENT_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
 
-      x.MEMO_SKILL_BOOST.buff((e >= 1) ? 0.30 * r.e1DmgStacks : 0, SOURCE_E1)
-      x.MEMO_SKILL_BOOST.buff((e >= 2 && r.e2MemoSkillDmgBoost) ? 1.00 : 0, SOURCE_E2)
+      x.m.MEMO_SKILL_BOOST.buff((e >= 1) ? 0.30 * r.e1DmgStacks : 0, SOURCE_E1)
+      x.m.MEMO_SKILL_BOOST.buff((e >= 2 && r.e2MemoSkillDmgBoost) ? 1.00 : 0, SOURCE_E2)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_BASIC)

@@ -24,6 +24,8 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.id == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.id == name)?.id || null
   return [
+    { characterId: char(1405), lightConeId: lc(23041) },
+    { characterId: char(1407), lightConeId: lc(23040) },
     { characterId: char(1403), lightConeId: lc(23038) },
     { characterId: char(1404), lightConeId: lc(23039) },
 

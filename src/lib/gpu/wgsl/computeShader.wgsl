@@ -850,7 +850,7 @@ fn calculateDamage(
     (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
   }
 
-  if (action.abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
+  if (abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
     (*p_x).MEMO_TALENT_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,

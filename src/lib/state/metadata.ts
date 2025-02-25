@@ -1229,6 +1229,16 @@ function getOverrideImageCenter(): Record<string, {
       y: 1050,
       z: 1.05,
     },
+    1405: { // Anaxa
+      x: 1235,
+      y: 1025,
+      z: 0.90,
+    },
+    1407: { // Castorice
+      x: 875,
+      y: 950,
+      z: 1.00,
+    },
   }
 }
 
@@ -7044,6 +7054,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -7055,20 +7066,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: '1401', // The Herta
+            lightCone: '23037', // Unreachable
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7077,13 +7088,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     1407: { // Castorice
       stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
-        [Stats.HP]: 0,
-        [Stats.HP_P]: 0,
-        [Stats.SPD]: 1,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 0,
         [Stats.CR]: 1,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
@@ -7105,19 +7116,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
         ],
         [Parts.Feet]: [
-          Stats.ATK_P,
-          Stats.SPD,
+          Stats.HP_P,
         ],
         [Parts.PlanarSphere]: [
-          Stats.ATK_P,
+          Stats.HP_P,
           Stats.Quantum_DMG,
         ],
         [Parts.LinkRope]: [
-          Stats.ATK_P,
+          Stats.HP_P,
         ],
       },
       presets: [],
-      sortOption: SortOption.SKILL,
+      sortOption: SortOption.MEMO_SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
         parts: {
@@ -7126,52 +7136,50 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             Stats.CD,
           ],
           [Parts.Feet]: [
-            Stats.ATK_P,
+            Stats.HP_P,
             Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
-            Stats.ATK_P,
+            Stats.HP_P,
             Stats.Quantum_DMG,
           ],
           [Parts.LinkRope]: [
-            Stats.ATK_P,
+            Stats.HP_P,
           ],
         },
         substats: [
           Stats.CD,
           Stats.CR,
-          Stats.ATK_P,
-          Stats.ATK,
+          Stats.HP_P,
+          Stats.HP,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, SKILL, SKILL, ULT, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_TALENT],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.RutilantArena,
-          Sets.FirmamentFrontlineGlamoth,
+          Sets.BoneCollectionsSereneDemesne,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
           {
-            characterId: '1006', // SW
-            lightCone: '23007', // Rain
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
-            characterEidolon: 0,
+            characterId: '8008', // RMC
+            lightCone: '21050', // Victory
+            characterEidolon: 6,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

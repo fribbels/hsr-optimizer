@@ -72,7 +72,7 @@ export function DamageSplitsChart(props: {
           top: 50,
           right: 60,
           bottom: 20,
-          left: 60,
+          left: 70,
         }}
         barCategoryGap='25%'
         width={DAMAGE_SPLITS_CHART_WIDTH}

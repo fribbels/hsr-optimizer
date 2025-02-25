@@ -25,7 +25,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1402')
+  } = Source.character('1407')
 
   const basicScaling = basic(e, 0.50, 0.50)
 

@@ -7150,7 +7150,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.MEMO_SKILL,
-      hiddenColumns: [SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
       simulation: {
         parts: {
           [Parts.Body]: [

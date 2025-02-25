@@ -102,7 +102,7 @@ export function DamageSplitsChart(props: {
         />
         <Legend
           formatter={(s: DamageBreakdownKeys) => t(`Legend.${s}`)}
-          wrapperStyle={{ paddingTop: 10 }}
+          wrapperStyle={{ paddingTop: 10, paddingRight: 40, paddingLeft: 40 }}
         />
 
         {renderBar('abilityDmg', '#85c1e9', setBarHovered)}

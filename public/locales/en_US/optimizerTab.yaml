@@ -432,6 +432,7 @@ ComboFilter:
     Ult: Ult
     Fua: Fua
     MemoSkill: Skillᴹ
+    MemoTalent: Talentᴹ
   RotationButton: Advanced rotation
 ComboDrawer:
   NoConditionals: No conditional passives

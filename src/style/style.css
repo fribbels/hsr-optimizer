@@ -710,3 +710,7 @@ a {
 .tree-select-divider {
     height: 8px !important;
 }
+
+.recharts-legend-item {
+    margin-right: 20px !important;
+}

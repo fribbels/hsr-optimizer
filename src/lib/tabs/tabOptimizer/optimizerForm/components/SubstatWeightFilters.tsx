@@ -8,8 +8,7 @@ import { useTranslation } from 'react-i18next'
 export const SubstatWeightFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
   return (
-    <Flex vertical gap={4}>
-
+    <Flex vertical gap={20}>
       <Flex vertical gap={0}>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('WeightFilterHeader')/* Substat weight filter */}</HeaderText>
@@ -21,7 +20,7 @@ export const SubstatWeightFilters = () => {
 
       <Flex vertical gap={3}>
         <HeaderText>{t('RollFilterHeader')/* Weighted rolls per relic */}</HeaderText>
-        <Flex vertical gap={5}>
+        <Flex vertical gap={7}>
           <FormStatRollSliderTopPercent index={0}/>
           <FormStatRollSliderTopPercent index={1}/>
           <FormStatRollSliderTopPercent index={2}/>

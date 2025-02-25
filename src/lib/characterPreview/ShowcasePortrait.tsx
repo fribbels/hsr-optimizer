@@ -159,7 +159,38 @@ export function ShowcasePortrait(props: {
         vertical
         style={{
           position: 'absolute',
-          bottom: showUid ? 36 : 1,
+          paddingLeft: 3,
+          bottom: artistName ? 36 : 1,
+          height: 34,
+          display: showUid ? 'flex' : 'none',
+        }}
+        align='flex-start'
+      >
+        <Text
+          style={{
+            backgroundColor: 'rgb(20 20 20 / 30%)',
+            color: 'rgb(255 255 255 / 80%)',
+            padding: '4px 12px',
+            borderRadius: 8,
+            border: showcaseOutlineLight,
+            backdropFilter: showcaseBackdropFilter,
+            fontSize: 14,
+            maxWidth: parentW - 150,
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            zIndex: 2,
+            textShadow: '0px 0px 10px black',
+          }}
+        >
+          {uid}
+        </Text>
+      </Flex>
+      <Flex
+        vertical
+        style={{
+          position: 'absolute',
+          bottom: 1,
           height: 34,
           paddingLeft: 3,
           display: artistName ? 'flex' : 'none',
@@ -184,37 +215,6 @@ export function ShowcasePortrait(props: {
           }}
         >
           {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' })/* Art by {{artistName}} */}
-        </Text>
-      </Flex>
-      <Flex
-        vertical
-        style={{
-          position: 'absolute',
-          bottom: 1,
-          height: 34,
-          paddingLeft: 3,
-          display: showUid ? 'flex' : 'none',
-        }}
-        align='flex-start'
-      >
-        <Text
-          style={{
-            backgroundColor: 'rgb(20 20 20 / 30%)',
-            color: 'rgb(255 255 255 / 80%)',
-            padding: '4px 12px',
-            borderRadius: 8,
-            border: showcaseOutlineLight,
-            backdropFilter: showcaseBackdropFilter,
-            fontSize: 14,
-            maxWidth: parentW - 150,
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            zIndex: 2,
-            textShadow: '0px 0px 10px black',
-          }}
-        >
-          UID: {uid}
         </Text>
       </Flex>
     </div>

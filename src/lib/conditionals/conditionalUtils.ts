@@ -95,3 +95,7 @@ export function countTeamPath(context: OptimizerContext, path: string) {
     + (context.teammate1Metadata?.path == path ? 1 : 0)
     + (context.teammate2Metadata?.path == path ? 1 : 0)
 }
+
+export function mainIsPath(context: OptimizerContext, path: string) {
+  return context.path == path
+}

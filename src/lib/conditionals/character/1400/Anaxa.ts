@@ -162,7 +162,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
-      x.ELEMENTAL_DMG.buff((m.eruditionTeammateBuffs && eruditionMembers >= 2) ? 0.25 : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff((m.eruditionTeammateBuffs && eruditionMembers >= 2) ? 0.30 : 0, SOURCE_TRACE)
 
       x.DEF_PEN.buff((e >= 1 && m.e1DefPen) ? 0.16 : 0, SOURCE_E1)
     },

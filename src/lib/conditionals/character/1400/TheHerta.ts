@@ -151,6 +151,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.CD.buff((m.eruditionTeammate ? 0.80 : 0), SOURCE_TRACE)
       x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.12 : 0, SOURCE_E4)
     },
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
+    },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAtkFinalizer(x)
     },

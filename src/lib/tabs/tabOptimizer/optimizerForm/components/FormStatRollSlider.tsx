@@ -30,9 +30,9 @@ export function FormStatRollSliders() {
   const sliders: ReactElement[] = []
   for (const stat of StatSliders) {
     labels.push(
-      <Text style={{ textWrap: 'nowrap' }} key={stat.name}>
+      <span style={{ textWrap: 'nowrap' }} key={stat.name}>
         {t(stat.text)}
-      </Text>,
+      </span>,
     )
     sliders.push(
       <Form.Item name={['weights', stat.name]} style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }} key={stat.name}>
@@ -54,11 +54,12 @@ export function FormStatRollSliders() {
   }
   return (
     <Flex gap={10}>
-      <Flex vertical style={{ width: 'max-content' }}>
+      <Flex vertical style={{ width: 'max-content' }} gap={3}>
         {labels}
       </Flex>
       <Flex
         vertical
+        gap={3}
         style={{
           width: '100%',
           marginLeft: 10,

@@ -231,7 +231,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseBreakEfficiencyBoost,
         Key.MEMO_SKILL_DMG,
         a[Key.MEMO_SKILL_DMG],
-        0, // a[Key.MEMO_SKILL_BOOST],
+        a[Key.MEMO_SKILL_BOOST],
         0, // a[Key.MEMO_SKILL_VULNERABILITY],
         0, // a[Key.MEMO_SKILL_DEF_PEN],
         0, // a[Key.MEMO_SKILL_RES_PEN],
@@ -245,6 +245,43 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
+        0, // a[Key.MEMO_TRUE_DMG_MODIFIER],
+        0, // No memo joint
+      )
+    }
+  }
+
+  if (action.actionType == 'MEMO_TALENT' || action.actionType == 'DEFAULT') {
+    if (x.m) {
+      a[Key.MEMO_TALENT_DMG] += x.m.a[Key.MEMO_TALENT_DMG]
+    } else {
+      a[Key.MEMO_TALENT_DMG] = calculateAbilityDmg(
+        x,
+        action,
+        context,
+        baseUniversalMulti,
+        baseDmgBoost,
+        baseDefPen,
+        baseResistance,
+        baseSuperBreakInstanceDmg,
+        baseSuperBreakModifier,
+        baseBreakEfficiencyBoost,
+        Key.MEMO_TALENT_DMG,
+        a[Key.MEMO_TALENT_DMG],
+        a[Key.MEMO_TALENT_BOOST],
+        0, // a[Key.MEMO_TALENT_VULNERABILITY],
+        0, // a[Key.MEMO_TALENT_DEF_PEN],
+        0, // a[Key.MEMO_TALENT_RES_PEN],
+        0, // a[Key.MEMO_TALENT_CR_BOOST],
+        0, // a[Key.MEMO_TALENT_CD_BOOST],
+        0, // a[Key.MEMO_TALENT_FINAL_DMG_BOOST],
+        0, // a[Key.MEMO_TALENT_BREAK_EFFICIENCY_BOOST],
+        0, // a[Key.MEMO_TALENT_SUPER_BREAK_MODIFIER],
+        0, // a[Key.MEMO_TALENT_BREAK_DMG_MODIFIER],
+        a[Key.MEMO_TALENT_TOUGHNESS_DMG],
+        0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG],
+        0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE],
+        0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE],
         0, // a[Key.MEMO_TRUE_DMG_MODIFIER],
         0, // No memo joint
       )
@@ -337,7 +374,7 @@ function calculateAbilityDmg(
     const abilityVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + abilityVulnerability
     const abilityDefMulti = calculateDefMulti(eLevel, baseDefPen + abilityDefPen)
     const abilityResMulti = 1 - (baseResistance - abilityResPen)
-    const abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost
+    const abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost + a[Key.FINAL_DMG_BOOST]
 
     abilityCritDmgOutput = calculateCritDmg(
       abilityDmg,

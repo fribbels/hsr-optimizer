@@ -13,6 +13,7 @@ const SKILL = 'SKILL'
 const ULT = 'ULT'
 const FUA = 'FUA'
 const MEMO_SKILL = 'MEMO_SKILL'
+const MEMO_TALENT = 'MEMO_TALENT'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -444,6 +445,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Stats.HP_P]: 0.21 },
       5: { [Stats.HP_P]: 0.24 },
     },
+    22004: {
+      1: { [Stats.ATK_P]: 0.08 },
+      2: { [Stats.ATK_P]: 0.10 },
+      3: { [Stats.ATK_P]: 0.12 },
+      4: { [Stats.ATK_P]: 0.14 },
+      5: { [Stats.ATK_P]: 0.16 },
+    },
     23000: {},
     23001: {
       1: { [Stats.CR]: 0.18 },
@@ -693,6 +701,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       3: { [Constants.Stats.HP_P]: 0.24 },
       4: { [Constants.Stats.HP_P]: 0.27 },
       5: { [Constants.Stats.HP_P]: 0.30 },
+    },
+    23040: {
+      1: { [Constants.Stats.HP_P]: 0.30 },
+      2: { [Constants.Stats.HP_P]: 0.375 },
+      3: { [Constants.Stats.HP_P]: 0.45 },
+      4: { [Constants.Stats.HP_P]: 0.525 },
+      5: { [Constants.Stats.HP_P]: 0.60 },
+    },
+    23041: {
+      1: { [Constants.Stats.CR]: 0.18 },
+      2: { [Constants.Stats.CR]: 0.21 },
+      3: { [Constants.Stats.CR]: 0.24 },
+      4: { [Constants.Stats.CR]: 0.27 },
+      5: { [Constants.Stats.CR]: 0.30 },
     },
     24000: {},
     24001: {
@@ -1227,6 +1249,16 @@ function getOverrideImageCenter(): Record<string, {
       x: 925,
       y: 1050,
       z: 1.05,
+    },
+    1405: { // Anaxa
+      x: 1235,
+      y: 1025,
+      z: 0.90,
+    },
+    1407: { // Castorice
+      x: 875,
+      y: 950,
+      z: 1.00,
     },
   }
 }
@@ -6691,7 +6723,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       ],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
-      addedColumns: [SortOption.MEMO_SKILL],
+      addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -6964,6 +6996,215 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: '1203', // Luocha
             lightCone: '23008', // Coffin
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1405: { // Anaxa
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 1,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Wind_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [
+        PresetEffects.fnPioneerSet(4),
+      ],
+      sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1401', // The Herta
+            lightCone: '23037', // Unreachable
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1407: { // Castorice
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 0,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 1,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.HP_P,
+        ],
+        [Parts.Feet]: [
+          Stats.HP_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.HP_P,
+          Stats.Quantum_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.MEMO_SKILL,
+      addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+        ],
+        comboAbilities: [NULL, SKILL, SKILL, ULT, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_TALENT],
+        comboDot: 0,
+        comboBreak: 0,
+        relicSets: [
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '8008', // RMC
+            lightCone: '21050', // Victory
+            characterEidolon: 6,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

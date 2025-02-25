@@ -29,6 +29,7 @@ export const ComboFilters = () => {
     { label: t('ComboOptions.Ult')/* Ult */, value: 'ULT' },
     { label: t('ComboOptions.Fua')/* Fua */, value: 'FUA' },
     { label: t('ComboOptions.MemoSkill')/* Skillᴹ */, value: 'MEMO_SKILL' },
+    { label: t('ComboOptions.MemoTalent')/* Talentᴹ */, value: 'MEMO_TALENT' },
   ], [t])
 
   return (
@@ -141,7 +142,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
 
   return (
     <Flex>
-      <Flex vertical flex={1} style={{ marginLeft: 2 }}>
+      <Flex vertical flex={1} style={{ marginLeft: 2 }} gap={3}>
         <HeaderText>{t('AbilityLabel')/* Abilities */}</HeaderText>
         <ComboOptionRowSelect index={1} comboOptions={props.comboOptions}/>
         <ComboOptionRowSelect index={2} comboOptions={props.comboOptions}/>

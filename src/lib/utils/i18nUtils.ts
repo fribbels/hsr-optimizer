@@ -46,6 +46,11 @@ export const languages = {
     nativeName: 'русский',
     shortName: 'русский',
   },
+  tr_TR: {
+    locale: 'tr_TR',
+    nativeName: 'Türkçe',
+    shortName: 'Türkçe',
+  },
   vi_VN: {
     locale: 'vi_VN',
     nativeName: 'Tiếng Việt',

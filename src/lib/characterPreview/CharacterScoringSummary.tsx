@@ -419,6 +419,7 @@ export const CharacterScoringSummary = (props: {
               <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.ULT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Fua')) + ':'} number={simResult.FUA} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Skill')) + ':'} number={simResult.MEMO_SKILL} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Talent')) + ':'} number={simResult.MEMO_TALENT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Dot')) + ':'} number={simResult.DOT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Break')) + ':'} number={simResult.BREAK} precision={1}/>
             </Flex>
@@ -517,7 +518,7 @@ export const CharacterScoringSummary = (props: {
 
       <Flex vertical align='center' style={{ width: '100%' }}>
         <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-          Combat buffs
+          {t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')/* Combat buffs */}
         </pre>
 
         <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>

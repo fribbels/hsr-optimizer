@@ -10,10 +10,6 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-function unindent(text: string): string {
-  return text.replace(/^\s+/gm, '')
-}
-
 export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   let wgsl = ''
 
@@ -25,10 +21,6 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
-
-  if (!window.WEBGPU_DEBUG) {
-    wgsl = unindent(wgsl)
-  }
 
   return wgsl
 }
@@ -159,6 +151,8 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.FUA_DMG > maxFua'),
     filter('x.MEMO_SKILL_DMG < minMemoSkill'),
     filter('x.MEMO_SKILL_DMG > maxMemoSkill'),
+    filter('x.MEMO_TALENT_DMG < minMemoTalent'),
+    filter('x.MEMO_TALENT_DMG > maxMemoTalent'),
     filter('x.DOT_DMG < minDot'),
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
@@ -201,6 +195,8 @@ function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.FUA_DMG > maxFua'),
     filter('x.MEMO_SKILL_DMG < minMemoSkill'),
     filter('x.MEMO_SKILL_DMG > maxMemoSkill'),
+    filter('x.MEMO_TALENT_DMG < minMemoTalent'),
+    filter('x.MEMO_TALENT_DMG > maxMemoTalent'),
     filter('x.DOT_DMG < minDot'),
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),

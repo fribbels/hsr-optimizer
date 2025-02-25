@@ -86,12 +86,20 @@ const baseCharacterLightConeMappings = [
   { characterId: '1317', lightConeId: '23033' }, // Rappa
   { characterId: '1225', lightConeId: '23035' }, // Fugue
   { characterId: '1313', lightConeId: '23034' }, // Sunday
+  { characterId: '1401', lightConeId: '23037' }, // The Herta
+  { characterId: '1402', lightConeId: '23036' }, // Aglaea
+  { characterId: '1403', lightConeId: '23038' }, // Tribbie
+  { characterId: '1404', lightConeId: '23039' }, // Mydei
+  { characterId: '1405', lightConeId: '23041' }, // Anaxa
+  { characterId: '1407', lightConeId: '23040' }, // Castorice
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer
   { characterId: '8004', lightConeId: basicLc }, // Trailblazer
   { characterId: '8005', lightConeId: basicLc }, // Trailblazer
   { characterId: '8006', lightConeId: basicLc }, // Trailblazer
+  { characterId: '8007', lightConeId: basicLc }, // Trailblazer
+  { characterId: '8008', lightConeId: basicLc }, // Trailblazer
 ]
 
 export async function generateAllTests() {

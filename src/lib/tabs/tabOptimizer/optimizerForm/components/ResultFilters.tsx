@@ -14,7 +14,7 @@ export const MinMaxStatFilters = () => {
         <HeaderText>{t('StatHeader')/* Stat min / max filters */}</HeaderText>
         <TooltipImage type={Hint.statFilters()}/>
       </Flex>
-      <Flex vertical gap={5}>
+      <Flex vertical gap={7}>
         <FilterRow name='Hp' label={t('HPLabel')}/>
         <FilterRow name='Atk' label={t('ATKLabel')}/>
         <FilterRow name='Def' label={t('DEFLabel')}/>
@@ -38,16 +38,19 @@ export const MinMaxRatingFilters = () => {
         <HeaderText>{t('RatingHeader')/* Rating min / max filters */}</HeaderText>
         <TooltipImage type={Hint.ratingFilters()}/>
       </Flex>
-      <FilterRow name='Ehp' label={t('EHPLabel')}/>
-      <FilterRow name='Basic' label={t('BASICLabel')}/>
-      <FilterRow name='Skill' label={t('SKILLLabel')}/>
-      <FilterRow name='Ult' label={t('ULTLabel')}/>
-      <FilterRow name='Fua' label={t('FUALabel')}/>
-      <FilterRow name='MemoSkill' label={t('MEMOSKILLLabel')}/>
-      <FilterRow name='Dot' label={t('DOTLabel')}/>
-      <FilterRow name='Break' label={t('BREAKLabel')}/>
-      <FilterRow name='Heal' label={t('HEALLabel')}/>
-      <FilterRow name='Shield' label={t('SHIELDLabel')}/>
+
+      <Flex vertical gap={7}>
+        <FilterRow name='Ehp' label={t('EHPLabel')}/>
+        <FilterRow name='Basic' label={t('BASICLabel')}/>
+        <FilterRow name='Skill' label={t('SKILLLabel')}/>
+        <FilterRow name='Ult' label={t('ULTLabel')}/>
+        <FilterRow name='Fua' label={t('FUALabel')}/>
+        <FilterRow name='MemoSkill' label={t('MEMOSKILLLabel')}/>
+        <FilterRow name='Dot' label={t('DOTLabel')}/>
+        <FilterRow name='Break' label={t('BREAKLabel')}/>
+        <FilterRow name='Heal' label={t('HEALLabel')}/>
+        <FilterRow name='Shield' label={t('SHIELDLabel')}/>
+      </Flex>
     </Flex>
   )
 }

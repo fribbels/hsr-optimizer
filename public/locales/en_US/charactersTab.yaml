@@ -114,6 +114,7 @@ CharacterPreview:
       ULT: ULT
       FUA: FUA
       MEMO_SKILL: SKILLᴹ
+      MEMO_TALENT: TALENTᴹ
       DOTS: "DOTS:"
       BREAKS: "BREAKS:"
     CombatResults:
@@ -131,7 +132,11 @@ CharacterPreview:
         FUA: FUA DMG
         DOT: DOT DMG
         BREAK: BREAK DMG
+        MEMO_SKILL: SKILLᴹ DMG
+        MEMO_TALENT: TALENTᴹ DMG
         COMBO: COMBO DMG
+    CombatBuffs:
+      Header: Combat buffs
   ScoringColumn:
     Character:
       Header: "Character build ({{score}}%)"

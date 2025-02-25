@@ -25,6 +25,7 @@ const SKILL_ABILITY_TYPE = 2;
 const ULT_ABILITY_TYPE = 4;
 const FUA_ABILITY_TYPE = 8;
 const MEMO_SKILL_ABILITY_TYPE = 16;
+const MEMO_TALENT_ABILITY_TYPE = 32;
 
 @group(0) @binding(0) var<storage> params : Params;
 
@@ -321,18 +322,19 @@ fn main(
     var mc = c;
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      let action = actions[actionIndex];
-      var x = action.x;
-      var m = action.m;
+      var action: Action;
+      var x: ComputedStats;
+      var m: ComputedStats;
+      getAction(actionIndex, &action, &x, &m);
+
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
 
       let p_x = &x;
       let p_m = &m;
+      let p_sets = &sets;
       let p_state = &state;
-
-      x.sets = sets;
 
       // BASIC
 
@@ -568,8 +570,8 @@ fn main(
 
       addComputedElementalDmg(&x);
 
-      calculateDamage(&m, &emptyComputedStats, actionIndex);
-      calculateDamage(&x, &m, actionIndex);
+      calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      calculateDamage(&x, &m, actionIndex, action.abilityType);
 
       if (actionIndex > 0) {
         if (action.abilityType == BASIC_ABILITY_TYPE) {
@@ -582,6 +584,8 @@ fn main(
           combo += x.FUA_DMG;
         } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
           combo += x.MEMO_SKILL_DMG;
+        } else if (action.abilityType == MEMO_TALENT_ABILITY_TYPE) {
+          combo += x.MEMO_TALENT_DMG;
         }
       } else {
         x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
@@ -620,12 +624,13 @@ fn main(
 fn calculateDamage(
   p_x: ptr<function, ComputedStats>,
   p_m: ptr<function, ComputedStats>,
-  actionIndex: i32
+  actionIndex: i32,
+  abilityType: f32,
 ) {
   let x = *p_x;
   let m = *p_m;
   let eLevel: f32 = f32(enemyLevel);
-  let action = actions[actionIndex];
+
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
@@ -692,7 +697,7 @@ fn calculateDamage(
     (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
-  if (action.abilityType == 1 || actionIndex == 0) {
+  if (abilityType == 1 || actionIndex == 0) {
     (*p_x).BASIC_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -722,7 +727,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 2 || actionIndex == 0) {
+  if (abilityType == 2 || actionIndex == 0) {
     (*p_x).SKILL_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -752,7 +757,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 4 || actionIndex == 0) {
+  if (abilityType == 4 || actionIndex == 0) {
     (*p_x).ULT_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -782,7 +787,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == 8 || actionIndex == 0) {
+  if (abilityType == 8 || actionIndex == 0) {
     (*p_x).FUA_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -812,7 +817,7 @@ fn calculateDamage(
     );
   }
 
-  if (action.abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
+  if (abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
     (*p_x).MEMO_SKILL_DMG = calculateAbilityDmg(
       p_x,
       baseUniversalMulti,
@@ -823,7 +828,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.MEMO_SKILL_DMG,
-      0, // x.MEMO_SKILL_BOOST,
+      x.MEMO_SKILL_BOOST,
       0, // x.MEMO_SKILL_VULNERABILITY,
       0, // x.MEMO_SKILL_DEF_PEN,
       0, // x.MEMO_SKILL_RES_PEN,
@@ -842,8 +847,41 @@ fn calculateDamage(
     );
 
     (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
-    (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
   }
+
+  if (abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
+    (*p_x).MEMO_TALENT_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.MEMO_TALENT_DMG,
+      x.MEMO_TALENT_BOOST,
+      0, // x.MEMO_TALENT_VULNERABILITY,
+      0, // x.MEMO_TALENT_DEF_PEN,
+      0, // x.MEMO_TALENT_RES_PEN,
+      0, // x.MEMO_TALENT_CR_BOOST,
+      0, // x.MEMO_TALENT_CD_BOOST,
+      0, // x.MEMO_TALENT_FINAL_DMG_BOOST,
+      0, // x.MEMO_TALENT_BREAK_EFFICIENCY_BOOST,
+      0, // x.MEMO_TALENT_SUPER_BREAK_MODIFIER,
+      0, // x.MEMO_TALENT_BREAK_DMG_MODIFIER,
+      x.MEMO_TALENT_TOUGHNESS_DMG,
+      0, // x.MEMO_TALENT_ADDITIONAL_DMG,
+      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // x.MEMO_TRUE_DMG_MODIFIER,
+      0, // m.MEMO_DMG,
+    );
+
+    (*p_x).MEMO_TALENT_DMG += (*p_m).MEMO_TALENT_DMG;
+  }
+
+  (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
 }
 
 fn calculateDefMulti(defPen: f32) -> f32 {
@@ -901,7 +939,7 @@ fn calculateAbilityDmg(
     let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
     let abilityDefMulti = calculateDefMulti(baseDefPen + abilityDefPen);
     let abilityResMulti = 1 - (baseResistance - abilityResPen);
-    let abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost;
+    let abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost + x.FINAL_DMG_BOOST;
 
     abilityCritDmgOutput = abilityDmg
       * (baseUniversalMulti)
@@ -1264,12 +1302,12 @@ fn getPioneerSetCd(
 }
 
 fn calculateAshblazingSet(
-  p_x: ptr<function, ComputedStats>,
-  p_state: ptr<function, ConditionalState>,
+  setCount: i32,
+  valueTheAshblazingGrandDuke: i32,
   hitMulti: f32,
 ) -> f32 {
-  if (p4((*p_x).sets.TheAshblazingGrandDuke) >= 1) {
-    let ashblazingAtk = 0.06 * f32(actions[(*p_state).actionIndex].setConditionals.valueTheAshblazingGrandDuke) * baseATK;
+  if (p4(setCount) >= 1) {
+    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
     let ashblazingMulti = hitMulti * baseATK;
 
     return ashblazingMulti - ashblazingAtk;

@@ -88,3 +88,14 @@ export const AbilityEidolon = {
     memoSkill: ability(5),
   },
 }
+
+export function countTeamPath(context: OptimizerContext, path: string) {
+  return (context.path == path ? 1 : 0)
+    + (context.teammate0Metadata?.path == path ? 1 : 0)
+    + (context.teammate1Metadata?.path == path ? 1 : 0)
+    + (context.teammate2Metadata?.path == path ? 1 : 0)
+}
+
+export function mainIsPath(context: OptimizerContext, path: string) {
+  return context.path == path
+}

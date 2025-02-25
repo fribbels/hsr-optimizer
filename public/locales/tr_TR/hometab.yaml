@@ -1,0 +1,15 @@
+CollapseLabels:
+  Explore: Özellikleri Keşfet
+  Join: Topluluğa katıl
+CommunityCollapse: >-
+  <0> Bu projeyi birlikte hayata getirmemizi sağlayan ve destekleyicisi olan bütün yazılımcılara, çevirmenlere ve geri bildirimde bulunan herkese içtenlikle teşekkür ediyorum.</0> <1>Gel ve Star Rail topluluğumuzun bir parçası ol! Takılmak için <1 text='Discord'/> sunucumuza katıl, veya destekte bulunmak için <3 text='GitHub'/> repomuza bir göz at.</1>
+FeatureCards:
+  LearnMore: Daha fazla bilgi
+  Showcase:
+    Title: Karakter Vitrini
+    Content: >-
+      Karakterlerinizin veya çıkış öncesi kastığınız karakterlerin istatistiklerini gösterin. Savaş hasarlarını SBH skoru ile simüle edin ve ölçütlerimizle kıyaslayın.
+  Optimizer:
+    Title: Relic Optimize Edici
+    Content: >-
+      İstenilen kırılma noktalarına varıp istatistiklerini maksimize edebilmek için en iyi relic kombinasyonlarını arayarak karakterlerinizi optimize edin.

@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: 持续伤害
         BREAK: 击破伤害
         COMBO: 连招伤害
+    CombatBuffs:
+      Header: 战斗增益
   ScoringColumn:
     Character:
       Header: "角色配装 ({{score}}%)"

@@ -143,6 +143,7 @@ interface Resources {
           "ULT": "ULT",
           "FUA": "FUA",
           "MEMO_SKILL": "SKILLᴹ",
+          "MEMO_TALENT": "TALENTᴹ",
           "DOTS": "DOTS:",
           "BREAKS": "BREAKS:"
         },
@@ -163,6 +164,9 @@ interface Resources {
             "BREAK": "BREAK DMG",
             "COMBO": "COMBO DMG"
           }
+        },
+        "CombatBuffs": {
+          "Header": "Combat buffs"
         }
       },
       "ScoringColumn": {
@@ -371,6 +375,7 @@ interface Resources {
       "ULT": "Ult Damage",
       "FUA": "Fua Damage",
       "MEMO_SKILL": "Memo Skill Damage",
+      "MEMO_TALENT": "Memo Talent Damage",
       "DOT": "Dot Damage",
       "BREAK": "Break Damage",
       "CV": "CV"
@@ -381,6 +386,7 @@ interface Resources {
       "Ult": "Ult DMG",
       "Fua": "Fua DMG",
       "Memo_Skill": "Skillᴹ DMG",
+      "Memo_Talent": "Talentᴹ DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
@@ -2253,7 +2259,7 @@ interface Resources {
         "Content": {
           "skillEnhances": {
             "text": "Skill Enhances",
-            "content": "Select the level of enhancement of Mydei's skill. ::BR:: Death are Legion (enhancement 0): Consumes HP by an amount equal to 50% of Mydei's current HP. Deals Imaginary DMG equal to {{SkillPrimaryScaling}}% of Mydei's Max HP to one designated enemy and Imaginary DMG equal to {{SkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Kingslayer Be King (enhancement 1): Consumes HP by an amount equal to 35% of Mydei's current HP. Deals Imaginary DMG equal to {{EnhancedSkillPrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Godslayer be God (enhancement 2): Consumes 150 points of Charge. Deals Imaginary DMG equal to {{EnhancedSkill2PrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkill2AdjacentScaling}}% of Mydei's Max HP to adjacent targets."
+            "content": "Select the level of enhancement of Mydei's skill. ::BR:: Deaths are Legion, Regrets are None (enhancement 0): Consumes HP by an amount equal to 50% of Mydei's current HP. Deals Imaginary DMG equal to {{SkillPrimaryScaling}}% of Mydei's Max HP to one designated enemy and Imaginary DMG equal to {{SkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Kingslayer Be King (enhancement 1): Consumes HP by an amount equal to 35% of Mydei's current HP. Deals Imaginary DMG equal to {{EnhancedSkillPrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Godslayer be God (enhancement 2): Consumes 150 points of Charge. Deals Imaginary DMG equal to {{EnhancedSkill2PrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkill2AdjacentScaling}}% of Mydei's Max HP to adjacent targets."
           },
           "vendettaState": {
             "text": "Vendetta state",
@@ -2265,7 +2271,7 @@ interface Resources {
           },
           "e1EnhancedSkillBuff": {
             "text": "E1 Enhanced Skill boost",
-            "content": "The DMG multiplier applied by \"Godslayer Be God\" to the primary target increases by 30%. And \"Godslayer Be God\" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target."
+            "content": "The DMG multiplier dealt by \"Godslayer Be God\" to the primary target increases by 30%. And \"Godslayer Be God\" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target."
           },
           "e2DefPen": {
             "text": "E2 DEF PEN",
@@ -4577,6 +4583,7 @@ interface Resources {
       "ULT": "Sorted by Ult DMG",
       "FUA": "Sorted by Follow-up DMG",
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
+      "MEMO_TALENT": "Sorted by Memo Talent DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -4667,6 +4674,7 @@ interface Resources {
           "ULT": "ULT\nDMG",
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
+          "MEMO_TALENT": "TALENTᴹ\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "COMBO": "COMBO\nDMG"
@@ -4694,6 +4702,7 @@ interface Resources {
           "ULT": "ULT\nDMG",
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
+          "MEMO_TALENT": "TALENTᴹ\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "COMBO": "COMBO\nDMG"
@@ -5134,7 +5143,7 @@ interface Resources {
           "breakDmg": "Break",
           "superBreakDmg": "Super Break",
           "additionalDmg": "Additional",
-          "trueDmg": true,
+          "trueDmg": "True",
           "jointDmg": "Joint",
           "dotDmg": "Dot",
           "memoDmg": "Memo"
@@ -5146,7 +5155,8 @@ interface Resources {
           "FUA_DMG": "Fua",
           "DOT_DMG": "Dot",
           "BREAK_DMG": "Break",
-          "MEMO_SKILL_DMG": "Skillᴹ"
+          "MEMO_SKILL_DMG": "Skillᴹ",
+          "MEMO_TALENT_DMG": "Talentᴹ"
         },
         "TooltipText": {
           "abilityDmg": "Ability DMG",

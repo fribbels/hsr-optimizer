@@ -1,0 +1,23 @@
+Relic:
+  Messages:
+    SubmitFail: Gönderilemedi!
+    Error:
+      PartMissing: Parça kısmı eksik
+      MainstatMissing: Ana İstatisik kısmı eksik
+      SetMissing: Set kısmı eksik
+      EnhanceMissing: Yükseltme değeri kısmı eksik
+      GradeMissing: Nadirlik değeri kısmı eksik
+      EnhanceInvalid: Yükseltme değeri geçersiz
+      GradeInvalid: Nadirlik sınıfı geçersiz
+      EnhanceTooHigh: Yükseltme miktarı bu nadirlik için çok yüksek
+      SetInvalid: Set değeri geçersiz
+      SetNotOrnament: Seçilen set bir ornament seti değil
+      SetNotRelic: Seçilen set bir relic seti değil
+      SubNInvalid: "Alt istatistik {{number}} geçersiz"
+      SubsOutOfOrder: Alt isatistikler sırasız
+      DuplicateSubs: Birden fazla aynı alt istatistik, her tipten sadece bir tanesine izin var
+      MainAsSub: Alt istatistik ana istatistik ile aynı
+      SubTooBig: Alt istatistik değeri çok yüksek
+      MainTooBig: Ana istatistik değeri çok yüksek
+      SubTooSmall: Alt istatistik değerleri pozitif olmalıdır
+      MainTooSmall: Ana istatistik değerleri pozitif olmalıdır

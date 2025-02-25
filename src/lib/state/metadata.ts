@@ -7149,7 +7149,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.MEMO_SKILL,
       addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
       hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],

@@ -186,8 +186,14 @@ Characters:
     Name: Tribbie
     LongName: Tribbie
   "1404":
-    Name: Mydei
-    LongName: Mydei
+    Name: Midei
+    LongName: Midei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -364,11 +370,11 @@ RelicSets:
     Name: Parque de Platanolandia
     Description2pc: El Daño CRIT del portador aumenta en un 16%. Cuando hay un objetivo invocado por el portador, el Daño CRIT aumenta en un 32% adicional.
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Name: Osario sereno
+    Description2pc: Los PV máx. del portador aumentan en un 12%. Cuando sus PV máx. son iguales o superiores a 5000, el Daño CRIT del portador y su mnemoduende aumenta en un 28%.
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Name: Árbol gigante en meditación profunda
+    Description2pc: La VEL del portador aumenta en un 6%. Cuando su VEL es igual o superior a 135/180, la curación realizada del portador y su mnemoduende aumenta en un 12%/20%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -528,6 +534,8 @@ Lightcones:
     Name: Para el viaje de mañana
   "22003":
     Name: "Grabación ninja: Cacería del Sonido"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: Hacia lo inescrutable
   "23038":
-    Name: If Time Were a Flower
+    Name: Si el tiempo fuera una flor
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: Sangre y fuego, abran camino
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: Sobre la caída de un Eón
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: Cálculo interminable
   "24005":
-    Name: Memory's Curtain Never Falls
+    Name: Sobre los recuerdos nunca cae el telón
 Paths:
   Warrior: Destrucción
   Rogue: Cacería

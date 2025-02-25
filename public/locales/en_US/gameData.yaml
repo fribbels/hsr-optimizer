@@ -188,6 +188,12 @@ Characters:
   "1404":
     Name: Mydei
     LongName: Mydei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -271,8 +277,8 @@ RelicSets:
     Description4pc: When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn(s). This effect cannot be stacked.
   "115":
     Name: The Ashblazing Grand Duke
-    Description2pc: Increases the DMG dealt by follow-up attack by 20%.
-    Description4pc: When the wearer uses a follow-up attack, increases the wearer's ATK by 6% for every time the follow-up attack deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a follow-up attack.
+    Description2pc: Increases the DMG dealt by Follow-up ATK by 20%.
+    Description4pc: When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a Follow-up ATK.
   "116":
     Name: Prisoner in Deep Confinement
     Description2pc: Increases ATK by 12%.
@@ -292,7 +298,7 @@ RelicSets:
   "120":
     Name: The Wind-Soaring Valorous
     Description2pc: Increases ATK by 12%.
-    Description4pc: Increases the wearer's CRIT Rate by 6%. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s).
+    Description4pc: Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s).
   "121":
     Name: Sacerdos' Relived Ordeal
     Description2pc: Increases SPD by 6%.
@@ -326,7 +332,7 @@ RelicSets:
     Description2pc: Increases the wearer's CRIT DMG by 16%. When the wearer's current CRIT DMG reaches 120% or higher, after entering battle, the wearer's CRIT Rate increases by 60% until the end of their first attack.
   "306":
     Name: Inert Salsotto
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by 15%.
+    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and Follow-up ATK increases by 15%.
   "307":
     Name: "Talia: Kingdom of Banditry"
     Description2pc: Increases the wearer's Break Effect by 16%. When the wearer's SPD reaches 145 or higher, the wearer's Break Effect increases by an extra 20%.
@@ -353,7 +359,7 @@ RelicSets:
     Description2pc: Increases the wearer's ATK by 12%. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%.
   "315":
     Name: Duran, Dynasty of Running Wolves
-    Description2pc: When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%.
+    Description2pc: When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%.
   "316":
     Name: Forge of the Kalpagni Lantern
     Description2pc: Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn(s).
@@ -528,6 +534,8 @@ Lightcones:
     Name: For Tomorrow's Journey
   "22003":
     Name: "Ninja Record: Sound Hunt"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -608,6 +616,10 @@ Lightcones:
     Name: If Time Were a Flower
   "23039":
     Name: Flame of Blood, Blaze My Path
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: On the Fall of an Aeon
   "24001":

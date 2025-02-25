@@ -188,6 +188,12 @@ Characters:
   "1404":
     Name: Mydei
     LongName: Mydei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -365,10 +371,10 @@ RelicSets:
     Description2pc: Meningkatkan 16% CRIT DMG pengguna. Saat terdapat target yang dipanggil oleh pengguna, CRIT DMG meningkat ekstra 32%.
   "319":
     Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Description2pc: Meningkatkan 12% Max HP pengguna. Saat Max HP pengguna lebih dari atau sama dengan 5000, akan meningkatkan 28% CRIT DMG pengguna dan Memosprite miliknya.
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Description2pc: Meningkatkan 6% SPD pengguna. Saat SPD pengguna lebih dari atau sama dengan 135/180, Outgoing Healing pengguna dan Memosprite miliknya akan meningkat 12%/20%.
 Lightcones:
   "20000":
     Name: Arrows
@@ -528,6 +534,8 @@ Lightcones:
     Name: For Tomorrow's Journey
   "22003":
     Name: "Ninja Record: Sound Hunt"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -608,6 +616,10 @@ Lightcones:
     Name: If Time Were a Flower
   "23039":
     Name: Flame of Blood, Blaze My Path
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: On the Fall of an Aeon
   "24001":

@@ -188,6 +188,12 @@ Characters:
   "1404":
     Name: Mydei
     LongName: Mydei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -307,7 +313,7 @@ RelicSets:
     Description4pc: Enquanto o Memoespírito do usuário está em campo, aumenta a VEL do usuário em 6%. Quando o Memoespírito do usuário ataca, aumenta o Dano CRIT do usuário e do Memoespírito em 30% por 2 rodada(s).
   "124":
     Name: Poetisa do Colapso Enlutada
-    Description2pc: Aumenta o Dano Quântico causado em 10%.
+    Description2pc: Aumenta o Dano Quântico em 10%.
     Description4pc: Reduz a VEL do usuário em 8%. Antes de entrar em batalha, se a VEL do usuário estiver abaixo de 110/95, aumenta a Chance de CRIT do usuário em 20%/32%. Este efeito também se aplica no Memoespírito do usuário.
   "301":
     Name: Estação de Vedação Espacial
@@ -364,11 +370,11 @@ RelicSets:
     Name: O Maravilhoso Parque Bananalândia
     Description2pc: Aumenta o Dano CRIT do usuário em 16%. Quando um alvo invocado pelo usuário está em campo, o Dano CRIT aumenta adicionalmente em 32%.
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Name: Domínio Sereno da Coleção de Ossos
+    Description2pc: Aumenta os PV máximos do usuário em 12%. Quando os PV máximos do usuário forem 5000 ou mais, aumenta o Dano CRIT do usuário e de seu Memoespírito em 28%.
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Name: Árvore Gigante da Reflexão Arrebatadora
+    Description2pc: Aumenta a VEL do usuário em 6%. Quando a VEL do usuário é 135/180 ou maior, a <u>Cura Realizada</u> do usuário e de seu Memoespírito aumenta em 12%/20%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -528,6 +534,8 @@ Lightcones:
     Name: Pela Jornada do Amanhã
   "22003":
     Name: "Registro Ninja: Caça ao Som"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: Ao Véu Inalcançável
   "23038":
-    Name: If Time Were a Flower
+    Name: Se o Tempo Fosse Uma Flor
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: Chamas de Sangue, Incendeiem o Meu Caminho
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: Na Queda de Um Aeon
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: Cálculo Ininterrupto
   "24005":
-    Name: Memory's Curtain Never Falls
+    Name: As Cortinas da Memória Nunca Caem
 Paths:
   Warrior: A Destruição
   Rogue: A Caça

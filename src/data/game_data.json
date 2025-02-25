@@ -5979,81 +5979,81 @@
       },
       "traceTree": [
         {
-          "id": "1403201_3.1v1",
+          "id": "1403201",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": [
             {
-              "id": "1403204_3.1v1",
+              "id": "1403204",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1403201_3.1v1",
+              "pre": "1403201",
               "children": []
             },
             {
-              "id": "1403207_3.1v1",
+              "id": "1403207",
               "stat": "CRIT DMG",
               "value": 0.08,
-              "pre": "1403201_3.1v1",
+              "pre": "1403201",
               "children": []
             }
           ]
         },
         {
-          "id": "1403202_3.1v1",
+          "id": "1403202",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1403203_3.1v1",
+              "id": "1403203",
               "stat": "CRIT DMG",
               "value": 0.053,
-              "pre": "1403202_3.1v1",
+              "pre": "1403202",
               "children": []
             }
           ]
         },
         {
-          "id": "1403205_3.1v1",
+          "id": "1403205",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1403206_3.1v1",
+              "id": "1403206",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1403205_3.1v1",
+              "pre": "1403205",
               "children": []
             }
           ]
         },
         {
-          "id": "1403208_3.1v1",
+          "id": "1403208",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1403209_3.1v1",
+              "id": "1403209",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "1403208_3.1v1",
+              "pre": "1403208",
               "children": []
             },
             {
-              "id": "1403210_3.1v1",
+              "id": "1403210",
               "stat": "CRIT DMG",
               "value": 0.107,
-              "pre": "1403208_3.1v1",
+              "pre": "1403208",
               "children": []
             }
           ]
         }
       ],
-      "max_sp": 180,
+      "max_sp": 120,
       "stats": {
         "HP": 1047.816,
         "ATK": 523.908,
@@ -6062,7 +6062,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1404": {
       "id": "1404",
@@ -6077,29 +6077,29 @@
       },
       "traceTree": [
         {
-          "id": "1404201_3.1v1",
+          "id": "1404201",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1404202_3.1v1",
+          "id": "1404202",
           "stat": "HP%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1404203_3.1v1",
+              "id": "1404203",
               "stat": "CRIT DMG",
               "value": 0.053,
-              "pre": "1404202_3.1v1",
+              "pre": "1404202",
               "children": [
                 {
-                  "id": "1404204_3.1v1",
+                  "id": "1404204",
                   "stat": "SPD",
                   "value": 2,
-                  "pre": "1404203_3.1v1",
+                  "pre": "1404203",
                   "children": []
                 }
               ]
@@ -6107,22 +6107,22 @@
           ]
         },
         {
-          "id": "1404205_3.1v1",
+          "id": "1404205",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1404206_3.1v1",
+              "id": "1404206",
               "stat": "HP%",
               "value": 0.06,
-              "pre": "1404205_3.1v1",
+              "pre": "1404205",
               "children": [
                 {
-                  "id": "1404207_3.1v1",
+                  "id": "1404207",
                   "stat": "CRIT DMG",
                   "value": 0.08,
-                  "pre": "1404206_3.1v1",
+                  "pre": "1404206",
                   "children": []
                 }
               ]
@@ -6130,23 +6130,23 @@
           ]
         },
         {
-          "id": "1404208_3.1v1",
+          "id": "1404208",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1404209_3.1v1",
+              "id": "1404209",
               "stat": "HP%",
               "value": 0.08,
-              "pre": "1404208_3.1v1",
+              "pre": "1404208",
               "children": []
             },
             {
-              "id": "1404210_3.1v1",
+              "id": "1404210",
               "stat": "CRIT DMG",
               "value": 0.107,
-              "pre": "1404208_3.1v1",
+              "pre": "1404208",
               "children": []
             }
           ]
@@ -6157,6 +6157,199 @@
         "HP": 1552.32,
         "ATK": 426.888,
         "DEF": 194.04,
+        "SPD": 95,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1405": {
+      "id": "1405",
+      "name": "Anaxa",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Wind",
+      "traces": {
+        "Wind DMG Boost": 0.224,
+        "DEF%": 0.225,
+        "CRIT Rate": 0.067
+      },
+      "traceTree": [
+        {
+          "id": "1405201_3.2v1",
+          "stat": "Wind DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1405202_3.2v1",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1405203_3.2v1",
+              "stat": "Wind DMG Boost",
+              "value": 0.032,
+              "pre": "1405202_3.2v1",
+              "children": []
+            },
+            {
+              "id": "1405204_3.2v1",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1405202_3.2v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1405205_3.2v1",
+          "stat": "Wind DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1405206_3.2v1",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1405205_3.2v1",
+              "children": []
+            },
+            {
+              "id": "1405207_3.2v1",
+              "stat": "Wind DMG Boost",
+              "value": 0.048,
+              "pre": "1405205_3.2v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1405208_3.2v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1405209_3.2v1",
+          "stat": "DEF%",
+          "value": 0.1,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1405210_3.2v1",
+          "stat": "Wind DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 970.2,
+        "ATK": 814.968,
+        "DEF": 557.865,
+        "SPD": 94,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1407": {
+      "id": "1407",
+      "name": "Castorice",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Quantum",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "Quantum DMG Boost": 0.144,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1407201_3.2v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1407202_3.2v1",
+              "stat": "Quantum DMG Boost",
+              "value": 0.032,
+              "pre": "1407201_3.2v1",
+              "children": []
+            },
+            {
+              "id": "1407203_3.2v1",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1407201_3.2v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1407204_3.2v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1407205_3.2v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1407206_3.2v1",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1407207_3.2v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1407208_3.2v1",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1407209_3.2v1",
+              "stat": "Quantum DMG Boost",
+              "value": 0.064,
+              "pre": "1407208_3.2v1",
+              "children": [
+                {
+                  "id": "1407210_3.2v1",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1407209_3.2v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 0,
+      "stats": {
+        "HP": 1629.936,
+        "ATK": 523.908,
+        "DEF": 485.1,
         "SPD": 95,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
@@ -7895,6 +8088,18 @@
       },
       "unreleased": false
     },
+    "22004": {
+      "id": "22004",
+      "name": "The Great Cosmic Enterprise",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": true
+    },
     "23000": {
       "id": "23000",
       "name": "Night on the Milky Way",
@@ -8361,7 +8566,7 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23039": {
       "id": "23039",
@@ -8372,6 +8577,30 @@
         "HP": 1375.92,
         "ATK": 476.28,
         "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "23040": {
+      "id": "23040",
+      "name": "Make Farewells More Beautiful",
+      "rarity": 5,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "23041": {
+      "id": "23041",
+      "name": "Life Should Be Cast to Flames",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
       },
       "unreleased": true
     },
@@ -8437,7 +8666,7 @@
     },
     "24005": {
       "id": "24005",
-      "name": "The Curtain Never Falls on Memories",
+      "name": "Memory's Curtain Never Falls",
       "rarity": 5,
       "path": "Remembrance",
       "stats": {
@@ -8445,19 +8674,19 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     }
   },
   "relics": [
     {
       "id": "320",
       "name": "Giant Tree of Rapt Brooding",
-      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate is <b>70%</b> or higher, increases the Additional DMG dealt by <b>30%</b>."
+      "skills": "Increases the wearer's SPD by <b>6%</b>. When the wearer's SPD is <b>135</b>/<b>180</b> or higher, the wearer and their memosprite's Outgoing Healing increases by <b>12%</b>/<b>20%</b>."
     },
     {
       "id": "319",
       "name": "Bone Collection's Serene Demesne",
-      "skills": "Increases the wearer's Max HP by <b>12%</b>. When the wearer's Max HP is <b>5000</b> or higher, increases the wearer's and their memosprite's CRIT DMG by <b>25%</b>."
+      "skills": "Increases the wearer's Max HP by <b>12%</b>. When the wearer's Max HP is <b>5000</b> or higher, increases the wearer's and their memosprite's CRIT DMG by <b>28%</b>."
     },
     {
       "id": "318",
@@ -8477,7 +8706,7 @@
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to <b>5</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by <b>5%</b>. When there are <b>5</b> stacks, additionally increases the wearer's CRIT DMG by <b>25%</b>."
+      "skills": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to <b>5</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by <b>5%</b>. When there are <b>5</b> stacks, additionally increases the wearer's CRIT DMG by <b>25%</b>."
     },
     {
       "id": "314",
@@ -8522,7 +8751,7 @@
     {
       "id": "306",
       "name": "Inert Salsotto",
-      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>50%</b> or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by <b>15%</b>."
+      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>50%</b> or higher, the DMG dealt by the wearer's Ultimate and Follow-up ATK increases by <b>15%</b>."
     },
     {
       "id": "305",
@@ -8572,7 +8801,7 @@
     {
       "id": "120",
       "name": "The Wind-Soaring Valorous",
-      "skills": "Increases ATK by <b>12%</b>. Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
+      "skills": "Increases ATK by <b>12%</b>. Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
     },
     {
       "id": "119",
@@ -8597,7 +8826,7 @@
     {
       "id": "115",
       "name": "The Ashblazing Grand Duke",
-      "skills": "Increases the DMG dealt by follow-up attack by <b>20%</b>. When the wearer uses a follow-up attack, increases the wearer's ATK by <b>6%</b> for every time the follow-up attack deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+      "skills": "Increases the DMG dealt by Follow-up ATK by <b>20%</b>. When the wearer uses a Follow-up ATK, increases the wearer's ATK by <b>6%</b> for every time the Follow-up ATK deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a Follow-up ATK."
     },
     {
       "id": "114",

@@ -7202,7 +7202,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             characterId: '8008', // RMC
             lightCone: '21050', // Victory
             characterEidolon: 6,
-            lightConeSuperimposition: 1,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: '1222', // Lingsha

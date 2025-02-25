@@ -30,6 +30,7 @@ SortOptions:
   ULT: Sorted by Ult DMG
   FUA: Sorted by Follow-up DMG
   MEMO_SKILL: Sorted by Memo Skill DMG
+  MEMO_TALENT: Sorted by Memo Talent DMG
   DOT: Sorted by DoT DMG
   BREAK: Sorted by Break DMG
   HEAL: Sorted by Heal
@@ -125,6 +126,9 @@ Grid:
       MEMO_SKILL: |-
         SKILLᴹ
         DMG
+      MEMO_TALENT: |-
+        TALENTᴹ
+        DMG
       DOT: |-
         DOT
         DMG
@@ -168,6 +172,9 @@ Grid:
         DMG
       MEMO_SKILL: |-
         SKILLᴹ
+        DMG
+      MEMO_TALENT: |-
+        TALENTᴹ
         DMG
       DOT: |-
         DOT
@@ -425,6 +432,7 @@ ComboFilter:
     Ult: Ult
     Fua: Fua
     MemoSkill: Skillᴹ
+    MemoTalent: Talentᴹ
   RotationButton: Advanced rotation
 ComboDrawer:
   NoConditionals: No conditional passives
@@ -559,6 +567,7 @@ ExpandedDataPanel:
       DOT_DMG: Dot
       BREAK_DMG: Break
       MEMO_SKILL_DMG: Skillᴹ
+      MEMO_TALENT_DMG: Talentᴹ
     TooltipText:
       abilityDmg: Ability DMG
       breakDmg: Break DMG

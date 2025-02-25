@@ -148,13 +148,13 @@ export default function CharacterSelectorDisplay() {
         </Flex>
       </Flex>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 16 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
         <HeaderText>{t('CharacterSelector.Presets')/* Presets */}</HeaderText>
       </Flex>
 
       <RecommendedPresetsButton/>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 16 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
         <HeaderText>{t('CharacterSelector.Target')/* Optimization target */}</HeaderText>
       </Flex>
 

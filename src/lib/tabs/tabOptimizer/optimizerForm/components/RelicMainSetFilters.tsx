@@ -21,11 +21,11 @@ export default function RelicMainSetFilters() {
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <Flex vertical gap={optimizerTabDefaultGap}>
-        <Flex justify='space-between' align='center'>
-          <HeaderText>{t('MainStats')/* Main stats */}</HeaderText>
-          <TooltipImage type={Hint.mainStats()}/>
-        </Flex>
+      <Flex justify='space-between' align='center'>
+        <HeaderText>{t('MainStats')/* Main stats */}</HeaderText>
+        <TooltipImage type={Hint.mainStats()}/>
+      </Flex>
+      <Flex vertical gap={7}>
         <Form.Item name='mainBody'>
           <Select
             mode='multiple'
@@ -114,11 +114,12 @@ export default function RelicMainSetFilters() {
         </Form.Item>
       </Flex>
 
-      <Flex vertical gap={optimizerTabDefaultGap}>
-        <Flex justify='space-between' align='center' style={{ marginTop: 12 }}>
-          <HeaderText>{t('Sets')/* Sets */}</HeaderText>
-          <TooltipImage type={Hint.sets()}/>
-        </Flex>
+      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
+        <HeaderText>{t('Sets')/* Sets */}</HeaderText>
+        <TooltipImage type={Hint.sets()}/>
+      </Flex>
+
+      <Flex vertical gap={7}>
         <ConfigProvider theme={{
           components: {
             Cascader: {
@@ -162,14 +163,14 @@ export default function RelicMainSetFilters() {
           >
           </Select>
         </Form.Item>
+        <Button
+          onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+          icon={<SettingOutlined/>}
+        >
+          {t('SetConditionals.Title')/* Conditional set effects */}
+        </Button>
       </Flex>
 
-      <Button
-        onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-        icon={<SettingOutlined/>}
-      >
-        {t('SetConditionals.Title')/* Conditional set effects */}
-      </Button>
     </Flex>
   )
 }

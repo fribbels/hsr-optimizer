@@ -7136,6 +7136,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.HP_P,
         ],
         [Parts.Feet]: [
           Stats.HP_P,
@@ -7157,6 +7158,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
+            Stats.HP_P,
           ],
           [Parts.Feet]: [
             Stats.HP_P,

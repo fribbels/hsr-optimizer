@@ -61,6 +61,7 @@ import aglaea from 'lib/conditionals/character/1400/Aglaea'
 import anaxa from 'lib/conditionals/character/1400/Anaxa'
 import castorice from 'lib/conditionals/character/1400/Castorice'
 import mydei from 'lib/conditionals/character/1400/Mydei'
+import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
 import trailblazerHarmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
@@ -132,7 +133,7 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   1314: jade,
   1315: boothill,
   1317: rappa,
-  1401: anaxa,
+  1401: theHerta,
   1402: aglaea,
   1403: tribbie,
   1404: mydei,

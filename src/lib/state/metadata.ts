@@ -13,6 +13,7 @@ const SKILL = 'SKILL'
 const ULT = 'ULT'
 const FUA = 'FUA'
 const MEMO_SKILL = 'MEMO_SKILL'
+const MEMO_TALENT = 'MEMO_TALENT'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -6691,7 +6692,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       ],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
-      addedColumns: [SortOption.MEMO_SKILL],
+      addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
       simulation: {
         parts: {
           [Parts.Body]: [

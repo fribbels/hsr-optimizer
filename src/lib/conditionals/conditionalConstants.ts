@@ -21,6 +21,7 @@ export const SKILL_ABILITY_TYPE = 2
 export const ULT_ABILITY_TYPE = 4
 export const FUA_ABILITY_TYPE = 8
 export const MEMO_SKILL_ABILITY_TYPE = 16
+export const MEMO_TALENT_ABILITY_TYPE = 32
 
 export const BUFF_PRIORITY_SELF = 0
 export const BUFF_PRIORITY_MEMO = 1

@@ -280,6 +280,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsArray) {
   d.ULT = x.ULT_DMG.get()
   d.FUA = x.FUA_DMG.get()
   d.MEMO_SKILL = x.MEMO_SKILL_DMG.get()
+  d.MEMO_TALENT = x.MEMO_TALENT_DMG.get()
   d.DOT = x.DOT_DMG.get()
   d.BREAK = x.BREAK_DMG.get()
   d.COMBO = x.COMBO_DMG.get()

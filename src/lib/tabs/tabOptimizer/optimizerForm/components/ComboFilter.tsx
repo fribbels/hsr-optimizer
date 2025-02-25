@@ -29,6 +29,7 @@ export const ComboFilters = () => {
     { label: t('ComboOptions.Ult')/* Ult */, value: 'ULT' },
     { label: t('ComboOptions.Fua')/* Fua */, value: 'FUA' },
     { label: t('ComboOptions.MemoSkill')/* Skillᴹ */, value: 'MEMO_SKILL' },
+    { label: t('ComboOptions.MemoTalent')/* Talentᴹ */, value: 'MEMO_TALENT' },
   ], [t])
 
   return (

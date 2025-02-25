@@ -114,6 +114,7 @@ CharacterPreview:
       ULT: ULT
       FUA: FUA
       MEMO_SKILL: SKILLᴹ
+      MEMO_TALENT: TALENTᴹ
       DOTS: "DOTS:"
       BREAKS: "BREAKS:"
     CombatResults:

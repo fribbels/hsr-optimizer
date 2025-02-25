@@ -1,8 +1,6 @@
 import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
+import { standardHpFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -29,33 +27,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1402')
 
-  const basicScaling = basic(e, 1.00, 1.10)
-  const enhancedBasicScaling = basic(e, 2.00, 2.20)
+  const basicScaling = basic(e, 0.50, 0.50)
 
-  const ultSpdBoost = ult(e, 0.15, 0.16)
+  const skillScaling = skill(e, 0.50, 0.50)
+  const skillEnhancedScaling1 = skill(e, 0.24, 0.24)
+  const skillEnhancedScaling2 = skill(e, 0.42, 0.42)
 
-  const memoHpScaling = talent(e, 0.66, 0.704)
-  const memoHpFlat = talent(e, 720, 828)
-  const talentAdditionalDmg = talent(e, 0.30, 0.336)
+  const talentDmgBoost = talent(e, 0.20, 0.20)
+  const ultTerritoryResPen = ult(e, 0.20, 0.20)
 
-  const memoSkillScaling = memoSkill(e, 1.10, 1.21)
-  const memoTalentSpd = memoTalent(e, 55, 57.2)
+  const memoSkillScaling1 = memoSkill(e, 0.30, 0.30)
+  const memoSkillScaling2 = memoSkill(e, 0.34, 0.34)
+  const memoSkillScaling3 = memoSkill(e, 0.38, 0.38)
 
-  const memoSpdStacksMax = e >= 4 ? 7 : 6
+  const memoTalentScaling = memoTalent(e, 0.50, 0.50)
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_SELF,
-    supremeStanceState: true,
-    seamStitch: true,
-    memoSpdStacks: memoSpdStacksMax,
-    e1Vulnerability: true,
-    e2DefShredStacks: 3,
-    e6Buffs: true,
+    buffPriority: BUFF_PRIORITY_MEMO,
+    memospriteActive: true,
+    talentDmgStacks: 3,
+    lostNetherland: true,
+    memoSkillEnhances: 3,
+    memoTalentHits: 6,
+    teamDmgBoost: true,
+    e1DmgStacks: 3,
+    e2MemoSkillDmgBoost: true,
+    e6ResPen: true,
   }
 
   const teammateDefaults = {
-    seamStitch: true,
-    e1Vulnerability: true,
+    lostNetherland: true,
+    teamDmgBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -70,54 +72,76 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       ],
       fullWidth: true,
     },
-    supremeStanceState: {
-      id: 'supremeStanceState',
+    memospriteActive: {
+      id: 'memospriteActive',
       formItem: 'switch',
-      text: t('Content.supremeStanceState.text'),
-      content: t('Content.supremeStanceState.content', { SpdBuff: TsUtils.precisionRound(ultSpdBoost * 100) }),
+      text: 'Memosprite active',
+      content: 'TODO',
     },
-    seamStitch: {
-      id: 'seamStitch',
-      formItem: 'switch',
-      text: t('Content.seamStitch.text'),
-      content: t('Content.seamStitch.content', { Scaling: TsUtils.precisionRound(talentAdditionalDmg * 100) }),
-    },
-    memoSpdStacks: {
-      id: 'memoSpdStacks',
+    talentDmgStacks: {
+      id: 'talentDmgStacks',
       formItem: 'slider',
-      text: t('Content.memoSpdStacks.text'),
-      content: t('Content.memoSpdStacks.content', { SpdBuff: memoTalentSpd, StackLimit: memoSpdStacksMax }),
+      text: 'Talent DMG stacks',
+      content: 'TODO',
       min: 0,
-      max: memoSpdStacksMax,
+      max: 3,
     },
-    e1Vulnerability: {
-      id: 'e1Vulnerability',
-      formItem: 'switch',
-      text: t('Content.e1Vulnerability.text'),
-      content: t('Content.e1Vulnerability.content'),
-      disabled: e < 1,
-    },
-    e2DefShredStacks: {
-      id: 'e2DefShredStacks',
+    memoSkillEnhances: {
+      id: 'memoSkillEnhances',
       formItem: 'slider',
-      text: t('Content.e2DefShredStacks.text'),
-      content: t('Content.e2DefShredStacks.content'),
+      text: 'Memo Skill enhances',
+      content: 'TODO',
       min: 1,
       max: 3,
+    },
+    lostNetherland: {
+      id: 'lostNetherland',
+      formItem: 'switch',
+      text: 'Lost Netherland',
+      content: 'TODO',
+    },
+    memoTalentHits: {
+      id: 'memoTalentHits',
+      formItem: 'slider',
+      text: 'Memo Talent hits',
+      content: 'TODO',
+      min: 0,
+      max: 6,
+    },
+    teamDmgBoost: {
+      id: 'teamDmgBoost',
+      formItem: 'switch',
+      text: 'Team DMG boost',
+      content: 'TODO',
+    },
+    e1DmgStacks: {
+      id: 'e1DmgStacks',
+      formItem: 'slider',
+      text: 'E1 DMG stacks',
+      content: 'TODO',
+      min: 1,
+      max: 6,
+      disabled: e < 1,
+    },
+    e2MemoSkillDmgBoost: {
+      id: 'e2MemoSkillDmgBoost',
+      formItem: 'switch',
+      text: 'E2 Memo Skill DMG',
+      content: 'TODO',
       disabled: e < 2,
     },
-    e6Buffs: {
-      id: 'e6Buffs',
+    e6ResPen: {
+      id: 'e6ResPen',
       formItem: 'switch',
-      text: t('Content.e6Buffs.text'),
-      content: t('Content.e6Buffs.content'),
+      text: 'E6 RES PEN',
+      content: 'TODO',
       disabled: e < 6,
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    seamStitch: content.seamStitch,
-    e1Vulnerability: content.e1Vulnerability,
+    lostNetherland: content.lostNetherland,
+    teamDmgBoost: content.teamDmgBoost,
   }
 
   return {
@@ -134,126 +158,54 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
-      x.m.BASIC_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      x.SPD_P.buffDual(0.40, SOURCE_TRACE)
 
-      x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
+      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 + skillEnhancedScaling2 : skillScaling, SOURCE_SKILL)
 
-      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.ELEMENTAL_DMG.buffDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
+      x.RES_PEN.buff((r.lostNetherland) ? ultTerritoryResPen : 0, SOURCE_ULT)
+      x.QUANTUM_RES_PEN.buffDual((e >= 6 && r.e6ResPen) ? 0.20 : 0, SOURCE_E6)
 
-      x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_FLAT.buff(140, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(32000, SOURCE_MEMO)
 
-      x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
+      x.m.MEMO_SKILL_SCALING.buff((r.memoSkillEnhances) == 1 ? memoSkillScaling1 : 0, SOURCE_MEMO)
+      x.m.MEMO_SKILL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
+      x.m.MEMO_SKILL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
+      x.m.MEMO_TALENT_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
 
-      x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-      x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      x.MEMO_SKILL_BOOST.buff((e >= 1) ? 0.30 * r.e1DmgStacks : 0, SOURCE_E1)
+      x.MEMO_SKILL_BOOST.buff((e >= 2 && r.e2MemoSkillDmgBoost) ? 1.00 : 0, SOURCE_E2)
 
-      x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-      x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 60 : 30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_BASIC)
       x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(30, SOURCE_MEMO)
+      x.m.MEMO_TALENT_TOUGHNESS_DMG.buff(12 * (r.memoTalentHits), SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
+      x.ELEMENTAL_DMG.buff((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      standardHpFinalizer(x)
 
-      if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
-        let jointBoost = 0
-        if (x.a[Key.SPD] > 320 || x.m.a[Key.SPD] >= 320) {
-          jointBoost = 0.60
-        } else if (x.a[Key.SPD] > 240 || x.m.a[Key.SPD] >= 240) {
-          jointBoost = 0.30
-        } else if (x.a[Key.SPD] > 160 || x.m.a[Key.SPD] >= 160) {
-          jointBoost = 0.10
-        }
-
-        x.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
-        x.m.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
-      }
-
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-
-      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
-
-      x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], Source.NONE)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], Source.NONE)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.a[Key.HP], Source.NONE)
+      x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_SCALING] * x.a[Key.HP], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      return ` 
+x.BASIC_DMG += x.BASIC_SCALING * x.HP;
+x.SKILL_DMG += x.SKILL_SCALING * x.HP;
+x.ULT_DMG += x.ULT_SCALING * x.HP;
+x.FUA_DMG += x.FUA_SCALING * x.HP;
+x.DOT_DMG += x.DOT_SCALING * x.HP;
 
-      return `
-if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
-  if (x.SPD > 320 || m.SPD > 320) {
-    x.BASIC_BOOST += 0.60;
-    m.BASIC_BOOST += 0.60;
-  } else if (x.SPD > 240 || m.SPD > 240) {
-    x.BASIC_BOOST += 0.30;
-    m.BASIC_BOOST += 0.30;
-  } else if (x.SPD > 160 || m.SPD > 160) {
-    x.BASIC_BOOST += 0.10;
-    m.BASIC_BOOST += 0.10;
-  }
-}
-
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-
-x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.ATK;
-
-m.BASIC_DMG += m.BASIC_SCALING * m.ATK;
-m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
+m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * x.HP;
+m.MEMO_TALENT_DMG += m.MEMO_TALENT_SCALING * x.HP;
 `
     },
-    dynamicConditionals: [
-      {
-        id: 'AglaeaConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.SPD],
-        chainsTo: [Stats.ATK],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return true
-        },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          if (!r.supremeStanceState) {
-            return
-          }
-          const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = 7.20 * x.a[Key.SPD] + 3.60 * x.m.a[Key.SPD]
-
-          action.conditionalState[this.id] = buffValue
-          x.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
-          x.m.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
-        },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-
-          return conditionalWgslWrapper(this, `
-if (${wgslFalse(r.supremeStanceState)}) {
-  return;
-}
-let spd = x.SPD;
-let memoSpd = (*p_m).SPD;
-let stateValue: f32 = (*p_state).AglaeaConversionConditional;
-let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
-
-(*p_state).AglaeaConversionConditional = buffValue;
-(*p_x).ATK += buffValue - stateValue;
-(*p_m).ATK += buffValue - stateValue;
-    `)
-        },
-      },
-    ],
   }
 }

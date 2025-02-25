@@ -847,7 +847,6 @@ fn calculateDamage(
     );
 
     (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
-    (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
   }
 
   if (abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
@@ -880,8 +879,9 @@ fn calculateDamage(
     );
 
     (*p_x).MEMO_TALENT_DMG += (*p_m).MEMO_TALENT_DMG;
-    (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
   }
+
+  (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
 }
 
 fn calculateDefMulti(defPen: f32) -> f32 {

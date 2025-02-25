@@ -107,6 +107,18 @@ function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
       title: '',
+      date: '2025-02-25',
+      content: [
+        `Added Castorice showcase`,
+        `castorice.webp`,
+        `Added Anaxa showcase`,
+        `anaxa.webp`,
+        `Fix: Improved GPU optimization performance and faster compile times`,
+        `Fix: Combo DMG optimization on GPU on Mac no longer crashes`,
+      ],
+    },
+    {
+      title: '',
       date: '2025-02-21',
       content: [
         `Added an Optimization Results Analysis panel with in depth information & comparisons for optimizer results`,
@@ -157,7 +169,7 @@ function getChangelogContent() {
       title: '',
       date: '2025-01-26',
       content: [
-        leaks(`Updated content to version 3.1v3`),
+        `Updated content to version 3.1v3`,
         `Added a Warp Planner tab for calculating warp probabilities`,
         `warp.webp`,
         `Added a new customization sidebar for showcase scoring and stat views`,

@@ -29,7 +29,6 @@ export function precomputeConditionalActivations(comboState: ComboState, request
       preprocessor.processAbility(ability, i)
     }
   }
-  console.debug(comboState)
 }
 
 type AbilityPreprocessor = {

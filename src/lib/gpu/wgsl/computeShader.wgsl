@@ -25,6 +25,7 @@ const SKILL_ABILITY_TYPE = 2;
 const ULT_ABILITY_TYPE = 4;
 const FUA_ABILITY_TYPE = 8;
 const MEMO_SKILL_ABILITY_TYPE = 16;
+const MEMO_TALENT_ABILITY_TYPE = 32;
 
 @group(0) @binding(0) var<storage> params : Params;
 
@@ -583,6 +584,8 @@ fn main(
           combo += x.FUA_DMG;
         } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
           combo += x.MEMO_SKILL_DMG;
+        } else if (action.abilityType == MEMO_TALENT_ABILITY_TYPE) {
+          combo += x.MEMO_TALENT_DMG;
         }
       } else {
         x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
@@ -825,7 +828,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.MEMO_SKILL_DMG,
-      0, // x.MEMO_SKILL_BOOST,
+      x.MEMO_SKILL_BOOST,
       0, // x.MEMO_SKILL_VULNERABILITY,
       0, // x.MEMO_SKILL_DEF_PEN,
       0, // x.MEMO_SKILL_RES_PEN,
@@ -844,6 +847,39 @@ fn calculateDamage(
     );
 
     (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
+    (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
+  }
+
+  if (abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
+    (*p_x).MEMO_TALENT_DMG = calculateAbilityDmg(
+      p_x,
+      baseUniversalMulti,
+      baseDmgBoost,
+      baseDefPen,
+      baseResistance,
+      baseSuperBreakInstanceDmg,
+      baseSuperBreakModifier,
+      baseBreakEfficiencyBoost,
+      x.MEMO_TALENT_DMG,
+      x.MEMO_TALENT_BOOST,
+      0, // x.MEMO_TALENT_VULNERABILITY,
+      0, // x.MEMO_TALENT_DEF_PEN,
+      0, // x.MEMO_TALENT_RES_PEN,
+      0, // x.MEMO_TALENT_CR_BOOST,
+      0, // x.MEMO_TALENT_CD_BOOST,
+      0, // x.MEMO_TALENT_FINAL_DMG_BOOST,
+      0, // x.MEMO_TALENT_BREAK_EFFICIENCY_BOOST,
+      0, // x.MEMO_TALENT_SUPER_BREAK_MODIFIER,
+      0, // x.MEMO_TALENT_BREAK_DMG_MODIFIER,
+      x.MEMO_TALENT_TOUGHNESS_DMG,
+      0, // x.MEMO_TALENT_ADDITIONAL_DMG,
+      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE,
+      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE,
+      0, // x.MEMO_TRUE_DMG_MODIFIER,
+      0, // m.MEMO_DMG,
+    );
+
+    (*p_x).MEMO_TALENT_DMG += (*p_m).MEMO_TALENT_DMG;
     (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
   }
 }
@@ -903,7 +939,7 @@ fn calculateAbilityDmg(
     let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
     let abilityDefMulti = calculateDefMulti(baseDefPen + abilityDefPen);
     let abilityResMulti = 1 - (baseResistance - abilityResPen);
-    let abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost;
+    let abilityOriginalDmgMulti = 1 + abilityOriginalDmgBoost + x.FINAL_DMG_BOOST;
 
     abilityCritDmgOutput = abilityDmg
       * (baseUniversalMulti)

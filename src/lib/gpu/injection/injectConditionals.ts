@@ -1,4 +1,11 @@
-import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  BASIC_ABILITY_TYPE,
+  FUA_ABILITY_TYPE,
+  MEMO_SKILL_ABILITY_TYPE,
+  MEMO_TALENT_ABILITY_TYPE,
+  SKILL_ABILITY_TYPE,
+  ULT_ABILITY_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
@@ -252,6 +259,7 @@ const actionTypeToWgslMapping: StringToNumberMap = {
   ULT: ULT_ABILITY_TYPE,
   FUA: FUA_ABILITY_TYPE,
   MEMO_SKILL: MEMO_SKILL_ABILITY_TYPE,
+  MEMO_TALENT: MEMO_TALENT_ABILITY_TYPE,
 }
 
 function getActionTypeToWgslMapping(actionType: string) {

@@ -201,6 +201,8 @@ self.onmessage = function (e: MessageEvent) {
         combo += a[Key.FUA_DMG]
       } else if (action.actionType === 'MEMO_SKILL') {
         combo += a[Key.MEMO_SKILL_DMG]
+      } else if (action.actionType === 'MEMO_TALENT') {
+        combo += a[Key.MEMO_TALENT_DMG]
       }
 
       if (i === 0) {
@@ -290,6 +292,7 @@ function ratingStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.ULT_DMG, request.minUlt, request.maxUlt)
   addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
   addConditionIfNeeded(conditions, Key.MEMO_SKILL_DMG, request.minMemoSkill, request.maxMemoSkill)
+  addConditionIfNeeded(conditions, Key.MEMO_TALENT_DMG, request.minMemoTalent, request.maxMemoTalent)
   addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
   addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
   addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)

@@ -26,6 +26,7 @@ const defaultHiddenColumns = [
   SortOption.HEAL,
   SortOption.SHIELD,
   SortOption.MEMO_SKILL,
+  SortOption.MEMO_TALENT,
 ]
 
 export const GRID_DIMENSIONS = {

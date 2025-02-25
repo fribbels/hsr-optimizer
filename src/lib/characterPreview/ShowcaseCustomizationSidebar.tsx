@@ -645,6 +645,9 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
 
     1403: ['#979af7'], // tribbie
     1404: ['#ff94b1'], // mydei
+
+    1405: ['#93d4c2'], // anaxa
+    1407: ['#b985fd'], // castorice
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

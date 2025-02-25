@@ -219,6 +219,10 @@ export const abilitySelectOptions = [
     value: 'MEMO_SKILL',
     label: 'MemoSkill',
   },
+  {
+    value: 'MEMO_TALENT',
+    label: 'MemoTalent',
+  },
 ] as const
 
 function ComboHeader(props: {

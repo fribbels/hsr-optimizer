@@ -247,6 +247,8 @@ const computedStatsTempI18NTranslations = {
   SKILL_TOUGHNESS_DMG: 'Skill Toughness DMG',
   ULT_TOUGHNESS_DMG: 'Ult Toughness DMG',
   FUA_TOUGHNESS_DMG: 'Fua Toughness DMG',
+  MEMO_SKILL_TOUGHNESS_DMG: 'Memo Skill Toughness DMS',
+  MEMO_TALENT_TOUGHNESS_DMG: 'Memo Talent Toughness DMG',
   TRUE_DMG_MODIFIER: 'True DMG multiplier',
   BASIC_TRUE_DMG_MODIFIER: 'Basic True DMG multiplier',
   SKILL_TRUE_DMG_MODIFIER: 'Skill True DMG multiplier',

@@ -58,11 +58,12 @@ import ruanmei from 'lib/conditionals/character/1300/RuanMei'
 import sparkle from 'lib/conditionals/character/1300/Sparkle'
 import sunday from 'lib/conditionals/character/1300/Sunday'
 import aglaea from 'lib/conditionals/character/1400/Aglaea'
+import anaxa from 'lib/conditionals/character/1400/Anaxa'
+import castorice from 'lib/conditionals/character/1400/Castorice'
 import mydei from 'lib/conditionals/character/1400/Mydei'
-import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
-import trailblazerharmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
+import trailblazerHarmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
 import trailblazerRemembrance from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { Eidolon } from 'types/character'
@@ -131,7 +132,7 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   1314: jade,
   1315: boothill,
   1317: rappa,
-  1401: theHerta,
+  1401: anaxa,
   1402: aglaea,
   1403: tribbie,
   1404: mydei,
@@ -139,10 +140,13 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   8002: trailblazerdestruction,
   8003: trailblazerpreservation,
   8004: trailblazerpreservation,
-  8005: trailblazerharmony,
-  8006: trailblazerharmony,
+  8005: trailblazerHarmony,
+  8006: trailblazerHarmony,
   8007: trailblazerRemembrance,
   8008: trailblazerRemembrance,
+
+  1405: anaxa,
+  1407: castorice,
 }
 
 /**
@@ -161,7 +165,7 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
  */
 export const CharacterConditionalsResolver = {
   get: (request: {
-    characterId: string;
+    characterId: string
     characterEidolon: number
   }, withContent = false): CharacterConditionalsController => {
     const characterFn = characterOptionMapping[request.characterId]

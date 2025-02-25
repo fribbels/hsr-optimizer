@@ -66,6 +66,7 @@ const columnsToAggregateMap = {
   ULT: true,
   FUA: true,
   MEMO_SKILL: true,
+  MEMO_TALENT: true,
   DOT: true,
   BREAK: true,
   COMBO: true,
@@ -517,6 +518,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('ULT')
   setMinMax('FUA')
   setMinMax('MEMO_SKILL')
+  setMinMax('MEMO_TALENT')
   setMinMax('DOT')
   setMinMax('BREAK')
   setMinMax('COMBO')
@@ -607,6 +609,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
@@ -635,6 +638,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
@@ -665,6 +669,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
@@ -693,6 +698,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal

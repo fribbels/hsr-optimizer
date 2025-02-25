@@ -63,6 +63,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
     ULT: x.$ULT_DMG,
     FUA: x.$FUA_DMG,
     MEMO_SKILL: x.$MEMO_SKILL_DMG,
+    MEMO_TALENT: x.$MEMO_TALENT_DMG,
     DOT: x.$DOT_DMG,
     BREAK: x.$BREAK_DMG,
     COMBO: x.$COMBO_DMG,
@@ -122,7 +123,7 @@ export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObje
   for (const key in Key) {
     const externalKey = InternalKeyToExternal[key] ?? key
     const numericKey = Key[key as KeysType]
-    result[externalKey as keyof ComputedStatsObjectExternal] = array[numericKey]
+    result[externalKey] = array[numericKey]
   }
   return result as ComputedStatsObjectExternal
 }

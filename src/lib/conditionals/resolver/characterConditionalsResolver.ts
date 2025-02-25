@@ -63,6 +63,7 @@ import castorice from 'lib/conditionals/character/1400/Castorice'
 import mydei from 'lib/conditionals/character/1400/Mydei'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
+import trailblazerHarmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
 import trailblazerRemembrance from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { Eidolon } from 'types/character'
@@ -139,13 +140,13 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   8002: trailblazerdestruction,
   8003: trailblazerpreservation,
   8004: trailblazerpreservation,
-  8005: anaxa,
-  8006: castorice,
+  8005: trailblazerHarmony,
+  8006: trailblazerHarmony,
   8007: trailblazerRemembrance,
   8008: trailblazerRemembrance,
 
-  // 9000: anaxa,
-  // 9001: castorice,
+  1405: anaxa,
+  1407: castorice,
 }
 
 /**

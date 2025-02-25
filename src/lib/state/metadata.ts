@@ -6971,7 +6971,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    9000: { // Anaxa
+    1405: { // Anaxa
       stats: {
         [Stats.ATK]: 0.75,
         [Stats.ATK_P]: 0.75,
@@ -7075,7 +7075,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    9001: { // Castorice
+    1407: { // Castorice
       stats: {
         [Stats.ATK]: 0.75,
         [Stats.ATK_P]: 0.75,

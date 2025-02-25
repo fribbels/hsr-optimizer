@@ -1,6 +1,8 @@
+import i18next from 'i18next'
 import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
 import { standardHpFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -76,13 +78,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'memospriteActive',
       formItem: 'switch',
       text: 'Memosprite active',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     talentDmgStacks: {
       id: 'talentDmgStacks',
       formItem: 'slider',
       text: 'Talent DMG stacks',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 3,
     },
@@ -90,7 +92,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'memoSkillEnhances',
       formItem: 'slider',
       text: 'Memo Skill enhances',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 1,
       max: 3,
     },
@@ -104,7 +106,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'memoTalentHits',
       formItem: 'slider',
       text: 'Memo Talent hits',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 6,
     },
@@ -112,13 +114,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'teamDmgBoost',
       formItem: 'switch',
       text: 'Team DMG boost',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1DmgStacks: {
       id: 'e1DmgStacks',
       formItem: 'slider',
       text: 'E1 DMG stacks',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 1,
       max: 6,
       disabled: e < 1,
@@ -127,14 +129,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'e2MemoSkillDmgBoost',
       formItem: 'switch',
       text: 'E2 Memo Skill DMG',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
       text: 'E6 RES PEN',
-      content: 'TODO',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },
   }

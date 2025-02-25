@@ -445,6 +445,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Stats.HP_P]: 0.21 },
       5: { [Stats.HP_P]: 0.24 },
     },
+    22004: {
+      1: { [Stats.ATK_P]: 0.08 },
+      2: { [Stats.ATK_P]: 0.10 },
+      3: { [Stats.ATK_P]: 0.12 },
+      4: { [Stats.ATK_P]: 0.14 },
+      5: { [Stats.ATK_P]: 0.16 },
+    },
     23000: {},
     23001: {
       1: { [Stats.CR]: 0.18 },
@@ -694,6 +701,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       3: { [Constants.Stats.HP_P]: 0.24 },
       4: { [Constants.Stats.HP_P]: 0.27 },
       5: { [Constants.Stats.HP_P]: 0.30 },
+    },
+    23040: {
+      1: { [Constants.Stats.HP_P]: 0.30 },
+      2: { [Constants.Stats.HP_P]: 0.375 },
+      3: { [Constants.Stats.HP_P]: 0.45 },
+      4: { [Constants.Stats.HP_P]: 0.525 },
+      5: { [Constants.Stats.HP_P]: 0.60 },
+    },
+    23041: {
+      1: { [Constants.Stats.CR]: 0.18 },
+      2: { [Constants.Stats.CR]: 0.21 },
+      3: { [Constants.Stats.CR]: 0.24 },
+      4: { [Constants.Stats.CR]: 0.27 },
+      5: { [Constants.Stats.CR]: 0.30 },
     },
     24000: {},
     24001: {
@@ -7062,6 +7083,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

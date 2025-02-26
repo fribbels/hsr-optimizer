@@ -899,6 +899,7 @@ function NumberSlider(props: {
         {
           // @ts-ignore
           <FormSliderWithPopover
+            key={props.value + props.partitionIndex}
             {...contentItem}
             name={contentItem.id}
             title={contentItem.text}

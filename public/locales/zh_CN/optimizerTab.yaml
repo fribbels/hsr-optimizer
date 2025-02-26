@@ -29,7 +29,8 @@ SortOptions:
   SKILL: 按战技伤害排序
   ULT: 按终结技伤害排序
   FUA: 按追加攻击伤害排序
-  MEMO_SKILL: 按忆灵技能伤害排序
+  MEMO_SKILL: 按忆灵技伤害排序
+  MEMO_TALENT: 按忆灵技伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
   HEAL: 按治疗值排序
@@ -123,7 +124,10 @@ Grid:
         追击
         伤害
       MEMO_SKILL: |-
-        忆灵技能
+        忆灵技
+        伤害
+      MEMO_TALENT: |-
+        忆灵天赋
         伤害
       DOT: |-
         持续
@@ -167,7 +171,10 @@ Grid:
         追击
         伤害
       MEMO_SKILL: |-
-        忆灵技能
+        忆灵技
+        伤害
+      MEMO_TALENT: |-
+        忆灵天赋
         伤害
       DOT: |-
         持续
@@ -398,7 +405,7 @@ MinMaxFilters:
   SKILLLabel: 战技
   ULTLabel: 终结技
   FUALabel: 追加攻击
-  MEMOSKILLLabel: 忆灵技能
+  MEMOSKILLLabel: 忆灵技
   DOTLabel: 持续伤害
   BREAKLabel: 击破
   HEALLabel: 治疗值
@@ -423,7 +430,8 @@ ComboFilter:
     Skill: 战技
     Ult: 终结技
     Fua: 追加攻击
-    MemoSkill: 忆灵战技
+    MemoSkill: 忆灵技
+    MemoTalent: 忆灵天赋
   RotationButton: 高级技能循环
 ComboDrawer:
   NoConditionals: 无可应用的条件触发被动技能
@@ -557,7 +565,8 @@ ExpandedDataPanel:
       FUA_DMG: 追加攻击
       DOT_DMG: 持续
       BREAK_DMG: 击破
-      MEMO_SKILL_DMG: 忆灵战技
+      MEMO_SKILL_DMG: 忆灵技
+      MEMO_TALENT_DMG: 忆灵天赋
     TooltipText:
       abilityDmg: 技能伤害
       breakDmg: 击破伤害

@@ -164,7 +164,8 @@ DMGTypes:
   SKILL: 战技伤害
   ULT: 终结技伤害
   FUA: 追加攻击伤害
-  MEMO_SKILL: 忆灵技能伤害
+  MEMO_SKILL: 忆灵技伤害
+  MEMO_TALENT: 忆灵天赋伤害
   DOT: 持续伤害
   BREAK: 击破伤害
   CV: 暴击值
@@ -173,7 +174,8 @@ ShortDMGTypes:
   Skill: 战技伤害
   Ult: 终结技伤害
   Fua: 追加攻击伤害
-  Memo_Skill: 忆灵技能伤害
+  Memo_Skill: 忆灵技伤害
+  Memo_Talent: 忆灵天赋伤害
   Dot: 持续攻击伤害
   Break: 击破伤害
   CV: 暴击值

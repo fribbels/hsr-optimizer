@@ -5,7 +5,6 @@ GPU:
     l2: "Windows & Mac — Chrome, Opera, Edge"
     l3: >-
       Linux — <CustomLink text="Behind a flag"/>
-    l4: "지원 브라우저 중 하나를 사용 중이고 작동하지 않는다면, 다른 브라우저를 시도하거나, 내장 그래픽 카드 대신 외장 그래픽 카드로 브라우저를 사용하세요. "
 GPUCrash:
   Message: WebGPU 에러
   Description:

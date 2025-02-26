@@ -325,13 +325,13 @@ CombatBuffs:
   ATK: 攻撃力
   ATK_P: 攻撃力割合
   HP: HP
-  HP_P: HP
+  HP_P: HP割合
   DEF: 防御力
-  DEF_P: 防御力
+  DEF_P: 防御力割合
   CR: 会心率
   CD: 会心ダメージ
   SPD: 速度
-  SPD_P: 速度
+  SPD_P: 速度割合
   BE: 撃破特効
   DMG_BOOST: 与ダメージ増加
   DEF_PEN: 防御力無視
@@ -500,3 +500,56 @@ StatSimulation:
     RopePlaceholder: 縄
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 通常
+      Skill: スキル
+      Ult: 必殺
+      Talent: 天賦
+      Technique: 秘技
+      Trace: 軌跡
+      Memo: 精霊
+      E1: 1凸
+      E2: 2凸
+      E4: 4凸
+      E6: 6凸
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x サブステ'
+      COMBO_DMG: コンボダメ変化量
+      COMBO_DMG_P: コンボダメ変化率
+      EHP: EHP変化量
+      EHP_P: EHP変化率
+      HEAL_VALUE: 治癒量変化量
+      HEAL_VALUE_P: 治癒量変化率
+      SHIELD_VALUE: シールド量変化量
+      SHIELD_VALUE_P: シールド量変化率
+  DamageSplits:
+    Title: ダメージ種類別分布
+    Legend:
+      abilityDmg: アビリティ
+      breakDmg: 撃破
+      superBreakDmg: 超撃破
+      additionalDmg: 付加
+      trueDmg: '確定'
+      jointDmg: 連携
+      dotDmg: 持続
+      memoDmg: 精霊
+    YAxisLabel:
+      BASIC_DMG: 通常
+      SKILL_DMG: スキル
+      ULT_DMG: 必殺
+      FUA_DMG: 追加
+      DOT_DMG: 持続
+      BREAK_DMG: 撃破
+      MEMO_SKILL_DMG: 精霊スキル
+    TooltipText:
+      abilityDmg: アビリティダメージ
+      breakDmg: 撃破ダメージ
+      superBreakDmg: 超撃破ダメージ
+      additionalDmg: 付加ダメージ
+      trueDmg: 確定ダメージ
+      jointDmg: 連携ダメージ
+      dotDmg: 持続ダメージ
+      memoDmg: 精霊ダメージ

@@ -1,5 +1,5 @@
 import { Sets } from 'lib/constants/constants'
-import { ComboBooleanConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
 
 /**
@@ -14,22 +14,32 @@ export function precomputeConditionalActivations(comboState: ComboState, request
     // Band of Sizzling Thunder
   ]
 
+  const characterPreprocessors = [
+    castoricePreprocessor(comboState, request),
+  ].filter((x) => x.id == request.characterId)
+
   for (let i = 1; i < comboState.comboAbilities.length; i++) {
     const ability = comboState.comboAbilities[i]
 
     for (const preprocessor of setPreprocessors) {
       preprocessor.processAbility(ability, i)
     }
+
+    for (const preprocessor of characterPreprocessors) {
+      preprocessor.processAbility(ability, i)
+    }
   }
 }
 
 type AbilityPreprocessor = {
-  state: Record<string, boolean>
+  id: string
+  state: Record<string, boolean | number>
   processAbility: (ability: string, index: number) => void
 }
 
 function scholarLostInEruditionPreprocessor(comboState: ComboState, request: Form): AbilityPreprocessor {
   return {
+    id: Sets.ScholarLostInErudition,
     state: {
       scholarActivated: false,
     },
@@ -40,15 +50,80 @@ function scholarLostInEruditionPreprocessor(comboState: ComboState, request: For
 
       if (ability == 'SKILL' && this.state.scholarActivated) {
         this.state.scholarActivated = false
-        setComboBooleanCategoryActivation(comboState, index, true)
+        setComboBooleanCategorySetActivation(comboState, Sets.ScholarLostInErudition, index, true)
       } else {
-        setComboBooleanCategoryActivation(comboState, index, false)
+        setComboBooleanCategorySetActivation(comboState, Sets.ScholarLostInErudition, index, false)
       }
     },
   }
 }
 
-function setComboBooleanCategoryActivation(comboState: ComboState, index: number, value: boolean) {
-  const category = comboState.comboCharacter.setConditionals[Sets.ScholarLostInErudition] as ComboBooleanConditional
+function castoricePreprocessor(comboState: ComboState, request: Form): AbilityPreprocessor {
+  return {
+    id: '1407',
+    state: {
+      memoSkillEnhances: 1,
+      e1DmgStacks: 1,
+      e2Activated: false,
+    },
+    processAbility: function (ability: string, index: number) {
+      // E1
+
+      let e1DmgStacks = this.state.e1DmgStacks as number
+      if (ability == 'MEMO_SKILL') {
+        e1DmgStacks = Math.min(6, e1DmgStacks + 1)
+        setComboNumberCategoryCharacterActivation(comboState, 'e1DmgStacks', index, e1DmgStacks)
+      } else {
+        e1DmgStacks = 1
+        setComboNumberCategoryCharacterActivation(comboState, 'e1DmgStacks', index, e1DmgStacks)
+      }
+      this.state.e1DmgStacks = e1DmgStacks
+
+      // E2
+
+      if (ability == 'ULT') {
+        this.state.e2Activated = true
+      }
+
+      if (ability == 'MEMO_SKILL' && this.state.e2Activated) {
+        this.state.e2Activated = false
+        setComboBooleanCategoryCharacterActivation(comboState, 'e2MemoSkillDmgBoost', index, true)
+      } else {
+        setComboBooleanCategoryCharacterActivation(comboState, 'e2MemoSkillDmgBoost', index, false)
+      }
+    },
+  }
+}
+
+function setComboBooleanCategorySetActivation(comboState: ComboState, set: string, index: number, value: boolean) {
+  const category = comboState.comboCharacter.setConditionals[set] as ComboBooleanConditional
   category.activations[index] = value
+}
+
+function setComboBooleanCategoryCharacterActivation(comboState: ComboState, conditional: string, index: number, value: boolean) {
+  const category = comboState.comboCharacter.characterConditionals[conditional] as ComboBooleanConditional
+  if (category) {
+    category.activations[index] = value
+  }
+}
+
+function setComboNumberCategoryCharacterActivation(comboState: ComboState, conditional: string, index: number, value: number) {
+  const category = comboState.comboCharacter.characterConditionals[conditional] as ComboNumberConditional
+  if (category) {
+    const partition = category.partitions.find((x) => x.value == value)
+    if (partition) {
+      category.partitions.forEach((x) => x.activations[index] = false)
+      partition.activations[index] = true
+    } else {
+      category.partitions.forEach((x) => x.activations[index] = false)
+      const newPartition = {
+        value: value,
+        activations: new Array(comboState.comboAbilities.length).fill(false),
+      }
+      newPartition.activations[index] = true
+      category.partitions.push(newPartition)
+    }
+
+    category.partitions = category.partitions.sort((a, b) => a.value - b.value)
+  }
 }

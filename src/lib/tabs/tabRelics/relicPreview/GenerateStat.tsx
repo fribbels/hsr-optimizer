@@ -19,7 +19,13 @@ export type SubstatDetails = {
 export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) => {
   const { t } = useTranslation('common')
   if (!stat?.stat || stat.value == null) {
-    return <></>
+    return (
+      <img
+        src={Assets.getBlank()}
+        style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
+      >
+      </img>
+    )
   }
 
   let displayValue

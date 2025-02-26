@@ -183,11 +183,17 @@ Characters:
     Name: 阿格萊雅
     LongName: 阿格萊雅
   "1403":
-    Name: Tribbie
-    LongName: Tribbie
+    Name: 緹寶
+    LongName: 緹寶
   "1404":
-    Name: Mydei
-    LongName: Mydei
+    Name: 萬敵
+    LongName: 萬敵
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: 穹
     LongName: 穹 (毀滅)
@@ -364,11 +370,11 @@ RelicSets:
     Name: 奇想蕉樂園
     Description2pc: 使裝備者的暴擊傷害提高16%，當存在裝備者召喚的目標時，暴擊傷害額外提高32%。
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Name: 謐寧拾骨地
+    Description2pc: 使裝備者的生命上限提高12%。當裝備者的生命上限大於等於5000點時，使裝備者及其憶靈的暴擊傷害提高28%。
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Name: 淵思寂慮的巨樹
+    Description2pc: 使裝備者的速度提高6%。當裝備者的速度大於等於135/180時，使裝備者及其憶靈的治療量提高12%/20%。
 Lightcones:
   "20000":
     Name: 鋒鏑
@@ -528,6 +534,8 @@ Lightcones:
     Name: 為了明日的旅途
   "22003":
     Name: 忍事錄•音律狩獵
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: 銀河鐵道之夜
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: 向著不可追問處
   "23038":
-    Name: If Time Were a Flower
+    Name: 如果時間是一朵花
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: 血火啊，燃燒前路
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: 記一位星神的殞落
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: 不息的演算
   "24005":
-    Name: Memory's Curtain Never Falls
+    Name: 記憶永不落幕
 Paths:
   Warrior: 毀滅
   Rogue: 巡獵

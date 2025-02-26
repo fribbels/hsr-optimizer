@@ -8,6 +8,7 @@ StrategyLabels:
   E5: E5 primeiro
   E6: E6 primeiro
 IncomeOptions:
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: Nenhum
     1: F2P

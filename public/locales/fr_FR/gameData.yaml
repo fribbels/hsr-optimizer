@@ -188,6 +188,12 @@ Characters:
   "1404":
     Name: Mydei
     LongName: Mydei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -271,8 +277,8 @@ RelicSets:
     Description4pc: "Lorsque le porteur utilise son ultime sur un allié, la VIT de tous les alliés augmente de 12% pendant 1\_tour. Cet effet n'est pas cumulable."
   "115":
     Name: Grand duc incandescendre
-    Description2pc: Augmente les DGT infligés par les attaques de suivi de 20%.
-    Description4pc: Augmente l'ATQ du porteur de 6% chaque fois que ses attaques de suivi infligent des DGT. Cet effet est cumulable jusqu'à 8 fois pour une durée de 3 tours. Cet effet est supprimé à la prochaine attaque de suivi lancée par le porteur.
+    Description2pc: Augmente les DGT infligés par les ATQ de suivi de 20%.
+    Description4pc: Augmente l'ATQ du porteur de 6% chaque fois que ses ATQ de suivi infligent des DGT. Cet effet est cumulable jusqu'à 8 fois pour une durée de 3 tours. Cet effet est supprimé à la prochaine ATQ de suivi lancée par le porteur.
   "116":
     Name: Prisonnier enchaîné
     Description2pc: Augmente l'ATQ de 12%.
@@ -292,7 +298,7 @@ RelicSets:
   "120":
     Name: Vaillance du guerrier du vent
     Description2pc: Augmente l'ATQ de 12%.
-    Description4pc: Augmente les chances de coup critique du porteur de 6%. Après que le porteur a utilisé une attaque de suivi, augmente les DGT infligés par l'ultime de 36%, durant 1 tour.
+    Description4pc: Augmente les chances de coup critique du porteur de 6%. Après que le porteur a utilisé une ATQ de suivi, augmente les DGT infligés par l'ultime de 36%, durant 1 tour.
   "121":
     Name: Supplice du prêtre
     Description2pc: Augmente la VIT de 6%.
@@ -326,7 +332,7 @@ RelicSets:
     Description2pc: Augmente les DGT critiques du porteur de 16%. Lorsque les DGT critiques du porteur atteignent 120% ou plus, ses chances de coup critique augmentent de 60% dès l'entrée en combat et ce jusqu'à la fin de sa première attaque.
   "306":
     Name: Salsotto inerte
-    Description2pc: Augmente les chances de coup critique du porteur de 8%. Lorsque ses chances de coup critique actuelles atteignent au moins 50%, les DGT infligés par son ultime et son attaque de suivi augmentent de 15%.
+    Description2pc: Augmente les chances de coup critique du porteur de 8%. Lorsque ses chances de coup critique actuelles atteignent au moins 50%, les DGT infligés par son ultime et son ATQ de suivi augmentent de 15%.
   "307":
     Name: Talia, royaume du banditisme
     Description2pc: Augmente l'effet de Rupture du porteur de 16%. Lorsque sa VIT est supérieure ou égale à 145, son effet de Rupture augmente de 20% supplémentaires.
@@ -353,7 +359,7 @@ RelicSets:
     Description2pc: Augmente l'ATQ du porteur de 12%. Si au moins un autre coéquipier suit la même Voie que le porteur en entrant en combat, les chances de coup critique du porteur augmentent de 12%.
   "315":
     Name: Duran, dynastie des loups
-    Description2pc: "Lorsqu'un allié utilise une attaque de suivi, le porteur gagne 1\_cumul de Mérite, cumulable jusqu'à 5 fois. Chaque cumul de Mérite augmente les DGT infligés par les attaques de suivi du porteur de 5%. À 5 cumuls, les DGT critiques du porteur augmentent de 25%."
+    Description2pc: "Lorsqu'un allié utilise une ATQ de suivi, le porteur gagne 1\_cumul de Mérite, cumulable jusqu'à 5 fois. Chaque cumul de Mérite augmente les DGT infligés par les ATQ de suivi du porteur de 5%. À 5 cumuls, les DGT critiques du porteur augmentent de 25%."
   "316":
     Name: Forge de la lanterne Kalpagni
     Description2pc: Augmente la VIT du porteur de 6%. Lorsque le porteur touche une cible ennemie qui a une Faiblesse au feu, l'effet de Rupture du porteur augmente de 40% pendant 1 tour.
@@ -364,11 +370,11 @@ RelicSets:
     Name: Parc de bananattractions
     Description2pc: Augmente les DGT critiques du porteur de 16%. Lorsqu'une cible invoquée par le porteur est sur le champ de bataille, augmente les DGT critiques de 32% supplémentaires.
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Name: Tranquille demeure des os
+    Description2pc: Augmente les PV max du porteur de 12%. Lorsque les PV max du porteur sont supérieurs ou égaux à 5000, les DGT critiques du porteur et de son mnémesprit augmentent de 28%.
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Name: Arbre géant des réflexions profondes
+    Description2pc: La VIT du porteur augmente de 6%. Lorsque la VIT du porteur est de 135/180 ou plus, les soins prodigués par le porteur et son mnémesprit augmentent de 12%/20%.
 Lightcones:
   "20000":
     Name: Flèches
@@ -528,6 +534,8 @@ Lightcones:
     Name: Au nom du voyage de demain
   "22003":
     Name: "Registre ninja\_: Chasse au son"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Nuit sur la voie lactée
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: L'impénétrable à portée de main
   "23038":
-    Name: If Time Were a Flower
+    Name: Si le temps était une fleur
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: Flamme de sang, illumine mon chemin
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: La chute d'un Aiôn
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: Calcul éternel
   "24005":
-    Name: Memory's Curtain Never Falls
+    Name: Le rideau de la mémoire ne tombe jamais
 Paths:
   Warrior: La Destruction
   Rogue: La Chasse

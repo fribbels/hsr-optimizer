@@ -188,6 +188,12 @@ Characters:
   "1404":
     Name: Mydei
     LongName: Mydei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -364,11 +370,11 @@ RelicSets:
     Name: Wunbanana-Park
     Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Befindet sich ein vom Träger beschworenes Objekt auf dem Kampffeld, wird der KRIT-SCH zusätzlich um 32% erhöht.
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Name: Ruhiges Anwesen für die Gebeine der Toten
+    Description2pc: Erhöht die max. LP des Trägers um 12%. Wenn die max. LP des Trägers 5000 oder mehr betragen, wird der KRIT-SCH des Trägers und seines Memogeistes um 28% erhöht.
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Name: Riesenbaum des versunkenen Grübelns
+    Description2pc: Erhöht die GES des Trägers um 6%. Wenn die GES des Trägers 135/180 oder höher erreicht, wird die bewirkte Heilung des Trägers und seines Memogeists um 12%/20% erhöht.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -528,6 +534,8 @@ Lightcones:
     Name: Für die Reise von morgen
   "22003":
     Name: "Ninja-Aufzeichnung: Klangjagd"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: Auf zu unerklärlichen Orten
   "23038":
-    Name: If Time Were a Flower
+    Name: Wenn Zeit eine Blume wäre
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: Flamme des Blutes, entzünde meinen Pfad
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: Der Niedergang eines Äons
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: Unermüdliche Berechnung
   "24005":
-    Name: Memory's Curtain Never Falls
+    Name: Der Vorhang der Erinnerung fällt nie
 Paths:
   Warrior: Die Zerstörung
   Rogue: Die Jagd

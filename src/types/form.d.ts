@@ -141,6 +141,8 @@ export type Form = {
   maxSkill: number
   minMemoSkill: number
   maxMemoSkill: number
+  minMemoTalent: number
+  maxMemoTalent: number
   minSpd: number
   maxSpd: number
   minUlt: number

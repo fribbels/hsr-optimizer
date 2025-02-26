@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: 'ST DUY TRÌ:'
         BREAK: 'ST Kích Phá:'
         COMBO: 'ST COMBO:'
+    CombatBuffs:
+      Header: Buffs trong combat
   ScoringColumn:
     Character:
       Header: "Lối lên đồ của bạn ({{score}}%)"

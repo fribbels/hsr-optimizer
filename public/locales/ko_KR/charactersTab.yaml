@@ -132,6 +132,8 @@ CharacterPreview:
         DOT: 지속 피해량
         BREAK: 격파 피해량
         COMBO: 사이클 총 피해량
+    CombatBuffs:
+      Header: 전투 중 버프
   ScoringColumn:
     Character:
       Header: "캐릭터 빌드({{score}}%)"

@@ -64,6 +64,7 @@ export default function CharacterSelectorDisplay() {
           { value: SortOption.ULT.key, label: t('SortOptions.ULT') },
           { value: SortOption.FUA.key, label: t('SortOptions.FUA') },
           { value: SortOption.MEMO_SKILL.key, label: t('SortOptions.MEMO_SKILL') },
+          { value: SortOption.MEMO_TALENT.key, label: t('SortOptions.MEMO_TALENT') },
           { value: SortOption.DOT.key, label: t('SortOptions.DOT') },
           { value: SortOption.BREAK.key, label: t('SortOptions.BREAK') },
           { value: SortOption.HEAL.key, label: t('SortOptions.HEAL') },
@@ -147,13 +148,13 @@ export default function CharacterSelectorDisplay() {
         </Flex>
       </Flex>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 16 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
         <HeaderText>{t('CharacterSelector.Presets')/* Presets */}</HeaderText>
       </Flex>
 
       <RecommendedPresetsButton/>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 16 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
         <HeaderText>{t('CharacterSelector.Target')/* Optimization target */}</HeaderText>
       </Flex>
 
@@ -172,7 +173,7 @@ export default function CharacterSelectorDisplay() {
           showSearch
           style={{ width: panelWidth }}
           options={resultSortOptions}
-          listHeight={800}
+          listHeight={900}
           popupMatchSelectWidth={250}
           placeholder={t('CharacterSelector.TargetPlaceholder')}// 'Sorted by'
           filterOption={Utils.labelFilterOption}

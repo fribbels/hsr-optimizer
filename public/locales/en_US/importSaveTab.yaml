@@ -38,7 +38,7 @@ Import:
     Placeholder: Paste json file contents
   Stage2:
     Or: OR
-    FileInfo: >- 
+    FileInfo: >-
       File contains $t(common:RelicWithCount, {"count": {{relicCount}}}) and $t(common:CharacterWithCount, {"count": {{characterCount}}}).
     NoRelics: Invalid scanner file, please try a different file
     RelicsImport:
@@ -62,7 +62,7 @@ LoadData:
     ButtonText: Load save data
   Stage2:
     ErrorMsg: Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab?
-    Label: >- 
+    Label: >-
       File contains $t(common:RelicWithCount, {"count": {{relicCount}}}) and $t(common:CharacterWithCount, {"count": {{characterCount}}}).
       Replace your current data with the uploaded data?
     ButtonText: Use uploaded data
@@ -79,7 +79,7 @@ ClearData:
   WarningTitle: Erase all data
   WarningDescription: Are you sure you want to clear all relics and characters?
 PartialImport:
-  OldRelics: >- 
+  OldRelics: >-
     Updated stats for {{count}} existing $t(common:Relic, {"count": {{count}}})
   NewRelics: >-
     Added {{count}} new $t(common:Relic, {"count": {{count}}})

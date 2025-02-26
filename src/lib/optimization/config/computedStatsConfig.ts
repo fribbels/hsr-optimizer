@@ -77,6 +77,8 @@ export const BaseComputedStatsConfig = {
   DOT_BOOST: {},
   BREAK_BOOST: {},
   ADDITIONAL_BOOST: {},
+  MEMO_SKILL_BOOST: {},
+  MEMO_TALENT_BOOST: {},
 
   VULNERABILITY: {},
   BASIC_VULNERABILITY: {},
@@ -141,6 +143,7 @@ export const BaseComputedStatsConfig = {
   ULT_TOUGHNESS_DMG: { flat: true },
   FUA_TOUGHNESS_DMG: { flat: true },
   MEMO_SKILL_TOUGHNESS_DMG: { flat: true },
+  MEMO_TALENT_TOUGHNESS_DMG: { flat: true },
 
   // True dmg
   TRUE_DMG_MODIFIER: {},
@@ -151,6 +154,7 @@ export const BaseComputedStatsConfig = {
   BREAK_TRUE_DMG_MODIFIER: {},
 
   // e.g. Acheron multiplier
+  FINAL_DMG_BOOST: {},
   BASIC_FINAL_DMG_BOOST: {},
   SKILL_FINAL_DMG_BOOST: {},
   ULT_FINAL_DMG_BOOST: {},

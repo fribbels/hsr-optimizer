@@ -136,7 +136,7 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
       <Flex justify='space-between' style={{ width: size }}>
         <Flex gap={3} style={{ minWidth: 70 }}>
           <span>
-            {`${(percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)).toLocaleString(currentLocale())}`}
+            {`${(percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)).toLocaleString(currentLocale(), { useGrouping: false })}`}
           </span>
           <span>
             {`${percent ? '%' : ''}`}
@@ -247,6 +247,8 @@ const computedStatsTempI18NTranslations = {
   SKILL_TOUGHNESS_DMG: 'Skill Toughness DMG',
   ULT_TOUGHNESS_DMG: 'Ult Toughness DMG',
   FUA_TOUGHNESS_DMG: 'Fua Toughness DMG',
+  MEMO_SKILL_TOUGHNESS_DMG: 'Memo Skill Toughness DMS',
+  MEMO_TALENT_TOUGHNESS_DMG: 'Memo Talent Toughness DMG',
   TRUE_DMG_MODIFIER: 'True DMG multiplier',
   BASIC_TRUE_DMG_MODIFIER: 'Basic True DMG multiplier',
   SKILL_TRUE_DMG_MODIFIER: 'Skill True DMG multiplier',

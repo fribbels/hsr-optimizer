@@ -27,9 +27,7 @@ Lightcones:
       dmgBuffStacks:
         text: DMG boost stacks
         content: >-
-          After the wearer uses Skill or Ultimate on one ally character,
-          the ability's target receives 1 stack of "Hymn" for 3 turns, stacking up to 3 times.
-          Each stack of "Hymn" increases its holder's DMG dealt by {{DmgBuff}}%.
+          After the wearer uses Skill or Ultimate on one ally character, the ability's target receives 1 stack of "Hymn" for 3 turns, stacking up to 3 times. Each stack of "Hymn" increases its holder's DMG dealt by {{DmgBuff}}%.
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
@@ -180,10 +178,7 @@ Lightcones:
       breakVulnerabilityStacks:
         text: Break vulnerability stacks
         content: >-
-          When an enemy target's Weakness gets broken,
-          there is a 100% base chance to inflict the "Charring" state on it,
-          which increases its Break DMG taken by {{breakVulnerability}}%, lasting for 2 turns.
-          This effect can stack 2 times.
+          When an enemy target's Weakness gets broken, there is a 100% base chance to inflict the "Charring" state on it, which increases its Break DMG taken by {{breakVulnerability}}%, lasting for 2 turns. This effect can stack 2 times.
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -701,8 +696,7 @@ Characters:
       e6Buffs:
         text: E6 buffs
         content: >-
-          While Aglaea is in "Supreme Stance," increases her and Garmentmaker's Lightning RES PEN by 20%.
-          When Aglaea or Garmentmaker's SPD is greater than 160/240/320, the DMG dealt by Joint ATK increases by 10%/30%/60%.
+          While Aglaea is in "Supreme Stance," increases her and Garmentmaker's Lightning RES PEN by 20%. When Aglaea or Garmentmaker's SPD is greater than 160/240/320, the DMG dealt by Joint ATK increases by 10%/30%/60%.
   Argenti:
     Content:
       ultEnhanced:
@@ -961,41 +955,31 @@ Characters:
       foxianPrayer:
         text: Foxian Prayer BE buff
         content: >-
-          The ally target with "Foxian Prayer" increases their Break Effect by {{BreakBuff}}%
-          and can deal Toughness Reduction by attacking enemies without corresponding Weakness Type,
-          with the effect being equal to 50% of the original Toughness Reduction.
-          This effect cannot be stacked with other Weakness-ignoring Toughness Reduction effects.
+          The ally target with "Foxian Prayer" increases their Break Effect by {{BreakBuff}}% and can deal Toughness Reduction by attacking enemies without corresponding Weakness Type, with the effect being equal to 50% of the original Toughness Reduction. This effect cannot be stacked with other Weakness-ignoring Toughness Reduction effects.
       defReduction:
         text: Skill DEF shred
         content: >-
-          When an ally target with "Foxian Prayer" attacks,
-          Fugue has a 100% base chance to reduce the attacked enemy target's DEF by {{DefShred}}%, lasting for 2 turns.
+          When an ally target with "Foxian Prayer" attacks, Fugue has a 100% base chance to reduce the attacked enemy target's DEF by {{DefShred}}%, lasting for 2 turns.
       superBreakDmg:
         text: Super Break DMG (force weakness break)
         content: >-
-          While Fugue is on the field and after allies attack Weakness Broken enemy targets,
-          converts the Toughness Reduction of this attack into 1 instance of {{SuperBreakMultiplier}}% Super Break DMG.
+          While Fugue is on the field and after allies attack Weakness Broken enemy targets, converts the Toughness Reduction of this attack into 1 instance of {{SuperBreakMultiplier}}% Super Break DMG.
       e4BreakDmg:
         text: E4 Break DMG boost
         content: Ally target with "Foxian Prayer" increases their Break DMG by 20%.
       e6BreakEfficiency:
         text: E6 break efficiency boost
         content: >-
-          Increases Fugue's Weakness Break Efficiency by 50%.
-          When Fugue is in the "Torrid Scorch" state, "Foxian Prayer" will take effect on all allies.
+          Increases Fugue's Weakness Break Efficiency by 50%. When Fugue is in the "Torrid Scorch" state, "Foxian Prayer" will take effect on all allies.
     TeammateContent:
       be220Buff:
         text: BE ≥ 220%
         content: >-
-          When an enemy target's Weakness gets broken, Break Effect of teammates increases by 6%.
-          If Fugue's Break Effect is 220% or more, the Break Effect Boost effect additionally increases by 12%, lasting for 2 turns.
-          This effect can stack up to 2 times.
+          When an enemy target's Weakness gets broken, Break Effect of teammates increases by 6%. If Fugue's Break Effect is 220% or more, the Break Effect Boost effect additionally increases by 12%, lasting for 2 turns. This effect can stack up to 2 times.
       weaknessBreakBeStacks:
         text: Enemy broken BE stacks
         content: >-
-          When an enemy target's Weakness gets broken, Break Effect of teammates increases by 6%.
-          If Fugue's Break Effect is 220% or more, the Break Effect Boost effect additionally increases by 12%, lasting for 2 turns.
-          This effect can stack up to 2 times.
+          When an enemy target's Weakness gets broken, Break Effect of teammates increases by 6%. If Fugue's Break Effect is 220% or more, the Break Effect Boost effect additionally increases by 12%, lasting for 2 turns. This effect can stack up to 2 times.
   FuXuan:
     Content:
       talentActive:
@@ -1357,25 +1341,17 @@ Characters:
       skillEnhances:
         text: Skill Enhances
         content: >-
-          Select the level of enhancement of Mydei's skill.
-          ::BR::
-          Death are Legion (enhancement 0): Consumes HP by an amount equal to 50% of Mydei's current HP. Deals Imaginary DMG equal to {{SkillPrimaryScaling}}% of Mydei's Max HP to one designated enemy and Imaginary DMG equal to {{SkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets.
-          ::BR::
-          Kingslayer Be King (enhancement 1): Consumes HP by an amount equal to 35% of Mydei's current HP. Deals Imaginary DMG equal to {{EnhancedSkillPrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets.
-          ::BR::
-          Godslayer be God (enhancement 2): Consumes 150 points of Charge. Deals Imaginary DMG equal to {{EnhancedSkill2PrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkill2AdjacentScaling}}% of Mydei's Max HP to adjacent targets.
+          Select the level of enhancement of Mydei's skill. ::BR:: Deaths are Legion, Regrets are None (enhancement 0): Consumes HP by an amount equal to 50% of Mydei's current HP. Deals Imaginary DMG equal to {{SkillPrimaryScaling}}% of Mydei's Max HP to one designated enemy and Imaginary DMG equal to {{SkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Kingslayer Be King (enhancement 1): Consumes HP by an amount equal to 35% of Mydei's current HP. Deals Imaginary DMG equal to {{EnhancedSkillPrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkillAdjacentScaling}}% of Mydei's Max HP to adjacent targets. ::BR:: Godslayer be God (enhancement 2): Consumes 150 points of Charge. Deals Imaginary DMG equal to {{EnhancedSkill2PrimaryScaling}}% of Mydei's Max HP to one enemy and Imaginary DMG equal to {{EnhancedSkill2AdjacentScaling}}% of Mydei's Max HP to adjacent targets.
       vendettaState:
         text: Vendetta state
         content: >-
-          For each 1% of HP lost, accumulates 1 point of Charge (up to 200 points). When Charge reaches 100, consumes 100 points of Charge to enter the "Vendetta" state, restores HP equal to {{HpRestoration}}% of Mydei's Max HP, and advances action by 100%.
-          ::BR::
-          While the "Vendetta" state is active, Max HP increases by 50% of the current Max HP and DEF remains at 0. At the start of this unit's turn, automatically uses "Kingslayer Be King." When Charge reaches 150 points during the "Vendetta" state, Mydei immediately gains 1 extra turn and automatically uses "Godslayer Be God."
+          For each 1% of HP lost, accumulates 1 point of Charge (up to 200 points). When Charge reaches 100, consumes 100 points of Charge to enter the "Vendetta" state, restores HP equal to {{HpRestoration}}% of Mydei's Max HP, and advances action by 100%. ::BR:: While the "Vendetta" state is active, Max HP increases by 50% of the current Max HP and DEF remains at 0. At the start of this unit's turn, automatically uses "Kingslayer Be King." When Charge reaches 150 points during the "Vendetta" state, Mydei immediately gains 1 extra turn and automatically uses "Godslayer Be God."
       hpToCrConversion:
         text: HP to CR conversion
         content: When battle starts, if Mydei's Max HP exceeds 4000, for every 100 excess HP, Mydei's CRIT Rate increases by 1.2%, his Charge ratio from enemy targets' DMG increases by 2.5%, and his Incoming Healing increases by 0.75%. Up to 4000 excess HP can be taken into account for this effect.
       e1EnhancedSkillBuff:
         text: E1 Enhanced Skill boost
-        content: The DMG multiplier applied by "Godslayer Be God" to the primary target increases by 30%. And "Godslayer Be God" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target.
+        content: The DMG multiplier dealt by "Godslayer Be God" to the primary target increases by 30%. And "Godslayer Be God" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target.
       e2DefPen:
         text: E2 DEF PEN
         content: During "Vendetta," the DMG dealt by Mydei ignores 15% of enemy targets' DEF. And when receiving healing, converts 40% of the healed amount to Charge. The tally of the converted Charge cannot exceed 40 points. Resets this tally of Charge after any unit takes action.
@@ -1577,8 +1553,7 @@ Characters:
       skillDmgBuff:
         text: Skill DMG buff
         content: >-
-          Enables one designated ally character and their summon to immediately take action, and increases their DMG dealt by {{DmgBoost}}%.
-          If the target has a summon, then additionally increases the DMG boost effect by {{SummonDmgBoost}}%.
+          Enables one designated ally character and their summon to immediately take action, and increases their DMG dealt by {{DmgBoost}}%. If the target has a summon, then additionally increases the DMG boost effect by {{SummonDmgBoost}}%.
       talentCrBuffStacks:
         text: Talent CR buff stacks
         content: When using Skill, increases the target's CRIT Rate by {{CritRateBoost}}%, lasting for 3 turns.
@@ -1588,8 +1563,7 @@ Characters:
       e1DefPen:
         text: E1 DEF PEN
         content: >-
-          When Sunday uses his Skill, allows target character to ignore 16% of enemy target's DEF
-          and their summons to ignore 40% of enemy target's DEF when dealing DMG, lasting for 2 turns.
+          When Sunday uses his Skill, allows target character to ignore 16% of enemy target's DEF and their summons to ignore 40% of enemy target's DEF when dealing DMG, lasting for 2 turns.
       e2DmgBuff:
         text: E2 Beatified DMG buff
         content: The DMG dealt by "The Beatified" increases by 30%.
@@ -1597,18 +1571,15 @@ Characters:
       beatified:
         text: Ult CD buff
         content: >-
-          The target and their summon have their CRIT DMG increased by an amount equal to
-          {{CritBuffScaling}}% of Sunday's CRIT DMG plus {{CritBuffFlat}}%.
+          The target and their summon have their CRIT DMG increased by an amount equal to {{CritBuffScaling}}% of Sunday's CRIT DMG plus {{CritBuffFlat}}%.
       teammateCDValue:
         text: Sunday Combat CD
         content: >-
-          The target and their summon have their CRIT DMG increased by an amount equal to
-          {{CritBuffScaling}}% of Sunday's CRIT DMG plus {{CritBuffFlat}}%.
+          The target and their summon have their CRIT DMG increased by an amount equal to {{CritBuffScaling}}% of Sunday's CRIT DMG plus {{CritBuffFlat}}%.
       e6CrToCdConversion:
         text: E6 CR to CD conversion
         content: >-
-          When the Talent's CRIT Rate boost takes effect and the target's CRIT Rate exceeds 100%,
-          every 1% of excess CRIT Rate increases CRIT DMG by 2%.
+          When the Talent's CRIT Rate boost takes effect and the target's CRIT Rate exceeds 100%, every 1% of excess CRIT Rate increases CRIT DMG by 2%.
   Sushang:
     Content:
       ultBuffedState:
@@ -1745,8 +1716,7 @@ Characters:
         text: >-
           Mem's Support True DMG
         content: >-
-          Advances the action of one designated ally by 100% and grants them "Mem's Support," lasting for 3 turns.
-          For every 1 instance of DMG dealt by the target that has "Mem's Support," additionally deals 1 instance of True DMG equal to {{TrueDmgScaling}}% of the original DMG.::BR::E1: When an ally target has "Mem's Support," its effect also takes effect on the target's memosprite/memomaster.::BR::E4: When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via "Mem's Support" additionally increases by 6%.
+          Advances the action of one designated ally by 100% and grants them "Mem's Support," lasting for 3 turns. For every 1 instance of DMG dealt by the target that has "Mem's Support," additionally deals 1 instance of True DMG equal to {{TrueDmgScaling}}% of the original DMG.::BR::E1: When an ally target has "Mem's Support," its effect also takes effect on the target's memosprite/memomaster.::BR::E4: When an ally target with 0 Max Energy actively uses an ability, Mem can also gain 3% Charge, and the multiplier of the True DMG dealt by this target via "Mem's Support" additionally increases by 6%.
       energyTrueDmgValue:
         text: Max energy True DMG
         content: >-

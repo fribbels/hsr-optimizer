@@ -103,8 +103,10 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Bonus de DGT Compétence / Ult
+        content: Lorsque le porteur utilise sa Compétence ou son Ultime les DGT infligés par cette attaque augmentent de {{DmgBoost}}%.
       bonusBoost:
         text: Bonus supplémentaire de dégâts
+        content: Lorsque le porteur utilise sa Compétence ou son Ultime, il consomme {{HpConsumption}}% de ses PV max. Si les PV consommés par cet effet sont supérieurs à 500, les DGT infligés par cette attaque augmentent de {{BonusDmgBoost}}% supplémentaires.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -115,6 +117,11 @@ Lightcones:
         text: Cumuls de Cantique
         content: >-
           Le porteur gagne 1 cumul de Cantique à chaque fois qu'un allié attaque. Chaque cumul de Cantique augmente de {{RegenBuff}}% le taux de régénération d'énergie du porteur, jusqu'à 5 cumuls. Supprime l'effet Cantique et gagne Cadence à la place lorsque le porteur utilise son ultime. Cadence augmente l'ATQ du porteur de {{AtkBuff}}% et les DGT infligés par l'équipe de {{DmgBuff}}%. Dure 1 tour.
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: Présage actif
+        content: Après que le porteur lance une ATQ de suivi, il régénère 12 points d'énergie et obtient Présage pendant 2 tours. Lorsque le porteur bénéficie de Présage, les DGT critiques de toutes les cibles alliées augmentent de {{CdBuff}}%. Le porteur régénère 21 points d'énergie et obtient Présage pendant 2 tours lorsque vous engagez le combat.
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
@@ -176,6 +183,7 @@ Lightcones:
     Content:
       teamDmgBoost:
         text: Bonus d'équipe de DGT
+        content: Augmente les DGT infligés par tous les alliés de {{DmgBoost}}% pendant 3 tours après que le porteur a utilisé sa compétence.
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -1332,14 +1340,24 @@ Characters:
     Content:
       skillEnhances:
         text: 'Améliorations de Compétence:'
+        content: >-
+          Sélectionnez le niveau d'amélioration de la compétence Mydei.::BR::Mille morts sans regrets (amélioration 0): Consomme 50% des PV actuels de Mydei pour infliger des DGT imaginaires équivalents à {{SkillPrimaryScaling}}% de ses PV max à un ennemi désigné et des DGT imaginaires équivalents à {{SkillAdjacentScaling}}% de ses PV max aux cibles adjacentes.::BR::Roi régicide (amélioration 1): Consomme un montant de PV équivalent à 35% des PV actuels de Mydei. Inflige des DGT imaginaires équivalents à {{EnhancedSkillPrimaryScaling}}% des PV max de Mydei à un ennemi unique et des DGT imaginaires équivalents à {{EnhancedSkillAdjacentScaling}}% de ses PV max aux cibles adjacentes.::BR:: Dieu déicide (amélioration 2): Consomme 150 points de charge. Inflige des DGT imaginaires équivalents à {{EnhancedSkill2PrimaryScaling}}% des PV max de Mydei à un ennemi unique et des DGT imaginaires équivalents à {{EnhancedSkill2AdjacentScaling}}% de ses PV max aux cibles adjacentes.
+      vendettaState:
+        text: État Vendetta
+        content: >-
+          Mydei accumule 1 point de charge pour chaque 1% de PV perdus (jusqu'à un maximum de 200 points). Lorsque la charge atteint 100, il consomme 100 points de charge pour entrer dans l'état Vendetta, restaure un montant de PV équivalent à {{HpRestoration}}% de ses PV max et avance son action de 100%. ::BR::Lorsque Mydei est dans l'état Vendetta, ses PV max augmentent à hauteur de 50% de ses PV max actuels, mais sa DÉF se maintient à 0. Mydei utilise automatiquement Roi régicide au début de son tour. Lorsque la charge atteint 150 points dans l'état Vendetta, Mydei gagne immédiatement 1 tour supplémentaire et utilise automatiquement Roi régicide.
       hpToCrConversion:
         text: Conversion PV à TC
+        content: En début de combat, si les PV max de Mydei sont supérieurs à 4000, pour chaque tranche de 100 PV en excès, les chances de coup critique de Mydei augmentent 1,2%, son pourcentage de charge de la part des DGT des cibles ennemies augmente de 2,5% et les soins reçus augmentent de 0,75%. Un maximum de 4000 PV excédentaires peuvent être pris en compte.
       e1EnhancedSkillBuff:
         text: 'E1: Amélioration de Compétence améliorée'
+        content: Augmente le multiplicateur de DGT de Dieu déicide à la cible principale de 30%. Cette capacité inflige désormais à tous les ennemis des DGT imaginaires équivalents au multiplicateur de DGT appliqué à la cible principale.
       e2DefPen:
         text: 'E2: PÉN de DÉF'
+        content: Dans l'état Vendetta, les DGT que Mydei inflige ignorent 15% de la DÉF des cibles ennemies. Après avoir reçu des soins, 40% des soins prodigués sont convertis en charge jusqu'à un maximum cumulé de 40 points de charge. Le nombre de points de charge pouvant être convertis est réinitialisé après chaque action d'une unité.
       e4CdBuff:
         text: 'E4: Bonus de DC'
+        content: Lorsque Mydei est dans l'état Vendetta, ses DGT critiques augmentent de 30%, et il restaure des PV équivalents à 10% de ses PV max après avoir subi une attaque de la part d'une cible ennemie.
   Pela:
     Content:
       teamEhrBuff:
@@ -1723,20 +1741,30 @@ Characters:
           Les DGT critiques de tous les alliés augmentent d'un montant équivalent à {{ScalingBuff}}% des DGT critiques de Mem + {{FlatBuff}}%.
   Tribbie:
     Content:
+      numinosity:
+        text: Révélation
+        content: Après avoir utilisé sa Compétence, Tribbie bénéficie de Révélation pour 3 tours. Cette durée diminue de 1 au début de chaque tour. Lorsque Tribbie bénéficie de Révélation, la PÉN de RÉS à tous les types de toutes les cibles alliées augmente de {{ResPen}}%.
       ultZone:
         text: Zone d'ULT active
+        content: Après que Tribbie a utilisé son Ultime, active une zone et inflige des DGT quantiques équivalents à {{UltScaling}}% des PV max de Tribbie à tous les ennemis. Tant que la zone est active, les cibles ennemies subissent {{ZoneVulnerability}}% de DGT supplémentaires. Lorsqu'une cible alliée attaque, la cible avec les PV les plus élevés parmi les cibles touchées subit des DGT additionnels de type quantique équivalents à {{AdditionalDmgScaling}}% des PV max de Tribbie pour chaque cible touchée. La zone dure 2 tours. La durée diminue de 1 au début de chaque tour de cette unité.
       alliesMaxHp:
         text: PV max des alliés
+        content: Pendant la durée de la zone, les PV max de Tribbie augmentent d'un montant équivalent à 9% de la somme des PV max de tous les personnages alliés.
       talentFuaStacks:
         text: Cumuls d'ADS
+        content: Après avoir utilisé l'ATQ de suivi du talent, les DGT infligés par Tribbie augmentent de 72%. Cet effet peut être cumulé jusqu'à 3 fois, et dure 3 tours.
       e1TrueDmg:
         text: 'E1: Dégâts réels'
+        content: Lorsque la zone est active et après que des cibles alliées ont attaqué des ennemis, inflige des DGT réels supplémentaires équivalents à 24% du total des DGT de cette attaque aux cibles qui ont subi des DGT additionnels de la part de la zone.
       e2AdditionalDmg:
         text: 'E2: Dégâts additionnels'
+        content: Les DGT additionnels infligés par la zone augmentent à hauteur de 120% des DGT initiaux. Lorsque la zone inflige des DGT additionnels, elle inflige 1 instance supplémentaire de DGT additionnels.
       e4DefPen:
         text: 'E4: PÉN de DÉF'
+        content: Tant que l'effet Révélation est actif, les DGT infligés par tous les alliés ignorent 18% de la DÉF des cibles.
       e6FuaScaling:
         text: 'E6: Dégâts d''ADS'
+        content: Après que Tribbie a utilisé son Ultime, elle lance l'ATQ de suivi de son talent contre tous les ennemis. Les DGT infligés par l'ATQ de suivi de son talent augmentent de 729%.
   Welt:
     Content:
       enemyDmgTakenDebuff:

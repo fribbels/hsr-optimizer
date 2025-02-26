@@ -29,20 +29,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1407')
 
-  const basicScaling = basic(e, 0.50, 0.50)
+  const basicScaling = basic(e, 0.50, 0.55)
 
-  const skillScaling = skill(e, 0.50, 0.50)
-  const skillEnhancedScaling1 = skill(e, 0.24, 0.24)
-  const skillEnhancedScaling2 = skill(e, 0.42, 0.42)
+  const skillScaling = skill(e, 0.50, 0.55)
+  const skillEnhancedScaling1 = skill(e, 0.24, 0.264)
+  const skillEnhancedScaling2 = skill(e, 0.42, 0.462)
 
-  const talentDmgBoost = talent(e, 0.20, 0.20)
-  const ultTerritoryResPen = ult(e, 0.20, 0.20)
+  const talentDmgBoost = talent(e, 0.20, 0.22)
+  const ultTerritoryResPen = ult(e, 0.20, 0.22)
 
-  const memoSkillScaling1 = memoSkill(e, 0.30, 0.30)
-  const memoSkillScaling2 = memoSkill(e, 0.34, 0.34)
-  const memoSkillScaling3 = memoSkill(e, 0.38, 0.38)
+  const memoSkillScaling1 = memoSkill(e, 0.30, 0.33)
+  const memoSkillScaling2 = memoSkill(e, 0.34, 0.374)
+  const memoSkillScaling3 = memoSkill(e, 0.38, 0.418)
 
-  const memoTalentScaling = memoTalent(e, 0.50, 0.50)
+  const memoTalentScaling = memoTalent(e, 0.50, 0.55)
 
   const defaults = {
     buffPriority: BUFF_PRIORITY_MEMO,

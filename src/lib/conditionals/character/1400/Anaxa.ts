@@ -29,9 +29,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   } = Source.character('1405')
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0.75, 0.75)
-  const ultScaling = ult(e, 1.80, 1.80)
-  const talentDmgScaling = talent(e, 0.96, 0.96)
+  const skillScaling = skill(e, 0.60, 0.66)
+  const ultScaling = ult(e, 1.50, 1.62)
+  const talentDmgScaling = talent(e, 0.60, 0.648)
 
   const defaults = {
     skillHits: 4,
@@ -144,6 +144,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_SCALING.buff((r.exposedNature) ? skillScaling * (1 + r.skillHits) : 0, SOURCE_SKILL)
       x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
       x.ULT_SCALING.buff((e >= 2) ? r.e2UltHits * 0.50 : 0, SOURCE_E2)
+
+      x.SPD_P.buff((e >= 2 && r.e2SpdBuff) ? 0.12 : 0, SOURCE_E2)
 
       x.DEF_PEN.buff(r.enemyWeaknessTypes * 0.03, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buff((r.exposedNature) ? talentDmgScaling : 0, SOURCE_TALENT)

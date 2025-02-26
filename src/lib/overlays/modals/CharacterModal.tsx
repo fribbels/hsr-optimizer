@@ -83,7 +83,7 @@ export default function CharacterModal(props: {
                 onChange={(characterId: string) => {
                   setCharacterId(characterId)
                   const dbCharacter = DB.getCharacterById(characterId)
-                  const eidolonPreselect = dbCharacter?.form?.characterEidolon || 0
+                  const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon || 0)
                   const lightConePreselect = dbCharacter?.form?.lightCone || undefined
                   const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition || 1
                   characterForm.setFieldValue('characterEidolon', eidolonPreselect)

@@ -26,11 +26,11 @@ x.DOT_DMG += x.DOT_SCALING * x.ATK;
 // Standard HP
 
 export function standardHpFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.HP], Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.HP], Source.NONE)
+  x.BASIC_DMG.buff(x.a[Key.BASIC_HP_SCALING] * x.a[Key.HP], Source.NONE)
+  x.SKILL_DMG.buff(x.a[Key.SKILL_HP_SCALING] * x.a[Key.HP], Source.NONE)
+  x.ULT_DMG.buff(x.a[Key.ULT_HP_SCALING] * x.a[Key.HP], Source.NONE)
+  x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP], Source.NONE)
+  x.DOT_DMG.buff(x.a[Key.DOT_HP_SCALING] * x.a[Key.HP], Source.NONE)
 }
 
 export function gpuStandardHpFinalizer() {

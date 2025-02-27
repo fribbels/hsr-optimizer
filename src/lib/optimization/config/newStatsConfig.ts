@@ -113,3 +113,100 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   BREAK_EFFICIENCY_BOOST: {},
   DMG_TYPE: {},
 }
+
+export enum DamageType {
+  BASIC,
+  SKILL,
+  ULT,
+  FUA,
+  DOT,
+  BREAK,
+  SUPER_BREAK,
+  MEMO,
+  ADDITIONAL,
+}
+
+export enum AbilityType {
+  BASIC,
+  SKILL,
+  ULT,
+  FUA,
+  DOT, // *
+  BREAK, // *
+  MEMO_SKILL,
+  MEMO_TALENT,
+}
+
+// Convert numeric enum to string keys
+const abilityTypeNames = Object.keys(AbilityType).filter((key) => isNaN(Number(key)))
+
+export const combinedConfig = {
+  ...newBaseComputedStatsCorePropertiesConfig,
+  ...abilityTypeNames.reduce((acc, ability) => {
+    Object.keys(newBaseComputedStatsAbilityPropertiesConfig).forEach((key) => {
+      acc[`${ability}_${key}`] = {}
+    })
+    return acc
+  }, {} as Record<string, object>),
+} as const
+
+export type NewComputedStatKeys = keyof typeof combinedConfig
+
+enum NewStatCategory {
+  CD,
+  NONE,
+}
+
+export type NewStatConfig = {
+  name: string
+  index: number
+  default: number
+  flat: boolean
+  whole: boolean
+  category: NewStatCategory
+}
+
+export type NewComputedStatsConfigType = {
+  [K in NewComputedStatKeys]: NewStatConfig;
+}
+
+export type NewComputedStatsConfigBaseType = {
+  category?: NewStatCategory
+  default?: number
+  flat?: boolean
+  whole?: boolean
+}
+
+export const NewStatsConfig: NewComputedStatsConfigType = Object.fromEntries(
+  Object.entries(combinedConfig).map(([key, value], index) => {
+    const baseValue = value as NewComputedStatsConfigBaseType
+
+    return [
+      key,
+      {
+        name: key,
+        index: index,
+        default: baseValue.default ?? 0,
+        flat: baseValue.flat ?? false,
+        whole: baseValue.whole ?? false,
+        category: baseValue.category ?? NewStatCategory.NONE,
+      },
+    ]
+  }),
+) as NewComputedStatsConfigType
+
+export type NewComputedStatsObject = {
+  [K in keyof typeof NewStatsConfig]: number;
+}
+
+export const newBaseComputedStatsObject: NewComputedStatsObject = Object.fromEntries(
+  Object.entries(NewStatsConfig).map(([key, value]) => [key, value.default]),
+) as NewComputedStatsObject
+
+export const NewStatsConfigByIndex: NewStatConfig[] = Object.values(NewStatsConfig).sort((a, b) => a.index - b.index)
+
+export const DEBUG = 1
+
+console.debug(NewStatsConfig)
+console.debug(newBaseComputedStatsObject)
+console.debug(NewStatsConfigByIndex)

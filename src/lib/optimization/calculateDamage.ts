@@ -33,7 +33,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   // === Default ===
 
   if (action.actionType == 'DEFAULT') {
-    const dotDmgBoostMulti = baseDmgBoost + a[Key.DOT_BOOST]
+    const dotDmgBoostMulti = baseDmgBoost + a[Key.DOT_DMG_BOOST]
     const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + a[Key.DOT_DEF_PEN])
     const dotVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + a[Key.DOT_VULNERABILITY]
     const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
@@ -65,7 +65,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.VULNERABILITY] + a[Key.BREAK_VULNERABILITY])
     * (1 - baseResistance)
     * (1 + a[Key.BE])
-    * (1 + a[Key.BREAK_BOOST])
+    * (1 + a[Key.BREAK_DMG_BOOST])
 
   // The % of Super Break instance dmg
   const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER]
@@ -79,7 +79,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.VULNERABILITY] + a[Key.BREAK_VULNERABILITY])
     * (1 - baseResistance)
     * (1 + a[Key.BE])
-    * (1 + a[Key.BREAK_BOOST])
+    * (1 + a[Key.BREAK_DMG_BOOST])
     * (1 / 30)
 
   if (action.actionType == 'BASIC' || action.actionType == 'DEFAULT') {
@@ -96,7 +96,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseBreakEfficiencyBoost,
       Key.BASIC_DMG,
       a[Key.BASIC_DMG],
-      a[Key.BASIC_BOOST],
+      a[Key.BREAK_DMG_BOOST],
       a[Key.BASIC_VULNERABILITY],
       a[Key.BASIC_DEF_PEN],
       a[Key.BASIC_RES_PEN],
@@ -129,7 +129,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseBreakEfficiencyBoost,
       Key.SKILL_DMG,
       a[Key.SKILL_DMG],
-      a[Key.SKILL_BOOST],
+      a[Key.SKILL_DMG_BOOST],
       a[Key.SKILL_VULNERABILITY],
       a[Key.SKILL_DEF_PEN],
       a[Key.SKILL_RES_PEN],
@@ -162,7 +162,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseBreakEfficiencyBoost,
       Key.ULT_DMG,
       a[Key.ULT_DMG],
-      a[Key.ULT_BOOST],
+      a[Key.ULT_DMG_BOOST],
       a[Key.ULT_VULNERABILITY],
       a[Key.ULT_DEF_PEN],
       a[Key.ULT_RES_PEN],
@@ -195,7 +195,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseBreakEfficiencyBoost,
       Key.FUA_DMG,
       a[Key.FUA_DMG],
-      a[Key.FUA_BOOST],
+      a[Key.FUA_DMG_BOOST],
       a[Key.FUA_VULNERABILITY],
       a[Key.FUA_DEF_PEN],
       a[Key.FUA_RES_PEN],
@@ -231,7 +231,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseBreakEfficiencyBoost,
         Key.MEMO_SKILL_DMG,
         a[Key.MEMO_SKILL_DMG],
-        a[Key.MEMO_SKILL_BOOST],
+        a[Key.MEMO_SKILL_DMG_BOOST],
         0, // a[Key.MEMO_SKILL_VULNERABILITY],
         0, // a[Key.MEMO_SKILL_DEF_PEN],
         0, // a[Key.MEMO_SKILL_RES_PEN],
@@ -268,7 +268,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseBreakEfficiencyBoost,
         Key.MEMO_TALENT_DMG,
         a[Key.MEMO_TALENT_DMG],
-        a[Key.MEMO_TALENT_BOOST],
+        a[Key.MEMO_TALENT_DMG_BOOST],
         0, // a[Key.MEMO_TALENT_VULNERABILITY],
         0, // a[Key.MEMO_TALENT_DEF_PEN],
         0, // a[Key.MEMO_TALENT_RES_PEN],
@@ -417,7 +417,7 @@ function calculateAbilityDmg(
     abilityAdditionalDmgOutput = calculateAdditionalDmg(
       abilityAdditionalDmg,
       (baseUniversalMulti),
-      (baseDmgBoost + a[Key.ADDITIONAL_BOOST]),
+      (baseDmgBoost + a[Key.ADDITIONAL_DMG_BOOST]),
       calculateDefMulti(eLevel, baseDefPen),
       (1 + a[Key.VULNERABILITY]),
       (abilityAdditionalCritMulti),

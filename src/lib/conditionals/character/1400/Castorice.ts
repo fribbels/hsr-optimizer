@@ -162,8 +162,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SPD_P.buffDual(0.40, SOURCE_TRACE)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 + skillEnhancedScaling2 : skillScaling, SOURCE_SKILL)
+      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 + skillEnhancedScaling2 : skillScaling, SOURCE_SKILL)
 
       x.ELEMENTAL_DMG.buffDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
 
@@ -173,13 +173,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_BASE_SPD_FLAT.buff(140, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(32000, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_SCALING.buff((r.memoSkillEnhances) == 1 ? memoSkillScaling1 : 0, SOURCE_MEMO)
-      x.m.MEMO_SKILL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
-      x.m.MEMO_SKILL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
-      x.m.MEMO_TALENT_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
+      x.m.MEMO_SKILL_HP_SCALING.buff((r.memoSkillEnhances) == 1 ? memoSkillScaling1 : 0, SOURCE_MEMO)
+      x.m.MEMO_SKILL_HP_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
+      x.m.MEMO_SKILL_HP_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
+      x.m.MEMO_TALENT_HP_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_BOOST.buff((e >= 1) ? 0.30 * r.e1DmgStacks : 0, SOURCE_E1)
-      x.m.MEMO_SKILL_BOOST.buff((e >= 2 && r.e2MemoSkillDmgBoost) ? 1.00 : 0, SOURCE_E2)
+      x.m.MEMO_SKILL_DMG_BOOST.buff((e >= 1) ? 0.30 * r.e1DmgStacks : 0, SOURCE_E1)
+      x.m.MEMO_SKILL_DMG_BOOST.buff((e >= 2 && r.e2MemoSkillDmgBoost) ? 1.00 : 0, SOURCE_E2)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_BASIC)
@@ -194,19 +194,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpFinalizer(x)
 
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.a[Key.HP], Source.NONE)
-      x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_SCALING] * x.a[Key.HP], Source.NONE)
+      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_HP_SCALING] * x.a[Key.HP], Source.NONE)
+      x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_HP_SCALING] * x.a[Key.HP], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return ` 
-x.BASIC_DMG += x.BASIC_SCALING * x.HP;
-x.SKILL_DMG += x.SKILL_SCALING * x.HP;
-x.ULT_DMG += x.ULT_SCALING * x.HP;
-x.FUA_DMG += x.FUA_SCALING * x.HP;
-x.DOT_DMG += x.DOT_SCALING * x.HP;
+x.BASIC_DMG += x.BASIC_HP_SCALING * x.HP;
+x.SKILL_DMG += x.SKILL_HP_SCALING * x.HP;
+x.ULT_DMG += x.ULT_HP_SCALING * x.HP;
+x.FUA_DMG += x.FUA_HP_SCALING * x.HP;
+x.DOT_DMG += x.DOT_HP_SCALING * x.HP;
 
-m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * x.HP;
-m.MEMO_TALENT_DMG += m.MEMO_TALENT_SCALING * x.HP;
+m.MEMO_SKILL_DMG += m.MEMO_SKILL_HP_SCALING * x.HP;
+m.MEMO_TALENT_DMG += m.MEMO_TALENT_HP_SCALING * x.HP;
 `
     },
   }

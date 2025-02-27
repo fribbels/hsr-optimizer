@@ -152,6 +152,7 @@ export const BaseComputedStatsConfig = {
   ULT_TRUE_DMG_MODIFIER: {},
   FUA_TRUE_DMG_MODIFIER: {},
   BREAK_TRUE_DMG_MODIFIER: {},
+  MEMO_TRUE_DMG_MODIFIER: {},
 
   // e.g. Acheron multiplier
   FINAL_DMG_BOOST: {},

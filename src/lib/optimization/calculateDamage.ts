@@ -96,7 +96,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseBreakEfficiencyBoost,
       Key.BASIC_DMG,
       a[Key.BASIC_DMG],
-      a[Key.BREAK_DMG_BOOST],
+      a[Key.BASIC_DMG_BOOST],
       a[Key.BASIC_VULNERABILITY],
       a[Key.BASIC_DEF_PEN],
       a[Key.BASIC_RES_PEN],
@@ -245,7 +245,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
-        a[Key.MEMO_TRUE_DMG_MODIFIER],
+        a[Key.MEMO_SKILL_TRUE_DMG_MODIFIER],
         0, // No memo joint
       )
     }
@@ -282,7 +282,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE],
-        a[Key.MEMO_TRUE_DMG_MODIFIER],
+        a[Key.MEMO_TALENT_TRUE_DMG_MODIFIER],
         0, // No memo joint
       )
     }

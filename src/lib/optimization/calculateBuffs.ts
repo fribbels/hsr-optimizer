@@ -52,6 +52,7 @@ export function buffAbilityTrueDmg(x: ComputedStatsArray, abilityTypeFlags: numb
   if (abilityTypeFlags & x.a[Key.ULT_DMG_TYPE]) targetSelection(target, x.ULT_TRUE_DMG_MODIFIER, value, source)
   if (abilityTypeFlags & x.a[Key.FUA_DMG_TYPE]) targetSelection(target, x.FUA_TRUE_DMG_MODIFIER, value, source)
   if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_TRUE_DMG_MODIFIER, value, source)
+  if (abilityTypeFlags & x.a[Key.MEMO_DMG_TYPE]) targetSelection(target, x.MEMO_TRUE_DMG_MODIFIER, value, source)
 }
 
 export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {

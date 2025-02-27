@@ -842,7 +842,7 @@ fn calculateDamage(
       0, // x.MEMO_SKILL_ADDITIONAL_DMG,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      0, // x.MEMO_TRUE_DMG_MODIFIER,
+      x.MEMO_TRUE_DMG_MODIFIER,
       0, // m.MEMO_DMG,
     );
 
@@ -874,7 +874,7 @@ fn calculateDamage(
       0, // x.MEMO_TALENT_ADDITIONAL_DMG,
       0, // x.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE,
-      0, // x.MEMO_TRUE_DMG_MODIFIER,
+      x.MEMO_TRUE_DMG_MODIFIER,
       0, // m.MEMO_DMG,
     );
 

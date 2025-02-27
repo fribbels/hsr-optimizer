@@ -9,7 +9,6 @@ import {
   SUPER_BREAK_DMG_TYPE,
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import { DEBUG } from 'lib/optimization/config/newStatsConfig'
 
 enum StatCategory {
   CD,
@@ -178,9 +177,9 @@ type AbilityTypeKeys = keyof typeof AbilityType
 export const BaseComputedStatsConfig = {
   ...newBaseComputedStatsCorePropertiesConfig,
   ...Object.values(AbilityType)
-    .filter((value): value is AbilityType => typeof value === 'number') // Ensure only numeric values
+    .filter((value): value is AbilityType => typeof value === 'number')
     .reduce((acc, ability) => {
-      const abilityKey = AbilityType[ability] as AbilityTypeKeys // Convert numeric value to string key
+      const abilityKey = AbilityType[ability] as AbilityTypeKeys
 
       Object.keys(newBaseComputedStatsAbilityPropertiesConfig).forEach((key) => {
         acc[`${abilityKey}_${key}` as `${AbilityTypeKeys}_${keyof typeof newBaseComputedStatsAbilityPropertiesConfig}`] = {}
@@ -188,7 +187,7 @@ export const BaseComputedStatsConfig = {
 
       return acc
     }, {} as Record<`${AbilityTypeKeys}_${keyof typeof newBaseComputedStatsAbilityPropertiesConfig}`, object>),
-  ...newBaseComputedStatsAbilityPropertiesConfig, // Add non-prefixed properties
+  ...newBaseComputedStatsAbilityPropertiesConfig,
 }
 
 export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
@@ -234,4 +233,3 @@ export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
 
 export const StatsConfigByIndex: StatConfig[] = Object.values(StatsConfig).sort((a, b) => a.index - b.index)
 
-console.log(DEBUG)

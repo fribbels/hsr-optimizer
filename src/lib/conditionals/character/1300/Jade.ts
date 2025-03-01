@@ -134,10 +134,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff(r.pawnedAssetStacks * 0.005, SOURCE_TRACE)
       x.CR.buff((e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, SOURCE_E2)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_SCALING.buff((r.enhancedFollowUp) ? ultFuaScalingBuff : 0, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_ATK_SCALING.buff((r.enhancedFollowUp) ? ultFuaScalingBuff : 0, SOURCE_ULT)
 
       buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, SOURCE_E1)
       x.DEF_PEN.buff((e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, SOURCE_E4)

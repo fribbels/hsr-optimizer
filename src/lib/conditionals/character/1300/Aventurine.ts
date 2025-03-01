@@ -1,5 +1,5 @@
 import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefShieldFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -142,9 +142,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, SOURCE_E4)
       x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, SOURCE_TALENT)
+      x.BASIC_DEF_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_DEF_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_DEF_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, SOURCE_TALENT)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
@@ -170,7 +170,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardDefFinalizer(x)
+      standardFinalizer(x)
       standardDefShieldFinalizer(x)
     },
     gpuFinalizeCalculations: () => {

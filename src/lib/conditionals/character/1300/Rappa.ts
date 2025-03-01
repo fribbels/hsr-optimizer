@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -141,8 +141,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_BREAK_DMG_MODIFIER.set(talentBreakDmgModifier + r.chargeStacks * talentChargeMultiplier, SOURCE_TALENT)
 
-      x.BASIC_SCALING.buff((r.sealformActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.BASIC_ATK_SCALING.buff((r.sealformActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
 
       x.BASIC_TOUGHNESS_DMG.buff((r.sealformActive) ? 75 + (2 + r.chargeStacks) * 3 : 30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(30, SOURCE_SKILL)
@@ -165,7 +165,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
       x.BREAK_VULNERABILITY.buff(buffValue, SOURCE_TRACE)
 
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

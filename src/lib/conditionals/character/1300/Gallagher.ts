@@ -1,5 +1,5 @@
 import { BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardAtkFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, gpuStandardFlatHealFinalizer, standardFinalizer, standardFlatHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -125,8 +125,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BREAK_EFFICIENCY_BOOST.buff((e >= 6) ? 0.20 : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 90 : 30, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
@@ -149,7 +149,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, SOURCE_TALENT, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
       standardFlatHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardFlatHealFinalizer(),

@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -129,10 +129,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buff((e >= 1 && r.e1DefShred) ? 0.16 : 0, SOURCE_E1)
       x.VULNERABILITY.buff((e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, SOURCE_E4)
 
-      x.BASIC_SCALING.buff((r.standoffActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff((r.standoffActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
       x.BASIC_BREAK_EFFICIENCY_BOOST.buff((r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0, SOURCE_TALENT)
 
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.BASIC_TOUGHNESS_DMG.buff((r.standoffActive) ? 60 : 30, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
@@ -151,7 +151,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
     dynamicConditionals: [{
       id: 'BoothillConversionConditional',

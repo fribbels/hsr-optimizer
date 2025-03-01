@@ -28,6 +28,14 @@ export const calculateAshblazingSet = (x: ComputedStatsArray, action: OptimizerA
 
   return ashblazingMulti - ashblazingAtk
 }
+export const calculateAshblazingSetP = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
+  const enabled = p4New(SetsConfig.TheAshblazingGrandDuke, x.c.sets)
+  const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
+  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled
+  const ashblazingMulti = hitMulti * enabled
+
+  return ashblazingMulti - ashblazingAtk
+}
 
 export const p4 = (set: number): number => {
   return set >> 2

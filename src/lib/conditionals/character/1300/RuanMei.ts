@@ -117,7 +117,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BE.buff((e >= 4 && r.e4BeBuff) ? 1.00 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 
@@ -141,8 +141,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buffTeam(t.teamDmgBuff, SOURCE_TRACE)
 
       // TODO: This is an on-hit ATK boost not an unconvertible ATK buff
-      x.ATK_P.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
-      x.UNCONVERTIBLE_ATK_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 * context.baseATK : 0, SOURCE_E2)
+      x.ATK_P_BOOST.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
+      // x.UNCONVERTIBLE_ATK_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 * context.baseATK : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

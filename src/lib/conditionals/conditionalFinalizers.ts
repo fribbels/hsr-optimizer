@@ -1,4 +1,4 @@
-import { calculateAshblazingSet } from 'lib/conditionals/conditionalUtils'
+import { calculateAshblazingSetP } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -6,11 +6,11 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 // Standard ATK
 
 export function standardAtkFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.BASIC_DMG.buff(x.a[Key.BASIC_ATK_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.SKILL_DMG.buff(x.a[Key.SKILL_ATK_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.ULT_DMG.buff(x.a[Key.ULT_ATK_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.FUA_DMG.buff(x.a[Key.FUA_ATK_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.DOT_DMG.buff(x.a[Key.DOT_ATK_SCALING] * x.a[Key.ATK], Source.NONE)
 }
 
 export function gpuStandardAtkFinalizer() {
@@ -34,11 +34,21 @@ export function standardHpFinalizer(x: ComputedStatsArray) {
 }
 
 export function standardFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_HP_SCALING] * x.a[Key.HP] + x.a[Key.BASIC_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.BASIC_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_HP_SCALING] * x.a[Key.HP] + x.a[Key.SKILL_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.SKILL_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_HP_SCALING] * x.a[Key.HP] + x.a[Key.ULT_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.ULT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_HP_SCALING] * x.a[Key.HP] + x.a[Key.DOT_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.DOT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  basicFinalizer(x)
+  skillFinalizer(x)
+  ultFinalizer(x)
+  fuaFinalizer(x)
+  dotFinalizer(x)
+}
+
+const basicFinalizer = (x: ComputedStatsArray) => x.BASIC_DMG.buff(x.a[Key.BASIC_HP_SCALING] * x.a[Key.HP] + x.a[Key.BASIC_ATK_SCALING] * boostedAtk(x, x.a[Key.BASIC_ATK_P_BOOST]) + x.a[Key.BASIC_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+const skillFinalizer = (x: ComputedStatsArray) => x.SKILL_DMG.buff(x.a[Key.SKILL_HP_SCALING] * x.a[Key.HP] + x.a[Key.SKILL_ATK_SCALING] * boostedAtk(x, x.a[Key.SKILL_ATK_P_BOOST]) + x.a[Key.SKILL_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+const ultFinalizer = (x: ComputedStatsArray) => x.ULT_DMG.buff(x.a[Key.ULT_HP_SCALING] * x.a[Key.HP] + x.a[Key.ULT_ATK_SCALING] * boostedAtk(x, x.a[Key.ULT_ATK_P_BOOST]) + x.a[Key.ULT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+const dotFinalizer = (x: ComputedStatsArray) => x.DOT_DMG.buff(x.a[Key.DOT_HP_SCALING] * x.a[Key.HP] + x.a[Key.DOT_ATK_SCALING] * boostedAtk(x, x.a[Key.DOT_ATK_P_BOOST]) + x.a[Key.DOT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+const fuaFinalizer = (x: ComputedStatsArray) => x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * boostedAtk(x, x.a[Key.FUA_ATK_P_BOOST]) + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+
+function boostedAtk(x: ComputedStatsArray, abilityBoost: number) {
+  return (x.a[Key.ATK] + (abilityBoost + x.a[Key.ATK_P_BOOST]) * x.a[Key.BASE_ATK])
 }
 
 export function gpuStandardHpFinalizer() {
@@ -54,11 +64,11 @@ x.DOT_DMG += x.DOT_SCALING * x.HP;
 // Standard DEF
 
 export function standardDefFinalizer(x: ComputedStatsArray) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.DEF], Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.BASIC_DMG.buff(x.a[Key.BASIC_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.SKILL_DMG.buff(x.a[Key.SKILL_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.ULT_DMG.buff(x.a[Key.ULT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.FUA_DMG.buff(x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.DOT_DMG.buff(x.a[Key.DOT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 }
 
 export function gpuStandardDefFinalizer() {
@@ -118,11 +128,23 @@ x.SHIELD_VALUE += x.SHIELD_SCALING * x.DEF + x.SHIELD_FLAT;
 // FUA
 
 export function standardFuaAtkFinalizer(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
-  x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, hitMulti)), Source.NONE)
-  x.DOT_DMG.buff(x.a[Key.DOT_SCALING] * x.a[Key.ATK], Source.NONE)
+  basicFinalizer(x)
+  skillFinalizer(x)
+  ultFinalizer(x)
+  dotFinalizer(x)
+
+  const boostedAtkValue = boostedAtk(x, x.a[Key.FUA_ATK_P_BOOST] + calculateAshblazingSetP(x, action, context, hitMulti))
+  x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * boostedAtkValue + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+}
+
+export function standardFuaFinalizer(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
+  basicFinalizer(x)
+  skillFinalizer(x)
+  ultFinalizer(x)
+  dotFinalizer(x)
+
+  const boostedAtkValue = boostedAtk(x, x.a[Key.FUA_ATK_P_BOOST] + calculateAshblazingSetP(x, action, context, hitMulti))
+  x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * boostedAtkValue + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 }
 
 export function gpuStandardFuaAtkFinalizer(hitMulti: number) {
@@ -136,10 +158,10 @@ x.DOT_DMG += x.DOT_SCALING * x.ATK;
 }
 
 export function standardAdditionalDmgAtkFinalizer(x: ComputedStatsArray) {
-  x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.SKILL_ADDITIONAL_DMG.buff(x.a[Key.SKILL_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
-  x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
+  x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
+  x.SKILL_ADDITIONAL_DMG.buff(x.a[Key.SKILL_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
+  x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
+  x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
 }
 
 export function gpuStandardAdditionalDmgAtkFinalizer() {

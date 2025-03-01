@@ -107,6 +107,8 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   SHIELD_SCALING: {},
   SHIELD_VALUE: { flat: true },
   SHIELD_BOOST: {},
+  SKILL_OHB: {},
+  ULT_OHB: {},
 
   // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE },
@@ -118,21 +120,24 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   MEMO_SKILL_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
   MEMO_TALENT_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE },
-  SUPER_BREAK_DMG_TYPE: { flat: true, default: SUPER_BREAK_DMG_TYPE | BREAK_DMG_TYPE },
+  SUPER_BREAK_DMG_TYPE: { flat: true, default: SUPER_BREAK_DMG_TYPE },
 } as const
 
 export const newBaseComputedStatsAbilityPropertiesConfig = {
   ATK_SCALING: {},
   DEF_SCALING: {},
   HP_SCALING: {},
-  SPD_SCALING: {},
+
+  ATK_P_BOOST: {},
   CR_BOOST: {},
   CD_BOOST: {},
   DMG_BOOST: {},
+
   VULNERABILITY: {},
   DEF_PEN: {},
   BREAK_DEF_PEN: {},
   SUPER_BREAK_DEF_PEN: {},
+
   RES_PEN: {},
   PHYSICAL_RES_PEN: {},
   FIRE_RES_PEN: {},
@@ -141,18 +146,21 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   WIND_RES_PEN: {},
   QUANTUM_RES_PEN: {},
   IMAGINARY_RES_PEN: {},
+
   TOUGHNESS_DMG: {},
   SUPER_BREAK_MODIFIER: {},
   BREAK_EFFICIENCY_BOOST: {},
+
   TRUE_DMG_MODIFIER: {},
   FINAL_DMG_BOOST: {},
   BREAK_DMG_MODIFIER: {},
+
   ADDITIONAL_DMG_BOOST: {},
   ADDITIONAL_DMG_CR_OVERRIDE: {},
   ADDITIONAL_DMG_CD_OVERRIDE: {},
   ADDITIONAL_DMG_SCALING: {},
   ADDITIONAL_DMG: {},
-  OHB: {},
+
   DMG: {},
 } as const
 

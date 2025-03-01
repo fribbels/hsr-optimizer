@@ -96,12 +96,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SPD_P.buff((e >= 1 && r.e1TalentSpdBuff) ? 0.20 : 0, SOURCE_E1)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_SCALING.buff((e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0, SOURCE_E6)
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.DOT_SCALING.buff(dotScaling, SOURCE_TRACE)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff((e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0, SOURCE_E6)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_TRACE)
 
       // Boost
       buffAbilityDmg(x, SKILL_DMG_TYPE, (r.targetBurned) ? 0.20 : 0, SOURCE_TRACE)

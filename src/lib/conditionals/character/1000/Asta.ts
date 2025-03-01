@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -99,10 +99,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ERR.buff((e >= 4 && r.talentBuffStacks >= 2) ? 0.15 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling + r.skillExtraDmgHits * skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_SCALING.buff(dotScaling, SOURCE_TRACE)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling + r.skillExtraDmgHits * skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_TRACE)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(30 + 15 * r.skillExtraDmgHits, SOURCE_SKILL)
@@ -119,7 +119,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.FIRE_DMG_BOOST.buffTeam((m.fireDmgBoost) ? 0.18 : 0, SOURCE_TRACE)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

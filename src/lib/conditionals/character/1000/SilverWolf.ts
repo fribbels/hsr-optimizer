@@ -1,7 +1,7 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -104,9 +104,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Stats
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.ULT_ADDITIONAL_DMG_SCALING.buff((e >= 4) ? r.targetDebuffs * 0.20 : 0, SOURCE_E4)
 
       // Boost
@@ -128,9 +128,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buffTeam((m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, SOURCE_TALENT)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
-
-      return standardAtkFinalizer(x)
+      standardFinalizer(x)
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
       return `

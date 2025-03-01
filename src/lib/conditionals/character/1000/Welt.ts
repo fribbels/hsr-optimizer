@@ -1,4 +1,4 @@
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
@@ -90,9 +90,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff((x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.20 : 0, SOURCE_TRACE)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.enemySlowed) ? talentScaling : 0, SOURCE_TALENT)
       x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.enemySlowed) ? talentScaling : 0, SOURCE_TALENT)
@@ -101,7 +101,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 1 && r.e1EnhancedState) ? 0.50 * basicScaling : 0, SOURCE_E1)
       x.SKILL_ADDITIONAL_DMG_SCALING.buff((e >= 1 && r.e1EnhancedState) ? 0.80 * skillScaling : 0, SOURCE_E1)
 
-      x.SKILL_SCALING.buff(r.skillExtraHits * skillScaling, SOURCE_SKILL)
+      x.SKILL_ATK_SCALING.buff(r.skillExtraHits * skillScaling, SOURCE_SKILL)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(30 + 30 * r.skillExtraHits, SOURCE_SKILL)
@@ -115,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.VULNERABILITY.buffTeam((m.enemyDmgTakenDebuff) ? 0.12 : 0, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: () => {

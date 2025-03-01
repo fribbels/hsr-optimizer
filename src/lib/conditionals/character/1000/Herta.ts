@@ -156,11 +156,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((e >= 6 && r.e6UltAtkBuff) ? 0.25 : 0, SOURCE_E6)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 1 && r.enemyHpLte50) ? 0.40 : 0, SOURCE_E1)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(fuaScaling * r.fuaStacks, SOURCE_TALENT)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling * r.fuaStacks, SOURCE_TALENT)
 
       buffAbilityDmg(x, SKILL_DMG_TYPE, (r.enemyHpGte50) ? 0.20 : 0, SOURCE_SKILL)
 

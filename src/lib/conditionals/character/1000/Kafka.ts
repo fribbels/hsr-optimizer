@@ -75,13 +75,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.DOT_SCALING.buff(dotScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_ULT)
 
-      x.DOT_SCALING.buff((e >= 6) ? 1.56 : 0, SOURCE_E6)
+      x.DOT_ATK_SCALING.buff((e >= 6) ? 1.56 : 0, SOURCE_E6)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)

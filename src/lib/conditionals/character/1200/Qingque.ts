@@ -3,7 +3,7 @@ import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditi
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -91,10 +91,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SPD_P.buff((r.basicEnhancedSpdBuff) ? 0.10 : 0, SOURCE_TRACE)
 
       // Scaling
-      x.BASIC_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff((e >= 4) ? x.a[Key.BASIC_SCALING] : 0, SOURCE_E4)
+      x.BASIC_ATK_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff((e >= 4) ? (r.basicEnhanced) ? basicEnhancedScaling : basicScaling : 0, SOURCE_E4)
 
       // Boost
       x.ELEMENTAL_DMG.buff(r.skillDmgIncreaseStacks * skillStackDmg, SOURCE_SKILL)

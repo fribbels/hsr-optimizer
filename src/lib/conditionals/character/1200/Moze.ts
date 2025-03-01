@@ -100,11 +100,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.ELEMENTAL_DMG.buff((e >= 4 && r.e4DmgBuff) ? 0.30 : 0, SOURCE_E4)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_SCALING.buff((e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0, SOURCE_E6)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_ATK_SCALING.buff((e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0, SOURCE_E6)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_BASIC)
       x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_SKILL)

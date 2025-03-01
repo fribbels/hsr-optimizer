@@ -133,10 +133,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff)
         ? basicExtraScalingMasterBuff * r.basicAttackHits
         : 0
-      x.BASIC_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, SOURCE_BASIC)
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff((e >= 2) ? 0.60 : 0, SOURCE_E2)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff((e >= 2) ? 0.60 : 0, SOURCE_E2)
 
       const toughnessDmgBoost = (r.masterToughnessRedBuff) ? 2.0 : 1.0
       x.BASIC_TOUGHNESS_DMG.buff(toughnessDmgBoost * ((r.enhancedBasic) ? 15 * r.basicAttackHits : 30), SOURCE_BASIC)

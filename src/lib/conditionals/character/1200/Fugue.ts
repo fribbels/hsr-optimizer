@@ -1,5 +1,5 @@
 import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg, Target } from 'lib/optimization/calculateBuffs'
@@ -139,8 +139,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6BreakEfficiency) ? 0.50 : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
@@ -162,7 +162,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BE.buffTeam(t.weaknessBreakBeStacks * (0.06 + (t.be220Buff ? 0.12 : 0)), SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardAtkFinalizer()

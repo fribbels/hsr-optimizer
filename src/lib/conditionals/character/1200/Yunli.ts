@@ -148,14 +148,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
       if (r.blockActive) {
         if (r.ultCull) {
-          x.FUA_SCALING.buff(ultCullScaling + r.ultCullHits * ultCullHitsScaling, SOURCE_ULT)
+          x.FUA_ATK_SCALING.buff(ultCullScaling + r.ultCullHits * ultCullHitsScaling, SOURCE_ULT)
         } else {
-          x.FUA_SCALING.buff(ultSlashScaling, SOURCE_ULT)
+          x.FUA_ATK_SCALING.buff(ultSlashScaling, SOURCE_ULT)
         }
       } else {
-        x.FUA_SCALING.buff(talentCounterScaling, SOURCE_TALENT)
+        x.FUA_ATK_SCALING.buff(talentCounterScaling, SOURCE_TALENT)
       }
 
       buffAbilityCd(x, FUA_DMG_TYPE, (r.blockActive) ? blockCdBuff : 0, SOURCE_ULT)
@@ -173,9 +175,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
       x.FUA_TOUGHNESS_DMG.buff((r.blockActive) ? 60 : 30, SOURCE_ULT)
       x.FUA_TOUGHNESS_DMG.buff((r.blockActive && r.ultCull) ? r.ultCullHits * 15 : 0, SOURCE_ULT)
-
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
 
       return x
     },

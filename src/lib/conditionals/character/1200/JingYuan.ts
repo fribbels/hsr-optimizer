@@ -125,10 +125,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.CR.buff((r.skillCritBuff) ? 0.10 : 0, SOURCE_TRACE)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(fuaScaling * r.talentAttacks, SOURCE_TALENT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling * r.talentAttacks, SOURCE_TALENT)
 
       // Boost
       buffAbilityCd(x, FUA_DMG_TYPE, (r.talentHitsPerAction >= 6) ? 0.25 : 0, SOURCE_TRACE)

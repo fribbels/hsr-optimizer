@@ -99,10 +99,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BE.buff((e >= 4 && r.e4BeBuff) ? 0.40 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(fuaScaling * (r.fuaHits), SOURCE_TALENT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling * (r.fuaHits), SOURCE_TALENT)
 
       // Boost
       buffAbilityDmg(x, ULT_DMG_TYPE, r.toughnessReductionDmgBoost, SOURCE_ULT)

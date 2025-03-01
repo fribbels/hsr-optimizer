@@ -1,5 +1,5 @@
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -73,9 +73,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.CR.buff((e >= 4 && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.25 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff((r.enhancedUlt) ? ultEnhancedScaling : ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff((r.enhancedUlt) ? ultEnhancedScaling : ultScaling, SOURCE_ULT)
 
       // Boost
       buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, SOURCE_TRACE)
@@ -87,7 +87,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

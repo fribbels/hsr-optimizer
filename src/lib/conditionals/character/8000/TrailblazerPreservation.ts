@@ -1,8 +1,8 @@
-import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -95,6 +95,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_P.buff((e >= 6) ? r.e6DefStacks * 0.10 : 0, SOURCE_E6)
       x.ATK_P.buff((r.shieldActive) ? 0.15 : 0, SOURCE_TRACE)
 
+      if (r.enhancedBasic) {
+        x.BASIC_ATK_SCALING.buff(basicEnhancedAtkScaling, SOURCE_BASIC)
+        x.BASIC_DEF_SCALING.buff(basicEnhancedDefScaling, SOURCE_BASIC)
+      } else {
+        x.BASIC_ATK_SCALING.buff(basicAtkScaling, SOURCE_BASIC)
+        x.BASIC_DEF_SCALING.buff(basicDefScaling, SOURCE_BASIC)
+      }
+
+      x.ULT_ATK_SCALING.buff(ultAtkScaling, Source.NONE)
+      x.ULT_DEF_SCALING.buff(ultDefScaling, Source.NONE)
+
       // Boost
       // This EHP buff only applies to self
       x.DMG_RED_MULTI.multiply((r.skillActive) ? (1 - skillDamageReductionValue) : 1, SOURCE_SKILL)
@@ -114,19 +125,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DMG_RED_MULTI.multiplyTeam((m.skillActive) ? (1 - 0.15) : 1, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      if (r.enhancedBasic) {
-        x.BASIC_DMG.buff(basicEnhancedAtkScaling * x.a[Key.ATK], Source.NONE)
-        x.BASIC_DMG.buff(basicEnhancedDefScaling * x.a[Key.DEF], Source.NONE)
-      } else {
-        x.BASIC_DMG.buff(basicAtkScaling * x.a[Key.ATK], Source.NONE)
-        x.BASIC_DMG.buff(basicDefScaling * x.a[Key.DEF], Source.NONE)
-      }
-
-      x.ULT_DMG.buff(ultAtkScaling * x.a[Key.ATK], Source.NONE)
-      x.ULT_DMG.buff(ultDefScaling * x.a[Key.DEF], Source.NONE)
-
+      standardFinalizer(x)
       standardDefShieldFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

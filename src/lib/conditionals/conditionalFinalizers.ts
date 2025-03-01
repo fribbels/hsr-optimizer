@@ -46,6 +46,8 @@ export const skillFinalizer = (x: ComputedStatsArray) => x.SKILL_DMG.buff(x.a[Ke
 export const ultFinalizer = (x: ComputedStatsArray) => x.ULT_DMG.buff(x.a[Key.ULT_HP_SCALING] * x.a[Key.HP] + x.a[Key.ULT_ATK_SCALING] * boostedAtk(x, x.a[Key.ULT_ATK_P_BOOST]) + x.a[Key.ULT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 export const dotFinalizer = (x: ComputedStatsArray) => x.DOT_DMG.buff(x.a[Key.DOT_HP_SCALING] * x.a[Key.HP] + x.a[Key.DOT_ATK_SCALING] * boostedAtk(x, x.a[Key.DOT_ATK_P_BOOST]) + x.a[Key.DOT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 export const fuaFinalizer = (x: ComputedStatsArray) => x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * boostedAtk(x, x.a[Key.FUA_ATK_P_BOOST]) + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+export const memoSkillFinalizer = (x: ComputedStatsArray) => x.MEMO_SKILL_DMG.buff(x.a[Key.MEMO_SKILL_HP_SCALING] * x.a[Key.HP] + x.a[Key.MEMO_SKILL_ATK_SCALING] * boostedAtk(x, x.a[Key.MEMO_SKILL_ATK_P_BOOST]) + x.a[Key.MEMO_SKILL_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+export const memoTalentFinalizer = (x: ComputedStatsArray) => x.MEMO_TALENT_DMG.buff(x.a[Key.MEMO_TALENT_HP_SCALING] * x.a[Key.HP] + x.a[Key.MEMO_TALENT_ATK_SCALING] * boostedAtk(x, x.a[Key.MEMO_TALENT_ATK_P_BOOST]) + x.a[Key.MEMO_TALENT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 
 export function boostedAtk(x: ComputedStatsArray, abilityBoost: number) {
   return (x.a[Key.ATK] + (abilityBoost + x.a[Key.ATK_P_BOOST]) * x.a[Key.BASE_ATK])
@@ -167,6 +169,13 @@ export function standardAdditionalDmgAtkFinalizer(x: ComputedStatsArray) {
   x.SKILL_ADDITIONAL_DMG.buff(x.a[Key.SKILL_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
   x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
   x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
+}
+
+export function standardAdditionalDmgHpFinalizer(x: ComputedStatsArray) {
+  x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
+  x.SKILL_ADDITIONAL_DMG.buff(x.a[Key.SKILL_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
+  x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
+  x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
 }
 
 export function gpuStandardAdditionalDmgAtkFinalizer() {

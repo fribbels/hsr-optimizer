@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -128,17 +128,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.ATK_P.buff((r.ultAtkBuff) ? ultAtkBuffScaling : 0, SOURCE_ULT)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
 
       const e6DamageMultiplier = context.enemyCount == 1 ? 4.00 : 1.40
-      x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01, SOURCE_TRACE)
-      x.ULT_SCALING.buff((e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), SOURCE_E6)
+      x.ULT_ATK_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01, SOURCE_TRACE)
+      x.ULT_ATK_SCALING.buff((e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), SOURCE_E6)
 
       const enhancedSkillStackScaling = talentStackScaling
         * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
         * (r.eruditionTeammate ? 2 : 1)
-      x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), SOURCE_SKILL)
-      x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, SOURCE_TRACE)
+      x.SKILL_ATK_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), SOURCE_SKILL)
+      x.SKILL_DMG_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, SOURCE_TRACE)
       x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
@@ -155,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardAtkFinalizer()

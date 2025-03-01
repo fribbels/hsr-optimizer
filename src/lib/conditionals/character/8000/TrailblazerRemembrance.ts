@@ -1,5 +1,5 @@
 import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
-import { standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { basicFinalizer, memoSkillFinalizer, ultFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -164,7 +164,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
 
       x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
@@ -173,8 +173,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, SOURCE_MEMO)
-      x.m.ULT_SCALING.buff(ultScaling, SOURCE_MEMO)
+      x.m.MEMO_SKILL_ATK_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, SOURCE_MEMO)
+      x.m.ULT_ATK_SCALING.buff(ultScaling, SOURCE_MEMO)
 
       x.m.ULT_CR_BOOST.buff((e >= 6 && r.e6UltCrBoost) ? 1.00 : 0, SOURCE_E6)
 
@@ -206,10 +206,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.UNCONVERTIBLE_CD_BUFF.buffTeam(t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAtkFinalizer(x)
-
-      x.m.ULT_DMG.buff(x.m.a[Key.ULT_SCALING] * x.m.a[Key.ATK], Source.NONE)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], Source.NONE)
+      basicFinalizer(x)
+      ultFinalizer(x.m)
+      memoSkillFinalizer(x.m)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return `

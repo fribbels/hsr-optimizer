@@ -1,3 +1,4 @@
+import { standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -82,9 +83,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SPD_P.buff(0.25 * r.speedBoostStacks, SOURCE_SKILL)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_ATK_SCALING] : 0, Source.NONE)
+      x.SKILL_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_ATK_SCALING] : 0, Source.NONE)
+      x.ULT_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_ATK_SCALING] : 0, Source.NONE)
 
       // Boost
       x.ELEMENTAL_DMG.buff((r.buffedState) ? buffedStateDmgBuff : 0, SOURCE_TALENT)
@@ -100,15 +105,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
-
-      x.BASIC_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
-      x.SKILL_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
-      x.ULT_ADDITIONAL_DMG.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_DMG] : 0, Source.NONE)
+      standardFinalizer(x)
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

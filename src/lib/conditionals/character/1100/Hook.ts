@@ -1,5 +1,5 @@
 import { SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -65,13 +65,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Stats
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff((r.enhancedSkill) ? skillEnhancedScaling : skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff((r.enhancedSkill) ? skillEnhancedScaling : skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.targetBurned) ? targetBurnedExtraScaling : 0, SOURCE_TALENT)
       x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.targetBurned) ? targetBurnedExtraScaling : 0, SOURCE_TALENT)
       x.ULT_ADDITIONAL_DMG_SCALING.buff((r.targetBurned) ? targetBurnedExtraScaling : 0, SOURCE_TALENT)
-      x.DOT_SCALING.buff(dotScaling, SOURCE_SKILL)
+      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_SKILL)
 
       // Boost
       buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 1 && r.enhancedSkill) ? 0.20 : 0, SOURCE_E1)
@@ -86,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: () => {

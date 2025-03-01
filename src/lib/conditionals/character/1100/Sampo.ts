@@ -1,5 +1,5 @@
 import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
@@ -84,12 +84,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Stats
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_SCALING.buff((r.skillExtraHits) * skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_SCALING.buff(dotScaling, SOURCE_TALENT)
-      x.DOT_SCALING.buff((e >= 6) ? 0.15 : 0, SOURCE_E6)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.SKILL_ATK_SCALING.buff((r.skillExtraHits) * skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_TALENT)
+      x.DOT_ATK_SCALING.buff((e >= 6) ? 0.15 : 0, SOURCE_E6)
 
       // Boost
       x.DMG_RED_MULTI.multiply((r.targetWindShear) ? (1 - 0.15) : 1, SOURCE_TRACE)
@@ -107,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       buffAbilityVulnerability(x, DOT_DMG_TYPE, (m.targetDotTakenDebuff) ? dotVulnerabilityValue : 0, SOURCE_ULT, Target.TEAM)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

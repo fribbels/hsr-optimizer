@@ -1,6 +1,6 @@
 import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { ashblazingWgsl, boostedAtk } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
@@ -112,11 +112,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6) ? -0.10 : 0, SOURCE_E6)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.SKILL_ATK_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_ATK_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
 
       // Boost
       x.ELEMENTAL_DMG.buff((context.enemyElementalWeak) ? 0.15 : 0, SOURCE_TRACE)
@@ -137,10 +137,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      const basicAshblazingAtk = calculateAshblazingSet(x, action, context, basicHitCountMulti)
-      const fuaAshblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * (x.a[Key.ATK] + basicAshblazingAtk), Source.NONE)
-      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + fuaAshblazingAtk), Source.NONE)
+      const basicAshblazingAtkP = calculateAshblazingSetP(x, action, context, basicHitCountMulti)
+      const fuaAshblazingAtkP = calculateAshblazingSetP(x, action, context, hitMulti)
+
+      x.BASIC_DMG.buff(x.a[Key.BASIC_ATK_SCALING] * boostedAtk(x, basicAshblazingAtkP), Source.NONE)
+      x.FUA_DMG.buff(x.a[Key.FUA_ATK_SCALING] * boostedAtk(x, fuaAshblazingAtkP), Source.NONE)
       x.SKILL_DMG.set(x.a[Key.FUA_DMG], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

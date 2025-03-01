@@ -47,7 +47,7 @@ const ultFinalizer = (x: ComputedStatsArray) => x.ULT_DMG.buff(x.a[Key.ULT_HP_SC
 const dotFinalizer = (x: ComputedStatsArray) => x.DOT_DMG.buff(x.a[Key.DOT_HP_SCALING] * x.a[Key.HP] + x.a[Key.DOT_ATK_SCALING] * boostedAtk(x, x.a[Key.DOT_ATK_P_BOOST]) + x.a[Key.DOT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 const fuaFinalizer = (x: ComputedStatsArray) => x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * boostedAtk(x, x.a[Key.FUA_ATK_P_BOOST]) + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 
-function boostedAtk(x: ComputedStatsArray, abilityBoost: number) {
+export function boostedAtk(x: ComputedStatsArray, abilityBoost: number) {
   return (x.a[Key.ATK] + (abilityBoost + x.a[Key.ATK_P_BOOST]) * x.a[Key.BASE_ATK])
 }
 

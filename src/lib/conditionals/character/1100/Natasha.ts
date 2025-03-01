@@ -1,5 +1,5 @@
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { standardFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -11,7 +11,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
+  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -62,7 +62,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.OHB.buff(0.10, SOURCE_TRACE)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_HP_SCALING.buff((e >= 6) ? 0.40 * x.a[Key.HP] : 0, SOURCE_E6)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 
@@ -80,9 +81,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.BASIC_DMG.buff((e >= 6) ? 0.40 * x.a[Key.HP] : 0, Source.NONE)
-
+      standardFinalizer(x)
       standardHpHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => {

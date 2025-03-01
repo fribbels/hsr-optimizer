@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -102,11 +102,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((e >= 4) ? r.e4TalentStacks * 0.05 : 0, SOURCE_E4)
 
       // Scaling
-      x.BASIC_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.BASIC_SCALING.buff((r.basicEnhanced && r.basicEnhancedExtraHits) * basicEnhancedHitValue, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_SCALING.buff(dotScaling, SOURCE_SKILL)
+      x.BASIC_ATK_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff((r.basicEnhanced && r.basicEnhancedExtraHits) * basicEnhancedHitValue, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_SKILL)
 
       // Boost
       x.ELEMENTAL_DMG.buff((e >= 1 && r.e1TargetBleeding) ? 0.15 : 0, SOURCE_E1)
@@ -124,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.VULNERABILITY.buffTeam((m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0, SOURCE_ULT)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
+    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
   }
 }

@@ -1,4 +1,4 @@
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -63,10 +63,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((r.enemyDefeatedBuff) ? 0.20 : 0, SOURCE_TRACE)
 
       // Scaling;
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_SCALING.buff(dotScaling, SOURCE_SKILL)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_SKILL)
 
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, SOURCE_TALENT)
       x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.targetShocked) ? talentExtraDmgScaling : 0, SOURCE_TALENT)
@@ -84,7 +84,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardAdditionalDmgAtkFinalizer(),

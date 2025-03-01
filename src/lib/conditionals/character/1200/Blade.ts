@@ -1,4 +1,5 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -107,23 +108,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const a = x.a
 
       if (r.enhancedStateActive) {
-        x.BASIC_DMG.buff(basicEnhancedAtkScaling * a[Key.ATK], SOURCE_BASIC)
-        x.BASIC_DMG.buff(basicEnhancedHpScaling * a[Key.HP], SOURCE_BASIC)
+        x.BASIC_DMG.buff(basicEnhancedAtkScaling * a[Key.ATK], Source.NONE)
+        x.BASIC_DMG.buff(basicEnhancedHpScaling * a[Key.HP], Source.NONE)
       } else {
-        x.BASIC_DMG.buff(a[Key.BASIC_SCALING] * a[Key.ATK], SOURCE_BASIC)
+        x.BASIC_DMG.buff(a[Key.BASIC_SCALING] * a[Key.ATK], Source.NONE)
       }
 
-      x.ULT_DMG.buff(ultAtkScaling * a[Key.ATK], SOURCE_ULT)
-      x.ULT_DMG.buff(ultHpScaling * a[Key.HP], SOURCE_ULT)
-      x.ULT_DMG.buff(ultLostHpScaling * r.hpPercentLostTotal * a[Key.HP], SOURCE_ULT)
-      x.ULT_DMG.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * a[Key.HP] : 0, SOURCE_E1)
+      x.ULT_DMG.buff(ultAtkScaling * a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(ultHpScaling * a[Key.HP], Source.NONE)
+      x.ULT_DMG.buff(ultLostHpScaling * r.hpPercentLostTotal * a[Key.HP], Source.NONE)
+      x.ULT_DMG.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal * a[Key.HP] : 0, Source.NONE)
 
       const hitMulti = hitMultiByTargets[context.enemyCount]
       const ashblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
-      x.FUA_DMG.buff(fuaAtkScaling * (a[Key.ATK] + ashblazingAtk), SOURCE_TALENT)
+      x.FUA_DMG.buff(fuaAtkScaling * (a[Key.ATK] + ashblazingAtk), Source.NONE)
 
-      x.FUA_DMG.buff(fuaHpScaling * a[Key.HP], SOURCE_TALENT)
-      x.FUA_DMG.buff((e >= 6) ? 0.50 * a[Key.HP] : 0, SOURCE_E6)
+      x.FUA_DMG.buff(fuaHpScaling * a[Key.HP], Source.NONE)
+      x.FUA_DMG.buff((e >= 6) ? 0.50 * a[Key.HP] : 0, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -144,7 +145,7 @@ if (${wgslTrue(e >= 1 && context.enemyCount == 1)}) {
   x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
 }
 
-x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMultiByTargets[context.enemyCount]}));
+x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + ${ashblazingWgsl(hitMultiByTargets[context.enemyCount])});
 x.FUA_DMG += ${fuaHpScaling} * x.HP;
 
 if (e >= 6) {

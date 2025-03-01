@@ -374,18 +374,33 @@ function generateIncomeOptions() {
     selectable: false,
     children: WarpIncomeOptions
       .filter((option) => option.type === type)
-      .map((option) => ({
-        value: option.id,
-        title: option.type == WarpIncomeType.NONE
-          ? t('Type.0')
-          : (
-            <Flex align='center' gap={3}>
-              <IncomeOptionLabel option={option}/>
-              {`+${option.passes.toLocaleString(locale)}`}
-              <img style={{ height: 18 }} src={Assets.getPass()}/>
-            </Flex>
-          ),
-      })),
+      .flatMap((option) => {
+        const results = [{
+          value: option.id,
+          title: option.type == WarpIncomeType.NONE
+            ? t('Type.0')
+            : (
+              <Flex align='center' gap={3}>
+                <IncomeOptionLabel option={option}/>
+                {`+${option.passes.toLocaleString(locale)}`}
+                <img style={{ height: 18 }} src={Assets.getPass()}/>
+              </Flex>
+            ),
+        }]
+
+        if (option.phase == 2) {
+          results.push({
+            title: <></>,
+            value: option.id + 'divider',
+            // @ts-ignore
+            className: 'tree-select-divider',
+            // @ts-ignore
+            disabled: true,
+          })
+        }
+
+        return results
+      }).slice(0, -1),
   }))
 
   return options

@@ -81,6 +81,7 @@ function getDefaultTeammateForm() {
 const teammateRelicSets = [
   Sets.MessengerTraversingHackerspace,
   Sets.WatchmakerMasterOfDreamMachinations,
+  Sets.SacerdosRelivedOrdeal,
 ]
 const teammateOrnamentSets = [
   Sets.BrokenKeel,
@@ -97,8 +98,20 @@ function calculateTeammateSets(teammateCharacter: Character) {
     teamOrnamentSet?: string
   } = {}
   for (const set of teammateRelicSets) {
-    if (relics.filter((relic) => relic.set == set).length == 4 && set != Sets.MessengerTraversingHackerspace) {
-      activeTeammateSets.teamRelicSet = set
+    if (relics.filter((relic) => relic.set == set).length == 4) {
+      if (set == Sets.MessengerTraversingHackerspace) continue
+      if (set == Sets.SacerdosRelivedOrdeal) {
+        if (
+          teammateCharacter.id == '1313' // Sunday
+          || teammateCharacter.id == '1306' // Sparkle
+        ) {
+          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_2_STACK
+        } else {
+          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_1_STACK
+        }
+      } else {
+        activeTeammateSets.teamRelicSet = set
+      }
     }
   }
 

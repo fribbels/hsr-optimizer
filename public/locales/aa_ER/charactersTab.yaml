@@ -114,6 +114,7 @@ CharacterPreview:
       ULT: crwdns39720:0crwdne39720:0
       FUA: crwdns39722:0crwdne39722:0
       MEMO_SKILL: crwdns39724:0crwdne39724:0
+      MEMO_TALENT: crwdns44748:0crwdne44748:0
       DOTS: "crwdns39726:0crwdne39726:0"
       BREAKS: "crwdns39728:0crwdne39728:0"
     CombatResults:
@@ -131,7 +132,11 @@ CharacterPreview:
         FUA: crwdns39750:0crwdne39750:0
         DOT: crwdns39752:0crwdne39752:0
         BREAK: crwdns39754:0crwdne39754:0
+        MEMO_SKILL: crwdns44750:0crwdne44750:0
+        MEMO_TALENT: crwdns44752:0crwdne44752:0
         COMBO: crwdns39756:0crwdne39756:0
+    CombatBuffs:
+      Header: crwdns44746:0crwdne44746:0
   ScoringColumn:
     Character:
       Header: "crwdns39758:0{{score}}crwdne39758:0"

@@ -1,4 +1,5 @@
 import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityResPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
@@ -138,17 +139,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       const basicAshblazingAtk = calculateAshblazingSet(x, action, context, basicHitCountMulti)
       const fuaAshblazingAtk = calculateAshblazingSet(x, action, context, hitMulti)
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * (x.a[Key.ATK] + basicAshblazingAtk), SOURCE_BASIC)
-      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + fuaAshblazingAtk), SOURCE_TALENT)
-      x.SKILL_DMG.set(x.a[Key.FUA_DMG], SOURCE_SKILL)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * (x.a[Key.ATK] + basicAshblazingAtk), Source.NONE)
+      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + fuaAshblazingAtk), Source.NONE)
+      x.SKILL_DMG.set(x.a[Key.FUA_DMG], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
       return `
-x.BASIC_DMG += x.BASIC_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${basicHitCountMulti}));
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${hitMulti}));
+x.BASIC_DMG += x.BASIC_SCALING * (x.ATK + ${ashblazingWgsl(basicHitCountMulti)});
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + ${ashblazingWgsl(hitMulti)});
 x.SKILL_DMG = x.FUA_DMG;
     `
     },

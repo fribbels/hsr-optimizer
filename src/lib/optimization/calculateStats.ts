@@ -109,7 +109,6 @@ export function calculateElementalStats(c: BasicStatsArray, context: OptimizerCo
 }
 
 export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext) {
-  const sets = c.sets
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces

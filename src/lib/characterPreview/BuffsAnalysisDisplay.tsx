@@ -1,15 +1,16 @@
 import { Flex, Tag, Typography } from 'antd'
-import i18next from 'i18next'
-import { Sets } from 'lib/constants/constants'
-import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import { Sets, setToId } from 'lib/constants/constants'
+import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runSimulations } from 'lib/simulations/statSimulationController'
+import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -79,6 +80,7 @@ function rerunSim(result?: SimulationScore) {
 }
 
 function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE; size: BuffDisplaySize }) {
+  const { i18n } = useTranslation() // needed to trigger re-render on language change
   const { id, buffs, buffType, size } = props
 
   let src
@@ -107,7 +109,7 @@ export enum BuffDisplaySize {
 }
 
 function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
-  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
+  const { t } = useTranslation(['gameData', 'optimizerTab'])
   const { buff, size } = props
   const stat = buff.stat as keyof ComputedStatsObject
   const percent = !StatsConfig[stat].flat
@@ -115,31 +117,38 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
   const statLabel = computedStatsTempI18NTranslations[stat] ?? stat
 
   let sourceLabel
-
-  if (buff.source.buffType == BUFF_TYPE.CHARACTER) sourceLabel = buff.source.ability
-  else if (buff.source.buffType == BUFF_TYPE.LIGHTCONE) sourceLabel = t(`gameData:Lightcones.${buff.source.id}.Name` as never)
-  else sourceLabel = buff.source.label
+  switch (buff.source.buffType) {
+    case BUFF_TYPE.CHARACTER:
+      sourceLabel = t(`optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Sources.${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
+      break
+    case BUFF_TYPE.LIGHTCONE:
+      sourceLabel = t(`Lightcones.${buff.source.id}.Name` as never)
+      break
+    case BUFF_TYPE.SETS:
+      sourceLabel = t(`RelicSets.${setToId[Sets[buff.source.id as keyof typeof Sets]]}.Name`)
+      break
+    default:
+      sourceLabel = buff.source.label
+  }
 
   return (
-    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0 }}>
-      <Text>
-        <Flex justify='space-between' style={{ width: size }}>
-          <Flex gap={3} style={{ minWidth: 70 }}>
-            <span>
-              {`${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}`}
-            </span>
-            <span>
-              {`${percent ? '%' : ''}`}
-            </span>
-          </Flex>
-          <span style={{ flex: '1 1 auto', marginRight: 10 }}>
-            {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
+    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0, fontSize: 14 }} className='text-font'>
+      <Flex justify='space-between' style={{ width: size }}>
+        <Flex gap={3} style={{ minWidth: 70 }}>
+          <span>
+            {`${(percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)).toLocaleString(currentLocale(), { useGrouping: false })}`}
           </span>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
-            {sourceLabel}
+          <span>
+            {`${percent ? '%' : ''}`}
           </span>
         </Flex>
-      </Text>
+        <span style={{ flex: '1 1 auto', marginRight: 10, minWidth: 130 }}>
+          {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
+        </span>
+        <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
+          {sourceLabel}
+        </span>
+      </Flex>
     </Tag>
   )
 }
@@ -208,7 +217,7 @@ const computedStatsTempI18NTranslations = {
   FIRE_RES_PEN: 'Fire RES PEN',
   ICE_RES_PEN: 'Ice RES PEN',
   LIGHTNING_RES_PEN: 'Lightning RES PEN',
-  WIND_RES_PEN: 'Wing RES PEN',
+  WIND_RES_PEN: 'Wind RES PEN',
   QUANTUM_RES_PEN: 'Quantum RES PEN',
   IMAGINARY_RES_PEN: 'Imaginary RES PEN',
   BASIC_RES_PEN: 'Basic DMG RES PEN',
@@ -226,18 +235,20 @@ const computedStatsTempI18NTranslations = {
   DMG_RED_MULTI: 'Damage reduction',
   EHP: 'Effective HP',
   SHIELD_BOOST: 'Shield boost',
-  DOT_CHANCE: 'Dot chance',
+  DOT_CHANCE: 'Dot base chance',
   EFFECT_RES_PEN: 'Effect RES PEN',
   DOT_SPLIT: 'Dot split',
   DOT_STACKS: 'Dot stacks',
   SUMMONS: 'Summons',
-  ENEMY_WEAKNESS_BROKEN: 'Enemy Weakness Broken',
+  ENEMY_WEAKNESS_BROKEN: 'Enemy weakness broken',
   SUPER_BREAK_MODIFIER: 'Super Break multiplier',
   BASIC_SUPER_BREAK_MODIFIER: 'Basic Super Break multiplier',
   BASIC_TOUGHNESS_DMG: 'Basic Toughness DMG',
   SKILL_TOUGHNESS_DMG: 'Skill Toughness DMG',
   ULT_TOUGHNESS_DMG: 'Ult Toughness DMG',
   FUA_TOUGHNESS_DMG: 'Fua Toughness DMG',
+  MEMO_SKILL_TOUGHNESS_DMG: 'Memo Skill Toughness DMS',
+  MEMO_TALENT_TOUGHNESS_DMG: 'Memo Talent Toughness DMG',
   TRUE_DMG_MODIFIER: 'True DMG multiplier',
   BASIC_TRUE_DMG_MODIFIER: 'Basic True DMG multiplier',
   SKILL_TRUE_DMG_MODIFIER: 'Skill True DMG multiplier',
@@ -252,9 +263,9 @@ const computedStatsTempI18NTranslations = {
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: 'Ult Additional DMG CD override',
   SKILL_OHB: 'Skill Outgoing Healing Boost',
   ULT_OHB: 'Ult Outgoing Healing Boost',
-  HEAL_TYPE: 'Healing ability type',
-  HEAL_FLAT: 'Healing flat',
-  HEAL_SCALING: 'Healing scaling',
+  HEAL_TYPE: 'Heal ability type',
+  HEAL_FLAT: 'Heal flat',
+  HEAL_SCALING: 'Heal scaling',
   HEAL_VALUE: 'Heal value',
   SHIELD_FLAT: 'Shield flat',
   SHIELD_SCALING: 'Shield scaling',
@@ -279,17 +290,17 @@ const computedStatsTempI18NTranslations = {
   MEMO_BASE_SPD_FLAT: 'Memo SPD flat',
   MEMO_SKILL_SCALING: 'Memo Skill scaling',
   MEMO_TALENT_SCALING: 'Memo Talent scaling',
-  UNCONVERTIBLE_HP_BUFF: 'Unconvertible HP buff',
-  UNCONVERTIBLE_ATK_BUFF: 'Unconvertible ATK buff',
-  UNCONVERTIBLE_DEF_BUFF: 'Unconvertible DEF buff',
-  UNCONVERTIBLE_SPD_BUFF: 'Unconvertible SPD buff',
-  UNCONVERTIBLE_CR_BUFF: 'Unconvertible Crit Rate buff',
-  UNCONVERTIBLE_CD_BUFF: 'Unconvertible Crit DMG buff',
-  UNCONVERTIBLE_EHR_BUFF: 'Unconvertible Effect Hit Rate buff',
-  UNCONVERTIBLE_BE_BUFF: 'Unconvertible Break Effect buff',
-  UNCONVERTIBLE_OHB_BUFF: 'Unconvertible Outgoing Healing Boost buff',
-  UNCONVERTIBLE_RES_BUFF: 'Unconvertible Effect RES buff',
-  UNCONVERTIBLE_ERR_BUFF: 'Unconvertible Energy Regeneration Rate buff',
+  UNCONVERTIBLE_HP_BUFF: 'Unconvertible HP',
+  UNCONVERTIBLE_ATK_BUFF: 'Unconvertible ATK',
+  UNCONVERTIBLE_DEF_BUFF: 'Unconvertible DEF',
+  UNCONVERTIBLE_SPD_BUFF: 'Unconvertible SPD',
+  UNCONVERTIBLE_CR_BUFF: 'Unconvertible Crit Rate',
+  UNCONVERTIBLE_CD_BUFF: 'Unconvertible Crit DMG',
+  UNCONVERTIBLE_EHR_BUFF: 'Unconvertible Effect Hit Rate',
+  UNCONVERTIBLE_BE_BUFF: 'Unconvertible Break Effect',
+  UNCONVERTIBLE_OHB_BUFF: 'Unconvertible Outgoing Healing Boost',
+  UNCONVERTIBLE_RES_BUFF: 'Unconvertible Effect RES',
+  UNCONVERTIBLE_ERR_BUFF: 'Unconvertible Energy Regeneration Rate',
   BREAK_EFFICIENCY_BOOST: 'Break efficiency boost',
   BASIC_BREAK_EFFICIENCY_BOOST: 'Basic Break efficiency boost',
   ULT_BREAK_EFFICIENCY_BOOST: 'Ult Break efficiency boost',

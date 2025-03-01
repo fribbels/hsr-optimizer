@@ -14,6 +14,7 @@ import { getSimScoreGrade } from 'lib/scoring/characterScorer'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { CSSProperties, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -212,7 +213,7 @@ export function ShowcaseDpsScoreHeader(props: {
           t(
             'CharacterPreview.ScoreHeader.Score',
             {
-              score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1),
+              score: localeNumber_0(Utils.truncate10ths(Math.max(0, result.percent * 100))),
               grade: getSimScoreGrade(result.percent, verified, numRelics, lightCone),
             },
           )

@@ -62,3 +62,9 @@ StatSimulation:
     FeetPlaceholder: Piernas
     SpherePlaceholder: Esfera
     RopePlaceholder: Cuerda
+ExpandedDataPanel:
+  DamageSplits:
+    Legend:
+      breakDmg: Ruptura
+    YAxisLabel:
+      BREAK_DMG: Ruptura

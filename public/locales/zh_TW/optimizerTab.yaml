@@ -71,3 +71,12 @@ StatSimulation:
     FeetPlaceholder: 腳部
     SpherePlaceholder: 次元球
     RopePlaceholder: 連結繩
+ExpandedDataPanel:
+  DamageSplits:
+    Legend:
+      breakDmg: 擊破
+    YAxisLabel:
+      BREAK_DMG: 擊破
+    TooltipText:
+      breakDmg: 擊破傷害
+      dotDmg: 持續傷害

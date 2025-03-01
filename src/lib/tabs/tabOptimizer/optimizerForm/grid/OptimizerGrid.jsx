@@ -12,11 +12,12 @@ import {
   optimizerGridDefaultColDef,
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
+import { localeNumber } from 'lib/utils/i18nUtils'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 
 const { useToken } = theme
 
@@ -25,6 +26,7 @@ const defaultHiddenColumns = [
   SortOption.HEAL,
   SortOption.SHIELD,
   SortOption.MEMO_SKILL,
+  SortOption.MEMO_TALENT,
 ]
 
 export const GRID_DIMENSIONS = {
@@ -86,6 +88,7 @@ export function OptimizerGrid() {
     // locale updates require the grid to be destroyed and reconstructed in order to take effect
     if (i18n.resolvedLanguage !== initialLanguage.current) {
       setGridDestroyed(true)
+      initialLanguage.current = i18n.resolvedLanguage
       setTimeout(() => setGridDestroyed(false), 100)
     }
   }, [i18n.resolvedLanguage])
@@ -128,7 +131,7 @@ export function OptimizerGrid() {
             headerHeight={24}
             onCellClicked={OptimizerTabController.cellClicked}
             ref={optimizerGrid}
-            paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage.split('_')[0])}
+            paginationNumberFormatter={(param) => localeNumber(param.value)}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
             rowSelection='single'

@@ -145,9 +145,9 @@ if (${wgslTrue(r.hpToCrConversion)}) {
         x.DEF.set(0, SOURCE_TALENT)
       }
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], SOURCE_BASIC)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], SOURCE_SKILL)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], SOURCE_ULT)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.HP], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

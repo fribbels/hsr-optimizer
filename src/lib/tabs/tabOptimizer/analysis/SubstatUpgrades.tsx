@@ -1,12 +1,14 @@
 import { Flex, Table, TableProps } from 'antd'
-import { StatsToShortSpaced, SubStats } from 'lib/constants/constants'
+import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
 import { calculateStatUpgrades, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type StatUpgradeGroup = {
   key: ComputedStatKeys
@@ -19,9 +21,13 @@ type StatUpgradeItem = {
   percent: number
 }
 
+type Metrics = 'COMBO_DMG' | 'EHP' | 'HEAL_VALUE' | 'SHIELD_VALUE'
+
 export function DamageUpgrades(props: {
   analysis: OptimizerResultAnalysis
 }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.SubstatUpgrades' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
   const analysis = props.analysis
   // @ts-ignore
   if (Object.values(analysis.newRelics).some((relic) => relic.set == -1)) {
@@ -70,36 +76,36 @@ export function DamageUpgrades(props: {
 
     const columns: TableProps<StatUpgradeItem>['columns'] = [
       {
-        title: '+1x Substat',
+        title: t('ColumnHeaders.Substat'),
         dataIndex: 'key',
         align: 'center',
         width: 100,
         render: (text: SubStats) => (
           <Flex>
             <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
-            {StatsToShortSpaced[text]}
+            {tCommon(text)}
           </Flex>
         ),
       },
       {
-        title: `Δ ${metricToColumnTitle[group.key as keyof typeof metricToColumnTitle]}`,
+        title: t(`ColumnHeaders.${group.key as Metrics}`),
         dataIndex: 'value',
         align: 'center',
         width: 110,
         render: (n: number) => (
           <>
-            {n == 0 ? '' : `${n.toFixed(1)}`}
+            {n == 0 ? '' : `${localeNumber_0(n)}`}
           </>
         ),
       },
       {
-        title: `Δ% ${metricToColumnTitle[group.key as keyof typeof metricToColumnTitle]}`,
+        title: t(`ColumnHeaders.${group.key as Metrics}_P`),
         dataIndex: 'percent',
         align: 'center',
         width: 110,
         render: (n: number) => (
           <>
-            {n == 0 ? '' : `${Utils.truncate100ths(n * 100).toFixed(2)}%`}
+            {n == 0 ? '' : `${localeNumber_00(Utils.truncate100ths(n * 100))}%`}
           </>
         ),
       },
@@ -139,11 +145,4 @@ export function DamageUpgrades(props: {
       {displays}
     </Flex>
   )
-}
-
-const metricToColumnTitle = {
-  COMBO_DMG: 'Combo DMG',
-  EHP: 'EHP',
-  HEAL_VALUE: 'Heal',
-  SHIELD_VALUE: 'Shield',
 }

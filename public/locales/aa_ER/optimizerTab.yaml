@@ -30,6 +30,7 @@ SortOptions:
   ULT: crwdns42694:0crwdne42694:0
   FUA: crwdns42696:0crwdne42696:0
   MEMO_SKILL: crwdns42698:0crwdne42698:0
+  MEMO_TALENT: crwdns44758:0crwdne44758:0
   DOT: crwdns42700:0crwdne42700:0
   BREAK: crwdns42702:0crwdne42702:0
   HEAL: crwdns42704:0crwdne42704:0
@@ -119,6 +120,8 @@ Grid:
         crwdns42842:0crwdne42842:0
       MEMO_SKILL: |-
         crwdns42844:0crwdne42844:0
+      MEMO_TALENT: |-
+        crwdns44760:0crwdne44760:0
       DOT: |-
         crwdns42846:0crwdne42846:0
       BREAK: |-
@@ -154,6 +157,8 @@ Grid:
         crwdns42892:0crwdne42892:0
       MEMO_SKILL: |-
         crwdns42894:0crwdne42894:0
+      MEMO_TALENT: |-
+        crwdns44762:0crwdne44762:0
       DOT: |-
         crwdns42896:0crwdne42896:0
       BREAK: |-
@@ -406,6 +411,7 @@ ComboFilter:
     Ult: crwdns43274:0crwdne43274:0
     Fua: crwdns43276:0crwdne43276:0
     MemoSkill: crwdns43278:0crwdne43278:0
+    MemoTalent: crwdns44764:0crwdne44764:0
   RotationButton: crwdns43280:0crwdne43280:0
 ComboDrawer:
   NoConditionals: crwdns43282:0crwdne43282:0
@@ -496,3 +502,57 @@ StatSimulation:
     RopePlaceholder: crwdns43412:0crwdne43412:0
     ShortStat: "crwdns43414:0$t(common:ShortReadableStats.{{stat}})crwdne43414:0"
     LabelStat: "crwdns43416:0$t(common:ReadableStats.{{stat}})crwdne43416:0"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: crwdns44658:0crwdne44658:0
+      Skill: crwdns44660:0crwdne44660:0
+      Ult: crwdns44662:0crwdne44662:0
+      Talent: crwdns44664:0crwdne44664:0
+      Technique: crwdns44666:0crwdne44666:0
+      Trace: crwdns44668:0crwdne44668:0
+      Memo: crwdns44670:0crwdne44670:0
+      E1: crwdns44672:0crwdne44672:0
+      E2: crwdns44674:0crwdne44674:0
+      E4: crwdns44676:0crwdne44676:0
+      E6: crwdns44678:0crwdne44678:0
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: 'crwdns44680:0crwdne44680:0'
+      COMBO_DMG: crwdns44682:0crwdne44682:0
+      COMBO_DMG_P: crwdns44684:0crwdne44684:0
+      EHP: crwdns44686:0crwdne44686:0
+      EHP_P: crwdns44688:0crwdne44688:0
+      HEAL_VALUE: crwdns44690:0crwdne44690:0
+      HEAL_VALUE_P: crwdns44692:0crwdne44692:0
+      SHIELD_VALUE: crwdns44694:0crwdne44694:0
+      SHIELD_VALUE_P: crwdns44696:0crwdne44696:0
+  DamageSplits:
+    Title: crwdns44698:0crwdne44698:0
+    Legend:
+      abilityDmg: crwdns44700:0crwdne44700:0
+      breakDmg: crwdns44702:0crwdne44702:0
+      superBreakDmg: crwdns44704:0crwdne44704:0
+      additionalDmg: crwdns44706:0crwdne44706:0
+      trueDmg: 'crwdns44708:0crwdne44708:0'
+      jointDmg: crwdns44710:0crwdne44710:0
+      dotDmg: crwdns44712:0crwdne44712:0
+      memoDmg: crwdns44714:0crwdne44714:0
+    YAxisLabel:
+      BASIC_DMG: crwdns44716:0crwdne44716:0
+      SKILL_DMG: crwdns44718:0crwdne44718:0
+      ULT_DMG: crwdns44720:0crwdne44720:0
+      FUA_DMG: crwdns44722:0crwdne44722:0
+      DOT_DMG: crwdns44724:0crwdne44724:0
+      BREAK_DMG: crwdns44726:0crwdne44726:0
+      MEMO_SKILL_DMG: crwdns44728:0crwdne44728:0
+      MEMO_TALENT_DMG: crwdns44766:0crwdne44766:0
+    TooltipText:
+      abilityDmg: crwdns44730:0crwdne44730:0
+      breakDmg: crwdns44732:0crwdne44732:0
+      superBreakDmg: crwdns44734:0crwdne44734:0
+      additionalDmg: crwdns44736:0crwdne44736:0
+      trueDmg: crwdns44738:0crwdne44738:0
+      jointDmg: crwdns44740:0crwdne44740:0
+      dotDmg: crwdns44742:0crwdne44742:0
+      memoDmg: crwdns44744:0crwdne44744:0

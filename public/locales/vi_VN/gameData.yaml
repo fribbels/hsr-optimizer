@@ -188,6 +188,12 @@ Characters:
   "1404":
     Name: Mydei
     LongName: Mydei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (Hủy Diệt)
@@ -364,11 +370,11 @@ RelicSets:
     Name: Công Viên Chuối Kỳ Ảo
     Description2pc: Khiến Sát Thương Bạo Kích của người trang bị tăng 16%, khi tồn tại mục tiêu mà người trang bị triệu hồi, Sát Thương Bạo Kích sẽ tăng thêm 32%.
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Name: Vùng Đất Nhặt Hài Cốt Tĩnh Lặng
+    Description2pc: Tăng12% Giới Hạn HP của người trang bị. Khi Giới Hạn HP của người trang bị lớn hơn hoặc bằng 5000, sẽ tăng 28% Sát Thương Bạo Kích của người trang bị và Linh Hồn Ký Ức của người đó.
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Name: Đại Thụ Trầm Tư
+    Description2pc: Khiến Tốc Độ của người trang bị tăng 6%. Khi Tốc Độ của người trang bị từ 135/180 trở lên, thì Lượng Trị Liệu của người trang bị và Linh Hồn Ký Ức của người đó sẽ tăng 12%/20%.
 Lightcones:
   "20000":
     Name: Mũi Tên
@@ -528,6 +534,8 @@ Lightcones:
     Name: Vì Hành Trình Ngày Mai
   "22003":
     Name: Nhẫn Sự Lục-Săn Bắn Âm Luật
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: Hướng Về Điều Không Thể Truy Hỏi
   "23038":
-    Name: If Time Were a Flower
+    Name: Nếu Thời Gian Là Một Đóa Hoa
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: Huyết Hỏa, Hãy Thiêu Đốt Con Đường Phía Trước
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: Ngoại Suy Vô Tận
   "24005":
-    Name: Memory's Curtain Never Falls
+    Name: Ký Ức Không Bao Giờ Hạ Màn
 Paths:
   Warrior: Hủy Diệt
   Rogue: Săn Bắn

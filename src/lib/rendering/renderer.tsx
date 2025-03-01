@@ -3,23 +3,24 @@ import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import { currentLocale, localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import { Relic, Stat } from 'types/relic'
 
 export const Renderer = {
   floor: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return Math.floor(x.value)
+    return localeNumber(Math.floor(x.value))
   },
 
   x100Tenths: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return (Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10).toFixed(1)
+    return localeNumber_0((Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10))
   },
 
   tenths: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return (Math.floor(Utils.precisionRound(x.value) * 10) / 10).toFixed(1)
+    return localeNumber_0((Math.floor(Utils.precisionRound(x.value) * 10) / 10))
   },
 
   relicSet: (x: { value: number }) => {
@@ -143,9 +144,9 @@ export const Renderer = {
   mainValueRenderer: (x: { value: number; data: Relic }) => {
     const part = x.data.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
-      return x.value == 0 ? '' : Math.floor(x.value)
+      return x.value == 0 ? '' : localeNumber(Math.floor(x.value))
     }
-    return x.value == 0 ? '' : Utils.truncate10ths(x.value)
+    return x.value == 0 ? '' : Utils.truncate10ths(x.value).toLocaleString(currentLocale())
   },
 
   hideZeroesX100Tenths: (x: { value: number }) => {
@@ -162,16 +163,16 @@ export const Renderer = {
   renderSubstatNumber: (substat: Stat, relic: Relic) => {
     if (substat.stat == Constants.Stats.SPD) {
       if (relic.verified) {
-        return Utils.truncate10ths(substat.value).toFixed(1)
+        return localeNumber_0(Utils.truncate10ths(substat.value))
       }
       return Math.floor(substat.value)
     }
 
-    return Utils.isFlat(substat.stat) ? Math.floor(substat.value) : Utils.truncate10ths(substat.value).toFixed(1)
+    return Utils.isFlat(substat.stat) ? localeNumber(Math.floor(substat.value)) : localeNumber_0(Utils.truncate10ths(substat.value))
   },
 
   renderMainStatNumber: (mainstat: Stat) => {
-    return Utils.isFlat(mainstat.stat) ? Math.floor(mainstat.value) : Utils.truncate10ths(mainstat.value).toFixed(1)
+    return Utils.isFlat(mainstat.stat) ? localeNumber(Math.floor(mainstat.value)) : localeNumber_0(Utils.truncate10ths(mainstat.value))
   },
 
   renderGradeCell: (x: { data: Relic }) => {

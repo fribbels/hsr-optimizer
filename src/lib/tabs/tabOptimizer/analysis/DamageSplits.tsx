@@ -19,6 +19,7 @@ export function DamageSplits(props: {
   }
 
   splits.MEMO_SKILL_DMG = props.analysis.newX.m.dmgSplits.MEMO_SKILL_DMG
+  splits.MEMO_TALENT_DMG = props.analysis.newX.m.dmgSplits.MEMO_TALENT_DMG
 
   const data = Object.values(splits)
 
@@ -31,7 +32,6 @@ export function DamageSplits(props: {
         boxShadow: cardShadow,
         borderRadius: 5,
         overflow: 'hidden',
-        padding: 8,
         background: '#243356',
       }}
     >

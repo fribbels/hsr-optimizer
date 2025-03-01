@@ -1,4 +1,5 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
@@ -164,17 +165,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], SOURCE_BASIC)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], SOURCE_SKILL)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, getUltHitMulti(action, context))), SOURCE_ULT)
-      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, ASHBLAZING_ATK_STACK * (1 * 1.00))), SOURCE_TALENT)
+      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
+      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, getUltHitMulti(action, context))), Source.NONE)
+      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, ASHBLAZING_ATK_STACK * (1 * 1.00))), Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return `
 x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
 x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${getUltHitMulti(action, context)}));
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + calculateAshblazingSet(p_x, p_state, ${ASHBLAZING_ATK_STACK * (1 * 1.00)}));
+x.ULT_DMG += x.ULT_SCALING * (x.ATK + ${ashblazingWgsl(getUltHitMulti(action, context))});
+x.FUA_DMG += x.FUA_SCALING * (x.ATK + ${ashblazingWgsl(ASHBLAZING_ATK_STACK * (1 * 1.00))});
     `
     },
   }

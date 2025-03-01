@@ -1,4 +1,11 @@
-import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  BASIC_ABILITY_TYPE,
+  FUA_ABILITY_TYPE,
+  MEMO_SKILL_ABILITY_TYPE,
+  MEMO_TALENT_ABILITY_TYPE,
+  SKILL_ABILITY_TYPE,
+  ULT_ABILITY_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
@@ -93,12 +100,12 @@ ${lightConeConditionalWgsl}
   let actionsDefinition = `
 const comboDot: f32 = ${context.comboDot};
 const comboBreak: f32 = ${context.comboBreak};
-const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
+`
   for (let i = 0; i < actionLength; i++) {
     const action = context.actions[i]
 
     actionsDefinition += `
-  Action( // ${action.actionIndex}
+  const action${i} = Action( // ${action.actionIndex}
     ${getActionTypeToWgslMapping(action.actionType)},
     SetConditionals(
       ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
@@ -124,18 +131,22 @@ const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
       ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
       ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
     ),
-    ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
-    ),
-    ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
-    ),
-    ConditionalState(
-    ),
-  ),`
+  );`
   }
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
 
-  actionsDefinition += `
-);
-  `
+    actionsDefinition += `
+  const computedStatsX${i} = ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
+    );`
+  }
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
+
+    actionsDefinition += `
+  const computedStatsM${i} = ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
+    );`
+  }
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
 
@@ -146,28 +157,8 @@ const actionCount = ${actionLength};
   return wgsl
 }
 
-function generateDependencyCall(conditionalName: string) {
-  return `evaluate${conditionalName}(p_x, p_m, p_state);`
-}
-
-function generateConditionalEvaluator(statName: string, conditionalCallsWgsl: string) {
-  return `
-fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
-${indent(conditionalCallsWgsl, 1)}
-}
-  `
-}
-
-function generateConditionalNonRatioEvaluator(statName: string, conditionalCallsWgsl: string) {
-  return `
-fn evaluateNonRatioDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
-${indent(conditionalCallsWgsl, 1)}
-}
-  `
-}
-
 function generateConditionalExecution(conditional: DynamicConditional) {
-  return `evaluate${conditional.id}(p_x, p_m, p_state);`
+  return `evaluate${conditional.id}(p_x, p_m, p_sets, p_state);`
 }
 
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
@@ -268,6 +259,7 @@ const actionTypeToWgslMapping: StringToNumberMap = {
   ULT: ULT_ABILITY_TYPE,
   FUA: FUA_ABILITY_TYPE,
   MEMO_SKILL: MEMO_SKILL_ABILITY_TYPE,
+  MEMO_TALENT: MEMO_TALENT_ABILITY_TYPE,
 }
 
 function getActionTypeToWgslMapping(actionType: string) {

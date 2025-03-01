@@ -78,6 +78,8 @@ export type CharacterMetadata = {
   characterEidolon: number
   lightCone: string
   lightConeSuperimposition: number
+  path: string
+  element: string
 }
 
 export type OptimizerContext = {
@@ -101,6 +103,7 @@ export type OptimizerContext = {
 
   // Character data
   element: string // Ice
+  path: string // Destruction
   elementalDamageType: ElementalDamageType // Ice DMG Boost
   elementalResPenType: ElementalResPenType // ICE_RES_PEN
   elementalBreakScaling: number // Ice: 1.0

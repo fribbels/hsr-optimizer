@@ -157,7 +157,7 @@ export default function OptimizerForm() {
 
         <FilterContainer bottomPadding={true}>
           <FormRow id={OptimizerMenuIds.characterOptions}>
-            <FormCard style={{ overflow: 'hidden' }}>
+            <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
               <OptimizerTabCharacterPanel/>
             </FormCard>
 

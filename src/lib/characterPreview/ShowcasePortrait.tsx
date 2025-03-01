@@ -159,9 +159,9 @@ export function ShowcasePortrait(props: {
         vertical
         style={{
           position: 'absolute',
+          paddingLeft: 3,
           bottom: artistName ? 36 : 1,
           height: 34,
-          paddingLeft: 3,
           display: showUid ? 'flex' : 'none',
         }}
         align='flex-start'
@@ -183,7 +183,7 @@ export function ShowcasePortrait(props: {
             textShadow: '0px 0px 10px black',
           }}
         >
-          UID: {uid}
+          {uid}
         </Text>
       </Flex>
       <Flex

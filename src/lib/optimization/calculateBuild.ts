@@ -117,6 +117,8 @@ export function calculateBuild(
       combo += a[Key.FUA_DMG]
     } else if (action.actionType === 'MEMO_SKILL') {
       combo += a[Key.MEMO_SKILL_DMG]
+    } else if (action.actionType === 'MEMO_TALENT') {
+      combo += a[Key.MEMO_TALENT_DMG]
     }
 
     if (i === 0) {

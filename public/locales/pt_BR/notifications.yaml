@@ -5,7 +5,6 @@ GPU:
     l2: "Windows e Mac - Chrome, Opera, Edge"
     l3: >-
       Linux — <CustomLink text="Behind a flag"/>
-    l4: "Se estiver em um dos navegadores compatíveis e não estiver funcionando, use outro navegador, ou tente mudar o navegador para usar uma placa de vídeo dedicada ao invés da integrada."
 GPUCrash:
   Message: Erro WebGPU
   Description:

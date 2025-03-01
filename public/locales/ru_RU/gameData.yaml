@@ -183,11 +183,17 @@ Characters:
     Name: Аглая
     LongName: Аглая
   "1403":
-    Name: Tribbie
-    LongName: Tribbie
+    Name: Трибби
+    LongName: Трибби
   "1404":
-    Name: Mydei
-    LongName: Mydei
+    Name: Мидей
+    LongName: Мидей
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -364,11 +370,11 @@ RelicSets:
     Name: Чудесный банановый рай
     Description2pc: Повышает крит. урон владельца на 16%. Если на поле боя есть призванные владельцем существа, то крит. урон владельца повышается на доп. 32%.
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Name: Безмолвная страна костей
+    Description2pc: Повышает макс. НР владельца на 12%. Когда макс. НР владельца становится больше или равно 5000 ед., крит. урон владельца и его духа памяти повышается на 28%.
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Name: Древо глубоких раздумий
+    Description2pc: Повышает скорость владельца на 6%. Если скорость владельца выше или равна 135/180 ед., то исходящее исцеление владельца и его духа памяти повышается на 12%/20%.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -528,6 +534,8 @@ Lightcones:
     Name: За завтрашнее путешествие
   "22003":
     Name: "Запись ниндзя: Музыкальная охота"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: Навстречу неоспоримому
   "23038":
-    Name: If Time Were a Flower
+    Name: Если бы время было цветком
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: Огонь крови, воспламени мой путь
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: О падении Эона
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: Беспрерывные вычисления
   "24005":
-    Name: Memory's Curtain Never Falls
+    Name: Не падёт занавес памяти
 Paths:
   Warrior: Разрушение
   Rogue: Охота

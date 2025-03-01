@@ -87,4 +87,23 @@ export const AbilityEidolon = {
     memoTalent: ability(3),
     memoSkill: ability(5),
   },
+  ULT_BASIC_MEMO_TALENT_3_SKILL_TALENT_MEMO_SKILL_5: {
+    basic: ability(3),
+    skill: ability(5),
+    ult: ability(3),
+    talent: ability(5),
+    memoTalent: ability(3),
+    memoSkill: ability(5),
+  },
+}
+
+export function countTeamPath(context: OptimizerContext, path: string) {
+  return (context.path == path ? 1 : 0)
+    + (context.teammate0Metadata?.path == path ? 1 : 0)
+    + (context.teammate1Metadata?.path == path ? 1 : 0)
+    + (context.teammate2Metadata?.path == path ? 1 : 0)
+}
+
+export function mainIsPath(context: OptimizerContext, path: string) {
+  return context.path == path
 }

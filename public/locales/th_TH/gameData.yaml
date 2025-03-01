@@ -188,6 +188,12 @@ Characters:
   "1404":
     Name: Mydei
     LongName: Mydei
+  "1405":
+    Name: Anaxa
+    LongName: Anaxa
+  "1407":
+    Name: Castorice
+    LongName: Castorice
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -365,10 +371,10 @@ RelicSets:
     Description2pc: ทำให้ DMG คริติคอลของผู้สวมใส่ เพิ่มขึ้น 16% เมื่อเป้าหมายที่ผู้สวมใส่อัญเชิญ อยู่ในการต่อสู้ DMG คริติคอลจะเพิ่มขึ้นอีก 32%
   "319":
     Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%.
+    Description2pc: ทำให้ HP สูงสุดของผู้สวมใส่ เพิ่มขึ้น 12% เมื่อ HP สูงสุดของผู้สวมใส่ มากกว่าหรือเท่ากับ 5000 จะทำให้ DMG คริติคอลของผู้สวมใส่ และภูตความทรงจำของผู้สวมใส่ เพิ่มขึ้น 28%
   "320":
     Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%.
+    Description2pc: ทำให้ความเร็วของผู้สวมใส่เพิ่มขึ้น 6% เมื่อความเร็วของผู้สวมใส่มากกว่า หรือเท่ากับ 135/180 จะทำให้ปริมาณการรักษาของผู้สวมใส่ และภูตความทรงจำของผู้สวมใส่ เพิ่มขึ้น 12%/20%
 Lightcones:
   "20000":
     Name: Arrows
@@ -528,6 +534,8 @@ Lightcones:
     Name: For Tomorrow's Journey
   "22003":
     Name: "Ninja Record: Sound Hunt"
+  "22004":
+    Name: The Great Cosmic Enterprise
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -608,6 +616,10 @@ Lightcones:
     Name: If Time Were a Flower
   "23039":
     Name: Flame of Blood, Blaze My Path
+  "23040":
+    Name: Make Farewells More Beautiful
+  "23041":
+    Name: Life Should Be Cast to Flames
   "24000":
     Name: On the Fall of an Aeon
   "24001":

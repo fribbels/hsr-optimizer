@@ -362,13 +362,13 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
   PioneerDiverOfDeadWaters: {
     key: 'PioneerDiverOfDeadWaters',
     index: 16,
-    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
-    },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
         x.ELEMENTAL_DMG.buff(0.12, Source.PioneerDiverOfDeadWaters)
       }
+    },
+    p4c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.CD.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)

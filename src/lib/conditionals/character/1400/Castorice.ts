@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
-import { standardHpFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -192,7 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpFinalizer(x)
+      standardFinalizer(x)
 
       x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_HP_SCALING] * x.a[Key.HP], Source.NONE)
       x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_HP_SCALING] * x.a[Key.HP], Source.NONE)

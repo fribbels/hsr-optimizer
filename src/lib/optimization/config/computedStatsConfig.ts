@@ -23,6 +23,7 @@ export type ComputedStatsConfigBaseType = {
 }
 
 export const newBaseComputedStatsCorePropertiesConfig = {
+  // Core stats
   HP_P: {},
   ATK_P: {},
   DEF_P: {},
@@ -39,6 +40,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   ERR: {},
   OHB: {},
 
+  // Elemental stats
   PHYSICAL_DMG_BOOST: {},
   FIRE_DMG_BOOST: {},
   ICE_DMG_BOOST: {},
@@ -49,39 +51,13 @@ export const newBaseComputedStatsCorePropertiesConfig = {
 
   ELEMENTAL_DMG: {},
 
+  // Base
   BASE_HP: {},
   BASE_ATK: {},
   BASE_DEF: {},
   BASE_SPD: {},
 
-  COMBO_DMG: {},
-
-  DMG_RED_MULTI: { default: 1 }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
-  EHP: { flat: true },
-  SHIELD_BOOST: {},
-
-  DOT_CHANCE: {},
-  EFFECT_RES_PEN: {},
-
-  // Black swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
-  DOT_SPLIT: {},
-  DOT_STACKS: { flat: true },
-
-  SUMMONS: { flat: true },
-
-  ENEMY_WEAKNESS_BROKEN: { flat: true },
-
-  HEAL_TYPE: { flat: true },
-  HEAL_FLAT: { flat: true },
-  HEAL_SCALING: {},
-  HEAL_VALUE: { flat: true },
-  SHIELD_FLAT: { flat: true },
-  SHIELD_SCALING: {},
-  SHIELD_VALUE: { flat: true },
-
-  MEMO_BUFF_PRIORITY: { flat: true },
-  DEPRIORITIZE_BUFFS: { flat: true },
-
+  // Memosprites
   MEMO_BASE_HP_SCALING: {},
   MEMO_BASE_HP_FLAT: { flat: true },
   MEMO_BASE_DEF_SCALING: {},
@@ -91,6 +67,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   MEMO_BASE_SPD_SCALING: {},
   MEMO_BASE_SPD_FLAT: { flat: true },
 
+  // Secondary conversions
   UNCONVERTIBLE_HP_BUFF: { flat: true },
   UNCONVERTIBLE_ATK_BUFF: { flat: true },
   UNCONVERTIBLE_DEF_BUFF: { flat: true },
@@ -102,6 +79,34 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   UNCONVERTIBLE_OHB_BUFF: {},
   UNCONVERTIBLE_RES_BUFF: {},
   UNCONVERTIBLE_ERR_BUFF: {},
+
+  // EHP
+  DMG_RED_MULTI: { default: 1 }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi) instead of additive
+  EHP: { flat: true },
+
+  // Misc configs
+  SUMMONS: { flat: true },
+  MEMOSPRITE: { flat: true },
+  ENEMY_WEAKNESS_BROKEN: { flat: true },
+  MEMO_BUFF_PRIORITY: { flat: true },
+  DEPRIORITIZE_BUFFS: { flat: true },
+  COMBO_DMG: {},
+
+  // DOT
+  DOT_CHANCE: {},
+  EFFECT_RES_PEN: {},
+  DOT_SPLIT: {}, // Black Swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
+  DOT_STACKS: { flat: true },
+
+  // Heal / Shield
+  HEAL_TYPE: { flat: true },
+  HEAL_FLAT: { flat: true },
+  HEAL_SCALING: {},
+  HEAL_VALUE: { flat: true },
+  SHIELD_FLAT: { flat: true },
+  SHIELD_SCALING: {},
+  SHIELD_VALUE: { flat: true },
+  SHIELD_BOOST: {},
 
   // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE },

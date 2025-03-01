@@ -33,6 +33,14 @@ export function standardHpFinalizer(x: ComputedStatsArray) {
   x.DOT_DMG.buff(x.a[Key.DOT_HP_SCALING] * x.a[Key.HP], Source.NONE)
 }
 
+export function standardFinalizer(x: ComputedStatsArray) {
+  x.BASIC_DMG.buff(x.a[Key.BASIC_HP_SCALING] * x.a[Key.HP] + x.a[Key.BASIC_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.BASIC_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.SKILL_DMG.buff(x.a[Key.SKILL_HP_SCALING] * x.a[Key.HP] + x.a[Key.SKILL_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.SKILL_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.ULT_DMG.buff(x.a[Key.ULT_HP_SCALING] * x.a[Key.HP] + x.a[Key.ULT_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.ULT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+  x.DOT_DMG.buff(x.a[Key.DOT_HP_SCALING] * x.a[Key.HP] + x.a[Key.DOT_ATK_SCALING] * x.a[Key.ATK] + x.a[Key.DOT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+}
+
 export function gpuStandardHpFinalizer() {
   return `
 x.BASIC_DMG += x.BASIC_SCALING * x.HP;

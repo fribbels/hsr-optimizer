@@ -1,5 +1,5 @@
 import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ashblazingFuaFinalizer, ashblazingWgsl, basicFinalizer, boostedAtk, skillFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { ashblazingWgsl, basicFinalizer, boostedAtk, singleAshblazingFuaFinalizer, skillFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
@@ -170,7 +170,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       basicFinalizer(x)
       skillFinalizer(x)
-      ashblazingFuaFinalizer(x, action, context, fuaHitMulti)
+      singleAshblazingFuaFinalizer(x, action, context, fuaHitMulti)
 
       const boostedAtkValueUlt = boostedAtk(x, x.a[Key.ULT_ATK_P_BOOST] + calculateAshblazingSetP(x, action, context, ultHitMulti))
       x.ULT_DMG.buff(x.a[Key.ULT_ATK_SCALING] * boostedAtkValueUlt, Source.NONE)

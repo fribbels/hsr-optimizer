@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
@@ -140,9 +140,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SPD_P.buffTeam((t.teamSpdBuff) ? talentSpdScaling : 0, SOURCE_TALENT)
       x.ELEMENTAL_DMG.buffTeam(t.teamDmgBuff, SOURCE_TRACE)
 
-      // TODO: This is an on-hit ATK boost not an unconvertible ATK buff
       x.ATK_P_BOOST.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
-      // x.UNCONVERTIBLE_ATK_BUFF.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 * context.baseATK : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -151,7 +149,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
       x.ELEMENTAL_DMG.buff(buffValue, SOURCE_TRACE)
 
-      standardAtkFinalizer(x)
+      standardFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
       return `

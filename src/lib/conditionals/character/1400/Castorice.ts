@@ -194,6 +194,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardFinalizer(x)
 
+      // Scales off of Castorice's HP not the memo
       x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_HP_SCALING] * x.a[Key.HP], Source.NONE)
       x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_HP_SCALING] * x.a[Key.HP], Source.NONE)
     },

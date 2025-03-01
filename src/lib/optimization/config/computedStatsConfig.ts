@@ -103,15 +103,17 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   UNCONVERTIBLE_RES_BUFF: {},
   UNCONVERTIBLE_ERR_BUFF: {},
 
+  // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE },
   SKILL_DMG_TYPE: { flat: true, default: SKILL_DMG_TYPE },
   ULT_DMG_TYPE: { flat: true, default: ULT_DMG_TYPE },
   FUA_DMG_TYPE: { flat: true, default: FUA_DMG_TYPE },
   DOT_DMG_TYPE: { flat: true, default: DOT_DMG_TYPE },
   BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE },
-  SUPER_BREAK_DMG_TYPE: { flat: true, default: SUPER_BREAK_DMG_TYPE },
-  MEMO_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
+  MEMO_SKILL_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
+  MEMO_TALENT_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE },
+  SUPER_BREAK_DMG_TYPE: { flat: true, default: SUPER_BREAK_DMG_TYPE | BREAK_DMG_TYPE },
 } as const
 
 export const newBaseComputedStatsAbilityPropertiesConfig = {
@@ -122,11 +124,11 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   CR_BOOST: {},
   CD_BOOST: {},
   DMG_BOOST: {},
-  ADDITIONAL_DMG_BOOST: {},
   VULNERABILITY: {},
   DEF_PEN: {},
   BREAK_DEF_PEN: {},
   SUPER_BREAK_DEF_PEN: {},
+  RES_PEN: {},
   PHYSICAL_RES_PEN: {},
   FIRE_RES_PEN: {},
   ICE_RES_PEN: {},
@@ -134,42 +136,42 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   WIND_RES_PEN: {},
   QUANTUM_RES_PEN: {},
   IMAGINARY_RES_PEN: {},
-  RES_PEN: {},
-  DMG: {},
-  SUPER_BREAK_MODIFIER: {},
   TOUGHNESS_DMG: {},
+  SUPER_BREAK_MODIFIER: {},
+  BREAK_EFFICIENCY_BOOST: {},
   TRUE_DMG_MODIFIER: {},
   FINAL_DMG_BOOST: {},
   BREAK_DMG_MODIFIER: {},
+  ADDITIONAL_DMG_BOOST: {},
   ADDITIONAL_DMG_CR_OVERRIDE: {},
   ADDITIONAL_DMG_CD_OVERRIDE: {},
-  OHB: {},
   ADDITIONAL_DMG_SCALING: {},
   ADDITIONAL_DMG: {},
-  BREAK_EFFICIENCY_BOOST: {},
+  OHB: {},
+  DMG: {},
 } as const
 
 export enum DamageType {
-  BASIC,
-  SKILL,
-  ULT,
-  FUA,
-  DOT,
-  BREAK,
-  SUPER_BREAK,
-  MEMO,
-  ADDITIONAL,
+  BASIC = 1,
+  SKILL = 2,
+  ULT = 4,
+  FUA = 8,
+  DOT = 16,
+  BREAK = 32,
+  SUPER_BREAK = 64,
+  MEMO = 128,
+  ADDITIONAL = 256,
 }
 
 export enum AbilityType {
-  BASIC,
-  SKILL,
-  ULT,
-  FUA,
-  DOT, // *
-  BREAK, // *
-  MEMO_SKILL,
-  MEMO_TALENT,
+  BASIC = 1,
+  SKILL = 2,
+  ULT = 4,
+  FUA = 8,
+  DOT = 16,
+  BREAK = 32,
+  MEMO_SKILL = 64,
+  MEMO_TALENT = 128,
 }
 
 type AbilityTypeKeys = keyof typeof AbilityType

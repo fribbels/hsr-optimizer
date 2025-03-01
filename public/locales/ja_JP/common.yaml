@@ -165,6 +165,7 @@ DMGTypes:
   ULT: 必殺技ダメージ
   FUA: 追加攻撃ダメージ
   MEMO_SKILL: 精霊スキルダメージ
+  MEMO_TALENT: 精霊天賦ダメージ
   DOT: 持続ダメージ
   BREAK: 撃破ダメージ
   CV: CV
@@ -174,6 +175,7 @@ ShortDMGTypes:
   Ult: 必殺技
   Fua: 追加攻撃
   Memo_Skill: 精霊スキル
+  Memo_Talent: 精霊天賦
   Dot: 持続
   Break: 撃破
   CV: CV

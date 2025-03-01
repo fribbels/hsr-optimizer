@@ -30,6 +30,7 @@ SortOptions:
   ULT: 必殺技ダメージ順
   FUA: 追加攻撃ダメージ順
   MEMO_SKILL: 精霊スキルダメージ順
+  MEMO_TALENT: 精霊天賦ダメージ順
   DOT: 持続ダメージ順
   BREAK: 弱点撃破ダメージ順
   HEAL: 治癒量順
@@ -120,6 +121,8 @@ Grid:
         追加攻撃
       MEMO_SKILL: |-
         精霊スキル
+      MEMO_TALENT: |-
+        精霊天賦
       DOT: |-
         持続
       BREAK: |-
@@ -157,6 +160,8 @@ Grid:
         追加攻撃
       MEMO_SKILL: |-
         精霊スキル
+      MEMO_TALENT: |-
+        精霊天賦
       DOT: |-
         持続
       BREAK: |-
@@ -410,6 +415,7 @@ ComboFilter:
     Ult: 必殺
     Fua: 追加
     MemoSkill: 精霊スキル
+    MemoTalent: 精霊天賦
   RotationButton: 高度なスキル回しの設定
 ComboDrawer:
   NoConditionals: 条件付き追加能力なし
@@ -544,6 +550,7 @@ ExpandedDataPanel:
       DOT_DMG: 持続
       BREAK_DMG: 撃破
       MEMO_SKILL_DMG: 精霊スキル
+      MEMO_TALENT_DMG: 精霊天賦
     TooltipText:
       abilityDmg: アビリティダメージ
       breakDmg: 撃破ダメージ

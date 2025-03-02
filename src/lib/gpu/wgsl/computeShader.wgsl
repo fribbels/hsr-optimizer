@@ -638,7 +638,6 @@ fn calculateDamage(
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
   let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
-  let baseTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER;
 
   // === Super / Break ===
 
@@ -653,16 +652,14 @@ fn calculateDamage(
     * (1 + x.BE)
     * (1 + x.BREAK_DMG_BOOST);
 
-  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER;
-
   let baseSuperBreakInstanceDmg
     = baseUniversalMulti
     * 3767.5533
-    * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * calculateDefMulti(baseDefPen + x.SUPER_BREAK_DEF_PEN)
+    * (1 + x.VULNERABILITY + x.SUPER_BREAK_VULNERABILITY)
     * (1 - baseResistance)
     * (1 + x.BE)
-    * (1 + x.BREAK_DMG_BOOST)
+    * (1 + x.SUPER_BREAK_DMG_BOOST)
     * (0.03333333333f);
 
   if (actionIndex == 0) {
@@ -671,6 +668,7 @@ fn calculateDamage(
     let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
     let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
     let dotEhrMulti = calculateEhrMulti(p_x);
+    let dotTrueDmgMulti = x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
 
     if (x.DOT_DMG > 0) {
       (*p_x).DOT_DMG = x.DOT_DMG
@@ -680,7 +678,7 @@ fn calculateDamage(
         * (dotVulnerabilityMulti)
         * (dotResMulti)
         * (dotEhrMulti)
-        * (baseTrueDmgMulti);
+        * (dotTrueDmgMulti);
     }
 
     if (x.HEAL_VALUE > 0) {
@@ -707,7 +705,6 @@ fn calculateDamage(
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.BASIC_DMG,
       x.BASIC_DMG_BOOST,
@@ -737,7 +734,6 @@ fn calculateDamage(
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.SKILL_DMG,
       x.SKILL_DMG_BOOST,
@@ -767,7 +763,6 @@ fn calculateDamage(
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.ULT_DMG,
       x.ULT_DMG_BOOST,
@@ -797,7 +792,6 @@ fn calculateDamage(
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.FUA_DMG,
       x.FUA_DMG_BOOST,
@@ -827,7 +821,6 @@ fn calculateDamage(
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.MEMO_SKILL_DMG,
       x.MEMO_SKILL_DMG_BOOST,
@@ -859,7 +852,6 @@ fn calculateDamage(
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.MEMO_TALENT_DMG,
       x.MEMO_TALENT_DMG_BOOST,
@@ -883,7 +875,9 @@ fn calculateDamage(
     (*p_x).MEMO_TALENT_DMG += (*p_m).MEMO_TALENT_DMG;
   }
 
-  (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
+  (*p_x).BREAK_DMG *= 1 + x.TRUE_DMG_MODIFIER + x.BREAK_TRUE_DMG_MODIFIER;
+  (*p_x).CR += x.CR_BOOST;
+  (*p_x).CD += x.CD_BOOST;
 }
 
 fn calculateDefMulti(defPen: f32) -> f32 {
@@ -911,7 +905,6 @@ fn calculateAbilityDmg(
   baseDefPen: f32,
   baseResistance: f32,
   baseSuperBreakInstanceDmg: f32,
-  baseSuperBreakModifier: f32,
   baseBreakEfficiencyBoost: f32,
   abilityDmg: f32,
   abilityDmgBoost: f32,
@@ -935,8 +928,8 @@ fn calculateAbilityDmg(
 
   var abilityCritDmgOutput: f32 = 0;
   if (abilityDmg > 0) {
-    let abilityCr = min(1, x.CR + abilityCrBoost);
-    let abilityCd = x.CD + abilityCdBoost;
+    let abilityCr = min(1, x.CR + x.CR_BOOST + abilityCrBoost);
+    let abilityCd = x.CD + x.CD_BOOST + abilityCdBoost;
     let abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr);
     let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
     let abilityDefMulti = calculateDefMulti(baseDefPen + abilityDefPen);
@@ -963,9 +956,10 @@ fn calculateAbilityDmg(
   // === Super Break DMG ===
 
   var abilitySuperBreakDmgOutput: f32 = 0;
-  if (baseSuperBreakModifier + abilitySuperBreakModifier > 0) {
+  let superBreakModifier = x.SUPER_BREAK_MODIFIER + abilitySuperBreakModifier;
+  if (superBreakModifier > 0) {
     abilitySuperBreakDmgOutput = baseSuperBreakInstanceDmg
-      * (baseSuperBreakModifier + abilitySuperBreakModifier)
+      * (superBreakModifier)
       * (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost)
       * (abilityToughnessDmg);
   }

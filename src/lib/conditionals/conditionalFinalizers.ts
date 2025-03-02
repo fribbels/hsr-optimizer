@@ -1,3 +1,4 @@
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { calculateAshblazingSetP } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
@@ -41,6 +42,36 @@ export const dotFinalizer = (x: ComputedStatsArray) => x.DOT_DMG.buff(x.a[Key.DO
 export const fuaFinalizer = (x: ComputedStatsArray) => x.FUA_DMG.buff(x.a[Key.FUA_HP_SCALING] * x.a[Key.HP] + x.a[Key.FUA_ATK_SCALING] * boostedAtk(x, x.a[Key.FUA_ATK_P_BOOST]) + x.a[Key.FUA_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 export const memoSkillFinalizer = (x: ComputedStatsArray) => x.MEMO_SKILL_DMG.buff(x.a[Key.MEMO_SKILL_HP_SCALING] * x.a[Key.HP] + x.a[Key.MEMO_SKILL_ATK_SCALING] * boostedAtk(x, x.a[Key.MEMO_SKILL_ATK_P_BOOST]) + x.a[Key.MEMO_SKILL_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 export const memoTalentFinalizer = (x: ComputedStatsArray) => x.MEMO_TALENT_DMG.buff(x.a[Key.MEMO_TALENT_HP_SCALING] * x.a[Key.HP] + x.a[Key.MEMO_TALENT_ATK_SCALING] * boostedAtk(x, x.a[Key.MEMO_TALENT_ATK_P_BOOST]) + x.a[Key.MEMO_TALENT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
+
+const atkFinalizersByAbilityType: Record<number, (x: ComputedStatsArray) => void> = {
+  [AbilityType.BASIC]: basicAtkFinalizer,
+  [AbilityType.SKILL]: skillAtkFinalizer,
+  [AbilityType.ULT]: ultAtkFinalizer,
+  [AbilityType.FUA]: fuaAtkFinalizer,
+  [AbilityType.DOT]: dotAtkFinalizer,
+}
+
+export function standardAtkFinalizers(x: ComputedStatsArray, abilities: AbilityType[]) {
+  for (const abilityType of abilities) {
+    atkFinalizersByAbilityType[abilityType](x)
+  }
+}
+
+const gpuAtkFinalizersByAbilityType: Record<number, () => void> = {
+  [AbilityType.BASIC]: gpuBasicAtkFinalizer,
+  [AbilityType.SKILL]: gpuSkillAtkFinalizer,
+  [AbilityType.ULT]: gpuUltAtkFinalizer,
+  [AbilityType.FUA]: gpuFuaAtkFinalizer,
+  [AbilityType.DOT]: gpuDotAtkFinalizer,
+}
+
+export function gpuStandardAtkFinalizers(abilities: AbilityType[]) {
+  let result = ''
+  for (const abilityType of abilities) {
+    result += gpuAtkFinalizersByAbilityType[abilityType]()
+  }
+  return result
+}
 
 export function boostedAtk(x: ComputedStatsArray, abilityBoost: number) {
   return (x.a[Key.ATK] + (abilityBoost + x.a[Key.ATK_P_BOOST]) * x.a[Key.BASE_ATK])

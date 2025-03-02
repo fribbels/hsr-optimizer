@@ -1,4 +1,5 @@
 import {
+  AbilityType,
   ADDITIONAL_DMG_TYPE,
   BASIC_DMG_TYPE,
   BREAK_DMG_TYPE,
@@ -168,29 +169,6 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
 
   DMG: {},
 } as const
-
-export enum DamageType {
-  BASIC = 1,
-  SKILL = 2,
-  ULT = 4,
-  FUA = 8,
-  DOT = 16,
-  BREAK = 32,
-  SUPER_BREAK = 64,
-  MEMO = 128,
-  ADDITIONAL = 256,
-}
-
-export enum AbilityType {
-  BASIC = 1,
-  SKILL = 2,
-  ULT = 4,
-  FUA = 8,
-  DOT = 16,
-  BREAK = 32,
-  MEMO_SKILL = 64,
-  MEMO_TALENT = 128,
-}
 
 type AbilityTypeKeys = keyof typeof AbilityType
 type FilteredKeys = {

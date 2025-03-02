@@ -28,30 +28,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   const baseUniversalMulti = a[Key.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
   const baseResistance = context.enemyDamageResistance - a[Key.RES_PEN] - context.combatBuffs.RES_PEN - getResPenType(x, context.elementalResPenType)
   const baseBreakEfficiencyBoost = 1 + a[Key.BREAK_EFFICIENCY_BOOST]
-  const baseTrueDmgMulti = 1 + a[Key.TRUE_DMG_MODIFIER]
-
-  // === Default ===
-
-  if (action.actionType == 'DEFAULT') {
-    const dotDmgBoostMulti = baseDmgBoost + a[Key.DOT_DMG_BOOST]
-    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + a[Key.DOT_DEF_PEN])
-    const dotVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + a[Key.DOT_VULNERABILITY]
-    const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
-    const dotEhrMulti = calculateEhrMulti(x, context)
-
-    a[Key.DOT_DMG] = calculateDotDmg(
-      x,
-      action,
-      Key.DOT_DMG,
-      a[Key.DOT_DMG],
-      (baseUniversalMulti),
-      (dotDmgBoostMulti),
-      (dotDefMulti),
-      (dotVulnerabilityMulti),
-      (dotResMulti),
-      (dotEhrMulti),
-    )
-  }
 
   // === Super / Break ===
 
@@ -67,9 +43,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.BE])
     * (1 + a[Key.BREAK_DMG_BOOST])
 
-  // The % of Super Break instance dmg
-  const baseSuperBreakModifier = a[Key.SUPER_BREAK_MODIFIER]
-
   // The multiplier for an instance of 100% Super Break damage
   // Multiply this by the (1 + BREAK_EFFICIENCY_BOOST) * (SUPER_BREAK_MODIFIER)
   const baseSuperBreakInstanceDmg
@@ -82,6 +55,31 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     * (1 + a[Key.SUPER_BREAK_DMG_BOOST])
     * (1 / 30)
 
+  // === Default ===
+
+  if (action.actionType == 'DEFAULT') {
+    const dotDmgBoostMulti = baseDmgBoost + a[Key.DOT_DMG_BOOST]
+    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + a[Key.DOT_DEF_PEN])
+    const dotVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + a[Key.DOT_VULNERABILITY]
+    const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
+    const dotEhrMulti = calculateEhrMulti(x, context)
+    const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER]
+
+    a[Key.DOT_DMG] = calculateDotDmg(
+      x,
+      action,
+      Key.DOT_DMG,
+      a[Key.DOT_DMG],
+      (baseUniversalMulti),
+      (dotDmgBoostMulti),
+      (dotDefMulti),
+      (dotVulnerabilityMulti),
+      (dotResMulti),
+      (dotEhrMulti),
+      (dotTrueDmgMulti),
+    )
+  }
+
   if (action.actionType == 'BASIC' || action.actionType == 'DEFAULT') {
     a[Key.BASIC_DMG] = calculateAbilityDmg(
       x,
@@ -92,7 +90,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       Key.BASIC_DMG,
       a[Key.BASIC_DMG],
@@ -125,7 +122,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       Key.SKILL_DMG,
       a[Key.SKILL_DMG],
@@ -158,7 +154,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       Key.ULT_DMG,
       a[Key.ULT_DMG],
@@ -191,7 +186,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       baseDefPen,
       baseResistance,
       baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       Key.FUA_DMG,
       a[Key.FUA_DMG],
@@ -227,7 +221,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseDefPen,
         baseResistance,
         baseSuperBreakInstanceDmg,
-        baseSuperBreakModifier,
         baseBreakEfficiencyBoost,
         Key.MEMO_SKILL_DMG,
         a[Key.MEMO_SKILL_DMG],
@@ -264,7 +257,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         baseDefPen,
         baseResistance,
         baseSuperBreakInstanceDmg,
-        baseSuperBreakModifier,
         baseBreakEfficiencyBoost,
         Key.MEMO_TALENT_DMG,
         a[Key.MEMO_TALENT_DMG],
@@ -329,7 +321,6 @@ function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
 
 function calculateShield(x: ComputedStatsArray, context: OptimizerContext) {
   const a = x.a
-
   a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + a[Key.SHIELD_BOOST])
 }
 
@@ -342,7 +333,6 @@ function calculateAbilityDmg(
   baseDefPen: number,
   baseResistance: number,
   baseSuperBreakInstanceDmg: number,
-  baseSuperBreakModifier: number,
   baseBreakEfficiencyBoost: number,
   abilityKey: number,
   abilityDmg: number,
@@ -400,12 +390,13 @@ function calculateAbilityDmg(
   // === Super Break DMG ===
 
   let abilitySuperBreakDmgOutput = 0
-  if (baseSuperBreakModifier + abilitySuperBreakModifier > 0) {
+  const superBreakModifier = a[Key.SUPER_BREAK_MODIFIER] + abilitySuperBreakModifier
+  if (superBreakModifier > 0) {
     abilitySuperBreakDmgOutput = calculateSuperBreakDmg(
-      baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier + abilitySuperBreakModifier,
-      baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost,
-      abilityToughnessDmg,
+      (baseSuperBreakInstanceDmg),
+      (superBreakModifier),
+      (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost),
+      (abilityToughnessDmg),
     )
   }
 
@@ -419,7 +410,7 @@ function calculateAbilityDmg(
     abilityAdditionalDmgOutput = calculateAdditionalDmg(
       abilityAdditionalDmg,
       (baseUniversalMulti),
-      (baseDmgBoost),
+      (baseDmgBoost + a[Key.ADDITIONAL_DMG_BOOST]),
       calculateDefMulti(eLevel, baseDefPen),
       (1 + a[Key.VULNERABILITY]),
       (abilityAdditionalCritMulti),
@@ -442,7 +433,7 @@ function calculateAbilityDmg(
 
   let memoJointDmgOutput = 0
   if (abilityMemoJointDamage > 0) {
-    memoJointDmgOutput += abilityMemoJointDamage
+    memoJointDmgOutput = abilityMemoJointDamage
   }
 
   if (x.trace && action.actionType == 'DEFAULT') {
@@ -455,6 +446,7 @@ function calculateAbilityDmg(
     splits.trueDmg = trueDmgOutput
     splits.jointDmg = memoJointDmgOutput
   }
+
   return primaryDmgOutput + trueDmgOutput + memoJointDmgOutput
 }
 
@@ -501,6 +493,7 @@ function calculateDotDmg(
   vulnerabilityMulti: number,
   resMulti: number,
   ehrMulti: number,
+  trueDmgMulti: number,
 ) {
   const dotDmg = baseDmg
     * universalMulti
@@ -510,7 +503,7 @@ function calculateDotDmg(
     * resMulti
     * ehrMulti
 
-  const trueDmg = dotDmg * x.a[Key.TRUE_DMG_MODIFIER]
+  const trueDmg = dotDmg * trueDmgMulti
 
   if (x.trace && action.actionType == 'DEFAULT') {
     const name = StatsConfigByIndex[abilityKey].name

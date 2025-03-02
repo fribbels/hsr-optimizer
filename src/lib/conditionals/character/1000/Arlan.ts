@@ -1,5 +1,5 @@
-import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { basicAtkFinalizer, gpuBasicAtkFinalizer, gpuSkillAtkFinalizer, gpuUltAtkFinalizer, skillAtkFinalizer, ultAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAtkFinalizers, standardAtkFinalizers } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -27,6 +27,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1008')
+
+  const abilities = [
+    AbilityType.BASIC,
+    AbilityType.SKILL,
+    AbilityType.ULT,
+  ]
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.40, 2.64)
@@ -70,20 +76,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, SOURCE_E1)
       buffAbilityDmg(x, ULT_DMG_TYPE, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-      basicAtkFinalizer(x)
-      skillAtkFinalizer(x)
-      ultAtkFinalizer(x)
-    },
-    gpuFinalizeCalculations: () =>
-      gpuBasicAtkFinalizer()
-      + gpuSkillAtkFinalizer()
-      + gpuUltAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizers(x, abilities),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizers(abilities),
   }
 }

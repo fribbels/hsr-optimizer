@@ -27,6 +27,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1308')
 
+  const abilities = [
+    AbilityType.BASIC,
+    AbilityType.SKILL,
+    AbilityType.ULT,
+  ]
+
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
 
@@ -44,12 +50,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     1: (e >= 2) ? 0.60 : 0.15,
     2: 0.60,
   }
-
-  const abilities = [
-    AbilityType.BASIC,
-    AbilityType.SKILL,
-    AbilityType.ULT,
-  ]
 
   const defaults = {
     crimsonKnotStacks: maxCrimsonKnotStacks,
@@ -164,9 +164,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ATK_SCALING.buff(ultStygianResurgeScaling, SOURCE_ULT)
       x.ULT_ATK_SCALING.buff(r.stygianResurgeHitsOnTarget * ultThunderCoreScaling, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(105, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(35, SOURCE_ULT)
 
       return x
     },

@@ -660,7 +660,7 @@ fn calculateDamage(
     * (1 - baseResistance)
     * (1 + x.BE)
     * (1 + x.SUPER_BREAK_DMG_BOOST)
-    * (0.03333333333f);
+    * (0.10f);
 
   if (actionIndex == 0) {
     let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
@@ -1305,6 +1305,21 @@ fn calculateAshblazingSet(
   if (p4(setCount) >= 1) {
     let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
     let ashblazingMulti = hitMulti * baseATK;
+
+    return ashblazingMulti - ashblazingAtk;
+  }
+
+  return 0;
+}
+
+fn calculateAshblazingSetP(
+  setCount: i32,
+  valueTheAshblazingGrandDuke: i32,
+  hitMulti: f32,
+) -> f32 {
+  if (p4(setCount) >= 1) {
+    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke);
+    let ashblazingMulti = hitMulti;
 
     return ashblazingMulti - ashblazingAtk;
   }

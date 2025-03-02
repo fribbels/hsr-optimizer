@@ -92,6 +92,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   MEMO_BUFF_PRIORITY: { flat: true },
   DEPRIORITIZE_BUFFS: { flat: true },
   COMBO_DMG: {},
+  ABILITIES: {},
 
   // DOT
   DOT_CHANCE: {},

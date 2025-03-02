@@ -1,6 +1,6 @@
-import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ashblazingWgsl, standardFuaFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -83,6 +83,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
+    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.ABILITIES.set(AbilityType.BASIC | AbilityType.SKILL | AbilityType.ULT | AbilityType.FUA, Source.NONE)
+    },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -109,15 +114,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, SOURCE_SKILL)
       buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 60 : 30, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 20 : 10, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const hitMulti = hitMultiByTargets[context.enemyCount]
-      standardFuaFinalizer(x, action, context, hitMulti)
+      x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, hitMulti), Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

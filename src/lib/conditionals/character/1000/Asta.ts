@@ -1,4 +1,5 @@
-import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAtkFinalizers, standardAtkFinalizers } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -26,6 +27,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1009')
 
+  const abilities = [
+    AbilityType.BASIC,
+    AbilityType.SKILL,
+    AbilityType.DOT,
+  ]
+
   const ultSpdBuffValue = ult(e, 50, 52.8)
   const talentStacksAtkBuff = talent(e, 0.14, 0.154)
   const talentStacksDefBuff = 0.06
@@ -33,7 +40,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const basicScaling = basic(e, 1.0, 1.1)
   const skillScaling = skill(e, 0.50, 0.55)
-  const ultScaling = ult(e, 0, 0)
   const dotScaling = basic(e, 0.50, 0.55)
 
   const defaults = {
@@ -101,11 +107,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Scaling
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_ATK_SCALING.buff(skillScaling + r.skillExtraDmgHits * skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(30 + 15 * r.skillExtraDmgHits, SOURCE_SKILL)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(10 + 5 * r.skillExtraDmgHits, SOURCE_SKILL)
 
       x.DOT_CHANCE.set(0.8, SOURCE_TRACE)
 
@@ -119,7 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.FIRE_DMG_BOOST.buffTeam((m.fireDmgBoost) ? 0.18 : 0, SOURCE_TRACE)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizers(x, abilities),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizers(abilities),
   }
 }

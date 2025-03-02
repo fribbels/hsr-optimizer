@@ -1,5 +1,5 @@
-import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAtkFinalizers, standardAtkFinalizers } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -27,6 +27,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1002')
+
+  const abilities = [
+    AbilityType.BASIC,
+    AbilityType.SKILL,
+    AbilityType.ULT,
+  ]
 
   const extraPenValue = talent(e, 0.36, 0.396)
 
@@ -90,13 +96,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buff((r.talentPenBuff) ? extraPenValue : 0, SOURCE_TALENT)
       buffAbilityDmg(x, BASIC_DMG_TYPE, (r.enemySlowed) ? 0.40 : 0, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizers(x, abilities),
+    gpuFinalizeCalculations: () => gpuStandardAtkFinalizers(abilities),
   }
 }

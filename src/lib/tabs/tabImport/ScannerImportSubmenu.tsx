@@ -19,6 +19,7 @@ const { Text } = Typography
 type ParsedCharacter = {
   characterLevel: number
   lightConeLevel: number
+  characterId: string
 }
 
 enum Stages {
@@ -136,7 +137,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       const charactersToImport = onlyImportExisting
-        ? currentCharacters?.filter((char) => DB.getCharacterById(char.id))
+        ? currentCharacters?.filter((char) => DB.getCharacterById(char.characterId))
         : currentCharacters
 
       DB.mergeRelicsWithState(currentRelics, charactersToImport)

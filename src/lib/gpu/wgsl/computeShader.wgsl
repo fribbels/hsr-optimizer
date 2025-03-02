@@ -633,6 +633,10 @@ fn calculateDamage(
   let m = *p_m;
   let eLevel: f32 = f32(enemyLevel);
 
+  (*p_x).CR += x.CR_BOOST;
+  (*p_x).CD += x.CD_BOOST;
+  (*p_x).ATK += x.ATK_P_BOOST * baseATK;
+
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
@@ -697,187 +701,28 @@ fn calculateDamage(
     (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
   }
 
-  if (abilityType == 1 || actionIndex == 0) {
-    (*p_x).BASIC_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseBreakEfficiencyBoost,
-      x.BASIC_DMG,
-      x.BASIC_DMG_BOOST,
-      x.BASIC_VULNERABILITY,
-      x.BASIC_DEF_PEN,
-      x.BASIC_RES_PEN,
-      x.BASIC_CR_BOOST,
-      x.BASIC_CD_BOOST,
-      x.BASIC_FINAL_DMG_BOOST,
-      x.BASIC_BREAK_EFFICIENCY_BOOST,
-      x.BASIC_SUPER_BREAK_MODIFIER,
-      x.BASIC_BREAK_DMG_MODIFIER,
-      x.BASIC_TOUGHNESS_DMG,
-      x.BASIC_ADDITIONAL_DMG,
-      0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.BASIC_TRUE_DMG_MODIFIER,
-      m.BASIC_DMG,
-    );
-  }
-
-  if (abilityType == 2 || actionIndex == 0) {
-    (*p_x).SKILL_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseBreakEfficiencyBoost,
-      x.SKILL_DMG,
-      x.SKILL_DMG_BOOST,
-      x.SKILL_VULNERABILITY,
-      x.SKILL_DEF_PEN,
-      x.SKILL_RES_PEN,
-      x.SKILL_CR_BOOST,
-      x.SKILL_CD_BOOST,
-      x.SKILL_FINAL_DMG_BOOST,
-      0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
-      0, // x.SKILL_SUPER_BREAK_MODIFIER,
-      0, // x.SKILL_BREAK_DMG_MODIFIER,
-      x.SKILL_TOUGHNESS_DMG,
-      x.SKILL_ADDITIONAL_DMG,
-      0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.SKILL_TRUE_DMG_MODIFIER,
-      0, // m.SKILL_DMG,
-    );
-  }
-
-  if (abilityType == 4 || actionIndex == 0) {
-    (*p_x).ULT_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseBreakEfficiencyBoost,
-      x.ULT_DMG,
-      x.ULT_DMG_BOOST,
-      x.ULT_VULNERABILITY,
-      x.ULT_DEF_PEN,
-      x.ULT_RES_PEN,
-      x.ULT_CR_BOOST,
-      x.ULT_CD_BOOST,
-      x.ULT_FINAL_DMG_BOOST,
-      x.ULT_BREAK_EFFICIENCY_BOOST,
-      0, // x.ULT_SUPER_BREAK_MODIFIER,
-      0, // x.ULT_BREAK_DMG_MODIFIER,
-      x.ULT_TOUGHNESS_DMG,
-      x.ULT_ADDITIONAL_DMG,
-      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
-      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.ULT_TRUE_DMG_MODIFIER,
-      m.ULT_DMG,
-    );
-  }
-
-  if (abilityType == 8 || actionIndex == 0) {
-    (*p_x).FUA_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseBreakEfficiencyBoost,
-      x.FUA_DMG,
-      x.FUA_DMG_BOOST,
-      x.FUA_VULNERABILITY,
-      x.FUA_DEF_PEN,
-      x.FUA_RES_PEN,
-      x.FUA_CR_BOOST,
-      x.FUA_CD_BOOST,
-      0, // x.FUA_FINAL_DMG_BOOST,
-      0, // x.FUA_BREAK_EFFICIENCY_BOOST,
-      0, // x.FUA_SUPER_BREAK_MODIFIER,
-      0, // x.FUA_BREAK_DMG_MODIFIER,
-      x.FUA_TOUGHNESS_DMG,
-      x.FUA_ADDITIONAL_DMG,
-      0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.FUA_TRUE_DMG_MODIFIER,
-      0, // m.FUA_DMG,
-    );
-  }
-
-  if (abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
-    (*p_x).MEMO_SKILL_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseBreakEfficiencyBoost,
-      x.MEMO_SKILL_DMG,
-      x.MEMO_SKILL_DMG_BOOST,
-      0, // x.MEMO_SKILL_VULNERABILITY,
-      0, // x.MEMO_SKILL_DEF_PEN,
-      0, // x.MEMO_SKILL_RES_PEN,
-      0, // x.MEMO_SKILL_CR_BOOST,
-      0, // x.MEMO_SKILL_CD_BOOST,
-      0, // x.MEMO_SKILL_FINAL_DMG_BOOST,
-      0, // x.MEMO_SKILL_BREAK_EFFICIENCY_BOOST,
-      0, // x.MEMO_SKILL_SUPER_BREAK_MODIFIER,
-      0, // x.MEMO_SKILL_BREAK_DMG_MODIFIER,
-      x.MEMO_SKILL_TOUGHNESS_DMG,
-      0, // x.MEMO_SKILL_ADDITIONAL_DMG,
-      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.MEMO_SKILL_TRUE_DMG_MODIFIER,
-      0, // m.MEMO_DMG,
-    );
-
-    (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
-  }
-
-  if (abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
-    (*p_x).MEMO_TALENT_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseBreakEfficiencyBoost,
-      x.MEMO_TALENT_DMG,
-      x.MEMO_TALENT_DMG_BOOST,
-      0, // x.MEMO_TALENT_VULNERABILITY,
-      0, // x.MEMO_TALENT_DEF_PEN,
-      0, // x.MEMO_TALENT_RES_PEN,
-      0, // x.MEMO_TALENT_CR_BOOST,
-      0, // x.MEMO_TALENT_CD_BOOST,
-      0, // x.MEMO_TALENT_FINAL_DMG_BOOST,
-      0, // x.MEMO_TALENT_BREAK_EFFICIENCY_BOOST,
-      0, // x.MEMO_TALENT_SUPER_BREAK_MODIFIER,
-      0, // x.MEMO_TALENT_BREAK_DMG_MODIFIER,
-      x.MEMO_TALENT_TOUGHNESS_DMG,
-      0, // x.MEMO_TALENT_ADDITIONAL_DMG,
-      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.MEMO_TALENT_TRUE_DMG_MODIFIER,
-      0, // m.MEMO_DMG,
-    );
-
-    (*p_x).MEMO_TALENT_DMG += (*p_m).MEMO_TALENT_DMG;
-  }
+  // START ACTION DAMAGE
+  // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+  /* INJECT ACTION DAMAGE */
+  // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+  // END ACTION DAMAGE
 
   (*p_x).BREAK_DMG *= 1 + x.TRUE_DMG_MODIFIER + x.BREAK_TRUE_DMG_MODIFIER;
-  (*p_x).CR += x.CR_BOOST;
-  (*p_x).CD += x.CD_BOOST;
+}
+
+fn calculateInitial(
+  p_x: ptr<function, ComputedStats>,
+  abilityDmg: f32,
+  hpScaling: f32,
+  defScaling: f32,
+  atkScaling: f32,
+  atkBoostP: f32
+) -> f32 {
+  let x = *p_x;
+  return abilityDmg
+    + hpScaling * x.HP
+    + defScaling * x.DEF
+    + atkScaling * (x.ATK + atkBoostP * baseATK);
 }
 
 fn calculateDefMulti(defPen: f32) -> f32 {

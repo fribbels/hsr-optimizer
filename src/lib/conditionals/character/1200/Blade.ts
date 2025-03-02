@@ -1,7 +1,6 @@
 import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
+import { ashblazingWgslP } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -81,13 +80,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.ABILITIES.set(AbilityType.BASIC | AbilityType.SKILL | AbilityType.ULT | AbilityType.FUA, Source.NONE)
-    },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -127,29 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return `
-if (${wgslTrue(r.enhancedStateActive)}) {
-  x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
-  x.BASIC_DMG += ${basicEnhancedHpScaling} * x.HP;
-} else {
-  x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-}
-
-x.ULT_DMG += ${ultAtkScaling} * x.ATK;
-x.ULT_DMG += ${ultHpScaling} * x.HP;
-x.ULT_DMG += ${ultLostHpScaling * r.hpPercentLostTotal} * x.HP;
-
-if (${wgslTrue(e >= 1 && context.enemyCount == 1)}) {
-  x.ULT_DMG += 1.50 * ${r.hpPercentLostTotal} * x.HP;
-}
-
-x.FUA_DMG += ${fuaAtkScaling} * (x.ATK + ${ashblazingWgsl(hitMultiByTargets[context.enemyCount])});
-x.FUA_DMG += ${fuaHpScaling} * x.HP;
-
-if (e >= 6) {
-  x.FUA_DMG += 0.50 * x.HP;
-}
-    `
+      return `x.FUA_ATK_P_BOOST += ${ashblazingWgslP(hitMultiByTargets[context.enemyCount])};`
     },
   }
 }

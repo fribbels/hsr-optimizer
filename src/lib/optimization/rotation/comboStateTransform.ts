@@ -38,6 +38,8 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.actions = actions
   context.comboDot = request.comboDot || 0
   context.comboBreak = request.comboBreak || 0
+  context.activeAbilities = context.characterConditionalController.activeAbilities ?? []
+  context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
 function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], request: OptimizerForm, context: OptimizerContext) {

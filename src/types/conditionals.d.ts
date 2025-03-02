@@ -1,3 +1,4 @@
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
@@ -54,6 +55,7 @@ export interface LightConeConditionalsController extends ConditionalsController 
 }
 
 export interface CharacterConditionalsController extends ConditionalsController {
+  activeAbilities: AbilityType[]
 }
 
 export type ConditionalValueMap = Record<string, number | boolean>

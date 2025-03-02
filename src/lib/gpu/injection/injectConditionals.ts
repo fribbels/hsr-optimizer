@@ -1,16 +1,10 @@
-import {
-  BASIC_ABILITY_TYPE,
-  FUA_ABILITY_TYPE,
-  MEMO_SKILL_ABILITY_TYPE,
-  MEMO_TALENT_ABILITY_TYPE,
-  SKILL_ABILITY_TYPE,
-  ULT_ABILITY_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, MEMO_TALENT_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
@@ -153,6 +147,11 @@ const comboBreak: f32 = ${context.comboBreak};
   wgsl += `
 const actionCount = ${actionLength};
 `
+
+  wgsl = wgsl.replace(
+    '/* INJECT ACTION DAMAGE */',
+    indent(injectActionDamage(context), 0),
+  )
 
   return wgsl
 }

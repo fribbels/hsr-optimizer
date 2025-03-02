@@ -1,5 +1,5 @@
-import { NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardHpFinalizer, gpuStandardHpHealFinalizer, standardFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -96,6 +96,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -105,7 +106,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
         x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
@@ -146,11 +147,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK.buffTeam(atkBuffValue, SOURCE_E4)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFinalizer(x)
       standardHpHealFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardHpFinalizer() + gpuStandardHpHealFinalizer()
+      return gpuStandardHpHealFinalizer()
     },
     dynamicConditionals: [
       {

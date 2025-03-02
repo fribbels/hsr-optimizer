@@ -142,8 +142,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.UNCONVERTIBLE_CD_BUFF.buff(ultCdBoostBaseValue, SOURCE_ULT)
       }
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 30 : 0, SOURCE_E4)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 10 : 0, SOURCE_E4)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

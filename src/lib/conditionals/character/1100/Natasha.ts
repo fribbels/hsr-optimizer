@@ -1,7 +1,6 @@
-import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { standardFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -55,6 +54,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -65,7 +65,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.BASIC_HP_SCALING.buff((e >= 6) ? 0.40 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
         x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
@@ -81,17 +81,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFinalizer(x)
       standardHpHealFinalizer(x)
     },
-    gpuFinalizeCalculations: () => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.HEAL_VALUE += x.HEAL_SCALING * x.HP + x.HEAL_FLAT;
-if (${wgslTrue(e >= 6)}) {
-  x.BASIC_DMG += 0.40 * x.HP;
-}
-`
-    },
+    gpuFinalizeCalculations: () => gpuStandardHpHealFinalizer(),
   }
 }

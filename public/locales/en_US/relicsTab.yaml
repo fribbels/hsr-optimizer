@@ -89,7 +89,7 @@ RelicGrid:
         Header: |-
           Selected Char
           ∆ Reroll AVG
-          vs equipped
+          VS Equipped
     CustomCharacters:
       Label: Custom characters
       AvgPotCol:

@@ -266,7 +266,7 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgDelta.Label'),
           percent: true,
         },
-        // Selected Char\n∆ Reroll AVG\nvs equipped | Selected character: Reroll average delta potential vs equipped
+        // Selected Char\n∆ Reroll AVG\nVS Equipped | Selected character: Reroll average delta potential vs equipped
         {
           column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Header'),
           value: 'weights.rerollAvgSelectedEquippedDelta',

@@ -1,10 +1,10 @@
 import { Constants } from 'lib/constants/constants'
+import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
-import structComputedStats from 'lib/gpu/wgsl/structComputedStats.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
@@ -21,6 +21,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
+  wgsl = injectComputedStats(wgsl, gpuParams)
 
   return wgsl
 }
@@ -30,8 +31,6 @@ function injectComputeShader(wgsl: string) {
 ${computeShader}
 
 ${structs}
-
-${structComputedStats}
   `
   return wgsl
 }

@@ -1,27 +1,27 @@
 import { Sets } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
-import { ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
+import { AbilityType, ComputedStatsObject, DamageType } from 'lib/optimization/config/computedStatsConfig'
 
 export const ASHBLAZING_ATK_STACK = 0.06
 
 // Ability types
 export const NONE_TYPE = 0
-export const BASIC_DMG_TYPE = 1
-export const SKILL_DMG_TYPE = 2
-export const ULT_DMG_TYPE = 4
-export const FUA_DMG_TYPE = 8
-export const DOT_DMG_TYPE = 16
-export const BREAK_DMG_TYPE = 32
-export const SUPER_BREAK_DMG_TYPE = 64
-export const MEMO_DMG_TYPE = 128
-export const ADDITIONAL_DMG_TYPE = 256
+export const BASIC_DMG_TYPE = DamageType.BASIC
+export const SKILL_DMG_TYPE = DamageType.SKILL
+export const ULT_DMG_TYPE = DamageType.ULT
+export const FUA_DMG_TYPE = DamageType.FUA
+export const DOT_DMG_TYPE = DamageType.DOT
+export const BREAK_DMG_TYPE = DamageType.BREAK
+export const SUPER_BREAK_DMG_TYPE = DamageType.SUPER_BREAK
+export const MEMO_DMG_TYPE = DamageType.MEMO
+export const ADDITIONAL_DMG_TYPE = DamageType.ADDITIONAL
 
-export const BASIC_ABILITY_TYPE = 1
-export const SKILL_ABILITY_TYPE = 2
-export const ULT_ABILITY_TYPE = 4
-export const FUA_ABILITY_TYPE = 8
-export const MEMO_SKILL_ABILITY_TYPE = 16
-export const MEMO_TALENT_ABILITY_TYPE = 32
+export const BASIC_ABILITY_TYPE = AbilityType.BASIC
+export const SKILL_ABILITY_TYPE = AbilityType.SKILL
+export const ULT_ABILITY_TYPE = AbilityType.ULT
+export const FUA_ABILITY_TYPE = AbilityType.FUA
+export const MEMO_SKILL_ABILITY_TYPE = AbilityType.MEMO_SKILL
+export const MEMO_TALENT_ABILITY_TYPE = AbilityType.MEMO_TALENT
 
 export const BUFF_PRIORITY_SELF = 0
 export const BUFF_PRIORITY_MEMO = 1

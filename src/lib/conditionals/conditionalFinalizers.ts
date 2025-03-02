@@ -13,8 +13,11 @@ x.DOT_DMG += x.DOT_SCALING * x.ATK;
 `
 }
 
-export const gpuBasicAtkFinalizer = () => `x.BASIC_DMG += x.BASIC_SCALING * (x.ATK + (x.BASIC_ATK_P_BOOST + x.ATK_P_BOOST) * baseATK);
-`
+export const gpuBasicAtkFinalizer = () => `x.BASIC_DMG += x.BASIC_ATK_SCALING * (x.ATK + (x.BASIC_ATK_P_BOOST + x.ATK_P_BOOST) * baseATK);\n`
+export const gpuSkillAtkFinalizer = () => `x.SKILL_DMG += x.SKILL_ATK_SCALING * (x.ATK + (x.SKILL_ATK_P_BOOST + x.ATK_P_BOOST) * baseATK);\n`
+export const gpuUltAtkFinalizer = () => `x.ULT_DMG += x.ULT_ATK_SCALING * (x.ATK + (x.ULT_ATK_P_BOOST + x.ATK_P_BOOST) * baseATK);\n`
+export const gpuFuaAtkFinalizer = () => `x.FUA_DMG += x.FUA_ATK_SCALING * (x.ATK + (x.FUA_ATK_P_BOOST + x.ATK_P_BOOST) * baseATK);\n`
+export const gpuDotAtkFinalizer = () => `x.DOT_DMG += x.DOT_ATK_SCALING * (x.ATK + (x.DOT_ATK_P_BOOST + x.ATK_P_BOOST) * baseATK);\n`
 
 export function standardFinalizer(x: ComputedStatsArray) {
   basicFinalizer(x)

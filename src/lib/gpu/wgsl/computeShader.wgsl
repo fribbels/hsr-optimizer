@@ -24,8 +24,10 @@ const BASIC_ABILITY_TYPE = 1;
 const SKILL_ABILITY_TYPE = 2;
 const ULT_ABILITY_TYPE = 4;
 const FUA_ABILITY_TYPE = 8;
-const MEMO_SKILL_ABILITY_TYPE = 16;
-const MEMO_TALENT_ABILITY_TYPE = 32;
+const DOT_ABILITY_TYPE = 16;
+const BREAK_ABILITY_TYPE = 32;
+const MEMO_SKILL_ABILITY_TYPE = 64;
+const MEMO_TALENT_ABILITY_TYPE = 128;
 
 @group(0) @binding(0) var<storage> params : Params;
 
@@ -204,13 +206,13 @@ fn main(
     c.BE  = epsilon + head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
     c.ERR = epsilon + head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
     c.OHB = epsilon + head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
-    c.Physical_DMG  = epsilon + head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
-    c.Fire_DMG      = epsilon + head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
-    c.Ice_DMG       = epsilon + head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
-    c.Lightning_DMG = epsilon + head.Lightning_DMG + hands.Lightning_DMG + body.Lightning_DMG + feet.Lightning_DMG + planarSphere.Lightning_DMG + linkRope.Lightning_DMG;
-    c.Wind_DMG      = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
-    c.Quantum_DMG   = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
-    c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
+    c.PHYSICAL_DMG_BOOST  = epsilon + head.PHYSICAL_DMG_BOOST + hands.PHYSICAL_DMG_BOOST + body.PHYSICAL_DMG_BOOST + feet.PHYSICAL_DMG_BOOST + planarSphere.PHYSICAL_DMG_BOOST + linkRope.PHYSICAL_DMG_BOOST;
+    c.FIRE_DMG_BOOST      = epsilon + head.FIRE_DMG_BOOST + hands.FIRE_DMG_BOOST + body.FIRE_DMG_BOOST + feet.FIRE_DMG_BOOST + planarSphere.FIRE_DMG_BOOST + linkRope.FIRE_DMG_BOOST;
+    c.ICE_DMG_BOOST       = epsilon + head.ICE_DMG_BOOST + hands.ICE_DMG_BOOST + body.ICE_DMG_BOOST + feet.ICE_DMG_BOOST + planarSphere.ICE_DMG_BOOST + linkRope.ICE_DMG_BOOST;
+    c.LIGHTNING_DMG_BOOST = epsilon + head.LIGHTNING_DMG_BOOST + hands.LIGHTNING_DMG_BOOST + body.LIGHTNING_DMG_BOOST + feet.LIGHTNING_DMG_BOOST + planarSphere.LIGHTNING_DMG_BOOST + linkRope.LIGHTNING_DMG_BOOST;
+    c.WIND_DMG_BOOST      = epsilon + head.WIND_DMG_BOOST + hands.WIND_DMG_BOOST + body.WIND_DMG_BOOST + feet.WIND_DMG_BOOST + planarSphere.WIND_DMG_BOOST + linkRope.WIND_DMG_BOOST;
+    c.QUANTUM_DMG_BOOST   = epsilon + head.QUANTUM_DMG_BOOST + hands.QUANTUM_DMG_BOOST + body.QUANTUM_DMG_BOOST + feet.QUANTUM_DMG_BOOST + planarSphere.QUANTUM_DMG_BOOST + linkRope.QUANTUM_DMG_BOOST;
+    c.IMAGINARY_DMG_BOOST = epsilon + head.IMAGINARY_DMG_BOOST + hands.IMAGINARY_DMG_BOOST + body.IMAGINARY_DMG_BOOST + feet.IMAGINARY_DMG_BOOST + planarSphere.IMAGINARY_DMG_BOOST + linkRope.IMAGINARY_DMG_BOOST;
 
     // Calculate basic stats
 
@@ -225,13 +227,13 @@ fn main(
     c.BE  += characterBE + lcBE + traceBE;
     c.ERR += characterERR + lcERR + traceERR;
     c.OHB += characterOHB + lcOHB + traceOHB;
-    c.Physical_DMG  += tracePhysical_DMG + 0.10 * p2(sets.ChampionOfStreetwiseBoxing);
-    c.Fire_DMG      += traceFire_DMG + 0.10 * p2(sets.FiresmithOfLavaForging);
-    c.Ice_DMG       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);
-    c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(sets.BandOfSizzlingThunder);
-    c.Wind_DMG      += traceWind_DMG + 0.10 * p2(sets.EagleOfTwilightLine);
-    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse);
-    c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(sets.WastelanderOfBanditryDesert);
+    c.PHYSICAL_DMG_BOOST  += tracePhysical_DMG + 0.10 * p2(sets.ChampionOfStreetwiseBoxing);
+    c.FIRE_DMG_BOOST      += traceFire_DMG + 0.10 * p2(sets.FiresmithOfLavaForging);
+    c.ICE_DMG_BOOST       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);
+    c.LIGHTNING_DMG_BOOST += traceLightning_DMG + 0.10 * p2(sets.BandOfSizzlingThunder);
+    c.WIND_DMG_BOOST      += traceWind_DMG + 0.10 * p2(sets.EagleOfTwilightLine);
+    c.QUANTUM_DMG_BOOST   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse);
+    c.IMAGINARY_DMG_BOOST += traceImaginary_DMG + 0.10 * p2(sets.WastelanderOfBanditryDesert);
 
     // Calculate set effects
 
@@ -476,7 +478,7 @@ fn main(
       }
 
       if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
-        x.Fire_DMG += 0.12;
+        x.FIRE_DMG_BOOST += 0.12;
       }
 
       if (p2(sets.GuardOfWutheringSnow) >= 1) {
@@ -649,7 +651,7 @@ fn calculateDamage(
     * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
     * (1 - baseResistance)
     * (1 + x.BE)
-    * (1 + x.BREAK_BOOST);
+    * (1 + x.BREAK_DMG_BOOST);
 
   let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER;
 
@@ -660,11 +662,11 @@ fn calculateDamage(
     * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
     * (1 - baseResistance)
     * (1 + x.BE)
-    * (1 + x.BREAK_BOOST)
+    * (1 + x.BREAK_DMG_BOOST)
     * (0.03333333333f);
 
   if (actionIndex == 0) {
-    let dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST;
+    let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
     let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
     let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
     let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
@@ -708,7 +710,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.BASIC_DMG,
-      x.BASIC_BOOST,
+      x.BASIC_DMG_BOOST,
       x.BASIC_VULNERABILITY,
       x.BASIC_DEF_PEN,
       x.BASIC_RES_PEN,
@@ -738,7 +740,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.SKILL_DMG,
-      x.SKILL_BOOST,
+      x.SKILL_DMG_BOOST,
       x.SKILL_VULNERABILITY,
       x.SKILL_DEF_PEN,
       x.SKILL_RES_PEN,
@@ -768,7 +770,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.ULT_DMG,
-      x.ULT_BOOST,
+      x.ULT_DMG_BOOST,
       x.ULT_VULNERABILITY,
       x.ULT_DEF_PEN,
       x.ULT_RES_PEN,
@@ -798,7 +800,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.FUA_DMG,
-      x.FUA_BOOST,
+      x.FUA_DMG_BOOST,
       x.FUA_VULNERABILITY,
       x.FUA_DEF_PEN,
       x.FUA_RES_PEN,
@@ -828,7 +830,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.MEMO_SKILL_DMG,
-      x.MEMO_SKILL_BOOST,
+      x.MEMO_SKILL_DMG_BOOST,
       0, // x.MEMO_SKILL_VULNERABILITY,
       0, // x.MEMO_SKILL_DEF_PEN,
       0, // x.MEMO_SKILL_RES_PEN,
@@ -842,7 +844,7 @@ fn calculateDamage(
       0, // x.MEMO_SKILL_ADDITIONAL_DMG,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.MEMO_TRUE_DMG_MODIFIER,
+      x.MEMO_SKILL_TRUE_DMG_MODIFIER,
       0, // m.MEMO_DMG,
     );
 
@@ -860,7 +862,7 @@ fn calculateDamage(
       baseSuperBreakModifier,
       baseBreakEfficiencyBoost,
       x.MEMO_TALENT_DMG,
-      x.MEMO_TALENT_BOOST,
+      x.MEMO_TALENT_DMG_BOOST,
       0, // x.MEMO_TALENT_VULNERABILITY,
       0, // x.MEMO_TALENT_DEF_PEN,
       0, // x.MEMO_TALENT_RES_PEN,
@@ -874,7 +876,7 @@ fn calculateDamage(
       0, // x.MEMO_TALENT_ADDITIONAL_DMG,
       0, // x.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.MEMO_TRUE_DMG_MODIFIER,
+      x.MEMO_TALENT_TRUE_DMG_MODIFIER,
       0, // m.MEMO_DMG,
     );
 
@@ -977,7 +979,7 @@ fn calculateAbilityDmg(
     let abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr);
     abilityAdditionalDmgOutput = abilityAdditionalDmg
       * (baseUniversalMulti)
-      * (baseDmgBoost + x.ADDITIONAL_BOOST)
+      * (baseDmgBoost + x.ADDITIONAL_DMG_BOOST)
       * calculateDefMulti(baseDefPen)
       * (1 + x.VULNERABILITY)
       * (abilityAdditionalCritMulti)
@@ -1062,25 +1064,25 @@ fn buffAbilityDmg(
   condition: i32
 ) {
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_BOOST += value;
+    (*p_x).BASIC_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_BOOST += value;
+    (*p_x).SKILL_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_BOOST += value;
+    (*p_x).ULT_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_BOOST += value;
+    (*p_x).FUA_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
-    (*p_x).DOT_BOOST += value;
+    (*p_x).DOT_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
-    (*p_x).BREAK_BOOST += value;
+    (*p_x).BREAK_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
-    (*p_x).ADDITIONAL_BOOST += value;
+    (*p_x).ADDITIONAL_DMG_BOOST += value;
   }
 }
 
@@ -1191,25 +1193,25 @@ fn addElementalDmg(
 ) {
   switch (ELEMENT_INDEX) {
     case 0: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Physical_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).PHYSICAL_DMG_BOOST;
     }
     case 1: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Fire_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).FIRE_DMG_BOOST;
     }
     case 2: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Ice_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).ICE_DMG_BOOST;
     }
     case 3: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Lightning_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).LIGHTNING_DMG_BOOST;
     }
     case 4: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Wind_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).WIND_DMG_BOOST;
     }
     case 5: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Quantum_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).QUANTUM_DMG_BOOST;
     }
     case 6: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Imaginary_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).IMAGINARY_DMG_BOOST;
     }
     default: {
 
@@ -1222,25 +1224,25 @@ fn addComputedElementalDmg(
 ) {
   switch (ELEMENT_INDEX) {
     case 0: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Physical_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).PHYSICAL_DMG_BOOST;
     }
     case 1: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Fire_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).FIRE_DMG_BOOST;
     }
     case 2: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Ice_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).ICE_DMG_BOOST;
     }
     case 3: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Lightning_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).LIGHTNING_DMG_BOOST;
     }
     case 4: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Wind_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).WIND_DMG_BOOST;
     }
     case 5: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Quantum_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).QUANTUM_DMG_BOOST;
     }
     case 6: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Imaginary_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).IMAGINARY_DMG_BOOST;
     }
     default: {
 

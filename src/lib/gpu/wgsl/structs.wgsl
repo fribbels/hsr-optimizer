@@ -14,13 +14,13 @@ struct Relic {
   BE: f32,
   ERR: f32,
   OHB: f32,
-  Physical_DMG: f32,
-  Fire_DMG: f32,
-  Ice_DMG: f32,
-  Lightning_DMG: f32,
-  Wind_DMG: f32,
-  Quantum_DMG: f32,
-  Imaginary_DMG: f32,
+  PHYSICAL_DMG_BOOST: f32,
+  FIRE_DMG_BOOST: f32,
+  ICE_DMG_BOOST: f32,
+  LIGHTNING_DMG_BOOST: f32,
+  WIND_DMG_BOOST: f32,
+  QUANTUM_DMG_BOOST: f32,
+  IMAGINARY_DMG_BOOST: f32,
   relicSet: f32, // 22
 }
 
@@ -40,13 +40,13 @@ struct BasicStats {
   BE: f32,
   ERR: f32,
   OHB: f32,
-  Physical_DMG: f32,
-  Fire_DMG: f32,
-  Ice_DMG: f32,
-  Lightning_DMG: f32,
-  Wind_DMG: f32,
-  Quantum_DMG: f32,
-  Imaginary_DMG: f32,
+  PHYSICAL_DMG_BOOST: f32,
+  FIRE_DMG_BOOST: f32,
+  ICE_DMG_BOOST: f32,
+  LIGHTNING_DMG_BOOST: f32,
+  WIND_DMG_BOOST: f32,
+  QUANTUM_DMG_BOOST: f32,
+  IMAGINARY_DMG_BOOST: f32,
 }
 
 struct Sets {

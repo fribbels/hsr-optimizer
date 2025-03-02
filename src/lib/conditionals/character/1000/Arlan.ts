@@ -1,5 +1,5 @@
 import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { basicAtkFinalizer, gpuBasicAtkFinalizer, skillAtkFinalizer, ultAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { basicAtkFinalizer, gpuBasicAtkFinalizer, gpuSkillAtkFinalizer, gpuUltAtkFinalizer, skillAtkFinalizer, ultAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -81,6 +81,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       skillAtkFinalizer(x)
       ultAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: () => gpuBasicAtkFinalizer(),
+    gpuFinalizeCalculations: () =>
+      gpuBasicAtkFinalizer()
+      + gpuSkillAtkFinalizer()
+      + gpuUltAtkFinalizer(),
   }
 }

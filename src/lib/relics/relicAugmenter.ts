@@ -2,7 +2,7 @@ import { Constants, Stats } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/relic'
+import { Relic, UnaugmentedRelic } from 'types/relic'
 
 export type AugmentedStats = {
   [key: string]: number
@@ -12,7 +12,7 @@ export type AugmentedStats = {
 }
 
 export const RelicAugmenter = {
-  augment: function (relic: Relic) {
+  augment: function <T extends UnaugmentedRelic>(relic: T) {
     // console.log('Augmenting relic', relic)
     const augmentedStats: AugmentedStats = {} as AugmentedStats
 
@@ -68,12 +68,12 @@ const substatToOrder: Record<string, number> = {
 }
 
 // Relic substats are always sorted in the predefined order above when the user logs out.
-function sortSubstats(relic: Relic) {
+function sortSubstats<T extends Pick<Relic, 'substats'>>(relic: T) {
   relic.substats = relic.substats.sort((a, b) => substatToOrder[a.stat] - substatToOrder[b.stat])
 }
 
 // Changes the augmented stats percents to decimals
-function fixAugmentedStats(relics: Relic[]) {
+function fixAugmentedStats<T extends Pick<Relic, 'augmentedStats'>[]>(relics: T) {
   return relics.map((relic) => {
     for (const stat of Object.values(Constants.Stats)) {
       if (!relic.augmentedStats) continue

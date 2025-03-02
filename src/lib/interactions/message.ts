@@ -1,7 +1,8 @@
 import { TsUtils } from 'lib/utils/TsUtils'
+import React from 'react'
 
 export const Message = {
-  success: (content: string, duration: number = 3) => {
+  success: (content: NonNullable<React.ReactNode>, duration: number = 3) => {
     const key = TsUtils.uuid()
     console.log('Success message:', content)
     void window.messageApi.open({
@@ -13,7 +14,7 @@ export const Message = {
     })
   },
 
-  error: (content: string, duration: number = 3) => {
+  error: (content: NonNullable<React.ReactNode>, duration: number = 3) => {
     const key = TsUtils.uuid()
     console.warn('Error message:', content)
     void window.messageApi.open({
@@ -25,7 +26,7 @@ export const Message = {
     })
   },
 
-  warning: (content: string, duration: number = 3) => {
+  warning: (content: NonNullable<React.ReactNode>, duration: number = 3) => {
     const key = TsUtils.uuid()
     console.warn('Warning message:', content)
     void window.messageApi.open({

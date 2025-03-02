@@ -110,6 +110,15 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   SKILL_OHB: {},
   ULT_OHB: {},
 
+  // Elemental res pen
+  PHYSICAL_RES_PEN: {},
+  FIRE_RES_PEN: {},
+  ICE_RES_PEN: {},
+  LIGHTNING_RES_PEN: {},
+  WIND_RES_PEN: {},
+  QUANTUM_RES_PEN: {},
+  IMAGINARY_RES_PEN: {},
+
   // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE },
   SKILL_DMG_TYPE: { flat: true, default: SKILL_DMG_TYPE },
@@ -131,35 +140,26 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   ATK_P_BOOST: {},
   CR_BOOST: {},
   CD_BOOST: {},
-  DMG_BOOST: {},
+  DMG_BOOST: { separated: true }, // When merged this is just ELEMENTAL_DMG
 
   VULNERABILITY: {},
+  RES_PEN: {},
   DEF_PEN: {},
   BREAK_DEF_PEN: {},
   SUPER_BREAK_DEF_PEN: {},
 
-  RES_PEN: {},
-  PHYSICAL_RES_PEN: {},
-  FIRE_RES_PEN: {},
-  ICE_RES_PEN: {},
-  LIGHTNING_RES_PEN: {},
-  WIND_RES_PEN: {},
-  QUANTUM_RES_PEN: {},
-  IMAGINARY_RES_PEN: {},
-
-  TOUGHNESS_DMG: {},
+  TOUGHNESS_DMG: { separated: true },
   SUPER_BREAK_MODIFIER: {},
   BREAK_EFFICIENCY_BOOST: {},
 
   TRUE_DMG_MODIFIER: {},
   FINAL_DMG_BOOST: {},
-  BREAK_DMG_MODIFIER: {},
+  BREAK_DMG_MODIFIER: { separated: true },
 
-  ADDITIONAL_DMG_BOOST: {},
-  ADDITIONAL_DMG_CR_OVERRIDE: {},
-  ADDITIONAL_DMG_CD_OVERRIDE: {},
-  ADDITIONAL_DMG_SCALING: {},
-  ADDITIONAL_DMG: {},
+  ADDITIONAL_DMG_CR_OVERRIDE: { separated: true },
+  ADDITIONAL_DMG_CD_OVERRIDE: { separated: true },
+  ADDITIONAL_DMG_SCALING: { separated: true },
+  ADDITIONAL_DMG: { separated: true },
 
   DMG: {},
 } as const
@@ -188,6 +188,10 @@ export enum AbilityType {
 }
 
 type AbilityTypeKeys = keyof typeof AbilityType
+type FilteredKeys = {
+  [K in keyof typeof newBaseComputedStatsAbilityPropertiesConfig]:
+  typeof newBaseComputedStatsAbilityPropertiesConfig[K] extends { separated: true } ? never : K
+}[keyof typeof newBaseComputedStatsAbilityPropertiesConfig]
 
 export const BaseComputedStatsConfig = {
   ...newBaseComputedStatsCorePropertiesConfig,
@@ -202,7 +206,15 @@ export const BaseComputedStatsConfig = {
 
       return acc
     }, {} as Record<`${AbilityTypeKeys}_${keyof typeof newBaseComputedStatsAbilityPropertiesConfig}`, object>),
-  ...newBaseComputedStatsAbilityPropertiesConfig,
+
+  ...Object.entries(newBaseComputedStatsAbilityPropertiesConfig)
+    .reduce((acc, [key, value]) => {
+      // @ts-ignore
+      if (!value.separated) {
+        acc[key as FilteredKeys] = value
+      }
+      return acc
+    }, {} as Record<FilteredKeys, object>),
 }
 
 export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig

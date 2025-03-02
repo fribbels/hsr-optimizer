@@ -299,6 +299,8 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   a[Key.BREAK_DMG] += breakTrueDmg
+  a[Key.CR] += a[Key.CR_BOOST]
+  a[Key.CD] += a[Key.CD_BOOST]
 }
 
 const cLevelConst = 20 + 80
@@ -368,8 +370,8 @@ function calculateAbilityDmg(
 
   let abilityCritDmgOutput = 0
   if (abilityDmg) {
-    const abilityCr = Math.min(1, a[Key.CR] + abilityCrBoost)
-    const abilityCd = a[Key.CD] + abilityCdBoost
+    const abilityCr = Math.min(1, a[Key.CR] + a[Key.CR_BOOST] + abilityCrBoost)
+    const abilityCd = a[Key.CD] + a[Key.CD_BOOST] + abilityCdBoost
     const abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr)
     const abilityVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + abilityVulnerability
     const abilityDefMulti = calculateDefMulti(eLevel, baseDefPen + abilityDefPen)
@@ -417,7 +419,7 @@ function calculateAbilityDmg(
     abilityAdditionalDmgOutput = calculateAdditionalDmg(
       abilityAdditionalDmg,
       (baseUniversalMulti),
-      (baseDmgBoost + a[Key.ADDITIONAL_DMG_BOOST]),
+      (baseDmgBoost),
       calculateDefMulti(eLevel, baseDefPen),
       (1 + a[Key.VULNERABILITY]),
       (abilityAdditionalCritMulti),

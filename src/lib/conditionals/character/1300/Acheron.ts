@@ -138,7 +138,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, SOURCE_E1)
+      x.CR_BOOST.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, SOURCE_E1)
 
       x.ELEMENTAL_DMG.buff((r.thunderCoreStacks) * 0.30, SOURCE_TRACE)
       buffAbilityResPen(x, ULT_DMG_TYPE, talentResPen, SOURCE_TALENT)

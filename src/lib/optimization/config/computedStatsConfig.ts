@@ -119,11 +119,13 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   QUANTUM_RES_PEN: {},
   IMAGINARY_RES_PEN: {},
 
-  // Misc variables abilities that dont need to be split yet
+  // Misc variables that dont need to be split into abilities yet
   SUPER_BREAK_DEF_PEN: {},
   SUPER_BREAK_DMG_BOOST: {},
   SUPER_BREAK_VULNERABILITY: {},
   ADDITIONAL_DMG_BOOST: {},
+  ULT_ADDITIONAL_DMG_CR_OVERRIDE: { separated: true },
+  ULT_ADDITIONAL_DMG_CD_OVERRIDE: { separated: true },
 
   // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE },
@@ -161,8 +163,6 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   FINAL_DMG_BOOST: {},
   BREAK_DMG_MODIFIER: { separated: true },
 
-  ADDITIONAL_DMG_CR_OVERRIDE: { separated: true },
-  ADDITIONAL_DMG_CD_OVERRIDE: { separated: true },
   ADDITIONAL_DMG_SCALING: { separated: true },
   ADDITIONAL_DMG: { separated: true },
 

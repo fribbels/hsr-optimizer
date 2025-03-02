@@ -1,5 +1,5 @@
-import { ADDITIONAL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ADDITIONAL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -86,6 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -115,16 +116,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityDmg(x, ADDITIONAL_DMG_TYPE, r.skillTriggerStacks * 0.025, SOURCE_SKILL)
       x.DMG_RED_MULTI.multiply((e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1, SOURCE_E2)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      standardFinalizer(x)
       standardAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardAdditionalDmgAtkFinalizer(),
+    gpuFinalizeCalculations: () => gpuStandardAdditionalDmgAtkFinalizer(),
   }
 }

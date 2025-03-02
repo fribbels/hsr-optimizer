@@ -25,7 +25,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   } = Source.character('1001')
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.50, 1.62)
   const fuaScaling = talent(e, 1.00, 1.10)
 
@@ -35,13 +34,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillShieldFlat = skill(e, 760, 845.5)
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => [],
     defaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // Scaling
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
       x.FUA_DEF_SCALING.buff((e >= 4) ? 0.30 : 0, SOURCE_E4)

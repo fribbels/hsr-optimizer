@@ -1,9 +1,8 @@
-import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ashblazingWgsl, basicFinalizer, boostedAtk, singleAshblazingFuaFinalizer, skillFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -111,6 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -149,7 +149,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       if (e >= 4) {
         x.SPD_P.buff(0.08, SOURCE_E1)
-        x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_E1)
+        x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_E1)
       }
 
       if (e >= 6 && r.e6Buffs) {
@@ -157,10 +157,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.FUA_ATK_SCALING.buff(1.40, SOURCE_E6)
       }
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
 
       return x
     },
@@ -168,19 +168,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const ultHitMulti = getUltHitMulti(action, context)
       const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
 
-      basicFinalizer(x)
-      skillFinalizer(x)
-      singleAshblazingFuaFinalizer(x, action, context, fuaHitMulti)
+      const ultAshblazingAtkP = calculateAshblazingSetP(x, action, context, ultHitMulti)
+      const fuaAshblazingAtkP = calculateAshblazingSetP(x, action, context, fuaHitMulti)
 
-      const boostedAtkValueUlt = boostedAtk(x, x.a[Key.ULT_ATK_P_BOOST] + calculateAshblazingSetP(x, action, context, ultHitMulti))
-      x.ULT_DMG.buff(x.a[Key.ULT_ATK_SCALING] * boostedAtkValueUlt, Source.NONE)
+      x.ULT_ATK_P_BOOST.buff(ultAshblazingAtkP, Source.NONE)
+      x.FUA_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const ultHitMulti = getUltHitMulti(action, context)
+      const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
+
       return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * (x.ATK + ${ashblazingWgsl(getUltHitMulti(action, context))});
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + ${ashblazingWgsl(ASHBLAZING_ATK_STACK * (1 * 1.00))});
+x.ULT_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${ultHitMulti});
+x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${fuaHitMulti});
     `
     },
   }

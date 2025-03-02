@@ -1,5 +1,5 @@
-import { NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, gpuStandardHpHealFinalizer, standardFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -29,8 +29,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   } = Source.character('1211')
 
   const basicScaling = basic(e, 1.0, 1.1)
-  const skillScaling = skill(e, 0, 0)
-  const ultScaling = ult(e, 0, 0)
 
   const skillHealScaling = skill(e, 0.117, 0.1248)
   const skillHealFlat = skill(e, 312, 347.1)
@@ -105,6 +103,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -134,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
       }
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       return x
     },
@@ -147,9 +146,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DMG_RED_MULTI.multiplyTeam((m.talentDmgReductionBuff) ? (1 - 0.10) : 1, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      standardFinalizer(x)
       standardHpHealFinalizer(x)
     },
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer() + gpuStandardHpHealFinalizer(),
+    gpuFinalizeCalculations: () => gpuStandardHpHealFinalizer(),
   }
 }

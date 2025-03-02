@@ -1,5 +1,5 @@
-import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -37,8 +37,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentScaling = talent(e, 0.60, 0.66) + ((e >= 4) ? 0.20 : 0)
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0, 0)
-  const ultScaling = ult(e, 0, 0)
 
   const defaults = {
     benedictionBuff: false,
@@ -106,6 +104,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -124,7 +123,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Boost
       buffAbilityDmg(x, BASIC_DMG_TYPE, 0.40, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       return x
     },
@@ -141,18 +140,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buffSingle((t.benedictionBuff) ? t.teammateAtkBuffValue : 0, SOURCE_SKILL)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      standardFinalizer(x)
       standardAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.ATK;
-    `
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuStandardAdditionalDmgAtkFinalizer(),
     dynamicConditionals: [
       {
         id: 'TingyunAtkConditional',

@@ -1,5 +1,5 @@
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -85,6 +85,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -118,19 +119,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Boost
       x.ICE_RES_PEN.buff((e >= 4 && r.e4CurrentHp80) ? 0.12 : 0, SOURCE_E4)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaFinalizer(x, action, context, hitMulti)
+      boostAshblazingAtkP(x, action, context, hitMulti)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMulti) + gpuStandardAdditionalDmgAtkFinalizer()
+      return gpuBoostAshblazingAtkP(hitMulti) + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

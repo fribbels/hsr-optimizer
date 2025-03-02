@@ -1,5 +1,5 @@
-import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -90,6 +90,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -109,10 +110,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityDmg(x, ULT_DMG_TYPE, (r.enemyToughness50) ? 0.10 : 0, SOURCE_TRACE)
       buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1) ? 0.40 : 0, SOURCE_E1)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(120, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(15 * (r.fuaHits), SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(40, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(5 * (r.fuaHits), SOURCE_TALENT)
 
       return x
     },
@@ -120,7 +121,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.ELEMENTAL_DMG.buff((r.beToDmgBoost) ? Math.min(2.40, x.a[Key.BE]) : 0, SOURCE_TRACE)
-      standardFuaFinalizer(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits as number])
+      boostAshblazingAtkP(x, action, context, hitMultiByFuaHits[action.characterConditionals.fuaHits as number])
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -130,7 +131,7 @@ if (${wgslTrue(r.beToDmgBoost)}) {
   x.ELEMENTAL_DMG += min(2.40, x.BE);
 }
 
-${gpuStandardFuaAtkFinalizer(hitMultiByFuaHits[action.characterConditionals.fuaHits as number])}
+${gpuBoostAshblazingAtkP(hitMultiByFuaHits[action.characterConditionals.fuaHits as number])}
 `
     },
   }

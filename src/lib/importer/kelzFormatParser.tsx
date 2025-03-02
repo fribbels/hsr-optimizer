@@ -3,6 +3,7 @@ import { Typography } from 'antd'
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
 import { Constants, Parts } from 'lib/constants/constants'
+import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
@@ -80,13 +81,16 @@ export type ScannerParserJson = {
 
 export class KelzFormatParser { // TODO abstract class
   config: ScannerConfig
+  badRollInfo: boolean
 
   constructor(config: ScannerConfig) {
     this.config = config
+    this.badRollInfo = false
   }
 
   parse(json: ScannerParserJson) {
-    const t = i18next.getFixedT(null, 'importSaveTab', 'Import.ParserError.Kelz')
+    const tError = i18next.getFixedT(null, 'importSaveTab', 'Import.ParserError')
+    const tWarning = i18next.getFixedT(null, 'importSaveTab', 'Import.ParserWarning')
     const parsed = {
       metadata: {
         trailblazer: 'Stelle',
@@ -97,14 +101,14 @@ export class KelzFormatParser { // TODO abstract class
     }
 
     if (json.source != this.config.sourceString) {
-      throw new Error(t('BadSource', {
+      throw new Error(tError('BadSource', {
         jsonSource: json.source,
         configSource: this.config.sourceString,
       })/* `Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'` */)
     }
 
     if (json.version !== this.config.latestOutputVersion) {
-      throw new Error(t('BadVersion', {
+      throw new Error(tError('BadVersion', {
         jsonVersion: json.version,
         configVersion: this.config.latestOutputVersion,
       })/* `Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'` */)
@@ -118,7 +122,7 @@ export class KelzFormatParser { // TODO abstract class
       Message.warning((
         <Text>
           {/* `Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:` */}
-          {t('OutdatedVersion', { buildVersion })}
+          {tError('OutdatedVersion', { buildVersion })}
           {' '}
           <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
         </Text>
@@ -130,7 +134,7 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => readRelic(r, this.config))
+        .map((r) => readRelic(r, this))
         .map((r) => RelicAugmenter.augment(r) as Relic | null)
         .filter((r): r is NonNullable<typeof r> => {
           if (!r) {
@@ -139,6 +143,11 @@ export class KelzFormatParser { // TODO abstract class
           }
           return true
         })
+    }
+    // "Scanner file is outdated / may contain invalid information. Please update your scanner."
+    if (this.badRollInfo) {
+      Message.warning(tWarning('BadRollInfo'), 10)
+      this.badRollInfo = false // parser isn't necessarily re-instantiated in between parsings
     }
 
     if (json.characters) {
@@ -182,7 +191,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
   }
 }
 
-function readRelic(relic: V4ParserRelic, config: ScannerConfig) {
+function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser) {
   const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
   const part = partMatches.bestMatch.target as Parts
 
@@ -192,7 +201,7 @@ function readRelic(relic: V4ParserRelic, config: ScannerConfig) {
   const enhance = Math.min(Math.max(relic.level, 0), 15)
   const grade = Math.min(Math.max(relic.rarity, 2), 5)
 
-  const { main, substats } = readRelicStats(relic, part, grade, enhance, config)
+  const { main, substats } = readRelicStats(relic, part, grade, enhance, scanner)
 
   let equippedBy: string | undefined
   if (relic.location !== '') {
@@ -210,7 +219,7 @@ function readRelic(relic: V4ParserRelic, config: ScannerConfig) {
     main,
     substats,
     equippedBy,
-    verified: config.speedVerified,
+    verified: scanner.config.speedVerified,
   }
 }
 
@@ -226,8 +235,7 @@ type Affixes = {
   step: number
 }
 
-function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhance: number, config: ScannerConfig) {
-  const t = i18next.getFixedT(null, 'importSaveTab', 'Import.ParserError.Reliquary')
+function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
   const mainStat = ((relic: V4ParserRelic, part: string) => {
     switch (part) {
       case 'Hands':
@@ -238,7 +246,7 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
         return mapMainStatToId(relic.mainstat)
     }
   })(relic, part)
-  if (!mainStat) throw new Error(i18next.t('importSaveTab:Import.ParserError.Kelz.BadMainstat', {
+  if (!mainStat) throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
     mainstat: relic.mainstat,
     part,
   })/* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
@@ -253,30 +261,29 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
 
   const substats = relic.substats
     .map((s) => {
-      if (!config.speedVerified) {
+      if (!scanner.config.speedVerified) {
         return {
           stat: mapSubstatToId(s.key),
           value: s.value,
         }
       }
 
-      if (s.step == undefined || s.count == undefined) throw new Error(t('NoStep')/* "Verified relic doesn't have step/count information" */)
-      if (s.count <= 0) throw new Error(t('LowCount', { count: s.count })/* `Relic substat count too low! count = ${s.count}` */)
-      if (s.step > 2 * s.count) throw new Error(t('HighQuality')/* 'Relic quality too high' */)
-      if (s.step < 0) throw new Error(t('LowQuality', { step: s.step })/* `Relic substat quality too low! step = ${s.step}` */)
-
-      const rolls = { high: 0, mid: 0, low: s.count }
-      for (let i = 0; i < s.step; i++) {
-        if (rolls.low == 0) {
-          rolls.high++
-          rolls.mid--
-        } else {
-          rolls.mid++
-          rolls.low--
+      if (s.step == undefined
+        || s.count == undefined
+        || s.count > Math.max(1, relic.rarity * 2 - 4)
+        || s.count <= 0
+        || s.step > 2 * s.count
+        || s.step < 0) {
+        scanner.badRollInfo = true
+        return {
+          stat: mapSubstatToId(s.key),
+          value: s.value,
         }
       }
 
-      if (rolls.high > s.count || rolls.mid < 0 || rolls.low < 0) throw new Error(t('ImpossibleDistribution')/* 'Parsed roll quality distribution is not possible' */)
+      const { rolls, errorFlag } = rollCounter(s.step, s.count)
+
+      if (errorFlag) scanner.badRollInfo = true
 
       return {
         stat: mapSubstatToId(s.key),

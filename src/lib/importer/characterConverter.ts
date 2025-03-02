@@ -2,7 +2,7 @@ import { Constants } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/relic'
+import { Relic, StatRolls } from 'types/relic'
 
 // FIXME MED
 
@@ -153,20 +153,7 @@ function convertRelic(preRelic) {
       const subValue = subBase * count + subStep * step
 
       if (subStat.cnt != undefined && subStat.step != undefined) {
-        const rolls = { high: 0, mid: 0, low: subStat.cnt }
-
-        for (let i = 0; i < subStat.step; i++) {
-          if (rolls.low == 0) {
-            rolls.high++
-            rolls.mid--
-          } else {
-            rolls.mid++
-            rolls.low--
-          }
-        }
-        rolls.high = Math.min(subStat.cnt, rolls.high)
-        rolls.mid = Math.max(0, rolls.mid)
-        rolls.low = Math.max(0, rolls.low)
+        const rolls = rollCounter(subStat.cnt, subStat.step).rolls
 
         substats.push({
           stat: subStat,
@@ -197,4 +184,34 @@ function convertRelic(preRelic) {
     console.error(e)
     return null
   }
+}
+
+export function rollCounter(step: number | undefined, count: number | undefined) {
+  const rolls: StatRolls = { high: 0, mid: 0, low: 0 }
+  let errorFlag = false
+  if (count != undefined && step != undefined) {
+    rolls.low = count
+
+    for (let i = 0; i < step; i++) {
+      if (rolls.low == 0) {
+        rolls.high++
+        rolls.mid--
+      } else {
+        rolls.mid++
+        rolls.low--
+      }
+    }
+    if (
+      rolls.high > count
+      || rolls.mid < 0
+      || rolls.low < 0
+    ) errorFlag = true
+
+    rolls.high = Math.min(count, rolls.high)
+    rolls.mid = Math.max(0, rolls.mid)
+    rolls.low = Math.max(0, rolls.low)
+  } else {
+    errorFlag = true
+  }
+  return { rolls, errorFlag }
 }

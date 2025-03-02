@@ -4027,19 +4027,13 @@ interface Resources {
         "Fragment": "Error occurred while importing file: "
       },
       "ParserError": {
-        "Kelz": {
-          "BadSource": "Incorrect source string, was '{{jsonSource}}', expected '{{configSource}}'",
-          "BadVersion": "Incorrect json version, was '{{jsonVersion}}', expected '{{configVersion}}'",
-          "OutdatedVersion": "Your scanner version {{buildVersion}} is out of date and may result in incorrect imports! Please update to the latest version from Github:",
-          "BadMainstat": "Could not parse mainstat for relic with mainstat {{mainstat}} and part {{part}}"
-        },
-        "Reliquary": {
-          "NoStep": "Verified relic doesn't have step/count information",
-          "LowCount": "Relic substat count too low! count = {{count}}",
-          "HighQuality": "Relic quality too high",
-          "LowQuality": "Relic substat quality too low! step = {{step}}",
-          "ImpossibleDistribution": "Parsed roll quality distribution is not possible"
-        }
+        "BadSource": "Incorrect source string, was '{{jsonSource}}', expected '{{configSource}}'",
+        "BadVersion": "Incorrect json version, was '{{jsonVersion}}', expected '{{configVersion}}'",
+        "OutdatedVersion": "Your scanner version {{buildVersion}} is out of date and may result in incorrect imports! Please update to the latest version from Github:",
+        "BadMainstat": "Could not parse mainstat for relic with mainstat {{mainstat}} and part {{part}}"
+      },
+      "ParserWarning": {
+        "BadRollInfo": "Scanner file is outdated / may contain invalid information. Please update your scanner."
       },
       "Stage1": {
         "Header": "Install and run one of the relic scanner options:",

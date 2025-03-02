@@ -65,7 +65,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     const dotVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + a[Key.DOT_VULNERABILITY]
     const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
     const dotEhrMulti = calculateEhrMulti(x, context)
-    const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER]
+    const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER] // (1 +) dropped intentionally for dmg tracing
 
     const initialDmg = calculateInitial(
       a,

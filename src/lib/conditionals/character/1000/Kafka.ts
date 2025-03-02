@@ -1,6 +1,6 @@
-import { ASHBLAZING_ATK_STACK, DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { AbilityType, ASHBLAZING_ATK_STACK, DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -70,6 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -83,10 +84,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.DOT_ATK_SCALING.buff((e >= 6) ? 1.56 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
 
       x.DOT_CHANCE.set(1.30, SOURCE_TRACE)
     },
@@ -97,10 +98,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityDmg(x, DOT_DMG_TYPE, (e >= 2 && m.e2TeamDotBoost) ? 0.25 : 0, SOURCE_E2, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaFinalizer(x, action, context, hitMulti)
+      x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, hitMulti), Source.NONE)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMulti)
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => boostAshblazingAtkP(hitMulti),
   }
 }

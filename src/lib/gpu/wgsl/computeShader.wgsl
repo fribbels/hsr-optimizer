@@ -672,10 +672,18 @@ fn calculateDamage(
     let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
     let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
     let dotEhrMulti = calculateEhrMulti(p_x);
-    let dotTrueDmgMulti = x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+    let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+    let initialDmg = calculateInitial(
+      p_x,
+      x.DOT_DMG,
+      x.DOT_HP_SCALING,
+      x.DOT_DEF_SCALING,
+      x.DOT_ATK_SCALING,
+      x.DOT_ATK_P_BOOST
+    );
 
-    if (x.DOT_DMG > 0) {
-      (*p_x).DOT_DMG = x.DOT_DMG
+    if (initialDmg > 0) {
+      (*p_x).DOT_DMG = initialDmg
         * (baseUniversalMulti)
         * (dotDmgBoostMulti)
         * (dotDefMulti)

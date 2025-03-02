@@ -1,7 +1,6 @@
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
-import { ashblazingWgsl, gpuStandardDefShieldFinalizer, standardDefShieldFinalizer, standardFuaFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityType, ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, calculateAshblazingSetP } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
@@ -36,6 +35,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillShieldFlat = skill(e, 760, 845.5)
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => [],
     defaults: () => ({}),
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -46,9 +46,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
       x.FUA_DEF_SCALING.buff((e >= 4) ? 0.30 : 0, SOURCE_E4)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
 
       x.SHIELD_SCALING.buff(skillShieldScaling, SOURCE_SKILL)
       x.SHIELD_FLAT.buff(skillShieldFlat, SOURCE_SKILL)
@@ -56,19 +56,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaFinalizer(x, action, context, hitMulti)
+      x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, hitMulti), Source.NONE)
       standardDefShieldFinalizer(x)
     },
-    gpuFinalizeCalculations: () => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + ${ashblazingWgsl(hitMulti)});
-if (${wgslTrue(e >= 4)}) {
-  x.FUA_DMG += 0.30 * x.DEF;
-}
-` + gpuStandardDefShieldFinalizer()
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => boostAshblazingAtkP(hitMulti) + gpuStandardDefShieldFinalizer(),
   }
 }

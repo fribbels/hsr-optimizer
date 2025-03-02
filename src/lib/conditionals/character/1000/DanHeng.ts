@@ -1,5 +1,4 @@
 import { AbilityType, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizers, standardAtkFinalizers } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -77,6 +76,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -102,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizers(x, abilities),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizers(abilities),
+    finalizeCalculations: (x: ComputedStatsArray) => {},
+    gpuFinalizeCalculations: () => '',
   }
 }

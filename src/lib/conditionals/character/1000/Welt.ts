@@ -1,4 +1,5 @@
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
@@ -79,6 +80,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -103,9 +105,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SKILL_ATK_SCALING.buff(r.skillExtraHits * skillScaling, SOURCE_SKILL)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(30 + 30 * r.skillExtraHits, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(10 + 10 * r.skillExtraHits, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       return x
     },
@@ -115,11 +117,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.VULNERABILITY.buffTeam((m.enemyDmgTakenDebuff) ? 0.12 : 0, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
-      standardFinalizer(x)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
-      return gpuStandardAtkFinalizer() + gpuStandardAdditionalDmgAtkFinalizer()
+      return gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

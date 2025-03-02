@@ -1,6 +1,6 @@
 import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { basicAdditionalDmgAtkFinalizer, gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizers, standardFuaAtkFinalizers } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { basicAdditionalDmgAtkFinalizer, boostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -152,6 +152,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -183,12 +184,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizers(x, action, context, abilities, getHitMulti(action, context))
+      x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, getHitMulti(action, context)), Source.NONE)
       basicAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const hitMulti = getHitMulti(action, context)
-      return gpuStandardFuaAtkFinalizers(abilities, hitMulti) + gpuStandardAdditionalDmgAtkFinalizer()
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => boostAshblazingAtkP(getHitMulti(action, context)),
   }
 }

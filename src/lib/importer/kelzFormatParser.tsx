@@ -11,7 +11,8 @@ import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
 import stringSimilarity from 'string-similarity'
 import { Character } from 'types/character'
-import { Relic, UnaugmentedRelic } from 'types/relic'
+import { Form } from 'types/form'
+import { Relic } from 'types/relic'
 
 // FIXME HIGH
 
@@ -91,7 +92,7 @@ export class KelzFormatParser { // TODO abstract class
         trailblazer: 'Stelle',
         current_trailblazer_path: 'Destruction',
       },
-      characters: [] as Character[],
+      characters: [] as Character['form'][],
       relics: [] as Relic[],
     }
 
@@ -130,8 +131,8 @@ export class KelzFormatParser { // TODO abstract class
     if (json.relics) {
       parsed.relics = json.relics
         .map((r) => readRelic(r, this.config))
-        .map((r) => RelicAugmenter.augment(r as unknown as UnaugmentedRelic))
-        .filter((r): r is Exclude<null, unknown> => {
+        .map((r) => RelicAugmenter.augment(r) as Relic | null)
+        .filter((r): r is NonNullable<typeof r> => {
           if (!r) {
             console.warn('Could not parse relic')
             return false
@@ -142,8 +143,8 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.characters) {
       parsed.characters = json.characters
-        .map((c) => readCharacter(c, json.light_cones))
-        .filter((c): c is Exclude<null, unknown> => {
+        .map((c) => readCharacter(c, json.light_cones) as Form | null)
+        .filter((c): c is NonNullable<typeof c> => {
           if (!c) {
             console.warn('Could not parse character')
             return false
@@ -183,7 +184,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
 
 function readRelic(relic: V4ParserRelic, config: ScannerConfig) {
   const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
-  const part = partMatches.bestMatch.target
+  const part = partMatches.bestMatch.target as Parts
 
   const setId = relic.set_id
   const set = relicSetMapping[setId].name
@@ -321,7 +322,7 @@ function mapSubstatToId(substat: string) {
     case 'Break Effect_':
       return Constants.Stats.BE
     default:
-      return null
+      return null as never
   }
 }
 
@@ -362,7 +363,7 @@ function mapMainStatToId(mainStat: string) {
     case 'Imaginary DMG Boost':
       return Constants.Stats.Imaginary_DMG
     default:
-      return null
+      return null as never
   }
 }
 
@@ -411,7 +412,7 @@ function mapAffixIdToString(affixId: string) {
     case Constants.Stats.Imaginary_DMG:
       return 'ImaginaryAddedRatio'
     default:
-      return null
+      return null as never
   }
 }
 
@@ -430,6 +431,6 @@ function mapPartIdToIndex(slotId: string) {
     case Constants.Parts.LinkRope:
       return 6
     default:
-      return null
+      return null as never
   }
 }

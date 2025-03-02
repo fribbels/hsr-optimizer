@@ -17,6 +17,7 @@ import { Relic } from 'types/relic'
 const { Text } = Typography
 
 type ParsedCharacter = {
+  characterId: string
   characterLevel: number
   lightConeLevel: number
 }
@@ -136,7 +137,7 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       const charactersToImport = onlyImportExisting
-        ? currentCharacters?.filter((char) => DB.getCharacterById(char.id))
+        ? currentCharacters?.filter((char) => DB.getCharacterById(char.characterId))
         : currentCharacters
 
       DB.mergeRelicsWithState(currentRelics, charactersToImport)

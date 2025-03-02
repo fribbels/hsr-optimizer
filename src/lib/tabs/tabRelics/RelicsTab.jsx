@@ -252,16 +252,25 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.SelectedCharacter.MaxPotCol.Label'),
           percent: true,
         },
+        // Selected Char\nReroll Avg | Selected character: Reroll average potential
         {
           column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvg.Header'),
           value: 'weights.rerollAvgSelected',
           label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvg.Label'),
           percent: true,
         },
+        // Selected Char\nΔ Reroll Avg | Selected character: Reroll average delta potential
         {
           column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgDelta.Header'),
           value: 'weights.rerollAvgSelectedDelta',
           label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgDelta.Label'),
+          percent: true,
+        },
+        // Selected Char\n∆ Reroll AVG\nvs equipped | Selected character: Reroll average delta potential vs equipped
+        {
+          column: 'Selected Char\n∆ Reroll AVG\nvs equipped',
+          value: 'weights.rerollAvgSelectedEquippedDelta',
+          label: 'Selected character: Reroll average delta potential vs equipped',
           percent: true,
         },
       ],
@@ -283,6 +292,7 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.CustomCharacters.MaxPotCol.Label'),
           percent: true,
         },
+        // Custom Chars\nAvg Reroll | Custom characters: Average reroll potential
         {
           column: t('RelicGrid.ValueColumns.CustomCharacters.RerollAvg.Header'),
           value: 'weights.rerollAllCustom.rerollAvgPct',
@@ -308,6 +318,7 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.AllCharacters.MaxPotCol.Label'),
           percent: true,
         },
+        // All Chars\nAvg Reroll | All characters: Average reroll potential
         {
           column: t('RelicGrid.ValueColumns.AllCharacters.RerollAvg.Header'),
           value: 'weights.rerollAllAll.rerollAvgPct',

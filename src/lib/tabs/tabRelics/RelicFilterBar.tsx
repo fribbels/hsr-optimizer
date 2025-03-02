@@ -146,7 +146,7 @@ export default function RelicFilterBar(props: {
     // views as a pure function of props, but because relics (and other state) are updated mutably in
     // a number of places, we need these manual refresh invocations
     setTimeout(() => {
-      characterSelectorChange(currentlySelectedCharacterId!)
+      characterSelectorChange(currentlySelectedCharacterId)
     }, 100)
   }
 
@@ -157,11 +157,11 @@ export default function RelicFilterBar(props: {
   // will correctly re-trigger it)
   useEffect(() => {
     if (DB.getState().settings[SettingOptions.RelicPotentialLoadBehavior.name] == SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup) {
-      characterSelectorChange(currentlySelectedCharacterId!)
+      characterSelectorChange(currentlySelectedCharacterId)
     }
   }, [])
 
-  function characterSelectorChange(characterId: string, singleRelic?: Relic) {
+  function characterSelectorChange(characterId: string | undefined, singleRelic?: Relic) {
     const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
     console.log('idChange', characterId)
 
@@ -176,11 +176,13 @@ export default function RelicFilterBar(props: {
     // NOTE: we cannot cache these results between renders by keying on the relic/characterId because
     // both relic stats and char weights can be edited
     for (const relic of relics) {
-      const weights: Partial<RelicScoringWeights> = characterId ? relicScorer.getFutureRelicScore(relic, characterId) : {
-        current: 0,
-        best: 0,
-        average: 0,
-      }
+      const weights: Partial<RelicScoringWeights> = characterId
+        ? relicScorer.getFutureRelicScore(relic, characterId)
+        : {
+          current: 0,
+          best: 0,
+          average: 0,
+        }
       weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
       weights.potentialAllAll = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
       weights.potentialAllCustom = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
@@ -217,7 +219,11 @@ export default function RelicFilterBar(props: {
       }
 
       weights.rerollAvgSelectedDelta = weights.rerollAvgSelected == 0 ? 0 : (weights.rerollAvgSelected - weights.potentialSelected.averagePct)
-
+      weights.rerollAvgSelectedEquippedDelta = 0
+      if (characterId && DB.getCharacterById(characterId).equipped[relic.part]) {
+        const equippedRelic = DB.getCharacterById(characterId).equipped[relic.part]!
+        weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected - relicScorer.scoreRelicPotential(DB.getRelicById(equippedRelic), characterId).averagePct
+      }
       relic.weights = weights as RelicScoringWeights
     }
 
@@ -260,11 +266,11 @@ export default function RelicFilterBar(props: {
   }
 
   function rescoreClicked() {
-    characterSelectorChange(currentlySelectedCharacterId!)
+    characterSelectorChange(currentlySelectedCharacterId)
   }
 
   function rescoreSingleRelic(singleRelic: Relic) {
-    characterSelectorChange(currentlySelectedCharacterId!, singleRelic)
+    characterSelectorChange(currentlySelectedCharacterId, singleRelic)
   }
 
   window.rescoreSingleRelic = rescoreSingleRelic
@@ -359,6 +365,7 @@ export default function RelicFilterBar(props: {
                 maxTagCount='responsive'
                 style={{ flex: 1 }}
                 listHeight={750}
+                dropdownStyle={{ width: 'fit-content' }}
               />
             </Flex>
           </Flex>
@@ -457,6 +464,7 @@ export type RelicScoringWeights = {
   rerollAllCustom: PotentialWeights
   rerollAvgSelected: number
   rerollAvgSelectedDelta: number
+  rerollAvgSelectedEquippedDelta: number
 }
 
 type PotentialWeights = {

@@ -1,7 +1,9 @@
+import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -154,7 +156,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BREAK_VULNERABILITY.buffTeam(t.teammateBreakVulnerability, SOURCE_TRACE)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, t.teammateBreakVulnerability, SOURCE_TRACE, Target.TEAM)
 
       x.SPD_P.buffTeam((e >= 4 && t.e4SpdBuff) ? 0.12 : 0, SOURCE_E4)
     },
@@ -163,7 +165,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       const atkOverStacks = Math.floor(TsUtils.precisionRound((x.a[Key.ATK] - 2400) / 100))
       const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
-      x.BREAK_VULNERABILITY.buff(buffValue, SOURCE_TRACE)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, buffValue, SOURCE_TRACE)
 
       standardFinalizer(x)
     },

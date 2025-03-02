@@ -75,11 +75,11 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   const baseSuperBreakInstanceDmg
     = baseUniversalMulti
     * 3767.5533
-    * calculateDefMulti(eLevel, baseDefPen + a[Key.BREAK_DEF_PEN] + a[Key.SUPER_BREAK_DEF_PEN])
-    * (1 + a[Key.VULNERABILITY] + a[Key.BREAK_VULNERABILITY])
+    * calculateDefMulti(eLevel, baseDefPen + a[Key.SUPER_BREAK_DEF_PEN])
+    * (1 + a[Key.VULNERABILITY] + a[Key.SUPER_BREAK_VULNERABILITY])
     * (1 - baseResistance)
     * (1 + a[Key.BE])
-    * (1 + a[Key.BREAK_DMG_BOOST])
+    * (1 + a[Key.SUPER_BREAK_DMG_BOOST])
     * (1 / 30)
 
   if (action.actionType == 'BASIC' || action.actionType == 'DEFAULT') {

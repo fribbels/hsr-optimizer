@@ -71,7 +71,7 @@ export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, 
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_DMG_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_DMG_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_DMG_BOOST, value, source)
-  // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_DMG_BOOST, value, source)
+  if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_DMG_BOOST, value, source)
 }
 
 export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
@@ -86,7 +86,7 @@ export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_VULNERABILITY, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_VULNERABILITY, value, source)
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_VULNERABILITY, value, source)
-  // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_VULNERABILITY, value, source)
+  if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_VULNERABILITY, value, source)
 }
 
 export function buffAbilityResPen(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {

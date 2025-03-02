@@ -119,6 +119,12 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   QUANTUM_RES_PEN: {},
   IMAGINARY_RES_PEN: {},
 
+  // Misc variables abilities that dont need to be split yet
+  SUPER_BREAK_DEF_PEN: {},
+  SUPER_BREAK_DMG_BOOST: {},
+  SUPER_BREAK_VULNERABILITY: {},
+  ADDITIONAL_DMG_BOOST: {},
+
   // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE },
   SKILL_DMG_TYPE: { flat: true, default: SKILL_DMG_TYPE },
@@ -129,7 +135,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   MEMO_SKILL_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
   MEMO_TALENT_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE },
-  SUPER_BREAK_DMG_TYPE: { flat: true, default: SUPER_BREAK_DMG_TYPE },
+  SUPER_BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE | SUPER_BREAK_DMG_TYPE },
 } as const
 
 export const newBaseComputedStatsAbilityPropertiesConfig = {
@@ -146,7 +152,6 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   RES_PEN: {},
   DEF_PEN: {},
   BREAK_DEF_PEN: {},
-  SUPER_BREAK_DEF_PEN: {},
 
   TOUGHNESS_DMG: { separated: true },
   SUPER_BREAK_MODIFIER: {},

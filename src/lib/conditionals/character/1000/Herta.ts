@@ -1,6 +1,6 @@
 import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { basicAdditionalDmgAtkFinalizer, boostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { basicAdditionalDmgAtkFinalizer, boostAshblazingAtkP, gpuBoostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -184,9 +184,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, getHitMulti(action, context)), Source.NONE)
+      boostAshblazingAtkP(x, action, context, getHitMulti(action, context))
       basicAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => boostAshblazingAtkP(getHitMulti(action, context)),
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(getHitMulti(action, context)),
   }
 }

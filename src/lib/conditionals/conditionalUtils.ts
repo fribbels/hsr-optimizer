@@ -115,3 +115,5 @@ export function countTeamPath(context: OptimizerContext, path: string) {
 export function mainIsPath(context: OptimizerContext, path: string) {
   return context.path == path
 }
+
+

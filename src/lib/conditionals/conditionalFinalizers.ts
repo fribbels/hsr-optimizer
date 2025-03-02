@@ -189,7 +189,11 @@ export function ashblazingWgslP(hitMulti: number) {
   return ``
 }
 
-export function boostAshblazingAtkP(hitMulti: number) {
+export function boostAshblazingAtkP(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number) {
+  x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, hitMulti), Source.NONE)
+}
+
+export function gpuBoostAshblazingAtkP(hitMulti: number) {
   return `x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});`
 }
 

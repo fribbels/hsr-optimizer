@@ -67,11 +67,20 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     const dotEhrMulti = calculateEhrMulti(x, context)
     const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER]
 
+    const initialDmg = calculateInitial(
+      a,
+      context,
+      a[Key.DOT_DMG],
+      a[Key.DOT_HP_SCALING],
+      a[Key.DOT_DEF_SCALING],
+      a[Key.DOT_ATK_SCALING],
+      a[Key.DOT_ATK_P_BOOST],
+    )
     a[Key.DOT_DMG] = calculateDotDmg(
       x,
       action,
       Key.DOT_DMG,
-      a[Key.DOT_DMG],
+      initialDmg,
       (baseUniversalMulti),
       (dotDmgBoostMulti),
       (dotDefMulti),
@@ -83,7 +92,15 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if ((action.actionType == 'BASIC' || action.actionType == 'DEFAULT') && context.activeAbilityFlags & AbilityType.BASIC) {
-    const initialDmg = calculateInitial(a, context, a[Key.BASIC_DMG], a[Key.BASIC_HP_SCALING], a[Key.BASIC_DEF_SCALING], a[Key.BASIC_ATK_SCALING], a[Key.BASIC_ATK_P_BOOST])
+    const initialDmg = calculateInitial(
+      a,
+      context,
+      a[Key.BASIC_DMG],
+      a[Key.BASIC_HP_SCALING],
+      a[Key.BASIC_DEF_SCALING],
+      a[Key.BASIC_ATK_SCALING],
+      a[Key.BASIC_ATK_P_BOOST],
+    )
     a[Key.BASIC_DMG] = calculateAbilityDmg(
       x,
       action,
@@ -116,10 +133,19 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if ((action.actionType == 'SKILL' || action.actionType == 'DEFAULT') && context.activeAbilityFlags & AbilityType.SKILL) {
-    const initialDmg = calculateInitial(a, context, a[Key.SKILL_DMG], a[Key.SKILL_HP_SCALING], a[Key.SKILL_DEF_SCALING], a[Key.SKILL_ATK_SCALING], a[Key.SKILL_ATK_P_BOOST])
+    const initialDmg = calculateInitial(
+      a,
+      context,
+      a[Key.SKILL_DMG],
+      a[Key.SKILL_HP_SCALING],
+      a[Key.SKILL_DEF_SCALING],
+      a[Key.SKILL_ATK_SCALING],
+      a[Key.SKILL_ATK_P_BOOST],
+    )
     a[Key.SKILL_DMG] = calculateAbilityDmg(
       x,
       action,
+
       context,
       baseUniversalMulti,
       baseDmgBoost,
@@ -149,7 +175,15 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if ((action.actionType == 'ULT' || action.actionType == 'DEFAULT') && context.activeAbilityFlags & AbilityType.ULT) {
-    const initialDmg = calculateInitial(a, context, a[Key.ULT_DMG], a[Key.ULT_HP_SCALING], a[Key.ULT_DEF_SCALING], a[Key.ULT_ATK_SCALING], a[Key.ULT_ATK_P_BOOST])
+    const initialDmg = calculateInitial(
+      a,
+      context,
+      a[Key.ULT_DMG],
+      a[Key.ULT_HP_SCALING],
+      a[Key.ULT_DEF_SCALING],
+      a[Key.ULT_ATK_SCALING],
+      a[Key.ULT_ATK_P_BOOST],
+    )
     a[Key.ULT_DMG] = calculateAbilityDmg(
       x,
       action,
@@ -182,7 +216,15 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if ((action.actionType == 'FUA' || action.actionType == 'DEFAULT') && context.activeAbilityFlags & AbilityType.FUA) {
-    const initialDmg = calculateInitial(a, context, a[Key.FUA_DMG], a[Key.FUA_HP_SCALING], a[Key.FUA_DEF_SCALING], a[Key.FUA_ATK_SCALING], a[Key.FUA_ATK_P_BOOST])
+    const initialDmg = calculateInitial(
+      a,
+      context,
+      a[Key.FUA_DMG],
+      a[Key.FUA_HP_SCALING],
+      a[Key.FUA_DEF_SCALING],
+      a[Key.FUA_ATK_SCALING],
+      a[Key.FUA_ATK_P_BOOST],
+    )
     a[Key.FUA_DMG] = calculateAbilityDmg(
       x,
       action,
@@ -218,7 +260,14 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     if (x.m) {
       a[Key.MEMO_SKILL_DMG] += x.m.a[Key.MEMO_SKILL_DMG]
     } else {
-      const initialDmg = calculateInitial(a, context, a[Key.MEMO_SKILL_DMG], a[Key.MEMO_SKILL_HP_SCALING], a[Key.MEMO_SKILL_DEF_SCALING], a[Key.MEMO_SKILL_ATK_SCALING], a[Key.MEMO_SKILL_ATK_P_BOOST])
+      const initialDmg = calculateInitial(
+        a, context,
+        a[Key.MEMO_SKILL_DMG],
+        a[Key.MEMO_SKILL_HP_SCALING],
+        a[Key.MEMO_SKILL_DEF_SCALING],
+        a[Key.MEMO_SKILL_ATK_SCALING],
+        a[Key.MEMO_SKILL_ATK_P_BOOST],
+      )
       a[Key.MEMO_SKILL_DMG] = calculateAbilityDmg(
         x,
         action,
@@ -255,7 +304,15 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     if (x.m) {
       a[Key.MEMO_TALENT_DMG] += x.m.a[Key.MEMO_TALENT_DMG]
     } else {
-      const initialDmg = calculateInitial(a, context, a[Key.MEMO_TALENT_DMG], a[Key.MEMO_TALENT_HP_SCALING], a[Key.MEMO_TALENT_DEF_SCALING], a[Key.MEMO_TALENT_ATK_SCALING], a[Key.MEMO_TALENT_ATK_P_BOOST])
+      const initialDmg = calculateInitial(
+        a,
+        context,
+        a[Key.MEMO_TALENT_DMG],
+        a[Key.MEMO_TALENT_HP_SCALING],
+        a[Key.MEMO_TALENT_DEF_SCALING],
+        a[Key.MEMO_TALENT_ATK_SCALING],
+        a[Key.MEMO_TALENT_ATK_P_BOOST],
+      )
       a[Key.MEMO_TALENT_DMG] = calculateAbilityDmg(
         x,
         action,

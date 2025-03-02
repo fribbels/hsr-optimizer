@@ -186,7 +186,11 @@ export function ashblazingWgsl(hitMulti: number) {
 }
 
 export function ashblazingWgslP(hitMulti: number) {
-  return `calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti})`
+  return ``
+}
+
+export function boostAshblazingAtkP(hitMulti: number) {
+  return `x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});`
 }
 
 //

@@ -3,7 +3,7 @@ import { ashblazingWgsl, gpuStandardDefShieldFinalizer, standardDefShieldFinaliz
 import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -44,7 +44,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_DEF_SCALING.buff((e >= 4) ? 0.30 * x.a[Key.DEF] : 0, SOURCE_E4)
+      x.FUA_DEF_SCALING.buff((e >= 4) ? 0.30 : 0, SOURCE_E4)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)

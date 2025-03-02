@@ -3,7 +3,7 @@ import { standardFinalizer, standardHpHealFinalizer } from 'lib/conditionals/con
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -63,7 +63,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.OHB.buff(0.10, SOURCE_TRACE)
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.BASIC_HP_SCALING.buff((e >= 6) ? 0.40 * x.a[Key.HP] : 0, SOURCE_E6)
+      x.BASIC_HP_SCALING.buff((e >= 6) ? 0.40 : 0, SOURCE_E6)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 

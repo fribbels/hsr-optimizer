@@ -35,7 +35,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentDmgReductionValue = talent(e, 0.18, 0.196)
 
   const basicScaling = basic(e, 0.50, 0.55)
-  const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 1.00, 1.08)
 
   const ultHealScaling = 0.05
@@ -103,10 +102,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff((e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0, SOURCE_E6)
+      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_HP_SCALING.buff((e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0, SOURCE_E6)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)

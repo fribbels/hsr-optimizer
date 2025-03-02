@@ -103,6 +103,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_HP_SCALING.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal : 0, SOURCE_E1)
       x.FUA_ATK_SCALING.buff(fuaAtkScaling, SOURCE_TALENT)
       x.FUA_HP_SCALING.buff(fuaHpScaling, SOURCE_TALENT)
+      x.FUA_HP_SCALING.buff((e >= 6) ? 0.50 : 0, SOURCE_E6)
 
       // Boost
       x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, SOURCE_SKILL)

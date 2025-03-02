@@ -150,20 +150,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
 
-      if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
-        let jointBoost = 0
-        if (x.a[Key.SPD] > 320 || x.m.a[Key.SPD] >= 320) {
-          jointBoost = 0.60
-        } else if (x.a[Key.SPD] > 240 || x.m.a[Key.SPD] >= 240) {
-          jointBoost = 0.30
-        } else if (x.a[Key.SPD] > 160 || x.m.a[Key.SPD] >= 160) {
-          jointBoost = 0.10
-        }
-
-        x.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
-        x.m.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
-      }
-
       x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
 
       x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
@@ -181,6 +167,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
+        let jointBoost = 0
+        if (x.a[Key.SPD] > 320 || x.m.a[Key.SPD] >= 320) {
+          jointBoost = 0.60
+        } else if (x.a[Key.SPD] > 240 || x.m.a[Key.SPD] >= 240) {
+          jointBoost = 0.30
+        } else if (x.a[Key.SPD] > 160 || x.m.a[Key.SPD] >= 160) {
+          jointBoost = 0.10
+        }
+
+        x.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
+        x.m.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
+      }
+
       basicFinalizer(x)
       standardAdditionalDmgAtkFinalizer(x)
 

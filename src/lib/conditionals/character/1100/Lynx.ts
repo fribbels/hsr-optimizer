@@ -34,8 +34,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillHpFlatBuff = skill(e, 200, 223)
 
   const basicScaling = basic(e, 0.50, 0.55)
-  const skillScaling = skill(e, 0, 0)
-  const ultScaling = ult(e, 0, 0)
 
   const skillHealScaling = skill(e, 0.12, 0.128)
   const skillHealFlat = skill(e, 320, 356)
@@ -105,9 +103,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
 
       x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
 

@@ -2,6 +2,7 @@ import { Constants } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
+import { Relic } from 'types/relic'
 
 // FIXME MED
 
@@ -56,7 +57,6 @@ export const CharacterConverter = {
     const relics = preRelics.map((x) => convertRelic(x)).filter((x) => !!x)
     const equipped = {}
     for (const relic of relics) {
-      relic.verified = true
       relic.equippedBy = id
       equipped[relic.part] = relic
     }
@@ -100,22 +100,22 @@ function convertRelic(preRelic) {
     const metadata = DB.getMetadata().relics
     const tid = '' + preRelic.tid
 
-    const enhance = preRelic.level || 0
+    const enhance: Relic['enhance'] = preRelic.level || 0
 
     let setId = tid.substring(1, 4)
     if (tidOverrides[tid]) {
       setId = tidOverrides[tid].set
     }
-    const setName = metadata.relicSets[setId].name
+    const setName: Relic['set'] = metadata.relicSets[setId].name
 
     let partId = tid.substring(4, 5)
     if (tidOverrides[tid]) {
       partId = tidOverrides[tid].part
     }
-    const partName = partConversion[partId]
+    const partName: Relic['part'] = partConversion[partId]
 
     const gradeId = tid.substring(0, 1)
-    const grade = gradeConversion[gradeId]
+    const grade: Relic['grade'] = gradeConversion[gradeId]
 
     let mainId = preRelic.mainAffixId
     if (!mainId) {
@@ -131,12 +131,12 @@ function convertRelic(preRelic) {
     const mainStep = mainData.step
     const mainValue = mainBase + mainStep * enhance
 
-    const main = {
+    const main: Relic['main'] = {
       stat: mainStat,
       value: Utils.precisionRound(mainValue * (Utils.isFlat(mainStat) ? 1 : 100), 5),
     }
 
-    const substats: { stat: string; value: number }[] = []
+    const substats: Relic['substats'] = []
     for (const sub of preRelic.subAffixList) {
       let subId = sub.affixId
       if (!subId) {
@@ -152,13 +152,38 @@ function convertRelic(preRelic) {
 
       const subValue = subBase * count + subStep * step
 
-      substats.push({
-        stat: subStat,
-        value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5),
-      })
+      if (subStat.cnt != undefined && subStat.step != undefined) {
+        const rolls = { high: 0, mid: 0, low: subStat.cnt }
+
+        for (let i = 0; i < subStat.step; i++) {
+          if (rolls.low == 0) {
+            rolls.high++
+            rolls.mid--
+          } else {
+            rolls.mid++
+            rolls.low--
+          }
+        }
+        rolls.high = Math.min(subStat.cnt, rolls.high)
+        rolls.mid = Math.max(0, rolls.mid)
+        rolls.low = Math.max(0, rolls.low)
+
+        substats.push({
+          stat: subStat,
+          value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5),
+          addedRolls: subStat.cnt,
+          rolls,
+        })
+      } else {
+        substats.push({
+          stat: subStat,
+          value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5),
+        })
+      }
     }
 
     const relic = {
+      verified: true,
       part: partName,
       set: setName,
       enhance: enhance,

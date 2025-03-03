@@ -430,7 +430,7 @@ function calculateAbilityDmg(
 
   let abilityCritDmgOutput = 0
   if (abilityDmg) {
-    const abilityCr = Math.min(1, a[Key.CR] + a[Key.CR_BOOST] + abilityCrBoost)
+    const abilityCr = Math.min(1, a[Key.CR] + abilityCrBoost)
     const abilityCd = a[Key.CD] + a[Key.CD_BOOST] + abilityCdBoost
     const abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr)
     const abilityVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + abilityVulnerability

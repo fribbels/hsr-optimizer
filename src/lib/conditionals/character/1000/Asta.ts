@@ -26,12 +26,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1009')
 
-  const abilities = [
-    AbilityType.BASIC,
-    AbilityType.SKILL,
-    AbilityType.DOT,
-  ]
-
   const ultSpdBuffValue = ult(e, 50, 52.8)
   const talentStacksAtkBuff = talent(e, 0.14, 0.154)
   const talentStacksDefBuff = 0.06

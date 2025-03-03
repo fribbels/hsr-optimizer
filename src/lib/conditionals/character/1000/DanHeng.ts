@@ -27,12 +27,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1002')
 
-  const abilities = [
-    AbilityType.BASIC,
-    AbilityType.SKILL,
-    AbilityType.ULT,
-  ]
-
   const extraPenValue = talent(e, 0.36, 0.396)
 
   const basicScaling = basic(e, 1.00, 1.10)

@@ -28,13 +28,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1013')
 
-  const abilities = [
-    AbilityType.BASIC,
-    AbilityType.SKILL,
-    AbilityType.ULT,
-    AbilityType.FUA,
-  ]
-
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.00, 2.16)

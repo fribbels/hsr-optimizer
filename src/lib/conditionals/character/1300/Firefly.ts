@@ -1,5 +1,4 @@
-import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -111,6 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -138,8 +138,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_ATK_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 45 : 30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 90 : 60, SOURCE_SKILL)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 15 : 10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 30 : 20, SOURCE_SKILL)
 
       return x
     },
@@ -154,8 +154,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           ? (0.2 * Math.min(3.60, x.a[Key.BE]) + skillEnhancedAtkScaling)
           : skillScaling
         , SOURCE_SKILL)
-
-      standardFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -164,13 +162,10 @@ if (x.BE >= 2.00 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) { x.S
 if (x.BE >= 3.60 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) { x.SUPER_BREAK_MODIFIER += 0.15; }
 
 if (${wgslTrue(r.enhancedStateActive)}) {
-  x.SKILL_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
+  x.SKILL_ATK_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
 } else {
-  x.SKILL_SCALING += ${skillScaling};
+  x.SKILL_ATK_SCALING += ${skillScaling};
 }
-
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
       `
     },
     dynamicConditionals: [

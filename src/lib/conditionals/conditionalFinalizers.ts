@@ -46,6 +46,14 @@ export const dotFinalizer = (x: ComputedStatsArray) => x.DOT_DMG.buff(x.a[Key.DO
 export const memoSkillFinalizer = (x: ComputedStatsArray) => x.MEMO_SKILL_DMG.buff(x.a[Key.MEMO_SKILL_HP_SCALING] * x.a[Key.HP] + x.a[Key.MEMO_SKILL_ATK_SCALING] * boostedAtk(x, x.a[Key.MEMO_SKILL_ATK_P_BOOST]) + x.a[Key.MEMO_SKILL_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 export const memoTalentFinalizer = (x: ComputedStatsArray) => x.MEMO_TALENT_DMG.buff(x.a[Key.MEMO_TALENT_HP_SCALING] * x.a[Key.HP] + x.a[Key.MEMO_TALENT_ATK_SCALING] * boostedAtk(x, x.a[Key.MEMO_TALENT_ATK_P_BOOST]) + x.a[Key.MEMO_TALENT_DEF_SCALING] * x.a[Key.DEF], Source.NONE)
 
+export const gpuBasicAdditionalDmgAtkFinalizer = () => `x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);\n`
+export const gpuSkillAdditionalDmgAtkFinalizer = () => `x.SKILL_ADDITIONAL_DMG += x.SKILL_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);\n`
+export const gpuUltAdditionalDmgAtkFinalizer = () => `x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);\n`
+export const gpuFuaAdditionalDmgAtkFinalizer = () => `x.FUA_ADDITIONAL_DMG += x.FUA_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);\n`
+export const gpuDotAdditionalDmgAtkFinalizer = () => `x.DOT_ADDITIONAL_DMG += x.DOT_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);\n`
+export const gpuMemoSkillAdditionalDmgAtkFinalizer = () => `x.MEMO_SKILL_ADDITIONAL_DMG += x.MEMO_SKILL_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);\n`
+export const gpuMemoTalentAdditionalDmgAtkFinalizer = () => `x.MEMO_TALENT_ADDITIONAL_DMG += x.MEMO_TALENT_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);\n`
+
 const atkFinalizersByAbilityType: Record<number, (x: ComputedStatsArray) => void> = {
   [AbilityType.BASIC]: basicAtkFinalizer,
   [AbilityType.SKILL]: skillAtkFinalizer,
@@ -153,10 +161,10 @@ x.DOT_DMG += x.DOT_SCALING * x.ATK;
 `
 }
 
-export const basicAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * boostedAtk(x, x.a[Key.BASIC_ATK_P_BOOST]), Source.NONE)
-export const skillAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.SKILL_ADDITIONAL_DMG.buff(x.a[Key.SKILL_ADDITIONAL_DMG_SCALING] * boostedAtk(x, x.a[Key.SKILL_ATK_P_BOOST]), Source.NONE)
-export const ultAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * boostedAtk(x, x.a[Key.ULT_ATK_P_BOOST]), Source.NONE)
-export const fuaAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * boostedAtk(x, x.a[Key.FUA_ATK_P_BOOST]), Source.NONE)
+export const basicAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
+export const skillAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.SKILL_ADDITIONAL_DMG.buff(x.a[Key.SKILL_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
+export const ultAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
+export const fuaAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) => x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
 
 export function standardAdditionalDmgAtkFinalizer(x: ComputedStatsArray) {
   x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)

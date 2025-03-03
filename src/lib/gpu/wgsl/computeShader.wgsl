@@ -781,7 +781,7 @@ fn calculateAbilityDmg(
 
   var abilityCritDmgOutput: f32 = 0;
   if (abilityDmg > 0) {
-    let abilityCr = min(1, x.CR + x.CR_BOOST + abilityCrBoost);
+    let abilityCr = min(1, x.CR + abilityCrBoost);
     let abilityCd = x.CD + x.CD_BOOST + abilityCdBoost;
     let abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr);
     let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
@@ -1031,6 +1031,9 @@ fn buffAbilityVulnerability(
   }
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+    (*p_x).SUPER_BREAK_VULNERABILITY += value;
   }
 }
 

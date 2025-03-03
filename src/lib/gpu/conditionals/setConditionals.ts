@@ -42,7 +42,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
     return p2New(SetsConfig.FleetOfTheAgeless, x.c.sets) && x.a[Key.SPD] >= 120
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.ATK.buffDynamic(0.08 * context.baseATK, Source.FleetOfTheAgeless, action, context)
+    x.ATK.buffDynamic(0.08 * x.a[Key.BASE_ATK], Source.FleetOfTheAgeless, action, context)
     if (x.m) {
       x.m.ATK.buffDynamic(0.08 * x.a[Key.BASE_ATK], Source.FleetOfTheAgeless, action, context)
     }

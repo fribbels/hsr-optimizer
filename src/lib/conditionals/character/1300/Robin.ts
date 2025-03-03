@@ -1,5 +1,4 @@
-import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { standardAdditionalDmgAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -140,6 +139,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -150,7 +150,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.ULT_ADDITIONAL_DMG_SCALING.buff((r.concertoActive) ? ultScaling : 0, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       if (r.concertoActive) {
         x.ATK.buff(ultAtkBuffFlatValue, SOURCE_ULT)
@@ -182,26 +182,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityCd(x, FUA_DMG_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, SOURCE_TRACE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFinalizer(x)
-      standardAdditionalDmgAtkFinalizer(x)
+      // ultAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      return `
-if (${wgslTrue(r.concertoActive)}) {
-  x.ULT_ADDITIONAL_DMG_CR_OVERRIDE = 1.00;
-}
-
-if (${wgslTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
-  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 6.00;
-} else {
-  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 1.50;
-}
-
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.ATK;
-      `
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     dynamicConditionals: [
       {
         id: 'RobinAtkConversionConditional',

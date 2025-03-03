@@ -183,7 +183,9 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const a = x.a
       x.setPrecompute(action.precomputedX.a)
-      m.setPrecompute(action.precomputedM.a)
+      if (x.m) {
+        m.setPrecompute(action.precomputedM.a)
+      }
 
       calculateBasicEffects(x, action, context)
       calculateComputedStats(x, action, context)

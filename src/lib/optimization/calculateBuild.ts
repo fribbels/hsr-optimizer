@@ -95,7 +95,10 @@ export function calculateBuild(
     const action = context.actions[i]
     const a = x.a
     x.setPrecompute(action.precomputedX.a)
-    m.setPrecompute(action.precomputedM.a)
+    if (x.m) {
+      m.setPrecompute(action.precomputedM.a)
+    }
+
     if (x.trace) {
       x.tracePrecompute(action.precomputedX)
       m.tracePrecompute(action.precomputedM)

@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
@@ -105,6 +105,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -119,7 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Scaling
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       return x
     },
@@ -148,16 +149,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
       x.ELEMENTAL_DMG.buff(buffValue, SOURCE_TRACE)
-
-      standardFinalizer(x)
     },
     gpuFinalizeCalculations: () => {
       return `
 let beOver = (x.BE * 100 - 120) / 10;
 let buffValue: f32 = min(0.36, floor(max(0, beOver)) * 0.06);
 x.ELEMENTAL_DMG += buffValue;
-
-${gpuStandardAtkFinalizer()}      
       `
     },
   }

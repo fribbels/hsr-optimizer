@@ -35,10 +35,6 @@ export const gpuDotAdditionalDmgHpFinalizer = () => `x.DOT_ADDITIONAL_DMG += x.D
 export const gpuMemoSkillAdditionalDmgHpFinalizer = () => `x.MEMO_SKILL_ADDITIONAL_DMG += x.MEMO_SKILL_ADDITIONAL_DMG_SCALING * x.HP;\n`
 export const gpuMemoTalentAdditionalDmgHpFinalizer = () => `x.MEMO_TALENT_ADDITIONAL_DMG += x.MEMO_TALENT_ADDITIONAL_DMG_SCALING * x.HP;\n`
 
-export function boostedAtk(x: ComputedStatsArray, abilityBoost: number) {
-  return x.a[Key.ATK] + (abilityBoost + x.a[Key.ATK_P_BOOST]) * x.a[Key.BASE_ATK]
-}
-
 export function standardAdditionalDmgAtkFinalizer(x: ComputedStatsArray) {
   x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
   x.SKILL_ADDITIONAL_DMG.buff(x.a[Key.SKILL_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
@@ -48,11 +44,15 @@ export function standardAdditionalDmgAtkFinalizer(x: ComputedStatsArray) {
 
 export function gpuStandardAdditionalDmgAtkFinalizer() {
   return `
-x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.ATK;
-x.SKILL_ADDITIONAL_DMG += x.SKILL_ADDITIONAL_DMG_SCALING * x.ATK;
-x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.ATK;
-x.FUA_ADDITIONAL_DMG += x.FUA_ADDITIONAL_DMG_SCALING * x.ATK;
+x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);
+x.SKILL_ADDITIONAL_DMG += x.SKILL_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);
+x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);
+x.FUA_ADDITIONAL_DMG += x.FUA_ADDITIONAL_DMG_SCALING * (x.ATK + (x.ATK_P_BOOST) * baseATK);
 `
+}
+
+export function boostedAtk(x: ComputedStatsArray, abilityBoost: number) {
+  return x.a[Key.ATK] + (abilityBoost + x.a[Key.ATK_P_BOOST]) * x.a[Key.BASE_ATK]
 }
 
 // FUA

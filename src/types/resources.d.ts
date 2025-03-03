@@ -5288,6 +5288,10 @@ interface Resources {
           "RerollAvgDelta": {
             "Label": "Selected character: Reroll average delta potential",
             "Header": "Selected Char\nΔ Reroll Avg"
+          },
+          "RerollAvgEquippedDelta": {
+            "Label": "Selected character: Reroll average delta potential vs equipped",
+            "Header": "Selected Char\n∆ Reroll AVG\nVS Equipped"
           }
         },
         "CustomCharacters": {

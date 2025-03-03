@@ -1,4 +1,5 @@
 import { AbilityType, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuUltAdditionalDmgAtkFinalizer, ultAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -182,9 +183,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityCd(x, FUA_DMG_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, SOURCE_TRACE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // ultAdditionalDmgAtkFinalizer(x)
+      ultAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuUltAdditionalDmgAtkFinalizer(),
     dynamicConditionals: [
       {
         id: 'RobinAtkConversionConditional',

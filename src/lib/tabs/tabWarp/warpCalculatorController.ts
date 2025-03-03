@@ -47,6 +47,26 @@ export enum WarpStrategy {
   S1 = 7, // S1 -> E6 -> S5
 }
 
+export enum EidolonLevel {
+  NONE = -1,
+  E0,
+  E1,
+  E2,
+  E3,
+  E4,
+  E5,
+  E6,
+}
+
+export enum SuperimpositionLevel {
+  NONE = 0,
+  S1,
+  S2,
+  S3,
+  S4,
+  S5,
+}
+
 export type WarpRequest = {
   passes: number
   jades: number
@@ -56,6 +76,8 @@ export type WarpRequest = {
   guaranteedCharacter: boolean
   pityLightCone: number
   guaranteedLightCone: boolean
+  currentEidolonLevel: EidolonLevel
+  currentSuperimpositionLevel: SuperimpositionLevel
 }
 
 export type WarpMilestoneResult = { warps: number; wins: number }
@@ -78,6 +100,8 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
+  currentEidolonLevel: EidolonLevel.NONE,
+  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
 export type WarpIncomeDefinition = {
@@ -253,6 +277,8 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     if (milestone.warpType == WarpType.LIGHTCONE) s++
     milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
   }
+
+  console.log('milestones', milestones) // Test, remove later
 
   return milestones
 }

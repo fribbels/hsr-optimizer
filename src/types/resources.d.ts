@@ -162,6 +162,8 @@ interface Resources {
             "FUA": "FUA DMG",
             "DOT": "DOT DMG",
             "BREAK": "BREAK DMG",
+            "MEMO_SKILL": "SKILLᴹ DMG",
+            "MEMO_TALENT": "TALENTᴹ DMG",
             "COMBO": "COMBO DMG"
           }
         },
@@ -3187,6 +3189,14 @@ interface Resources {
         "Name": "Mydei",
         "LongName": "Mydei"
       },
+      "1405": {
+        "Name": "Anaxa",
+        "LongName": "Anaxa"
+      },
+      "1407": {
+        "Name": "Castorice",
+        "LongName": "Castorice"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -3293,8 +3303,8 @@ interface Resources {
       },
       "115": {
         "Name": "The Ashblazing Grand Duke",
-        "Description2pc": "Increases the DMG dealt by follow-up attack by 20%.",
-        "Description4pc": "When the wearer uses a follow-up attack, increases the wearer's ATK by 6% for every time the follow-up attack deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+        "Description2pc": "Increases the DMG dealt by Follow-up ATK by 20%.",
+        "Description4pc": "When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a Follow-up ATK."
       },
       "116": {
         "Name": "Prisoner in Deep Confinement",
@@ -3319,7 +3329,7 @@ interface Resources {
       "120": {
         "Name": "The Wind-Soaring Valorous",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s)."
+        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s)."
       },
       "121": {
         "Name": "Sacerdos' Relived Ordeal",
@@ -3363,7 +3373,7 @@ interface Resources {
       },
       "306": {
         "Name": "Inert Salsotto",
-        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by 15%."
+        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and Follow-up ATK increases by 15%."
       },
       "307": {
         "Name": "Talia: Kingdom of Banditry",
@@ -3399,7 +3409,7 @@ interface Resources {
       },
       "315": {
         "Name": "Duran, Dynasty of Running Wolves",
-        "Description2pc": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
+        "Description2pc": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
       },
       "316": {
         "Name": "Forge of the Kalpagni Lantern",
@@ -3660,6 +3670,9 @@ interface Resources {
       "22003": {
         "Name": "Ninja Record: Sound Hunt"
       },
+      "22004": {
+        "Name": "The Great Cosmic Enterprise"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -3779,6 +3792,12 @@ interface Resources {
       },
       "23039": {
         "Name": "Flame of Blood, Blaze My Path"
+      },
+      "23040": {
+        "Name": "Make Farewells More Beautiful"
+      },
+      "23041": {
+        "Name": "Life Should Be Cast to Flames"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -4530,7 +4549,7 @@ interface Resources {
         "l1": "Please use one of the following supported environments in order to enable GPU acceleration:",
         "l2": "Windows & Mac — Chrome, Opera, Edge",
         "l3": "Linux — <CustomLink text=\"Behind a flag\"/>",
-        "l4": "If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated."
+        "l4": "If you're on one of the supported browsers and it doesn't work, first try updating your browser version, otherwise try another browser, or try switching your browser to use your dedicated graphics card instead of integrated."
       }
     },
     "GPUCrash": {
@@ -4997,7 +5016,8 @@ interface Resources {
         "Skill": "Skill",
         "Ult": "Ult",
         "Fua": "Fua",
-        "MemoSkill": "Skillᴹ"
+        "MemoSkill": "Skillᴹ",
+        "MemoTalent": "Talentᴹ"
       },
       "RotationButton": "Advanced rotation"
     },
@@ -5393,6 +5413,24 @@ interface Resources {
       "E5": "E5 first",
       "E6": "E6 first"
     },
+    "EidolonLevels": {
+      "NONE": "None",
+      "E0": "E0",
+      "E1": "E1",
+      "E2": "E2",
+      "E3": "E3",
+      "E4": "E4",
+      "E5": "E5",
+      "E6": "E6"
+    },
+    "SuperimpositionLevels": {
+      "NONE": "None",
+      "S1": "S1",
+      "S2": "S2",
+      "S3": "S3",
+      "S4": "S4",
+      "S5": "S5"
+    },
     "IncomeOptions": {
       "Label": "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: ",
       "Type": {
@@ -5404,6 +5442,7 @@ interface Resources {
     },
     "PityCounter": {
       "PityCounter": "Pity counter",
+      "CurrentEidolonSuperImp": "Current",
       "Guaranteed": "Guaranteed"
     },
     "TotalAvailable": "Total warps available:",

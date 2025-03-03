@@ -12,6 +12,8 @@ import {
   WarpMilestoneResult,
   WarpRequest,
   WarpStrategy,
+  EidolonLevel,
+  SuperimpositionLevel,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -334,7 +336,7 @@ function opacity(n: number) {
 function PityInputs(props: { banner: string }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])
   return (
-    <Flex gap={50} style={{ width: '100%' }}>
+    <Flex gap={25} style={{ width: '100%' }}>
       <Flex vertical flex={1}>
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
@@ -344,6 +346,14 @@ function PityInputs(props: { banner: string }) {
             style={{ width: '100%' }}
             controls={false}
           />
+        </Form.Item>
+      </Flex>
+      <Flex vertical flex={1}>
+        {/* <HeaderText>{props.banner == 'Character' ? t('PityCounter.CurrentEidolon') : t('PityCounter.CurrentSuperimposition')}</HeaderText> */}
+        <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')}</HeaderText>
+        
+        <Form.Item name={`current${props.banner}`} initialValue={props.banner == 'Character' ? EidolonLevel.NONE : SuperimpositionLevel.NONE}>
+          {props.banner == 'Character' ? <Select options={generateEidolonLevelOptions()}/> : <Select options={generateSuperimpositionLevelOptions()}/>}
         </Form.Item>
       </Flex>
       <Flex vertical flex={1}>
@@ -435,6 +445,36 @@ function generateStrategyOptions() {
     { value: WarpStrategy.E4, label: t('E4')/* 'E4 first' */ },
     { value: WarpStrategy.E5, label: t('E5')/* 'E5 first' */ },
     { value: WarpStrategy.E6, label: t('E6')/* 'E6 first' */ },
+  ]
+
+  return options
+}
+
+function generateEidolonLevelOptions() {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'EidolonLevels')
+  const options: SelectProps['options'] = [
+    { value: EidolonLevel.NONE, label: t('NONE') },
+    { value: EidolonLevel.E0, label: t('E0') },
+    { value: EidolonLevel.E1, label: t('E1') },
+    { value: EidolonLevel.E2, label: t('E2') },
+    { value: EidolonLevel.E3, label: t('E3') },
+    { value: EidolonLevel.E4, label: t('E4') },
+    { value: EidolonLevel.E5, label: t('E5') },
+    { value: EidolonLevel.E6, label: t('E6') },
+  ]
+
+  return options
+}
+
+function generateSuperimpositionLevelOptions() {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'SuperimpositionLevels')
+  const options: SelectProps['options'] = [
+    { value: SuperimpositionLevel.NONE, label: t('NONE') },
+    { value: SuperimpositionLevel.S1, label: t('S1') },
+    { value: SuperimpositionLevel.S2, label: t('S2') },
+    { value: SuperimpositionLevel.S3, label: t('S3') },
+    { value: SuperimpositionLevel.S4, label: t('S4') },
+    { value: SuperimpositionLevel.S5, label: t('S5') },
   ]
 
   return options

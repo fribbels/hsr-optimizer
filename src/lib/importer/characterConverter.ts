@@ -2,7 +2,7 @@ import { Constants } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
-import { Relic, StatRolls } from 'types/relic'
+import { Relic } from 'types/relic'
 
 // FIXME MED
 
@@ -187,7 +187,7 @@ function convertRelic(preRelic) {
 }
 
 export function rollCounter(step: number | undefined, count: number | undefined) {
-  const rolls: StatRolls = { high: 0, mid: 0, low: 0 }
+  const rolls: Relic['substats'][number]['rolls'] = { high: 0, mid: 0, low: 0 }
   let errorFlag = false
   if (count != undefined && step != undefined) {
     rolls.low = count

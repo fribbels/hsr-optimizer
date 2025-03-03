@@ -1,4 +1,4 @@
-import { gpuStandardAtkFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -96,6 +96,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -123,8 +124,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
       x.SKILL_ATK_SCALING.buff(r.skillHitsOnTarget * skillScaling, SOURCE_SKILL)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(30 * r.skillHitsOnTarget, SOURCE_SKILL)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(10 * r.skillHitsOnTarget, SOURCE_SKILL)
 
       return x
     },
@@ -144,7 +145,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BE.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, SOURCE_E4)
       x.UNCONVERTIBLE_BE_BUFF.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, SOURCE_E4)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {},
+    gpuFinalizeCalculations: () => '',
   }
 }

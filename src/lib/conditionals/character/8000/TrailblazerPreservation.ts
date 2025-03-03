@@ -1,6 +1,6 @@
-import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -84,6 +84,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -110,8 +111,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // This EHP buff only applies to self
       x.DMG_RED_MULTI.multiply((r.skillActive) ? (1 - skillDamageReductionValue) : 1, SOURCE_SKILL)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedBasic) ? 60 : 30, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedBasic) ? 20 : 10, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
       x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
@@ -125,24 +126,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DMG_RED_MULTI.multiplyTeam((m.skillActive) ? (1 - 0.15) : 1, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFinalizer(x)
       standardDefShieldFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      return `
-if (${wgslTrue(r.enhancedBasic)}) {
-  x.BASIC_DMG += ${basicEnhancedAtkScaling} * x.ATK;
-  x.BASIC_DMG += ${basicEnhancedDefScaling} * x.DEF;
-} else {
-  x.BASIC_DMG += ${basicAtkScaling} * x.ATK;
-  x.BASIC_DMG += ${basicDefScaling} * x.DEF;
-}      
-
-x.ULT_DMG += ${ultAtkScaling} * x.ATK;
-x.ULT_DMG += ${ultDefScaling} * x.DEF;
-` + gpuStandardDefShieldFinalizer()
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuStandardDefShieldFinalizer(),
   }
 }

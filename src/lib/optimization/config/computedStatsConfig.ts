@@ -145,6 +145,7 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   ATK_SCALING: { separated: true },
   DEF_SCALING: { separated: true },
   HP_SCALING: { separated: true },
+  SPECIAL_SCALING: { separated: true },
 
   ATK_P_BOOST: {},
   CR_BOOST: {},

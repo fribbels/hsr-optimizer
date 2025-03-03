@@ -1,4 +1,4 @@
-import { standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -101,6 +101,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {}
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -120,9 +121,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buff((e >= 2 && r.e2DefPen && r.vendettaState) ? 0.15 : 0, SOURCE_E2)
       x.CD.buff((e >= 4 && r.e4CdBuff) ? 0.30 : 0, SOURCE_E4)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 90 : 60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 30 : 20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
     },
     calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -145,8 +146,6 @@ if (${wgslTrue(r.hpToCrConversion)}) {
       if (r.vendettaState) {
         x.DEF.set(0, SOURCE_TALENT)
       }
-
-      standardFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -155,10 +154,6 @@ if (${wgslTrue(r.hpToCrConversion)}) {
 if (${wgslTrue(r.vendettaState)}) {
   x.DEF = 0;
 }
-
-x.BASIC_DMG += x.BASIC_SCALING * x.HP;
-x.SKILL_DMG += x.SKILL_SCALING * x.HP;
-x.ULT_DMG += x.ULT_SCALING * x.HP;
 `
     },
     dynamicConditionals: [

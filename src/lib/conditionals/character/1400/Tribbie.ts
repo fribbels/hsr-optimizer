@@ -1,5 +1,12 @@
-import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { standardAdditionalDmgHpFinalizer, standardFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  basicAdditionalDmgHpFinalizer,
+  fuaAdditionalDmgHpFinalizer,
+  gpuBasicAdditionalDmgHpFinalizer,
+  gpuFuaAdditionalDmgHpFinalizer,
+  gpuUltAdditionalDmgHpFinalizer,
+  ultAdditionalDmgHpFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { allTypesExcept, buffAbilityTrueDmg, Target } from 'lib/optimization/calculateBuffs'
@@ -126,6 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -150,9 +158,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.HP.buff((r.ultZone) ? 0.09 * r.alliesMaxHp : 0, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -165,18 +173,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buffTeam((e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, SOURCE_E4)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFinalizer(x)
-      standardAdditionalDmgHpFinalizer(x)
+      basicAdditionalDmgHpFinalizer(x)
+      ultAdditionalDmgHpFinalizer(x)
+      fuaAdditionalDmgHpFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.HP;
-x.ULT_DMG += x.ULT_SCALING * x.HP;
-x.FUA_DMG += x.FUA_SCALING * x.HP;
-x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.HP;
-x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.HP;
-x.FUA_ADDITIONAL_DMG += x.FUA_ADDITIONAL_DMG_SCALING * x.HP;
-`
+      return gpuBasicAdditionalDmgHpFinalizer()
+        + gpuUltAdditionalDmgHpFinalizer()
+        + gpuFuaAdditionalDmgHpFinalizer()
     },
   }
 }

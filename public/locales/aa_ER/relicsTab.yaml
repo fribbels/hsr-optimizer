@@ -71,6 +71,10 @@ RelicGrid:
         Label: "crwdns43678:0crwdne43678:0"
         Header: |-
           crwdns43680:0crwdne43680:0
+      RerollAvgEquippedDelta:
+        Label: "crwdns44770:0crwdne44770:0"
+        Header: |-
+          crwdns44772:0crwdne44772:0
     CustomCharacters:
       Label: crwdns43550:0crwdne43550:0
       AvgPotCol:

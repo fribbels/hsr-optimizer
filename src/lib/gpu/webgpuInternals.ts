@@ -42,10 +42,15 @@ export function initializeGpuPipeline(
   const computePipeline = generatePipeline(device, wgsl)
   const postComputePipeline = generatePostComputePipeline(device)
 
+  const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 7
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
   const resultMatrixBuffer = device.createBuffer({
     size: resultMatrixBufferSize,
     usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
+  })
+  const paramsMatrixBuffer = device.createBuffer({
+    size: paramsMatrixBufferSize,
+    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
   })
 
   // console.log('Results buffer length: ', BLOCK_SIZE * CYCLES_PER_INVOCATION)
@@ -55,6 +60,17 @@ export function initializeGpuPipeline(
   const relicsMatrixBuffer = createGpuBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
   const relicSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const ornamentSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
+
+  const layout0 = computePipeline.getBindGroupLayout(0)
+  const layout1 = computePipeline.getBindGroupLayout(1)
+  const layout2 = computePipeline.getBindGroupLayout(2)
+
+  const bindGroup0 = device.createBindGroup({
+    layout: computePipeline.getBindGroupLayout(0),
+    entries: [
+      { binding: 0, resource: { buffer: paramsMatrixBuffer } },
+    ],
+  })
 
   const bindGroup1 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(1),
@@ -79,6 +95,17 @@ export function initializeGpuPipeline(
     ],
   })
 
+  const bindGroupLayouts = [
+    layout0,
+    layout1,
+    layout2,
+  ]
+
+  const gpuReadBuffer = device.createBuffer({
+    size: resultMatrixBufferSize,
+    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
+  })
+
   const iterations = Math.ceil(permutations / BLOCK_SIZE / CYCLES_PER_INVOCATION)
   const resultsQueue = new FixedSizePriorityQueue<GpuResult>(RESULTS_LIMIT, (a, b) => a.value - b.value)
 
@@ -92,6 +119,7 @@ export function initializeGpuPipeline(
     request,
     context,
 
+    paramsMatrixBufferSize,
     resultMatrixBufferSize,
     permutations,
     iterations,
@@ -104,13 +132,18 @@ export function initializeGpuPipeline(
     device,
     computePipeline,
     postComputePipeline,
+    bindGroup0,
     bindGroup1,
     bindGroup2,
     postComputeBindGroup0,
+    paramsMatrixBuffer,
     resultMatrixBuffer,
     relicsMatrixBuffer,
     relicSetSolutionsMatrixBuffer,
     ornamentSetSolutionsMatrixBuffer,
+
+    gpuReadBuffer,
+    bindGroupLayouts,
   }
 }
 
@@ -122,21 +155,23 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   const postComputePipeline = gpuContext.postComputePipeline
   const bindGroup1 = gpuContext.bindGroup1
   const bindGroup2 = gpuContext.bindGroup2
+  const bindGroupLayout0 = gpuContext.bindGroupLayouts[0]
   const postComputeBindGroup0 = gpuContext.postComputeBindGroup0
   const resultMatrixBufferSize = gpuContext.resultMatrixBufferSize
   const resultMatrixBuffer = gpuContext.resultMatrixBuffer
 
-  const newBindGroup0 = device.createBindGroup({
-    layout: computePipeline.getBindGroupLayout(0),
-    entries: [
-      { binding: 0, resource: { buffer: newParamsMatrix } },
-    ],
-  })
+  // const newBindGroup0 = device.createBindGroup({
+  //   layout: bindGroupLayout0,
+  //   entries: [
+  //     { binding: 0, resource: { buffer: newParamsMatrix } },
+  //   ],
+  // })
+  device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, newParamsMatrix)
 
   const commandEncoder = device.createCommandEncoder()
   const passEncoder = commandEncoder.beginComputePass()
   passEncoder.setPipeline(computePipeline)
-  passEncoder.setBindGroup(0, newBindGroup0)
+  passEncoder.setBindGroup(0, gpuContext.bindGroup0)
   passEncoder.setBindGroup(1, bindGroup1)
   passEncoder.setBindGroup(2, bindGroup2)
   passEncoder.dispatchWorkgroups(gpuContext.WORKGROUP_SIZE)
@@ -149,13 +184,6 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
 
   passEncoder.end()
 
-  if (!gpuContext.gpuReadBuffer) {
-    gpuContext.gpuReadBuffer = device.createBuffer({
-      size: resultMatrixBufferSize,
-      usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-    })
-  }
-
   commandEncoder.copyBufferToBuffer(
     resultMatrixBuffer,
     0,
@@ -167,7 +195,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   device.queue.submit([commandEncoder.finish()])
 
   if (!gpuContext.startTime) {
-    gpuContext.startTime = new Date().getTime()
+    gpuContext.startTime = performance.now()
   }
 
   return gpuContext.gpuReadBuffer

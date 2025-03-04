@@ -29,6 +29,7 @@ export type GpuExecutionContext = {
   context: OptimizerContext
 
   // Cached execution data
+  paramsMatrixBufferSize: number
   resultMatrixBufferSize: number
   permutations: number
   iterations: number
@@ -42,15 +43,18 @@ export type GpuExecutionContext = {
   device: GPUDevice
   computePipeline: GPUComputePipeline
   postComputePipeline: GPUComputePipeline
+  bindGroup0: GPUBindGroup
   bindGroup1: GPUBindGroup
   bindGroup2: GPUBindGroup
   postComputeBindGroup0: GPUBindGroup
+  paramsMatrixBuffer: GPUBuffer
   resultMatrixBuffer: GPUBuffer
   relicsMatrixBuffer: GPUBuffer
   relicSetSolutionsMatrixBuffer: GPUBuffer
   ornamentSetSolutionsMatrixBuffer: GPUBuffer
 
-  gpuReadBuffer?: GPUBuffer
+  gpuReadBuffer: GPUBuffer
+  bindGroupLayouts: GPUBindGroupLayout[]
 }
 
 export type RelicsByPart = {

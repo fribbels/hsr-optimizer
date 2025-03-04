@@ -1,5 +1,4 @@
 import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, SetsRelicsNames, Stats } from 'lib/constants/constants'
-import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { StringToNumberMap } from 'types/common'
@@ -49,7 +48,8 @@ export function generateParamsMatrix(
   const b = (((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
   const g = (((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
   const h = (((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
-  const paramsArray = [
+
+  return new Float32Array([
     l,
     p,
     f,
@@ -57,9 +57,8 @@ export function generateParamsMatrix(
     g,
     h,
     gpuContext.resultsQueue.top()?.value ?? 0,
-  ]
-
-  return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
+  ])
+  // return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }
 
 export function mergeRelicsIntoArray(relics: RelicsByPart) {

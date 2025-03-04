@@ -38,8 +38,8 @@ function injectSuppressions(wgsl: string, context: OptimizerContext, gpuParams: 
 }
 
 function suppress(wgsl: string, label: string) {
-  wgsl = wgsl.replace(`START ${label} */`, '')
-  wgsl = wgsl.replace(`/* END ${label}`, '')
+  wgsl = wgsl.replace(`START ${label} */`, `════════════════════════ DISABLED ${label} ════════════════════════╗`)
+  wgsl = wgsl.replace(`/* END ${label}`, `═══════════════════════════ DISABLED ${label} ════════════════════════╝`)
 
   return wgsl
 }

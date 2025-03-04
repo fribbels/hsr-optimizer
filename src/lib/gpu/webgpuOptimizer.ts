@@ -88,11 +88,12 @@ export async function gpuOptimize(props: {
       await readBuffer(offset, gpuReadBuffer, gpuContext)
     }
 
-    window.store.getState().setOptimizerEndTime(Date.now())
-    window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
-    window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
-
-    // logIterationTimer(iteration, gpuContext)
+    setTimeout(() => {
+      const state = window.store.getState()
+      state.setOptimizerEndTime(Date.now())
+      state.setPermutationsResults(gpuContext.resultsQueue.size())
+      state.setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
+    }, 0)
 
     gpuReadBuffer.unmap()
     gpuReadBuffer.destroy()

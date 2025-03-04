@@ -265,7 +265,8 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 }
 
 export function p2New(setsDefinition: SetsDefinition, sets: SetCounts) {
-  return Math.min(1, (sets.get(setsDefinition.key) ?? 0) >> 1)
+  // @ts-ignore
+  return sets.get(setsDefinition.key) >> 1
 }
 
 export function p4New(setsDefinition: SetsDefinition, sets: SetCounts) {

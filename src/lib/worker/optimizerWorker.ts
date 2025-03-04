@@ -183,7 +183,7 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const a = x.a
       x.setPrecompute(action.precomputedX.a)
-      if (x.m) {
+      if (x.a[Key.MEMOSPRITE]) {
         m.setPrecompute(action.precomputedM.a)
       }
 

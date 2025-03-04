@@ -12,7 +12,9 @@ export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerActi
 }
 
 export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-  if (x.m) calculateDamage(x.m, action, context)
+  if (x.a[Key.MEMOSPRITE]) {
+    calculateDamage(x.m, action, context)
+  }
 
   const eLevel = context.enemyLevel
   const a = x.a

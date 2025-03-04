@@ -38,33 +38,41 @@ const relicIndexToSetKey = Object.entries(RelicSetsConfig)
   .sort((a, b) => a[1].index - b[1].index)
   .map((entry) => entry[0]) as (keyof typeof Sets)[]
 
-export type SetCounts = Map<keyof typeof Sets, number>
+export type SetCounts = Record<keyof typeof Sets, number>
 
 export function calculateSetCounts(
   sets: number[],
 ) {
-  const setCounts = new Map<keyof typeof Sets, number>()
+  const setCounts: Record<keyof typeof Sets, number> = Object.create(null)
 
   for (let i = 0; i < 4; i++) {
     const key = relicIndexToSetKey[sets[i]]
-    setCounts.set(key, (setCounts.get(key) ?? 0) + 1)
+    setCounts[key] = (setCounts[key] ?? 0) + 1
   }
 
   if (sets[4] == sets[5]) {
-    setCounts.set(ornamentIndexToSetKey[sets[4]], 2)
+    setCounts[ornamentIndexToSetKey[sets[4]]] = 2
   }
 
   return setCounts
 }
 
 export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, setCounts: SetCounts, sets: number[]) {
-  for (const set of new Set(sets)) {
-    const key = relicIndexToSetKey[set]
-    const count = setCounts.get(key) ?? 0
-    const config = relicIndexToSetConfig[set]
+  const processed: Record<number, boolean> = {}
+  for (let i = 0; i < 4; i++) {
+    const set = sets[i]
 
-    if (count >= 2) config.p2c && config.p2c(c, context)
-    if (count >= 4) config.p4c && config.p4c(c, context)
+    if (processed[set]) continue
+    processed[set] = true
+
+    const key = relicIndexToSetKey[set]
+    const count = setCounts[key] ?? 0
+    if (count >= 2) {
+      const config = relicIndexToSetConfig[set]
+
+      if (count >= 2 && config.p2c) config.p2c(c, context)
+      if (count >= 4 && config.p4c) config.p4c(c, context)
+    }
   }
 
   if (sets[4] == sets[5]) {
@@ -197,9 +205,10 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // BASIC
 
-  for (const set of sets.keys()) {
+  const keys = Object.keys(sets) as Array<keyof typeof Sets>
+  for (const set of keys) {
     const config = SetsConfig[set]
-    const count = sets.get(set) ?? 0
+    const count = sets[set] ?? 0
 
     if (count >= 2) config.p2x && config.p2x(x, context, setConditionals)
     if (count >= 4) config.p4x && config.p4x(x, context, setConditionals)
@@ -265,12 +274,11 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 }
 
 export function p2New(setsDefinition: SetsDefinition, sets: SetCounts) {
-  // @ts-ignore
-  return sets.get(setsDefinition.key) >> 1
+  return sets[setsDefinition.key] >> 1
 }
 
 export function p4New(setsDefinition: SetsDefinition, sets: SetCounts) {
-  return (sets.get(setsDefinition.key) ?? 0) >> 2
+  return sets[setsDefinition.key] >> 2
 }
 
 // function p2x(x: ComputedStatsArray, context: OptimizerContext, setConfig: SetsDefinition) {

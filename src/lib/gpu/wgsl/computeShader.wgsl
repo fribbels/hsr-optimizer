@@ -29,6 +29,8 @@ const BREAK_ABILITY_TYPE = 32;
 const MEMO_SKILL_ABILITY_TYPE = 64;
 const MEMO_TALENT_ABILITY_TYPE = 128;
 
+const epsilon = 0.00000001f;
+
 @group(0) @binding(0) var<storage> params : Params;
 
 @group(1) @binding(0) var<storage> relics : array<Relic>;
@@ -71,8 +73,6 @@ fn main(
   let threshold = f32(params.threshold);
   let relicSetCount = u32(params.relicSetCount);
   let ornamentSetCount = u32(params.ornamentSetCount);
-
-  let epsilon = 0.00000001f;
 
   var failures: f32 = 1;
 
@@ -674,6 +674,7 @@ fn calculateDamage(
     * (0.10f);
 
   if (actionIndex == 0) {
+    /* START DOT CALC */
     let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
     let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
     let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
@@ -699,6 +700,7 @@ fn calculateDamage(
         * (dotEhrMulti)
         * (dotTrueDmgMulti);
     }
+    /* END DOT CALC */
 
     if (x.HEAL_VALUE > 0) {
       (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
@@ -713,7 +715,9 @@ fn calculateDamage(
       (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + x.SHIELD_BOOST);
     }
 
+    /* START EHP CALC */
     (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
+    /* END EHP CALC */
   }
 
   // START ACTION DAMAGE
@@ -864,28 +868,9 @@ fn calculateAbilityDmg(
 fn p2(n: i32) -> f32 {
   return f32(min(1, n >> 1));
 }
+
 fn p4(n: i32) -> f32 {
   return f32(n >> 2);
-}
-fn buffATK_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).ATK += value * baseATK;
-  }
-}
-fn buffHP_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).HP += value * baseHP;
-  }
-}
-fn buffDEF_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).DEF += value * baseDEF;
-  }
-}
-fn buffSPD_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).SPD += value * baseSPD;
-  }
 }
 
 fn buffAbilityTrueDmg(

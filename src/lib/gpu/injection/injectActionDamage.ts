@@ -7,6 +7,8 @@ export function injectActionDamage(context: OptimizerContext) {
   for (const ability of context.activeAbilities) {
     if (ability == AbilityType.BASIC) {
       actionDamageWgsl += `
+
+  /* START BASIC CALC */
   if (abilityType == 1 || actionIndex == 0) {
     let initialDmg = calculateInitial(
       p_x,
@@ -43,11 +45,13 @@ export function injectActionDamage(context: OptimizerContext) {
       m.BASIC_DMG,
     );
   }
+  /* END BASIC CALC */
       `
     }
 
     if (ability == AbilityType.SKILL) {
       actionDamageWgsl += `
+  /* START SKILL CALC */
   if (abilityType == 2 || actionIndex == 0) {
     let initialDmg = calculateInitial(
       p_x,
@@ -84,11 +88,13 @@ export function injectActionDamage(context: OptimizerContext) {
       0, // m.SKILL_DMG,
     );
   }
+  /* END SKILL CALC */
       `
     }
 
     if (ability == AbilityType.ULT) {
       actionDamageWgsl += `
+  /* START ULT CALC */
   if (abilityType == 4 || actionIndex == 0) {
     let initialDmg = calculateInitial(
       p_x,
@@ -125,11 +131,13 @@ export function injectActionDamage(context: OptimizerContext) {
       m.ULT_DMG,
     );
   }
+  /* END ULT CALC */
       `
     }
 
     if (ability == AbilityType.FUA) {
       actionDamageWgsl += `
+  /* START FUA CALC */
   if (abilityType == 8 || actionIndex == 0) {
     let initialDmg = calculateInitial(
       p_x,
@@ -166,11 +174,13 @@ export function injectActionDamage(context: OptimizerContext) {
       0, // m.FUA_DMG,
     );
   }
+  /* END FUA CALC */
       `
     }
 
     if (ability == AbilityType.MEMO_SKILL) {
       actionDamageWgsl += `
+  /* START MEMO_SKILL CALC */
   if (abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
     let initialDmg = calculateInitial(
       p_x,
@@ -209,11 +219,13 @@ export function injectActionDamage(context: OptimizerContext) {
 
     (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
   }
+  /* END MEMO_SKILL CALC */
       `
     }
 
     if (ability == AbilityType.MEMO_TALENT) {
       actionDamageWgsl += `
+  /* START MEMO_TALENT CALC */
   if (abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
     let initialDmg = calculateInitial(
       p_x,
@@ -252,6 +264,7 @@ export function injectActionDamage(context: OptimizerContext) {
 
     (*p_x).MEMO_TALENT_DMG += (*p_m).MEMO_TALENT_DMG;
   }
+  /* END MEMO_TALENT CALC */
       `
     }
   }

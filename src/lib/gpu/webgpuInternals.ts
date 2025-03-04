@@ -35,6 +35,8 @@ export function initializeGpuPipeline(
 
   if (DEBUG && !silent) {
     console.log(wgsl)
+  } else {
+    // console.log(wgsl)
   }
 
   const computePipeline = generatePipeline(device, wgsl)

@@ -34,12 +34,26 @@ function injectSuppressions(wgsl: string, context: OptimizerContext, gpuParams: 
     wgsl = suppress(wgsl, 'MC ASSIGNMENT')
   }
 
+  if (context.resultSort != SortOption.EHP.key && !gpuParams.DEBUG) {
+    wgsl = suppress(wgsl, 'EHP CALC')
+  }
+
+  if (context.resultSort != SortOption.COMBO.key && !gpuParams.DEBUG) {
+    if (context.resultSort != SortOption.DOT.key) wgsl = suppress(wgsl, 'DOT CALC')
+    if (context.resultSort != SortOption.BASIC.key) wgsl = suppress(wgsl, 'BASIC CALC')
+    if (context.resultSort != SortOption.SKILL.key) wgsl = suppress(wgsl, 'SKILL CALC')
+    if (context.resultSort != SortOption.ULT.key) wgsl = suppress(wgsl, 'ULT CALC')
+    if (context.resultSort != SortOption.FUA.key) wgsl = suppress(wgsl, 'FUA CALC')
+    if (context.resultSort != SortOption.MEMO_SKILL.key) wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
+    if (context.resultSort != SortOption.MEMO_TALENT.key) wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
+  }
+
   return wgsl
 }
 
 function suppress(wgsl: string, label: string) {
-  wgsl = wgsl.replace(`START ${label} */`, `════════════════════════ DISABLED ${label} ════════════════════════╗`)
-  wgsl = wgsl.replace(`/* END ${label}`, `═══════════════════════════ DISABLED ${label} ════════════════════════╝`)
+  wgsl = wgsl.replace(`START ${label} */`, `═════════════════════════════════════════ DISABLED ${label} ═════════════════════════════════════════╗`)
+  wgsl = wgsl.replace(`/* END ${label}`, `════════════════════════════════════════════ DISABLED ${label} ═════════════════════════════════════════╝`)
 
   return wgsl
 }

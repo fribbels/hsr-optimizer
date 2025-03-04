@@ -114,6 +114,7 @@ CharacterPreview:
       ULT: 必殺技
       FUA: 追加攻撃
       MEMO_SKILL: 精霊スキル
+      MEMO_TALENT: 精霊天賦
       DOTS: "持続 "
       BREAKS: "撃破 "
     CombatResults:
@@ -131,6 +132,8 @@ CharacterPreview:
         FUA: 追加攻撃
         DOT: 持続
         BREAK: 弱点撃破
+        MEMO_SKILL: 精霊スキル
+        MEMO_TALENT: 精霊天賦
         COMBO: コンボ
     CombatBuffs:
       Header: 戦闘バフ

@@ -1,4 +1,5 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { ElementName, PathName } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -79,8 +80,8 @@ export type CharacterMetadata = {
   characterEidolon: number
   lightCone: string
   lightConeSuperimposition: number
-  path: string
-  element: string
+  path: PathName
+  element: ElementName
 }
 
 export type OptimizerContext = {
@@ -103,8 +104,8 @@ export type OptimizerContext = {
   deprioritizeBuffs: boolean
 
   // Character data
-  element: string // Ice
-  path: string // Destruction
+  element: ElementName // Ice
+  path: PathName // Destruction
   elementalDamageType: ElementalDamageType // Ice DMG Boost
   elementalResPenType: ElementalResPenType // ICE_RES_PEN
   elementalBreakScaling: number // Ice: 1.0

@@ -1,4 +1,4 @@
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, ContentDefinition, countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -43,7 +43,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((m.cdBuff) ? sValuesCd[s] : 0, SOURCE_LC)
+      x.CD.buff((m.cdBuff && countTeamPath(context, context.path) >= 2) ? sValuesCd[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

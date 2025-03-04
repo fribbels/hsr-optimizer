@@ -1,3 +1,4 @@
+import { countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
@@ -5,7 +6,13 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  ComboConditionalCategory,
+  ComboConditionals,
+  ComboSelectConditional,
+  ComboState,
+  initializeComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
@@ -68,6 +75,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
   action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
+  action.setConditionals = overrideSetConditionals(action.setConditionals, context)
 
   action.precomputedX = new ComputedStatsArrayCore(request.trace) as ComputedStatsArray
   action.precomputedX.setPrecompute(baseComputedStatsArray())
@@ -289,4 +297,11 @@ function getComboAbilities(comboAbilities: string[]) {
     newComboAbilities.push(comboAbilities[i])
   }
   return newComboAbilities
+}
+
+function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {
+  return {
+    ...setConditionals,
+    enabledIzumoGenseiAndTakamaDivineRealm: setConditionals.enabledIzumoGenseiAndTakamaDivineRealm && countTeamPath(context, context.path) >= 2,
+  }
 }

@@ -216,17 +216,17 @@ fn main(
 
     // Calculate basic stats
 
-    c.HP  += (baseHP) * (1 + c.HP_P + traceHP_P + lcHP_P) + traceHP;
-    c.DEF += (baseDEF) * (1 + c.DEF_P + traceDEF_P + lcDEF_P) + traceDEF;
-    c.ATK += (baseATK) * (1 + c.ATK_P + traceATK_P + lcATK_P) + traceATK;
-    c.SPD += (baseSPD) * (1 + c.SPD_P + traceSPD_P + lcSPD_P) + traceSPD;
-    c.CR  += characterCR + lcCR + traceCR;
-    c.CD  += characterCD + lcCD + traceCD;
-    c.EHR += characterEHR + lcEHR + traceEHR;
-    c.RES += characterRES + lcRES + traceRES;
-    c.BE  += characterBE + lcBE + traceBE;
-    c.ERR += characterERR + lcERR + traceERR;
-    c.OHB += characterOHB + lcOHB + traceOHB;
+    c.HP  += (baseHP) * (1 + c.HP_P + traceHP_P + baseHP_P) + traceHP;
+    c.ATK += (baseATK) * (1 + c.ATK_P + traceATK_P + baseATK_P) + traceATK;
+    c.DEF += (baseDEF) * (1 + c.DEF_P + traceDEF_P + baseDEF_P) + traceDEF;
+    c.SPD += (baseSPD) * (1 + c.SPD_P + traceSPD_P + baseSPD_P) + traceSPD;
+    c.CR  += baseCR + traceCR;
+    c.CD  += baseCD + traceCD;
+    c.EHR += baseEHR + traceEHR;
+    c.RES += baseRES + traceRES;
+    c.BE  += baseBE + traceBE;
+    c.ERR += baseERR + traceERR;
+    c.OHB += baseOHB + traceOHB;
     c.PHYSICAL_DMG_BOOST  += tracePhysical_DMG + 0.10 * p2(sets.ChampionOfStreetwiseBoxing);
     c.FIRE_DMG_BOOST      += traceFire_DMG + 0.10 * p2(sets.FiresmithOfLavaForging);
     c.ICE_DMG_BOOST       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);

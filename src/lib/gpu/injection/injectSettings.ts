@@ -5,10 +5,12 @@ import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
 export function injectSettings(wgsl: string, context: OptimizerContext, request: Form) {
-  wgsl += generateCharacterStats(context.characterStatsBreakdown.base, 'character')
-  wgsl += generateCharacterStats(context.characterStatsBreakdown.lightCone, 'lc')
+  const merged: Record<string, number> = {}
+  for (const stat of Object.values(paramStatNames)) {
+    merged[stat] = (context.characterStatsBreakdown.base[stat] ?? 0) + (context.characterStatsBreakdown.lightCone[stat] ?? 0)
+  }
+  wgsl += generateCharacterStats(merged, 'base')
   wgsl += generateCharacterStats(context.characterStatsBreakdown.traces, 'trace')
-  wgsl += generateAggregateStats()
   wgsl += generateElement(context)
   wgsl += generateRequest(request)
   wgsl += generateActions(context)
@@ -52,15 +54,6 @@ fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<funct
   `
 
   return wgsl
-}
-
-function generateAggregateStats() {
-  return `
-const baseHP = characterHP + lcHP;
-const baseATK = characterATK + lcATK;
-const baseDEF = characterDEF + lcDEF;
-const baseSPD = characterSPD + lcSPD;
-  `
 }
 
 function generateRequest(request: Form) {

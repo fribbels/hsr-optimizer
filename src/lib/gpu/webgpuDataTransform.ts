@@ -82,16 +82,6 @@ export function generateBaseParamsArray(relics: RelicsByPart, context: Optimizer
     Object.keys(Constants.SetsOrnaments).length, // 13
   ]
 
-  for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[15 + StatsToWebgpuIndex[stat]] = context.characterStatsBreakdown.base[stat]
-  }
-  for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[37 + StatsToWebgpuIndex[stat]] = context.characterStatsBreakdown.lightCone[stat]
-  }
-  for (const stat of Object.values(Constants.Stats)) {
-    paramsArray[59 + StatsToWebgpuIndex[stat]] = context.characterStatsBreakdown.traces[stat]
-  }
-
   return paramsArray
 }
 

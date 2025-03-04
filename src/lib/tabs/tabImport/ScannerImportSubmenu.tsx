@@ -188,8 +188,7 @@ export function ScannerImportSubmenu() {
                 </ul>
               </li>
               <li>
-                {t('Import.Stage1.HoyolabDesc.Title')}
-                (
+                {t('Import.Stage1.HoyolabDesc.Title')} (
                 <ColorizedLinkWithIcon
                   text={t('Import.Stage1.HoyolabDesc.Link')}
                   url='https://github.com/fribbels/hsr-optimizer/discussions/403'

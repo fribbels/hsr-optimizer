@@ -1,4 +1,4 @@
-import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -110,6 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -127,56 +128,44 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BREAK_EFFICIENCY_BOOST.buff((r.enhancedStateActive) ? 0.50 : 0, SOURCE_ULT)
       x.DMG_RED_MULTI.multiply((r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1, SOURCE_TALENT)
 
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? ultWeaknessBrokenBreakVulnerability : 0, SOURCE_ULT)
+
       // Should be skill def pen but skill doesnt apply to super break
       x.DEF_PEN.buff((e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E1)
       x.RES.buff((e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0, SOURCE_E4)
       x.FIRE_RES_PEN.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0, SOURCE_E6)
       x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 45 : 30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 90 : 60, SOURCE_SKILL)
+      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 15 : 10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 30 : 20, SOURCE_SKILL)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? ultWeaknessBrokenBreakVulnerability : 0, SOURCE_ULT)
-
       x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 2.00) ? 0.35 : 0, SOURCE_TRACE)
       x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 3.60) ? 0.15 : 0, SOURCE_TRACE)
 
-      x.SKILL_SCALING.buff(
+      x.SKILL_ATK_SCALING.buff(
         (r.enhancedStateActive)
           ? (0.2 * Math.min(3.60, x.a[Key.BE]) + skillEnhancedAtkScaling)
           : skillScaling
         , SOURCE_SKILL)
-
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       return `
-buffAbilityVulnerability(p_x, BREAK_DMG_TYPE, ${ultWeaknessBrokenBreakVulnerability}, select(0, 1, ${wgslTrue(r.enhancedStateActive)} && x.ENEMY_WEAKNESS_BROKEN >= 1));
-
-if (x.BE >= 2.00 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) {
-  x.SUPER_BREAK_MODIFIER += 0.35;
-}
-if (x.BE >= 3.60 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) {
-  x.SUPER_BREAK_MODIFIER += 0.15;
-}
+if (x.BE >= 2.00 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) { x.SUPER_BREAK_MODIFIER += 0.35; }
+if (x.BE >= 3.60 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) { x.SUPER_BREAK_MODIFIER += 0.15; }
 
 if (${wgslTrue(r.enhancedStateActive)}) {
-  x.SKILL_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
+  x.SKILL_ATK_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
 } else {
-  x.SKILL_SCALING += ${skillScaling};
+  x.SKILL_ATK_SCALING += ${skillScaling};
 }
-
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
       `
     },
     dynamicConditionals: [

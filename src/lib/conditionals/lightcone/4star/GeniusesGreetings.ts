@@ -32,7 +32,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.BASIC_BOOST.buffDual((r.basicDmgBoost) ? sValues[s] : 0, SOURCE_LC)
+      x.BASIC_DMG_BOOST.buffDual((r.basicDmgBoost) ? sValues[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

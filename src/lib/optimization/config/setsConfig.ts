@@ -464,6 +464,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
 
 export const SetsConfig = { ...RelicSetsConfig, ...OrnamentSetsConfig }
 
+export type SetKeyType = keyof typeof SetsConfig
+
+export const SetKeys: Record<SetKeyType, SetKeyType> = Object.fromEntries(
+  Object.keys(SetsConfig).map((key) => [key, key]),
+) as Record<SetKeyType, SetKeyType>
+
 const pioneerSetIndexToCd: Record<number, number> = {
   [-1]: 0,
   0: 0,

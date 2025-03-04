@@ -1,3 +1,4 @@
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -126,6 +127,8 @@ export type OptimizerContext = {
   enemyWeaknessBroken: boolean
   weaknessBrokenMultiplier: number
 
+  activeAbilities: AbilityType[]
+  activeAbilityFlags: number
   actions: OptimizerAction[]
   comboBreak: number
   comboDot: number

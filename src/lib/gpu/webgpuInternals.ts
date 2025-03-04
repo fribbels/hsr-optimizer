@@ -149,15 +149,17 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
 
   passEncoder.end()
 
-  const gpuReadBuffer = device.createBuffer({
-    size: resultMatrixBufferSize,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
+  if (!gpuContext.gpuReadBuffer) {
+    gpuContext.gpuReadBuffer = device.createBuffer({
+      size: resultMatrixBufferSize,
+      usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
+    })
+  }
 
   commandEncoder.copyBufferToBuffer(
     resultMatrixBuffer,
     0,
-    gpuReadBuffer,
+    gpuContext.gpuReadBuffer,
     0,
     resultMatrixBufferSize,
   )
@@ -168,7 +170,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
     gpuContext.startTime = new Date().getTime()
   }
 
-  return gpuReadBuffer
+  return gpuContext.gpuReadBuffer
 }
 
 export function generatePipeline(device: GPUDevice, wgsl: string) {

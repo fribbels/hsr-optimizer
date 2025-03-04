@@ -49,6 +49,8 @@ export type GpuExecutionContext = {
   relicsMatrixBuffer: GPUBuffer
   relicSetSolutionsMatrixBuffer: GPUBuffer
   ornamentSetSolutionsMatrixBuffer: GPUBuffer
+
+  gpuReadBuffer?: GPUBuffer
 }
 
 export type RelicsByPart = {

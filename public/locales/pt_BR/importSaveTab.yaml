@@ -9,6 +9,13 @@ Import:
     InvalidFile: Arquivo do escaneador inválido
     InvalidJson: JSON inválido
     Fragment: "Erro ocorreu ao importar o arquivo: "
+  ParserError:
+    BadSource: String de origem incorreta, era '{{jsonSource}}', esperado '{{configSource}}'
+    BadVersion: Versão json incorreta, era '{{jsonVersion}}', esperado '{{configVersion}}'
+    OutdatedVersion: "Sua versão do scanner {{buildVersion}} está desatualizada e pode resultar em importações incorretas! Por favor, atualize para a versão mais recente do Github:"
+    BadMainstat: Não foi possível analisar o atributo principal para relíquia com o atributo principal {{mainstat}} e parte {{part}}
+  ParserWarning:
+    BadRollInfo: O arquivo do scanner está desatualizado / pode conter informações inválidas. Por favor atualize seu scanner.
   Stage1:
     Header: "Instale e execute uma das opções do escaneador de relíquias:"
     ReliquaryDesc:

@@ -933,8 +933,8 @@ export const DB = {
     }
   },
 
-  // These relics are missing speed decimals from OCR importer
-  // We overwrite any existing relics with imported ones
+  // These relics may be missing speed decimals depending on the importer.\
+  // We overwrite any existing relics with imported ones.
   mergeRelicsWithState: (newRelics: Relic[], newCharacters: Form[]) => {
     const oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics) || []
@@ -1062,8 +1062,8 @@ export const DB = {
   },
 
   /*
-   * These relics have accurate speed values from relic scorer import
-   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
+   * These relics have accurate speed values from relic scorer import.\
+   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one.
    */
   mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
     const oldRelics = TsUtils.clone(DB.getRelics()) || []
@@ -1078,7 +1078,7 @@ export const DB = {
     }[] = []
 
     for (const newRelic of newRelics) {
-      const match: Relic | undefined = findRelicMatch(newRelic, oldRelics)
+      const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats

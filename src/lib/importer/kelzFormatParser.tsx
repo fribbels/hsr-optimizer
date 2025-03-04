@@ -235,22 +235,25 @@ type Affixes = {
   step: number
 }
 
-function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
-  const mainStat = ((relic: V4ParserRelic, part: string) => {
-    switch (part) {
-      case 'Hands':
-        return Constants.Stats.ATK
-      case 'Head':
-        return Constants.Stats.HP
-      default:
-        return mapMainStatToId(relic.mainstat)
-    }
-  })(relic, part)
-  if (!mainStat) throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
-    mainstat: relic.mainstat,
-    part,
-  })/* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
+function parseMainStat(relic: V4ParserRelic, part: string) {
+  switch (part) {
+    case 'Hands':
+      return Constants.Stats.ATK
+    case 'Head':
+      return Constants.Stats.HP
+    default:
+      return mapMainStatToId(relic.mainstat)
+  }
+}
 
+function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
+  const mainStat = parseMainStat(relic, part)
+  if (!mainStat) {
+    throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
+      mainstat: relic.mainstat,
+      part,
+    })/* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
+  }
   const partId = mapPartIdToIndex(part)
   const query = `${grade}${partId}`
   const affixes: Affixes[] = Object.values(DB.getMetadata().relics.relicMainAffixes[query].affixes)

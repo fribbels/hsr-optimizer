@@ -41,7 +41,7 @@ export const RelicRollGrader = {
     return closestCounts
   },
 
-  calculateRelicSubstatRolls<T extends UnaugmentedRelic>(relic: T) {
+  calculateRelicSubstatRolls(relic: UnaugmentedRelic) {
     if (relic.verified) return // verified relics have their roll counts and steps already determined
 
     // Skip non 5 star relics for simplicity

@@ -31,7 +31,7 @@ const MEMO_TALENT_ABILITY_TYPE = 128;
 
 const epsilon = 0.00000001f;
 
-@group(0) @binding(0) var<storage> params : Params;
+@group(0) @binding(0) var<uniform> params : Params;
 
 @group(1) @binding(0) var<storage> relics : array<Relic>;
 @group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;

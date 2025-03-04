@@ -50,7 +50,7 @@ export function initializeGpuPipeline(
   })
   const paramsMatrixBuffer = device.createBuffer({
     size: paramsMatrixBufferSize,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
+    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
   })
 
   // console.log('Results buffer length: ', BLOCK_SIZE * CYCLES_PER_INVOCATION)
@@ -237,7 +237,7 @@ function generateLayouts(device: GPUDevice) {
   return [
     device.createBindGroupLayout({
       entries: [
-        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+        { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'uniform' } },
       ],
     }),
     device.createBindGroupLayout({

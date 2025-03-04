@@ -2,7 +2,7 @@ import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, MEMO_TAL
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Stats } from 'lib/constants/constants'
+import { PathNames, Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
@@ -134,12 +134,15 @@ const comboBreak: f32 = ${context.comboBreak};
   const computedStatsX${i} = ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
     );`
   }
-  for (let i = 0; i < actionLength; i++) {
-    const action = context.actions[i]
 
-    actionsDefinition += `
+  if (context.path == PathNames.Remembrance) {
+    for (let i = 0; i < actionLength; i++) {
+      const action = context.actions[i]
+
+      actionsDefinition += `
   const computedStatsM${i} = ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
     );`
+    }
   }
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)

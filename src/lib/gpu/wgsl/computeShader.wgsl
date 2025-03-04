@@ -321,7 +321,9 @@ fn main(
 
     var combo = 0.0;
 
+    /* START MC ASSIGNMENT */
     var mc = c;
+    /* END MC ASSIGNMENT */
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
       var action: Action;
@@ -503,16 +505,6 @@ fn main(
 
       addElementalDmg(&c, &x);
 
-      m.CD  += mc.CD;
-      m.CR  += mc.CR;
-      m.EHR += mc.EHR;
-      m.RES += mc.RES;
-      m.BE  += mc.BE;
-      m.ERR += mc.ERR;
-      m.OHB += mc.OHB;
-
-      addElementalDmg(&mc, &m);
-
       x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
       x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
       x.VULNERABILITY += combatBuffsVULNERABILITY;
@@ -523,6 +515,17 @@ fn main(
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
 
+      /* START COPY MEMOSPRITE BASIC STATS */
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
       m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
       m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
       m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
@@ -532,6 +535,7 @@ fn main(
       m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
       m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
       m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+      /* END COPY MEMOSPRITE BASIC STATS */
 
       // START BASIC CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -572,7 +576,10 @@ fn main(
 
       addComputedElementalDmg(&x);
 
+      /* START MEMOSPRITE DAMAGE CALCS */
       calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      /* END MEMOSPRITE DAMAGE CALCS */
+
       calculateDamage(&x, &m, actionIndex, action.abilityType);
 
       if (actionIndex > 0) {
@@ -1151,21 +1158,6 @@ fn getPioneerSetCd(
       return 0.0;
     }
   }
-}
-
-fn calculateAshblazingSet(
-  setCount: i32,
-  valueTheAshblazingGrandDuke: i32,
-  hitMulti: f32,
-) -> f32 {
-  if (p4(setCount) >= 1) {
-    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
-    let ashblazingMulti = hitMulti * baseATK;
-
-    return ashblazingMulti - ashblazingAtk;
-  }
-
-  return 0;
 }
 
 fn calculateAshblazingSetP(

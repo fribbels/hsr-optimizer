@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants/constants'
+import { PathNames, Stats } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
@@ -22,7 +22,22 @@ function generateActions(context: OptimizerContext) {
   const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
   let actionSwitcher = ``
   for (let i = 0; i < actionLength; i++) {
-    actionSwitcher += indent(`case ${i}: { (*outAction) = action${i}; (*outX) = computedStatsX${i}; (*outM) = computedStatsM${i}; }\n`, 0)
+    if (context.path == PathNames.Remembrance) {
+      actionSwitcher += indent(`
+case ${i}: { 
+  (*outAction) = action${i}; 
+  (*outX) = computedStatsX${i}; 
+  (*outM) = computedStatsM${i}; 
+}
+    `, 0)
+    } else {
+      actionSwitcher += indent(`
+case ${i}: { 
+  (*outAction) = action${i}; 
+  (*outX) = computedStatsX${i}; 
+}
+    `, 0)
+    }
   }
 
   const wgsl = `

@@ -1,4 +1,4 @@
-import { Constants } from 'lib/constants/constants'
+import { Constants, PathNames } from 'lib/constants/constants'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
@@ -22,6 +22,24 @@ export function generateWgsl(context: OptimizerContext, request: Form, gpuParams
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
+  wgsl = injectSuppressions(wgsl, context, gpuParams)
+
+  return wgsl
+}
+
+function injectSuppressions(wgsl: string, context: OptimizerContext, gpuParams: GpuConstants) {
+  if (context.path != PathNames.Remembrance) {
+    wgsl = suppress(wgsl, 'COPY MEMOSPRITE BASIC STATS')
+    wgsl = suppress(wgsl, 'MEMOSPRITE DAMAGE CALCS')
+    wgsl = suppress(wgsl, 'MC ASSIGNMENT')
+  }
+
+  return wgsl
+}
+
+function suppress(wgsl: string, label: string) {
+  wgsl = wgsl.replace(`START ${label} */`, '')
+  wgsl = wgsl.replace(`/* END ${label}`, '')
 
   return wgsl
 }

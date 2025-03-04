@@ -60,6 +60,7 @@ export class BasicStatsArrayCore {
   relicSetIndex: number
   ornamentSetIndex: number
   sets: SetCounts
+  setsArray: number[]
   id: number
   weight: number
 
@@ -73,6 +74,7 @@ export class BasicStatsArrayCore {
     this.ornamentSetIndex = 0
     // @ts-ignore
     this.sets = {}
+    this.setsArray = []
     this.id = -1
     this.weight = 0
 
@@ -116,10 +118,11 @@ export class BasicStatsArrayCore {
     })
   }
 
-  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetCounts, id: number) {
+  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetCounts, setsArray: number[], id: number) {
     this.relicSetIndex = relicSetIndex
     this.ornamentSetIndex = ornamentSetIndex
     this.sets = sets
+    this.setsArray = setsArray
     this.id = id
 
     this.a.set(cachedBasicBaseStatsArray)

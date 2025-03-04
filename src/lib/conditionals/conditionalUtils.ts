@@ -18,7 +18,7 @@ export type Conditionals<T extends ContentDefinition<T>> = {
 }
 
 export const calculateAshblazingSetP = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
-  if (x.c.sets.TheAshblazingGrandDuke >> 4) {
+  if (x.c.sets.TheAshblazingGrandDuke >> 2) {
     const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
     const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke
     return hitMulti - ashblazingAtk

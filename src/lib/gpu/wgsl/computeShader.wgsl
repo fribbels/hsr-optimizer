@@ -72,7 +72,7 @@ fn main(
   let relicSetCount = u32(params.relicSetCount);
   let ornamentSetCount = u32(params.ornamentSetCount);
 
-  let epsilon = 0.000001f;
+  let epsilon = 0.00000001f;
 
   var failures: f32 = 1;
 

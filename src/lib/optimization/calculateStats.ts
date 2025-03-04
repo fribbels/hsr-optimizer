@@ -1,4 +1,4 @@
-import { BASIC_DMG_TYPE, BasicStatsObject, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { BASIC_DMG_TYPE, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Sets, Stats, StatsValues } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
@@ -351,30 +351,4 @@ const pioneerSetIndexToCd: Record<number, number> = {
   2: 0.12,
   3: 0.16,
   4: 0.24,
-}
-
-// @ts-ignore
-export const baseCharacterStats: BasicStatsObject = {
-  [Stats.HP_P]: 0,
-  [Stats.ATK_P]: 0,
-  [Stats.DEF_P]: 0,
-  [Stats.HP]: 0.000001,
-  [Stats.ATK]: 0.000001,
-  [Stats.DEF]: 0.000001,
-  [Stats.SPD]: 0.000001,
-  [Stats.SPD_P]: 0,
-  [Stats.CR]: 0.000001,
-  [Stats.CD]: 0.000001,
-  [Stats.EHR]: 0.000001,
-  [Stats.RES]: 0.000001,
-  [Stats.BE]: 0.000001,
-  [Stats.ERR]: 0.000001,
-  [Stats.OHB]: 0.000001,
-  [Stats.Physical_DMG]: 0.000001,
-  [Stats.Fire_DMG]: 0.000001,
-  [Stats.Ice_DMG]: 0.000001,
-  [Stats.Lightning_DMG]: 0.000001,
-  [Stats.Wind_DMG]: 0.000001,
-  [Stats.Quantum_DMG]: 0.000001,
-  [Stats.Imaginary_DMG]: 0.000001,
 }

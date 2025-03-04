@@ -3,17 +3,17 @@ import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { GpuConstants, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
+export function generateWgsl(context: OptimizerContext, request: Form, relics: RelicsByPart, gpuParams: GpuConstants) {
   let wgsl = ''
 
-  wgsl = injectSettings(wgsl, context, request)
+  wgsl = injectSettings(wgsl, context, request, relics)
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)

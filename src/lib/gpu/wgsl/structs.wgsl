@@ -127,22 +127,11 @@ struct Action {
 }
 
 struct Params {
-  lSize: f32,
-  pSize: f32,
-  fSize: f32,
-  bSize: f32,
-  gSize: f32,
-  hSize: f32,
-
   xl: f32,
   xp: f32,
   xf: f32,
   xb: f32,
   xg: f32,
   xh: f32,
-
   threshold: f32,
-
-  relicSetCount: f32,
-  ornamentSetCount: f32,
 }

@@ -1,10 +1,11 @@
-import { PathNames, Stats } from 'lib/constants/constants'
+import { Constants, PathNames, Stats } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-export function injectSettings(wgsl: string, context: OptimizerContext, request: Form) {
+export function injectSettings(wgsl: string, context: OptimizerContext, request: Form, relics: RelicsByPart) {
   const merged: Record<string, number> = {}
   for (const stat of Object.values(paramStatNames)) {
     merged[stat] = (context.characterStatsBreakdown.base[stat] ?? 0) + (context.characterStatsBreakdown.lightCone[stat] ?? 0)
@@ -14,8 +15,24 @@ export function injectSettings(wgsl: string, context: OptimizerContext, request:
   wgsl += generateElement(context)
   wgsl += generateRequest(request)
   wgsl += generateActions(context)
+  wgsl += generateConsts(context, relics)
 
   wgsl += '\n'
+
+  return wgsl
+}
+
+function generateConsts(context: OptimizerContext, relics: RelicsByPart) {
+  const wgsl = `
+const relicSetCount = ${Object.keys(Constants.SetsRelics).length};
+const ornamentSetCount = ${Object.keys(Constants.SetsOrnaments).length};
+const lSize = ${relics.LinkRope.length};
+const pSize = ${relics.PlanarSphere.length};
+const fSize = ${relics.Feet.length};
+const bSize = ${relics.Body.length};
+const gSize = ${relics.Hands.length};
+const hSize = ${relics.Head.length};
+`
 
   return wgsl
 }

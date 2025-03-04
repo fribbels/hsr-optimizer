@@ -58,21 +58,14 @@ fn main(
   let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
 
   // Load params
-  let lSize = i32(params.lSize);
-  let pSize = i32(params.pSize);
-  let fSize = i32(params.fSize);
-  let bSize = i32(params.bSize);
-  let gSize = i32(params.gSize);
-  let hSize = i32(params.hSize);
   let xl = i32(params.xl);
   let xp = i32(params.xp);
   let xf = i32(params.xf);
   let xb = i32(params.xb);
   let xg = i32(params.xg);
   let xh = i32(params.xh);
-  let threshold = f32(params.threshold);
-  let relicSetCount = u32(params.relicSetCount);
-  let ornamentSetCount = u32(params.ornamentSetCount);
+  let threshold = params.threshold;
+  let cycleIndex = indexGlobal * CYCLES_PER_INVOCATION;
 
   var failures: f32 = 1;
 
@@ -82,7 +75,7 @@ fn main(
 
     // Calculate global_invocation_index
 
-    let index = indexGlobal * CYCLES_PER_INVOCATION + i;
+    let index = cycleIndex + i;
 
     // Calculate relic index per slot
 
@@ -94,23 +87,23 @@ fn main(
     let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
 
     let finalL = (l + xl) % lSize;
-    let carryL = ((l + xl) / lSize);
+    let carryL = (l + xl) / lSize;
     let finalP = (p + xp + carryL) % pSize;
-    let carryP = ((p + xp + carryL) / pSize);
+    let carryP = (p + xp + carryL) / pSize;
     let finalF = (f + xf + carryP) % fSize;
-    let carryF = ((f + xf + carryP) / fSize);
+    let carryF = (f + xf + carryP) / fSize;
     let finalB = (b + xb + carryF) % bSize;
-    let carryB = ((b + xb + carryF) / bSize);
+    let carryB = (b + xb + carryF) / bSize;
     let finalG = (g + xg + carryB) % gSize;
-    let carryG = ((g + xg + carryB) / gSize);
+    let carryG = (g + xg + carryB) / gSize;
     let finalH = (h + xh + carryG) % hSize;
 
     // Calculate Relic structs
 
-    let head  : Relic = (relics[finalH]);
-    let hands : Relic = (relics[finalG + hSize]);
-    let body  : Relic = (relics[finalB + hSize + gSize]);
-    let feet  : Relic = (relics[finalF + hSize + gSize + bSize]);
+    let head         : Relic = (relics[finalH]);
+    let hands        : Relic = (relics[finalG + hSize]);
+    let body         : Relic = (relics[finalB + hSize + gSize]);
+    let feet         : Relic = (relics[finalF + hSize + gSize + bSize]);
     let planarSphere : Relic = (relics[finalP + hSize + gSize + bSize + fSize]);
     let linkRope     : Relic = (relics[finalL + hSize + gSize + bSize + fSize + pSize]);
 
@@ -165,26 +158,28 @@ fn main(
 
     // Calculate ornament set counts
 
-    sets.SpaceSealingStation             = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
-    sets.FleetOfTheAgeless               = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
-    sets.PanCosmicCommercialEnterprise   = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
-    sets.BelobogOfTheArchitects          = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
-    sets.CelestialDifferentiator         = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
-    sets.InertSalsotto                   = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
-    sets.TaliaKingdomOfBanditry          = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
-    sets.SprightlyVonwacq                = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
-    sets.RutilantArena                   = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
-    sets.BrokenKeel                      = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
-    sets.FirmamentFrontlineGlamoth       = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
-    sets.PenaconyLandOfTheDreams         = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
-    sets.SigoniaTheUnclaimedDesolation   = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
-    sets.IzumoGenseiAndTakamaDivineRealm = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
-    sets.DuranDynastyOfRunningWolves     = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
-    sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
-    sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
-    sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
-    sets.BoneCollectionsSereneDemesne    = i32((1 >> (setP ^ 18)) + (1 >> (setL ^ 18)));
-    sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
+    if (setP == setL) {
+      sets.SpaceSealingStation             = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
+      sets.FleetOfTheAgeless               = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
+      sets.PanCosmicCommercialEnterprise   = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
+      sets.BelobogOfTheArchitects          = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
+      sets.CelestialDifferentiator         = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
+      sets.InertSalsotto                   = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
+      sets.TaliaKingdomOfBanditry          = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
+      sets.SprightlyVonwacq                = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
+      sets.RutilantArena                   = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
+      sets.BrokenKeel                      = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
+      sets.FirmamentFrontlineGlamoth       = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
+      sets.PenaconyLandOfTheDreams         = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
+      sets.SigoniaTheUnclaimedDesolation   = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
+      sets.IzumoGenseiAndTakamaDivineRealm = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
+      sets.DuranDynastyOfRunningWolves     = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
+      sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
+      sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
+      sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
+      sets.BoneCollectionsSereneDemesne    = i32((1 >> (setP ^ 18)) + (1 >> (setL ^ 18)));
+      sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
+    }
 
     var c: BasicStats = BasicStats();
 

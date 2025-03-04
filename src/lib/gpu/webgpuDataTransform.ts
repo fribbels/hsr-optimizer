@@ -1,9 +1,8 @@
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, SetsRelicsNames, Stats } from 'lib/constants/constants'
+import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, SetsRelicsNames, Stats } from 'lib/constants/constants'
 import { createGpuBuffer } from 'lib/gpu/webgpuInternals'
 import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { StringToNumberMap } from 'types/common'
-import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
 export const StatsToWebgpuIndex = {
@@ -35,7 +34,6 @@ export function generateParamsMatrix(
   device: GPUDevice,
   offset: number,
   relics: RelicsByPart,
-  paramsArray: number[],
   gpuContext: GpuExecutionContext,
 ) {
   const lSize = relics.LinkRope.length
@@ -51,38 +49,17 @@ export function generateParamsMatrix(
   const b = (((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
   const g = (((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
   const h = (((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
-
-  paramsArray[6] = l
-  paramsArray[7] = p
-  paramsArray[8] = f
-  paramsArray[9] = b
-  paramsArray[10] = g
-  paramsArray[11] = h
-  paramsArray[12] = gpuContext.resultsQueue.top()?.value ?? 0
-
-  return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
-}
-
-export function generateBaseParamsArray(relics: RelicsByPart, context: OptimizerContext) {
   const paramsArray = [
-    relics.LinkRope.length,
-    relics.PlanarSphere.length,
-    relics.Feet.length,
-    relics.Body.length,
-    relics.Hands.length,
-    relics.Head.length,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    Object.keys(Constants.SetsRelics).length,
-    Object.keys(Constants.SetsOrnaments).length, // 13
+    l,
+    p,
+    f,
+    b,
+    g,
+    h,
+    gpuContext.resultsQueue.top()?.value ?? 0,
   ]
 
-  return paramsArray
+  return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }
 
 export function mergeRelicsIntoArray(relics: RelicsByPart) {

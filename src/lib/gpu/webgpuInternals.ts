@@ -1,6 +1,6 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
-import { generateBaseParamsArray, generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
+import { generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
 import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
@@ -25,7 +25,7 @@ export function initializeGpuPipeline(
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
   const DEBUG = debug
 
-  const wgsl = generateWgsl(context, request, {
+  const wgsl = generateWgsl(context, request, relics, {
     WORKGROUP_SIZE,
     BLOCK_SIZE,
     CYCLES_PER_INVOCATION,
@@ -41,7 +41,6 @@ export function initializeGpuPipeline(
 
   const computePipeline = generatePipeline(device, wgsl)
   const postComputePipeline = generatePostComputePipeline(device)
-  const baseParamsArray = generateBaseParamsArray(relics, context)
 
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
   const resultMatrixBuffer = device.createBuffer({
@@ -99,7 +98,6 @@ export function initializeGpuPipeline(
     startTime: 0,
     relics,
     resultsQueue,
-    baseParamsArray,
     cancelled: false,
     computeEngine,
 
@@ -117,7 +115,7 @@ export function initializeGpuPipeline(
 }
 
 export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number) {
-  const newParamsMatrix = generateParamsMatrix(gpuContext.device, offset, gpuContext.relics, gpuContext.baseParamsArray, gpuContext)
+  const newParamsMatrix = generateParamsMatrix(gpuContext.device, offset, gpuContext.relics, gpuContext)
 
   const device = gpuContext.device
   const computePipeline = gpuContext.computePipeline

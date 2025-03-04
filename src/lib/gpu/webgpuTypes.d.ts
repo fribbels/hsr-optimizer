@@ -35,7 +35,6 @@ export type GpuExecutionContext = {
   startTime: number
   relics: RelicsByPart
   resultsQueue: FixedSizePriorityQueue<GpuResult>
-  baseParamsArray: number[]
   cancelled: boolean
   computeEngine: string
 

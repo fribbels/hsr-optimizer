@@ -153,25 +153,19 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   const device = gpuContext.device
   const computePipeline = gpuContext.computePipeline
   const postComputePipeline = gpuContext.postComputePipeline
+  const bindGroup0 = gpuContext.bindGroup0
   const bindGroup1 = gpuContext.bindGroup1
   const bindGroup2 = gpuContext.bindGroup2
-  const bindGroupLayout0 = gpuContext.bindGroupLayouts[0]
   const postComputeBindGroup0 = gpuContext.postComputeBindGroup0
   const resultMatrixBufferSize = gpuContext.resultMatrixBufferSize
   const resultMatrixBuffer = gpuContext.resultMatrixBuffer
 
-  // const newBindGroup0 = device.createBindGroup({
-  //   layout: bindGroupLayout0,
-  //   entries: [
-  //     { binding: 0, resource: { buffer: newParamsMatrix } },
-  //   ],
-  // })
   device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, newParamsMatrix)
 
   const commandEncoder = device.createCommandEncoder()
   const passEncoder = commandEncoder.beginComputePass()
   passEncoder.setPipeline(computePipeline)
-  passEncoder.setBindGroup(0, gpuContext.bindGroup0)
+  passEncoder.setBindGroup(0, bindGroup0)
   passEncoder.setBindGroup(1, bindGroup1)
   passEncoder.setBindGroup(2, bindGroup2)
   passEncoder.dispatchWorkgroups(gpuContext.WORKGROUP_SIZE)
@@ -193,10 +187,6 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   )
 
   device.queue.submit([commandEncoder.finish()])
-
-  if (!gpuContext.startTime) {
-    gpuContext.startTime = performance.now()
-  }
 
   return gpuContext.gpuReadBuffer
 }

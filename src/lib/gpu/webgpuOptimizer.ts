@@ -66,6 +66,10 @@ export async function gpuOptimize(props: {
 
   let totalTime = 0
 
+  if (!gpuContext.startTime) {
+    gpuContext.startTime = performance.now()
+  }
+
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
     const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION

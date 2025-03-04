@@ -894,6 +894,9 @@ fn buffAbilityTrueDmg(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_TRUE_DMG_MODIFIER += value;
   }
@@ -906,9 +909,24 @@ fn buffAbilityTrueDmg(
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
     (*p_x).FUA_TRUE_DMG_MODIFIER += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+    (*p_x).DOT_TRUE_DMG_MODIFIER += value;
+  }
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_TRUE_DMG_MODIFIER += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_TRUE_DMG_MODIFIER += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_TRUE_DMG_MODIFIER += value;
+//  }
 }
 
 fn buffAbilityDmg(
@@ -917,6 +935,9 @@ fn buffAbilityDmg(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_DMG_BOOST += value;
   }
@@ -935,8 +956,17 @@ fn buffAbilityDmg(
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_DMG_BOOST += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_DMG_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_DMG_BOOST += value;
+  }
   if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
     (*p_x).ADDITIONAL_DMG_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+    (*p_x).SUPER_BREAK_DMG_BOOST += value;
   }
 }
 
@@ -946,6 +976,9 @@ fn buffAbilityCr(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_CR_BOOST += value;
   }
@@ -958,6 +991,24 @@ fn buffAbilityCr(
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
     (*p_x).FUA_CR_BOOST += value;
   }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_CR_BOOST += value;
+//  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_CR_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_CR_BOOST += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_CR_BOOST += value;
+//  }
 }
 
 fn buffAbilityCd(
@@ -966,6 +1017,9 @@ fn buffAbilityCd(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_CD_BOOST += value;
   }
@@ -978,6 +1032,24 @@ fn buffAbilityCd(
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
     (*p_x).FUA_CD_BOOST += value;
   }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_CD_BOOST += value;
+//  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_CD_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_CD_BOOST += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_CD_BOOST += value;
+//  }
 }
 
 fn buffAbilityDefShred(
@@ -1007,6 +1079,15 @@ fn buffAbilityDefShred(
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_DEF_PEN += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_DEF_PEN += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_DEF_PEN += value;
+//  }
   if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
     (*p_x).SUPER_BREAK_DEF_PEN += value;
   }
@@ -1039,6 +1120,15 @@ fn buffAbilityVulnerability(
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_VULNERABILITY += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_VULNERABILITY += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_VULNERABILITY += value;
+//  }
   if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
     (*p_x).SUPER_BREAK_VULNERABILITY += value;
   }

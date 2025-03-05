@@ -103,6 +103,8 @@ CharacterPreview:
     Roll: roll
     Damage: Dégâts
   BuildAnalysis:
+    ScoringNote: >-
+      La note de DPS évalue la qualité d'une build en comparant les dégâts infligés par une rotation de capacités de la build équipée à ceux de 2 builds de référence avec les mêmes équipes / cônes de lumière / eidolons. Les notes et DGT Combo sont relatifs à l'équipe et au seuil de vitesse choisi. Ils ne devraient pas être comparés entre différentes configurations.
     Header: Analyse de build du personnage
     SimulationTeammates: Coéquipiers de simulation
     SimulationSets: Set de simulation

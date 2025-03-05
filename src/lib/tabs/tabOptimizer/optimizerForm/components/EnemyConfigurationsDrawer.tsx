@@ -67,7 +67,7 @@ export const EnemyConfigurationsDrawer = () => {
     for (let i = 720; i >= 1; i -= 30) {
       options.push({
         value: i,
-        label: t('ToughnessOptionLabel', { toughness: i }), // `${i} max toughness`,
+        label: t('ToughnessOptionLabel', { toughness: i / 3 }), // `${i} max toughness`,
       })
     }
 

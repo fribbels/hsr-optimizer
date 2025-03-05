@@ -1,5 +1,5 @@
-import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -83,6 +83,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -92,12 +93,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0, SOURCE_E2)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_SCALING.buff(r.talentEnemyMarked ? skillScaling : 0, SOURCE_SKILL)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.SKILL_ATK_SCALING.buff(r.talentEnemyMarked ? skillScaling : 0, SOURCE_SKILL)
 
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_SCALING.buff(r.ultBuff ? ultFuaExtraScaling : 0, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.FUA_ATK_SCALING.buff(r.ultBuff ? ultFuaExtraScaling : 0, SOURCE_ULT)
 
       // Boost
       x.DMG_RED_MULTI.multiply((1 - 0.10), SOURCE_TALENT)
@@ -105,21 +106,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DMG_RED_MULTI.multiply((e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1, SOURCE_E4)
       buffAbilityDmg(x, FUA_DMG_TYPE, 0.30, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(30, SOURCE_SKILL)
-      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
+      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
-      standardFuaAtkFinalizer(x, action, context, hitMulti)
+      boostAshblazingAtkP(x, action, context, hitMulti)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = r.ultBuff ? hitMultiByTargetsBlast[context.enemyCount] : hitMultiSingle
-      return gpuStandardFuaAtkFinalizer(hitMulti)
+      return gpuBoostAshblazingAtkP(hitMulti)
     },
   }
 }

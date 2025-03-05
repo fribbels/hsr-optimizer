@@ -24,10 +24,14 @@ const BASIC_ABILITY_TYPE = 1;
 const SKILL_ABILITY_TYPE = 2;
 const ULT_ABILITY_TYPE = 4;
 const FUA_ABILITY_TYPE = 8;
-const MEMO_SKILL_ABILITY_TYPE = 16;
-const MEMO_TALENT_ABILITY_TYPE = 32;
+const DOT_ABILITY_TYPE = 16;
+const BREAK_ABILITY_TYPE = 32;
+const MEMO_SKILL_ABILITY_TYPE = 64;
+const MEMO_TALENT_ABILITY_TYPE = 128;
 
-@group(0) @binding(0) var<storage> params : Params;
+const epsilon = 0.00000001f;
+
+@group(0) @binding(0) var<uniform> params : Params;
 
 @group(1) @binding(0) var<storage> relics : array<Relic>;
 @group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;
@@ -54,23 +58,14 @@ fn main(
   let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
 
   // Load params
-  let lSize = i32(params.lSize);
-  let pSize = i32(params.pSize);
-  let fSize = i32(params.fSize);
-  let bSize = i32(params.bSize);
-  let gSize = i32(params.gSize);
-  let hSize = i32(params.hSize);
   let xl = i32(params.xl);
   let xp = i32(params.xp);
   let xf = i32(params.xf);
   let xb = i32(params.xb);
   let xg = i32(params.xg);
   let xh = i32(params.xh);
-  let threshold = f32(params.threshold);
-  let relicSetCount = u32(params.relicSetCount);
-  let ornamentSetCount = u32(params.ornamentSetCount);
-
-  let epsilon = 0.000001f;
+  let threshold = params.threshold;
+  let cycleIndex = indexGlobal * CYCLES_PER_INVOCATION;
 
   var failures: f32 = 1;
 
@@ -80,7 +75,7 @@ fn main(
 
     // Calculate global_invocation_index
 
-    let index = indexGlobal * CYCLES_PER_INVOCATION + i;
+    let index = cycleIndex + i;
 
     // Calculate relic index per slot
 
@@ -92,23 +87,23 @@ fn main(
     let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
 
     let finalL = (l + xl) % lSize;
-    let carryL = ((l + xl) / lSize);
+    let carryL = (l + xl) / lSize;
     let finalP = (p + xp + carryL) % pSize;
-    let carryP = ((p + xp + carryL) / pSize);
+    let carryP = (p + xp + carryL) / pSize;
     let finalF = (f + xf + carryP) % fSize;
-    let carryF = ((f + xf + carryP) / fSize);
+    let carryF = (f + xf + carryP) / fSize;
     let finalB = (b + xb + carryF) % bSize;
-    let carryB = ((b + xb + carryF) / bSize);
+    let carryB = (b + xb + carryF) / bSize;
     let finalG = (g + xg + carryB) % gSize;
-    let carryG = ((g + xg + carryB) / gSize);
+    let carryG = (g + xg + carryB) / gSize;
     let finalH = (h + xh + carryG) % hSize;
 
     // Calculate Relic structs
 
-    let head  : Relic = (relics[finalH]);
-    let hands : Relic = (relics[finalG + hSize]);
-    let body  : Relic = (relics[finalB + hSize + gSize]);
-    let feet  : Relic = (relics[finalF + hSize + gSize + bSize]);
+    let head         : Relic = (relics[finalH]);
+    let hands        : Relic = (relics[finalG + hSize]);
+    let body         : Relic = (relics[finalB + hSize + gSize]);
+    let feet         : Relic = (relics[finalF + hSize + gSize + bSize]);
     let planarSphere : Relic = (relics[finalP + hSize + gSize + bSize + fSize]);
     let linkRope     : Relic = (relics[finalL + hSize + gSize + bSize + fSize + pSize]);
 
@@ -163,26 +158,28 @@ fn main(
 
     // Calculate ornament set counts
 
-    sets.SpaceSealingStation             = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
-    sets.FleetOfTheAgeless               = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
-    sets.PanCosmicCommercialEnterprise   = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
-    sets.BelobogOfTheArchitects          = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
-    sets.CelestialDifferentiator         = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
-    sets.InertSalsotto                   = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
-    sets.TaliaKingdomOfBanditry          = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
-    sets.SprightlyVonwacq                = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
-    sets.RutilantArena                   = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
-    sets.BrokenKeel                      = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
-    sets.FirmamentFrontlineGlamoth       = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
-    sets.PenaconyLandOfTheDreams         = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
-    sets.SigoniaTheUnclaimedDesolation   = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
-    sets.IzumoGenseiAndTakamaDivineRealm = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
-    sets.DuranDynastyOfRunningWolves     = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
-    sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
-    sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
-    sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
-    sets.BoneCollectionsSereneDemesne    = i32((1 >> (setP ^ 18)) + (1 >> (setL ^ 18)));
-    sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
+    if (setP == setL) {
+      sets.SpaceSealingStation             = i32((1 >> (setP ^ 0)) + (1 >> (setL ^ 0)));
+      sets.FleetOfTheAgeless               = i32((1 >> (setP ^ 1)) + (1 >> (setL ^ 1)));
+      sets.PanCosmicCommercialEnterprise   = i32((1 >> (setP ^ 2)) + (1 >> (setL ^ 2)));
+      sets.BelobogOfTheArchitects          = i32((1 >> (setP ^ 3)) + (1 >> (setL ^ 3)));
+      sets.CelestialDifferentiator         = i32((1 >> (setP ^ 4)) + (1 >> (setL ^ 4)));
+      sets.InertSalsotto                   = i32((1 >> (setP ^ 5)) + (1 >> (setL ^ 5)));
+      sets.TaliaKingdomOfBanditry          = i32((1 >> (setP ^ 6)) + (1 >> (setL ^ 6)));
+      sets.SprightlyVonwacq                = i32((1 >> (setP ^ 7)) + (1 >> (setL ^ 7)));
+      sets.RutilantArena                   = i32((1 >> (setP ^ 8)) + (1 >> (setL ^ 8)));
+      sets.BrokenKeel                      = i32((1 >> (setP ^ 9)) + (1 >> (setL ^ 9)));
+      sets.FirmamentFrontlineGlamoth       = i32((1 >> (setP ^ 10)) + (1 >> (setL ^ 10)));
+      sets.PenaconyLandOfTheDreams         = i32((1 >> (setP ^ 11)) + (1 >> (setL ^ 11)));
+      sets.SigoniaTheUnclaimedDesolation   = i32((1 >> (setP ^ 12)) + (1 >> (setL ^ 12)));
+      sets.IzumoGenseiAndTakamaDivineRealm = i32((1 >> (setP ^ 13)) + (1 >> (setL ^ 13)));
+      sets.DuranDynastyOfRunningWolves     = i32((1 >> (setP ^ 14)) + (1 >> (setL ^ 14)));
+      sets.ForgeOfTheKalpagniLantern       = i32((1 >> (setP ^ 15)) + (1 >> (setL ^ 15)));
+      sets.LushakaTheSunkenSeas            = i32((1 >> (setP ^ 16)) + (1 >> (setL ^ 16)));
+      sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
+      sets.BoneCollectionsSereneDemesne    = i32((1 >> (setP ^ 18)) + (1 >> (setL ^ 18)));
+      sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
+    }
 
     var c: BasicStats = BasicStats();
 
@@ -204,34 +201,34 @@ fn main(
     c.BE  = epsilon + head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
     c.ERR = epsilon + head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
     c.OHB = epsilon + head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
-    c.Physical_DMG  = epsilon + head.Physical_DMG + hands.Physical_DMG + body.Physical_DMG + feet.Physical_DMG + planarSphere.Physical_DMG + linkRope.Physical_DMG;
-    c.Fire_DMG      = epsilon + head.Fire_DMG + hands.Fire_DMG + body.Fire_DMG + feet.Fire_DMG + planarSphere.Fire_DMG + linkRope.Fire_DMG;
-    c.Ice_DMG       = epsilon + head.Ice_DMG + hands.Ice_DMG + body.Ice_DMG + feet.Ice_DMG + planarSphere.Ice_DMG + linkRope.Ice_DMG;
-    c.Lightning_DMG = epsilon + head.Lightning_DMG + hands.Lightning_DMG + body.Lightning_DMG + feet.Lightning_DMG + planarSphere.Lightning_DMG + linkRope.Lightning_DMG;
-    c.Wind_DMG      = epsilon + head.Wind_DMG + hands.Wind_DMG + body.Wind_DMG + feet.Wind_DMG + planarSphere.Wind_DMG + linkRope.Wind_DMG;
-    c.Quantum_DMG   = epsilon + head.Quantum_DMG + hands.Quantum_DMG + body.Quantum_DMG + feet.Quantum_DMG + planarSphere.Quantum_DMG + linkRope.Quantum_DMG;
-    c.Imaginary_DMG = epsilon + head.Imaginary_DMG + hands.Imaginary_DMG + body.Imaginary_DMG + feet.Imaginary_DMG + planarSphere.Imaginary_DMG + linkRope.Imaginary_DMG;
+    c.PHYSICAL_DMG_BOOST  = epsilon + head.PHYSICAL_DMG_BOOST + hands.PHYSICAL_DMG_BOOST + body.PHYSICAL_DMG_BOOST + feet.PHYSICAL_DMG_BOOST + planarSphere.PHYSICAL_DMG_BOOST + linkRope.PHYSICAL_DMG_BOOST;
+    c.FIRE_DMG_BOOST      = epsilon + head.FIRE_DMG_BOOST + hands.FIRE_DMG_BOOST + body.FIRE_DMG_BOOST + feet.FIRE_DMG_BOOST + planarSphere.FIRE_DMG_BOOST + linkRope.FIRE_DMG_BOOST;
+    c.ICE_DMG_BOOST       = epsilon + head.ICE_DMG_BOOST + hands.ICE_DMG_BOOST + body.ICE_DMG_BOOST + feet.ICE_DMG_BOOST + planarSphere.ICE_DMG_BOOST + linkRope.ICE_DMG_BOOST;
+    c.LIGHTNING_DMG_BOOST = epsilon + head.LIGHTNING_DMG_BOOST + hands.LIGHTNING_DMG_BOOST + body.LIGHTNING_DMG_BOOST + feet.LIGHTNING_DMG_BOOST + planarSphere.LIGHTNING_DMG_BOOST + linkRope.LIGHTNING_DMG_BOOST;
+    c.WIND_DMG_BOOST      = epsilon + head.WIND_DMG_BOOST + hands.WIND_DMG_BOOST + body.WIND_DMG_BOOST + feet.WIND_DMG_BOOST + planarSphere.WIND_DMG_BOOST + linkRope.WIND_DMG_BOOST;
+    c.QUANTUM_DMG_BOOST   = epsilon + head.QUANTUM_DMG_BOOST + hands.QUANTUM_DMG_BOOST + body.QUANTUM_DMG_BOOST + feet.QUANTUM_DMG_BOOST + planarSphere.QUANTUM_DMG_BOOST + linkRope.QUANTUM_DMG_BOOST;
+    c.IMAGINARY_DMG_BOOST = epsilon + head.IMAGINARY_DMG_BOOST + hands.IMAGINARY_DMG_BOOST + body.IMAGINARY_DMG_BOOST + feet.IMAGINARY_DMG_BOOST + planarSphere.IMAGINARY_DMG_BOOST + linkRope.IMAGINARY_DMG_BOOST;
 
     // Calculate basic stats
 
-    c.HP  += (baseHP) * (1 + c.HP_P + traceHP_P + lcHP_P) + traceHP;
-    c.DEF += (baseDEF) * (1 + c.DEF_P + traceDEF_P + lcDEF_P) + traceDEF;
-    c.ATK += (baseATK) * (1 + c.ATK_P + traceATK_P + lcATK_P) + traceATK;
-    c.SPD += (baseSPD) * (1 + c.SPD_P + traceSPD_P + lcSPD_P) + traceSPD;
-    c.CR  += characterCR + lcCR + traceCR;
-    c.CD  += characterCD + lcCD + traceCD;
-    c.EHR += characterEHR + lcEHR + traceEHR;
-    c.RES += characterRES + lcRES + traceRES;
-    c.BE  += characterBE + lcBE + traceBE;
-    c.ERR += characterERR + lcERR + traceERR;
-    c.OHB += characterOHB + lcOHB + traceOHB;
-    c.Physical_DMG  += tracePhysical_DMG + 0.10 * p2(sets.ChampionOfStreetwiseBoxing);
-    c.Fire_DMG      += traceFire_DMG + 0.10 * p2(sets.FiresmithOfLavaForging);
-    c.Ice_DMG       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);
-    c.Lightning_DMG += traceLightning_DMG + 0.10 * p2(sets.BandOfSizzlingThunder);
-    c.Wind_DMG      += traceWind_DMG + 0.10 * p2(sets.EagleOfTwilightLine);
-    c.Quantum_DMG   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse);
-    c.Imaginary_DMG += traceImaginary_DMG + 0.10 * p2(sets.WastelanderOfBanditryDesert);
+    c.HP  += (baseHP) * (1 + c.HP_P + traceHP_P + baseHP_P) + traceHP;
+    c.ATK += (baseATK) * (1 + c.ATK_P + traceATK_P + baseATK_P) + traceATK;
+    c.DEF += (baseDEF) * (1 + c.DEF_P + traceDEF_P + baseDEF_P) + traceDEF;
+    c.SPD += (baseSPD) * (1 + c.SPD_P + traceSPD_P + baseSPD_P) + traceSPD;
+    c.CR  += baseCR + traceCR;
+    c.CD  += baseCD + traceCD;
+    c.EHR += baseEHR + traceEHR;
+    c.RES += baseRES + traceRES;
+    c.BE  += baseBE + traceBE;
+    c.ERR += baseERR + traceERR;
+    c.OHB += baseOHB + traceOHB;
+    c.PHYSICAL_DMG_BOOST  += tracePhysical_DMG + 0.10 * p2(sets.ChampionOfStreetwiseBoxing);
+    c.FIRE_DMG_BOOST      += traceFire_DMG + 0.10 * p2(sets.FiresmithOfLavaForging);
+    c.ICE_DMG_BOOST       += traceIce_DMG + 0.10 * p2(sets.HunterOfGlacialForest);
+    c.LIGHTNING_DMG_BOOST += traceLightning_DMG + 0.10 * p2(sets.BandOfSizzlingThunder);
+    c.WIND_DMG_BOOST      += traceWind_DMG + 0.10 * p2(sets.EagleOfTwilightLine);
+    c.QUANTUM_DMG_BOOST   += traceQuantum_DMG + 0.10 * p2(sets.GeniusOfBrilliantStars) + 0.10 * p2(sets.PoetOfMourningCollapse);
+    c.IMAGINARY_DMG_BOOST += traceImaginary_DMG + 0.10 * p2(sets.WastelanderOfBanditryDesert);
 
     // Calculate set effects
 
@@ -319,7 +316,9 @@ fn main(
 
     var combo = 0.0;
 
+    /* START MC ASSIGNMENT */
     var mc = c;
+    /* END MC ASSIGNMENT */
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
       var action: Action;
@@ -476,7 +475,7 @@ fn main(
       }
 
       if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
-        x.Fire_DMG += 0.12;
+        x.FIRE_DMG_BOOST += 0.12;
       }
 
       if (p2(sets.GuardOfWutheringSnow) >= 1) {
@@ -485,6 +484,10 @@ fn main(
 
       if (p2(sets.KnightOfPurityPalace) >= 1) {
         x.SHIELD_BOOST += 0.20;
+      }
+
+      if (p2(sets.PenaconyLandOfTheDreams) >= 1 && setConditionals.enabledPenaconyLandOfTheDreams == true) {
+        m.ELEMENTAL_DMG += 0.10;
       }
 
       x.ATK += diffATK;
@@ -501,16 +504,6 @@ fn main(
 
       addElementalDmg(&c, &x);
 
-      m.CD  += mc.CD;
-      m.CR  += mc.CR;
-      m.EHR += mc.EHR;
-      m.RES += mc.RES;
-      m.BE  += mc.BE;
-      m.ERR += mc.ERR;
-      m.OHB += mc.OHB;
-
-      addElementalDmg(&mc, &m);
-
       x.ELEMENTAL_DMG += combatBuffsDMG_BOOST;
       x.EFFECT_RES_PEN += combatBuffsEFFECT_RES_PEN;
       x.VULNERABILITY += combatBuffsVULNERABILITY;
@@ -521,6 +514,17 @@ fn main(
       x.HP += x.HP_P * baseHP;
       x.SPD += x.SPD_P * baseSPD;
 
+      /* START COPY MEMOSPRITE BASIC STATS */
+      m.CD  += mc.CD;
+      m.CR  += mc.CR;
+      m.EHR += mc.EHR;
+      m.RES += mc.RES;
+      m.BE  += mc.BE;
+      m.ERR += mc.ERR;
+      m.OHB += mc.OHB;
+
+      addElementalDmg(&mc, &m);
+
       m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
       m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
       m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
@@ -530,6 +534,7 @@ fn main(
       m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
       m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
       m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+      /* END COPY MEMOSPRITE BASIC STATS */
 
       // START BASIC CONDITIONALS
       // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -570,7 +575,10 @@ fn main(
 
       addComputedElementalDmg(&x);
 
+      /* START MEMOSPRITE DAMAGE CALCS */
       calculateDamage(&m, &emptyComputedStats, actionIndex, action.abilityType);
+      /* END MEMOSPRITE DAMAGE CALCS */
+
       calculateDamage(&x, &m, actionIndex, action.abilityType);
 
       if (actionIndex > 0) {
@@ -631,12 +639,15 @@ fn calculateDamage(
   let m = *p_m;
   let eLevel: f32 = f32(enemyLevel);
 
+  (*p_x).CR += x.CR_BOOST;
+  (*p_x).CD += x.CD_BOOST;
+  (*p_x).ATK += x.ATK_P_BOOST * baseATK;
+
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
   let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
-  let baseTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER;
 
   // === Super / Break ===
 
@@ -649,37 +660,46 @@ fn calculateDamage(
     * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
     * (1 - baseResistance)
     * (1 + x.BE)
-    * (1 + x.BREAK_BOOST);
-
-  let baseSuperBreakModifier = x.SUPER_BREAK_MODIFIER;
+    * (1 + x.BREAK_DMG_BOOST);
 
   let baseSuperBreakInstanceDmg
     = baseUniversalMulti
     * 3767.5533
-    * calculateDefMulti(baseDefPen + x.BREAK_DEF_PEN + x.SUPER_BREAK_DEF_PEN)
-    * (1 + x.VULNERABILITY + x.BREAK_VULNERABILITY)
+    * calculateDefMulti(baseDefPen + x.SUPER_BREAK_DEF_PEN)
+    * (1 + x.VULNERABILITY + x.SUPER_BREAK_VULNERABILITY)
     * (1 - baseResistance)
     * (1 + x.BE)
-    * (1 + x.BREAK_BOOST)
-    * (0.03333333333f);
+    * (1 + x.SUPER_BREAK_DMG_BOOST)
+    * (0.10f);
 
   if (actionIndex == 0) {
-    let dotDmgBoostMulti = baseDmgBoost + x.DOT_BOOST;
+    /* START DOT CALC */
+    let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
     let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
     let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
     let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
     let dotEhrMulti = calculateEhrMulti(p_x);
+    let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+    let initialDmg = calculateInitial(
+      p_x,
+      x.DOT_DMG,
+      x.DOT_HP_SCALING,
+      x.DOT_DEF_SCALING,
+      x.DOT_ATK_SCALING,
+      x.DOT_ATK_P_BOOST
+    );
 
-    if (x.DOT_DMG > 0) {
-      (*p_x).DOT_DMG = x.DOT_DMG
+    if (initialDmg > 0) {
+      (*p_x).DOT_DMG = initialDmg
         * (baseUniversalMulti)
         * (dotDmgBoostMulti)
         * (dotDefMulti)
         * (dotVulnerabilityMulti)
         * (dotResMulti)
         * (dotEhrMulti)
-        * (baseTrueDmgMulti);
+        * (dotTrueDmgMulti);
     }
+    /* END DOT CALC */
 
     if (x.HEAL_VALUE > 0) {
       (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
@@ -694,194 +714,33 @@ fn calculateDamage(
       (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + x.SHIELD_BOOST);
     }
 
+    /* START EHP CALC */
     (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
+    /* END EHP CALC */
   }
 
-  if (abilityType == 1 || actionIndex == 0) {
-    (*p_x).BASIC_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
-      baseBreakEfficiencyBoost,
-      x.BASIC_DMG,
-      x.BASIC_BOOST,
-      x.BASIC_VULNERABILITY,
-      x.BASIC_DEF_PEN,
-      x.BASIC_RES_PEN,
-      x.BASIC_CR_BOOST,
-      x.BASIC_CD_BOOST,
-      x.BASIC_FINAL_DMG_BOOST,
-      x.BASIC_BREAK_EFFICIENCY_BOOST,
-      x.BASIC_SUPER_BREAK_MODIFIER,
-      x.BASIC_BREAK_DMG_MODIFIER,
-      x.BASIC_TOUGHNESS_DMG,
-      x.BASIC_ADDITIONAL_DMG,
-      0, // x.BASIC_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.BASIC_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.BASIC_TRUE_DMG_MODIFIER,
-      m.BASIC_DMG,
-    );
-  }
+  // START ACTION DAMAGE
+  // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+  /* INJECT ACTION DAMAGE */
+  // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+  // END ACTION DAMAGE
 
-  if (abilityType == 2 || actionIndex == 0) {
-    (*p_x).SKILL_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
-      baseBreakEfficiencyBoost,
-      x.SKILL_DMG,
-      x.SKILL_BOOST,
-      x.SKILL_VULNERABILITY,
-      x.SKILL_DEF_PEN,
-      x.SKILL_RES_PEN,
-      x.SKILL_CR_BOOST,
-      x.SKILL_CD_BOOST,
-      x.SKILL_FINAL_DMG_BOOST,
-      0, // x.SKILL_BREAK_EFFICIENCY_BOOST,
-      0, // x.SKILL_SUPER_BREAK_MODIFIER,
-      0, // x.SKILL_BREAK_DMG_MODIFIER,
-      x.SKILL_TOUGHNESS_DMG,
-      x.SKILL_ADDITIONAL_DMG,
-      0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.SKILL_TRUE_DMG_MODIFIER,
-      0, // m.SKILL_DMG,
-    );
-  }
+  (*p_x).BREAK_DMG *= 1 + x.TRUE_DMG_MODIFIER + x.BREAK_TRUE_DMG_MODIFIER;
+}
 
-  if (abilityType == 4 || actionIndex == 0) {
-    (*p_x).ULT_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
-      baseBreakEfficiencyBoost,
-      x.ULT_DMG,
-      x.ULT_BOOST,
-      x.ULT_VULNERABILITY,
-      x.ULT_DEF_PEN,
-      x.ULT_RES_PEN,
-      x.ULT_CR_BOOST,
-      x.ULT_CD_BOOST,
-      x.ULT_FINAL_DMG_BOOST,
-      x.ULT_BREAK_EFFICIENCY_BOOST,
-      0, // x.ULT_SUPER_BREAK_MODIFIER,
-      0, // x.ULT_BREAK_DMG_MODIFIER,
-      x.ULT_TOUGHNESS_DMG,
-      x.ULT_ADDITIONAL_DMG,
-      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE,
-      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.ULT_TRUE_DMG_MODIFIER,
-      m.ULT_DMG,
-    );
-  }
-
-  if (abilityType == 8 || actionIndex == 0) {
-    (*p_x).FUA_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
-      baseBreakEfficiencyBoost,
-      x.FUA_DMG,
-      x.FUA_BOOST,
-      x.FUA_VULNERABILITY,
-      x.FUA_DEF_PEN,
-      x.FUA_RES_PEN,
-      x.FUA_CR_BOOST,
-      x.FUA_CD_BOOST,
-      0, // x.FUA_FINAL_DMG_BOOST,
-      0, // x.FUA_BREAK_EFFICIENCY_BOOST,
-      0, // x.FUA_SUPER_BREAK_MODIFIER,
-      0, // x.FUA_BREAK_DMG_MODIFIER,
-      x.FUA_TOUGHNESS_DMG,
-      x.FUA_ADDITIONAL_DMG,
-      0, // x.FUA_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.FUA_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.FUA_TRUE_DMG_MODIFIER,
-      0, // m.FUA_DMG,
-    );
-  }
-
-  if (abilityType == MEMO_SKILL_ABILITY_TYPE || actionIndex == 0) {
-    (*p_x).MEMO_SKILL_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
-      baseBreakEfficiencyBoost,
-      x.MEMO_SKILL_DMG,
-      x.MEMO_SKILL_BOOST,
-      0, // x.MEMO_SKILL_VULNERABILITY,
-      0, // x.MEMO_SKILL_DEF_PEN,
-      0, // x.MEMO_SKILL_RES_PEN,
-      0, // x.MEMO_SKILL_CR_BOOST,
-      0, // x.MEMO_SKILL_CD_BOOST,
-      0, // x.MEMO_SKILL_FINAL_DMG_BOOST,
-      0, // x.MEMO_SKILL_BREAK_EFFICIENCY_BOOST,
-      0, // x.MEMO_SKILL_SUPER_BREAK_MODIFIER,
-      0, // x.MEMO_SKILL_BREAK_DMG_MODIFIER,
-      x.MEMO_SKILL_TOUGHNESS_DMG,
-      0, // x.MEMO_SKILL_ADDITIONAL_DMG,
-      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.MEMO_TRUE_DMG_MODIFIER,
-      0, // m.MEMO_DMG,
-    );
-
-    (*p_x).MEMO_SKILL_DMG += (*p_m).MEMO_SKILL_DMG;
-  }
-
-  if (abilityType == MEMO_TALENT_ABILITY_TYPE || actionIndex == 0) {
-    (*p_x).MEMO_TALENT_DMG = calculateAbilityDmg(
-      p_x,
-      baseUniversalMulti,
-      baseDmgBoost,
-      baseDefPen,
-      baseResistance,
-      baseSuperBreakInstanceDmg,
-      baseSuperBreakModifier,
-      baseBreakEfficiencyBoost,
-      x.MEMO_TALENT_DMG,
-      x.MEMO_TALENT_BOOST,
-      0, // x.MEMO_TALENT_VULNERABILITY,
-      0, // x.MEMO_TALENT_DEF_PEN,
-      0, // x.MEMO_TALENT_RES_PEN,
-      0, // x.MEMO_TALENT_CR_BOOST,
-      0, // x.MEMO_TALENT_CD_BOOST,
-      0, // x.MEMO_TALENT_FINAL_DMG_BOOST,
-      0, // x.MEMO_TALENT_BREAK_EFFICIENCY_BOOST,
-      0, // x.MEMO_TALENT_SUPER_BREAK_MODIFIER,
-      0, // x.MEMO_TALENT_BREAK_DMG_MODIFIER,
-      x.MEMO_TALENT_TOUGHNESS_DMG,
-      0, // x.MEMO_TALENT_ADDITIONAL_DMG,
-      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE,
-      0, // x.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE,
-      x.MEMO_TRUE_DMG_MODIFIER,
-      0, // m.MEMO_DMG,
-    );
-
-    (*p_x).MEMO_TALENT_DMG += (*p_m).MEMO_TALENT_DMG;
-  }
-
-  (*p_x).BREAK_DMG *= baseTrueDmgMulti + x.BREAK_TRUE_DMG_MODIFIER;
+fn calculateInitial(
+  p_x: ptr<function, ComputedStats>,
+  abilityDmg: f32,
+  hpScaling: f32,
+  defScaling: f32,
+  atkScaling: f32,
+  atkBoostP: f32
+) -> f32 {
+  let x = *p_x;
+  return abilityDmg
+    + hpScaling * x.HP
+    + defScaling * x.DEF
+    + atkScaling * (x.ATK + atkBoostP * baseATK);
 }
 
 fn calculateDefMulti(defPen: f32) -> f32 {
@@ -909,7 +768,6 @@ fn calculateAbilityDmg(
   baseDefPen: f32,
   baseResistance: f32,
   baseSuperBreakInstanceDmg: f32,
-  baseSuperBreakModifier: f32,
   baseBreakEfficiencyBoost: f32,
   abilityDmg: f32,
   abilityDmgBoost: f32,
@@ -934,7 +792,7 @@ fn calculateAbilityDmg(
   var abilityCritDmgOutput: f32 = 0;
   if (abilityDmg > 0) {
     let abilityCr = min(1, x.CR + abilityCrBoost);
-    let abilityCd = x.CD + abilityCdBoost;
+    let abilityCd = x.CD + x.CD_BOOST + abilityCdBoost;
     let abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr);
     let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
     let abilityDefMulti = calculateDefMulti(baseDefPen + abilityDefPen);
@@ -961,9 +819,10 @@ fn calculateAbilityDmg(
   // === Super Break DMG ===
 
   var abilitySuperBreakDmgOutput: f32 = 0;
-  if (baseSuperBreakModifier + abilitySuperBreakModifier > 0) {
+  let superBreakModifier = x.SUPER_BREAK_MODIFIER + abilitySuperBreakModifier;
+  if (superBreakModifier > 0) {
     abilitySuperBreakDmgOutput = baseSuperBreakInstanceDmg
-      * (baseSuperBreakModifier + abilitySuperBreakModifier)
+      * (superBreakModifier)
       * (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost)
       * (abilityToughnessDmg);
   }
@@ -977,7 +836,7 @@ fn calculateAbilityDmg(
     let abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr);
     abilityAdditionalDmgOutput = abilityAdditionalDmg
       * (baseUniversalMulti)
-      * (baseDmgBoost + x.ADDITIONAL_BOOST)
+      * (baseDmgBoost + x.ADDITIONAL_DMG_BOOST)
       * calculateDefMulti(baseDefPen)
       * (1 + x.VULNERABILITY)
       * (abilityAdditionalCritMulti)
@@ -1008,28 +867,9 @@ fn calculateAbilityDmg(
 fn p2(n: i32) -> f32 {
   return f32(min(1, n >> 1));
 }
+
 fn p4(n: i32) -> f32 {
   return f32(n >> 2);
-}
-fn buffATK_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).ATK += value * baseATK;
-  }
-}
-fn buffHP_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).HP += value * baseHP;
-  }
-}
-fn buffDEF_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).DEF += value * baseDEF;
-  }
-}
-fn buffSPD_P(p_x: ptr<function, ComputedStats>, value: f32) {
-  if (value > 0.0001) {
-    (*p_x).SPD += value * baseSPD;
-  }
 }
 
 fn buffAbilityTrueDmg(
@@ -1038,6 +878,9 @@ fn buffAbilityTrueDmg(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_TRUE_DMG_MODIFIER += value;
   }
@@ -1050,9 +893,24 @@ fn buffAbilityTrueDmg(
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
     (*p_x).FUA_TRUE_DMG_MODIFIER += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+    (*p_x).DOT_TRUE_DMG_MODIFIER += value;
+  }
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_TRUE_DMG_MODIFIER += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_TRUE_DMG_MODIFIER += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_TRUE_DMG_MODIFIER += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_TRUE_DMG_MODIFIER += value;
+//  }
 }
 
 fn buffAbilityDmg(
@@ -1061,26 +919,38 @@ fn buffAbilityDmg(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_BOOST += value;
+    (*p_x).BASIC_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_BOOST += value;
+    (*p_x).SKILL_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_BOOST += value;
+    (*p_x).ULT_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_BOOST += value;
+    (*p_x).FUA_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
-    (*p_x).DOT_BOOST += value;
+    (*p_x).DOT_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
-    (*p_x).BREAK_BOOST += value;
+    (*p_x).BREAK_DMG_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_DMG_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_DMG_BOOST += value;
   }
   if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
-    (*p_x).ADDITIONAL_BOOST += value;
+    (*p_x).ADDITIONAL_DMG_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+    (*p_x).SUPER_BREAK_DMG_BOOST += value;
   }
 }
 
@@ -1090,6 +960,9 @@ fn buffAbilityCr(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_CR_BOOST += value;
   }
@@ -1102,6 +975,24 @@ fn buffAbilityCr(
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
     (*p_x).FUA_CR_BOOST += value;
   }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_CR_BOOST += value;
+//  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_CR_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_CR_BOOST += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_CR_BOOST += value;
+//  }
 }
 
 fn buffAbilityCd(
@@ -1110,6 +1001,9 @@ fn buffAbilityCd(
   value: f32,
   condition: i32
 ) {
+  if (condition == 0) {
+    return;
+  }
   if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
     (*p_x).BASIC_CD_BOOST += value;
   }
@@ -1122,6 +1016,24 @@ fn buffAbilityCd(
   if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
     (*p_x).FUA_CD_BOOST += value;
   }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_CD_BOOST += value;
+//  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_CD_BOOST += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_CD_BOOST += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_CD_BOOST += value;
+//  }
 }
 
 fn buffAbilityDefShred(
@@ -1151,6 +1063,15 @@ fn buffAbilityDefShred(
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_DEF_PEN += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_DEF_PEN += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_DEF_PEN += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_DEF_PEN += value;
+//  }
   if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
     (*p_x).SUPER_BREAK_DEF_PEN += value;
   }
@@ -1183,6 +1104,18 @@ fn buffAbilityVulnerability(
   if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
     (*p_x).BREAK_VULNERABILITY += value;
   }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_SKILL_VULNERABILITY += value;
+  }
+  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+    (*p_x).MEMO_TALENT_VULNERABILITY += value;
+  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_VULNERABILITY += value;
+//  }
+  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+    (*p_x).SUPER_BREAK_VULNERABILITY += value;
+  }
 }
 
 fn addElementalDmg(
@@ -1191,25 +1124,25 @@ fn addElementalDmg(
 ) {
   switch (ELEMENT_INDEX) {
     case 0: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Physical_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).PHYSICAL_DMG_BOOST;
     }
     case 1: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Fire_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).FIRE_DMG_BOOST;
     }
     case 2: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Ice_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).ICE_DMG_BOOST;
     }
     case 3: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Lightning_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).LIGHTNING_DMG_BOOST;
     }
     case 4: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Wind_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).WIND_DMG_BOOST;
     }
     case 5: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Quantum_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).QUANTUM_DMG_BOOST;
     }
     case 6: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).Imaginary_DMG;
+      (*p_x).ELEMENTAL_DMG += (*c_x).IMAGINARY_DMG_BOOST;
     }
     default: {
 
@@ -1222,25 +1155,25 @@ fn addComputedElementalDmg(
 ) {
   switch (ELEMENT_INDEX) {
     case 0: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Physical_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).PHYSICAL_DMG_BOOST;
     }
     case 1: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Fire_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).FIRE_DMG_BOOST;
     }
     case 2: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Ice_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).ICE_DMG_BOOST;
     }
     case 3: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Lightning_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).LIGHTNING_DMG_BOOST;
     }
     case 4: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Wind_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).WIND_DMG_BOOST;
     }
     case 5: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Quantum_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).QUANTUM_DMG_BOOST;
     }
     case 6: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).Imaginary_DMG;
+      (*p_x).ELEMENTAL_DMG += (*p_x).IMAGINARY_DMG_BOOST;
     }
     default: {
 
@@ -1301,14 +1234,14 @@ fn getPioneerSetCd(
   }
 }
 
-fn calculateAshblazingSet(
+fn calculateAshblazingSetP(
   setCount: i32,
   valueTheAshblazingGrandDuke: i32,
   hitMulti: f32,
 ) -> f32 {
   if (p4(setCount) >= 1) {
-    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke) * baseATK;
-    let ashblazingMulti = hitMulti * baseATK;
+    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke);
+    let ashblazingMulti = hitMulti;
 
     return ashblazingMulti - ashblazingAtk;
   }

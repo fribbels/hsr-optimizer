@@ -72,7 +72,7 @@ export function calculateBuild(
 
   const sets = [setH, setG, setB, setF, setP, setL]
   const setCounts = calculateSetCounts(sets)
-  c.init(relicSetIndex, ornamentSetIndex, setCounts, -1)
+  c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, -1)
 
   calculateBasicSetEffects(c, context, setCounts, sets)
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
@@ -95,7 +95,10 @@ export function calculateBuild(
     const action = context.actions[i]
     const a = x.a
     x.setPrecompute(action.precomputedX.a)
-    m.setPrecompute(action.precomputedM.a)
+    if (x.a[Key.MEMOSPRITE]) {
+      m.setPrecompute(action.precomputedM.a)
+    }
+
     if (x.trace) {
       x.tracePrecompute(action.precomputedX)
       m.tracePrecompute(action.precomputedM)

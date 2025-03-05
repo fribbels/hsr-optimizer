@@ -1345,8 +1345,8 @@ interface Resources {
             "text": "Crimson Knot stacks",
             "content": "Rainblade: Deals Lightning DMG equal to {{RainbladeScaling}}% of Acheron's ATK to a single target enemy and removes up to 3 stacks of Crimson Knot from the target. When Crimson Knot is removed, immediately deals Lightning DMG equal to {{CrimsonKnotScaling}}% of Acheron's ATK to all enemies. For every stack of Crimson Knot removed, the DMG Multiplier for this is additionally increased.::BR::When the Rainblade from Acheron's Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 times."
           },
-          "nihilityTeammates": {
-            "text": "Nihility teammates",
+          "nihilityTeammatesBuff": {
+            "text": "Nihility teammates buff",
             "content": "When there are 1 or 2 Nihility characters other than Acheron in the team, the DMG dealt by Acheron's Basic ATK, Skill, and Ultimate increases to 115% or 160% of the original DMG respectively.::BR::E2: The number of Nihility characters required for the Trace The Abyss to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1 point of Slashed Dream and inflicts 1 stack of Crimson Knot on the enemy with the most Crimson Knot stacks."
           },
           "thunderCoreStacks": {
@@ -2525,8 +2525,8 @@ interface Resources {
             "text": "Talent DMG stacks",
             "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
           },
-          "quantumAllies": {
-            "text": "Quantum allies",
+          "quantumAlliesAtkBuff": {
+            "text": "Quantum allies ATK buff",
             "content": "When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%."
           }
         },
@@ -4026,6 +4026,15 @@ interface Resources {
         "InvalidJson": "Invalid JSON",
         "Fragment": "Error occurred while importing file: "
       },
+      "ParserError": {
+        "BadSource": "Incorrect source string, was '{{jsonSource}}', expected '{{configSource}}'",
+        "BadVersion": "Incorrect json version, was '{{jsonVersion}}', expected '{{configVersion}}'",
+        "OutdatedVersion": "Your scanner version {{buildVersion}} is out of date and may result in incorrect imports! Please update to the latest version from Github:",
+        "BadMainstat": "Could not parse mainstat for relic with mainstat {{mainstat}} and part {{part}}"
+      },
+      "ParserWarning": {
+        "BadRollInfo": "Scanner file is outdated / may contain invalid information. Please update your scanner."
+      },
       "Stage1": {
         "Header": "Install and run one of the relic scanner options:",
         "ReliquaryDesc": {
@@ -4894,6 +4903,7 @@ interface Resources {
         "Watchmaker": "When enabled, the Break Effect buff is applied to Combat stat calculations.",
         "Valorous": "The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
+        "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
         "Izumo": "When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations.",
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",

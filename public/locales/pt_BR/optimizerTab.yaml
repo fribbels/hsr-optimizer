@@ -30,6 +30,7 @@ SortOptions:
   ULT: Organizado por Ult DMG
   FUA: Organizado por Dano FuA
   MEMO_SKILL: Organizado por Dano Perícia Memo
+  MEMO_TALENT: Organizado por Dano de Talento do Memo
   DOT: Organizado por Dano DoT
   BREAK: Organizado  por Break DMG
   HEAL: Organizado por Cura
@@ -125,6 +126,9 @@ Grid:
       MEMO_SKILL: |-
         DANO
         PERÍCIAᴹ
+      MEMO_TALENT: |-
+        DANO
+        TALENTOᴹ
       DOT: |-
         DANO
         DOT
@@ -169,6 +173,9 @@ Grid:
       MEMO_SKILL: |-
         DANO
         PERÍCIAᴹ
+      MEMO_TALENT: |-
+        DANO
+        TALENTOᴹ
       DOT: |-
         DANO
         DOT
@@ -424,6 +431,7 @@ ComboFilter:
     Ult: Ult
     Fua: FuA
     MemoSkill: Períciaᴹ
+    MemoTalent: Talentoᴹ
   RotationButton: Rotação avançada
 ComboDrawer:
   NoConditionals: Sem passivas condicionais
@@ -558,6 +566,7 @@ ExpandedDataPanel:
       DOT_DMG: Dot
       BREAK_DMG: Quebra
       MEMO_SKILL_DMG: Períciaᴹ
+      MEMO_TALENT_DMG: Talentoᴹ
     TooltipText:
       abilityDmg: Dano da Habilidade
       breakDmg: Dano Break

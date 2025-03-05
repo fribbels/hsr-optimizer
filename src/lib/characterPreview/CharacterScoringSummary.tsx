@@ -599,7 +599,7 @@ function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
 
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  xa[Key.ELEMENTAL_DMG] += xa[Key[`${ability}_BOOST`]]
+  xa[Key.ELEMENTAL_DMG] += xa[Key[`${ability}_DMG_BOOST`]]
   if (ability != SortOption.DOT.key) {
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

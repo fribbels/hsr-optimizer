@@ -390,8 +390,7 @@ export function FormSetConditionals() {
           <ConditionalSetOption
             set={Constants.Sets.PenaconyLandOfTheDreams}
             description={t('PlanarDescription', { id: 312 })}
-            conditional={t('Conditionals.DefaultMessage')}
-            p2Checked
+            conditional={t('Conditionals.Penacony')} // When enabled, the DMG% buff will apply to the wearer's memosprite.
           />
           <ConditionalSetOption
             set={Constants.Sets.SigoniaTheUnclaimedDesolation}
@@ -402,7 +401,7 @@ export function FormSetConditionals() {
           <ConditionalSetOption
             set={Constants.Sets.IzumoGenseiAndTakamaDivineRealm}
             description={t('PlanarDescription', { id: 314 })}
-            conditional={t('Conditionals.Izumo')} // 'When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations.'
+            conditional={t('Conditionals.Izumo')} // 'When enabled, if there is an ally with the same path, applies the 12% CRIT Rate buff to Combat stat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.DuranDynastyOfRunningWolves}

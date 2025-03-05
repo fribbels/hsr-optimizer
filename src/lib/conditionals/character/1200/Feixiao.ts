@@ -1,9 +1,8 @@
-import { ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { ashblazingWgsl } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, calculateAshblazingSet, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -111,6 +110,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -139,43 +139,48 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((r.skillAtkBuff) ? 0.48 : 0, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buff((r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
 
-      x.ULT_SCALING.buff(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling, SOURCE_ULT)
 
       x.ULT_FINAL_DMG_BOOST.buff((e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, SOURCE_E1)
 
       if (e >= 4) {
         x.SPD_P.buff(0.08, SOURCE_E1)
-        x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_E1)
+        x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_E1)
       }
 
       if (e >= 6 && r.e6Buffs) {
         buffAbilityResPen(x, ULT_DMG_TYPE, 0.20, SOURCE_E6)
-        x.FUA_SCALING.buff(1.40, SOURCE_E6)
+        x.FUA_ATK_SCALING.buff(1.40, SOURCE_E6)
       }
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, getUltHitMulti(action, context))), Source.NONE)
-      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * (x.a[Key.ATK] + calculateAshblazingSet(x, action, context, ASHBLAZING_ATK_STACK * (1 * 1.00))), Source.NONE)
+      const ultHitMulti = getUltHitMulti(action, context)
+      const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
+
+      const ultAshblazingAtkP = calculateAshblazingSetP(x, action, context, ultHitMulti)
+      const fuaAshblazingAtkP = calculateAshblazingSetP(x, action, context, fuaHitMulti)
+
+      x.ULT_ATK_P_BOOST.buff(ultAshblazingAtkP, Source.NONE)
+      x.FUA_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const ultHitMulti = getUltHitMulti(action, context)
+      const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
+
       return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * (x.ATK + ${ashblazingWgsl(getUltHitMulti(action, context))});
-x.FUA_DMG += x.FUA_SCALING * (x.ATK + ${ashblazingWgsl(ASHBLAZING_ATK_STACK * (1 * 1.00))});
+x.ULT_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${ultHitMulti});
+x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${fuaHitMulti});
     `
     },
   }

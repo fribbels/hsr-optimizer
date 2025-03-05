@@ -1,5 +1,5 @@
-import { ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardFuaAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -124,6 +124,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -133,16 +134,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       buffAbilityCr(x, BASIC_DMG_TYPE, 1.00, SOURCE_TRACE)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.FUA_SCALING.buff((e >= 4) ? fuaScaling : 0, SOURCE_E4)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.FUA_ATK_SCALING.buff((e >= 4) ? fuaScaling : 0, SOURCE_E4)
 
       if (r.ultBuff) {
         x.CD.buff(ultCdBoostBaseValue, SOURCE_ULT)
         x.UNCONVERTIBLE_CD_BUFF.buff(ultCdBoostBaseValue, SOURCE_ULT)
       }
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 30 : 0, SOURCE_E4)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 10 : 0, SOURCE_E4)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -164,11 +165,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.UNCONVERTIBLE_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, action, context, hitMulti)
+      boostAshblazingAtkP(x, action, context, hitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMulti)
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(hitMulti),
     dynamicConditionals: [
       {
         id: 'BronyaCdConditional',

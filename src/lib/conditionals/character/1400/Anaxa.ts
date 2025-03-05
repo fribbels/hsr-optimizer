@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION, PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -128,6 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -138,12 +139,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.BASIC_SCALING.buff((r.exposedNature) ? basicScaling : 0, SOURCE_TALENT)
-      x.SKILL_SCALING.buff(skillScaling * (1 + r.skillHits), SOURCE_SKILL)
-      x.SKILL_SCALING.buff((r.exposedNature) ? skillScaling * (1 + r.skillHits) : 0, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_SCALING.buff((e >= 2) ? r.e2UltHits * 0.50 : 0, SOURCE_E2)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff((r.exposedNature) ? basicScaling : 0, SOURCE_TALENT)
+      x.SKILL_ATK_SCALING.buff(skillScaling * (1 + r.skillHits), SOURCE_SKILL)
+      x.SKILL_ATK_SCALING.buff((r.exposedNature) ? skillScaling * (1 + r.skillHits) : 0, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff((e >= 2) ? r.e2UltHits * 0.50 : 0, SOURCE_E2)
 
       x.SPD_P.buff((e >= 2 && r.e2SpdBuff) ? 0.12 : 0, SOURCE_E2)
 
@@ -168,7 +169,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.DEF_PEN.buff((e >= 1 && m.e1DefPen) ? 0.16 : 0, SOURCE_E1)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {},
+    gpuFinalizeCalculations: () => '',
   }
 }

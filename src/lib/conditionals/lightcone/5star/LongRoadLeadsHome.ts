@@ -1,5 +1,7 @@
+import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -47,7 +49,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.BREAK_VULNERABILITY.buffTeam(m.breakVulnerabilityStacks * sValuesBreakVulnerability[s], SOURCE_LC)
+      buffAbilityVulnerability(x, BREAK_DMG_TYPE, m.breakVulnerabilityStacks * sValuesBreakVulnerability[s], SOURCE_LC, Target.TEAM)
     },
     finalizeCalculations: () => {
     },

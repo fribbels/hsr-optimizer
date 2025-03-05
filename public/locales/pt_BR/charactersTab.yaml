@@ -114,6 +114,7 @@ CharacterPreview:
       ULT: PER. SUP.
       FUA: ATQ. EXT.
       MEMO_SKILL: PERÍCIAᴹ
+      MEMO_TALENT: TALENTOᴹ
       DOTS: "DOTS:"
       BREAKS: "QUEBRAS:"
     CombatResults:
@@ -131,6 +132,8 @@ CharacterPreview:
         FUA: Dano FUA
         DOT: Dano de DOT
         BREAK: DANO BREAK
+        MEMO_SKILL: DANO PERÍCIAᴹ
+        MEMO_TALENT: DANO TALENTOᴹ
         COMBO: Dano do combo
     CombatBuffs:
       Header: Buffs de combate

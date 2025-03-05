@@ -509,7 +509,6 @@ for (let i = 0; i < SetsRelicsNames.length; i++) {
 export const RelicSetCount = Object.values(SetsRelics).length
 export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
-// TODO: This shouldn't be used anymore?
 export const PathNames = {
   Abundance: 'Abundance',
   Destruction: 'Destruction',
@@ -519,7 +518,19 @@ export const PathNames = {
   Nihility: 'Nihility',
   Preservation: 'Preservation',
   Remembrance: 'Remembrance',
-}
+} as const
+export type PathName = typeof PathNames[keyof typeof PathNames]
+
+export const ElementNames = {
+  Physical: 'Physical',
+  Quantum: 'Quantum',
+  Imaginary: 'Imaginary',
+  Ice: 'Ice',
+  Wind: 'Wind',
+  Fire: 'Fire',
+  Lightning: 'Lightning',
+} as const
+export type ElementName = typeof ElementNames[keyof typeof ElementNames]
 
 export const ElementToDamage = {
   Physical: Stats.Physical_DMG,

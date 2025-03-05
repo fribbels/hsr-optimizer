@@ -1,11 +1,12 @@
-import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuUltAdditionalDmgAtkFinalizer, ultAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -139,6 +140,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -146,15 +148,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.ULT_ADDITIONAL_DMG_SCALING.buff((r.concertoActive) ? ultScaling : 0, SOURCE_ULT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       if (r.concertoActive) {
         x.ATK.buff(ultAtkBuffFlatValue, SOURCE_ULT)
         x.UNCONVERTIBLE_ATK_BUFF.buff(ultAtkBuffFlatValue, SOURCE_ULT)
       }
+
+      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE.buff(1.00, SOURCE_ULT)
+      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE.buff((e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50, SOURCE_ULT)
 
       return x
     },
@@ -178,31 +183,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityCd(x, FUA_DMG_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, SOURCE_TRACE, Target.TEAM)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE.buff(1.00, SOURCE_ULT)
-      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE.buff((e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50, SOURCE_ULT)
-
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
+      ultAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      return `
-if (${wgslTrue(r.concertoActive)}) {
-  x.ULT_ADDITIONAL_DMG_CR_OVERRIDE = 1.00;
-}
-
-if (${wgslTrue(e >= 6 && r.concertoActive && r.e6UltCDBoost)}) {
-  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 6.00;
-} else {
-  x.ULT_ADDITIONAL_DMG_CD_OVERRIDE = 1.50;
-}
-
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.ATK;
-      `
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuUltAdditionalDmgAtkFinalizer(),
     dynamicConditionals: [
       {
         id: 'RobinAtkConversionConditional',

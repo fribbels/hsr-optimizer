@@ -1,4 +1,11 @@
-import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, MEMO_TALENT_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  BASIC_ABILITY_TYPE,
+  FUA_ABILITY_TYPE,
+  MEMO_SKILL_ABILITY_TYPE,
+  MEMO_TALENT_ABILITY_TYPE,
+  SKILL_ABILITY_TYPE,
+  ULT_ABILITY_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
@@ -109,6 +116,7 @@ const action${i} = Action( // ${action.actionIndex}
     ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
     ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
     ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
+    ${action.setConditionals.enabledPenaconyLandOfTheDreams},${gpuParams.DEBUG ? ' // enabledPenaconyLandOfTheDreams' : ''}
     ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
     ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
     ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}

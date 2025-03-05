@@ -308,7 +308,6 @@ SetConditionals:
     Valorous: Buff TỶ LỆ CHÍ MẠNG (CRIT Rate) luôn mặc định được bật. Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff.
     Differentiator: Khi bật, buff TỶ LỆ CHÍ MẠNG (CRIT Rate) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu.
     Sigonia: Buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) được chọn sẽ áp dụng vào các phép tính chỉ số Chiến đấu, giả định nhân vật đã đánh bại số lượng kẻ địch tương ứng.
-    Izumo: Khi bật, giả định có một đồng minh khác cùng con đường và áp dụng buff 12% TỶ LỆ CHÍ MẠNG (CRIT Rate) vào các phép tính chỉ số Chiến đấu.
     Duran: Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff
     Kalpagni: Khi bật, buff HIỆU ỨNG PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu
     Lushaka: Buff được chọn sẽ áp dụng vào các phép tính sát thương

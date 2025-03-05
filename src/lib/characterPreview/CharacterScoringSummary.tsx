@@ -431,16 +431,15 @@ export const CharacterScoringSummary = (props: {
 
   return (
     <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
-      <Flex align='center' style={{ marginTop: 15 }} vertical>
+      <Flex align='center' style={{ marginTop: 15, marginBottom: 10 }} vertical gap={8}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
-        <pre style={{ textAlign: 'center' }}>
+        <span className='pre-font' style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '22px', fontSize: 14 }}>
           {
             t('CharacterPreview.BuildAnalysis.ScoringNote')
-            // Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons
           }
-        </pre>
+        </span>
       </Flex>
       <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
         <Flex vertical gap={defaultGap}>

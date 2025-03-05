@@ -486,7 +486,7 @@ fn main(
         x.SHIELD_BOOST += 0.20;
       }
 
-      if (p2(sets.PenaconyLandOfTheDreams) >= 1) {
+      if (p2(sets.PenaconyLandOfTheDreams) >= 1 && setConditionals.enabledPenaconyLandOfTheDreams == true) {
         m.ELEMENTAL_DMG += 0.10;
       }
 

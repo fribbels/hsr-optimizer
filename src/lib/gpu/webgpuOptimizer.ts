@@ -11,6 +11,7 @@ import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/com
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -240,6 +241,10 @@ function outputResults(gpuContext: GpuExecutionContext) {
   }
 
   // console.log(outputs)
+
+  if (outputs.length == 0) {
+    activateZeroResultSuggestionsModal(gpuContext.request)
+  }
 
   const sortOption = SortOption[gpuContext.request.resultSort as keyof typeof SortOption]
   const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn

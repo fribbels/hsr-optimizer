@@ -1,5 +1,5 @@
-import { ADDITIONAL_DMG_TYPE, ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ADDITIONAL_DMG_TYPE, ASHBLAZING_ATK_STACK, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityCd, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
@@ -118,6 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -133,15 +134,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff)
         ? basicExtraScalingMasterBuff * r.basicAttackHits
         : 0
-      x.BASIC_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, SOURCE_BASIC)
+      x.BASIC_ATK_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, SOURCE_BASIC)
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff((e >= 2) ? 0.60 : 0, SOURCE_E2)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff((e >= 2) ? 0.60 : 0, SOURCE_E2)
 
       const toughnessDmgBoost = (r.masterToughnessRedBuff) ? 2.0 : 1.0
-      x.BASIC_TOUGHNESS_DMG.buff(toughnessDmgBoost * ((r.enhancedBasic) ? 15 * r.basicAttackHits : 30), SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 2) ? 30 : 0, SOURCE_E2)
+      x.BASIC_TOUGHNESS_DMG.buff(toughnessDmgBoost * ((r.enhancedBasic) ? 5 * r.basicAttackHits : 10), SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 2) ? 10 : 0, SOURCE_E2)
 
       return x
     },
@@ -154,11 +155,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BE.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, action, context, fuaHitCountMulti)
+      boostAshblazingAtkP(x, action, context, fuaHitCountMulti)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(fuaHitCountMulti) + gpuStandardAdditionalDmgAtkFinalizer()
+      return gpuBoostAshblazingAtkP(fuaHitCountMulti) + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

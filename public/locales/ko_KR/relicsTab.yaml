@@ -79,6 +79,13 @@ RelicGrid:
         Header: |-
           리롤 전/후
           잠재력
+      RerollAvgEquippedDelta:
+        Label: "선택 캐릭터 : 리롤 후와 장비 완료 유물의 평균 잠재력 차이"
+        Header: |-
+          선택 캐릭터
+          리롤 평균
+          vs 장착됨
+          잠재력 차이
     CustomCharacters:
       Label: 커스텀 캐릭터
       AvgPotCol:

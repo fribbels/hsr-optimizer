@@ -1,5 +1,5 @@
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAdditionalDmgAtkFinalizer, gpuStandardFuaAtkFinalizer, standardAdditionalDmgAtkFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -85,6 +85,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -100,37 +101,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ERR.buff((e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0, SOURCE_E2)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
 
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_BASIC)
       x.SKILL_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_SKILL)
       x.ULT_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_ULT)
       x.FUA_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_TALENT)
 
-      x.BASIC_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
-      x.SKILL_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
-      x.ULT_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
-      x.FUA_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
+      x.BASIC_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
+      x.SKILL_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
+      x.ULT_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
+      x.FUA_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
 
       // Boost
       x.ICE_RES_PEN.buff((e >= 4 && r.e4CurrentHp80) ? 0.12 : 0, SOURCE_E4)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
 
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, action, context, hitMulti)
+      boostAshblazingAtkP(x, action, context, hitMulti)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMulti) + gpuStandardAdditionalDmgAtkFinalizer()
+      return gpuBoostAshblazingAtkP(hitMulti) + gpuStandardAdditionalDmgAtkFinalizer()
     },
   }
 }

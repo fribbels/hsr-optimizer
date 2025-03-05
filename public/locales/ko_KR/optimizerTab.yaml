@@ -30,6 +30,7 @@ SortOptions:
   ULT: 필살기 데미지 순으로 정렬
   FUA: 추가 공격 데미지 순으로 정렬
   MEMO_SKILL: 기억 정렬 데미지 순으로 정렬
+  MEMO_TALENT: 기억정령 특성 데미지 정렬
   DOT: 지속 피해 순으로 정렬
   BREAK: 격파 데미지 순으로 정렬
   HEAL: 치유량 순으로 정렬
@@ -125,6 +126,9 @@ Grid:
       MEMO_SKILL: |-
         기억 정령
         데미지
+      MEMO_TALENT: |-
+        기억정령 특성
+        데미지
       DOT: |-
         지속
         피해
@@ -168,6 +172,9 @@ Grid:
         데미지
       MEMO_SKILL: |-
         기억 정령
+        데미지
+      MEMO_TALENT: |-
+        기억정령 특성
         데미지
       DOT: |-
         지속
@@ -424,6 +431,7 @@ ComboFilter:
     Ult: 필살기
     Fua: 추가 공격
     MemoSkill: 소환물 데미지
+    MemoTalent: 기억정령 특성
   RotationButton: 고급 사이클
 ComboDrawer:
   NoConditionals: 조건부 패시브 없음
@@ -558,6 +566,7 @@ ExpandedDataPanel:
       DOT_DMG: 지속피해
       BREAK_DMG: 격파
       MEMO_SKILL_DMG: 소환물 데미지
+      MEMO_TALENT_DMG: 기억정령 특성
     TooltipText:
       abilityDmg: 특성 피해
       breakDmg: 격파 피해량

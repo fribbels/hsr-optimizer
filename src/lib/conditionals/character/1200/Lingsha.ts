@@ -1,5 +1,5 @@
-import { ASHBLAZING_ATK_STACK, BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkHealFinalizer, gpuStandardFuaAtkFinalizer, standardAtkHealFinalizer, standardFuaAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK, BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, gpuStandardAtkHealFinalizer, standardAtkHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -127,6 +127,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -139,19 +140,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.FUA_SCALING.buff(fuaScaling * 2, SOURCE_TALENT)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.FUA_ATK_SCALING.buff(fuaScaling * 2, SOURCE_TALENT)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.BREAK_EFFICIENCY_BOOST.buff((e >= 1) ? 0.50 : 0, SOURCE_E1)
-      x.FUA_SCALING.buff((e >= 6 && r.e6ResShred) ? 0.50 : 0, SOURCE_E6)
+      x.FUA_ATK_SCALING.buff((e >= 6 && r.e6ResShred) ? 0.50 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(30, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(30 * 2, SOURCE_TALENT)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 6) ? 15 : 0, SOURCE_E6)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10 * 2, SOURCE_TALENT)
+      x.FUA_TOUGHNESS_DMG.buff((e >= 6) ? 5 : 0, SOURCE_E6)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
         x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
@@ -182,11 +183,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardFuaAtkFinalizer(x, action, context, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
       standardAtkHealFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardFuaAtkFinalizer(hitMultiByTargets[context.enemyCount]) + gpuStandardAtkHealFinalizer()
+      return gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount]) + gpuStandardAtkHealFinalizer()
     },
     dynamicConditionals: [{
       id: 'LingshaConversionConditional',

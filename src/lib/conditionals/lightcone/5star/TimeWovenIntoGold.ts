@@ -50,7 +50,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.CD.buffDual(r.brocadeStacks * sValuesCd[s], SOURCE_LC)
-      x.BASIC_BOOST.buffDual((r.brocadeStacks >= 6 && r.maxStacksBasicDmgBoost) ? r.brocadeStacks * sValuesBasicDmg[s] : 0, SOURCE_LC)
+      x.BASIC_DMG_BOOST.buffDual((r.brocadeStacks >= 6 && r.maxStacksBasicDmgBoost) ? r.brocadeStacks * sValuesBasicDmg[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

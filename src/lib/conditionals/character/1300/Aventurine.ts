@@ -1,5 +1,5 @@
-import { NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardDefFinalizer, gpuStandardDefShieldFinalizer, standardDefFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, NONE_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardDefShieldFinalizer, standardDefShieldFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -132,6 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -142,13 +143,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, SOURCE_E4)
       x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, SOURCE_E6)
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, SOURCE_TALENT)
+      x.BASIC_DEF_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_DEF_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_DEF_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, SOURCE_TALENT)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10 * r.fuaHitsOnTarget, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(10 / 3 * r.fuaHitsOnTarget, SOURCE_TALENT)
 
       if (r.shieldAbility == SKILL_DMG_TYPE) {
         x.SHIELD_SCALING.buff(skillShieldScaling, SOURCE_SKILL)
@@ -170,12 +171,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardDefFinalizer(x)
       standardDefShieldFinalizer(x)
     },
-    gpuFinalizeCalculations: () => {
-      return gpuStandardDefFinalizer() + gpuStandardDefShieldFinalizer()
-    },
+    gpuFinalizeCalculations: () => gpuStandardDefShieldFinalizer(),
     dynamicConditionals: [{
       id: 'AventurineConversionConditional',
       type: ConditionalType.ABILITY,

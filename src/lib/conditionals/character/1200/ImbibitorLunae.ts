@@ -1,5 +1,4 @@
-import { BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, BASIC_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityResPen } from 'lib/optimization/calculateBuffs'
@@ -36,7 +35,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const basicEnhanced1Scaling = basic(e, 2.60, 2.86)
   const basicEnhanced2Scaling = basic(e, 3.80, 4.18)
   const basicEnhanced3Scaling = basic(e, 5.00, 5.50)
-  const skillScaling = skill(e, 0, 0)
   const ultScaling = ult(e, 3.00, 3.24)
 
   const defaults = {
@@ -88,6 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -104,20 +103,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         2: basicEnhanced2Scaling,
         3: basicEnhanced3Scaling,
       }[r.basicEnhanced] ?? 0
-      x.BASIC_SCALING.buff(basicScalingValue, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScalingValue, SOURCE_BASIC)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       // Boost
       x.ELEMENTAL_DMG.buff(r.talentRighteousHeartStacks * righteousHeartDmgValue, SOURCE_TALENT)
       buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30 + 30 * r.basicEnhanced, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
+      x.BASIC_TOUGHNESS_DMG.buff(10 + 10 * r.basicEnhanced, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {},
+    gpuFinalizeCalculations: () => '',
   }
 }

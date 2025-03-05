@@ -1,3 +1,4 @@
+import { countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
@@ -5,7 +6,13 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  ComboConditionalCategory,
+  ComboConditionals,
+  ComboSelectConditional,
+  ComboState,
+  initializeComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
@@ -38,6 +45,8 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.actions = actions
   context.comboDot = request.comboDot || 0
   context.comboBreak = request.comboBreak || 0
+  context.activeAbilities = context.characterConditionalController.activeAbilities ?? []
+  context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
 function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], request: OptimizerForm, context: OptimizerContext) {
@@ -66,6 +75,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
   action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
+  action.setConditionals = overrideSetConditionals(action.setConditionals, context)
 
   action.precomputedX = new ComputedStatsArrayCore(request.trace) as ComputedStatsArray
   action.precomputedX.setPrecompute(baseComputedStatsArray())
@@ -191,7 +201,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           break
         case Sets.PenaconyLandOfTheDreams:
           if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
-          x.ELEMENTAL_DMG.buff(0.10, Source.PenaconyLandOfTheDreams)
+          x.ELEMENTAL_DMG.buffDual(0.10, Source.PenaconyLandOfTheDreams)
           break
         case Sets.LushakaTheSunkenSeas:
           x.ATK_P.buff(0.12, Source.LushakaTheSunkenSeas)
@@ -262,6 +272,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     enabledMessengerTraversingHackerspace: transformConditional(conditionals[Sets.MessengerTraversingHackerspace], actionIndex),
     enabledCelestialDifferentiator: transformConditional(conditionals[Sets.CelestialDifferentiator], actionIndex),
     enabledWatchmakerMasterOfDreamMachinations: transformConditional(conditionals[Sets.WatchmakerMasterOfDreamMachinations], actionIndex),
+    enabledPenaconyLandOfTheDreams: transformConditional(conditionals[Sets.PenaconyLandOfTheDreams], actionIndex),
     enabledIzumoGenseiAndTakamaDivineRealm: transformConditional(conditionals[Sets.IzumoGenseiAndTakamaDivineRealm], actionIndex),
     enabledForgeOfTheKalpagniLantern: transformConditional(conditionals[Sets.ForgeOfTheKalpagniLantern], actionIndex),
     enabledTheWindSoaringValorous: transformConditional(conditionals[Sets.TheWindSoaringValorous], actionIndex),
@@ -287,4 +298,11 @@ function getComboAbilities(comboAbilities: string[]) {
     newComboAbilities.push(comboAbilities[i])
   }
   return newComboAbilities
+}
+
+function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {
+  return {
+    ...setConditionals,
+    enabledIzumoGenseiAndTakamaDivineRealm: setConditionals.enabledIzumoGenseiAndTakamaDivineRealm && countTeamPath(context, context.path) >= 2,
+  }
 }

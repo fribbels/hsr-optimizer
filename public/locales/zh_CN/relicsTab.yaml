@@ -78,7 +78,13 @@ RelicGrid:
         Label: "选定角色：重新分配平均差值潜力"
         Header: |-
           选定角色
-          重配差值均值
+          重配Δ均值
+      RerollAvgEquippedDelta:
+        Label: "选定角色：重新分配平均差值潜力与已装备对比"
+        Header: |-
+          选定角色
+          重配Δ均值
+          与已装备对比
     CustomCharacters:
       Label: 自定义角色
       AvgPotCol:

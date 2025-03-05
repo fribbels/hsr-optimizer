@@ -1,5 +1,4 @@
-import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -39,7 +38,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.40, 2.64)
-  const ultScaling = ult(e, 0, 0)
 
   const defaults = {
     ultBuff: true,
@@ -104,6 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -114,14 +113,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Stats
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
 
       x.SPD_P.buff((e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0, SOURCE_E2)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(60, SOURCE_SKILL)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
 
       return x
     },
@@ -139,8 +137,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.UNCONVERTIBLE_SPD_BUFF.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, SOURCE_ULT)
       x.ATK_P.buffSingle((t.ultBuff) ? ultAtkBuffValue : 0, SOURCE_ULT)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {},
+    gpuFinalizeCalculations: () => '',
     dynamicConditionals: [
       {
         id: 'HanyaSpdConditional',

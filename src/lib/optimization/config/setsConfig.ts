@@ -109,6 +109,11 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.ERR.buff(0.05, Source.PenaconyLandOfTheDreams)
     },
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledPenaconyLandOfTheDreams) {
+        x.ELEMENTAL_DMG.buffMemo(0.10, Source.PenaconyLandOfTheDreams)
+      }
+    },
   },
   SigoniaTheUnclaimedDesolation: {
     key: 'SigoniaTheUnclaimedDesolation',
@@ -135,7 +140,8 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
   DuranDynastyOfRunningWolves: {
     key: 'DuranDynastyOfRunningWolves',
     index: 14,
-    p2c: (c: BasicStatsArray, context: OptimizerContext) => {},
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+    },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       buffAbilityDmg(x, FUA_DMG_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
       if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
@@ -246,7 +252,8 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
   GuardOfWutheringSnow: {
     key: 'GuardOfWutheringSnow',
     index: 5,
-    p2c: (c: BasicStatsArray, context: OptimizerContext) => {},
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+    },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       x.DMG_RED_MULTI.multiply((1 - 0.08), Source.GuardOfWutheringSnow)
     },
@@ -341,7 +348,8 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
   TheAshblazingGrandDuke: {
     key: 'TheAshblazingGrandDuke',
     index: 14,
-    p2c: (c: BasicStatsArray, context: OptimizerContext) => {},
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+    },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.TheAshblazingGrandDuke)
     },
@@ -463,6 +471,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
 }
 
 export const SetsConfig = { ...RelicSetsConfig, ...OrnamentSetsConfig }
+
+export type SetKeyType = keyof typeof SetsConfig
+
+export const SetKeys: Record<SetKeyType, SetKeyType> = Object.fromEntries(
+  Object.keys(SetsConfig).map((key) => [key, key]),
+) as Record<SetKeyType, SetKeyType>
 
 const pioneerSetIndexToCd: Record<number, number> = {
   [-1]: 0,

@@ -21,25 +21,25 @@ const baseCharacterStats = {
   ATK_P: 0,
   DEF_P: 0,
   SPD_P: 0,
-  HP: 0.000001,
-  ATK: 0.000001,
-  DEF: 0.000001,
-  SPD: 0.000001,
-  CR: 0.000001,
-  CD: 0.000001,
-  EHR: 0.000001,
-  RES: 0.000001,
-  BE: 0.000001,
-  ERR: 0.000001,
-  OHB: 0.000001,
-  PHYSICAL_DMG_BOOST: 0.000001,
-  FIRE_DMG_BOOST: 0.000001,
-  ICE_DMG_BOOST: 0.000001,
-  LIGHTNING_DMG_BOOST: 0.000001,
-  WIND_DMG_BOOST: 0.000001,
-  QUANTUM_DMG_BOOST: 0.000001,
-  IMAGINARY_DMG_BOOST: 0.000001,
-  ELEMENTAL_DMG: 0.000001,
+  HP: 0.00000001,
+  ATK: 0.00000001,
+  DEF: 0.00000001,
+  SPD: 0.00000001,
+  CR: 0.00000001,
+  CD: 0.00000001,
+  EHR: 0.00000001,
+  RES: 0.00000001,
+  BE: 0.00000001,
+  ERR: 0.00000001,
+  OHB: 0.00000001,
+  PHYSICAL_DMG_BOOST: 0.00000001,
+  FIRE_DMG_BOOST: 0.00000001,
+  ICE_DMG_BOOST: 0.00000001,
+  LIGHTNING_DMG_BOOST: 0.00000001,
+  WIND_DMG_BOOST: 0.00000001,
+  QUANTUM_DMG_BOOST: 0.00000001,
+  IMAGINARY_DMG_BOOST: 0.00000001,
+  ELEMENTAL_DMG: 0.00000001,
 }
 
 export type BasicCharacterStats = keyof typeof baseCharacterStats
@@ -60,6 +60,7 @@ export class BasicStatsArrayCore {
   relicSetIndex: number
   ornamentSetIndex: number
   sets: SetCounts
+  setsArray: number[]
   id: number
   weight: number
 
@@ -73,6 +74,7 @@ export class BasicStatsArrayCore {
     this.ornamentSetIndex = 0
     // @ts-ignore
     this.sets = {}
+    this.setsArray = []
     this.id = -1
     this.weight = 0
 
@@ -116,10 +118,11 @@ export class BasicStatsArrayCore {
     })
   }
 
-  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetCounts, id: number) {
+  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetCounts, setsArray: number[], id: number) {
     this.relicSetIndex = relicSetIndex
     this.ornamentSetIndex = ornamentSetIndex
     this.sets = sets
+    this.setsArray = setsArray
     this.id = id
 
     this.a.set(cachedBasicBaseStatsArray)

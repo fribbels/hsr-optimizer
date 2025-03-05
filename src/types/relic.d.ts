@@ -6,6 +6,8 @@ export type RelicId = string
 export type RelicGrade = number
 export type RelicEnhance = number
 
+export type UnaugmentedRelic = Pick<Relic, 'main' | 'substats' | 'grade' | 'enhance' | 'augmentedStats' | 'part' | 'verified'> & { id?: Relic['id'] }
+
 export type Relic = {
   /*
    * refactor?

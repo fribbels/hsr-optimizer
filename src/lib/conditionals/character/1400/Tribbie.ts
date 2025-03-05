@@ -1,8 +1,16 @@
-import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  basicAdditionalDmgHpFinalizer,
+  fuaAdditionalDmgHpFinalizer,
+  gpuBasicAdditionalDmgHpFinalizer,
+  gpuFuaAdditionalDmgHpFinalizer,
+  gpuUltAdditionalDmgHpFinalizer,
+  ultAdditionalDmgHpFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { allTypesExcept, buffAbilityTrueDmg, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -125,6 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -132,9 +141,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_SCALING.buff(talentScaling, SOURCE_TALENT)
+      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_HP_SCALING.buff(talentScaling, SOURCE_TALENT)
 
       const additionalScaling = (r.ultZone ? ultAdditionalDmgScaling : 0)
         * ((e >= 2 && r.e2AdditionalDmg) ? 1.20 * 2 : 1)
@@ -145,13 +154,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.ELEMENTAL_DMG.buff(r.talentFuaStacks * 0.72, SOURCE_TRACE)
 
-      x.FUA_BOOST.buff((e >= 6 && r.e6FuaScaling) ? 7.29 : 0, SOURCE_E6)
+      x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaScaling) ? 7.29 : 0, SOURCE_E6)
 
       x.HP.buff((r.ultZone) ? 0.09 * r.alliesMaxHp : 0, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(60, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_TALENT)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -164,22 +173,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buffTeam((e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, SOURCE_E4)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.HP], Source.NONE)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.HP], Source.NONE)
-      x.FUA_DMG.buff(x.a[Key.FUA_SCALING] * x.a[Key.HP], Source.NONE)
-      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
-      x.ULT_ADDITIONAL_DMG.buff(x.a[Key.ULT_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
-      x.FUA_ADDITIONAL_DMG.buff(x.a[Key.FUA_ADDITIONAL_DMG_SCALING] * x.a[Key.HP], Source.NONE)
+      basicAdditionalDmgHpFinalizer(x)
+      ultAdditionalDmgHpFinalizer(x)
+      fuaAdditionalDmgHpFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.HP;
-x.ULT_DMG += x.ULT_SCALING * x.HP;
-x.FUA_DMG += x.FUA_SCALING * x.HP;
-x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.HP;
-x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.HP;
-x.FUA_ADDITIONAL_DMG += x.FUA_ADDITIONAL_DMG_SCALING * x.HP;
-`
+      return gpuBasicAdditionalDmgHpFinalizer()
+        + gpuUltAdditionalDmgHpFinalizer()
+        + gpuFuaAdditionalDmgHpFinalizer()
     },
   }
 }

@@ -1,6 +1,5 @@
-import { p4New } from 'lib/optimization/calculateStats'
+import { ElementName, PathName } from 'lib/constants/constants'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { SetsConfig } from 'lib/optimization/config/setsConfig'
 import { ContentItem } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -19,18 +18,14 @@ export type Conditionals<T extends ContentDefinition<T>> = {
   [K in keyof T]: number;
 }
 
-// Remove the ashblazing set atk bonus only when calc-ing fua attacks
-export const calculateAshblazingSet = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
-  const enabled = p4New(SetsConfig.TheAshblazingGrandDuke, x.c.sets)
-  const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
-  const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke * enabled * context.baseATK
-  const ashblazingMulti = hitMulti * enabled * context.baseATK
-
-  return ashblazingMulti - ashblazingAtk
-}
-
-export const p4 = (set: number): number => {
-  return set >> 2
+export const calculateAshblazingSetP = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
+  if (x.c.sets.TheAshblazingGrandDuke >> 2) {
+    const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
+    const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke
+    return hitMulti - ashblazingAtk
+  } else {
+    return 0
+  }
 }
 
 export const ability = (upgradeEidolon: number) => {
@@ -97,13 +92,20 @@ export const AbilityEidolon = {
   },
 }
 
-export function countTeamPath(context: OptimizerContext, path: string) {
+export function countTeamPath(context: OptimizerContext, path: PathName) {
   return (context.path == path ? 1 : 0)
     + (context.teammate0Metadata?.path == path ? 1 : 0)
     + (context.teammate1Metadata?.path == path ? 1 : 0)
     + (context.teammate2Metadata?.path == path ? 1 : 0)
 }
 
-export function mainIsPath(context: OptimizerContext, path: string) {
+export function countTeamElement(context: OptimizerContext, element: ElementName) {
+  return (context.element == element ? 1 : 0)
+    + (context.teammate0Metadata?.element == element ? 1 : 0)
+    + (context.teammate1Metadata?.element == element ? 1 : 0)
+    + (context.teammate2Metadata?.element == element ? 1 : 0)
+}
+
+export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
 }

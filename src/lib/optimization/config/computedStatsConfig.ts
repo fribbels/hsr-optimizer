@@ -1,4 +1,5 @@
 import {
+  AbilityType,
   ADDITIONAL_DMG_TYPE,
   BASIC_DMG_TYPE,
   BREAK_DMG_TYPE,
@@ -22,7 +23,8 @@ export type ComputedStatsConfigBaseType = {
   whole?: boolean
 }
 
-export const BaseComputedStatsConfig = {
+export const newBaseComputedStatsCorePropertiesConfig = {
+  // Core stats
   HP_P: {},
   ATK_P: {},
   DEF_P: {},
@@ -39,6 +41,7 @@ export const BaseComputedStatsConfig = {
   ERR: {},
   OHB: {},
 
+  // Elemental stats
   PHYSICAL_DMG_BOOST: {},
   FIRE_DMG_BOOST: {},
   ICE_DMG_BOOST: {},
@@ -49,147 +52,13 @@ export const BaseComputedStatsConfig = {
 
   ELEMENTAL_DMG: {},
 
+  // Base
   BASE_HP: {},
   BASE_ATK: {},
   BASE_DEF: {},
   BASE_SPD: {},
 
-  BASIC_SCALING: {},
-  SKILL_SCALING: {},
-  ULT_SCALING: {},
-  FUA_SCALING: {},
-  DOT_SCALING: {},
-
-  BASIC_CR_BOOST: {},
-  SKILL_CR_BOOST: {},
-  ULT_CR_BOOST: {},
-  FUA_CR_BOOST: {},
-
-  BASIC_CD_BOOST: {},
-  SKILL_CD_BOOST: {},
-  ULT_CD_BOOST: {},
-  FUA_CD_BOOST: {},
-
-  BASIC_BOOST: {},
-  SKILL_BOOST: {},
-  ULT_BOOST: {},
-  FUA_BOOST: {},
-  DOT_BOOST: {},
-  BREAK_BOOST: {},
-  ADDITIONAL_BOOST: {},
-  MEMO_SKILL_BOOST: {},
-  MEMO_TALENT_BOOST: {},
-
-  VULNERABILITY: {},
-  BASIC_VULNERABILITY: {},
-  SKILL_VULNERABILITY: {},
-  ULT_VULNERABILITY: {},
-  FUA_VULNERABILITY: {},
-  DOT_VULNERABILITY: {},
-  BREAK_VULNERABILITY: {},
-
-  DEF_PEN: {},
-  BASIC_DEF_PEN: {},
-  SKILL_DEF_PEN: {},
-  ULT_DEF_PEN: {},
-  FUA_DEF_PEN: {},
-  DOT_DEF_PEN: {},
-  BREAK_DEF_PEN: {},
-  SUPER_BREAK_DEF_PEN: {},
-
-  RES_PEN: {},
-  PHYSICAL_RES_PEN: {},
-  FIRE_RES_PEN: {},
-  ICE_RES_PEN: {},
-  LIGHTNING_RES_PEN: {},
-  WIND_RES_PEN: {},
-  QUANTUM_RES_PEN: {},
-  IMAGINARY_RES_PEN: {},
-
-  // These should technically be split by element but they are rare enough to ignore imo (e.g. DHIL basic attack)
-  BASIC_RES_PEN: {},
-  SKILL_RES_PEN: {},
-  ULT_RES_PEN: {},
-  FUA_RES_PEN: {},
-  DOT_RES_PEN: {},
-
-  BASIC_DMG: { flat: true },
-  SKILL_DMG: { flat: true },
-  ULT_DMG: { flat: true },
-  FUA_DMG: { flat: true },
-  DOT_DMG: { flat: true },
-  BREAK_DMG: { flat: true },
-  COMBO_DMG: { flat: true },
-
-  DMG_RED_MULTI: { default: 1 }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi)
-  EHP: { flat: true },
-  SHIELD_BOOST: {},
-
-  DOT_CHANCE: {},
-  EFFECT_RES_PEN: {},
-
-  // Black swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
-  DOT_SPLIT: {},
-  DOT_STACKS: { flat: true },
-
-  SUMMONS: { flat: true },
-
-  ENEMY_WEAKNESS_BROKEN: { flat: true },
-
-  SUPER_BREAK_MODIFIER: {},
-  BASIC_SUPER_BREAK_MODIFIER: {},
-  BASIC_TOUGHNESS_DMG: { flat: true },
-  SKILL_TOUGHNESS_DMG: { flat: true },
-  ULT_TOUGHNESS_DMG: { flat: true },
-  FUA_TOUGHNESS_DMG: { flat: true },
-  MEMO_SKILL_TOUGHNESS_DMG: { flat: true },
-  MEMO_TALENT_TOUGHNESS_DMG: { flat: true },
-
-  // True dmg
-  TRUE_DMG_MODIFIER: {},
-  BASIC_TRUE_DMG_MODIFIER: {},
-  SKILL_TRUE_DMG_MODIFIER: {},
-  ULT_TRUE_DMG_MODIFIER: {},
-  FUA_TRUE_DMG_MODIFIER: {},
-  BREAK_TRUE_DMG_MODIFIER: {},
-  MEMO_TRUE_DMG_MODIFIER: {},
-
-  // e.g. Acheron multiplier
-  FINAL_DMG_BOOST: {},
-  BASIC_FINAL_DMG_BOOST: {},
-  SKILL_FINAL_DMG_BOOST: {},
-  ULT_FINAL_DMG_BOOST: {},
-
-  // Boothill
-  BASIC_BREAK_DMG_MODIFIER: {},
-
-  // Robin
-  ULT_ADDITIONAL_DMG_CR_OVERRIDE: {},
-  ULT_ADDITIONAL_DMG_CD_OVERRIDE: {},
-
-  SKILL_OHB: {},
-  ULT_OHB: {},
-  HEAL_TYPE: { flat: true },
-  HEAL_FLAT: { flat: true },
-  HEAL_SCALING: {},
-  HEAL_VALUE: { flat: true },
-  SHIELD_FLAT: { flat: true },
-  SHIELD_SCALING: {},
-  SHIELD_VALUE: { flat: true },
-
-  BASIC_ADDITIONAL_DMG_SCALING: {},
-  SKILL_ADDITIONAL_DMG_SCALING: {},
-  ULT_ADDITIONAL_DMG_SCALING: {},
-  FUA_ADDITIONAL_DMG_SCALING: {},
-
-  BASIC_ADDITIONAL_DMG: { flat: true },
-  SKILL_ADDITIONAL_DMG: { flat: true },
-  ULT_ADDITIONAL_DMG: { flat: true },
-  FUA_ADDITIONAL_DMG: { flat: true },
-
-  MEMO_BUFF_PRIORITY: { flat: true },
-  DEPRIORITIZE_BUFFS: { flat: true },
-
+  // Memosprites
   MEMO_BASE_HP_SCALING: {},
   MEMO_BASE_HP_FLAT: { flat: true },
   MEMO_BASE_DEF_SCALING: {},
@@ -199,12 +68,7 @@ export const BaseComputedStatsConfig = {
   MEMO_BASE_SPD_SCALING: {},
   MEMO_BASE_SPD_FLAT: { flat: true },
 
-  MEMO_SKILL_SCALING: {},
-  MEMO_TALENT_SCALING: {},
-
-  MEMO_SKILL_DMG: { flat: true },
-  MEMO_TALENT_DMG: { flat: true },
-
+  // Secondary conversions
   UNCONVERTIBLE_HP_BUFF: { flat: true },
   UNCONVERTIBLE_ATK_BUFF: { flat: true },
   UNCONVERTIBLE_DEF_BUFF: { flat: true },
@@ -217,20 +81,125 @@ export const BaseComputedStatsConfig = {
   UNCONVERTIBLE_RES_BUFF: {},
   UNCONVERTIBLE_ERR_BUFF: {},
 
-  BREAK_EFFICIENCY_BOOST: {},
-  BASIC_BREAK_EFFICIENCY_BOOST: {}, // Boothill
-  ULT_BREAK_EFFICIENCY_BOOST: {}, // Feixiao
+  // EHP
+  DMG_RED_MULTI: { default: 1 }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi) instead of additive
+  EHP: { flat: true },
 
+  // Misc configs
+  SUMMONS: { flat: true },
+  MEMOSPRITE: { flat: true },
+  ENEMY_WEAKNESS_BROKEN: { flat: true },
+  MEMO_BUFF_PRIORITY: { flat: true },
+  DEPRIORITIZE_BUFFS: { flat: true },
+  COMBO_DMG: {},
+
+  // DOT
+  DOT_CHANCE: {},
+  EFFECT_RES_PEN: {},
+  DOT_SPLIT: {}, // Black Swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
+  DOT_STACKS: { flat: true },
+
+  // Heal / Shield
+  HEAL_TYPE: { flat: true },
+  HEAL_FLAT: { flat: true },
+  HEAL_SCALING: {},
+  HEAL_VALUE: { flat: true },
+  SHIELD_FLAT: { flat: true },
+  SHIELD_SCALING: {},
+  SHIELD_VALUE: { flat: true },
+  SHIELD_BOOST: {},
+  SKILL_OHB: {},
+  ULT_OHB: {},
+
+  // Elemental res pen
+  PHYSICAL_RES_PEN: {},
+  FIRE_RES_PEN: {},
+  ICE_RES_PEN: {},
+  LIGHTNING_RES_PEN: {},
+  WIND_RES_PEN: {},
+  QUANTUM_RES_PEN: {},
+  IMAGINARY_RES_PEN: {},
+
+  // Misc variables that dont need to be split into abilities yet
+  SUPER_BREAK_DEF_PEN: {},
+  SUPER_BREAK_DMG_BOOST: {},
+  SUPER_BREAK_VULNERABILITY: {},
+  ADDITIONAL_DMG_BOOST: {},
+  ULT_ADDITIONAL_DMG_CR_OVERRIDE: { separated: true },
+  ULT_ADDITIONAL_DMG_CD_OVERRIDE: { separated: true },
+
+  // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE },
   SKILL_DMG_TYPE: { flat: true, default: SKILL_DMG_TYPE },
   ULT_DMG_TYPE: { flat: true, default: ULT_DMG_TYPE },
   FUA_DMG_TYPE: { flat: true, default: FUA_DMG_TYPE },
   DOT_DMG_TYPE: { flat: true, default: DOT_DMG_TYPE },
   BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE },
-  SUPER_BREAK_DMG_TYPE: { flat: true, default: SUPER_BREAK_DMG_TYPE },
-  MEMO_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
+  MEMO_SKILL_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
+  MEMO_TALENT_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE },
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE },
+  SUPER_BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE | SUPER_BREAK_DMG_TYPE },
 } as const
+
+export const newBaseComputedStatsAbilityPropertiesConfig = {
+  ATK_SCALING: { separated: true },
+  DEF_SCALING: { separated: true },
+  HP_SCALING: { separated: true },
+  SPECIAL_SCALING: { separated: true },
+
+  ATK_P_BOOST: {},
+  CR_BOOST: {},
+  CD_BOOST: {},
+  DMG_BOOST: { separated: true }, // When merged this is just ELEMENTAL_DMG
+
+  VULNERABILITY: {},
+  RES_PEN: {},
+  DEF_PEN: {},
+  BREAK_DEF_PEN: {},
+
+  TOUGHNESS_DMG: { separated: true },
+  SUPER_BREAK_MODIFIER: {},
+  BREAK_EFFICIENCY_BOOST: {},
+
+  TRUE_DMG_MODIFIER: {},
+  FINAL_DMG_BOOST: {},
+  BREAK_DMG_MODIFIER: { separated: true },
+
+  ADDITIONAL_DMG_SCALING: { separated: true },
+  ADDITIONAL_DMG: { separated: true },
+
+  DMG: {},
+} as const
+
+type AbilityTypeKeys = keyof typeof AbilityType
+type FilteredKeys = {
+  [K in keyof typeof newBaseComputedStatsAbilityPropertiesConfig]:
+  typeof newBaseComputedStatsAbilityPropertiesConfig[K] extends { separated: true } ? never : K
+}[keyof typeof newBaseComputedStatsAbilityPropertiesConfig]
+
+export const BaseComputedStatsConfig = {
+  ...newBaseComputedStatsCorePropertiesConfig,
+  ...Object.values(AbilityType)
+    .filter((value): value is AbilityType => typeof value === 'number')
+    .reduce((acc, ability) => {
+      const abilityKey = AbilityType[ability] as AbilityTypeKeys
+
+      Object.keys(newBaseComputedStatsAbilityPropertiesConfig).forEach((key) => {
+        acc[`${abilityKey}_${key}` as `${AbilityTypeKeys}_${keyof typeof newBaseComputedStatsAbilityPropertiesConfig}`] = {}
+      })
+
+      return acc
+    }, {} as Record<`${AbilityTypeKeys}_${keyof typeof newBaseComputedStatsAbilityPropertiesConfig}`, object>),
+
+  ...Object.entries(newBaseComputedStatsAbilityPropertiesConfig)
+    .reduce((acc, [key, value]) => {
+      // @ts-ignore
+      if (!value.separated) {
+        acc[key as FilteredKeys] = value
+      }
+      return acc
+    }, {} as Record<FilteredKeys, object>),
+}
 
 export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
 
@@ -274,3 +243,4 @@ export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
 ) as ComputedStatsObject
 
 export const StatsConfigByIndex: StatConfig[] = Object.values(StatsConfig).sort((a, b) => a.index - b.index)
+

@@ -1,4 +1,5 @@
-import { BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
+import { basicAdditionalDmgAtkFinalizer, gpuBasicAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -121,6 +122,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -129,13 +131,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.SUMMONS.set(1, SOURCE_TALENT)
+      x.MEMOSPRITE.set(1, SOURCE_TALENT)
       x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
-      x.m.BASIC_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
+      x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
 
       x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
 
@@ -147,7 +150,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
 
-      x.m.MEMO_SKILL_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
+      x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
 
       x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
 
@@ -157,8 +160,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
       x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 60 : 30, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(30, SOURCE_MEMO)
+      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -178,16 +181,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           jointBoost = 0.10
         }
 
-        x.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
-        x.m.BASIC_BOOST.buff(jointBoost, SOURCE_E6)
+        x.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
+        x.m.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
       }
 
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-
-      x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * x.a[Key.ATK], Source.NONE)
-
-      x.m.BASIC_DMG.buff(x.m.a[Key.BASIC_SCALING] * x.m.a[Key.ATK], Source.NONE)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SCALING] * x.m.a[Key.ATK], Source.NONE)
+      basicAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -195,23 +193,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return `
 if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
   if (x.SPD > 320 || m.SPD > 320) {
-    x.BASIC_BOOST += 0.60;
-    m.BASIC_BOOST += 0.60;
+    x.BASIC_DMG_BOOST += 0.60;
+    m.BASIC_DMG_BOOST += 0.60;
   } else if (x.SPD > 240 || m.SPD > 240) {
-    x.BASIC_BOOST += 0.30;
-    m.BASIC_BOOST += 0.30;
+    x.BASIC_DMG_BOOST += 0.30;
+    m.BASIC_DMG_BOOST += 0.30;
   } else if (x.SPD > 160 || m.SPD > 160) {
-    x.BASIC_BOOST += 0.10;
-    m.BASIC_BOOST += 0.10;
+    x.BASIC_DMG_BOOST += 0.10;
+    m.BASIC_DMG_BOOST += 0.10;
   }
 }
 
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-
-x.BASIC_ADDITIONAL_DMG += x.BASIC_ADDITIONAL_DMG_SCALING * x.ATK;
-
-m.BASIC_DMG += m.BASIC_SCALING * m.ATK;
-m.MEMO_SKILL_DMG += m.MEMO_SKILL_SCALING * m.ATK;
+${gpuBasicAdditionalDmgAtkFinalizer()}
 `
     },
     dynamicConditionals: [

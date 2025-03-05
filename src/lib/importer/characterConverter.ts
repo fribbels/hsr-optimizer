@@ -142,8 +142,8 @@ function convertRelic(preRelic) {
       if (!subId) {
         subId = Object.values(metadata.relicSubAffixes[`${grade}`].affixes).find((x) => x.property == sub.type).affix_id
       }
-      const count = sub.cnt ?? sub.count
-      const step = sub.step || 0
+      const count: number = sub.cnt ?? sub.count
+      const step: number = sub.step || 0
 
       const subData = metadata.relicSubAffixes[grade].affixes[subId]
       const subStat = statConversion[subData.property]
@@ -152,13 +152,13 @@ function convertRelic(preRelic) {
 
       const subValue = subBase * count + subStep * step
 
-      if (subStat.cnt != undefined && subStat.step != undefined) {
-        const rolls = rollCounter(subStat.cnt, subStat.step).rolls
+      if (count != undefined && step != undefined) {
+        const rolls = rollCounter(count, step).rolls
 
         substats.push({
           stat: subStat,
           value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5),
-          addedRolls: subStat.cnt,
+          addedRolls: Math.max(0, count - 1),
           rolls,
         })
       } else {

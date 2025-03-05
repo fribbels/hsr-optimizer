@@ -313,7 +313,6 @@ SetConditionals:
     Valorous: Le buff de Taux de CRIT est toujours activée par défaut. Le buff sélectionné est appliqué au calcul de dégâts en fonction du nombre de cumuls.
     Differentiator: Lorsque cette option est sélectionnée, le buff de Taux de CRIT sera appliqué au calcul des stats de combat.
     Sigonia: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat, en supposant que le personnage ait vaincu ce nombre d'ennemis.
-    Izumo: Lorsque cette option est sélectionnée, suppose qu'il existe un allié du même chemin dans l'équipe, et applique un buff de Taux de Crit de 12% lors du calcul des stats de combat.
     Duran: Le buff sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
     Kalpagni: Lorsque cette option est activée, applique le buff d'Effet de Rupture au calcul des stats de combat.
     Lushaka: Le buff sélectionné est appliqué au calcul des stats de combat.

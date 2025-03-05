@@ -42,6 +42,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     0: 0,
     1: (e >= 2) ? 0.60 : 0.15,
     2: 0.60,
+    3: 0.60,
+    4: 0.60,
   }
 
   const defaults = {

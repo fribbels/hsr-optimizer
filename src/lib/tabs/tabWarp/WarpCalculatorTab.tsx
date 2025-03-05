@@ -349,11 +349,16 @@ function PityInputs(props: { banner: string }) {
         </Form.Item>
       </Flex>
       <Flex vertical flex={1}>
-        {/* <HeaderText>{props.banner == 'Character' ? t('PityCounter.CurrentEidolon') : t('PityCounter.CurrentSuperimposition')}</HeaderText> */}
-        <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')}</HeaderText>
+        <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
         
-        <Form.Item name={`current${props.banner}`} initialValue={props.banner == 'Character' ? EidolonLevel.NONE : SuperimpositionLevel.NONE}>
-          {props.banner == 'Character' ? <Select options={generateEidolonLevelOptions()}/> : <Select options={generateSuperimpositionLevelOptions()}/>}
+        <Form.Item 
+          name={props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'}
+        >
+          <Select 
+            options={props.banner == 'Character' 
+              ? generateEidolonLevelOptions() 
+              : generateSuperimpositionLevelOptions()}
+          />
         </Form.Item>
       </Flex>
       <Flex vertical flex={1}>

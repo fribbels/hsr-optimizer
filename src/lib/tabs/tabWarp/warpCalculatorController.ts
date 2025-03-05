@@ -204,13 +204,15 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     guaranteedCharacter,
     pityLightCone,
     guaranteedLightCone,
+    currentEidolonLevel = EidolonLevel.NONE,
+    currentSuperimpositionLevel = SuperimpositionLevel.NONE,
   } = enrichedRequest
 
   const e0CharacterDistribution = redistributePityCumulative(pityCharacter, characterWarpCap, characterDistribution)
   const e0CharacterDistributionNonPity = redistributePityCumulative(0, characterWarpCap, characterDistribution)
   const s1LightConeDistribution = redistributePityCumulative(pityLightCone, lightConeWarpCap, lightConeDistribution)
   const s1LightConeDistributionNonPity = redistributePityCumulative(0, lightConeWarpCap, lightConeDistribution)
-  const milestones: WarpMilestone[] = [
+  let milestones: WarpMilestone[] = [
     {
       warpType: WarpType.CHARACTER,
       label: 'E0',
@@ -270,17 +272,52 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
       break
   }
 
-  let e = -1
-  let s = 0
+  console.log('Before milestones', milestones) // Remove later
+
+  const currEidolonSuperCheck: boolean = (currentEidolonLevel !== EidolonLevel.NONE) || (currentSuperimpositionLevel !== SuperimpositionLevel.NONE)
+  milestones = currEidolonSuperCheck ? filteringMilestones(milestones, currentEidolonLevel, currentSuperimpositionLevel) : milestones
+
+  let e = currentEidolonLevel
+  let s = currentSuperimpositionLevel
+
+  console.log('currentEidolonLevels', e) // Remove later
+  console.log('currentSuperimpositionLevel', s) // Remove later
+  
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
+    milestone.label = e == EidolonLevel.NONE ? `S${s}` : `E${e}S${s}`
   }
 
-  console.log('milestones', milestones) // Test, remove later
-
   return milestones
+}
+
+function filteringMilestones(milestones: WarpMilestone[], currentEidolonLevel: EidolonLevel, currentSuperimpositionLevel: SuperimpositionLevel) {
+  let skipCharacterMilestones: number = currentEidolonLevel
+  let skipLightConeMilestones: number = currentSuperimpositionLevel
+  let filteredMilestones: WarpMilestone[] = []
+
+  // Filter out previous eidolon and superimposition already obtained.
+  filteredMilestones = milestones.filter((milestone) => {
+    switch (milestone.warpType) {
+      case WarpType.CHARACTER:
+        if (skipCharacterMilestones > -1) {
+          skipCharacterMilestones--
+          return false
+        }
+        break
+      case WarpType.LIGHTCONE:
+        if (skipLightConeMilestones > 0) {
+          skipLightConeMilestones--
+          return false
+        }
+        break
+    }
+    return true
+  })
+
+  console.log('filteredMilestones', filteredMilestones) // Remove later
+  return filteredMilestones
 }
 
 export type EnrichedWarpRequest = {

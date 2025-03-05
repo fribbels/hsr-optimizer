@@ -161,15 +161,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SPD_P.buffDual(0.40, SOURCE_TRACE)
+      x.SPD_P.buffBaseDual(0.40, SOURCE_TRACE)
 
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 + skillEnhancedScaling2 : skillScaling, SOURCE_SKILL)
 
-      x.ELEMENTAL_DMG.buffDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
+      x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
 
       x.RES_PEN.buff((r.lostNetherland) ? ultTerritoryResPen : 0, SOURCE_ULT)
-      x.QUANTUM_RES_PEN.buffDual((e >= 6 && r.e6ResPen) ? 0.20 : 0, SOURCE_E6)
+      x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6ResPen) ? 0.20 : 0, SOURCE_E6)
 
       x.MEMO_BASE_SPD_FLAT.buff(140, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(32000, SOURCE_MEMO)

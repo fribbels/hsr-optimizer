@@ -142,7 +142,7 @@ function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
             {`${percent ? '%' : ''}`}
           </span>
         </Flex>
-        <span style={{ flex: '1 1 auto', marginRight: 10, minWidth: 130 }}>
+        <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, minWidth: 130 }}>
           {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
         </span>
         <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
@@ -247,7 +247,7 @@ const computedStatsTempI18NTranslations = {
   SKILL_TOUGHNESS_DMG: 'Skill Toughness DMG',
   ULT_TOUGHNESS_DMG: 'Ult Toughness DMG',
   FUA_TOUGHNESS_DMG: 'Fua Toughness DMG',
-  MEMO_SKILL_TOUGHNESS_DMG: 'Memo Skill Toughness DMS',
+  MEMO_SKILL_TOUGHNESS_DMG: 'Memo Skill Toughness DMG',
   MEMO_TALENT_TOUGHNESS_DMG: 'Memo Talent Toughness DMG',
   TRUE_DMG_MODIFIER: 'True DMG multiplier',
   BASIC_TRUE_DMG_MODIFIER: 'Basic True DMG multiplier',

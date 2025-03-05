@@ -145,7 +145,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityResPen(x, ULT_DMG_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, SOURCE_E6)
 
       const originalDmgBoost = r.nihilityTeammatesBuff
-        ? nihilityTeammateScaling[countTeamPath(context, PathNames.Nihility)]
+        ? nihilityTeammateScaling[countTeamPath(context, PathNames.Nihility) - 1]
         : 0
       x.BASIC_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
       x.SKILL_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)

@@ -84,6 +84,12 @@ RelicGrid:
         Header: |-
           Pers. sélectionné
           Δ relancé moy.
+      RerollAvgEquippedDelta:
+        Label: "Personnage sélectionné: Delta moyen de potentiel de relancé vs équipé"
+        Header: |-
+          Pers. sélectionné
+          ∆ relancé moy.
+          vs équippé
     CustomCharacters:
       Label: Personnages custom
       AvgPotCol:

@@ -64,8 +64,6 @@ export async function gpuOptimize(props: {
   // console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
-  const totalTime = 0
-
   if (!gpuContext.startTime) {
     gpuContext.startTime = performance.now()
   }
@@ -77,12 +75,7 @@ export async function gpuOptimize(props: {
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
     if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
-      // const start = performance.now()
       await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
-      // const end = performance.now()
-      // const elapsedTime = end - start
-      // totalTime += elapsedTime
-      // console.log(`Iteration: ${elapsedTime.toFixed(4)} ms`)
 
       const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
       gpuReadBuffer.unmap()
@@ -116,9 +109,16 @@ export async function gpuOptimize(props: {
     }
   }
 
-  const averageTime = totalTime / gpuContext.iterations
-  console.log(`Total Time: ${totalTime.toFixed(4)} ms`)
-  console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
+  // Profiling tools
+  // const totalTime = 0
+  // const start = performance.now()
+  // const end = performance.now()
+  // const elapsedTime = end - start
+  // totalTime += elapsedTime
+  // console.log(`Iteration: ${elapsedTime.toFixed(4)} ms`)
+  // const averageTime = totalTime / gpuContext.iterations
+  // console.log(`Total Time: ${totalTime.toFixed(4)} ms`)
+  // console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
 
   outputResults(gpuContext)
   destroyPipeline(gpuContext)

@@ -431,11 +431,11 @@ export const CharacterScoringSummary = (props: {
 
   return (
     <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
-      <Flex align='center' style={{ marginTop: 15, marginBottom: 10 }} vertical gap={8}>
+      <Flex align='center' style={{ marginTop: 15, marginBottom: 10 }} vertical gap={15}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
         </pre>
-        <span className='pre-font' style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '22px', fontSize: 14 }}>
+        <span className='pre-font' style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14 }}>
           {
             t('CharacterPreview.BuildAnalysis.ScoringNote')
           }

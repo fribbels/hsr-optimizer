@@ -104,6 +104,7 @@ struct SetConditionals {
   enabledMessengerTraversingHackerspace: bool,
   enabledCelestialDifferentiator: bool,
   enabledWatchmakerMasterOfDreamMachinations: bool,
+  enabledPenaconyLandOfTheDreams: bool,
   enabledIzumoGenseiAndTakamaDivineRealm: bool,
   enabledForgeOfTheKalpagniLantern: bool,
   enabledTheWindSoaringValorous: bool,

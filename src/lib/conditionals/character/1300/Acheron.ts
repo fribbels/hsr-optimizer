@@ -1,5 +1,6 @@
 import { AbilityType, BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, countTeamPath } from 'lib/conditionals/conditionalUtils'
+import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityResPen, buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -36,17 +37,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentResPen = talent(e, 0.2, 0.22)
 
   const maxCrimsonKnotStacks = 9
-  const maxNihilityTeammates = (e >= 2) ? 1 : 2
 
   const nihilityTeammateScaling: NumberToNumberMap = {
     0: 0,
     1: (e >= 2) ? 0.60 : 0.15,
     2: 0.60,
+    3: 0.60,
+    4: 0.60,
   }
 
   const defaults = {
     crimsonKnotStacks: maxCrimsonKnotStacks,
-    nihilityTeammates: maxNihilityTeammates,
+    nihilityTeammatesBuff: true,
     e1EnemyDebuffed: true,
     thunderCoreStacks: 3,
     stygianResurgeHitsOnTarget: 6,
@@ -70,13 +72,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: maxCrimsonKnotStacks,
     },
-    nihilityTeammates: {
-      id: 'nihilityTeammates',
-      formItem: 'slider',
-      text: t('Content.nihilityTeammates.text'),
-      content: t('Content.nihilityTeammates.content'),
-      min: 0,
-      max: maxNihilityTeammates,
+    nihilityTeammatesBuff: {
+      id: 'nihilityTeammatesBuff',
+      formItem: 'switch',
+      text: t('Content.nihilityTeammatesBuff.text'),
+      content: t('Content.nihilityTeammatesBuff.content'),
     },
     thunderCoreStacks: {
       id: 'thunderCoreStacks',
@@ -144,7 +144,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       buffAbilityResPen(x, ULT_DMG_TYPE, talentResPen, SOURCE_TALENT)
       buffAbilityResPen(x, ULT_DMG_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, SOURCE_E6)
 
-      const originalDmgBoost = nihilityTeammateScaling[r.nihilityTeammates]
+      const originalDmgBoost = r.nihilityTeammatesBuff
+        ? nihilityTeammateScaling[countTeamPath(context, PathNames.Nihility) - 1]
+        : 0
       x.BASIC_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
       x.SKILL_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
       x.ULT_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
@@ -169,7 +171,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       buffAbilityVulnerability(x, ULT_DMG_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, SOURCE_E4, Target.TEAM)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
+    finalizeCalculations: (x: ComputedStatsArray) => {
+    },
     gpuFinalizeCalculations: () => '',
   }
 }

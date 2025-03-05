@@ -1,3 +1,4 @@
+import { ElementName, PathName } from 'lib/constants/constants'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { ContentItem } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -91,15 +92,20 @@ export const AbilityEidolon = {
   },
 }
 
-export function countTeamPath(context: OptimizerContext, path: string) {
+export function countTeamPath(context: OptimizerContext, path: PathName) {
   return (context.path == path ? 1 : 0)
     + (context.teammate0Metadata?.path == path ? 1 : 0)
     + (context.teammate1Metadata?.path == path ? 1 : 0)
     + (context.teammate2Metadata?.path == path ? 1 : 0)
 }
 
-export function mainIsPath(context: OptimizerContext, path: string) {
-  return context.path == path
+export function countTeamElement(context: OptimizerContext, element: ElementName) {
+  return (context.element == element ? 1 : 0)
+    + (context.teammate0Metadata?.element == element ? 1 : 0)
+    + (context.teammate1Metadata?.element == element ? 1 : 0)
+    + (context.teammate2Metadata?.element == element ? 1 : 0)
 }
 
-
+export function mainIsPath(context: OptimizerContext, path: PathName) {
+  return context.path == path
+}

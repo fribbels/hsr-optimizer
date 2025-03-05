@@ -1,7 +1,7 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, countTeamElement } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, ElementNames, Stats } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -41,13 +41,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     1: 0.05,
     2: 0.15,
     3: 0.30,
+    4: 0.30,
   }
 
   const defaults = {
     skillCdBuff: false,
     cipherBuff: true,
     talentStacks: 3,
-    quantumAllies: 3,
+    quantumAlliesAtkBuff: true,
   }
 
   const teammateDefaults = {
@@ -82,13 +83,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: 3,
     },
-    quantumAllies: {
-      id: 'quantumAllies',
-      formItem: 'slider',
-      text: t('Content.quantumAllies.text'),
-      content: t('Content.quantumAllies.content'),
-      min: 0,
-      max: 3,
+    quantumAlliesAtkBuff: {
+      id: 'quantumAlliesAtkBuff',
+      formItem: 'switch',
+      text: t('Content.quantumAlliesAtkBuff.text'),
+      content: t('Content.quantumAlliesAtkBuff.content'),
     },
   }
 
@@ -108,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     cipherBuff: content.cipherBuff,
     talentStacks: content.talentStacks,
-    quantumAllies: content.quantumAllies,
+    quantumAlliesAtkBuff: content.quantumAlliesAtkBuff,
   }
 
   return {
@@ -134,8 +133,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Main damage type
       x.ATK_P.buffTeam(0.15, SOURCE_TRACE)
-      x.ATK_P.buff(context.elementalDamageType == Stats.Quantum_DMG
-        ? (atkBoostByQuantumAllies[m.quantumAllies] || 0)
+      x.ATK_P.buffDual(context.element == ElementNames.Quantum && m.quantumAlliesAtkBuff
+        ? atkBoostByQuantumAllies[countTeamElement(context, ElementNames.Quantum)]
         : 0, SOURCE_TRACE)
       x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, SOURCE_E1)
 
@@ -160,7 +159,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           : 0,
         SOURCE_SKILL)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
+    finalizeCalculations: (x: ComputedStatsArray) => {
+    },
     gpuFinalizeCalculations: () => '',
     dynamicConditionals: [
       {

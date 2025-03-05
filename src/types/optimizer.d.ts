@@ -46,6 +46,7 @@ export type SetConditional = {
   enabledMessengerTraversingHackerspace: boolean
   enabledCelestialDifferentiator: boolean
   enabledWatchmakerMasterOfDreamMachinations: boolean
+  enabledPenaconyLandOfTheDreams: boolean
   enabledIzumoGenseiAndTakamaDivineRealm: boolean
   enabledForgeOfTheKalpagniLantern: boolean
   enabledTheWindSoaringValorous: boolean

@@ -4903,6 +4903,7 @@ interface Resources {
         "Watchmaker": "When enabled, the Break Effect buff is applied to Combat stat calculations.",
         "Valorous": "The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
+        "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
         "Izumo": "When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations.",
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",

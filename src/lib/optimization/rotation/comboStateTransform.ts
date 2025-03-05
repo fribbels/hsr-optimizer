@@ -201,7 +201,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           break
         case Sets.PenaconyLandOfTheDreams:
           if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
-          x.ELEMENTAL_DMG.buff(0.10, Source.PenaconyLandOfTheDreams)
+          x.ELEMENTAL_DMG.buffDual(0.10, Source.PenaconyLandOfTheDreams)
           break
         case Sets.LushakaTheSunkenSeas:
           x.ATK_P.buff(0.12, Source.LushakaTheSunkenSeas)

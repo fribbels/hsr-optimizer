@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Main damage type
       x.ATK_P.buffTeam(0.15, SOURCE_TRACE)
-      x.ATK_P.buff(context.element == ElementNames.Quantum && m.quantumAlliesAtkBuff
+      x.ATK_P.buffDual(context.element == ElementNames.Quantum && m.quantumAlliesAtkBuff
         ? atkBoostByQuantumAllies[countTeamElement(context, ElementNames.Quantum)]
         : 0, SOURCE_TRACE)
       x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, SOURCE_E1)

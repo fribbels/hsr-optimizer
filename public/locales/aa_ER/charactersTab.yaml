@@ -100,8 +100,15 @@ CharacterPreview:
   DMGUpgrades: crwdns39700:0crwdne39700:0
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0
+    MainStatHeader: crwdns44824:0crwdne44824:0
     Roll: crwdns39704:0crwdne39704:0
     Damage: crwdns39706:0crwdne39706:0
+    MainStatUpgrade: crwdns44826:0crwdne44826:0
+    SubStatUpgrade: crwdns44828:0crwdne44828:0
+    DpsScorePercentUpgrade: crwdns44830:0crwdne44830:0
+    UpgradedDpsScore: crwdns44832:0crwdne44832:0
+    ComboDmgPercentUpgrade: crwdns44834:0crwdne44834:0
+    ComboDmgUpgrade: crwdns44836:0crwdne44836:0
   BuildAnalysis:
     ScoringNote: >-
       crwdns44796:0crwdne44796:0

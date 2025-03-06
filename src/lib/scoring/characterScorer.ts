@@ -355,7 +355,7 @@ export function scoreCharacterSimulation(
 
   // ===== Calculate upgrades =====
 
-  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
+  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults, mainUpgradeResultsByPart } = generateStatImprovements(
     originalSimResult,
     originalSim, candidateBenchmarkSims[0],
     simulationForm,
@@ -399,6 +399,7 @@ export function scoreCharacterSimulation(
     substatUpgrades: substatUpgradeResults,
     setUpgrades: setUpgradeResults,
     mainUpgrades: mainUpgradeResults,
+    mainUpgradeResultsByPart: mainUpgradeResultsByPart,
 
     simulationForm: simulationForm,
     simulationMetadata: metadata,
@@ -471,6 +472,12 @@ function generateStatImprovements(
 
   // Upgrade mains
   const mainUpgradeResults: SimulationStatUpgrade[] = []
+  const mainUpgradeResultsByPart: Record<MainStatParts, SimulationStatUpgrade[]> = {
+    [Parts.Body]: [],
+    [Parts.Feet]: [],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [],
+  }
 
   const forceErrRope = isErrRopeForced(simulationForm, metadata, originalSim)
 
@@ -490,12 +497,14 @@ function generateStatImprovements(
         substatRollsModifier: (num: number) => num,
       })[0]
       applyScoringFunction(mainUpgradeResult)
-      mainUpgradeResults.push({
+      const simulationStatUpgrade = {
         stat: upgradeMainStat,
         part: part,
         simulation: originalSimClone,
         simulationResult: mainUpgradeResult,
-      })
+      }
+      mainUpgradeResults.push(simulationStatUpgrade)
+      mainUpgradeResultsByPart[part].push(simulationStatUpgrade)
     }
   }
 
@@ -504,9 +513,9 @@ function generateStatImprovements(
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
 
-  // console.log('Stat improvements', originalSimResult, originalSim, metadata, substatUpgradeResults)
+  console.log('Stat improvements', mainUpgradeResults)
 
-  return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
+  return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults, mainUpgradeResultsByPart }
 }
 
 const partsToFilterMapping = {

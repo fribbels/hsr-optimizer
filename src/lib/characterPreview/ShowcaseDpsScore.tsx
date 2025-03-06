@@ -1,7 +1,7 @@
 import { SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, ConfigProvider, Flex, Segmented } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
-import { OverlayText } from 'lib/characterPreview/CharacterPreviewComponents'
+import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades } from 'lib/characterPreview/CharacterScoringSummary'
 import StatText from 'lib/characterPreview/StatText'
 import { COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
@@ -161,10 +161,9 @@ function CharacterPreviewScoringTeammate(props: {
           style={{
             height: iconSize,
             width: iconSize,
-            borderRadius: 40,
-            background: 'rgba(255, 255, 255, 0.1)',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-            outline: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: iconSize,
+            backgroundColor: 'rgba(124, 124, 124, 0.1)',
+            outline: showcaseOutline,
           }}
         />
         <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>

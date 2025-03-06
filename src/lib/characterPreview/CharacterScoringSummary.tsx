@@ -508,16 +508,16 @@ export const CharacterScoringSummary = (props: {
 
       <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
         <pre style={{ fontSize: 20, textDecoration: 'underline' }}>
-          {t('CharacterPreview.MainStatUpgradeComparisons.Header')/* Main stat upgrade comparisons */}
+          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
         </pre>
-        <DpsScoreMainStatUpgradesTable simScore={result}/>
+        <DpsScoreSubstatUpgradesTable simScore={result}/>
       </Flex>
 
       <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
         <pre style={{ fontSize: 20, textDecoration: 'underline' }}>
-          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
+          {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
         </pre>
-        <DpsScoreSubstatUpgradesTable simScore={result}/>
+        <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
 
       <Flex justify='space-around' style={{ marginTop: 15 }}>

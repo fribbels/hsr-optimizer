@@ -1,18 +1,14 @@
 import { Flex, Table, TableProps } from 'antd'
-import { Arrow, tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
+import { sharedScoreUpgradeColumns, sharedSimResultComparator, tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
-import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubstatUpgradeItem = {
   stat: SubStats
-  rollValue: number
   scorePercentUpgrade: number
   scoreValueUpgrade: number
   damagePercentUpgrade: number
@@ -22,7 +18,7 @@ type SubstatUpgradeItem = {
 export function DpsScoreSubstatUpgradesTable(props: {
   simScore: SimulationScore
 }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.SubstatUpgrades' })
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
 
   const { simScore } = props
@@ -32,17 +28,13 @@ export function DpsScoreSubstatUpgradesTable(props: {
     return {
       key: stat,
       stat: stat,
-      rollValue: TsUtils.precisionRound(StatCalculator.getMaxedSubstatValue(stat, 1.0)),
-      scorePercentUpgrade: (upgrade.percent! - simScore.percent) * 100, // OK
-      scoreValueUpgrade: upgrade.percent! * 100,
-      damagePercentUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore) / simScore.originalSimScore * 100,
-      damageValueUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore),
+      ...sharedSimResultComparator(simScore, upgrade),
     }
   })
 
   const columns: TableProps<SubstatUpgradeItem>['columns'] = [
     {
-      title: 'Substat Upgrade',
+      title: t('SubStatUpgrade'), // Substat Upgrade
       dataIndex: 'stat',
       align: 'center',
       width: 200,
@@ -56,48 +48,8 @@ export function DpsScoreSubstatUpgradesTable(props: {
         </Flex>
       ),
     },
-    {
-      title: 'DPS Score Δ %',
-      dataIndex: 'scorePercentUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <Flex align='center' justify='center' gap={5}>
-          <Arrow up/>
-          {` ${localeNumber_00(n)}%`}
-        </Flex>
-      ),
-    },
-    {
-      title: 'Updated DPS Score',
-      dataIndex: 'scoreValueUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <>
-          {`${localeNumber_0(Math.max(0, n))}%`}
-        </>
-      ),
-    },
-    {
-      title: 'Combo DMG Δ %',
-      dataIndex: 'damagePercentUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <Flex align='center' justify='center' gap={5}>
-          <Arrow up/>
-          {` ${localeNumber_00(n)}%`}
-        </Flex>
-      ),
-    },
-    {
-      title: 'Combo DMG Δ',
-      dataIndex: 'damageValueUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <>
-          {localeNumber_0(n)}
-        </>
-      ),
-    },
+    // @ts-ignore
+    ...sharedScoreUpgradeColumns(t),
   ]
 
   return (

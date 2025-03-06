@@ -1,7 +1,9 @@
 import { Flex, Table, TableProps } from 'antd'
+import { TFunction } from 'i18next'
 import { MainStats, Parts } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
+import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { arrowColor, arrowDirection } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
@@ -12,7 +14,6 @@ import { useTranslation } from 'react-i18next'
 type MainStatUpgradeItem = {
   stat: MainStats
   part: Parts
-  // rollValue: number
   scorePercentUpgrade: number
   scoreValueUpgrade: number
   damagePercentUpgrade: number
@@ -22,31 +23,26 @@ type MainStatUpgradeItem = {
 export function DpsScoreMainStatUpgradesTable(props: {
   simScore: SimulationScore
 }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.SubstatUpgrades' })
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
 
   const { simScore } = props
   const upgrades = simScore.mainUpgrades
 
-  console.log(simScore)
-  console.log(simScore.mainUpgrades)
-  const dataSource: MainStatUpgradeItem[] = upgrades.map((upgrade) => {
+  const dataSource: MainStatUpgradeItem[] = upgrades.map((upgrade: SimulationStatUpgrade) => {
     const stat = upgrade.stat! as MainStats
     const part = upgrade.part! as Parts
     return {
       key: part + stat,
       stat: stat,
       part: part,
-      scorePercentUpgrade: (upgrade.percent! - simScore.percent) * 100, // OK
-      scoreValueUpgrade: upgrade.percent! * 100,
-      damagePercentUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore) / simScore.originalSimScore * 100,
-      damageValueUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore),
+      ...sharedSimResultComparator(simScore, upgrade),
     }
   }).sort((a, b) => b.scorePercentUpgrade - a.scorePercentUpgrade)
 
   const columns: TableProps<MainStatUpgradeItem>['columns'] = [
     {
-      title: 'Main Stat Upgrade',
+      title: t('MainStatUpgrade'), // Main Stat Upgrade
       dataIndex: 'stat',
       align: 'center',
       width: 200,
@@ -60,48 +56,8 @@ export function DpsScoreMainStatUpgradesTable(props: {
         </Flex>
       ),
     },
-    {
-      title: 'DPS Score Δ %',
-      dataIndex: 'scorePercentUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <Flex align='center' justify='center' gap={5}>
-          <Arrow up={n >= 0}/>
-          {` ${localeNumber_00(n)}%`}
-        </Flex>
-      ),
-    },
-    {
-      title: 'Updated DPS Score',
-      dataIndex: 'scoreValueUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <>
-          {`${localeNumber_0(Math.max(0, n))}%`}
-        </>
-      ),
-    },
-    {
-      title: 'Combo DMG Δ %',
-      dataIndex: 'damagePercentUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <Flex align='center' justify='center' gap={5}>
-          <Arrow up={n >= 0}/>
-          {` ${localeNumber_00(n)}%`}
-        </Flex>
-      ),
-    },
-    {
-      title: 'Combo DMG Δ',
-      dataIndex: 'damageValueUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <>
-          {localeNumber_0(n)}
-        </>
-      ),
-    },
+    // @ts-ignore
+    ...sharedScoreUpgradeColumns(t),
   ]
 
   return (
@@ -114,6 +70,62 @@ export function DpsScoreMainStatUpgradesTable(props: {
       style={tableStyle}
     />
   )
+}
+
+export function sharedSimResultComparator(simScore: SimulationScore, upgrade: SimulationStatUpgrade) {
+  return {
+    scorePercentUpgrade: (upgrade.percent! - simScore.percent) * 100, // OK
+    scoreValueUpgrade: upgrade.percent! * 100,
+    damagePercentUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore) / simScore.originalSimScore * 100,
+    damageValueUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore),
+  }
+}
+
+export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): TableProps['columns'] {
+  return [
+    {
+      title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
+      dataIndex: 'scorePercentUpgrade',
+      align: 'center',
+      render: (n: number) => (
+        <Flex align='center' justify='center' gap={5}>
+          <Arrow up={n >= 0}/>
+          {` ${localeNumber_00(n)}%`}
+        </Flex>
+      ),
+    },
+    {
+      title: t('UpgradedDpsScore'), // Upgraded DPS Score
+      dataIndex: 'scoreValueUpgrade',
+      align: 'center',
+      render: (n: number) => (
+        <>
+          {`${localeNumber_0(Math.max(0, n))}%`}
+        </>
+      ),
+    },
+    {
+      title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
+      dataIndex: 'damagePercentUpgrade',
+      align: 'center',
+      render: (n: number) => (
+        <Flex align='center' justify='center' gap={5}>
+          <Arrow up={n >= 0}/>
+          {` ${localeNumber_00(n)}%`}
+        </Flex>
+      ),
+    },
+    {
+      title: t('ComboDmgUpgrade'), // Combo DMG Δ
+      dataIndex: 'damageValueUpgrade',
+      align: 'center',
+      render: (n: number) => (
+        <>
+          {localeNumber_0(n)}
+        </>
+      ),
+    },
+  ]
 }
 
 export const tableStyle = {

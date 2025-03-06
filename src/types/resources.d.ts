@@ -128,13 +128,15 @@ interface Resources {
       "DMGUpgrades": "Damage Upgrades",
       "SubstatUpgradeComparisons": {
         "Header": "Substat upgrade comparisons",
+        "MainStatHeader": "Main stat upgrade comparisons",
         "Roll": "roll",
-        "Damage": "Damage"
-      },
-      "MainStatUpgradeComparisons": {
-        "Header": "Main stat upgrade comparisons",
-        "Roll": "roll",
-        "Damage": "Damage"
+        "Damage": "Damage",
+        "MainStatUpgrade": "Main Stat Upgrade",
+        "SubStatUpgrade": "Substat Upgrade",
+        "DpsScorePercentUpgrade": "DPS Score Δ %",
+        "UpgradedDpsScore": "Upgraded DPS Score",
+        "ComboDmgPercentUpgrade": "Combo DMG Δ %",
+        "ComboDmgUpgrade": "Combo DMG Δ"
       },
       "BuildAnalysis": {
         "ScoringNote": "DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons. Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.",

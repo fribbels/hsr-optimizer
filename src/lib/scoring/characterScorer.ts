@@ -355,7 +355,7 @@ export function scoreCharacterSimulation(
 
   // ===== Calculate upgrades =====
 
-  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults, mainUpgradeResultsByPart } = generateStatImprovements(
+  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
     originalSimResult,
     originalSim, candidateBenchmarkSims[0],
     simulationForm,
@@ -399,7 +399,6 @@ export function scoreCharacterSimulation(
     substatUpgrades: substatUpgradeResults,
     setUpgrades: setUpgradeResults,
     mainUpgrades: mainUpgradeResults,
-    mainUpgradeResultsByPart: mainUpgradeResultsByPart,
 
     simulationForm: simulationForm,
     simulationMetadata: metadata,
@@ -472,12 +471,6 @@ function generateStatImprovements(
 
   // Upgrade mains
   const mainUpgradeResults: SimulationStatUpgrade[] = []
-  const mainUpgradeResultsByPart: Record<MainStatParts, SimulationStatUpgrade[]> = {
-    [Parts.Body]: [],
-    [Parts.Feet]: [],
-    [Parts.PlanarSphere]: [],
-    [Parts.LinkRope]: [],
-  }
 
   const forceErrRope = isErrRopeForced(simulationForm, metadata, originalSim)
 
@@ -504,7 +497,6 @@ function generateStatImprovements(
         simulationResult: mainUpgradeResult,
       }
       mainUpgradeResults.push(simulationStatUpgrade)
-      mainUpgradeResultsByPart[part].push(simulationStatUpgrade)
     }
   }
 
@@ -515,7 +507,7 @@ function generateStatImprovements(
 
   console.log('Stat improvements', mainUpgradeResults)
 
-  return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults, mainUpgradeResultsByPart }
+  return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
 
 const partsToFilterMapping = {

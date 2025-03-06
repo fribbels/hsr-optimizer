@@ -102,6 +102,10 @@ CharacterPreview:
     Header: Substat upgrade comparisons
     Roll: roll
     Damage: Damage
+  MainStatUpgradeComparisons:
+    Header: Main stat upgrade comparisons
+    Roll: roll
+    Damage: Damage
   BuildAnalysis:
     ScoringNote: >-
       DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons.

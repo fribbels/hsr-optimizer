@@ -131,8 +131,13 @@ interface Resources {
         "Roll": "roll",
         "Damage": "Damage"
       },
+      "MainStatUpgradeComparisons": {
+        "Header": "Main stat upgrade comparisons",
+        "Roll": "roll",
+        "Damage": "Damage"
+      },
       "BuildAnalysis": {
-        "ScoringNote": "Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons",
+        "ScoringNote": "DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons. Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.",
         "Header": "Character build analysis",
         "SimulationTeammates": "Simulation teammates",
         "SimulationSets": "Simulation sets",
@@ -4040,7 +4045,7 @@ interface Resources {
         "ReliquaryDesc": {
           "Title": "(Recommended) IceDynamix Reliquary Archiver",
           "Link": "Github",
-          "OnlineMsg": "Status: Updated for patch {{version}} — New download required",
+          "OnlineMsg": "Status: Updated for patch {{version}}",
           "OfflineMsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
           "l2": "Imports full inventory and character roster"
@@ -4383,6 +4388,26 @@ interface Resources {
           "SuccessMessage": "Reset Minimum Break filter",
           "Description": "Minimum break damage may be too high",
           "ButtonText": "Reset Minimum Break filter"
+        },
+        "MAX_MEMO_SKILL": {
+          "SuccessMessage": "Reset Maximum Memo Skill filter",
+          "Description": "Maximum Memo Skill damage may be too low",
+          "ButtonText": "Reset Maximum Memo Skill filter"
+        },
+        "MIN_MEMO_SKILL": {
+          "SuccessMessage": "Reset Minimum Memo Skill filter",
+          "Description": "Minimum Memo Skill damage may be too high",
+          "ButtonText": "Reset Minimum Memo Skill filter"
+        },
+        "MAX_MEMO_TALENT": {
+          "SuccessMessage": "Reset Maximum Memo Talent filter",
+          "Description": "Maximum Memo Talent damage may be too low",
+          "ButtonText": "Reset Maximum Memo Talent filter"
+        },
+        "MIN_MEMO_TALENT": {
+          "SuccessMessage": "Reset Minimum Memo Talent filter",
+          "Description": "Minimum Memo Talent damage may be too high",
+          "ButtonText": "Reset Minimum Memo Talent filter"
         },
         "MAX_HEAL": {
           "SuccessMessage": "Reset Maximum HEAL filter",
@@ -4905,7 +4930,7 @@ interface Resources {
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
-        "Izumo": "When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations.",
+        "Izumo": "When enabled, if there is an ally with the same path, applies the 12% CRIT Rate buff to Combat stat calculations.",
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
         "Lushaka": "The selected buff is applied to damage calculations.",

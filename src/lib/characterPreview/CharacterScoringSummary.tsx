@@ -4,15 +4,15 @@ import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/Buff
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
+import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
+import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
@@ -150,50 +150,6 @@ export const CharacterScoringSummary = (props: {
     return (
       <Flex align='center' gap={15}>
         <pre style={{ margin: 0 }}>{`#${props.index} - ${displayValue as string}`}</pre>
-      </Flex>
-    )
-  }
-
-  function ScoringStatUpgrades() {
-    const rows: ReactElement[] = []
-    const originalScore = result.originalSimScore
-    const basePercent = result.percent
-
-    for (const substatUpgrade of result.substatUpgrades) {
-      const statUpgrade: SimulationStatUpgrade = substatUpgrade
-      const upgradeSimScore = statUpgrade.simulationResult.simScore
-      const upgradePercent = statUpgrade.percent!
-      const upgradeStat = statUpgrade.stat!
-      const isFlat = Utils.isFlat(statUpgrade.stat)
-      const suffix = isFlat ? '' : '%'
-      const rollValue = TsUtils.precisionRound(StatCalculator.getMaxedSubstatValue(upgradeStat as SubStats, 0.8))
-
-      rows.push(
-        <Flex key={Utils.randomId()} align='center' gap={10}>
-          <img src={Assets.getStatIcon(upgradeStat)} style={{ height: 30 }}/>
-          <pre
-            style={{
-              margin: 0,
-              width: 200,
-            }}
-          >{`+1x ${t('CharacterPreview.SubstatUpgradeComparisons.Roll')}: ${t(`common:ShortStats.${upgradeStat as SubStats}`)} +${localeNumber_0(rollValue)}${suffix}`}
-          </pre>
-          <pre style={{ margin: 0, width: 250 }}>
-            {`${t('common:Score')}: +${localeNumber_00((upgradePercent - basePercent) * 100)}% -> ${localeNumber_00(statUpgrade.percent! * 100)}%`}
-          </pre>
-          <pre style={{ margin: 0, width: 300 }}>
-            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')}: +${localeNumber_0(upgradeSimScore - originalScore)} -> ${localeNumber_0(upgradeSimScore)}`}
-          </pre>
-          <pre style={{ margin: 0, width: 150 }}>
-            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')} %: +${localeNumber_000((upgradeSimScore - originalScore) / originalScore * 100)}%`}
-          </pre>
-        </Flex>,
-      )
-    }
-
-    return (
-      <Flex vertical gap={defaultGap}>
-        {rows}
       </Flex>
     )
   }
@@ -550,13 +506,18 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
-      <Flex gap={defaultGap} justify='space-around'>
-        <Flex vertical gap={defaultGap}>
-          <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-            {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
-          </pre>
-          <ScoringStatUpgrades/>
-        </Flex>
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 20, textDecoration: 'underline' }}>
+          {t('CharacterPreview.MainStatUpgradeComparisons.Header')/* Main stat upgrade comparisons */}
+        </pre>
+        <DpsScoreMainStatUpgradesTable simScore={result}/>
+      </Flex>
+
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 20, textDecoration: 'underline' }}>
+          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
+        </pre>
+        <DpsScoreSubstatUpgradesTable simScore={result}/>
       </Flex>
 
       <Flex justify='space-around' style={{ marginTop: 15 }}>

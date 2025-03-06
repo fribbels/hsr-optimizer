@@ -127,6 +127,14 @@ function RenderValue(props: { value: string | number; stat: string; comboDiff?: 
 const GREEN = '#95ef90'
 const RED = '#ff97a9'
 
+export function arrowColor(increase: boolean) {
+  return increase ? GREEN : RED
+}
+
+export function arrowDirection(increase: boolean) {
+  return increase ? '▲' : '▼'
+}
+
 function DiffRender(props: { oldValue: number; newValue: number; stat: string }) {
   const { newValue, oldValue, stat } = props
 
@@ -134,8 +142,8 @@ function DiffRender(props: { oldValue: number; newValue: number; stat: string })
 
   const increase = newValue > oldValue
   const diff = increase ? visualDiff(newValue, oldValue, stat) : visualDiff(oldValue, newValue, stat)
-  const icon = increase ? '▲' : '▼'
-  const color = increase ? GREEN : RED
+  const icon = arrowDirection(increase)
+  const color = arrowColor(increase)
   const { valueDisplay } = getStatDiffRenderValues(diff, diff, stat)
 
   return (

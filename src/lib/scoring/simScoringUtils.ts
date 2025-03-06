@@ -1,4 +1,4 @@
-import { Parts, Stats } from 'lib/constants/constants'
+import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
@@ -54,6 +54,7 @@ export type SimulationScore = {
   substatUpgrades: SimulationStatUpgrade[]
   setUpgrades: SimulationStatUpgrade[]
   mainUpgrades: SimulationStatUpgrade[]
+  mainUpgradeResultsByPart: Record<MainStatParts, SimulationStatUpgrade[]>
 
   simulationForm: Form
   simulationMetadata: SimulationMetadata

@@ -60,6 +60,7 @@ export function DpsScoreSubstatUpgradesTable(props: {
       pagination={false}
       size='small'
       style={tableStyle}
+      locale={{ emptyText: '' }}
     />
   )
 }

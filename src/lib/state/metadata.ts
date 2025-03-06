@@ -5465,6 +5465,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       simulation: {
         parts: {
           [Parts.Body]: [
+            Stats.ATK_P,
             Stats.CR,
             Stats.CD,
           ],

@@ -524,18 +524,6 @@ export const DB = {
         character.form.resultSort = 'SPD'
       }
 
-      // Unset light cone fields for mismatched light cone path
-      const dbLightCone = dbLightCones[character.form?.lightCone] || {}
-      const dbCharacter = dbCharacters[character.id]
-      if (dbLightCone?.path != dbCharacter?.path) {
-        // @ts-ignore
-        character.form.lightCone = undefined
-        character.form.lightConeLevel = 80
-        character.form.lightConeSuperimposition = 1
-        // @ts-ignore
-        character.form.lightConeConditionals = {}
-      }
-
       // Deduplicate main stat filter values
       character.form.mainBody = deduplicateStringArray(character.form.mainBody)
       character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)

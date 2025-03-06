@@ -175,7 +175,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     } as OptimizerAction
 
     const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)
-    const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata) as CharacterConditionalsController
+    const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata)
 
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context)

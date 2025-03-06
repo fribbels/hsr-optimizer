@@ -204,8 +204,8 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     guaranteedCharacter,
     pityLightCone,
     guaranteedLightCone,
-    currentEidolonLevel = EidolonLevel.NONE,
-    currentSuperimpositionLevel = SuperimpositionLevel.NONE,
+    currentEidolonLevel,
+    currentSuperimpositionLevel,
   } = enrichedRequest
 
   const e0CharacterDistribution = redistributePityCumulative(pityCharacter, characterWarpCap, characterDistribution)
@@ -272,16 +272,11 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
       break
   }
 
-  console.log('Before milestones', milestones) // Remove later
-
   const currEidolonSuperCheck: boolean = (currentEidolonLevel !== EidolonLevel.NONE) || (currentSuperimpositionLevel !== SuperimpositionLevel.NONE)
-  milestones = currEidolonSuperCheck ? filteringMilestones(milestones, currentEidolonLevel, currentSuperimpositionLevel) : milestones
+  milestones = currEidolonSuperCheck ? filterRemapMilestones(milestones, enrichedRequest) : milestones
 
   let e = currentEidolonLevel
   let s = currentSuperimpositionLevel
-
-  console.log('currentEidolonLevels', e) // Remove later
-  console.log('currentSuperimpositionLevel', s) // Remove later
   
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
@@ -292,9 +287,9 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
   return milestones
 }
 
-function filteringMilestones(milestones: WarpMilestone[], currentEidolonLevel: EidolonLevel, currentSuperimpositionLevel: SuperimpositionLevel) {
-  let skipCharacterMilestones: number = currentEidolonLevel
-  let skipLightConeMilestones: number = currentSuperimpositionLevel
+function filterRemapMilestones(milestones: WarpMilestone[], enrichRequest: EnrichedWarpRequest) {
+  let skipCharacterMilestones: number = enrichRequest.currentEidolonLevel
+  let skipLightConeMilestones: number = enrichRequest.currentSuperimpositionLevel
   let filteredMilestones: WarpMilestone[] = []
 
   // Filter out previous eidolon and superimposition already obtained.
@@ -316,7 +311,28 @@ function filteringMilestones(milestones: WarpMilestone[], currentEidolonLevel: E
     return true
   })
 
-  console.log('filteredMilestones', filteredMilestones) // Remove later
+  // Remap the new starting milestone
+  const e0CharacterDistribution = redistributePityCumulative(enrichRequest.pityCharacter, characterWarpCap, characterDistribution)
+  const e0CharacterDistributionNonPity = redistributePityCumulative(0, characterWarpCap, characterDistribution)
+  const s1LightConeDistribution = redistributePityCumulative(enrichRequest.pityLightCone, lightConeWarpCap, lightConeDistribution)
+  const s1LightConeDistributionNonPity = redistributePityCumulative(0, lightConeWarpCap, lightConeDistribution)
+
+  const firstNewCharacterIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.CHARACTER)
+  if (firstNewCharacterIndex >= 0) {
+    filteredMilestones[firstNewCharacterIndex].pity = enrichRequest.pityCharacter
+    filteredMilestones[firstNewCharacterIndex].guaranteed = enrichRequest.guaranteedCharacter
+    filteredMilestones[firstNewCharacterIndex].redistributedCumulative = e0CharacterDistribution
+    filteredMilestones[firstNewCharacterIndex].redistributedCumulativeNonPity = e0CharacterDistributionNonPity
+  }
+
+  const firstNewLightConeIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.LIGHTCONE)
+  if (firstNewLightConeIndex >= 0) {
+    filteredMilestones[firstNewLightConeIndex].pity = enrichRequest.pityLightCone
+    filteredMilestones[firstNewLightConeIndex].guaranteed = enrichRequest.guaranteedLightCone
+    filteredMilestones[firstNewLightConeIndex].redistributedCumulative = s1LightConeDistribution
+    filteredMilestones[firstNewLightConeIndex].redistributedCumulativeNonPity = s1LightConeDistributionNonPity
+  }
+
   return filteredMilestones
 }
 

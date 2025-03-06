@@ -351,9 +351,7 @@ function PityInputs(props: { banner: string }) {
       <Flex vertical flex={1}>
         <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
         
-        <Form.Item 
-          name={props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'}
-        >
+        <Form.Item name={props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'}>
           <Select 
             options={props.banner == 'Character' 
               ? generateEidolonLevelOptions() 

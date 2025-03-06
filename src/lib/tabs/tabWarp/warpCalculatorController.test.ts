@@ -1,5 +1,5 @@
 import { Metadata } from 'lib/state/metadata'
-import { NONE_WARP_INCOME_OPTION, simulateWarps, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { EidolonLevel, NONE_WARP_INCOME_OPTION, simulateWarps, SuperimpositionLevel, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { expect, test } from 'vitest'
 
 const DEFAULT_WARP_REQUEST: WarpRequest = {
@@ -11,6 +11,8 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
+  currentEidolonLevel: EidolonLevel.NONE,
+  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
 Metadata.initialize()

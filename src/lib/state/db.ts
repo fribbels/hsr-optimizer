@@ -355,6 +355,8 @@ export const DB = {
     const removed = characters.splice(matchingCharacter.rank, 1)
     characters.splice(index, 0, removed[0])
     DB.setCharacters(characters)
+
+    window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
   },
   refreshCharacters: () => {
     if (window.setCharacterRows) {

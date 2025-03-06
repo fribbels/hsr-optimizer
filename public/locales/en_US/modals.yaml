@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "Reset Minimum Break filter"
       Description: "Minimum break damage may be too high"
       ButtonText: "Reset Minimum Break filter"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "Reset Maximum Memo Skill filter"
+      Description: "Maximum Memo Skill damage may be too low"
+      ButtonText: "Reset Maximum Memo Skill filter"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "Reset Minimum Memo Skill filter"
+      Description: "Minimum Memo Skill damage may be too high"
+      ButtonText: "Reset Minimum Memo Skill filter"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "Reset Maximum Memo Talent filter"
+      Description: "Maximum Memo Talent damage may be too low"
+      ButtonText: "Reset Maximum Memo Talent filter"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "Reset Minimum Memo Talent filter"
+      Description: "Minimum Memo Talent damage may be too high"
+      ButtonText: "Reset Minimum Memo Talent filter"
     MAX_HEAL:
       SuccessMessage: "Reset Maximum HEAL filter"
       Description: "Maximum HEAL may be too low"

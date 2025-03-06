@@ -113,7 +113,7 @@ export function DamageUpgrades(props: {
 
     displays.push(
       <Table<StatUpgradeItem>
-        className='stat-upgrade-table'
+        className='remove-table-bottom-border'
         key={group.key}
         columns={columns}
         dataSource={group.upgrades}

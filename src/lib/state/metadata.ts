@@ -5465,6 +5465,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       simulation: {
         parts: {
           [Parts.Body]: [
+            Stats.ATK_P,
             Stats.CR,
             Stats.CD,
           ],
@@ -6976,8 +6977,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.RutilantArena,
           Sets.BoneCollectionsSereneDemesne,
+          Sets.RutilantArena,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

@@ -1,4 +1,3 @@
-import { Sets } from 'lib/constants/constants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
 import { ComputedStatsArray, ComputedStatsArrayCore, ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
@@ -50,9 +49,8 @@ export function debugExportWebgpuResult(array: Float32Array) {
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
   const m = new ComputedStatsArrayCore(false) as ComputedStatsArray
   const len = Object.keys(baseComputedStatsObject).length
-  const setsLen = Object.keys(Sets).length
   x.setPrecompute(array.slice(0, len))
-  m.setPrecompute(array.slice(len + setsLen, len * 2 + setsLen))
+  m.setPrecompute(array.slice(len, len * 2))
 
   console.log(x)
   console.log(m)

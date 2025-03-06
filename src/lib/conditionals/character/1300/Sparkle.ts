@@ -148,16 +148,29 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buffSingle(
-        (t.skillCdBuff)
-          ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
-          : 0,
-        SOURCE_SKILL)
-      x.UNCONVERTIBLE_CD_BUFF.buffSingle(
-        (t.skillCdBuff)
-          ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
-          : 0,
-        SOURCE_SKILL)
+      if (e >= 6) {
+        x.CD.buffTeam(
+          (t.skillCdBuff)
+            ? skillCdBuffBase + (skillCdBuffScaling + 0.30) * t.teammateCDValue
+            : 0,
+          SOURCE_SKILL)
+        x.UNCONVERTIBLE_CD_BUFF.buffTeam(
+          (t.skillCdBuff)
+            ? skillCdBuffBase + (skillCdBuffScaling + 0.30) * t.teammateCDValue
+            : 0,
+          SOURCE_SKILL)
+      } else {
+        x.CD.buffSingle(
+          (t.skillCdBuff)
+            ? skillCdBuffBase + (skillCdBuffScaling) * t.teammateCDValue
+            : 0,
+          SOURCE_SKILL)
+        x.UNCONVERTIBLE_CD_BUFF.buffSingle(
+          (t.skillCdBuff)
+            ? skillCdBuffBase + (skillCdBuffScaling) * t.teammateCDValue
+            : 0,
+          SOURCE_SKILL)
+      }
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
     },

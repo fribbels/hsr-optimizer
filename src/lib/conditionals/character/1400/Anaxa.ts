@@ -74,7 +74,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     enemyWeaknessTypes: {
       id: 'enemyWeaknessTypes',
       formItem: 'slider',
-      text: 'Enemy weakness types',
+      text: 'Enemy weaknesses',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 7,

@@ -1,4 +1,4 @@
-import {Metadata} from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadata'
 import {
   EidolonLevel,
   NONE_WARP_INCOME_OPTION,
@@ -8,7 +8,7 @@ import {
   WarpRequest,
   WarpStrategy,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
-import {expect, test} from 'vitest'
+import { expect, test } from 'vitest'
 
 const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,

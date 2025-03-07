@@ -77,6 +77,7 @@ function generateCharacterMetadataContext(request: Form, context: Partial<Optimi
   context.characterEidolon = request.characterEidolon
   context.lightCone = request.lightCone
   context.lightConeSuperimposition = request.lightConeSuperimposition
+  context.lightConePath = dbMetadata.lightCones[request.lightCone].path
 
   context.path = path
   context.element = element
@@ -84,23 +85,24 @@ function generateCharacterMetadataContext(request: Form, context: Partial<Optimi
   context.elementalResPenType = ElementToResPenType[element]
   context.elementalBreakScaling = ElementToBreakScaling[element]
 
-  context.teammate0Metadata = generateTeammateMetadata(dbMetadata, request.teammate0) as CharacterMetadata
-  context.teammate1Metadata = generateTeammateMetadata(dbMetadata, request.teammate1) as CharacterMetadata
-  context.teammate2Metadata = generateTeammateMetadata(dbMetadata, request.teammate2) as CharacterMetadata
+  context.teammate0Metadata = generateTeammateMetadata(dbMetadata, request.teammate0)!
+  context.teammate1Metadata = generateTeammateMetadata(dbMetadata, request.teammate1)!
+  context.teammate2Metadata = generateTeammateMetadata(dbMetadata, request.teammate2)!
 
   context.deprioritizeBuffs = request.deprioritizeBuffs
 }
 
-function generateTeammateMetadata(dbMetadata: DBMetadata, teammate: Teammate) {
+function generateTeammateMetadata(dbMetadata: DBMetadata, teammate: Teammate): CharacterMetadata | null {
   if (!teammate) return null
 
-  const teammateCharacterMetadata = DB.getMetadata().characters[teammate.characterId]
+  const teammateCharacterMetadata = dbMetadata.characters[teammate.characterId]
   return teammate.characterId
     ? {
       characterId: teammate.characterId,
       characterEidolon: teammate.characterEidolon,
       lightCone: teammate.lightCone,
       lightConeSuperimposition: teammate.lightConeSuperimposition,
+      lightConePath: dbMetadata.lightCones[teammate.lightCone].path,
       element: teammateCharacterMetadata.element,
       path: teammateCharacterMetadata.path,
     }

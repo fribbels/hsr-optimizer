@@ -81,16 +81,12 @@ export type CharacterMetadata = {
   characterEidolon: number
   lightCone: string
   lightConeSuperimposition: number
+  lightConePath: PathName
   path: PathName
   element: ElementName
 }
 
-export type OptimizerContext = {
-  // Request metadata
-  characterId: string
-  characterEidolon: number
-  lightCone: string
-  lightConeSuperimposition: number
+export type OptimizerContext = CharacterMetadata & {
 
   teammate0Metadata: CharacterMetadata
   teammate1Metadata: CharacterMetadata
@@ -105,8 +101,6 @@ export type OptimizerContext = {
   deprioritizeBuffs: boolean
 
   // Character data
-  element: ElementName // Ice
-  path: PathName // Destruction
   elementalDamageType: ElementalDamageType // Ice DMG Boost
   elementalResPenType: ElementalResPenType // ICE_RES_PEN
   elementalBreakScaling: number // Ice: 1.0

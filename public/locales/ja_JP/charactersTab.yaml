@@ -103,7 +103,6 @@ CharacterPreview:
     Roll: サブ
     Damage: 増加ダメージ
   BuildAnalysis:
-    Header: ビルド分析
     SimulationTeammates: パーティー編成
     SimulationSets: 遺物
     Rotation:

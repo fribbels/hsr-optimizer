@@ -76,7 +76,6 @@ CharacterPreview:
     Roll: tirada
     Damage: Daño
   BuildAnalysis:
-    Header: Análisis de build del personaje
     SimulationTeammates: Simulación de compañeros
     SimulationSets: Simulación de sets
     Rotation:

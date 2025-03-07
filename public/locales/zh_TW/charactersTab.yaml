@@ -76,7 +76,6 @@ CharacterPreview:
     Roll: 升級次數
     Damage: 傷害
   BuildAnalysis:
-    Header: 角色配裝分析
     SimulationTeammates: 模擬隊友
     SimulationSets: 模擬套裝
     Rotation:

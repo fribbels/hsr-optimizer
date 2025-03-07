@@ -112,7 +112,7 @@ CharacterPreview:
   BuildAnalysis:
     ScoringNote: >-
       A pontuação DPS avalia a qualidade da build comparando o dano de uma rotação de habilidade com construções de benchmark com a mesma equipe/lightcones/eidolons. As pontuações e o dano de combo são medidos apenas em relação à configuração da equipe escolhida e não devem ser comparados entre configurações diferentes.
-    Header: Análise de build do personagem
+    Header: Cálculos Pontuação DPS
     SimulationTeammates: Equipe de simulação
     SimulationSets: Conjuntos de simulação
     Rotation:

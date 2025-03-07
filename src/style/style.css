@@ -737,7 +737,7 @@ a {
 .buff-row .ant-table-cell {
     height: 26px !important;
     line-height: 26px !important;
-    padding: 0 6px !important; /* Adjust padding if needed */
+    padding: 0 6px !important;
     background-color: #2d3b5d;
     border-color: #3f5a96 !important;
 }

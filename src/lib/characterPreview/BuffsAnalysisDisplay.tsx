@@ -112,7 +112,6 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
 
   const columns = [
     {
-      title: 'a',
       dataIndex: 'value',
       key: 'value',
       width: 70,
@@ -120,7 +119,6 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
       render: (value: string) => <span style={{ textWrap: 'nowrap' }}>{value}</span>,
     },
     {
-      title: 'a',
       dataIndex: 'stat',
       key: 'stat',
       render: (_: string, record: BuffTableItem) => (

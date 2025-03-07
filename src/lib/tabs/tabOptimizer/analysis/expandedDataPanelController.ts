@@ -48,8 +48,7 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 
   for (const substat of SubStats) {
     const upgradeSim = TsUtils.clone(simulationRequest)
-    upgradeSim.stats[substat] = upgradeSim.stats[substat] ?? 0
-    upgradeSim.stats[substat] += 1.0
+    upgradeSim.stats[substat] = (upgradeSim.stats[substat] ?? 0) + 1.0
 
     const simResult = runSimulations(request, context, [{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation])[0]
     statUpgrades.push({

@@ -100,11 +100,19 @@ CharacterPreview:
   DMGUpgrades: 伤害升级
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
+    MainStatHeader: 主词条升级比较
     Roll: 升级次数
     Damage: 伤害
+    MainStatUpgrade: 主词条升级
+    SubStatUpgrade: 副词条升级
+    DpsScorePercentUpgrade: DPS评分Δ%
+    UpgradedDpsScore: 升级后DPS评分
+    ComboDmgPercentUpgrade: 连招伤害Δ%
+    ComboDmgUpgrade: 连招伤害Δ
   BuildAnalysis:
     ScoringNote: >-
       DPS评分通过对比相同队伍、光锥和命座下的基准配装伤害，来评估配装质量。评分和连招伤害仅相对于所选队伍配置衡量，不应与不同配置进行对比。
+    Header: DPS评分计算
     SimulationTeammates: 模拟队友
     SimulationSets: 模拟套装
     Rotation:

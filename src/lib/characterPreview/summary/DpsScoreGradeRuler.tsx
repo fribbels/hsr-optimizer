@@ -55,8 +55,8 @@ export function DpsScoreGradeRuler(props: {
 
   const margin = {
     top: 45,
-    right: 25,
-    left: 25,
+    right: 20,
+    left: 20,
     bottom: 55,
   }
 

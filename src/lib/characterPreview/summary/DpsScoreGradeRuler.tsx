@@ -54,14 +54,14 @@ export function DpsScoreGradeRuler(props: {
   const labelColor = '#999'
 
   const CHART_WIDTH = 1060
-  const CHART_HEIGHT = 170
+  const CHART_HEIGHT = 150
 
   // Define margins
   const margin = {
-    top: 60,
-    right: 20,
-    left: 20,
-    bottom: 60,
+    top: 45,
+    right: 25,
+    left: 25,
+    bottom: 55,
   }
 
   const chartAreaWidth = CHART_WIDTH - margin.left - margin.right
@@ -70,9 +70,10 @@ export function DpsScoreGradeRuler(props: {
   const gradient50 = '#faf742ee'
   const gradient75 = '#b0fa42ee'
   const gradient100 = '#75ec46ee'
-  const gradient125 = '#17d53dee'
-  const gradient150 = '#1780f8ee'
-  const gradient200 = '#ac33eaee'
+  const gradient125 = '#17D553ED'
+  const gradient150 = '#23BBFFED'
+  const gradient175 = 'rgba(159,80,255,0.93)'
+  const gradient200 = 'rgba(188,56,255,0.93)'
 
   const offset0 = '0%'
   const offset50 = `${(benchmark - minimum) / 2 / (maximum - minimum) * 100}%`
@@ -80,6 +81,7 @@ export function DpsScoreGradeRuler(props: {
   const offset100 = `${(benchmark - minimum) / (maximum - minimum) * 100}%`
   const offset125 = `${((maximum - benchmark) / 4 + (benchmark - minimum)) / (maximum - minimum) * 100}%`
   const offset150 = `${((maximum - benchmark) / 2 + (benchmark - minimum)) / (maximum - minimum) * 100}%`
+  const offset175 = `${((maximum - benchmark) * (3 / 4) + (benchmark - minimum)) / (maximum - minimum) * 100}%`
   const offset200 = '100%'
 
   return (
@@ -114,6 +116,7 @@ export function DpsScoreGradeRuler(props: {
             <stop offset={offset100} stopColor={gradient100}/>
             <stop offset={offset125} stopColor={gradient125}/>
             <stop offset={offset150} stopColor={gradient150}/>
+            <stop offset={offset175} stopColor={gradient175}/>
             <stop offset={offset200} stopColor={gradient200}/>
           </linearGradient>
         </defs>
@@ -124,7 +127,7 @@ export function DpsScoreGradeRuler(props: {
           width={chartAreaWidth}
           height={20}
           fill={`url(#gradient${id})`}
-          opacity={0.1}
+          opacity={0.15}
         />
 
         <Bar

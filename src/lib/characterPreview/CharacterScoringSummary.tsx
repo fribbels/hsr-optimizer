@@ -402,14 +402,12 @@ export const CharacterScoringSummary = (props: {
           }
         </span>
         <DpsScoreGradeRuler
-          percent={result.percent}
           score={result.originalSimScore}
           minimum={result.baselineSimScore}
           maximum={result.maximumSimScore}
           benchmark={result.benchmarkSimScore}
         />
       </Flex>
-
 
       <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
         <Flex vertical gap={defaultGap}>

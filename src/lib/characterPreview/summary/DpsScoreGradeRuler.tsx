@@ -3,6 +3,18 @@ import { renderThousandsK } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsCha
 import React from 'react'
 import { Bar, BarChart, Label, ReferenceLine, XAxis, YAxis } from 'recharts'
 
+const liftedGrades: Record<string, boolean> = {
+  'WTF+': true,
+  'SSS+': true,
+  'SS+': true,
+  'S+': true,
+  'A+': true,
+  'B+': true,
+  'C+': true,
+  'D+': true,
+  'F+': true,
+}
+
 export function DpsScoreGradeRuler(props: {
   score: number
   percent: number
@@ -10,24 +22,9 @@ export function DpsScoreGradeRuler(props: {
   benchmark: number
   minimum: number
 }) {
-  const { percent, maximum, benchmark, minimum } = props
+  const { maximum, benchmark, minimum } = props
   const score = Math.min(maximum, Math.max(props.score, minimum))
   const id = Math.random()
-
-  const low = 10
-  const high = 28
-  const lift = 36
-  const liftedGrades: Record<string, boolean> = {
-    'WTF+': true,
-    'SSS+': true,
-    'SS+': true,
-    'S+': true,
-    'A+': true,
-    'B+': true,
-    'C+': true,
-    'D+': true,
-    'F+': true,
-  }
 
   const sortedGrades = Object.entries(SimScoreGrades)
     .sort((a, b) => b[1] - a[1])
@@ -50,19 +47,22 @@ export function DpsScoreGradeRuler(props: {
     value: score,
   }]
 
-  const strokeColor = '#777'
+  const strokeColor = '#666'
   const labelColor = '#999'
 
   const CHART_WIDTH = 1060
   const CHART_HEIGHT = 150
 
-  // Define margins
   const margin = {
     top: 45,
     right: 25,
     left: 25,
     bottom: 55,
   }
+
+  const low = 10
+  const high = 28
+  const lift = 36
 
   const chartAreaWidth = CHART_WIDTH - margin.left - margin.right
 
@@ -72,8 +72,8 @@ export function DpsScoreGradeRuler(props: {
   const gradient100 = '#75ec46dd'
   const gradient125 = '#17D553dd'
   const gradient150 = '#23BBFFdd'
-  const gradient175 = 'rgba(159,80,255,0.93)'
-  const gradient200 = 'rgba(188,56,255,0.93)'
+  const gradient175 = '#9F50FFdd'
+  const gradient200 = '#BC38FFdD'
 
   const offset0 = '0%'
   const offset50 = `${(benchmark - minimum) / 2 / (maximum - minimum) * 100}%`

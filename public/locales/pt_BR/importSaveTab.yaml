@@ -21,7 +21,7 @@ Import:
     ReliquaryDesc:
       Title: (Recomendado) IceDynamix Reliquary Archiver
       Link: Github
-      OnlineMsg: "Status: Atualizado para o patch {{version}} — Novo download requerido"
+      OnlineMsg: "Status: Atualizado para a atualização {{version}}"
       OfflineMsg: "***** Status: Off-line para manutenção após a versão {{version}} *****"
       l1: Décimos de velocidade precisos, escaneamento instantâneo
       l2: Importa o inventário completo e todos os personagens

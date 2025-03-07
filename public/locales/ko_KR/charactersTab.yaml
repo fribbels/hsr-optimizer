@@ -103,7 +103,6 @@ CharacterPreview:
     Roll: 유효옵
     Damage: 피해량
   BuildAnalysis:
-    ScoringNote: "주의:  DPS 점수 및 콤보 데미지는 단일 스킬 회전에 대한 평가 척도로, 다른 팀 편성 간 비교를 위한 것이 아닙니다."
     Header: 캐릭터 빌드 분석
     SimulationTeammates: 시뮬레이션 파티
     SimulationSets: 시뮬레이션 세팅

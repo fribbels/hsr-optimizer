@@ -14,7 +14,6 @@ Import:
     ReliquaryDesc:
       Title: '（推奨）IceDynamix Reliquary Archiver'
       Link: GitHub
-      OnlineMsg: "ステータス：バージョン{{version}}に対応 - 新たにダウンロードする必要があります"
       OfflineMsg: "***** ステータス: バージョン{{version}}適用後、メンテナンス中です。 *****"
       l1: 正確な速度サブステータス、即時スキャン
       l2: インベントリ内とキャラクター全てをインポート

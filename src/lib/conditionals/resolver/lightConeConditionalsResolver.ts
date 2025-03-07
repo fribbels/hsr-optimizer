@@ -126,10 +126,11 @@ import TimeWovenIntoGold from 'lib/conditionals/lightcone/5star/TimeWovenIntoGol
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
+import { ElementName, PathName } from 'lib/constants/constants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 
-export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditionalsController
+export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean, element: ElementName) => LightConeConditionalsController
 
 const fiveStar: Record<string, LightConeConditionalFunction> = {
   23000: NightOnTheMilkyWay,
@@ -280,9 +281,12 @@ export const lightConeOptionMapping: Record<string, LightConeConditionalFunction
 }
 
 export const LightConeConditionalsResolver = {
-  get: (request: { lightCone: string; lightConeSuperimposition: number }, withContent = false): LightConeConditionalsController => {
+  get: (
+    request: { lightCone: string; lightConeSuperimposition: number; lightConePath: PathName; path: PathName; element: ElementName },
+    withContent = false,
+  ): LightConeConditionalsController => {
     const lcFn = lightConeOptionMapping[request.lightCone]
-    if (!lcFn) {
+    if (!lcFn || request.lightConePath !== request.path) {
       return {
         content: () => [],
         defaults: () => ({}),
@@ -292,6 +296,6 @@ export const LightConeConditionalsResolver = {
         },
       }
     }
-    return lcFn(request.lightConeSuperimposition - 1, withContent)
+    return lcFn(request.lightConeSuperimposition - 1, withContent, request.element)
   },
 }

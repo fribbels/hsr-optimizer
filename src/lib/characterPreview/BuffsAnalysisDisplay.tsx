@@ -1,4 +1,4 @@
-import { Flex, Tag, Typography } from 'antd'
+import { Flex, Table } from 'antd'
 import { Sets, setToId } from 'lib/constants/constants'
 import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
@@ -7,12 +7,10 @@ import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runSimulations } from 'lib/simulations/statSimulationController'
-import { currentLocale } from 'lib/utils/i18nUtils'
+import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 type BuffsAnalysisProps = {
   result?: SimulationScore
@@ -94,63 +92,103 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE; size
     <Flex align='center' gap={5}>
       <img src={src} style={{ width: 64, height: 64 }}/>
 
-      <Flex vertical>
-        {buffs.map((buff, i) => (
-          <BuffTag buff={buff} key={i} size={size}/>
-        ))}
-      </Flex>
+      <BuffTable buffs={buffs} size={size}/>
     </Flex>
   )
 }
 
-export enum BuffDisplaySize {
-  SMALL = 375,
-  LARGE = 425,
+type BuffTableItem = {
+  key: number
+  value: string
+  statLabel: string
+  memo: boolean
+  sourceLabel: string
 }
 
-function BuffTag(props: { buff: Buff; size: BuffDisplaySize }) {
+function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
+  const { buffs } = props
   const { t } = useTranslation(['gameData', 'optimizerTab'])
-  const { buff, size } = props
-  const stat = buff.stat as keyof ComputedStatsObject
-  const percent = !StatsConfig[stat].flat
-  // @ts-ignore
-  const statLabel = computedStatsTempI18NTranslations[stat] ?? stat
+  const size = props.size ?? BuffDisplaySize.SMALL
 
-  let sourceLabel
-  switch (buff.source.buffType) {
-    case BUFF_TYPE.CHARACTER:
-      sourceLabel = t(`optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Sources.${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
-      break
-    case BUFF_TYPE.LIGHTCONE:
-      sourceLabel = t(`Lightcones.${buff.source.id}.Name` as never)
-      break
-    case BUFF_TYPE.SETS:
-      sourceLabel = t(`RelicSets.${setToId[Sets[buff.source.id as keyof typeof Sets]]}.Name`)
-      break
-    default:
-      sourceLabel = buff.source.label
-  }
-
-  return (
-    <Tag style={{ padding: 2, paddingLeft: 6, paddingRight: 6, marginTop: -1, marginInlineEnd: 0, fontSize: 14 }} className='text-font'>
-      <Flex justify='space-between' style={{ width: size }}>
-        <Flex gap={3} style={{ minWidth: 70 }}>
-          <span>
-            {`${(percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)).toLocaleString(currentLocale(), { useGrouping: false })}`}
+  const columns = [
+    {
+      dataIndex: 'value',
+      key: 'value',
+      width: 70,
+      minWidth: 70,
+      render: (value: string) => <span style={{ textWrap: 'nowrap' }}>{value}</span>,
+    },
+    {
+      dataIndex: 'stat',
+      key: 'stat',
+      render: (_: string, record: BuffTableItem) => (
+        <Flex justify='space-between'>
+          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', marginRight: 10, minWidth: 130 }}>
+            {`${record.statLabel}`} {record.memo ? 'ᴹ' : ''}
           </span>
-          <span>
-            {`${percent ? '%' : ''}`}
+          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', textAlign: 'end' }}>
+            {record.sourceLabel}
           </span>
         </Flex>
-        <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 10, minWidth: 130 }}>
-          {`${statLabel}`} {buff.memo ? 'ᴹ' : ''}
-        </span>
-        <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'end' }}>
-          {sourceLabel}
-        </span>
-      </Flex>
-    </Tag>
+      ),
+    },
+  ]
+
+  const data = buffs.map((buff, i) => {
+    const stat = buff.stat as keyof ComputedStatsObject
+    const percent = !StatsConfig[stat].flat
+    // @ts-ignore
+    const statLabel: string = computedStatsTempI18NTranslations[stat] ?? stat
+
+    let sourceLabel
+    switch (buff.source.buffType) {
+      case BUFF_TYPE.CHARACTER:
+        sourceLabel = t(`optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Sources.${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
+        break
+      case BUFF_TYPE.LIGHTCONE:
+        sourceLabel = t(`Lightcones.${buff.source.id}.Name` as never)
+        break
+      case BUFF_TYPE.SETS:
+        sourceLabel = t(`RelicSets.${setToId[Sets[buff.source.id as keyof typeof Sets]]}.Name`)
+        break
+      default:
+        sourceLabel = buff.source.label
+    }
+    const value = `${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}${percent ? ' %' : ''}`
+
+    return {
+      key: i,
+      value: value,
+      memo: buff.memo,
+      statLabel: statLabel,
+      sourceLabel: sourceLabel,
+    } as BuffTableItem
+  })
+
+  return (
+    <Table<BuffTableItem>
+      columns={columns}
+      dataSource={data}
+      pagination={false}
+      size='small'
+      className='buff-table remove-table-bottom-border'
+      rowClassName='buff-row'
+      tableLayout='fixed'
+      style={{
+        width: size,
+        border: '1px solid #354b7d',
+        boxShadow: cardShadow,
+        borderRadius: 5,
+        overflow: 'hidden',
+        fontSize: 14,
+      }}
+    />
   )
+}
+
+export enum BuffDisplaySize {
+  SMALL = 390,
+  LARGE = 450,
 }
 
 const computedStatsTempI18NTranslations = {

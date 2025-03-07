@@ -88,17 +88,6 @@ export function DamageUpgrades(props: {
         ),
       },
       {
-        title: t(`ColumnHeaders.${group.key as Metrics}`),
-        dataIndex: 'value',
-        align: 'center',
-        width: 110,
-        render: (n: number) => (
-          <>
-            {n == 0 ? '' : `${localeNumber_0(n)}`}
-          </>
-        ),
-      },
-      {
         title: t(`ColumnHeaders.${group.key as Metrics}_P`),
         dataIndex: 'percent',
         align: 'center',
@@ -106,6 +95,17 @@ export function DamageUpgrades(props: {
         render: (n: number) => (
           <>
             {n == 0 ? '' : `${localeNumber_00(Utils.truncate100ths(n * 100))}%`}
+          </>
+        ),
+      },
+      {
+        title: t(`ColumnHeaders.${group.key as Metrics}`),
+        dataIndex: 'value',
+        align: 'center',
+        width: 110,
+        render: (n: number) => (
+          <>
+            {n == 0 ? '' : `${localeNumber_0(n)}`}
           </>
         ),
       },

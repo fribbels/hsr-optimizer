@@ -103,7 +103,6 @@ CharacterPreview:
     Roll: 유효옵
     Damage: 피해량
   BuildAnalysis:
-    Header: 캐릭터 빌드 분석
     SimulationTeammates: 시뮬레이션 파티
     SimulationSets: 시뮬레이션 세팅
     Rotation:

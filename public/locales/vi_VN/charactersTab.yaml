@@ -103,7 +103,6 @@ CharacterPreview:
     Roll: Roll
     Damage: Sát thương
   BuildAnalysis:
-    Header: Phân tích lối lên đồ nhân vật
     SimulationTeammates: Đồng đội thí nghiệm
     SimulationSets: Bộ dị vật thí nghiệm
     Rotation:

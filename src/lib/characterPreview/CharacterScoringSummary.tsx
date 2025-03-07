@@ -387,25 +387,29 @@ export const CharacterScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
+    <Flex vertical gap={20} align='center' style={{ width: 1068 }}>
       <Flex align='center' style={{ marginTop: 15, marginBottom: 10 }} vertical gap={15}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
+          <ColorizedLinkWithIcon
+            text={t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
+            linkIcon={true}
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
+          />
         </pre>
         <span className='pre-font' style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14 }}>
           {
             t('CharacterPreview.BuildAnalysis.ScoringNote')
           }
         </span>
+        <DpsScoreGradeRuler
+          percent={result.percent}
+          score={result.originalSimScore}
+          minimum={result.baselineSimScore}
+          maximum={result.maximumSimScore}
+          benchmark={result.benchmarkSimScore}
+        />
       </Flex>
 
-      <DpsScoreGradeRuler
-        percent={result.percent}
-        score={result.originalSimScore}
-        minimum={result.baselineSimScore}
-        maximum={result.maximumSimScore}
-        benchmark={result.benchmarkSimScore}
-      />
 
       <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
         <Flex vertical gap={defaultGap}>
@@ -481,12 +485,18 @@ export const CharacterScoringSummary = (props: {
         </Flex>
       </Flex>
 
-      <Flex vertical align='center' style={{ width: '100%' }}>
-        <pre style={{ fontSize: 20, fontWeight: 'bold' }}>
-          {t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')/* Combat buffs */}
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
         </pre>
+        <DpsScoreSubstatUpgradesTable simScore={result}/>
+      </Flex>
 
-        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
+        </pre>
+        <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
 
       <Flex>
@@ -516,28 +526,12 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
-      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
-        <pre style={{ fontSize: 20, textDecoration: 'underline' }}>
-          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
+      <Flex vertical align='center' style={{ width: '100%' }}>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')/* Combat buffs */}
         </pre>
-        <DpsScoreSubstatUpgradesTable simScore={result}/>
-      </Flex>
 
-      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
-        <pre style={{ fontSize: 20, textDecoration: 'underline' }}>
-          {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
-        </pre>
-        <DpsScoreMainStatUpgradesTable simScore={result}/>
-      </Flex>
-
-      <Flex justify='space-around' style={{ marginTop: 15 }}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          <ColorizedLinkWithIcon
-            text={t('CharacterPreview.ScoringDetails.Header')/* How is DPS score calculated? */}
-            linkIcon={true}
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
-          />
-        </pre>
+        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>
       </Flex>
     </Flex>
   )

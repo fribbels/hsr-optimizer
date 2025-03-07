@@ -15,8 +15,8 @@ export function DpsScoreGradeRuler(props: {
   const id = Math.random()
 
   const low = 10
-  const high = 30
-  const lift = 40
+  const high = 28
+  const lift = 36
   const liftedGrades: Record<string, boolean> = {
     'WTF+': true,
     'SSS+': true,
@@ -66,12 +66,12 @@ export function DpsScoreGradeRuler(props: {
 
   const chartAreaWidth = CHART_WIDTH - margin.left - margin.right
 
-  const gradient0 = '#FF6355ee'
-  const gradient50 = '#faf742ee'
-  const gradient75 = '#b0fa42ee'
-  const gradient100 = '#75ec46ee'
-  const gradient125 = '#17D553ED'
-  const gradient150 = '#23BBFFED'
+  const gradient0 = '#FF6355dd'
+  const gradient50 = '#faf742dd'
+  const gradient75 = '#b0fa42dd'
+  const gradient100 = '#75ec46dd'
+  const gradient125 = '#17D553dd'
+  const gradient150 = '#23BBFFdd'
   const gradient175 = 'rgba(159,80,255,0.93)'
   const gradient200 = 'rgba(188,56,255,0.93)'
 

@@ -4,7 +4,7 @@ import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/Buff
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
-import DpsScoreGradeRuler from 'lib/characterPreview/summary/DpsScoreGradeRuler'
+import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
@@ -399,7 +399,13 @@ export const CharacterScoringSummary = (props: {
         </span>
       </Flex>
 
-      <DpsScoreGradeRuler percent={result.percent} score={result.originalSimScore} minimum={result.baselineSimScore} maximum={result.maximumSimScore} benchmark={result.benchmarkSimScore}/>
+      <DpsScoreGradeRuler
+        percent={result.percent}
+        score={result.originalSimScore}
+        minimum={result.baselineSimScore}
+        maximum={result.maximumSimScore}
+        benchmark={result.benchmarkSimScore}
+      />
 
       <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
         <Flex vertical gap={defaultGap}>

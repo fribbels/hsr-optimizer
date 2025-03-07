@@ -1,64 +1,38 @@
-import { Utils } from 'lib/utils/utils'
+import { SimScoreGrades } from 'lib/scoring/characterScorer'
+import { renderThousandsK } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import React from 'react'
 import { Bar, BarChart, Label, ReferenceLine, XAxis, YAxis } from 'recharts'
 
-const DpsScoreGradeRuler = (props: {
+export function DpsScoreGradeRuler(props: {
   score: number
   percent: number
   maximum: number
   benchmark: number
   minimum: number
-}) => {
+}) {
   const { percent, maximum, benchmark, minimum } = props
-  const score = Math.max(props.score, minimum)
+  const score = Math.min(maximum, Math.max(props.score, minimum))
+  const id = Math.random()
 
-  console.log('---')
-  console.log(score)
-  console.log(props.benchmark)
-  console.log(props.maximum)
-
-  const SimScoreGrades = {
-    'AEON': 150, // Verified only
-    'WTF+': 140, // +10
-    'WTF': 130, // +9
-    'SSS+': 121, // +8
-    'SSS': 113, // +7
-    'SS+': 106, // +6
-    'SS': 100, // Benchmark
-    'S+': 95,
-    'S': 90,
-    'A+': 85,
-    'A': 80,
-    'B+': 75,
-    'B': 70,
-    'C+': 65,
-    'C': 60,
-    'D+': 55,
-    'D': 50,
-    'F+': 45,
-    'F': 40,
+  const low = 10
+  const high = 30
+  const lift = 40
+  const liftedGrades: Record<string, boolean> = {
+    'WTF+': true,
+    'SSS+': true,
+    'SS+': true,
+    'S+': true,
+    'A+': true,
+    'B+': true,
+    'C+': true,
+    'D+': true,
+    'F+': true,
   }
 
-  const liftPixels = 36
-  const liftedGrades: Record<string, number> = {
-    'WTF+': 140, // +10
-    'SSS+': 121, // +8
-    'SS+': 106, // +6
-    'S+': 95,
-    'A+': 85,
-    'B+': 75,
-    'C+': 65,
-    'D+': 55,
-    'F+': 45,
-  }
-
-  // Sort grades by score value (highest to lowest)
   const sortedGrades = Object.entries(SimScoreGrades)
     .sort((a, b) => b[1] - a[1])
 
-  // Calculate the position of each grade on the new scale
   const calculateScaledPosition = (gradeValue: number) => {
-    // Calculate as percentage relative to benchmark (100%)
     const percentOfBenchmark = gradeValue / 100
 
     if (gradeValue <= 100) {
@@ -71,47 +45,56 @@ const DpsScoreGradeRuler = (props: {
     }
   }
 
-  // Create a single data point to match user's score
   const data = [{
     name: 'Score',
     value: score,
   }]
 
-  // Find user's grade
-  let userGrade = 'N/A'
-  for (let i = 0; i < sortedGrades.length; i++) {
-    const currentGrade = sortedGrades[i][0]
-    const currentGradeScore = sortedGrades[i][1]
-    const nextGradeScore = i < sortedGrades.length - 1 ? sortedGrades[i + 1][1] : 0
-
-    if (score >= calculateScaledPosition(nextGradeScore) && score <= calculateScaledPosition(currentGradeScore)) {
-      userGrade = currentGrade
-      break
-    }
-  }
+  const strokeColor = '#777'
+  const labelColor = '#999'
 
   const CHART_WIDTH = 1060
   const CHART_HEIGHT = 170
 
+  // Define margins
+  const margin = {
+    top: 60,
+    right: 20,
+    left: 20,
+    bottom: 60,
+  }
+
+  const chartAreaWidth = CHART_WIDTH - margin.left - margin.right
+
+  const gradient0 = '#FF6355ee'
+  const gradient50 = '#faf742ee'
+  const gradient75 = '#b0fa42ee'
+  const gradient100 = '#75ec46ee'
+  const gradient125 = '#17d53dee'
+  const gradient150 = '#1780f8ee'
+  const gradient200 = '#ac33eaee'
+
+  const offset0 = '0%'
+  const offset50 = `${(benchmark - minimum) / 2 / (maximum - minimum) * 100}%`
+  const offset75 = `${(benchmark - minimum) * (3 / 4) / (maximum - minimum) * 100}%`
+  const offset100 = `${(benchmark - minimum) / (maximum - minimum) * 100}%`
+  const offset125 = `${((maximum - benchmark) / 4 + (benchmark - minimum)) / (maximum - minimum) * 100}%`
+  const offset150 = `${((maximum - benchmark) / 2 + (benchmark - minimum)) / (maximum - minimum) * 100}%`
+  const offset200 = '100%'
+
   return (
-    <div style={{ width: 1060, color: 'white' }}>
+    <div style={{ width: 1060 }}>
       <BarChart
         layout='vertical'
         width={CHART_WIDTH}
         height={CHART_HEIGHT}
         data={data}
-        margin={{
-          top: 60,
-          right: 20,
-          left: 20,
-          bottom: 60,
-        }}
+        margin={margin}
         barSize={20}
       >
         <XAxis
           type='number'
           domain={[minimum, maximum]}
-          // domain={[0, maximum]}
           tick={false}
           tickLine={false}
           axisLine={{ stroke: '#777', strokeWidth: 1 }}
@@ -124,69 +107,63 @@ const DpsScoreGradeRuler = (props: {
           height={10}
         />
         <defs>
-          <linearGradient id='colorGradient' x1='0' y1='0' x2='1' y2='0'>
-            <stop offset='0%' stopColor='rgb(255, 0, 0)'/>
-            <stop offset='50%' stopColor='rgb(255, 255, 0)'/>
-            <stop offset='100%' stopColor='rgb(0, 255, 0)'/>
+          <linearGradient id={`gradient${id}`} x1='0%' y1='0%' x2='100%' y2='0%' gradientUnits='userSpaceOnUse'>
+            <stop offset={offset0} stopColor={gradient0}/>
+            <stop offset={offset50} stopColor={gradient50}/>
+            <stop offset={offset75} stopColor={gradient75}/>
+            <stop offset={offset100} stopColor={gradient100}/>
+            <stop offset={offset125} stopColor={gradient125}/>
+            <stop offset={offset150} stopColor={gradient150}/>
+            <stop offset={offset200} stopColor={gradient200}/>
           </linearGradient>
         </defs>
+
+        <rect
+          x={margin.left}
+          y={margin.top}
+          width={chartAreaWidth}
+          height={20}
+          fill={`url(#gradient${id})`}
+          opacity={0.1}
+        />
+
         <Bar
           dataKey='value'
           minPointSize={5}
           isAnimationActive={false}
-          fill='url(#colorGradient)'
+          fill={`url(#gradient${id})`}
         />
-        <ReferenceLine x={score} stroke='#fff' strokeWidth={4}>
-          <Label value='Score' position='top' fontSize={12} offset={10 + 20}/>
-          <Label value={`${Utils.truncate10ths(percent * 100)}%`} position='top' fontSize={12} offset={10}/>
+        <ReferenceLine x={score} stroke='#fff' strokeWidth={4}/>
+        <ReferenceLine x={maximum} stroke={strokeColor} strokeWidth={1}>
+          <Label value='200%' position='bottom' fontSize={12} offset={low} fill={labelColor}/>
+          <Label value={`${renderThousandsK(maximum)}`} position='top' fontSize={12} offset={high} fill={labelColor}/>
+          <Label value='DMG' position='top' fontSize={12} offset={low} fill={labelColor}/>
         </ReferenceLine>
-        <ReferenceLine x={maximum} stroke='#777' strokeWidth={1}>
-          <Label value='200%' position='bottom' fontSize={12} offset={10}/>
+        <ReferenceLine x={benchmark} stroke={strokeColor} strokeWidth={1}>
+          <Label value={`${renderThousandsK(benchmark)}`} position='top' fontSize={12} offset={high} fill={labelColor}/>
+          <Label value='DMG' position='top' fontSize={12} offset={low} fill={labelColor}/>
         </ReferenceLine>
-        <ReferenceLine x={minimum} stroke='#777' strokeWidth={1}>
-          <Label value='0%' position='bottom' fontSize={12} offset={10}/>
+        <ReferenceLine x={minimum} stroke={strokeColor} strokeWidth={1}>
+          <Label value='0%' position='bottom' fontSize={12} offset={low} fill={labelColor}/>
+          <Label value={`${renderThousandsK(minimum)}`} position='top' fontSize={12} offset={high} fill={labelColor}/>
+          <Label value='DMG' position='top' fontSize={12} offset={low} fill={labelColor}/>
         </ReferenceLine>
         {sortedGrades.map(([grade, gradeScore]) => {
           const scaledPosition = calculateScaledPosition(gradeScore)
           return (
-            <ReferenceLine
-              key={grade}
-              x={scaledPosition}
-              stroke='#777'
-              strokeWidth={1}
-            >
+            <ReferenceLine key={grade} x={scaledPosition} stroke={strokeColor} strokeWidth={1}>
               {
                 liftedGrades[grade]
                   ? (
                     <>
-                      <Label
-                        value={grade}
-                        position='bottom'
-                        fontSize={12}
-                        offset={10 + liftPixels}
-                      />
-                      <Label
-                        value={`${gradeScore}%`}
-                        position='bottom'
-                        fontSize={11}
-                        offset={26 + liftPixels}
-                      />
+                      <Label value={grade} position='bottom' fontSize={12} offset={lift + low} fill={labelColor}/>
+                      <Label value={`${gradeScore}%`} position='bottom' fontSize={11} offset={lift + high} fill={labelColor}/>
                     </>
                   )
                   : (
                     <>
-                      <Label
-                        value={grade}
-                        position='bottom'
-                        fontSize={12}
-                        offset={10}
-                      />
-                      <Label
-                        value={`${gradeScore}%`}
-                        position='bottom'
-                        fontSize={11}
-                        offset={26}
-                      />
+                      <Label value={grade} position='bottom' fontSize={12} offset={low} fill={labelColor}/>
+                      <Label value={`${gradeScore}%`} position='bottom' fontSize={11} offset={high} fill={labelColor}/>
                     </>
                   )
               }
@@ -197,5 +174,3 @@ const DpsScoreGradeRuler = (props: {
     </div>
   )
 }
-
-export default DpsScoreGradeRuler

@@ -1202,7 +1202,7 @@ export function getSimScoreGrade(score: number, verified: boolean, numRelics: nu
 // }
 
 // Gradual scale
-const SimScoreGrades = {
+export const SimScoreGrades = {
   'AEON': 150, // Verified only
   'WTF+': 140, // +10
   'WTF': 130, // +9

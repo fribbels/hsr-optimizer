@@ -535,9 +535,8 @@ Lightcones:
           使装备者施放终结技时造成的伤害值提高，提高数值等同于装备者防御力的{{Multiplier}}%，该效果每次施放终结技时对每个敌方目标仅生效1次。
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: 最大能量
-        content: 进入战斗后，根据装备者的能量上限，提高装备者造成的伤害：每点能量提高{{DmgStep}}%，最多计入160点。
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

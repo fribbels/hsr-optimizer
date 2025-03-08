@@ -6,6 +6,7 @@ import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_S
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
@@ -270,13 +271,9 @@ const TeammateCard = (props: {
     if (!teammateLightConeId) return
 
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    const controller = LightConeConditionalsResolver.get({
-      lightCone: teammateLightConeId,
-      lightConeSuperimposition: teammateSuperimposition,
-      lightConePath: props.dbMetadata.lightCones[teammateLightConeId]?.path,
-      path: props.dbMetadata.characters[teammateCharacterId]?.path,
-      element: props.dbMetadata.characters[teammateCharacterId]?.element,
-    })
+    const teammate = displayFormValues[teammateProperty]
+    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate, props.dbMetadata)
+    const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
 
     if (!controller.teammateDefaults) return
     const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)

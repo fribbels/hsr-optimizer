@@ -337,11 +337,11 @@ function generateComboTeammate(teammate: Teammate, actionCount: number, dbMetada
   const metadata = {
     characterId: teammate.characterId,
     characterEidolon: teammate.characterEidolon,
-    path: dbMetadata.characters[teammate.characterId].path,
+    path: dbMetadata.characters[teammate.characterId]?.path,
     lightCone: teammate.lightCone,
     lightConeSuperimposition: teammate.lightConeSuperimposition,
-    lightConePath: dbMetadata.lightCones[teammate.lightCone].path,
-    element: dbMetadata.characters[teammate.characterId].element,
+    lightConePath: dbMetadata.lightCones[teammate.lightCone]?.path,
+    element: dbMetadata.characters[teammate.characterId]?.element,
   }
 
   const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)

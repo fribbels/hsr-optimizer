@@ -102,9 +102,9 @@ function generateTeammateMetadata(dbMetadata: DBMetadata, teammate: Teammate): C
       characterEidolon: teammate.characterEidolon,
       lightCone: teammate.lightCone,
       lightConeSuperimposition: teammate.lightConeSuperimposition,
-      lightConePath: dbMetadata.lightCones[teammate.lightCone].path,
-      element: teammateCharacterMetadata.element,
-      path: teammateCharacterMetadata.path,
+      lightConePath: dbMetadata.lightCones[teammate.lightCone]?.path,
+      element: teammateCharacterMetadata?.element,
+      path: teammateCharacterMetadata?.path,
     }
     : null
 }

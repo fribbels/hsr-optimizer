@@ -540,9 +540,9 @@ export function generateFullDefaultForm(
   const lightConeConditionalsRequest = {
     lightCone: lightCone,
     lightConeSuperimposition: lightConeSuperimposition,
-    lightConePath: dbMetadata.lightCones[lightCone].path,
-    path: dbMetadata.characters[characterId].path,
-    element: dbMetadata.characters[characterId].element,
+    lightConePath: dbMetadata.lightCones[lightCone]?.path,
+    path: dbMetadata.characters[characterId]?.path,
+    element: dbMetadata.characters[characterId]?.element,
   }
 
   const simulationForm: Form = getDefaultForm({ id: characterId })

@@ -193,7 +193,7 @@ export function formToDisplay(form: Form) {
     const defaultLcOptions = LightConeConditionalsResolver.get({
       lightCone: form.lightCone,
       lightConeSuperimposition: form.lightConeSuperimposition,
-      lightConePath: dbMetadata.lightCones[form.lightCone].path,
+      lightConePath: dbMetadata.lightCones[form.lightCone]?.path,
       path: dbMetadata.characters[characterId]?.path,
       element: dbMetadata.characters[characterId]?.element,
     }).defaults()

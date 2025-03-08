@@ -276,9 +276,9 @@ const TeammateCard = (props: {
     controller.current = LightConeConditionalsResolver.get({
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,
-      lightConePath: props.dbMetadata.lightCones[teammateLightConeId].path,
-      path: props.dbMetadata.characters[teammateCharacterId].path,
-      element: props.dbMetadata.characters[teammateCharacterId].element,
+      lightConePath: props.dbMetadata.lightCones[teammateLightConeId]?.path,
+      path: props.dbMetadata.characters[teammateCharacterId]?.path,
+      element: props.dbMetadata.characters[teammateCharacterId]?.element,
     })
 
     if (!controller.current.teammateDefaults) return

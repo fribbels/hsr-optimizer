@@ -32,7 +32,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
     lightConePath: props.dbMetadata.lightCones[id!]?.path,
     path: props.dbMetadata.characters[wearerId]?.path,
     element: props.dbMetadata.characters[wearerId]?.element,
-  })
+  }, true)
 
   const content = teammateIndex != null
     ? (lightCone.teammateContent ? lightCone.teammateContent() : undefined)

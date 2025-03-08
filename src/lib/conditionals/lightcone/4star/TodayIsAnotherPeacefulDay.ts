@@ -15,7 +15,7 @@ export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: Weare
   const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
 
   const defaults = {
-    maxEnergyStacks: wearerMeta.maxEnergy,
+    maxEnergyStacks: Math.min(wearerMeta.maxEnergy, 160),
   }
 
   const content: ContentDefinition<typeof defaults> = {

@@ -121,7 +121,8 @@ CharacterPreview:
       SKILL: COMPÉTENCE
       ULT: ULT
       FUA: ADS
-      MEMO_SKILL: MNÉM
+      MEMO_SKILL: COMPᴹ
+      MEMO_TALENT: Talentᴹ
       DOTS: "DSD:"
       BREAKS: "RUPTURES:"
     CombatResults:
@@ -139,6 +140,8 @@ CharacterPreview:
         FUA: ADS
         DOT: DSD
         BREAK: RUPTURE
+        MEMO_SKILL: DGT Compᴹ
+        MEMO_TALENT: DGT TALENTᴹ
         COMBO: COMBO
     CombatBuffs:
       Header: Buffs de combat

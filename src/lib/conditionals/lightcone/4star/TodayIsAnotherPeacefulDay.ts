@@ -34,7 +34,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       if (r.maxEnergyDmgBoost) {
-        x.ELEMENTAL_DMG.buff(context.baseEnergy * sValues[s], SOURCE_LC)
+        x.ELEMENTAL_DMG.buff(Math.min(160, context.baseEnergy) * sValues[s], SOURCE_LC)
       }
     },
     finalizeCalculations: () => {

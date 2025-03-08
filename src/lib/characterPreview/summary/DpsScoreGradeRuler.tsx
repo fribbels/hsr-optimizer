@@ -17,7 +17,6 @@ const liftedGrades: Record<string, boolean> = {
 
 export function DpsScoreGradeRuler(props: {
   score: number
-  percent: number
   maximum: number
   benchmark: number
   minimum: number

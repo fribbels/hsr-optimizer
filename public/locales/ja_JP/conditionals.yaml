@@ -535,9 +535,8 @@ Lightcones:
           装備キャラの必殺技のダメージ基礎値が、装備キャラの防御力{{Multiplier}}%分アップする。この効果は必殺技を発動するたび、1体の敵に対して1回まで発動できる。
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
-        text: EP最大
-        content: 戦闘に入った後、装備キャラの最大EPに応じて、装備キャラの与ダメージをアップする。1EPにつき+{{DmgStep}}%、最大で160までカウントされる。
+      maxEnergyDmgBoost:
+        text: 最大EP
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

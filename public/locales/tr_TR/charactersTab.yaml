@@ -5,6 +5,7 @@ ScreenshotMessages:
 Messages:
   RemoveSuccess: Karakter başarıyla kaldırıldı
   UnequipSuccess: Karakter eşyaları başarıyla kaldırıldı
+  NoSelectedCharacter: Seçili karakter yok
   SwitchSuccess: "Relicler başarıyla $t(gameData:Characters.{{charId}}.Name) ile değiştirildi"
   SaveSuccess: "Karakter ekipman seti, {{name}} başarıyla kaydedildi."
 CharacterPreview:
@@ -12,3 +13,4 @@ CharacterPreview:
     AddedRelic: Relic başarıyla eklendi
     SavedPortrait: Portre başarıyla kaydedildi
     RevertedPortrait: Portre başarıyla geri döndürüldü
+    NoSelectedCharacter: Seçili karakter yok

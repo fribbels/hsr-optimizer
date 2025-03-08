@@ -7,6 +7,10 @@ StrategyLabels:
   E4: Tinh Hồn 4
   E5: Tinh Hồn 5
   E6: Tinh Hồn 6
+EidolonLevels:
+  NONE: Không có
+SuperimpositionLevels:
+  NONE: Không có
 IncomeOptions:
   Label: "[PB{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:

@@ -521,9 +521,8 @@ Lightcones:
           Tăng sát thương gây ra khi người trang bị thi triển Tuyệt Kỹ, mức tăng tương đương {{Multiplier}}% Phòng Thủ của người trang bị. Mỗi lần dùng Tuyệt Kỹ, hiệu ứng này chỉ có hiệu lực 1 lần cho mỗi kẻ địch.
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: Năng lượng tối đa
-        content: 'Sau khi vào chiến đấu, dựa theo giới hạn Năng Lượng của người trang bị để tăng sát thương mà người trang bị gây ra: Mỗi điểm Năng Lượng tăng {{DmgStep}}%, tối đa tính 160 điểm.'
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

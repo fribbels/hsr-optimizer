@@ -7,6 +7,22 @@ StrategyLabels:
   E4: 优先4魂
   E5: 优先5魂
   E6: 优先6魂
+EidolonLevels:
+  NONE: 无
+  E0: 0魂
+  E1: 1魂
+  E2: 2魂
+  E3: 3魂
+  E4: 4魂
+  E5: 5魂
+  E6: 6魂
+SuperimpositionLevels:
+  NONE: 无
+  S1: 叠1
+  S2: 叠2
+  S3: 叠3
+  S4: 叠4
+  S5: 叠5
 IncomeOptions:
   Label: "【版本{{versionNumber}} ({{phaseNumber}}/2) | {{type}}】: "
   Type:
@@ -16,6 +32,7 @@ IncomeOptions:
     3: 战令和月卡
 PityCounter:
   PityCounter: 小保底计数
+  CurrentEidolonSuperImp: 当前
   Guaranteed: 大保底
 TotalAvailable: "可用跃迁总数："
 SectionTitles:
@@ -27,6 +44,9 @@ SectionTitles:
   Passes: 专票
   Jades: 星琼
   Strategy: 策略
+  Banner: 卡池
+  New: 新
+  Rerun: 复刻
   AdditionalResources: 额外资源
   Calculate: 计算
 ColumnTitles:

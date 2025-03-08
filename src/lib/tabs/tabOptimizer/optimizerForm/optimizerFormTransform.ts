@@ -4,6 +4,7 @@ import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFA
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import DB from 'lib/state/db'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -85,7 +86,8 @@ export function displayToForm(form: Form) {
 export function formToDisplay(form: Form) {
   const characterId = form.characterId
   const newForm: Partial<Form> = TsUtils.clone(form)
-  const metadata = characterId ? DB.getMetadata().characters[characterId] : null
+  const dbMetadata = DB.getMetadata()
+  const metadata = characterId ? dbMetadata.characters[characterId] : null
   const scoringMetadata = characterId ? DB.getScoringMetadata(characterId) : null
 
   // Erase inputs where min == 0 and max == MAX_INT to hide the displayed values
@@ -189,7 +191,8 @@ export function formToDisplay(form: Form) {
   }
 
   if (newForm.lightCone) {
-    const defaultLcOptions = LightConeConditionalsResolver.get(form).defaults()
+    const metadata = generateConditionalResolverMetadata(form, dbMetadata)
+    const defaultLcOptions = LightConeConditionalsResolver.get(metadata).defaults()
     if (!newForm.lightConeConditionals) {
       newForm.lightConeConditionals = {}
     }

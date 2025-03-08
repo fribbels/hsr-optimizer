@@ -59,8 +59,7 @@ declare global {
     // TODO see OptimizerForm
     onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => unknown
     optimizerStartClicked: () => void
-    optimizerForm: FormInstance
-    statSimulationForm: FormInstance
+    optimizerForm: FormInstance<Form>
 
     forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
     forceCharacterTabUpdate: DispatchWithoutAction

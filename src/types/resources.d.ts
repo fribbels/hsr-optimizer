@@ -1170,7 +1170,7 @@ interface Resources {
       },
       "TodayIsAnotherPeacefulDay": {
         "Content": {
-          "maxEnergyStacks": {
+          "maxEnergyDmgBoost": {
             "text": "Max energy",
             "content": "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by {{DmgStep}}% per point of Energy, up to 160 Energy."
           }

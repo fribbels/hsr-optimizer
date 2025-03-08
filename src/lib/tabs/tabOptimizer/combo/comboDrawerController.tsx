@@ -1,6 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { ConditionalDataType, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
+import { ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
@@ -10,7 +10,8 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
-import { DBMetadataCharacter } from 'types/metadata'
+import { DBMetadata } from 'types/metadata'
+import { BasicForm } from 'types/optimizer'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
@@ -49,9 +50,11 @@ export type ComboSubSelectConditional = {
 export type ComboCharacterMetadata = {
   characterId: string
   characterEidolon: number
+  path: PathName
   lightCone: string
   lightConeSuperimposition: number
-  element: string
+  lightConePath: PathName
+  element: ElementName
 }
 
 export type ComboCharacter = {
@@ -82,6 +85,9 @@ export type ComboState = {
 export type SetConditionals = typeof defaultSetConditionals
 
 export function initializeComboState(request: Form, merge: boolean) {
+  const dbMetadata = DB.getMetadata()
+  const dbLightCones = dbMetadata.lightCones
+  const dbCharacters = dbMetadata.characters
   const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
@@ -98,24 +104,18 @@ export function initializeComboState(request: Form, merge: boolean) {
     }
   }
 
-  const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(request)
-  const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(request)
+  const metadata = generateConditionalResolverMetadata(request, dbMetadata)
+
+  const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)
+  const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata)
 
   const requestCharacterConditionals = request.characterConditionals
   const requestLightConeConditionals = request.lightConeConditionals
 
   const requestSetConditionals = request.setConditionals
 
-  const dbCharacters = DB.getMetadata().characters
-
   comboState.comboCharacter = {
-    metadata: {
-      characterId: request.characterId,
-      characterEidolon: request.characterEidolon,
-      lightCone: request.lightCone,
-      lightConeSuperimposition: request.lightConeSuperimposition,
-      element: dbCharacters[request.characterId].element,
-    },
+    metadata,
     characterConditionals: generateComboConditionals(
       requestCharacterConditionals,
       characterConditionalMetadata.content(),
@@ -136,9 +136,9 @@ export function initializeComboState(request: Form, merge: boolean) {
     displayedOrnamentSets: [],
   }
 
-  comboState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount, dbCharacters)
-  comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount, dbCharacters)
-  comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount, dbCharacters)
+  comboState.comboTeammate0 = generateComboTeammate(request.teammate0, actionCount, dbMetadata)
+  comboState.comboTeammate1 = generateComboTeammate(request.teammate1, actionCount, dbMetadata)
+  comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount, dbMetadata)
 
   if (request.comboStateJson && merge) {
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
@@ -153,6 +153,18 @@ export function initializeComboState(request: Form, merge: boolean) {
   displayModifiedSets(request, comboState)
 
   return comboState
+}
+
+export function generateConditionalResolverMetadata(request: BasicForm, dbMetadata: DBMetadata) {
+  return {
+    characterId: request.characterId,
+    characterEidolon: request.characterEidolon,
+    path: dbMetadata.characters[request.characterId]?.path,
+    lightCone: request.lightCone,
+    lightConeSuperimposition: request.lightConeSuperimposition,
+    lightConePath: dbMetadata.lightCones[request.lightCone]?.path,
+    element: dbMetadata.characters[request.characterId]?.element,
+  }
 }
 
 function displayModifiedSets(request: Form, comboState: ComboState) {
@@ -321,14 +333,16 @@ function generateSetComboConditionals(
   return output
 }
 
-function generateComboTeammate(teammate: Teammate, actionCount: number, dbCharacters: Record<string, DBMetadataCharacter>) {
+function generateComboTeammate(teammate: Teammate, actionCount: number, dbMetadata: DBMetadata) {
   if (!teammate?.characterId) return null
 
   const characterConditionals = teammate.characterConditionals || {}
   const lightConeConditionals = teammate.lightConeConditionals || {}
 
-  const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(teammate)
-  const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(teammate)
+  const metadata = generateConditionalResolverMetadata(teammate, dbMetadata)
+
+  const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)
+  const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata)
 
   const relicSetConditionals: ComboConditionals = {}
   const ornamentSetConditionals: ComboConditionals = {}
@@ -346,13 +360,7 @@ function generateComboTeammate(teammate: Teammate, actionCount: number, dbCharac
   }
 
   const comboTeammate: ComboTeammate = {
-    metadata: {
-      characterId: teammate.characterId,
-      characterEidolon: teammate.characterEidolon,
-      lightCone: teammate.lightCone,
-      lightConeSuperimposition: teammate.lightConeSuperimposition,
-      element: dbCharacters[teammate.characterId].element,
-    },
+    metadata,
     characterConditionals: generateComboConditionals(
       characterConditionals,
       characterConditionalMetadata.teammateContent?.() ?? [],

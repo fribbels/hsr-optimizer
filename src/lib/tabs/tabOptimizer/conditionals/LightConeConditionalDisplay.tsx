@@ -24,6 +24,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
 
   const wearerId: string = teammateIndex == undefined
     ? window.optimizerForm.getFieldValue('characterId')
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     : window.optimizerForm.getFieldValue(`teammate${teammateIndex as 0 | 1 | 2}`)?.characterId
 
   const lightCone = LightConeConditionalsResolver.get({
@@ -32,6 +33,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
     lightConePath: props.dbMetadata.lightCones[id!]?.path,
     path: props.dbMetadata.characters[wearerId]?.path,
     element: props.dbMetadata.characters[wearerId]?.element,
+    baseEnergy: props.dbMetadata.characters[wearerId]?.max_sp,
   }, true)
 
   const content = teammateIndex != null

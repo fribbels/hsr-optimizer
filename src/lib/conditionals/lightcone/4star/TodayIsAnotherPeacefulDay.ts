@@ -1,4 +1,5 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -7,14 +8,14 @@ import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TodayIsAnotherPeacefulDay')
   const { SOURCE_LC } = Source.lightCone('21034')
 
   const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
 
   const defaults = {
-    maxEnergyStacks: 160,
+    maxEnergyStacks: wearerMeta.maxEnergy,
   }
 
   const content: ContentDefinition<typeof defaults> = {

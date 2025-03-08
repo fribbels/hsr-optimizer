@@ -130,7 +130,9 @@ import { ElementName, PathName } from 'lib/constants/constants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 
-export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean, element: ElementName) => LightConeConditionalsController
+export type WearerMetadata = { element: ElementName; maxEnergy: number }
+
+export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean, wearerMetadata: WearerMetadata) => LightConeConditionalsController
 
 const fiveStar: Record<string, LightConeConditionalFunction> = {
   23000: NightOnTheMilkyWay,
@@ -282,7 +284,7 @@ export const lightConeOptionMapping: Record<string, LightConeConditionalFunction
 
 export const LightConeConditionalsResolver = {
   get: (
-    request: { lightCone: string; lightConeSuperimposition: number; lightConePath: PathName; path: PathName; element: ElementName },
+    request: { lightCone: string; lightConeSuperimposition: number; lightConePath: PathName; path: PathName; element: ElementName; baseEnergy: number },
     withContent = false,
   ): LightConeConditionalsController => {
     const lcFn = lightConeOptionMapping[request.lightCone]
@@ -296,6 +298,6 @@ export const LightConeConditionalsResolver = {
         },
       }
     }
-    return lcFn(request.lightConeSuperimposition - 1, withContent, request.element)
+    return lcFn(request.lightConeSuperimposition - 1, withContent, { element: request.element, maxEnergy: request.baseEnergy })
   },
 }

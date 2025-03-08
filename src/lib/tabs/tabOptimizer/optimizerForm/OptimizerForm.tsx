@@ -253,14 +253,11 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
       lightConePath: metadata.lightCones[lcId]?.path,
       element: metadata.characters[charId]?.element,
       path: metadata.characters[charId]?.path,
+      baseEnergy: metadata.characters[charId]?.max_sp,
     })
     const defaults = controller.current.defaults()
     const lightConeForm = DB.getCharacterById(charId)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
-
-    if (lcId === '21034') { // Today Is Another Peaceful Day
-      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[charId].max_sp)
-    }
 
     // console.log('Loaded light cone conditional values', defaults)
 

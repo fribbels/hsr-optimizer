@@ -7,6 +7,14 @@ StrategyLabels:
   E4: E4 d'abord
   E5: E5 d'abord
   E6: E6 d'abord
+EidolonLevels:
+  NONE: Aucun
+  E1: E1
+  E2: E2
+  E4: E4
+  E6: E6
+SuperimpositionLevels:
+  NONE: Aucun
 IncomeOptions:
   Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:

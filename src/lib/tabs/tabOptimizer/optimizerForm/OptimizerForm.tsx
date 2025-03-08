@@ -253,7 +253,6 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
       lightConePath: metadata.lightCones[lcId]?.path,
       element: metadata.characters[charId]?.element,
       path: metadata.characters[charId]?.path,
-      baseEnergy: metadata.characters[charId]?.max_sp,
     })
     const defaults = controller.current.defaults()
     const lightConeForm = DB.getCharacterById(charId)?.form.lightConeConditionals || {}

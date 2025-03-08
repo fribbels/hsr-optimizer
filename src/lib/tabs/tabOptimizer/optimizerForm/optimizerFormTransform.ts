@@ -196,7 +196,6 @@ export function formToDisplay(form: Form) {
       lightConePath: dbMetadata.lightCones[form.lightCone]?.path,
       path: dbMetadata.characters[characterId]?.path,
       element: dbMetadata.characters[characterId]?.element,
-      baseEnergy: dbMetadata.characters[characterId]?.max_sp,
     }).defaults()
     if (!newForm.lightConeConditionals) {
       newForm.lightConeConditionals = {}

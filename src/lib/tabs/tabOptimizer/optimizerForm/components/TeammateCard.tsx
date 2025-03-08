@@ -279,7 +279,6 @@ const TeammateCard = (props: {
       lightConePath: props.dbMetadata.lightCones[teammateLightConeId]?.path,
       path: props.dbMetadata.characters[teammateCharacterId]?.path,
       element: props.dbMetadata.characters[teammateCharacterId]?.element,
-      baseEnergy: props.dbMetadata.characters[teammateCharacterId]?.max_sp,
     })
 
     if (!controller.current.teammateDefaults) return

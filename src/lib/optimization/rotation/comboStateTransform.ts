@@ -126,7 +126,6 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
   ].filter((x) => !!x?.metadata?.characterId)
   for (let i = 0; i < teammates.length; i++) {
     const teammate = teammates[i]!
-    const teammateRequest = Object.assign({}, teammates[i])
 
     const teammateAction = {
       actorId: teammate.metadata.characterId,

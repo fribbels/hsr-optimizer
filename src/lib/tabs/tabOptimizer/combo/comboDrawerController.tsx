@@ -54,7 +54,6 @@ export type ComboCharacterMetadata = {
   lightConeSuperimposition: number
   lightConePath: PathName
   element: ElementName
-  baseEnergy: number
 }
 
 export type ComboCharacter = {
@@ -112,7 +111,6 @@ export function initializeComboState(request: Form, merge: boolean) {
     lightConeSuperimposition: request.lightConeSuperimposition,
     lightConePath: dbLightCones[request.lightCone]?.path,
     element: dbCharacters[request.characterId]?.element,
-    baseEnergy: dbCharacters[request.characterId]?.max_sp,
   }
 
   const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)
@@ -344,7 +342,6 @@ function generateComboTeammate(teammate: Teammate, actionCount: number, dbMetada
     lightConeSuperimposition: teammate.lightConeSuperimposition,
     lightConePath: dbMetadata.lightCones[teammate.lightCone]?.path,
     element: dbMetadata.characters[teammate.characterId]?.element,
-    baseEnergy: dbMetadata.characters[teammate.characterId]?.max_sp,
   }
 
   const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)

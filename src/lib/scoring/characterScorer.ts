@@ -543,7 +543,6 @@ export function generateFullDefaultForm(
     lightConePath: dbMetadata.lightCones[lightCone]?.path,
     path: dbMetadata.characters[characterId]?.path,
     element: dbMetadata.characters[characterId]?.element,
-    baseEnergy: dbMetadata.characters[characterId]?.max_sp,
   }
 
   const simulationForm: Form = getDefaultForm({ id: characterId })

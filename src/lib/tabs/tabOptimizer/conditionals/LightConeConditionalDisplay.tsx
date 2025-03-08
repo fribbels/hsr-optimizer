@@ -1,5 +1,5 @@
-import { Flex, Typography } from 'antd'
-import { lightConeOptionMapping } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { Flex } from 'antd'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -7,11 +7,13 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { DBMetadata } from 'types/metadata'
 
 export interface LightConeConditionalDisplayProps {
   id?: string
   superImposition: SuperImpositionLevel
   teammateIndex?: number
+  dbMetadata: DBMetadata
 }
 
 export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisplayProps) => {
@@ -19,23 +21,18 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
   // console.log('LightConeConditionalDisplay', props)
 
   const { id, superImposition, teammateIndex } = props
-  // TODO revisit type workaround
-  const lightConeId = id as unknown as keyof typeof lightConeOptionMapping
 
-  if (!lightConeId || !lightConeOptionMapping[lightConeId]) {
-    return (
-      <Flex vertical gap={5}>
-        <Flex justify='space-between' align='center'>
-          <HeaderText>{t('LightconePassives')/* Light cone passives */}</HeaderText>
-          <TooltipImage type={Hint.lightConePassives()}/>
-        </Flex>
-        {(teammateIndex == null) && <Typography.Text italic></Typography.Text>}
-      </Flex>
-    )
-  }
+  const wearerId: string = teammateIndex == undefined
+    ? window.optimizerForm.getFieldValue('characterId')
+    : window.optimizerForm.getFieldValue(`teammate${teammateIndex as 0 | 1 | 2}`)?.characterId
 
-  const lcFn = lightConeOptionMapping[lightConeId]
-  const lightCone = lcFn(superImposition - 1, true)
+  const lightCone = LightConeConditionalsResolver.get({
+    lightCone: id!,
+    lightConeSuperimposition: superImposition,
+    lightConePath: props.dbMetadata.lightCones[id!]?.path,
+    path: props.dbMetadata.characters[wearerId]?.path,
+    element: props.dbMetadata.characters[wearerId]?.element,
+  })
 
   const content = teammateIndex != null
     ? (lightCone.teammateContent ? lightCone.teammateContent() : undefined)
@@ -43,13 +40,14 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
 
   return (
     <Flex vertical gap={5}>
-      {(teammateIndex == null)
-      && (
-        <Flex justify='space-between' align='center'>
-          <HeaderText>{t('LightconePassives')/* Light cone passives */}</HeaderText>
-          <TooltipImage type={Hint.lightConePassives()}/>
-        </Flex>
-      )}
+      {
+        (teammateIndex == null) && (
+          <Flex justify='space-between' align='center'>
+            <HeaderText>{t('LightconePassives')/* Light cone passives */}</HeaderText>
+            <TooltipImage type={Hint.lightConePassives()}/>
+          </Flex>
+        )
+      }
       <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
     </Flex>
   )

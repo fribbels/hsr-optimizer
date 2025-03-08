@@ -23,8 +23,8 @@ import { Form, Teammate } from 'types/form'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(request)
-  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(request)
+  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
+  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
   // Actions
   const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1

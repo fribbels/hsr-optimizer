@@ -12,11 +12,13 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
-import { Form, TeammateProperty } from 'types/form'
+import { LightConeConditionalsController } from 'types/conditionals'
+import { TeammateProperty } from 'types/form'
+import { DBMetadata } from 'types/metadata'
 
 const { Text } = Typography
 
@@ -125,7 +127,7 @@ function calculateTeammateSets(teammateCharacter: Character) {
 }
 
 function countTeammates() {
-  const fieldsValue = window.optimizerForm.getFieldsValue() as Form
+  const fieldsValue = window.optimizerForm.getFieldsValue()
   return [fieldsValue.teammate0, fieldsValue.teammate1, fieldsValue.teammate2].filter((teammate) => teammate?.characterId).length
 }
 
@@ -137,6 +139,7 @@ type OptionRender = {
 
 const TeammateCard = (props: {
   index: number
+  dbMetadata: DBMetadata
 }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
@@ -264,19 +267,24 @@ const TeammateCard = (props: {
     updateTeammate()
   }, [teammateCharacterId, props.index])
 
+  const controller = useRef<LightConeConditionalsController>()
+
   useEffect(() => {
     if (!teammateLightConeId) return
 
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    const lightConeConditionals = LightConeConditionalsResolver.get({
+    controller.current = LightConeConditionalsResolver.get({
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,
+      lightConePath: props.dbMetadata.lightCones[teammateLightConeId].path,
+      path: props.dbMetadata.characters[teammateCharacterId].path,
+      element: props.dbMetadata.characters[teammateCharacterId].element,
     })
 
-    if (!lightConeConditionals.teammateDefaults) return
-    const mergedConditionals = Object.assign({}, lightConeConditionals.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
+    if (!controller.current.teammateDefaults) return
+    const mergedConditionals = Object.assign({}, controller.current.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
     window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedConditionals)
-  }, [teammateLightConeId, teammateSuperimposition, props.index])
+  }, [teammateLightConeId, teammateSuperimposition, teammateCharacterId, props.index])
 
   return (
     <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
@@ -389,6 +397,7 @@ const TeammateCard = (props: {
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}
               teammateIndex={props.index}
+              dbMetadata={props.dbMetadata}
             />
           </Flex>
           <Flex>

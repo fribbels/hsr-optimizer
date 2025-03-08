@@ -23,7 +23,15 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { simulateMaximumBuild } from 'lib/scoring/simulateMaximum'
-import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
+import {
+  calculateOrnamentSets,
+  calculateRelicSets,
+  convertRelicsToSimulation,
+  runSimulations,
+  Simulation,
+  SimulationRequest,
+  SimulationStats,
+} from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -526,8 +534,16 @@ export function generateFullDefaultForm(
   // @ts-ignore
   if (!characterId) return null
 
+  const dbMetadata = DB.getMetadata()
+
   const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
-  const lightConeConditionalsRequest = { lightCone: lightCone, lightConeSuperimposition: lightConeSuperimposition }
+  const lightConeConditionalsRequest = {
+    lightCone: lightCone,
+    lightConeSuperimposition: lightConeSuperimposition,
+    lightConePath: dbMetadata.lightCones[lightCone].path,
+    path: dbMetadata.characters[characterId].path,
+    element: dbMetadata.characters[characterId].element,
+  }
 
   const simulationForm: Form = getDefaultForm({ id: characterId })
 

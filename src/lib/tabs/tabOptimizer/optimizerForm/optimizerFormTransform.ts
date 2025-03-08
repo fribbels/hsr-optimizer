@@ -85,7 +85,8 @@ export function displayToForm(form: Form) {
 export function formToDisplay(form: Form) {
   const characterId = form.characterId
   const newForm: Partial<Form> = TsUtils.clone(form)
-  const metadata = characterId ? DB.getMetadata().characters[characterId] : null
+  const dbMetadata = DB.getMetadata()
+  const metadata = characterId ? dbMetadata.characters[characterId] : null
   const scoringMetadata = characterId ? DB.getScoringMetadata(characterId) : null
 
   // Erase inputs where min == 0 and max == MAX_INT to hide the displayed values
@@ -189,7 +190,13 @@ export function formToDisplay(form: Form) {
   }
 
   if (newForm.lightCone) {
-    const defaultLcOptions = LightConeConditionalsResolver.get(form).defaults()
+    const defaultLcOptions = LightConeConditionalsResolver.get({
+      lightCone: form.lightCone,
+      lightConeSuperimposition: form.lightConeSuperimposition,
+      lightConePath: dbMetadata.lightCones[form.lightCone].path,
+      path: dbMetadata.characters[characterId]?.path,
+      element: dbMetadata.characters[characterId]?.element,
+    }).defaults()
     if (!newForm.lightConeConditionals) {
       newForm.lightConeConditionals = {}
     }

@@ -106,11 +106,11 @@ export function initializeComboState(request: Form, merge: boolean) {
   const metadata = {
     characterId: request.characterId,
     characterEidolon: request.characterEidolon,
-    path: dbCharacters[request.characterId].path,
+    path: dbCharacters[request.characterId]?.path,
     lightCone: request.lightCone,
     lightConeSuperimposition: request.lightConeSuperimposition,
-    lightConePath: dbLightCones[request.lightCone].path,
-    element: dbCharacters[request.characterId].element,
+    lightConePath: dbLightCones[request.lightCone]?.path,
+    element: dbCharacters[request.characterId]?.element,
   }
 
   const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)

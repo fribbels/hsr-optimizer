@@ -25,14 +25,16 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
+import { LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
+import { DBMetadata } from 'types/metadata'
 
 export const optimizerFormCache: Record<string, Form> = {}
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
-  const [optimizerForm] = AntDForm.useForm()
+  const [optimizerForm] = AntDForm.useForm<Form>()
   window.optimizerForm = optimizerForm
 
   // On first load, load from last session, else display the first character from the roster
@@ -41,6 +43,8 @@ export default function OptimizerForm() {
     const savedSessionCharacterId = window.store.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
     OptimizerTabController.updateCharacter(savedSessionCharacterId ?? characters[0]?.id)
   }, [])
+
+  const dbMetadata = useMemo(() => DB.getMetadata(), [])
 
   const onValuesChange = (changedValues: Form, allValues: Form, bypass: boolean = false) => {
     if (!changedValues || !allValues?.characterId) return
@@ -144,6 +148,8 @@ export default function OptimizerForm() {
 
   window.optimizerStartClicked = startClicked
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div style={{ position: 'relative' }}>
       <AntDForm
@@ -153,9 +159,8 @@ export default function OptimizerForm() {
       >
         <FormSetConditionals/>
 
-        {/* Row 1 */}
 
-        <FilterContainer bottomPadding={true}>
+        <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
             <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
               <OptimizerTabCharacterPanel/>
@@ -170,7 +175,7 @@ export default function OptimizerForm() {
             </FormCard>
 
             <FormCard justify='space-between'>
-              <LightConeConditionalDisplayWrapper/>
+              <LightConeConditionalDisplayWrapper metadata={dbMetadata}/>
             </FormCard>
 
             <FormCard>
@@ -178,7 +183,6 @@ export default function OptimizerForm() {
             </FormCard>
           </FormRow>
 
-          {/* Row 2 */}
 
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
@@ -204,15 +208,13 @@ export default function OptimizerForm() {
             </FormCard>
           </FormRow>
 
-          {/* Row 3 */}
 
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
-            <TeammateCard index={0}/>
-            <TeammateCard index={1}/>
-            <TeammateCard index={2}/>
+            <TeammateCard index={0} dbMetadata={dbMetadata}/>
+            <TeammateCard index={1} dbMetadata={dbMetadata}/>
+            <TeammateCard index={2} dbMetadata={dbMetadata}/>
           </TeammateFormRow>
 
-          {/* Row 4 */}
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
             <StatSimulationDisplay/>
@@ -225,10 +227,8 @@ export default function OptimizerForm() {
 
 // Wrap these and use local state to limit rerenders
 function CharacterConditionalDisplayWrapper() {
-  const charId: string = AntDForm.useWatch(['characterId'], window.optimizerForm)
-  const eidolon: string = AntDForm.useWatch(['characterEidolon'], window.optimizerForm)
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
-  const optimizerFormCharacterEidolon = window.store((s) => s.optimizerFormCharacterEidolon)
+  const charId = AntDForm.useWatch(['characterId'], window.optimizerForm)
+  const eidolon = AntDForm.useWatch(['characterEidolon'], window.optimizerForm)
 
   return (
     <CharacterConditionalsDisplay
@@ -238,34 +238,41 @@ function CharacterConditionalDisplayWrapper() {
   )
 }
 
-function LightConeConditionalDisplayWrapper() {
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
-  const optimizerFormSelectedLightCone = window.store((s) => s.optimizerFormSelectedLightCone)
-  const optimizerFormSelectedLightConeSuperimposition = window.store((s) => s.optimizerFormSelectedLightConeSuperimposition)
-  const lcId: string = AntDForm.useWatch(['lightCone'], window.optimizerForm)
-  const superimposition: string = AntDForm.useWatch(['lightConeSuperimposition'], window.optimizerForm)
+function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
+  const { metadata } = props
+  const lcId = AntDForm.useWatch(['lightCone'], window.optimizerForm)
+  const superimposition = AntDForm.useWatch(['lightConeSuperimposition'], window.optimizerForm)
+  const charId = AntDForm.useWatch(['characterId'], window.optimizerForm)
 
+  const controller = useRef<LightConeConditionalsController>()
   // Hook into light cone changes to set defaults
   useEffect(() => {
-    const lcFn = LightConeConditionalsResolver.get(window.optimizerForm.getFieldsValue() as Form)
-    const defaults = lcFn.defaults()
-    const lightConeForm = DB.getCharacterById(optimizerTabFocusCharacter!)?.form.lightConeConditionals || {}
+    controller.current = LightConeConditionalsResolver.get({
+      lightCone: lcId,
+      lightConeSuperimposition: superimposition,
+      lightConePath: metadata.lightCones[lcId]?.path,
+      element: metadata.characters[charId]?.element,
+      path: metadata.characters[charId]?.path,
+    })
+    const defaults = controller.current.defaults()
+    const lightConeForm = DB.getCharacterById(charId)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
-    if (optimizerFormSelectedLightCone === '21034') { // Today Is Another Peaceful Day
-      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[optimizerTabFocusCharacter!].max_sp)
+    if (lcId === '21034') { // Today Is Another Peaceful Day
+      defaults.maxEnergyStacks = Math.min(160, DB.getMetadata().characters[charId].max_sp)
     }
 
     // console.log('Loaded light cone conditional values', defaults)
 
     window.optimizerForm.setFieldValue('lightConeConditionals', defaults)
-  }, [optimizerTabFocusCharacter, optimizerFormSelectedLightCone, optimizerFormSelectedLightConeSuperimposition])
+  }, [lcId, superimposition, charId])
 
   return (
     <Flex vertical justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
       <LightConeConditionalDisplay
         id={lcId}
         superImposition={superimposition}
+        dbMetadata={metadata}
       />
       <AdvancedOptionsPanel/>
     </Flex>

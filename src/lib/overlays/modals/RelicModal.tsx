@@ -261,7 +261,8 @@ export default function RelicModal(props: {
   }
 
   const plusThree = () => {
-    relicForm.setFieldValue('enhance', Math.min(relicForm.getFieldValue('enhance') + 3, 15))
+    // Upgrade to nearest 3
+    relicForm.setFieldValue('enhance', Math.floor(Math.min(relicForm.getFieldValue('enhance') + 3, 15) / 3) * 3)
   }
 
   const enhanceOptions: {

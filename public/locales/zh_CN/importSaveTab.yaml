@@ -21,8 +21,8 @@ Import:
     ReliquaryDesc:
       Title: (推荐) IceDynamix Reliquary Archiver
       Link: Github
-      OnlineMsg: "状态: 已更新至{{version}}版本 —— 需要重新下载"
-      OfflineMsg: "***** 状态: 正在{{version}}版本后停机维护*****"
+      OnlineMsg: "状态：已更新至版本{{version}}"
+      OfflineMsg: "***** 状态: 正在版本{{version}}后停机维护*****"
       l1: 精准的速度小数点，快速扫描
       l2: 导入完整的遗器库存和角色列表
     KelzDesc:

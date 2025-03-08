@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "已重置最小击破伤害的过滤条件"
       Description: "最小击破伤害的过滤条件可能过高"
       ButtonText: "重置最小击破伤害的过滤条件"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "已重置最大忆灵技的过滤条件"
+      Description: "最大忆灵技伤害的过滤条件可能过低"
+      ButtonText: "已重置最大忆灵技的过滤条件"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "重置最小忆灵技的过滤条件"
+      Description: "最小忆灵技伤害的过滤条件可能过高"
+      ButtonText: "重置最小忆灵技的过滤条件"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "已重置最大忆灵天赋的过滤条件"
+      Description: "最大忆灵天赋的过滤条件可能过低"
+      ButtonText: "重置最大忆灵天赋的过滤条件"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "已重置最小忆灵天赋的过滤条件"
+      Description: "最小忆灵天赋的过滤条件可能过高"
+      ButtonText: "重置最小忆灵天赋的过滤条件"
     MAX_HEAL:
       SuccessMessage: "已重置最大治疗值的过滤条件"
       Description: "最大治疗值的过滤条件可能过低"

@@ -1,4 +1,4 @@
-import { ElementToDamage, Stats, StatsValues, SubStats } from 'lib/constants/constants'
+import { ElementToDamage, StatsValues, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
@@ -7,17 +7,9 @@ import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { Buff, ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { originalScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { SimulationResult } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
-import {
-  convertRelicsToSimulation,
-  defaultSimulationParams,
-  ornamentSetIndexToName,
-  relicSetIndexToNames,
-  runSimulations,
-  Simulation,
-  SimulationRequest,
-} from 'lib/simulations/statSimulationController'
+import { convertRelicsToSimulation, ornamentSetIndexToName, relicSetIndexToNames, runSimulations, Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
@@ -56,10 +48,7 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 
   for (const substat of SubStats) {
     const upgradeSim = TsUtils.clone(simulationRequest)
-    upgradeSim.stats[substat] = upgradeSim.stats[substat] ?? 0
-    upgradeSim.stats[substat] += substat === Stats.SPD
-      ? originalScoringParams.speedRollValue / defaultSimulationParams.speedRollValue
-      : originalScoringParams.quality
+    upgradeSim.stats[substat] = (upgradeSim.stats[substat] ?? 0) + 1.0
 
     const simResult = runSimulations(request, context, [{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation])[0]
     statUpgrades.push({

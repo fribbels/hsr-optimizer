@@ -725,3 +725,33 @@ a {
     opacity: 1 !important;
 }
 
+.buff-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.buff-icon {
+    width: 64px;
+    height: 64px;
+}
+
+.source-label {
+    text-align: end;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.buff-row .ant-table-cell {
+    height: 26px !important;
+    line-height: 26px !important;
+    padding: 0 6px !important;
+    background-color: #2d3b5d;
+    border-color: #3f5a96 !important;
+}
+
+
+.buff-table .ant-table-thead {
+    display: none;
+}

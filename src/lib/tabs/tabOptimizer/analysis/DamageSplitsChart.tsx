@@ -81,7 +81,7 @@ export function DamageSplitsChart(props: {
         <XAxis
           type='number'
           tick={{ fill: chartColor }}
-          tickFormatter={renderThousands}
+          tickFormatter={renderThousandsK}
           width={100}
         />
         <YAxis
@@ -135,7 +135,7 @@ function renderBar(
       onMouseEnter={() => setBarHovered(dataKey)}
       onMouseLeave={() => setBarHovered(null)}
     >
-      {label && <LabelList dataKey='sum' position='right' formatter={renderThousands}/>}
+      {label && <LabelList dataKey='sum' position='right' formatter={renderThousandsK}/>}
     </Bar>
   )
 }
@@ -172,6 +172,6 @@ const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; lab
   )
 }
 
-function renderThousands(n: number) {
+export function renderThousandsK(n: number) {
   return `${Math.floor(Number(n) / 1000)}${i18next.t('common:ThousandsSuffix')}`
 }

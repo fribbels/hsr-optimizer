@@ -537,6 +537,7 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: 最大能量
+        content: 进入战斗后，根据装备者的能量上限，提高装备者造成的伤害：每点能量提高{{DmgStep}}%，最多计入160点。
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

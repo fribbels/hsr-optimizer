@@ -164,7 +164,8 @@ DMGTypes:
   SKILL: Dégâts compétence
   ULT: Dégâts Ult
   FUA: Dégâts Ads
-  MEMO_SKILL: Dégâts de Mnémesprit
+  MEMO_SKILL: Dégâts de Compᴹ
+  MEMO_TALENT: Dégâts de Talentᴹ
   DOT: Dégâts Dsd
   BREAK: Dégâts Rupture
   CV: CV
@@ -173,7 +174,8 @@ ShortDMGTypes:
   Skill: DGT compétence
   Ult: DGT Ult
   Fua: DGT Ads
-  Memo_Skill: DGT Mném
+  Memo_Skill: DGT Compᴹ
+  Memo_Talent: DGT Talentᴹ
   Dot: DGT Dsd
   Break: DGT Rupture
   CV: CV

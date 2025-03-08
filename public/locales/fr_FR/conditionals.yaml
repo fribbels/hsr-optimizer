@@ -537,6 +537,7 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: Énergie maximale
+        content: Après être entré en combat, les DGT du porteur augmentent en fonction de son énergie max. Les DGT augmentent de {{DmgStep}}% par point d'énergie jusqu'à un maximum de 160 points.
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

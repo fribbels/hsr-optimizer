@@ -1,5 +1,13 @@
 import { Metadata } from 'lib/state/metadata'
-import { NONE_WARP_INCOME_OPTION, simulateWarps, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import {
+  EidolonLevel,
+  NONE_WARP_INCOME_OPTION,
+  simulateWarps,
+  SuperimpositionLevel,
+  WarpIncomeOptions,
+  WarpRequest,
+  WarpStrategy,
+} from 'lib/tabs/tabWarp/warpCalculatorController'
 import { expect, test } from 'vitest'
 
 const DEFAULT_WARP_REQUEST: WarpRequest = {
@@ -11,6 +19,8 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
+  currentEidolonLevel: EidolonLevel.NONE,
+  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
 Metadata.initialize()
@@ -140,6 +150,80 @@ test('expected pity values', () => {
   expectWithin1Percent(m.E6S4.wins, 0)
   expectWithin1Percent(m.E6S5.wins, 0)
 })
+
+test('expected additional income values', () => {
+  const result = simulateWarps({
+    ...DEFAULT_WARP_REQUEST,
+    income: [WarpIncomeOptions[0].id, WarpIncomeOptions[1].id, WarpIncomeOptions[8].id, WarpIncomeOptions[9].id],
+  })
+
+  const totalWarps = result.request.warps
+  const m = result.milestoneResults
+
+  expectedTotalWarps(totalWarps, 240)
+
+  expectWithin3(m.E0S0.warps, 90)
+  expectWithin3(m.E0S1.warps, 155)
+  expectWithin3(m.E1S1.warps, 245)
+  expectWithin3(m.E2S1.warps, 334)
+  expectWithin3(m.E3S1.warps, 424)
+  expectWithin3(m.E4S1.warps, 513)
+  expectWithin3(m.E5S1.warps, 603)
+  expectWithin3(m.E6S1.warps, 693)
+  expectWithin3(m.E6S2.warps, 758)
+  expectWithin3(m.E6S3.warps, 823)
+  expectWithin3(m.E6S4.warps, 888)
+  expectWithin3(m.E6S5.warps, 953)
+
+  expectWithin1Percent(m.E0S0.wins, 1)
+  expectWithin1Percent(m.E0S1.wins, 0.95694)
+  expectWithin1Percent(m.E1S1.wins, 0.50498)
+  expectWithin1Percent(m.E2S1.wins, 0.12581)
+  expectWithin1Percent(m.E3S1.wins, 0.01968)
+  expectWithin1Percent(m.E4S1.wins, 0.00254)
+  expectWithin1Percent(m.E5S1.wins, 0.00017)
+  expectWithin1Percent(m.E6S1.wins, 0.00002)
+  expectWithin1Percent(m.E6S2.wins, 0)
+  expectWithin1Percent(m.E6S3.wins, 0)
+  expectWithin1Percent(m.E6S4.wins, 0)
+  expectWithin1Percent(m.E6S5.wins, 0)
+})
+
+test('expected current eidolon and lightcone values', () => {
+  const result = simulateWarps({
+    ...DEFAULT_WARP_REQUEST,
+    passes: 300,
+    currentEidolonLevel: EidolonLevel.E1,
+    currentSuperimpositionLevel: SuperimpositionLevel.S1,
+  })
+
+  const m = result.milestoneResults
+
+  expectWithin3(m.E2S1.warps, 90)
+  expectWithin3(m.E3S1.warps, 180)
+  expectWithin3(m.E4S1.warps, 269)
+  expectWithin3(m.E5S1.warps, 359)
+  expectWithin3(m.E6S1.warps, 449)
+  expectWithin3(m.E6S2.warps, 514)
+  expectWithin3(m.E6S3.warps, 579)
+  expectWithin3(m.E6S4.warps, 644)
+  expectWithin3(m.E6S5.warps, 709)
+
+
+  expectWithin1Percent(m.E2S1.wins, 1)
+  expectWithin1Percent(m.E3S1.wins, 0.96198)
+  expectWithin1Percent(m.E4S1.wins, 0.64267)
+  expectWithin1Percent(m.E5S1.wins, 0.24764)
+  expectWithin1Percent(m.E6S1.wins, 0.05875)
+  expectWithin1Percent(m.E6S2.wins, 0.01535)
+  expectWithin1Percent(m.E6S3.wins, 0.00321)
+  expectWithin1Percent(m.E6S4.wins, 0.00056)
+  expectWithin1Percent(m.E6S5.wins, 0.00007)
+})
+
+function expectedTotalWarps(actual: number, expected: number) {
+  expect(actual).toEqual(expected)
+}
 
 function expectWithin3(actual: number, expected: number) {
   expect(actual).toBeGreaterThanOrEqual(expected - 3)

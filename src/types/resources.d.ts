@@ -5454,6 +5454,24 @@ interface Resources {
       "E5": "E5 first",
       "E6": "E6 first"
     },
+    "EidolonLevels": {
+      "NONE": "None",
+      "E0": "E0",
+      "E1": "E1",
+      "E2": "E2",
+      "E3": "E3",
+      "E4": "E4",
+      "E5": "E5",
+      "E6": "E6"
+    },
+    "SuperimpositionLevels": {
+      "NONE": "None",
+      "S1": "S1",
+      "S2": "S2",
+      "S3": "S3",
+      "S4": "S4",
+      "S5": "S5"
+    },
     "IncomeOptions": {
       "Label": "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: ",
       "Type": {
@@ -5465,6 +5483,7 @@ interface Resources {
     },
     "PityCounter": {
       "PityCounter": "Pity counter",
+      "CurrentEidolonSuperImp": "Current",
       "Guaranteed": "Guaranteed"
     },
     "TotalAvailable": "Total warps available:",
@@ -5477,6 +5496,9 @@ interface Resources {
       "Passes": "Passes",
       "Jades": "Jades",
       "Strategy": "Strategy",
+      "Banner": "Banner",
+      "New": "New",
+      "Rerun": "Rerun",
       "AdditionalResources": "Additional resources",
       "Calculate": "Calculate"
     },

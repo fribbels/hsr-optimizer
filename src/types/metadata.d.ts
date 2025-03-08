@@ -1,4 +1,4 @@
-import { ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
+import { ElementName, PathName, ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 
@@ -55,15 +55,6 @@ export type SimulationMetadata = {
   }
 }
 
-export type Element =
-  'Physical'
-  | 'Fire'
-  | 'Ice'
-  | 'Lightning'
-  | 'Wind'
-  | 'Quantum'
-  | 'Imaginary'
-
 export type ElementalResPenType =
   'PHYSICAL_RES_PEN'
   | 'FIRE_RES_PEN'
@@ -100,8 +91,8 @@ export type DBMetadataCharacter = {
   id: string
   name: string
   rarity: number
-  path: string
-  element: Element
+  path: PathName
+  element: ElementName
   max_sp: number
   stats: Record<string, number>
   unreleased: boolean
@@ -116,7 +107,7 @@ export type DBMetadataLightCone = {
   id: string
   name: string
   rarity: number
-  path: string
+  path: PathName
   stats: Record<string, number>
   unreleased: boolean
   superimpositions: Record<number, Record<string, number>>

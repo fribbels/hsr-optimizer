@@ -23,16 +23,9 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { simulateMaximumBuild } from 'lib/scoring/simulateMaximum'
-import {
-  calculateOrnamentSets,
-  calculateRelicSets,
-  convertRelicsToSimulation,
-  runSimulations,
-  Simulation,
-  SimulationRequest,
-  SimulationStats,
-} from 'lib/simulations/statSimulationController'
+import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -536,15 +529,6 @@ export function generateFullDefaultForm(
 
   const dbMetadata = DB.getMetadata()
 
-  const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
-  const lightConeConditionalsRequest = {
-    lightCone: lightCone,
-    lightConeSuperimposition: lightConeSuperimposition,
-    lightConePath: dbMetadata.lightCones[lightCone]?.path,
-    path: dbMetadata.characters[characterId]?.path,
-    element: dbMetadata.characters[characterId]?.element,
-  }
-
   const simulationForm: Form = getDefaultForm({ id: characterId })
 
   simulationForm.characterId = characterId
@@ -554,6 +538,9 @@ export function generateFullDefaultForm(
 
   simulationForm.characterConditionals = {}
   simulationForm.lightConeConditionals = {}
+
+  const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
+  const lightConeConditionalsRequest = generateConditionalResolverMetadata(simulationForm, dbMetadata)
 
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(characterConditionalsRequest)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(lightConeConditionalsRequest)

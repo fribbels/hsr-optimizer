@@ -6,6 +6,7 @@ import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form, Teammate } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
@@ -95,17 +96,8 @@ function generateCharacterMetadataContext(request: Form, context: Partial<Optimi
 function generateTeammateMetadata(dbMetadata: DBMetadata, teammate: Teammate): CharacterMetadata | null {
   if (!teammate) return null
 
-  const teammateCharacterMetadata = dbMetadata.characters[teammate.characterId]
   return teammate.characterId
-    ? {
-      characterId: teammate.characterId,
-      characterEidolon: teammate.characterEidolon,
-      lightCone: teammate.lightCone,
-      lightConeSuperimposition: teammate.lightConeSuperimposition,
-      lightConePath: dbMetadata.lightCones[teammate.lightCone]?.path,
-      element: teammateCharacterMetadata?.element,
-      path: teammateCharacterMetadata?.path,
-    }
+    ? generateConditionalResolverMetadata(teammate, dbMetadata)
     : null
 }
 

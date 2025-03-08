@@ -1,4 +1,4 @@
-import { Conditionals, ContentDefinition, countTeamElement } from 'lib/conditionals/conditionalUtils'
+import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -41,17 +41,12 @@ export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: Weare
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
-
-      if (r.alliesSameElement && countTeamElement(context, context.element) >= 2) {
-        x.ELEMENTAL_DMG.buffTeam(sValues[s], SOURCE_LC)
-      }
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof content>
 
-      if (t.alliesSameElement && wearerMeta.element == context.element) {
-        x.ELEMENTAL_DMG.buffTeam(sValues[s], SOURCE_LC)
+      if (wearerMeta.element == context.element) {
+        x.ELEMENTAL_DMG.buffTeam((m.alliesSameElement) ? sValues[s] : 0, SOURCE_LC)
       }
     },
     finalizeCalculations: () => {

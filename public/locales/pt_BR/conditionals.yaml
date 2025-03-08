@@ -547,9 +547,8 @@ Lightcones:
           Aumenta o DMG do portador quando ele usa seu Ultimate em {{Multiplier}}% da DEF do portador. Esse efeito se aplica apenas 1 vez por alvo inimigo durante cada uso do Ultimate do portador.
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: Energia máxima
-        content: Após entrar em batalha, aumenta o dano do portador com base em sua Energia Máxima. O dano aumenta em {{DmgStep}}% por ponto de Energia, até um máximo de 160 Energia.
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

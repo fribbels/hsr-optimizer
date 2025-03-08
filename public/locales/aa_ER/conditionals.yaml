@@ -535,9 +535,9 @@ Lightcones:
           crwdns40540:0{{Multiplier}}crwdne40540:0
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
-        text: crwdns40542:0crwdne40542:0
-        content: crwdns40544:0{{DmgStep}}crwdne40544:0
+      maxEnergyDmgBoost:
+        text: crwdns44876:0crwdne44876:0
+        content: crwdns44878:0{{DmgStep}}crwdne44878:0
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

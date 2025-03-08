@@ -715,6 +715,15 @@ a {
     margin-right: 20px !important;
 }
 
+.rerun-segmented .ant-segmented-item-label {
+    height: 32px;
+    line-height: 32px;
+    opacity: 0.3;
+}
+
+.rerun-segmented .ant-segmented-item-selected .ant-segmented-item-label {
+    opacity: 1 !important;
+}
 
 .buff-group {
     display: flex;

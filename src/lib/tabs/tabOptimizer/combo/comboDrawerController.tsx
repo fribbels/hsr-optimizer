@@ -11,6 +11,7 @@ import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
 import { Form, Teammate } from 'types/form'
 import { DBMetadata } from 'types/metadata'
+import { BasicForm } from 'types/optimizer'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory
@@ -154,7 +155,7 @@ export function initializeComboState(request: Form, merge: boolean) {
   return comboState
 }
 
-export function generateConditionalResolverMetadata(request: Form, dbMetadata: DBMetadata) {
+export function generateConditionalResolverMetadata(request: BasicForm, dbMetadata: DBMetadata) {
   return {
     characterId: request.characterId,
     characterEidolon: request.characterEidolon,

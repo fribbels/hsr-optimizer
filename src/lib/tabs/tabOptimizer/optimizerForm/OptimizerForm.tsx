@@ -4,7 +4,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { generateConditionalResolverMetadata, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import { AdvancedOptionsPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/AdvancedOptionsPanel'
@@ -25,8 +25,7 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect, useMemo, useRef } from 'react'
-import { LightConeConditionalsController } from 'types/conditionals'
+import React, { useEffect, useMemo } from 'react'
 import { Form } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 
@@ -242,17 +241,16 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
   const superimposition = AntDForm.useWatch(['lightConeSuperimposition'], window.optimizerForm)
   const charId = AntDForm.useWatch(['characterId'], window.optimizerForm)
 
-  const controller = useRef<LightConeConditionalsController>()
   // Hook into light cone changes to set defaults
   useEffect(() => {
-    controller.current = LightConeConditionalsResolver.get({
+    const conditionalResolverMetadata = generateConditionalResolverMetadata({
+      characterId: charId,
+      characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
       lightCone: lcId,
       lightConeSuperimposition: superimposition,
-      lightConePath: metadata.lightCones[lcId]?.path,
-      element: metadata.characters[charId]?.element,
-      path: metadata.characters[charId]?.path,
-    })
-    const defaults = controller.current.defaults()
+    }, metadata)
+    const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
+    const defaults = controller.defaults()
     const lightConeForm = DB.getCharacterById(charId)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 

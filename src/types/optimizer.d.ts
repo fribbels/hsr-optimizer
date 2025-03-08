@@ -76,6 +76,13 @@ export type CharacterStatsBreakdown = {
   }
 }
 
+export type BasicForm = {
+  characterId: string
+  characterEidolon: number
+  lightCone: string
+  lightConeSuperimposition: number
+}
+
 export type CharacterMetadata = {
   characterId: string
   characterEidolon: number

@@ -1,6 +1,7 @@
 import { Flex } from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -27,13 +28,13 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     : window.optimizerForm.getFieldValue(`teammate${teammateIndex as 0 | 1 | 2}`)?.characterId
 
-  const lightCone = LightConeConditionalsResolver.get({
+  const conditionalResolverMetadata = generateConditionalResolverMetadata({
+    characterId: wearerId,
+    characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
     lightCone: id!,
     lightConeSuperimposition: superImposition,
-    lightConePath: props.dbMetadata.lightCones[id!]?.path,
-    path: props.dbMetadata.characters[wearerId]?.path,
-    element: props.dbMetadata.characters[wearerId]?.element,
-  }, true)
+  }, props.dbMetadata)
+  const lightCone = LightConeConditionalsResolver.get(conditionalResolverMetadata, true)
 
   const content = teammateIndex != null
     ? (lightCone.teammateContent ? lightCone.teammateContent() : undefined)

@@ -12,11 +12,10 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
-import { LightConeConditionalsController } from 'types/conditionals'
 import { TeammateProperty } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 
@@ -267,13 +266,11 @@ const TeammateCard = (props: {
     updateTeammate()
   }, [teammateCharacterId, props.index])
 
-  const controller = useRef<LightConeConditionalsController>()
-
   useEffect(() => {
     if (!teammateLightConeId) return
 
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    controller.current = LightConeConditionalsResolver.get({
+    const controller = LightConeConditionalsResolver.get({
       lightCone: teammateLightConeId,
       lightConeSuperimposition: teammateSuperimposition,
       lightConePath: props.dbMetadata.lightCones[teammateLightConeId]?.path,
@@ -281,8 +278,8 @@ const TeammateCard = (props: {
       element: props.dbMetadata.characters[teammateCharacterId]?.element,
     })
 
-    if (!controller.current.teammateDefaults) return
-    const mergedConditionals = Object.assign({}, controller.current.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
+    if (!controller.teammateDefaults) return
+    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
     window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedConditionals)
   }, [teammateLightConeId, teammateSuperimposition, teammateCharacterId, props.index])
 

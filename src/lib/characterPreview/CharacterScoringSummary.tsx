@@ -396,11 +396,11 @@ export const CharacterScoringSummary = (props: {
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
           />
         </pre>
-        <span className='pre-font' style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14 }}>
+        <pre style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14, textWrap: 'wrap', margin: 0 }}>
           {
             t('CharacterPreview.BuildAnalysis.ScoringNote')
           }
-        </span>
+        </pre>
         <DpsScoreGradeRuler
           score={result.originalSimScore}
           minimum={result.baselineSimScore}

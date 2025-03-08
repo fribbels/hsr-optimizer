@@ -1,19 +1,20 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import {
+  BannerRotation,
   DEFAULT_WARP_REQUEST,
+  EidolonLevel,
   handleWarpRequest,
+  SuperimpositionLevel,
   WarpIncomeDefinition,
   WarpIncomeOptions,
   WarpIncomeType,
   WarpMilestoneResult,
   WarpRequest,
   WarpStrategy,
-  EidolonLevel,
-  SuperimpositionLevel,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -84,34 +85,41 @@ function Inputs() {
             </Title>
 
             <Flex vertical gap={16}>
-              <Flex gap={50} justify='space-between'>
-                <Flex align='flex-end' gap={8} flex={1}>
-                  <Flex vertical>
-                    <HeaderText>{t('Passes')/* Passes */}</HeaderText>
-                    <Form.Item name='passes'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false}/>
-                    </Form.Item>
-                  </Flex>
-
-                  <img src={Assets.getPass()} style={{ height: 32 }}/>
-                </Flex>
-
-
+              <Flex gap={25} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex vertical>
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false}/>
+                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getJade()} style={{ height: 24 }}/>}/>
                     </Form.Item>
                   </Flex>
-                  <img src={Assets.getJade()} style={{ height: 32 }}/>
+                </Flex>
+
+
+                <Flex vertical flex={1}>
+                  <HeaderText>{t('Banner')/* Banner */}</HeaderText>
+                  <Form.Item name='bannerRotation'>
+                    <Radio.Group buttonStyle='solid' block>
+                      <Radio.Button value={BannerRotation.NEW}>{t('New')}</Radio.Button>
+                      <Radio.Button value={BannerRotation.RERUN}>{t('Rerun')}</Radio.Button>
+                    </Radio.Group>
+                  </Form.Item>
                 </Flex>
               </Flex>
 
-              <Flex gap={20}>
+              <Flex gap={25}>
+                <Flex align='flex-end' gap={8} flex={1}>
+                  <Flex vertical>
+                    <HeaderText>{t('Passes')/* Passes */}</HeaderText>
+                    <Form.Item name='passes'>
+                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getPass()} style={{ height: 24 }}/>}/>
+                    </Form.Item>
+                  </Flex>
+                </Flex>
+
+
                 <Flex vertical flex={1}>
                   <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
-
                   <Form.Item name='strategy'>
                     <Select
                       options={generateStrategyOptions()}
@@ -144,6 +152,7 @@ function Inputs() {
           </Flex>
 
           <VerticalDivider width={40}/>
+
 
           <Flex vertical style={{ flex: 1 }} justify='space-between'>
             <Flex vertical>
@@ -335,6 +344,8 @@ function opacity(n: number) {
 
 function PityInputs(props: { banner: string }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])
+  const bannerRotation: BannerRotation = AntDForm.useWatch(['bannerRotation'])
+
   return (
     <Flex gap={25} style={{ width: '100%' }}>
       <Flex vertical flex={1}>
@@ -348,13 +359,13 @@ function PityInputs(props: { banner: string }) {
           />
         </Form.Item>
       </Flex>
-      <Flex vertical flex={1}>
+      <Flex vertical flex={1} style={{ display: bannerRotation == BannerRotation.RERUN ? 'flex' : 'none' }}>
         <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
-        
+
         <Form.Item name={props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'}>
-          <Select 
-            options={props.banner == 'Character' 
-              ? generateEidolonLevelOptions() 
+          <Select
+            options={props.banner == 'Character'
+              ? generateEidolonLevelOptions()
               : generateSuperimpositionLevelOptions()}
           />
         </Form.Item>

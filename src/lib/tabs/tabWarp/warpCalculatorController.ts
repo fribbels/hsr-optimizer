@@ -16,6 +16,11 @@ export enum WarpIncomeType {
   BP_EXPRESS,
 }
 
+export enum BannerRotation {
+  NEW,
+  RERUN,
+}
+
 export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0)
 
 // Modified each patch
@@ -71,6 +76,7 @@ export type WarpRequest = {
   passes: number
   jades: number
   income: string[]
+  bannerRotation: BannerRotation
   strategy: WarpStrategy
   pityCharacter: number
   guaranteedCharacter: boolean
@@ -95,6 +101,7 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
   income: [],
+  bannerRotation: BannerRotation.NEW,
   strategy: WarpStrategy.E0,
   pityCharacter: 0,
   guaranteedCharacter: false,
@@ -277,7 +284,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
 
   let e = currentEidolonLevel
   let s = currentSuperimpositionLevel
-  
+
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
@@ -370,6 +377,11 @@ function enrichWarpRequest(request: WarpRequest) {
     warps: totalWarps,
     totalJade: totalJade,
     totalPasses: totalPasses,
+  }
+
+  if (request.bannerRotation == BannerRotation.NEW) {
+    enrichedRequest.currentEidolonLevel = EidolonLevel.NONE
+    enrichedRequest.currentSuperimpositionLevel = SuperimpositionLevel.NONE
   }
 
   return enrichedRequest

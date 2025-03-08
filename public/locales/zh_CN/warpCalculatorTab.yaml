@@ -7,6 +7,14 @@ StrategyLabels:
   E4: 优先4魂
   E5: 优先5魂
   E6: 优先6魂
+EidolonLevels:
+  NONE: 无
+  E1: 1魂
+  E2: 2魂
+  E4: 4魂
+  E6: 6魂
+SuperimpositionLevels:
+  NONE: 无
 IncomeOptions:
   Label: "【版本{{versionNumber}} ({{phaseNumber}}/2) | {{type}}】: "
   Type:

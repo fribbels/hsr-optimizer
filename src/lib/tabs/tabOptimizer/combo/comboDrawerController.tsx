@@ -103,15 +103,7 @@ export function initializeComboState(request: Form, merge: boolean) {
     }
   }
 
-  const metadata = {
-    characterId: request.characterId,
-    characterEidolon: request.characterEidolon,
-    path: dbCharacters[request.characterId]?.path,
-    lightCone: request.lightCone,
-    lightConeSuperimposition: request.lightConeSuperimposition,
-    lightConePath: dbLightCones[request.lightCone]?.path,
-    element: dbCharacters[request.characterId]?.element,
-  }
+  const metadata = generateConditionalResolverMetadata(request, dbMetadata)
 
   const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)
   const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata)
@@ -160,6 +152,18 @@ export function initializeComboState(request: Form, merge: boolean) {
   displayModifiedSets(request, comboState)
 
   return comboState
+}
+
+export function generateConditionalResolverMetadata(request: Form, dbMetadata: DBMetadata) {
+  return {
+    characterId: request.characterId,
+    characterEidolon: request.characterEidolon,
+    path: dbMetadata.characters[request.characterId]?.path,
+    lightCone: request.lightCone,
+    lightConeSuperimposition: request.lightConeSuperimposition,
+    lightConePath: dbMetadata.lightCones[request.lightCone]?.path,
+    element: dbMetadata.characters[request.characterId]?.element,
+  }
 }
 
 function displayModifiedSets(request: Form, comboState: ComboState) {
@@ -334,15 +338,7 @@ function generateComboTeammate(teammate: Teammate, actionCount: number, dbMetada
   const characterConditionals = teammate.characterConditionals || {}
   const lightConeConditionals = teammate.lightConeConditionals || {}
 
-  const metadata = {
-    characterId: teammate.characterId,
-    characterEidolon: teammate.characterEidolon,
-    path: dbMetadata.characters[teammate.characterId]?.path,
-    lightCone: teammate.lightCone,
-    lightConeSuperimposition: teammate.lightConeSuperimposition,
-    lightConePath: dbMetadata.lightCones[teammate.lightCone]?.path,
-    element: dbMetadata.characters[teammate.characterId]?.element,
-  }
+  const metadata = generateConditionalResolverMetadata(teammate, dbMetadata)
 
   const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata)
   const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata)

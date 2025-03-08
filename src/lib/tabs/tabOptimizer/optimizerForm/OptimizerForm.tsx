@@ -148,8 +148,6 @@ export default function OptimizerForm() {
 
   window.optimizerStartClicked = startClicked
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <div style={{ position: 'relative' }}>
       <AntDForm

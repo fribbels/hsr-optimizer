@@ -15,18 +15,16 @@ export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: Weare
   const sValues = [0.002, 0.0025, 0.003, 0.0035, 0.004]
 
   const defaults = {
-    maxEnergyStacks: Math.min(wearerMeta.maxEnergy, 160),
+    maxEnergyDmgBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    maxEnergyStacks: {
+    maxEnergyDmgBoost: {
       lc: true,
-      id: 'maxEnergyStacks',
-      formItem: 'slider',
-      text: t('Content.maxEnergyStacks.text'),
-      content: t('Content.maxEnergyStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
-      min: 0,
-      max: 160,
+      id: 'maxEnergyDmgBoost',
+      formItem: 'switch',
+      text: t('Content.maxEnergyDmgBoost.text'),
+      content: t('Content.maxEnergyDmgBoost.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   }
 
@@ -36,7 +34,9 @@ export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: Weare
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff(r.maxEnergyStacks * sValues[s], SOURCE_LC)
+      if (r.maxEnergyDmgBoost) {
+        x.ELEMENTAL_DMG.buff(context.baseEnergy * sValues[s], SOURCE_LC)
+      }
     },
     finalizeCalculations: () => {
     },

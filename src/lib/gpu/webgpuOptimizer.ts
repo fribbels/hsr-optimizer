@@ -121,8 +121,16 @@ export async function gpuOptimize(props: {
   // console.log(`Total Time: ${totalTime.toFixed(4)} ms`)
   // console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
 
-  outputResults(gpuContext)
-  destroyPipeline(gpuContext)
+  if (!gpuContext.cancelled) {
+    window.store.getState().setPermutationsSearched(gpuContext.permutations)
+  }
+  window.store.getState().setOptimizationInProgress(false)
+  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+
+  setTimeout(() => {
+    outputResults(gpuContext)
+    destroyPipeline(gpuContext)
+  }, 1)
 }
 
 // eslint-disable-next-line
@@ -192,12 +200,6 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const bSize = relics.Body.length
   const gSize = relics.Hands.length
   const hSize = relics.Head.length
-
-  if (!gpuContext.cancelled) {
-    window.store.getState().setPermutationsSearched(gpuContext.permutations)
-  }
-  window.store.getState().setOptimizationInProgress(false)
-  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
 
   const optimizerContext = gpuContext.context
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)

@@ -18,7 +18,6 @@ export const CharacterStatSummary = (props: {
   characterId: string
   finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
   elementalDmgValue: string
-  cv?: number
   scoringType?: string
   simScore?: number
   showAll?: boolean

@@ -526,8 +526,8 @@ StatSimulation:
 ExpandedDataPanel:
   BuffsAnalysisDisplay:
     Sources:
-      Basic: Norm
-      Skill: Comp
+      Basic: Normale
+      Skill: Compétence
       Ult: Ult
       Talent: Talent
       Technique: Technique

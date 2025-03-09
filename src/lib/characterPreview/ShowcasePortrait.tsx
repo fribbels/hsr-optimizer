@@ -157,17 +157,17 @@ export function ShowcasePortrait(props: {
       </ConfigProvider>
       <Flex
         vertical
+        gap={3}
         style={{
-          position: 'absolute',
+          marginBottom: 3,
           paddingLeft: 3,
-          bottom: artistName ? 36 : 1,
-          height: 34,
-          display: showUid ? 'flex' : 'none',
+          position: 'absolute',
+          bottom: 0,
         }}
-        align='flex-start'
       >
-        <Text
+        <div
           style={{
+            display: showUid ? 'flex' : 'none',
             backgroundColor: 'rgb(20 20 20 / 30%)',
             color: 'rgb(255 255 255 / 80%)',
             padding: '4px 12px',
@@ -184,21 +184,10 @@ export function ShowcasePortrait(props: {
           }}
         >
           {uid}
-        </Text>
-      </Flex>
-      <Flex
-        vertical
-        style={{
-          position: 'absolute',
-          bottom: 1,
-          height: 34,
-          paddingLeft: 3,
-          display: artistName ? 'flex' : 'none',
-        }}
-        align='flex-start'
-      >
-        <Text
+        </div>
+        <div
           style={{
+            display: artistName ? 'flex' : 'none',
             backgroundColor: 'rgb(20 20 20 / 30%)',
             color: 'rgb(255 255 255 / 80%)',
             padding: '4px 12px',
@@ -215,7 +204,7 @@ export function ShowcasePortrait(props: {
           }}
         >
           {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' })/* Art by {{artistName}} */}
-        </Text>
+        </div>
       </Flex>
     </div>
   )

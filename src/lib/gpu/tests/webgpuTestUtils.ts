@@ -132,8 +132,8 @@ function arrayDelta(cpu: Float32Array, gpu: Float32Array) {
   const statDeltas: StatDeltas = {}
   let allPass = true
 
-  console.log(cpu)
-  console.log(gpu)
+  // console.log(cpu)
+  // console.log(gpu)
 
   const keys = Object.keys(baseComputedStatsObject)
 

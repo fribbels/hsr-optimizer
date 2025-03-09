@@ -288,7 +288,9 @@ export const LightConeConditionalsResolver = {
     withContent = false,
   ): LightConeConditionalsController => {
     const lcFn = lightConeOptionMapping[request.lightCone]
-    if (!lcFn || request.lightConePath !== request.path) {
+    // GPU debugger should be able to use all light cones
+    // Otherwise path mismatches disable light cone effects
+    if (!lcFn || (request.lightConePath !== request.path && !window?.WEBGPU_DEBUG)) {
       return {
         content: () => [],
         defaults: () => ({}),

@@ -22,6 +22,7 @@ export type ComputedStatsConfigBaseType = {
   flat?: boolean
   whole?: boolean
   separated?: boolean
+  bool?: boolean
   label: string
 }
 
@@ -61,14 +62,14 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   BASE_SPD: { flat: true, label: 'Base SPD' },
 
   // Memosprites
-  MEMO_BASE_HP_SCALING: { label: 'Memosprite HP scaling' },
-  MEMO_BASE_DEF_SCALING: { label: 'Memosprite DEF scaling' },
-  MEMO_BASE_ATK_SCALING: { label: 'Memosprite ATK scaling' },
-  MEMO_BASE_SPD_SCALING: { label: 'Memosprite SPD scaling' },
-  MEMO_BASE_HP_FLAT: { flat: true, label: 'Memosprite HP flat' },
-  MEMO_BASE_DEF_FLAT: { flat: true, label: 'Memosprite DEF flat' },
-  MEMO_BASE_ATK_FLAT: { flat: true, label: 'Memosprite ATK flat' },
-  MEMO_BASE_SPD_FLAT: { flat: true, label: 'Memosprite SPD flat' },
+  MEMO_BASE_HP_SCALING: { label: 'Memosprite base HP scaling' },
+  MEMO_BASE_DEF_SCALING: { label: 'Memosprite base DEF scaling' },
+  MEMO_BASE_ATK_SCALING: { label: 'Memosprite base ATK scaling' },
+  MEMO_BASE_SPD_SCALING: { label: 'Memosprite base SPD scaling' },
+  MEMO_BASE_HP_FLAT: { flat: true, label: 'Memosprite base HP flat' },
+  MEMO_BASE_DEF_FLAT: { flat: true, label: 'Memosprite base DEF flat' },
+  MEMO_BASE_ATK_FLAT: { flat: true, label: 'Memosprite base ATK flat' },
+  MEMO_BASE_SPD_FLAT: { flat: true, label: 'Memosprite base SPD flat' },
 
   // Secondary conversions
   UNCONVERTIBLE_HP_BUFF: { flat: true, label: 'Unconvertible HP' },
@@ -89,10 +90,10 @@ export const newBaseComputedStatsCorePropertiesConfig = {
 
   // Misc configs
   SUMMONS: { flat: true, label: 'Summons' },
-  MEMOSPRITE: { flat: true, label: 'Memosprite' },
-  ENEMY_WEAKNESS_BROKEN: { flat: true, label: 'Enemy weakness broken' },
-  MEMO_BUFF_PRIORITY: { flat: true, label: 'Prioritize memosprite buffs}' },
-  DEPRIORITIZE_BUFFS: { flat: true, label: 'Deprioritize buffs' },
+  MEMOSPRITE: { bool: true, label: 'Memosprite' },
+  ENEMY_WEAKNESS_BROKEN: { bool: true, label: 'Enemy weakness broken' },
+  MEMO_BUFF_PRIORITY: { bool: true, label: 'Prioritize memosprite buffs' },
+  DEPRIORITIZE_BUFFS: { bool: true, label: 'Deprioritize buffs' },
   COMBO_DMG: { flat: true, label: 'Combo DMG' },
 
   // DOT
@@ -179,6 +180,17 @@ type FilteredKeys = {
   typeof newBaseComputedStatsAbilityPropertiesConfig[K] extends { separated: true } ? never : K
 }[keyof typeof newBaseComputedStatsAbilityPropertiesConfig]
 
+const abilityTypeLabels: Record<AbilityTypeKeys, string> = {
+  BASIC: 'Basic',
+  SKILL: 'Skill',
+  ULT: 'Ult',
+  FUA: 'Fua',
+  DOT: 'Dot',
+  BREAK: 'Break',
+  MEMO_SKILL: 'Memo Skill',
+  MEMO_TALENT: 'Memo Talent',
+}
+
 export const BaseComputedStatsConfig = {
   ...newBaseComputedStatsCorePropertiesConfig,
 
@@ -188,7 +200,10 @@ export const BaseComputedStatsConfig = {
       const abilityKey = AbilityType[ability] as AbilityTypeKeys
 
       Object.entries(newBaseComputedStatsAbilityPropertiesConfig).forEach(([key, value]) => {
-        acc[`${abilityKey}_${key}` as `${AbilityTypeKeys}_${keyof typeof newBaseComputedStatsAbilityPropertiesConfig}`] = value
+        acc[`${abilityKey}_${key}` as `${AbilityTypeKeys}_${keyof typeof newBaseComputedStatsAbilityPropertiesConfig}`] = {
+          ...value,
+          label: `${abilityTypeLabels[abilityKey]} ${value.label}`,
+        }
       })
 
       return acc
@@ -208,10 +223,12 @@ export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
 
 export type StatConfig = {
   name: string
+  label: string
   index: number
   default: number
   flat: boolean
   whole: boolean
+  bool: boolean
   category: StatCategory
 }
 
@@ -231,7 +248,9 @@ export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
         default: baseValue.default ?? 0,
         flat: baseValue.flat ?? false,
         whole: baseValue.whole ?? false,
+        bool: baseValue.bool ?? false,
         category: baseValue.category ?? StatCategory.NONE,
+        label: baseValue.label,
       },
     ]
   }),

@@ -137,8 +137,9 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
   const data = buffs.map((buff, i) => {
     const stat = buff.stat as keyof ComputedStatsObject
     const percent = !StatsConfig[stat].flat
+    const bool = StatsConfig[stat].bool
     // @ts-ignore
-    const statLabel: string = computedStatsTempI18NTranslations[stat] ?? stat
+    const statLabel: string = StatsConfig[stat]?.label ?? stat
 
     let sourceLabel
     switch (buff.source.buffType) {
@@ -154,7 +155,14 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
       default:
         sourceLabel = buff.source.label
     }
-    const value = `${percent ? TsUtils.precisionRound(buff.value * 100, 2) : TsUtils.precisionRound(buff.value, 0)}${percent ? ' %' : ''}`
+    let value
+    if (bool) {
+      value = buff.value ? 'True' : 'False'
+    } else if (percent) {
+      value = `${TsUtils.precisionRound(buff.value * 100, 2)} %`
+    } else {
+      value = `${TsUtils.precisionRound(buff.value, 0)}`
+    }
 
     return {
       key: i,

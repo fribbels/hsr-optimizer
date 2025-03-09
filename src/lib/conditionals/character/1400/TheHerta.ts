@@ -136,11 +136,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ATK_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01, SOURCE_TRACE)
       x.ULT_ATK_SCALING.buff((e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), SOURCE_E6)
 
-      const enhancedSkillStackScaling = talentStackScaling
-        * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
-        * r.eruditionTeammate
+      const eruditionStackMultiplier = r.eruditionTeammate
         ? Math.min(2, countTeamPath(context, PathNames.Erudition))
         : 1
+      const enhancedSkillStackScaling = talentStackScaling
+        * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
+        * eruditionStackMultiplier
+
       x.SKILL_ATK_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), SOURCE_SKILL)
       x.SKILL_DMG_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, SOURCE_TRACE)
       x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)

@@ -506,7 +506,7 @@ function generateStatImprovements(
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
 
-  console.log('Stat improvements', mainUpgradeResults)
+  // console.log('Stat improvements', mainUpgradeResults)
 
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }

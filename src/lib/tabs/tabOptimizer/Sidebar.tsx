@@ -479,13 +479,13 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       </Flex>
 
       {!props.isFullSize
-        && (
-          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-            <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
-            <ComputeEngineSelect/>
-            <ProgressDisplay/>
-          </Flex>
-        )}
+      && (
+        <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+          <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
+          <ComputeEngineSelect/>
+          <ProgressDisplay/>
+        </Flex>
+      )}
     </Flex>
   )
 }

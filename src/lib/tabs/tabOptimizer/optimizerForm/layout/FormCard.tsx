@@ -9,13 +9,13 @@ export const cardShadowNonInset = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rg
 const defaultGap = 5
 
 const smallWidth = panelWidth
-const narrowWidth = 233
-const mediumWidth = 373
+const narrowWidth = 242
+const mediumWidth = 390
 const largeWidth = 1183
 
 const dimsBySize: Record<string, number> = {
   small: smallWidth,
-  narrow: 233,
+  narrow: narrowWidth,
   medium: mediumWidth,
   large: largeWidth,
 }
@@ -44,17 +44,12 @@ export default function FormCard(props: {
       }}
     >
       <Flex
+        vertical
         style={{ width: width }}
+        gap={defaultGap}
         justify={props.justify ?? undefined}
       >
-        <Flex
-          vertical
-          style={{ width: width }}
-          gap={defaultGap}
-          justify={props.justify ?? undefined}
-        >
-          {props.children}
-        </Flex>
+        {props.children}
       </Flex>
     </Flex>
   )

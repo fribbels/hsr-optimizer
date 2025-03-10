@@ -86,7 +86,7 @@ export function RelicPreview(props: {
       hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
       onClick={cardClicked}
       style={{
-        width: 200,
+        width: 207,
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,

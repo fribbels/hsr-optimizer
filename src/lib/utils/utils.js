@@ -136,8 +136,8 @@ export const Utils = {
       const minDataLength = 1200000
       const maxAttempts = isMobileOrSafari ? 9 : 3
       const scale = 1.5
-      const w = 1068 * scale
-      const h = 856 * scale
+      const w = 1100 * scale
+      const h = 880 * scale
 
       const options = {
         pixelRatio: 1,

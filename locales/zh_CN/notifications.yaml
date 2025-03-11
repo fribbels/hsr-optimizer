@@ -5,7 +5,7 @@ GPU:
     l2: "Windows 和 Mac — Chrome，Opera，Edge"
     l3: >-
       Linux — <CustomLink text="在标志后"/>
-    l4: "如果你正在使用所支持的浏览器但仍然无法使用GPU加速，请尝试其他浏览器，或尝试切换你的浏览器使用独立显卡而不是集成显卡"
+    l4: "如果你使用着受支持的浏览器但依然无法运行，首先尝试更新浏览器版本，否则请尝试更换浏览器，或将浏览器切换为使用独立显卡而非集成显卡。"
 GPUCrash:
   Message: WebGPU 错误
   Description:

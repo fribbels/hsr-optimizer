@@ -30,6 +30,7 @@ SortOptions:
   ULT: crwdns42694:0crwdne42694:0
   FUA: crwdns42696:0crwdne42696:0
   MEMO_SKILL: crwdns42698:0crwdne42698:0
+  MEMO_TALENT: crwdns44758:0crwdne44758:0
   DOT: crwdns42700:0crwdne42700:0
   BREAK: crwdns42702:0crwdne42702:0
   HEAL: crwdns42704:0crwdne42704:0
@@ -119,6 +120,8 @@ Grid:
         crwdns42842:0crwdne42842:0
       MEMO_SKILL: |-
         crwdns42844:0crwdne42844:0
+      MEMO_TALENT: |-
+        crwdns44760:0crwdne44760:0
       DOT: |-
         crwdns42846:0crwdne42846:0
       BREAK: |-
@@ -154,6 +157,8 @@ Grid:
         crwdns42892:0crwdne42892:0
       MEMO_SKILL: |-
         crwdns42894:0crwdne42894:0
+      MEMO_TALENT: |-
+        crwdns44762:0crwdne44762:0
       DOT: |-
         crwdns42896:0crwdne42896:0
       BREAK: |-
@@ -294,8 +299,9 @@ SetConditionals:
     Watchmaker: crwdns43078:0crwdne43078:0
     Valorous: crwdns43080:0crwdne43080:0
     Differentiator: crwdns43082:0crwdne43082:0
+    Penacony: crwdns44792:0crwdne44792:0
     Sigonia: crwdns43084:0crwdne43084:0
-    Izumo: crwdns43086:0crwdne43086:0
+    Izumo: crwdns44794:0crwdne44794:0
     Duran: crwdns43088:0crwdne43088:0
     Kalpagni: crwdns43090:0crwdne43090:0
     Lushaka: crwdns43092:0crwdne43092:0
@@ -406,6 +412,7 @@ ComboFilter:
     Ult: crwdns43274:0crwdne43274:0
     Fua: crwdns43276:0crwdne43276:0
     MemoSkill: crwdns43278:0crwdne43278:0
+    MemoTalent: crwdns44764:0crwdne44764:0
   RotationButton: crwdns43280:0crwdne43280:0
 ComboDrawer:
   NoConditionals: crwdns43282:0crwdne43282:0
@@ -540,6 +547,7 @@ ExpandedDataPanel:
       DOT_DMG: crwdns44724:0crwdne44724:0
       BREAK_DMG: crwdns44726:0crwdne44726:0
       MEMO_SKILL_DMG: crwdns44728:0crwdne44728:0
+      MEMO_TALENT_DMG: crwdns44766:0crwdne44766:0
     TooltipText:
       abilityDmg: crwdns44730:0crwdne44730:0
       breakDmg: crwdns44732:0crwdne44732:0

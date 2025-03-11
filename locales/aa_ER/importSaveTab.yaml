@@ -9,12 +9,19 @@ Import:
     InvalidFile: crwdns42006:0crwdne42006:0
     InvalidJson: crwdns42008:0crwdne42008:0
     Fragment: "crwdns42010:0crwdne42010:0"
+  ParserError:
+    BadSource: crwdns44774:0{{jsonSource}}crwdnd44774:0{{configSource}}crwdne44774:0
+    BadVersion: crwdns44776:0{{jsonVersion}}crwdnd44776:0{{configVersion}}crwdne44776:0
+    OutdatedVersion: "crwdns44778:0{{buildVersion}}crwdne44778:0"
+    BadMainstat: crwdns44780:0{{mainstat}}crwdnd44780:0{{part}}crwdne44780:0
+  ParserWarning:
+    BadRollInfo: crwdns44782:0crwdne44782:0
   Stage1:
     Header: "crwdns42012:0crwdne42012:0"
     ReliquaryDesc:
       Title: crwdns42014:0crwdne42014:0
       Link: crwdns42016:0crwdne42016:0
-      OnlineMsg: "crwdns42018:0{{version}}crwdne42018:0"
+      OnlineMsg: "crwdns44798:0{{version}}crwdne44798:0"
       OfflineMsg: "crwdns42020:0{{version}}crwdne42020:0"
       l1: crwdns42022:0crwdne42022:0
       l2: crwdns42024:0crwdne42024:0

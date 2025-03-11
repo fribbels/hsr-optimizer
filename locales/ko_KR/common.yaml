@@ -165,6 +165,7 @@ DMGTypes:
   ULT: 필살기 피해량
   FUA: 추가 공격 피해량
   MEMO_SKILL: 기억정령 스킬 피해량
+  MEMO_TALENT: 기억정령 특성 데미지
   DOT: 지속 피해량
   BREAK: 격파 피해량
   CV: 치명타 계수
@@ -174,6 +175,7 @@ ShortDMGTypes:
   Ult: 필살기 피해량
   Fua: 추가 공격 피해량
   Memo_Skill: 전투 스킬 피해량
+  Memo_Talent: 기억정령 특성 데미지
   Dot: 지속 피해량
   Break: 격파 피해량
   CV: 치명타 계수

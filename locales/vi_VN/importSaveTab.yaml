@@ -14,7 +14,6 @@ Import:
     ReliquaryDesc:
       Title: (Khuyên dùng) IceDynamix Reliquary Archiver
       Link: Github
-      OnlineMsg: "Trạng thái: Đã cập nhật cho phiên bản {{version}} — Hãy tải bản cập nhật mới."
       OfflineMsg: "***** Trạng thái: Đang bảo trì cho phiên bản {{version}} *****"
       l1: Tốc độ có số thập phân chuẩn, scan ngay lập tức
       l2: Nhập toàn bộ Túi và Danh sách nhân vật

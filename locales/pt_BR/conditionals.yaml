@@ -547,9 +547,8 @@ Lightcones:
           Aumenta o DMG do portador quando ele usa seu Ultimate em {{Multiplier}}% da DEF do portador. Esse efeito se aplica apenas 1 vez por alvo inimigo durante cada uso do Ultimate do portador.
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: Energia máxima
-        content: Após entrar em batalha, aumenta o dano do portador com base em sua Energia Máxima. O dano aumenta em {{DmgStep}}% por ponto de Energia, até um máximo de 160 Energia.
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -663,8 +662,8 @@ Characters:
         text: Acúmulos de Nó Carmesim
         content: >-
           Chuva de Lâminas: Causa DMG de Relâmpago igual a {{RainbladeScaling}}% do ATK de Acheron a um único inimigo alvo e remove até 3 acúmulos de Crimson Knot do alvo. Quando o Nó Carmesim é removido, causa imediatamente DMG de Relâmpago igual a {{CrimsonKnotScaling}}% do ATK de Acheron a todos os inimigos. Para cada acúmulo de Crimson Knot removido, o Multiplicador de DMG para isso é adicionalmente aumentado.::BR::Quando a Chuva de Lâminas de Acheron atinge alvos inimigos com o Nó Carmesim, seu DMG aumenta em 30%, acumulando até 3 vezes.
-      nihilityTeammates:
-        text: Companheiros de Nihility
+      nihilityTeammatesBuff:
+        text: Buff de aliados Inexistência
         content: >-
           Quando houver 1 ou 2 personagens de Nihility além de Acheron na equipe, o DMG causado pelo ATK Básico, Habilidade e Ultimate de Acheron aumenta para 115% ou 160% do DMG original, respectivamente.::BR::E2: O número de personagens de Nihility necessário para que o Traço do Abismo atinja seu efeito mais alto é reduzido em 1. Quando o turno desta unidade começa, ganha 1 ponto de Sonho Cortado e inflige 1 acúmulo de Nó Carmesim no inimigo com mais acúmulos de Nó Carmesim.
       thunderCoreStacks:
@@ -1553,8 +1552,8 @@ Characters:
         text: Acúmulos de DMG do Talento
         content: >-
           Sempre que um aliado consome 1 Ponto de Habilidade, o DMG de todos os aliados aumenta em {{talentBaseStackBoost}}%. Esse efeito dura por 2 turnos e pode acumular até 3 vezes.::BR::E2: Cada acúmulo do Talento permite que os aliados ignorem 8% da DEF do alvo inimigo ao causar DMG.
-      quantumAllies:
-        text: Aliados Quantum
+      quantumAlliesAtkBuff:
+        text: Buff de aliados Quantum
         content: Quando há 1/2/3 aliados Quantum em sua equipe, o ATK dos aliados do Tipo Quantum é aumentado em 5%/15%/30%.
     TeammateContent:
       teammateCDValue:

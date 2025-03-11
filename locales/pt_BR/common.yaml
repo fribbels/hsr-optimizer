@@ -165,6 +165,7 @@ DMGTypes:
   ULT: Dano de Perícia Suprema
   FUA: Dano FuA
   MEMO_SKILL: Dano Perícia Memo
+  MEMO_TALENT: Dano de Talento do Memo
   DOT: Dano DoT
   BREAK: Dano Quebra
   CV: CV
@@ -174,6 +175,7 @@ ShortDMGTypes:
   Ult: Dano Ult
   Fua: Dano FuA
   Memo_Skill: Dano Períciaᴹ
+  Memo_Talent: Dano Talentoᴹ
   Dot: Dano DoT
   Break: Dano Break
   CV: CV

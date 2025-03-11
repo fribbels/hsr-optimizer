@@ -9,12 +9,19 @@ Import:
     InvalidFile: Fichier de scanner est invalide
     InvalidJson: JSON invalide
     Fragment: "Erreur a eu lieu lors de la lecture du fichier: "
+  ParserError:
+    BadSource: La source était incorrecte! recu '{{jsonSource}}', attendait '{{configSource}}'
+    BadVersion: La version était incorrecte! recu '{{jsonVersion}}', attendait '{{configVersion}}'
+    OutdatedVersion: "La version {{buildVersion}} de votre scanner est obsolète et peut entraîner des importations incorrectes! Veuillez mettre à jour vers la dernière version de Github:"
+    BadMainstat: Impossible de lire la relique avec mainstat {{mainstat}} et partie {{part}}
+  ParserWarning:
+    BadRollInfo: Le fichier du scanner est obsolète / peut contenir des informations non valides. Veuillez mettre à jour votre scanner.
   Stage1:
     Header: "Installez et lancez l'une des options de scanner de reliques :"
     ReliquaryDesc:
       Title: IceDynamix Reliquary Archiver (Recommandé)
       Link: Github
-      OnlineMsg: "Statut : Mis à jour pour le patch {{version}} — Nouveau téléchargement requis"
+      OnlineMsg: "Statut : Mis à jour pour la version {{version}}"
       OfflineMsg: "***** Statut: En panne pour entretien après le patch {{version}} *****"
       l1: Decimaux de vitesse exacts, scan instantané
       l2: Importe l'inventaire complet ainsi que tous les personnages

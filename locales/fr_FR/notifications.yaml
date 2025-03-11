@@ -5,7 +5,7 @@ GPU:
     l2: "Windows & Mac — Chrome, Opera, Edge"
     l3: >-
       Linux — <CustomLink text="Derrière un indicateur"/>
-    l4: "Si vous êtes sur un navigateur supporté mais l'optimisation GPU ne fonctionne pas, essayez un autre navigateur ou changez vos paramètres de navigateur afin d'utiliser votre GPU dédié au lieu du GPU intégré"
+    l4: "Si vous êtes sur un navigateur supporté mais l'optimisation GPU ne fonctionne pas, essayez d'abord de mettre à jour votre navigateur, sinon essayez un autre navigateur ou changez vos paramètres de navigateur afin d'utiliser votre GPU dédié au lieu du GPU intégré"
 GPUCrash:
   Message: Erreur WebGPU
   Description:

@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "Filtre de minimum de Rupture effacé"
       Description: "Dégâts minimum de rupture est peut-être trop élevé"
       ButtonText: "Effacer le filtre de minimum de Rupture"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "Filtre de maximum de compétence de mnémesprit effacé"
+      Description: "Dégâts maximum de compétence de mnémesprit est peut-être trop bas"
+      ButtonText: "Filtre de maximum de compétence de mnémesprit effacé"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "Filtre de minimum de compétence de mnémesprit effacé"
+      Description: "Dégâts minimum de compétence de mnémesprit est peut-être trop élevé"
+      ButtonText: "Filtre de minimum de compétence de mnémesprit effacé"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "Filtre de maximum de talent de mnémesprit effacé"
+      Description: "Dégâts maximum de talent de mnémesprit est peut-être trop bas"
+      ButtonText: "Filtre de maximum de talent de mnémesprit effacé"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "Filtre de minimum de talent de mnémesprit effacé"
+      Description: "Dégâts minimum de talent de mnémesprit est peut-être trop élevé"
+      ButtonText: "Filtre de minimum de talent de mnémesprit effacé"
     MAX_HEAL:
       SuccessMessage: "Filtre de maximum de SOIN effacé"
       Description: "Le maximum de SOIN est peut-être trop bas"

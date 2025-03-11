@@ -30,6 +30,7 @@ SortOptions:
   ULT: Trié par DGT d'Ult
   FUA: Trié par DGT de Suivie
   MEMO_SKILL: Trié par DGT de Mnémesprit
+  MEMO_TALENT: Trié par Dégâts de Talentᴹ
   DOT: Trié par DGT sur Delai
   BREAK: Trié par DGT de Rupture
   HEAL: Trié par Soin
@@ -124,7 +125,10 @@ Grid:
         ADS
       MEMO_SKILL: |-
         DGT
-        MNÉM
+        COMPᴹ
+      MEMO_TALENT: |-
+        DGT
+        TALENTᴹ
       DOT: |-
         DGT
         DSD
@@ -169,6 +173,9 @@ Grid:
       MEMO_SKILL: |-
         DGT
         COMPᴹ
+      MEMO_TALENT: |-
+        DGT
+        TALENTᴹ
       DOT: |-
         DGT
         DSD
@@ -312,8 +319,9 @@ SetConditionals:
     Watchmaker: Lorsque cette option est sélectionnée, le buff d'effet Rupture sera appliqué au calcul des stats de combat.
     Valorous: Le buff de Taux de CRIT est toujours activée par défaut. Le buff sélectionné est appliqué au calcul de dégâts en fonction du nombre de cumuls.
     Differentiator: Lorsque cette option est sélectionnée, le buff de Taux de CRIT sera appliqué au calcul des stats de combat.
+    Penacony: Lorsque cette option est sélectionnée, le bonus DGT% s'appliquera au mnémesprit du porteur.
     Sigonia: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat, en supposant que le personnage ait vaincu ce nombre d'ennemis.
-    Izumo: Lorsque cette option est sélectionnée, suppose qu'il existe un allié du même chemin dans l'équipe, et applique un buff de Taux de Crit de 12% lors du calcul des stats de combat.
+    Izumo: Lorsque cette option est sélectionnée, s'il existe un allié du même chemin dans l'équipe, applique un buff de Taux de Crit de 12% lors du calcul des stats de combat.
     Duran: Le buff sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
     Kalpagni: Lorsque cette option est activée, applique le buff d'Effet de Rupture au calcul des stats de combat.
     Lushaka: Le buff sélectionné est appliqué au calcul des stats de combat.
@@ -398,7 +406,7 @@ MinMaxFilters:
   SKILLLabel: COMP.
   ULTLabel: ULT
   FUALabel: ADS
-  MEMOSKILLLabel: MNÉM
+  MEMOSKILLLabel: COMPᴹ
   DOTLabel: DSD
   BREAKLabel: RUPTURE
   HEALLabel: SOIN
@@ -423,7 +431,8 @@ ComboFilter:
     Skill: Comp
     Ult: Ult
     Fua: Ads
-    MemoSkill: Mném
+    MemoSkill: Compᴹ
+    MemoTalent: Talentᴹ
   RotationButton: Rotation avancée
 ComboDrawer:
   NoConditionals: Pas de passifs conditionnels
@@ -517,8 +526,8 @@ StatSimulation:
 ExpandedDataPanel:
   BuffsAnalysisDisplay:
     Sources:
-      Basic: Norm
-      Skill: Comp
+      Basic: Normale
+      Skill: Compétence
       Ult: Ult
       Talent: Talent
       Technique: Technique
@@ -557,7 +566,8 @@ ExpandedDataPanel:
       FUA_DMG: Ads
       DOT_DMG: DsD
       BREAK_DMG: Rupture
-      MEMO_SKILL_DMG: Mném
+      MEMO_SKILL_DMG: Compᴹ
+      MEMO_TALENT_DMG: Talentᴹ
     TooltipText:
       abilityDmg: DGT de Capacité
       breakDmg: DGT Rupture

@@ -7,6 +7,14 @@ StrategyLabels:
   E4: 4凸優先
   E5: 5凸優先
   E6: 完凸優先
+EidolonLevels:
+  NONE: なし
+  E1: 1凸
+  E2: 2凸
+  E4: 4凸
+  E6: 6凸
+SuperimpositionLevels:
+  NONE: なし
 IncomeOptions:
   Label: "［ver{{versionNumber}}（{{phaseNumber}}/2）｜{{type}}］："
   Type:

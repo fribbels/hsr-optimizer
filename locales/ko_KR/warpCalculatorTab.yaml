@@ -7,6 +7,14 @@ StrategyLabels:
   E4: 4돌 우선
   E5: 5돌 우선
   E6: 6돌 우선
+EidolonLevels:
+  NONE: 없음
+  E1: 1돌
+  E2: 2돌
+  E4: 4돌
+  E6: 6돌
+SuperimpositionLevels:
+  NONE: 없음
 IncomeOptions:
   Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:

@@ -103,8 +103,6 @@ CharacterPreview:
     Roll: Roll
     Damage: Sát thương
   BuildAnalysis:
-    ScoringNote: "Lưu ý: Điểm DPS và Sát thương Kết hợp (ST Combo) là các thước đo điểm số cho một vòng kỹ năng duy nhất, không dùng để so sánh giữa các đội"
-    Header: Phân tích lối lên đồ nhân vật
     SimulationTeammates: Đồng đội thí nghiệm
     SimulationSets: Bộ dị vật thí nghiệm
     Rotation:

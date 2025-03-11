@@ -165,6 +165,7 @@ DMGTypes:
   ULT: crwdns40108:0crwdne40108:0
   FUA: crwdns40110:0crwdne40110:0
   MEMO_SKILL: crwdns40112:0crwdne40112:0
+  MEMO_TALENT: crwdns44754:0crwdne44754:0
   DOT: crwdns40114:0crwdne40114:0
   BREAK: crwdns40116:0crwdne40116:0
   CV: crwdns40118:0crwdne40118:0
@@ -174,6 +175,7 @@ ShortDMGTypes:
   Ult: crwdns40124:0crwdne40124:0
   Fua: crwdns40126:0crwdne40126:0
   Memo_Skill: crwdns40128:0crwdne40128:0
+  Memo_Talent: crwdns44756:0crwdne44756:0
   Dot: crwdns40130:0crwdne40130:0
   Break: crwdns40132:0crwdne40132:0
   CV: crwdns40134:0crwdne40134:0

@@ -535,7 +535,7 @@ Lightcones:
           使装备者施放终结技时造成的伤害值提高，提高数值等同于装备者防御力的{{Multiplier}}%，该效果每次施放终结技时对每个敌方目标仅生效1次。
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: 最大能量
         content: 进入战斗后，根据装备者的能量上限，提高装备者造成的伤害：每点能量提高{{DmgStep}}%，最多计入160点。
   UnderTheBlueSky:
@@ -651,8 +651,8 @@ Characters:
         text: 集真赤层数
         content: >-
           【啼泽雨斩】：对指定敌方单体造成等同于黄泉攻击力{{RainbladeScaling}}%的雷属性伤害，并消去目标最多3层【集真赤】。消去【集真赤】时，立即对敌方全体造成等同于黄泉{{CrimsonKnotScaling}}%每消去1层【集真赤】本次伤害倍率额外提高。::BR::终结技的【啼泽雨斩】击中持有【集真赤】的敌方目标时，使黄泉造成的伤害提高30%，该效果最多叠加3层。
-      nihilityTeammates:
-        text: 虚无队友数量
+      nihilityTeammatesBuff:
+        text: 虚无队友增益
         content: >-
           我方队伍中存在1名/2名除黄泉之外的「虚无」命途角色时，使黄泉普攻、战技、终结技造成的伤害为原伤害的115%/160% 。::BR::2魂：行迹【奈落】最高数值所需求「虚无」命途角色的数量减少1名，自身回合开始时获得1点【残梦】，同时为【集真赤】最多的敌方附上1层【集真赤】。
       thunderCoreStacks:
@@ -1541,8 +1541,8 @@ Characters:
         text: 天赋增伤层数
         content: >-
           当我方目标每消耗1点战技点，则使我方全体造成的伤害提高{talentBaseStackBoost}}%，该效果持续2回合，最多可叠加3层。::BR::2魂：天赋每层效果额外使我方目标造成伤害时无视目标8%的防御力。
-      quantumAllies:
-        text: 量子属性队友数量
+      quantumAlliesAtkBuff:
+        text: 量子队友攻击力增益
         content: 当我方队伍中存在1名/2名/3名量子属性的角色时，我方量子属性的角色的攻击力额外提高5%/15%/30%。
     TeammateContent:
       teammateCDValue:

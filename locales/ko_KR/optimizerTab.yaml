@@ -30,6 +30,7 @@ SortOptions:
   ULT: 필살기 데미지 순으로 정렬
   FUA: 추가 공격 데미지 순으로 정렬
   MEMO_SKILL: 기억 정렬 데미지 순으로 정렬
+  MEMO_TALENT: 기억정령 특성 데미지 정렬
   DOT: 지속 피해 순으로 정렬
   BREAK: 격파 데미지 순으로 정렬
   HEAL: 치유량 순으로 정렬
@@ -125,6 +126,9 @@ Grid:
       MEMO_SKILL: |-
         기억 정령
         데미지
+      MEMO_TALENT: |-
+        기억정령 특성
+        데미지
       DOT: |-
         지속
         피해
@@ -168,6 +172,9 @@ Grid:
         데미지
       MEMO_SKILL: |-
         기억 정령
+        데미지
+      MEMO_TALENT: |-
+        기억정령 특성
         데미지
       DOT: |-
         지속
@@ -313,7 +320,6 @@ SetConditionals:
     Valorous: 치명타 확률 버프는 기본적으로 항상 켜져 있습니다. 선택한 버프는 스택 수에 따른 데미지 계산에 적용됩니다.
     Differentiator: 활성화되면 전투 스텟에 치명타 확률 버프가 적용됩니다.
     Sigonia: 선택된 치명타 데미지 버프는 캐릭터가 적을 물리쳤다고 가정하여 전투 스텟에 적용됩니다
-    Izumo: 활성화되면 동일한 운명의 길을 가진 다른 팀이 있다고 가정하고 전투 스텟에 12% 치명타 확률 버프를 적용합니다.
     Duran: 선택된 버프는 스택 수에 따른 피해 계산에 적용됩니다.
     Kalpagni: 활성화되면 격파 특수효과 버프를 적용하여 전투 스텟에 적용됩니다.
     Lushaka: 선택한 버프가 피해 계산에 적용됩니다.
@@ -424,6 +430,7 @@ ComboFilter:
     Ult: 필살기
     Fua: 추가 공격
     MemoSkill: 소환물 데미지
+    MemoTalent: 기억정령 특성
   RotationButton: 고급 사이클
 ComboDrawer:
   NoConditionals: 조건부 패시브 없음
@@ -558,6 +565,7 @@ ExpandedDataPanel:
       DOT_DMG: 지속피해
       BREAK_DMG: 격파
       MEMO_SKILL_DMG: 소환물 데미지
+      MEMO_TALENT_DMG: 기억정령 특성
     TooltipText:
       abilityDmg: 특성 피해
       breakDmg: 격파 피해량

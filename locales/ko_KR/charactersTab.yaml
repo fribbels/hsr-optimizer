@@ -103,8 +103,6 @@ CharacterPreview:
     Roll: 유효옵
     Damage: 피해량
   BuildAnalysis:
-    ScoringNote: "주의:  DPS 점수 및 콤보 데미지는 단일 스킬 회전에 대한 평가 척도로, 다른 팀 편성 간 비교를 위한 것이 아닙니다."
-    Header: 캐릭터 빌드 분석
     SimulationTeammates: 시뮬레이션 파티
     SimulationSets: 시뮬레이션 세팅
     Rotation:
@@ -114,6 +112,7 @@ CharacterPreview:
       ULT: 필살기
       FUA: 추가 공격
       MEMO_SKILL: 기억 정령 스킬
+      MEMO_TALENT: 기억정령 특성
       DOTS: "지속 피해:"
       BREAKS: "격파 피해:"
     CombatResults:
@@ -131,6 +130,8 @@ CharacterPreview:
         FUA: 추가 공격 피해량
         DOT: 지속 피해량
         BREAK: 격파 피해량
+        MEMO_SKILL: 기억정령 전스 데미지
+        MEMO_TALENT: 기억정령 특성 데미지
         COMBO: 사이클 총 피해량
     CombatBuffs:
       Header: 전투 중 버프

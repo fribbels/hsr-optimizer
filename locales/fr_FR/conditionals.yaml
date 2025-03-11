@@ -535,7 +535,7 @@ Lightcones:
           Augmente les DGT du porteur de {{Multiplier}}% de sa DÉF lorsqu'il utilise son ultime. Cet effet ne s'applique qu'une fois par cible ennemie.
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: Énergie maximale
         content: Après être entré en combat, les DGT du porteur augmentent en fonction de son énergie max. Les DGT augmentent de {{DmgStep}}% par point d'énergie jusqu'à un maximum de 160 points.
   UnderTheBlueSky:
@@ -651,8 +651,8 @@ Characters:
         text: Cumuls d'Étreinte écarlate
         content: >-
           Lame de pluie : Inflige des DGT de foudre équivalents à {{RainbladeScaling}}% de l'ATQ d'Achéron à une cible ennemie unique et supprime jusqu'à 3 cumuls d'Étreinte écarlate à la cible. Lorsque l'effet Étreinte écarlate est supprimé, inflige immédiatement des DGT de foudre équivalents à {{CrimsonKnotScaling}}% de l'ATQ d'Achéron à tous les ennemis. Le multiplicateur de cette instance de DGT augmente pour chaque cumul d'Étreinte écarlate supprimé.::BR::Augmente de 30% les DGT d'Achéron lorsque la Lame de pluie de son ultime touche des cibles ennemies affectées par Étreinte écarlate, cumulable 3 fois.
-      nihilityTeammates:
-        text: Coéquipiers Nihilité
+      nihilityTeammatesBuff:
+        text: Bonus Coéquipiers Nihilité
         content: >-
           Lorsqu'il y a 1 ou 2 personnages de la Nihilité autres qu'Achéron dans l'équipe, les DGT infligés par l'ATQ normale, la compétence et l'ultime d'Achéron augmentent respectivement à hauteur de 115% ou 160% des DGT initiaux.::BR::E2:Réduit de 1 le nombre de personnages devant suivre la Voie de la Nihilité pour obtenir la valeur la plus élévée de la Trace Abîme. Achéron gagne 1 point de Rêve flétri au début de son tour et applique 1 cumul d'Étreinte écarlate à l'ennemi qui a le plus de cumuls d'Étreinte écarlate.
       thunderCoreStacks:
@@ -1541,9 +1541,9 @@ Characters:
         text: Cumuls de bonus de DGT du talent
         content: >-
           Chaque fois qu'un allié utilise 1 point de compétence, les DGT infligés par tous les alliés augmentent de {talentBaseStackBoost}%. Cet effet dure 2 tours et peut être cumulé jusqu'à 3 fois.::BR::E2: Chaque cumul de l'effet du talent permet aux alliés d'ignorer 8% de la DÉF de la cible lorsqu'ils infligent des DGT.
-      quantumAllies:
-        text: Alliés quantiques
-        content: Lorsqu'il y a 1/2/3 alliés de type quantique dans l'équipe, l'ATQ des alliés de type quantique augmente de 5%/15%/30%.
+      quantumAlliesAtkBuff:
+        text: Bonus d'ATQ pour alliés Quantiques
+        content: Lorsqu'il y a 1/2/3 alliés de type quantique dans l'équipe, l'ATQ des alliés de type Quantique augmente de 5%/15%/30%.
     TeammateContent:
       teammateCDValue:
         text: DC en combat de Sparkle

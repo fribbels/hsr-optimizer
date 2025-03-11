@@ -179,7 +179,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
 
       x.MEMO_BASE_SPD_FLAT.buff(165, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(32000, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(36000, SOURCE_MEMO)
 
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 1 ? memoSkillScaling1 : 0, SOURCE_MEMO)
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)

@@ -42,8 +42,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     enemyWeaknessTypes: 7,
     e1DefPen: true,
     e2ResPen: true,
-    e4AtkBuffStacks: 3,
-    e6FinalDmgStacks: 5,
+    e4AtkBuffStacks: 2,
+    e6FinalDmgStacks: 3,
   }
 
   const teammateDefaults = {

@@ -76,7 +76,6 @@ CharacterPreview:
     Roll: Прок
     Damage: Урон
   BuildAnalysis:
-    Header: Анализ сборки персонажей
     SimulationTeammates: Состав команды
     SimulationSets: Набор реликвий
     Rotation:

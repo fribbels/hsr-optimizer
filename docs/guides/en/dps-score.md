@@ -1,27 +1,35 @@
 # DPS Score
 
+## TLDR
+
+*DPS score compares a build's damage in a single ability rotation against simulated benchmark builds with ideal substat distributions, mirroring the same team / eidolons / superimpositions / speed. The percentage reflects how close the relics are to perfection, where 100% is a strong endgame build, and 200% is the best possible build with absolute perfect relics.*
+
+*The score and Combo DMG are measured relative only to the chosen team setup and should not be used to compare across different configurations.*
+
+See the [#FAQs](https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md#faqs) section for common questions.
+
+<img width="1091" alt="image" src="https://github.com/user-attachments/assets/f1a888f6-2277-4d77-a3f3-5682c0f27dbb" />
+
 ## What is DPS Score?
 
-DPS Score is a damage calculation based metric for scoring how optimal the character's relics are for
-maximizing damage in combat.
+DPS Score is a damage based metric for scoring how optimal the character's relics are for maximizing damage in the given team configuration.
 
-This score is calculated by using the optimizer to simulate the character's combat stats and rates the build based on
-how much the relics contribute to damage, for a more accurate evaluation than scores based solely on stat weights.
+This score is calculated by simulating the character’s combat stats through the optimizer and comparing the build’s damage performance to generated benchmark builds. 
+By measuring actual damage output rather than just counting substats, this score gives a more accurate evaluation of build quality than other scores based solely on stat weights.
 
 The scoring calculation takes into consideration:
 
 * Character eidolons / light cone / superimpositions
 * Teammate eidolons / light cone / superimpositions
-* Combat passives and buffs from abilities and light cones
-* Team composition and teammate buffs
+* Combat passives and buffs from abilities / light cones
 * Character ability rotations
 * Stat breakpoints
 * Stat overcapping
 * Relic set effects
-* Super break
+* Super break, memosprites, all other damage types
 * ...etc
 
-Note: This does not take into consideration:
+Note: The score calculation does *not* take into consideration:
 
 * Action advances and turn manipulation
 * Energy regeneration
@@ -29,34 +37,33 @@ Note: This does not take into consideration:
 
 ## How is it calculated?
 
-At its heart, this score is calculated using a Basic / Skill / Ult / FuA / DoT / Break ability damage rotation
-predefined per character. These simulations use the optimizer's default conditional settings for the character /
-teammates / light cones / relic sets, and the damage sum is then used to compare between builds.
+Damage is calculated using a predefined ability rotation for each character, based on the optimizer’s default conditional settings for teammates, light cones, and relic sets. 
+The resulting total damage, labeled "Combo DMG" is then used to compare builds.
+
+<img width="1117" alt="image" src="https://github.com/user-attachments/assets/07fdccc5-bd9a-4950-9f7f-03cef39ed3c9" />
 
 ### Simulation benchmarks
 
-The scoring algorithm generates three builds to measure the damage of the original character against.
+The scoring algorithm generates three benchmark builds to compare Combo DMG against:
 
-* Baseline (0%) - No substats, no main stats
+* Baseline (0%) - No substats, no optional main stats
 * Benchmark (100%) - A strong build, generated following certain rules with a realistic distribution of 48x min rolls
 * Perfection (200%) - The perfect build, generated with an ideal distribution of 54x max rolled substats
 
-The original character's build is scored based on how its Combo DMG compares to the benchmark percentages.The benchmark
-and perfection builds will always match the original character's SPD.
+The 100% benchmark and 200% benchmark will match the original character's SPD.
 
 ### 100% benchmark ruleset
 
-The 100% benchmark character is designed to be a strong and realistic build that is difficult to reach, but attainable
-with some character investment into relic farming. The following ruleset defines how the build is generated and why it
-differs from the perfect build.
+The 100% benchmark character is designed as a strong yet realistic build that is difficult to reach, but can be achieved 
+with reasonable investment in relic farming. The following ruleset defines how the build is generated and how it differs from the perfect build.
 
 * The default damage simulation uses a common team composition and the character's BiS relic + ornament set
-* The 100% benchmark uses the same eidolon and superimposition as the original character, at level 80 and maxed traces
-* The 100% benchmark has 4 main stats and 48 total substats: 8 from each gear slot
+* The 100% benchmark uses the same eidolons and superimpositions as the original character, at level 80 and maxed traces
+* The 100% benchmark has 6 main stats and 48 total substats: 8 from each gear slot
 * Each substat is equivalent to a 5 star relic's low roll value, except for SPD which uses mid rolls
-* First, 2 substats are allocated to each substat type, except for SPD
+* First, 2 substats are allocated to every substat type, except for SPD
 * Substats are then allocated to SPD to match the original character's in-combat SPD
-* The remaining substats are then distributed to the other stats options to maximize the build's damage output
+* The remaining substats are then distributed to the other substat options to maximize the build's damage output
 * The resulting build must be a substat distribution that is possible to make with the in-game sub and main stat
   restrictions (for example, relics with a main stat cannot also have the same substat, and no duplicate substat slots
   per piece, etc)
@@ -64,33 +71,36 @@ differs from the perfect build.
   simulate the difficulty of obtaining multiple rolls in a single stat
 
 This process is repeated through all the possible main stat permutations and substat distributions until the highest
-damage simulation is found. That build's damage is then used as the standard for a 100% DPS Score.
+damage simulation is found. Finally that build's Combo DMG is then used as the standard for a 100% DPS Score.
 
 ### 200% benchmark ruleset
 
 The 200% perfection character follows a similar generation process with a few differences.
 
 * 54x max roll substats
-* No diminishing returns penalty
+* No diminishing returns penalties
 * All substats are ideally distributed, but the build must still be possible to make
+
+<img width="950" alt="image" src="https://github.com/user-attachments/assets/466a4033-0909-4224-a11f-a27ab261cac1" />
+
 
 ### Score normalization
 
-All simulation scores are normalized by deducting a baseline damage simulation. The baseline uses the same eidolon and
-light cone, but no main stats and no substats. This adjusts for the base amount of damage that a character's kit deals,
+DPS score percentages are normalized by deducting a baseline damage simulation. The baseline benchmark (0%) uses the same relic sets and team setup, 
+but no body / feet / sphere / rope main stats, and no substats. This adjusts for the base amount of damage that a character's kit deals, 
 so that the DPS Score can then measure the resulting damage contribution of each additional substat.
 
 ### Relic / ornament sets
 
-Each character has a defined BiS set, and a few other equivalent sets that can be considered similar in performance. If
-the original character's sets matches any of the acceptable sets, the character will be scored against a benchmark
-generated matching that set, otherwise the original character will be scored against the BiS.
+Each character has a predefined BiS set, and potentially other sets that can be considered similar in performance. If
+the original character's sets matches any of the equivalent sets, the benchmarks will then also match that set, 
+otherwise the original character will be scored against the BiS. 
 
 ### Stat breakpoint penalty
 
 Certain characters will have breakpoints that are forced. For example, 120% combat EHR on Black Swan to maximize her
 passive EHR to DMG conversion, and to land Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score
-for the missing percentage. This penalty applies to both the original character and the benchmark simulations but not
+for the missing percentage. This penalty applies to both the original character and the simulated benchmark, but not
 the baseline.
 
 ### Formula
@@ -104,7 +114,7 @@ The resulting formula is:
 
 ## What are the grade thresholds?
 
-Grading is based on the benchmark as 100% and perfection as 200%.
+Grading is based on the benchmark as 100% and perfection as 200%. 
 
 ```
 * 150% - AEON  [Verified relics only]
@@ -113,7 +123,7 @@ Grading is based on the benchmark as 100% and perfection as 200%.
 * 121% - SSS+  ↑ 8%
 * 113% - SSS   ↑ 7%
 * 106% - SS+   ↑ 6%
-* 100% - SS    [Benchmark]
+* 100% - SS    [100% Benchmark]
 * 95% - S+
 * 90% - S
 * 85% - A+
@@ -128,20 +138,38 @@ Grading is based on the benchmark as 100% and perfection as 200%.
 * 40% - F
 ```
 
+Only real relics imported by the Reliquary Archiver or the Showcase tab are considered verified.
+
 ## FAQs
 
-### Why does the sim match speed?
+### Why does a build score lower compared to another build, even though it has higher Combo DMG?
+
+There are few possible reasons:
+* Team / Eidolon / Superimposition / Light cone difference - Combo DMG should not be compared across different configurations. Different setups will provide different combat buffs, which change the optimal distribution of substats. Combo DMG measures a single ability rotation and does not account for action advances, energy regen, etc across different teams.
+* Speed difference - The benchmark sims have to equalize speed, so if the higher damage build has lower speed, then it will be compared to
+benchmark builds at that same lower speed, and therefore may score lower. In general this means that the sim will reallocate every reduced speed roll into a damage stat instead. Use the Custom SPD Benchmark feature to equalize SPD breakpoints.
+* Relic set differences - Some relic sets are considered equivalent, when they can be optimal in certain scenarios, and the benchmarks will match those sets. For example, Eagle of Twilight Line is often less Combo DMG, but the 4p passive is often optimal in zero cycle scenarios.
+
+### Why did the score go down after upgrading an eidolon or superimposition?
+
+Different buffs from eidolons / superimpositions will change the value of each stat, and can change the optimal distribution of substats in the benchmarks.
+
+For an extreme example, suppose upgrading some character from E0 to E1 gave them +100% Crit Rate. Suddenly that would devalue all Crit Rate rolls on every relic because the character is already overcapped. If the relics don't change, the character's score would then decrease, because the simulated benchmarks will reallocate their substats to Crit DMG and ATK % rather than keep useless Crit Rate. 
+
+Note that lower score doesn't mean the build does less damage at E1 compared to E0, it means that the *relics are less optimal*.
+
+### Why does the simulation match speed?
 
 Speed is controlled separately from the other stats because damage isn't comparable between different speed thresholds.
 For example, higher speed can actually result in lower damage with Bronya as a teammate if the speed tuning is thrown
 off. To make damage comparisons fair, we equalize the speed variable by forcing the sim's substats to match the original
 character's combat speed.
 
-### Why does a build score lower even though it has higher Sim Damage?
+### Why are the scores different for different teams?
 
-The benchmark sims have to equalize speed, so if the higher damage build has lower speed, then it will be compared to
-benchmark builds at that same lower speed, and therefore may score lower. In general this means that the sim will
-reallocate every reduced speed roll into a damage stat instead.
+Team buffs and synergy will change the ideal benchmark simulation's score. For example, a benchmark sim with Fu Xuan on
+the team will invest more substats into Crit DMG instead of Crit Rate, since her passive Crit Rate will increase the value of Crit DMG rolls. 
+Teams should be customized to fit the actual teammates used for the character ingame for an accurate score.
 
 ### What's the reasoning behind the benchmark simulation rules?
 
@@ -156,14 +184,7 @@ hungry and require multiple stats to be effective, vs characters that only need 
 Applying diminishing returns to high stacking substats is a way to make the benchmark fair for characters that primarily
 scale off of a single stat, for example Boothill and break effect. The ideal distribution will want every relic roll to
 go into break effect, but stacking 5x rolls of a single stat on a relic is extremely rare / unrealistic in practice, so
-the simulation rules add diminishing returns to account for that.
-
-### Why are the scores different for different teams?
-
-Team buffs and synergy will change the ideal benchmark simulation's score. For example, a benchmark sim with Fu Xuan on
-the team may invest more substats into Crit DMG instead of Crit Rate since her passive Crit Rate will change the optimal
-distribution of crit rolls. Teams should be customized to fit the actual teammates used for the character ingame for an
-accurate score.
+the 100% simulation rules add diminishing returns to account for that.
 
 ### Why are certain stat breakpoints forced?
 
@@ -183,7 +204,7 @@ and feedback on the scoring design.
 ### Why is a character scoring low?
 
 The `Damage Upgrades` section will give a quick overview of the sets and stats that could be improved. Substat upgrades
-will show the damage increase for a single min roll. For a more detailed explanation, the full simulation is detailed
+will show the damage increase for a single max roll. For a more detailed explanation, the full simulation is detailed
 below the character card, including the benchmark character's stat distribution, basic stats, combat stats, and main
 stats. Comparing the original character's stats to the benchmark character's stats is helpful to show the difference in
 builds and see where to improve.

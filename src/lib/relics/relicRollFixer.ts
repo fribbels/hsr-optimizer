@@ -3,7 +3,7 @@ import { CharacterConverter } from 'lib/importer/characterConverter'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/relic'
+import { UnaugmentedRelic } from 'types/relic'
 
 let optimizerStatToJsonSubStat: Record<string, string>
 let optimizerStatToAffixStat: Record<string, string>
@@ -11,7 +11,7 @@ let optimizerPartToPartId: Record<string, string>
 let initialized = false
 
 export const RelicRollFixer = {
-  fixMainStatValue: (relic: Relic) => {
+  fixMainStatValue: <T extends UnaugmentedRelic>(relic: T) => {
     if (!initialized) RelicRollFixer.initialize()
 
     const enhance = relic.enhance

@@ -1,11 +1,14 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import {
+  BannerRotation,
   DEFAULT_WARP_REQUEST,
+  EidolonLevel,
   handleWarpRequest,
+  SuperimpositionLevel,
   WarpIncomeDefinition,
   WarpIncomeOptions,
   WarpIncomeType,
@@ -82,34 +85,41 @@ function Inputs() {
             </Title>
 
             <Flex vertical gap={16}>
-              <Flex gap={50} justify='space-between'>
-                <Flex align='flex-end' gap={8} flex={1}>
-                  <Flex vertical>
-                    <HeaderText>{t('Passes')/* Passes */}</HeaderText>
-                    <Form.Item name='passes'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false}/>
-                    </Form.Item>
-                  </Flex>
-
-                  <img src={Assets.getPass()} style={{ height: 32 }}/>
-                </Flex>
-
-
+              <Flex gap={25} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex vertical>
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false}/>
+                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getJade()} style={{ height: 24 }}/>}/>
                     </Form.Item>
                   </Flex>
-                  <img src={Assets.getJade()} style={{ height: 32 }}/>
+                </Flex>
+
+
+                <Flex vertical flex={1}>
+                  <HeaderText>{t('Banner')/* Banner */}</HeaderText>
+                  <Form.Item name='bannerRotation'>
+                    <Radio.Group buttonStyle='solid' block>
+                      <Radio.Button value={BannerRotation.NEW}>{t('New')}</Radio.Button>
+                      <Radio.Button value={BannerRotation.RERUN}>{t('Rerun')}</Radio.Button>
+                    </Radio.Group>
+                  </Form.Item>
                 </Flex>
               </Flex>
 
-              <Flex gap={20}>
+              <Flex gap={25}>
+                <Flex align='flex-end' gap={8} flex={1}>
+                  <Flex vertical>
+                    <HeaderText>{t('Passes')/* Passes */}</HeaderText>
+                    <Form.Item name='passes'>
+                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getPass()} style={{ height: 24 }}/>}/>
+                    </Form.Item>
+                  </Flex>
+                </Flex>
+
+
                 <Flex vertical flex={1}>
                   <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
-
                   <Form.Item name='strategy'>
                     <Select
                       options={generateStrategyOptions()}
@@ -142,6 +152,7 @@ function Inputs() {
           </Flex>
 
           <VerticalDivider width={40}/>
+
 
           <Flex vertical style={{ flex: 1 }} justify='space-between'>
             <Flex vertical>
@@ -333,8 +344,10 @@ function opacity(n: number) {
 
 function PityInputs(props: { banner: string }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])
+  const bannerRotation: BannerRotation = AntDForm.useWatch(['bannerRotation'])
+
   return (
-    <Flex gap={50} style={{ width: '100%' }}>
+    <Flex gap={25} style={{ width: '100%' }}>
       <Flex vertical flex={1}>
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
@@ -343,6 +356,17 @@ function PityInputs(props: { banner: string }) {
             placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}
             style={{ width: '100%' }}
             controls={false}
+          />
+        </Form.Item>
+      </Flex>
+      <Flex vertical flex={1} style={{ display: bannerRotation == BannerRotation.RERUN ? 'flex' : 'none' }}>
+        <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
+
+        <Form.Item name={props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'}>
+          <Select
+            options={props.banner == 'Character'
+              ? generateEidolonLevelOptions()
+              : generateSuperimpositionLevelOptions()}
           />
         </Form.Item>
       </Flex>
@@ -435,6 +459,36 @@ function generateStrategyOptions() {
     { value: WarpStrategy.E4, label: t('E4')/* 'E4 first' */ },
     { value: WarpStrategy.E5, label: t('E5')/* 'E5 first' */ },
     { value: WarpStrategy.E6, label: t('E6')/* 'E6 first' */ },
+  ]
+
+  return options
+}
+
+function generateEidolonLevelOptions() {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'EidolonLevels')
+  const options: SelectProps['options'] = [
+    { value: EidolonLevel.NONE, label: t('NONE') },
+    { value: EidolonLevel.E0, label: t('E0') },
+    { value: EidolonLevel.E1, label: t('E1') },
+    { value: EidolonLevel.E2, label: t('E2') },
+    { value: EidolonLevel.E3, label: t('E3') },
+    { value: EidolonLevel.E4, label: t('E4') },
+    { value: EidolonLevel.E5, label: t('E5') },
+    { value: EidolonLevel.E6, label: t('E6') },
+  ]
+
+  return options
+}
+
+function generateSuperimpositionLevelOptions() {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'SuperimpositionLevels')
+  const options: SelectProps['options'] = [
+    { value: SuperimpositionLevel.NONE, label: t('NONE') },
+    { value: SuperimpositionLevel.S1, label: t('S1') },
+    { value: SuperimpositionLevel.S2, label: t('S2') },
+    { value: SuperimpositionLevel.S3, label: t('S3') },
+    { value: SuperimpositionLevel.S4, label: t('S4') },
+    { value: SuperimpositionLevel.S5, label: t('S5') },
   ]
 
   return options

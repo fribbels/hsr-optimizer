@@ -2,6 +2,7 @@ import { Constants } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
+import { Relic } from 'types/relic'
 
 // FIXME MED
 
@@ -56,7 +57,6 @@ export const CharacterConverter = {
     const relics = preRelics.map((x) => convertRelic(x)).filter((x) => !!x)
     const equipped = {}
     for (const relic of relics) {
-      relic.verified = true
       relic.equippedBy = id
       equipped[relic.part] = relic
     }
@@ -100,22 +100,22 @@ function convertRelic(preRelic) {
     const metadata = DB.getMetadata().relics
     const tid = '' + preRelic.tid
 
-    const enhance = preRelic.level || 0
+    const enhance: Relic['enhance'] = preRelic.level || 0
 
     let setId = tid.substring(1, 4)
     if (tidOverrides[tid]) {
       setId = tidOverrides[tid].set
     }
-    const setName = metadata.relicSets[setId].name
+    const setName: Relic['set'] = metadata.relicSets[setId].name
 
     let partId = tid.substring(4, 5)
     if (tidOverrides[tid]) {
       partId = tidOverrides[tid].part
     }
-    const partName = partConversion[partId]
+    const partName: Relic['part'] = partConversion[partId]
 
     const gradeId = tid.substring(0, 1)
-    const grade = gradeConversion[gradeId]
+    const grade: Relic['grade'] = gradeConversion[gradeId]
 
     let mainId = preRelic.mainAffixId
     if (!mainId) {
@@ -131,19 +131,19 @@ function convertRelic(preRelic) {
     const mainStep = mainData.step
     const mainValue = mainBase + mainStep * enhance
 
-    const main = {
+    const main: Relic['main'] = {
       stat: mainStat,
       value: Utils.precisionRound(mainValue * (Utils.isFlat(mainStat) ? 1 : 100), 5),
     }
 
-    const substats: { stat: string; value: number }[] = []
+    const substats: Relic['substats'] = []
     for (const sub of preRelic.subAffixList) {
       let subId = sub.affixId
       if (!subId) {
         subId = Object.values(metadata.relicSubAffixes[`${grade}`].affixes).find((x) => x.property == sub.type).affix_id
       }
-      const count = sub.cnt ?? sub.count
-      const step = sub.step || 0
+      const count: number = sub.cnt ?? sub.count
+      const step: number = sub.step || 0
 
       const subData = metadata.relicSubAffixes[grade].affixes[subId]
       const subStat = statConversion[subData.property]
@@ -152,13 +152,25 @@ function convertRelic(preRelic) {
 
       const subValue = subBase * count + subStep * step
 
-      substats.push({
-        stat: subStat,
-        value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5),
-      })
+      if (count != undefined && step != undefined) {
+        const rolls = rollCounter(count, step).rolls
+
+        substats.push({
+          stat: subStat,
+          value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5),
+          addedRolls: Math.max(0, count - 1),
+          rolls,
+        })
+      } else {
+        substats.push({
+          stat: subStat,
+          value: Utils.precisionRound(subValue * (Utils.isFlat(subStat) ? 1 : 100), 5),
+        })
+      }
     }
 
     const relic = {
+      verified: true,
       part: partName,
       set: setName,
       enhance: enhance,
@@ -172,4 +184,34 @@ function convertRelic(preRelic) {
     console.error(e)
     return null
   }
+}
+
+export function rollCounter(step: number | undefined, count: number | undefined) {
+  const rolls: Relic['substats'][number]['rolls'] = { high: 0, mid: 0, low: 0 }
+  let errorFlag = false
+  if (count != undefined && step != undefined) {
+    rolls.low = count
+
+    for (let i = 0; i < step; i++) {
+      if (rolls.low == 0) {
+        rolls.high++
+        rolls.mid--
+      } else {
+        rolls.mid++
+        rolls.low--
+      }
+    }
+    if (
+      rolls.high > count
+      || rolls.mid < 0
+      || rolls.low < 0
+    ) errorFlag = true
+
+    rolls.high = Math.min(count, rolls.high)
+    rolls.mid = Math.max(0, rolls.mid)
+    rolls.low = Math.max(0, rolls.low)
+  } else {
+    errorFlag = true
+  }
+  return { rolls, errorFlag }
 }

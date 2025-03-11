@@ -1,3 +1,26 @@
+0Perms:
+  RootCauses:
+    Body_MAIN:
+      SuccessMessage: "$t(common:Parts.Body) ana istatistik filtreleri temizlendi"
+    Feet_MAIN:
+      SuccessMessage: "$t(common:Parts.Feet) ana istatistik filtreleri temizlendi"
+    PlanarSphere_MAIN:
+      SuccessMessage: "$t(common:Parts.PlanarSphere) ana istatistik filtreleri temizlendi"
+    LinkRope_MAIN:
+      SuccessMessage: "$t(common:Parts.LinkRope) ana istatistik filtreleri temizlendi"
+    RELIC_SETS:
+      SuccessMessage: Relic seti filtreleri temizlendi
+    ORNAMENT_SETS:
+      SuccessMessage: Ornament seti filtreleri temizlendi
+    KEEP_CURRENT:
+      SuccessMessage: '"Şu anki relicleri koru" devre dışı bırakıldı'
+    PRIORITY:
+      SuccessMessage: "Karakter #1 önceliğe getirildi"
+    EQUIPPED_DISABLED:
+      SuccessMessage: '"Kuşanılan relicleri dahil et" aktifleşti'
+0Results:
+  ResetAll:
+    SuccessMessage: Bütün filtreler temizlendi
 Relic:
   Messages:
     SubmitFail: Gönderilemedi!

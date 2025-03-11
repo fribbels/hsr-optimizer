@@ -11,6 +11,7 @@ import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/com
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -64,13 +65,19 @@ export async function gpuOptimize(props: {
   // console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
+  if (!gpuContext.startTime) {
+    gpuContext.startTime = performance.now()
+  }
+
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
     const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
     const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+
     const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
 
     if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
       await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
+
       const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
       gpuReadBuffer.unmap()
 
@@ -88,14 +95,14 @@ export async function gpuOptimize(props: {
       await readBuffer(offset, gpuReadBuffer, gpuContext)
     }
 
-    window.store.getState().setOptimizerEndTime(Date.now())
-    window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
-    window.store.getState().setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
-
-    // logIterationTimer(iteration, gpuContext)
+    setTimeout(() => {
+      const state = window.store.getState()
+      state.setOptimizerEndTime(Date.now())
+      state.setPermutationsResults(gpuContext.resultsQueue.size())
+      state.setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
+    }, 0)
 
     gpuReadBuffer.unmap()
-    gpuReadBuffer.destroy()
 
     if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
       gpuContext.cancelled = true
@@ -103,12 +110,32 @@ export async function gpuOptimize(props: {
     }
   }
 
-  outputResults(gpuContext)
-  destroyPipeline(gpuContext)
+  // Profiling tools
+  // const totalTime = 0
+  // const start = performance.now()
+  // const end = performance.now()
+  // const elapsedTime = end - start
+  // totalTime += elapsedTime
+  // console.log(`Iteration: ${elapsedTime.toFixed(4)} ms`)
+  // const averageTime = totalTime / gpuContext.iterations
+  // console.log(`Total Time: ${totalTime.toFixed(4)} ms`)
+  // console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
+
+  if (!gpuContext.cancelled) {
+    window.store.getState().setPermutationsSearched(gpuContext.permutations)
+  }
+  window.store.getState().setOptimizationInProgress(false)
+  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+
+  setTimeout(() => {
+    outputResults(gpuContext)
+    destroyPipeline(gpuContext)
+  }, 1)
 }
 
 // eslint-disable-next-line
 async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
+
   await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset)
 
   const arrayBuffer = gpuReadBuffer.getMappedRange(elementOffset * 4)
@@ -174,12 +201,6 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const gSize = relics.Hands.length
   const hSize = relics.Head.length
 
-  if (!gpuContext.cancelled) {
-    window.store.getState().setPermutationsSearched(gpuContext.permutations)
-  }
-  window.store.getState().setOptimizationInProgress(false)
-  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
-
   const optimizerContext = gpuContext.context
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: OptimizerDisplayData[] = []
@@ -222,6 +243,10 @@ function outputResults(gpuContext: GpuExecutionContext) {
   }
 
   // console.log(outputs)
+
+  if (outputs.length == 0) {
+    activateZeroResultSuggestionsModal(gpuContext.request)
+  }
 
   const sortOption = SortOption[gpuContext.request.resultSort as keyof typeof SortOption]
   const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn

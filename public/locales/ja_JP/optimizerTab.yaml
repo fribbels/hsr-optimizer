@@ -30,6 +30,7 @@ SortOptions:
   ULT: 必殺技ダメージ順
   FUA: 追加攻撃ダメージ順
   MEMO_SKILL: 精霊スキルダメージ順
+  MEMO_TALENT: 精霊天賦ダメージ順
   DOT: 持続ダメージ順
   BREAK: 弱点撃破ダメージ順
   HEAL: 治癒量順
@@ -120,6 +121,8 @@ Grid:
         追加攻撃
       MEMO_SKILL: |-
         精霊スキル
+      MEMO_TALENT: |-
+        精霊天賦
       DOT: |-
         持続
       BREAK: |-
@@ -157,6 +160,8 @@ Grid:
         追加攻撃
       MEMO_SKILL: |-
         精霊スキル
+      MEMO_TALENT: |-
+        精霊天賦
       DOT: |-
         持続
       BREAK: |-
@@ -299,7 +304,6 @@ SetConditionals:
     Valorous: 会心率バフは常に有効です。選択したバフは層数に応じて計算に適用されます。
     Differentiator: このオプションが有効になった場合、計算に会心率バフが適用されます。
     Sigonia: 選択した会心ダメージバフは既に指定された数の敵を倒したと想定して計算に適用されます。
-    Izumo: このオプションが有効になった場合、同じ運命をたどる味方がいると想定し、12%の会心率バフが計算に適用されます。
     Duran: 選択したバフは、層数に基づいて計算に適用されます。
     Kalpagni: このオプションが有効になった場合、計算に撃破特効バフが適用されます。
     Lushaka: 選択したバフは計算に適用されます。
@@ -410,6 +414,7 @@ ComboFilter:
     Ult: 必殺
     Fua: 追加
     MemoSkill: 精霊スキル
+    MemoTalent: 精霊天賦
   RotationButton: 高度なスキル回しの設定
 ComboDrawer:
   NoConditionals: 条件付き追加能力なし
@@ -544,6 +549,7 @@ ExpandedDataPanel:
       DOT_DMG: 持続
       BREAK_DMG: 撃破
       MEMO_SKILL_DMG: 精霊スキル
+      MEMO_TALENT_DMG: 精霊天賦
     TooltipText:
       abilityDmg: アビリティダメージ
       breakDmg: 撃破ダメージ

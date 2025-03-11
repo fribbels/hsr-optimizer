@@ -30,6 +30,7 @@ SortOptions:
   ULT: Organizado por Ult DMG
   FUA: Organizado por Dano FuA
   MEMO_SKILL: Organizado por Dano Perícia Memo
+  MEMO_TALENT: Organizado por Dano de Talento do Memo
   DOT: Organizado por Dano DoT
   BREAK: Organizado  por Break DMG
   HEAL: Organizado por Cura
@@ -125,6 +126,9 @@ Grid:
       MEMO_SKILL: |-
         DANO
         PERÍCIAᴹ
+      MEMO_TALENT: |-
+        DANO
+        TALENTOᴹ
       DOT: |-
         DANO
         DOT
@@ -169,6 +173,9 @@ Grid:
       MEMO_SKILL: |-
         DANO
         PERÍCIAᴹ
+      MEMO_TALENT: |-
+        DANO
+        TALENTOᴹ
       DOT: |-
         DANO
         DOT
@@ -312,8 +319,9 @@ SetConditionals:
     Watchmaker: Quando ativado, o bônus de Efeito de Quebra é aplicado aos cálculos de estatísticas de combate.
     Valorous: O bônus de Chance de Crítico está sempre ativado por padrão. O bônus selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Differentiator: Quando ativado, o bônus de Chance de Crítico é aplicado aos cálculos de estatísticas de combate.
+    Penacony: Quando ativado, o buff de DMG% será aplicado ao memo do usuário.
     Sigonia: O bônus de Dano Crítico selecionado é aplicado aos cálculos de estatísticas de combate, presumindo que o personagem tenha derrotado esse número de inimigos.
-    Izumo: Quando ativado, presume que há outro aliado com o mesmo caminho e aplica o bônus de 12% de Chance de Crítico aos cálculos de estatísticas de combate.
+    Izumo: Quando ativado, se tiver um aliado do mesmo caminho, aplica o buff de 12% de Taxa Crítica aos cálculos de atributos de combate.
     Duran: O buff selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Kalpagni: Quando ativado, aplica o bônus de Efeito de Quebra aos cálculos de estatísticas de combate.
     Lushaka: O buff selecionado é aplicado aos cálculos de dano.
@@ -424,6 +432,7 @@ ComboFilter:
     Ult: Ult
     Fua: FuA
     MemoSkill: Períciaᴹ
+    MemoTalent: Talentoᴹ
   RotationButton: Rotação avançada
 ComboDrawer:
   NoConditionals: Sem passivas condicionais
@@ -558,6 +567,7 @@ ExpandedDataPanel:
       DOT_DMG: Dot
       BREAK_DMG: Quebra
       MEMO_SKILL_DMG: Períciaᴹ
+      MEMO_TALENT_DMG: Talentoᴹ
     TooltipText:
       abilityDmg: Dano da Habilidade
       breakDmg: Dano Break

@@ -1,5 +1,5 @@
 import { SubStatValues } from 'lib/constants/constants'
-import { Relic, StatRolls } from 'types/relic'
+import { StatRolls, UnaugmentedRelic } from 'types/relic'
 
 // FIXME LOW
 
@@ -41,7 +41,9 @@ export const RelicRollGrader = {
     return closestCounts
   },
 
-  calculateRelicSubstatRolls(relic: Relic): void {
+  calculateRelicSubstatRolls(relic: UnaugmentedRelic) {
+    if (relic.verified) return // verified relics have their roll counts and steps already determined
+
     // Skip non 5 star relics for simplicity
     if (relic.grade < 5) {
       relic.substats.map((x) => {
@@ -53,7 +55,7 @@ export const RelicRollGrader = {
 
     let totalAddedRolls = 0
     relic.substats.forEach((substat) => {
-      const incrementOptions = SubStatValues[substat.stat][relic.grade]
+      const incrementOptions = SubStatValues[substat.stat][relic.grade as 5 | 4 | 3 | 2]
       const incrementCounts = this.calculateIncrementCounts(substat.value, incrementOptions)
 
       if (incrementCounts) {
@@ -67,15 +69,11 @@ export const RelicRollGrader = {
     // Band-aid for overcounted rolls
     if (totalAddedRolls > Math.floor(relic.enhance / 3)) {
       const highestRolledSubstat = relic.substats.reduce(
+        // @ts-ignore addedRolls potentially undefined per the type
         (max, substat) => max.addedRolls > substat.addedRolls ? max : substat,
       )
+      // @ts-ignore addedRolls potentially undefined per the type
       highestRolledSubstat.addedRolls -= 1
     }
-  },
-
-  calculateStatSum(rolls: StatRolls): number {
-    return rolls
-      ? parseFloat(((rolls.high * 100 + rolls.mid * 90 + rolls.low * 80) / (rolls.high + rolls.mid + rolls.low)).toFixed(2))
-      : 0
   },
 }

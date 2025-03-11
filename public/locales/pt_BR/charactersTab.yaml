@@ -100,11 +100,19 @@ CharacterPreview:
   DMGUpgrades: Melhorias para o dano
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos
+    MainStatHeader: Comparação de melhoria de atributo principal
     Roll: roll
     Damage: Dano
+    MainStatUpgrade: Melhoria do Atributo Principal
+    SubStatUpgrade: Melhoria do Subatributo
+    DpsScorePercentUpgrade: Pontuação de DPS Δ %
+    UpgradedDpsScore: Pontuação de DPS Melhorada
+    ComboDmgPercentUpgrade: Dano de Combo Δ %
+    ComboDmgUpgrade: Dano de Combo Δ
   BuildAnalysis:
-    ScoringNote: "Observação: A pontuação de DPS e Combo DMG são métricas de pontuação para uma única rotação de habilidade.\nEssas métricas não foram feitas para comparar equipes."
-    Header: Análise de build do personagem
+    ScoringNote: >-
+      A pontuação DPS avalia a qualidade da build comparando o dano de uma rotação de habilidade com construções de benchmark com a mesma equipe/lightcones/eidolons. As pontuações e o dano de combo são medidos apenas em relação à configuração da equipe escolhida e não devem ser comparados entre configurações diferentes.
+    Header: Cálculos Pontuação DPS
     SimulationTeammates: Equipe de simulação
     SimulationSets: Conjuntos de simulação
     Rotation:
@@ -114,6 +122,7 @@ CharacterPreview:
       ULT: PER. SUP.
       FUA: ATQ. EXT.
       MEMO_SKILL: PERÍCIAᴹ
+      MEMO_TALENT: TALENTOᴹ
       DOTS: "DOTS:"
       BREAKS: "QUEBRAS:"
     CombatResults:
@@ -131,6 +140,8 @@ CharacterPreview:
         FUA: Dano FUA
         DOT: Dano de DOT
         BREAK: DANO BREAK
+        MEMO_SKILL: DANO PERÍCIAᴹ
+        MEMO_TALENT: DANO TALENTOᴹ
         COMBO: Dano do combo
     CombatBuffs:
       Header: Buffs de combate

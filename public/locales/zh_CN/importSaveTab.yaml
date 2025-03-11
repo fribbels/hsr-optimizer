@@ -9,13 +9,20 @@ Import:
     InvalidFile: 扫描器文件无效
     InvalidJson: JSON文件无效
     Fragment: "导入文件时发生错误: "
+  ParserError:
+    BadSource: 源字符串不匹配，当前为'{{jsonSource}}'，预期为'{{configSource}}'。
+    BadVersion: JSON版本不匹配，当前为'{{jsonVersion}}'，预期为'{{configVersion}}'。
+    OutdatedVersion: "你的扫描器版本{{buildVersion}}已过时，可能导致导入数据不正确！请从 GitHub 更新至最新版本："
+    BadMainstat: 无法解析主属性为{{mainstat}}、部件为{{part}}的遗器。
+  ParserWarning:
+    BadRollInfo: 扫描器文件已过时 / 可能包含无效信息。请更新你的扫描器。
   Stage1:
     Header: "安装并运行其中一个遗器扫描器选项："
     ReliquaryDesc:
       Title: (推荐) IceDynamix Reliquary Archiver
       Link: Github
-      OnlineMsg: "状态: 已更新至{{version}}版本 —— 需要重新下载"
-      OfflineMsg: "***** 状态: 正在{{version}}版本后停机维护*****"
+      OnlineMsg: "状态：已更新至版本{{version}}"
+      OfflineMsg: "***** 状态: 正在版本{{version}}后停机维护*****"
       l1: 精准的速度小数点，快速扫描
       l2: 导入完整的遗器库存和角色列表
     KelzDesc:

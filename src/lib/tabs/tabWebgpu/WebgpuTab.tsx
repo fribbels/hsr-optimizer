@@ -24,6 +24,7 @@ function WebgpuDashboard() {
 
   async function startTests() {
     setDone(false)
+    window.WEBGPU_DEBUG = true
 
     const runs = await generateAllTests()
     const allRunsCount = runs.length

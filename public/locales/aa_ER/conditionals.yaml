@@ -535,9 +535,9 @@ Lightcones:
           crwdns40540:0{{Multiplier}}crwdne40540:0
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
-        text: crwdns40542:0crwdne40542:0
-        content: crwdns40544:0{{DmgStep}}crwdne40544:0
+      maxEnergyDmgBoost:
+        text: crwdns44876:0crwdne44876:0
+        content: crwdns44878:0{{DmgStep}}crwdne44878:0
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -651,10 +651,10 @@ Characters:
         text: crwdns40622:0crwdne40622:0
         content: >-
           crwdns44074:0{{RainbladeScaling}}crwdnd44074:0{{CrimsonKnotScaling}}crwdnd44074:0:BR:crwdne44074:0
-      nihilityTeammates:
-        text: crwdns40626:0crwdne40626:0
+      nihilityTeammatesBuff:
+        text: crwdns44784:0crwdne44784:0
         content: >-
-          crwdns40628:0:BR:crwdnd40628:0:E2:crwdne40628:0
+          crwdns44786:0:BR:crwdnd44786:0:E2:crwdne44786:0
       thunderCoreStacks:
         text: crwdns40630:0crwdne40630:0
         content: crwdns44076:0crwdne44076:0
@@ -1541,9 +1541,9 @@ Characters:
         text: crwdns41532:0crwdne41532:0
         content: >-
           crwdns44250:0{talentBaseStackBoost}crwdnd44250:0:BR:crwdnd44250:0:E2:crwdne44250:0
-      quantumAllies:
-        text: crwdns41536:0crwdne41536:0
-        content: crwdns41538:0crwdne41538:0
+      quantumAlliesAtkBuff:
+        text: crwdns44788:0crwdne44788:0
+        content: crwdns44790:0crwdne44790:0
     TeammateContent:
       teammateCDValue:
         text: crwdns41540:0crwdne41540:0

@@ -1,5 +1,5 @@
 import { Metadata } from 'lib/state/metadata'
-import { NONE_WARP_INCOME_OPTION, simulateWarps, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { EidolonLevel, NONE_WARP_INCOME_OPTION, simulateWarps, SuperimpositionLevel, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { expect, test } from 'vitest'
 
 const DEFAULT_WARP_REQUEST: WarpRequest = {
@@ -11,6 +11,8 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
+  currentEidolonLevel: EidolonLevel.NONE,
+  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
 Metadata.initialize()
@@ -140,6 +142,41 @@ test('expected pity values', () => {
   expectWithin1Percent(m.E6S4.wins, 0)
   expectWithin1Percent(m.E6S5.wins, 0)
 })
+
+test('expected current eidolon and lightcone values', () => {
+  const result = simulateWarps({
+    ...DEFAULT_WARP_REQUEST,
+    passes: 300,
+    currentEidolonLevel: EidolonLevel.E1,
+    currentSuperimpositionLevel: SuperimpositionLevel.S1,
+  })
+
+  const m = result.milestoneResults
+
+  expectWithin3(m.E2S1.warps, 90)
+  expectWithin3(m.E3S1.warps, 180)
+  expectWithin3(m.E4S1.warps, 269)
+  expectWithin3(m.E5S1.warps, 359)
+  expectWithin3(m.E6S1.warps, 449)
+  expectWithin3(m.E6S2.warps, 514)
+  expectWithin3(m.E6S3.warps, 579)
+  expectWithin3(m.E6S4.warps, 644)
+  expectWithin3(m.E6S5.warps, 709)
+
+  expectWithin1Percent(m.E2S1.wins, 1)
+  expectWithin1Percent(m.E3S1.wins, 0.96198)
+  expectWithin1Percent(m.E4S1.wins, 0.64267)
+  expectWithin1Percent(m.E5S1.wins, 0.24764)
+  expectWithin1Percent(m.E6S1.wins, 0.05875)
+  expectWithin1Percent(m.E6S2.wins, 0.01535)
+  expectWithin1Percent(m.E6S3.wins, 0.00321)
+  expectWithin1Percent(m.E6S4.wins, 0.00056)
+  expectWithin1Percent(m.E6S5.wins, 0.00007)
+})
+
+function expectedTotalWarps(actual: number, expected: number) {
+  expect(actual).toEqual(expected)
+}
 
 function expectWithin3(actual: number, expected: number) {
   expect(actual).toBeGreaterThanOrEqual(expected - 3)

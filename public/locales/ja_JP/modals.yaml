@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "撃破ダメージの最小値をリセットしました"
       Description: "撃破ダメージフィルターの最小値が高すぎる可能性があります。"
       ButtonText: "撃破ダメージの最小値をリセット"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "精霊スキルダメージの最大値をリセットしました"
+      Description: "精霊スキルダメージの最大値が低すぎる可能性があります。"
+      ButtonText: "精霊スキルダメージの最大値をリセット"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "精霊スキルダメージの最小値をリセットしました"
+      Description: "精霊スキルダメージの最小値が高すぎる可能性があります。"
+      ButtonText: "精霊スキルダメージの最小値をリセット"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "精霊天賦ダメージの最大値をリセットしました"
+      Description: "精霊天賦ダメージの最大値が低すぎる可能性があります。"
+      ButtonText: "精霊天賦ダメージの最大値をリセット"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "精霊天賦ダメージの最小値をリセットしました"
+      Description: "精霊天賦ダメージの最小値が高すぎる可能性があります。"
+      ButtonText: "精霊天賦ダメージの最小値をリセット"
     MAX_HEAL:
       SuccessMessage: "治癒量の最大値をリセットしました"
       Description: "治癒量フィルターの最大値が低すぎる可能性があります。"

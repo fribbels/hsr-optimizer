@@ -1,10 +1,10 @@
 import { COMPUTE_ENGINE_GPU_STABLE, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
-import { debugWebgpuComputedStats } from 'lib/gpu/webgpuDebugger'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsObjectExternal, Key, KeyToStat } from 'lib/optimization/computedStatsArray'
+import { Key, KeyToStat } from 'lib/optimization/computedStatsArray'
+import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
@@ -35,7 +35,6 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const arrayBuffer = gpuReadBuffer.getMappedRange(0, 10000)
   const array = new Float32Array(arrayBuffer)
 
-  const gpuComputedStats: ComputedStatsObjectExternal = debugWebgpuComputedStats(array)
   // @ts-ignore
   const x = calculateBuild(request, {
     Head: relics.Head[0],
@@ -45,11 +44,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
   })
-  const cpuComputedStats = x.toComputedStatsObject()
-  const deltas = deltaComputedStats(cpuComputedStats, gpuComputedStats)
-
-  // console.log('CPU', cpuComputedStats)
-  // console.log('GPU', gpuComputedStats)
+  const deltas = arrayDelta(x.a, array)
 
   gpuReadBuffer.unmap()
   gpuReadBuffer.destroy()
@@ -77,21 +72,84 @@ export type StatDelta = {
   pass: boolean
 }
 
-function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStatsObjectExternal): StatDeltaAnalysis {
+const EXACT = 0
+const P_0 = 1
+const P_1 = 0.1
+const P_2 = 0.01
+const P_3 = 0.001
+const P_4 = 0.0001
+const P_5 = 0.00001
+const P_6 = 0.000001
+
+const ignoredStats = {
+  [Key.BASE_ATK]: true,
+  [Key.BASE_DEF]: true,
+  [Key.BASE_HP]: true,
+  [Key.BASE_SPD]: true,
+  [Key.PHYSICAL_DMG_BOOST]: true,
+  [Key.FIRE_DMG_BOOST]: true,
+  [Key.ICE_DMG_BOOST]: true,
+  [Key.LIGHTNING_DMG_BOOST]: true,
+  [Key.WIND_DMG_BOOST]: true,
+  [Key.IMAGINARY_DMG_BOOST]: true,
+  [Key.QUANTUM_DMG_BOOST]: true,
+}
+
+const overridePrecision = {
+  [Key.BASIC_DMG]: P_0,
+  [Key.SKILL_DMG]: P_0,
+  [Key.ULT_DMG]: P_0,
+  [Key.FUA_DMG]: P_0,
+  [Key.DOT_DMG]: P_0,
+  [Key.BREAK_DMG]: P_0,
+  [Key.MEMO_SKILL_DMG]: P_0,
+  [Key.MEMO_TALENT_DMG]: P_0,
+  [Key.COMBO_DMG]: P_0,
+
+  [Key.HEAL_VALUE]: P_2,
+  [Key.SHIELD_VALUE]: P_2,
+
+  [Key.HP]: P_2,
+  [Key.ATK]: P_2,
+  [Key.DEF]: P_2,
+  [Key.EHP]: P_2,
+
+  [Key.UNCONVERTIBLE_HP_BUFF]: P_2,
+  [Key.UNCONVERTIBLE_ATK_BUFF]: P_2,
+  [Key.UNCONVERTIBLE_DEF_BUFF]: P_2,
+
+  [Key.BASIC_ADDITIONAL_DMG]: P_2,
+  [Key.SKILL_ADDITIONAL_DMG]: P_2,
+  [Key.ULT_ADDITIONAL_DMG]: P_2,
+  [Key.FUA_ADDITIONAL_DMG]: P_2,
+  [Key.DOT_ADDITIONAL_DMG]: P_2,
+  [Key.BREAK_ADDITIONAL_DMG]: P_2,
+  [Key.MEMO_SKILL_ADDITIONAL_DMG]: P_2,
+  [Key.MEMO_TALENT_ADDITIONAL_DMG]: P_2,
+}
+
+function arrayDelta(cpu: Float32Array, gpu: Float32Array) {
   const statDeltas: StatDeltas = {}
   let allPass = true
 
-  function analyze(stat: keyof ComputedStatsObjectExternal, precision: number) {
-    const delta = cpu[stat] - gpu[stat]
+  // console.log(cpu)
+  // console.log(gpu)
+
+  const keys = Object.keys(baseComputedStatsObject)
+
+  function analyze(key: number, precision: number) {
+    const delta = cpu[key] - gpu[key]
     const pass = Math.abs(delta) <= precision
     if (!pass) {
       allPass = false
     }
 
+    const stat = keys[key]
+
     statDeltas[stat] = {
       key: stat,
-      cpu: cpu[stat].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
-      gpu: gpu[stat].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
+      cpu: cpu[key].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
+      gpu: gpu[key].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
       deltaValue: delta,
       deltaString: delta.toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
       precision: precision,
@@ -99,169 +157,11 @@ function deltaComputedStats(cpu: ComputedStatsObjectExternal, gpu: ComputedStats
     }
   }
 
-  const EXACT = 0
-  const P_0 = 1
-  const P_1 = 0.1
-  const P_2 = 0.01
-  const P_3 = 0.001
-  const P_4 = 0.0001
-  const P_5 = 0.00001
-  const P_6 = 0.000001
-
-  analyze('HP%', P_2)
-  analyze('ATK%', P_2)
-  analyze('DEF%', P_2)
-  analyze('SPD%', P_2)
-  analyze('HP', P_2)
-  analyze('ATK', P_2)
-  analyze('DEF', P_2)
-  analyze('SPD', P_4)
-  analyze('CRIT Rate', P_4)
-  analyze('CRIT DMG', P_4)
-  analyze('Effect Hit Rate', P_4)
-  analyze('Effect RES', P_4)
-  analyze('Break Effect', P_4)
-  analyze('Energy Regeneration Rate', P_4)
-  analyze('Outgoing Healing Boost', P_4)
-  // GPU handles DMG boosts differently
-  // analyze('Physical DMG Boost', P_2)
-  // analyze('Fire DMG Boost', P_2)
-  // analyze('Ice DMG Boost', P_2)
-  // analyze('Lightning DMG Boost', P_2)
-  // analyze('Wind DMG Boost', P_2)
-  // analyze('Quantum DMG Boost', P_2)
-  // analyze('Imaginary DMG Boost', P_2)
-  analyze('ELEMENTAL_DMG', P_4)
-  analyze('BASIC_SCALING', P_2)
-  analyze('SKILL_SCALING', P_2)
-  analyze('ULT_SCALING', P_2)
-  analyze('FUA_SCALING', P_2)
-  analyze('DOT_SCALING', P_2)
-  analyze('BASIC_CR_BOOST', P_2)
-  analyze('SKILL_CR_BOOST', P_2)
-  analyze('ULT_CR_BOOST', P_2)
-  analyze('FUA_CR_BOOST', P_2)
-  analyze('BASIC_CD_BOOST', P_2)
-  analyze('SKILL_CD_BOOST', P_2)
-  analyze('ULT_CD_BOOST', P_2)
-  analyze('FUA_CD_BOOST', P_2)
-  analyze('BASIC_BOOST', P_2)
-  analyze('SKILL_BOOST', P_2)
-  analyze('ULT_BOOST', P_2)
-  analyze('FUA_BOOST', P_2)
-  analyze('DOT_BOOST', P_2)
-  analyze('BREAK_BOOST', P_2)
-  analyze('ADDITIONAL_BOOST', P_2)
-  analyze('VULNERABILITY', P_2)
-  analyze('BASIC_VULNERABILITY', P_2)
-  analyze('SKILL_VULNERABILITY', P_2)
-  analyze('ULT_VULNERABILITY', P_2)
-  analyze('FUA_VULNERABILITY', P_2)
-  analyze('DOT_VULNERABILITY', P_2)
-  analyze('BREAK_VULNERABILITY', P_2)
-  analyze('DEF_PEN', P_2)
-  analyze('BASIC_DEF_PEN', P_2)
-  analyze('SKILL_DEF_PEN', P_2)
-  analyze('ULT_DEF_PEN', P_2)
-  analyze('FUA_DEF_PEN', P_2)
-  analyze('DOT_DEF_PEN', P_2)
-  analyze('BREAK_DEF_PEN', P_2)
-  analyze('SUPER_BREAK_DEF_PEN', P_2)
-  analyze('RES_PEN', P_2)
-  analyze('PHYSICAL_RES_PEN', P_2)
-  analyze('FIRE_RES_PEN', P_2)
-  analyze('ICE_RES_PEN', P_2)
-  analyze('LIGHTNING_RES_PEN', P_2)
-  analyze('WIND_RES_PEN', P_2)
-  analyze('QUANTUM_RES_PEN', P_2)
-  analyze('IMAGINARY_RES_PEN', P_2)
-  analyze('BASIC_RES_PEN', P_2)
-  analyze('SKILL_RES_PEN', P_2)
-  analyze('ULT_RES_PEN', P_2)
-  analyze('FUA_RES_PEN', P_2)
-  analyze('DOT_RES_PEN', P_2)
-  analyze('BASIC_DMG', P_0)
-  analyze('SKILL_DMG', P_0)
-  analyze('ULT_DMG', P_0)
-  analyze('FUA_DMG', P_0)
-  analyze('DOT_DMG', P_0)
-  analyze('BREAK_DMG', P_0)
-  analyze('COMBO_DMG', P_0)
-  analyze('DMG_RED_MULTI', P_2)
-  analyze('EHP', P_2)
-  analyze('DOT_CHANCE', P_2)
-  analyze('EFFECT_RES_PEN', P_2)
-  analyze('DOT_SPLIT', P_2)
-  analyze('DOT_STACKS', P_2)
-  analyze('SUMMONS', P_2)
-  analyze('ENEMY_WEAKNESS_BROKEN', P_2)
-  analyze('SUPER_BREAK_MODIFIER', P_2)
-  analyze('BASIC_SUPER_BREAK_MODIFIER', P_2)
-  analyze('BASIC_TOUGHNESS_DMG', P_2)
-  analyze('SKILL_TOUGHNESS_DMG', P_2)
-  analyze('ULT_TOUGHNESS_DMG', P_2)
-  analyze('FUA_TOUGHNESS_DMG', P_2)
-  analyze('TRUE_DMG_MODIFIER', P_2)
-  analyze('BASIC_FINAL_DMG_BOOST', P_2)
-  analyze('SKILL_FINAL_DMG_BOOST', P_2)
-  analyze('ULT_FINAL_DMG_BOOST', P_2)
-  analyze('BASIC_BREAK_DMG_MODIFIER', P_2)
-  analyze('ULT_ADDITIONAL_DMG_CR_OVERRIDE', P_2)
-  analyze('ULT_ADDITIONAL_DMG_CD_OVERRIDE', P_2)
-  analyze('SKILL_OHB', P_2)
-  analyze('ULT_OHB', P_2)
-  analyze('HEAL_TYPE', P_2)
-  analyze('HEAL_FLAT', P_2)
-  analyze('HEAL_SCALING', P_2)
-  analyze('HEAL_VALUE', P_2)
-  analyze('SHIELD_FLAT', P_2)
-  analyze('SHIELD_SCALING', P_2)
-  analyze('SHIELD_VALUE', P_2)
-  analyze('BASIC_ADDITIONAL_DMG_SCALING', P_2)
-  analyze('SKILL_ADDITIONAL_DMG_SCALING', P_2)
-  analyze('ULT_ADDITIONAL_DMG_SCALING', P_2)
-  analyze('FUA_ADDITIONAL_DMG_SCALING', P_2)
-  analyze('BASIC_ADDITIONAL_DMG', P_2)
-  analyze('SKILL_ADDITIONAL_DMG', P_2)
-  analyze('ULT_ADDITIONAL_DMG', P_2)
-  analyze('FUA_ADDITIONAL_DMG', P_2)
-  analyze('MEMO_BUFF_PRIORITY', P_2)
-  analyze('DEPRIORITIZE_BUFFS', P_2)
-  analyze('MEMO_BASE_HP_SCALING', P_2)
-  analyze('MEMO_BASE_HP_FLAT', P_2)
-  analyze('MEMO_BASE_DEF_SCALING', P_2)
-  analyze('MEMO_BASE_DEF_FLAT', P_2)
-  analyze('MEMO_BASE_ATK_SCALING', P_2)
-  analyze('MEMO_BASE_ATK_FLAT', P_2)
-  analyze('MEMO_BASE_SPD_SCALING', P_2)
-  analyze('MEMO_BASE_SPD_FLAT', P_2)
-  analyze('MEMO_SKILL_SCALING', P_2)
-  analyze('MEMO_TALENT_SCALING', P_2)
-  analyze('MEMO_SKILL_DMG', P_0)
-  analyze('MEMO_TALENT_DMG', P_0)
-  analyze('UNCONVERTIBLE_HP_BUFF', P_2)
-  analyze('UNCONVERTIBLE_ATK_BUFF', P_2)
-  analyze('UNCONVERTIBLE_DEF_BUFF', P_2)
-  analyze('UNCONVERTIBLE_SPD_BUFF', P_2)
-  analyze('UNCONVERTIBLE_CR_BUFF', P_2)
-  analyze('UNCONVERTIBLE_CD_BUFF', P_2)
-  analyze('UNCONVERTIBLE_EHR_BUFF', P_2)
-  analyze('UNCONVERTIBLE_BE_BUFF', P_2)
-  analyze('UNCONVERTIBLE_OHB_BUFF', P_2)
-  analyze('UNCONVERTIBLE_RES_BUFF', P_2)
-  analyze('UNCONVERTIBLE_ERR_BUFF', P_2)
-  analyze('BREAK_EFFICIENCY_BOOST', P_2)
-  analyze('BASIC_BREAK_EFFICIENCY_BOOST', P_2)
-  analyze('ULT_BREAK_EFFICIENCY_BOOST', P_2)
-  analyze('BASIC_DMG_TYPE', EXACT)
-  analyze('SKILL_DMG_TYPE', EXACT)
-  analyze('ULT_DMG_TYPE', EXACT)
-  analyze('FUA_DMG_TYPE', EXACT)
-  analyze('DOT_DMG_TYPE', EXACT)
-  analyze('BREAK_DMG_TYPE', EXACT)
-  analyze('SUPER_BREAK_DMG_TYPE', EXACT)
-  analyze('MEMO_DMG_TYPE', EXACT)
-  analyze('ADDITIONAL_DMG_TYPE', EXACT)
+  for (let i = 0; i < Object.keys(baseComputedStatsObject).length; i++) {
+    if (ignoredStats[i]) continue
+    const precision = overridePrecision[i] ?? P_4
+    analyze(i, precision)
+  }
 
   return {
     allPass,

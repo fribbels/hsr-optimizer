@@ -3,6 +3,7 @@ import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { BaseComputedStatsConfig, baseComputedStatsObject, ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
+import { ElementalDamageType, ElementalResPenType } from 'types/metadata'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export type Buff = {
@@ -352,65 +353,37 @@ export const KeyToStat: Record<string, string> = {
   WIND_DMG_BOOST: Stats.Wind_DMG,
 }
 
-export function getResPenType(x: ComputedStatsArray, type: string) {
-  switch (type) {
-    case ElementToResPenType.Physical:
-      return x.a[Key.PHYSICAL_RES_PEN]
-    case ElementToResPenType.Fire:
-      return x.a[Key.FIRE_RES_PEN]
-    case ElementToResPenType.Ice:
-      return x.a[Key.ICE_RES_PEN]
-    case ElementToResPenType.Lightning:
-      return x.a[Key.LIGHTNING_RES_PEN]
-    case ElementToResPenType.Wind:
-      return x.a[Key.WIND_RES_PEN]
-    case ElementToResPenType.Quantum:
-      return x.a[Key.QUANTUM_RES_PEN]
-    case ElementToResPenType.Imaginary:
-      return x.a[Key.IMAGINARY_RES_PEN]
-    default:
-      return 0
-  }
+const ElementToResPenTypeToKey = {
+  [ElementToResPenType.Physical]: Key.PHYSICAL_RES_PEN,
+  [ElementToResPenType.Fire]: Key.FIRE_RES_PEN,
+  [ElementToResPenType.Ice]: Key.ICE_RES_PEN,
+  [ElementToResPenType.Lightning]: Key.LIGHTNING_RES_PEN,
+  [ElementToResPenType.Wind]: Key.WIND_RES_PEN,
+  [ElementToResPenType.Quantum]: Key.QUANTUM_RES_PEN,
+  [ElementToResPenType.Imaginary]: Key.IMAGINARY_RES_PEN,
+} as const
+
+export function getResPenType(x: ComputedStatsArray, type: ElementalResPenType) {
+  return x.a[ElementToResPenTypeToKey[type]]
 }
 
-export function getElementalDamageType(x: ComputedStatsArray, type: string) {
-  switch (type) {
-    case Stats.Physical_DMG:
-      return x.a[Key.PHYSICAL_DMG_BOOST]
-    case Stats.Fire_DMG:
-      return x.a[Key.FIRE_DMG_BOOST]
-    case Stats.Ice_DMG:
-      return x.a[Key.ICE_DMG_BOOST]
-    case Stats.Lightning_DMG:
-      return x.a[Key.LIGHTNING_DMG_BOOST]
-    case Stats.Wind_DMG:
-      return x.a[Key.WIND_DMG_BOOST]
-    case Stats.Quantum_DMG:
-      return x.a[Key.QUANTUM_DMG_BOOST]
-    case Stats.Imaginary_DMG:
-      return x.a[Key.IMAGINARY_DMG_BOOST]
-    default:
-      return 0
-  }
+const ElementalDmgTypeToKey = {
+  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
+  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
+  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
+  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
+  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
+  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
+  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
+} as const
+
+export function getElementalDamageType(x: ComputedStatsArray, type: ElementalDamageType) {
+  return x.a[ElementalDmgTypeToKey[type]]
 }
 
-export function buffElementalDamageType(x: ComputedStatsArray, type: string, value: number) {
-  switch (type) {
-    case Stats.Physical_DMG:
-      return x.a[Key.PHYSICAL_DMG_BOOST] += value
-    case Stats.Fire_DMG:
-      return x.a[Key.FIRE_DMG_BOOST] += value
-    case Stats.Ice_DMG:
-      return x.a[Key.ICE_DMG_BOOST] += value
-    case Stats.Lightning_DMG:
-      return x.a[Key.LIGHTNING_DMG_BOOST] += value
-    case Stats.Wind_DMG:
-      return x.a[Key.WIND_DMG_BOOST] += value
-    case Stats.Quantum_DMG:
-      return x.a[Key.QUANTUM_DMG_BOOST] += value
-    case Stats.Imaginary_DMG:
-      return x.a[Key.IMAGINARY_DMG_BOOST] += value
-  }
+export function buffElementalDamageType(x: ComputedStatsArray, type: ElementalDamageType, value: number) {
+  const key = ElementalDmgTypeToKey[type]
+  x.a[key] += value
 }
 
 export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,

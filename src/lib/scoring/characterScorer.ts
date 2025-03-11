@@ -25,6 +25,7 @@ import {
 import { simulateMaximumBuild } from 'lib/scoring/simulateMaximum'
 import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -490,12 +491,13 @@ function generateStatImprovements(
         substatRollsModifier: (num: number) => num,
       })[0]
       applyScoringFunction(mainUpgradeResult)
-      mainUpgradeResults.push({
+      const simulationStatUpgrade = {
         stat: upgradeMainStat,
         part: part,
         simulation: originalSimClone,
         simulationResult: mainUpgradeResult,
-      })
+      }
+      mainUpgradeResults.push(simulationStatUpgrade)
     }
   }
 
@@ -504,7 +506,7 @@ function generateStatImprovements(
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
 
-  // console.log('Stat improvements', originalSimResult, originalSim, metadata, substatUpgradeResults)
+  // console.log('Stat improvements', mainUpgradeResults)
 
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
@@ -526,8 +528,7 @@ export function generateFullDefaultForm(
   // @ts-ignore
   if (!characterId) return null
 
-  const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
-  const lightConeConditionalsRequest = { lightCone: lightCone, lightConeSuperimposition: lightConeSuperimposition }
+  const dbMetadata = DB.getMetadata()
 
   const simulationForm: Form = getDefaultForm({ id: characterId })
 
@@ -538,6 +539,9 @@ export function generateFullDefaultForm(
 
   simulationForm.characterConditionals = {}
   simulationForm.lightConeConditionals = {}
+
+  const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
+  const lightConeConditionalsRequest = generateConditionalResolverMetadata(simulationForm, dbMetadata)
 
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(characterConditionalsRequest)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(lightConeConditionalsRequest)
@@ -1201,7 +1205,7 @@ export function getSimScoreGrade(score: number, verified: boolean, numRelics: nu
 // }
 
 // Gradual scale
-const SimScoreGrades = {
+export const SimScoreGrades = {
   'AEON': 150, // Verified only
   'WTF+': 140, // +10
   'WTF': 130, // +9

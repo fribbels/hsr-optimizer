@@ -1,3 +1,5 @@
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { ElementName, PathName } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -44,6 +46,7 @@ export type SetConditional = {
   enabledMessengerTraversingHackerspace: boolean
   enabledCelestialDifferentiator: boolean
   enabledWatchmakerMasterOfDreamMachinations: boolean
+  enabledPenaconyLandOfTheDreams: boolean
   enabledIzumoGenseiAndTakamaDivineRealm: boolean
   enabledForgeOfTheKalpagniLantern: boolean
   enabledTheWindSoaringValorous: boolean
@@ -73,21 +76,24 @@ export type CharacterStatsBreakdown = {
   }
 }
 
+export type BasicForm = {
+  characterId: string
+  characterEidolon: number
+  lightCone: string
+  lightConeSuperimposition: number
+}
+
 export type CharacterMetadata = {
   characterId: string
   characterEidolon: number
   lightCone: string
   lightConeSuperimposition: number
-  path: string
-  element: string
+  lightConePath: PathName
+  path: PathName
+  element: ElementName
 }
 
-export type OptimizerContext = {
-  // Request metadata
-  characterId: string
-  characterEidolon: number
-  lightCone: string
-  lightConeSuperimposition: number
+export type OptimizerContext = CharacterMetadata & {
 
   teammate0Metadata: CharacterMetadata
   teammate1Metadata: CharacterMetadata
@@ -102,8 +108,6 @@ export type OptimizerContext = {
   deprioritizeBuffs: boolean
 
   // Character data
-  element: string // Ice
-  path: string // Destruction
   elementalDamageType: ElementalDamageType // Ice DMG Boost
   elementalResPenType: ElementalResPenType // ICE_RES_PEN
   elementalBreakScaling: number // Ice: 1.0
@@ -126,6 +130,8 @@ export type OptimizerContext = {
   enemyWeaknessBroken: boolean
   weaknessBrokenMultiplier: number
 
+  activeAbilities: AbilityType[]
+  activeAbilityFlags: number
   actions: OptimizerAction[]
   comboBreak: number
   comboDot: number

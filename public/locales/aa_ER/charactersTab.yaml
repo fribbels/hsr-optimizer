@@ -100,11 +100,19 @@ CharacterPreview:
   DMGUpgrades: crwdns39700:0crwdne39700:0
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0
+    MainStatHeader: crwdns44824:0crwdne44824:0
     Roll: crwdns39704:0crwdne39704:0
     Damage: crwdns39706:0crwdne39706:0
+    MainStatUpgrade: crwdns44826:0crwdne44826:0
+    SubStatUpgrade: crwdns44828:0crwdne44828:0
+    DpsScorePercentUpgrade: crwdns44830:0crwdne44830:0
+    UpgradedDpsScore: crwdns44832:0crwdne44832:0
+    ComboDmgPercentUpgrade: crwdns44834:0crwdne44834:0
+    ComboDmgUpgrade: crwdns44836:0crwdne44836:0
   BuildAnalysis:
-    ScoringNote: "crwdns44444:0crwdne44444:0"
-    Header: crwdns39708:0crwdne39708:0
+    ScoringNote: >-
+      crwdns44796:0crwdne44796:0
+    Header: crwdns44838:0crwdne44838:0
     SimulationTeammates: crwdns39710:0crwdne39710:0
     SimulationSets: crwdns39712:0crwdne39712:0
     Rotation:
@@ -114,6 +122,7 @@ CharacterPreview:
       ULT: crwdns39720:0crwdne39720:0
       FUA: crwdns39722:0crwdne39722:0
       MEMO_SKILL: crwdns39724:0crwdne39724:0
+      MEMO_TALENT: crwdns44748:0crwdne44748:0
       DOTS: "crwdns39726:0crwdne39726:0"
       BREAKS: "crwdns39728:0crwdne39728:0"
     CombatResults:
@@ -131,6 +140,8 @@ CharacterPreview:
         FUA: crwdns39750:0crwdne39750:0
         DOT: crwdns39752:0crwdne39752:0
         BREAK: crwdns39754:0crwdne39754:0
+        MEMO_SKILL: crwdns44750:0crwdne44750:0
+        MEMO_TALENT: crwdns44752:0crwdne44752:0
         COMBO: crwdns39756:0crwdne39756:0
     CombatBuffs:
       Header: crwdns44746:0crwdne44746:0

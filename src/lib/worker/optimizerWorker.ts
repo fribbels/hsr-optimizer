@@ -160,7 +160,7 @@ self.onmessage = function (e: MessageEvent) {
 
     const sets = [setH, setG, setB, setF, setP, setL]
     const setCounts = calculateSetCounts(sets)
-    c.init(relicSetIndex, ornamentSetIndex, setCounts, col)
+    c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
 
     calculateBasicSetEffects(c, context, setCounts, sets)
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
@@ -183,7 +183,9 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const a = x.a
       x.setPrecompute(action.precomputedX.a)
-      m.setPrecompute(action.precomputedM.a)
+      if (x.a[Key.MEMOSPRITE]) {
+        m.setPrecompute(action.precomputedM.a)
+      }
 
       calculateBasicEffects(x, action, context)
       calculateComputedStats(x, action, context)

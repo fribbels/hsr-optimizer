@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "Redefinir filtro de Quebra Mínimo"
       Description: "Dano de quebra mínimo pode estar alto"
       ButtonText: "Redefinir filtro de Quebra Mínimo"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "Redefinir filtro de Perícia Máxima do Memo"
+      Description: "Dano Máximo da Perícia do Memo pode estar muito baixo"
+      ButtonText: "Redefinir filtro de Perícia Máxima do Memo"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "Redefinir filtro de Perícia Mínima do Memo"
+      Description: "Dano Mínimo da Perícia do Memo pode estar muito alto"
+      ButtonText: "Redefinir filtro de Perícia Mínima do Memo"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "Redefinir filtro de Talento Máximo do Memo"
+      Description: "Dano Máximo do Talento do Memo pode estar muito baixo"
+      ButtonText: "Redefinir filtro de Talento Máximo do Memo"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "Redefinir filtro de Talento Mínimo do Memo"
+      Description: "Dano Mínimo do Talento do Memo pode estar muito alto"
+      ButtonText: "Redefinir filtro de Talento Mínimo do Memo"
     MAX_HEAL:
       SuccessMessage: "Redefinir filtro de CURA Máxima"
       Description: "CURA Máxima pode estar muito baixa"

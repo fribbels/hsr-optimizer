@@ -6,22 +6,46 @@ export const ASHBLAZING_ATK_STACK = 0.06
 
 // Ability types
 export const NONE_TYPE = 0
-export const BASIC_DMG_TYPE = 1
-export const SKILL_DMG_TYPE = 2
-export const ULT_DMG_TYPE = 4
-export const FUA_DMG_TYPE = 8
-export const DOT_DMG_TYPE = 16
-export const BREAK_DMG_TYPE = 32
-export const SUPER_BREAK_DMG_TYPE = 64
-export const MEMO_DMG_TYPE = 128
-export const ADDITIONAL_DMG_TYPE = 256
 
-export const BASIC_ABILITY_TYPE = 1
-export const SKILL_ABILITY_TYPE = 2
-export const ULT_ABILITY_TYPE = 4
-export const FUA_ABILITY_TYPE = 8
-export const MEMO_SKILL_ABILITY_TYPE = 16
-export const MEMO_TALENT_ABILITY_TYPE = 32
+export enum DamageType {
+  BASIC = 1,
+  SKILL = 2,
+  ULT = 4,
+  FUA = 8,
+  DOT = 16,
+  BREAK = 32,
+  SUPER_BREAK = 64,
+  MEMO = 128,
+  ADDITIONAL = 256,
+}
+
+export enum AbilityType {
+  BASIC = 1,
+  SKILL = 2,
+  ULT = 4,
+  FUA = 8,
+  DOT = 16,
+  BREAK = 32,
+  MEMO_SKILL = 64,
+  MEMO_TALENT = 128,
+}
+
+export const BASIC_DMG_TYPE: number = DamageType.BASIC
+export const SKILL_DMG_TYPE: number = DamageType.SKILL
+export const ULT_DMG_TYPE: number = DamageType.ULT
+export const FUA_DMG_TYPE: number = DamageType.FUA
+export const DOT_DMG_TYPE: number = DamageType.DOT
+export const BREAK_DMG_TYPE: number = DamageType.BREAK
+export const SUPER_BREAK_DMG_TYPE: number = DamageType.SUPER_BREAK
+export const MEMO_DMG_TYPE: number = DamageType.MEMO
+export const ADDITIONAL_DMG_TYPE: number = DamageType.ADDITIONAL
+
+export const BASIC_ABILITY_TYPE: number = AbilityType.BASIC
+export const SKILL_ABILITY_TYPE: number = AbilityType.SKILL
+export const ULT_ABILITY_TYPE: number = AbilityType.ULT
+export const FUA_ABILITY_TYPE: number = AbilityType.FUA
+export const MEMO_SKILL_ABILITY_TYPE: number = AbilityType.MEMO_SKILL
+export const MEMO_TALENT_ABILITY_TYPE: number = AbilityType.MEMO_TALENT
 
 export const BUFF_PRIORITY_SELF = 0
 export const BUFF_PRIORITY_MEMO = 1

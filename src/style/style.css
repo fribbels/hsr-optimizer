@@ -698,7 +698,7 @@ a {
     font-family: "Consolas", "Courier New", "Menlo", "Monaco", monospace !important;
 }
 
-.stat-upgrade-table .ant-table-row:last-child .ant-table-cell {
+.remove-table-bottom-border .ant-table-row:last-child .ant-table-cell {
     border-bottom: none !important;
 }
 
@@ -713,4 +713,45 @@ a {
 
 .recharts-legend-item {
     margin-right: 20px !important;
+}
+
+.rerun-segmented .ant-segmented-item-label {
+    height: 32px;
+    line-height: 32px;
+    opacity: 0.3;
+}
+
+.rerun-segmented .ant-segmented-item-selected .ant-segmented-item-label {
+    opacity: 1 !important;
+}
+
+.buff-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.buff-icon {
+    width: 64px;
+    height: 64px;
+}
+
+.source-label {
+    text-align: end;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.buff-row .ant-table-cell {
+    height: 26px !important;
+    line-height: 26px !important;
+    padding: 0 6px !important;
+    background-color: #2d3b5d;
+    border-color: #3f5a96 !important;
+}
+
+
+.buff-table .ant-table-thead {
+    display: none;
 }

@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION, PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -30,23 +30,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.60, 0.66)
+  const skillDmgBoost = skill(e, 0.15, 0.15)
   const ultScaling = ult(e, 1.50, 1.62)
-  const talentDmgScaling = talent(e, 0.60, 0.648)
+  const talentDmgScaling = talent(e, 0.40, 0.432)
 
   const defaults = {
     skillHits: 4,
     exposedNature: true,
+    skillTargets: 3,
     eruditionTeammateBuffs: true,
     enemyWeaknessTypes: 7,
     e1DefPen: true,
-    e2SpdBuff: true,
-    e2UltHits: 3,
+    e2ResPen: true,
     e4AtkBuffStacks: 3,
     e6FinalDmgStacks: 5,
   }
 
   const teammateDefaults = {
     e1DefPen: true,
+    e2ResPen: true,
     eruditionTeammateBuffs: true,
   }
 
@@ -74,10 +76,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     enemyWeaknessTypes: {
       id: 'enemyWeaknessTypes',
       formItem: 'slider',
-      text: 'Enemy weakness types',
+      text: 'Enemy weaknesses',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: 7,
+    },
+    skillTargets: {
+      id: 'skillTargets',
+      formItem: 'slider',
+      text: 'Skill targets',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 1,
+      max: 5,
     },
     e1DefPen: {
       id: 'e1DefPen',
@@ -86,20 +96,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
-    e2SpdBuff: {
-      id: 'e2SpdBuff',
+    e2ResPen: {
+      id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 SPD buff',
+      text: 'E2 RES PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 2,
-    },
-    e2UltHits: {
-      id: 'e2UltHits',
-      formItem: 'slider',
-      text: 'E2 Ult hits',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 3,
       disabled: e < 2,
     },
     e4AtkBuffStacks: {
@@ -108,7 +109,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'E4 ATK buff stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 3,
+      max: 2,
       disabled: e < 4,
     },
     e6FinalDmgStacks: {
@@ -117,17 +118,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'E6 Final DMG stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 5,
+      max: 3,
       disabled: e < 6,
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     e1DefPen: content.e1DefPen,
+    e2ResPen: content.e2ResPen,
     eruditionTeammateBuffs: content.eruditionTeammateBuffs,
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -138,20 +141,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.BASIC_SCALING.buff((r.exposedNature) ? basicScaling : 0, SOURCE_TALENT)
-      x.SKILL_SCALING.buff(skillScaling * (1 + r.skillHits), SOURCE_SKILL)
-      x.SKILL_SCALING.buff((r.exposedNature) ? skillScaling * (1 + r.skillHits) : 0, SOURCE_SKILL)
-      x.ULT_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_SCALING.buff((e >= 2) ? r.e2UltHits * 0.50 : 0, SOURCE_E2)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling * (1 + r.skillHits), SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      x.SPD_P.buff((e >= 2 && r.e2SpdBuff) ? 0.12 : 0, SOURCE_E2)
+      x.SKILL_DMG_BOOST.buff((r.skillTargets) * skillDmgBoost, SOURCE_SKILL)
 
       x.DEF_PEN.buff(r.enemyWeaknessTypes * 0.03, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buff((r.exposedNature) ? talentDmgScaling : 0, SOURCE_TALENT)
 
-      x.ATK_P.buff((e >= 4) ? r.e4AtkBuffStacks * 0.40 : 0, SOURCE_E4)
-      x.FINAL_DMG_BOOST.buff((e >= 6) ? r.e6FinalDmgStacks * 0.03 : 0, SOURCE_E6)
+      x.ATK_P.buff((e >= 4) ? r.e4AtkBuffStacks * 0.30 : 0, SOURCE_E4)
+      x.FINAL_DMG_BOOST.buff((e >= 6) ? r.e6FinalDmgStacks * 0.10 : 0, SOURCE_E6)
 
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
       x.CD.buff((r.eruditionTeammateBuffs && eruditionMembers == 1) ? 1.40 : 0, SOURCE_TRACE)
@@ -167,8 +167,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff((m.eruditionTeammateBuffs && eruditionMembers >= 2) ? 0.30 : 0, SOURCE_TRACE)
 
       x.DEF_PEN.buff((e >= 1 && m.e1DefPen) ? 0.16 : 0, SOURCE_E1)
+      x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => standardAtkFinalizer(x),
-    gpuFinalizeCalculations: () => gpuStandardAtkFinalizer(),
+    finalizeCalculations: (x: ComputedStatsArray) => {},
+    gpuFinalizeCalculations: () => '',
   }
 }

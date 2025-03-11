@@ -29,7 +29,8 @@ SortOptions:
   SKILL: 按战技伤害排序
   ULT: 按终结技伤害排序
   FUA: 按追加攻击伤害排序
-  MEMO_SKILL: 按忆灵技能伤害排序
+  MEMO_SKILL: 按忆灵技伤害排序
+  MEMO_TALENT: 按忆灵技伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
   HEAL: 按治疗值排序
@@ -123,7 +124,10 @@ Grid:
         追击
         伤害
       MEMO_SKILL: |-
-        忆灵技能
+        忆灵技
+        伤害
+      MEMO_TALENT: |-
+        忆灵天赋
         伤害
       DOT: |-
         持续
@@ -167,7 +171,10 @@ Grid:
         追击
         伤害
       MEMO_SKILL: |-
-        忆灵技能
+        忆灵技
+        伤害
+      MEMO_TALENT: |-
+        忆灵天赋
         伤害
       DOT: |-
         持续
@@ -312,8 +319,9 @@ SetConditionals:
     Watchmaker: 启用后，击破特攻增益将应用于战斗属性计算。
     Valorous: 暴击率增益默认始终处于开启状态。所选增益将根据叠加层数应用于伤害计算。
     Differentiator: 启用后，暴击率增益将应用于战斗属性计算。
+    Penacony: 启用后，伤害%增益将应用于佩戴者的忆灵。
     Sigonia: 假设角色已击败该数量的敌人，所选的暴击伤害增益将应用于战斗属性计算。
-    Izumo: 启用后，将假设有另一名与装备者命途相同的队友，并将12%的暴击率增益应用于战斗属性计算。
+    Izumo: 启用后，若队伍中有相同命途的队友，将在战斗属性计算中应用12%暴击率增益。
     Duran: 所选的增益将根据叠加层数应用于伤害计算。
     Kalpagni: 启用后，将击破特攻增益应用于战斗属性计算。
     Lushaka: 所选的增益将应用于伤害计算。
@@ -398,7 +406,7 @@ MinMaxFilters:
   SKILLLabel: 战技
   ULTLabel: 终结技
   FUALabel: 追加攻击
-  MEMOSKILLLabel: 忆灵技能
+  MEMOSKILLLabel: 忆灵技
   DOTLabel: 持续伤害
   BREAKLabel: 击破
   HEALLabel: 治疗值
@@ -423,7 +431,8 @@ ComboFilter:
     Skill: 战技
     Ult: 终结技
     Fua: 追加攻击
-    MemoSkill: 忆灵战技
+    MemoSkill: 忆灵技
+    MemoTalent: 忆灵天赋
   RotationButton: 高级技能循环
 ComboDrawer:
   NoConditionals: 无可应用的条件触发被动技能
@@ -557,7 +566,8 @@ ExpandedDataPanel:
       FUA_DMG: 追加攻击
       DOT_DMG: 持续
       BREAK_DMG: 击破
-      MEMO_SKILL_DMG: 忆灵战技
+      MEMO_SKILL_DMG: 忆灵技
+      MEMO_TALENT_DMG: 忆灵天赋
     TooltipText:
       abilityDmg: 技能伤害
       breakDmg: 击破伤害

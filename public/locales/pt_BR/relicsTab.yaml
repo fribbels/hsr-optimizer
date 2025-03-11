@@ -85,6 +85,12 @@ RelicGrid:
         Header: |-
           Chars Selecionados
           Média Reroll Δ
+      RerollAvgEquippedDelta:
+        Label: "Personagem selecionado: Potencial delta médio de reroll vs equipado"
+        Header: |-
+          Personagem Selecionado
+          Média ∆ Reroll
+          VS Equipado
     CustomCharacters:
       Label: Personagens selecionados
       AvgPotCol:

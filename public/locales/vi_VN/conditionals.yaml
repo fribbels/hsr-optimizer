@@ -521,9 +521,8 @@ Lightcones:
           Tăng sát thương gây ra khi người trang bị thi triển Tuyệt Kỹ, mức tăng tương đương {{Multiplier}}% Phòng Thủ của người trang bị. Mỗi lần dùng Tuyệt Kỹ, hiệu ứng này chỉ có hiệu lực 1 lần cho mỗi kẻ địch.
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: Năng lượng tối đa
-        content: 'Sau khi vào chiến đấu, dựa theo giới hạn Năng Lượng của người trang bị để tăng sát thương mà người trang bị gây ra: Mỗi điểm Năng Lượng tăng {{DmgStep}}%, tối đa tính 160 điểm.'
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -637,10 +636,6 @@ Characters:
         text: Tầng Nút Thắt Đỏ
         content: >-
           Lưỡi Chém Mưa: Gây cho 1 kẻ địch chỉ định Sát Thương Lôi bằng {{RainbladeScaling}}% Tấn Công của Acheron đồng thời xóa tối đa 3 tầng Nút Thắt Đỏ của mục tiêu. Khi xóa Nút Thắt Đỏ sẽ lập tức gây cho toàn bộ phe địch Sát Thương Lôi bằng {{CrimsonKnotScaling}}% Tấn Công của Acheron, mỗi 1 tầng Nút Thắt Đỏ bị xóa sẽ tăng thêm Bội Số Sát Thương lần này.::BR:: Khi "Lưỡi Chém Mưa" của Tuyệt Kỹ đánh trúng mục tiêu phe địch có "Nút Thắt Đỏ", sẽ khiến sát thương Acheron gây ra tăng 30%, hiệu ứng này tối đa cộng dồn 3 tầng
-      nihilityTeammates:
-        text: Đồng đội hư vô
-        content: >-
-          Khi trong đội phe ta có 1 hoặc 2 nhân vật Vận Mệnh "Hư Vô" ngoài trừ Acheron, sẽ tăng sát thương gây ra bở Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ của Acheron bằng 115% hoặc 160% sát thương ban đầu. ::BR::E2::Giảm 1 nhân vật Vận Mệnh "Hư Vô" cần thiết để Vết Tích "Vực sâu" đạt được hiệu quả cao nhất. Khi hiệp của bản thân bắt đầu sẽ nhận 1 điểm Mộng Tàn, đồng thời kèm theo 1 tầng "Nút Thắt Đỏ" cho kẻ địch có nhiều "Nút Thắt Đỏ" nhất.
       thunderCoreStacks:
         text: Stack Trái Tim Sấm
         content: Khi "Lưỡi Chém Mưa" của Tuyệt Kỹ đánh trúng mục tiêu phe địch có "Nút Thắt Đỏ", sẽ khiến sát thương Acheron gây ra tăng 30%, hiệu ứng này tối đa cộng dồn 3 tầng, duy trì 3 hiệp.
@@ -1510,9 +1505,6 @@ Characters:
         text: Thiên Phú ST Tăng
         content: >-
           Mục tiêu phe ta mỗi khi tiêu hao 1 Điểm Chiến Kỹ, sẽ tăng 3%–6,6% sát thương do toàn bộ phe ta gây ra, hiệu ứng này duy trì 2 hiệp, tối đa có thể cộng dồn 3 tầng.::BR::E2: Mỗi tầng hiệu ứng của Thiên Phú khiến mục tiêu phe ta khi gây sát thương sẽ bỏ qua 8% Phòng Thủ của mục tiêu.
-      quantumAllies:
-        text: Đồng minh lượng từ
-        content: Tấn Công của toàn phe ta tăng 15%. Khi trong đội phe ta có 1/2/3 nhân vật thuộc tính Lượng Tử, tấn công của nhân vật có thuộc tính Lượng Tử phe ta tăng thêm 5%/15%/30%.
     TeammateContent:
       teammateCDValue:
         text: Sát Thương Bạo Kích trong Combat của Sparkle

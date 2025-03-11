@@ -7,6 +7,22 @@ StrategyLabels:
   E4: crwdns44518:0crwdne44518:0
   E5: crwdns44520:0crwdne44520:0
   E6: crwdns44522:0crwdne44522:0
+EidolonLevels:
+  NONE: crwdns44840:0crwdne44840:0
+  E0: crwdns44842:0crwdne44842:0
+  E1: crwdns44844:0crwdne44844:0
+  E2: crwdns44846:0crwdne44846:0
+  E3: crwdns44848:0crwdne44848:0
+  E4: crwdns44850:0crwdne44850:0
+  E5: crwdns44852:0crwdne44852:0
+  E6: crwdns44854:0crwdne44854:0
+SuperimpositionLevels:
+  NONE: crwdns44856:0crwdne44856:0
+  S1: crwdns44858:0crwdne44858:0
+  S2: crwdns44860:0crwdne44860:0
+  S3: crwdns44862:0crwdne44862:0
+  S4: crwdns44864:0crwdne44864:0
+  S5: crwdns44866:0crwdne44866:0
 IncomeOptions:
   Label: "crwdns44580:0{{versionNumber}}crwdnd44580:0{{phaseNumber}}crwdnd44580:0{{type}}crwdne44580:0"
   Type:
@@ -16,6 +32,7 @@ IncomeOptions:
     3: crwdns44532:0crwdne44532:0
 PityCounter:
   PityCounter: crwdns44534:0crwdne44534:0
+  CurrentEidolonSuperImp: crwdns44868:0crwdne44868:0
   Guaranteed: crwdns44536:0crwdne44536:0
 TotalAvailable: "crwdns44538:0crwdne44538:0"
 SectionTitles:
@@ -27,6 +44,9 @@ SectionTitles:
   Passes: crwdns44550:0crwdne44550:0
   Jades: crwdns44552:0crwdne44552:0
   Strategy: crwdns44554:0crwdne44554:0
+  Banner: crwdns44870:0crwdne44870:0
+  New: crwdns44872:0crwdne44872:0
+  Rerun: crwdns44874:0crwdne44874:0
   AdditionalResources: crwdns44556:0crwdne44556:0
   Calculate: crwdns44558:0crwdne44558:0
 ColumnTitles:

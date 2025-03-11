@@ -153,7 +153,7 @@ export const OptimizerTabController = {
 
   // Get a form that's ready for optimizer submission
   getForm: () => {
-    const form = window.optimizerForm.getFieldsValue() as Form
+    const form = window.optimizerForm.getFieldsValue()
     return OptimizerTabController.displayToForm(form)
   },
 
@@ -215,7 +215,7 @@ export const OptimizerTabController = {
         if (character && data.id) {
           // These are pinned rows
           const rowId = data.id
-          const build = OptimizerTabController.calculateRelicIdsFromId(rowId)
+          const build = OptimizerTabController.calculateRelicIdsFromId(rowId, form)
 
           window.store.getState().setOptimizerBuild(build)
 
@@ -349,8 +349,8 @@ export const OptimizerTabController = {
     } as SingleRelicByPart
   },
 
-  calculateRelicIdsFromId: (id: number) => {
-    const relicsFromId = OptimizerTabController.calculateRelicsFromId(id)
+  calculateRelicIdsFromId: (id: number, form?: Form) => {
+    const relicsFromId = OptimizerTabController.calculateRelicsFromId(id, form)
 
     return {
       Head: relicsFromId.Head?.id,

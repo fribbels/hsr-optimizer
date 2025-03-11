@@ -535,9 +535,8 @@ Lightcones:
           装備キャラの必殺技のダメージ基礎値が、装備キャラの防御力{{Multiplier}}%分アップする。この効果は必殺技を発動するたび、1体の敵に対して1回まで発動できる。
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
-        text: EP最大
-        content: 戦闘に入った後、装備キャラの最大EPに応じて、装備キャラの与ダメージをアップする。1EPにつき+{{DmgStep}}%、最大で160までカウントされる。
+      maxEnergyDmgBoost:
+        text: 最大EP
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -651,10 +650,6 @@ Characters:
         text: '「集真赤」付与数'
         content: >-
           「啼沢斬り」：指定した敵単体に黄泉の攻撃力{{RainbladeScaling}}%分の雷属性ダメージを与え、その敵にある「集真赤」を最大で3層消去する。「集真赤」が消去された時、敵全体に黄泉の攻撃力{{CrimsonKnotScaling}}%分の雷属性ダメージを与える。消去した「集真赤」1層につき、ダメージ倍率がさらにアップする。::BR::必殺技の「啼沢斬り」が「集真赤」を持つ敵に命中する時、黄泉の与ダメージ+30%、この効果は最大で3層累積できる。
-      nihilityTeammates:
-        text: 虚無運命の味方数
-        content: >-
-          パーティ内に黄泉以外の「虚無」の運命を歩むキャラクターが1名/2名存在する場合、黄泉の通常攻撃、戦闘スキル、および必殺技によるダメージが本来の115%/160%になる。::BR::2凸： 軌跡「奈落」の効果の最大値に達するために必要な「虚無」の運命を歩むキャラクターの数-1名。自身のターンが回ってきた時、「残夢」を1層獲得し、「集真赤」が最も多い敵に「集真赤」を1層付与する。
       thunderCoreStacks:
         text: '「雷心」層数'
         content: 必殺技の「啼沢斬り」が「集真赤」を持つ敵に命中する時、黄泉の与ダメージ+30%、この効果は最大で3層累積でき、3ターン継続。
@@ -1544,9 +1539,6 @@ Characters:
         text: 天賦の層数
         content: >-
           味方がSPを1消費するたびに、味方全体の与ダメージ+{{talentBaseStackBoost}}%、2ターン継続、最大で3層累積できる。:BR::必殺技がさらにSPを1回復する。天賦の最大SPアップ効果がさらに1アップする。
-      quantumAllies:
-        text: 量子属性の味方数
-        content: パーティに量子属性キャラが1名/2名/3名いる時、さらに味方量子属性キャラの攻撃力+5%/15%/30%。
     TeammateContent:
       teammateCDValue:
         text: 会心ダメージ（戦闘時）

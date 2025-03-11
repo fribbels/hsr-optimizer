@@ -78,9 +78,15 @@ RelicGrid:
           選択 リロール
           ポテンシャル
       RerollAvgDelta:
-        Label: "選択キャラ：リロール前後のポテンシャル差異"
+        Label: "選択キャラ：リロール前後の平均ポテンシャル差異"
         Header: |-
           選択 リロール
+          ポテンシャル差
+      RerollAvgEquippedDelta:
+        Label: "選択キャラ：リロール後と装備済み遺物の平均ポテンシャル差異"
+        Header: |-
+          選択 リロール
+          vs 装備済み
           ポテンシャル差
     CustomCharacters:
       Label: 指定した複数キャラクター

@@ -128,11 +128,18 @@ interface Resources {
       "DMGUpgrades": "Damage Upgrades",
       "SubstatUpgradeComparisons": {
         "Header": "Substat upgrade comparisons",
+        "MainStatHeader": "Main stat upgrade comparisons",
         "Roll": "roll",
-        "Damage": "Damage"
+        "Damage": "Damage",
+        "MainStatUpgrade": "Main Stat Upgrade",
+        "SubStatUpgrade": "Substat Upgrade",
+        "DpsScorePercentUpgrade": "DPS Score Δ %",
+        "UpgradedDpsScore": "Upgraded DPS Score",
+        "ComboDmgPercentUpgrade": "Combo DMG Δ %",
+        "ComboDmgUpgrade": "Combo DMG Δ"
       },
       "BuildAnalysis": {
-        "ScoringNote": "Note: DPS Score & Combo DMG are scoring metrics for a single ability rotation, and not meant for cross-team comparisons",
+        "ScoringNote": "DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons. Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.",
         "Header": "Character build analysis",
         "SimulationTeammates": "Simulation teammates",
         "SimulationSets": "Simulation sets",
@@ -162,6 +169,8 @@ interface Resources {
             "FUA": "FUA DMG",
             "DOT": "DOT DMG",
             "BREAK": "BREAK DMG",
+            "MEMO_SKILL": "SKILLᴹ DMG",
+            "MEMO_TALENT": "TALENTᴹ DMG",
             "COMBO": "COMBO DMG"
           }
         },
@@ -1161,7 +1170,7 @@ interface Resources {
       },
       "TodayIsAnotherPeacefulDay": {
         "Content": {
-          "maxEnergyStacks": {
+          "maxEnergyDmgBoost": {
             "text": "Max energy",
             "content": "After entering battle, increases the wearer's DMG based on their Max Energy. DMG increases by {{DmgStep}}% per point of Energy, up to 160 Energy."
           }
@@ -1343,8 +1352,8 @@ interface Resources {
             "text": "Crimson Knot stacks",
             "content": "Rainblade: Deals Lightning DMG equal to {{RainbladeScaling}}% of Acheron's ATK to a single target enemy and removes up to 3 stacks of Crimson Knot from the target. When Crimson Knot is removed, immediately deals Lightning DMG equal to {{CrimsonKnotScaling}}% of Acheron's ATK to all enemies. For every stack of Crimson Knot removed, the DMG Multiplier for this is additionally increased.::BR::When the Rainblade from Acheron's Ultimate hits enemy targets with Crimson Knot, her DMG increases by 30%, stacking up to 3 times."
           },
-          "nihilityTeammates": {
-            "text": "Nihility teammates",
+          "nihilityTeammatesBuff": {
+            "text": "Nihility teammates buff",
             "content": "When there are 1 or 2 Nihility characters other than Acheron in the team, the DMG dealt by Acheron's Basic ATK, Skill, and Ultimate increases to 115% or 160% of the original DMG respectively.::BR::E2: The number of Nihility characters required for the Trace The Abyss to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1 point of Slashed Dream and inflicts 1 stack of Crimson Knot on the enemy with the most Crimson Knot stacks."
           },
           "thunderCoreStacks": {
@@ -2523,8 +2532,8 @@ interface Resources {
             "text": "Talent DMG stacks",
             "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
           },
-          "quantumAllies": {
-            "text": "Quantum allies",
+          "quantumAlliesAtkBuff": {
+            "text": "Quantum allies ATK buff",
             "content": "When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%."
           }
         },
@@ -3187,6 +3196,14 @@ interface Resources {
         "Name": "Mydei",
         "LongName": "Mydei"
       },
+      "1405": {
+        "Name": "Anaxa",
+        "LongName": "Anaxa"
+      },
+      "1407": {
+        "Name": "Castorice",
+        "LongName": "Castorice"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -3293,8 +3310,8 @@ interface Resources {
       },
       "115": {
         "Name": "The Ashblazing Grand Duke",
-        "Description2pc": "Increases the DMG dealt by follow-up attack by 20%.",
-        "Description4pc": "When the wearer uses a follow-up attack, increases the wearer's ATK by 6% for every time the follow-up attack deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a follow-up attack."
+        "Description2pc": "Increases the DMG dealt by Follow-up ATK by 20%.",
+        "Description4pc": "When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a Follow-up ATK."
       },
       "116": {
         "Name": "Prisoner in Deep Confinement",
@@ -3319,7 +3336,7 @@ interface Resources {
       "120": {
         "Name": "The Wind-Soaring Valorous",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a follow-up attack, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s)."
+        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s)."
       },
       "121": {
         "Name": "Sacerdos' Relived Ordeal",
@@ -3363,7 +3380,7 @@ interface Resources {
       },
       "306": {
         "Name": "Inert Salsotto",
-        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and follow-up attack increases by 15%."
+        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and Follow-up ATK increases by 15%."
       },
       "307": {
         "Name": "Talia: Kingdom of Banditry",
@@ -3399,7 +3416,7 @@ interface Resources {
       },
       "315": {
         "Name": "Duran, Dynasty of Running Wolves",
-        "Description2pc": "When an ally uses a follow-up attack, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's follow-up attacks by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
+        "Description2pc": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
       },
       "316": {
         "Name": "Forge of the Kalpagni Lantern",
@@ -3660,6 +3677,9 @@ interface Resources {
       "22003": {
         "Name": "Ninja Record: Sound Hunt"
       },
+      "22004": {
+        "Name": "The Great Cosmic Enterprise"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -3779,6 +3799,12 @@ interface Resources {
       },
       "23039": {
         "Name": "Flame of Blood, Blaze My Path"
+      },
+      "23040": {
+        "Name": "Make Farewells More Beautiful"
+      },
+      "23041": {
+        "Name": "Life Should Be Cast to Flames"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -4007,12 +4033,21 @@ interface Resources {
         "InvalidJson": "Invalid JSON",
         "Fragment": "Error occurred while importing file: "
       },
+      "ParserError": {
+        "BadSource": "Incorrect source string, was '{{jsonSource}}', expected '{{configSource}}'",
+        "BadVersion": "Incorrect json version, was '{{jsonVersion}}', expected '{{configVersion}}'",
+        "OutdatedVersion": "Your scanner version {{buildVersion}} is out of date and may result in incorrect imports! Please update to the latest version from Github:",
+        "BadMainstat": "Could not parse mainstat for relic with mainstat {{mainstat}} and part {{part}}"
+      },
+      "ParserWarning": {
+        "BadRollInfo": "Scanner file is outdated / may contain invalid information. Please update your scanner."
+      },
       "Stage1": {
         "Header": "Install and run one of the relic scanner options:",
         "ReliquaryDesc": {
           "Title": "(Recommended) IceDynamix Reliquary Archiver",
           "Link": "Github",
-          "OnlineMsg": "Status: Updated for patch {{version}} — New download required",
+          "OnlineMsg": "Status: Updated for patch {{version}}",
           "OfflineMsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
           "l2": "Imports full inventory and character roster"
@@ -4356,6 +4391,26 @@ interface Resources {
           "Description": "Minimum break damage may be too high",
           "ButtonText": "Reset Minimum Break filter"
         },
+        "MAX_MEMO_SKILL": {
+          "SuccessMessage": "Reset Maximum Memo Skill filter",
+          "Description": "Maximum Memo Skill damage may be too low",
+          "ButtonText": "Reset Maximum Memo Skill filter"
+        },
+        "MIN_MEMO_SKILL": {
+          "SuccessMessage": "Reset Minimum Memo Skill filter",
+          "Description": "Minimum Memo Skill damage may be too high",
+          "ButtonText": "Reset Minimum Memo Skill filter"
+        },
+        "MAX_MEMO_TALENT": {
+          "SuccessMessage": "Reset Maximum Memo Talent filter",
+          "Description": "Maximum Memo Talent damage may be too low",
+          "ButtonText": "Reset Maximum Memo Talent filter"
+        },
+        "MIN_MEMO_TALENT": {
+          "SuccessMessage": "Reset Minimum Memo Talent filter",
+          "Description": "Minimum Memo Talent damage may be too high",
+          "ButtonText": "Reset Minimum Memo Talent filter"
+        },
         "MAX_HEAL": {
           "SuccessMessage": "Reset Maximum HEAL filter",
           "Description": "Maximum HEAL may be too low",
@@ -4530,7 +4585,7 @@ interface Resources {
         "l1": "Please use one of the following supported environments in order to enable GPU acceleration:",
         "l2": "Windows & Mac — Chrome, Opera, Edge",
         "l3": "Linux — <CustomLink text=\"Behind a flag\"/>",
-        "l4": "If you're on one of the supported browsers and it doesn't work, try another browser, or try switching your browser to use your dedicated graphics card instead of integrated."
+        "l4": "If you're on one of the supported browsers and it doesn't work, first try updating your browser version, otherwise try another browser, or try switching your browser to use your dedicated graphics card instead of integrated."
       }
     },
     "GPUCrash": {
@@ -4875,8 +4930,9 @@ interface Resources {
         "Watchmaker": "When enabled, the Break Effect buff is applied to Combat stat calculations.",
         "Valorous": "The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
+        "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
-        "Izumo": "When enabled, assumes there is another ally with the same path, and applies the 12% CRIT Rate buff to Combat stat calculations.",
+        "Izumo": "When enabled, if there is an ally with the same path, applies the 12% CRIT Rate buff to Combat stat calculations.",
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
         "Lushaka": "The selected buff is applied to damage calculations.",
@@ -4997,7 +5053,8 @@ interface Resources {
         "Skill": "Skill",
         "Ult": "Ult",
         "Fua": "Fua",
-        "MemoSkill": "Skillᴹ"
+        "MemoSkill": "Skillᴹ",
+        "MemoTalent": "Talentᴹ"
       },
       "RotationButton": "Advanced rotation"
     },
@@ -5268,6 +5325,10 @@ interface Resources {
           "RerollAvgDelta": {
             "Label": "Selected character: Reroll average delta potential",
             "Header": "Selected Char\nΔ Reroll Avg"
+          },
+          "RerollAvgEquippedDelta": {
+            "Label": "Selected character: Reroll average delta potential vs equipped",
+            "Header": "Selected Char\n∆ Reroll AVG\nVS Equipped"
           }
         },
         "CustomCharacters": {
@@ -5393,6 +5454,24 @@ interface Resources {
       "E5": "E5 first",
       "E6": "E6 first"
     },
+    "EidolonLevels": {
+      "NONE": "None",
+      "E0": "E0",
+      "E1": "E1",
+      "E2": "E2",
+      "E3": "E3",
+      "E4": "E4",
+      "E5": "E5",
+      "E6": "E6"
+    },
+    "SuperimpositionLevels": {
+      "NONE": "None",
+      "S1": "S1",
+      "S2": "S2",
+      "S3": "S3",
+      "S4": "S4",
+      "S5": "S5"
+    },
     "IncomeOptions": {
       "Label": "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: ",
       "Type": {
@@ -5404,6 +5483,7 @@ interface Resources {
     },
     "PityCounter": {
       "PityCounter": "Pity counter",
+      "CurrentEidolonSuperImp": "Current",
       "Guaranteed": "Guaranteed"
     },
     "TotalAvailable": "Total warps available:",
@@ -5416,6 +5496,9 @@ interface Resources {
       "Passes": "Passes",
       "Jades": "Jades",
       "Strategy": "Strategy",
+      "Banner": "Banner",
+      "New": "New",
+      "Rerun": "Rerun",
       "AdditionalResources": "Additional resources",
       "Calculate": "Calculate"
     },

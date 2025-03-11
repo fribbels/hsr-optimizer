@@ -355,6 +355,8 @@ export const DB = {
     const removed = characters.splice(matchingCharacter.rank, 1)
     characters.splice(index, 0, removed[0])
     DB.setCharacters(characters)
+
+    window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
   },
   refreshCharacters: () => {
     if (window.setCharacterRows) {
@@ -520,18 +522,6 @@ export const DB = {
       // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
       if (character.form.resultSort === 'WEIGHT') {
         character.form.resultSort = 'SPD'
-      }
-
-      // Unset light cone fields for mismatched light cone path
-      const dbLightCone = dbLightCones[character.form?.lightCone] || {}
-      const dbCharacter = dbCharacters[character.id]
-      if (dbLightCone?.path != dbCharacter?.path) {
-        // @ts-ignore
-        character.form.lightCone = undefined
-        character.form.lightConeLevel = 80
-        character.form.lightConeSuperimposition = 1
-        // @ts-ignore
-        character.form.lightConeConditionals = {}
       }
 
       // Deduplicate main stat filter values
@@ -933,8 +923,8 @@ export const DB = {
     }
   },
 
-  // These relics are missing speed decimals from OCR importer
-  // We overwrite any existing relics with imported ones
+  // These relics may be missing speed decimals depending on the importer.\
+  // We overwrite any existing relics with imported ones.
   mergeRelicsWithState: (newRelics: Relic[], newCharacters: Form[]) => {
     const oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics) || []
@@ -1062,8 +1052,8 @@ export const DB = {
   },
 
   /*
-   * These relics have accurate speed values from relic scorer import
-   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
+   * These relics have accurate speed values from relic scorer import.\
+   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one.
    */
   mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
     const oldRelics = TsUtils.clone(DB.getRelics()) || []
@@ -1078,7 +1068,7 @@ export const DB = {
     }[] = []
 
     for (const newRelic of newRelics) {
-      const match: Relic | undefined = findRelicMatch(newRelic, oldRelics)
+      const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats

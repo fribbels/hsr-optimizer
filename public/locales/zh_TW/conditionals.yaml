@@ -412,9 +412,8 @@ Lightcones:
           使裝備者施放終結技時造成的傷害值提高，提高數值等同於裝備者防禦力的{{Multiplier}}%，此效果每次施放終結技時對每個敵方目標僅生效1次。
   TodayIsAnotherPeacefulDay:
     Content:
-      maxEnergyStacks:
+      maxEnergyDmgBoost:
         text: 最大能量
-        content: 進入戰鬥後，依照裝備者的能量上限，提高裝備者造成的傷害：每點能量提高{{DmgStep}}%，最多計入160點。
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -511,10 +510,6 @@ Characters:
     Content:
       crimsonKnotStacks:
         text: 集真赤層數
-      nihilityTeammates:
-        text: 虛無隊友數量
-        content: >-
-          我方隊伍中存在1名/2名除黃泉以外的「虛無」命途角色時，使黃泉普攻、戰技、終結技造成的傷害為原傷害的115%/160% 。 ::BR::E2:行跡【奈落】最高數值所需求「虛無」命途角色的數量減少1名，自身回合開始時獲得1點【殘夢】，同時為【集真赤】最多的敵方附上1層【集真赤】。
       thunderCoreStacks:
         text: 雷心層數
       stygianResurgeHitsOnTarget:

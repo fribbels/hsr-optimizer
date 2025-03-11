@@ -1,7 +1,9 @@
 import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
-import { Constants, Parts, Sets } from 'lib/constants/constants'
+import i18next from 'i18next'
+import { Constants, Parts } from 'lib/constants/constants'
+import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
@@ -10,6 +12,7 @@ import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
 import stringSimilarity from 'string-similarity'
 import { Character } from 'types/character'
+import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
 // FIXME HIGH
@@ -17,14 +20,6 @@ import { Relic } from 'types/relic'
 const { Text } = Typography
 
 const characterList = Object.values(gameData.characters)
-const lightConeList = Object.values(gameData.lightCones)
-const relicSetMatchData = Object.entries(Sets).map(([setKey, setName]) => {
-  return {
-    setKey: setKey,
-    setName: setName,
-    lowerAlphaNumericMatcher: lowerAlphaNumeric(setName),
-  }
-})
 
 type V4ParserLightCone = {
   id: string
@@ -56,6 +51,8 @@ type V4ParserRelic = {
   substats: {
     key: string
     value: number
+    count?: number // only present on reliquary scans
+    step?: number // only present on reliquary scans
   }[]
   location: string
   lock: boolean
@@ -66,7 +63,7 @@ type V4ParserRelic = {
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
   map[relic.id] = relic
   return map
-}, {})
+}, {} as Record<string, { id: string; name: string; skills: string }>)
 
 export type ScannerParserJson = {
   source: string
@@ -84,38 +81,37 @@ export type ScannerParserJson = {
 
 export class KelzFormatParser { // TODO abstract class
   config: ScannerConfig
+  badRollInfo: boolean
 
   constructor(config: ScannerConfig) {
     this.config = config
+    this.badRollInfo = false
   }
 
   parse(json: ScannerParserJson) {
+    const tError = i18next.getFixedT(null, 'importSaveTab', 'Import.ParserError')
+    const tWarning = i18next.getFixedT(null, 'importSaveTab', 'Import.ParserWarning')
     const parsed = {
       metadata: {
         trailblazer: 'Stelle',
         current_trailblazer_path: 'Destruction',
       },
-      characters: [] as Character[],
+      characters: [] as Character['form'][],
       relics: [] as Relic[],
     }
 
     if (json.source != this.config.sourceString) {
-      throw new Error(`Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'`)
+      throw new Error(tError('BadSource', {
+        jsonSource: json.source,
+        configSource: this.config.sourceString,
+      })/* `Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'` */)
     }
 
-    // Temporary while transitioning to v4
-    if (json.version != this.config.latestOutputVersion) {
-      Message.warning((
-        <Text>
-          Your scanner version is out of date and may result in incorrect imports! Please update to the latest version from Github:
-          {' '}
-          <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
-        </Text>
-      ), 15)
-    }
-
-    if (json.version != 3 && json.version != 4) {
-      throw new Error(`Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'`)
+    if (json.version !== this.config.latestOutputVersion) {
+      throw new Error(tError('BadVersion', {
+        jsonVersion: json.version,
+        configVersion: this.config.latestOutputVersion,
+      })/* `Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'` */)
     }
 
     const buildVersion = json.build || 'v0.0.0'
@@ -125,23 +121,12 @@ export class KelzFormatParser { // TODO abstract class
       console.log(`Current: ${buildVersion}, Latest: ${this.config.latestBuildVersion}`)
       Message.warning((
         <Text>
-          {`Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:`}
+          {/* `Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:` */}
+          {tError('OutdatedVersion', { buildVersion })}
           {' '}
           <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
         </Text>
       ), 15)
-    }
-
-    let readCharacter
-    let readRelic
-    if (json.version == 3) {
-      readRelic = readRelicV3
-      readCharacter = readCharacterV3
-    }
-
-    if (json.version == 4) {
-      readRelic = readRelicV4
-      readCharacter = readCharacterV4
     }
 
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
@@ -149,24 +134,31 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => readRelic(r, parsed.metadata.trailblazer, parsed.metadata.current_trailblazer_path, this.config))
-        .map((r) => RelicAugmenter.augment(r))
-        .filter((r) => {
+        .map((r) => readRelic(r, this))
+        .map((r) => RelicAugmenter.augment(r) as Relic | null)
+        .filter((r): r is NonNullable<typeof r> => {
           if (!r) {
             console.warn('Could not parse relic')
+            return false
           }
-          return r
+          return true
         })
+    }
+    // "Scanner file is outdated / may contain invalid information. Please update your scanner."
+    if (this.badRollInfo) {
+      Message.warning(tWarning('BadRollInfo'), 10)
+      this.badRollInfo = false // parser isn't necessarily re-instantiated in between parsings
     }
 
     if (json.characters) {
       parsed.characters = json.characters
-        .map((c) => readCharacter(c, json.light_cones, parsed.metadata.trailblazer, parsed.metadata.current_trailblazer_path))
-        .filter((c) => {
+        .map((c) => readCharacter(c, json.light_cones) as Form | null)
+        .filter((c): c is NonNullable<typeof c> => {
           if (!c) {
             console.warn('Could not parse character')
+            return false
           }
-          return c
+          return true
         })
     }
 
@@ -174,87 +166,9 @@ export class KelzFormatParser { // TODO abstract class
   }
 }
 
-// ================================================== V3 ==================================================
-// TODO: deprecate soon
-function readCharacterV3(character: V4ParserCharacter & {
-  key: string
-},
-lightCones: (V4ParserLightCone & {
-  key: string
-})[],
-trailblazer,
-path) {
-  let lightCone: (V4ParserLightCone & {
-    key: string
-  }) | undefined
-  if (lightCones) {
-    if (character.key.startsWith('Trailblazer')) {
-      lightCone = lightCones.find((x) => x.location === character.key)
-      || lightCones.find((x) => x.location.startsWith('Trailblazer'))
-    } else {
-      lightCone = lightCones.find((x) => x.location === character.key)
-    }
-  }
-
-  let characterId
-  if (character.key.startsWith('Trailblazer')) {
-    characterId = getTrailblazerId(character.key, trailblazer, path)
-  } else {
-    characterId = characterList.find((x) => x.name === character.key)?.id
-  }
-
-  const lcKey = lightCone?.key
-  const lightConeId = lightConeList.find((x) => x.name === lcKey)?.id
-
-  if (!characterId) return null
-
-  return {
-    characterId: characterId,
-    characterLevel: character.level || 80,
-    characterEidolon: character.eidolon || 0,
-    lightCone: lightConeId || null,
-    lightConeLevel: lightCone?.level || 80,
-    lightConeSuperimposition: lightCone?.superimposition || 1,
-  }
-}
-
-function readRelicV3(relic, trailblazer, path, config) {
-  const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
-  const part = partMatches.bestMatch.target
-
-  const setMatches = stringSimilarity.findBestMatch(lowerAlphaNumeric(relic.set), relicSetMatchData.map((x) => x.lowerAlphaNumericMatcher))
-  const set = relicSetMatchData[setMatches.bestMatchIndex].setName
-
-  const enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
-  const grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
-
-  const { main, substats } = readRelicStats(relic, part, grade, enhance)
-
-  let equippedBy: string | undefined
-  if (relic.location !== '') {
-    const lookup = characterList.find((x) => x.name == relic.location)?.id
-    if (lookup) {
-      equippedBy = lookup
-    } else if (relic.location.startsWith('Trailblazer')) {
-      equippedBy = getTrailblazerId(relic.location, trailblazer, path)
-    }
-  }
-
-  return {
-    part,
-    set,
-    enhance,
-    grade,
-    main,
-    substats,
-    equippedBy,
-    verified: config.speedVerified,
-  }
-}
-
 // ================================================== V4 ==================================================
 
-function readCharacterV4(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
+function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
   let lightCone: V4ParserLightCone | undefined
   if (lightCones) {
     // TODO: don't search on an array
@@ -277,17 +191,17 @@ function readCharacterV4(character: V4ParserCharacter, lightCones: V4ParserLight
   }
 }
 
-function readRelicV4(relic, trailblazer, path, config) {
+function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser) {
   const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
-  const part = partMatches.bestMatch.target
+  const part = partMatches.bestMatch.target as Parts
 
   const setId = relic.set_id
   const set = relicSetMapping[setId].name
 
-  const enhance = Math.min(Math.max(parseInt(relic.level), 0), 15)
-  const grade = Math.min(Math.max(parseInt(relic.rarity), 2), 5)
+  const enhance = Math.min(Math.max(relic.level, 0), 15)
+  const grade = Math.min(Math.max(relic.rarity, 2), 5)
 
-  const { main, substats } = readRelicStats(relic, part, grade, enhance)
+  const { main, substats } = readRelicStats(relic, part, grade, enhance, scanner)
 
   let equippedBy: string | undefined
   if (relic.location !== '') {
@@ -305,11 +219,9 @@ function readRelicV4(relic, trailblazer, path, config) {
     main,
     substats,
     equippedBy,
-    verified: config.speedVerified,
+    verified: scanner.config.speedVerified,
   }
 }
-
-// ================================================== ==================================================
 
 type MainData = {
   base: number
@@ -323,16 +235,25 @@ type Affixes = {
   step: number
 }
 
-function readRelicStats(relic, part, grade, enhance) {
-  let mainStat
-  if (part === 'Hands') {
-    mainStat = Constants.Stats.ATK
-  } else if (part === 'Head') {
-    mainStat = Constants.Stats.HP
-  } else {
-    mainStat = mapMainStatToId(relic.mainstat)
+function parseMainStat(relic: V4ParserRelic, part: string) {
+  switch (part) {
+    case 'Hands':
+      return Constants.Stats.ATK
+    case 'Head':
+      return Constants.Stats.HP
+    default:
+      return mapMainStatToId(relic.mainstat)
   }
+}
 
+function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
+  const mainStat = parseMainStat(relic, part)
+  if (!mainStat) {
+    throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
+      mainstat: relic.mainstat,
+      part,
+    })/* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
+  }
   const partId = mapPartIdToIndex(part)
   const query = `${grade}${partId}`
   const affixes: Affixes[] = Object.values(DB.getMetadata().relics.relicMainAffixes[query].affixes)
@@ -342,10 +263,38 @@ function readRelicStats(relic, part, grade, enhance) {
   const mainValue = mainData.base + mainData.step * enhance
 
   const substats = relic.substats
-    .map((s) => ({
-      stat: mapSubstatToId(s.key),
-      value: s.value,
-    }))
+    .map((s) => {
+      if (!scanner.config.speedVerified) {
+        return {
+          stat: mapSubstatToId(s.key),
+          value: s.value,
+        }
+      }
+
+      if (s.step == undefined
+        || s.count == undefined
+        || s.count > Math.max(1, relic.rarity * 2 - 4)
+        || s.count <= 0
+        || s.step > 2 * s.count
+        || s.step < 0) {
+        scanner.badRollInfo = true
+        return {
+          stat: mapSubstatToId(s.key),
+          value: s.value,
+        }
+      }
+
+      const { rolls, errorFlag } = rollCounter(s.step, s.count)
+
+      if (errorFlag) scanner.badRollInfo = true
+
+      return {
+        stat: mapSubstatToId(s.key),
+        value: s.value,
+        rolls,
+        addedRolls: s.count - 1,
+      }
+    })
 
   return {
     main: {
@@ -356,7 +305,7 @@ function readRelicStats(relic, part, grade, enhance) {
   }
 }
 
-function mapSubstatToId(substat) {
+function mapSubstatToId(substat: string) {
   switch (substat) {
     case 'ATK':
       return Constants.Stats.ATK
@@ -383,11 +332,11 @@ function mapSubstatToId(substat) {
     case 'Break Effect_':
       return Constants.Stats.BE
     default:
-      return null
+      return null as never
   }
 }
 
-function mapMainStatToId(mainStat) {
+function mapMainStatToId(mainStat: string) {
   switch (mainStat) {
     case 'ATK':
       return Constants.Stats.ATK_P
@@ -424,7 +373,7 @@ function mapMainStatToId(mainStat) {
     case 'Imaginary DMG Boost':
       return Constants.Stats.Imaginary_DMG
     default:
-      return null
+      return null as never
   }
 }
 
@@ -473,7 +422,7 @@ function mapAffixIdToString(affixId: string) {
     case Constants.Stats.Imaginary_DMG:
       return 'ImaginaryAddedRatio'
     default:
-      return null
+      return null as never
   }
 }
 
@@ -492,34 +441,6 @@ function mapPartIdToIndex(slotId: string) {
     case Constants.Parts.LinkRope:
       return 6
     default:
-      return null
+      return null as never
   }
-}
-
-function lowerAlphaNumeric(str: string) {
-  return str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')
-}
-
-function getTrailblazerId(name: string, trailblazer: string, path: string) {
-  if (name === 'TrailblazerDestruction') {
-    return trailblazer === 'Stelle' ? '8002' : '8001'
-  }
-  if (name === 'TrailblazerPreservation') {
-    return trailblazer === 'Stelle' ? '8004' : '8003'
-  }
-  if (name === 'TrailblazerHarmony') {
-    return trailblazer === 'Stelle' ? '8006' : '8005'
-  }
-
-  if (path === 'Destruction') {
-    return trailblazer === 'Stelle' ? '8002' : '8001'
-  }
-  if (path === 'Preservation') {
-    return trailblazer === 'Stelle' ? '8004' : '8003'
-  }
-  if (path === 'Harmony') {
-    return trailblazer === 'Stelle' ? '8006' : '8005'
-  }
-
-  return '8002'
 }

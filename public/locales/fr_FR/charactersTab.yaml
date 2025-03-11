@@ -100,11 +100,19 @@ CharacterPreview:
   DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats
+    MainStatHeader: Comparaisons d'améliorations de mainstat
     Roll: roll
     Damage: Dégâts
+    MainStatUpgrade: Améliorations de mainstat
+    SubStatUpgrade: Améliorations de substats
+    DpsScorePercentUpgrade: Note DPS ∆ %
+    UpgradedDpsScore: Note DPS amélioré
+    ComboDmgPercentUpgrade: DGT Combo ∆ %
+    ComboDmgUpgrade: DGT Combo ∆
   BuildAnalysis:
-    ScoringNote: "Info: La note DPS et les DGT COMBO sont des métriques qui s'appliquent à une rotation de capacité unique.\nElles ne servent pas à faire des comparaisons entre équipes."
-    Header: Analyse de build du personnage
+    ScoringNote: >-
+      La note de DPS évalue la qualité d'une build en comparant les dégâts infligés par une rotation de capacités de la build équipée à ceux de 2 builds de référence avec les mêmes équipes / cônes de lumière / eidolons. Les notes et DGT Combo sont relatifs à l'équipe et au seuil de vitesse choisi. Ils ne devraient pas être comparés entre différentes configurations.
+    Header: Calculs de la note DPS
     SimulationTeammates: Coéquipiers de simulation
     SimulationSets: Set de simulation
     Rotation:
@@ -113,7 +121,8 @@ CharacterPreview:
       SKILL: COMPÉTENCE
       ULT: ULT
       FUA: ADS
-      MEMO_SKILL: MNÉM
+      MEMO_SKILL: COMPᴹ
+      MEMO_TALENT: Talentᴹ
       DOTS: "DSD:"
       BREAKS: "RUPTURES:"
     CombatResults:
@@ -131,6 +140,8 @@ CharacterPreview:
         FUA: ADS
         DOT: DSD
         BREAK: RUPTURE
+        MEMO_SKILL: DGT Compᴹ
+        MEMO_TALENT: DGT TALENTᴹ
         COMBO: COMBO
     CombatBuffs:
       Header: Buffs de combat

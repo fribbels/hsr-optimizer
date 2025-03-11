@@ -103,8 +103,6 @@ CharacterPreview:
     Roll: サブ
     Damage: 増加ダメージ
   BuildAnalysis:
-    ScoringNote: "注意：DPS スコア及びコンボダメージは単一のスキル回しに対する評価の尺度であり、異なるチーム編成間の比較に用いるものではありません。"
-    Header: ビルド分析
     SimulationTeammates: パーティー編成
     SimulationSets: 遺物
     Rotation:
@@ -114,6 +112,7 @@ CharacterPreview:
       ULT: 必殺技
       FUA: 追加攻撃
       MEMO_SKILL: 精霊スキル
+      MEMO_TALENT: 精霊天賦
       DOTS: "持続 "
       BREAKS: "撃破 "
     CombatResults:
@@ -131,6 +130,8 @@ CharacterPreview:
         FUA: 追加攻撃
         DOT: 持続
         BREAK: 弱点撃破
+        MEMO_SKILL: 精霊スキル
+        MEMO_TALENT: 精霊天賦
         COMBO: コンボ
     CombatBuffs:
       Header: 戦闘バフ

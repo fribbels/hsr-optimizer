@@ -330,7 +330,6 @@ export function CharacterPreview(props: {
                 characterId={character.id}
                 finalStats={finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
-                cv={finalStats.CV}
                 scoringType={scoringType}
                 simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
               />

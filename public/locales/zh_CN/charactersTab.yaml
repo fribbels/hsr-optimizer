@@ -100,11 +100,19 @@ CharacterPreview:
   DMGUpgrades: 伤害升级
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
+    MainStatHeader: 主词条升级比较
     Roll: 升级次数
     Damage: 伤害
+    MainStatUpgrade: 主词条升级
+    SubStatUpgrade: 副词条升级
+    DpsScorePercentUpgrade: DPS评分Δ%
+    UpgradedDpsScore: 升级后DPS评分
+    ComboDmgPercentUpgrade: 连招伤害Δ%
+    ComboDmgUpgrade: 连招伤害Δ
   BuildAnalysis:
-    ScoringNote: "注意：DPS评分与连招伤害是针对单次技能循环的评分指标，不能用于跨队伍比较。"
-    Header: 角色配装分析
+    ScoringNote: >-
+      DPS评分通过对比相同队伍、光锥和命座下的基准配装伤害，来评估配装质量。评分和连招伤害仅相对于所选队伍配置衡量，不应与不同配置进行对比。
+    Header: DPS评分计算
     SimulationTeammates: 模拟队友
     SimulationSets: 模拟套装
     Rotation:
@@ -113,7 +121,8 @@ CharacterPreview:
       SKILL: 战技
       ULT: 终结技
       FUA: 追加攻击
-      MEMO_SKILL: 忆灵技能
+      MEMO_SKILL: 忆灵技
+      MEMO_TALENT: 忆灵天赋
       DOTS: "持续伤害次数"
       BREAKS: "击破次数"
     CombatResults:
@@ -131,6 +140,8 @@ CharacterPreview:
         FUA: 追加伤害
         DOT: 持续伤害
         BREAK: 击破伤害
+        MEMO_SKILL: 忆灵技伤害
+        MEMO_TALENT: 忆灵天赋伤害
         COMBO: 连招伤害
     CombatBuffs:
       Header: 战斗增益

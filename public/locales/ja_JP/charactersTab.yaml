@@ -100,9 +100,19 @@ CharacterPreview:
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
     Header: サブステータス強化の比較
+    MainStatHeader: メインステータス強化の比較
     Roll: サブ
     Damage: 増加ダメージ
+    MainStatUpgrade: メインステータス強化
+    SubStatUpgrade: サブステータス強化
+    DpsScorePercentUpgrade: DPS スコア変化率
+    UpgradedDpsScore: 強化後の DPS スコア
+    ComboDmgPercentUpgrade: コンボダメージ変化率
+    ComboDmgUpgrade: コンボダメージ変化量
   BuildAnalysis:
+    ScoringNote: >-
+      DPS スコアは、スキル回しのダメージを同じチーム編成・光円錐・星塊を用いた基準ビルドと比較することで、ビルドのクオリティを評価します。DPS スコア及びコンボダメージは、選択したチーム編成のみに対して相対的に計測されるものであり、異なるチーム編成間の比較に用いるものではありません。
+    Header: DPS スコア計算
     SimulationTeammates: パーティー編成
     SimulationSets: 遺物
     Rotation:

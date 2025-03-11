@@ -7073,7 +7073,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
         deprioritizeBuffs: true,

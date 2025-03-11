@@ -32,7 +32,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillScaling = skill(e, 0.60, 0.66)
   const skillDmgBoost = skill(e, 0.15, 0.15)
   const ultScaling = ult(e, 1.50, 1.62)
-  const talentDmgScaling = talent(e, 0.40, 0.40) // TODO
+  const talentDmgScaling = talent(e, 0.40, 0.432)
 
   const defaults = {
     skillHits: 4,

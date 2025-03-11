@@ -37,16 +37,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentDmgBoost = talent(e, 0.20, 0.22)
   const ultTerritoryResPen = ult(e, 0.20, 0.22)
 
-  const memoSkillScaling1 = memoSkill(e, 0.24, 0.24) // TODO
-  const memoSkillScaling2 = memoSkill(e, 0.28, 0.28) // TODO
-  const memoSkillScaling3 = memoSkill(e, 0.34, 0.34) // TODO
+  const memoSkillScaling1 = memoSkill(e, 0.24, 0.288)
+  const memoSkillScaling2 = memoSkill(e, 0.28, 0.336)
+  const memoSkillScaling3 = memoSkill(e, 0.34, 0.408)
 
-  const memoTalentScaling = memoTalent(e, 0.40, 0.40) // TODO
+  const memoTalentScaling = memoTalent(e, 0.40, 0.44)
 
   const defaults = {
     buffPriority: BUFF_PRIORITY_MEMO,
     memospriteActive: true,
-    spdBuff: false,
+    // spdBuff: false,
     talentDmgStacks: 3,
     lostNetherland: true,
     memoSkillEnhances: 3,
@@ -80,12 +80,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Memosprite active',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    spdBuff: {
-      id: 'spdBuff',
-      formItem: 'switch',
-      text: 'SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
+    // spdBuff: {
+    //   id: 'spdBuff',
+    //   formItem: 'switch',
+    //   text: 'SPD buff',
+    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    // },
     talentDmgStacks: {
       id: 'talentDmgStacks',
       formItem: 'slider',
@@ -170,15 +170,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SPD_P.buffBaseDual((r.spdBuff) ? 0.40 : 0, SOURCE_TRACE)
-
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 + skillEnhancedScaling2 : skillScaling, SOURCE_SKILL)
 
       x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
       x.ELEMENTAL_DMG.buffMemo(r.enemyHpDmgBoost, SOURCE_TRACE)
 
-      x.RES_PEN.buff((r.lostNetherland) ? ultTerritoryResPen : 0, SOURCE_ULT)
       x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
 
       x.MEMO_BASE_SPD_FLAT.buff(165, SOURCE_MEMO)
@@ -199,6 +196,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      x.RES_PEN.buffTeam((m.lostNetherland) ? ultTerritoryResPen : 0, SOURCE_ULT)
       x.ELEMENTAL_DMG.buffTeam((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

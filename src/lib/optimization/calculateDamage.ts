@@ -147,7 +147,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     a[Key.SKILL_DMG] = calculateAbilityDmg(
       x,
       action,
-
       context,
       baseUniversalMulti,
       baseDmgBoost,

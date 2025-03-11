@@ -37,9 +37,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentDmgBoost = talent(e, 0.20, 0.22)
   const ultTerritoryResPen = ult(e, 0.20, 0.22)
 
-  const memoSkillScaling1 = memoSkill(e, 0.24, 0.288)
-  const memoSkillScaling2 = memoSkill(e, 0.28, 0.336)
-  const memoSkillScaling3 = memoSkill(e, 0.34, 0.408)
+  const memoSkillScaling1 = memoSkill(e, 0.24, 0.264)
+  const memoSkillScaling2 = memoSkill(e, 0.28, 0.308)
+  const memoSkillScaling3 = memoSkill(e, 0.34, 0.374)
 
   const memoTalentScaling = memoTalent(e, 0.40, 0.44)
 
@@ -171,7 +171,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 + skillEnhancedScaling2 : skillScaling, SOURCE_SKILL)
+      x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 : skillScaling, SOURCE_SKILL)
+      x.m.SKILL_SPECIAL_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling2 : 0, SOURCE_SKILL)
 
       x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
       x.ELEMENTAL_DMG.buffMemo(r.enemyHpDmgBoost, SOURCE_TRACE)
@@ -201,11 +202,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       // Scales off of Castorice's HP not the memo
+      x.m.SKILL_DMG.buff(x.m.a[Key.SKILL_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
       x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
       x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return ` 
+m.SKILL_DMG += m.SKILL_SPECIAL_SCALING * x.HP;
 m.MEMO_SKILL_DMG += m.MEMO_SKILL_SPECIAL_SCALING * x.HP;
 m.MEMO_TALENT_DMG += m.MEMO_TALENT_SPECIAL_SCALING * x.HP;
 `

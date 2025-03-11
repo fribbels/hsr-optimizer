@@ -85,7 +85,7 @@ export function injectActionDamage(context: OptimizerContext) {
       0, // x.SKILL_ADDITIONAL_DMG_CR_OVERRIDE,
       0, // x.SKILL_ADDITIONAL_DMG_CD_OVERRIDE,
       x.SKILL_TRUE_DMG_MODIFIER,
-      0, // m.SKILL_DMG,
+      m.SKILL_DMG,
     );
   }
   /* END SKILL CALC */

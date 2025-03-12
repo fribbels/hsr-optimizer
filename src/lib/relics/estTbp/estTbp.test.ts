@@ -1,5 +1,9 @@
-import { Parts, Sets } from 'lib/constants/constants'
-import { Relic } from 'types/relic'
+import { Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { StatCalculator } from 'lib/relics/statCalculator'
+import DB from 'lib/state/db'
+import { Metadata } from 'lib/state/metadata'
+import { Relic, RelicSubstatMetadata } from 'types/relic'
 import { expect, test } from 'vitest'
 import {
   binomialCoefficient,
@@ -13,6 +17,142 @@ import {
   substatGenerator,
   substatGeneratorFromRelic,
 } from './estTbp'
+
+Metadata.initialize()
+
+const substatWeights = {
+  [Stats.HP_P]: 10,
+  [Stats.ATK_P]: 10,
+  [Stats.DEF_P]: 10,
+  [Stats.HP]: 10,
+  [Stats.ATK]: 10,
+  [Stats.DEF]: 10,
+  [Stats.SPD]: 4,
+  [Stats.CR]: 6,
+  [Stats.CD]: 6,
+  [Stats.EHR]: 8,
+  [Stats.RES]: 8,
+  [Stats.BE]: 8,
+} // = 100
+
+const substatCumulativeArr = [
+  { stat: Stats.HP_P, threshold: 0.00 },
+  { stat: Stats.ATK_P, threshold: 0.10 },
+  { stat: Stats.DEF_P, threshold: 0.20 },
+  { stat: Stats.HP, threshold: 0.30 },
+  { stat: Stats.ATK, threshold: 0.40 },
+  { stat: Stats.DEF, threshold: 0.50 },
+  { stat: Stats.SPD, threshold: 0.54 },
+  { stat: Stats.CR, threshold: 0.60 },
+  { stat: Stats.CD, threshold: 0.66 },
+  { stat: Stats.EHR, threshold: 0.74 },
+  { stat: Stats.RES, threshold: 0.82 },
+  { stat: Stats.BE, threshold: 0.90 },
+] // 1.00
+
+function quality() {
+  return 0.8
+  // const qualityRand = Math.random()
+  // return qualityRand > 0.666666 ? 1.0 : (qualityRand > 0.333333 ? 0.9 : 0.8)
+}
+
+function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number }): number {
+  if (subs.length == 0) return 0
+
+  return subs.map((s) => {
+    let weight = (s in weights) ? weights[s] : 0
+    if (s == 'ATK' || s == 'DEF' || s == 'HP')
+      weight *= 0.4
+    return weight
+  }).reduce((a, b) => a + b)
+}
+
+function generateRelic() {
+  const mainStat = Stats.HP
+  const rolls = Math.random() < 0.20 ? 5 : 4
+
+  // Initialize starting rolls
+
+  const substats: RelicSubstatMetadata[] = []
+  const selected: Record<string, boolean> = {}
+  for (let i = 0; i < 4; i++) {
+    const statRand = Math.random()
+
+    for (let j = substatCumulativeArr.length - 1; j >= 0; j--) {
+      if (statRand >= substatCumulativeArr[j].threshold) {
+        const stat = substatCumulativeArr[j].stat
+
+        // Retry duplicate stats
+        if (selected[stat] || stat == mainStat) {
+          i--
+          break
+        }
+
+        selected[stat] = true
+        substats.push({
+          stat: stat,
+          value: StatCalculator.getMaxedSubstatValue(stat, quality()),
+        })
+        break
+      }
+    }
+  }
+
+  for (let i = 0; i < rolls; i++) {
+    const upgradeIndex = Math.floor(Math.random() * 4)
+    substats[upgradeIndex].value += StatCalculator.getMaxedSubstatValue(substats[upgradeIndex].stat, quality())
+  }
+
+  const relic: Relic = {
+    part: Parts.Head,
+    grade: 5,
+    enhance: 15,
+    main: {
+      stat: Stats.HP,
+      value: 705,
+    },
+    substats: substats,
+  } as Relic
+
+  return relic
+}
+
+test('Simulated relics', () => {
+  let success = 0
+  const results: number[] = []
+  const scoreToBeat = 44.05471672937847
+  // const scoreToBeat = 48.914423718410575
+  const trials = 1000000
+  const weights = DB.getScoringMetadata('1314').stats
+
+  for (let i = 0; i < trials; i++) {
+    const relic = generateRelic()
+    const result = RelicScorer.scoreCurrentRelic(relic, '1314').scoreNumber
+    results.push(result)
+    if (result >= scoreToBeat) {
+      success++
+    }
+  }
+
+  const histogram = new Array(60).fill(0)
+  for (const result of results) {
+    histogram[Math.floor(result)]++
+  }
+  for (let i = 0; i < 60; i++) {
+    console.log(`$Score: ${i}: ${histogram[i]}`)
+  }
+
+  const tbpPerTrial = 40 / 2.1 // ~2 drops per run
+  const setMultiplier = 2 // 2 trials per correct set
+  const partMultiplier = 4 // 4 trials per correct part
+
+  const tbp = trials * tbpPerTrial * setMultiplier * partMultiplier
+  const avgTbp = tbp / success
+  const avgDays = avgTbp / 240
+
+  console.log(`${success} relics beat a score of ${scoreToBeat} - AVG TBP: ${avgTbp} - AVG DAYS: ${avgDays}`)
+  console.log()
+})
 
 test('Array generators work correctly', () => {
   expect(collectGenerator(permutations([0, 1, 2])))

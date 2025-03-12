@@ -2,6 +2,9 @@ import { MainStats, Parts, SubStats } from 'lib/constants/constants'
 import { Relic, RelicGrade } from 'types/relic'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
+  if (relic.id == 'de342418-f3d0-4cb6-9dad-ed1d0f698bbc') {
+    console.log('!!')
+  }
   const scoreToBeat = simpleSubstatScoreOfRelic(relic, weights)
 
   const pMain = probabilityOfCorrectSet()
@@ -34,8 +37,13 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
 }
 
 function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: number }): number {
-  return simpleSubstatScore(relic.substats.flatMap((s) => Array((s.addedRolls ?? 0) + 1).fill(s.stat)) as SubStats[], weights)
+  const flat = relic.substats.flatMap((s) => Array((s.addedRolls ?? 0) + 1).fill(s.stat)) as SubStats[]
+  return simpleSubstatScore(flat, weights)
 }
+
+// function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: number }): number {
+//   return simpleSubstatScore(relic.substats.flatMap((s) => Array((s.addedRolls ?? 0) + 1).fill(s.stat)) as SubStats[], weights)
+// }
 
 function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number }): number {
   if (subs.length == 0) return 0

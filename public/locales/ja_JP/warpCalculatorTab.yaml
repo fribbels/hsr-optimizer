@@ -9,12 +9,20 @@ StrategyLabels:
   E6: 完凸優先
 EidolonLevels:
   NONE: なし
+  E0: 無凸
   E1: 1凸
   E2: 2凸
+  E3: 3凸
   E4: 4凸
+  E5: 5凸
   E6: 6凸
 SuperimpositionLevels:
   NONE: なし
+  S1: 1重
+  S2: 2重
+  S3: 3重
+  S4: 4重
+  S5: 5重
 IncomeOptions:
   Label: "［ver{{versionNumber}}（{{phaseNumber}}/2）｜{{type}}］："
   Type:
@@ -24,6 +32,7 @@ IncomeOptions:
     3: 補給 + ナナシ
 PityCounter:
   PityCounter: 天井カウント
+  CurrentEidolonSuperImp: 現状
   Guaranteed: 確定天井
 TotalAvailable: "利用可能な跳躍数"
 SectionTitles:
@@ -35,6 +44,9 @@ SectionTitles:
   Passes: チケット数
   Jades: 星玉数
   Strategy: 引き方
+  Banner: バナー
+  New: 新規
+  Rerun: 復刻
   AdditionalResources: 追加資源
   Calculate: 計算
 ColumnTitles:

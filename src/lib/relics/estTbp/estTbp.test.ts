@@ -117,8 +117,8 @@ test('Simulated relics', () => {
 
   for (let i = 0; i < trials; i++) {
     const relic = generateRelic()
-    const result = new RelicScorer().substatScore(relic, '1314').score // substatScore
-    // const result = RelicScorer.scoreCurrentRelic(relic, '1314').scoreNumber // scoreCurrentRelic
+    // const result = new RelicScorer().substatScore(relic, '1314').score // substatScore
+    const result = RelicScorer.scoreCurrentRelic(relic, '1314').scoreNumber // scoreCurrentRelic
     results.push(result)
     if (result >= scoreToBeat) {
       success++

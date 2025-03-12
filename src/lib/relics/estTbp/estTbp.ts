@@ -38,6 +38,8 @@ function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: numb
 }
 
 function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number }): number {
+  if (subs.length == 0) return 0
+
   return subs.map((s) => {
     let weight = (s in weights) ? weights[s] : 0
     if (s == 'ATK' || s == 'DEF' || s == 'HP')

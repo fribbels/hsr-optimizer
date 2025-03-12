@@ -1,5 +1,6 @@
 import { MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
+import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
 
 export type RelicId = string
@@ -22,6 +23,7 @@ export type Relic = {
   id: RelicId
   verified?: boolean
   ageIndex?: number
+  scoringResult?: RelicScoringResult
 
   main: {
     stat: MainStats

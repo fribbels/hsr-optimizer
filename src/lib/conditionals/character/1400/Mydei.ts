@@ -129,6 +129,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.CR.buff((r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0, SOURCE_TRACE)
+      x.UNCONVERTIBLE_CR_BUFF.buff((r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0, SOURCE_TRACE)
     },
     gpuCalculateBasicEffects: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -137,6 +138,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 if (${wgslTrue(r.hpToCrConversion)}) {
   let buffValue: f32 = max(0, min(0.48, 0.016 * floor((c.HP - 5000) / 100)));
   x.CR += buffValue;
+  x.UNCONVERTIBLE_CR_BUFF += buffValue;
 }
 `
     },

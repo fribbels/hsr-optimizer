@@ -97,6 +97,13 @@ export const PresetEffects = {
       form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
     },
   } as PresetDefinition,
+  GENIUS_SET: {
+    name: 'GENIUS_SET',
+    value: true,
+    apply: (form: Form) => {
+      form.setConditionals[Sets.GeniusOfBrilliantStars][1] = true
+    },
+  } as PresetDefinition,
 }
 
 export function setSortColumn(columnId) {

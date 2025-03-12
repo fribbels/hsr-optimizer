@@ -1,7 +1,6 @@
-import { Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import DB from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { Relic, RelicSubstatMetadata } from 'types/relic'
 import { expect, test } from 'vitest'
@@ -51,20 +50,12 @@ const substatCumulativeArr = [
 ] // 1.00
 
 function quality() {
+  // Return low rolls for equalizing roll quality
   return 0.8
+
+  // Otherwise use actually randomized roll quality
   // const qualityRand = Math.random()
   // return qualityRand > 0.666666 ? 1.0 : (qualityRand > 0.333333 ? 0.9 : 0.8)
-}
-
-function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number }): number {
-  if (subs.length == 0) return 0
-
-  return subs.map((s) => {
-    let weight = (s in weights) ? weights[s] : 0
-    if (s == 'ATK' || s == 'DEF' || s == 'HP')
-      weight *= 0.4
-    return weight
-  }).reduce((a, b) => a + b)
 }
 
 function generateRelic() {
@@ -120,14 +111,14 @@ function generateRelic() {
 test('Simulated relics', () => {
   let success = 0
   const results: number[] = []
-  const scoreToBeat = 44.05471672937847
-  // const scoreToBeat = 48.914423718410575
+  // const scoreToBeat = 48.914423718410575 // Original relic
+  const scoreToBeat = 44.05471672937847 // Converted to low rolls
   const trials = 1000000
-  const weights = DB.getScoringMetadata('1314').stats
 
   for (let i = 0; i < trials; i++) {
     const relic = generateRelic()
-    const result = RelicScorer.scoreCurrentRelic(relic, '1314').scoreNumber
+    const result = new RelicScorer().substatScore(relic, '1314').score // substatScore
+    // const result = RelicScorer.scoreCurrentRelic(relic, '1314').scoreNumber // scoreCurrentRelic
     results.push(result)
     if (result >= scoreToBeat) {
       success++
@@ -151,7 +142,6 @@ test('Simulated relics', () => {
   const avgDays = avgTbp / 240
 
   console.log(`${success} relics beat a score of ${scoreToBeat} - AVG TBP: ${avgTbp} - AVG DAYS: ${avgDays}`)
-  console.log()
 })
 
 test('Array generators work correctly', () => {

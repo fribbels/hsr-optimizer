@@ -22,9 +22,7 @@ RelicGrid:
   Of: di
   Headers:
     EquippedBy: Possessore
-    Grade: Grado
     Part: Pezzo
-    Enhance: Migliora
     MainStat: |-
       Statistica
       Principale

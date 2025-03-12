@@ -16,6 +16,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
+import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -59,9 +60,8 @@ function getGpuOptions(computeEngine: ComputeEngine) {
 
 function PermutationDisplay(props: { total?: number; right: number; left: string }) {
   const rightText = props.total
-    ? `${Number(props.right).toLocaleString()} / ${Number(props.total).toLocaleString()} - (${Math.ceil(Number(props.right) / Number(props.total) * 100)}%)`
-    : `${Number(props.right).toLocaleString()}`
-
+    ? `${localeNumberComma(props.right)} / ${localeNumberComma(props.total)} - (${localeNumberComma(Math.ceil(props.right / props.total * 100))}%)`
+    : `${localeNumberComma(props.right)}`
   return (
     <Flex justify='space-between'>
       <Text style={{ lineHeight: '24px' }}>
@@ -158,7 +158,7 @@ function addToPinned() {
 
 function clearPinned() {
   const gridApi = optimizerGridApi()
-  const currentPinned = gridApi.getGridOption('pinnedTopRowData')
+  const currentPinned = gridApi?.getGridOption('pinnedTopRowData')
   if (currentPinned?.length) {
     gridApi.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })
   }
@@ -169,7 +169,8 @@ function filterClicked() {
   OptimizerTabController.applyRowFilters()
 }
 
-function calculateProgressText(startTime: number | null,
+function calculateProgressText(
+  startTime: number | null,
   optimizerEndTime: number | null,
   permutations: number,
   permutationsSearched: number,
@@ -196,12 +197,12 @@ function calculateProgressText(startTime: number | null,
   return optimizationInProgress
     ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {
       // {{rate}} / sec — ${{timeRemaining}} left
-      rate: Math.floor(perSecond).toLocaleString(),
+      rate: localeNumberComma(Math.floor(perSecond)),
       timeRemaining: Utils.msToReadable(msRemaining),
     })
     : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', {
       // {{rate}} / sec — Finished
-      rate: Math.floor(perSecond).toLocaleString(),
+      rate: localeNumberComma(Math.floor(perSecond)),
     })
 }
 
@@ -352,7 +353,7 @@ function ProgressDisplay() {
         strokeColor={token.colorPrimary}
         steps={17}
         size={[8, 5]}
-        percent={Math.floor(Number(permutationsSearched) / Number(permutations) * 100)}
+        percent={Math.floor(permutationsSearched / permutations * 100)}
       />
     </Flex>
   )
@@ -478,13 +479,13 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       </Flex>
 
       {!props.isFullSize
-      && (
-        <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-          <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
-          <ComputeEngineSelect/>
-          <ProgressDisplay/>
-        </Flex>
-      )}
+        && (
+          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+            <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
+            <ComputeEngineSelect/>
+            <ProgressDisplay/>
+          </Flex>
+        )}
     </Flex>
   )
 }
@@ -554,7 +555,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
   )
 }
 
-function isRemembrance(characterId?: string) {
+export function isRemembrance(characterId?: string) {
   if (!characterId) return false
   return DB.getMetadata().characters[characterId].path == 'Remembrance'
 }

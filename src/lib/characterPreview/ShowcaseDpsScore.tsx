@@ -1,7 +1,7 @@
 import { SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, ConfigProvider, Flex, Segmented } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
-import { OverlayText } from 'lib/characterPreview/CharacterPreviewComponents'
+import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades } from 'lib/characterPreview/CharacterScoringSummary'
 import StatText from 'lib/characterPreview/StatText'
 import { COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
@@ -10,9 +10,11 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
-import { getSimScoreGrade, SimulationScore } from 'lib/scoring/characterScorer'
+import { getSimScoreGrade } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { CSSProperties, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -159,10 +161,9 @@ function CharacterPreviewScoringTeammate(props: {
           style={{
             height: iconSize,
             width: iconSize,
-            borderRadius: 40,
-            background: 'rgba(255, 255, 255, 0.1)',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-            outline: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: iconSize,
+            backgroundColor: 'rgba(124, 124, 124, 0.1)',
+            outline: showcaseOutline,
           }}
         />
         <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>
@@ -184,6 +185,7 @@ export function ShowcaseDpsScoreHeader(props: {
 
   const result = props.result
   const verified = Object.values(props.relics).filter((x) => x?.verified).length == 6
+  const numRelics = Object.values(props.relics).filter((x) => !!x).length
 
   const textStyle: CSSProperties = {
     fontSize: 17,
@@ -194,18 +196,24 @@ export function ShowcaseDpsScoreHeader(props: {
     whiteSpace: 'nowrap',
   }
 
+  const lightCone = !!result.simulationForm.lightCone
+
+  const titleRender = result.spdBenchmark == null
+    ? t('CharacterPreview.ScoreHeader.Title') // Combat Sim
+    : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(result.spdBenchmark) }) // Benchmark vs {{spd}} SPD
+
   const textDisplay = (
-    <Flex align='center' vertical style={{ marginBottom: 4, paddingTop: 3, paddingBottom: 3 }}>
+    <Flex align='center' vertical style={{ marginBottom: 6, paddingTop: 3, paddingBottom: 3 }}>
       <StatText style={textStyle}>
-        {t('CharacterPreview.ScoreHeader.Title')/* Combat Sim */}
+        {titleRender}
       </StatText>
       <StatText style={textStyle}>
         {
           t(
             'CharacterPreview.ScoreHeader.Score',
             {
-              score: Utils.truncate10ths(Math.max(0, result.percent * 100)).toFixed(1),
-              grade: getSimScoreGrade(result.percent, verified),
+              score: localeNumber_0(Utils.truncate10ths(Math.max(0, result.percent * 100))),
+              grade: getSimScoreGrade(result.percent, verified, numRelics, lightCone),
             },
           )
           /* DPS Score {{score}}% {{grade}} */
@@ -219,6 +227,10 @@ export function ShowcaseDpsScoreHeader(props: {
       {textDisplay}
     </Flex>
   )
+}
+
+function formatSpd(n: number) {
+  return Utils.truncate10ths(n).toFixed(1)
 }
 
 function ShowcaseTeamSelectPanel(props: {

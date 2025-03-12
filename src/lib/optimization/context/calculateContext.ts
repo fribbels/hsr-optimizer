@@ -1,11 +1,14 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
+import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form, Teammate } from 'types/form'
+import { DBMetadata } from 'types/metadata'
 import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
 
 export function generateContext(request: Form): OptimizerContext {
@@ -68,31 +71,33 @@ export const ElementToBreakScaling = {
 function generateCharacterMetadataContext(request: Form, context: Partial<OptimizerContext>) {
   const dbMetadata = DB.getMetadata()
   const characterMetadata = dbMetadata.characters[request.characterId]
+  const path = characterMetadata.path
   const element = characterMetadata.element
 
   context.characterId = request.characterId
   context.characterEidolon = request.characterEidolon
   context.lightCone = request.lightCone
   context.lightConeSuperimposition = request.lightConeSuperimposition
+  context.lightConePath = dbMetadata.lightCones[request.lightCone]?.path
 
+  context.path = path
   context.element = element
   context.elementalDamageType = ElementToDamage[element]
   context.elementalResPenType = ElementToResPenType[element]
   context.elementalBreakScaling = ElementToBreakScaling[element]
 
-  context.teammate0Metadata = generateTeammateMetadata(request.teammate0) as CharacterMetadata
-  context.teammate1Metadata = generateTeammateMetadata(request.teammate1) as CharacterMetadata
-  context.teammate2Metadata = generateTeammateMetadata(request.teammate2) as CharacterMetadata
+  context.teammate0Metadata = generateTeammateMetadata(dbMetadata, request.teammate0)!
+  context.teammate1Metadata = generateTeammateMetadata(dbMetadata, request.teammate1)!
+  context.teammate2Metadata = generateTeammateMetadata(dbMetadata, request.teammate2)!
+
+  context.deprioritizeBuffs = request.deprioritizeBuffs
 }
 
-function generateTeammateMetadata(teammate: Teammate) {
-  return teammate?.characterId
-    ? {
-      characterId: teammate.characterId,
-      characterEidolon: teammate.characterEidolon,
-      lightCone: teammate.lightCone,
-      lightConeSuperimposition: teammate.lightConeSuperimposition,
-    }
+function generateTeammateMetadata(dbMetadata: DBMetadata, teammate: Teammate): CharacterMetadata | null {
+  if (!teammate) return null
+
+  return teammate.characterId
+    ? generateConditionalResolverMetadata(teammate, dbMetadata)
     : null
 }
 
@@ -115,8 +120,6 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
   const characterMetadata = DB.getMetadata().characters[request.characterId]
   const characterStats = characterMetadata.stats
 
-  context.element = characterMetadata.element
-
   const statsBreakdown: CharacterStatsBreakdown = {
     base: {
       ...StatCalculator.getZeroes(),
@@ -124,7 +127,7 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
     },
     traces: {
       ...StatCalculator.getZeroes(),
-      ...characterMetadata.traces,
+      ...calculateCustomTraces(characterMetadata),
     },
     lightCone: {
       ...StatCalculator.getZeroes(),

@@ -1,5 +1,6 @@
 import { Constants, Parts, RelicSetFilterOptions } from 'lib/constants/constants'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { StatToKey } from 'lib/optimization/computedStatsArray'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -270,15 +271,13 @@ export const RelicFilters = {
       relic.condensedStats = []
       for (const substat of relic.substats) {
         const stat = substat.stat
+        const key = StatToKey[stat]
         const value = getValueByStatType(stat, substat.value)
 
-        relic.condensedStats.push([stat, value])
+        relic.condensedStats.push([key, value])
       }
       // Use augmented main value for maxed main stat filter
-      relic.condensedStats.push([relic.augmentedStats!.mainStat, relic.augmentedStats!.mainValue])
-
-      delete relic.augmentedStats
-      delete relic.weights
+      relic.condensedStats.push([StatToKey[relic.augmentedStats!.mainStat], relic.augmentedStats!.mainValue])
     }
   },
 
@@ -288,6 +287,14 @@ export const RelicFilters = {
     }
 
     return relicsByPart
+  },
+
+  condenseSingleRelicByPartSubstatsForOptimizer: (singleRelicByPart: SingleRelicByPart) => {
+    for (const relic of Object.values(singleRelicByPart)) {
+      RelicFilters.condenseRelicSubstatsForOptimizerSingle([relic])
+    }
+
+    return singleRelicByPart
   },
 }
 

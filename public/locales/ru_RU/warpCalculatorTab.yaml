@@ -1,0 +1,35 @@
+StrategyLabels:
+  S1: Сначала Н1
+  E0: Сначала Э0
+  E1: Сначала Э1
+  E2: Сначала Э2
+  E3: Сначала Э3
+  E4: Сначала Э4
+  E5: Сначала Э5
+  E6: Сначала Э6
+IncomeOptions:
+  Type:
+    0: Нет
+    1: Ф2П
+    2: Пропуск снабжения экспресса
+    3: БП и Пропуск снабжения экспресса
+PityCounter:
+  PityCounter: Уже откручено
+  Guaranteed: Гарант
+TotalAvailable: "Всего доступно круток:"
+SectionTitles:
+  Planner: Планировщик круток
+  Results: Результаты
+  Settings: Настройки
+  Character: Персонаж
+  LightCone: Световой конус
+  Passes: Билеты
+  Jades: Нефрит
+  Strategy: Стратегия
+  AdditionalResources: Дополнительные ресурсы
+  Calculate: Рассчитать
+ColumnTitles:
+  Goal: Цель
+  Chance: "Шанс успеха с {{ticketCount}} <1/>"
+  Average: "Необходимо в среднем  <1/>"
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

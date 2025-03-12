@@ -1,8 +1,17 @@
-import { BASIC_ABILITY_TYPE, FUA_ABILITY_TYPE, MEMO_SKILL_ABILITY_TYPE, SKILL_ABILITY_TYPE, ULT_ABILITY_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  BASIC_ABILITY_TYPE,
+  FUA_ABILITY_TYPE,
+  MEMO_SKILL_ABILITY_TYPE,
+  MEMO_TALENT_ABILITY_TYPE,
+  SKILL_ABILITY_TYPE,
+  ULT_ABILITY_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Stats } from 'lib/constants/constants'
+import { PathNames, Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
@@ -14,8 +23,8 @@ import { Form, Teammate } from 'types/form'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(request)
-  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(request)
+  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
+  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
   // Actions
   const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
@@ -57,54 +66,94 @@ ${lightConeConditionalWgsl}
     indent(conditionalsWgsl, 3),
   )
 
+  // Basic conditionals
+
+  let basicConditionalsWgsl = ``
+  if (characterConditionals.gpuCalculateBasicEffects) {
+    basicConditionalsWgsl += indent(characterConditionals.gpuCalculateBasicEffects(context.actions[0], context), 1)
+  }
+  if (lightConeConditionals.gpuCalculateBasicEffects) {
+    basicConditionalsWgsl += indent(lightConeConditionals.gpuCalculateBasicEffects(context.actions[0], context), 1)
+  }
+  wgsl = wgsl.replace(
+    '/* INJECT BASIC CONDITIONALS */',
+    indent(basicConditionalsWgsl, 2),
+  )
+
+  // Combat conditionals
+
+  const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(context.actions[0].conditionalRegistry)
+  let conditionalSequenceWgsl = '\n'
+  conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+
+  conditionalSequenceWgsl += '\n'
+  conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+
+  wgsl = wgsl.replace(
+    '/* INJECT COMBAT CONDITIONALS */',
+    conditionalSequenceWgsl,
+  )
+
+  // Dynamic conditionals
+
   wgsl += generateDynamicConditionals(request, context)
 
   let actionsDefinition = `
 const comboDot: f32 = ${context.comboDot};
 const comboBreak: f32 = ${context.comboBreak};
-const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
+`
   for (let i = 0; i < actionLength; i++) {
     const action = context.actions[i]
 
     actionsDefinition += `
-  Action( // ${action.actionIndex}
-    ${getActionTypeToWgslMapping(action.actionType)},
-    SetConditionals(
-      ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
-      ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
-      ${action.setConditionals.enabledGeniusOfBrilliantStars},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
-      ${action.setConditionals.enabledBandOfSizzlingThunder},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
-      ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
-      ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
-      ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
-      ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
-      ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
-      ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
-      ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
-      ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
-      ${action.setConditionals.enabledHeroOfTriumphantSong},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
-      ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
-      ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
-      ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
-      ${action.setConditionals.valueTheAshblazingGrandDuke},${gpuParams.DEBUG ? ' // valueTheAshblazingGrandDuke' : ''}
-      ${action.setConditionals.valuePrisonerInDeepConfinement},${gpuParams.DEBUG ? ' // valuePrisonerInDeepConfinement' : ''}
-      ${action.setConditionals.valuePioneerDiverOfDeadWaters},${gpuParams.DEBUG ? ' // valuePioneerDiverOfDeadWaters' : ''}
-      ${action.setConditionals.valueSigoniaTheUnclaimedDesolation},${gpuParams.DEBUG ? ' // valueSigoniaTheUnclaimedDesolation' : ''}
-      ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
-      ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
-    ),
-    ComputedStats(${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
-    ),
-    ComputedStats(${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
-    ),
-    ConditionalState(
-    ),
-  ),`
+const action${i} = Action( // ${action.actionIndex}
+  ${getActionTypeToWgslMapping(action.actionType)},
+  SetConditionals(
+    ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
+    ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
+    ${action.setConditionals.enabledGeniusOfBrilliantStars},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
+    ${action.setConditionals.enabledBandOfSizzlingThunder},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
+    ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
+    ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
+    ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
+    ${action.setConditionals.enabledPenaconyLandOfTheDreams},${gpuParams.DEBUG ? ' // enabledPenaconyLandOfTheDreams' : ''}
+    ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
+    ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
+    ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
+    ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
+    ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
+    ${action.setConditionals.enabledHeroOfTriumphantSong},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
+    ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
+    ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
+    ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
+    ${action.setConditionals.valueTheAshblazingGrandDuke},${gpuParams.DEBUG ? ' // valueTheAshblazingGrandDuke' : ''}
+    ${action.setConditionals.valuePrisonerInDeepConfinement},${gpuParams.DEBUG ? ' // valuePrisonerInDeepConfinement' : ''}
+    ${action.setConditionals.valuePioneerDiverOfDeadWaters},${gpuParams.DEBUG ? ' // valuePioneerDiverOfDeadWaters' : ''}
+    ${action.setConditionals.valueSigoniaTheUnclaimedDesolation},${gpuParams.DEBUG ? ' // valueSigoniaTheUnclaimedDesolation' : ''}
+    ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
+    ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
+  ),
+);`
+  }
+  for (let i = 0; i < actionLength; i++) {
+    const action = context.actions[i]
+
+    actionsDefinition += `
+const computedStatsX${i} = ComputedStats(
+${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
+);`
   }
 
-  actionsDefinition += `
-);
-  `
+  if (context.path == PathNames.Remembrance) {
+    for (let i = 0; i < actionLength; i++) {
+      const action = context.actions[i]
+
+      actionsDefinition += `
+const computedStatsM${i} = ComputedStats(
+${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
+);`
+    }
+  }
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
 
@@ -112,27 +161,16 @@ const actions: array<Action, ${actionLength}> = array<Action, ${actionLength}>(`
 const actionCount = ${actionLength};
 `
 
+  wgsl = wgsl.replace(
+    '/* INJECT ACTION DAMAGE */',
+    indent(injectActionDamage(context), 0),
+  )
+
   return wgsl
 }
 
-function generateDependencyCall(conditionalName: string) {
-  return `evaluate${conditionalName}(p_x, p_m, p_state);`
-}
-
-function generateConditionalEvaluator(statName: string, conditionalCallsWgsl: string) {
-  return `
-fn evaluateDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
-${indent(conditionalCallsWgsl, 1)}
-}
-  `
-}
-
-function generateConditionalNonRatioEvaluator(statName: string, conditionalCallsWgsl: string) {
-  return `
-fn evaluateNonRatioDependencies${statName}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
-${indent(conditionalCallsWgsl, 1)}
-}
-  `
+function generateConditionalExecution(conditional: DynamicConditional) {
+  return `evaluate${conditional.id}(p_x, p_m, p_sets, p_state);`
 }
 
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
@@ -150,17 +188,10 @@ function getRequestTeammateIndex(request: Form, conditional: DynamicConditional)
 }
 
 function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
-  let conditionalEvaluators = ''
+  const conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
-  let conditionalCallsWgsl = ''
-  let conditionalNonRatioCallsWgsl = ''
   let conditionalStateDefinition = ''
 
-  conditionalCallsWgsl += registeredConditionals[stat]
-    .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
-  conditionalNonRatioCallsWgsl += registeredConditionals[stat]
-    .filter((x) => !x.ratioConversion)
-    .map((conditional) => generateDependencyCall(conditional.id)).join('\n')
   conditionalDefinitionsWgsl += registeredConditionals[stat]
     .map((conditional) => {
       if (conditional.teammateIndex == null) {
@@ -171,9 +202,12 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
       }
     }).join('\n') // TODO!!
   conditionalStateDefinition += registeredConditionals[stat]
-    .map((x) => x.id + ': f32,\n').join('')
-  conditionalEvaluators += generateConditionalEvaluator(statName, conditionalCallsWgsl)
-  conditionalEvaluators += generateConditionalNonRatioEvaluator(statName, conditionalNonRatioCallsWgsl)
+    .flatMap((conditional) => {
+      return [
+        conditional.id,
+        ...(conditional.supplementalState ?? []),
+      ].map((id) => id + ': f32,\n')
+    }).join('')
 
   return {
     conditionalEvaluators,
@@ -237,6 +271,7 @@ const actionTypeToWgslMapping: StringToNumberMap = {
   ULT: ULT_ABILITY_TYPE,
   FUA: FUA_ABILITY_TYPE,
   MEMO_SKILL: MEMO_SKILL_ABILITY_TYPE,
+  MEMO_TALENT: MEMO_TALENT_ABILITY_TYPE,
 }
 
 function getActionTypeToWgslMapping(actionType: string) {

@@ -9,19 +9,26 @@ Import:
     InvalidFile: 無効なファイルです
     InvalidJson: 無効なJSONです
     Fragment: "ファイルのインポート中にエラーが発生しました： "
+  ParserError:
+    BadSource: 不正なソース文字列です。'{{configSource}}' である必要がありましたが、'{{jsonSource}}'を受け取りました。
+    BadVersion: 不正なjsonバージョンです。'{{configVersion}}' である必要がありましたが、'{{jsonVersion}}'を受け取りました。
+    OutdatedVersion: "使用中のスキャナーのバージョン{{buildVersion}}は最新のものではないため、正常にインポートができない可能性があります！Github から最新のバージョンにアップデートしてください："
+    BadMainstat: メインステータス {{mainstat}} 、部位 {{part}} の遺物のメインステータスを解析できませんでした。
+  ParserWarning:
+    BadRollInfo: スキャナーファイルが古いか、無効な情報が含まれている可能性があります。スキャナーを最新のバージョンにアップデートしてください。
   Stage1:
     Header: "以下の遺物スキャナーのいずれかをインストールして実行してください"
     ReliquaryDesc:
       Title: '（推奨）IceDynamix Reliquary Archiver'
       Link: GitHub
-      OnlineMsg: "ステータス：バージョン{{version}}に対応 - 新たにダウンロードする必要があります"
+      OnlineMsg: "ステータス：バージョン{{version}}に対応済み"
       OfflineMsg: "***** ステータス: バージョン{{version}}適用後、メンテナンス中です。 *****"
       l1: 正確な速度サブステータス、即時スキャン
       l2: インベントリ内とキャラクター全てをインポート
     KelzDesc:
       Title: Kel-Z HSR Scanner
       Link: GitHub
-      l1: 不正確な速度サブステータス、5-10分のOCRスキャン
+      l1: 不正確な速度サブステータス、5-10分の OCR スキャン
       l2: インベントリ内とキャラクター全てをインポート
     ScorerDesc:
       Title: 遺物スコア計算からインポート
@@ -29,10 +36,10 @@ Import:
       l1: 正確な速度サブステータス、即時スキャン
       l2: ダウンロードは必要ありませんが、遺物はショーケース上の8キャラクターのものに限定されます
     HoyolabDesc:
-      Title: HoyoLabからインポート
+      Title: HoyoLab からインポート
       Link: 手順
       l1: 不正確な速度サブステータス、即時スキャン
-      l2: ダウンロードは必要ありませんが、遺物は装備したゲーム内キャラクターのものに限定されます
+      l2: ダウンロードは必要ありませんが、遺物はゲーム内キャラクターが装備したものに限定されます
     ButtonText: jsonファイルをアップロード
     Or: または
     Placeholder: jsonファイルの内容を貼り付け
@@ -53,6 +60,7 @@ Import:
         $t(common:Relic, {"count": {{relicCount}}})と$t(common:Character, {"count": {{characterCount}}})をインポート
       WarningTitle: オプティマイザーのビルドを上書き
       WarningDescription: 本当にオプティマイザーのビルドをゲーム内のビルドに置き換えますか？
+      OnlyImportExisting: "既存のキャラクターのみインポート"
   Stage3:
     SuccessMessage: 完了！
 LoadData:

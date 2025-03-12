@@ -41,6 +41,28 @@ Messages:
   UnequipWarning: "Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Stats
+      ButtonText: Traces
+    SpdPrecision:
+      Header: Précision VIT
+      Low: ",0"
+      High: ",000"
+    SpdWeight:
+      Header: Poids de VIT
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: VIT de référence
+      BenchmarkOptionsLabel: Options de référence
+      CurrentSpdLabel: VIT actuelle - La référence ciblera la même VIT que vous
+      BaseSpdLabel: VIT de base - La référence ciblera le minimum de VIT possible
+      CommonBreakpointsLabel: Points d'arrêts communs (Buffs de VIT considérés séparément)
+    BuffPriority:
+      Header: Priorité de buff
+      High: Haute
+      Low: Faible
   CustomizationSidebar:
     Label: Customisation
     Modes:
@@ -48,6 +70,7 @@ CharacterPreview:
       Custom: Custom
       Standard: Standard
     PaletteLabel: Palette de couleurs de portrait
+    ShowUID: Afficher l'UID
   ArtBy: "Art réalisé par {{artistName}}"
   EditCharacter: Modifier le personnage
   EditPortrait: Modifier le portrait
@@ -59,6 +82,7 @@ CharacterPreview:
     NoSelectedCharacter: Aucun personnage sélectionné
   ScoreHeader:
     Title: Sim de combat
+    TitleBenchmark: "Référence à {{spd}} VIT"
     Score: "Note DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Mode d'évaluation:"
@@ -71,14 +95,24 @@ CharacterPreview:
     Title: "Détails de combat:"
     Labels:
       CombatStats: Stats de Combat
+      SubDpsCombatStats: Stats de Combat (sous-DPS)
       DMGUpgrades: Améliorations Dégâts
   DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats
+    MainStatHeader: Comparaisons d'améliorations de mainstat
     Roll: roll
     Damage: Dégâts
+    MainStatUpgrade: Améliorations de mainstat
+    SubStatUpgrade: Améliorations de substats
+    DpsScorePercentUpgrade: Note DPS ∆ %
+    UpgradedDpsScore: Note DPS amélioré
+    ComboDmgPercentUpgrade: DGT Combo ∆ %
+    ComboDmgUpgrade: DGT Combo ∆
   BuildAnalysis:
-    Header: Analyse de build du personnage
+    ScoringNote: >-
+      La note de DPS évalue la qualité d'une build en comparant les dégâts infligés par une rotation de capacités de la build équipée à ceux de 2 builds de référence avec les mêmes équipes / cônes de lumière / eidolons. Les notes et DGT Combo sont relatifs à l'équipe et au seuil de vitesse choisi. Ils ne devraient pas être comparés entre différentes configurations.
+    Header: Calculs de la note DPS
     SimulationTeammates: Coéquipiers de simulation
     SimulationSets: Set de simulation
     Rotation:
@@ -87,7 +121,8 @@ CharacterPreview:
       SKILL: COMPÉTENCE
       ULT: ULT
       FUA: ADS
-      MEMO_SKILL: MNÉM
+      MEMO_SKILL: COMPᴹ
+      MEMO_TALENT: Talentᴹ
       DOTS: "DSD:"
       BREAKS: "RUPTURES:"
     CombatResults:
@@ -105,7 +140,11 @@ CharacterPreview:
         FUA: ADS
         DOT: DSD
         BREAK: RUPTURE
+        MEMO_SKILL: DGT Compᴹ
+        MEMO_TALENT: DGT TALENTᴹ
         COMBO: COMBO
+    CombatBuffs:
+      Header: Buffs de combat
   ScoringColumn:
     Character:
       Header: "Build personnage ({{score}}%)"

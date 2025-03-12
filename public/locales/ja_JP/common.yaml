@@ -89,13 +89,13 @@ ShortStats:
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
 ShortSpacedStats:
-  "HP%": HP
+  "HP%": HP割合
   HP: HP
   "ATK%": 攻撃力割合
   ATK: 攻撃力
-  "DEF%": 防御力
+  "DEF%": 防御力割合
   DEF: 防御力
-  "SPD%": 速度
+  "SPD%": 速度割合
   SPD: 速度
   CRIT Rate: 会心率
   CRIT DMG: 会心ダメ
@@ -113,13 +113,13 @@ ShortSpacedStats:
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
 DamagePercent: ダメージ %
 ReadableStats:
-  "HP%": HP
+  "HP%": HP割合
   HP: HP
-  "ATK%": 攻撃力
+  "ATK%": 攻撃力割合
   ATK: 攻撃力
-  "DEF%": 防御力
+  "DEF%": 防御力割合
   DEF: 防御力
-  "SPD%": 速度
+  "SPD%": 速度割合
   SPD: 速度
   CRIT Rate: 会心率
   CRIT DMG: 会心ダメ
@@ -136,13 +136,13 @@ ReadableStats:
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)ダメージ"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)ダメージ"
 ShortReadableStats:
-  "HP%": HP
+  "HP%": HP割合
   HP: HP
   "ATK%": 攻撃力割合
   ATK: 攻撃力
-  "DEF%": 防御力
+  "DEF%": 防御力割合
   DEF: 防御力
-  "SPD%": 速度
+  "SPD%": 速度割合
   SPD: 速度
   CRIT Rate: 会心率
   CRIT DMG: 会心ダメ
@@ -165,6 +165,7 @@ DMGTypes:
   ULT: 必殺技ダメージ
   FUA: 追加攻撃ダメージ
   MEMO_SKILL: 精霊スキルダメージ
+  MEMO_TALENT: 精霊天賦ダメージ
   DOT: 持続ダメージ
   BREAK: 撃破ダメージ
   CV: CV
@@ -174,6 +175,7 @@ ShortDMGTypes:
   Ult: 必殺技
   Fua: 追加攻撃
   Memo_Skill: 精霊スキル
+  Memo_Talent: 精霊天賦
   Dot: 持続
   Break: 撃破
   CV: CV

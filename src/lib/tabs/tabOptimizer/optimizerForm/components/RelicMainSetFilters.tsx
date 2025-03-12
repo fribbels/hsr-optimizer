@@ -1,5 +1,5 @@
 import { SettingOutlined } from '@ant-design/icons'
-import { Button, Cascader, Flex, Form, Select } from 'antd'
+import { Button, Cascader, ConfigProvider, Flex, Form, Select } from 'antd'
 import { Constants, Parts } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
@@ -21,11 +21,11 @@ export default function RelicMainSetFilters() {
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <Flex vertical gap={optimizerTabDefaultGap}>
-        <Flex justify='space-between' align='center'>
-          <HeaderText>{t('MainStats')/* Main stats */}</HeaderText>
-          <TooltipImage type={Hint.mainStats()}/>
-        </Flex>
+      <Flex justify='space-between' align='center'>
+        <HeaderText>{t('MainStats')/* Main stats */}</HeaderText>
+        <TooltipImage type={Hint.mainStats()}/>
+      </Flex>
+      <Flex vertical gap={7}>
         <Form.Item name='mainBody'>
           <Select
             mode='multiple'
@@ -114,23 +114,36 @@ export default function RelicMainSetFilters() {
         </Form.Item>
       </Flex>
 
-      <Flex vertical gap={optimizerTabDefaultGap}>
-        <Flex justify='space-between' align='center' style={{ marginTop: 12 }}>
-          <HeaderText>{t('Sets')/* Sets */}</HeaderText>
-          <TooltipImage type={Hint.sets()}/>
-        </Flex>
-        <Form.Item name='relicSets'>
-          <Cascader
-            placeholder={t('RelicSetSelector.Placeholder')}
-            options={useMemo(() => GenerateSetsOptions(), [t])}
-            showCheckedStrategy={SHOW_CHILD}
-            tagRender={RelicSetTagRenderer}
-            placement='bottomLeft'
-            maxTagCount='responsive'
-            multiple={true}
-            expandTrigger='hover'
-          />
-        </Form.Item>
+      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
+        <HeaderText>{t('Sets')/* Sets */}</HeaderText>
+        <TooltipImage type={Hint.sets()}/>
+      </Flex>
+
+      <Flex vertical gap={7}>
+        <ConfigProvider theme={{
+          components: {
+            Cascader: {
+              dropdownHeight: 730,
+              controlItemWidth: 100,
+              controlWidth: 100,
+              optionPadding: '2px 12px',
+            },
+          },
+        }}
+        >
+          <Form.Item name='relicSets'>
+            <Cascader
+              placeholder={t('RelicSetSelector.Placeholder')}
+              options={useMemo(() => GenerateSetsOptions(), [t])}
+              showCheckedStrategy={SHOW_CHILD}
+              tagRender={RelicSetTagRenderer}
+              placement='bottomLeft'
+              maxTagCount='responsive'
+              multiple={true}
+              expandTrigger='hover'
+            />
+          </Form.Item>
+        </ConfigProvider>
 
         <Form.Item name='ornamentSets'>
           <Select
@@ -150,14 +163,14 @@ export default function RelicMainSetFilters() {
           >
           </Select>
         </Form.Item>
+        <Button
+          onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+          icon={<SettingOutlined/>}
+        >
+          {t('SetConditionals.Title')/* Conditional set effects */}
+        </Button>
       </Flex>
 
-      <Button
-        onClick={() => setConditionalSetEffectsDrawerOpen(true)}
-        icon={<SettingOutlined/>}
-      >
-        {t('SetConditionals.Title')/* Conditional set effects */}
-      </Button>
     </Flex>
   )
 }

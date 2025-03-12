@@ -41,6 +41,28 @@ Messages:
   UnequipWarning: "Você tem certeza que quer desequipar $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Você tem certeza que quer deletar $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Atributos
+      ButtonText: Traços
+    SpdPrecision:
+      Header: Precisão VEL
+      Low: ".0"
+      High: ",000"
+    SpdWeight:
+      Header: Peso VEL
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: VEL benchmark
+      BenchmarkOptionsLabel: Opções do benchmark
+      CurrentSpdLabel: VEL atual - O benchmark corresponderá sua VEL básica
+      BaseSpdLabel: VEL base - O benchmark terá VEL mínima para a build
+      CommonBreakpointsLabel: Predefinições de breakpoints de VEL (buffs de VEL considerados separadamente)
+    BuffPriority:
+      Header: Prioridade de Buff
+      High: Alta
+      Low: Baixa
   CustomizationSidebar:
     Label: Personalização
     Modes:
@@ -48,6 +70,7 @@ CharacterPreview:
       Custom: Customizado
       Standard: Padrão
     PaletteLabel: Paleta de cores do retrato
+    ShowUID: Mostrar UID
   ArtBy: "Arte por {{artistName}}"
   EditCharacter: Editar personagem
   EditPortrait: Editar retrato
@@ -59,6 +82,7 @@ CharacterPreview:
     NoSelectedCharacter: Não há personagem selecionado
   ScoreHeader:
     Title: Simulação de combate
+    TitleBenchmark: "{{spd}} VEL Benchmark"
     Score: "Pontuação DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Algorítimo pontuação:"
@@ -71,14 +95,24 @@ CharacterPreview:
     Title: "Detalhes da pontuação:"
     Labels:
       CombatStats: Atributos de combate
+      SubDpsCombatStats: Atributos de Combate (Sub DPS)
       DMGUpgrades: Melhorias para o dano
   DMGUpgrades: Melhorias para o dano
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos
+    MainStatHeader: Comparação de melhoria de atributo principal
     Roll: roll
     Damage: Dano
+    MainStatUpgrade: Melhoria do Atributo Principal
+    SubStatUpgrade: Melhoria do Subatributo
+    DpsScorePercentUpgrade: Pontuação de DPS Δ %
+    UpgradedDpsScore: Pontuação de DPS Melhorada
+    ComboDmgPercentUpgrade: Dano de Combo Δ %
+    ComboDmgUpgrade: Dano de Combo Δ
   BuildAnalysis:
-    Header: Análise de build do personagem
+    ScoringNote: >-
+      A pontuação DPS avalia a qualidade da build comparando o dano de uma rotação de habilidade com construções de benchmark com a mesma equipe/lightcones/eidolons. As pontuações e o dano de combo são medidos apenas em relação à configuração da equipe escolhida e não devem ser comparados entre configurações diferentes.
+    Header: Cálculos Pontuação DPS
     SimulationTeammates: Equipe de simulação
     SimulationSets: Conjuntos de simulação
     Rotation:
@@ -88,6 +122,7 @@ CharacterPreview:
       ULT: PER. SUP.
       FUA: ATQ. EXT.
       MEMO_SKILL: PERÍCIAᴹ
+      MEMO_TALENT: TALENTOᴹ
       DOTS: "DOTS:"
       BREAKS: "QUEBRAS:"
     CombatResults:
@@ -105,7 +140,11 @@ CharacterPreview:
         FUA: Dano FUA
         DOT: Dano de DOT
         BREAK: DANO BREAK
+        MEMO_SKILL: DANO PERÍCIAᴹ
+        MEMO_TALENT: DANO TALENTOᴹ
         COMBO: Dano do combo
+    CombatBuffs:
+      Header: Buffs de combate
   ScoringColumn:
     Character:
       Header: "Build do personagem ({{score}}%)"

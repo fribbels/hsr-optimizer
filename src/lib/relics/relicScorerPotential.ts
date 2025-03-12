@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
+import { getScoreCategory, ScoreCategory } from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
 import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -28,6 +29,7 @@ type ScoringMetadata = {
   greedyHash: string
   hash: string
   modified?: boolean
+  category: ScoreCategory
 }
 
 type subStat = {
@@ -178,59 +180,64 @@ export class RelicScorer {
    */
   getRelicScoreMeta(id: CharacterId): ScoringMetadata {
     let scoringMetadata = this.characterRelicScoreMetas.get(id)
-    if (!scoringMetadata) {
-      scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
-      scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * flatStatScaling.HP
-      scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * flatStatScaling.ATK
-      scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * flatStatScaling.DEF
+    if (scoringMetadata) return scoringMetadata
 
-      // Object.entries strips type information down to primitive types :/  (e.g. here StatsValues becomes string)
-      // @ts-ignore
-      scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
-        .filter((x) => possibleSubstats.has(x[0]))
-        .sort((a, b) => {
-          return b[1] * normalization[b[0]] * SubStatValues[b[0]][5].high - a[1] * normalization[a[0]] * SubStatValues[a[0]][5].high
-        })
-      scoringMetadata.groupedSubstats = new Map()
-      for (const [stat, weight] of scoringMetadata.sortedSubstats) {
-        if (!scoringMetadata.groupedSubstats.has(weight)) {
-          scoringMetadata.groupedSubstats.set(weight, [])
-        }
-        scoringMetadata.groupedSubstats.get(weight)!.push(stat)
-      }
-      for (const stats of scoringMetadata.groupedSubstats.values()) {
-        stats.sort()
-      }
-      let weightedDmgTypes = 0
-      Object.entries(scoringMetadata.stats).forEach(([stat, value]) => {
-        // @ts-ignore
-        if (dmgMainstats.includes(stat) && value) weightedDmgTypes++
+    scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
+
+    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
+    scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
+
+    scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * flatStatScaling.HP
+    scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * flatStatScaling.ATK
+    scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * flatStatScaling.DEF
+
+    // Object.entries strips type information down to primitive types :/  (e.g. here StatsValues becomes string)
+    // @ts-ignore
+    scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
+      .filter((x) => possibleSubstats.has(x[0]))
+      .sort((a, b) => {
+        return b[1] * normalization[b[0]] * SubStatValues[b[0]][5].high - a[1] * normalization[a[0]] * SubStatValues[a[0]][5].high
       })
-      let validDmgMains = 0
-      scoringMetadata.parts.PlanarSphere.forEach((mainstat) => {
-        // @ts-ignore
-        if (dmgMainstats.includes(mainstat)) validDmgMains++
-      })
-      if (weightedDmgTypes < 2 && validDmgMains < 2) {
-        // if they only have 0 / 1 weighted dmg mainstat, we can cheat as their ideal orbs will all score the same
-        //
-        const hashParts = [
-          scoringMetadata.parts.Head,
-          scoringMetadata.parts.Hands,
-          scoringMetadata.parts.Body,
-          scoringMetadata.parts.Feet,
-          // @ts-ignore
-          scoringMetadata.parts.PlanarSphere.filter((x) => !dmgMainstats.includes(x)),
-          scoringMetadata.parts.LinkRope,
-        ]
-        scoringMetadata.greedyHash = TsUtils.objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
-        scoringMetadata.hash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
-      } else {
-        scoringMetadata.greedyHash = TsUtils.objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
-        scoringMetadata.hash = scoringMetadata.greedyHash
+    scoringMetadata.groupedSubstats = new Map()
+    for (const [stat, weight] of scoringMetadata.sortedSubstats) {
+      if (!scoringMetadata.groupedSubstats.has(weight)) {
+        scoringMetadata.groupedSubstats.set(weight, [])
       }
-      this.characterRelicScoreMetas.set(id, scoringMetadata)
+      scoringMetadata.groupedSubstats.get(weight)!.push(stat)
     }
+    for (const stats of scoringMetadata.groupedSubstats.values()) {
+      stats.sort()
+    }
+    let weightedDmgTypes = 0
+    Object.entries(scoringMetadata.stats).forEach(([stat, value]) => {
+      // @ts-ignore
+      if (dmgMainstats.includes(stat) && value) weightedDmgTypes++
+    })
+    let validDmgMains = 0
+    scoringMetadata.parts.PlanarSphere.forEach((mainstat) => {
+      // @ts-ignore
+      if (dmgMainstats.includes(mainstat)) validDmgMains++
+    })
+    if (weightedDmgTypes < 2 && validDmgMains < 2) {
+      // if they only have 0 / 1 weighted dmg mainstat, we can cheat as their ideal orbs will all score the same
+      //
+      const hashParts = [
+        scoringMetadata.parts.Head,
+        scoringMetadata.parts.Hands,
+        scoringMetadata.parts.Body,
+        scoringMetadata.parts.Feet,
+        // @ts-ignore
+        scoringMetadata.parts.PlanarSphere.filter((x) => !dmgMainstats.includes(x)),
+        scoringMetadata.parts.LinkRope,
+      ]
+      scoringMetadata.greedyHash = TsUtils.objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
+      scoringMetadata.hash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+    } else {
+      scoringMetadata.greedyHash = TsUtils.objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
+      scoringMetadata.hash = scoringMetadata.greedyHash
+    }
+    this.characterRelicScoreMetas.set(id, scoringMetadata)
+
     return scoringMetadata
   }
 
@@ -723,7 +730,7 @@ export class RelicScorer {
     }
     const missingSets = 3 - countPairs(relics.filter((x) => x != undefined).map((x) => x.set))
     totalScore = Math.max(0, totalScore - missingSets * 3 * minRollValue)
-    const totalRating = scoreToRating((totalScore - 4 * 64.8) / 6)
+    const totalRating = scoredRelics.length < 6 ? '?' : scoreToRating((totalScore - 4 * 64.8) / 6)
     return {
       relics: scoredRelics,
       totalScore,

@@ -65,6 +65,7 @@ import SweatNowCryLess from 'lib/conditionals/lightcone/4star/SweatNowCryLess'
 import Swordplay from 'lib/conditionals/lightcone/4star/Swordplay'
 import TheBirthOfTheSelf from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf'
 import TheDayTheCosmosFell from 'lib/conditionals/lightcone/4star/TheDayTheCosmosFell'
+import TheGreatCosmicEnterprise from 'lib/conditionals/lightcone/4star/TheGreatCosmicEnterprise'
 import TheMolesWelcomeYou from 'lib/conditionals/lightcone/4star/TheMolesWelcomeYou'
 import TheSeriousnessOfBreakfast from 'lib/conditionals/lightcone/4star/TheSeriousnessOfBreakfast'
 import ThisIsMe from 'lib/conditionals/lightcone/4star/ThisIsMe'
@@ -99,7 +100,9 @@ import InTheNight from 'lib/conditionals/lightcone/5star/InTheNight'
 import IntotheUnreachableVeil from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import IShallBeMyOwnSword from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import IVentureForthToHunt from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import LifeShouldBeCastToFlames from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import LongRoadLeadsHome from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import MakeFarewellsMoreBeautiful from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import MemorysCurtainNeverFalls from 'lib/conditionals/lightcone/5star/MemorysCurtainNeverFalls'
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -123,10 +126,13 @@ import TimeWovenIntoGold from 'lib/conditionals/lightcone/5star/TimeWovenIntoGol
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
+import { ElementName, PathName } from 'lib/constants/constants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 
-export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean) => LightConeConditionalsController
+export type WearerMetadata = { element: ElementName }
+
+export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean, wearerMetadata: WearerMetadata) => LightConeConditionalsController
 
 const fiveStar: Record<string, LightConeConditionalFunction> = {
   23000: NightOnTheMilkyWay,
@@ -176,6 +182,9 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23037: IntotheUnreachableVeil,
   23038: IfTimeWereAFlower,
   23039: FlameOfBloodBlazeMyPath,
+  23040: MakeFarewellsMoreBeautiful,
+  23041: LifeShouldBeCastToFlames,
+
   24005: MemorysCurtainNeverFalls,
 }
 
@@ -229,15 +238,15 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   21046: PoisedToBloom,
   21047: ShadowedByNight,
   21048: DreamsMontage,
+  21050: VictoryInABlink,
+  21051: GeniusesGreetings,
+  21052: SweatNowCryLess,
 
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,
   22002: ForTomorrowsJourney,
   22003: NinjaRecordSoundHunt,
-
-  21050: VictoryInABlink,
-  21051: GeniusesGreetings,
-  21052: SweatNowCryLess,
+  22004: TheGreatCosmicEnterprise,
 }
 
 const threeStar: Record<string, LightConeConditionalFunction> = {
@@ -274,9 +283,14 @@ export const lightConeOptionMapping: Record<string, LightConeConditionalFunction
 }
 
 export const LightConeConditionalsResolver = {
-  get: (request: { lightCone: string; lightConeSuperimposition: number }, withContent = false): LightConeConditionalsController => {
+  get: (
+    request: { lightCone: string; lightConeSuperimposition: number; lightConePath: PathName; path: PathName; element: ElementName },
+    withContent = false,
+  ): LightConeConditionalsController => {
     const lcFn = lightConeOptionMapping[request.lightCone]
-    if (!lcFn) {
+    // GPU debugger should be able to use all light cones
+    // Otherwise path mismatches disable light cone effects
+    if (!lcFn || (request.lightConePath !== request.path && !window?.WEBGPU_DEBUG)) {
       return {
         content: () => [],
         defaults: () => ({}),
@@ -286,6 +300,6 @@ export const LightConeConditionalsResolver = {
         },
       }
     }
-    return lcFn(request.lightConeSuperimposition - 1, withContent)
+    return lcFn(request.lightConeSuperimposition - 1, withContent, { element: request.element })
   },
 }

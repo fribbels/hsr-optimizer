@@ -1,4 +1,3 @@
-// @ts-check
 import eslint from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 import reactHook from 'eslint-plugin-react-hooks'
@@ -47,6 +46,7 @@ const config = tseslint.config(
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/prefer-optional-chain': 'off',
     },
   },
   {

@@ -1,0 +1,181 @@
+Relic_one: crwdns39796:0crwdne39796:0
+Relic_other: crwdns39798:0crwdne39798:0
+RelicWithCount_one: "crwdns39800:0{{count}}crwdne39800:0"
+RelicWithCount_other: "crwdns39802:0{{count}}crwdne39802:0"
+Lightcone_one: crwdns39804:0crwdne39804:0
+Lightcone_other: crwdns39806:0crwdne39806:0
+LightconeWithCount_one: "crwdns39808:0{{count}}crwdne39808:0"
+LightconeWithCount_other: "crwdns39810:0{{count}}crwdne39810:0"
+ThousandsSuffix: crwdns39812:0crwdne39812:0
+DecimalSeparator: "crwdns39814:0crwdne39814:0"
+ThousandsSeparator: "crwdns39816:0crwdne39816:0"
+I18nNumber: "crwdns39818:0value={value}crwdne39818:0"
+Cancel: crwdns39820:0crwdne39820:0
+Confirm: crwdns39822:0crwdne39822:0
+Submit: crwdns39824:0crwdne39824:0
+Ok: crwdns39826:0crwdne39826:0
+Yes: "crwdns39828:0crwdne39828:0"
+No: "crwdns39830:0crwdne39830:0"
+Save: crwdns39832:0crwdne39832:0
+Score: crwdns39834:0crwdne39834:0
+Reset: crwdns39836:0crwdne39836:0
+EidolonNShort: "crwdns39838:0{{eidolon}}crwdne39838:0"
+SuperimpositionNShort: "crwdns39840:0{{superimposition}}crwdne39840:0"
+LevelShort: "crwdns39842:0{{level}}crwdne39842:0"
+CharacterWithCount_one: "crwdns39844:0{{count}}crwdne39844:0"
+CharacterWithCount_other: "crwdns39846:0{{count}}crwdne39846:0"
+Character_one: crwdns39848:0crwdne39848:0
+Character_other: crwdns39850:0crwdne39850:0
+VerifiedRelicHoverText: crwdns39852:0crwdne39852:0
+CombatStats: crwdns39854:0crwdne39854:0
+Parts:
+  Head: crwdns39856:0crwdne39856:0
+  Hands: crwdns39858:0crwdne39858:0
+  Body: crwdns39860:0crwdne39860:0
+  Feet: crwdns39862:0crwdne39862:0
+  PlanarSphere: crwdns39864:0crwdne39864:0
+  LinkRope: crwdns39866:0crwdne39866:0
+ReadableParts:
+  Head: crwdns39868:0crwdne39868:0
+  Hands: crwdns39870:0crwdne39870:0
+  Body: crwdns39872:0crwdne39872:0
+  Feet: crwdns39874:0crwdne39874:0
+  PlanarSphere: crwdns39876:0crwdne39876:0
+  LinkRope: crwdns39878:0crwdne39878:0
+Stats:
+  "HP%": crwdns39880:0crwdne39880:0
+  HP: crwdns39882:0crwdne39882:0
+  "ATK%": crwdns39884:0crwdne39884:0
+  ATK: crwdns39886:0crwdne39886:0
+  "DEF%": crwdns39888:0crwdne39888:0
+  DEF: crwdns39890:0crwdne39890:0
+  "SPD%": crwdns39892:0crwdne39892:0
+  SPD: crwdns39894:0crwdne39894:0
+  CRIT Rate: crwdns39896:0crwdne39896:0
+  CRIT DMG: crwdns39898:0crwdne39898:0
+  Effect Hit Rate: crwdns39900:0crwdne39900:0
+  Effect RES: crwdns39902:0crwdne39902:0
+  Break Effect: crwdns39904:0crwdne39904:0
+  Energy Regeneration Rate: crwdns39906:0crwdne39906:0
+  Outgoing Healing Boost: crwdns39908:0crwdne39908:0
+  Physical DMG Boost: "crwdns39910:0$t(gameData:Elements.Physical)crwdne39910:0"
+  Fire DMG Boost: "crwdns39912:0$t(gameData:Elements.Fire)crwdne39912:0"
+  Ice DMG Boost: "crwdns39914:0$t(gameData:Elements.Ice)crwdne39914:0"
+  Lightning DMG Boost: "crwdns39916:0$t(gameData:Elements.Thunder)crwdne39916:0"
+  Wind DMG Boost: "crwdns39918:0$t(gameData:Elements.Wind)crwdne39918:0"
+  Quantum DMG Boost: "crwdns39920:0$t(gameData:Elements.Quantum)crwdne39920:0"
+  Imaginary DMG Boost: "crwdns39922:0$t(gameData:Elements.Imaginary)crwdne39922:0"
+ShortStats:
+  "HP%": crwdns39924:0crwdne39924:0
+  HP: crwdns39926:0crwdne39926:0
+  "ATK%": crwdns39928:0crwdne39928:0
+  ATK: crwdns39930:0crwdne39930:0
+  "DEF%": crwdns39932:0crwdne39932:0
+  DEF: crwdns39934:0crwdne39934:0
+  "SPD%": crwdns39936:0crwdne39936:0
+  SPD: crwdns39938:0crwdne39938:0
+  CRIT Rate: crwdns39940:0crwdne39940:0
+  CRIT DMG: crwdns39942:0crwdne39942:0
+  Effect Hit Rate: crwdns39944:0crwdne39944:0
+  Effect RES: crwdns39946:0crwdne39946:0
+  Break Effect: crwdns39948:0crwdne39948:0
+  Energy Regeneration Rate: crwdns39950:0crwdne39950:0
+  Outgoing Healing Boost: crwdns39952:0crwdne39952:0
+  Physical DMG Boost: "crwdns39954:0$t(gameData:Elements.Physical)crwdne39954:0"
+  Fire DMG Boost: "crwdns39956:0$t(gameData:Elements.Fire)crwdne39956:0"
+  Ice DMG Boost: "crwdns39958:0$t(gameData:Elements.Ice)crwdne39958:0"
+  Lightning DMG Boost: "crwdns39960:0$t(gameData:Elements.Thunder)crwdne39960:0"
+  Wind DMG Boost: "crwdns39962:0$t(gameData:Elements.Wind)crwdne39962:0"
+  Quantum DMG Boost: "crwdns39964:0$t(gameData:Elements.Quantum)crwdne39964:0"
+  Imaginary DMG Boost: "crwdns39966:0$t(gameData:Elements.Imaginary)crwdne39966:0"
+ShortSpacedStats:
+  "HP%": crwdns39968:0crwdne39968:0
+  HP: crwdns39970:0crwdne39970:0
+  "ATK%": crwdns39972:0crwdne39972:0
+  ATK: crwdns39974:0crwdne39974:0
+  "DEF%": crwdns39976:0crwdne39976:0
+  DEF: crwdns39978:0crwdne39978:0
+  "SPD%": crwdns39980:0crwdne39980:0
+  SPD: crwdns39982:0crwdne39982:0
+  CRIT Rate: crwdns39984:0crwdne39984:0
+  CRIT DMG: crwdns39986:0crwdne39986:0
+  Effect Hit Rate: crwdns39988:0crwdne39988:0
+  Effect RES: crwdns39990:0crwdne39990:0
+  Break Effect: crwdns39992:0crwdne39992:0
+  Energy Regeneration Rate: crwdns39994:0crwdne39994:0
+  Outgoing Healing Boost: crwdns39996:0crwdne39996:0
+  Physical DMG Boost: "crwdns39998:0$t(gameData:Elements.Physical)crwdne39998:0"
+  Fire DMG Boost: "crwdns40000:0$t(gameData:Elements.Fire)crwdne40000:0"
+  Ice DMG Boost: "crwdns40002:0$t(gameData:Elements.Ice)crwdne40002:0"
+  Lightning DMG Boost: "crwdns40004:0$t(gameData:Elements.Thunder)crwdne40004:0"
+  Wind DMG Boost: "crwdns40006:0$t(gameData:Elements.Wind)crwdne40006:0"
+  Quantum DMG Boost: "crwdns40008:0$t(gameData:Elements.Quantum)crwdne40008:0"
+  Imaginary DMG Boost: "crwdns40010:0$t(gameData:Elements.Imaginary)crwdne40010:0"
+DamagePercent: crwdns40012:0crwdne40012:0
+ReadableStats:
+  "HP%": crwdns40014:0crwdne40014:0
+  HP: crwdns40016:0crwdne40016:0
+  "ATK%": crwdns40018:0crwdne40018:0
+  ATK: crwdns40020:0crwdne40020:0
+  "DEF%": crwdns40022:0crwdne40022:0
+  DEF: crwdns40024:0crwdne40024:0
+  "SPD%": crwdns40026:0crwdne40026:0
+  SPD: crwdns40028:0crwdne40028:0
+  CRIT Rate: crwdns40030:0crwdne40030:0
+  CRIT DMG: crwdns40032:0crwdne40032:0
+  Effect Hit Rate: crwdns40034:0crwdne40034:0
+  Effect RES: crwdns40036:0crwdne40036:0
+  Break Effect: crwdns40038:0crwdne40038:0
+  Energy Regeneration Rate: crwdns40040:0crwdne40040:0
+  Outgoing Healing Boost: crwdns40042:0crwdne40042:0
+  Physical DMG Boost: "crwdns40044:0$t(gameData:Elements.Physical)crwdne40044:0"
+  Fire DMG Boost: "crwdns40046:0$t(gameData:Elements.Fire)crwdne40046:0"
+  Ice DMG Boost: "crwdns40048:0$t(gameData:Elements.Ice)crwdne40048:0"
+  Lightning DMG Boost: "crwdns40050:0$t(gameData:Elements.Thunder)crwdne40050:0"
+  Wind DMG Boost: "crwdns40052:0$t(gameData:Elements.Wind)crwdne40052:0"
+  Quantum DMG Boost: "crwdns40054:0$t(gameData:Elements.Quantum)crwdne40054:0"
+  Imaginary DMG Boost: "crwdns40056:0$t(gameData:Elements.Imaginary)crwdne40056:0"
+ShortReadableStats:
+  "HP%": crwdns40058:0crwdne40058:0
+  HP: crwdns40060:0crwdne40060:0
+  "ATK%": crwdns40062:0crwdne40062:0
+  ATK: crwdns40064:0crwdne40064:0
+  "DEF%": crwdns40066:0crwdne40066:0
+  DEF: crwdns40068:0crwdne40068:0
+  "SPD%": crwdns40070:0crwdne40070:0
+  SPD: crwdns40072:0crwdne40072:0
+  CRIT Rate: crwdns40074:0crwdne40074:0
+  CRIT DMG: crwdns40076:0crwdne40076:0
+  Effect Hit Rate: crwdns40078:0crwdne40078:0
+  Effect RES: crwdns40080:0crwdne40080:0
+  Break Effect: crwdns40082:0crwdne40082:0
+  Energy Regeneration Rate: crwdns40084:0crwdne40084:0
+  Outgoing Healing Boost: crwdns40086:0crwdne40086:0
+  Physical DMG Boost: "crwdns40088:0$t(gameData:Elements.Physical)crwdne40088:0"
+  Fire DMG Boost: "crwdns40090:0$t(gameData:Elements.Fire)crwdne40090:0"
+  Ice DMG Boost: "crwdns40092:0$t(gameData:Elements.Ice)crwdne40092:0"
+  Lightning DMG Boost: "crwdns40094:0$t(gameData:Elements.Thunder)crwdne40094:0"
+  Wind DMG Boost: "crwdns40096:0$t(gameData:Elements.Wind)crwdne40096:0"
+  Quantum DMG Boost: "crwdns40098:0$t(gameData:Elements.Quantum)crwdne40098:0"
+  Imaginary DMG Boost: "crwdns40100:0$t(gameData:Elements.Imaginary)crwdne40100:0"
+DMGTypes:
+  simScore: crwdns40102:0crwdne40102:0
+  BASIC: crwdns40104:0crwdne40104:0
+  SKILL: crwdns40106:0crwdne40106:0
+  ULT: crwdns40108:0crwdne40108:0
+  FUA: crwdns40110:0crwdne40110:0
+  MEMO_SKILL: crwdns40112:0crwdne40112:0
+  MEMO_TALENT: crwdns44754:0crwdne44754:0
+  DOT: crwdns40114:0crwdne40114:0
+  BREAK: crwdns40116:0crwdne40116:0
+  CV: crwdns40118:0crwdne40118:0
+ShortDMGTypes:
+  Basic: crwdns40120:0crwdne40120:0
+  Skill: crwdns40122:0crwdne40122:0
+  Ult: crwdns40124:0crwdne40124:0
+  Fua: crwdns40126:0crwdne40126:0
+  Memo_Skill: crwdns40128:0crwdne40128:0
+  Memo_Talent: crwdns44756:0crwdne44756:0
+  Dot: crwdns40130:0crwdne40130:0
+  Break: crwdns40132:0crwdne40132:0
+  CV: crwdns40134:0crwdne40134:0

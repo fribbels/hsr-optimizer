@@ -51,12 +51,10 @@ export const TsUtils = {
   },
 
   uuid: (): string => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return uuidv4()
   },
 
   uuidAlphaOnly: (): string => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return uuidv4().replace(/[^a-zA-Z0-9]/g, '')
   },
 

@@ -1,0 +1,44 @@
+StrategyLabels:
+  S1: 전광 우선
+  E0: 명함 우선
+  E1: 1돌 우선
+  E2: 2돌 우선
+  E3: 3돌 우선
+  E4: 4돌 우선
+  E5: 5돌 우선
+  E6: 6돌 우선
+EidolonLevels:
+  NONE: 없음
+  E1: 1돌
+  E2: 2돌
+  E4: 4돌
+  E6: 6돌
+SuperimpositionLevels:
+  NONE: 없음
+IncomeOptions:
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
+  Type:
+    0: 없음
+    1: 무과금
+    2: 열차 보급 허가증
+    3: 열차 보급 허가증 & 무명의 공훈
+PityCounter:
+  PityCounter: 뽑은 횟수
+  Guaranteed: 확정 천장
+TotalAvailable: "총 티켓 갯수"
+SectionTitles:
+  Planner: 워프 계획
+  Results: 결과
+  Settings: 셋팅
+  Character: 캐릭터
+  LightCone: 광추
+  Passes: 티켓
+  Jades: 성옥
+  Strategy: 우선 순위
+  AdditionalResources: 추가 자원
+  Calculate: 계산
+ColumnTitles:
+  Goal: 목표
+  Chance: "{{ticketCount}} <1/> 의 성공 확률"
+  Average: "평균적으로 필요한 <1/> 갯수"
+TargetLabel: "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}})\n$t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})"

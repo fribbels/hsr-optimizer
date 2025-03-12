@@ -1,0 +1,40 @@
+StrategyLabels:
+  S1: 1 Nón trước
+  E0: Nhân Vật Trước
+  E1: Tinh Hồn 1
+  E2: Tinh Hồn 2
+  E3: Tinh Hồn 3
+  E4: Tinh Hồn 4
+  E5: Tinh Hồn 5
+  E6: Tinh Hồn 6
+EidolonLevels:
+  NONE: Không có
+SuperimpositionLevels:
+  NONE: Không có
+IncomeOptions:
+  Label: "[PB{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
+  Type:
+    0: Không có
+    1: F2P
+    2: Tiếp Tế
+    3: VDVD + Tiếp Tế
+PityCounter:
+  PityCounter: Số Pity (lần nhảy)
+  Guaranteed: Có Bảo Hiểm
+TotalAvailable: "Vé Tinh Cầu đang có:"
+SectionTitles:
+  Planner: Lên Kế Hoạch Gacha
+  Results: Kết quả
+  Settings: Cài đặt
+  Character: Nhân vật
+  LightCone: Nón Ánh Sáng
+  Passes: Vé Hiện Có
+  Jades: Số Ngọc Ánh Sao
+  Strategy: Mục Tiêu
+  AdditionalResources: Nguồn khác
+  Calculate: Tính
+ColumnTitles:
+  Goal: Mục Tiêu
+  Chance: "Tỉ lệ thành công với {{ticketCount}} <1/>"
+  Average: "Số vé trung bình <1/> cần tới"
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

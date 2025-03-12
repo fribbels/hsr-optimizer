@@ -1,12 +1,17 @@
 import { ThemeConfig } from 'antd'
 import { ComputeEngine } from 'lib/constants/constants'
+import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { BuildData } from 'lib/simulations/expandedComputedStats'
+import { Simulation } from 'lib/simulations/statSimulationController'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { ScoringMetadata, ShowcasePreferences } from 'types/metadata'
+import { ScoringMetadata, ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 type PermutationDetails = {
@@ -42,6 +47,7 @@ export type HsrOptimizerStore = {
   optimizerTabFocusCharacter?: CharacterId
   characterTabFocusCharacter?: CharacterId
   scoringAlgorithmFocusCharacter?: CharacterId
+  statTracesDrawerFocusCharacter?: CharacterId
   relicsTabFocusCharacter?: CharacterId
   rowLimit: number
   activeKey: string
@@ -51,6 +57,7 @@ export type HsrOptimizerStore = {
   }
   comboDrawerOpen: boolean
   combatBuffsDrawerOpen: boolean
+  statTracesDrawerOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
   settingsDrawerOpen: boolean
   gettingStartedDrawerOpen: boolean
@@ -60,11 +67,12 @@ export type HsrOptimizerStore = {
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
+  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>
   warpRequest: WarpRequest
   warpResult: WarpResult
   statSimulationDisplay: StatSimTypes
-  statSimulations: unknown
-  selectedStatSimulations: unknown
+  statSimulations: Simulation[]
+  selectedStatSimulations: Simulation['key'][]
   optimizationInProgress: boolean
   optimizationId: string | null
   teammateCount: number
@@ -89,6 +97,9 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
+  optimizerExpandedPanelBuildData: BuildData | null
+  optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
+  optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
   setSettingsDrawerOpen: (open: boolean) => void
@@ -97,6 +108,7 @@ export type HsrOptimizerStore = {
   setFormValues: (form: Form) => void
   setCombatBuffsDrawerOpen: (open: boolean) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void
+  setStatTracesDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void
@@ -117,6 +129,7 @@ export type HsrOptimizerStore = {
   setSavedSessionKey: (key: string, value: string | boolean) => void
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
+  setStatTracesDrawerFocusCharacter: (id: CharacterId) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
@@ -127,18 +140,22 @@ export type HsrOptimizerStore = {
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
   setOptimizerBuild: (x: Build) => void
-  setSavedSession: (x: any) => void
+  setOptimizerExpandedPanelBuildData: (x: BuildData) => void
+  setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void
+  setOptimizerBuffGroups: (x: Record<BUFF_TYPE, Record<string, Buff[]>>) => void
+  setSavedSession: (x: SavedSession) => void
   setOptimizerFormSelectedLightCone: (x: any) => void
   setOptimizerFormCharacterEidolon: (x: any) => void
   setTeammateCount: (x: any) => void
-  setSelectedStatSimulations: (x: any) => void
-  setStatSimulations: (x: any) => void
-  setStatSimulationDisplay: (x: any) => void
+  setSelectedStatSimulations: (x: Simulation['key'][]) => void
+  setStatSimulations: (x: Simulation[]) => void
+  setStatSimulationDisplay: (x: StatSimTypes) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
+  setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void
   setWarpRequest: (x: WarpRequest) => void
   setWarpResult: (x: WarpResult) => void
-  setScorerId: (x: any) => void
+  setScorerId: (x: string) => void
   setCharacterTabFilters: (x: any) => void
   setPermutations: (x: any) => void
   setPermutationDetails: (x: any) => void
@@ -173,12 +190,15 @@ export type SavedSession = {
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean
+  showcaseUID: boolean
+  showcasePreciseSpd: boolean
 }
 
 export type UserSettings = {
   RelicEquippingBehavior: string
   PermutationsSidebarBehavior: string
   RelicPotentialLoadBehavior: string
+  ExpandedInfoPanelPosition: string
 }
 
 // The JSON format we save to localstorage / save file

@@ -24,9 +24,7 @@ RelicGrid:
   Headers:
     EquippedBy: Chủ sở hữu
     Set: Bộ
-    Grade: Độ Hiếm
     Part: Bộ phận
-    Enhance: Cường Hóa
     MainStat: |-
       Thuộc Tính
       Chính
@@ -44,7 +42,7 @@ RelicGrid:
       Tỉ Lệ
       Bạo Kích
     CD: |-
-      Sát Thương
+      ST
       Bạo Kích
     EHR: |-
       Chính Xác
@@ -69,25 +67,36 @@ RelicGrid:
       AvgPotCol:
         Label: "Nhân vật được chọn: Tiềm năng trung bình"
         Header: |-
-          Nhân vật chọn
-          Tiềm năng trung bình
+          Nhân vật tiềm năng trung bình
       MaxPotCol:
         Label: "Nhân vật được chọn: Tiềm năng tối đa"
         Header: |-
-          Nhân vật chọn
-          Tiềm năng tối đa
+          Tiềm Năng Nhân
+          Vật Tối Đa
+      RerollAvg:
+        Label: "Nhân vật đã chọn: Tiềm năng chia lại chỉ số trung bình."
+        Header: |-
+          Nhân vật chọn  
+          Chia lại
+      RerollAvgDelta:
+        Label: "Nhân vật đã chọn: Xoay lại tiềm năng delta trung bình"
+        Header: |-
+          Giá Trị Δ Reroll cho nhân vật
     CustomCharacters:
       Label: Tùy chọn nhân vật
       AvgPotCol:
         Label: "Tùy chọn nhân vật: Tiềm năng trung bình"
         Header: |-
-          Tùy chọn nhân vật
-          Tiềm năng trung bình
+          Nhân vật chọn tiềm năng
       MaxPotCol:
         Label: "Tùy chọn nhân vật: Tiềm năng tối đa"
         Header: |-
-          Tùy chọn nhân vật
-          Tiềm năng tối đa
+          Nhân vật chọn tiềm năng tối đa
+      RerollAvg:
+        Label: "Nhân vật tùy chỉnh: Tiềm năng xoay lại trung bình"
+        Header: |-
+          Nhân vật tùy chỉnh  
+          Xoay lại trung bình
     AllCharacters:
       Label: Tất cả nhân vật
       AvgPotCol:
@@ -100,6 +109,11 @@ RelicGrid:
         Header: |-
           Tất cả nhân vật
           Tiềm năng tối đa
+      RerollAvg:
+        Label: "Tất cả nhân vật: Tiềm năng xoay lại trung bình"
+        Header: |-
+          Tất cả nhân vật  
+          Xoay lại trung bình
     ComingSoon:
       Label: Sắp ra mắt
       SetsPotential:

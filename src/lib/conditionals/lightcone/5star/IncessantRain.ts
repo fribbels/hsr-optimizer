@@ -1,5 +1,6 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -7,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IncessantRain')
+  const { SOURCE_LC } = Source.lightCone('23007')
 
   const sValuesCr = [0.12, 0.14, 0.16, 0.18, 0.20]
   const sValuesDmg = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -49,12 +51,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.CR.buff((r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0, Source.NONE)
+      x.CR.buff((r.enemy3DebuffsCrBoost) ? sValuesCr[s] : 0, SOURCE_LC)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((m.targetCodeDebuff) ? sValuesDmg[s] : 0, Source.NONE)
+      x.VULNERABILITY.buffTeam((m.targetCodeDebuff) ? sValuesDmg[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

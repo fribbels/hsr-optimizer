@@ -1,8 +1,9 @@
-import { BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BASIC_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key, Source } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -13,6 +14,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pela')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1106')
 
   const ultDefPenValue = ult(e, 0.40, 0.42)
 
@@ -75,6 +89,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -83,51 +98,37 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.SPD_P.buff((e >= 2 && r.skillRemovedBuff) ? 0.10 : 0, Source.NONE)
+      x.SPD_P.buff((e >= 2 && r.skillRemovedBuff) ? 0.10 : 0, SOURCE_E2)
 
       // Scaling
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
-      x.SKILL_SCALING.buff(skillScaling, Source.NONE)
-      x.ULT_SCALING.buff(ultScaling, Source.NONE)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
-      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillRemovedBuff) ? 0.20 : 0, Source.NONE)
-      x.ELEMENTAL_DMG.buff((r.enemyDebuffed) ? 0.20 : 0, Source.NONE)
+      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillRemovedBuff) ? 0.20 : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff((r.enemyDebuffed) ? 0.20 : 0, SOURCE_TRACE)
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff(60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.enemyDebuffed) ? 0.40 : 0, SOURCE_TALENT)
+      x.SKILL_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.enemyDebuffed) ? 0.40 : 0, SOURCE_TALENT)
+      x.ULT_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.enemyDebuffed) ? 0.40 : 0, SOURCE_TALENT)
 
       return x
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.EHR.buffTeam((m.teamEhrBuff) ? 0.10 : 0, Source.NONE)
+      x.EHR.buffTeam((m.teamEhrBuff) ? 0.10 : 0, SOURCE_TRACE)
 
-      x.DEF_PEN.buffTeam((m.ultDefPenDebuff) ? ultDefPenValue : 0, Source.NONE)
-      x.ICE_RES_PEN.buffTeam((e >= 4 && m.e4SkillResShred) ? 0.12 : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.ultDefPenDebuff) ? ultDefPenValue : 0, SOURCE_ULT)
+      x.ICE_RES_PEN.buffTeam((e >= 4 && m.e4SkillResShred) ? 0.12 : 0, SOURCE_E4)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG.buff(x.a[Key.BASIC_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.SKILL_DMG.buff(x.a[Key.SKILL_SCALING] * x.a[Key.ATK], Source.NONE)
-      x.ULT_DMG.buff(x.a[Key.ULT_SCALING] * x.a[Key.ATK], Source.NONE)
-
-      x.BASIC_DMG.buff((e >= 6) ? 0.40 * x.a[Key.ATK] : 0, Source.NONE)
-      x.SKILL_DMG.buff((e >= 6) ? 0.40 * x.a[Key.ATK] : 0, Source.NONE)
-      x.ULT_DMG.buff((e >= 6) ? 0.40 * x.a[Key.ATK] : 0, Source.NONE)
+      standardAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: () => {
-      return `
-x.BASIC_DMG += x.BASIC_SCALING * x.ATK;
-x.SKILL_DMG += x.SKILL_SCALING * x.ATK;
-x.ULT_DMG += x.ULT_SCALING * x.ATK;
-
-if (${wgslTrue(e >= 6)}) {
-  x.BASIC_DMG += 0.40 * x.ATK;
-  x.SKILL_DMG += 0.40 * x.ATK;
-  x.ULT_DMG += 0.40 * x.ATK;
-}
-    `
-    },
+    gpuFinalizeCalculations: () => gpuStandardAdditionalDmgAtkFinalizer(),
   }
 }

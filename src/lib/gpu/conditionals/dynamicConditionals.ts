@@ -8,10 +8,11 @@ export type DynamicConditional = {
   type: number
   activation: number
   dependsOn: string[]
+  chainsTo: string[]
+  supplementalState?: string[]
   condition: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => boolean | number
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpu: (action: OptimizerAction, context: OptimizerContext) => string
-  ratioConversion?: boolean
   teammateIndex?: number
 }
 
@@ -50,7 +51,7 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
 
 export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string) {
   return `
-fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_state: ptr<function, ConditionalState>) {
+fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
   let x = *p_x;
 ${indent(wgsl.trim(), 1)}
 }

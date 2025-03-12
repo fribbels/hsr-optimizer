@@ -6,7 +6,7 @@ Scoring:
   Footer:
     Reset: デフォルトにリセット
     ResetAll: すべてのキャラクターをリセット
-    Save: 変更を保存
+    Save: 保存
   ResetAllConfirm:
     Title: 全てのキャラクターのスコア計算方法をリセットしますか？
     Description: 以前に設定した全キャラクターのスコア計算方法は全て失われます。
@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "撃破ダメージの最小値をリセットしました"
       Description: "撃破ダメージフィルターの最小値が高すぎる可能性があります。"
       ButtonText: "撃破ダメージの最小値をリセット"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "精霊スキルダメージの最大値をリセットしました"
+      Description: "精霊スキルダメージの最大値が低すぎる可能性があります。"
+      ButtonText: "精霊スキルダメージの最大値をリセット"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "精霊スキルダメージの最小値をリセットしました"
+      Description: "精霊スキルダメージの最小値が高すぎる可能性があります。"
+      ButtonText: "精霊スキルダメージの最小値をリセット"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "精霊天賦ダメージの最大値をリセットしました"
+      Description: "精霊天賦ダメージの最大値が低すぎる可能性があります。"
+      ButtonText: "精霊天賦ダメージの最大値をリセット"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "精霊天賦ダメージの最小値をリセットしました"
+      Description: "精霊天賦ダメージの最小値が高すぎる可能性があります。"
+      ButtonText: "精霊天賦ダメージの最小値をリセット"
     MAX_HEAL:
       SuccessMessage: "治癒量の最大値をリセットしました"
       Description: "治癒量フィルターの最大値が低すぎる可能性があります。"
@@ -236,7 +252,7 @@ Scoring:
 ManyPerms:
   Title: 非常に大きな検索がリクエストされました
   Text: >-
-    この検索は完了までにかなりの時間を要します。GPUアクセラレーションの設定を有効にするか、検索対象を特定のセットやメインステータスに絞る、またはサブステータスの重み付けを使用して組み合わせ数を減らすことを検討してください。
+    この検索は完了までにかなりの時間を要します。 GPU アクセラレーションの設定を有効にするか、検索対象を特定のセットやメインステータスに絞る、またはサブステータスの重み付けを使用して組み合わせ数を減らすことを検討してください。
   Cancel: 検索を終了
   Proceed: 検索を続行
 EditCharacter:
@@ -304,7 +320,7 @@ EditImage:
     Previous: 前
     Next: 次
 SaveBuild:
-  Label: ビルドの名前
+  Label: ビルド名の入力
   Rule: 名前を入力してください
 SwitchRelics:
   Title: キャラクターと遺物を交換
@@ -312,7 +328,7 @@ Builds:
   DeleteAll: すべて削除
   Equip: 装備
   ConfirmEquip:
-    Content: これを装備すると、このビルドで使用している遺物を装備しているキャラクターが装備解除されます。
+    Content: 装備すると、このビルドの遺物を使用するキャラクターの装備が外されます。
     SuccessMessage: "ビルドを装備しました：{{buildName}}"
   ConfirmDelete:
     DeleteAll: 本当に全てのビルドを削除しますか？
@@ -320,13 +336,13 @@ Builds:
     SuccessMessageAll: "{{characterName}}のすべてのビルドを削除しました"
     SuccessMessageSingle: "ビルドを削除しました：{{name}}"
   NoBuilds:
-    NoneSaved: 保存されたビルドなし
+    NoneSaved: 保存したビルドなし
 ScoreFooter:
   ModalTitle: 戦闘シミュレーションのスコア計算方法の設定
   OkText: OK
   ResetButtonText: カスタムチームをデフォルトにリセット
   ResetSuccessMsg: デフォルトのチームにリセット
-  SyncButtonText: インポートした星塊・光円錐を同期
+  SyncButtonText: インポートした星塊・光円錐と同期
   SyncSuccessMsg: チームメイトを同期しました
   TeamOptions:
     Default: デフォルト
@@ -336,13 +352,13 @@ CharacterSelect:
     Placeholder: キャラクターをカスタマイズ
     MaxTagPlaceholderSome: "{{count}}人のキャラクターが除外されました"
     MaxTagPlaceholderNone: すべてのキャラクターが有効です。
-    ModalTitle: 除外するキャラクターを選択
+    ModalTitle: 除外するキャラクターの選択
   SingleSelect:
     Placeholder: キャラクター
-    ModalTitle: キャラクターを選択
+    ModalTitle: キャラクターの選択
   SearchPlaceholder: キャラクター名を検索
   ExcludeButton: すべて除外
   ClearButton: クリア
 LightconeSelect:
   Placeholder: 光円錐
-  Title: 光円錐を選択
+  Title: 光円錐の選択

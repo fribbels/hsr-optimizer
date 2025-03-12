@@ -1,43 +1,52 @@
 import { SaveState } from 'lib/state/saveState'
 import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
 
-// 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
+// Notes: 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
 
 const characterWarpCap = 90
 const lightConeWarpCap = 80
 const simulations = 100000
 const character5050 = 0.5625
-const lightCone5050 = 0.78125 // 0.78125 or 0.75
+const lightCone5050 = 0.78125
 
-export enum WarpIncome {
-  NONE = 'NONE',
-  F2P_3_0 = 'F2P_3_0',
-  EXPRESS_3_0 = 'EXPRESS_3_0',
-  EXPRESS_BP_3_0 = 'EXPRESS_BP_3_0',
+export enum WarpIncomeType {
+  NONE,
+  F2P,
+  EXPRESS,
+  BP_EXPRESS,
 }
 
-export const WarpIncomeValuesMapping: Record<WarpIncome, WarpIncomeValues> = {
-  [WarpIncome.NONE]: {
-    passes: 0,
-    jades: 0,
-    label: 'None',
-  },
-  [WarpIncome.F2P_3_0]: {
-    passes: 25,
-    jades: 13490,
-    label: 'v3.0 F2P',
-  },
-  [WarpIncome.EXPRESS_3_0]: {
-    passes: 25,
-    jades: 17270,
-    label: 'v3.0 Express',
-  },
-  [WarpIncome.EXPRESS_BP_3_0]: {
-    passes: 29,
-    jades: 17950,
-    label: 'v3.0 Express & BP',
-  },
+export enum BannerRotation {
+  NEW,
+  RERUN,
 }
+
+export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0)
+
+// Modified each patch
+export const WarpIncomeOptions: WarpIncomeDefinition[] = [
+
+  // generateOption('3.0', 1, WarpIncomeType.F2P, 75),
+  // generateOption('3.0', 2, WarpIncomeType.F2P, 34),
+  // generateOption('3.0', 1, WarpIncomeType.EXPRESS, 86),
+  // generateOption('3.0', 2, WarpIncomeType.EXPRESS, 46),
+  // generateOption('3.0', 1, WarpIncomeType.BP_EXPRESS, 90),
+  // generateOption('3.0', 2, WarpIncomeType.BP_EXPRESS, 51),
+
+  generateOption('3.1', 1, WarpIncomeType.F2P, 80),
+  generateOption('3.1', 2, WarpIncomeType.F2P, 27),
+  generateOption('3.1', 1, WarpIncomeType.EXPRESS, 91),
+  generateOption('3.1', 2, WarpIncomeType.EXPRESS, 40),
+  generateOption('3.1', 1, WarpIncomeType.BP_EXPRESS, 94),
+  generateOption('3.1', 2, WarpIncomeType.BP_EXPRESS, 45),
+
+  generateOption('3.2', 1, WarpIncomeType.F2P, 76),
+  generateOption('3.2', 2, WarpIncomeType.F2P, 109 - 76),
+  generateOption('3.2', 1, WarpIncomeType.EXPRESS, 89),
+  generateOption('3.2', 2, WarpIncomeType.EXPRESS, 132 - 89),
+  generateOption('3.2', 1, WarpIncomeType.BP_EXPRESS, 92),
+  generateOption('3.2', 2, WarpIncomeType.BP_EXPRESS, 141 - 92),
+]
 
 export enum WarpStrategy {
   E0 = 0, // E0 -> S1 -> E6 -> S5
@@ -50,18 +59,41 @@ export enum WarpStrategy {
   S1 = 7, // S1 -> E6 -> S5
 }
 
-export type WarpRequest = {
-  passes: number,
-  jades: number,
-  income: WarpIncome,
-  strategy: WarpStrategy,
-  pityCharacter: number,
-  guaranteedCharacter: false,
-  pityLightCone: number,
-  guaranteedLightCone: false
+export enum EidolonLevel {
+  NONE = -1,
+  E0,
+  E1,
+  E2,
+  E3,
+  E4,
+  E5,
+  E6,
 }
 
-export type WarpMilestoneResult = { warps: number, wins: number }
+export enum SuperimpositionLevel {
+  NONE = 0,
+  S1,
+  S2,
+  S3,
+  S4,
+  S5,
+}
+
+export type WarpRequest = {
+  passes: number
+  jades: number
+  income: string[]
+  bannerRotation: BannerRotation
+  strategy: WarpStrategy
+  pityCharacter: number
+  guaranteedCharacter: boolean
+  pityLightCone: number
+  guaranteedLightCone: boolean
+  currentEidolonLevel: EidolonLevel
+  currentSuperimpositionLevel: SuperimpositionLevel
+}
+
+export type WarpMilestoneResult = { warps: number; wins: number }
 export type WarpResult = {
   milestoneResults: Record<string, WarpMilestoneResult>
   request: EnrichedWarpRequest
@@ -69,24 +101,29 @@ export type WarpResult = {
 
 export enum WarpType {
   CHARACTER,
-  LIGHTCONE
+  LIGHTCONE,
 }
 
 export const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
-  income: WarpIncome.NONE,
+  income: [],
+  bannerRotation: BannerRotation.NEW,
   strategy: WarpStrategy.E0,
   pityCharacter: 0,
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
+  currentEidolonLevel: EidolonLevel.NONE,
+  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
-type WarpIncomeValues = {
-  passes: number,
-  jades: number,
-  label: string
+export type WarpIncomeDefinition = {
+  passes: number
+  id: string
+  version: string
+  type: WarpIncomeType
+  phase: number
 }
 
 type WarpMilestone = {
@@ -95,14 +132,35 @@ type WarpMilestone = {
   pity: number
   guaranteed: boolean
   redistributedCumulative: number[]
+  redistributedCumulativeNonPity?: number[]
   warpCap: number
 }
 
-export function simulateWarps(originalRequest: WarpRequest) {
-  console.log('simulate Warps', originalRequest)
+function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number) {
+  return {
+    passes,
+    version,
+    phase,
+    type,
+    id: generateOptionKey(version, phase, type),
+  }
+}
 
+function generateOptionKey(version: string, phase: number, type: WarpIncomeType) {
+  return `${version}_p${phase}_${type}`
+}
+
+export function handleWarpRequest(originalRequest: WarpRequest) {
+  console.log('simulate Warps', originalRequest)
   window.store.getState().setWarpRequest(originalRequest)
 
+  const warpResult = simulateWarps(originalRequest)
+
+  window.store.getState().setWarpResult(warpResult)
+  SaveState.delayedSave()
+}
+
+export function simulateWarps(originalRequest: WarpRequest) {
   const request = enrichWarpRequest(originalRequest)
   const milestones = generateWarpMilestones(request)
 
@@ -114,12 +172,13 @@ export function simulateWarps(originalRequest: WarpRequest) {
     let count = 0
 
     for (const milestone of milestones) {
-      let {
+      const {
         warpType,
         label,
         pity,
         guaranteed,
         redistributedCumulative,
+        redistributedCumulativeNonPity,
         warpCap,
       } = milestone
 
@@ -128,12 +187,12 @@ export function simulateWarps(originalRequest: WarpRequest) {
       if (Math.random() < rate || guaranteed) {
         count += index
       } else {
-        const index2 = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
+        const index2 = getNextSuccessIndex(redistributedCumulativeNonPity ?? redistributedCumulative, warpCap, 0) + 1
         count += index + index2
       }
 
       milestoneResults[label].warps += count
-      if (count < request.warps) {
+      if (count <= request.warps) {
         milestoneResults[label].wins++
       }
     }
@@ -142,20 +201,14 @@ export function simulateWarps(originalRequest: WarpRequest) {
   for (const milestone of milestones) {
     milestoneResults[milestone.label].warps /= simulations
     milestoneResults[milestone.label].wins /= simulations
-    // console.log(`${milestone.label}: ${milestoneResults[milestone.label].warps}`)
   }
-
-  // for (const milestone of milestones) {
-  //   console.log(`${milestone.label}: ${milestoneResults[milestone.label].wins}`)
-  // }
 
   const warpResult: WarpResult = {
     milestoneResults: milestoneResults,
     request: request,
   }
 
-  window.store.getState().setWarpResult(warpResult)
-  SaveState.delayedSave()
+  return warpResult
 }
 
 function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
@@ -165,17 +218,22 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     guaranteedCharacter,
     pityLightCone,
     guaranteedLightCone,
+    currentEidolonLevel,
+    currentSuperimpositionLevel,
   } = enrichedRequest
 
   const e0CharacterDistribution = redistributePityCumulative(pityCharacter, characterWarpCap, characterDistribution)
+  const e0CharacterDistributionNonPity = redistributePityCumulative(0, characterWarpCap, characterDistribution)
   const s1LightConeDistribution = redistributePityCumulative(pityLightCone, lightConeWarpCap, lightConeDistribution)
-  const milestones: WarpMilestone[] = [
+  const s1LightConeDistributionNonPity = redistributePityCumulative(0, lightConeWarpCap, lightConeDistribution)
+  let milestones: WarpMilestone[] = [
     {
       warpType: WarpType.CHARACTER,
       label: 'E0',
       guaranteed: guaranteedCharacter,
       pity: pityCharacter,
       redistributedCumulative: e0CharacterDistribution,
+      redistributedCumulativeNonPity: e0CharacterDistributionNonPity,
       warpCap: characterWarpCap,
     },
     { warpType: WarpType.CHARACTER, label: 'E1', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
@@ -197,6 +255,7 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     guaranteed: guaranteedLightCone,
     pity: pityLightCone,
     redistributedCumulative: s1LightConeDistribution,
+    redistributedCumulativeNonPity: s1LightConeDistributionNonPity,
     warpCap: lightConeWarpCap,
   }
 
@@ -227,25 +286,89 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
       break
   }
 
-  let e = -1
-  let s = 0
+  const currEidolonSuperCheck: boolean = (currentEidolonLevel !== EidolonLevel.NONE) || (currentSuperimpositionLevel !== SuperimpositionLevel.NONE)
+  milestones = currEidolonSuperCheck ? filterRemapMilestones(milestones, enrichedRequest) : milestones
+
+  let e = currentEidolonLevel
+  let s = currentSuperimpositionLevel
+
   for (const milestone of milestones) {
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == -1 ? `S${s}` : `E${e}S${s}`
+    milestone.label = e == EidolonLevel.NONE ? `S${s}` : `E${e}S${s}`
   }
 
   return milestones
 }
 
+function filterRemapMilestones(milestones: WarpMilestone[], enrichRequest: EnrichedWarpRequest) {
+  let skipCharacterMilestones: number = enrichRequest.currentEidolonLevel
+  let skipLightConeMilestones: number = enrichRequest.currentSuperimpositionLevel
+  let filteredMilestones: WarpMilestone[] = []
+
+  // Filter out previous eidolon and superimposition already obtained.
+  filteredMilestones = milestones.filter((milestone) => {
+    switch (milestone.warpType) {
+      case WarpType.CHARACTER:
+        if (skipCharacterMilestones > -1) {
+          skipCharacterMilestones--
+          return false
+        }
+        break
+      case WarpType.LIGHTCONE:
+        if (skipLightConeMilestones > 0) {
+          skipLightConeMilestones--
+          return false
+        }
+        break
+    }
+    return true
+  })
+
+  // Remap the new starting milestone
+  const e0CharacterDistribution = redistributePityCumulative(enrichRequest.pityCharacter, characterWarpCap, characterDistribution)
+  const e0CharacterDistributionNonPity = redistributePityCumulative(0, characterWarpCap, characterDistribution)
+  const s1LightConeDistribution = redistributePityCumulative(enrichRequest.pityLightCone, lightConeWarpCap, lightConeDistribution)
+  const s1LightConeDistributionNonPity = redistributePityCumulative(0, lightConeWarpCap, lightConeDistribution)
+
+  const firstNewCharacterIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.CHARACTER)
+  if (firstNewCharacterIndex >= 0) {
+    filteredMilestones[firstNewCharacterIndex].pity = enrichRequest.pityCharacter
+    filteredMilestones[firstNewCharacterIndex].guaranteed = enrichRequest.guaranteedCharacter
+    filteredMilestones[firstNewCharacterIndex].redistributedCumulative = e0CharacterDistribution
+    filteredMilestones[firstNewCharacterIndex].redistributedCumulativeNonPity = e0CharacterDistributionNonPity
+  }
+
+  const firstNewLightConeIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.LIGHTCONE)
+  if (firstNewLightConeIndex >= 0) {
+    filteredMilestones[firstNewLightConeIndex].pity = enrichRequest.pityLightCone
+    filteredMilestones[firstNewLightConeIndex].guaranteed = enrichRequest.guaranteedLightCone
+    filteredMilestones[firstNewLightConeIndex].redistributedCumulative = s1LightConeDistribution
+    filteredMilestones[firstNewLightConeIndex].redistributedCumulativeNonPity = s1LightConeDistributionNonPity
+  }
+
+  return filteredMilestones
+}
+
 export type EnrichedWarpRequest = {
-  warps: number,
+  warps: number
+  totalPasses: number
+  totalJade: number
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {
-  const additionalIncome = WarpIncomeValuesMapping[request.income] ?? WarpIncomeValuesMapping[WarpIncome.NONE]
-  const totalJade = request.jades + additionalIncome.jades
-  const totalPasses = request.passes + additionalIncome.passes
+  const selectedIncome = request.income.map(
+    (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId) ?? NONE_WARP_INCOME_OPTION,
+  )
+
+  let additionalPasses = 0
+
+  for (const income of selectedIncome) {
+    additionalPasses += income.passes
+  }
+
+  const totalJade = request.jades
+  const totalPasses = request.passes + additionalPasses
   const totalWarps = Math.floor(totalJade / 160) + totalPasses
 
   // Treat null form values as empty and use defaults
@@ -259,6 +382,13 @@ function enrichWarpRequest(request: WarpRequest) {
   const enrichedRequest: EnrichedWarpRequest = {
     ...request,
     warps: totalWarps,
+    totalJade: totalJade,
+    totalPasses: totalPasses,
+  }
+
+  if (request.bannerRotation == BannerRotation.NEW) {
+    enrichedRequest.currentEidolonLevel = EidolonLevel.NONE
+    enrichedRequest.currentSuperimpositionLevel = SuperimpositionLevel.NONE
   }
 
   return enrichedRequest
@@ -275,7 +405,7 @@ function redistributePityCumulative(pity: number, warpCap: number, distribution:
   for (let i = pity; i < warpCap; i++) {
     redistributedCumulative[i] = i == 0 ? distribution[i] : redistributedCumulative[i - 1] + distribution[i]
   }
-  let diff = 1 - redistributedCumulative[warpCap - 1]
+  const diff = 1 - redistributedCumulative[warpCap - 1]
   for (let i = pity; i < warpCap; i++) {
     redistributedCumulative[i] += diff * (redistributedCumulative[i])
   }

@@ -13,7 +13,6 @@ Import:
     Header: "Installa e avvia una delle opzioni dello scanner di reliquie"
     ReliquaryDesc:
       Title: (Consigliato) IceDynamix Reliquary Archiver
-      OnlineMsg: "Stato: Aggiornato per la patch {{version}} — È necessaria una nuova installazione"
       OfflineMsg: "***** Stato: In manutenzione dopo la patch {{version}} *****"
       l1: Decimali di velocità accurati, scansione istantanea
       l2: Importa l'inventario completo e l'elenco dei personaggi

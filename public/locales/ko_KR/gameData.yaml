@@ -183,11 +183,17 @@ Characters:
     Name: 아글라이아
     LongName: 아글라이아
   "1403":
-    Name: Tribbie
-    LongName: Tribbie
+    Name: 트리비
+    LongName: 트리비
   "1404":
-    Name: Mydei
-    LongName: Mydei
+    Name: 마이데이
+    LongName: 마이데이
+  "1405":
+    Name: 아낙사
+    LongName: 아낙사
+  "1407":
+    Name: 카스토리스
+    LongName: 카스토리스
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -364,11 +370,11 @@ RelicSets:
     Name: "기묘한\_나나\_낙원"
     Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가한다.\_장착한\_캐릭터가\_소환한\_목표가\_있을\_시,\_치명타\_피해가\_추가로\_32%\_증가한다"
   "319":
-    Name: Bone Collection's Serene Demesne
-    Description2pc: Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 25%.
+    Name: "고요한\_습골지"
+    Description2pc: "장착한\_캐릭터의\_HP\_최대치가\_12%\_증가한다.\_장착한\_캐릭터의\_HP\_최대치가\_5000pt\_이상일\_경우,\_장착한\_캐릭터와\_해당\_캐릭터의\_기억\_정령의\_치명타\_피해가\_28%\_증가한다"
   "320":
-    Name: Giant Tree of Rapt Brooding
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate is 70% or higher, increases the Additional DMG dealt by 30%.
+    Name: "사색하는\_거목"
+    Description2pc: "장착한\_캐릭터의\_속도가\_6%\_증가한다.\_장착한\_캐릭터의\_속도가\_135/180\_이상일\_경우,\_장착한\_캐릭터와\_해당\_캐릭터의\_기억\_정령의\_치유량이\_12%/20%\_증가한다"
 Lightcones:
   "20000":
     Name: 화살촉
@@ -528,6 +534,8 @@ Lightcones:
     Name: "내일을\_위한\_여정"
   "22003":
     Name: "인사록•음률\_사냥"
+  "22004":
+    Name: 우주 대사업
   "23000":
     Name: "은하철도의\_밤"
   "23001":
@@ -605,9 +613,13 @@ Lightcones:
   "23037":
     Name: "추궁할\_수\_없는\_곳을\_향해"
   "23038":
-    Name: If Time Were a Flower
+    Name: "시간이\_한\_송이\_꽃이라면"
   "23039":
-    Name: Flame of Blood, Blaze My Path
+    Name: "피의\_불꽃이여,\_앞길을\_태워라"
+  "23040":
+    Name: 이별이 더 아름답도록
+  "23041":
+    Name: 생명은 불태워야 하는 것
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":
@@ -619,7 +631,7 @@ Lightcones:
   "24004":
     Name: "멈추지\_않는\_연산"
   "24005":
-    Name: The Curtain Never Falls on Memories
+    Name: "기억은\_영원히\_막을\_내리지\_않는다"
 Paths:
   Warrior: 파멸
   Rogue: 수렵
@@ -630,7 +642,6 @@ Paths:
   Priest: 풍요
   Memory: 기억
   Unknown: 범용
-  Remembrance: Remembrance
 Elements:
   Physical: 물리
   Fire: 화염

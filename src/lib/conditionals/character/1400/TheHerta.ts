@@ -1,6 +1,8 @@
-import { gpuStandardAtkFinalizer, standardAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, countTeamPath, mainIsPath } from 'lib/conditionals/conditionalUtils'
+import { PathNames } from 'lib/constants/constants'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -9,6 +11,19 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character('1401')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.70, 0.77)
@@ -105,6 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
+    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -112,35 +128,41 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ATK_P.buff((r.ultAtkBuff) ? ultAtkBuffScaling : 0, Source.NONE)
+      x.ATK_P.buff((r.ultAtkBuff) ? ultAtkBuffScaling : 0, SOURCE_ULT)
 
-      x.BASIC_SCALING.buff(basicScaling, Source.NONE)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
 
       const e6DamageMultiplier = context.enemyCount == 1 ? 4.00 : 1.40
-      x.ULT_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01 + (e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), Source.NONE)
+      x.ULT_ATK_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01, SOURCE_TRACE)
+      x.ULT_ATK_SCALING.buff((e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), SOURCE_E6)
 
+      const eruditionStackMultiplier = r.eruditionTeammate
+        ? Math.min(2, countTeamPath(context, PathNames.Erudition))
+        : 1
       const enhancedSkillStackScaling = talentStackScaling
         * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
-        * (r.eruditionTeammate ? 2 : 1)
-      x.SKILL_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), Source.NONE)
-      x.SKILL_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, Source.NONE)
-      x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, Source.NONE)
+        * eruditionStackMultiplier
 
-      x.BASIC_TOUGHNESS_DMG.buff(30, Source.NONE)
-      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedSkill) ? 75 : 60, Source.NONE)
-      x.ULT_TOUGHNESS_DMG.buff(60, Source.NONE)
+      x.SKILL_ATK_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), SOURCE_SKILL)
+      x.SKILL_DMG_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, SOURCE_TRACE)
+      x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
+
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedSkill) ? 25 : 20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((m.eruditionTeammate ? 0.80 : 0), Source.NONE)
-      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && m.eruditionTeammate) ? 0.12 : 0, Source.NONE)
+      x.CD.buff((m.eruditionTeammate && countTeamPath(context, PathNames.Erudition) >= 2) ? 0.80 : 0, SOURCE_TRACE)
+
+      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && mainIsPath(context, PathNames.Erudition)) ? 0.12 : 0, SOURCE_E4)
+    },
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardAtkFinalizer()
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

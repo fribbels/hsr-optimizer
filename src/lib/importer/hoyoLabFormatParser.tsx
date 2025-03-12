@@ -1,7 +1,9 @@
-import { Constants, Parts, SubStats } from 'lib/constants/constants'
+import { Constants, MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
+import { DBMetadataSets } from 'types/metadata'
+import { Relic } from 'types/relic'
 
 // FIXME MED
 
@@ -85,24 +87,10 @@ type HoyolabOutput = {
     current_trailblazer_path: string
   }
   characters: HoyolabCharacter[]
-  relics: {
-    enhance: number
-    equippedBy: string
-    grade: number
-    id: string
-    part: string
-    set: string
-    main: {
-      stat: string
-      value: number
-    }
-    substats: {
-      stat: SubStats
-      value: number
-    }[]
-    verified: boolean
-  }[]
+  relics: HoyolabRelicOut[]
 }
+
+type HoyolabRelicOut = Pick<Relic, 'enhance' | 'equippedBy' | 'grade' | 'id' | 'part' | 'set' | 'main' | 'substats' | 'verified'>
 
 type HoyolabCharacter = {
   characterEidolon: number
@@ -146,7 +134,7 @@ export function hoyolabParser(json: HoyolabData) {
       }[] = []
       for (const property of relic.properties) {
         const substat = {
-          stat: getStat(property.property_type),
+          stat: getStat(property.property_type) as SubStats,
           value: readValue(property.value),
         }
         substats.push(substat)
@@ -159,7 +147,7 @@ export function hoyolabParser(json: HoyolabData) {
         part: getSlot(relic.pos),
         set: getSet(relic.id, relicData),
         main: {
-          stat: getStat(relic.main_property.property_type),
+          stat: getStat(relic.main_property.property_type) as MainStats,
           value: readValue(relic.main_property.value),
         },
         substats: substats,
@@ -197,7 +185,7 @@ function getTrailblazerMetadata(id: number) {
   return trailblazerMetadataLookup[id]
 }
 
-const statLookup: { [key: number]: string } = {
+const statLookup: { [key: number]: StatsValues } = {
   27: Constants.Stats.HP,
   32: Constants.Stats.HP_P,
   29: Constants.Stats.ATK,
@@ -225,7 +213,7 @@ function getStat(id: number) {
   return statLookup[id] || ''
 }
 
-const slotLookup: { [key: number]: string } = {
+const slotLookup: { [key: number]: Parts } = {
   1: Parts.Head,
   2: Parts.Hands,
   3: Parts.Body,
@@ -238,13 +226,13 @@ function getSlot(id: number) {
   return slotLookup[id] || ''
 }
 
-function getSet(id: number, relicData): string {
+function getSet(id: number, relicData: Record<string, DBMetadataSets>) {
   const setId = id.toString().substring(1, 4)
-  if (tidOverrides[id]) {
-    return relicData[tidOverrides[id].set].name
+  if (tidOverrides[id as keyof typeof tidOverrides]) {
+    return relicData[tidOverrides[id as keyof typeof tidOverrides].set].name as Sets
   }
 
-  return relicData[setId].name
+  return relicData[setId].name as Sets
 }
 
 const tidOverrides = {

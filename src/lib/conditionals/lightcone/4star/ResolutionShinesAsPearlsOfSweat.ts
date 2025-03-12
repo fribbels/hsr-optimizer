@@ -1,5 +1,6 @@
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ComputedStatsArray, Source } from 'lib/optimization/computedStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -7,6 +8,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ResolutionShinesAsPearlsOfSweat')
+  const { SOURCE_LC } = Source.lightCone('21015')
 
   const sValues = [0.12, 0.13, 0.14, 0.15, 0.16]
 
@@ -24,7 +26,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'targetEnsnared',
       formItem: 'switch',
       text: t('Content.targetEnsnared.text'),
-      content: t('Content.targetEnsnared.content', { DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('Content.targetEnsnared.content', { BaseChance: TsUtils.precisionRound(60 + 10 * s), DefShred: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   }
 
@@ -42,7 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_PEN.buffTeam((m.targetEnsnared) ? sValues[s] : 0, Source.NONE)
+      x.DEF_PEN.buffTeam((m.targetEnsnared) ? sValues[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

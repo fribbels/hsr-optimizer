@@ -6,6 +6,7 @@ import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_S
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
@@ -16,7 +17,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
-import { Form, TeammateProperty } from 'types/form'
+import { TeammateProperty } from 'types/form'
+import { DBMetadata } from 'types/metadata'
 
 const { Text } = Typography
 
@@ -81,6 +83,7 @@ function getDefaultTeammateForm() {
 const teammateRelicSets = [
   Sets.MessengerTraversingHackerspace,
   Sets.WatchmakerMasterOfDreamMachinations,
+  Sets.SacerdosRelivedOrdeal,
 ]
 const teammateOrnamentSets = [
   Sets.BrokenKeel,
@@ -97,8 +100,20 @@ function calculateTeammateSets(teammateCharacter: Character) {
     teamOrnamentSet?: string
   } = {}
   for (const set of teammateRelicSets) {
-    if (relics.filter((relic) => relic.set == set).length == 4 && set != Sets.MessengerTraversingHackerspace) {
-      activeTeammateSets.teamRelicSet = set
+    if (relics.filter((relic) => relic.set == set).length == 4) {
+      if (set == Sets.MessengerTraversingHackerspace) continue
+      if (set == Sets.SacerdosRelivedOrdeal) {
+        if (
+          teammateCharacter.id == '1313' // Sunday
+          || teammateCharacter.id == '1306' // Sparkle
+        ) {
+          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_2_STACK
+        } else {
+          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_1_STACK
+        }
+      } else {
+        activeTeammateSets.teamRelicSet = set
+      }
     }
   }
 
@@ -112,7 +127,7 @@ function calculateTeammateSets(teammateCharacter: Character) {
 }
 
 function countTeammates() {
-  const fieldsValue = window.optimizerForm.getFieldsValue() as Form
+  const fieldsValue = window.optimizerForm.getFieldsValue()
   return [fieldsValue.teammate0, fieldsValue.teammate1, fieldsValue.teammate2].filter((teammate) => teammate?.characterId).length
 }
 
@@ -124,6 +139,7 @@ type OptionRender = {
 
 const TeammateCard = (props: {
   index: number
+  dbMetadata: DBMetadata
 }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
@@ -240,8 +256,9 @@ const TeammateCard = (props: {
       characterEidolon: teammateValues.characterEidolon,
     })
 
-    if (!characterConditionals.teammateDefaults) return
-    teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
+    if (characterConditionals.teammateDefaults) {
+      teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
+    }
 
     window.optimizerForm.setFieldValue([teammateProperty], teammateValues)
   }
@@ -254,15 +271,14 @@ const TeammateCard = (props: {
     if (!teammateLightConeId) return
 
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    const lightConeConditionals = LightConeConditionalsResolver.get({
-      lightCone: teammateLightConeId,
-      lightConeSuperimposition: teammateSuperimposition,
-    })
+    const teammate = displayFormValues[teammateProperty]
+    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate, props.dbMetadata)
+    const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
 
-    if (!lightConeConditionals.teammateDefaults) return
-    const mergedConditionals = Object.assign({}, lightConeConditionals.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
+    if (!controller.teammateDefaults) return
+    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
     window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedConditionals)
-  }, [teammateLightConeId, teammateSuperimposition, props.index])
+  }, [teammateLightConeId, teammateSuperimposition, teammateCharacterId, props.index])
 
   return (
     <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
@@ -375,6 +391,7 @@ const TeammateCard = (props: {
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}
               teammateIndex={props.index}
+              dbMetadata={props.dbMetadata}
             />
           </Flex>
           <Flex>

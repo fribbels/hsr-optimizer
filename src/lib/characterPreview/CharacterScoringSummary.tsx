@@ -1,19 +1,27 @@
-import { Divider, Flex } from 'antd'
+import { Divider, Flex, Typography } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
+import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
+import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
+import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
+import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { StatCalculator } from 'lib/relics/statCalculator'
+import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
+import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
+import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
-import { diminishingReturnsFormula, SimulationScore, SimulationStatUpgrade, spdDiminishingReturnsFormula } from 'lib/scoring/characterScorer'
+import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { filterUnique } from 'lib/utils/arrayUtils'
+import { localeNumber, localeNumber_0, localeNumber_00, localeNumber_000, numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
@@ -21,16 +29,20 @@ import { Trans, useTranslation } from 'react-i18next'
 
 // FIXME MED
 
+const { Text } = Typography
+
 export const CharacterScoringSummary = (props: {
   simScoringResult?: SimulationScore
 }) => {
-  const result = TsUtils.clone(props.simScoringResult)
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
-  if (!result) return (
+
+  if (!props.simScoringResult) return (
     <pre style={{ height: 200 }}>
       {' '}
     </pre>
   )
+
+  const result = TsUtils.clone(props.simScoringResult)
 
   const characterId = result.simulationForm.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
@@ -63,6 +75,7 @@ export const CharacterScoringSummary = (props: {
     label: string
     number?: number
     precision?: number
+    useGrouping?: boolean
   }) {
     const precision = props.precision ?? 1
     const value = props.number ?? 0
@@ -70,7 +83,7 @@ export const CharacterScoringSummary = (props: {
     return (
       <Flex gap={15} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, textAlign: 'right' }}>{show && value.toFixed(precision)}</pre>
+        <pre style={{ margin: 0, textAlign: 'right' }}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
       </Flex>
     )
   }
@@ -91,9 +104,9 @@ export const CharacterScoringSummary = (props: {
       <Flex gap={5} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
         <pre style={{ margin: 0, textAlign: 'right' }}>
-          {show && value.toFixed(precision)}
+          {show && numberToLocaleString(value, precision)}
           {showParens && <span style={{ margin: 3 }}>-</span>}
-          {showParens && `${parens.toFixed(1)}`}
+          {showParens && numberToLocaleString(parens, 1)}
         </pre>
       </Flex>
     )
@@ -142,67 +155,26 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
-  function ScoringStatUpgrades() {
-    const rows: ReactElement[] = []
-    const originalScore = result.originalSimScore
-    const basePercent = result.percent
-
-    for (const substatUpgrade of result.substatUpgrades) {
-      const statUpgrade: SimulationStatUpgrade = substatUpgrade
-      const upgradeSimScore = statUpgrade.simulationResult.simScore
-      const upgradePercent = statUpgrade.percent!
-      const upgradeStat = statUpgrade.stat!
-      const isFlat = Utils.isFlat(statUpgrade.stat)
-      const suffix = isFlat ? '' : '%'
-      const rollValue = TsUtils.precisionRound(StatCalculator.getMaxedSubstatValue(upgradeStat as SubStats, 0.8))
-
-      rows.push(
-        <Flex key={Utils.randomId()} align='center' gap={10}>
-          <img src={Assets.getStatIcon(upgradeStat)} style={{ height: 30 }}/>
-          <pre
-            style={{
-              margin: 0,
-              width: 200,
-            }}
-          >{`+1x ${t('CharacterPreview.SubstatUpgradeComparisons.Roll')}: ${t(`common:ShortStats.${upgradeStat as SubStats}`)} +${rollValue.toFixed(1)}${suffix}`}
-          </pre>
-          <pre style={{ margin: 0, width: 250 }}>
-            {`${t('common:Score')}: +${((upgradePercent - basePercent) * 100).toFixed(2)}% -> ${(statUpgrade.percent! * 100).toFixed(2)}%`}
-          </pre>
-          <pre style={{ margin: 0, width: 300 }}>
-            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')}: +${(upgradeSimScore - originalScore).toFixed(1)} -> ${upgradeSimScore.toFixed(1)}`}
-          </pre>
-          <pre style={{ margin: 0, width: 150 }}>
-            {`${t('CharacterPreview.SubstatUpgradeComparisons.Damage')} %: +${((upgradeSimScore - originalScore) / originalScore * 100).toFixed(3)}%`}
-          </pre>
-        </Flex>,
-      )
-    }
-
-    return (
-      <Flex vertical gap={defaultGap}>
-        {rows}
-      </Flex>
-    )
-  }
-
   // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
+  const original = TsUtils.clone(result.originalSimResult)
+  const benchmark = TsUtils.clone(result.benchmarkSimResult)
+  const maximum = TsUtils.clone(result.maximumSimResult)
 
-  const originalBasicStats = TsUtils.clone(result.originalSimResult)
-  const benchmarkBasicStats = TsUtils.clone(result.benchmarkSimResult)
-  const maximumBasicStats = TsUtils.clone(result.maximumSimResult)
+  const originalBasicStats = original.ca
+  const benchmarkBasicStats = benchmark.ca
+  const maximumBasicStats = maximum.ca
 
-  const originalCombatStats = originalBasicStats.x
-  const benchmarkCombatStats = benchmarkBasicStats.x
-  const maximumCombatStats = maximumBasicStats.x
+  const originalCombatStats = original.xa
+  const benchmarkCombatStats = benchmark.xa
+  const maximumCombatStats = maximum.xa
 
-  originalBasicStats[elementalDmgValue] = originalBasicStats.ELEMENTAL_DMG
-  benchmarkBasicStats[elementalDmgValue] = benchmarkBasicStats.ELEMENTAL_DMG
-  maximumBasicStats[elementalDmgValue] = maximumBasicStats.ELEMENTAL_DMG
+  originalBasicStats[StatToKey[elementalDmgValue]] = originalBasicStats[Key.ELEMENTAL_DMG]
+  benchmarkBasicStats[StatToKey[elementalDmgValue]] = benchmarkBasicStats[Key.ELEMENTAL_DMG]
+  maximumBasicStats[StatToKey[elementalDmgValue]] = maximumBasicStats[Key.ELEMENTAL_DMG]
 
-  originalCombatStats[elementalDmgValue] = originalCombatStats.ELEMENTAL_DMG
-  benchmarkCombatStats[elementalDmgValue] = benchmarkCombatStats.ELEMENTAL_DMG
-  maximumCombatStats[elementalDmgValue] = maximumCombatStats.ELEMENTAL_DMG
+  originalCombatStats[StatToKey[elementalDmgValue]] = originalCombatStats[Key.ELEMENTAL_DMG]
+  benchmarkCombatStats[StatToKey[elementalDmgValue]] = benchmarkCombatStats[Key.ELEMENTAL_DMG]
+  maximumCombatStats[StatToKey[elementalDmgValue]] = maximumCombatStats[Key.ELEMENTAL_DMG]
 
   const statPreviewWidth = 300
   const divider = (
@@ -219,8 +191,8 @@ export const CharacterScoringSummary = (props: {
   }) {
     const request = props.simulation.request
     const simResult = TsUtils.clone(props.simulation.result)
-    const basicStats = simResult
-    const combatStats = basicStats.x
+    const basicStats = toBasicStatsObject(simResult.ca)
+    const combatStats = toComputedStatsObject(simResult.xa)
     const highlight = props.type == 'Character'
     const color = 'rgb(225, 165, 100)'
     basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
@@ -249,7 +221,7 @@ export const CharacterScoringSummary = (props: {
     const precision = props.precision
 
     return (
-      <Flex vertical gap={25}>
+      <Flex vertical gap={25} style={{ margin: 'auto' }}>
         <Flex vertical gap={defaultGap}>
           <Flex justify='space-around'>
             <pre style={{ fontSize: 20, fontWeight: 'bold', color: highlight ? color : '' }}>
@@ -259,28 +231,32 @@ export const CharacterScoringSummary = (props: {
           </Flex>
         </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth, margin: 'auto' }}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
           </pre>
           {/* Character/100% benchmark/200% prefect basic stats */}
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
+            showAll={true}
           />
         </Flex>
 
-        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth }}>
+        <Flex vertical gap={defaultGap} style={{ width: statPreviewWidth, margin: 'auto' }}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
               build type <u>combat stats</u>
             </Trans>
           </pre>
           <CharacterStatSummary
+            characterId={characterId}
             finalStats={combatStats}
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
+            showAll={true}
           />
         </Flex>
 
@@ -291,21 +267,81 @@ export const CharacterScoringSummary = (props: {
           {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
           <Flex justify='space-between'>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'} number={stats[Stats.ATK_P]} parens={diminishingReturns[Stats.ATK_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.ATK}`) + ':'} number={stats[Stats.ATK]} parens={diminishingReturns[Stats.ATK]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP_P}`) + ':'} number={stats[Stats.HP_P]} parens={diminishingReturns[Stats.HP_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.HP}`) + ':'} number={stats[Stats.HP]} parens={diminishingReturns[Stats.HP]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'} number={stats[Stats.DEF_P]} parens={diminishingReturns[Stats.DEF_P]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.DEF}`) + ':'} number={stats[Stats.DEF]} parens={diminishingReturns[Stats.DEF]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'}
+                number={stats[Stats.ATK_P]}
+                parens={diminishingReturns[Stats.ATK_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.ATK}`) + ':'}
+                number={stats[Stats.ATK]}
+                parens={diminishingReturns[Stats.ATK]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP_P}`) + ':'}
+                number={stats[Stats.HP_P]}
+                parens={diminishingReturns[Stats.HP_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.HP}`) + ':'}
+                number={stats[Stats.HP]}
+                parens={diminishingReturns[Stats.HP]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'}
+                number={stats[Stats.DEF_P]}
+                parens={diminishingReturns[Stats.DEF_P]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.DEF}`) + ':'}
+                number={stats[Stats.DEF]}
+                parens={diminishingReturns[Stats.DEF]}
+                precision={precision}
+              />
             </Flex>
             <VerticalDivider/>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.SPD}`) + ':'} number={stats[Stats.SPD]} parens={diminishingReturns[Stats.SPD]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CR}`) + ':'} number={stats[Stats.CR]} parens={diminishingReturns[Stats.CR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.CD}`) + ':'} number={stats[Stats.CD]} parens={diminishingReturns[Stats.CD]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.EHR}`) + ':'} number={stats[Stats.EHR]} parens={diminishingReturns[Stats.EHR]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.RES}`) + ':'} number={stats[Stats.RES]} parens={diminishingReturns[Stats.RES]} precision={precision}/>
-              <ScoringNumberParens label={t(`common:ShortStats.${Stats.BE}`) + ':'} number={stats[Stats.BE]} parens={diminishingReturns[Stats.BE]} precision={precision}/>
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.SPD}`) + ':'}
+                number={stats[Stats.SPD]}
+                parens={diminishingReturns[Stats.SPD]}
+                precision={2}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CR}`) + ':'}
+                number={stats[Stats.CR]}
+                parens={diminishingReturns[Stats.CR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.CD}`) + ':'}
+                number={stats[Stats.CD]}
+                parens={diminishingReturns[Stats.CD]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.EHR}`) + ':'}
+                number={stats[Stats.EHR]}
+                parens={diminishingReturns[Stats.EHR]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.RES}`) + ':'}
+                number={stats[Stats.RES]}
+                parens={diminishingReturns[Stats.RES]}
+                precision={precision}
+              />
+              <ScoringNumberParens
+                label={t(`common:ShortStats.${Stats.BE}`) + ':'}
+                number={stats[Stats.BE]}
+                parens={diminishingReturns[Stats.BE]}
+                precision={precision}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -319,7 +355,10 @@ export const CharacterScoringSummary = (props: {
             <Flex vertical gap={10}>
               <ScoringStat stat={request.simBody !== 'NONE' ? t(`common:ReadableStats.${request.simBody as MainStats}`) : ''} part={Parts.Body}/>
               <ScoringStat stat={request.simFeet !== 'NONE' ? t(`common:ReadableStats.${request.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-              <ScoringStat stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
+              <ScoringStat
+                stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''}
+                part={Parts.PlanarSphere}
+              />
               <ScoringStat stat={request.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${request.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
             </Flex>
           </Flex>
@@ -337,6 +376,7 @@ export const CharacterScoringSummary = (props: {
               <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.ULT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Fua')) + ':'} number={simResult.FUA} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Skill')) + ':'} number={simResult.MEMO_SKILL} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Talent')) + ':'} number={simResult.MEMO_TALENT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Dot')) + ':'} number={simResult.DOT} precision={1}/>
               <ScoringNumber label={String(t('common:ShortDMGTypes.Break')) + ':'} number={simResult.BREAK} precision={1}/>
             </Flex>
@@ -347,14 +387,30 @@ export const CharacterScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical gap={15} align='center'>
-      <Flex justify='space-around' style={{ marginTop: 15 }}>
+    <Flex vertical gap={20} align='center' style={{ width: 1068 }}>
+      <Flex align='center' style={{ marginTop: 15, marginBottom: 10 }} vertical gap={15}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
+          <ColorizedLinkWithIcon
+            text={t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
+            linkIcon={true}
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
+          />
         </pre>
+        <pre style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14, textWrap: 'wrap', margin: 0 }}>
+          {
+            t('CharacterPreview.BuildAnalysis.ScoringNote')
+          }
+        </pre>
+        <DpsScoreGradeRuler
+          score={result.originalSimScore}
+          minimum={result.baselineSimScore}
+          maximum={result.maximumSimScore}
+          benchmark={result.benchmarkSimScore}
+        />
       </Flex>
-      <Flex gap={25}>
-        <Flex vertical gap={defaultGap} style={{ marginLeft: 10 }}>
+
+      <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
+        <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
           </pre>
@@ -386,7 +442,7 @@ export const CharacterScoringSummary = (props: {
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.Rotation.Header')/* Combo damage rotation */}
           </pre>
-          <Flex gap={30} style={{ width: 183 }}>
+          <Flex gap={30}>
             <Flex vertical gap={2}>
               <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={1}/>
               <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={2}/>
@@ -427,6 +483,20 @@ export const CharacterScoringSummary = (props: {
         </Flex>
       </Flex>
 
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
+        </pre>
+        <DpsScoreSubstatUpgradesTable simScore={result}/>
+      </Flex>
+
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
+        </pre>
+        <DpsScoreMainStatUpgradesTable simScore={result}/>
+      </Flex>
+
       <Flex>
         <ScoringColumn
           simulation={result.originalSim}
@@ -454,23 +524,12 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
-      <Flex gap={defaultGap} justify='space-around'>
-        <Flex vertical gap={defaultGap}>
-          <pre style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-            {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
-          </pre>
-          <ScoringStatUpgrades/>
-        </Flex>
-      </Flex>
-
-      <Flex justify='space-around' style={{ marginTop: 15 }}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          <ColorizedLinkWithIcon
-            text={t('CharacterPreview.ScoringDetails.Header')/* How is DPS score calculated? */}
-            linkIcon={true}
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
-          />
+      <Flex vertical align='center' style={{ width: '100%' }}>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')/* Combat buffs */}
         </pre>
+
+        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>
       </Flex>
     </Flex>
   )
@@ -497,19 +556,23 @@ export function ScoringTeammate(props: {
   )
 }
 
-function addOnHitStats(simulationScore: SimulationScore) {
-  const sortOption = simulationScore.characterMetadata.scoringMetadata.sortOption
+function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
   const ability = sortOption.key
-  const x = simulationScore.originalSimResult.x
 
-  x.ELEMENTAL_DMG += x[`${ability}_BOOST`]
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  xa[Key.ELEMENTAL_DMG] += xa[Key[`${ability}_DMG_BOOST`]]
   if (ability != SortOption.DOT.key) {
-    x[Stats.CR] += x[`${ability}_CR_BOOST`]
-    x[Stats.CD] += x[`${ability}_CD_BOOST`]
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    xa[Key[`${ability}_CR_BOOST`]] && (xa[Key.CR] += xa[Key[`${ability}_CR_BOOST`]])
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    xa[Key[`${ability}_CD_BOOST`]] && (xa[Key.CD] += xa[Key[`${ability}_CD_BOOST`]])
   }
 }
 
-const percentFlatStats = {
+const percentFlatStats: Record<string, boolean> = {
   [Stats.ATK_P]: true,
   [Stats.DEF_P]: true,
   [Stats.HP_P]: true,
@@ -518,40 +581,44 @@ const percentFlatStats = {
 export function CharacterCardCombatStats(props: {
   result: SimulationScore
 }) {
-  const result = TsUtils.clone(props.result)
-  addOnHitStats(result)
+  const result = props.result
+  const xa = new Float32Array(result.originalSimResult.xa)
+  const sortOption = result.characterMetadata.scoringMetadata.sortOption
+  addOnHitStats(xa, sortOption)
 
   const { t } = useTranslation('common')
-  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation
-  const simulationMetadata = result.simulationMetadata
+  const { t: tCharactersTab } = useTranslation('charactersTab')
+  const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
+
+  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation!
   const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
-  const nonDisplayStats = simulationMetadata.nonDisplayStats || []
-  let substats = originalSimulationMetadata.substats
-  substats = substats.filter((x) => !nonDisplayStats.includes(x))
-  substats = Utils.filterUnique(substats).filter((x) => !percentFlatStats[x])
+  let substats = originalSimulationMetadata.substats as SubStats[]
+  substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
   if (substats.length < 5) substats.push(Stats.SPD)
   substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
-  substats.push(elementalDmgValue)
+  const upgradeStats: StatsValues[] = [...substats, elementalDmgValue]
 
   const rows: ReactElement[] = []
 
-  for (const stat of substats) {
+  for (const stat of upgradeStats) {
     if (percentFlatStats[stat]) continue
 
-    const value = damageStats[stat] ? result.originalSimResult.x.ELEMENTAL_DMG : result.originalSimResult.x[stat]
+    const value = damageStats[stat] ? xa[Key.ELEMENTAL_DMG] : xa[StatToKey[stat]]
     const flat = Utils.isFlat(stat)
     const upgraded = damageStats[stat]
-      ? Utils.precisionRound(result.originalSimResult.x.ELEMENTAL_DMG, 2) != Utils.precisionRound(result.originalSimResult.ELEMENTAL_DMG, 2)
-      : Utils.precisionRound(result.originalSimResult.x[stat], 2) != Utils.precisionRound(result.originalSimResult[stat], 2)
+      ? Utils.precisionRound(xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
+      : Utils.precisionRound(xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
 
-    let display = Math.floor(value)
+    let display = localeNumber(Math.floor(value))
     if (stat == Stats.SPD) {
-      display = Utils.truncate10ths(value).toFixed(1)
+      display = preciseSpd
+        ? localeNumber_000(TsUtils.precisionRound(value, 4))
+        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value, 4)))
     } else if (!flat) {
-      display = Utils.truncate10ths(value * 100).toFixed(1)
+      display = localeNumber_0(Utils.truncate10ths(value * 100))
     }
 
-    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat as StatsValues}`)
+    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
@@ -569,13 +636,15 @@ export function CharacterCardCombatStats(props: {
     )
   }
 
+  const titleRender = result.simulationForm.deprioritizeBuffs
+    ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
+    : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+
   return (
     <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
-      <Flex vertical align='center'>
-        <HeaderText style={{ fontSize: 16 }}>
-          {t('CombatStats')/* Combat Stats */}
-        </HeaderText>
-      </Flex>
+      <HeaderText style={{ fontSize: 16 }}>
+        {titleRender}
+      </HeaderText>
       {rows}
     </Flex>
   )
@@ -583,7 +652,7 @@ export function CharacterCardCombatStats(props: {
 
 function Arrow() {
   return (
-    <Flex style={{}} align='center'>
+    <Flex align='center'>
       <UpArrow/>
     </Flex>
   )
@@ -607,7 +676,7 @@ export function CharacterCardScoringStatUpgrades(props: {
         <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatTextSm>{`+1x ${t(`ShortReadableStats.${stat as SubStats}`)}`}</StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
+        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
       </Flex>,
     )
   }
@@ -625,7 +694,7 @@ export function CharacterCardScoringStatUpgrades(props: {
         <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <StatTextSm>{`➔ ${t(`ShortReadableStats.${stat as MainStats}`)}`}</StatTextSm>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
+        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
       </Flex>,
     )
   }
@@ -640,7 +709,7 @@ export function CharacterCardScoringStatUpgrades(props: {
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 5 }}/>
         <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${(upgradeDmg * 100).toFixed(2)}%`}</StatTextSm>
+        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
       </Flex>,
     )
   }

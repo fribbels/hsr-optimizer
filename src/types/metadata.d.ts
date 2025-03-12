@@ -1,10 +1,14 @@
-import { ShowcaseColorMode } from 'lib/constants/constants'
+import { ElementName, PathName, ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 
 export type ShowcasePreferences = {
   color?: string
   colorMode?: ShowcaseColorMode
+}
+
+export type ShowcaseTemporaryOptions = {
+  spdBenchmark?: number
 }
 
 export type ScoringMetadata = {
@@ -19,6 +23,9 @@ export type ScoringMetadata = {
   hiddenColumns: SortOptionProperties[]
   addedColumns?: SortOptionProperties[]
   simulation?: SimulationMetadata
+  traces?: {
+    deactivated: string[]
+  }
   modified?: boolean
 }
 
@@ -28,6 +35,7 @@ export type SimulationMetadata = {
   }
   substats: string[]
   errRopeEidolon?: number
+  deprioritizeBuffs?: boolean
   comboAbilities: string[]
   comboDot: number
   comboBreak: number
@@ -46,15 +54,6 @@ export type SimulationMetadata = {
     [stat: string]: number
   }
 }
-
-export type Element =
-  'Physical'
-  | 'Fire'
-  | 'Ice'
-  | 'Lightning'
-  | 'Wind'
-  | 'Quantum'
-  | 'Imaginary'
 
 export type ElementalResPenType =
   'PHYSICAL_RES_PEN'
@@ -80,16 +79,25 @@ export type ImageCenter = {
   z: number
 }
 
+type TraceNode = {
+  id: string
+  stat: StatsValues
+  value: number
+  pre: string
+  children: TraceNode[]
+}
+
 export type DBMetadataCharacter = {
   id: string
   name: string
   rarity: number
-  path: string
-  element: Element
+  path: PathName
+  element: ElementName
   max_sp: number
   stats: Record<string, number>
   unreleased: boolean
   traces: Record<string, number>
+  traceTree: TraceNode[]
   imageCenter: ImageCenter
   displayName: string
   scoringMetadata: ScoringMetadata
@@ -99,7 +107,7 @@ export type DBMetadataLightCone = {
   id: string
   name: string
   rarity: number
-  path: string
+  path: PathName
   stats: Record<string, number>
   unreleased: boolean
   superimpositions: Record<number, Record<string, number>>

@@ -1,28 +1,59 @@
-import { Constants } from 'lib/constants/constants'
+import { Constants, PathNames } from 'lib/constants/constants'
+import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
-import { injectUtils } from 'lib/gpu/injection/injectUtils'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import { GpuConstants, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
-import structComputedStats from 'lib/gpu/wgsl/structComputedStats.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-export function generateWgsl(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
+export function generateWgsl(context: OptimizerContext, request: Form, relics: RelicsByPart, gpuParams: GpuConstants) {
   let wgsl = ''
 
-  wgsl = injectSettings(wgsl, context, request)
+  wgsl = injectSettings(wgsl, context, request, relics)
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, context, gpuParams)
-  wgsl = injectUtils(wgsl)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
+  wgsl = injectComputedStats(wgsl, gpuParams)
+  wgsl = injectSuppressions(wgsl, context, gpuParams)
+
+  return wgsl
+}
+
+function injectSuppressions(wgsl: string, context: OptimizerContext, gpuParams: GpuConstants) {
+  if (context.path != PathNames.Remembrance) {
+    wgsl = suppress(wgsl, 'COPY MEMOSPRITE BASIC STATS')
+    wgsl = suppress(wgsl, 'MEMOSPRITE DAMAGE CALCS')
+    wgsl = suppress(wgsl, 'MC ASSIGNMENT')
+  }
+
+  if (context.resultSort != SortOption.EHP.key && !gpuParams.DEBUG) {
+    wgsl = suppress(wgsl, 'EHP CALC')
+  }
+
+  if (context.resultSort != SortOption.COMBO.key && !gpuParams.DEBUG) {
+    if (context.resultSort != SortOption.DOT.key) wgsl = suppress(wgsl, 'DOT CALC')
+    if (context.resultSort != SortOption.BASIC.key) wgsl = suppress(wgsl, 'BASIC CALC')
+    if (context.resultSort != SortOption.SKILL.key) wgsl = suppress(wgsl, 'SKILL CALC')
+    if (context.resultSort != SortOption.ULT.key) wgsl = suppress(wgsl, 'ULT CALC')
+    if (context.resultSort != SortOption.FUA.key) wgsl = suppress(wgsl, 'FUA CALC')
+    if (context.resultSort != SortOption.MEMO_SKILL.key) wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
+    if (context.resultSort != SortOption.MEMO_TALENT.key) wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
+  }
+
+  return wgsl
+}
+
+function suppress(wgsl: string, label: string) {
+  wgsl = wgsl.replace(`START ${label} */`, `═════════════════════════════════════════ DISABLED ${label} ═════════════════════════════════════════╗`)
+  wgsl = wgsl.replace(`/* END ${label}`, `════════════════════════════════════════════ DISABLED ${label} ═════════════════════════════════════════╝`)
 
   return wgsl
 }
@@ -32,8 +63,6 @@ function injectComputeShader(wgsl: string) {
 ${computeShader}
 
 ${structs}
-
-${structComputedStats}
   `
   return wgsl
 }
@@ -44,8 +73,8 @@ function filterFn(request: Form) {
     const min = threshold.includes('min')
     const max = threshold.includes('max')
 
-    if (max && request[threshold] == Constants.MAX_INT) return ''
-    if (min && request[threshold] == 0) return ''
+    if (max && request[threshold as keyof Form] == Constants.MAX_INT) return ''
+    if (min && request[threshold as keyof Form] == 0) return ''
 
     return text
   }
@@ -66,12 +95,13 @@ if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[orn
 }
 
 function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
-  const sortOption: string = SortOption[request.resultSort!].gpuProperty
-  const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
+  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
+  const sortOptionGpu: string = sortOption.gpuProperty
+  const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
 
-  let sortString = sortOptionComputed ? `x.${sortOption} < threshold` : `c.${sortOption} < threshold`
-  if (sortOption == SortOption.COMBO.key) {
+  let sortString = sortOptionComputed ? `x.${sortOptionGpu} < threshold` : `c.${sortOptionGpu} < threshold`
+  if (sortOptionGpu == SortOption.COMBO.key) {
     sortString = ''
   }
 
@@ -115,7 +145,8 @@ ${format(basicFilters)}
 }
 
 function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
-  const sortOption: string = SortOption[request.resultSort!].gpuProperty
+  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
+  const sortOptionGpu: string = sortOption.gpuProperty
   const filter = filterFn(request)
 
   const combatFilters = [
@@ -151,6 +182,8 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.FUA_DMG > maxFua'),
     filter('x.MEMO_SKILL_DMG < minMemoSkill'),
     filter('x.MEMO_SKILL_DMG > maxMemoSkill'),
+    filter('x.MEMO_TALENT_DMG < minMemoTalent'),
+    filter('x.MEMO_TALENT_DMG > maxMemoTalent'),
     filter('x.DOT_DMG < minDot'),
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
@@ -159,7 +192,7 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.HEAL_VALUE > maxHeal'),
     filter('x.SHIELD_VALUE < minShield'),
     filter('x.SHIELD_VALUE > maxShield'),
-    sortOption == SortOption.COMBO.key ? '' : filter(`x.${sortOption} < threshold`),
+    sortOptionGpu == SortOption.COMBO.key ? '' : filter(`x.${sortOptionGpu} < threshold`),
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
@@ -193,6 +226,8 @@ function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstant
     filter('x.FUA_DMG > maxFua'),
     filter('x.MEMO_SKILL_DMG < minMemoSkill'),
     filter('x.MEMO_SKILL_DMG > maxMemoSkill'),
+    filter('x.MEMO_TALENT_DMG < minMemoTalent'),
+    filter('x.MEMO_TALENT_DMG > maxMemoTalent'),
     filter('x.DOT_DMG < minDot'),
     filter('x.DOT_DMG > maxDot'),
     filter('x.BREAK_DMG < minBreak'),
@@ -217,6 +252,7 @@ ${format(ratingFilters, 1)}
 }
 
 function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
+  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
 
   let debugValues = ''
@@ -249,10 +285,10 @@ ${debugValues}
   }
 
   // eslint-disable-next-line
-  const sortOption: string = SortOption[request.resultSort!].gpuProperty
-  const sortOptionComputed = SortOption[request.resultSort!].isComputedRating
+  const sortOptionGpu: string = sortOption.gpuProperty
+  const sortOptionComputed = sortOption.isComputedRating
 
-  const valueString = sortOptionComputed ? `x.${sortOption}` : `c.${sortOption}`
+  const valueString = sortOptionComputed ? `x.${sortOptionGpu}` : `c.${sortOptionGpu}`
 
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
@@ -264,7 +300,7 @@ results[index + 1] = m; // DEBUG
   } else {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
 if (statDisplay == 0) {
-  results[index] = x.${sortOption};
+  results[index] = x.${sortOptionGpu};
   failures = 1;
 } else {
   results[index] = ${valueString};

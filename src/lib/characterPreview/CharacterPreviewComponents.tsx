@@ -21,9 +21,12 @@ function isMobileOrSafari() {
   return isMobile || isSafari
 }
 
-export const showcaseOutline = 'rgba(255, 255, 255, 0.4) solid 1px'
-export const showcaseShadow = isMobileOrSafari() ? '' : 'rgb(0, 0, 0) 1px 1px 6px'
-export const showcaseDropShadowFilter = 'drop-shadow(rgb(0, 0, 0) 1px 1px 3px)'
+// Mobile/Safari shadows don't render correctly on the Y axis
+export const showcaseShadow = isMobileOrSafari() ? 'rgb(0, 0, 0) 1px 0px 6px' : 'rgb(0, 0, 0) 1px 1px 7px'
+export const showcaseShadowInsetAddition = ', inset rgb(255 255 255 / 25%) 0px 0px 2px'
+export const showcaseOutlineLight = 'rgba(255, 255, 255, 0.20) solid 1px'
+export const showcaseOutline = 'rgba(255, 255, 255, 0.40) solid 1px'
+export const showcaseBackdropFilter = 'blur(3px)'
 export const showcaseButtonStyle: CSSProperties = {
   flex: 'auto',
   opacity: 0,

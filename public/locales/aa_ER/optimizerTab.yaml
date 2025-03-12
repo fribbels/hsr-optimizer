@@ -1,0 +1,559 @@
+CharacterSelector:
+  Character: crwdns42644:0crwdne42644:0
+  Lightcone: crwdns42646:0crwdne42646:0
+  Presets: crwdns42648:0crwdne42648:0
+  Target: crwdns42650:0crwdne42650:0
+  ResultsPlaceholder: crwdns42652:0crwdne42652:0
+  TargetPlaceholder: crwdns42654:0crwdne42654:0
+  EidolonPlaceholder: crwdns42656:0crwdne42656:0
+  SuperimpositionPlaceholder: crwdns42658:0crwdne42658:0
+LightconePassives: crwdns42660:0crwdne42660:0
+CharacterPassives: crwdns42662:0crwdne42662:0
+NoConditionals: crwdns42664:0crwdne42664:0
+NoTeamConditionals: crwdns42666:0crwdne42666:0
+ResultLimitN: "crwdns42668:0{{limit}}crwdne42668:0"
+MainStats: crwdns42670:0crwdne42670:0
+Sets: crwdns42672:0crwdne42672:0
+RelicSetSelector:
+  Placeholder: crwdns42674:0crwdne42674:0
+  4pcLabel: crwdns42676:0crwdne42676:0
+  2+2pcLabel: crwdns42678:0crwdne42678:0
+  2pcLabel: crwdns42680:0crwdne42680:0
+OrnamentSetSelector:
+  Placeholder: crwdns42682:0crwdne42682:0
+SortOptions:
+  DMGLabel: crwdns42684:0crwdne42684:0
+  StatLabel: crwdns42686:0crwdne42686:0
+  COMBO: crwdns42688:0crwdne42688:0
+  BASIC: crwdns42690:0crwdne42690:0
+  SKILL: crwdns42692:0crwdne42692:0
+  ULT: crwdns42694:0crwdne42694:0
+  FUA: crwdns42696:0crwdne42696:0
+  MEMO_SKILL: crwdns42698:0crwdne42698:0
+  MEMO_TALENT: crwdns44758:0crwdne44758:0
+  DOT: crwdns42700:0crwdne42700:0
+  BREAK: crwdns42702:0crwdne42702:0
+  HEAL: crwdns42704:0crwdne42704:0
+  SHIELD: crwdns42706:0crwdne42706:0
+  HP: "crwdns42708:0$t(common:ReadableStats.HP)crwdne42708:0"
+  ATK: "crwdns42710:0$t(common:ReadableStats.ATK)crwdne42710:0"
+  DEF: "crwdns42712:0$t(common:ReadableStats.DEF)crwdne42712:0"
+  SPD: "crwdns42714:0$t(common:ReadableStats.SPD)crwdne42714:0"
+  CR: "crwdns42716:0$t(common:ReadableStats.CRIT Rate)crwdne42716:0"
+  CD: "crwdns42718:0$t(common:ReadableStats.CRIT DMG)crwdne42718:0"
+  EHR: "crwdns42720:0$t(common:ReadableStats.Effect Hit Rate)crwdne42720:0"
+  RES: "crwdns42722:0$t(common:ReadableStats.Effect RES)crwdne42722:0"
+  BE: "crwdns42724:0$t(common:ReadableStats.Break Effect)crwdne42724:0"
+  OHB: "crwdns42726:0$t(common:ReadableStats.Outgoing Healing Boost)crwdne42726:0"
+  ERR: "crwdns42728:0$t(common:ReadableStats.Energy Regeneration Rate)crwdne42728:0"
+  DMG: crwdns42730:0crwdne42730:0
+  EHP: crwdns42732:0crwdne42732:0
+OptimizerOptions:
+  Header: crwdns42734:0crwdne42734:0
+  PriorityFilter: crwdns42736:0crwdne42736:0
+  Priority:
+    Header: crwdns42738:0crwdne42738:0
+    Label: "crwdns42740:0{{rank}}crwdnd42740:0$t(common:Characters.{{id}}.Name)crwdne42740:0"
+    Name: "crwdns42742:0{{rank}}crwdne42742:0"
+  AllowEquipped: crwdns42744:0crwdne42744:0
+  KeepCurrent: crwdns42746:0crwdne42746:0
+  Exclude: crwdns42748:0crwdne42748:0
+  MinEnhance:
+    Header: crwdns42750:0crwdne42750:0
+    Label0: "crwdns42752:0crwdne42752:0"
+    Label3: "crwdns42754:0crwdne42754:0"
+    Label6: "crwdns42756:0crwdne42756:0"
+    Label9: "crwdns42758:0crwdne42758:0"
+    Label12: "crwdns42760:0crwdne42760:0"
+    Label15: "crwdns42762:0crwdne42762:0"
+  MinRarity:
+    Header: crwdns42764:0crwdne42764:0
+    Label2: crwdns42766:0crwdne42766:0
+    Label3: crwdns42768:0crwdne42768:0
+    Label4: crwdns42770:0crwdne42770:0
+    Label5: crwdns42772:0crwdne42772:0
+  BoostMain:
+    Header: crwdns42774:0crwdne42774:0
+    Label3: "crwdns42776:0crwdne42776:0"
+    Label6: "crwdns42778:0crwdne42778:0"
+    Label9: "crwdns42780:0crwdne42780:0"
+    Label12: "crwdns42782:0crwdne42782:0"
+    Label15: "crwdns42784:0crwdne42784:0"
+AdvancedOptions:
+  Header: crwdns42786:0crwdne42786:0
+  EnemyConfigButtonText: crwdns42788:0crwdne42788:0
+  CombatBuffsButtonTextNone: crwdns42790:0crwdne42790:0
+  CombatBuffsButtonText: "crwdns42792:0{{activeCount}}crwdne42792:0"
+  CustomTracesButtonText: crwdns44446:0crwdne44446:0
+Grid:
+  To: crwdns42794:0crwdne42794:0
+  Of: crwdns42796:0crwdne42796:0
+  Page: crwdns42798:0crwdne42798:0
+  PageSelectorLabel: "crwdns42800:0crwdne42800:0"
+  Headers:
+    Basic:
+      Set: crwdns42802:0crwdne42802:0
+      ATK: crwdns42804:0crwdne42804:0
+      DEF: crwdns42806:0crwdne42806:0
+      HP: crwdns42808:0crwdne42808:0
+      SPD: crwdns42810:0crwdne42810:0
+      CR: crwdns42812:0crwdne42812:0
+      CD: crwdns42814:0crwdne42814:0
+      EHR: crwdns42816:0crwdne42816:0
+      RES: crwdns42818:0crwdne42818:0
+      BE: crwdns42820:0crwdne42820:0
+      OHB: crwdns42822:0crwdne42822:0
+      ERR: crwdns42824:0crwdne42824:0
+      DMG: crwdns42826:0crwdne42826:0
+      EHP: crwdns42828:0crwdne42828:0
+      WEIGHT: |-
+        crwdns42830:0crwdne42830:0
+      HEAL: crwdns42832:0crwdne42832:0
+      SHIELD: crwdns42834:0crwdne42834:0
+      BASIC: |-
+        crwdns42836:0crwdne42836:0
+      SKILL: |-
+        crwdns42838:0crwdne42838:0
+      ULT: |-
+        crwdns42840:0crwdne42840:0
+      FUA: |-
+        crwdns42842:0crwdne42842:0
+      MEMO_SKILL: |-
+        crwdns42844:0crwdne42844:0
+      MEMO_TALENT: |-
+        crwdns44760:0crwdne44760:0
+      DOT: |-
+        crwdns42846:0crwdne42846:0
+      BREAK: |-
+        crwdns42848:0crwdne42848:0
+      COMBO: |-
+        crwdns42850:0crwdne42850:0
+    Combat:
+      Set: crwdns42852:0crwdne42852:0
+      ATK: crwdns42854:0crwdne42854:0
+      DEF: crwdns42856:0crwdne42856:0
+      HP: crwdns42858:0crwdne42858:0
+      SPD: crwdns42860:0crwdne42860:0
+      CR: crwdns42862:0crwdne42862:0
+      CD: crwdns42864:0crwdne42864:0
+      EHR: crwdns42866:0crwdne42866:0
+      RES: crwdns42868:0crwdne42868:0
+      BE: crwdns42870:0crwdne42870:0
+      OHB: crwdns42872:0crwdne42872:0
+      ERR: crwdns42874:0crwdne42874:0
+      DMG: crwdns42876:0crwdne42876:0
+      EHP: crwdns42878:0crwdne42878:0
+      WEIGHT: |-
+        crwdns42880:0crwdne42880:0
+      HEAL: crwdns42882:0crwdne42882:0
+      SHIELD: crwdns42884:0crwdne42884:0
+      BASIC: |-
+        crwdns42886:0crwdne42886:0
+      SKILL: |-
+        crwdns42888:0crwdne42888:0
+      ULT: |-
+        crwdns42890:0crwdne42890:0
+      FUA: |-
+        crwdns42892:0crwdne42892:0
+      MEMO_SKILL: |-
+        crwdns42894:0crwdne42894:0
+      MEMO_TALENT: |-
+        crwdns44762:0crwdne44762:0
+      DOT: |-
+        crwdns42896:0crwdne42896:0
+      BREAK: |-
+        crwdns42898:0crwdne42898:0
+      COMBO: |-
+        crwdns42900:0crwdne42900:0
+Sidebar:
+  GPUOptions:
+    Experimental: crwdns42902:0crwdne42902:0
+    Stable: crwdns42904:0crwdne42904:0
+    CPU: crwdns42906:0crwdne42906:0
+    EngineSwitchSuccessMsg:
+      CPU: crwdns42908:0crwdne42908:0
+      Stable: crwdns42910:0crwdne42910:0
+      Experimental: crwdns42912:0crwdne42912:0
+    Display:
+      GPU Experimental: "crwdns42914:0crwdne42914:0"
+      GPU Stable: "crwdns42916:0crwdne42916:0"
+      CPU: "crwdns42918:0crwdne42918:0"
+  Pinning:
+    Messages:
+      NoneSelected: crwdns42920:0crwdne42920:0
+      SimSelected: crwdns42922:0crwdne42922:0
+      AlreadyPinned: crwdns42924:0crwdne42924:0
+  Permutations: crwdns42926:0crwdne42926:0
+  Perms: crwdns42928:0crwdne42928:0
+  Searched: crwdns42930:0crwdne42930:0
+  Results: crwdns42932:0crwdne42932:0
+  ComputeEngine: crwdns43940:0crwdne43940:0
+  ProgressText:
+    Progress: crwdns42934:0crwdne42934:0
+    CalculatingETA: crwdns42936:0crwdne42936:0
+    TimeRemaining: "crwdns42938:0{{rate}}crwdnd42938:0{{timeRemaining}}crwdne42938:0"
+    Finished: "crwdns42940:0{{rate}}crwdne42940:0"
+  ControlsGroup:
+    Header: crwdns42942:0crwdne42942:0
+    Start: crwdns42944:0crwdne42944:0
+    ResetConfirm:
+      Title: crwdns42946:0crwdne42946:0
+      Description: crwdns42948:0crwdne42948:0
+  StatViewGroup:
+    Header: crwdns42950:0crwdne42950:0
+    CombatStats: crwdns42952:0crwdne42952:0
+    BasicStats: crwdns42954:0crwdne42954:0
+    SummonerStats: crwdns43942:0crwdne43942:0
+    MemospriteStats: crwdns43944:0crwdne43944:0
+  ResultsGroup:
+    Header: crwdns42956:0crwdne42956:0
+    Equip: crwdns42958:0crwdne42958:0
+    Filter: crwdns42960:0crwdne42960:0
+    Pin: crwdns42962:0crwdne42962:0
+    Clear: crwdns42964:0crwdne42964:0
+TeammateRow:
+  Header: "crwdns42966:0{{teammateCount}}crwdne42966:0"
+FormRowLabels:
+  Character options: crwdns42968:0crwdne42968:0
+  Relic & stat filters: crwdns42970:0crwdne42970:0
+  Teammates: crwdns42972:0crwdne42972:0
+  Character custom stats simulation: crwdns42974:0crwdne42974:0
+  Analysis: crwdns44656:0crwdne44656:0
+TracesDrawer:
+  Title: crwdns44448:0crwdne44448:0
+  Header: crwdns44450:0crwdne44450:0
+  ButtonText: crwdns44452:0crwdne44452:0
+SetConditionals:
+  Title: crwdns42976:0crwdne42976:0
+  DescriptionHeader: crwdns42978:0crwdne42978:0
+  EffectHeader: crwdns42980:0crwdne42980:0
+  SetName: "crwdns42982:0$t(gameData:RelicSets.{{id}}.Name)crwdne42982:0"
+  RelicDescription: "crwdns42984:0$t(gameData:RelicSets.{{id}}.Description4pc)crwdne42984:0"
+  PlanarDescription: "crwdns42986:0$t(gameData:RelicSets.{{id}}.Description2pc)crwdne42986:0"
+  SelectOptions:
+    Streetwise:
+      Display: "crwdns42988:0{{stackCount}}crwdne42988:0"
+      Label: "crwdns42990:0{{stackCount}}crwdnd42990:0{{buffValue}}crwdne42990:0"
+    Wastelander:
+      Off:
+        Display: "crwdns42992:0crwdne42992:0"
+        Label: "crwdns42994:0crwdne42994:0"
+      Debuffed:
+        Display: crwdns42996:0crwdne42996:0
+        Label: crwdns42998:0crwdne42998:0
+      Imprisoned:
+        Display: crwdns43000:0crwdne43000:0
+        Label: crwdns43002:0crwdne43002:0
+    Longevous:
+      Display: "crwdns43004:0{{stackCount}}crwdne43004:0"
+      Label: "crwdns43006:0{{stackCount}}crwdnd43006:0{{buffValue}}crwdne43006:0"
+    Ashblazing:
+      Display: "crwdns43008:0{{stackCount}}crwdne43008:0"
+      Label: "crwdns43010:0{{stackCount}}crwdnd43010:0{{buffValue}}crwdne43010:0"
+    Prisoner:
+      Display: "crwdns43012:0{{stackCount}}crwdne43012:0"
+      Label: "crwdns43014:0{{stackCount}}crwdnd43014:0{{buffValue}}crwdne43014:0"
+    Diver:
+      Off:
+        Display: crwdns43016:0crwdne43016:0
+        Label: crwdns43018:0crwdne43018:0
+      1Debuff:
+        Display: crwdns43020:0crwdne43020:0
+        Label: crwdns43022:0crwdne43022:0
+      2Debuff:
+        Display: crwdns43024:0crwdne43024:0
+        Label: crwdns43026:0crwdne43026:0
+      3Debuff:
+        Display: crwdns43028:0crwdne43028:0
+        Label: crwdns43030:0crwdne43030:0
+      2+Debuff:
+        Display: crwdns43032:0crwdne43032:0
+        Label: crwdns43034:0crwdne43034:0
+      3+Debuff:
+        Display: crwdns43036:0crwdne43036:0
+        Label: crwdns43038:0crwdne43038:0
+    Sigonia:
+      Display: "crwdns43040:0{{stackCount}}crwdne43040:0"
+      Label: "crwdns43042:0{{stackCount}}crwdnd43042:0{{buffValue}}crwdne43042:0"
+    Duran:
+      Display: "crwdns43044:0{{stackCount}}crwdne43044:0"
+      Label: "crwdns43046:0{{stackCount}}crwdnd43046:0{{buffValue}}crwdne43046:0"
+      Label5: crwdns43048:0crwdne43048:0
+    Sacerdos:
+      Display: "crwdns43050:0{{stackCount}}crwdne43050:0"
+      Label: "crwdns43052:0{{stackCount}}crwdnd43052:0{{buffValue}}crwdne43052:0"
+  Conditionals:
+    DefaultMessage: crwdns43054:0crwdne43054:0
+    Hunter: crwdns43056:0crwdne43056:0
+    Streetwise: crwdns43058:0crwdne43058:0
+    Firesmith: crwdns43060:0crwdne43060:0
+    Genius: crwdns43062:0crwdne43062:0
+    Thunder: crwdns43064:0crwdne43064:0
+    Wastelander: crwdns43066:0crwdne43066:0
+    Longevous: crwdns43068:0crwdne43068:0
+    Messenger: crwdns43070:0crwdne43070:0
+    Ashblazing: >-
+      crwdns43072:0crwdne43072:0
+    Prisoner: crwdns43074:0crwdne43074:0
+    Diver: crwdns43076:0crwdne43076:0
+    Watchmaker: crwdns43078:0crwdne43078:0
+    Valorous: crwdns43080:0crwdne43080:0
+    Differentiator: crwdns43082:0crwdne43082:0
+    Penacony: crwdns44792:0crwdne44792:0
+    Sigonia: crwdns43084:0crwdne43084:0
+    Izumo: crwdns44794:0crwdne44794:0
+    Duran: crwdns43088:0crwdne43088:0
+    Kalpagni: crwdns43090:0crwdne43090:0
+    Lushaka: crwdns43092:0crwdne43092:0
+    Banana: crwdns43094:0crwdne43094:0
+    Sacerdos: crwdns43096:0crwdne43096:0
+Presets:
+  SpdValues:
+    SPD0: crwdns43098:0crwdne43098:0
+    SPD111: crwdns43100:0crwdne43100:0
+    SPD114: crwdns43102:0crwdne43102:0
+    SPD120: crwdns43104:0crwdne43104:0
+    SPD133: crwdns43106:0crwdne43106:0
+    SPD142: crwdns43108:0crwdne43108:0
+    SPD155: crwdns43110:0crwdne43110:0
+    SPD160: crwdns43112:0crwdne43112:0
+    SPD171: crwdns43114:0crwdne43114:0
+    SPD177: crwdns43116:0crwdne43116:0
+    SPD200: crwdns43118:0crwdne43118:0
+  StandardLabel: "crwdns43120:0$t(gameData:Characters.{{id}}.Name)crwdne43120:0"
+  RecommendedPresets: crwdns43122:0crwdne43122:0
+  PresetNotAvailable: crwdns43124:0crwdne43124:0
+CombatBuffs:
+  ATK: crwdns43126:0crwdne43126:0
+  ATK_P: crwdns43128:0crwdne43128:0
+  HP: crwdns43130:0crwdne43130:0
+  HP_P: crwdns43132:0crwdne43132:0
+  DEF: crwdns43134:0crwdne43134:0
+  DEF_P: crwdns43136:0crwdne43136:0
+  CR: crwdns43138:0crwdne43138:0
+  CD: crwdns43140:0crwdne43140:0
+  SPD: crwdns43142:0crwdne43142:0
+  SPD_P: crwdns43144:0crwdne43144:0
+  BE: crwdns43146:0crwdne43146:0
+  DMG_BOOST: crwdns43148:0crwdne43148:0
+  DEF_PEN: crwdns43150:0crwdne43150:0
+  RES_PEN: crwdns43152:0crwdne43152:0
+  EFFECT_RES_PEN: crwdns43154:0crwdne43154:0
+  VULNERABILITY: crwdns43156:0crwdne43156:0
+  BREAK_EFFICIENCY: crwdns43158:0crwdne43158:0
+  Title: crwdns43160:0crwdne43160:0
+Target_one: crwdns43162:0crwdne43162:0
+Target_other: crwdns43164:0crwdne43164:0
+EnemyConfiguration:
+  LevelOptionLabel: "crwdns43166:0{{level}}crwdnd43166:0{{defense}}crwdne43166:0"
+  CountOptionLabel: >-
+    crwdns43168:0{{targetCount}}crwdnd43168:0$t(optimizerTab:Target, {"count": {{targetCount}}})crwdne43168:0
+  EffResOptionLabel: "crwdns43170:0{{resistance}}crwdne43170:0"
+  DmgResOptionLabel: "crwdns43172:0{{resistance}}crwdne43172:0"
+  ToughnessOptionLabel: "crwdns43174:0{{toughness}}crwdne43174:0"
+  Title: crwdns43176:0crwdne43176:0
+  StatHeader: crwdns43178:0crwdne43178:0
+  WeaknessLabel: crwdns43180:0crwdne43180:0
+  BrokenLabel: crwdns43182:0crwdne43182:0
+WeightFilter:
+  WeightFilterHeader: crwdns43184:0crwdne43184:0
+  RollFilterHeader: crwdns43186:0crwdne43186:0
+  HPFilterText: crwdns43188:0crwdne43188:0
+  ATKFilterText: crwdns43190:0crwdne43190:0
+  DEFFilterText: crwdns43192:0crwdne43192:0
+  SPDFilterText: crwdns43194:0crwdne43194:0
+  CRFilterText: crwdns43196:0crwdne43196:0
+  CDFilterText: crwdns43198:0crwdne43198:0
+  EHRFilterText: crwdns43200:0crwdne43200:0
+  RESFilterText: crwdns43202:0crwdne43202:0
+  BEFilterText: crwdns43204:0crwdne43204:0
+MinMaxFilters:
+  StatHeader: crwdns43206:0crwdne43206:0
+  RatingHeader: crwdns43208:0crwdne43208:0
+  HPLabel: crwdns43210:0crwdne43210:0
+  ATKLabel: crwdns43212:0crwdne43212:0
+  DEFLabel: crwdns43214:0crwdne43214:0
+  SPDLabel: crwdns43216:0crwdne43216:0
+  CRLabel: crwdns43218:0crwdne43218:0
+  CDLabel: crwdns43220:0crwdne43220:0
+  EHRLabel: crwdns43222:0crwdne43222:0
+  RESLabel: crwdns43224:0crwdne43224:0
+  BELabel: crwdns43226:0crwdne43226:0
+  ERRLabel: crwdns43228:0crwdne43228:0
+  WEIGHTLabel: crwdns43230:0crwdne43230:0
+  EHPLabel: crwdns43232:0crwdne43232:0
+  BASICLabel: crwdns43234:0crwdne43234:0
+  SKILLLabel: crwdns43236:0crwdne43236:0
+  ULTLabel: crwdns43238:0crwdne43238:0
+  FUALabel: crwdns43240:0crwdne43240:0
+  MEMOSKILLLabel: crwdns43242:0crwdne43242:0
+  DOTLabel: crwdns43244:0crwdne43244:0
+  BREAKLabel: crwdns43246:0crwdne43246:0
+  HEALLabel: crwdns43248:0crwdne43248:0
+  SHIELDLabel: crwdns43250:0crwdne43250:0
+  COMBOLabel: crwdns43252:0crwdne43252:0
+ComboFilter:
+  Header: crwdns43254:0crwdne43254:0
+  AbilityLabel: crwdns44654:0crwdne44654:0
+  ModeSelector:
+    Simple: crwdns43256:0crwdne43256:0
+    Advanced: crwdns43258:0crwdne43258:0
+  RowControls:
+    Add: crwdns43260:0crwdne43260:0
+    Remove: "crwdns43262:0crwdne43262:0"
+    ResetConfirm:
+      Description: crwdns43264:0crwdne43264:0
+  CounterLabels:
+    Dot: crwdns43266:0crwdne43266:0
+    Break: crwdns43268:0crwdne43268:0
+  ComboOptions:
+    Basic: crwdns43270:0crwdne43270:0
+    Skill: crwdns43272:0crwdne43272:0
+    Ult: crwdns43274:0crwdne43274:0
+    Fua: crwdns43276:0crwdne43276:0
+    MemoSkill: crwdns43278:0crwdne43278:0
+    MemoTalent: crwdns44764:0crwdne44764:0
+  RotationButton: crwdns43280:0crwdne43280:0
+ComboDrawer:
+  NoConditionals: crwdns43282:0crwdne43282:0
+  Title: crwdns43284:0crwdne43284:0
+  Placeholders:
+    Sets: crwdns43286:0crwdne43286:0
+    Ornaments: crwdns43288:0crwdne43288:0
+  GroupHeaders:
+    Sets: crwdns43290:0crwdne43290:0
+    Teammate1: crwdns43292:0crwdne43292:0
+    Teammate2: crwdns43294:0crwdne43294:0
+    Teammate3: crwdns43296:0crwdne43296:0
+TeammateCard:
+  EidolonN: >-
+    crwdns43298:0$t(common:EidolonNShort, {"eidolon": {{eidolon}}})crwdne43298:0
+  SuperimpositionN: >-
+    crwdns43300:0$t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})crwdne43300:0
+  EidolonPlaceholder: crwdns43302:0crwdne43302:0
+  SuperimpositionPlaceholder: crwdns43304:0crwdne43304:0
+  RelicsPlaceholder: crwdns43306:0crwdne43306:0
+  OrnamentsPlaceholder: crwdns43308:0crwdne43308:0
+  TeammateSyncSuccessMessage: crwdns43310:0crwdne43310:0
+  TeammateSets:
+    Messenger:
+      Desc: "crwdns43312:0$t(gameData:RelicSets.114.Name)crwdne43312:0"
+      Set: "crwdns43314:0$t(gameData:RelicSets.114.Name)crwdne43314:0"
+      Text: crwdns43316:0crwdne43316:0
+    Watchmaker:
+      Desc: "crwdns43318:0$t(gameData:RelicSets.118.Name)crwdne43318:0"
+      Set: "crwdns43320:0$t(gameData:RelicSets.118.Name)crwdne43320:0"
+      Text: crwdns43322:0crwdne43322:0
+    Sacerdos1Stack:
+      Desc: "crwdns43324:0$t(gameData:RelicSets.121.Name)crwdne43324:0"
+      Set: "crwdns43326:0$t(gameData:RelicSets.121.Name)crwdne43326:0"
+      Text: crwdns43328:0crwdne43328:0
+    Sacerdos2Stack:
+      Desc: "crwdns43330:0$t(gameData:RelicSets.121.Name)crwdne43330:0"
+      Set: "crwdns43332:0$t(gameData:RelicSets.121.Name)crwdne43332:0"
+      Text: crwdns43334:0crwdne43334:0
+    Keel:
+      Desc: "crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0"
+      Set: "crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0"
+      Text: crwdns43340:0crwdne43340:0
+    Ageless:
+      Desc: "crwdns43342:0$t(gameData:RelicSets.302.Name)crwdne43342:0"
+      Set: "crwdns43344:0$t(gameData:RelicSets.302.Name)crwdne43344:0"
+      Text: crwdns43346:0crwdne43346:0
+    Penacony:
+      Desc: "crwdns43348:0$t(gameData:RelicSets.312.Name)crwdne43348:0"
+      Set: "crwdns43350:0$t(gameData:RelicSets.312.Name)crwdne43350:0"
+      Text: crwdns43352:0crwdne43352:0
+    Lushaka:
+      Desc: "crwdns43354:0$t(gameData:RelicSets.317.Name)crwdne43354:0"
+      Set: "crwdns43356:0$t(gameData:RelicSets.317.Name)crwdne43356:0"
+      Text: crwdns43358:0crwdne43358:0
+StatSimulation:
+  DuplicateSimMessage: crwdns43360:0crwdne43360:0
+  MissingMainstatsMessage: crwdns43362:0crwdne43362:0
+  BuildAlreadyImported: crwdns43364:0crwdne43364:0
+  NothingToImport: crwdns43366:0crwdne43366:0
+  NoStatSimulations: crwdns43368:0crwdne43368:0
+  SetSelection:
+    Header: crwdns43370:0crwdne43370:0
+    RelicPlaceholder: crwdns43372:0crwdne43372:0
+    OrnamentPlaceholder: crwdns43374:0crwdne43374:0
+  TotalRolls: crwdns43376:0crwdne43376:0
+  SubstatSelectorLabel: "crwdns43378:0$t(common:Stats.{{stat}})crwdne43378:0"
+  ModeSelector:
+    Off: "crwdns43380:0crwdne43380:0"
+    RollCount: crwdns43382:0crwdne43382:0
+    Totals: crwdns43384:0crwdne43384:0
+  FooterLabels:
+    Simulate: crwdns43386:0crwdne43386:0
+    Import: crwdns43388:0crwdne43388:0
+    Conditionals: crwdns43390:0crwdne43390:0
+  DeletePopup:
+    Title: crwdns43392:0crwdne43392:0
+    Description: crwdns43394:0crwdne43394:0
+  SimulationNamePlaceholder: crwdns43396:0crwdne43396:0
+  OptionsHeader: crwdns43398:0crwdne43398:0
+  RollsHeader: crwdns43400:0crwdne43400:0
+  TotalsHeader: crwdns43402:0crwdne43402:0
+  MainStatsSelection:
+    Header: crwdns43404:0crwdne43404:0
+    BodyPlaceholder: crwdns43406:0crwdne43406:0
+    FeetPlaceholder: crwdns43408:0crwdne43408:0
+    SpherePlaceholder: crwdns43410:0crwdne43410:0
+    RopePlaceholder: crwdns43412:0crwdne43412:0
+    ShortStat: "crwdns43414:0$t(common:ShortReadableStats.{{stat}})crwdne43414:0"
+    LabelStat: "crwdns43416:0$t(common:ReadableStats.{{stat}})crwdne43416:0"
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: crwdns44658:0crwdne44658:0
+      Skill: crwdns44660:0crwdne44660:0
+      Ult: crwdns44662:0crwdne44662:0
+      Talent: crwdns44664:0crwdne44664:0
+      Technique: crwdns44666:0crwdne44666:0
+      Trace: crwdns44668:0crwdne44668:0
+      Memo: crwdns44670:0crwdne44670:0
+      E1: crwdns44672:0crwdne44672:0
+      E2: crwdns44674:0crwdne44674:0
+      E4: crwdns44676:0crwdne44676:0
+      E6: crwdns44678:0crwdne44678:0
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: 'crwdns44680:0crwdne44680:0'
+      COMBO_DMG: crwdns44682:0crwdne44682:0
+      COMBO_DMG_P: crwdns44684:0crwdne44684:0
+      EHP: crwdns44686:0crwdne44686:0
+      EHP_P: crwdns44688:0crwdne44688:0
+      HEAL_VALUE: crwdns44690:0crwdne44690:0
+      HEAL_VALUE_P: crwdns44692:0crwdne44692:0
+      SHIELD_VALUE: crwdns44694:0crwdne44694:0
+      SHIELD_VALUE_P: crwdns44696:0crwdne44696:0
+  DamageSplits:
+    Title: crwdns44698:0crwdne44698:0
+    Legend:
+      abilityDmg: crwdns44700:0crwdne44700:0
+      breakDmg: crwdns44702:0crwdne44702:0
+      superBreakDmg: crwdns44704:0crwdne44704:0
+      additionalDmg: crwdns44706:0crwdne44706:0
+      trueDmg: 'crwdns44708:0crwdne44708:0'
+      jointDmg: crwdns44710:0crwdne44710:0
+      dotDmg: crwdns44712:0crwdne44712:0
+      memoDmg: crwdns44714:0crwdne44714:0
+    YAxisLabel:
+      BASIC_DMG: crwdns44716:0crwdne44716:0
+      SKILL_DMG: crwdns44718:0crwdne44718:0
+      ULT_DMG: crwdns44720:0crwdne44720:0
+      FUA_DMG: crwdns44722:0crwdne44722:0
+      DOT_DMG: crwdns44724:0crwdne44724:0
+      BREAK_DMG: crwdns44726:0crwdne44726:0
+      MEMO_SKILL_DMG: crwdns44728:0crwdne44728:0
+      MEMO_TALENT_DMG: crwdns44766:0crwdne44766:0
+    TooltipText:
+      abilityDmg: crwdns44730:0crwdne44730:0
+      breakDmg: crwdns44732:0crwdne44732:0
+      superBreakDmg: crwdns44734:0crwdne44734:0
+      additionalDmg: crwdns44736:0crwdne44736:0
+      trueDmg: crwdns44738:0crwdne44738:0
+      jointDmg: crwdns44740:0crwdne44740:0
+      dotDmg: crwdns44742:0crwdne44742:0
+      memoDmg: crwdns44744:0crwdne44744:0

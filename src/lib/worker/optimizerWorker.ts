@@ -1,14 +1,23 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, Stats, StatsValues } from 'lib/constants/constants'
+import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
+import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
-import { baseCharacterStats, calculateBaseStats, calculateComputedStats, calculateElementalStats, calculateRelicStats, calculateSetCounts } from 'lib/optimization/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, Source } from 'lib/optimization/computedStatsArray'
+import {
+  calculateBaseStats,
+  calculateBasicEffects,
+  calculateBasicSetEffects,
+  calculateComputedStats,
+  calculateElementalStats,
+  calculateRelicStats,
+  calculateSetCounts,
+} from 'lib/optimization/calculateStats'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -105,6 +114,7 @@ self.onmessage = function (e: MessageEvent) {
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
+  const c = new BasicStatsArrayCore(false) as BasicStatsArray
   const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
   const m = x.m
 
@@ -148,26 +158,24 @@ self.onmessage = function (e: MessageEvent) {
       continue
     }
 
-    const c: BasicStatsObject = { ...baseCharacterStats } as BasicStatsObject
+    const sets = [setH, setG, setB, setF, setP, setL]
+    const setCounts = calculateSetCounts(sets)
+    c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
 
-    c.relicSetIndex = relicSetIndex
-    c.ornamentSetIndex = ornamentSetIndex
-    // @ts-ignore
-    c.x = {}
-
-    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
-    calculateSetCounts(c, setH, setG, setB, setF, setP, setL)
+    calculateBasicSetEffects(c, context, setCounts, sets)
+    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 
-    x.setBasic(c)
-    if (x.m) {
-      m.setBasic({ ...c })
+    // Exit early on base display filters failing
+    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c.a) || failsBasicStatsFilter(c.a))) {
+      continue
     }
 
-    // Exit early on base display filters failing
-    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c) || failsBasicStatsFilter(c))) {
-      continue
+    x.setBasic(c)
+    if (x.m) {
+      m.setBasic(c.m)
+      c.initMemo()
     }
 
     let combo = 0
@@ -175,8 +183,11 @@ self.onmessage = function (e: MessageEvent) {
       const action = setupAction(c, i, context)
       const a = x.a
       x.setPrecompute(action.precomputedX.a)
-      m.setPrecompute(action.precomputedM.a)
+      if (x.a[Key.MEMOSPRITE]) {
+        m.setPrecompute(action.precomputedM.a)
+      }
 
+      calculateBasicEffects(x, action, context)
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
@@ -192,6 +203,8 @@ self.onmessage = function (e: MessageEvent) {
         combo += a[Key.FUA_DMG]
       } else if (action.actionType === 'MEMO_SKILL') {
         combo += a[Key.MEMO_SKILL_DMG]
+      } else if (action.actionType === 'MEMO_TALENT') {
+        combo += a[Key.MEMO_TALENT_DMG]
       }
 
       if (i === 0) {
@@ -201,7 +214,7 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     // Combat / rating filters
-    if (baseDisplay && memoDisplay && (failsBasicThresholdFilter(x.m.c) || failsBasicStatsFilter(x.m.c))) {
+    if (baseDisplay && memoDisplay && (failsBasicThresholdFilter(x.m.c.a) || failsBasicStatsFilter(x.m.c.a))) {
       continue
     }
     if (combatDisplay && summonerDisplay && (failsCombatThresholdFilter(x.a) || failsCombatStatsFilter(x.a))) {
@@ -217,8 +230,6 @@ self.onmessage = function (e: MessageEvent) {
       continue
     }
 
-    c.id = col
-
     BufferPacker.packCharacter(arr, passCount, x)
     passCount++
   }
@@ -230,8 +241,8 @@ self.onmessage = function (e: MessageEvent) {
 }
 
 function addConditionIfNeeded(
-  conditions: ((stats: Record<number | string, number>) => boolean)[],
-  statKey: number | string,
+  conditions: ((stats: Float32Array) => boolean)[],
+  statKey: number,
   min: number,
   max: number,
 ) {
@@ -241,24 +252,7 @@ function addConditionIfNeeded(
 }
 
 function basicStatsFilter(request: Form) {
-  const conditions: ((stats: Record<string, number>) => boolean)[] = []
-
-  addConditionIfNeeded(conditions, Stats.HP, request.minHp, request.maxHp)
-  addConditionIfNeeded(conditions, Stats.ATK, request.minAtk, request.maxAtk)
-  addConditionIfNeeded(conditions, Stats.DEF, request.minDef, request.maxDef)
-  addConditionIfNeeded(conditions, Stats.SPD, request.minSpd, request.maxSpd)
-  addConditionIfNeeded(conditions, Stats.CR, request.minCr, request.maxCr)
-  addConditionIfNeeded(conditions, Stats.CD, request.minCd, request.maxCd)
-  addConditionIfNeeded(conditions, Stats.EHR, request.minEhr, request.maxEhr)
-  addConditionIfNeeded(conditions, Stats.RES, request.minRes, request.maxRes)
-  addConditionIfNeeded(conditions, Stats.BE, request.minBe, request.maxBe)
-  addConditionIfNeeded(conditions, Stats.ERR, request.minErr, request.maxErr)
-
-  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
-}
-
-function combatStatsFilter(request: Form) {
-  const conditions: ((stats: Record<number, number>) => boolean)[] = []
+  const conditions: ((stats: Float32Array) => boolean)[] = []
 
   addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
   addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
@@ -271,11 +265,28 @@ function combatStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
   addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
 
-  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
+}
+
+function combatStatsFilter(request: Form) {
+  const conditions: ((stats: Float32Array) => boolean)[] = []
+
+  addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
+  addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
+  addConditionIfNeeded(conditions, Key.DEF, request.minDef, request.maxDef)
+  addConditionIfNeeded(conditions, Key.SPD, request.minSpd, request.maxSpd)
+  addConditionIfNeeded(conditions, Key.CR, request.minCr, request.maxCr)
+  addConditionIfNeeded(conditions, Key.CD, request.minCd, request.maxCd)
+  addConditionIfNeeded(conditions, Key.EHR, request.minEhr, request.maxEhr)
+  addConditionIfNeeded(conditions, Key.RES, request.minRes, request.maxRes)
+  addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
+  addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
+
+  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
 }
 
 function ratingStatsFilter(request: Form) {
-  const conditions: ((stats: Record<number, number>) => boolean)[] = []
+  const conditions: ((stats: Float32Array) => boolean)[] = []
 
   addConditionIfNeeded(conditions, Key.EHP, request.minEhp, request.maxEhp)
   addConditionIfNeeded(conditions, Key.BASIC_DMG, request.minBasic, request.maxBasic)
@@ -283,12 +294,13 @@ function ratingStatsFilter(request: Form) {
   addConditionIfNeeded(conditions, Key.ULT_DMG, request.minUlt, request.maxUlt)
   addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
   addConditionIfNeeded(conditions, Key.MEMO_SKILL_DMG, request.minMemoSkill, request.maxMemoSkill)
+  addConditionIfNeeded(conditions, Key.MEMO_TALENT_DMG, request.minMemoTalent, request.maxMemoTalent)
   addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
   addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
   addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)
   addConditionIfNeeded(conditions, Key.SHIELD_VALUE, request.minShield, request.maxShield)
 
-  return (stats: Record<number, number>) => conditions.some((condition) => condition(stats))
+  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
 }
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {
@@ -308,17 +320,18 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
       },
     }
   } else {
-    const property = sortOption.basicProperty
+    const property = sortOption.gpuProperty as KeysType
+    const key = Key[property]
     return {
-      failsBasicThresholdFilter: (candidate: BasicStatsObject) => {
-        return candidate[property as StatsValues] < filter
+      failsBasicThresholdFilter: (candidate: Float32Array) => {
+        return candidate[key] < filter
       },
       failsCombatThresholdFilter: () => false,
     }
   }
 }
 
-function setupAction(c: BasicStatsObject, i: number, context: OptimizerContext) {
+function setupAction(c: BasicStatsArray, i: number, context: OptimizerContext) {
   const originalAction = context.actions[i]
   const action = {
     characterConditionals: originalAction.characterConditionals,

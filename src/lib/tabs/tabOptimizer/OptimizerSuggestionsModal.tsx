@@ -324,6 +324,8 @@ enum ZeroResultRootCause {
   MAX_FUA = 'MAX_FUA',
   MIN_MEMO_SKILL = 'MIN_MEMO_SKILL',
   MAX_MEMO_SKILL = 'MAX_MEMO_SKILL',
+  MIN_MEMO_TALENT = 'MIN_MEMO_TALENT',
+  MAX_MEMO_TALENT = 'MAX_MEMO_TALENT',
   MIN_DOT = 'MIN_DOT',
   MAX_DOT = 'MAX_DOT',
   MIN_BREAK = 'MIN_BREAK',
@@ -379,6 +381,10 @@ const ZeroResultRootCauseFixes: {
   [ZeroResultRootCause.MIN_DOT]: filterFixes(ZeroResultRootCause.MIN_DOT),
   [ZeroResultRootCause.MAX_BREAK]: filterFixes(ZeroResultRootCause.MAX_BREAK),
   [ZeroResultRootCause.MIN_BREAK]: filterFixes(ZeroResultRootCause.MIN_BREAK),
+  [ZeroResultRootCause.MIN_MEMO_SKILL]: filterFixes(ZeroResultRootCause.MIN_MEMO_SKILL),
+  [ZeroResultRootCause.MAX_MEMO_SKILL]: filterFixes(ZeroResultRootCause.MAX_MEMO_SKILL),
+  [ZeroResultRootCause.MIN_MEMO_TALENT]: filterFixes(ZeroResultRootCause.MIN_MEMO_TALENT),
+  [ZeroResultRootCause.MAX_MEMO_TALENT]: filterFixes(ZeroResultRootCause.MAX_MEMO_TALENT),
   [ZeroResultRootCause.MAX_HEAL]: filterFixes(ZeroResultRootCause.MAX_HEAL),
   [ZeroResultRootCause.MIN_HEAL]: filterFixes(ZeroResultRootCause.MIN_HEAL),
   [ZeroResultRootCause.MAX_SHIELD]: filterFixes(ZeroResultRootCause.MAX_SHIELD),
@@ -448,6 +454,8 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.maxFua < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_FUA)
   if (request.minMemoSkill) rootCauses.push(ZeroResultRootCause.MIN_MEMO_SKILL)
   if (request.maxMemoSkill < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_MEMO_SKILL)
+  if (request.minMemoTalent) rootCauses.push(ZeroResultRootCause.MIN_MEMO_TALENT)
+  if (request.maxMemoTalent < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_MEMO_TALENT)
   if (request.minDot) rootCauses.push(ZeroResultRootCause.MIN_DOT)
   if (request.maxDot < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_DOT)
   if (request.minBreak) rootCauses.push(ZeroResultRootCause.MIN_BREAK)

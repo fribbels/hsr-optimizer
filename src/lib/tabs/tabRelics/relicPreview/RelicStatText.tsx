@@ -12,8 +12,9 @@ export default RelicStatText
 
 function generateStyling(language?: Languages) {
   switch (language) {
-    case 'fr':
-    case 'pt':
+    case 'fr_FR':
+    case 'pt_BR':
+    case 'vi_VN':
       return `
         white-space: nowrap;
         letter-spacing: -0.2px;
@@ -23,6 +24,7 @@ function generateStyling(language?: Languages) {
     default:
       return `
         white-space: nowrap;
+        letter-spacing: -0.2px;
       `
   }
 }

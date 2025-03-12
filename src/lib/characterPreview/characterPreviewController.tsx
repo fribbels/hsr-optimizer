@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { BasicStatsObjectCV } from 'lib/conditionals/conditionalConstants'
+import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
 import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -9,7 +9,6 @@ import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
@@ -20,7 +19,7 @@ import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
-import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter } from 'types/metadata'
+import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter, ShowcaseTemporaryOptions } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
@@ -104,8 +103,8 @@ export function getArtistName(character: Character) {
 }
 
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
-  const newLcMargin = 5
-  const newLcHeight = 125
+  const newLcMargin = 8
+  const newLcHeight = 128
 
   // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
@@ -149,11 +148,11 @@ export function getShowcaseStats(
   showcaseMetadata: ShowcaseMetadata,
 ) {
   const statCalculationRelics = TsUtils.clone(displayRelics)
-  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter(relic => !!relic))
-  const { c: basicStats } = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null, null)
-  const finalStats: BasicStatsObjectCV = {
+  RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
+  const x = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null, null, null)
+  const basicStats = x.c.toBasicStatsObject()
+  const finalStats: BasicStatsObject = {
     ...basicStats,
-    CV: StatCalculator.calculateCv(Object.values(statCalculationRelics)),
   }
 
   finalStats[showcaseMetadata.elementalDmgType] = finalStats.ELEMENTAL_DMG
@@ -167,12 +166,14 @@ export function getShowcaseSimScoringResult(
   scoringType: string,
   teamSelection: string,
   showcaseMetadata: ShowcaseMetadata,
+  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>,
 ) {
   if (scoringType != SIMULATION_SCORE) {
     return null
   }
 
-  let simScoringResult = scoreCharacterSimulation(character, displayRelics, teamSelection)
+  const characterShowcaseTemporaryOptions = showcaseTemporaryOptions[character.id] ?? {}
+  let simScoringResult = scoreCharacterSimulation(character, displayRelics, teamSelection, characterShowcaseTemporaryOptions)
 
   if (!simScoringResult?.originalSim) {
     simScoringResult = null

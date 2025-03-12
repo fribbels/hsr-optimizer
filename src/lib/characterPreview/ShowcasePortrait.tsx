@@ -1,12 +1,12 @@
 import { EditOutlined } from '@ant-design/icons'
 import { Button, ConfigProvider, Flex, Typography } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
-import { showcaseButtonStyle, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { showcaseBackdropFilter, showcaseButtonStyle, showcaseOutline, showcaseOutlineLight, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
 import { parentH, parentW } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/characterScorer'
+import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,27 +15,27 @@ import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 
 const { Text } = Typography
 
-export function ShowcasePortraitLarge() {
-
-}
-
 export function ShowcasePortrait(props: {
-  source: ShowcaseSource,
-  character: Character,
-  displayDimensions: ShowcaseDisplayDimensions,
+  source: ShowcaseSource
+  character: Character
+  displayDimensions: ShowcaseDisplayDimensions
   customPortrait: CustomImageConfig | undefined
   editPortraitModalOpen: boolean
   setEditPortraitModalOpen: (b: boolean) => void
   onEditPortraitOk: (p: CustomImagePayload) => void
   simScoringResult: SimulationScore
-  artistName: string | undefined,
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
-  setOriginalCharacterModalOpen: (b: boolean) => void,
-  setCharacterModalAdd: (b: boolean) => void,
-  onPortraitLoad: (img: string) => void,
+  artistName: string | undefined
+  setOriginalCharacterModalInitialCharacter: (c: Character) => void
+  setOriginalCharacterModalOpen: (b: boolean) => void
+  setCharacterModalAdd: (b: boolean) => void
+  onPortraitLoad: (img: string) => void
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
+  const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
+  const uid = window.store((s) => s.scorerId)
+
+  const showUid = props.source == ShowcaseSource.SHOWCASE_TAB && showcaseUID
 
   const {
     source,
@@ -79,7 +79,7 @@ export function ShowcasePortrait(props: {
       }}
     >
       {
-        (character.portrait || customPortrait)
+        (character.portrait ?? customPortrait)
           ? (
             <CharacterCustomPortrait
               customPortrait={customPortrait ?? character.portrait!}
@@ -157,21 +157,25 @@ export function ShowcasePortrait(props: {
       </ConfigProvider>
       <Flex
         vertical
+        gap={3}
         style={{
-          position: 'relative',
-          top: simScoringResult ? tempParentH - 119 : tempParentH - 112,
-          height: 34,
+          marginBottom: 3,
           paddingLeft: 3,
-          display: artistName ? 'flex' : 'none',
+          position: 'absolute',
+          bottom: 0,
         }}
-        align='flex-start'
       >
-        <Text
+        <span
           style={{
-            backgroundColor: 'rgb(0 0 0 / 40%)',
+            display: showUid ? 'inline' : 'none',
+            backgroundColor: 'rgb(20 20 20 / 30%)',
+            color: 'rgb(255 255 255 / 80%)',
             padding: '4px 12px',
             borderRadius: 8,
+            border: showcaseOutlineLight,
+            backdropFilter: showcaseBackdropFilter,
             fontSize: 14,
+            width: 'fit-content',
             maxWidth: parentW - 150,
             textOverflow: 'ellipsis',
             overflow: 'hidden',
@@ -180,8 +184,29 @@ export function ShowcasePortrait(props: {
             textShadow: '0px 0px 10px black',
           }}
         >
-          {t('CharacterPreview.ArtBy', { artistName: artistName || '' })/* Art by {{artistName}} */}
-        </Text>
+          {uid}
+        </span>
+        <span
+          style={{
+            display: artistName ? 'inline' : 'none',
+            backgroundColor: 'rgb(20 20 20 / 30%)',
+            color: 'rgb(255 255 255 / 80%)',
+            padding: '4px 12px',
+            borderRadius: 8,
+            border: showcaseOutlineLight,
+            backdropFilter: showcaseBackdropFilter,
+            fontSize: 14,
+            width: 'fit-content',
+            maxWidth: parentW - 150,
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            zIndex: 2,
+            textShadow: '0px 0px 10px black',
+          }}
+        >
+          {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' })/* Art by {{artistName}} */}
+        </span>
       </Flex>
     </div>
   )

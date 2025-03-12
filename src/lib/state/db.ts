@@ -18,12 +18,14 @@ import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/Sett
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
+import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Character } from 'types/character'
@@ -42,8 +44,13 @@ const state: HsrOptimizerMetadataState = {
   metadata: {} as DBMetadata, // generated, not saved
 }
 
+export enum BasePath {
+  MAIN = '/hsr-optimizer',
+  BETA = '/dreary-quibbles',
+}
+
 // This string is replaced by /dreary-quibbles by github actions, don't change
-export const BASE_PATH = '/hsr-optimizer'
+export const BASE_PATH: BasePath = BasePath.MAIN
 
 export const AppPages = {
   OPTIMIZER: 'OPTIMIZER',
@@ -105,6 +112,8 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
+  [SavedSessionKeys.showcaseUID]: true,
+  [SavedSessionKeys.showcasePreciseSpd]: false,
 }
 
 function getDefaultActiveKey() {
@@ -127,6 +136,7 @@ window.store = create((set) => {
     optimizerTabFocusCharacter: undefined,
     characterTabFocusCharacter: undefined,
     scoringAlgorithmFocusCharacter: undefined,
+    statTracesDrawerFocusCharacter: undefined,
     relicsTabFocusCharacter: undefined,
     inventoryWidth: 9,
     rowLimit: 10,
@@ -137,6 +147,7 @@ window.store = create((set) => {
     conditionalSetEffectsDrawerOpen: false,
     comboDrawerOpen: false,
     combatBuffsDrawerOpen: false,
+    statTracesDrawerOpen: false,
     enemyConfigurationsDrawerOpen: false,
     settingsDrawerOpen: false,
     gettingStartedDrawerOpen: false,
@@ -147,6 +158,7 @@ window.store = create((set) => {
     scorerId: '',
     scoringMetadataOverrides: {},
     showcasePreferences: {},
+    showcaseTemporaryOptions: {},
     warpRequest: {} as WarpRequest,
     warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
@@ -209,12 +221,16 @@ window.store = create((set) => {
       [OptimizerMenuIds.relicAndStatFilters]: true,
       [OptimizerMenuIds.teammates]: true,
       [OptimizerMenuIds.characterStatsSimulation]: false,
+      [OptimizerMenuIds.analysis]: true,
     },
 
     savedSession: savedSessionDefaults,
 
     settings: DefaultSettingOptions,
     optimizerBuild: null,
+    optimizerExpandedPanelBuildData: null,
+    optimizerSelectedRowData: null,
+    optimizerBuffGroups: undefined,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
@@ -227,12 +243,14 @@ window.store = create((set) => {
     setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
     setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
     setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
+    setStatTracesDrawerOpen: (x) => set(() => ({ statTracesDrawerOpen: x })),
     setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
     setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
     setGettingStartedDrawerOpen: (x) => set(() => ({ gettingStartedDrawerOpen: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
     setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+    setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
     setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
     setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
     setPermutations: (x) => set(() => ({ permutations: x })),
@@ -244,6 +262,7 @@ window.store = create((set) => {
     setScorerId: (x) => set(() => ({ scorerId: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
+    setShowcaseTemporaryOptions: (x) => set(() => ({ showcaseTemporaryOptions: x })),
     setWarpRequest: (x) => set(() => ({ warpRequest: x })),
     setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
@@ -274,6 +293,9 @@ window.store = create((set) => {
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
+    setOptimizerExpandedPanelBuildData: (x) => set(() => ({ optimizerExpandedPanelBuildData: x })),
+    setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
+    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store
@@ -333,6 +355,8 @@ export const DB = {
     const removed = characters.splice(matchingCharacter.rank, 1)
     characters.splice(index, 0, removed[0])
     DB.setCharacters(characters)
+
+    window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
   },
   refreshCharacters: () => {
     if (window.setCharacterRows) {
@@ -429,6 +453,8 @@ export const DB = {
       }
     }
 
+    setModifiedScoringMetadata(defaultScoringMetadata, returnScoringMetadata)
+
     // We don't want to carry over presets, use the optimizer defined ones
     // TODO: What does this do
     // @ts-ignore
@@ -447,6 +473,11 @@ export const DB = {
       // TODO: bug
       // overrides.modified = true
     }
+
+    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
+
+    setModifiedScoringMetadata(defaultScoringMetadata, overrides[id])
+
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
@@ -491,18 +522,6 @@ export const DB = {
       // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
       if (character.form.resultSort === 'WEIGHT') {
         character.form.resultSort = 'SPD'
-      }
-
-      // Unset light cone fields for mismatched light cone path
-      const dbLightCone = dbLightCones[character.form?.lightCone] || {}
-      const dbCharacter = dbCharacters[character.id]
-      if (dbLightCone?.path != dbCharacter?.path) {
-        // @ts-ignore
-        character.form.lightCone = undefined
-        character.form.lightConeLevel = 80
-        character.form.lightConeSuperimposition = 1
-        // @ts-ignore
-        character.form.lightConeConditionals = {}
       }
 
       // Deduplicate main stat filter values
@@ -588,6 +607,9 @@ export const DB = {
               scoringMetadataOverrides.modified = true
             }
           }
+
+          // Just use this post migration? I don't quite remember what the above does
+          setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
         }
       }
 
@@ -688,7 +710,7 @@ export const DB = {
       DB.addCharacter(found)
     }
 
-    console.log('Updated db characters', characters)
+    // console.log('Updated db characters', characters)
 
     /*
      * TODO: after render optimization, window.characterGrid is possibly undefined
@@ -866,6 +888,8 @@ export const DB = {
     relic.equippedBy = character.id
     DB.setCharacter(character)
     setRelic(relic)
+
+    debounceEffect('refreshRelics', 500, () => window.relicsGrid?.current?.api.refreshCells())
   },
 
   equipRelicIdsToCharacter: (relicIds: string[], characterId: string, forceSwap = false) => {
@@ -899,8 +923,8 @@ export const DB = {
     }
   },
 
-  // These relics are missing speed decimals from OCR importer
-  // We overwrite any existing relics with imported ones
+  // These relics may be missing speed decimals depending on the importer.\
+  // We overwrite any existing relics with imported ones.
   mergeRelicsWithState: (newRelics: Relic[], newCharacters: Form[]) => {
     const oldRelics = DB.getRelics()
     newRelics = Utils.clone(newRelics) || []
@@ -1028,8 +1052,8 @@ export const DB = {
   },
 
   /*
-   * These relics have accurate speed values from relic scorer import
-   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one
+   * These relics have accurate speed values from relic scorer import.\
+   * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one.
    */
   mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
     const oldRelics = TsUtils.clone(DB.getRelics()) || []
@@ -1044,7 +1068,7 @@ export const DB = {
     }[] = []
 
     for (const newRelic of newRelics) {
-      const match: Relic | undefined = findRelicMatch(newRelic, oldRelics)
+      const match = findRelicMatch(newRelic, oldRelics)
 
       if (match) {
         match.substats = newRelic.substats

@@ -7,6 +7,7 @@ import {
   LinkOutlined,
   RadarChartOutlined,
   SettingOutlined,
+  SketchOutlined,
   StarFilled,
   SunOutlined,
   UnorderedListOutlined,
@@ -45,22 +46,22 @@ const MenuDrawer = () => {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const items = useMemo(() => [
-    getItem(t('Showcase.Title')/* Showcase */, 'subTools', <SunOutlined/>, [
+    getItem(t('Tools.Title')/* Tools */, 'subTools', <SunOutlined/>, [
       getItem(
         (
           <Flex>
             <StarFilled style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            {t('Showcase.Scorer')/* Relic Scorer */}
+            {t('Tools.Showcase')/* Showcase */}
           </Flex>
         ),
         AppPages.SHOWCASE),
       getItem(
         (
           <Flex>
-            <StarFilled style={{ marginRight: 5, width: 16 }}/>
+            <SketchOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            Warp Chance
+            {t('Tools.WarpPlanner')/* Warp Planner */}
           </Flex>
         ),
         AppPages.WARP),

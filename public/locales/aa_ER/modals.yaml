@@ -1,0 +1,364 @@
+Scoring:
+  StatWeightsHeader: crwdns42108:0crwdne42108:0
+  MainstatsHeader: crwdns42110:0crwdne42110:0
+  WeightMethodology:
+    Header: crwdns42112:0crwdne42112:0
+  Footer:
+    Reset: crwdns42114:0crwdne42114:0
+    ResetAll: crwdns42116:0crwdne42116:0
+    Save: crwdns42118:0crwdne42118:0
+  ResetAllConfirm:
+    Title: crwdns42120:0crwdne42120:0
+    Description: crwdns42122:0crwdne42122:0
+0Perms:
+  Title: crwdns42124:0crwdne42124:0
+  Description: crwdns42126:0crwdne42126:0
+  RootCauses:
+    IMPORT:
+      Description: crwdns42128:0crwdne42128:0
+      ButtonText: crwdns42130:0crwdne42130:0
+      SuccessMessage: crwdns42132:0crwdne42132:0
+    Body_MAIN:
+      Description: "crwdns42134:0$t(common:Parts.Body)crwdne42134:0"
+      ButtonText: "crwdns42136:0$t(common:Parts.Body)crwdne42136:0"
+      SuccessMessage: "crwdns42138:0$t(common:Parts.Body)crwdne42138:0"
+    Feet_MAIN:
+      Description: "crwdns42140:0$t(common:Parts.Feet)crwdne42140:0"
+      ButtonText: "crwdns42142:0$t(common:Parts.Feet)crwdne42142:0"
+      SuccessMessage: "crwdns42144:0$t(common:Parts.Feet)crwdne42144:0"
+    PlanarSphere_MAIN:
+      Description: "crwdns42146:0$t(common:Parts.PlanarSphere)crwdne42146:0"
+      ButtonText: "crwdns42148:0$t(common:Parts.PlanarSphere)crwdne42148:0"
+      SuccessMessage: "crwdns42150:0$t(common:Parts.PlanarSphere)crwdne42150:0"
+    LinkRope_MAIN:
+      Description: "crwdns42152:0$t(common:Parts.LinkRope)crwdne42152:0"
+      ButtonText: "crwdns42154:0$t(common:Parts.LinkRope)crwdne42154:0"
+      SuccessMessage: "crwdns42156:0$t(common:Parts.LinkRope)crwdne42156:0"
+    RELIC_SETS:
+      Description: crwdns42158:0crwdne42158:0
+      ButtonText: crwdns42160:0crwdne42160:0
+      SuccessMessage: crwdns42162:0crwdne42162:0
+    ORNAMENT_SETS:
+      Description: crwdns42164:0crwdne42164:0
+      ButtonText: crwdns42166:0crwdne42166:0
+      SuccessMessage: crwdns42168:0crwdne42168:0
+    KEEP_CURRENT:
+      Description: crwdns42170:0crwdne42170:0
+      ButtonText: crwdns42172:0crwdne42172:0
+      SuccessMessage: crwdns42174:0crwdne42174:0
+    PRIORITY:
+      Description: crwdns42176:0crwdne42176:0
+      ButtonText: "crwdns42178:0crwdne42178:0"
+      SuccessMessage: "crwdns42180:0crwdne42180:0"
+    EXCLUDE_ENABLED:
+      Description: crwdns42182:0crwdne42182:0
+      ButtonText: crwdns42184:0crwdne42184:0
+      SuccessMessage: crwdns42186:0crwdne42186:0
+    EQUIPPED_DISABLED:
+      Description: crwdns42188:0crwdne42188:0
+      ButtonText: crwdns42190:0crwdne42190:0
+      SuccessMessage: crwdns42192:0crwdne42192:0
+    MINIMUM_ROLLS:
+      Description: crwdns42194:0crwdne42194:0
+      ButtonText: crwdns42196:0crwdne42196:0
+      SuccessMessage: crwdns42198:0crwdne42198:0
+0Results:
+  Title: crwdns42200:0crwdne42200:0
+  ResetAll:
+    ButtonText: crwdns42202:0crwdne42202:0
+    SuccessMessage: crwdns42204:0crwdne42204:0
+    Description: crwdns42206:0crwdne42206:0
+  RootCauses:
+    StatView:
+      SuccessMessage: "crwdns42208:0crwdne42208:0"
+      Description: "crwdns42210:0crwdne42210:0"
+      ButtonText: "crwdns42212:0crwdne42212:0"
+    MAX_HP:
+      SuccessMessage: "crwdns42214:0$t(common:Stats.HP)crwdne42214:0"
+      Description: "crwdns42216:0$t(common:Stats.HP)crwdne42216:0"
+      ButtonText: "crwdns42218:0$t(common:Stats.HP)crwdne42218:0"
+    MIN_HP:
+      SuccessMessage: "crwdns42220:0$t(common:Stats.HP)crwdne42220:0"
+      Description: "crwdns42222:0$t(common:Stats.HP)crwdne42222:0"
+      ButtonText: "crwdns42224:0$t(common:Stats.HP)crwdne42224:0"
+    MAX_ATK:
+      SuccessMessage: "crwdns42226:0$t(common:Stats.ATK)crwdne42226:0"
+      Description: "crwdns42228:0$t(common:Stats.ATK)crwdne42228:0"
+      ButtonText: "crwdns42230:0$t(common:Stats.ATK)crwdne42230:0"
+    MIN_ATK:
+      SuccessMessage: "crwdns42232:0$t(common:Stats.ATK)crwdne42232:0"
+      Description: "crwdns42234:0$t(common:Stats.ATK)crwdne42234:0"
+      ButtonText: "crwdns42236:0$t(common:Stats.ATK)crwdne42236:0"
+    MAX_DEF:
+      SuccessMessage: "crwdns42238:0$t(common:Stats.DEF)crwdne42238:0"
+      Description: "crwdns42240:0$t(common:Stats.DEF)crwdne42240:0"
+      ButtonText: "crwdns42242:0$t(common:Stats.DEF)crwdne42242:0"
+    MIN_DEF:
+      SuccessMessage: "crwdns42244:0$t(common:Stats.DEF)crwdne42244:0"
+      Description: "crwdns42246:0$t(common:Stats.DEF)crwdne42246:0"
+      ButtonText: "crwdns42248:0$t(common:Stats.DEF)crwdne42248:0"
+    MAX_SPD:
+      SuccessMessage: "crwdns42250:0$t(common:Stats.SPD)crwdne42250:0"
+      Description: "crwdns42252:0$t(common:Stats.SPD)crwdne42252:0"
+      ButtonText: "crwdns42254:0$t(common:Stats.SPD)crwdne42254:0"
+    MIN_SPD:
+      SuccessMessage: "crwdns42256:0$t(common:Stats.SPD)crwdne42256:0"
+      Description: "crwdns42258:0$t(common:Stats.SPD)crwdne42258:0"
+      ButtonText: "crwdns42260:0$t(common:Stats.SPD)crwdne42260:0"
+    MAX_CR:
+      SuccessMessage: "crwdns42262:0$t(common:Stats.CRIT Rate)crwdne42262:0"
+      Description: "crwdns42264:0$t(common:Stats.CRIT Rate)crwdne42264:0"
+      ButtonText: "crwdns42266:0$t(common:Stats.CRIT Rate)crwdne42266:0"
+    MIN_CR:
+      SuccessMessage: "crwdns42268:0$t(common:Stats.CRIT Rate)crwdne42268:0"
+      Description: "crwdns42270:0$t(common:Stats.CRIT Rate)crwdne42270:0"
+      ButtonText: "crwdns42272:0$t(common:Stats.CRIT Rate)crwdne42272:0"
+    MAX_CD:
+      SuccessMessage: "crwdns42274:0$t(common:Stats.CRIT DMG)crwdne42274:0"
+      Description: "crwdns42276:0$t(common:Stats.CRIT DMG)crwdne42276:0"
+      ButtonText: "crwdns42278:0$t(common:Stats.CRIT DMG)crwdne42278:0"
+    MIN_CD:
+      SuccessMessage: "crwdns42280:0$t(common:Stats.CRIT DMG)crwdne42280:0"
+      Description: "crwdns42282:0$t(common:Stats.CRIT DMG)crwdne42282:0"
+      ButtonText: "crwdns42284:0$t(common:Stats.CRIT DMG)crwdne42284:0"
+    MAX_EHR:
+      SuccessMessage: "crwdns42286:0$t(common:Stats.Effect Hit Rate)crwdne42286:0"
+      Description: "crwdns42288:0$t(common:Stats.Effect Hit Rate)crwdne42288:0"
+      ButtonText: "crwdns42290:0$t(common:Stats.Effect Hit Rate)crwdne42290:0"
+    MIN_EHR:
+      SuccessMessage: "crwdns42292:0$t(common:Stats.Effect Hit Rate)crwdne42292:0"
+      Description: "crwdns42294:0$t(common:Stats.Effect Hit Rate)crwdne42294:0"
+      ButtonText: "crwdns42296:0$t(common:Stats.Effect Hit Rate)crwdne42296:0"
+    MAX_RES:
+      SuccessMessage: "crwdns42298:0$t(common:Stats.Effect RES)crwdne42298:0"
+      Description: "crwdns42300:0$t(common:Stats.Effect RES)crwdne42300:0"
+      ButtonText: "crwdns42302:0$t(common:Stats.Effect RES)crwdne42302:0"
+    MIN_RES:
+      SuccessMessage: "crwdns42304:0$t(common:Stats.Effect RES)crwdne42304:0"
+      Description: "crwdns42306:0$t(common:Stats.Effect RES)crwdne42306:0"
+      ButtonText: "crwdns42308:0$t(common:Stats.Effect RES)crwdne42308:0"
+    MAX_BE:
+      SuccessMessage: "crwdns42310:0$t(common:Stats.Break Effect)crwdne42310:0"
+      Description: "crwdns42312:0$t(common:Stats.Break Effect)crwdne42312:0"
+      ButtonText: "crwdns42314:0$t(common:Stats.Break Effect)crwdne42314:0"
+    MIN_BE:
+      SuccessMessage: "crwdns42316:0$t(common:Stats.Break Effect)crwdne42316:0"
+      Description: "crwdns42318:0$t(common:Stats.Break Effect)crwdne42318:0"
+      ButtonText: "crwdns42320:0$t(common:Stats.Break Effect)crwdne42320:0"
+    MAX_ERR:
+      SuccessMessage: "crwdns42322:0$t(common:Stats.Energy Regeneration Rate)crwdne42322:0"
+      Description: "crwdns42324:0$t(common:Stats.Energy Regeneration Rate)crwdne42324:0"
+      ButtonText: "crwdns42326:0$t(common:Stats.Energy Regeneration Rate)crwdne42326:0"
+    MIN_ERR:
+      SuccessMessage: "crwdns42328:0$t(common:Stats.Energy Regeneration Rate)crwdne42328:0"
+      Description: "crwdns42330:0$t(common:Stats.Energy Regeneration Rate)crwdne42330:0"
+      ButtonText: "crwdns42332:0$t(common:Stats.Energy Regeneration Rate)crwdne42332:0"
+    MAX_EHP:
+      SuccessMessage: "crwdns42334:0crwdne42334:0"
+      Description: "crwdns42336:0crwdne42336:0"
+      ButtonText: "crwdns42338:0crwdne42338:0"
+    MIN_EHP:
+      SuccessMessage: "crwdns42340:0crwdne42340:0"
+      Description: "crwdns42342:0crwdne42342:0"
+      ButtonText: "crwdns42344:0crwdne42344:0"
+    MAX_BASIC:
+      SuccessMessage: "crwdns42346:0crwdne42346:0"
+      Description: "crwdns42348:0crwdne42348:0"
+      ButtonText: "crwdns42350:0crwdne42350:0"
+    MIN_BASIC:
+      SuccessMessage: "crwdns42352:0crwdne42352:0"
+      Description: "crwdns42354:0crwdne42354:0"
+      ButtonText: "crwdns42356:0crwdne42356:0"
+    MAX_SKILL:
+      SuccessMessage: "crwdns42358:0crwdne42358:0"
+      Description: "crwdns42360:0crwdne42360:0"
+      ButtonText: "crwdns42362:0crwdne42362:0"
+    MIN_SKILL:
+      SuccessMessage: "crwdns42364:0crwdne42364:0"
+      Description: "crwdns42366:0crwdne42366:0"
+      ButtonText: "crwdns42368:0crwdne42368:0"
+    MAX_ULT:
+      SuccessMessage: "crwdns42370:0crwdne42370:0"
+      Description: "crwdns42372:0crwdne42372:0"
+      ButtonText: "crwdns42374:0crwdne42374:0"
+    MIN_ULT:
+      SuccessMessage: "crwdns42376:0crwdne42376:0"
+      Description: "crwdns42378:0crwdne42378:0"
+      ButtonText: "crwdns42380:0crwdne42380:0"
+    MAX_FUA:
+      SuccessMessage: "crwdns42382:0crwdne42382:0"
+      Description: "crwdns42384:0crwdne42384:0"
+      ButtonText: "crwdns42386:0crwdne42386:0"
+    MIN_FUA:
+      SuccessMessage: "crwdns42388:0crwdne42388:0"
+      Description: "crwdns42390:0crwdne42390:0"
+      ButtonText: "crwdns42392:0crwdne42392:0"
+    MAX_DOT:
+      SuccessMessage: "crwdns42394:0crwdne42394:0"
+      Description: "crwdns42396:0crwdne42396:0"
+      ButtonText: "crwdns42398:0crwdne42398:0"
+    MIN_DOT:
+      SuccessMessage: "crwdns42400:0crwdne42400:0"
+      Description: "crwdns42402:0crwdne42402:0"
+      ButtonText: "crwdns42404:0crwdne42404:0"
+    MAX_BREAK:
+      SuccessMessage: "crwdns42406:0crwdne42406:0"
+      Description: "crwdns42408:0crwdne42408:0"
+      ButtonText: "crwdns42410:0crwdne42410:0"
+    MIN_BREAK:
+      SuccessMessage: "crwdns42412:0crwdne42412:0"
+      Description: "crwdns42414:0crwdne42414:0"
+      ButtonText: "crwdns42416:0crwdne42416:0"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "crwdns44800:0crwdne44800:0"
+      Description: "crwdns44802:0crwdne44802:0"
+      ButtonText: "crwdns44804:0crwdne44804:0"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "crwdns44806:0crwdne44806:0"
+      Description: "crwdns44808:0crwdne44808:0"
+      ButtonText: "crwdns44810:0crwdne44810:0"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "crwdns44812:0crwdne44812:0"
+      Description: "crwdns44814:0crwdne44814:0"
+      ButtonText: "crwdns44816:0crwdne44816:0"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "crwdns44818:0crwdne44818:0"
+      Description: "crwdns44820:0crwdne44820:0"
+      ButtonText: "crwdns44822:0crwdne44822:0"
+    MAX_HEAL:
+      SuccessMessage: "crwdns42418:0crwdne42418:0"
+      Description: "crwdns42420:0crwdne42420:0"
+      ButtonText: "crwdns42422:0crwdne42422:0"
+    MIN_HEAL:
+      SuccessMessage: "crwdns42424:0crwdne42424:0"
+      Description: "crwdns42426:0crwdne42426:0"
+      ButtonText: "crwdns42428:0crwdne42428:0"
+    MAX_SHIELD:
+      SuccessMessage: "crwdns42430:0crwdne42430:0"
+      Description: "crwdns42432:0crwdne42432:0"
+      ButtonText: "crwdns42434:0crwdne42434:0"
+    MIN_SHIELD:
+      SuccessMessage: "crwdns42436:0crwdne42436:0"
+      Description: "crwdns42438:0crwdne42438:0"
+      ButtonText: "crwdns42440:0crwdne42440:0"
+    MAX_COMBO:
+      SuccessMessage: "crwdns42442:0crwdne42442:0"
+      Description: "crwdns42444:0crwdne42444:0"
+      ButtonText: "crwdns42446:0crwdne42446:0"
+    MIN_COMBO:
+      SuccessMessage: "crwdns42448:0crwdne42448:0"
+      Description: "crwdns42450:0crwdne42450:0"
+      ButtonText: "crwdns42452:0crwdne42452:0"
+ManyPerms:
+  Title: crwdns42454:0crwdne42454:0
+  Text: >-
+    crwdns42456:0crwdne42456:0
+  Cancel: crwdns42458:0crwdne42458:0
+  Proceed: crwdns42460:0crwdne42460:0
+EditCharacter:
+  EidolonButton: >-
+    crwdns42462:0$t(common:EidolonNShort, {"eidolon":{{eidolon}} })crwdne42462:0
+  SuperimpositionButton: >-
+    crwdns42464:0$t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })crwdne42464:0
+  Character: crwdns42466:0crwdne42466:0
+  Lightcone: crwdns42468:0crwdne42468:0
+Relic:
+  Part: crwdns42470:0crwdne42470:0
+  Wearer: crwdns42472:0crwdne42472:0
+  Set: crwdns42474:0crwdne42474:0
+  Enhance: crwdns42476:0crwdne42476:0
+  Mainstat: crwdns42478:0crwdne42478:0
+  Substat: crwdns42480:0crwdne42480:0
+  SubstatPlaceholder: crwdns42482:0crwdne42482:0
+  Upgrades: crwdns42484:0crwdne42484:0
+  Messages:
+    SubmitFail: crwdns42486:0crwdne42486:0
+    EditSuccess: crwdns42488:0crwdne42488:0
+    Error:
+      PartMissing: crwdns42490:0crwdne42490:0
+      MainstatMissing: crwdns42492:0crwdne42492:0
+      SetMissing: crwdns42494:0crwdne42494:0
+      EnhanceMissing: crwdns42496:0crwdne42496:0
+      GradeMissing: crwdns42498:0crwdne42498:0
+      EnhanceInvalid: crwdns42500:0crwdne42500:0
+      GradeInvalid: crwdns42502:0crwdne42502:0
+      EnhanceTooHigh: crwdns42504:0crwdne42504:0
+      SetInvalid: crwdns42506:0crwdne42506:0
+      SetNotOrnament: crwdns42508:0crwdne42508:0
+      SetNotRelic: crwdns42510:0crwdne42510:0
+      SubNInvalid: "crwdns42512:0{{number}}crwdne42512:0"
+      SubsOutOfOrder: crwdns42514:0crwdne42514:0
+      DuplicateSubs: crwdns42516:0crwdne42516:0
+      MainAsSub: crwdns42518:0crwdne42518:0
+      SubTooBig: crwdns42520:0crwdne42520:0
+      MainTooBig: crwdns42522:0crwdne42522:0
+      SubTooSmall: crwdns42524:0crwdne42524:0
+      MainTooSmall: crwdns42526:0crwdne42526:0
+EditImage:
+  DefaultTitle: crwdns42528:0crwdne42528:0
+  Upload:
+    Title: crwdns42530:0crwdne42530:0
+    Radio:
+      Upload: crwdns42532:0crwdne42532:0
+      Url: crwdns42534:0crwdne42534:0
+      Default: crwdns42536:0crwdne42536:0
+    Upload:
+      Method: crwdns42538:0crwdne42538:0
+      Limit: "crwdns42540:0crwdne42540:0"
+    Url:
+      Label: crwdns42542:0crwdne42542:0
+      Rule: crwdns42544:0crwdne42544:0
+  Edit:
+    Title: crwdns42546:0crwdne42546:0
+    Zoom: crwdns42548:0crwdne42548:0
+    Drag: crwdns42550:0crwdne42550:0
+    Pinch: crwdns42552:0crwdne42552:0
+    ArtBy: "crwdns42554:0crwdne42554:0"
+    CreditPlaceholder: crwdns42556:0crwdne42556:0
+  Footer:
+    Change: crwdns42558:0crwdne42558:0
+    Previous: crwdns42560:0crwdne42560:0
+    Next: crwdns42562:0crwdne42562:0
+SaveBuild:
+  Label: crwdns42564:0crwdne42564:0
+  Rule: crwdns42566:0crwdne42566:0
+SwitchRelics:
+  Title: crwdns42568:0crwdne42568:0
+Builds:
+  DeleteAll: crwdns42570:0crwdne42570:0
+  Equip: crwdns42572:0crwdne42572:0
+  ConfirmEquip:
+    Content: crwdns42574:0crwdne42574:0
+    SuccessMessage: "crwdns42576:0{{buildName}}crwdne42576:0"
+  ConfirmDelete:
+    DeleteAll: crwdns42578:0crwdne42578:0
+    DeleteSingle: "crwdns42580:0{{name}}crwdne42580:0"
+    SuccessMessageAll: "crwdns42582:0{{characterName}}crwdne42582:0"
+    SuccessMessageSingle: "crwdns42584:0{{name}}crwdne42584:0"
+  NoBuilds:
+    NoneSaved: crwdns42586:0crwdne42586:0
+ScoreFooter:
+  ModalTitle: crwdns42588:0crwdne42588:0
+  OkText: crwdns42590:0crwdne42590:0
+  ResetButtonText: crwdns42592:0crwdne42592:0
+  ResetSuccessMsg: crwdns42594:0crwdne42594:0
+  SyncButtonText: crwdns42596:0crwdne42596:0
+  SyncSuccessMsg: crwdns42598:0crwdne42598:0
+  TeamOptions:
+    Default: crwdns42600:0crwdne42600:0
+    Custom: crwdns42602:0crwdne42602:0
+CharacterSelect:
+  MultiSelect:
+    Placeholder: crwdns42604:0crwdne42604:0
+    MaxTagPlaceholderSome: "crwdns42606:0{{count}}crwdne42606:0"
+    MaxTagPlaceholderNone: crwdns42608:0crwdne42608:0
+    ModalTitle: crwdns42610:0crwdne42610:0
+  SingleSelect:
+    Placeholder: crwdns42612:0crwdne42612:0
+    ModalTitle: crwdns42614:0crwdne42614:0
+  SearchPlaceholder: crwdns42616:0crwdne42616:0
+  ExcludeButton: crwdns42618:0crwdne42618:0
+  ClearButton: crwdns42620:0crwdne42620:0
+LightconeSelect:
+  Placeholder: crwdns42622:0crwdne42622:0
+  Title: crwdns42624:0crwdne42624:0

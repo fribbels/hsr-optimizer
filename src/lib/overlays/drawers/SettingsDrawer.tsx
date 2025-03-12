@@ -32,12 +32,18 @@ export const SettingOptions = {
     ScoreAtStartup: 'Score at startup',
     ManuallyClickReapplyScores: 'Manually click reapply scores',
   },
+  ExpandedInfoPanelPosition: {
+    name: 'ExpandedInfoPanelPosition',
+    Above: 'Above',
+    Below: 'Below',
+  },
 } as const
 
 export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace,
   [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
   [SettingOptions.RelicPotentialLoadBehavior.name]: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
+  [SettingOptions.ExpandedInfoPanelPosition.name]: SettingOptions.ExpandedInfoPanelPosition.Below,
 } as Record<keyof UserSettings, string>
 
 export const SettingsDrawer = () => {
@@ -85,6 +91,17 @@ export const SettingsDrawer = () => {
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ManuallyClickReapplyScores,
       label: <span>{t('RelicPotentialLoadBehaviour.Manual')/* Only score relics when \"Reapply scores\" is clicked (faster page load) */}</span>,
+    },
+  ]
+
+  const optionsExpandedInfoPanelPosition = [
+    {
+      value: SettingOptions.ExpandedInfoPanelPosition.Above,
+      label: <span>Show expanded info above relics preview</span>,
+    },
+    {
+      value: SettingOptions.ExpandedInfoPanelPosition.Below,
+      label: <span>Default: Show expanded info below relics preview</span>,
     },
   ]
 
@@ -137,6 +154,16 @@ export const SettingsDrawer = () => {
               <Select
                 style={{ width: 500 }}
                 options={optionsRelicPotentialLoadBehavior}
+                optionRender={(option) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
+              />
+            </Form.Item>
+          </Flex>
+          <Flex justify='space-between' align='center'>
+            <Text>Optimizer Expanded info panel position</Text>
+            <Form.Item name={SettingOptions.ExpandedInfoPanelPosition.name}>
+              <Select
+                style={{ width: 500 }}
+                options={optionsExpandedInfoPanelPosition}
                 optionRender={(option) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
               />
             </Form.Item>

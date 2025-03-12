@@ -1,20 +1,24 @@
 import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
-import { Constants, DEFAULT_STAT_DISPLAY, Stats } from 'lib/constants/constants'
+import { Constants, DEFAULT_STAT_DISPLAY, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { GridAggregations } from 'lib/rendering/gradient'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Form } from 'types/form'
+import { Build } from 'types/character'
+import { Form, OptimizerForm } from 'types/form'
 
 type PermutationSizes = {
   hSize: number
@@ -62,6 +66,7 @@ const columnsToAggregateMap = {
   ULT: true,
   FUA: true,
   MEMO_SKILL: true,
+  MEMO_TALENT: true,
   DOT: true,
   BREAK: true,
   COMBO: true,
@@ -130,7 +135,7 @@ export const OptimizerTabController = {
       return
     }
 
-    const currentPinned = window.optimizerGrid.current?.api.getGridOption('pinnedTopRowData') ?? []
+    const currentPinned = window.optimizerGrid?.current?.api?.getGridOption('pinnedTopRowData') ?? []
     currentPinned[0] = row
     window.optimizerGrid.current?.api.updateGridOptions({ pinnedTopRowData: currentPinned })
   },
@@ -148,7 +153,7 @@ export const OptimizerTabController = {
 
   // Get a form that's ready for optimizer submission
   getForm: () => {
-    const form = window.optimizerForm.getFieldsValue() as Form
+    const form = window.optimizerForm.getFieldsValue()
     return OptimizerTabController.displayToForm(form)
   },
 
@@ -180,7 +185,7 @@ export const OptimizerTabController = {
     }
 
     const row = selectedNodes[0].data!
-    const build = OptimizerTabController.calculateRelicIdsFromId(row.id)
+    const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success('Equipped relics')
@@ -194,6 +199,8 @@ export const OptimizerTabController = {
     const data = event.data as OptimizerDisplayDataStatSim
     const gridApi = optimizerGridApi()
 
+    window.store.getState().setOptimizerSelectedRowData(data)
+
     if (event.rowPinned == 'top') {
       // Clicking the top row should display current relics
       console.log('Top row clicked', data)
@@ -206,8 +213,10 @@ export const OptimizerTabController = {
         const character = DB.getCharacterById(form.characterId)
 
         if (character && data.id) {
+          // These are pinned rows
           const rowId = data.id
-          const build = OptimizerTabController.calculateRelicIdsFromId(rowId)
+          const build = OptimizerTabController.calculateRelicIdsFromId(rowId, form)
+
           window.store.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
@@ -229,6 +238,8 @@ export const OptimizerTabController = {
       return
     }
 
+    console.log('cellClicked', event)
+
     if (data.statSim) {
       const key = data.statSim.key
       window.store.getState().setSelectedStatSimulations([key])
@@ -237,10 +248,8 @@ export const OptimizerTabController = {
       return
     }
 
-    console.log('cellClicked', event)
-
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
-    console.log('build', build)
+
     window.store.getState().setOptimizerBuild(build)
   },
 
@@ -252,7 +261,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    window.optimizerGrid.current?.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
+    window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
   },
 
   getDataSource: (newSortModel?: SortModel, newFilterModel?: Form) => {
@@ -270,40 +279,51 @@ export const OptimizerTabController = {
         }
 
         // Give it time to show the loading page before we block
-        void TsUtils.sleep(100).then(() => {
-          if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
-            sortModel = params.sortModel[0]
-            sort()
-          }
-
-          if (filterModel) {
-            filter(filterModel)
-            const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
-            const subArray: OptimizerDisplayData[] = []
-            for (const index of indicesSubArray) {
-              subArray.push(rows[index])
+        void TsUtils.sleep(100)
+          .then(() => {
+            if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
+              sortModel = params.sortModel[0]
+              sort()
             }
-            aggregate(subArray)
-            params.successCallback(subArray, filteredIndices.length)
-          } else {
-            const subArray = rows.slice(params.startRow, params.endRow)
-            aggregate(subArray)
 
-            params.successCallback(subArray, rows.length)
-          }
+            if (filterModel) {
+              filter(filterModel)
+              const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
+              const subArray: OptimizerDisplayData[] = []
+              for (const index of indicesSubArray) {
+                subArray.push(rows[index])
+              }
+              aggregate(subArray)
+              params.successCallback(subArray, filteredIndices.length)
+            } else {
+              const subArray = rows.slice(params.startRow, params.endRow)
+              aggregate(subArray)
 
-          // cannot assume a fast click race-condition didn't happen
-          if (window?.optimizerGrid?.current?.api) {
-            window.optimizerGrid.current?.api.setGridOption('loading', false)
-          }
-          OptimizerTabController.redrawRows()
-        })
+              params.successCallback(subArray, rows.length)
+            }
+
+            // cannot assume a fast click race-condition didn't happen
+            if (window?.optimizerGrid?.current?.api) {
+              window.optimizerGrid.current?.api.setGridOption('loading', false)
+            }
+            OptimizerTabController.redrawRows()
+          })
       },
     }
   },
 
   // Unpack a permutation ID to its respective relics
-  calculateRelicsFromId: (id: number) => {
+  calculateRelicsFromId: (id: number, form?: OptimizerForm) => {
+    if (id === -1) { // special case for equipped build optimizer row
+      const request = form ?? optimizerFormCache[window.store.getState().optimizationId!]
+
+      const build = DB.getCharacterById(request.characterId).equipped
+      const out = {} as Partial<SingleRelicByPart>
+      for (const key of Object.keys(build)) {
+        out[key as Parts] = DB.getRelicById(build[key as Parts]!)
+      }
+      return out
+    }
     const lSize = permutationSizes.lSize
     const pSize = permutationSizes.pSize
     const fSize = permutationSizes.fSize
@@ -326,19 +346,19 @@ export const OptimizerTabController = {
       Feet: relics.Feet[f],
       PlanarSphere: relics.PlanarSphere[p],
       LinkRope: relics.LinkRope[l],
-    }
+    } as SingleRelicByPart
   },
 
-  calculateRelicIdsFromId: (id: number) => {
-    const relicsFromId = OptimizerTabController.calculateRelicsFromId(id)
+  calculateRelicIdsFromId: (id: number, form?: Form) => {
+    const relicsFromId = OptimizerTabController.calculateRelicsFromId(id, form)
 
     return {
-      Head: relicsFromId.Head.id,
-      Hands: relicsFromId.Hands.id,
-      Body: relicsFromId.Body.id,
-      Feet: relicsFromId.Feet.id,
-      PlanarSphere: relicsFromId.PlanarSphere.id,
-      LinkRope: relicsFromId.LinkRope.id,
+      Head: relicsFromId.Head?.id,
+      Hands: relicsFromId.Hands?.id,
+      Body: relicsFromId.Body?.id,
+      Feet: relicsFromId.Feet?.id,
+      PlanarSphere: relicsFromId.PlanarSphere?.id,
+      LinkRope: relicsFromId.LinkRope?.id,
     }
   },
 
@@ -429,13 +449,17 @@ export const OptimizerTabController = {
   updateCharacter: (characterId: string) => {
     console.log('@updateCharacter', characterId)
     if (!characterId) return
+
+    OptimizerTabController.setRows([])
+    OptimizerTabController.resetDataSource()
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
-    const displayFormValues = OptimizerTabController.formToDisplay(form as Form)
+    const displayFormValues = OptimizerTabController.formToDisplay(form)
     window.optimizerForm.setFieldsValue(displayFormValues)
 
-    const comboState = initializeComboState(displayFormValues, true)
+    const request = OptimizerTabController.displayToForm(displayFormValues)
+    const comboState = initializeComboState(request, true)
     window.store.getState().setComboState(comboState)
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
@@ -446,7 +470,12 @@ export const OptimizerTabController = {
       window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
       window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
+      window.store.getState().setOptimizerSelectedRowData(null)
+      window.optimizerGrid.current?.api?.deselectAll()
       // console.log('@updateForm', displayFormValues, character)
+
+      generateContext(request)
+      void calculateCurrentlyEquippedRow(request)
 
       window.onOptimizerFormValuesChange({} as Form, displayFormValues)
     }, 50)
@@ -489,6 +518,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('ULT')
   setMinMax('FUA')
   setMinMax('MEMO_SKILL')
+  setMinMax('MEMO_TALENT')
   setMinMax('DOT')
   setMinMax('BREAK')
   setMinMax('COMBO')
@@ -534,7 +564,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
 
   for (const row of subArray) {
     for (const column of OptimizerTabController.getColumnsToAggregate()) {
-      const value: number = row[column as keyof OptimizerDisplayData]
+      const value = row[column as keyof OptimizerDisplayData] as number
       if (value < minAgg[column]) minAgg[column] = value
       if (value > maxAgg[column]) maxAgg[column] = value
     }
@@ -579,6 +609,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
@@ -607,6 +638,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
@@ -637,6 +669,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
@@ -665,6 +698,7 @@ function filter(filterModel: Form) {
           && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
           && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
           && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
+          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
           && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
           && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
           && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal

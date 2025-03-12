@@ -29,6 +29,8 @@ const { useToken } = theme
 const PLOT_ALL = 'PLOT_ALL'
 const PLOT_CUSTOM = 'PLOT_CUSTOM'
 
+const TAB_WIDTH = 1460
+
 export default function RelicsTab() {
   const { token } = useToken()
 
@@ -58,6 +60,7 @@ export default function RelicsTab() {
   const setRowLimit = window.store((s) => s.setRowLimit)
 
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
+  const initialLanguage = useRef(i18n.resolvedLanguage)
 
   const relicInsightOptions = [
     { value: 'buckets', label: t('Toolbar.InsightOptions.Buckets')/* Relic Insight: Buckets */ },
@@ -69,9 +72,12 @@ export default function RelicsTab() {
   ]
 
   useEffect(() => {
-    setGridDestroyed(true) // locale updates require the grid to be destroyed and reconstructed in order to take effect
-    setTimeout(() => setGridDestroyed(false), 50) // 0 delay doesn't seem to work
-  }, [i18n.resolvedLanguage]) // manually decrease until minimum found? is minimum delay consistent across users?
+    // locale updates require the grid to be destroyed and reconstructed in order to take effect
+    if (i18n.resolvedLanguage !== initialLanguage.current) {
+      setGridDestroyed(true)
+      setTimeout(() => setGridDestroyed(false), 100)
+    }
+  }, [i18n.resolvedLanguage])
 
   useEffect(() => {
     if (!window.relicsGrid?.current?.api) return
@@ -246,16 +252,25 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.SelectedCharacter.MaxPotCol.Label'),
           percent: true,
         },
+        // Selected Char\nReroll Avg | Selected character: Reroll average potential
         {
           column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvg.Header'),
           value: 'weights.rerollAvgSelected',
           label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvg.Label'),
           percent: true,
         },
+        // Selected Char\nΔ Reroll Avg | Selected character: Reroll average delta potential
         {
           column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgDelta.Header'),
           value: 'weights.rerollAvgSelectedDelta',
           label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgDelta.Label'),
+          percent: true,
+        },
+        // Selected Char\n∆ Reroll AVG\nVS Equipped | Selected character: Reroll average delta potential vs equipped
+        {
+          column: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Header'),
+          value: 'weights.rerollAvgSelectedEquippedDelta',
+          label: t('RelicGrid.ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Label'),
           percent: true,
         },
       ],
@@ -277,6 +292,7 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.CustomCharacters.MaxPotCol.Label'),
           percent: true,
         },
+        // Custom Chars\nAvg Reroll | Custom characters: Average reroll potential
         {
           column: t('RelicGrid.ValueColumns.CustomCharacters.RerollAvg.Header'),
           value: 'weights.rerollAllCustom.rerollAvgPct',
@@ -302,6 +318,7 @@ export default function RelicsTab() {
           label: t('RelicGrid.ValueColumns.AllCharacters.MaxPotCol.Label'),
           percent: true,
         },
+        // All Chars\nAvg Reroll | All characters: Average reroll potential
         {
           column: t('RelicGrid.ValueColumns.AllCharacters.RerollAvg.Header'),
           value: 'weights.rerollAllAll.rerollAvgPct',
@@ -347,9 +364,17 @@ export default function RelicsTab() {
     },
     {
       field: 'grade',
-      width: 40,
+      width: 30,
       cellRenderer: Renderer.renderGradeCell,
-      headerName: t('RelicGrid.Headers.Grade')/* Grade */,
+      headerName: '★',
+      headerClass: 'large-grid-column-header',
+      filter: 'agNumberColumnFilter',
+    },
+    {
+      field: 'enhance',
+      width: 30,
+      headerName: '+',
+      headerClass: 'large-grid-column-header',
       filter: 'agNumberColumnFilter',
     },
     {
@@ -360,16 +385,10 @@ export default function RelicsTab() {
       filter: 'agTextColumnFilter',
     },
     {
-      field: 'enhance',
-      width: 50,
-      headerName: t('RelicGrid.Headers.Enhance')/* Enhance */,
-      filter: 'agNumberColumnFilter',
-    },
-    {
       field: 'main.stat',
       valueFormatter: Renderer.readableStat,
       headerName: t('RelicGrid.Headers.MainStat')/* Main\nStat */,
-      width: 68,
+      width: 78,
       filter: 'agTextColumnFilter',
     },
     {
@@ -500,7 +519,7 @@ export default function RelicsTab() {
   // headerTooltip
   const defaultColDef = useMemo(() => ({
     sortable: true,
-    width: 44,
+    width: 46,
     headerClass: 'relicsTableHeader',
     sortingOrder: ['desc', 'asc'],
     filterParams: { maxNumConditions: 200 },
@@ -635,7 +654,7 @@ export default function RelicsTab() {
   }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters, t])
 
   return (
-    <Flex style={{ width: 1450, marginBottom: 100 }}>
+    <Flex style={{ width: TAB_WIDTH, marginBottom: 100 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         type='add'
@@ -661,9 +680,9 @@ export default function RelicsTab() {
         {!gridDestroyed && (
           <div
             id='relicGrid' className='ag-theme-balham-dark' style={{
-            ...{ width: 1450, height: 500, resize: 'vertical', overflow: 'hidden' },
-            ...getGridTheme(token),
-          }}
+              ...{ width: TAB_WIDTH, height: 500, resize: 'vertical', overflow: 'hidden' },
+              ...getGridTheme(token),
+            }}
           >
 
             <AgGridReact
@@ -693,7 +712,7 @@ export default function RelicsTab() {
           </div>
         )}
         {gridDestroyed && (
-          <div style={{ width: 1450, height: 500 }}/>
+          <div style={{ width: TAB_WIDTH, height: 500 }}/>
         )}
         <Flex gap={10} justify='space-between'>
           <Button
@@ -730,7 +749,7 @@ export default function RelicsTab() {
               }
             }}
             content={(
-              <Flex gap={8} style={{ width: 260 }}>
+              <Flex gap={8} style={{ minWidth: 260 }}>
                 <Flex vertical>
                   <Flex justify='space-between' align='center'>
                     <HeaderText>{t('Toolbar.RelicLocator.Width')/* Inventory width */}</HeaderText>
@@ -784,7 +803,7 @@ export default function RelicsTab() {
                     <Flex gap={5} style={{ minWidth: 10 }} justify='flex-start'>
                       {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ height: 25 }}/>}
                       {locatorFilters.set
-                        && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
+                      && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
                       {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
                     </Flex>
                     <Typography>
@@ -920,10 +939,10 @@ export default function RelicsTab() {
                           <svg width={10} height={10}>
                             <rect
                               width={10} height={10} style={{
-                              fill: x.color,
-                              strokeWidth: 1,
-                              stroke: 'rgb(0,0,0)',
-                            }}
+                                fill: x.color,
+                                strokeWidth: 1,
+                                stroke: 'rgb(0,0,0)',
+                              }}
                             />
                           </svg>
                         )
@@ -1017,7 +1036,7 @@ export default function RelicsTab() {
                   },
                   autosize: true,
                   height: 278,
-                  width: 1212,
+                  width: 1222,
                   margin: {
                     b: 5,
                     l: 50,

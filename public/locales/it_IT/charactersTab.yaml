@@ -67,7 +67,6 @@ CharacterPreview:
     Header: Confronto miglioramento statistiche secondarie
     Damage: Danno
   BuildAnalysis:
-    Header: Analisi build del personaggio
     SimulationTeammates: Compagni di squadra nella simulazione
     SimulationSets: Set usato nella simulazione
     Rotation:

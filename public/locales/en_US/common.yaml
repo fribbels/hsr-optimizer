@@ -165,6 +165,7 @@ DMGTypes:
   ULT: Ult Damage
   FUA: Fua Damage
   MEMO_SKILL: Memo Skill Damage
+  MEMO_TALENT: Memo Talent Damage
   DOT: Dot Damage
   BREAK: Break Damage
   CV: CV
@@ -174,6 +175,7 @@ ShortDMGTypes:
   Ult: Ult DMG
   Fua: Fua DMG
   Memo_Skill: Skillᴹ DMG
+  Memo_Talent: Talentᴹ DMG
   Dot: Dot DMG
   Break: Break DMG
   CV: CV

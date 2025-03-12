@@ -1,0 +1,1862 @@
+BetaMessage: "crwdns40136:0{{Version}}crwdne40136:0"
+Common:
+  BuffPriority:
+    Text: "crwdns43690:0crwdne43690:0"
+    Content: "crwdns43692:0crwdne43692:0"
+    Self: "crwdns43694:0crwdne43694:0"
+    Memo: "crwdns43696:0crwdne43696:0"
+  HealAbility:
+    Text: "crwdns40138:0crwdne40138:0"
+    Content: "crwdns40140:0crwdne40140:0"
+    Basic: "crwdns40142:0crwdne40142:0"
+    Skill: "crwdns40144:0crwdne40144:0"
+    Ult: "crwdns40146:0crwdne40146:0"
+    Talent: "crwdns40148:0crwdne40148:0"
+    Trace: "crwdns40150:0crwdne40150:0"
+  ShieldAbility:
+    Text: "crwdns40152:0crwdne40152:0"
+    Content: "crwdns40154:0crwdne40154:0"
+    Basic: "crwdns40156:0crwdne40156:0"
+    Skill: "crwdns40158:0crwdne40158:0"
+    Ult: "crwdns40160:0crwdne40160:0"
+    Talent: "crwdns40162:0crwdne40162:0"
+    Trace: "crwdns40164:0crwdne40164:0"
+Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: crwdns40166:0crwdne40166:0
+        content: >-
+          crwdns40168:0{{DmgBuff}}crwdne40168:0
+  AlongThePassingShore:
+    Content:
+      emptyBubblesDebuff:
+        text: crwdns40170:0crwdne40170:0
+        content: >-
+          crwdns40172:0{{DmgBoost}}crwdnd40172:0{{UltDmgBoost}}crwdne40172:0
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyUltDmgStacks:
+        text: crwdns40174:0crwdne40174:0
+        content: crwdns40176:0{{DmgStep}}crwdne40176:0
+  BaptismOfPureThought:
+    Content:
+      debuffCdStacks:
+        text: crwdns40178:0crwdne40178:0
+        content: crwdns40180:0{{DmgStep}}crwdne40180:0
+      postUltBuff:
+        text: crwdns40182:0crwdne40182:0
+        content: >-
+          crwdns40184:0{{DmgStep}}crwdnd40184:0{{DefIgnore}}crwdne40184:0
+  BeforeDawn:
+    Content:
+      fuaDmgBoost:
+        text: crwdns40186:0crwdne40186:0
+        content: >-
+          crwdns43952:0{{DmgBuff}}crwdne43952:0
+  BrighterThanTheSun:
+    Content:
+      dragonsCallStacks:
+        text: crwdns40190:0crwdne40190:0
+        content: >-
+          crwdns40192:0{{AtkBuff}}crwdnd40192:0{{RegenBuff}}crwdne40192:0
+  ButTheBattleIsntOver:
+    Content:
+      postSkillDmgBuff:
+        text: crwdns40194:0crwdne40194:0
+        content: crwdns43954:0{{DmgBuff}}crwdne43954:0
+  CruisingInTheStellarSea:
+    Content:
+      enemyHp50CrBoost:
+        text: crwdns40198:0crwdne40198:0
+        content: crwdns40200:0{{CritBuff}}crwdne40200:0
+      enemyDefeatedAtkBuff:
+        text: crwdns40202:0crwdne40202:0
+        content: crwdns43956:0{{AtkBuff}}crwdne43956:0
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: crwdns40206:0crwdne40206:0
+        content: >-
+          crwdns43958:0{{DmgBoost}}crwdne43958:0
+  EarthlyEscapade:
+    Content:
+      maskActive:
+        text: crwdns40210:0crwdne40210:0
+        content: >-
+          crwdns43960:0{{CritRateBuff}}crwdnd43960:0{{CritDmgBuff}}crwdne43960:0
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: crwdns40214:0crwdne40214:0
+        content: >-
+          crwdns43962:0{{EnergyRecovered}}crwdnd43962:0{{SpdBuff}}crwdne43962:0
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: crwdns40218:0crwdne40218:0
+        content: crwdns40220:0{{AtkBuff}}crwdne40220:0
+      spdBuff:
+        text: crwdns40222:0crwdne40222:0
+        content: crwdns43964:0{{SpdBuff}}crwdne43964:0
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: crwdns44582:0crwdne44582:0
+        content: crwdns44584:0{{DmgBoost}}crwdne44584:0
+      bonusBoost:
+        text: crwdns44586:0crwdne44586:0
+        content: crwdns44588:0{{HpConsumption}}crwdnd44588:0{{BonusDmgBoost}}crwdne44588:0
+  FlowingNightglow:
+    Content:
+      cadenzaActive:
+        text: crwdns40226:0crwdne40226:0
+        content: >-
+          crwdns43966:0{{RegenBuff}}crwdnd43966:0{{AtkBuff}}crwdnd43966:0{{DmgBuff}}crwdne43966:0
+      cantillationStacks:
+        text: crwdns40230:0crwdne40230:0
+        content: >-
+          crwdns43968:0{{RegenBuff}}crwdnd43968:0{{AtkBuff}}crwdnd43968:0{{DmgBuff}}crwdne43968:0
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: crwdns44590:0crwdne44590:0
+        content: crwdns44592:0{{CdBuff}}crwdne44592:0
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: crwdns40234:0crwdne40234:0
+        content: crwdns40236:0{{CritBuff}}crwdne40236:0
+      targetCodeDebuff:
+        text: crwdns40238:0crwdne40238:0
+        content: >-
+          crwdns44454:0{{DmgIncrease}}crwdne44454:0
+  InherentlyUnjustDestiny:
+    Content:
+      shieldCdBuff:
+        text: crwdns40242:0crwdne40242:0
+        content: crwdns43970:0{{CritBuff}}crwdne43970:0
+      targetVulnerability:
+        text: crwdns40246:0crwdne40246:0
+        content: crwdns44456:0{{baseChance}}crwdnd44456:0{{Vulnerability}}crwdne44456:0
+  InTheNameOfTheWorld:
+    Content:
+      enemyDebuffedDmgBoost:
+        text: crwdns40250:0crwdne40250:0
+        content: crwdns40252:0{{DmgBuff}}crwdne40252:0
+      skillAtkBoost:
+        text: crwdns40254:0crwdne40254:0
+        content: crwdns40256:0{{EhrBuff}}crwdnd40256:0{{AtkBuff}}crwdne40256:0
+  InTheNight:
+    Content:
+      spdScalingBuffs:
+        text: crwdns40258:0crwdne40258:0
+        content: >-
+          crwdns43974:0{{DmgBuff}}crwdnd43974:0{{CritBuff}}crwdne43974:0
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: crwdns43824:0crwdne43824:0
+        content: crwdns43826:0{{DmgBuff}}crwdne43826:0
+  IShallBeMyOwnSword:
+    Content:
+      eclipseStacks:
+        text: crwdns40262:0crwdne40262:0
+        content: >-
+          crwdns43976:0{{DmgBuff}}crwdne43976:0
+      maxStackDefPen:
+        text: crwdns40266:0crwdne40266:0
+        content: crwdns43978:0{{DefIgnore}}crwdne43978:0
+  IVentureForthToHunt:
+    Content:
+      luminfluxUltStacks:
+        text: crwdns40270:0crwdne40270:0
+        content: >-
+          crwdns43980:0{{DefIgnore}}crwdne43980:0
+  LongRoadLeadsHome:
+    Content:
+      breakVulnerabilityStacks:
+        text: crwdns40274:0crwdne40274:0
+        content: >-
+          crwdns43982:0{{breakVulnerability}}crwdne43982:0
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: crwdns44594:0crwdne44594:0
+        content: crwdns44596:0{{DmgBoost}}crwdne44596:0
+  MomentOfVictory:
+    Content:
+      selfAttackedDefBuff:
+        text: crwdns40278:0crwdne40278:0
+        content: crwdns40280:0{{DefBuff}}crwdne40280:0
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: crwdns40282:0crwdne40282:0
+        content: crwdns43984:0{{AtkBuff}}crwdne43984:0
+  NightOnTheMilkyWay:
+    Content:
+      enemyCountAtkBuff:
+        text: crwdns40286:0crwdne40286:0
+        content: crwdns40288:0{{AtkBuff}}crwdne40288:0
+      enemyWeaknessBreakDmgBuff:
+        text: crwdns40290:0crwdne40290:0
+        content: crwdns40292:0{{DmgBuff}}crwdne40292:0
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: crwdns40294:0crwdne40294:0
+        content: crwdns43986:0{{AtkBuff}}crwdne43986:0
+      weaknessBreakDmgBuff:
+        text: crwdns40298:0crwdne40298:0
+        content: crwdns43988:0{{DmgBuff}}crwdne43988:0
+  PastSelfInTheMirror:
+    Content:
+      postUltDmgBuff:
+        text: crwdns40302:0crwdne40302:0
+        content: crwdns43990:0{{DmgBuff}}crwdne43990:0
+  PatienceIsAllYouNeed:
+    Content:
+      spdStacks:
+        text: crwdns40306:0crwdne40306:0
+        content: crwdns40308:0{{SpdBuff}}crwdne40308:0
+      dotEffect:
+        text: crwdns40310:0crwdne40310:0
+        content: >-
+          crwdns43992:0{{Multiplier}}crwdne43992:0
+  ReforgedRemembrance:
+    Content:
+      prophetStacks:
+        text: crwdns40314:0crwdne40314:0
+        content: >-
+          crwdns43994:0{{AtkBuff}}crwdnd43994:0{{DefIgnore}}crwdne43994:0
+  SailingTowardsASecondLife:
+    Content:
+      breakDmgDefShred:
+        text: crwdns40318:0crwdne40318:0
+        content: crwdns40320:0{{DefIgnore}}crwdne40320:0
+      spdBuffConditional:
+        text: crwdns40322:0crwdne40322:0
+        content: crwdns40324:0{{SpdBuff}}crwdne40324:0
+  ScentAloneStaysTrue:
+    Content:
+      woefreeState:
+        text: crwdns40326:0crwdne40326:0
+        content: >-
+          crwdns43996:0{{Vulnerability}}crwdnd43996:0{{AdditionalVulnerability}}crwdne43996:0
+    TeammateContent:
+      additionalVulnerability:
+        text: crwdns40330:0crwdne40330:0
+        content: >-
+          crwdns43998:0{{Vulnerability}}crwdnd43998:0{{AdditionalVulnerability}}crwdne43998:0
+  SheAlreadyShutHerEyes:
+    Content:
+      hpLostDmgBuff:
+        text: crwdns40334:0crwdne40334:0
+        content: crwdns44000:0{{DmgBuff}}crwdne44000:0
+  SleepLikeTheDead:
+    Content:
+      missedCritCrBuff:
+        text: crwdns40338:0crwdne40338:0
+        content: crwdns44002:0{{CritBuff}}crwdne44002:0
+  SolitaryHealing:
+    Content:
+      postUltDotDmgBuff:
+        text: crwdns40342:0crwdne40342:0
+        content: crwdns44004:0{{DmgBuff}}crwdne44004:0
+  SomethingIrreplaceable:
+    Content:
+      dmgBuff:
+        text: crwdns40346:0crwdne40346:0
+        content: >-
+          crwdns40348:0{{Multiplier}}crwdnd40348:0{{DmgBuff}}crwdne40348:0
+  TextureOfMemories:
+    Content:
+      activeShieldDmgDecrease:
+        text: crwdns40350:0crwdne40350:0
+        content: >-
+          crwdns44006:0{{ShieldHp}}crwdnd44006:0{{DmgReduction}}crwdne44006:0
+  TheUnreachableSide:
+    Content:
+      dmgBuff:
+        text: crwdns40354:0crwdne40354:0
+        content: crwdns40356:0{{DmgBuff}}crwdne40356:0
+  ThoseManySprings:
+    Content:
+      unarmoredVulnerability:
+        text: crwdns40358:0crwdne40358:0
+        content: >-
+          crwdns44008:0{{UnarmoredVulnerability}}crwdnd44008:0{{CorneredVulnerability}}crwdne44008:0
+      corneredVulnerability:
+        text: crwdns40362:0crwdne40362:0
+        content: >-
+          crwdns44010:0{{UnarmoredVulnerability}}crwdnd44010:0{{CorneredVulnerability}}crwdne44010:0
+  TimeWaitsForNoOne:
+    Content:
+      healingBasedDmgProc:
+        text: crwdns40366:0crwdne40366:0
+        content: >-
+          crwdns40368:0{{Multiplier}}crwdne40368:0
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: crwdns43828:0crwdne43828:0
+        content: >-
+          crwdns43830:0:BR:crwdnd43830:0{{CdBuff}}crwdnd43830:0:BR:crwdnd43830:0{{DmgBuff}}crwdne43830:0
+      maxStacksBasicDmgBoost:
+        text: crwdns43832:0crwdne43832:0
+        content: >-
+          crwdns43834:0:BR:crwdnd43834:0{{CdBuff}}crwdnd43834:0:BR:crwdnd43834:0{{DmgBuff}}crwdne43834:0
+  WhereaboutsShouldDreamsRest:
+    Content:
+      routedVulnerability:
+        text: crwdns40370:0crwdne40370:0
+        content: >-
+          crwdns44012:0{{Vulnerability}}crwdne44012:0
+  WorrisomeBlissful:
+    Content:
+      targetTameStacks:
+        text: crwdns40374:0crwdne40374:0
+        content: >-
+          crwdns40376:0{{CritBuff}}crwdne40376:0
+  YetHopeIsPriceless:
+    Content:
+      fuaDmgBoost:
+        text: crwdns40378:0crwdne40378:0
+        content: crwdns44014:0{{DmgBuff}}crwdne44014:0
+      ultFuaDefShred:
+        text: crwdns40382:0crwdne40382:0
+        content: crwdns44016:0{{DefShred}}crwdne44016:0
+  AfterTheCharmonyFall:
+    Content:
+      spdBuff:
+        text: crwdns40386:0crwdne40386:0
+        content: crwdns44018:0{{SpdBuff}}crwdne44018:0
+  ASecretVow:
+    Content:
+      enemyHpHigherDmgBoost:
+        text: crwdns40390:0crwdne40390:0
+        content: crwdns40392:0{{DmgBuff}}crwdne40392:0
+  BoundlessChoreo:
+    Content:
+      enemyDefReducedSlowed:
+        text: crwdns40394:0crwdne40394:0
+        content: crwdns40396:0{{CritBuff}}crwdne40396:0
+  CarveTheMoonWeaveTheClouds:
+    Content:
+      atkBuffActive:
+        text: crwdns40398:0crwdne40398:0
+        content: >-
+          crwdns44020:0:BR:crwdnd44020:0{{AtkBuff}}crwdnd44020:0:BR:crwdnd44020:0{{CritBuff}}crwdnd44020:0:BR:crwdnd44020:0{{RegenBuff}}crwdnd44020:0:BR:crwdne44020:0
+      cdBuffActive:
+        text: crwdns40402:0crwdne40402:0
+        content: >-
+          crwdns44022:0:BR:crwdnd44022:0{{AtkBuff}}crwdnd44022:0:BR:crwdnd44022:0{{CritBuff}}crwdnd44022:0:BR:crwdnd44022:0{{RegenBuff}}crwdnd44022:0:BR:crwdne44022:0
+      errBuffActive:
+        text: crwdns40406:0crwdne40406:0
+        content: >-
+          crwdns44024:0:BR:crwdnd44024:0{{AtkBuff}}crwdnd44024:0:BR:crwdnd44024:0{{CritBuff}}crwdnd44024:0:BR:crwdnd44024:0{{RegenBuff}}crwdnd44024:0:BR:crwdne44024:0
+  ConcertForTwo:
+    Content:
+      teammateShieldStacks:
+        text: crwdns40410:0crwdne40410:0
+        content: crwdns40412:0{{DmgBuff}}crwdne40412:0
+  DayOneOfMyNewLife:
+    Content:
+      dmgResBuff:
+        text: crwdns40414:0crwdne40414:0
+        content: crwdns40416:0{{ResBuff}}crwdne40416:0
+  DreamvilleAdventure:
+    Content:
+      ultDmgBuff:
+        text: crwdns40418:0crwdne40418:0
+        content: >-
+          crwdns40420:0{{DmgBuff}}crwdne40420:0
+      skillDmgBuff:
+        text: crwdns40422:0crwdne40422:0
+        content: >-
+          crwdns40424:0{{DmgBuff}}crwdne40424:0
+      basicDmgBuff:
+        text: crwdns40426:0crwdne40426:0
+        content: >-
+          crwdns40428:0{{DmgBuff}}crwdne40428:0
+  Fermata:
+    Content:
+      enemyShockWindShear:
+        text: crwdns40430:0crwdne40430:0
+        content: crwdns40432:0{{DmgBuff}}crwdne40432:0
+  FinalVictor:
+    Content:
+      goodFortuneStacks:
+        text: crwdns40434:0crwdne40434:0
+        content: >-
+          crwdns44026:0{{CritBuff}}crwdne44026:0
+  FlamesAfar:
+    Content:
+      dmgBuff:
+        text: crwdns40438:0crwdne40438:0
+        content: >-
+          crwdns44028:0{{DmgBuff}}crwdne44028:0
+  ForTomorrowsJourney:
+    Content:
+      ultDmgBuff:
+        text: crwdns40442:0crwdne40442:0
+        content: crwdns44030:0{{DmgBuff}}crwdne44030:0
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: crwdns43836:0crwdne43836:0
+        content: crwdns43838:0{{DmgBuff}}crwdne43838:0
+  GeniusesRepose:
+    Content:
+      defeatedEnemyCdBuff:
+        text: crwdns40446:0crwdne40446:0
+        content: crwdns44032:0{{DmgBuff}}crwdne44032:0
+  GoodNightAndSleepWell:
+    Content:
+      debuffStacksDmgIncrease:
+        text: crwdns40450:0crwdne40450:0
+        content: crwdns44034:0{{DmgBuff}}crwdne44034:0
+  HeyOverHere:
+    Content:
+      postSkillHealBuff:
+        text: crwdns40454:0crwdne40454:0
+        content: crwdns44036:0{{HealingBoost}}crwdne44036:0
+  IndeliblePromise:
+    Content:
+      crBuff:
+        text: crwdns40458:0crwdne40458:0
+        content: crwdns44038:0{{CritBuff}}crwdne44038:0
+  ItsShowtime:
+    Content:
+      trickStacks:
+        text: crwdns40462:0crwdne40462:0
+        content: >-
+          crwdns44040:0{{DmgBuff}}crwdnd44040:0{{AtkBuff}}crwdne44040:0
+  MakeTheWorldClamor:
+    Content:
+      ultDmgBuff:
+        text: crwdns40466:0crwdne40466:0
+        content: crwdns40468:0{{Energy}}crwdnd40468:0{{DmgBuff}}crwdne40468:0
+  NinjaRecordSoundHunt:
+    Content:
+      cdBuff:
+        text: crwdns40470:0crwdne40470:0
+        content: crwdns44042:0{{sValuesCd}}crwdne44042:0
+  OnlySilenceRemains:
+    Content:
+      enemies2CrBuff:
+        text: 'crwdns40474:0crwdne40474:0'
+        content: crwdns40476:0{{CritBuff}}crwdne40476:0
+  PastAndFuture:
+    Content:
+      postSkillDmgBuff:
+        text: crwdns40478:0crwdne40478:0
+        content: crwdns44044:0{{DmgBuff}}crwdne44044:0
+  PerfectTiming:
+    Content:
+      resToHealingBoost:
+        text: crwdns40482:0crwdne40482:0
+        content: crwdns40484:0{{Scaling}}crwdnd40484:0{{Limit}}crwdne40484:0
+  PlanetaryRendezvous:
+    Content:
+      alliesSameElement:
+        text: crwdns40486:0crwdne40486:0
+        content: crwdns40488:0{{DmgBuff}}crwdne40488:0
+  PoisedToBloom:
+    Content:
+      cdBuff:
+        text: crwdns40490:0crwdne40490:0
+        content: "crwdns44046:0{{CritBuff}}crwdne44046:0"
+  PostOpConversation:
+    Content:
+      postUltHealingBoost:
+        text: crwdns40494:0crwdne40494:0
+        content: crwdns40496:0{{HealingBoost}}crwdne40496:0
+  ResolutionShinesAsPearlsOfSweat:
+    Content:
+      targetEnsnared:
+        text: crwdns40498:0crwdne40498:0
+        content: crwdns44458:0{{BaseChance}}crwdnd44458:0{{DefShred}}crwdne44458:0
+  RiverFlowsInSpring:
+    Content:
+      spdDmgBuff:
+        text: crwdns40502:0crwdne40502:0
+        content: >-
+          crwdns40504:0{{SpdBuff}}crwdnd40504:0{{DmgBuff}}crwdne40504:0
+  ShadowedByNight:
+    Content:
+      spdBuff:
+        text: crwdns40506:0crwdne40506:0
+        content: crwdns44050:0{{SpdBuff}}crwdne44050:0
+  SubscribeForMore:
+    Content:
+      maxEnergyDmgBoost:
+        text: crwdns40510:0crwdne40510:0
+        content: crwdns40512:0{{DmgBuff}}crwdnd40512:0{{DmgBuff}}crwdne40512:0
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: crwdns43840:0crwdne43840:0
+        content: crwdns43842:0{{DmgBuff}}crwdne43842:0
+  Swordplay:
+    Content:
+      sameTargetHitStacks:
+        text: crwdns40514:0crwdne40514:0
+        content: crwdns44052:0{{DmgBuff}}crwdne44052:0
+  TheBirthOfTheSelf:
+    Content:
+      enemyHp50FuaBuff:
+        text: crwdns40518:0crwdne40518:0
+        content: crwdns40520:0{{DmgBuff}}crwdne40520:0
+  TheDayTheCosmosFell:
+    Content:
+      cdBuffActive:
+        text: 'crwdns40522:0crwdne40522:0'
+        content: crwdns44054:0{{CritBuff}}crwdne44054:0
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: crwdns40526:0crwdne40526:0
+        content: crwdns40528:0{{AtkBuff}}crwdne40528:0
+  TheSeriousnessOfBreakfast:
+    Content:
+      dmgBoost:
+        text: crwdns40530:0crwdne40530:0
+        content: crwdns40532:0{{DmgBuff}}crwdne40532:0
+      defeatedEnemyAtkStacks:
+        text: crwdns40534:0crwdne40534:0
+        content: crwdns44056:0{{AtkBuff}}crwdne44056:0
+  ThisIsMe:
+    Content:
+      defScalingUltDmg:
+        text: crwdns40538:0crwdne40538:0
+        content: >-
+          crwdns40540:0{{Multiplier}}crwdne40540:0
+  TodayIsAnotherPeacefulDay:
+    Content:
+      maxEnergyDmgBoost:
+        text: crwdns44876:0crwdne44876:0
+        content: crwdns44878:0{{DmgStep}}crwdne44878:0
+  UnderTheBlueSky:
+    Content:
+      defeatedEnemyCrBuff:
+        text: crwdns40546:0crwdne40546:0
+        content: crwdns44058:0{{CritBuff}}crwdne44058:0
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: crwdns43844:0crwdne43844:0
+        content: crwdns43846:0{{DmgBuff}}crwdne43846:0
+  WeAreWildfire:
+    Content:
+      initialDmgReductionBuff:
+        text: crwdns40550:0crwdne40550:0
+        content: >-
+          crwdns44060:0{{DmgReduction}}crwdnd44060:0{{Healing}}crwdne44060:0
+  WeWillMeetAgain:
+    Content:
+      extraDmgProc:
+        text: crwdns40554:0crwdne40554:0
+        content: crwdns40556:0{{Multiplier}}crwdne40556:0
+  WoofWalkTime:
+    Content:
+      enemyBurnedBleeding:
+        text: crwdns40558:0crwdne40558:0
+        content: crwdns40560:0{{DmgBuff}}crwdne40560:0
+  Adversarial:
+    Content:
+      defeatedEnemySpdBuff:
+        text: crwdns40562:0crwdne40562:0
+        content: crwdns44062:0{{SpdBuff}}crwdne44062:0
+  Amber:
+    Content:
+      hp50DefBuff:
+        text: crwdns40566:0crwdne40566:0
+        content: crwdns40568:0{{DefBuff}}crwdne40568:0
+  Arrows:
+    Content:
+      critBuff:
+        text: crwdns40570:0crwdne40570:0
+        content: crwdns44064:0{{CritBuff}}crwdne44064:0
+  Chorus:
+    Content:
+      inBattleAtkBuff:
+        text: crwdns40574:0crwdne40574:0
+        content: crwdns40576:0{{AtkBuff}}crwdne40576:0
+  CollapsingSky:
+    Content:
+      basicSkillDmgBuff:
+        text: crwdns40578:0crwdne40578:0
+        content: crwdns40580:0{{DmgBuff}}crwdne40580:0
+  Cornucopia:
+    Content:
+      healingBuff:
+        text: crwdns40582:0crwdne40582:0
+        content: crwdns40584:0{{HealingBuff}}crwdne40584:0
+  DartingArrow:
+    Content:
+      defeatedEnemyAtkBuff:
+        text: crwdns40586:0crwdne40586:0
+        content: crwdns44066:0{{AtkBuff}}crwdne44066:0
+  DataBank:
+    Content:
+      ultDmgBuff:
+        text: crwdns40590:0crwdne40590:0
+        content: crwdns40592:0{{DmgBuff}}crwdne40592:0
+  HiddenShadow:
+    Content:
+      basicAtkBuff:
+        text: crwdns40594:0crwdne40594:0
+        content: crwdns40596:0{{MultiplierBonus}}crwdne40596:0
+  Loop:
+    Content:
+      enemySlowedDmgBuff:
+        text: crwdns40598:0crwdne40598:0
+        content: crwdns40600:0{{DmgBuff}}crwdne40600:0
+  Mediation:
+    Content:
+      initialSpdBuff:
+        text: crwdns40602:0crwdne40602:0
+        content: crwdns44068:0{{SpdBuff}}crwdne44068:0
+  MutualDemise:
+    Content:
+      selfHp80CrBuff:
+        text: crwdns40606:0crwdne40606:0
+        content: crwdns40608:0{{CritBuff}}crwdne40608:0
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: crwdns43848:0crwdne43848:0
+        content: crwdns43850:0{{DmgBuff}}crwdne43850:0
+  Sagacity:
+    Content:
+      postUltAtkBuff:
+        text: crwdns40610:0crwdne40610:0
+        content: crwdns44070:0{{AtkBuff}}crwdne44070:0
+  ShatteredHome:
+    Content:
+      enemyHp50Buff:
+        text: crwdns40614:0crwdne40614:0
+        content: crwdns40616:0{{DmgBuff}}crwdne40616:0
+  Void:
+    Content:
+      initialEhrBuff:
+        text: crwdns40618:0crwdne40618:0
+        content: crwdns44072:0{{EhrBuff}}crwdne44072:0
+Characters:
+  Acheron:
+    Content:
+      crimsonKnotStacks:
+        text: crwdns40622:0crwdne40622:0
+        content: >-
+          crwdns44074:0{{RainbladeScaling}}crwdnd44074:0{{CrimsonKnotScaling}}crwdnd44074:0:BR:crwdne44074:0
+      nihilityTeammatesBuff:
+        text: crwdns44784:0crwdne44784:0
+        content: >-
+          crwdns44786:0:BR:crwdnd44786:0:E2:crwdne44786:0
+      thunderCoreStacks:
+        text: crwdns40630:0crwdne40630:0
+        content: crwdns44076:0crwdne44076:0
+      stygianResurgeHitsOnTarget:
+        text: crwdns40634:0crwdne40634:0
+        content: >-
+          crwdns40636:0crwdne40636:0
+      e1EnemyDebuffed:
+        text: crwdns40638:0crwdne40638:0
+        content: crwdns40640:0crwdne40640:0
+      e4UltVulnerability:
+        text: crwdns40642:0crwdne40642:0
+        content: crwdns40644:0crwdne40644:0
+      e6UltBuffs:
+        text: crwdns40646:0crwdne40646:0
+        content: >-
+          crwdns40648:0crwdne40648:0
+  Aglaea:
+    Content:
+      supremeStanceState:
+        text: crwdns43852:0crwdne43852:0
+        content: >-
+          crwdns43854:0{{SpdBuff}}crwdne43854:0
+      seamStitch:
+        text: crwdns43856:0crwdne43856:0
+        content: >-
+          crwdns43858:0{{Scaling}}crwdne43858:0
+      memoSpdStacks:
+        text: crwdns43860:0crwdne43860:0
+        content: >-
+          crwdns43862:0{{SpdBuff}}crwdnd43862:0{{StackLimit}}crwdne43862:0
+      e1Vulnerability:
+        text: crwdns43864:0crwdne43864:0
+        content: crwdns43866:0crwdne43866:0
+      e2DefShredStacks:
+        text: crwdns43868:0crwdne43868:0
+        content: >-
+          crwdns43870:0crwdne43870:0
+      e6Buffs:
+        text: crwdns43872:0crwdne43872:0
+        content: >-
+          crwdns43874:0crwdne43874:0
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: crwdns40650:0crwdne40650:0
+        content: >-
+          crwdns44078:0{{ultEnhancedScaling}}crwdnd44078:0{{ultEnhancedExtraHitScaling}}crwdne44078:0
+      enemyHp50:
+        text: crwdns40654:0crwdne40654:0
+        content: crwdns40656:0crwdne40656:0
+      talentStacks:
+        text: crwdns40658:0crwdne40658:0
+        content: crwdns40660:0{{talentCrStackValue}}crwdnd40660:0{{talentMaxStacks}}crwdne40660:0
+      ultEnhancedExtraHits:
+        text: crwdns40662:0crwdne40662:0
+        content: crwdns40664:0{{ultEnhancedExtraHitScaling}}crwdne40664:0
+      e2UltAtkBuff:
+        text: crwdns40666:0crwdne40666:0
+        content: crwdns44298:0crwdne44298:0
+  Arlan:
+    Content:
+      selfCurrentHpPercent:
+        text: crwdns40670:0crwdne40670:0
+        content: crwdns40672:0{{talentMissingHpDmgBoostMax}}crwdne40672:0
+  Asta:
+    Content:
+      skillExtraDmgHits:
+        text: crwdns40674:0crwdne40674:0
+        content: "crwdns44460:0{{skillScaling}}crwdnd44460:0{{skillExtraDmgHitsMax}}crwdnd44460:0{{skillScaling}}crwdnd44460:0:BR:crwdnd44460:0:E1:crwdne44460:0"
+      talentBuffStacks:
+        text: crwdns40678:0crwdne40678:0
+        content: "crwdns40680:0{{talentStacksAtkBuff}}crwdnd40680:0:BR:crwdnd40680:0:E4:crwdne40680:0"
+      ultSpdBuff:
+        text: crwdns40682:0crwdne40682:0
+        content: crwdns44080:0{{ultSpdBuffValue}}crwdne44080:0
+      fireDmgBoost:
+        text: crwdns40686:0crwdne40686:0
+        content: crwdns40688:0crwdne40688:0
+  Aventurine:
+    Content:
+      defToCrBoost:
+        text: crwdns40690:0crwdne40690:0
+        content: crwdns40692:0crwdne40692:0
+      fortifiedWagerBuff:
+        text: crwdns40694:0crwdne40694:0
+        content: >-
+          crwdns44082:0{{talentResScaling}}crwdnd44082:0:BR:crwdnd44082:0:E1:crwdne44082:0
+      enemyUnnervedDebuff:
+        text: crwdns40698:0crwdne40698:0
+        content: crwdns40700:0{{ultCdBoost}}crwdne40700:0
+      fuaHitsOnTarget:
+        text: crwdns40702:0crwdne40702:0
+        content: >-
+          crwdns44084:0{{talentDmgScaling}}crwdnd44084:0:BR:crwdnd44084:0:E4:crwdne44084:0
+      e2ResShred:
+        text: crwdns40706:0crwdne40706:0
+        content: crwdns44086:0crwdne44086:0
+      e4DefBuff:
+        text: crwdns40710:0crwdne40710:0
+        content: crwdns44300:0crwdne44300:0
+      e6ShieldStacks:
+        text: crwdns40714:0crwdne40714:0
+        content: crwdns44302:0crwdne44302:0
+  Bailu:
+    Content:
+      healingMaxHpBuff:
+        text: crwdns40718:0crwdne40718:0
+        content: crwdns40720:0crwdne40720:0
+      talentDmgReductionBuff:
+        text: crwdns40722:0crwdne40722:0
+        content: crwdns40724:0crwdne40724:0
+      e2UltHealingBuff:
+        text: crwdns40726:0crwdne40726:0
+        content: crwdns44304:0crwdne44304:0
+      e4SkillHealingDmgBuffStacks:
+        text: crwdns40730:0crwdne40730:0
+        content: crwdns44306:0crwdne44306:0
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: crwdns40734:0crwdne40734:0
+        content: crwdns40736:0crwdne40736:0
+      epiphanyDebuff:
+        text: crwdns40738:0crwdne40738:0
+        content: crwdns40740:0{{epiphanyDmgTakenBoost}}crwdne40740:0
+      defDecreaseDebuff:
+        text: crwdns40742:0crwdne40742:0
+        content: crwdns44090:0{{defShredValue}}crwdne44090:0
+      arcanaStacks:
+        text: crwdns40746:0crwdne40746:0
+        content: >-
+          crwdns40748:0{{dotScaling}}crwdnd40748:0{{arcanaStackMultiplier}}crwdnd40748:0:BR:crwdne40748:0
+      e1ResReduction:
+        text: crwdns40750:0crwdne40750:0
+        content: crwdns44308:0crwdne44308:0
+      e4EffResPen:
+        text: crwdns43698:0crwdne43698:0
+        content: crwdns44310:0crwdne44310:0
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: crwdns40754:0crwdne40754:0
+        content: "crwdns44094:0{{enhancedStateDmgBoost}}crwdnd44094:0:BR:crwdnd44094:0:E2:crwdne44094:0"
+      hpPercentLostTotal:
+        text: crwdns40758:0crwdne40758:0
+        content: crwdns40760:0{{hpPercentLostTotalMax}}crwdne40760:0
+      e4MaxHpIncreaseStacks:
+        text: crwdns40762:0crwdne40762:0
+        content: crwdns44312:0crwdne44312:0
+  Boothill:
+    Content:
+      standoffActive:
+        text: crwdns40766:0crwdne40766:0
+        content: >-
+          crwdns44096:0{{standoffVulnerabilityBoost}}crwdne44096:0
+      pocketTrickshotStacks:
+        text: crwdns40770:0crwdne40770:0
+        content: crwdns44098:0crwdne44098:0
+      beToCritBoost:
+        text: crwdns40774:0crwdne40774:0
+        content: crwdns40776:0crwdne40776:0
+      talentBreakDmgScaling:
+        text: crwdns40778:0crwdne40778:0
+        content: >-
+          crwdns40780:0crwdne40780:0
+      e1DefShred:
+        text: crwdns40782:0crwdne40782:0
+        content: crwdns40784:0crwdne40784:0
+      e2BeBuff:
+        text: crwdns40786:0crwdne40786:0
+        content: >-
+          crwdns44100:0crwdne44100:0
+      e4TargetStandoffVulnerability:
+        text: crwdns40790:0crwdne40790:0
+        content: >-
+          crwdns40792:0crwdne40792:0
+      e6AdditionalBreakDmg:
+        text: crwdns40794:0crwdne40794:0
+        content: >-
+          crwdns40796:0crwdne40796:0
+  Bronya:
+    Content:
+      teamDmgBuff:
+        text: crwdns40798:0crwdne40798:0
+        content: crwdns40800:0crwdne40800:0
+      skillBuff:
+        text: crwdns40802:0crwdne40802:0
+        content: crwdns44102:0{{skillDmgBoostValue}}crwdne44102:0
+      ultBuff:
+        text: crwdns40806:0crwdne40806:0
+        content: crwdns40808:0{{ultAtkBoostValue}}crwdnd40808:0{{ultCdBoostValue}}crwdnd40808:0{{ultCdBoostBaseValue}}crwdne40808:0
+      battleStartDefBuff:
+        text: crwdns40810:0crwdne40810:0
+        content: crwdns44104:0crwdne44104:0
+      techniqueBuff:
+        text: crwdns40814:0crwdne40814:0
+        content: crwdns44106:0crwdne44106:0
+      e2SkillSpdBuff:
+        text: crwdns40818:0crwdne40818:0
+        content: crwdns40820:0crwdne40820:0
+    TeammateContent:
+      teammateCDValue:
+        text: crwdns40822:0crwdne40822:0
+        content: crwdns40824:0{{ultAtkBoostValue}}crwdnd40824:0{{ultCdBoostValue}}crwdnd40824:0{{ultCdBoostBaseValue}}crwdne40824:0
+  Clara:
+    Content:
+      ultBuff:
+        text: crwdns40826:0crwdne40826:0
+        content: crwdns44108:0{{ultFuaExtraScaling}}crwdnd44108:0{{ultDmgReductionValue}}crwdne44108:0
+      talentEnemyMarked:
+        text: crwdns40830:0crwdne40830:0
+        content: crwdns40832:0{{skillScaling}}crwdne40832:0
+      e2UltAtkBuff:
+        text: crwdns40834:0crwdne40834:0
+        content: crwdns44314:0crwdne44314:0
+      e4DmgReductionBuff:
+        text: crwdns40838:0crwdne40838:0
+        content: crwdns44316:0crwdne44316:0
+  DanHeng:
+    Content:
+      talentPenBuff:
+        text: crwdns40842:0crwdne40842:0
+        content: crwdns40844:0{{extraPenValue}}crwdne40844:0
+      enemySlowed:
+        text: crwdns40846:0crwdne40846:0
+        content: crwdns40848:0crwdne40848:0
+      spdBuff:
+        text: crwdns44576:0crwdne44576:0
+        content: crwdns44578:0crwdne44578:0
+      e1EnemyHp50:
+        text: crwdns40850:0crwdne40850:0
+        content: crwdns44318:0crwdne44318:0
+  DrRatio:
+    Content:
+      summationStacks:
+        text: crwdns40854:0crwdne40854:0
+        content: crwdns44110:0{{summationStacksMax}}crwdne44110:0
+      enemyDebuffStacks:
+        text: crwdns40858:0crwdne40858:0
+        content: >-
+          crwdns44112:0{{FuaScaling}}crwdnd44112:0:BR:crwdnd44112:0:BR:crwdnd44112:0:E2:crwdne44112:0
+  Feixiao:
+    Content:
+      weaknessBrokenUlt:
+        text: crwdns40862:0crwdne40862:0
+        content: crwdns40864:0crwdne40864:0
+      talentDmgBuff:
+        text: crwdns40866:0crwdne40866:0
+        content: >-
+          crwdns44114:0{{FuaMultiplier}}crwdnd44114:0{{DmgBuff}}crwdne44114:0
+      skillAtkBuff:
+        text: crwdns40870:0crwdne40870:0
+        content: crwdns44116:0crwdne44116:0
+      e1OriginalDmgBoost:
+        text: crwdns40874:0crwdne40874:0
+        content: crwdns44320:0crwdne44320:0
+      e4Buffs:
+        text: crwdns40878:0crwdne40878:0
+        content: crwdns44120:0crwdne44120:0
+      e6Buffs:
+        text: crwdns40882:0crwdne40882:0
+        content: >-
+          crwdns44122:0crwdne44122:0
+  Firefly:
+    Content:
+      enhancedStateActive:
+        text: crwdns40886:0crwdne40886:0
+        content: crwdns40888:0crwdne40888:0
+      enhancedStateSpdBuff:
+        text: crwdns40890:0crwdne40890:0
+        content: crwdns40892:0{{ultSpdBuff}}crwdne40892:0
+      superBreakDmg:
+        text: crwdns40894:0crwdne40894:0
+        content: >-
+          crwdns40896:0crwdne40896:0
+      atkToBeConversion:
+        text: crwdns40898:0crwdne40898:0
+        content: crwdns44124:0crwdne44124:0
+      talentDmgReductionBuff:
+        text: crwdns40902:0crwdne40902:0
+        content: >-
+          crwdns40904:0{{talentDmgReductionBuff}}crwdnd40904:0{{talentResBuff}}crwdne40904:0
+      e1DefShred:
+        text: crwdns40906:0crwdne40906:0
+        content: crwdns40908:0crwdne40908:0
+      e4ResBuff:
+        text: crwdns40910:0crwdne40910:0
+        content: crwdns40912:0crwdne40912:0
+      e6Buffs:
+        text: crwdns40914:0crwdne40914:0
+        content: crwdns40916:0crwdne40916:0
+  Fugue:
+    Content:
+      torridScorch:
+        text: crwdns40918:0crwdne40918:0
+        content: crwdns40920:0crwdne40920:0
+      foxianPrayer:
+        text: crwdns40922:0crwdne40922:0
+        content: >-
+          crwdns40924:0{{BreakBuff}}crwdne40924:0
+      defReduction:
+        text: crwdns40926:0crwdne40926:0
+        content: >-
+          crwdns40928:0{{DefShred}}crwdne40928:0
+      superBreakDmg:
+        text: crwdns40930:0crwdne40930:0
+        content: >-
+          crwdns40932:0{{SuperBreakMultiplier}}crwdne40932:0
+      e4BreakDmg:
+        text: crwdns40934:0crwdne40934:0
+        content: crwdns40936:0crwdne40936:0
+      e6BreakEfficiency:
+        text: crwdns40938:0crwdne40938:0
+        content: >-
+          crwdns40940:0crwdne40940:0
+    TeammateContent:
+      be220Buff:
+        text: crwdns40942:0crwdne40942:0
+        content: >-
+          crwdns44126:0crwdne44126:0
+      weaknessBreakBeStacks:
+        text: crwdns40946:0crwdne40946:0
+        content: >-
+          crwdns44128:0crwdne44128:0
+  FuXuan:
+    Content:
+      talentActive:
+        text: crwdns40950:0crwdne40950:0
+        content: crwdns40952:0{{talentDmgReductionValue}}crwdne40952:0
+      skillActive:
+        text: crwdns40954:0crwdne40954:0
+        content: >-
+          crwdns44130:0{{skillHpBuffValue}}crwdnd44130:0{{skillCrBuffValue}}crwdne44130:0
+      e6TeamHpLostPercent:
+        text: crwdns40958:0crwdne40958:0
+        content: crwdns44322:0crwdne44322:0
+    TeammateContent:
+      teammateHPValue:
+        text: crwdns40962:0crwdne40962:0
+        content: crwdns44132:0{{skillHpBuffValue}}crwdne44132:0
+  Gallagher:
+    Content:
+      basicEnhanced:
+        text: crwdns40966:0crwdne40966:0
+        content: crwdns40968:0crwdne40968:0
+      breakEffectToOhbBoost:
+        text: crwdns40970:0crwdne40970:0
+        content: crwdns40972:0crwdne40972:0
+      targetBesotted:
+        text: crwdns40974:0crwdne40974:0
+        content: crwdns40976:0{{talentBesottedScaling}}crwdne40976:0
+      e1ResBuff:
+        text: crwdns40978:0crwdne40978:0
+        content: crwdns44324:0crwdne44324:0
+      e2ResBuff:
+        text: crwdns40982:0crwdne40982:0
+        content: crwdns44326:0crwdne44326:0
+      e6BeBuff:
+        text: crwdns40986:0crwdne40986:0
+        content: crwdns44328:0crwdne44328:0
+  Gepard:
+    Content:
+      e4TeamResBuff:
+        text: crwdns40990:0crwdne40990:0
+        content: crwdns44330:0crwdne44330:0
+  Guinaifen:
+    Content:
+      talentDebuffStacks:
+        text: crwdns40994:0crwdne40994:0
+        content: crwdns40996:0{{talentDebuffDmgIncreaseValue}}crwdnd40996:0{{talentDebuffMax}}crwdne40996:0
+      enemyBurned:
+        text: crwdns40998:0crwdne40998:0
+        content: crwdns41000:0crwdne41000:0
+      skillDot:
+        text: crwdns41002:0crwdne41002:0
+        content: crwdns41004:0crwdne41004:0
+      e1EffectResShred:
+        text: crwdns41006:0crwdne41006:0
+        content: crwdns44332:0crwdne44332:0
+      e2BurnMultiBoost:
+        text: crwdns41010:0crwdne41010:0
+        content: crwdns44334:0crwdne44334:0
+  Hanya:
+    Content:
+      ultBuff:
+        text: crwdns41014:0crwdne41014:0
+        content: crwdns41016:0{{ultSpdBuffValue}}crwdnd41016:0{{ultAtkBuffValue}}crwdne41016:0
+      targetBurdenActive:
+        text: crwdns41018:0crwdne41018:0
+        content: crwdns44138:0{{talentDmgBoostValue}}crwdne44138:0
+      burdenAtkBuff:
+        text: crwdns41022:0crwdne41022:0
+        content: crwdns44140:0crwdne44140:0
+      e2SkillSpdBuff:
+        text: crwdns41026:0crwdne41026:0
+        content: crwdns44336:0crwdne44336:0
+    TeammateContent:
+      teammateSPDValue:
+        text: crwdns41030:0crwdne41030:0
+        content: crwdns41032:0{{ultSpdBuffValue}}crwdnd41032:0{{ultAtkBuffValue}}crwdne41032:0
+  Herta:
+    Content:
+      fuaStacks:
+        text: crwdns41034:0crwdne41034:0
+        content: crwdns41036:0crwdne41036:0
+      targetFrozen:
+        text: crwdns41038:0crwdne41038:0
+        content: crwdns41040:0crwdne41040:0
+      enemyHpGte50:
+        text: crwdns41042:0crwdne41042:0
+        content: crwdns41044:0crwdne41044:0
+      techniqueBuff:
+        text: crwdns41046:0crwdne41046:0
+        content: crwdns41048:0crwdne41048:0
+      enemyHpLte50:
+        text: crwdns41050:0crwdne41050:0
+        content: crwdns44338:0crwdne44338:0
+      e2TalentCritStacks:
+        text: crwdns41054:0crwdne41054:0
+        content: crwdns44340:0crwdne44340:0
+      e6UltAtkBuff:
+        text: crwdns41058:0crwdne41058:0
+        content: crwdns44342:0crwdne44342:0
+  Himeko:
+    Content:
+      targetBurned:
+        text: crwdns41062:0crwdne41062:0
+        content: crwdns41064:0crwdne41064:0
+      selfCurrentHp80Percent:
+        text: crwdns41066:0crwdne41066:0
+        content: crwdns41068:0crwdne41068:0
+      e1TalentSpdBuff:
+        text: crwdns41070:0crwdne41070:0
+        content: crwdns44344:0crwdne44344:0
+      e2EnemyHp50DmgBoost:
+        text: crwdns41074:0crwdne41074:0
+        content: crwdns44346:0crwdne44346:0
+      e6UltExtraHits:
+        text: crwdns41078:0crwdne41078:0
+        content: crwdns44348:0crwdne44348:0
+  Hook:
+    Content:
+      enhancedSkill:
+        text: crwdns41082:0crwdne41082:0
+        content: >-
+          crwdns41084:0{{skillEnhancedScaling}}crwdne41084:0
+      targetBurned:
+        text: crwdns41086:0crwdne41086:0
+        content: >-
+          crwdns44142:0{{targetBurnedExtraScaling}}crwdnd44142:0:BR:crwdnd44142:0:E6:crwdne44142:0
+  Huohuo:
+    Content:
+      ultBuff:
+        text: crwdns41090:0crwdne41090:0
+        content: crwdns41092:0{{ultBuffValue}}crwdne41092:0
+      skillBuff:
+        text: crwdns41094:0crwdne41094:0
+        content: crwdns44350:0crwdne44350:0
+      e6DmgBuff:
+        text: crwdns41098:0crwdne41098:0
+        content: crwdns44352:0crwdne44352:0
+  ImbibitorLunae:
+    Content:
+      basicEnhanced:
+        text: crwdns41102:0crwdne41102:0
+        content: >-
+          crwdns44144:0{{basicScaling}}crwdnd44144:0:BR:crwdnd44144:0{{basicEnhanced1Scaling}}crwdnd44144:0:BR:crwdnd44144:0{{basicEnhanced2Scaling}}crwdnd44144:0:BR:crwdnd44144:0{{basicEnhanced3Scaling}}crwdne44144:0
+      skillOutroarStacks:
+        text: crwdns41106:0crwdne41106:0
+        content: >-
+          crwdns41108:0{{outroarStackCdValue}}crwdne41108:0
+      talentRighteousHeartStacks:
+        text: crwdns41110:0crwdne41110:0
+        content: crwdns41112:0{{righteousHeartDmgValue}}crwdne41112:0
+      e6ResPenStacks:
+        text: crwdns41114:0crwdne41114:0
+        content: crwdns44354:0crwdne44354:0
+  Jade:
+    Content:
+      enhancedFollowUp:
+        text: crwdns41118:0crwdne41118:0
+        content: crwdns41120:0{{ultFuaScalingBuff}}crwdne41120:0
+      pawnedAssetStacks:
+        text: crwdns41122:0crwdne41122:0
+        content: >-
+          crwdns44146:0{{pawnedAssetCdScaling}}crwdne44146:0
+      e1FuaDmgBoost:
+        text: crwdns41126:0crwdne41126:0
+        content: crwdns44356:0crwdne44356:0
+      e2CrBuff:
+        text: crwdns41130:0crwdne41130:0
+        content: crwdns44358:0crwdne44358:0
+      e4DefShredBuff:
+        text: crwdns41134:0crwdne41134:0
+        content: crwdns44360:0crwdne44360:0
+      e6ResShredBuff:
+        text: crwdns41138:0crwdne41138:0
+        content: crwdns44362:0crwdne44362:0
+    TeammateContent:
+      debtCollectorSpdBuff:
+        text: crwdns41142:0crwdne41142:0
+        content: crwdns44152:0crwdne44152:0
+  Jiaoqiu:
+    Content:
+      ashenRoastStacks:
+        text: crwdns41146:0crwdne41146:0
+        content: >-
+          crwdns44154:0{{AshenRoastInitialVulnerability}}crwdnd44154:0{{AshenRoastAdditionalVulnerability}}crwdnd44154:0:BR:crwdnd44154:0:BR:crwdnd44154:0{{AshenRoastDotMultiplier}}crwdne44154:0
+      ultFieldActive:
+        text: crwdns41150:0crwdne41150:0
+        content: >-
+          crwdns44156:0{{UltScaling}}crwdnd44156:0:BR:crwdnd44156:0{{UltVulnerability}}crwdnd44156:0{{ZoneDebuffChance}}crwdne44156:0
+      ehrToAtkBoost:
+        text: crwdns41154:0crwdne41154:0
+        content: crwdns44158:0crwdne44158:0
+      e1DmgBoost:
+        text: crwdns41158:0crwdne41158:0
+        content: crwdns44364:0crwdne44364:0
+      e2Dot:
+        text: crwdns41162:0crwdne41162:0
+        content: crwdns44366:0crwdne44366:0
+      e6ResShred:
+        text: crwdns41166:0crwdne41166:0
+        content: crwdns44368:0crwdne44368:0
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: crwdns41170:0crwdne41170:0
+        content: >-
+          crwdns41172:0{{talentCrBuff}}crwdne41172:0
+      talentHpDrainAtkBuff:
+        text: crwdns41174:0crwdne41174:0
+        content: >-
+          crwdns41176:0{{talentHpDrainAtkBuffMax}}crwdne41176:0
+      e1CdBuff:
+        text: crwdns41178:0crwdne41178:0
+        content: crwdns44370:0crwdne44370:0
+      e2SkillDmgBuff:
+        text: crwdns41182:0crwdne41182:0
+        content: crwdns44372:0crwdne44372:0
+  JingYuan:
+    Content:
+      skillCritBuff:
+        text: crwdns41186:0crwdne41186:0
+        content: crwdns41188:0crwdne41188:0
+      talentHitsPerAction:
+        text: crwdns41190:0crwdne41190:0
+        content: crwdns41192:0crwdne41192:0
+      talentAttacks:
+        text: crwdns41194:0crwdne41194:0
+        content: crwdns41196:0crwdne41196:0
+      e2DmgBuff:
+        text: crwdns41198:0crwdne41198:0
+        content: crwdns44374:0crwdne44374:0
+      e6FuaVulnerabilityStacks:
+        text: crwdns41202:0crwdne41202:0
+        content: crwdns44376:0crwdne44376:0
+  Kafka:
+    Content:
+      e1DotDmgReceivedDebuff:
+        text: crwdns41206:0crwdne41206:0
+        content: crwdns44378:0crwdne44378:0
+      e2TeamDotBoost:
+        text: crwdns41210:0crwdne41210:0
+        content: crwdns44380:0crwdne44380:0
+  Lingsha:
+    Content:
+      beConversion:
+        text: crwdns41214:0crwdne41214:0
+        content: crwdns44170:0crwdne44170:0
+      befogState:
+        text: crwdns41218:0crwdne41218:0
+        content: crwdns41220:0{{BefogVulnerability}}crwdne41220:0
+      e1DefShred:
+        text: crwdns41222:0crwdne41222:0
+        content: crwdns44382:0crwdne44382:0
+      e2BeBuff:
+        text: crwdns41226:0crwdne41226:0
+        content: crwdns44384:0crwdne44384:0
+      e6ResShred:
+        text: crwdns41230:0crwdne41230:0
+        content: crwdns44386:0crwdne44386:0
+  Luka:
+    Content:
+      basicEnhanced:
+        text: crwdns41234:0crwdne41234:0
+        content: crwdns41236:0crwdne41236:0
+      targetUltDebuffed:
+        text: crwdns41238:0crwdne41238:0
+        content: crwdns44176:0{{targetUltDebuffDmgTakenValue}}crwdne44176:0
+      basicEnhancedExtraHits:
+        text: crwdns41242:0crwdne41242:0
+        content: crwdns41244:0crwdne41244:0
+      e1TargetBleeding:
+        text: crwdns41246:0crwdne41246:0
+        content: crwdns44388:0crwdne44388:0
+      e4TalentStacks:
+        text: crwdns41250:0crwdne41250:0
+        content: crwdns44390:0crwdne44390:0
+  Luocha:
+    Content:
+      fieldActive:
+        text: crwdns41254:0crwdne41254:0
+        content: crwdns44392:0crwdne44392:0
+      e6ResReduction:
+        text: crwdns41258:0crwdne41258:0
+        content: crwdns44394:0crwdne44394:0
+  Lynx:
+    Content:
+      skillBuff:
+        text: crwdns41262:0crwdne41262:0
+        content: >-
+          crwdns44184:0{{skillHpPercentBuff}}crwdnd44184:0{{skillHpFlatBuff}}crwdnd44184:0:BR:crwdnd44184:0:E4:crwdnd44184:0:BR:crwdnd44184:0:E6:crwdne44184:0
+    TeammateContent:
+      teammateHPValue:
+        text: crwdns41266:0crwdne41266:0
+        content: >-
+          crwdns44186:0{{skillHpPercentBuff}}crwdnd44186:0{{skillHpFlatBuff}}crwdnd44186:0:BR:crwdnd44186:0:E4:crwdnd44186:0:BR:crwdnd44186:0:E6:crwdne44186:0
+  March7thImaginary:
+    Content:
+      enhancedBasic:
+        text: crwdns41270:0crwdne41270:0
+        content: >-
+          crwdns44188:0{{BasicEnhancedScaling}}crwdne44188:0
+      basicAttackHits:
+        text: crwdns41274:0crwdne41274:0
+        content: >-
+          crwdns44190:0{{BasicEnhancedScaling}}crwdne44190:0
+      masterAdditionalDmgBuff:
+        text: crwdns41278:0crwdne41278:0
+        content: crwdns41280:0{{ShifuDmgBuff}}crwdne41280:0
+      masterToughnessRedBuff:
+        text: crwdns41282:0crwdne41282:0
+        content: crwdns41284:0crwdne41284:0
+      talentDmgBuff:
+        text: crwdns41286:0crwdne41286:0
+        content: >-
+          crwdns41288:0:BR:crwdnd41288:0{{TalentDmgBuff}}crwdne41288:0
+      selfSpdBuff:
+        text: crwdns41290:0crwdne41290:0
+        content: crwdns44396:0crwdne44396:0
+      e6CdBuff:
+        text: crwdns41294:0crwdne41294:0
+        content: crwdns44398:0crwdne44398:0
+    TeammateContent:
+      masterBuff:
+        text: crwdns41298:0crwdne41298:0
+        content: crwdns41300:0{{ShifuSpeedBuff}}crwdne41300:0
+      masterCdBeBuffs:
+        text: crwdns41302:0crwdne41302:0
+        content: crwdns44196:0crwdne44196:0
+  Misha:
+    Content:
+      ultHitsOnTarget:
+        text: crwdns41306:0crwdne41306:0
+        content: crwdns41308:0{{ultStackScaling}}crwdne41308:0
+      enemyFrozen:
+        text: crwdns41310:0crwdne41310:0
+        content: crwdns41312:0crwdne41312:0
+      e2DefReduction:
+        text: crwdns41314:0crwdne41314:0
+        content: crwdns44400:0crwdne44400:0
+      e6UltDmgBoost:
+        text: crwdns41318:0crwdne41318:0
+        content: crwdns44402:0crwdne44402:0
+  Moze:
+    Content:
+      preyMark:
+        text: crwdns41322:0crwdne41322:0
+        content: >-
+          crwdns44200:0:BR:crwdnd44200:0{{PreyAdditionalMultiplier}}crwdnd44200:0{{FuaScaling}}crwdne44200:0
+      e2CdBoost:
+        text: crwdns41326:0crwdne41326:0
+        content: crwdns44404:0crwdne44404:0
+      e4DmgBuff:
+        text: crwdns41330:0crwdne41330:0
+        content: crwdns44204:0crwdne44204:0
+      e6MultiplierIncrease:
+        text: crwdns41334:0crwdne41334:0
+        content: crwdns44206:0crwdne44206:0
+  Mydei:
+    Content:
+      skillEnhances:
+        text: crwdns44598:0crwdne44598:0
+        content: >-
+          crwdns44600:0:BR:crwdnd44600:0{{SkillPrimaryScaling}}crwdnd44600:0{{SkillAdjacentScaling}}crwdnd44600:0:BR:crwdnd44600:0{{EnhancedSkillPrimaryScaling}}crwdnd44600:0{{EnhancedSkillAdjacentScaling}}crwdnd44600:0:BR:crwdnd44600:0{{EnhancedSkill2PrimaryScaling}}crwdnd44600:0{{EnhancedSkill2AdjacentScaling}}crwdne44600:0
+      vendettaState:
+        text: crwdns44602:0crwdne44602:0
+        content: >-
+          crwdns44604:0{{HpRestoration}}crwdnd44604:0:BR:crwdne44604:0
+      hpToCrConversion:
+        text: crwdns44606:0crwdne44606:0
+        content: crwdns44608:0crwdne44608:0
+      e1EnhancedSkillBuff:
+        text: crwdns44610:0crwdne44610:0
+        content: crwdns44612:0crwdne44612:0
+      e2DefPen:
+        text: crwdns44614:0crwdne44614:0
+        content: crwdns44616:0crwdne44616:0
+      e4CdBuff:
+        text: crwdns44618:0crwdne44618:0
+        content: crwdns44620:0crwdne44620:0
+  Pela:
+    Content:
+      teamEhrBuff:
+        text: crwdns41340:0crwdne41340:0
+        content: crwdns41342:0crwdne41342:0
+      enemyDebuffed:
+        text: crwdns41344:0crwdne41344:0
+        content: crwdns41346:0crwdne41346:0
+      skillRemovedBuff:
+        text: crwdns41348:0crwdne41348:0
+        content: "crwdns44208:0:BR:crwdnd44208:0:E2:crwdne44208:0"
+      ultDefPenDebuff:
+        text: crwdns41352:0crwdne41352:0
+        content: crwdns44210:0{{ultDefPenValue}}crwdne44210:0
+      e4SkillResShred:
+        text: crwdns41356:0crwdne41356:0
+        content: crwdns44406:0crwdne44406:0
+  Qingque:
+    Content:
+      basicEnhanced:
+        text: crwdns41360:0crwdne41360:0
+        content: crwdns44214:0{{talentAtkBuff}}crwdne44214:0
+      basicEnhancedSpdBuff:
+        text: crwdns41364:0crwdne41364:0
+        content: crwdns41366:0crwdne41366:0
+      skillDmgIncreaseStacks:
+        text: crwdns41368:0crwdne41368:0
+        content: crwdns44216:0{{skillStackDmg}}crwdne44216:0
+  Rappa:
+    Content:
+      sealformActive:
+        text: crwdns41372:0crwdne41372:0
+        content: >-
+          crwdns41374:0{{ultBeBuff}}crwdne41374:0
+      atkToBreakVulnerability:
+        text: crwdns41376:0crwdne41376:0
+        content: crwdns41378:0crwdne41378:0
+      chargeStacks:
+        text: crwdns41380:0crwdne41380:0
+        content: crwdns41382:0{{talentChargeMultiplier}}crwdne41382:0
+      e1DefPen:
+        text: crwdns41384:0crwdne41384:0
+        content: crwdns41386:0crwdne41386:0
+      e2Buffs:
+        text: crwdns41388:0crwdne41388:0
+        content: crwdns41390:0crwdne41390:0
+      e4SpdBuff:
+        text: crwdns41392:0crwdne41392:0
+        content: crwdns41394:0crwdne41394:0
+    TeammateContent:
+      teammateBreakVulnerability:
+        text: crwdns41396:0crwdne41396:0
+        content: crwdns41398:0crwdne41398:0
+      e4SpdBuff:
+        text: crwdns41400:0crwdne41400:0
+        content: crwdns41402:0crwdne41402:0
+  Robin:
+    Content:
+      concertoActive:
+        text: crwdns41404:0crwdne41404:0
+        content: >-
+          crwdns41406:0{{ultAtkBuffScalingValue}}crwdnd41406:0{{ultAtkBuffFlatValue}}crwdnd41406:0{{ultScaling}}crwdne41406:0
+      skillDmgBuff:
+        text: crwdns41408:0crwdne41408:0
+        content: crwdns44218:0{{skillDmgBuffValue}}crwdne44218:0
+      talentCdBuff:
+        text: crwdns41412:0crwdne41412:0
+        content: crwdns41414:0{{talentCdBuffValue}}crwdne41414:0
+      e1UltResPen:
+        text: crwdns41416:0crwdne41416:0
+        content: crwdns41418:0crwdne41418:0
+      e4TeamResBuff:
+        text: crwdns41420:0crwdne41420:0
+        content: crwdns41422:0crwdne41422:0
+      e6UltCDBoost:
+        text: crwdns41424:0crwdne41424:0
+        content: >-
+          crwdns44220:0crwdne44220:0
+    TeammateContent:
+      teammateATKValue:
+        text: crwdns41428:0crwdne41428:0
+        content: >-
+          crwdns44222:0{{ultAtkBuffScalingValue}}crwdnd44222:0{{ultAtkBuffFlatValue}}crwdnd44222:0:BR:crwdne44222:0
+      traceFuaCdBoost:
+        text: crwdns41432:0crwdne41432:0
+        content: crwdns41434:0crwdne41434:0
+      e2UltSpdBuff:
+        text: crwdns41436:0crwdne41436:0
+        content: crwdns41438:0crwdne41438:0
+  RuanMei:
+    Content:
+      skillOvertoneBuff:
+        text: crwdns41440:0crwdne41440:0
+        content: >-
+          crwdns44224:0{{skillScaling}}crwdne44224:0
+      teamBEBuff:
+        text: crwdns41444:0crwdne41444:0
+        content: crwdns41446:0crwdne41446:0
+      ultFieldActive:
+        text: crwdns41448:0crwdne41448:0
+        content: >-
+          crwdns41450:0{{fieldResPenValue}}crwdnd41450:0:BR:crwdnd41450:0:E1:crwdne41450:0
+      e2AtkBoost:
+        text: crwdns41452:0crwdne41452:0
+        content: crwdns44408:0crwdne44408:0
+      e4BeBuff:
+        text: crwdns41456:0crwdne41456:0
+        content: crwdns44410:0crwdne44410:0
+    TeammateContent:
+      teamSpdBuff:
+        text: crwdns41460:0crwdne41460:0
+        content: crwdns41462:0{{talentSpdScaling}}crwdne41462:0
+      teamDmgBuff:
+        text: crwdns41464:0crwdne41464:0
+        content: crwdns41466:0crwdne41466:0
+  Sampo:
+    Content:
+      targetDotTakenDebuff:
+        text: crwdns41468:0crwdne41468:0
+        content: crwdns44228:0{{dotVulnerabilityValue}}crwdne44228:0
+      skillExtraHits:
+        text: crwdns41472:0crwdne41472:0
+        content: crwdns41474:0crwdne41474:0
+      targetWindShear:
+        text: crwdns41476:0crwdne41476:0
+        content: crwdns41478:0crwdne41478:0
+  Seele:
+    Content:
+      buffedState:
+        text: crwdns41480:0crwdne41480:0
+        content: >-
+          crwdns44230:0{{buffedStateDmgBuff}}crwdnd44230:0:BR:crwdne44230:0
+      speedBoostStacks:
+        text: crwdns41484:0crwdne41484:0
+        content: "crwdns44464:0:BR:crwdnd44464:0:E2:crwdne44464:0"
+      e1EnemyHp80CrBoost:
+        text: crwdns41488:0crwdne41488:0
+        content: crwdns44412:0crwdne44412:0
+      e6UltTargetDebuff:
+        text: crwdns41492:0crwdne41492:0
+        content: crwdns44414:0crwdne44414:0
+  Serval:
+    Content:
+      targetShocked:
+        text: crwdns41496:0crwdne41496:0
+        content: crwdns41498:0{{talentExtraDmgScaling}}crwdne41498:0
+      enemyDefeatedBuff:
+        text: crwdns41500:0crwdne41500:0
+        content: crwdns44236:0crwdne44236:0
+  SilverWolf:
+    Content:
+      skillResShredDebuff:
+        text: crwdns41504:0crwdne41504:0
+        content: >-
+          crwdns44238:0{{skillResShredValue}}crwdnd44238:0:BR:crwdne44238:0
+      skillWeaknessResShredDebuff:
+        text: crwdns41508:0crwdne41508:0
+        content: >-
+          crwdns44462:0{{implantChance}}crwdne44462:0
+      talentDefShredDebuff:
+        text: crwdns41512:0crwdne41512:0
+        content: crwdns44242:0{{talentDefShredDebuffValue}}crwdne44242:0
+      ultDefShredDebuff:
+        text: crwdns41516:0crwdne41516:0
+        content: crwdns44244:0{{ultDefShredValue}}crwdne44244:0
+      targetDebuffs:
+        text: crwdns41520:0crwdne41520:0
+        content: >-
+          crwdns44246:0:BR:crwdnd44246:0:E4:crwdnd44246:0:BR:crwdnd44246:0:E6:crwdne44246:0
+  Sparkle:
+    Content:
+      skillCdBuff:
+        text: crwdns41524:0crwdne41524:0
+        content: >-
+          crwdns44248:0{{skillCdBuffScaling}}crwdnd44248:0{{skillCdBuffBase}}crwdnd44248:0:BR:crwdnd44248:0:E6:crwdne44248:0
+      cipherBuff:
+        text: crwdns41528:0crwdne41528:0
+        content: >-
+          crwdns41530:0{{cipherTalentStackBoost}}crwdnd41530:0:BR:crwdnd41530:0:E1:crwdne41530:0
+      talentStacks:
+        text: crwdns41532:0crwdne41532:0
+        content: >-
+          crwdns44250:0{talentBaseStackBoost}crwdnd44250:0:BR:crwdnd44250:0:E2:crwdne44250:0
+      quantumAlliesAtkBuff:
+        text: crwdns44788:0crwdne44788:0
+        content: crwdns44790:0crwdne44790:0
+    TeammateContent:
+      teammateCDValue:
+        text: crwdns41540:0crwdne41540:0
+        content: crwdns44252:0{{skillCdBuffScaling}}crwdnd44252:0{{skillCdBuffBase}}crwdne44252:0
+  Sunday:
+    Content:
+      skillDmgBuff:
+        text: crwdns41544:0crwdne41544:0
+        content: >-
+          crwdns44254:0{{DmgBoost}}crwdnd44254:0{{SummonDmgBoost}}crwdne44254:0
+      talentCrBuffStacks:
+        text: crwdns41548:0crwdne41548:0
+        content: crwdns41550:0{{CritRateBoost}}crwdne41550:0
+      techniqueDmgBuff:
+        text: crwdns41552:0crwdne41552:0
+        content: crwdns41554:0crwdne41554:0
+      e1DefPen:
+        text: crwdns41556:0crwdne41556:0
+        content: >-
+          crwdns41558:0crwdne41558:0
+      e2DmgBuff:
+        text: crwdns41560:0crwdne41560:0
+        content: crwdns41562:0crwdne41562:0
+    TeammateContent:
+      beatified:
+        text: crwdns41564:0crwdne41564:0
+        content: >-
+          crwdns41566:0{{CritBuffScaling}}crwdnd41566:0{{CritBuffFlat}}crwdne41566:0
+      teammateCDValue:
+        text: crwdns41568:0crwdne41568:0
+        content: >-
+          crwdns41570:0{{CritBuffScaling}}crwdnd41570:0{{CritBuffFlat}}crwdne41570:0
+      e6CrToCdConversion:
+        text: crwdns41572:0crwdne41572:0
+        content: >-
+          crwdns41574:0crwdne41574:0
+  Sushang:
+    Content:
+      ultBuffedState:
+        text: crwdns41576:0crwdne41576:0
+        content: >-
+          crwdns44256:0{{ultBuffedAtk}}crwdne44256:0
+      skillExtraHits:
+        text: crwdns41580:0crwdne41580:0
+        content: crwdns41582:0crwdne41582:0
+      skillTriggerStacks:
+        text: crwdns41584:0crwdne41584:0
+        content: crwdns44258:0crwdne44258:0
+      talentSpdBuffStacks:
+        text: crwdns41588:0crwdne41588:0
+        content: >-
+          crwdns44260:0{{talentSpdBuffValue}}crwdnd44260:0:BR:crwdnd44260:0:E6:crwdne44260:0
+      e2DmgReductionBuff:
+        text: crwdns41592:0crwdne41592:0
+        content: crwdns44416:0crwdne44416:0
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: crwdns43876:0crwdne43876:0
+        content: crwdns43878:0crwdne43878:0
+      eruditionTeammate:
+        text: crwdns43880:0crwdne43880:0
+        content: >-
+          crwdns44418:0{{PrimaryScalingBonus}}crwdnd44418:0{{AdjacentScalingBonus}}crwdnd44418:0:BR:crwdnd44418:0{{PrimaryScalingBonus}}crwdnd44418:0{{AdjacentScalingBonus}}crwdnd44418:0:BR:crwdnd44418:0:A4:crwdne44418:0
+      ultAtkBuff:
+        text: crwdns43884:0crwdne43884:0
+        content: >-
+          crwdns43886:0{{AtkBuff}}crwdne43886:0
+      interpretationStacks:
+        text: crwdns43888:0crwdne43888:0
+        content: >-
+          crwdns44420:0{{PrimaryScalingBonus}}crwdnd44420:0{{AdjacentScalingBonus}}crwdnd44420:0:BR:crwdnd44420:0{{PrimaryScalingBonus}}crwdnd44420:0{{AdjacentScalingBonus}}crwdnd44420:0:BR:crwdnd44420:0:E1:crwdne44420:0
+      totalInterpretationStacks:
+        text: crwdns43892:0crwdne43892:0
+        content: crwdns43894:0crwdne43894:0
+      e1BonusStacks:
+        text: crwdns43896:0crwdne43896:0
+        content: crwdns43898:0crwdne43898:0
+      e4EruditionSpdBuff:
+        text: crwdns43900:0crwdne43900:0
+        content: crwdns43902:0crwdne43902:0
+      e6Buffs:
+        text: crwdns43904:0crwdne43904:0
+        content: crwdns43906:0crwdne43906:0
+  Tingyun:
+    Content:
+      benedictionBuff:
+        text: crwdns41596:0crwdne41596:0
+        content: >-
+          crwdns41598:0{{skillAtkBoostScaling}}crwdnd41598:0{{skillAtkBoostMax}}crwdnd41598:0{{skillLightningDmgBoostScaling}}crwdne41598:0
+      skillSpdBuff:
+        text: crwdns41600:0crwdne41600:0
+        content: crwdns41602:0crwdne41602:0
+      ultDmgBuff:
+        text: crwdns41604:0crwdne41604:0
+        content: "crwdns44422:0{{ultDmgBoost}}crwdnd44422:0:BR:crwdnd44422:0:E6:crwdne44422:0"
+      ultSpdBuff:
+        text: crwdns41608:0crwdne41608:0
+        content: crwdns44424:0crwdne44424:0
+    TeammateContent:
+      teammateAtkBuffValue:
+        text: crwdns41612:0crwdne41612:0
+        content: >-
+          crwdns41614:0{{skillAtkBoostScaling}}crwdnd41614:0{{skillAtkBoostMax}}crwdnd41614:0{{skillLightningDmgBoostScaling}}crwdne41614:0
+  Topaz:
+    Content:
+      enemyProofOfDebtDebuff:
+        text: crwdns41616:0crwdne41616:0
+        content: crwdns41618:0{{proofOfDebtFuaVulnerability}}crwdne41618:0
+      numbyEnhancedState:
+        text: crwdns41620:0crwdne41620:0
+        content: crwdns41622:0{{enhancedStateFuaScalingBoost}}crwdnd41622:0{{enhancedStateFuaCdBoost}}crwdne41622:0
+      e1DebtorStacks:
+        text: crwdns41624:0crwdne41624:0
+        content: crwdns44426:0crwdne44426:0
+  TrailblazerDestruction:
+    Content:
+      enhancedUlt:
+        text: crwdns41628:0crwdne41628:0
+        content: >-
+          crwdns44270:0:BR:crwdnd44270:0{{ultScaling}}crwdnd44270:0:BR:crwdnd44270:0:Blowout:crwdnd44270:0{{ultEnhancedScaling}}crwdnd44270:0{{ultEnhancedScaling2}}crwdne44270:0
+      talentStacks:
+        text: crwdns41632:0crwdne41632:0
+        content: crwdns41634:0{{talentAtkScalingValue}}crwdne41634:0
+  TrailblazerHarmony:
+    Content:
+      backupDancer:
+        text: crwdns41636:0crwdne41636:0
+        content: >-
+          crwdns44272:0{{ultBeScaling}}crwdne44272:0
+      superBreakDmg:
+        text: crwdns41640:0crwdne41640:0
+        content: >-
+          crwdns41642:0:BR:crwdne41642:0
+      skillHitsOnTarget:
+        text: crwdns41644:0crwdne41644:0
+        content: crwdns41646:0crwdne41646:0
+      e2EnergyRegenBuff:
+        text: crwdns41648:0crwdne41648:0
+        content: crwdns44274:0crwdne44274:0
+    TeammateContent:
+      teammateBeValue:
+        text: crwdns41652:0crwdne41652:0
+        content: crwdns41654:0crwdne41654:0
+  TrailblazerPreservation:
+    Content:
+      enhancedBasic:
+        text: crwdns41656:0crwdne41656:0
+        content: crwdns41658:0{{basicEnhancedAtkScaling}}crwdne41658:0
+      skillActive:
+        text: crwdns41660:0crwdne41660:0
+        content: crwdns41662:0{{skillDamageReductionValue}}crwdne41662:0
+      shieldActive:
+        text: crwdns41664:0crwdne41664:0
+        content: crwdns41666:0crwdne41666:0
+      e6DefStacks:
+        text: crwdns41668:0crwdne41668:0
+        content: crwdns44428:0crwdne44428:0
+  TrailblazerRemembrance:
+    Content:
+      memoSkillHits:
+        text: crwdns43908:0crwdne43908:0
+        content: >-
+          crwdns43910:0{{SingleScaling}}crwdnd43910:0{{AoeScaling}}crwdne43910:0
+      teamCdBuff:
+        text: crwdns43912:0crwdne43912:0
+        content: >-
+          crwdns43914:0{{ScalingBuff}}crwdnd43914:0{{FlatBuff}}crwdne43914:0
+      memsSupport:
+        text: >-
+          crwdns43916:0crwdne43916:0
+        content: >-
+          crwdns44430:0{{TrueDmgScaling}}crwdnd44430:0:BR:crwdnd44430:0:E1:crwdnd44430:0:BR:crwdnd44430:0:E4:crwdne44430:0
+      energyTrueDmgValue:
+        text: crwdns43920:0crwdne43920:0
+        content: >-
+          crwdns43922:0crwdne43922:0
+      e1CrBuff:
+        text: crwdns43924:0crwdne43924:0
+        content: >-
+          crwdns43926:0crwdne43926:0
+      e4TrueDmgBoost:
+        text: crwdns43928:0crwdne43928:0
+        content: >-
+          crwdns43930:0crwdne43930:0
+      e6UltCrBoost:
+        text: crwdns43932:0crwdne43932:0
+        content: >-
+          crwdns43934:0crwdne43934:0
+    TeammateContent:
+      memCDValue:
+        text: >-
+          crwdns43936:0crwdne43936:0
+        content: >-
+          crwdns43938:0{{ScalingBuff}}crwdnd43938:0{{FlatBuff}}crwdne43938:0
+  Tribbie:
+    Content:
+      numinosity:
+        text: crwdns44622:0crwdne44622:0
+        content: crwdns44624:0{{ResPen}}crwdne44624:0
+      ultZone:
+        text: crwdns44626:0crwdne44626:0
+        content: crwdns44628:0{{UltScaling}}crwdnd44628:0{{ZoneVulnerability}}crwdnd44628:0{{AdditionalDmgScaling}}crwdne44628:0
+      alliesMaxHp:
+        text: crwdns44630:0crwdne44630:0
+        content: crwdns44632:0crwdne44632:0
+      talentFuaStacks:
+        text: crwdns44634:0crwdne44634:0
+        content: crwdns44636:0crwdne44636:0
+      e1TrueDmg:
+        text: crwdns44638:0crwdne44638:0
+        content: crwdns44640:0crwdne44640:0
+      e2AdditionalDmg:
+        text: crwdns44642:0crwdne44642:0
+        content: crwdns44644:0crwdne44644:0
+      e4DefPen:
+        text: crwdns44646:0crwdne44646:0
+        content: crwdns44648:0crwdne44648:0
+      e6FuaScaling:
+        text: crwdns44650:0crwdne44650:0
+        content: crwdns44652:0crwdne44652:0
+  Welt:
+    Content:
+      enemyDmgTakenDebuff:
+        text: crwdns41672:0crwdne41672:0
+        content: crwdns44276:0crwdne44276:0
+      enemySlowed:
+        text: crwdns41676:0crwdne41676:0
+        content: crwdns41678:0{{talentScaling}}crwdne41678:0
+      skillExtraHits:
+        text: crwdns41680:0crwdne41680:0
+        content: >-
+          crwdns41682:0{{skillScaling}}crwdnd41682:0{{skillScaling}}crwdne41682:0
+      e1EnhancedState:
+        text: crwdns41684:0crwdne41684:0
+        content: crwdns44432:0crwdne44432:0
+  Xueyi:
+    Content:
+      beToDmgBoost:
+        text: crwdns41688:0crwdne41688:0
+        content: crwdns41690:0crwdne41690:0
+      enemyToughness50:
+        text: crwdns41692:0crwdne41692:0
+        content: crwdns41694:0crwdne41694:0
+      toughnessReductionDmgBoost:
+        text: crwdns41696:0crwdne41696:0
+        content: crwdns41698:0{{ultBoostMax}}crwdne41698:0
+      fuaHits:
+        text: crwdns41700:0crwdne41700:0
+        content: >-
+          crwdns41702:0{{fuaScaling}}crwdne41702:0
+      e4BeBuff:
+        text: crwdns41704:0crwdne41704:0
+        content: crwdns44434:0crwdne44434:0
+  Yanqing:
+    Content:
+      ultBuffActive:
+        text: crwdns41708:0crwdne41708:0
+        content: crwdns41710:0{{ultCdBuffValue}}crwdne41710:0
+      soulsteelBuffActive:
+        text: crwdns41712:0crwdne41712:0
+        content: >-
+          crwdns41714:0{{talentCrBuffValue}}crwdnd41714:0{{talentCdBuffValue}}crwdnd41714:0:BR:crwdnd41714:0{{ultCdBuffValue}}crwdnd41714:0:BR:crwdnd41714:0:BR:crwdnd41714:0:E2:crwdne41714:0
+      critSpdBuff:
+        text: crwdns41716:0crwdne41716:0
+        content: crwdns44282:0crwdne44282:0
+      e1TargetFrozen:
+        text: crwdns41720:0crwdne41720:0
+        content: crwdns44436:0crwdne44436:0
+      e4CurrentHp80:
+        text: crwdns41724:0crwdne41724:0
+        content: crwdns44438:0crwdne44438:0
+  Yukong:
+    Content:
+      teamImaginaryDmgBoost:
+        text: crwdns41728:0crwdne41728:0
+        content: crwdns41730:0crwdne41730:0
+      roaringBowstringsActive:
+        text: crwdns41732:0crwdne41732:0
+        content: "crwdns41734:0{{skillAtkBuffValue}}crwdnd41734:0:BR:crwdnd41734:0:E4:crwdne41734:0"
+      ultBuff:
+        text: crwdns41736:0crwdne41736:0
+        content: >-
+          crwdns41738:0{{ultCrBuffValue}}crwdnd41738:0{{ultCdBuffValue}}crwdnd41738:0{{ultScaling}}crwdne41738:0
+      initialSpeedBuff:
+        text: crwdns41740:0crwdne41740:0
+        content: crwdns44440:0crwdne44440:0
+  Yunli:
+    Content:
+      blockActive:
+        text: crwdns41744:0crwdne41744:0
+        content: crwdns44286:0crwdne44286:0
+      ultCull:
+        text: "crwdns41748:0crwdne41748:0"
+        content: >-
+          crwdns41750:0{{CullScaling}}crwdnd41750:0{{CullAdjacentScaling}}crwdnd41750:0{{CullAdditionalScaling}}crwdne41750:0
+      ultCullHits:
+        text: "crwdns41752:0crwdne41752:0"
+        content: >-
+          crwdns41754:0{{CullScaling}}crwdnd41754:0{{CullAdjacentScaling}}crwdnd41754:0{{CullAdditionalScaling}}crwdne41754:0
+      counterAtkBuff:
+        text: crwdns41756:0crwdne41756:0
+        content: crwdns44288:0crwdne44288:0
+      e1UltBuff:
+        text: crwdns41760:0crwdne41760:0
+        content: "crwdns44442:0crwdne44442:0"
+      e2DefShred:
+        text: crwdns41764:0crwdne41764:0
+        content: crwdns44292:0crwdne44292:0
+      e4ResBuff:
+        text: crwdns41768:0crwdne41768:0
+        content: "crwdns44294:0crwdne44294:0"
+      e6Buffs:
+        text: crwdns41772:0crwdne41772:0
+        content: >-
+          crwdns44296:0crwdne44296:0

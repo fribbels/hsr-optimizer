@@ -23,7 +23,5 @@ FeatureCards:
       Organizza le tue reliquie valutandole e ordinandole in base al loro potenziale, e trova le reliquie migliori da potenziare per ogni personaggio.
 Welcome: Benvenuti su<1/>l'Ottimizzatore Star Rail di Fribbels
 SearchBar:
-  Placeholder: UUID
-  Label: "Inserisci il tuo UUID per visualizzare i tuoi personaggi in vetrina:"
   Message: Input invalido - Questo dovrebbe essere il tuo UUID interno al gioco da 9 cifre
   Search: Cerca

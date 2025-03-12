@@ -1,27 +1,76 @@
-import { Stats } from 'lib/constants/constants'
+import { Constants, PathNames, Stats } from 'lib/constants/constants'
+import { indent } from 'lib/gpu/injection/wgslUtils'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-export function injectSettings(wgsl: string, context: OptimizerContext, request: Form) {
-  wgsl += generateCharacterStats(context.characterStatsBreakdown.base, 'character')
-  wgsl += generateCharacterStats(context.characterStatsBreakdown.lightCone, 'lc')
+export function injectSettings(wgsl: string, context: OptimizerContext, request: Form, relics: RelicsByPart) {
+  const merged: Record<string, number> = {}
+  for (const stat of Object.values(paramStatNames)) {
+    merged[stat] = (context.characterStatsBreakdown.base[stat] ?? 0) + (context.characterStatsBreakdown.lightCone[stat] ?? 0)
+  }
+  wgsl += generateCharacterStats(merged, 'base')
   wgsl += generateCharacterStats(context.characterStatsBreakdown.traces, 'trace')
-  wgsl += generateAggregateStats()
   wgsl += generateElement(context)
   wgsl += generateRequest(request)
+  wgsl += generateActions(context)
+  wgsl += generateConsts(context, relics)
 
   wgsl += '\n'
 
   return wgsl
 }
 
-function generateAggregateStats() {
-  return `
-const baseHP = characterHP + lcHP;
-const baseATK = characterATK + lcATK;
-const baseDEF = characterDEF + lcDEF;
-const baseSPD = characterSPD + lcSPD;
+function generateConsts(context: OptimizerContext, relics: RelicsByPart) {
+  const wgsl = `
+const relicSetCount = ${Object.keys(Constants.SetsRelics).length};
+const ornamentSetCount = ${Object.keys(Constants.SetsOrnaments).length};
+const lSize = ${relics.LinkRope.length};
+const pSize = ${relics.PlanarSphere.length};
+const fSize = ${relics.Feet.length};
+const bSize = ${relics.Body.length};
+const gSize = ${relics.Hands.length};
+const hSize = ${relics.Head.length};
+`
+
+  return wgsl
+}
+
+function generateActions(context: OptimizerContext) {
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
+  let actionSwitcher = ``
+  for (let i = 0; i < actionLength; i++) {
+    if (context.path == PathNames.Remembrance) {
+      actionSwitcher += indent(`
+case ${i}: { 
+  (*outAction) = action${i}; 
+  (*outX) = computedStatsX${i}; 
+  (*outM) = computedStatsM${i}; 
+}
+    `, 0)
+    } else {
+      actionSwitcher += indent(`
+case ${i}: { 
+  (*outAction) = action${i}; 
+  (*outX) = computedStatsX${i}; 
+}
+    `, 0)
+    }
+  }
+
+  const wgsl = `
+fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, ComputedStats>, outM: ptr<function, ComputedStats>) {
+  switch (actionIndex) {
+    ${actionSwitcher}
+    default: { 
+      (*outAction) = action0; 
+    }
+  }
+}
   `
+
+  return wgsl
 }
 
 function generateRequest(request: Form) {

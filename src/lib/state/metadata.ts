@@ -13,6 +13,7 @@ const SKILL = 'SKILL'
 const ULT = 'ULT'
 const FUA = 'FUA'
 const MEMO_SKILL = 'MEMO_SKILL'
+const MEMO_TALENT = 'MEMO_TALENT'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -25,7 +26,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.IronCavalryAgainstTheScourge,
 ]
 
-const SPREAD_RELICS_2P_GENERAL_CONDITIONALS = [
+const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
   [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
   [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
@@ -48,6 +49,7 @@ const SPREAD_ORNAMENTS_2P_ENERGY_REGEN = [
 ]
 
 const SPREAD_ORNAMENTS_2P_SUPPORT = [
+  Sets.SprightlyVonwacq,
   Sets.BrokenKeel,
   Sets.PenaconyLandOfTheDreams,
   Sets.FleetOfTheAgeless,
@@ -78,7 +80,6 @@ export const Metadata = {
       lightCone.imageCenter = imageCenter
     }
 
-    const characterTraces = getOverrideTraces()
     const imageCenters = getOverrideImageCenter()
     const scoringMetadata = getScoringMetadata()
 
@@ -91,7 +92,7 @@ export const Metadata = {
       }
     }
 
-    for (const [id, traceData] of Object.entries(characterTraces)) {
+    for (const [id, dbMetadataCharacter] of Object.entries(characters)) {
       if (!characters[id]) {
         // Unreleased
         continue
@@ -102,7 +103,8 @@ export const Metadata = {
         imageCenter = imageCenters[id]
       }
 
-      characters[id].traces = traceData
+      characters[id].traces = dbMetadataCharacter.traces
+      characters[id].traceTree = dbMetadataCharacter.traceTree
       characters[id].imageCenter = imageCenter
       characters[id].displayName = getDisplayName(characters[id])
       characters[id].scoringMetadata = scoringMetadata[id]
@@ -443,6 +445,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Stats.HP_P]: 0.21 },
       5: { [Stats.HP_P]: 0.24 },
     },
+    22004: {
+      1: { [Stats.ATK_P]: 0.08 },
+      2: { [Stats.ATK_P]: 0.10 },
+      3: { [Stats.ATK_P]: 0.12 },
+      4: { [Stats.ATK_P]: 0.14 },
+      5: { [Stats.ATK_P]: 0.16 },
+    },
     23000: {},
     23001: {
       1: { [Stats.CR]: 0.18 },
@@ -693,6 +702,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.HP_P]: 0.27 },
       5: { [Constants.Stats.HP_P]: 0.30 },
     },
+    23040: {
+      1: { [Constants.Stats.HP_P]: 0.30 },
+      2: { [Constants.Stats.HP_P]: 0.375 },
+      3: { [Constants.Stats.HP_P]: 0.45 },
+      4: { [Constants.Stats.HP_P]: 0.525 },
+      5: { [Constants.Stats.HP_P]: 0.60 },
+    },
+    23041: {
+      1: { [Constants.Stats.CR]: 0.18 },
+      2: { [Constants.Stats.CR]: 0.21 },
+      3: { [Constants.Stats.CR]: 0.24 },
+      4: { [Constants.Stats.CR]: 0.27 },
+      5: { [Constants.Stats.CR]: 0.30 },
+    },
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -854,7 +877,7 @@ function getLightConeOverrideCenter(): Record<string, number> {
 
     23037: 150,
     23036: 180,
-    21052: 270,
+    21052: 200,
     21051: 180,
     21050: 170,
     20022: 305,
@@ -863,366 +886,6 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23038: 210,
     23039: 165,
     24005: 300,
-  }
-}
-
-function getOverrideTraces(): Record<string, Record<string, number>> {
-  return {
-    1001: { // March 7th
-      [Stats.Ice_DMG]: 0.224,
-      [Stats.DEF_P]: 0.225,
-      [Stats.RES]: 0.1,
-    },
-    1002: { // Dan Heng
-      [Stats.Wind_DMG]: 0.224,
-      [Stats.ATK_P]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    1003: { // Himeko
-      [Stats.Fire_DMG]: 0.224,
-      [Stats.ATK_P]: 0.18,
-      [Stats.RES]: 0.1,
-    },
-    1004: { // Welt
-      [Stats.ATK_P]: 0.28,
-      [Stats.Imaginary_DMG]: 0.144,
-      [Stats.RES]: 0.1,
-    },
-    1005: { // Kafka
-      [Stats.ATK_P]: 0.28,
-      [Stats.EHR]: 0.18,
-      [Stats.HP_P]: 0.1,
-    },
-    1006: { // Silver Wolf
-      [Stats.ATK_P]: 0.28,
-      [Stats.EHR]: 0.18,
-      [Stats.Quantum_DMG]: 0.08,
-    },
-    1008: { // Arlan
-      [Stats.ATK_P]: 0.28,
-      [Stats.RES]: 0.12,
-      [Stats.HP_P]: 0.1,
-    },
-    1009: { // Asta
-      [Stats.Fire_DMG]: 0.224,
-      [Stats.DEF_P]: 0.225,
-      [Stats.CR]: 0.067,
-    },
-    1013: { // Herta
-      [Stats.Ice_DMG]: 0.224,
-      [Stats.DEF_P]: 0.225,
-      [Stats.CR]: 0.067,
-    },
-    1101: { // Bronya
-      [Stats.Wind_DMG]: 0.224,
-      [Stats.CD]: 0.24,
-      [Stats.RES]: 0.10,
-    },
-    1102: { // Seele
-      [Stats.ATK_P]: 0.28,
-      [Stats.CD]: 0.24,
-      [Stats.DEF_P]: 0.125,
-    },
-    1103: { // Serval
-      [Stats.CR]: 0.187,
-      [Stats.EHR]: 0.18,
-      [Stats.RES]: 0.1,
-    },
-    1104: { // Gepard
-      [Stats.Ice_DMG]: 0.224,
-      [Stats.RES]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    1105: { // Natasha
-      [Stats.HP_P]: 0.28,
-      [Stats.DEF_P]: 0.125,
-      [Stats.RES]: 0.18,
-    },
-    1106: { // Pela
-      [Stats.Ice_DMG]: 0.224,
-      [Stats.ATK_P]: 0.18,
-      [Stats.EHR]: 0.1,
-    },
-    1107: { // Clara
-      [Stats.ATK_P]: 0.28,
-      [Stats.Physical_DMG]: 0.144,
-      [Stats.HP_P]: 0.1,
-    },
-    1108: { // Sampo
-      [Stats.ATK_P]: 0.28,
-      [Stats.EHR]: 0.18,
-      [Stats.RES]: 0.1,
-    },
-    1109: { // Hook
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.18,
-      [Stats.CD]: 0.133,
-    },
-    1110: { // Lynx
-      [Stats.HP_P]: 0.28,
-      [Stats.DEF_P]: 0.225,
-      [Stats.RES]: 0.1,
-    },
-    1111: { // Luka
-      [Stats.ATK_P]: 0.28,
-      [Stats.EHR]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    1112: { // Topaz and Numby
-      [Stats.Fire_DMG]: 0.224,
-      [Stats.CR]: 0.12,
-      [Stats.HP_P]: 0.1,
-    },
-    1201: { // Qingque
-      [Stats.ATK_P]: 0.28,
-      [Stats.Quantum_DMG]: 0.144,
-      [Stats.DEF_P]: 0.125,
-    },
-    1202: { // Tingyun
-      [Stats.ATK_P]: 0.28,
-      [Stats.DEF_P]: 0.225,
-      [Stats.Lightning_DMG]: 0.08,
-    },
-    1203: { // Luocha
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    1204: { // Jing Yuan
-      [Stats.ATK_P]: 0.28,
-      [Stats.DEF_P]: 0.125,
-      [Stats.CR]: 0.12,
-    },
-    1205: { // Blade
-      [Stats.HP_P]: 0.28,
-      [Stats.CR]: 0.12,
-      [Stats.RES]: 0.1,
-    },
-    1206: { // Sushang
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    1207: { // Yukong
-      [Stats.Imaginary_DMG]: 0.224,
-      [Stats.HP_P]: 0.18,
-      [Stats.ATK_P]: 0.1,
-    },
-    1208: { // Fu Xuan
-      [Stats.CR]: 0.187,
-      [Stats.HP_P]: 0.18,
-      [Stats.RES]: 0.1,
-    },
-    1209: { // Yanqing
-      [Stats.ATK_P]: 0.28,
-      [Stats.Ice_DMG]: 0.144,
-      [Stats.HP_P]: 0.1,
-    },
-    1210: { // Guinaifen
-      [Stats.Fire_DMG]: 0.224,
-      [Stats.EHR]: 0.1,
-      [Stats.BE]: 0.24,
-    },
-    1211: { // Bailu
-      [Stats.HP_P]: 0.28,
-      [Stats.DEF_P]: 0.225,
-      [Stats.RES]: 0.1,
-    },
-    1212: { // Jingliu
-      [Stats.HP_P]: 0.10,
-      [Stats.SPD]: 9,
-      [Stats.CD]: 0.373,
-    },
-    1213: { // Dan Heng • Imbibitor Lunae
-      [Stats.Imaginary_DMG]: 0.224,
-      [Stats.CR]: 0.12,
-      [Stats.HP_P]: 0.1,
-    },
-    1214: { // Xueyi
-      [Stats.Quantum_DMG]: 0.08,
-      [Stats.HP_P]: 0.18,
-      [Stats.BE]: 0.373,
-    },
-    1215: { // Hanya
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.1,
-      [Stats.SPD]: 9,
-    },
-    1217: { // Huohuo
-      [Stats.HP_P]: 0.28,
-      [Stats.RES]: 0.18,
-      [Stats.SPD]: 5,
-    },
-    1218: { // Jiaoqiu
-      [Stats.EHR]: 0.28,
-      [Stats.Fire_DMG]: 0.144,
-      [Stats.SPD]: 5,
-    },
-    1220: { // Feixiao
-      [Stats.ATK_P]: 0.28,
-      [Stats.CR]: 0.12,
-      [Stats.DEF_P]: 0.125,
-    },
-    1221: { // Yunli
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.18,
-      [Stats.CR]: 0.067,
-    },
-    1222: { // Lingsha
-      [Stats.BE]: 0.373,
-      [Stats.HP_P]: 0.18,
-      [Stats.ATK_P]: 0.10,
-    },
-    1223: { // Moze
-      [Stats.CD]: 0.373,
-      [Stats.ATK_P]: 0.18,
-      [Stats.HP_P]: 0.10,
-    },
-    1224: { // March 8th
-      [Stats.ATK_P]: 0.28,
-      [Stats.CD]: 0.24,
-      [Stats.DEF_P]: 0.125,
-    },
-    1301: { // Gallagher
-      [Stats.BE]: 0.133,
-      [Stats.HP_P]: 0.18,
-      [Stats.RES]: 0.28,
-    },
-    1302: { // Argenti
-      [Stats.ATK_P]: 0.28,
-      [Stats.Physical_DMG]: 0.144,
-      [Stats.HP_P]: 0.1,
-    },
-    1303: { // Ruan Mei
-      [Stats.BE]: 0.373,
-      [Stats.DEF_P]: 0.225,
-      [Stats.SPD]: 5,
-    },
-    1304: { // Aventurine
-      [Stats.DEF_P]: 0.35,
-      [Stats.Imaginary_DMG]: 0.144,
-      [Stats.RES]: 0.10,
-    },
-    1305: { // Dr Ratio
-      [Stats.ATK_P]: 0.28,
-      [Stats.CR]: 0.12,
-      [Stats.DEF_P]: 0.125,
-    },
-    1306: { // Sparkle
-      [Stats.HP_P]: 0.28,
-      [Stats.CD]: 0.24,
-      [Stats.RES]: 0.10,
-    },
-    1307: { // Black Swan
-      [Stats.ATK_P]: 0.28,
-      [Stats.Wind_DMG]: 0.144,
-      [Stats.EHR]: 0.10,
-    },
-    1308: { // Acheron
-      [Stats.ATK_P]: 0.28,
-      [Stats.Lightning_DMG]: 0.08,
-      [Stats.CD]: 0.24,
-    },
-    1309: { // Robin
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.18,
-      [Stats.SPD]: 5,
-    },
-    1310: { // Firefly
-      [Constants.Stats.BE]: 0.373,
-      [Constants.Stats.RES]: 0.18,
-      [Constants.Stats.SPD]: 5,
-    },
-    1312: { // Misha
-      [Stats.Ice_DMG]: 0.224,
-      [Stats.DEF_P]: 0.225,
-      [Stats.CR]: 0.067,
-    },
-    1314: { // Jade
-      [Constants.Stats.Quantum_DMG]: 0.224,
-      [Constants.Stats.ATK_P]: 0.18,
-      [Constants.Stats.RES]: 0.10,
-    },
-    1315: { // Boothill
-      [Stats.BE]: 0.373,
-      [Stats.ATK_P]: 0.18,
-      [Stats.HP_P]: 0.10,
-    },
-    1317: { // Rappa
-      [Stats.ATK_P]: 0.28,
-      [Stats.SPD]: 9,
-      [Stats.BE]: 0.133,
-    },
-    8001: { // Physical Trailblazer
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    8002: { // Physical Trailblazer
-      [Stats.ATK_P]: 0.28,
-      [Stats.HP_P]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    8003: { // Fire Trailblazer
-      [Stats.DEF_P]: 0.35,
-      [Stats.ATK_P]: 0.18,
-      [Stats.HP_P]: 0.1,
-    },
-    8004: { // Fire Trailblazer
-      [Stats.DEF_P]: 0.35,
-      [Stats.ATK_P]: 0.18,
-      [Stats.HP_P]: 0.1,
-    },
-    8005: { // Imaginary Trailblazer
-      [Stats.BE]: 0.373,
-      [Stats.Imaginary_DMG]: 0.144,
-      [Stats.RES]: 0.10,
-    },
-    8006: { // Imaginary Trailblazer
-      [Stats.BE]: 0.373,
-      [Stats.Imaginary_DMG]: 0.144,
-      [Stats.RES]: 0.10,
-    },
-    8007: { // Remembrance Trailblazer
-      [Stats.CD]: 0.373,
-      [Stats.ATK_P]: 0.14,
-      [Stats.HP_P]: 0.14,
-    },
-    8008: { // Remembrance Trailblazer
-      [Stats.CD]: 0.373,
-      [Stats.ATK_P]: 0.14,
-      [Stats.HP_P]: 0.14,
-    },
-    1225: { // Fugue
-      [Stats.SPD]: 14,
-      [Stats.BE]: 0.24,
-      [Stats.HP_P]: 0.10,
-    },
-    1313: { // Sunday
-      [Stats.CD]: 0.373,
-      [Stats.RES]: 0.18,
-      [Stats.DEF_P]: 0.125,
-    },
-    1401: { // The Herta
-      [Stats.Ice_DMG]: 0.224,
-      [Stats.ATK_P]: 0.18,
-      [Stats.SPD]: 5,
-    },
-    1402: { // Aglaea
-      [Stats.Lightning_DMG]: 0.224,
-      [Stats.CR]: 0.12,
-      [Stats.DEF_P]: 0.125,
-    },
-    1403: { // Tribbie
-      [Stats.CD]: 0.373,
-      [Stats.CR]: 0.12,
-      [Stats.HP_P]: 0.10,
-    },
-    1404: { // Mydei
-      [Stats.CD]: 0.373,
-      [Stats.HP_P]: 0.18,
-      [Stats.SPD]: 5,
-    },
   }
 }
 
@@ -1587,6 +1250,16 @@ function getOverrideImageCenter(): Record<string, {
       y: 1050,
       z: 1.05,
     },
+    1405: { // Anaxa
+      x: 1235,
+      y: 1025,
+      z: 0.90,
+    },
+    1407: { // Castorice
+      x: 875,
+      y: 950,
+      z: 1.00,
+    },
   }
 }
 
@@ -1716,7 +1389,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -1821,7 +1494,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -1930,7 +1603,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -2039,6 +1712,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -2189,7 +1863,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -2334,7 +2008,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -2477,7 +2151,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -2581,12 +2255,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.BandOfSizzlingThunder, Sets.BandOfSizzlingThunder],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -2832,7 +2507,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -2938,6 +2613,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -3040,7 +2716,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -3192,7 +2868,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
           RELICS_2P_BREAK_EFFECT_SPEED,
         ],
         ornamentSets: [
@@ -3298,9 +2974,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -3408,7 +3085,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -3610,7 +3287,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TheWondrousBananAmusementPark,
@@ -3717,9 +3394,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
           Sets.RutilantArena,
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
@@ -3823,7 +3501,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -4026,7 +3704,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -4221,7 +3899,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -4325,7 +4003,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -4433,7 +4111,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
@@ -4670,7 +4348,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -4777,7 +4455,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -4936,10 +4614,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, SKILL, ULT, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -5043,10 +4722,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, BASIC, FUA],
         comboDot: 0,
         comboBreak: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -5146,10 +4826,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
         comboDot: 0,
         comboBreak: 3,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           RELICS_2P_BREAK_EFFECT_SPEED,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.ForgeOfTheKalpagniLantern,
@@ -5291,10 +4973,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.InertSalsotto,
@@ -5441,11 +5124,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, BASIC, FUA, BASIC, FUA],
         comboDot: 0,
         comboBreak: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
           [Sets.TheAshblazingGrandDuke, Sets.KnightOfPurityPalace, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -5554,7 +5238,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -5703,6 +5387,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
@@ -5780,6 +5465,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       simulation: {
         parts: {
           [Parts.Body]: [
+            Stats.ATK_P,
             Stats.CR,
             Stats.CD,
           ],
@@ -5806,7 +5492,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.IzumoGenseiAndTakamaDivineRealm,
@@ -5948,6 +5634,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.ForgeOfTheKalpagniLantern,
@@ -6050,7 +5737,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -6196,7 +5883,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.DuranDynastyOfRunningWolves,
@@ -6294,7 +5981,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           RELICS_2P_BREAK_EFFECT_SPEED,
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
@@ -6392,6 +6079,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
@@ -6493,7 +6181,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -6597,7 +6285,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
@@ -6832,7 +6520,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
@@ -6875,7 +6565,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
@@ -6955,7 +6647,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.IzumoGenseiAndTakamaDivineRealm,
@@ -7027,10 +6719,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
-      addedColumns: [SortOption.MEMO_SKILL],
+      addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -7061,7 +6755,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         relicSets: [
           [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.TheWondrousBananAmusementPark,
@@ -7133,7 +6827,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.FUA,
       hiddenColumns: [],
       simulation: {
@@ -7162,18 +6858,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP,
           Stats.ATK_P,
         ],
-        comboAbilities: [NULL, ULT, FUA, FUA, BASIC, FUA, FUA],
+        comboAbilities: [NULL, ULT, FUA, BASIC, FUA, FUA],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         relicSets: [
-          [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.GiantTreeOfRaptBrooding,
-          Sets.InertSalsotto,
           Sets.BoneCollectionsSereneDemesne,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
@@ -7243,7 +6939,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WASTELANDER_SET,
+      ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [],
       simulation: {
@@ -7275,14 +6973,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
-          [Sets.LongevousDisciple, Sets.LongevousDisciple],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
-          ...SPREAD_RELICS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.RutilantArena,
           Sets.BoneCollectionsSereneDemesne,
+          Sets.RutilantArena,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -7301,6 +6997,217 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: '1203', // Luocha
             lightCone: '23008', // Coffin
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1405: { // Anaxa
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 1,
+        [Stats.Quantum_DMG]: 0,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Wind_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [
+        PresetEffects.fnPioneerSet(4),
+      ],
+      sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, SKILL, SKILL, SKILL],
+        comboDot: 0,
+        comboBreak: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1401', // The Herta
+            lightCone: '23037', // Unreachable
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1407: { // Castorice
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 0,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+        [Stats.ERR]: 0,
+        [Stats.OHB]: 0,
+        [Stats.Physical_DMG]: 0,
+        [Stats.Fire_DMG]: 0,
+        [Stats.Ice_DMG]: 0,
+        [Stats.Lightning_DMG]: 0,
+        [Stats.Wind_DMG]: 0,
+        [Stats.Quantum_DMG]: 1,
+        [Stats.Imaginary_DMG]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.HP_P,
+        ],
+        [Parts.Feet]: [
+          Stats.HP_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.HP_P,
+          Stats.Quantum_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
+      sortOption: SortOption.MEMO_SKILL,
+      addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+        ],
+        comboAbilities: [NULL, SKILL, SKILL, ULT, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_TALENT],
+        comboDot: 0,
+        comboBreak: 0,
+        relicSets: [
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '8008', // RMC
+            lightCone: '21050', // Victory
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

@@ -219,6 +219,10 @@ export const abilitySelectOptions = [
     value: 'MEMO_SKILL',
     label: 'MemoSkill',
   },
+  {
+    value: 'MEMO_TALENT',
+    label: 'MemoTalent',
+  },
 ] as const
 
 function ComboHeader(props: {
@@ -895,6 +899,7 @@ function NumberSlider(props: {
         {
           // @ts-ignore
           <FormSliderWithPopover
+            key={props.value + props.partitionIndex}
             {...contentItem}
             name={contentItem.id}
             title={contentItem.text}

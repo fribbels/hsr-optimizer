@@ -1,0 +1,56 @@
+StrategyLabels:
+  S1: S1 d'abord
+  E0: E0 d'abord
+  E1: E1 d'abord
+  E2: E2 d'abord
+  E3: E3 d'abord
+  E4: E4 d'abord
+  E5: E5 d'abord
+  E6: E6 d'abord
+EidolonLevels:
+  NONE: Aucun
+  E0: E0
+  E1: E1
+  E2: E2
+  E3: E3
+  E4: E4
+  E5: E5
+  E6: E6
+SuperimpositionLevels:
+  NONE: Aucun
+  S1: S1
+  S2: S2
+  S3: S3
+  S4: S4
+  S5: S5
+IncomeOptions:
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
+  Type:
+    0: Aucun
+    1: F2P
+    2: Express
+    3: BP + Express
+PityCounter:
+  PityCounter: Pitié actuelle
+  CurrentEidolonSuperImp: Current
+  Guaranteed: Garanti
+TotalAvailable: "Total de sauts disponibles"
+SectionTitles:
+  Planner: Plan de Saut
+  Results: Résultats
+  Settings: Paramètres
+  Character: Personnage
+  LightCone: Cône de Lumière
+  Passes: Pass
+  Jades: Jades
+  Strategy: Stratégie
+  Banner: Bannière
+  New: Nouvelle
+  Rerun: Rerun
+  AdditionalResources: Ressources supplémentaires
+  Calculate: Calculer
+ColumnTitles:
+  Goal: Objectif
+  Chance: "Chance de succès avec {{ticketCount}} <1/>"
+  Average: "Nombre moyen de <1/> requis"
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

@@ -31,12 +31,14 @@ export type Relic = {
   augmentedStats?: AugmentedStats
   part: Parts
   set: Sets
-  substats: {
-    stat: SubStats
-    value: number
-    rolls?: StatRolls
-    addedRolls?: number
-  }[]
+  substats: RelicSubstatMetadata[]
+}
+
+export type RelicSubstatMetadata = {
+  stat: SubStats
+  value: number
+  rolls?: StatRolls
+  addedRolls?: number
 }
 
 type StatRolls = {

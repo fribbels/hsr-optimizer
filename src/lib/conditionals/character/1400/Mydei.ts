@@ -138,6 +138,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 if (${wgslTrue(r.hpToCrConversion)}) {
   let buffValue: f32 = max(0, min(0.48, 0.016 * floor((c.HP - 5000) / 100)));
   x.CR += buffValue;
+  x.UNCONVERTIBLE_CR_BUFF += buffValue;
 }
 `
     },

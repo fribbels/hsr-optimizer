@@ -169,7 +169,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, SOURCE_ULT)
       x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     teammateDynamicConditionals: [
       {
@@ -188,7 +189,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.floor((x.m.a[Key.CR] - 1.00) / 0.01) * 2.00 * 0.01
+          const buffValue = Math.floor((x.m.a[Key.CR] - x.m.a[Key.UNCONVERTIBLE_CR_BUFF] - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
           x.m.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
@@ -206,9 +207,10 @@ if (x.DEPRIORITIZE_BUFFS > 0) {
 }
 
 let cr = (*p_m).CR;
+let unconvertibleCr = (*p_m).UNCONVERTIBLE_CR_BUFF;
 
 if (cr > 1.00) {
-  let buffValue: f32 = floor((cr - 1.00) / 0.01) * 2.00 * 0.01;
+  let buffValue: f32 = floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01;
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;
@@ -233,7 +235,7 @@ if (cr > 1.00) {
           }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.floor((x.a[Key.CR] - 1.00) / 0.01) * 2.00 * 0.01
+          const buffValue = Math.floor(((x.a[Key.CR] - x.a[Key.UNCONVERTIBLE_CR_BUFF]) - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
           x.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
@@ -251,7 +253,7 @@ if (x.DEPRIORITIZE_BUFFS > 0) {
 }
 
 if (x.CR > 1.00) {
-  let buffValue: f32 = floor((x.CR - 1.00) / 0.01) * 2.00 * 0.01;
+  let buffValue: f32 = floor((x.CR - x.UNCONVERTIBLE_CR_BUFF - 1.00) / 0.01) * 2.00 * 0.01;
   let stateValue: f32 = (*p_state).${this.id};
 
   (*p_state).${this.id} = buffValue;

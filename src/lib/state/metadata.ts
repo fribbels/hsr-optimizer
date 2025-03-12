@@ -7046,6 +7046,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
+        PresetEffects.GENIUS_SET,
       ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
@@ -7080,6 +7081,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

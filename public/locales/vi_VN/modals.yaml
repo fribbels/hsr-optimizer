@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "Đặt lại bộ lọc ST Kích Phá tối thiểu"
       Description: "Sát Thương Kích Phá tối thiểu quá cao"
       ButtonText: "Đặt lại bộ lọc ST Kích Phá tối thiểu"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối đa"
+      Description: "Sát thương Kỹ Năng Linh Hồn Ký Ức tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối đa"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối thiểu"
+      Description: "Sát thương Kỹ Năng Linh Hồn Ký Ức tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối thiểu"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối đa"
+      Description: "Sát thương Kỹ Năng Linh Hồn Ký Ức tối đa quá thấp"
+      ButtonText: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối đa"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối thiểu"
+      Description: "Sát thương Kỹ Năng Linh Hồn Ký Ức tối thiểu quá cao"
+      ButtonText: "Đặt lại bộ lọc Kỹ Năng Linh Hồn Ký Ức tối thiểu"
     MAX_HEAL:
       SuccessMessage: "Đặt lại bộ lọc lượng hồi máu tối đa"
       Description: "Lượng hồi máu tối đa quá thấp"

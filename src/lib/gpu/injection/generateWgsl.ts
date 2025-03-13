@@ -22,30 +22,30 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
-  wgsl = injectSuppressions(wgsl, context, gpuParams)
+  wgsl = injectSuppressions(wgsl, request, context, gpuParams)
 
   return wgsl
 }
 
-function injectSuppressions(wgsl: string, context: OptimizerContext, gpuParams: GpuConstants) {
+function injectSuppressions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   if (context.path != PathNames.Remembrance) {
     wgsl = suppress(wgsl, 'COPY MEMOSPRITE BASIC STATS')
     wgsl = suppress(wgsl, 'MEMOSPRITE DAMAGE CALCS')
     wgsl = suppress(wgsl, 'MC ASSIGNMENT')
   }
 
-  if (context.resultSort != SortOption.EHP.key && !gpuParams.DEBUG) {
+  if (context.resultSort != SortOption.EHP.key && !gpuParams.DEBUG && request.minEhp == 0 && request.maxEhp == Constants.MAX_INT) {
     wgsl = suppress(wgsl, 'EHP CALC')
   }
 
   if (context.resultSort != SortOption.COMBO.key && !gpuParams.DEBUG) {
-    if (context.resultSort != SortOption.DOT.key) wgsl = suppress(wgsl, 'DOT CALC')
-    if (context.resultSort != SortOption.BASIC.key) wgsl = suppress(wgsl, 'BASIC CALC')
-    if (context.resultSort != SortOption.SKILL.key) wgsl = suppress(wgsl, 'SKILL CALC')
-    if (context.resultSort != SortOption.ULT.key) wgsl = suppress(wgsl, 'ULT CALC')
-    if (context.resultSort != SortOption.FUA.key) wgsl = suppress(wgsl, 'FUA CALC')
-    if (context.resultSort != SortOption.MEMO_SKILL.key) wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
-    if (context.resultSort != SortOption.MEMO_TALENT.key) wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
+    if (context.resultSort != SortOption.DOT.key && request.minDot == 0 && request.maxDot == Constants.MAX_INT) wgsl = suppress(wgsl, 'DOT CALC')
+    if (context.resultSort != SortOption.BASIC.key && request.minBasic == 0 && request.maxBasic == Constants.MAX_INT) wgsl = suppress(wgsl, 'BASIC CALC')
+    if (context.resultSort != SortOption.SKILL.key && request.minSkill == 0 && request.maxSkill == Constants.MAX_INT) wgsl = suppress(wgsl, 'SKILL CALC')
+    if (context.resultSort != SortOption.ULT.key && request.minUlt == 0 && request.maxUlt == Constants.MAX_INT) wgsl = suppress(wgsl, 'ULT CALC')
+    if (context.resultSort != SortOption.FUA.key && request.minFua == 0 && request.maxFua == Constants.MAX_INT) wgsl = suppress(wgsl, 'FUA CALC')
+    if (context.resultSort != SortOption.MEMO_SKILL.key && request.minMemoSkill == 0 && request.maxMemoSkill == Constants.MAX_INT) wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
+    if (context.resultSort != SortOption.MEMO_TALENT.key && request.minMemoTalent == 0 && request.maxMemoTalent == Constants.MAX_INT) wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
   }
 
   return wgsl

@@ -177,7 +177,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      const atkBuff = (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0
+      const atkBuff = (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
       x.ATK.buffTeam(atkBuff, SOURCE_ULT)
       x.UNCONVERTIBLE_ATK_BUFF.buffTeam(atkBuff, SOURCE_ULT)
 

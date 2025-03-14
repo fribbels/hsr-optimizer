@@ -128,8 +128,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, SOURCE_SKILL)
-      x.UNCONVERTIBLE_HP_BUFF.buffTeam((t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0, SOURCE_SKILL)
+      const hpBuff = (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
+      x.HP.buffTeam(hpBuff, SOURCE_SKILL)
+      x.UNCONVERTIBLE_HP_BUFF.buffTeam(hpBuff, SOURCE_SKILL)
 
       // Skill ehp buff only applies to teammates
       x.DMG_RED_MULTI.multiplyTeam((t.skillActive) ? (1 - 0.65) : 1, SOURCE_SKILL)
@@ -151,7 +152,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.skillActive
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context,
+          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context, SOURCE_SKILL,
             (convertibleValue) => convertibleValue * skillHpBuffValue,
           )
         },

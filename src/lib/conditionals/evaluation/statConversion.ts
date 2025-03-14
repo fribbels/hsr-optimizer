@@ -1,6 +1,6 @@
 import { ConvertibleStatsType, statConversionConfig } from 'lib/conditionals/evaluation/statConversionConfig'
 import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { Source } from 'lib/optimization/buffSource'
+import { BuffSource } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -11,6 +11,7 @@ export function dynamicStatConversion(
   x: ComputedStatsArray,
   action: OptimizerAction,
   context: OptimizerContext,
+  source: BuffSource,
   buffFn: (convertibleValue: number) => number,
 ) {
   const statConfig = statConversionConfig[sourceStat]
@@ -29,8 +30,8 @@ export function dynamicStatConversion(
 
   action.conditionalState[conditional.id] = buffFull
 
-  x[destConfig.unconvertibleProperty]?.buff(buffDelta, Source.NONE)
-  x[destConfig.property].buffDynamic(buffDelta, Source.NONE, action, context)
+  x[destConfig.unconvertibleProperty]?.buff(buffDelta, source)
+  x[destConfig.property].buffDynamic(buffDelta, source, action, context)
 }
 
 export function gpuDynamicStatConversion(

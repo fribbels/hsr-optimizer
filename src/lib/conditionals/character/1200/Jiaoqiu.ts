@@ -152,7 +152,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, SOURCE_E6)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    },
     gpuFinalizeCalculations: () => '',
     dynamicConditionals: [
       {
@@ -166,7 +167,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.ehrToAtkBoost && x.a[Key.EHR] > 0.80
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.EHR, Stats.ATK, this, x, action, context,
+          dynamicStatConversion(Stats.EHR, Stats.ATK, this, x, action, context, SOURCE_TRACE,
             (convertibleValue) => Math.min(2.40, 0.60 * Math.floor((convertibleValue - 0.80) / 0.15)) * context.baseATK,
           )
         },

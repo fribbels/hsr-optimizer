@@ -30,6 +30,7 @@ SortOptions:
   ULT: Sắp xếp theo ST Tuyệt Kỹ
   FUA: Sắp xếp theo ST Đòn đánh theo sau
   MEMO_SKILL: Sắp xếp theo ST của Linh hồn ký ức
+  MEMO_TALENT: Sắp xếp theo ST của Thiên Phú Linh hồn ký ức
   DOT: Sắp xếp theo ST theo thời gian
   BREAK: Sắp xếp theo ST Kích Phá
   HEAL: Sắp xếp theo trị liệu
@@ -122,6 +123,9 @@ Grid:
       MEMO_SKILL: |-
         LINH HỒN
         KÝ ỨC
+      MEMO_TALENT: |-
+        ST THIÊN PHÚ
+        LHKY
       DOT: |-
         ST
         DUY TRÌ
@@ -165,6 +169,9 @@ Grid:
       MEMO_SKILL: |-
         LINH HỒN
         KÝ ỨC
+      MEMO_TALENT: |-
+        ST THIÊN PHÚ
+        LHKY
       DOT: |-
         ST
         DUY TRÌ
@@ -227,6 +234,7 @@ FormRowLabels:
   Relic & stat filters: Bộ lọc di vật và chỉ số
   Teammates: Đồng đội
   Character custom stats simulation: Mô phỏng chỉ số đồng đội tùy chọn
+  Analysis: Phân tích kết quả tối ưu hóa
 TracesDrawer:
   Title: Tùy chỉnh chỉ số vết tích
   Header: Chỉ số vết tích đã kích hoạt (tất cả được bật theo mặc định)
@@ -307,7 +315,9 @@ SetConditionals:
     Watchmaker: Khi bật, buff HIỆU ỨNG KÍCH PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu.
     Valorous: Buff TỶ LỆ CHÍ MẠNG (CRIT Rate) luôn mặc định được bật. Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff.
     Differentiator: Khi bật, buff TỶ LỆ CHÍ MẠNG (CRIT Rate) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu.
+    Penacony: Khi bật, buff DMG% sẽ được áp dụng cho linh hồn ký ức của người trang bị.
     Sigonia: Buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) được chọn sẽ áp dụng vào các phép tính chỉ số Chiến đấu, giả định nhân vật đã đánh bại số lượng kẻ địch tương ứng.
+    Izumo: Khi bật, giả định có một đồng minh khác cùng vận mệnh và áp dụng buff 12% TỶ LỆ CHÍ MẠNG (CRIT Rate) vào các phép tính chỉ số Chiến đấu.
     Duran: Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff
     Kalpagni: Khi bật, buff HIỆU ỨNG PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu
     Lushaka: Buff được chọn sẽ áp dụng vào các phép tính sát thương
@@ -400,6 +410,7 @@ MinMaxFilters:
   COMBOLabel: COMBO
 ComboFilter:
   Header: Thứ tự dùng kỹ năng combo
+  AbilityLabel: Kĩ năng
   ModeSelector:
     Simple: Đơn giản
     Advanced: Nâng cao
@@ -417,6 +428,7 @@ ComboFilter:
     Ult: Tuyệt Kỹ
     Fua: Đòn theo sau
     MemoSkill: Linh Hồn Ký Ức
+    MemoTalent: THIÊN PHÚ LHKY
   RotationButton: Thứ tự kỹ năng nâng cao
 ComboDrawer:
   NoConditionals: Không có nội tại được kích hoạt theo điều kiện.
@@ -513,16 +525,51 @@ ExpandedDataPanel:
       Basic: Tấn công thường
       Skill: Chiến kỹ
       Ult: Tuyệt Kỹ
+      Talent: Thiên Phú
+      Technique: Bí Kỹ
+      Trace: Năng Lực Thêm
+      Memo: LH Ký Ức
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x Thuộc tính phụ'
+      COMBO_DMG: Δ ST Combo
+      COMBO_DMG_P: Δ% ST Combo
+      EHP: Δ EHP
+      EHP_P: Δ% EHP
+      HEAL_VALUE: Δ Trị Liệu
+      HEAL_VALUE_P: Δ% Trị Liệu
+      SHIELD_VALUE: Δ Lá Chắn
+      SHIELD_VALUE_P: Δ% Lá Chắn
   DamageSplits:
+    Title: Phân Loại Sát Thương
     Legend:
+      abilityDmg: Kỹ năng
       breakDmg: Kích Phá
+      superBreakDmg: Siêu Phá Vỡ
+      additionalDmg: Bổ sung
+      trueDmg: 'ST Chuẩn'
+      jointDmg: ST Chung
+      dotDmg: Dot
+      memoDmg: LH Ký Ức
     YAxisLabel:
       BASIC_DMG: Tấn công thường
       SKILL_DMG: Chiến kỹ
       ULT_DMG: Tuyệt Kỹ
       FUA_DMG: Đòn theo sau
+      DOT_DMG: Dot
       BREAK_DMG: Kích Phá
       MEMO_SKILL_DMG: Linh Hồn Ký Ức
+      MEMO_TALENT_DMG: THIÊN PHÚ LHKY
     TooltipText:
+      abilityDmg: ST Chiến Kỹ
       breakDmg: ST Kích Phá
+      superBreakDmg: ST Siêu Phá Vỡ
+      additionalDmg: ST Kèm Theo
+      trueDmg: ST Chuẩn
+      jointDmg: ST Chung
       dotDmg: ST Duy Trì
+      memoDmg: ST Linh Hồn KÝ Ức

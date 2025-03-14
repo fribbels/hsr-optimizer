@@ -82,6 +82,12 @@ RelicGrid:
         Label: "Nhân vật đã chọn: Xoay lại tiềm năng delta trung bình"
         Header: |-
           Giá Trị Δ Reroll cho nhân vật
+      RerollAvgEquippedDelta:
+        Label: "Nhân vật đã chọn: Tiềm năng reroll delta trung bình so với đồ đang mặc"
+        Header: |-
+          Nhân vật được chọn  
+          ∆ Trung bình reroll  
+          So với trang bị
     CustomCharacters:
       Label: Tùy chọn nhân vật
       AvgPotCol:

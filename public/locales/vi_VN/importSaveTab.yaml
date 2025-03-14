@@ -9,11 +9,19 @@ Import:
     InvalidFile: Tệp scan không hợp lệ
     InvalidJson: JSON không hợp lệ
     Fragment: "Đã xảy ra lỗi khi nhập tệp:"
+  ParserError:
+    BadSource: Chuỗi nguồn không chính xác, không phải '{{jsonSource}}',cần '{{configSource}}'
+    BadVersion: Phiên bản json không chính xác, không phải '{{jsonVersion}}', cần phiên bản '{{configVersion}}'
+    OutdatedVersion: "Phiên bản scanner của bạn {{buildVersion}} đã lỗi thời và có thể dẫn đến việc nhập không chính xác! Vui lòng cập nhật lên phiên bản mới nhất từ Github:"
+    BadMainstat: Không thể phân tích dòng chính cho di vật với dòng chính {{mainstat}} và phần {{part}}
+  ParserWarning:
+    BadRollInfo: Tệp scanner đã lỗi thời / có thể chứa thông tin không hợp lệ. Vui lòng cập nhật scanner của bạn
   Stage1:
     Header: "Cài đặt và chạy một trong các tùy chọn scanner di vật:"
     ReliquaryDesc:
       Title: (Khuyên dùng) IceDynamix Reliquary Archiver
       Link: Github
+      OnlineMsg: "Trạng thái: Đã cập nhật cho bản vá {{version}}"
       OfflineMsg: "***** Trạng thái: Đang bảo trì cho phiên bản {{version}} *****"
       l1: Tốc độ có số thập phân chuẩn, scan ngay lập tức
       l2: Nhập toàn bộ Túi và Danh sách nhân vật

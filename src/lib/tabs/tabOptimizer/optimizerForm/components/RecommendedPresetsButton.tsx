@@ -2,7 +2,7 @@ import { DownOutlined } from '@ant-design/icons'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Button, Dropdown } from 'antd'
 import { TFunction } from 'i18next'
-import { Constants, Sets } from 'lib/constants/constants'
+import { Constants, ElementNames, PathNames, Sets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
 import DB from 'lib/state/db'
@@ -286,6 +286,7 @@ export function applySpdPreset(spd: number, characterId: string | undefined) {
 export default RecommendedPresetsButton
 
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
+  const characterMetadata = DB.getMetadata().characters[form.characterId]
   Utils.mergeUndefinedValues(form, getDefaultForm())
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
@@ -305,7 +306,10 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   form.weights.sphereRope = form.weights.sphereRope || 0
 
   // Disable elemental conditions by default if the character is not of the same element
-  const element = DB.getMetadata().characters[form.characterId].element
-  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum'
-  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == 'Fire'
+  const element = characterMetadata.element
+  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == ElementNames.Quantum
+  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire
+
+  const path = characterMetadata.path
+  form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
 }

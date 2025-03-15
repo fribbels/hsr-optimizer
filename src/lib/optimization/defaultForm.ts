@@ -154,7 +154,7 @@ export const defaultSetConditionals = {
   [Sets.TheWindSoaringValorous]: [undefined, false],
   [Sets.SacerdosRelivedOrdeal]: [undefined, 0],
   [Sets.ScholarLostInErudition]: [undefined, true],
-  [Sets.HeroOfTriumphantSong]: [undefined, true],
+  [Sets.HeroOfTriumphantSong]: [undefined, false],
   [Sets.PoetOfMourningCollapse]: [undefined, true],
 
   [Sets.SpaceSealingStation]: [undefined, true],

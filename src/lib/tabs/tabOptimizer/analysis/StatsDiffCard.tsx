@@ -101,7 +101,7 @@ function DiffRow(props: {
       </div>
 
       <span style={{ marginLeft: 15, marginRight: 15, fontSize: 14, lineHeight: '17px' }}>
-        ⮞
+        ➤
       </span>
 
       <Flex style={{ width: 55 }} justify='end'>

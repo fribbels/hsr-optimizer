@@ -755,3 +755,7 @@ a {
 .buff-table .ant-table-thead {
     display: none;
 }
+
+.no-highlight {
+    user-select: none !important;
+}

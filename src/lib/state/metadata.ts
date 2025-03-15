@@ -6967,7 +6967,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
-          Stats.ATK_P,
         ],
         comboAbilities: [NULL, SKILL, ULT, SKILL],
         comboDot: 0,
@@ -7086,6 +7085,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.FirmamentFrontlineGlamoth,
           Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],

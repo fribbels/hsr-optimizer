@@ -185,7 +185,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         return r.defToCrBoost && x.a[Key.DEF] > 1600
       },
       effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        dynamicStatConversion(Stats.DEF, Stats.CR, this, x, action, context,
+        dynamicStatConversion(Stats.DEF, Stats.CR, this, x, action, context, SOURCE_TRACE,
           (convertibleValue) => Math.min(0.48, 0.02 * Math.floor((convertibleValue - 1600) / 100)),
         )
       },

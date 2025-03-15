@@ -53,7 +53,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           return r.resToHealingBoost
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.RES, Stats.OHB, this, x, action, context,
+          dynamicStatConversion(Stats.RES, Stats.OHB, this, x, action, context, SOURCE_LC,
             (convertibleValue) => Math.min(sMaxValues[s], sValues[s] * convertibleValue),
           )
         },

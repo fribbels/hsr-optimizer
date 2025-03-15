@@ -181,7 +181,7 @@ if (${wgslTrue(r.enhancedStateActive)}) {
           return r.atkToBeConversion && x.a[Key.ATK] > 1800
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.ATK, Stats.BE, this, x, action, context,
+          dynamicStatConversion(Stats.ATK, Stats.BE, this, x, action, context, SOURCE_TRACE,
             (convertibleValue) => 0.008 * Math.floor((convertibleValue - 1800) / 10),
           )
         },

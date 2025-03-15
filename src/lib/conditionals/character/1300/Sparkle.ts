@@ -148,28 +148,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      const cdBuff = t.skillCdBuff
+        ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
+        : 0
       if (e >= 6) {
-        x.CD.buffTeam(
-          (t.skillCdBuff)
-            ? skillCdBuffBase + (skillCdBuffScaling + 0.30) * t.teammateCDValue
-            : 0,
-          SOURCE_SKILL)
-        x.UNCONVERTIBLE_CD_BUFF.buffTeam(
-          (t.skillCdBuff)
-            ? skillCdBuffBase + (skillCdBuffScaling + 0.30) * t.teammateCDValue
-            : 0,
-          SOURCE_SKILL)
+        x.CD.buffTeam(cdBuff, SOURCE_SKILL)
+        x.UNCONVERTIBLE_CD_BUFF.buffTeam(cdBuff, SOURCE_SKILL)
       } else {
-        x.CD.buffSingle(
-          (t.skillCdBuff)
-            ? skillCdBuffBase + (skillCdBuffScaling) * t.teammateCDValue
-            : 0,
-          SOURCE_SKILL)
-        x.UNCONVERTIBLE_CD_BUFF.buffSingle(
-          (t.skillCdBuff)
-            ? skillCdBuffBase + (skillCdBuffScaling) * t.teammateCDValue
-            : 0,
-          SOURCE_SKILL)
+        x.CD.buffSingle(cdBuff, SOURCE_SKILL)
+        x.UNCONVERTIBLE_CD_BUFF.buffSingle(cdBuff, SOURCE_SKILL)
       }
     },
     finalizeCalculations: (x: ComputedStatsArray) => {
@@ -188,7 +175,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.skillCdBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context,
+          dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context, SOURCE_SKILL,
             (convertibleValue) => convertibleValue * (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)),
           )
         },

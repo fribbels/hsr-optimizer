@@ -156,7 +156,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.benedictionBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.ATK, Stats.ATK, this, x, action, context,
+          dynamicStatConversion(Stats.ATK, Stats.ATK, this, x, action, context, SOURCE_TRACE,
             (convertibleValue) => convertibleValue * skillAtkBoostMax,
           )
         },

@@ -93,7 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return true
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.DEF, Stats.ATK, this, x, action, context,
+          dynamicStatConversion(Stats.DEF, Stats.ATK, this, x, action, context, SOURCE_TRACE,
             (convertibleValue) => convertibleValue * 0.35,
           )
         },

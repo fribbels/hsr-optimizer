@@ -198,7 +198,7 @@ export function CharacterPreview(props: {
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
   return (
-    <Flex vertical style={{ width: 1068 }}>
+    <Flex vertical style={{ width: 1082 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         type='edit'

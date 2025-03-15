@@ -37,9 +37,7 @@ export const CharacterScoringSummary = (props: {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
   if (!props.simScoringResult) return (
-    <pre style={{ height: 200 }}>
-      {' '}
-    </pre>
+    <></>
   )
 
   const result = TsUtils.clone(props.simScoringResult)

@@ -44,7 +44,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   } = showcaseMetadata
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ minHeight: 1000 }}>
       <Flex justify='center' gap={10}>
         <Flex
           justify='center'

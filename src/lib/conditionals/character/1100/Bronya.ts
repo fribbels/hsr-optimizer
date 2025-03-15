@@ -159,7 +159,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      const cdBuff = (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue + ultCdBoostValue : 0
+      const cdBuff = (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue + ultCdBoostBaseValue : 0
       x.CD.buffTeam(cdBuff, SOURCE_ULT)
       x.UNCONVERTIBLE_CD_BUFF.buffTeam(cdBuff, SOURCE_ULT)
     },

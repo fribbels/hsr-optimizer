@@ -56,7 +56,7 @@ export function generateParamsMatrix(
     b,
     g,
     h,
-    gpuContext.resultsQueue.top()?.value ?? 0,
+    gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? (gpuContext.resultsQueue.top()?.value ?? 0) : 0,
   ])
   // return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }

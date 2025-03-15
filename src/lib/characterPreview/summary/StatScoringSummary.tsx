@@ -1,16 +1,14 @@
 import { Flex, Typography } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import { enrichRelicAnalysis, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { CHARACTER_SCORE } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { scoreTbp } from 'lib/relics/estTbp/estTbp'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import { filterNonNull } from 'lib/utils/arrayUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Relic } from 'types/relic'
 
 // FIXME MED
 
@@ -39,10 +37,8 @@ export const StatScoringSummary = (props: {
 
   const scoringMetadata = DB.getScoringMetadata(showcaseMetadata.characterId)
 
-  filterNonNull(Object.values(displayRelics)).forEach((relic) => {
-    const days = scoreTbp(relic, scoringMetadata.stats)
-    console.log(days, relic)
-  })
+  const enrichedRelics = enrichRelicAnalysis(displayRelics, scoringMetadata)
+
   const gridStyle = {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)', // 2 columns
@@ -53,13 +49,13 @@ export const StatScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical gap={10} style={{ marginTop: 20 }}>
-      <RelicContainer relic={displayRelics.Head}/>
-      <RelicContainer relic={displayRelics.Hands}/>
-      <RelicContainer relic={displayRelics.Body}/>
-      <RelicContainer relic={displayRelics.Feet}/>
-      <RelicContainer relic={displayRelics.PlanarSphere}/>
-      <RelicContainer relic={displayRelics.LinkRope}/>
+    <Flex vertical gap={10} style={gridStyle}>
+      <RelicContainer relicAnalysis={enrichedRelics.Head}/>
+      <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
+      <RelicContainer relicAnalysis={enrichedRelics.Body}/>
+      <RelicContainer relicAnalysis={enrichedRelics.Feet}/>
+      <RelicContainer relicAnalysis={enrichedRelics.PlanarSphere}/>
+      <RelicContainer relicAnalysis={enrichedRelics.LinkRope}/>
     </Flex>
   )
 
@@ -72,47 +68,64 @@ export const StatScoringSummary = (props: {
   // )
 }
 
-function RelicContainer(props: { relic: Relic }) {
-  const { relic } = props
-  if (!relic) {
-    return <></>
+function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
+  const { relicAnalysis } = props
+  const cardStyle = {
+    width: '100%',
+    flex: 1,
+    borderRadius: 5,
+    overflow: 'hidden',
+    padding: 10,
+    background: 'rgb(29 42 81 / 73%)',
+    boxShadow: cardShadowNonInset,
+    backdropFilter: 'blur(5px)',
+    border: '1px solid rgba(255, 255, 255, 0.10)',
+    WebkitBackdropFilter: 'blur(5px)',
+    minHeight: 302,
+  }
+  if (!relicAnalysis) {
+    return (
+      <div style={cardStyle}/>
+    )
   }
   return (
     <Flex
-      style={{
-        width: '100%',
-        flex: 1,
-        borderRadius: 5,
-        overflow: 'hidden',
-        padding: 10,
-        background: 'rgb(29 42 81 / 73%)',
-        boxShadow: cardShadowNonInset,
-        backdropFilter: 'blur(5px)',
-        border: '1px solid rgba(255, 255, 255, 0.10)',
-        WebkitBackdropFilter: 'blur(5px)',
-      }}
+      style={cardStyle}
       gap={10}
     >
-      <RelicPreview setSelectedRelic={() => {}} relic={relic}/>
-      <RelicAnalysis relic={relic}/>
+      <RelicPreview setSelectedRelic={() => {}} relic={relicAnalysis.relic}/>
+      <RelicAnalysisCard relicAnalysis={relicAnalysis}/>
     </Flex>
   )
 }
 
-function RelicAnalysis(props: { relic: Relic }) {
+function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
+  const { relicAnalysis } = props
+  const cardStyle = {
+    flex: 1,
+    borderRadius: 5,
+    overflow: 'hidden',
+    padding: 10,
+    background: '#243356',
+    border: '1px solid #354b7d',
+  }
+  if (!relicAnalysis) {
+    return (
+      <div style={cardStyle}/>
+    )
+  }
   return (
     <Flex
-      style={{
-        // width: 850,
-        flex: 1,
-        borderRadius: 5,
-        overflow: 'hidden',
-        padding: 10,
-        background: '#243356',
-        border: '1px solid #354b7d',
-      }}
+      style={cardStyle}
     >
-      test
+      <Flex vertical>
+        <span>
+          {relicAnalysis.estTbp} TBP
+        </span>
+        <span>
+          {relicAnalysis.estDays} Days
+        </span>
+      </Flex>
     </Flex>
   )
 }

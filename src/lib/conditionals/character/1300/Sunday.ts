@@ -192,6 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
           action.conditionalState[this.id] = buffValue
           x.m.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
+          x.m.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -214,6 +215,7 @@ if (cr > 1.00) {
 
   (*p_state).${this.id} = buffValue;
   (*p_m).CD += buffValue - stateValue;
+  (*p_m).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
 }
           `)
         },
@@ -238,6 +240,7 @@ if (cr > 1.00) {
 
           action.conditionalState[this.id] = buffValue
           x.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
+          x.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -257,6 +260,7 @@ if (x.CR > 1.00) {
 
   (*p_state).${this.id} = buffValue;
   (*p_x).CD += buffValue - stateValue;
+  (*p_x).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
 }
     `)
         },

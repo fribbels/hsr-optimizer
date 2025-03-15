@@ -204,6 +204,7 @@ const MenuDrawer = () => {
       selectedKeys={[activeKey]}
       mode='inline'
       items={items}
+      className='no-highlight'
     />
   )
 }

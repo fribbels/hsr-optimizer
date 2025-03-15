@@ -95,7 +95,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue),
       }),
       min: 0,
-      max: 200,
+      max: 300,
     },
     targetBurdenActive: content.targetBurdenActive,
     burdenAtkBuff: content.burdenAtkBuff,

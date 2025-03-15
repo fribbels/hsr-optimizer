@@ -14,6 +14,7 @@ import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { filterNonNull } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
@@ -78,6 +79,13 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
     displayRelics = equipped
   }
+
+  filterNonNull(Object.values(displayRelics)).forEach((relic) => {
+    const foundScore = scoringResults.relics.find((result) => result.part == relic.part)
+    if (foundScore) {
+      relic.scoringResult = foundScore
+    }
+  })
 
   return { scoringResults, displayRelics }
 }

@@ -710,7 +710,7 @@ export class RelicScorer {
    * @param relics relics to score against the character
    */
   scoreCharacterWithRelics(character: Character, relics: Relic[]): {
-    relics: object[]
+    relics: RelicScoringResult[]
     totalScore: number
     totalRating: string
   } {

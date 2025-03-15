@@ -26,3 +26,8 @@ export function stringArrayToMap<T extends string>(array: T[]) {
 export function filterUnique<T>(arr: T[]) {
   return arr.filter((value, index, array) => array.indexOf(value) === index)
 }
+
+// [1, 2, null, 3] => [1, 2, 3]
+export function filterNonNull<T>(arr: T[]) {
+  return arr.filter((value) => value != null)
+}

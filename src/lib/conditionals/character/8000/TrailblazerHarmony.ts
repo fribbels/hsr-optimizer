@@ -142,10 +142,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, SOURCE_E4)
-      x.UNCONVERTIBLE_BE_BUFF.buffTeam((e >= 4) ? 0.15 * t.teammateBeValue : 0, SOURCE_E4)
+      const beBuff = (e >= 4) ? 0.15 * t.teammateBeValue : 0
+      x.BE.buffTeam(beBuff, SOURCE_E4)
+      x.UNCONVERTIBLE_BE_BUFF.buffTeam(beBuff, SOURCE_E4)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
+    finalizeCalculations: (x: ComputedStatsArray) => {
+    },
     gpuFinalizeCalculations: () => '',
   }
 }

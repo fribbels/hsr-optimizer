@@ -128,8 +128,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buff((r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0, SOURCE_TRACE)
-      x.UNCONVERTIBLE_CR_BUFF.buff((r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0, SOURCE_TRACE)
+      const crBuff = (r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0
+      x.CR.buff(crBuff, SOURCE_TRACE)
+      x.UNCONVERTIBLE_CR_BUFF.buff(crBuff, SOURCE_TRACE)
     },
     gpuCalculateBasicEffects: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -173,7 +174,7 @@ if (${wgslTrue(r.vendettaState)}) {
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context,
+          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context, SOURCE_TALENT,
             (convertibleValue) => convertibleValue * 0.50,
           )
         },

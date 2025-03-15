@@ -168,7 +168,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          dynamicStatConversion(Stats.BE, Stats.OHB, this, x, action, context,
+          dynamicStatConversion(Stats.BE, Stats.OHB, this, x, action, context, SOURCE_TRACE,
             (convertibleValue) => Math.min(0.75, 0.50 * convertibleValue),
           )
         },

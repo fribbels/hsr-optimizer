@@ -879,7 +879,7 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23036: 180,
     21052: 200,
     21051: 180,
-    21050: 170,
+    21050: 260,
     20022: 305,
     20021: 320,
 

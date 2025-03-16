@@ -10,6 +10,7 @@ import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { RelicSubstatMetadata } from 'types/relic'
 
 // FIXME MED
 
@@ -122,16 +123,32 @@ function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
     >
       <Flex vertical>
         <span>
-          {localeNumberComma(relicAnalysis.estTbp)} TBP
-        </span>
-        <span>
           {localeNumberComma(relicAnalysis.estDays)} Days
         </span>
         <span>
-          {localeNumber_0(relicAnalysis.currentPotential)}% Perfection
+          {localeNumberComma(relicAnalysis.estTbp)} TBP
         </span>
+        <span>
+          {localeNumber_0(relicAnalysis.currentPotential)} % Perfection
+        </span>
+        <span>
+          {localeNumber_0(relicAnalysis.rerollPotential - relicAnalysis.currentPotential)} % Avg Reroll Δ
+        </span>
+        <TempSubstat substat={relicAnalysis.relic.substats[0]}/>
+        <TempSubstat substat={relicAnalysis.relic.substats[1]}/>
+        <TempSubstat substat={relicAnalysis.relic.substats[2]}/>
+        <TempSubstat substat={relicAnalysis.relic.substats[3]}/>
       </Flex>
     </Flex>
   )
 }
 
+function TempSubstat(props: { substat: RelicSubstatMetadata }) {
+  const { substat } = props
+  const rolls = substat.rolls!
+  return (
+    <span>
+      {`High: ${rolls.high}, Mid: ${rolls.mid}, Low: ${rolls.low} - ${substat.stat}`}
+    </span>
+  )
+}

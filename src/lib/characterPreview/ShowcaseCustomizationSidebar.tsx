@@ -220,8 +220,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
           { value: 0, label: tScoring('SpdWeight.Min')/* '0%' */ },
         ],
         buffPriorityOptions: [
-          { value: false, label: tScoring('BuffPriority.High')/* 'High' */ },
-          { value: true, label: tScoring('BuffPriority.Low')/* 'Low' */ },
+          { value: false, label: tScoring('BuffPriority.High')/* 'Main' */ },
+          { value: true, label: tScoring('BuffPriority.Low')/* 'Sub' */ },
         ],
       }
     }, [tScoring])

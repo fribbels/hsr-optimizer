@@ -6,7 +6,7 @@ import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
@@ -301,7 +301,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsArray) {
   d.xELEMENTAL_DMG = x.ELEMENTAL_DMG.get()
 
   d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
-  if (x.m) {
+  if (x.a[Key.MEMOSPRITE]) {
     const c = x.m.c
     d.mHP = c.HP.get()
     d.mATK = c.ATK.get()

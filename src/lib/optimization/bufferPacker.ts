@@ -224,7 +224,7 @@ export const BufferPacker = {
     arr[offset + 37] = a[Key.ELEMENTAL_DMG]
     arr[offset + 38] = c.relicSetIndex
     arr[offset + 39] = c.ornamentSetIndex
-    if (x.m) {
+    if (x.a[Key.MEMOSPRITE]) {
       const ca = x.m.c.a
       arr[offset + 40] = ca[Key.HP]
       arr[offset + 41] = ca[Key.ATK]

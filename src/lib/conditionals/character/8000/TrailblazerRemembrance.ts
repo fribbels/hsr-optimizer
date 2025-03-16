@@ -223,7 +223,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           if (!r.teamCdBuff) {
             return
           }
-          if (x.m) {
+          if (x.a[Key.MEMOSPRITE]) {
             return this.effect(x.m, action, context)
           }
 

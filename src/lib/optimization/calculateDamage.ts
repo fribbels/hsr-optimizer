@@ -130,7 +130,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.BASIC_TRUE_DMG_MODIFIER],
-      x.m ? x.m.a[Key.BASIC_DMG] : 0,
+      x.a[Key.MEMOSPRITE] ? x.m.a[Key.BASIC_DMG] : 0,
     )
   }
 
@@ -171,7 +171,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.SKILL_TRUE_DMG_MODIFIER],
-      x.m ? x.m.a[Key.SKILL_DMG] : 0,
+      x.a[Key.MEMOSPRITE] ? x.m.a[Key.SKILL_DMG] : 0,
     )
   }
 
@@ -212,7 +212,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.ULT_TRUE_DMG_MODIFIER],
-      x.m ? x.m.a[Key.ULT_DMG] : 0,
+      x.a[Key.MEMOSPRITE] ? x.m.a[Key.ULT_DMG] : 0,
     )
   }
 
@@ -253,12 +253,12 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
       a[Key.FUA_TRUE_DMG_MODIFIER],
-      x.m ? x.m.a[Key.FUA_DMG] : 0,
+      x.a[Key.MEMOSPRITE] ? x.m.a[Key.FUA_DMG] : 0,
     )
   }
 
   if ((action.actionType == 'MEMO_SKILL' || action.actionType == 'DEFAULT') && context.activeAbilityFlags & AbilityType.MEMO_SKILL) {
-    if (x.m) {
+    if (x.a[Key.MEMOSPRITE]) {
       a[Key.MEMO_SKILL_DMG] += x.m.a[Key.MEMO_SKILL_DMG]
     } else {
       const initialDmg = calculateInitial(
@@ -302,7 +302,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   }
 
   if ((action.actionType == 'MEMO_TALENT' || action.actionType == 'DEFAULT') && context.activeAbilityFlags & AbilityType.MEMO_TALENT) {
-    if (x.m) {
+    if (x.a[Key.MEMOSPRITE]) {
       a[Key.MEMO_TALENT_DMG] += x.m.a[Key.MEMO_TALENT_DMG]
     } else {
       const initialDmg = calculateInitial(

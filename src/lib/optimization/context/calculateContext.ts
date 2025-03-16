@@ -118,7 +118,7 @@ function generateBaseStatsContext(request: Form, context: Partial<OptimizerConte
 
   const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
   const lightConeStats = lightConeMetadata?.stats || emptyLightCone()
-  const lightConeSuperimposition = characterMetadata.path == lightConeMetadata.path
+  const lightConeSuperimposition = characterMetadata.path == lightConeMetadata?.path
     ? (lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || {})
     : {}
 

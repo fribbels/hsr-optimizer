@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: Base SPD - The benchmark will target a minimal SPD build
       CommonBreakpointsLabel: Common SPD breakpoint presets (SPD buffs considered separately)
     BuffPriority:
-      Header: Buff priority
-      High: High
-      Low: Low
+      Header: DPS mode
+      High: Main
+      Low: Sub
   CustomizationSidebar:
     Label: Customization
     Modes:
@@ -146,6 +146,7 @@ CharacterPreview:
         COMBO: COMBO DMG
     CombatBuffs:
       Header: Combat buffs
+      SubDpsHeader: Combat buffs (Sub DPS)
   ScoringColumn:
     Character:
       Header: "Character build ({{score}}%)"

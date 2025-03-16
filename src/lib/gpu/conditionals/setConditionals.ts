@@ -43,7 +43,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   },
   effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     x.ATK.buffDynamic(0.08 * x.a[Key.BASE_ATK], Source.FleetOfTheAgeless, action, context)
-    if (x.m && x.a[Key.MEMOSPRITE]) {
+    if (x.a[Key.MEMOSPRITE]) {
       x.m.ATK.buffDynamic(0.08 * x.a[Key.BASE_ATK], Source.FleetOfTheAgeless, action, context)
     }
   },
@@ -132,7 +132,7 @@ export const BrokenKeelConditional: DynamicConditional = {
   },
   effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
     x.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
-    if (x.m && x.a[Key.MEMOSPRITE]) {
+    if (x.a[Key.MEMOSPRITE]) {
       x.m.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
     }
   },

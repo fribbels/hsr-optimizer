@@ -202,7 +202,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
 
   buffElementalDamageType(x, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
-  if (x.m) {
+  if (x.a[Key.MEMOSPRITE]) {
     buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
   }
 
@@ -215,7 +215,7 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
   a[Key.HP] += a[Key.HP_P] * context.baseHP
 
-  if (x.m) {
+  if (x.a[Key.MEMOSPRITE]) {
     const xma = x.m.a
     xma[Key.SPD] += xma[Key.SPD_P] * (xma[Key.BASE_SPD])
     xma[Key.ATK] += xma[Key.ATK_P] * (xma[Key.BASE_ATK])

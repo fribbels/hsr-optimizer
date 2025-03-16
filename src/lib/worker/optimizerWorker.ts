@@ -173,7 +173,7 @@ self.onmessage = function (e: MessageEvent) {
     }
 
     x.setBasic(c)
-    if (x.m) {
+    if (x.a[Key.MEMOSPRITE]) {
       m.setBasic(c.m)
       c.initMemo()
     }

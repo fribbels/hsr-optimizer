@@ -759,3 +759,7 @@ a {
 .no-highlight {
     user-select: none !important;
 }
+
+.full-width-dropdown-button .ant-btn-compact-first-item {
+    width: 100% !important;
+}

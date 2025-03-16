@@ -1,6 +1,6 @@
 import { DownOutlined } from '@ant-design/icons'
 import { ApplyColumnStateParams } from 'ag-grid-community'
-import { Button, Dropdown } from 'antd'
+import { Dropdown } from 'antd'
 import { TFunction } from 'i18next'
 import { Constants, ElementNames, PathNames, Sets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
@@ -187,7 +187,7 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
   return spdPresets
 }
 
-const RecommendedPresetsButton = () => {
+export const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
@@ -229,18 +229,16 @@ const RecommendedPresetsButton = () => {
   }
 
   return (
-    <Dropdown
+    <Dropdown.Button
+      className='full-width-dropdown-button'
+      type='primary'
       menu={actionsMenuProps}
-      trigger={['click']}
-      overlayStyle={{ width: 'max-content' }}
+      onClick={() => applySpdPreset(spdPresets.SPD0.value!, optimizerTabFocusCharacter)}
+      icon={<DownOutlined/>}
+      style={{ flex: 1, width: '100%' }}
     >
-      <a onClick={(e) => e.preventDefault()}>
-        <Button type='primary' style={{ width: '100%' }}>
-          {t('RecommendedPresets')/* Recommended presets */}
-          <DownOutlined/>
-        </Button>
-      </a>
-    </Dropdown>
+      {t('RecommendedPresets')/* Recommended presets */}
+    </Dropdown.Button>
   )
 }
 
@@ -282,8 +280,6 @@ export function applySpdPreset(spd: number, characterId: string | undefined) {
   window.optimizerForm.setFieldsValue(form)
   window.onOptimizerFormValuesChange({}, form)
 }
-
-export default RecommendedPresetsButton
 
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
   const characterMetadata = DB.getMetadata().characters[form.characterId]

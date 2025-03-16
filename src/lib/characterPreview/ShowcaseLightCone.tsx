@@ -69,6 +69,7 @@ export function ShowcaseLightConeSmall(props: {
               borderRadius: 8,
               fontSize: 14,
               maxWidth: parentW - 50,
+              width: 'fit-content',
               textOverflow: 'ellipsis',
               overflow: 'hidden',
               whiteSpace: 'nowrap',

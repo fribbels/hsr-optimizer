@@ -443,6 +443,7 @@ export function startOptimizerStatSimulation() {
   console.log('Starting sims', existingSimulations)
 
   const simulationResults = runSimulations(form, null, existingSimulations, undefined, true)
+  simulationResults.forEach((x) => x.id = x.statSim.key)
 
   OptimizerTabController.setRows(simulationResults)
 

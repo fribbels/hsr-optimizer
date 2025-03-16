@@ -36,6 +36,9 @@ export function ExpandedDataPanel() {
   if (selectedRowData == null || pinnedRowData == null || form == null || DB.getCharacterById(form.characterId) == null) {
     return <></>
   }
+  if (selectedRowData.statSim) {
+    return <></>
+  }
 
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
   console.log('Optimizer result', analysis)

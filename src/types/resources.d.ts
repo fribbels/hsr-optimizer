@@ -78,9 +78,9 @@ interface Resources {
           "CommonBreakpointsLabel": "Common SPD breakpoint presets (SPD buffs considered separately)"
         },
         "BuffPriority": {
-          "Header": "Buff priority",
-          "High": "High",
-          "Low": "Low"
+          "Header": "DPS mode",
+          "High": "Main",
+          "Low": "Sub"
         }
       },
       "CustomizationSidebar": {
@@ -140,7 +140,7 @@ interface Resources {
       },
       "BuildAnalysis": {
         "ScoringNote": "DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons. Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.",
-        "Header": "Character build analysis",
+        "Header": "DPS Score Calculations",
         "SimulationTeammates": "Simulation teammates",
         "SimulationSets": "Simulation sets",
         "Rotation": {
@@ -175,7 +175,8 @@ interface Resources {
           }
         },
         "CombatBuffs": {
-          "Header": "Combat buffs"
+          "Header": "Combat buffs",
+          "SubDpsHeader": "Combat buffs (Sub DPS)"
         }
       },
       "ScoringColumn": {

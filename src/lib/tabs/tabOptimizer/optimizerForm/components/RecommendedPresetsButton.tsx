@@ -269,22 +269,16 @@ export function applySpdPreset(spd: number, characterId: string | undefined) {
    */
 
   // We dont use the clone here because serializing messes up the applyPreset functions
-  const presets = character.scoringMetadata.presets || []
   const sortOption = metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
-  for (const preset of presets) {
-    preset.apply(form)
-  }
 
   window.optimizerForm.setFieldsValue(form)
   window.onOptimizerFormValuesChange({}, form)
 }
 
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
-  const characterMetadata = DB.getMetadata().characters[form.characterId]
   Utils.mergeUndefinedValues(form, getDefaultForm())
-  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
   form.comboAbilities = scoringMetadata?.simulation?.comboAbilities || [null, 'BASIC']
   form.comboDot = scoringMetadata?.simulation?.comboDot || 0
@@ -300,6 +294,23 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   form.weights.headHands = form.weights.headHands || 0
   form.weights.bodyFeet = form.weights.bodyFeet || 0
   form.weights.sphereRope = form.weights.sphereRope || 0
+
+  applySetConditionalPresets(form)
+  applyScoringMetadataPresets(form, scoringMetadata)
+}
+
+export function applyScoringMetadataPresets(form: Form, scoringMetadata: ScoringMetadata) {
+  if (scoringMetadata?.presets) {
+    const presets = scoringMetadata.presets || []
+    for (const preset of presets) {
+      preset.apply(form)
+    }
+  }
+}
+
+export function applySetConditionalPresets(form: Form) {
+  const characterMetadata = DB.getMetadata().characters[form.characterId]
+  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
   // Disable elemental conditions by default if the character is not of the same element
   const element = characterMetadata.element

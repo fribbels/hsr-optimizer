@@ -113,12 +113,14 @@ function generateEnemyContext(request: Form, context: Partial<OptimizerContext>)
 }
 
 function generateBaseStatsContext(request: Form, context: Partial<OptimizerContext>) {
-  const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
-  const lightConeStats = lightConeMetadata?.stats || emptyLightCone()
-  const lightConeSuperimposition = lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || {}
-
   const characterMetadata = DB.getMetadata().characters[request.characterId]
   const characterStats = characterMetadata.stats
+
+  const lightConeMetadata = DB.getMetadata().lightCones[request.lightCone]
+  const lightConeStats = lightConeMetadata?.stats || emptyLightCone()
+  const lightConeSuperimposition = characterMetadata.path == lightConeMetadata.path
+    ? (lightConeMetadata?.superimpositions[request.lightConeSuperimposition] || {})
+    : {}
 
   const statsBreakdown: CharacterStatsBreakdown = {
     base: {

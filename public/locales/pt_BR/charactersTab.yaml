@@ -59,10 +59,6 @@ CharacterPreview:
       CurrentSpdLabel: VEL atual - O benchmark corresponderá sua VEL básica
       BaseSpdLabel: VEL base - O benchmark terá VEL mínima para a build
       CommonBreakpointsLabel: Predefinições de breakpoints de VEL (buffs de VEL considerados separadamente)
-    BuffPriority:
-      Header: Prioridade de Buff
-      High: Alta
-      Low: Baixa
   CustomizationSidebar:
     Label: Personalização
     Modes:

@@ -1198,7 +1198,7 @@ fn main(\r
         x.DMG_RED_MULTI *= (1 - 0.08);\r
       }\r
 \r
-      if (p2(sets.KnightOfPurityPalace) >= 1) {\r
+      if (p4(sets.KnightOfPurityPalace) >= 1) {\r
         x.SHIELD_BOOST += 0.20;\r
       }\r
 \r

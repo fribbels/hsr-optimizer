@@ -766,6 +766,7 @@ export class RelicScorer {
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
 
     return {
+      currentPct: Math.max(0, futureScore.current - mainstatBonus) / percentToScore,
       bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore,
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,

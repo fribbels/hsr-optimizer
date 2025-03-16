@@ -7,6 +7,7 @@ import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
+import { localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -35,9 +36,10 @@ export const StatScoringSummary = (props: {
 
   console.debug(displayRelics)
 
+  const characterId = showcaseMetadata.characterId
   const scoringMetadata = DB.getScoringMetadata(showcaseMetadata.characterId)
 
-  const enrichedRelics = enrichRelicAnalysis(displayRelics, scoringMetadata)
+  const enrichedRelics = enrichRelicAnalysis(displayRelics, scoringMetadata, characterId)
 
   const gridStyle = {
     display: 'grid',
@@ -120,10 +122,13 @@ function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
     >
       <Flex vertical>
         <span>
-          {relicAnalysis.estTbp} TBP
+          {localeNumberComma(relicAnalysis.estTbp)} TBP
         </span>
         <span>
-          {relicAnalysis.estDays} Days
+          {localeNumberComma(relicAnalysis.estDays)} Days
+        </span>
+        <span>
+          {localeNumber_0(relicAnalysis.currentPotential)}% Perfection
         </span>
       </Flex>
     </Flex>

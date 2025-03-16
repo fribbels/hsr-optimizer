@@ -1,5 +1,6 @@
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { scoreTbp } from 'lib/relics/estTbp/estTbp'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { ScoringMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
@@ -7,25 +8,29 @@ export type RelicAnalysis = {
   relic: Relic
   estTbp: number
   estDays: number
+  currentPotential: number
 }
 
-export function enrichRelicAnalysis(relics: SingleRelicByPart, scoringMetadata: ScoringMetadata) {
+export function enrichRelicAnalysis(relics: SingleRelicByPart, scoringMetadata: ScoringMetadata, characterId: string) {
   return {
-    LinkRope: enrichRelic(relics.LinkRope, scoringMetadata),
-    PlanarSphere: enrichRelic(relics.PlanarSphere, scoringMetadata),
-    Feet: enrichRelic(relics.Feet, scoringMetadata),
-    Body: enrichRelic(relics.Body, scoringMetadata),
-    Hands: enrichRelic(relics.Hands, scoringMetadata),
-    Head: enrichRelic(relics.Head, scoringMetadata),
+    LinkRope: enrichSingleRelicAnalysis(relics.LinkRope, scoringMetadata, characterId),
+    PlanarSphere: enrichSingleRelicAnalysis(relics.PlanarSphere, scoringMetadata, characterId),
+    Feet: enrichSingleRelicAnalysis(relics.Feet, scoringMetadata, characterId),
+    Body: enrichSingleRelicAnalysis(relics.Body, scoringMetadata, characterId),
+    Hands: enrichSingleRelicAnalysis(relics.Hands, scoringMetadata, characterId),
+    Head: enrichSingleRelicAnalysis(relics.Head, scoringMetadata, characterId),
   }
 }
 
-export function enrichRelic(relic: Relic, scoringMetadata: ScoringMetadata) {
+export function enrichSingleRelicAnalysis(relic: Relic, scoringMetadata: ScoringMetadata, characterId: string) {
   if (!relic) return undefined
   const days = scoreTbp(relic, scoringMetadata.stats)
+  const potentials = RelicScorer.scoreRelicPotential(relic, characterId)
+
   return {
     relic: relic,
-    estDays: Math.floor(days),
-    estTbp: Math.floor(days * 240),
+    estDays: days,
+    estTbp: days * 240,
+    currentPotential: potentials.currentPct,
   }
 }

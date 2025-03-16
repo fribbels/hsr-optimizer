@@ -482,7 +482,7 @@ fn main(
         x.DMG_RED_MULTI *= (1 - 0.08);
       }
 
-      if (p2(sets.KnightOfPurityPalace) >= 1) {
+      if (p4(sets.KnightOfPurityPalace) >= 1) {
         x.SHIELD_BOOST += 0.20;
       }
 

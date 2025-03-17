@@ -59,10 +59,6 @@ CharacterPreview:
       CurrentSpdLabel: VIT actuelle - La référence ciblera la même VIT que vous
       BaseSpdLabel: VIT de base - La référence ciblera le minimum de VIT possible
       CommonBreakpointsLabel: Points d'arrêts communs (Buffs de VIT considérés séparément)
-    BuffPriority:
-      Header: Priorité de buff
-      High: Haute
-      Low: Faible
   CustomizationSidebar:
     Label: Customisation
     Modes:

@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: crwdns44492:0crwdne44492:0
       CommonBreakpointsLabel: crwdns44494:0crwdne44494:0
     BuffPriority:
-      Header: crwdns44496:0crwdne44496:0
-      High: crwdns44498:0crwdne44498:0
-      Low: crwdns44500:0crwdne44500:0
+      Header: crwdns44879:0crwdne44879:0
+      High: crwdns44881:0crwdne44881:0
+      Low: crwdns44883:0crwdne44883:0
   CustomizationSidebar:
     Label: crwdns39656:0crwdne39656:0
     Modes:
@@ -145,6 +145,7 @@ CharacterPreview:
         COMBO: crwdns39756:0crwdne39756:0
     CombatBuffs:
       Header: crwdns44746:0crwdne44746:0
+      SubDpsHeader: crwdns44885:0crwdne44885:0
   ScoringColumn:
     Character:
       Header: "crwdns39758:0{{score}}crwdne39758:0"

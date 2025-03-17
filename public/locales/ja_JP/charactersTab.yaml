@@ -59,10 +59,6 @@ CharacterPreview:
       CurrentSpdLabel: 選択キャラの速度 - 基準ビルドの速度を選択キャラの速度にします
       BaseSpdLabel: 初期速度 - 基準ビルドの速度を最小にします
       CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
-    BuffPriority:
-      Header: バフ優先度
-      High: 高
-      Low: 低
   CustomizationSidebar:
     Label: カスタマイズ
     Modes:
@@ -95,7 +91,7 @@ CharacterPreview:
     Title: "戦闘スコアの詳細"
     Labels:
       CombatStats: 戦闘ステータス
-      SubDpsCombatStats: 戦闘ステータス（サブDPS）
+      SubDpsCombatStats: 戦闘ステータス（サブ DPS）
       DMGUpgrades: 与ダメージ強化
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
@@ -111,7 +107,7 @@ CharacterPreview:
     ComboDmgUpgrade: コンボダメージ変化量
   BuildAnalysis:
     ScoringNote: >-
-      DPS スコアは、スキル回しのダメージを同じチーム編成・光円錐・星塊を用いた基準ビルドと比較することで、ビルドのクオリティを評価します。DPS スコア及びコンボダメージは、選択したチーム編成のみに対して相対的に計測されるものであり、異なるチーム編成間の比較に用いるものではありません。
+      DPS スコアは、スキル回しのダメージを同じチーム編成・光円錐・星塊を用いた基準ビルドと比較することで、ビルドの品質を評価します。DPS スコア及びコンボダメージは、選択したチーム編成のみに対して相対的に計測されるため、異なるチーム編成間の比較に用いるものではありません。
     Header: DPS スコア計算
     SimulationTeammates: パーティー編成
     SimulationSets: 遺物

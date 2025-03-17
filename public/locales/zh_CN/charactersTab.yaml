@@ -59,10 +59,6 @@ CharacterPreview:
       CurrentSpdLabel: 当前速度 - 基准将与你的基础速度匹配
       BaseSpdLabel: 基础速度 - 基准将以最低速度配装为目标
       CommonBreakpointsLabel: 常见速度阈值预设（速度增益额外单独考虑）
-    BuffPriority:
-      Header: 增益优先权
-      High: 高
-      Low: 低
   CustomizationSidebar:
     Label: 自定义
     Modes:

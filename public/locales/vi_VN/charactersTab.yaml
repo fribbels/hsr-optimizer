@@ -59,10 +59,6 @@ CharacterPreview:
       CurrentSpdLabel: Tốc độ hiện tại (SPD) - Mốc chuẩn sẽ khớp với tốc độ cơ bản
       BaseSpdLabel: Tốc độ cơ bản (Base SPD) - Mốc chuẩn sẽ nhắm đến một xây dựng SPD tối thiểu
       CommonBreakpointsLabel: Các mốc SPD phổ biến được thiết lập sẵn (các buff SPD được xem xét riêng biệt)
-    BuffPriority:
-      Header: Ưu tiên buff
-      High: Cao
-      Low: Thấp
   CustomizationSidebar:
     Label: Thay đổi nền
     Modes:

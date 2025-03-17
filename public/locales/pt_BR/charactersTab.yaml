@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: VEL base - O benchmark terá VEL mínima para a build
       CommonBreakpointsLabel: Predefinições de breakpoints de VEL (buffs de VEL considerados separadamente)
     BuffPriority:
-      Header: Prioridade de Buff
-      High: Alta
-      Low: Baixa
+      Header: Modo DPS
+      High: Principal
+      Low: Sub
   CustomizationSidebar:
     Label: Personalização
     Modes:
@@ -145,6 +145,7 @@ CharacterPreview:
         COMBO: Dano do combo
     CombatBuffs:
       Header: Buffs de combate
+      SubDpsHeader: Buffs de Combate (Sub DPS)
   ScoringColumn:
     Character:
       Header: "Build do personagem ({{score}}%)"

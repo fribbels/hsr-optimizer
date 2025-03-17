@@ -7,7 +7,6 @@ import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import { localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { RelicSubstatMetadata } from 'types/relic'
@@ -102,42 +101,99 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
   )
 }
 
+const cardStyle = {
+  flex: 1,
+  borderRadius: 5,
+  overflow: 'hidden',
+  padding: 10,
+  background: '#243356',
+  border: '1px solid rgba(255, 255, 255, 0.10)',
+}
+
 function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
   const { relicAnalysis } = props
-  const cardStyle = {
-    flex: 1,
-    borderRadius: 5,
-    overflow: 'hidden',
-    padding: 10,
-    background: '#243356',
-    border: '1px solid #354b7d',
-  }
   if (!relicAnalysis) {
     return (
       <div style={cardStyle}/>
     )
   }
   return (
+    <Flex vertical style={{ width: '100%' }} gap={10}>
+      <Flex style={{ height: 110 }} gap={10}>
+        <MetricCard/>
+        <MetricCard/>
+      </Flex>
+      <Flex style={{ ...cardStyle, height: 55 }} gap={10}>
+        test
+      </Flex>
+      <Flex style={{ height: 40 }} gap={10}>
+        <QualityCard/>
+      </Flex>
+    </Flex>
+  )
+}
+
+function QualityCard(props: {}) {
+  return (
     <Flex
-      style={cardStyle}
+      style={{
+        backgroundColor: '#3248a0',
+        width: '100%',
+      }}
+      justify='space-between'
+    >
+      .
+    </Flex>
+  )
+}
+
+function MetricCard(props: {}) {
+  return (
+    <Flex
+      style={{
+        ...cardStyle,
+        padding: '6px 10px',
+        backgroundColor: '#304878',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.15)',
+      }}
+      vertical
+      flex={1}
+      justify='space-around'
+      gap={10}
     >
       <Flex vertical>
-        <span>
-          {localeNumberComma(relicAnalysis.estDays)} Days
+        <span style={{
+          fontSize: '13px',
+          color: '#9FAFCF',
+        }}
+        >
+          Days
         </span>
-        <span>
-          {localeNumberComma(relicAnalysis.estTbp)} TBP
+        <span style={{
+          fontSize: '18px',
+          fontWeight: 'bold',
+          color: '#E0E6F2',
+        }}
+        >
+          2355
         </span>
-        <span>
-          {localeNumber_0(relicAnalysis.currentPotential)} % Perfection
+      </Flex>
+      <Flex vertical>
+        <span style={{
+          fontSize: '13px',
+          color: '#9FAFCF',
+        }}
+        >
+          Days
         </span>
-        <span>
-          {localeNumber_0(relicAnalysis.rerollPotential - relicAnalysis.currentPotential)} % Avg Reroll Δ
+        <span style={{
+          fontSize: '18px',
+          fontWeight: 'bold',
+          color: '#E0E6F2',
+        }}
+        >
+          2355
         </span>
-        <TempSubstat substat={relicAnalysis.relic.substats[0]}/>
-        <TempSubstat substat={relicAnalysis.relic.substats[1]}/>
-        <TempSubstat substat={relicAnalysis.relic.substats[2]}/>
-        <TempSubstat substat={relicAnalysis.relic.substats[3]}/>
       </Flex>
     </Flex>
   )
@@ -152,3 +208,22 @@ function TempSubstat(props: { substat: RelicSubstatMetadata }) {
     </span>
   )
 }
+
+{ /* <Flex vertical> */ }
+{ /*  <span> */ }
+{ /*    {localeNumberComma(relicAnalysis.estDays)} Days */ }
+{ /*  </span> */ }
+{ /*  <span> */ }
+{ /*    {localeNumberComma(relicAnalysis.estTbp)} TBP */ }
+{ /*  </span> */ }
+{ /*  <span> */ }
+{ /*    {localeNumber_0(relicAnalysis.currentPotential)} % Perfection */ }
+{ /*  </span> */ }
+{ /*  <span> */ }
+{ /*    {localeNumber_0(relicAnalysis.rerollPotential - relicAnalysis.currentPotential)} % Avg Reroll Δ */ }
+{ /*  </span> */ }
+{ /*  <TempSubstat substat={relicAnalysis.relic.substats[0]}/> */ }
+{ /*  <TempSubstat substat={relicAnalysis.relic.substats[1]}/> */ }
+{ /*  <TempSubstat substat={relicAnalysis.relic.substats[2]}/> */ }
+{ /*  <TempSubstat substat={relicAnalysis.relic.substats[3]}/> */ }
+{ /* </Flex> */ }

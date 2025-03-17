@@ -87,6 +87,7 @@ export function RelicPreview(props: {
       onClick={cardClicked}
       style={{
         width: 200,
+        minWidth: 200,
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,

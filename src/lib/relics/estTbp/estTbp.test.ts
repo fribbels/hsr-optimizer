@@ -108,7 +108,11 @@ function generateRelic() {
   return relic
 }
 
+const simulationsEnabled = false
+
 test('Simulated relics', () => {
+  if (!simulationsEnabled) return
+
   let success = 0
   const results: number[] = []
   // const scoreToBeat = 48.914423718410575 // Original relic

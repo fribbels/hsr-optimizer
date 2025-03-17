@@ -296,15 +296,15 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   form.weights.sphereRope = form.weights.sphereRope || 0
 
   applySetConditionalPresets(form)
-  applyScoringMetadataPresets(form, scoringMetadata)
+  applyScoringMetadataPresets(form)
 }
 
-export function applyScoringMetadataPresets(form: Form, scoringMetadata: ScoringMetadata) {
-  if (scoringMetadata?.presets) {
-    const presets = scoringMetadata.presets || []
-    for (const preset of presets) {
-      preset.apply(form)
-    }
+export function applyScoringMetadataPresets(form: Form) {
+  const character = DB.getMetadata().characters[form.characterId]
+  const presets = character?.scoringMetadata?.presets ?? []
+
+  for (const preset of presets) {
+    preset.apply(form)
   }
 }
 
@@ -313,10 +313,10 @@ export function applySetConditionalPresets(form: Form) {
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
   // Disable elemental conditions by default if the character is not of the same element
-  const element = characterMetadata.element
+  const element = characterMetadata?.element
   form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == ElementNames.Quantum
   form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire
 
-  const path = characterMetadata.path
+  const path = characterMetadata?.path
   form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
 }

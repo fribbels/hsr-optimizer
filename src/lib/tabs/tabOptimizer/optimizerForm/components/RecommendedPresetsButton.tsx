@@ -313,10 +313,10 @@ export function applySetConditionalPresets(form: Form) {
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
   // Disable elemental conditions by default if the character is not of the same element
-  const element = characterMetadata.element
+  const element = characterMetadata?.element
   form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == ElementNames.Quantum
   form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire
 
-  const path = characterMetadata.path
+  const path = characterMetadata?.path
   form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
 }

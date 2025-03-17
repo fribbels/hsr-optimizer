@@ -51,7 +51,7 @@ export const StatScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical gap={10} style={gridStyle}>
+    <Flex vertical gap={20} style={gridStyle}>
       <RelicContainer relicAnalysis={enrichedRelics.Head}/>
       <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
       <RelicContainer relicAnalysis={enrichedRelics.Body}/>

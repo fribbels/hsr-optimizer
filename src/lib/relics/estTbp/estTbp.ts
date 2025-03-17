@@ -2,9 +2,6 @@ import { MainStats, Parts, SubStats } from 'lib/constants/constants'
 import { Relic, RelicGrade } from 'types/relic'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
-  if (relic.id == 'de342418-f3d0-4cb6-9dad-ed1d0f698bbc') {
-    console.log('!!')
-  }
   const scoreToBeat = simpleSubstatScoreOfRelic(relic, weights)
 
   const pMain = probabilityOfCorrectSet()

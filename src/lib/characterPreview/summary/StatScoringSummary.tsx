@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import { enrichRelicAnalysis, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
+import { enrichRelicAnalysis, flatReduction, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { CHARACTER_SCORE, NONE_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -271,7 +271,7 @@ function RollLine(props: { index: number; relicAnalysis: RelicAnalysis }) {
   }
 
   const weight = relicAnalysis.weights[substat.stat] ?? 0
-  const weightDisplay = localeNumber_00(relicAnalysis.weights[substat.stat])
+  const weightDisplay = localeNumber_00(relicAnalysis.weights[substat.stat] * flatReduction(substat.stat))
   const rolls = substat.rolls!
   const display: ReactElement[] = []
 

@@ -284,7 +284,7 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
         }
       }
 
-      const { rolls, errorFlag } = rollCounter(s.step, s.count)
+      const { rolls, errorFlag } = rollCounter(s.count, s.step)
 
       if (errorFlag) scanner.badRollInfo = true
 

@@ -66,7 +66,7 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
       // console.log(substat)
       // console.log(roughStep)
       // console.log(step)
-      const result = rollCounter(step, rolls)
+      const result = rollCounter(rolls, step)
       substat.rolls = result.rolls
     }
 
@@ -76,6 +76,6 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
   return weightedRolls
 }
 
-function flatReduction(stat: string) {
+export function flatReduction(stat: string) {
   return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
 }

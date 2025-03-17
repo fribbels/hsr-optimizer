@@ -14,6 +14,9 @@ export type RelicAnalysis = {
   estDays: number
   currentPotential: number
   rerollPotential: number
+  rerollDelta: number
+  weights: Record<string, number>
+  weightedRolls: number
 }
 
 export function enrichRelicAnalysis(relics: SingleRelicByPart, scoringMetadata: ScoringMetadata, characterId: string) {
@@ -32,7 +35,7 @@ export function enrichSingleRelicAnalysis(relic: Relic, scoringMetadata: Scoring
   const days = scoreTbp(relic, scoringMetadata.stats)
   const potentials = RelicScorer.scoreRelicPotential(relic, characterId)
 
-  countRelicRolls(relic)
+  const weightedRolls = countRelicRolls(relic, scoringMetadata)
 
   return {
     relic: relic,
@@ -40,18 +43,23 @@ export function enrichSingleRelicAnalysis(relic: Relic, scoringMetadata: Scoring
     estTbp: days * 240,
     currentPotential: potentials.currentPct,
     rerollPotential: potentials.rerollAvgPct,
+    rerollDelta: potentials.rerollAvgPct - potentials.currentPct,
+    weights: scoringMetadata.stats,
+    weightedRolls: weightedRolls,
   }
 }
 
-function countRelicRolls(relic: Relic) {
+function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
+  let weightedRolls = 0
   for (const substat of relic.substats) {
+    const stat = substat.stat
     if (substat.rolls && substat.rolls.low != null && substat.rolls.mid != null && substat.rolls.high != null) {
       // NO-OP
     } else {
       const rolls = substat.addedRolls! + 1
-      const expectedStep = substat.stat == Stats.SPD ? 0.3 : StatCalculator.getMaxedSubstatValue(substat.stat) / 10
+      const expectedStep = stat == Stats.SPD ? 0.3 : StatCalculator.getMaxedSubstatValue(stat) / 10
       const actualStat = substat.value
-      const expectedStat = StatCalculator.getMaxedSubstatValue(substat.stat, 0.8) * (rolls)
+      const expectedStat = StatCalculator.getMaxedSubstatValue(stat, 0.8) * (rolls)
       const diff = Math.max(0, actualStat - expectedStat)
       const roughStep = diff / (expectedStep)
       const step = TsUtils.precisionRound(roughStep, 0)
@@ -61,5 +69,13 @@ function countRelicRolls(relic: Relic) {
       const result = rollCounter(step, rolls)
       substat.rolls = result.rolls
     }
+
+    weightedRolls += scoringMetadata.stats[stat] * flatReduction(stat) * (substat.rolls.high + substat.rolls.mid * 0.9 + substat.rolls.low * 0.8)
   }
+
+  return weightedRolls
+}
+
+function flatReduction(stat: string) {
+  return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
 }

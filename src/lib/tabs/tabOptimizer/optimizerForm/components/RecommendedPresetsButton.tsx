@@ -296,15 +296,15 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   form.weights.sphereRope = form.weights.sphereRope || 0
 
   applySetConditionalPresets(form)
-  applyScoringMetadataPresets(form, scoringMetadata)
+  applyScoringMetadataPresets(form)
 }
 
-export function applyScoringMetadataPresets(form: Form, scoringMetadata: ScoringMetadata) {
-  if (scoringMetadata?.presets) {
-    const presets = scoringMetadata.presets || []
-    for (const preset of presets) {
-      preset.apply(form)
-    }
+export function applyScoringMetadataPresets(form: Form) {
+  const character = DB.getMetadata().characters[form.characterId]
+  const presets = character?.scoringMetadata?.presets ?? []
+
+  for (const preset of presets) {
+    preset.apply(form)
   }
 }
 

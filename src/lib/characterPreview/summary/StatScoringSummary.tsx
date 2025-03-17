@@ -9,6 +9,7 @@ import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { localeNumber_0, localeNumber_00, localeNumberComma } from 'lib/utils/i18nUtils'
 import React from 'react'
@@ -51,13 +52,22 @@ export const StatScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical gap={40} style={gridStyle}>
-      <RelicContainer relicAnalysis={enrichedRelics.Head}/>
-      <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
-      <RelicContainer relicAnalysis={enrichedRelics.Body}/>
-      <RelicContainer relicAnalysis={enrichedRelics.Feet}/>
-      <RelicContainer relicAnalysis={enrichedRelics.PlanarSphere}/>
-      <RelicContainer relicAnalysis={enrichedRelics.LinkRope}/>
+    <Flex vertical align='center'>
+      <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15 }}>
+        <ColorizedLinkWithIcon
+          text='Stat Score Analysis (BETA)'
+          linkIcon={true}
+          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+        />
+      </pre>
+      <Flex vertical gap={40} style={gridStyle}>
+        <RelicContainer relicAnalysis={enrichedRelics.Head}/>
+        <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
+        <RelicContainer relicAnalysis={enrichedRelics.Body}/>
+        <RelicContainer relicAnalysis={enrichedRelics.Feet}/>
+        <RelicContainer relicAnalysis={enrichedRelics.PlanarSphere}/>
+        <RelicContainer relicAnalysis={enrichedRelics.LinkRope}/>
+      </Flex>
     </Flex>
   )
 }
@@ -105,6 +115,7 @@ const textStyle = {
   fontSize: 14,
   color: 'rgb(159, 175, 207)',
 }
+const highlightColor = 'rgb(225, 165, 100)'
 
 function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
   const { relicAnalysis } = props
@@ -119,7 +130,7 @@ function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
         <MetricCard relicAnalysis={relicAnalysis} index={0}/>
         <MetricCard relicAnalysis={relicAnalysis} index={1}/>
       </Flex>
-      <Flex style={{ ...cardStyle, padding: '12px 12px 0px 12px', paddingLeft: 15 }} gap={10}>
+      <Flex style={{ ...cardStyle, padding: '12px 14px 0px 14px', paddingLeft: 15 }} gap={10}>
         <RollsCard relicAnalysis={relicAnalysis}/>
       </Flex>
     </Flex>
@@ -172,8 +183,8 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
 function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
   const { relicAnalysis, index } = props
 
-  const textTop = index == 0 ? 'Days' : 'Weighted rolls'
-  const textBottom = index == 0 ? 'Estimated TBP' : 'Reroll potential'
+  const textTop = index == 0 ? 'Days' : 'Weighted Rolls'
+  const textBottom = index == 0 ? 'Estimated TBP' : 'Reroll Potential'
 
   const valueTop = index == 0
     ? localeNumberComma(Math.ceil(relicAnalysis.estDays))
@@ -216,8 +227,8 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
 }
 
 const rollStyle = {
-  width: '15px',
-  height: '15px',
+  width: '16px',
+  height: '16px',
   backgroundColor: '#267ee4',
   marginRight: '5px',
   borderRadius: '2px',
@@ -235,7 +246,7 @@ function HighRoll() {
 function MidRoll() {
   return (
     <div
-      style={{ ...rollStyle, height: 15, backgroundColor: '#609fed' }}
+      style={{ ...rollStyle, backgroundColor: '#609fed' }}
     />
   )
 }
@@ -243,7 +254,7 @@ function MidRoll() {
 function LowRoll() {
   return (
     <div
-      style={{ ...rollStyle, height: 15, backgroundColor: '#9dbee8' }}
+      style={{ ...rollStyle, backgroundColor: '#9dbee8' }}
     />
   )
 }

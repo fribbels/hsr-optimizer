@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { enrichRelicAnalysis, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
-import { CHARACTER_SCORE } from 'lib/constants/constants'
+import { CHARACTER_SCORE, NONE_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
@@ -31,11 +31,9 @@ export const StatScoringSummary = (props: {
     scoringType,
   } = props
 
-  if (scoringType != CHARACTER_SCORE) {
+  if (scoringType != CHARACTER_SCORE && simScoringResult != null || scoringType == NONE_SCORE) {
     return <></>
   }
-
-  console.debug(displayRelics)
 
   const characterId = showcaseMetadata.characterId
   const scoringMetadata = DB.getScoringMetadata(showcaseMetadata.characterId)
@@ -55,7 +53,7 @@ export const StatScoringSummary = (props: {
     <Flex vertical align='center'>
       <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15 }}>
         <ColorizedLinkWithIcon
-          text='Stat Score Analysis (BETA)'
+          text='Stat Score Analysis (WIP Experimental)'
           linkIcon={true}
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
         />
@@ -74,6 +72,7 @@ export const StatScoringSummary = (props: {
 
 function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
   const { relicAnalysis } = props
+
   const cardStyle = {
     width: '100%',
     flex: 1,
@@ -87,11 +86,13 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
     WebkitBackdropFilter: 'blur(5px)',
     minHeight: 302,
   }
+
   if (!relicAnalysis) {
     return (
       <div style={cardStyle}/>
     )
   }
+
   return (
     <Flex
       style={cardStyle}
@@ -115,15 +116,16 @@ const textStyle = {
   fontSize: 14,
   color: 'rgb(159, 175, 207)',
 }
-const highlightColor = 'rgb(225, 165, 100)'
 
 function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
   const { relicAnalysis } = props
+
   if (!relicAnalysis) {
     return (
       <div style={cardStyle}/>
     )
   }
+
   return (
     <Flex vertical style={{ width: '100%' }} gap={10}>
       <Flex style={{ height: 111 }} gap={10}>

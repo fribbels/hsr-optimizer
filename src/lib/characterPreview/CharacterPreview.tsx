@@ -407,6 +407,7 @@ export function CharacterPreview(props: {
           combatScoreDetails={combatScoreDetails}
           showcaseMetadata={showcaseMetadata}
           scoringType={scoringType}
+          displayRelics={displayRelics}
           setScoringType={setScoringType}
           setCombatScoreDetails={setCombatScoreDetails}
         />

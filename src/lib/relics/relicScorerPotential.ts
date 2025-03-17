@@ -46,6 +46,7 @@ type SubstatScore = {
 
 export type RelicScoringResult = {
   score: string
+  scoreNumber: number
   rating: string
   mainStatScore: number
   part?: Parts
@@ -675,6 +676,7 @@ export class RelicScorer {
       // console.warn('scoreCurrentRelic called but no relic given for character', id ?? '????')
       return {
         score: '',
+        scoreNumber: 0,
         rating: '',
         mainStatScore: 0,
       }
@@ -683,6 +685,7 @@ export class RelicScorer {
       console.warn('scoreCurrentRelic called but lacking character', relic)
       return {
         score: '',
+        scoreNumber: 0,
         rating: '',
         mainStatScore: 0,
       }
@@ -697,6 +700,7 @@ export class RelicScorer {
     const mainStatScore = substatScore.mainStatScore
     return {
       score: score.toFixed(1),
+      scoreNumber: score,
       rating,
       mainStatScore,
       part,
@@ -710,7 +714,7 @@ export class RelicScorer {
    * @param relics relics to score against the character
    */
   scoreCharacterWithRelics(character: Character, relics: Relic[]): {
-    relics: object[]
+    relics: RelicScoringResult[]
     totalScore: number
     totalRating: string
   } {
@@ -762,6 +766,7 @@ export class RelicScorer {
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
 
     return {
+      currentPct: Math.max(0, futureScore.current - mainstatBonus) / percentToScore,
       bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore,
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,

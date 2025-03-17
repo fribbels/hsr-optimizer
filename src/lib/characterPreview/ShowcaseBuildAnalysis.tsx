@@ -3,8 +3,10 @@ import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
+import { StatScoringSummary } from 'lib/characterPreview/summary/StatScoringSummary'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import React, { useMemo } from 'react'
@@ -18,6 +20,7 @@ interface ShowcaseBuildAnalysisProps {
   combatScoreDetails: string
   simScoringResult: SimulationScore | undefined
   showcaseMetadata: ShowcaseMetadata
+  displayRelics: SingleRelicByPart
   setScoringType: (s: string) => void
   setCombatScoreDetails: (s: string) => void
 }
@@ -41,7 +44,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   } = showcaseMetadata
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ minHeight: 1000 }}>
       <Flex justify='center' gap={10}>
         <Flex
           justify='center'
@@ -130,6 +133,12 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
         </Flex>
       </Flex>
       <MemoizedCharacterScoringSummary simScoringResult={props.simScoringResult}/>
+      <MemoizedStatScoringSummary
+        simScoringResult={props.simScoringResult}
+        displayRelics={props.displayRelics}
+        showcaseMetadata={props.showcaseMetadata}
+        scoringType={props.scoringType}
+      />
     </Flex>
   )
 }
@@ -143,4 +152,29 @@ function MemoizedCharacterScoringSummary(props: { simScoringResult?: SimulationS
 
   if (!delayedProps) return null
   return memoizedCharacterScoringSummary
+}
+
+function MemoizedStatScoringSummary(props: {
+  simScoringResult?: SimulationScore
+  displayRelics: SingleRelicByPart
+  showcaseMetadata: ShowcaseMetadata
+  scoringType: string
+}) {
+  const delayedProps = useDelayedProps(props, 350)
+
+  const memoizedStatScoringSummary = useMemo(() => {
+    return delayedProps
+      ? (
+        <StatScoringSummary
+          simScoringResult={delayedProps.simScoringResult}
+          displayRelics={props.displayRelics}
+          showcaseMetadata={props.showcaseMetadata}
+          scoringType={props.scoringType}
+        />
+      )
+      : null
+  }, [delayedProps])
+
+  if (!delayedProps) return null
+  return memoizedStatScoringSummary
 }

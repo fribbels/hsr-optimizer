@@ -32,6 +32,7 @@ export function RelicPreview(props: {
   setAddModalOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
   showcaseTheme?: ShowcaseTheme
+  unhoverable?: boolean
 }) {
   const {
     source,
@@ -42,6 +43,7 @@ export function RelicPreview(props: {
     setAddModalOpen,
     setSelectedRelic,
     showcaseTheme,
+    unhoverable,
   } = props
   const placeholderRelic: Partial<Relic> = {
     enhance: 0,
@@ -83,10 +85,11 @@ export function RelicPreview(props: {
   return (
     <Card
       size='small'
-      hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
+      hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL && !unhoverable}
       onClick={cardClicked}
       style={{
         width: 200,
+        minWidth: 200,
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,

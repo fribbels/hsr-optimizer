@@ -120,7 +120,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'slider',
       text: 'Memo DMG stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 1,
+      min: 0, // Set to 0 for rotation preprocessor
       max: 6,
     },
     e1EnemyHp50: {

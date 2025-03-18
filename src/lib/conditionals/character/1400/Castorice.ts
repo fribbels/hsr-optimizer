@@ -46,9 +46,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     buffPriority: BUFF_PRIORITY_MEMO,
     memospriteActive: true,
-    // spdBuff: false,
+    spdBuff: true,
     talentDmgStacks: 3,
-    lostNetherland: true,
     memoSkillEnhances: 3,
     memoTalentHits: e >= 6 ? 9 : 6,
     enemyHpDmgBoost: 0.40,
@@ -58,7 +57,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
-    lostNetherland: true,
+    memospriteActive: true,
     teamDmgBoost: true,
   }
 
@@ -80,12 +79,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Memosprite active',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    // spdBuff: {
-    //   id: 'spdBuff',
-    //   formItem: 'switch',
-    //   text: 'SPD buff',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    // },
+    spdBuff: {
+      id: 'spdBuff',
+      formItem: 'switch',
+      text: 'SPD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    teamDmgBoost: {
+      id: 'teamDmgBoost',
+      formItem: 'switch',
+      text: 'Team DMG boost',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
     talentDmgStacks: {
       id: 'talentDmgStacks',
       formItem: 'slider',
@@ -111,12 +116,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       max: 0.40,
       percent: true,
     },
-    lostNetherland: {
-      id: 'lostNetherland',
-      formItem: 'switch',
-      text: 'Lost Netherland',
-      content: 'TODO',
-    },
     memoTalentHits: {
       id: 'memoTalentHits',
       formItem: 'slider',
@@ -124,12 +123,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: e >= 6 ? 9 : 6,
-    },
-    teamDmgBoost: {
-      id: 'teamDmgBoost',
-      formItem: 'switch',
-      text: 'Team DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1DmgStacks: {
       id: 'e1DmgStacks',
@@ -150,7 +143,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    lostNetherland: content.lostNetherland,
+    memospriteActive: content.memospriteActive,
     teamDmgBoost: content.teamDmgBoost,
   }
 
@@ -169,6 +162,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.SPD_P.buff((r.spdBuff) ? 0.40 : 0, SOURCE_TRACE)
 
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 : skillScaling, SOURCE_SKILL)
@@ -197,7 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES_PEN.buffTeam((m.lostNetherland) ? ultTerritoryResPen : 0, SOURCE_ULT)
+      x.RES_PEN.buffTeam((m.memospriteActive) ? ultTerritoryResPen : 0, SOURCE_ULT)
       x.ELEMENTAL_DMG.buffTeam((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

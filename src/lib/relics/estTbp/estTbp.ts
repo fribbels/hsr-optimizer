@@ -1,8 +1,9 @@
 import { MainStats, Parts, SubStats } from 'lib/constants/constants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic, RelicGrade } from 'types/relic'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
-  const scoreToBeat = simpleSubstatScoreOfRelic(relic, weights)
+  const scoreToBeat = TsUtils.precisionRound(simpleSubstatScoreOfRelic(relic, weights))
 
   const pMain = probabilityOfCorrectSet()
     * probabilityOfCorrectSlot(relic.part)
@@ -11,8 +12,8 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
   let totalPSub = 0.0
 
   for (const spread of substatGeneratorFromRelic(relic)) {
-    const score = simpleSubstatScore(spread, weights)
-    if (score > scoreToBeat) {
+    const score = TsUtils.precisionRound(simpleSubstatScore(spread, weights))
+    if (score >= scoreToBeat) {
       const pSub = probabilityOfInitialSubstatCount(relic.grade, spread)
         * probabilityOfCorrectInitialSubs(relic.main.stat, spread)
         * probabilityOfExactUpgradePattern(spread)

@@ -385,8 +385,8 @@ export const CharacterScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical gap={20} align='center' style={{ width: 1068 }}>
-      <Flex align='center' style={{ marginTop: 15, marginBottom: 10 }} vertical gap={15}>
+    <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
+      <Flex align='center' style={{ marginTop: 15 }} vertical gap={15}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           <ColorizedLinkWithIcon
             text={t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
@@ -407,7 +407,21 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
-      <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
+        </pre>
+        <DpsScoreSubstatUpgradesTable simScore={result}/>
+      </Flex>
+
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
+        </pre>
+        <DpsScoreMainStatUpgradesTable simScore={result}/>
+      </Flex>
+
+      <Flex gap={25} style={{ width: '100%', marginTop: 30 }} justify='space-around'>
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
@@ -479,20 +493,6 @@ export const CharacterScoringSummary = (props: {
             <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
           </Flex>
         </Flex>
-      </Flex>
-
-      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
-        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
-          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
-        </pre>
-        <DpsScoreSubstatUpgradesTable simScore={result}/>
-      </Flex>
-
-      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
-        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
-          {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
-        </pre>
-        <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
 
       <Flex>

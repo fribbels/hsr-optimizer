@@ -96,16 +96,6 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       ),
     },
     {
-      title: t('UpgradedDpsScore'), // Upgraded DPS Score
-      dataIndex: 'scoreValueUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <>
-          {`${localeNumber_0(Math.max(0, n))}%`}
-        </>
-      ),
-    },
-    {
       title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
       dataIndex: 'damagePercentUpgrade',
       align: 'center',
@@ -114,6 +104,16 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
           <Arrow up={n >= 0}/>
           {` ${localeNumber_00(n)}%`}
         </Flex>
+      ),
+    },
+    {
+      title: t('UpgradedDpsScore'), // Upgraded DPS Score
+      dataIndex: 'scoreValueUpgrade',
+      align: 'center',
+      render: (n: number) => (
+        <>
+          {`${localeNumber_0(Math.max(0, n))}%`}
+        </>
       ),
     },
     {

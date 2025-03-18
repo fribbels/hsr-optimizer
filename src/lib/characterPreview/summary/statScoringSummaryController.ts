@@ -1,12 +1,21 @@
 import { Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { rollCounter } from 'lib/importer/characterConverter'
-import { scoreTbp } from 'lib/relics/estTbp/estTbp'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { EstTbpRunnerOutput } from 'lib/worker/estTbpWorkerRunner'
 import { ScoringMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
+
+export type EnrichedRelics = {
+  LinkRope?: RelicAnalysis
+  PlanarSphere?: RelicAnalysis
+  Feet?: RelicAnalysis
+  Body?: RelicAnalysis
+  Hands?: RelicAnalysis
+  Head?: RelicAnalysis
+}
 
 export type RelicAnalysis = {
   relic: Relic
@@ -19,20 +28,24 @@ export type RelicAnalysis = {
   weightedRolls: number
 }
 
-export function enrichRelicAnalysis(relics: SingleRelicByPart, scoringMetadata: ScoringMetadata, characterId: string) {
+export function enrichRelicAnalysis(
+  relics: SingleRelicByPart,
+  estTbpRunnerOutput: EstTbpRunnerOutput,
+  scoringMetadata: ScoringMetadata,
+  characterId: string,
+): EnrichedRelics {
   return {
-    LinkRope: enrichSingleRelicAnalysis(relics.LinkRope, scoringMetadata, characterId),
-    PlanarSphere: enrichSingleRelicAnalysis(relics.PlanarSphere, scoringMetadata, characterId),
-    Feet: enrichSingleRelicAnalysis(relics.Feet, scoringMetadata, characterId),
-    Body: enrichSingleRelicAnalysis(relics.Body, scoringMetadata, characterId),
-    Hands: enrichSingleRelicAnalysis(relics.Hands, scoringMetadata, characterId),
-    Head: enrichSingleRelicAnalysis(relics.Head, scoringMetadata, characterId),
+    LinkRope: enrichSingleRelicAnalysis(relics.LinkRope, estTbpRunnerOutput.LinkRope, scoringMetadata, characterId),
+    PlanarSphere: enrichSingleRelicAnalysis(relics.PlanarSphere, estTbpRunnerOutput.PlanarSphere, scoringMetadata, characterId),
+    Feet: enrichSingleRelicAnalysis(relics.Feet, estTbpRunnerOutput.Feet, scoringMetadata, characterId),
+    Body: enrichSingleRelicAnalysis(relics.Body, estTbpRunnerOutput.Body, scoringMetadata, characterId),
+    Hands: enrichSingleRelicAnalysis(relics.Hands, estTbpRunnerOutput.Hands, scoringMetadata, characterId),
+    Head: enrichSingleRelicAnalysis(relics.Head, estTbpRunnerOutput.Head, scoringMetadata, characterId),
   }
 }
 
-export function enrichSingleRelicAnalysis(relic: Relic, scoringMetadata: ScoringMetadata, characterId: string) {
+export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMetadata: ScoringMetadata, characterId: string) {
   if (!relic) return undefined
-  const days = scoreTbp(relic, scoringMetadata.stats)
   const potentials = RelicScorer.scoreRelicPotential(relic, characterId)
 
   const weightedRolls = countRelicRolls(relic, scoringMetadata)
@@ -63,9 +76,7 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
       const diff = Math.max(0, actualStat - expectedStat)
       const roughStep = diff / (expectedStep)
       const step = TsUtils.precisionRound(roughStep, 0)
-      // console.log(substat)
-      // console.log(roughStep)
-      // console.log(step)
+
       const result = rollCounter(rolls, step)
       substat.rolls = result.rolls
     }
@@ -78,4 +89,22 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
 
 export function flatReduction(stat: string) {
   return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
+}
+
+export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: string) {
+  return TsUtils.objectHash({ relicsHash: Object.values(displayRelics).map(hashRelic), characterId })
+}
+
+function hashRelic(relic: Relic) {
+  if (!relic) return '-'
+  return TsUtils.objectHash({
+    enhance: relic.enhance,
+    equippedBy: relic.equippedBy,
+    grade: relic.grade,
+    id: relic.id,
+    main: relic.main,
+    part: relic.part,
+    set: relic.set,
+    substats: relic.substats,
+  })
 }

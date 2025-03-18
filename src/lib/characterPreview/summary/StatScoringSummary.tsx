@@ -1,7 +1,7 @@
-import { Flex } from 'antd'
+import { Flex, Spin } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import { enrichRelicAnalysis, flatReduction, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
-import { CHARACTER_SCORE, NONE_SCORE } from 'lib/constants/constants'
+import { EnrichedRelics, enrichRelicAnalysis, flatReduction, hashEstTbpRun, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
+import { CHARACTER_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
@@ -12,9 +12,12 @@ import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { localeNumber_0, localeNumber_00, localeNumberComma } from 'lib/utils/i18nUtils'
-import React from 'react'
+import { EstTbpRunnerInput, EstTbpRunnerOutput, runEstTbpWorker } from 'lib/worker/estTbpWorkerRunner'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
+
+const cache: Record<string, EnrichedRelics> = {}
 
 export const StatScoringSummary = (props: {
   simScoringResult?: SimulationScore
@@ -23,6 +26,8 @@ export const StatScoringSummary = (props: {
   scoringType: string
 }) => {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
+  const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
+  const [loading, setLoading] = useState(false)
 
   const {
     simScoringResult,
@@ -31,14 +36,38 @@ export const StatScoringSummary = (props: {
     scoringType,
   } = props
 
-  if (scoringType != CHARACTER_SCORE && simScoringResult != null || scoringType == NONE_SCORE) {
+  useEffect(() => {
+    if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
+      return
+    }
+
+    const characterId = showcaseMetadata.characterId
+    const scoringMetadata = DB.getScoringMetadata(characterId)
+
+    const input: EstTbpRunnerInput = {
+      displayRelics: displayRelics,
+      weights: scoringMetadata.stats,
+    }
+
+    const cacheKey = hashEstTbpRun(displayRelics, characterId)
+    if (cache[cacheKey]) {
+      setEnrichedRelics(cache[cacheKey])
+      return
+    }
+
+    setLoading(true)
+
+    void runEstTbpWorker(input, (output: EstTbpRunnerOutput) => {
+      const enrichedRelics = enrichRelicAnalysis(displayRelics, output, scoringMetadata, characterId)
+      cache[cacheKey] = enrichedRelics
+      setEnrichedRelics(enrichedRelics)
+      setLoading(false)
+    })
+  }, [displayRelics, showcaseMetadata, scoringType, simScoringResult])
+
+  if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
     return <></>
   }
-
-  const characterId = showcaseMetadata.characterId
-  const scoringMetadata = DB.getScoringMetadata(showcaseMetadata.characterId)
-
-  const enrichedRelics = enrichRelicAnalysis(displayRelics, scoringMetadata, characterId)
 
   const gridStyle = {
     display: 'grid',
@@ -58,14 +87,29 @@ export const StatScoringSummary = (props: {
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
         />
       </pre>
-      <Flex vertical gap={40} style={gridStyle}>
-        <RelicContainer relicAnalysis={enrichedRelics.Head}/>
-        <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
-        <RelicContainer relicAnalysis={enrichedRelics.Body}/>
-        <RelicContainer relicAnalysis={enrichedRelics.Feet}/>
-        <RelicContainer relicAnalysis={enrichedRelics.PlanarSphere}/>
-        <RelicContainer relicAnalysis={enrichedRelics.LinkRope}/>
-      </Flex>
+
+      {
+        (loading || !enrichedRelics)
+          ? <LoadingSpinner/>
+          : (
+            <Flex vertical gap={40} style={gridStyle}>
+              <RelicContainer relicAnalysis={enrichedRelics.Head}/>
+              <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
+              <RelicContainer relicAnalysis={enrichedRelics.Body}/>
+              <RelicContainer relicAnalysis={enrichedRelics.Feet}/>
+              <RelicContainer relicAnalysis={enrichedRelics.PlanarSphere}/>
+              <RelicContainer relicAnalysis={enrichedRelics.LinkRope}/>
+            </Flex>
+          )
+      }
+    </Flex>
+  )
+}
+
+function LoadingSpinner() {
+  return (
+    <Flex justify='center' align='center' style={{ height: '300px' }}>
+      <Spin size='large'/>
     </Flex>
   )
 }
@@ -106,11 +150,11 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
 
 const cardStyle = {
   flex: 1,
-  borderRadius: 5,
+  borderRadius: 6,
   overflow: 'hidden',
   padding: 10,
   background: '#243356',
-  border: '1px solid rgba(255, 255, 255, 0.10)',
+  border: '1px solid #354b7d',
 }
 const textStyle = {
   fontSize: 14,
@@ -192,7 +236,7 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
     ? localeNumberComma(Math.ceil(relicAnalysis.estDays))
     : localeNumber_0(relicAnalysis.weightedRolls)
   const valueBottom = index == 0
-    ? localeNumberComma(Math.ceil(relicAnalysis.estTbp))
+    ? localeNumberComma(Math.ceil(relicAnalysis.estTbp / 40) * 40)
     : localeNumber_0(relicAnalysis.rerollDelta) + '%'
 
   return (
@@ -200,15 +244,14 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
       style={{
         ...cardStyle,
         padding: '6px 10px',
-        backgroundColor: '#304878',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.15)',
+        backgroundColor: '#334f87',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
       }}
       vertical
       flex={1}
-      justify='space-around'
-      gap={10}
+      justify='space-between'
     >
-      <Flex vertical>
+      <Flex vertical gap={2}>
         <span style={{ fontSize: '13px', color: '#9FAFCF' }}>
           {textTop}
         </span>
@@ -216,7 +259,7 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
           {valueTop}
         </span>
       </Flex>
-      <Flex vertical>
+      <Flex vertical gap={2}>
         <span style={{ fontSize: '13px', color: '#9FAFCF' }}>
           {textBottom}
         </span>
@@ -281,7 +324,7 @@ function RollLine(props: { index: number; relicAnalysis: RelicAnalysis }) {
   for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++}/>)
 
   return (
-    <Flex style={{ height: 22, width: '100%', opacity: (weight + 0.1) }} justify='space-between'>
+    <Flex style={{ height: 22, width: '100%', opacity: (weight ? 1 : 0.075) }} justify='space-between'>
       <Flex align='flex-end'>
         <img
           style={{ width: iconSize, height: iconSize, marginRight: 5, marginLeft: -3 }}

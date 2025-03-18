@@ -94,7 +94,7 @@ export function RelicPreview(props: {
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
-        borderRadius: 8,
+        borderRadius: 6,
         boxShadow: source == null ? undefined : showcaseShadow + showcaseShadowInsetAddition,
       }}
     >

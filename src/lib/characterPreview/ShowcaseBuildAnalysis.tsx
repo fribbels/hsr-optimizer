@@ -160,7 +160,7 @@ function MemoizedStatScoringSummary(props: {
   showcaseMetadata: ShowcaseMetadata
   scoringType: string
 }) {
-  const delayedProps = useDelayedProps(props, 350)
+  const delayedProps = useDelayedProps(props, 50)
 
   const memoizedStatScoringSummary = useMemo(() => {
     return delayedProps

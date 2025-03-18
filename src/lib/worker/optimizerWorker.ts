@@ -47,7 +47,7 @@ type OptimizerEventData = {
   isFirefox: boolean
 }
 
-self.onmessage = function (e: MessageEvent) {
+export function optimizerWorker(e: MessageEvent) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 

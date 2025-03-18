@@ -55,8 +55,10 @@ export async function runEstTbpWorker(
   callback(output)
 }
 
+const errorResult = { days: -1 }
+
 function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstTbpWorkerOutput> {
-  if (!relic) return Promise.resolve({ days: -1 })
+  if (!relic) return Promise.resolve(errorResult)
 
   return new Promise((resolve, reject) => {
     const worker = new EstTbpWorker()
@@ -76,7 +78,7 @@ function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstT
     worker.onerror = (error) => {
       console.error('Worker error:', error)
       worker.terminate()
-      reject(error)
+      resolve(errorResult)
     }
 
     worker.postMessage(input)

@@ -106,11 +106,11 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
 
 const cardStyle = {
   flex: 1,
-  borderRadius: 5,
+  borderRadius: 6,
   overflow: 'hidden',
   padding: 10,
   background: '#243356',
-  border: '1px solid rgba(255, 255, 255, 0.10)',
+  border: '1px solid #354b7d',
 }
 const textStyle = {
   fontSize: 14,
@@ -200,15 +200,14 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
       style={{
         ...cardStyle,
         padding: '6px 10px',
-        backgroundColor: '#304878',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.15)',
+        backgroundColor: '#334f87',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
       }}
       vertical
       flex={1}
-      justify='space-around'
-      gap={10}
+      justify='space-between'
     >
-      <Flex vertical>
+      <Flex vertical gap={2}>
         <span style={{ fontSize: '13px', color: '#9FAFCF' }}>
           {textTop}
         </span>
@@ -216,7 +215,7 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
           {valueTop}
         </span>
       </Flex>
-      <Flex vertical>
+      <Flex vertical gap={2}>
         <span style={{ fontSize: '13px', color: '#9FAFCF' }}>
           {textBottom}
         </span>

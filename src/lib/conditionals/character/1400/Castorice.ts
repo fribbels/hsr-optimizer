@@ -50,9 +50,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     talentDmgStacks: 3,
     memoSkillEnhances: 3,
     memoTalentHits: e >= 6 ? 9 : 6,
-    enemyHpDmgBoost: 0.40,
+    e1EnemyHp50: false,
     teamDmgBoost: true,
-    e1DmgStacks: 3,
+    memoDmgStacks: 3,
     e6Buffs: true,
   }
 
@@ -107,14 +107,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 1,
       max: 3,
     },
-    enemyHpDmgBoost: {
-      id: 'enemyHpDmgBoost',
-      formItem: 'slider',
-      text: 'Enemy HP DMG boost',
+    e1EnemyHp50: {
+      id: 'e1EnemyHp50',
+      formItem: 'switch',
+      text: 'Enemy HP ≤ 50%',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 0.40,
-      percent: true,
+      disabled: e < 1,
     },
     memoTalentHits: {
       id: 'memoTalentHits',
@@ -124,14 +122,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: e >= 6 ? 9 : 6,
     },
-    e1DmgStacks: {
-      id: 'e1DmgStacks',
+    memoDmgStacks: {
+      id: 'memoDmgStacks',
       formItem: 'slider',
-      text: 'E1 DMG stacks',
+      text: 'Memo DMG stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 1,
       max: 6,
-      disabled: e < 1,
     },
     e6Buffs: {
       id: 'e6Buffs',
@@ -170,7 +167,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.SKILL_SPECIAL_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling2 : 0, SOURCE_SKILL)
 
       x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
-      x.ELEMENTAL_DMG.buffMemo(r.enemyHpDmgBoost, SOURCE_TRACE)
+      if (e >= 1) {
+        x.m.ELEMENTAL_DMG.buff((r.e1EnemyHp50) ? 1.40 : 1.20, SOURCE_E1)
+      }
 
       x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
 
@@ -182,7 +181,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
       x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_DMG_BOOST.buff((e >= 1) ? 0.20 * r.e1DmgStacks : 0, SOURCE_E1)
+      x.m.MEMO_SKILL_DMG_BOOST.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_BASIC)

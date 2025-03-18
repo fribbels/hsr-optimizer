@@ -50,9 +50,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     talentDmgStacks: 3,
     memoSkillEnhances: 3,
     memoTalentHits: e >= 6 ? 9 : 6,
-    e1EnemyHp50: false,
     teamDmgBoost: true,
     memoDmgStacks: 3,
+    e1EnemyHp50: true,
     e6Buffs: true,
   }
 
@@ -107,13 +107,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 1,
       max: 3,
     },
-    e1EnemyHp50: {
-      id: 'e1EnemyHp50',
-      formItem: 'switch',
-      text: 'Enemy HP ≤ 50%',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1,
-    },
     memoTalentHits: {
       id: 'memoTalentHits',
       formItem: 'slider',
@@ -129,6 +122,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 1,
       max: 6,
+    },
+    e1EnemyHp50: {
+      id: 'e1EnemyHp50',
+      formItem: 'switch',
+      text: 'E1 Enemy HP ≤ 50%',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 1,
     },
     e6Buffs: {
       id: 'e6Buffs',

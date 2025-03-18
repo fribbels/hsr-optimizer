@@ -107,14 +107,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 1,
       max: 3,
     },
-    memoTalentHits: {
-      id: 'memoTalentHits',
-      formItem: 'slider',
-      text: 'Memo Talent hits',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: e >= 6 ? 9 : 6,
-    },
     memoDmgStacks: {
       id: 'memoDmgStacks',
       formItem: 'slider',
@@ -122,6 +114,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0, // Set to 0 for rotation preprocessor
       max: 6,
+    },
+    memoTalentHits: {
+      id: 'memoTalentHits',
+      formItem: 'slider',
+      text: 'Memo Talent hits',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: e >= 6 ? 9 : 6,
     },
     e1EnemyHp50: {
       id: 'e1EnemyHp50',

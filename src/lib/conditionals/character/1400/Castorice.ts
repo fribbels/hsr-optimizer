@@ -46,19 +46,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     buffPriority: BUFF_PRIORITY_MEMO,
     memospriteActive: true,
-    // spdBuff: false,
+    spdBuff: true,
     talentDmgStacks: 3,
-    lostNetherland: true,
     memoSkillEnhances: 3,
     memoTalentHits: e >= 6 ? 9 : 6,
-    enemyHpDmgBoost: 0.40,
     teamDmgBoost: true,
-    e1DmgStacks: 3,
+    memoDmgStacks: 3,
+    e1EnemyHp50: true,
     e6Buffs: true,
   }
 
   const teammateDefaults = {
-    lostNetherland: true,
+    memospriteActive: true,
     teamDmgBoost: true,
   }
 
@@ -80,12 +79,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Memosprite active',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    // spdBuff: {
-    //   id: 'spdBuff',
-    //   formItem: 'switch',
-    //   text: 'SPD buff',
-    //   content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    // },
+    spdBuff: {
+      id: 'spdBuff',
+      formItem: 'switch',
+      text: 'SPD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    teamDmgBoost: {
+      id: 'teamDmgBoost',
+      formItem: 'switch',
+      text: 'Team DMG boost',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
     talentDmgStacks: {
       id: 'talentDmgStacks',
       formItem: 'slider',
@@ -102,21 +107,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 1,
       max: 3,
     },
-    enemyHpDmgBoost: {
-      id: 'enemyHpDmgBoost',
-      formItem: 'slider',
-      text: 'Enemy HP DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 0.40,
-      percent: true,
-    },
-    lostNetherland: {
-      id: 'lostNetherland',
-      formItem: 'switch',
-      text: 'Lost Netherland',
-      content: 'TODO',
-    },
     memoTalentHits: {
       id: 'memoTalentHits',
       formItem: 'slider',
@@ -125,19 +115,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: e >= 6 ? 9 : 6,
     },
-    teamDmgBoost: {
-      id: 'teamDmgBoost',
-      formItem: 'switch',
-      text: 'Team DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    e1DmgStacks: {
-      id: 'e1DmgStacks',
+    memoDmgStacks: {
+      id: 'memoDmgStacks',
       formItem: 'slider',
-      text: 'E1 DMG stacks',
+      text: 'Memo DMG stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 1,
       max: 6,
+    },
+    e1EnemyHp50: {
+      id: 'e1EnemyHp50',
+      formItem: 'switch',
+      text: 'E1 Enemy HP ≤ 50%',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
     e6Buffs: {
@@ -150,7 +140,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    lostNetherland: content.lostNetherland,
+    memospriteActive: content.memospriteActive,
     teamDmgBoost: content.teamDmgBoost,
   }
 
@@ -170,12 +160,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
+      x.SPD_P.buff((r.spdBuff) ? 0.40 : 0, SOURCE_TRACE)
+
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 : skillScaling, SOURCE_SKILL)
       x.m.SKILL_SPECIAL_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling2 : 0, SOURCE_SKILL)
 
       x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
-      x.ELEMENTAL_DMG.buffMemo(r.enemyHpDmgBoost, SOURCE_TRACE)
+      if (e >= 1) {
+        x.m.FINAL_DMG_BOOST.buff((r.e1EnemyHp50) ? 0.40 : 0.20, SOURCE_E1)
+      }
 
       x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
 
@@ -187,7 +181,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
       x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_DMG_BOOST.buff((e >= 1) ? 0.20 * r.e1DmgStacks : 0, SOURCE_E1)
+      x.m.MEMO_SKILL_DMG_BOOST.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_BASIC)
@@ -197,7 +191,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES_PEN.buffTeam((m.lostNetherland) ? ultTerritoryResPen : 0, SOURCE_ULT)
+      x.RES_PEN.buffTeam((m.memospriteActive) ? ultTerritoryResPen : 0, SOURCE_ULT)
       x.ELEMENTAL_DMG.buffTeam((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

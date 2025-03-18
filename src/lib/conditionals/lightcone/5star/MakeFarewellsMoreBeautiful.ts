@@ -11,7 +11,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LifeShouldBeCastToFlames')
   const { SOURCE_LC } = Source.lightCone('23040')
 
-  const sValuesDefPen = [0.24, 0.255, 0.27, 0.285, 0.30]
+  const sValuesDefPen = [0.30, 0.35, 0.40, 0.45, 0.50]
 
   const defaults = {
     deathFlower: true,

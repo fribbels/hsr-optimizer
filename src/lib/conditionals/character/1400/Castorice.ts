@@ -168,7 +168,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
       if (e >= 1) {
-        x.m.ELEMENTAL_DMG.buff((r.e1EnemyHp50) ? 1.40 : 1.20, SOURCE_E1)
+        x.m.FINAL_DMG_BOOST.buff((r.e1EnemyHp50) ? 0.40 : 0.20, SOURCE_E1)
       }
 
       x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)

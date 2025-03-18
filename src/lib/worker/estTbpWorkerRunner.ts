@@ -33,8 +33,6 @@ export async function runEstTbpWorker(
 ) {
   const { displayRelics, weights } = input
 
-  console.log('EstTbpRunnerInput', displayRelics, weights)
-
   const promises = [
     handleWork(displayRelics.Head, weights),
     handleWork(displayRelics.Hands, weights),
@@ -75,14 +73,12 @@ function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstT
       resolve(result)
     }
 
-    // Handle worker errors
     worker.onerror = (error) => {
       console.error('Worker error:', error)
       worker.terminate()
       reject(error)
     }
 
-    // Send data to worker
     worker.postMessage(input)
   })
 }

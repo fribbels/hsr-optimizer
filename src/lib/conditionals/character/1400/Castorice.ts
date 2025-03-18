@@ -107,6 +107,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 1,
       max: 3,
     },
+    memoDmgStacks: {
+      id: 'memoDmgStacks',
+      formItem: 'slider',
+      text: 'Memo DMG stacks',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0, // Set to 0 for rotation preprocessor
+      max: 6,
+    },
     memoTalentHits: {
       id: 'memoTalentHits',
       formItem: 'slider',
@@ -114,14 +122,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: e >= 6 ? 9 : 6,
-    },
-    memoDmgStacks: {
-      id: 'memoDmgStacks',
-      formItem: 'slider',
-      text: 'Memo DMG stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 1,
-      max: 6,
     },
     e1EnemyHp50: {
       id: 'e1EnemyHp50',
@@ -181,7 +181,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
       x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
 
-      x.m.MEMO_SKILL_DMG_BOOST.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
+      x.m.ELEMENTAL_DMG.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_BASIC)

@@ -192,7 +192,7 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
     ? localeNumberComma(Math.ceil(relicAnalysis.estDays))
     : localeNumber_0(relicAnalysis.weightedRolls)
   const valueBottom = index == 0
-    ? localeNumberComma(Math.ceil(relicAnalysis.estTbp))
+    ? localeNumberComma(Math.ceil(relicAnalysis.estTbp / 40) * 40)
     : localeNumber_0(relicAnalysis.rerollDelta) + '%'
 
   return (
@@ -281,7 +281,7 @@ function RollLine(props: { index: number; relicAnalysis: RelicAnalysis }) {
   for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++}/>)
 
   return (
-    <Flex style={{ height: 22, width: '100%', opacity: (weight + 0.1) }} justify='space-between'>
+    <Flex style={{ height: 22, width: '100%', opacity: (weight ? 1 : 0.075) }} justify='space-between'>
       <Flex align='flex-end'>
         <img
           style={{ width: iconSize, height: iconSize, marginRight: 5, marginLeft: -3 }}

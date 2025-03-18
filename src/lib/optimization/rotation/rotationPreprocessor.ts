@@ -62,7 +62,7 @@ function castoricePreprocessor(comboState: ComboState, request: Form): AbilityPr
   return {
     id: '1407',
     state: {
-      memoSkillEnhances: 1,
+      memoSkillEnhances: 3,
       memoDmgStacks: 0,
       e2Activated: false,
     },
@@ -71,13 +71,17 @@ function castoricePreprocessor(comboState: ComboState, request: Form): AbilityPr
 
       let memoDmgStacks = this.state.memoDmgStacks as number
       if (ability == 'MEMO_SKILL') {
-        setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, memoDmgStacks + 1)
+        const value = memoDmgStacks + 1
+        setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, value)
+        setComboNumberCategoryCharacterActivation(comboState, 'memoSkillEnhances', index, Math.min(3, value))
         memoDmgStacks = Math.min(6, memoDmgStacks + 1)
       } else if (ability == 'MEMO_TALENT') {
         setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, memoDmgStacks)
+        setComboNumberCategoryCharacterActivation(comboState, 'memoSkillEnhances', index, 1)
       } else {
         memoDmgStacks = 0
         setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, memoDmgStacks)
+        setComboNumberCategoryCharacterActivation(comboState, 'memoSkillEnhances', index, 1)
       }
       this.state.memoDmgStacks = memoDmgStacks
 

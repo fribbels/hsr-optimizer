@@ -205,7 +205,7 @@ export function scoreCharacterSimulation(
     originalSim,
   } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
 
-  const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD])
+  const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
 
   // ===== Simulate the baseline build =====
 

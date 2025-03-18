@@ -133,7 +133,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       <Flex align='center' justify='flex-start' gap={5} style={{ height: 14 }}>
         {
           props.removeForm
-            ? <Flex>{props.value}{internalSlider}</Flex>
+            ? <Flex>{internalSlider}</Flex>
             : (
               <Form.Item name={itemName}>
                 {internalSlider}

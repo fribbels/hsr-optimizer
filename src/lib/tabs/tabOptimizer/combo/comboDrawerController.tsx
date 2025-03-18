@@ -246,8 +246,39 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
       } else {
         const numberBaseConditional = conditional as ComboNumberConditional
         const numberUpdateConditional = updateConditional as ComboNumberConditional
-        numberUpdateConditional.partitions[0].value = numberBaseConditional.partitions[0].value
-        numberUpdateConditional.partitions[0].activations[0] = numberBaseConditional.partitions[0].activations[0]
+        const newPartitions = []
+
+        const seen: Record<number, ComboSubNumberConditional> = {}
+
+        if (key == 'memoSkillEnhances') {
+          console.log('!!')
+        }
+
+        for (let i = 0; i < numberUpdateConditional.partitions.length; i++) {
+          const partition = numberUpdateConditional.partitions[i]
+          if (seen[partition.value]) {
+            for (let j = 0; j < seen[partition.value].activations.length; j++) {
+              seen[partition.value].activations[j] = seen[partition.value].activations[j] || numberUpdateConditional.partitions[i].activations[j]
+            }
+          } else {
+            seen[partition.value] = partition
+            newPartitions.push(partition)
+          }
+        }
+
+        for (let i = 0; i < numberBaseConditional.partitions.length; i++) {
+          const partition = numberBaseConditional.partitions[i]
+          if (seen[partition.value]) {
+            seen[partition.value].activations[0] = numberBaseConditional.partitions[i].activations[0]
+          } else {
+            seen[partition.value] = partition
+            newPartitions.push(partition)
+          }
+        }
+
+        // numberUpdateConditional.partitions[0].value = numberBaseConditional.partitions[0].value
+        // numberUpdateConditional.partitions[0].activations[0] = numberBaseConditional.partitions[0].activations[0]
+        numberUpdateConditional.partitions = newPartitions
         baseConditionals[key] = updateConditional
       }
     }

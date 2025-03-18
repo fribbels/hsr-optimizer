@@ -59,6 +59,10 @@ CharacterPreview:
       CurrentSpdLabel: 選択キャラの速度 - 基準ビルドの速度を選択キャラの速度にします
       BaseSpdLabel: 初期速度 - 基準ビルドの速度を最小にします
       CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
+    BuffPriority:
+      Header: DPS の型
+      High: メイン
+      Low: サブ
   CustomizationSidebar:
     Label: カスタマイズ
     Modes:
@@ -95,8 +99,8 @@ CharacterPreview:
       DMGUpgrades: 与ダメージ強化
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
-    Header: サブステータス強化の比較
-    MainStatHeader: メインステータス強化の比較
+    Header: サブステータス強化比較
+    MainStatHeader: メインステータス強化比較
     Roll: サブ
     Damage: 増加ダメージ
     MainStatUpgrade: メインステータス強化
@@ -141,6 +145,7 @@ CharacterPreview:
         COMBO: コンボ
     CombatBuffs:
       Header: 戦闘バフ
+      SubDpsHeader: 戦闘バフ（サブ DPS）
   ScoringColumn:
     Character:
       Header: "選択キャラのビルド（{{score}}％）"

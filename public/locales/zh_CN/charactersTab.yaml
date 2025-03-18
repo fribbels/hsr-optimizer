@@ -59,6 +59,10 @@ CharacterPreview:
       CurrentSpdLabel: 当前速度 - 基准将与你的基础速度匹配
       BaseSpdLabel: 基础速度 - 基准将以最低速度配装为目标
       CommonBreakpointsLabel: 常见速度阈值预设（速度增益额外单独考虑）
+    BuffPriority:
+      Header: DPS模式
+      High: 主C
+      Low: 副C
   CustomizationSidebar:
     Label: 自定义
     Modes:
@@ -141,6 +145,7 @@ CharacterPreview:
         COMBO: 连招伤害
     CombatBuffs:
       Header: 战斗增益
+      SubDpsHeader: 战斗增益（副C）
   ScoringColumn:
     Character:
       Header: "角色配装 ({{score}}%)"

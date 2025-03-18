@@ -149,10 +149,45 @@ export function initializeComboState(request: Form, merge: boolean) {
   }
 
   precomputeConditionalActivations(comboState, request)
+  shiftDefaultConditionalToFirst(comboState.comboCharacter.characterConditionals)
+  shiftDefaultConditionalToFirst(comboState.comboCharacter.lightConeConditionals)
+  shiftDefaultConditionalToFirst(comboState.comboCharacter.setConditionals)
+  // Commenting teammates out since there are no teammate precomputes so far
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.characterConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.lightConeConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.ornamentSetConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.relicSetConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.characterConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.lightConeConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.ornamentSetConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.relicSetConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.characterConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.lightConeConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.ornamentSetConditionals)
+  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.relicSetConditionals)
 
   displayModifiedSets(request, comboState)
 
   return comboState
+}
+
+// After precompute runs, there may be out of order conditionals and the default state should come first
+function shiftDefaultConditionalToFirst(comboConditionals?: ComboConditionals) {
+  if (!comboConditionals) return
+
+  for (const [key, conditionals] of Object.entries(comboConditionals)) {
+    if (conditionals.type == ConditionalDataType.NUMBER) {
+      const numberCategory = conditionals
+      for (let i = 0; i < numberCategory.partitions.length; i++) {
+        const partition = numberCategory.partitions[i]
+        if (partition.activations[0]) {
+          numberCategory.partitions.splice(i, 1)
+          numberCategory.partitions.unshift(partition)
+          break
+        }
+      }
+    }
+  }
 }
 
 export function generateConditionalResolverMetadata(request: BasicForm, dbMetadata: DBMetadata) {
@@ -246,8 +281,36 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
       } else {
         const numberBaseConditional = conditional as ComboNumberConditional
         const numberUpdateConditional = updateConditional as ComboNumberConditional
-        numberUpdateConditional.partitions[0].value = numberBaseConditional.partitions[0].value
-        numberUpdateConditional.partitions[0].activations[0] = numberBaseConditional.partitions[0].activations[0]
+        const newPartitions = []
+
+        const seen: Record<number, ComboSubNumberConditional> = {}
+
+        for (let i = 0; i < numberUpdateConditional.partitions.length; i++) {
+          const partition = numberUpdateConditional.partitions[i]
+          if (seen[partition.value]) {
+            for (let j = 0; j < seen[partition.value].activations.length; j++) {
+              seen[partition.value].activations[j] = seen[partition.value].activations[j] || numberUpdateConditional.partitions[i].activations[j]
+            }
+          } else {
+            seen[partition.value] = partition
+            newPartitions.push(partition)
+          }
+        }
+
+        for (let i = 0; i < numberBaseConditional.partitions.length; i++) {
+          const partition = numberBaseConditional.partitions[i]
+          if (seen[partition.value]) {
+            seen[partition.value].activations[0] = numberBaseConditional.partitions[i].activations[0]
+          } else {
+            seen[partition.value] = partition
+            newPartitions.push(partition)
+          }
+        }
+        // TODO: all others activation[0] should get false
+
+        // numberUpdateConditional.partitions[0].value = numberBaseConditional.partitions[0].value
+        // numberUpdateConditional.partitions[0].activations[0] = numberBaseConditional.partitions[0].activations[0]
+        numberUpdateConditional.partitions = newPartitions
         baseConditionals[key] = updateConditional
       }
     }

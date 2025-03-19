@@ -744,27 +744,37 @@ function NumberConditionalActivationRow(props: {
   sourceKey: string
 }) {
   const numberComboConditional = props.comboConditional
-  const rows = numberComboConditional.partitions.length
-  const display: ReactElement[] = []
+  const displaySortWrappers: {
+    display: ReactElement
+    value: number
+  }[] = []
 
   for (let i = 0; i < numberComboConditional.partitions.length; i++) {
     const x = numberComboConditional.partitions[i]
-    display.push(
-      <Partition
-        key={i}
-        partition={x}
-        contentItem={props.contentItem}
-        activations={x.activations}
-        partitionIndex={i}
-        actionCount={props.actionCount}
-        sourceKey={props.sourceKey}
-      />,
-    )
+
+    displaySortWrappers.push({
+      value: x.value,
+      display: (
+        <Partition
+          key={i}
+          partition={x}
+          contentItem={props.contentItem}
+          activations={x.activations}
+          partitionIndex={i}
+          actionCount={props.actionCount}
+          sourceKey={props.sourceKey}
+        />
+      ),
+    })
   }
+
+  const sortedDisplays = displaySortWrappers
+    .sort((a, b) => a.value - b.value)
+    .map((x) => x.display)
 
   return (
     <Flex vertical>
-      {display}
+      {sortedDisplays}
     </Flex>
   )
 }

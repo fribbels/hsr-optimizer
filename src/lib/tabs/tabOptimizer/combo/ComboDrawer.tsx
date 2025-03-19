@@ -744,28 +744,59 @@ function NumberConditionalActivationRow(props: {
   sourceKey: string
 }) {
   const numberComboConditional = props.comboConditional
-  const rows = numberComboConditional.partitions.length
-  const display: ReactElement[] = []
+  const displaySortWrappers: {
+    display: ReactElement
+    value: number
+  }[] = []
 
   for (let i = 0; i < numberComboConditional.partitions.length; i++) {
     const x = numberComboConditional.partitions[i]
-    display.push(
-      <Partition
-        key={i}
-        partition={x}
-        contentItem={props.contentItem}
-        activations={x.activations}
-        partitionIndex={i}
-        actionCount={props.actionCount}
-        sourceKey={props.sourceKey}
-      />,
-    )
+
+    displaySortWrappers.push({
+      value: x.value,
+      display: (
+        <Partition
+          key={i}
+          partition={x}
+          contentItem={props.contentItem}
+          activations={x.activations}
+          partitionIndex={i}
+          actionCount={props.actionCount}
+          sourceKey={props.sourceKey}
+        />
+      ),
+    })
   }
 
+  const sortedDisplays = displaySortWrappers
+    .sort((a, b) => a.value - b.value)
+    .map((x) => x.display)
+
   return (
-    <Flex vertical>
-      {display}
+    <Flex
+      vertical
+      style={{ position: 'relative' }}
+    >
+      <PartitionDivider/>
+      {sortedDisplays}
+      <PartitionDivider bottom/>
     </Flex>
+  )
+}
+
+function PartitionDivider(props: { bottom?: boolean }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: props.bottom ? undefined : -1,
+        bottom: props.bottom ? 0 : undefined,
+        left: 0,
+        right: 0,
+        borderTop: '1px solid #7999c8',
+        pointerEvents: 'none',
+      }}
+    />
   )
 }
 
@@ -776,7 +807,6 @@ function SelectConditionalActivationRow(props: {
   sourceKey: string
 }) {
   const selectComboConditional = props.comboConditional
-  const rows = selectComboConditional.partitions.length
   const display: ReactElement[] = []
 
   for (let i = 0; i < selectComboConditional.partitions.length; i++) {
@@ -795,8 +825,13 @@ function SelectConditionalActivationRow(props: {
   }
 
   return (
-    <Flex vertical>
+    <Flex
+      vertical
+      style={{ position: 'relative' }}
+    >
+      <PartitionDivider/>
       {display}
+      <PartitionDivider bottom/>
     </Flex>
   )
 }

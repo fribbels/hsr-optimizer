@@ -7,6 +7,12 @@ export const CURRENT_OPTIMIZER_VERSION = 'v3.2.3'
 
 export const CURRENT_DATA_VERSION = '3.2v4'
 
+const generateMessage = (message: string) => `Current version: (${CURRENT_DATA_VERSION}) ${message}`
+export const CharacterNotificationMessages: Record<string, string> = {
+  1407: generateMessage(''),
+  1405: generateMessage(''),
+}
+
 export const Stats = {
   ATK_P: 'ATK%',
   ATK: 'ATK',

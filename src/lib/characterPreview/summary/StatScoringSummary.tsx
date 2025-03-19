@@ -304,7 +304,7 @@ function MidRoll() {
 function LowRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: '#a3bdde' }}
+      style={{ ...rollStyle, backgroundColor: '#a5bcd9' }}
     />
   )
 }

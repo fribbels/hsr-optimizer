@@ -17,7 +17,8 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
-const cache: Record<string, EnrichedRelics> = {}
+const cachedRelics: Record<string, EnrichedRelics> = {}
+let cachedId = ''
 
 export const StatScoringSummary = (props: {
   simScoringResult?: SimulationScore
@@ -49,9 +50,10 @@ export const StatScoringSummary = (props: {
       weights: scoringMetadata.stats,
     }
 
+    cachedId = characterId
     const cacheKey = hashEstTbpRun(displayRelics, characterId)
-    if (cache[cacheKey]) {
-      setEnrichedRelics(cache[cacheKey])
+    if (cachedRelics[cacheKey]) {
+      setEnrichedRelics(cachedRelics[cacheKey])
       return
     }
 
@@ -59,7 +61,10 @@ export const StatScoringSummary = (props: {
 
     void runEstTbpWorker(input, (output: EstTbpRunnerOutput) => {
       const enrichedRelics = enrichRelicAnalysis(displayRelics, output, scoringMetadata, characterId)
-      cache[cacheKey] = enrichedRelics
+      cachedRelics[cacheKey] = enrichedRelics
+
+      if (cachedId != characterId) return
+
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })

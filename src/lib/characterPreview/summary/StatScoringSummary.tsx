@@ -17,7 +17,8 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
-const cache: Record<string, EnrichedRelics> = {}
+const cachedRelics: Record<string, EnrichedRelics> = {}
+let cachedId = ''
 
 export const StatScoringSummary = (props: {
   simScoringResult?: SimulationScore
@@ -49,9 +50,10 @@ export const StatScoringSummary = (props: {
       weights: scoringMetadata.stats,
     }
 
+    cachedId = characterId
     const cacheKey = hashEstTbpRun(displayRelics, characterId)
-    if (cache[cacheKey]) {
-      setEnrichedRelics(cache[cacheKey])
+    if (cachedRelics[cacheKey]) {
+      setEnrichedRelics(cachedRelics[cacheKey])
       return
     }
 
@@ -59,7 +61,10 @@ export const StatScoringSummary = (props: {
 
     void runEstTbpWorker(input, (output: EstTbpRunnerOutput) => {
       const enrichedRelics = enrichRelicAnalysis(displayRelics, output, scoringMetadata, characterId)
-      cache[cacheKey] = enrichedRelics
+      cachedRelics[cacheKey] = enrichedRelics
+
+      if (cachedId != characterId) return
+
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })
@@ -108,7 +113,7 @@ export const StatScoringSummary = (props: {
 
 function LoadingSpinner() {
   return (
-    <Flex justify='center' align='center' style={{ height: '300px' }}>
+    <Flex justify='center' align='center' style={{ height: '100px' }}>
       <Spin size='large'/>
     </Flex>
   )
@@ -201,7 +206,7 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
         <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }}/>
         <Flex justify='space-between'>
           <span style={textStyle}>Perfection</span>
-          <span style={textStyle}>{percentDisplay}%</span>
+          <span style={{}}>{percentDisplay}%</span>
         </Flex>
 
         <div style={{
@@ -246,6 +251,7 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
         padding: '6px 10px',
         backgroundColor: '#334f87',
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
+        border: '1px solid rgb(73 98 153)',
       }}
       vertical
       flex={1}
@@ -274,7 +280,6 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
 const rollStyle = {
   width: '16px',
   height: '16px',
-  backgroundColor: '#267ee4',
   marginRight: '5px',
   borderRadius: '2px',
   marginBottom: 3,
@@ -283,7 +288,7 @@ const rollStyle = {
 function HighRoll() {
   return (
     <div
-      style={rollStyle}
+      style={{ ...rollStyle, backgroundColor: '#0e7eff' }}
     />
   )
 }
@@ -291,7 +296,7 @@ function HighRoll() {
 function MidRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: '#609fed' }}
+      style={{ ...rollStyle, backgroundColor: '#63a9ff' }}
     />
   )
 }
@@ -299,7 +304,7 @@ function MidRoll() {
 function LowRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: '#9dbee8' }}
+      style={{ ...rollStyle, backgroundColor: '#a5bcd9' }}
     />
   )
 }
@@ -324,7 +329,7 @@ function RollLine(props: { index: number; relicAnalysis: RelicAnalysis }) {
   for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++}/>)
 
   return (
-    <Flex style={{ height: 22, width: '100%', opacity: (weight ? 1 : 0.075) }} justify='space-between'>
+    <Flex style={{ height: 22, width: '100%', opacity: (weight ? 1 : 0.05) }} justify='space-between'>
       <Flex align='flex-end'>
         <img
           style={{ width: iconSize, height: iconSize, marginRight: 5, marginLeft: -3 }}

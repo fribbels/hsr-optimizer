@@ -108,7 +108,7 @@ export const StatScoringSummary = (props: {
 
 function LoadingSpinner() {
   return (
-    <Flex justify='center' align='center' style={{ height: '300px' }}>
+    <Flex justify='center' align='center' style={{ height: '100px' }}>
       <Spin size='large'/>
     </Flex>
   )

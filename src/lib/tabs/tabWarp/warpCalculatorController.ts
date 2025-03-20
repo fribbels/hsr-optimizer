@@ -87,10 +87,10 @@ export enum StarlightRefund {
 }
 
 export const StarlightMultiplier: Record<StarlightRefund, number> = {
-  [StarlightRefund.REFUND_NONE]: 1.00,
-  [StarlightRefund.REFUND_LOW]: 1.04,
-  [StarlightRefund.REFUND_AVG]: 1.075,
-  [StarlightRefund.REFUND_HIGH]: 1.1,
+  [StarlightRefund.REFUND_NONE]: 0.00,
+  [StarlightRefund.REFUND_LOW]: 0.04,
+  [StarlightRefund.REFUND_AVG]: 0.075,
+  [StarlightRefund.REFUND_HIGH]: 0.11,
 }
 
 export type WarpRequest = {

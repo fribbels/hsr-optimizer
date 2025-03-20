@@ -1,6 +1,4 @@
 import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { Metadata } from 'lib/state/metadata'
 import { Relic, RelicSubstatMetadata } from 'types/relic'
 import { expect, test } from 'vitest'
@@ -19,43 +17,15 @@ import {
 
 Metadata.initialize()
 
-const substatWeights = {
-  [Stats.HP_P]: 10,
-  [Stats.ATK_P]: 10,
-  [Stats.DEF_P]: 10,
-  [Stats.HP]: 10,
-  [Stats.ATK]: 10,
-  [Stats.DEF]: 10,
-  [Stats.SPD]: 4,
-  [Stats.CR]: 6,
-  [Stats.CD]: 6,
-  [Stats.EHR]: 8,
-  [Stats.RES]: 8,
-  [Stats.BE]: 8,
-} // = 100
-
-const substatCumulativeArr = [
-  { stat: Stats.HP_P, threshold: 0.00 },
-  { stat: Stats.ATK_P, threshold: 0.10 },
-  { stat: Stats.DEF_P, threshold: 0.20 },
-  { stat: Stats.HP, threshold: 0.30 },
-  { stat: Stats.ATK, threshold: 0.40 },
-  { stat: Stats.DEF, threshold: 0.50 },
-  { stat: Stats.SPD, threshold: 0.54 },
-  { stat: Stats.CR, threshold: 0.60 },
-  { stat: Stats.CD, threshold: 0.66 },
-  { stat: Stats.EHR, threshold: 0.74 },
-  { stat: Stats.RES, threshold: 0.82 },
-  { stat: Stats.BE, threshold: 0.90 },
-] // 1.00
+const statQuality = {
+  LOW: 0.8,
+  MID: 0.9,
+  HIGH: 1.0,
+}
 
 function quality() {
-  // Return low rolls for equalizing roll quality
-  return 0.8
-
-  // Otherwise use actually randomized roll quality
-  // const qualityRand = Math.random()
-  // return qualityRand > 0.666666 ? 1.0 : (qualityRand > 0.333333 ? 0.9 : 0.8)
+  const qualityRand = Math.random()
+  return qualityRand > 0.666666 ? statQuality.HIGH : (qualityRand > 0.333333 ? statQuality.MID : statQuality.LOW)
 }
 
 function generateRelic() {
@@ -82,7 +52,7 @@ function generateRelic() {
         selected[stat] = true
         substats.push({
           stat: stat,
-          value: StatCalculator.getMaxedSubstatValue(stat, quality()),
+          value: quality(),
         })
         break
       }
@@ -91,7 +61,7 @@ function generateRelic() {
 
   for (let i = 0; i < rolls; i++) {
     const upgradeIndex = Math.floor(Math.random() * 4)
-    substats[upgradeIndex].value += StatCalculator.getMaxedSubstatValue(substats[upgradeIndex].stat, quality())
+    substats[upgradeIndex].value += quality()
   }
 
   const relic: Relic = {
@@ -108,33 +78,69 @@ function generateRelic() {
   return relic
 }
 
-const simulationsEnabled = false
+const simulationsEnabled = true
+const weights = {
+  'ATK': 0.75,
+  'ATK%': 0.75,
+  'DEF': 0,
+  'DEF%': 0,
+  'HP': 0,
+  'HP%': 0,
+  'SPD': 1,
+  'CRIT Rate': 1,
+  'CRIT DMG': 1,
+  'Effect Hit Rate': 0,
+  'Effect RES': 0,
+  'Break Effect': 0,
+  'Energy Regeneration Rate': 0,
+  'Outgoing Healing Boost': 0,
+  'Physical DMG Boost': 0,
+  'Fire DMG Boost': 0,
+  'Ice DMG Boost': 0,
+  'Lightning DMG Boost': 0,
+  'Wind DMG Boost': 0,
+  'Quantum DMG Boost': 1,
+  'Imaginary DMG Boost': 0,
+}
+const substatCumulativeArr = [
+  { stat: Stats.HP_P, threshold: 0.00 },
+  { stat: Stats.ATK_P, threshold: 0.10 },
+  { stat: Stats.DEF_P, threshold: 0.20 },
+  { stat: Stats.HP, threshold: 0.30 },
+  { stat: Stats.ATK, threshold: 0.40 },
+  { stat: Stats.DEF, threshold: 0.50 },
+  { stat: Stats.SPD, threshold: 0.60 },
+  { stat: Stats.CR, threshold: 0.64 },
+  { stat: Stats.CD, threshold: 0.70 },
+  { stat: Stats.EHR, threshold: 0.76 },
+  { stat: Stats.RES, threshold: 0.84 },
+  { stat: Stats.BE, threshold: 0.92 },
+] // 1.00
 
 test('Simulated relics', () => {
   if (!simulationsEnabled) return
 
   let success = 0
   const results: number[] = []
-  // const scoreToBeat = 48.914423718410575 // Original relic
-  const scoreToBeat = 44.05471672937847 // Converted to low rolls
-  const trials = 1000000
+  const rollsToBeat = 7.55
+  const trials = 10_000_000
 
   for (let i = 0; i < trials; i++) {
     const relic = generateRelic()
-    // const result = new RelicScorer().substatScore(relic, '1314').score // substatScore
-    const result = RelicScorer.scoreCurrentRelic(relic, '1314').scoreNumber // scoreCurrentRelic
+    const result = sumSubstatWeights(relic, weights)
+
     results.push(result)
-    if (result >= scoreToBeat) {
+    if (result >= rollsToBeat) {
       success++
     }
   }
 
-  const histogram = new Array(60).fill(0)
+  const histogram = new Array(80).fill(0)
   for (const result of results) {
-    histogram[Math.floor(result)]++
+    histogram[Math.floor(result * 10)]++
   }
-  for (let i = 0; i < 60; i++) {
-    console.log(`$Score: ${i}: ${histogram[i]}`)
+  for (let i = 0; i < 80; i++) {
+    console.log(`$Score: ${i / 10}: ${histogram[i]}`)
   }
 
   const tbpPerTrial = 40 / 2.1 // ~2 drops per run
@@ -145,8 +151,20 @@ test('Simulated relics', () => {
   const avgTbp = tbp / success
   const avgDays = avgTbp / 240
 
-  console.log(`${success} relics beat a score of ${scoreToBeat} - AVG TBP: ${avgTbp} - AVG DAYS: ${avgDays}`)
+  console.log(`${success} relics beat a score of ${rollsToBeat} - AVG TBP: ${avgTbp} - AVG DAYS: ${avgDays}`)
 })
+
+function sumSubstatWeights(relic: Relic, weights: Record<string, number>) {
+  let sum = 0
+  for (const substat of relic.substats) {
+    sum += substat.value * weights[substat.stat] * flatReduction(substat.stat)
+  }
+  return sum
+}
+
+function flatReduction(stat: string) {
+  return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
+}
 
 test('Array generators work correctly', () => {
   expect(collectGenerator(permutations([0, 1, 2])))

@@ -288,7 +288,7 @@ const rollStyle = {
 function HighRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: 'rgb(20, 129, 255)' }}
+      style={{ ...rollStyle, backgroundColor: '#0e7eff' }}
     />
   )
 }
@@ -296,7 +296,7 @@ function HighRoll() {
 function MidRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: 'rgb(99, 169, 255)' }}
+      style={{ ...rollStyle, backgroundColor: '#63a9ff' }}
     />
   )
 }
@@ -304,7 +304,7 @@ function MidRoll() {
 function LowRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: 'rgb(162, 186, 219)' }}
+      style={{ ...rollStyle, backgroundColor: '#a5bcd9' }}
     />
   )
 }

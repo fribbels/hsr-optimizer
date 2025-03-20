@@ -1,10 +1,10 @@
-import { Alert, ConfigProvider, Flex, Segmented, Typography } from 'antd'
+import { Flex, Segmented, Typography } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { StatScoringSummary } from 'lib/characterPreview/summary/StatScoringSummary'
-import { CHARACTER_SCORE, CharacterNotificationMessages, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
+import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
@@ -45,7 +45,6 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
 
   return (
     <Flex vertical style={{ minHeight: 1000 }}>
-      <CharacterNotification characterId={characterMetadata.id}/>
       <Flex justify='center' gap={10}>
         <Flex
           justify='center'
@@ -178,28 +177,4 @@ function MemoizedStatScoringSummary(props: {
 
   if (!delayedProps) return null
   return memoizedStatScoringSummary
-}
-
-function CharacterNotification(props: { characterId: string }) {
-  const { characterId } = props
-  if (!characterId || !CharacterNotificationMessages[characterId]) {
-    return (
-      <></>
-    )
-  }
-  return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Alert: {
-            colorInfo: '#4bc65d',
-            colorInfoBg: '#1f3464',
-            colorInfoBorder: '#334d8a',
-          },
-        },
-      }}
-    >
-      <Alert message={CharacterNotificationMessages[characterId]} type='info' showIcon style={{ marginTop: 10 }}/>
-    </ConfigProvider>
-  )
 }

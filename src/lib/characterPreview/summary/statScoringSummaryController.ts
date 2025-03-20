@@ -105,7 +105,6 @@ function hashRelic(relic: Relic) {
     main: relic.main,
     part: relic.part,
     set: relic.set,
-    subStat: relic.substats.map((x) => x.stat),
-    subValue: relic.substats.map((x) => x.value),
+    substats: relic.substats,
   })
 }

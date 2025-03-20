@@ -79,6 +79,20 @@ export enum SuperimpositionLevel {
   S5,
 }
 
+export enum StarlightRefund {
+  REFUND_NONE = 'REFUND_NONE',
+  REFUND_LOW = 'REFUND_LOW',
+  REFUND_AVG = 'REFUND_AVG',
+  REFUND_HIGH = 'REFUND_HIGH',
+}
+
+export const StarlightMultiplier: Record<StarlightRefund, number> = {
+  [StarlightRefund.REFUND_NONE]: 1.00,
+  [StarlightRefund.REFUND_LOW]: 1.04,
+  [StarlightRefund.REFUND_AVG]: 1.075,
+  [StarlightRefund.REFUND_HIGH]: 1.1,
+}
+
 export type WarpRequest = {
   passes: number
   jades: number

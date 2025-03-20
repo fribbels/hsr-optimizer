@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -8,6 +8,7 @@ import {
   DEFAULT_WARP_REQUEST,
   EidolonLevel,
   handleWarpRequest,
+  StarlightRefund,
   SuperimpositionLevel,
   WarpIncomeDefinition,
   WarpIncomeOptions,
@@ -128,7 +129,29 @@ function Inputs() {
                 </Flex>
               </Flex>
 
-              <Flex gap={20}>
+              <Flex gap={25}>
+                <Flex vertical flex={1} style={{ width: '100%' }}>
+                  <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
+                  <Input.Group compact style={{ display: 'flex' }}>
+                    <Input
+                      disabled
+                      style={{
+                        width: 36,
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        cursor: 'auto',
+                        backgroundImage: `url(${Assets.getStarlight()})`,
+                        backgroundSize: '24px',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                      }}
+                    />
+                    <Select
+                      style={{ flex: 1 }}
+                      options={generateStarlightOptions()}
+                    />
+                  </Input.Group>
+                </Flex>
+
                 <Flex vertical flex={1}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
@@ -459,6 +482,18 @@ function generateStrategyOptions() {
     { value: WarpStrategy.E4, label: t('E4')/* 'E4 first' */ },
     { value: WarpStrategy.E5, label: t('E5')/* 'E5 first' */ },
     { value: WarpStrategy.E6, label: t('E6')/* 'E6 first' */ },
+  ]
+
+  return options
+}
+
+function generateStarlightOptions() {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'StrategyLabels')
+  const options: SelectProps['options'] = [
+    { value: StarlightRefund.REFUND_NONE, label: 'None' },
+    { value: StarlightRefund.REFUND_04, label: '4% refund' },
+    { value: StarlightRefund.REFUND_07, label: '7.5% refund' },
+    { value: StarlightRefund.REFUND_11, label: '11% refund' },
   ]
 
   return options

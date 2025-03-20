@@ -114,6 +114,9 @@ export const Assets = {
   getPass: () => {
     return getImageUrl('/misc/pass.webp')
   },
+  getStarlight: () => {
+    return getImageUrl('/misc/starlight.webp')
+  },
   getStar: () => {
     return getImageUrl('/misc/StarBig.webp')
   },

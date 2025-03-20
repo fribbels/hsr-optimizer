@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, Form, InputNumber, Radio, Select, SelectProps, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -8,6 +8,8 @@ import {
   DEFAULT_WARP_REQUEST,
   EidolonLevel,
   handleWarpRequest,
+  StarlightMultiplier,
+  StarlightRefund,
   SuperimpositionLevel,
   WarpIncomeDefinition,
   WarpIncomeOptions,
@@ -18,6 +20,7 @@ import {
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -128,14 +131,41 @@ function Inputs() {
                 </Flex>
               </Flex>
 
-              <Flex gap={20}>
-                <Flex vertical flex={1}>
+              <Flex gap={25}>
+                <Flex vertical style={{ width: 0, flex: 1, overflow: 'hidden' }}>
+                  <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
+
+                  <Space.Compact style={{ display: 'flex' }}>
+                    <Input
+                      disabled
+                      style={{
+                        width: 36,
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        cursor: 'auto',
+                        backgroundImage: `url(${Assets.getStarlight()})`,
+                        backgroundSize: '24px',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                      }}
+                    />
+                    <Form.Item noStyle name='starlight'>
+                      <Select
+                        style={{ flex: 1 }}
+                        options={generateStarlightOptions()}
+                        popupMatchSelectWidth={false}
+                        optionLabelProp='labelInValue'
+                      />
+                    </Form.Item>
+                  </Space.Compact>
+                </Flex>
+
+                <Flex vertical style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
                     <TreeSelect
                       multiple
                       showCheckedStrategy={TreeSelect.SHOW_CHILD}
-                      maxTagCount={1}
+                      maxTagCount={0}
                       listHeight={500}
                       showSearch={false}
                       treeCheckable={false}
@@ -144,6 +174,7 @@ function Inputs() {
                       treeDefaultExpandedKeys={extractEnabledIncomeTypes(warpRequest)}
                       allowClear
                       treeData={generateIncomeOptions()}
+                      popupMatchSelectWidth={500}
                     />
                   </Form.Item>
                 </Flex>
@@ -152,7 +183,6 @@ function Inputs() {
           </Flex>
 
           <VerticalDivider width={40}/>
-
 
           <Flex vertical style={{ flex: 1 }} justify='space-between'>
             <Flex vertical>
@@ -303,15 +333,18 @@ function Results() {
           <Flex align='center' gap={5}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
-            {`( ${(warpResult.request.totalJade ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
-            <img style={{ height: 18 }} src={Assets.getJade()}/>
+            {`( ${localeNumberComma(warpResult.request.totalJade ?? 0)}`}
+            <img style={{ height: 24 }} src={Assets.getJade()}/>
             <span>) + (</span>
-            {`${(warpResult.request.totalPasses ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
+            {localeNumberComma(warpResult.request.totalPasses ?? 0)}
+            <img style={{ height: 24 }} src={Assets.getPass()}/>
+            <span>) + (</span>
+            {localeNumberComma(warpResult.request.totalStarlight ?? 0)}
+            <img style={{ height: 24 }} src={Assets.getStarlight()}/>
             <span>) </span>
             <span>= </span>
-            {(warpResult.request.warps ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
+            {localeNumberComma(warpResult.request.warps ?? 0)}
+            <img style={{ height: 24 }} src={Assets.getPass()}/>
           </Flex>
         </pre>
       </Text>
@@ -462,6 +495,39 @@ function generateStrategyOptions() {
   ]
 
   return options
+}
+
+function generateStarlightOptions() {
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'StrategyLabels')
+  const options: SelectProps['options'] = [
+    {
+      value: StarlightRefund.REFUND_NONE,
+      label: 'None',
+      labelInValue: 'None',
+    },
+    {
+      value: StarlightRefund.REFUND_LOW,
+      label: `${refundLabel(StarlightRefund.REFUND_LOW)}% refund (Low)`,
+      labelInValue: `${refundLabel(StarlightRefund.REFUND_LOW)}% refund`,
+    },
+    {
+      value: StarlightRefund.REFUND_AVG,
+      label: `${refundLabel(StarlightRefund.REFUND_AVG, true)}% refund (Average)`,
+      labelInValue: `${refundLabel(StarlightRefund.REFUND_AVG, true)}% refund`,
+    },
+    {
+      value: StarlightRefund.REFUND_HIGH,
+      label: `${refundLabel(StarlightRefund.REFUND_HIGH)}% refund (High)`,
+      labelInValue: `${refundLabel(StarlightRefund.REFUND_HIGH)}% refund`,
+    },
+  ]
+
+  return options
+}
+
+function refundLabel(starlight: StarlightRefund, showDecimal: boolean = false) {
+  const value = StarlightMultiplier[starlight] * 100
+  return showDecimal ? localeNumber_0(value) : localeNumber(value)
 }
 
 function generateEidolonLevelOptions() {

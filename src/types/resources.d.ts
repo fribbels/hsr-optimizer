@@ -5497,6 +5497,7 @@ interface Resources {
       "Passes": "Passes",
       "Jades": "Jades",
       "Strategy": "Strategy",
+      "Starlight": "Starlight",
       "Banner": "Banner",
       "New": "New",
       "Rerun": "Rerun",

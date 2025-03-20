@@ -79,12 +79,27 @@ export enum SuperimpositionLevel {
   S5,
 }
 
+export enum StarlightRefund {
+  REFUND_NONE = 'REFUND_NONE',
+  REFUND_LOW = 'REFUND_LOW',
+  REFUND_AVG = 'REFUND_AVG',
+  REFUND_HIGH = 'REFUND_HIGH',
+}
+
+export const StarlightMultiplier: Record<StarlightRefund, number> = {
+  [StarlightRefund.REFUND_NONE]: 0.00,
+  [StarlightRefund.REFUND_LOW]: 0.04,
+  [StarlightRefund.REFUND_AVG]: 0.075,
+  [StarlightRefund.REFUND_HIGH]: 0.11,
+}
+
 export type WarpRequest = {
   passes: number
   jades: number
   income: string[]
   bannerRotation: BannerRotation
   strategy: WarpStrategy
+  starlight: StarlightRefund
   pityCharacter: number
   guaranteedCharacter: boolean
   pityLightCone: number
@@ -110,6 +125,7 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
   income: [],
   bannerRotation: BannerRotation.NEW,
   strategy: WarpStrategy.E0,
+  starlight: StarlightRefund.REFUND_AVG,
   pityCharacter: 0,
   guaranteedCharacter: false,
   pityLightCone: 0,
@@ -352,6 +368,7 @@ function filterRemapMilestones(milestones: WarpMilestone[], enrichRequest: Enric
 
 export type EnrichedWarpRequest = {
   warps: number
+  totalStarlight: number
   totalPasses: number
   totalJade: number
 } & WarpRequest
@@ -369,7 +386,11 @@ function enrichWarpRequest(request: WarpRequest) {
 
   const totalJade = request.jades
   const totalPasses = request.passes + additionalPasses
-  const totalWarps = Math.floor(totalJade / 160) + totalPasses
+  const initialWarps = Math.floor(totalJade / 160) + totalPasses
+
+  const refundedWarps = Math.floor((StarlightMultiplier[request.starlight] ?? 0) * initialWarps)
+  const totalStarlight = refundedWarps * 20
+  const totalWarps = initialWarps + refundedWarps
 
   // Treat null form values as empty and use defaults
   for (const [key, value] of Object.entries(request)) {
@@ -384,6 +405,7 @@ function enrichWarpRequest(request: WarpRequest) {
     warps: totalWarps,
     totalJade: totalJade,
     totalPasses: totalPasses,
+    totalStarlight: totalStarlight,
   }
 
   if (request.bannerRotation == BannerRotation.NEW) {

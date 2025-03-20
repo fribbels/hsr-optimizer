@@ -1,5 +1,6 @@
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Metadata } from 'lib/state/metadata'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic, RelicSubstatMetadata } from 'types/relic'
 import { expect, test } from 'vitest'
 import {
@@ -78,7 +79,7 @@ function generateRelic() {
   return relic
 }
 
-const simulationsEnabled = true
+const simulationsEnabled = false
 const weights = {
   'ATK': 0.75,
   'ATK%': 0.75,
@@ -123,14 +124,14 @@ test('Simulated relics', () => {
   let success = 0
   const results: number[] = []
   const rollsToBeat = 7.55
-  const trials = 10_000_000
+  const trials = 100_000_000
 
   for (let i = 0; i < trials; i++) {
     const relic = generateRelic()
-    const result = sumSubstatWeights(relic, weights)
+    const result = TsUtils.precisionRound(sumSubstatWeights(relic, weights))
 
     results.push(result)
-    if (result >= rollsToBeat) {
+    if (result > rollsToBeat) {
       success++
     }
   }
@@ -138,9 +139,6 @@ test('Simulated relics', () => {
   const histogram = new Array(80).fill(0)
   for (const result of results) {
     histogram[Math.floor(result * 10)]++
-  }
-  for (let i = 0; i < 80; i++) {
-    console.log(`$Score: ${i / 10}: ${histogram[i]}`)
   }
 
   const tbpPerTrial = 40 / 2.1 // ~2 drops per run
@@ -152,6 +150,9 @@ test('Simulated relics', () => {
   const avgDays = avgTbp / 240
 
   console.log(`${success} relics beat a score of ${rollsToBeat} - AVG TBP: ${avgTbp} - AVG DAYS: ${avgDays}`)
+  for (let i = 0; i < 80; i++) {
+    console.log(`$Score: ${i / 10}: ${histogram[i]}`)
+  }
 })
 
 function sumSubstatWeights(relic: Relic, weights: Record<string, number>) {

@@ -1,10 +1,11 @@
-import { MainStats, Parts, SubStats } from 'lib/constants/constants'
+import { MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic, RelicGrade } from 'types/relic'
 import { getRollQualityDistribution, thresholdProbability } from './convolution'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
-  const scoreToBeat = simpleSubstatScoreOfRelic(relic, weights)
+  // Round away the floating point errors from weight products
+  const scoreToBeat = TsUtils.precisionRound(simpleSubstatScoreOfRelic(relic, weights))
 
   const pMain = probabilityOfCorrectSet()
     * probabilityOfCorrectSlot(relic.part)
@@ -15,7 +16,6 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
   for (const spread of initialSubstatGenerator(relic.main.stat, 4)) {
     const pSubInitial = probabilityOfCorrectInitialSubs(relic.main.stat, spread)
 
-    // TODO re: maybe theres something weird with weights
     const statWeights = spread.map((sub) => {
       if (sub == 'ATK' || sub == 'DEF' || sub == 'HP') {
         return 0.4 * weights[sub]
@@ -27,7 +27,7 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
     const threeLinerPSubUpgrade = thresholdProbability(getRollQualityDistribution(statWeights, 4), scoreToBeat)
     const fourLinerPSubUpgrade = thresholdProbability(getRollQualityDistribution(statWeights, 5), scoreToBeat)
     const pSubUpgrade = 0.8 * threeLinerPSubUpgrade + 0.2 * fourLinerPSubUpgrade
-    
+
     totalPSub += pSubInitial * pSubUpgrade
   }
 
@@ -44,19 +44,17 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
 }
 
 function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: number }): number {
-  const flat = relic.substats.flatMap((s) => Array((s.addedRolls ?? 0) + 1).fill(s.stat)) as SubStats[]
-  return simpleSubstatScore(flat, weights)
+  let weightedSum = 0
+  for (const substat of relic.substats) {
+    const stat = substat.stat
+    const rolls = substat.rolls!
+    weightedSum += (rolls.low * 0.8 + rolls.mid * 0.9 + rolls.high) * flatReduction(stat) * weights[stat]
+  }
+  return weightedSum
 }
 
-function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number }): number {
-  if (subs.length == 0) return 0
-
-  return subs.map((s) => {
-    let weight = (s in weights) ? weights[s] : 0
-    if (s == 'ATK' || s == 'DEF' || s == 'HP')
-      weight *= 0.4
-    return weight
-  }).reduce((a, b) => a + b)
+function flatReduction(stat: string) {
+  return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
 }
 
 // unused
@@ -264,4 +262,8 @@ export function* combinationsWithReplacement<T>(l: Array<T>, k: number): Generat
   for (const [i, x] of l.entries())
     for (const set of combinationsWithReplacement(l.slice(i), k - 1))
       yield [x, ...set]
+}
+
+export function debugEstTbp() {
+  // Since EstTbp only runs in workers, Webpack will remove it from the main browser unless imported somewhere
 }

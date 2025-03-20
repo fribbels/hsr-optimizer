@@ -18,7 +18,8 @@
 // we assume that a roll into any of the 4 given substats is uniform for now
 
 type Distribution = Map<number, number> // TODO: can potentially pick a better data structure
-const substatWeightRoundingFactor = 10 // will eventually round the substat value to the closest 1/n
+// Needs to be 100 to support 0.75 weight ATK%
+const substatWeightRoundingFactor = 100 // will eventually round the substat value to the closest 1/n
 
 export function getRollQualityDistribution(substatWeights: number[], numUpgrades: number) {
   // TODO: MEMOIZE FOR BETTER PERFORMANCE, make sure to sort the weights when using as a key
@@ -55,9 +56,9 @@ function calculateRollQualityDistribution(substatWeights: number[], numUpgrades:
 
   // combine the initial and the upgrade dist...
   const totalDist = convolveAdd(initialDist, totalUpgradeDist)
-  
+
   console.log([...totalDist.entries()].map(([k, v]) => k).join(', '))
-  
+
   // now we need to divide the scaling factors we used to avoid floating point calculation
   const unscalingFactor = substatWeightRoundingFactor * rollQualityRoundingFactor
   const trueDist: Distribution = new Map<number, number>()

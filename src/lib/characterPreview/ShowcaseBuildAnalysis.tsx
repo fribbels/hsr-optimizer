@@ -5,6 +5,7 @@ import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewControlle
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import React, { useMemo } from 'react'
@@ -42,6 +43,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
 
   return (
     <Flex vertical>
+      <CharacterAnnouncement characterId={characterMetadata.id}/>
       <Flex justify='center' gap={10}>
         <Flex
           justify='center'

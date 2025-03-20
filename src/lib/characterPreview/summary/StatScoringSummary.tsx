@@ -4,6 +4,7 @@ import { EnrichedRelics, enrichRelicAnalysis, flatReduction, hashEstTbpRun, Reli
 import { CHARACTER_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { debugEstTbp } from 'lib/relics/estTbp/estTbp'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
@@ -343,3 +344,5 @@ function RollLine(props: { index: number; relicAnalysis: RelicAnalysis }) {
     </Flex>
   )
 }
+
+debugEstTbp()

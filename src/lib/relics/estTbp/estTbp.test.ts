@@ -105,15 +105,6 @@ const weights = {
   'Effect Hit Rate': 0,
   'Effect RES': 0,
   'Break Effect': 0,
-  'Energy Regeneration Rate': 0,
-  'Outgoing Healing Boost': 0,
-  'Physical DMG Boost': 0,
-  'Fire DMG Boost': 0,
-  'Ice DMG Boost': 0,
-  'Lightning DMG Boost': 0,
-  'Wind DMG Boost': 0,
-  'Quantum DMG Boost': 1,
-  'Imaginary DMG Boost': 0,
 }
 const substatCumulativeArr = [
   { stat: Stats.HP_P, threshold: 0.00 },
@@ -182,7 +173,7 @@ test('Simulated relics', () => {
 
   const mainStat = Stats.CR
   const part = Parts.Body
-  const rollsToBeat = 4
+  const rollsToBeat = 4.0
   const trials = 10_000_000
 
   for (let i = 0; i < trials; i++) {
@@ -209,7 +200,7 @@ test('Simulated relics', () => {
   const avgTbp = tbp / success
   const avgDays = avgTbp / 240
 
-  console.log(`${success} relics beat a score of ${rollsToBeat} - AVG TBP: ${avgTbp} - AVG DAYS: ${avgDays}`)
+  console.log(`${success} / ${trials} relics beat a score of ${rollsToBeat} - AVG TBP: ${avgTbp} - AVG DAYS: ${avgDays}`)
   for (let i = 0; i < 80; i++) {
     console.log(`$Score: ${i / 10}: ${histogram[i]}`)
   }

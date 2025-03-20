@@ -127,7 +127,7 @@ export function probabilityOfCorrectStat(part: Parts, stat: MainStats): number {
         case 'Wind DMG Boost':
         case 'Quantum DMG Boost':
         case 'Imaginary DMG Boost':
-          return 0.65 / 7
+          return 0.64 / 7
         default:
           return 0
       }

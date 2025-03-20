@@ -132,39 +132,40 @@ function Inputs() {
               </Flex>
 
               <Flex gap={25}>
-                <Form.Item name='starlight' style={{ width: '100%', flex: 1 }}>
-                  <Flex vertical>
-                    <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
-                    <Space.Compact style={{ display: 'flex' }}>
-                      <Input
-                        disabled
-                        style={{
-                          width: 36,
-                          backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                          cursor: 'auto',
-                          backgroundImage: `url(${Assets.getStarlight()})`,
-                          backgroundSize: '24px',
-                          backgroundPosition: 'center',
-                          backgroundRepeat: 'no-repeat',
-                        }}
-                      />
+                <Flex vertical style={{ width: 0, flex: 1, overflow: 'hidden' }}>
+                  <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
+
+                  <Space.Compact style={{ display: 'flex' }}>
+                    <Input
+                      disabled
+                      style={{
+                        width: 36,
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        cursor: 'auto',
+                        backgroundImage: `url(${Assets.getStarlight()})`,
+                        backgroundSize: '24px',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                      }}
+                    />
+                    <Form.Item noStyle name='starlight' style={{}}>
                       <Select
                         style={{ flex: 1 }}
                         options={generateStarlightOptions()}
                         popupMatchSelectWidth={false}
                         optionLabelProp='labelInValue'
                       />
-                    </Space.Compact>
-                  </Flex>
-                </Form.Item>
+                    </Form.Item>
+                  </Space.Compact>
+                </Flex>
 
-                <Flex vertical flex={1}>
+                <Flex vertical style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
                     <TreeSelect
                       multiple
                       showCheckedStrategy={TreeSelect.SHOW_CHILD}
-                      maxTagCount={1}
+                      maxTagCount={0}
                       listHeight={500}
                       showSearch={false}
                       treeCheckable={false}
@@ -333,14 +334,17 @@ function Results() {
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
             {`( ${(warpResult.request.totalJade ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
-            <img style={{ height: 18 }} src={Assets.getJade()}/>
+            <img style={{ height: 24 }} src={Assets.getJade()}/>
             <span>) + (</span>
             {`${(warpResult.request.totalPasses ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
+            <img style={{ height: 24 }} src={Assets.getPass()}/>
+            <span>) + (</span>
+            {`${(warpResult.request.totalStarlight ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            <img style={{ height: 24 }} src={Assets.getStarlight()}/>
             <span>) </span>
             <span>= </span>
             {(warpResult.request.warps ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
+            <img style={{ height: 24 }} src={Assets.getPass()}/>
           </Flex>
         </pre>
       </Text>

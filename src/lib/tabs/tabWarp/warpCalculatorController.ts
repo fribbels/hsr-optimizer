@@ -388,7 +388,7 @@ function enrichWarpRequest(request: WarpRequest) {
   const totalPasses = request.passes + additionalPasses
   const initialWarps = Math.floor(totalJade / 160) + totalPasses
 
-  const refundedWarps = Math.floor(StarlightMultiplier[request.starlight] * initialWarps)
+  const refundedWarps = Math.floor((StarlightMultiplier[request.starlight] ?? 0) * initialWarps)
   const totalStarlight = refundedWarps * 20
   const totalWarps = initialWarps + refundedWarps
 

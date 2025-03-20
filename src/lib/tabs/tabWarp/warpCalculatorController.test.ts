@@ -1,5 +1,5 @@
 import { Metadata } from 'lib/state/metadata'
-import { EidolonLevel, NONE_WARP_INCOME_OPTION, simulateWarps, SuperimpositionLevel, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, EidolonLevel, NONE_WARP_INCOME_OPTION, simulateWarps, StarlightRefund, SuperimpositionLevel, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { expect, test } from 'vitest'
 
 const DEFAULT_WARP_REQUEST: WarpRequest = {
@@ -7,10 +7,12 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
   jades: 0,
   income: [NONE_WARP_INCOME_OPTION.id],
   strategy: WarpStrategy.E0,
+  starlight: StarlightRefund.REFUND_NONE,
   pityCharacter: 0,
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
+  bannerRotation: BannerRotation.NEW,
   currentEidolonLevel: EidolonLevel.NONE,
   currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
@@ -147,6 +149,7 @@ test('expected current eidolon and lightcone values', () => {
   const result = simulateWarps({
     ...DEFAULT_WARP_REQUEST,
     passes: 300,
+    bannerRotation: BannerRotation.RERUN,
     currentEidolonLevel: EidolonLevel.E1,
     currentSuperimpositionLevel: SuperimpositionLevel.S1,
   })

@@ -1,9 +1,10 @@
 import { MainStats, Parts, SubStats } from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic, RelicGrade } from 'types/relic'
+import { getRollQualityDistribution, thresholdProbability } from './convolution'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
-  const scoreToBeat = TsUtils.precisionRound(simpleSubstatScoreOfRelic(relic, weights))
+  const scoreToBeat = simpleSubstatScoreOfRelic(relic, weights)
 
   const pMain = probabilityOfCorrectSet()
     * probabilityOfCorrectSlot(relic.part)
@@ -11,15 +12,23 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
 
   let totalPSub = 0.0
 
-  for (const spread of substatGeneratorFromRelic(relic)) {
-    const score = TsUtils.precisionRound(simpleSubstatScore(spread, weights))
-    if (score >= scoreToBeat) {
-      const pSub = probabilityOfInitialSubstatCount(relic.grade, spread)
-        * probabilityOfCorrectInitialSubs(relic.main.stat, spread)
-        * probabilityOfExactUpgradePattern(spread)
+  for (const spread of initialSubstatGenerator(relic.main.stat, 4)) {
+    const pSubInitial = probabilityOfCorrectInitialSubs(relic.main.stat, spread)
 
-      totalPSub += pSub
-    }
+    // TODO re: maybe theres something weird with weights
+    const statWeights = spread.map((sub) => {
+      if (sub == 'ATK' || sub == 'DEF' || sub == 'HP') {
+        return 0.4 * weights[sub]
+      }
+      return weights[sub]
+    })
+
+    // 80% vs 20% to get a 3 liner vs a 4 liner
+    const threeLinerPSubUpgrade = thresholdProbability(getRollQualityDistribution(statWeights, 4), scoreToBeat)
+    const fourLinerPSubUpgrade = thresholdProbability(getRollQualityDistribution(statWeights, 5), scoreToBeat)
+    const pSubUpgrade = 0.8 * threeLinerPSubUpgrade + 0.2 * fourLinerPSubUpgrade
+    
+    totalPSub += pSubInitial * pSubUpgrade
   }
 
   console.log(relic.part, scoreToBeat, totalPSub)
@@ -39,10 +48,6 @@ function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: numb
   return simpleSubstatScore(flat, weights)
 }
 
-// function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: number }): number {
-//   return simpleSubstatScore(relic.substats.flatMap((s) => Array((s.addedRolls ?? 0) + 1).fill(s.stat)) as SubStats[], weights)
-// }
-
 function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number }): number {
   if (subs.length == 0) return 0
 
@@ -54,6 +59,7 @@ function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number 
   }).reduce((a, b) => a + b)
 }
 
+// unused
 export function* substatGeneratorFromRelic(relic: Relic): Generator<Array<SubStats>> {
   // e.g. a 5* relic can start with either 3 or 4 initial substats
   const maxInitialSubs = relic.grade - 1
@@ -67,12 +73,17 @@ export function* substatGeneratorFromRelic(relic: Relic): Generator<Array<SubSta
   }
 }
 
+// unused
 export function* substatGenerator(main: MainStats, initialCount: number, upgradeCount: number): Generator<Array<SubStats>> {
   for (const possibleInitialSubs of combinations(SubStats.filter((sub) => sub != main), initialCount)) {
     for (const upgradePattern of combinationsWithReplacement(possibleInitialSubs, upgradeCount)) {
       yield possibleInitialSubs.concat(upgradePattern)
     }
   }
+}
+
+export function initialSubstatGenerator(main: MainStats, initialCount: number): Generator<Array<SubStats>> {
+  return combinations(SubStats.filter((sub) => sub != main), initialCount)
 }
 
 export function probabilityOfCorrectStat(part: Parts, stat: MainStats): number {
@@ -212,11 +223,11 @@ export function probabilityOfCorrectInitialSubs(main: MainStats, subs: Array<Sub
   return totalP
 }
 
-export function probabilityOfExactUpgradePattern(subs: Array<SubStats>) {
-  const k = Math.max(0, subs.length - 4)
-  const n = 4.0
-  return 1.0 / binomialCoefficient(n + k - 1, k)
-}
+// export function probabilityOfExactUpgradePattern(subs: Array<SubStats>) {
+//   const k = Math.max(0, subs.length - 4)
+//   const n = 4.0
+//   return 1.0 / binomialCoefficient(n + k - 1, k)
+// }
 
 // we only need the factorial up until n=5, so it's fine to use the trivial implementation
 export function factorial(n: number): number {

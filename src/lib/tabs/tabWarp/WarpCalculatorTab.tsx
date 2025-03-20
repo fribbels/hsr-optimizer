@@ -20,7 +20,7 @@ import {
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
+import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -148,7 +148,7 @@ function Inputs() {
                         backgroundRepeat: 'no-repeat',
                       }}
                     />
-                    <Form.Item noStyle name='starlight' style={{}}>
+                    <Form.Item noStyle name='starlight'>
                       <Select
                         style={{ flex: 1 }}
                         options={generateStarlightOptions()}
@@ -333,17 +333,17 @@ function Results() {
           <Flex align='center' gap={5}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
 
-            {`( ${(warpResult.request.totalJade ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            {`( ${localeNumberComma(warpResult.request.totalJade ?? 0)}`}
             <img style={{ height: 24 }} src={Assets.getJade()}/>
             <span>) + (</span>
-            {`${(warpResult.request.totalPasses ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            {localeNumberComma(warpResult.request.totalPasses ?? 0)}
             <img style={{ height: 24 }} src={Assets.getPass()}/>
             <span>) + (</span>
-            {`${(warpResult.request.totalStarlight ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}`}
+            {localeNumberComma(warpResult.request.totalStarlight ?? 0)}
             <img style={{ height: 24 }} src={Assets.getStarlight()}/>
             <span>) </span>
             <span>= </span>
-            {(warpResult.request.warps ?? 0).toLocaleString(i18n.resolvedLanguage!.split('_')[0])}
+            {localeNumberComma(warpResult.request.warps ?? 0)}
             <img style={{ height: 24 }} src={Assets.getPass()}/>
           </Flex>
         </pre>

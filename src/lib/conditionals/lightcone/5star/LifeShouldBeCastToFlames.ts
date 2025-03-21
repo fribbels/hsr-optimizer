@@ -19,6 +19,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     dmgBoost: true,
   }
 
+  const teammateDefaults = {
+    defPen: true,
+  }
+
   const content: ContentDefinition<typeof defaults> = {
     dmgBoost: {
       lc: true,
@@ -36,14 +40,24 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     },
   }
 
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    defPen: content.defPen,
+  }
+
   return {
     content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.ELEMENTAL_DMG.buff((r.dmgBoost) ? sValueDmg[s] : 0, SOURCE_LC)
-      x.DEF_PEN.buff((r.defPen) ? sValuesDefPen[s] : 0, SOURCE_LC)
+    },
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
+
+      x.DEF_PEN.buffTeam((m.defPen) ? sValuesDefPen[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

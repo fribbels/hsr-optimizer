@@ -379,7 +379,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)
+      x.CD_BOOST.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)
       if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
         x.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
       }

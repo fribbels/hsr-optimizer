@@ -7073,6 +7073,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -7083,6 +7084,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ornamentSets: [
           Sets.RutilantArena,
           Sets.IzumoGenseiAndTakamaDivineRealm,
+          Sets.SpaceSealingStation,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

@@ -1,4 +1,4 @@
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { MainStats, Parts, Sets, Stats } from 'lib/constants/constants'
 import { Metadata } from 'lib/state/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic, RelicSubstatMetadata } from 'types/relic'
@@ -31,19 +31,8 @@ function quality() {
   return qualityRand > 0.666666 ? statQuality.HIGH : (qualityRand > 0.333333 ? statQuality.MID : statQuality.LOW)
 }
 
-function randomMain(part: Parts) {
-  const mainProbabilityCumulativeArr = mainStatProbabilityCumulatives[part]
-  const mainRand = Math.random()
-
-  for (let j = mainProbabilityCumulativeArr.length - 1; j >= 0; j--) {
-    if (mainRand >= mainProbabilityCumulativeArr[j].threshold) {
-      return mainProbabilityCumulativeArr[j].stat
-    }
-  }
-}
-
-function generateRelic(part: Parts) {
-  const mainStat = randomMain(part)
+function generateRelic(part: Parts, main: MainStats) {
+  const mainStat = main
   const rolls = Math.random() < 0.20 ? 5 : 4
 
   // Initialize starting rolls
@@ -121,49 +110,6 @@ const substatCumulativeArr = [
   { stat: Stats.BE, threshold: 0.92 },
 ] // 1.00
 
-const mainStatProbabilityCumulatives = {
-  [Parts.Head]: [
-    { stat: Stats.HP, threshold: 0.00 },
-  ],
-  [Parts.Hands]: [
-    { stat: Stats.ATK, threshold: 0.00 },
-  ],
-  [Parts.Body]: [
-    { stat: Stats.HP_P, threshold: 0.00 },
-    { stat: Stats.ATK_P, threshold: 0.20 },
-    { stat: Stats.DEF_P, threshold: 0.40 },
-    { stat: Stats.CR, threshold: 0.60 },
-    { stat: Stats.CD, threshold: 0.70 },
-    { stat: Stats.EHR, threshold: 0.80 },
-    { stat: Stats.OHB, threshold: 0.90 },
-  ],
-  [Parts.Feet]: [
-    { stat: Stats.HP_P, threshold: 0.00 },
-    { stat: Stats.ATK_P, threshold: 0.30 },
-    { stat: Stats.DEF_P, threshold: 0.60 },
-    { stat: Stats.SPD, threshold: 0.90 },
-  ],
-  [Parts.PlanarSphere]: [
-    { stat: Stats.HP_P, threshold: 0.00 },
-    { stat: Stats.ATK_P, threshold: 0.12 },
-    { stat: Stats.DEF_P, threshold: 0.24 },
-    { stat: Stats.Physical_DMG, threshold: 0.36 + 0.64 / 7 * 0 },
-    { stat: Stats.Fire_DMG, threshold: 0.36 + 0.64 / 7 * 1 },
-    { stat: Stats.Ice_DMG, threshold: 0.36 + 0.64 / 7 * 2 },
-    { stat: Stats.Lightning_DMG, threshold: 0.36 + 0.64 / 7 * 3 },
-    { stat: Stats.Wind_DMG, threshold: 0.36 + 0.64 / 7 * 4 },
-    { stat: Stats.Quantum_DMG, threshold: 0.36 + 0.64 / 7 * 5 },
-    { stat: Stats.Imaginary_DMG, threshold: 0.36 + 0.64 / 7 * 6 },
-  ],
-  [Parts.LinkRope]: [
-    { stat: Stats.BE, threshold: 0.00 },
-    { stat: Stats.ERR, threshold: 0.15 },
-    { stat: Stats.HP_P, threshold: 0.20 + 0.8 / 3 * 0 },
-    { stat: Stats.ATK_P, threshold: 0.20 + 0.8 / 3 * 1 },
-    { stat: Stats.DEF_P, threshold: 0.20 + 0.8 / 3 * 2 },
-  ],
-}
-
 test('Simulated relics', () => {
   const simulationsEnabled = false
   if (!simulationsEnabled) return
@@ -171,13 +117,13 @@ test('Simulated relics', () => {
   let success = 0
   const results: number[] = []
 
-  const mainStat = Stats.CR
-  const part = Parts.Body
-  const rollsToBeat = 4.0
+  const mainStat = Stats.ATK_P
+  const part = Parts.LinkRope
+  const rollsToBeat = 5.4
   const trials = 10_000_000
 
   for (let i = 0; i < trials; i++) {
-    const relic = generateRelic(part)
+    const relic = generateRelic(part, mainStat)
     const result = TsUtils.precisionRound(sumSubstatWeights(relic, weights))
 
     results.push(result)

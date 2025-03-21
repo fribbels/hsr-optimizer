@@ -709,13 +709,7 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.HP_P]: 0.525 },
       5: { [Constants.Stats.HP_P]: 0.60 },
     },
-    23041: {
-      1: { [Constants.Stats.CR]: 0.18 },
-      2: { [Constants.Stats.CR]: 0.21 },
-      3: { [Constants.Stats.CR]: 0.24 },
-      4: { [Constants.Stats.CR]: 0.27 },
-      5: { [Constants.Stats.CR]: 0.30 },
-    },
+    23041: {},
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -7031,6 +7025,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.ATK_P,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -7055,6 +7050,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
+            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -7077,6 +7073,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -7087,6 +7084,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ornamentSets: [
           Sets.RutilantArena,
           Sets.IzumoGenseiAndTakamaDivineRealm,
+          Sets.SpaceSealingStation,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

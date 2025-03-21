@@ -5,7 +5,13 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 export const CURRENT_OPTIMIZER_VERSION = 'v3.2.3'
 // Represents the beta data content version, used for display but not for update notifications
 
-export const CURRENT_DATA_VERSION = '3.2v4'
+export const CURRENT_DATA_VERSION = '3.2v5'
+
+const generateMessage = (message: string) => `Current version: (${CURRENT_DATA_VERSION}) ${message ? ' - ' + message : ''}`
+export const CharacterAnnouncementMessages: Record<string, string> = {
+  1407: generateMessage(''), // Castorice
+  1405: generateMessage('Added ATK % body as a possible benchmark main stat, updated light cone stats'), // Anaxa
+}
 
 export const Stats = {
   ATK_P: 'ATK%',

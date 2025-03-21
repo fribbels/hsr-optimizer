@@ -31,7 +31,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.80, 0.88)
   const ultScaling = ult(e, 2.00, 2.10)
-  const talentDmgScaling = talent(e, 0.40, 0.432)
+  const talentDmgScaling = talent(e, 0.30, 0.324)
 
   const defaults = {
     skillHits: 4,
@@ -41,13 +41,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e1DefPen: true,
     e2ResPen: true,
     e4AtkBuffStacks: 2,
-    e6FinalDmgStacks: 3,
+    e6Buffs: true,
   }
 
   const teammateDefaults = {
+    eruditionTeammateBuffs: true,
     e1DefPen: true,
     e2ResPen: true,
-    eruditionTeammateBuffs: true,
+    e6Buffs: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -102,21 +103,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       max: 2,
       disabled: e < 4,
     },
-    e6FinalDmgStacks: {
-      id: 'e6FinalDmgStacks',
-      formItem: 'slider',
-      text: 'E6 Final DMG stacks',
+    e6Buffs: {
+      id: 'e6Buffs',
+      formItem: 'switch',
+      text: 'E6 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 3,
       disabled: e < 6,
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    eruditionTeammateBuffs: content.eruditionTeammateBuffs,
     e1DefPen: content.e1DefPen,
     e2ResPen: content.e2ResPen,
-    eruditionTeammateBuffs: content.eruditionTeammateBuffs,
+    e6Buffs: content.e6Buffs,
   }
 
   return {
@@ -141,10 +141,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buff((r.exposedNature) ? talentDmgScaling : 0, SOURCE_TALENT)
 
       x.ATK_P.buff((e >= 4) ? r.e4AtkBuffStacks * 0.30 : 0, SOURCE_E4)
-      x.FINAL_DMG_BOOST.buff((e >= 6) ? r.e6FinalDmgStacks * 0.10 : 0, SOURCE_E6)
+      x.FINAL_DMG_BOOST.buff((e >= 6 && r.e6Buffs) ? 0.30 : 0, SOURCE_E6)
 
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
-      x.CD.buff((r.eruditionTeammateBuffs && eruditionMembers == 1) ? 1.40 : 0, SOURCE_TRACE)
+      x.CD.buff((r.eruditionTeammateBuffs && eruditionMembers == 1 || e >= 6 && r.e6Buffs) ? 1.40 : 0, SOURCE_TRACE)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(10 + (r.skillHits) * 10, SOURCE_SKILL)
@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
-      x.ELEMENTAL_DMG.buff((m.eruditionTeammateBuffs && eruditionMembers >= 2) ? 0.40 : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff((m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.40 : 0, SOURCE_TRACE)
 
       x.DEF_PEN.buff((e >= 1 && m.e1DefPen) ? 0.16 : 0, SOURCE_E1)
       x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)

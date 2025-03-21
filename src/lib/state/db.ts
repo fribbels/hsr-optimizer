@@ -301,20 +301,6 @@ window.store = create((set) => {
   return store
 })
 
-// TODO: define specific overrides
-// export type ScoringMetadataOverride = {
-//   "simulation": {
-//   },
-//   "stats": {
-//   },
-//   "parts": {
-//   },
-//   "sortOption": {
-//   },
-//   "characterId": "1003",
-//   "modified": false
-// }
-
 export const DB = {
   getMetadata: (): DBMetadata => state.metadata,
   setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
@@ -596,11 +582,13 @@ export const DB = {
           } else {
             // Otherwise mark any modified as modified
             let statWeightsModified = false
-            for (const stat of Object.values(Constants.Stats)) {
-              if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
+            for (const stat of Constants.SubStats) {
+              const weight = scoringMetadataOverrides.stats[stat]
+              if (Utils.nullUndefinedToZero(weight) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
                 statWeightsModified = true
-                break
               }
+              if (weight < 0) scoringMetadataOverrides.stats[stat] = 0
+              if (weight > 1) scoringMetadataOverrides.stats[stat] = 1
             }
 
             if (statWeightsModified) {

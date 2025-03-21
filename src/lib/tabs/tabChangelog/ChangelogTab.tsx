@@ -1,5 +1,5 @@
 import { Flex, List, theme, Typography } from 'antd'
-import { officialOnly } from 'lib/constants/constants'
+import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -57,11 +57,13 @@ export default function ChangelogTab(): React.JSX.Element {
       }
     }
 
+    const headerText = contentUpdate.date != '' ? `Update ${contentUpdate.date}` : contentUpdate.title
+
     return (
       <Flex vertical>
         <Typography.Title style={{ marginLeft: 20 }}>
           <u>
-            {`Update ${contentUpdate.date}`}
+            {headerText}
           </u>
         </Typography.Title>
         <ul>
@@ -105,6 +107,11 @@ function leaks(str: string) {
 
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
+    {
+      title: `Current data version: ${CURRENT_DATA_VERSION}`,
+      date: '',
+      content: [],
+    },
     {
       title: '',
       date: '2025-03-10',

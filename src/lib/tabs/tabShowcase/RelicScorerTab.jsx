@@ -350,6 +350,7 @@ function CharacterPreviewSelection(props) {
   async function simulateClicked() {
     console.log('Simulate', props.selectedCharacter)
     setCharacterModalOpen(true)
+    setCharacterModalInitialCharacter(props.selectedCharacter)
   }
 
   function onCharacterModalOk(form) {

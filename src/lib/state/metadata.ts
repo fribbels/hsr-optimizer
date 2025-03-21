@@ -7074,7 +7074,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
-        deprioritizeBuffs: true,
+        deprioritizeBuffs: false,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -7090,20 +7090,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Unreachable
+            characterId: '1313', // Sunday
+            lightCone: '23034', // Grounded
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

@@ -317,9 +317,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       context.elementalDamageType == Stats.Imaginary_DMG && c.IMAGINARY_DMG_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD.buff(0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
+      x.CD_BOOST.buff(0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
       if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
-        x.CR.buff(0.10, Source.WastelanderOfBanditryDesert)
+        x.CR_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
       }
     },
   },
@@ -379,7 +379,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)
+      x.CD_BOOST.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)
       if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
         x.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
       }

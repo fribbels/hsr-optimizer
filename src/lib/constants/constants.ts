@@ -10,7 +10,7 @@ export const CURRENT_DATA_VERSION = '3.2v5'
 const generateMessage = (message: string) => `Current version: (${CURRENT_DATA_VERSION}) ${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
   1407: generateMessage(''), // Castorice
-  1405: generateMessage('Added ATK % body as a potential benchmark main stat'), // Anaxa
+  1405: generateMessage('Added ATK % body as a potential benchmark main stat, updated light cone stats'), // Anaxa
 }
 
 export const Stats = {

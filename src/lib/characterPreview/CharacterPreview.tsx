@@ -34,6 +34,7 @@ import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { COMBAT_STATS, NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
+import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 import DB, { AppPages } from 'lib/state/db'
@@ -397,6 +398,8 @@ export function CharacterPreview(props: {
           />
         </Flex>
       </ConfigProvider>
+
+      <CharacterAnnouncement characterId={showcaseMetadata.characterId}/>
 
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL

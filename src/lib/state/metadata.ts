@@ -709,13 +709,7 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.HP_P]: 0.525 },
       5: { [Constants.Stats.HP_P]: 0.60 },
     },
-    23041: {
-      1: { [Constants.Stats.CR]: 0.18 },
-      2: { [Constants.Stats.CR]: 0.21 },
-      3: { [Constants.Stats.CR]: 0.24 },
-      4: { [Constants.Stats.CR]: 0.27 },
-      5: { [Constants.Stats.CR]: 0.30 },
-    },
+    23041: {},
     24000: {},
     24001: {
       1: { [Stats.CR]: 0.08 },
@@ -7078,10 +7072,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, SKILL],
         comboDot: 0,
         comboBreak: 0,
+        errRopeEidolon: 0,
         deprioritizeBuffs: true,
         relicSets: [
-          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
@@ -7089,6 +7084,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.RutilantArena,
           Sets.FirmamentFrontlineGlamoth,
           Sets.IzumoGenseiAndTakamaDivineRealm,
+          Sets.SpaceSealingStation,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

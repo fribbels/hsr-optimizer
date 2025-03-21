@@ -11,42 +11,39 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LifeShouldBeCastToFlames')
   const { SOURCE_LC } = Source.lightCone('23041')
 
-  const sValuesDefPen = [0.06, 0.075, 0.09, 0.105, 0.12]
+  const sValueDmg = [0.60, 0.70, 0.80, 0.90, 1.00]
+  const sValuesDefPen = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   const defaults = {
-    defPenStacks: 2,
-  }
-  const teammateDefaults = {
-    defPenStacks: 2,
+    defPen: true,
+    dmgBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    defPenStacks: {
+    dmgBoost: {
       lc: true,
-      id: 'defPenStacks',
-      formItem: 'slider',
-      text: 'DEF PEN stacks',
+      id: 'dmgBoost',
+      formItem: 'switch',
+      text: 'DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 2,
     },
-  }
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    defPenStacks: content.defPenStacks,
+    defPen: {
+      lc: true,
+      id: 'defPen',
+      formItem: 'switch',
+      text: 'DEF PEN',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
   }
 
   return {
     content: () => Object.values(content),
-    teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
-    teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_PEN.buffTeam(m.defPenStacks * sValuesDefPen[s], SOURCE_LC)
+      x.ELEMENTAL_DMG.buff((r.dmgBoost) ? sValueDmg[s] : 0, SOURCE_LC)
+      x.DEF_PEN.buff((r.defPen) ? sValuesDefPen[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

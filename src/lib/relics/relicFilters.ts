@@ -7,25 +7,25 @@ import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
+const statScalings = {
+  [Constants.Stats.HP_P]: 64.8 / 43.2,
+  [Constants.Stats.ATK_P]: 64.8 / 43.2,
+  [Constants.Stats.DEF_P]: 64.8 / 54,
+  [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
+  [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
+  [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
+  [Constants.Stats.CR]: 64.8 / 32.4,
+  [Constants.Stats.CD]: 64.8 / 64.8,
+  [Constants.Stats.OHB]: 64.8 / 34.5,
+  [Constants.Stats.EHR]: 64.8 / 43.2,
+  [Constants.Stats.RES]: 64.8 / 43.2,
+  [Constants.Stats.SPD]: 64.8 / 25,
+  [Constants.Stats.BE]: 64.8 / 64.8,
+}
+
 export const RelicFilters = {
   calculateWeightScore: (request: Form, relics: Relic[]) => {
     const weights = request.weights || {}
-
-    const statScalings = {
-      [Constants.Stats.HP_P]: 64.8 / 43.2,
-      [Constants.Stats.ATK_P]: 64.8 / 43.2,
-      [Constants.Stats.DEF_P]: 64.8 / 54,
-      [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
-      [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
-      [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
-      [Constants.Stats.CR]: 64.8 / 32.4,
-      [Constants.Stats.CD]: 64.8 / 64.8,
-      [Constants.Stats.OHB]: 64.8 / 34.5,
-      [Constants.Stats.EHR]: 64.8 / 43.2,
-      [Constants.Stats.RES]: 64.8 / 43.2,
-      [Constants.Stats.SPD]: 64.8 / 25,
-      [Constants.Stats.BE]: 64.8 / 64.8,
-    }
 
     weights[Constants.Stats.ATK] = weights[Constants.Stats.ATK_P]
     weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]

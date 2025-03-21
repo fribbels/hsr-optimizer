@@ -59,7 +59,7 @@ function calculateRollQualityDistribution(substatWeights: number[], numUpgrades:
   // combine the initial and the upgrade dist...
   const totalDist = convolveAdd(initialDist, totalUpgradeDist)
 
-  console.log([...totalDist.entries()].map(([k, v]) => k).join(', '))
+  // console.log([...totalDist.entries()].map(([k, v]) => k).join(', '))
 
   // now we need to divide the scaling factors we used to avoid floating point calculation
   const unscalingFactor = substatWeightRoundingFactor * rollQualityRoundingFactor

@@ -1,4 +1,5 @@
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import EstTbpWorker from 'lib/worker/baseWorker.ts?worker&inline'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Relic } from 'types/relic'
@@ -63,6 +64,7 @@ function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstT
   return new Promise((resolve, reject) => {
     const worker = new EstTbpWorker()
 
+    RelicRollGrader.calculateRelicSubstatRolls(relic)
     const input: EstTbpWorkerInput = {
       relic: relic,
       weights: weights,

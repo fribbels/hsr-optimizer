@@ -56,12 +56,16 @@ export async function runEstTbpWorker(
   callback(output)
 }
 
-const errorResult = { days: -1 }
+const errorResult = { days: 0 }
 
 function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstTbpWorkerOutput> {
   if (!relic) return Promise.resolve(errorResult)
 
   return new Promise((resolve, reject) => {
+    if (relic.grade != 5) {
+      return resolve(errorResult)
+    }
+
     const worker = new EstTbpWorker()
 
     RelicRollGrader.calculateRelicSubstatRolls(relic)

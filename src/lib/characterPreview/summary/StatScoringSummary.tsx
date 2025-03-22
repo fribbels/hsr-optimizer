@@ -206,9 +206,8 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
         <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }}/>
         <Flex justify='space-between'>
           <span style={textStyle}>Perfection</span>
-          <span style={{}}>{percentDisplay}%</span>
+          <span>{percentDisplay}%</span>
         </Flex>
-
         <div style={{
           height: '100%',
           width: '100%',
@@ -220,7 +219,13 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
           <div style={{
             height: '100%',
             width: `${percent}%`,
-            backgroundColor: '#4C88D0',
+            background: `linear-gradient(
+              to right,
+              ${lowRollColor} 0%,
+              ${midRollColor} 40%,
+              ${highRollColor} 80%
+            )`,
+            backgroundSize: `${100 / (percent || 1) * 100}% 100%`,
             borderRadius: '4px 0 0 4px',
           }}
           >
@@ -285,10 +290,14 @@ const rollStyle = {
   marginBottom: 3,
 }
 
+const highRollColor = '#0e7eff'
+const midRollColor = '#63a9ff'
+const lowRollColor = '#a5bcd9'
+
 function HighRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: '#0e7eff' }}
+      style={{ ...rollStyle, backgroundColor: highRollColor }}
     />
   )
 }
@@ -296,7 +305,7 @@ function HighRoll() {
 function MidRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: '#63a9ff' }}
+      style={{ ...rollStyle, backgroundColor: midRollColor }}
     />
   )
 }
@@ -304,7 +313,7 @@ function MidRoll() {
 function LowRoll() {
   return (
     <div
-      style={{ ...rollStyle, backgroundColor: '#a5bcd9' }}
+      style={{ ...rollStyle, backgroundColor: lowRollColor }}
     />
   )
 }

@@ -163,7 +163,7 @@ function CharacterPreviewScoringTeammate(props: {
             width: iconSize,
             borderRadius: iconSize,
             backgroundColor: 'rgba(124, 124, 124, 0.1)',
-            outline: showcaseOutline,
+            border: showcaseOutline,
           }}
         />
         <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>

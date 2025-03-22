@@ -65,7 +65,7 @@ export function ShowcaseLightConeSmall(props: {
               position: 'absolute',
               height: 30,
               backgroundColor: 'rgb(0 0 0 / 70%)',
-              padding: '4px 12px',
+              padding: '3px 12px',
               borderRadius: 8,
               fontSize: 14,
               maxWidth: parentW - 50,
@@ -75,7 +75,7 @@ export function ShowcaseLightConeSmall(props: {
               whiteSpace: 'nowrap',
               zIndex: 21,
               textShadow: '0px 0px 10px black',
-              outline: showcaseOutline,
+              border: showcaseOutline,
               boxShadow: showcaseShadow,
               backdropFilter: showcaseBackdropFilter,
             }}

@@ -39,7 +39,6 @@
     "react-selecto": "^1.26.3",
     "recharts": "^2.15.1",
     "semver": "^7.6.0",
-    "string-similarity": "^4.0.4",
     "styled-components": "^6.0.8",
     "tinygradient": "^1.1.5",
     "zustand": "^4.4.7"
@@ -89,8 +88,6 @@
     "@types/js-yaml": "^4.0.9",
     "@types/json-stable-stringify": "^1.0.36",
     "@types/node": "^22.2.0",
-    "@types/object-hash": "^3.0.6",
-    "@types/string-similarity": "^4.0.2",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "@webgpu/types": "^0.1.48",

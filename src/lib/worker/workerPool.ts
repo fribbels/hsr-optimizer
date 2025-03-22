@@ -1,7 +1,7 @@
 import { Constants } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
-import OptimizerWorker from 'lib/worker/baseOptimizerWorker.ts?worker'
+import OptimizerWorker from 'lib/worker/baseOptimizerWorker.ts?worker&inline'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 

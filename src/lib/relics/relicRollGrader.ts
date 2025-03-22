@@ -42,7 +42,8 @@ export const RelicRollGrader = {
   },
 
   calculateRelicSubstatRolls(relic: UnaugmentedRelic) {
-    if (relic.verified) return // verified relics have their roll counts and steps already determined
+    // verified relics have their roll counts and steps already determined
+    if (relic.verified && !relic.substats.some((substat) => substat.rolls == null)) return
 
     // Skip non 5 star relics for simplicity
     if (relic.grade < 5) {

@@ -1,6 +1,6 @@
 import { MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Relic, RelicGrade } from 'types/relic'
+import { Relic } from 'types/relic'
 import { getRollQualityDistribution, thresholdProbability } from './convolution'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
@@ -30,8 +30,6 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
 
     totalPSub += pSubInitial * pSubUpgrade
   }
-
-  console.log(relic.part, scoreToBeat, totalPSub)
 
   const totalP = pMain * totalPSub
 
@@ -194,15 +192,6 @@ export function substatLineWeight(sub: SubStats | MainStats): number {
   }
 }
 
-export function probabilityOfInitialSubstatCount(grade: RelicGrade, subs: Array<SubStats>): number {
-  const max = grade * 2 - 1
-  if (subs.length == max) {
-    return 0.2
-  } else {
-    return 0.8
-  }
-}
-
 export function probabilityOfCorrectInitialSubs(main: MainStats, subs: Array<SubStats>): number {
   let totalP = 0.0
   for (const perm of permutations(subs.slice(0, Math.min(4, subs.length)))) {
@@ -220,12 +209,6 @@ export function probabilityOfCorrectInitialSubs(main: MainStats, subs: Array<Sub
 
   return totalP
 }
-
-// export function probabilityOfExactUpgradePattern(subs: Array<SubStats>) {
-//   const k = Math.max(0, subs.length - 4)
-//   const n = 4.0
-//   return 1.0 / binomialCoefficient(n + k - 1, k)
-// }
 
 // we only need the factorial up until n=5, so it's fine to use the trivial implementation
 export function factorial(n: number): number {

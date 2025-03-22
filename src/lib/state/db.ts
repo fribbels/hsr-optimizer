@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import { preloadCharacters } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import {
   COMPUTE_ENGINE_GPU_STABLE,
   ComputeEngine,
@@ -659,6 +660,8 @@ export const DB = {
     if (autosave) {
       SaveState.delayedSave()
     }
+
+    void preloadCharacters(Object.keys(DB.getMetadata().characters))
   },
   resetStore: () => {
     const saveFormat: Partial<HsrOptimizerSaveFormat> = {

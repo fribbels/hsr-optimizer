@@ -1,4 +1,4 @@
-import { CharacterConditionalsResolver, preloadCharacters } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -47,7 +47,7 @@ type OptimizerEventData = {
   isFirefox: boolean
 }
 
-export async function optimizerWorker(e: MessageEvent) {
+export function optimizerWorker(e: MessageEvent) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 
@@ -75,13 +75,6 @@ export async function optimizerWorker(e: MessageEvent) {
   let passCount = 0
 
   isFirefox = data.isFirefox
-
-  await preloadCharacters([
-    context.characterId,
-    context.teammate0Metadata?.characterId,
-    context.teammate1Metadata?.characterId,
-    context.teammate2Metadata?.characterId,
-  ].filter((x) => !!x))
 
   const {
     failsBasicThresholdFilter,

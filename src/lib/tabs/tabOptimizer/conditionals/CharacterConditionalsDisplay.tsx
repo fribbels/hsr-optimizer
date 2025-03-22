@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import { CharacterConditionalsResolver, characterOptionMapping } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { characterOptionMapping } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -19,7 +19,7 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
   // console.log('getDisplayForCharacter', id, teammateIndex)
 
   const characterId = id as unknown as keyof typeof characterOptionMapping
-  if (!id) {
+  if (!id || !characterOptionMapping[characterId]) {
     return (
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
@@ -28,17 +28,9 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
     )
   }
 
-  const character = CharacterConditionalsResolver.get({ characterId: characterId as string, characterEidolon: eidolon }, true)
+  const characterFn = characterOptionMapping[characterId]
 
-  if (!character) {
-    return (
-      <Flex justify='space-between' align='center'>
-        <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
-        <TooltipImage type={Hint.characterPassives()}/>
-      </Flex>
-    )
-  }
-
+  const character = characterFn(eidolon, true)
   const content = teammateIndex != null
     ? (character.teammateContent ? character.teammateContent() : undefined)
     : character.content()

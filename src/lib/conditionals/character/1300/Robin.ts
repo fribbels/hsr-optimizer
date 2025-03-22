@@ -53,7 +53,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     concertoActive: true,
     skillDmgBuff: true,
     talentCdBuff: true,
-    teammateATKValue: 5000,
+    teammateATKValue: 4500,
     traceFuaCdBoost: true,
     e1UltResPen: true,
     e2UltSpdBuff: true,

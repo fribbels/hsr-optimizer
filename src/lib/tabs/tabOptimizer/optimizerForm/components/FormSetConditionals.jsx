@@ -4,7 +4,6 @@ import { Assets } from 'lib/rendering/assets'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import PropTypes from 'prop-types'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -571,11 +570,11 @@ function ConditionalSetOption(props) {
   }
 }
 
-ConditionalSetOption.propTypes = {
-  description: PropTypes.string,
-  p2Checked: PropTypes.bool,
-  p4Checked: PropTypes.bool,
-  set: PropTypes.string,
-  conditional: PropTypes.string,
-  selectOptions: PropTypes.array,
-}
+// ConditionalSetOption.propTypes = {
+//   description: PropTypes.string,
+//   p2Checked: PropTypes.bool,
+//   p4Checked: PropTypes.bool,
+//   set: PropTypes.string,
+//   conditional: PropTypes.string,
+//   selectOptions: PropTypes.array,
+// }

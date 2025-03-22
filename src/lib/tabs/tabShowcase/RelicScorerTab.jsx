@@ -11,7 +11,6 @@ import { Assets } from 'lib/rendering/assets'
 import DB, { AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { Utils } from 'lib/utils/utils'
-import PropTypes from 'prop-types'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -257,9 +256,9 @@ export default function RelicScorerTab() {
     </div>
   )
 }
-RelicScorerTab.propTypes = {
-  active: PropTypes.bool,
-}
+// RelicScorerTab.propTypes = {
+//   active: PropTypes.bool,
+// }
 
 function CharacterPreviewSelection(props) {
   const activeKey = window.store((s) => s.activeKey)
@@ -525,12 +524,12 @@ function CharacterPreviewSelection(props) {
   )
 }
 
-CharacterPreviewSelection.propTypes = {
-  availableCharacters: PropTypes.array,
-  setAvailableCharacters: PropTypes.func,
-  selectedCharacter: PropTypes.object,
-  setSelectedCharacter: PropTypes.func,
-}
+// CharacterPreviewSelection.propTypes = {
+//   availableCharacters: PropTypes.array,
+//   setAvailableCharacters: PropTypes.func,
+//   selectedCharacter: PropTypes.object,
+//   setSelectedCharacter: PropTypes.func,
+// }
 
 function PresetButton(props) {
   const { preset } = props

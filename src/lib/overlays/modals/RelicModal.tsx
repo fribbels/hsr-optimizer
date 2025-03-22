@@ -10,7 +10,6 @@ import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import PropTypes from 'prop-types'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -31,11 +30,6 @@ function RadioIcon(props) {
       />
     </Radio.Button>
   )
-}
-
-RadioIcon.propTypes = {
-  value: PropTypes.string,
-  src: PropTypes.string,
 }
 
 const InputNumberStyled = styled(InputNumber)`

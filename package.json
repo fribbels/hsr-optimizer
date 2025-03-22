@@ -42,7 +42,6 @@
     "string-similarity": "^4.0.4",
     "styled-components": "^6.0.8",
     "tinygradient": "^1.1.5",
-    "uuid": "^10.0.0",
     "zustand": "^4.4.7"
   },
   "overrides": {

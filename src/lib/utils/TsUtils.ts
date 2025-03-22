@@ -1,7 +1,6 @@
 import i18next, { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
 import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
-import { v4 as uuidv4 } from 'uuid'
 
 export const TsUtils = {
   // Returns the same object
@@ -51,11 +50,7 @@ export const TsUtils = {
   },
 
   uuid: (): string => {
-    return uuidv4()
-  },
-
-  uuidAlphaOnly: (): string => {
-    return uuidv4().replace(/[^a-zA-Z0-9]/g, '')
+    return crypto.randomUUID()
   },
 
   stripTrailingSlashes: (str: string) => {

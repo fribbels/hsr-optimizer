@@ -2,7 +2,6 @@ import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
 import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
-import { v4 as uuidv4 } from 'uuid'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -308,7 +307,7 @@ export const Utils = {
 
   // Generate a random uuid
   randomId: () => {
-    return uuidv4()
+    return crypto.randomUUID()
   },
 
   // hsr-optimizer// => hsr-optimizer

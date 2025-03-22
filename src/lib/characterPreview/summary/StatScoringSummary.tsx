@@ -93,7 +93,7 @@ export const StatScoringSummary = (props: {
     <Flex vertical align='center'>
       <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15 }}>
         <ColorizedLinkWithIcon
-          text='Stat Score Analysis'
+          text='Stat Score Analysis (WIP Experimental)'
           linkIcon={true}
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
         />

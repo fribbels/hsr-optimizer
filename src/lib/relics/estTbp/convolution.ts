@@ -102,7 +102,7 @@ function convolveMultiply(f: Distribution, g: Distribution): Distribution {
 }
 
 // if a key is defined multiple times, it scales the probability as such
-function uniformDistribution(keys: number[]): Distribution {
+export function uniformDistribution(keys: number[]): Distribution {
   const dist: Distribution = new Map<number, number>()
   const p = 1.0 / keys.length
 

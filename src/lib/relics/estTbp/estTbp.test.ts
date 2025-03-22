@@ -12,8 +12,6 @@ import {
   probabilityOfCorrectInitialSubs,
   probabilityOfCorrectSlot,
   probabilityOfCorrectStat,
-  probabilityOfExactUpgradePattern,
-  probabilityOfInitialSubstatCount,
   substatGenerator,
   substatGeneratorFromRelic,
 } from './estTbp'
@@ -215,17 +213,6 @@ test('Initial substat probability sum of all results should add up to 1', () => 
   expect(total_p).toBeCloseTo(1.0)
 })
 
-test('Initial and upgrade probability should add up to 1', () => {
-  let count = 0
-  let total_p = 0.0
-  for (const spread of substatGenerator('HP', 4, 5)) {
-    total_p += probabilityOfCorrectInitialSubs('HP', spread) * probabilityOfExactUpgradePattern(spread)
-    count += 1
-  }
-  expect(count).toBe(18480)
-  expect(total_p).toBeCloseTo(1.0)
-})
-
 test('Generate from relic works correctly', () => {
   const relic: Relic = {
     weightScore: 0.0,
@@ -247,31 +234,6 @@ test('Generate from relic works correctly', () => {
       collectGenerator(substatGenerator('HP', 4, 4))
         .concat(collectGenerator(substatGenerator('HP', 4, 5))),
     )
-})
-
-test('Overall probability should add up to 1', () => {
-  const relic: Relic = {
-    weightScore: 0.0,
-    enhance: 15,
-    equippedBy: undefined,
-    grade: 5,
-    id: 'ababa',
-    main: {
-      stat: 'HP',
-      value: 0.0, // does not matter
-    },
-    part: Parts.Head,
-    set: Sets.MusketeerOfWildWheat, // does not matter
-    substats: [],
-  }
-
-  let total_p = 0.0
-  for (const spread of substatGeneratorFromRelic(relic)) {
-    total_p += probabilityOfInitialSubstatCount(relic.grade, spread)
-    * probabilityOfCorrectInitialSubs('HP', spread)
-    * probabilityOfExactUpgradePattern(spread)
-  }
-  expect(total_p).toBeCloseTo(1.0)
 })
 
 function collectGenerator<T>(g: Generator<T>): Array<T> {

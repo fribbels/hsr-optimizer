@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
 const cachedRelics: Record<string, EnrichedRelics> = {}
+const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
 export const StatScoringSummary = (props: {
@@ -52,13 +53,18 @@ export const StatScoringSummary = (props: {
 
     cachedId = characterId
     const cacheKey = hashEstTbpRun(displayRelics, characterId)
-    if (cachedRelics[cacheKey]) {
-      setEnrichedRelics(cachedRelics[cacheKey])
+    const cached = cachedRelics[cacheKey]
+    if (cached) {
+      // Deduplicate any requests against the static IN_PROGRESS object
+      if (cached != IN_PROGRESS) {
+        setEnrichedRelics(cached)
+      }
       return
     }
 
     setLoading(true)
 
+    cachedRelics[cacheKey] = IN_PROGRESS
     void runEstTbpWorker(input, (output: EstTbpRunnerOutput) => {
       const enrichedRelics = enrichRelicAnalysis(displayRelics, output, scoringMetadata, characterId)
       cachedRelics[cacheKey] = enrichedRelics

@@ -1,8 +1,10 @@
-import { MainStats, Parts, SubStats } from 'lib/constants/constants'
+import { MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Relic, RelicGrade } from 'types/relic'
+import { Relic } from 'types/relic'
+import { getRollQualityDistribution, thresholdProbability } from './convolution'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
+  // Round away the floating point errors from weight products
   const scoreToBeat = TsUtils.precisionRound(simpleSubstatScoreOfRelic(relic, weights))
 
   const pMain = probabilityOfCorrectSet()
@@ -11,18 +13,23 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
 
   let totalPSub = 0.0
 
-  for (const spread of substatGeneratorFromRelic(relic)) {
-    const score = TsUtils.precisionRound(simpleSubstatScore(spread, weights))
-    if (score >= scoreToBeat) {
-      const pSub = probabilityOfInitialSubstatCount(relic.grade, spread)
-        * probabilityOfCorrectInitialSubs(relic.main.stat, spread)
-        * probabilityOfExactUpgradePattern(spread)
+  for (const spread of initialSubstatGenerator(relic.main.stat, 4)) {
+    const pSubInitial = probabilityOfCorrectInitialSubs(relic.main.stat, spread)
 
-      totalPSub += pSub
-    }
+    const statWeights = spread.map((sub) => {
+      if (sub == 'ATK' || sub == 'DEF' || sub == 'HP') {
+        return 0.4 * weights[sub]
+      }
+      return weights[sub]
+    })
+
+    // 80% vs 20% to get a 3 liner vs a 4 liner
+    const threeLinerPSubUpgrade = thresholdProbability(getRollQualityDistribution(statWeights, 4), scoreToBeat)
+    const fourLinerPSubUpgrade = thresholdProbability(getRollQualityDistribution(statWeights, 5), scoreToBeat)
+    const pSubUpgrade = 0.8 * threeLinerPSubUpgrade + 0.2 * fourLinerPSubUpgrade
+
+    totalPSub += pSubInitial * pSubUpgrade
   }
-
-  console.log(relic.part, scoreToBeat, totalPSub)
 
   const totalP = pMain * totalPSub
 
@@ -35,25 +42,20 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
 }
 
 function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: number }): number {
-  const flat = relic.substats.flatMap((s) => Array((s.addedRolls ?? 0) + 1).fill(s.stat)) as SubStats[]
-  return simpleSubstatScore(flat, weights)
+  let weightedSum = 0
+  for (const substat of relic.substats) {
+    const stat = substat.stat
+    const rolls = substat.rolls!
+    weightedSum += (rolls.low * 0.8 + rolls.mid * 0.9 + rolls.high) * flatReduction(stat) * weights[stat]
+  }
+  return weightedSum
 }
 
-// function simpleSubstatScoreOfRelic(relic: Relic, weights: { [stat: string]: number }): number {
-//   return simpleSubstatScore(relic.substats.flatMap((s) => Array((s.addedRolls ?? 0) + 1).fill(s.stat)) as SubStats[], weights)
-// }
-
-function simpleSubstatScore(subs: SubStats[], weights: { [stat: string]: number }): number {
-  if (subs.length == 0) return 0
-
-  return subs.map((s) => {
-    let weight = (s in weights) ? weights[s] : 0
-    if (s == 'ATK' || s == 'DEF' || s == 'HP')
-      weight *= 0.4
-    return weight
-  }).reduce((a, b) => a + b)
+function flatReduction(stat: string) {
+  return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
 }
 
+// unused
 export function* substatGeneratorFromRelic(relic: Relic): Generator<Array<SubStats>> {
   // e.g. a 5* relic can start with either 3 or 4 initial substats
   const maxInitialSubs = relic.grade - 1
@@ -67,12 +69,17 @@ export function* substatGeneratorFromRelic(relic: Relic): Generator<Array<SubSta
   }
 }
 
+// unused
 export function* substatGenerator(main: MainStats, initialCount: number, upgradeCount: number): Generator<Array<SubStats>> {
   for (const possibleInitialSubs of combinations(SubStats.filter((sub) => sub != main), initialCount)) {
     for (const upgradePattern of combinationsWithReplacement(possibleInitialSubs, upgradeCount)) {
       yield possibleInitialSubs.concat(upgradePattern)
     }
   }
+}
+
+export function initialSubstatGenerator(main: MainStats, initialCount: number): Generator<Array<SubStats>> {
+  return combinations(SubStats.filter((sub) => sub != main), initialCount)
 }
 
 export function probabilityOfCorrectStat(part: Parts, stat: MainStats): number {
@@ -118,7 +125,7 @@ export function probabilityOfCorrectStat(part: Parts, stat: MainStats): number {
         case 'Wind DMG Boost':
         case 'Quantum DMG Boost':
         case 'Imaginary DMG Boost':
-          return 0.65 / 7
+          return 0.64 / 7
         default:
           return 0
       }
@@ -185,15 +192,6 @@ export function substatLineWeight(sub: SubStats | MainStats): number {
   }
 }
 
-export function probabilityOfInitialSubstatCount(grade: RelicGrade, subs: Array<SubStats>): number {
-  const max = grade * 2 - 1
-  if (subs.length == max) {
-    return 0.2
-  } else {
-    return 0.8
-  }
-}
-
 export function probabilityOfCorrectInitialSubs(main: MainStats, subs: Array<SubStats>): number {
   let totalP = 0.0
   for (const perm of permutations(subs.slice(0, Math.min(4, subs.length)))) {
@@ -210,12 +208,6 @@ export function probabilityOfCorrectInitialSubs(main: MainStats, subs: Array<Sub
   }
 
   return totalP
-}
-
-export function probabilityOfExactUpgradePattern(subs: Array<SubStats>) {
-  const k = Math.max(0, subs.length - 4)
-  const n = 4.0
-  return 1.0 / binomialCoefficient(n + k - 1, k)
 }
 
 // we only need the factorial up until n=5, so it's fine to use the trivial implementation
@@ -253,4 +245,8 @@ export function* combinationsWithReplacement<T>(l: Array<T>, k: number): Generat
   for (const [i, x] of l.entries())
     for (const set of combinationsWithReplacement(l.slice(i), k - 1))
       yield [x, ...set]
+}
+
+export function debugEstTbp() {
+  // Since EstTbp only runs in workers, Webpack will remove it from the main browser unless imported somewhere
 }

@@ -62,6 +62,7 @@ export const RelicRollGrader = {
         // substat.rolls = incrementCounts
         // Band-aid for invalid relics, clamp roll values to [0, 5]
         substat.addedRolls = Math.min(5, Math.max(0, incrementCounts.high + incrementCounts.mid + incrementCounts.low - 1))
+        substat.rolls = incrementCounts
         totalAddedRolls += substat.addedRolls
       }
     })

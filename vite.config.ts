@@ -1,5 +1,5 @@
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 
 const pathPlugin = viteTsconfigPaths()
@@ -19,6 +19,7 @@ export default defineConfig({
     environment: 'jsdom',
   },
   worker: {
+    format: 'es',
     plugins: () => [pathPlugin],
   },
 })

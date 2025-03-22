@@ -32,7 +32,7 @@
     "overlayscrollbars": "^2.10.0",
     "overlayscrollbars-react": "^0.5.6",
     "path": "^0.12.7",
-    "plotly.js": "^2.29.1",
+    "plotly.js-basic-dist": "^3.0.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

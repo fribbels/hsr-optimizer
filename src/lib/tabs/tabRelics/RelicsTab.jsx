@@ -22,7 +22,10 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Plot from 'react-plotly.js'
+import createPlotlyComponent from 'react-plotly.js/factory'
+import Plotly from 'plotly.js/dist/plotly-basic'
+
+const Plot = createPlotlyComponent(Plotly)
 
 const { useToken } = theme
 

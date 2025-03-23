@@ -1,4 +1,6 @@
 import { SubStatValues } from 'lib/constants/constants'
+import { StatCalculator } from 'lib/relics/statCalculator'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { StatRolls, UnaugmentedRelic } from 'types/relic'
 
 // FIXME LOW
@@ -42,16 +44,20 @@ export const RelicRollGrader = {
   },
 
   calculateRelicSubstatRolls(relic: UnaugmentedRelic) {
-    // verified relics have their roll counts and steps already determined
-    if (relic.verified && !relic.substats.some((substat) => substat.rolls == null)) return
-
     // Skip non 5 star relics for simplicity
     if (relic.grade < 5) {
       relic.substats.map((x) => {
-        // x.rolls = { high: 0, mid: 0, low: 0 }
+        x.rolls = { high: 0, mid: 0, low: 0 }
         x.addedRolls = 0
       })
       return
+    }
+
+    // Verified relics *should* have their rolls correct - validate that the roll counts match the stat value before continuing
+    if (relic.verified && !relic.substats.some((substat) => substat.rolls == null)) {
+      if (validatedRolls(relic)) {
+        return
+      }
     }
 
     let totalAddedRolls = 0
@@ -78,4 +84,20 @@ export const RelicRollGrader = {
       highestRolledSubstat.addedRolls -= 1
     }
   },
+}
+
+function validatedRolls(relic: UnaugmentedRelic) {
+  for (const substat of relic.substats) {
+    const stat = substat.stat
+    const rolls = substat.rolls!
+    const value = rolls.low * StatCalculator.getMaxedSubstatValue(stat, 0.8)
+      + rolls.mid * StatCalculator.getMaxedSubstatValue(stat, 0.9)
+      + rolls.high * StatCalculator.getMaxedSubstatValue(stat, 1.0)
+
+    if (TsUtils.precisionRound(value) != TsUtils.precisionRound(substat.value)) {
+      return false
+    }
+  }
+
+  return true
 }

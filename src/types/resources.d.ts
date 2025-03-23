@@ -401,7 +401,7 @@ interface Resources {
       "Break": "Break DMG",
       "CV": "CV"
     },
-    "CurrentVersion": "Current version: {{Version}}"
+    "CurrentVersion": "Current version: ({{Version}})"
   },
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
@@ -3852,7 +3852,7 @@ interface Resources {
     "TryOut": {
       "DocumentationTitle": "See full guide",
       "ButtonText": "Try it out!",
-      "description": "Load a sample save file?",
+      "description": "Load a sample save file? ⚠️This will replace all your current data⚠️!",
       "SuccessMessage": "Successfully loaded data",
       "Header": "Try it out!"
     }

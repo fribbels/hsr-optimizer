@@ -365,4 +365,4 @@ const computedStatsTempI18NTranslations = {
   ADDITIONAL_DMG_TYPE: 'Additional DMG type',
 }
 
-function
+// function

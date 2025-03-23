@@ -29,8 +29,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   } = Source.character('1405')
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 0.80, 0.88)
-  const ultScaling = ult(e, 2.00, 2.10)
+  const skillScaling = skill(e, 0.70, 0.77)
+  const ultScaling = ult(e, 1.60, 1.76)
   const talentDmgScaling = talent(e, 0.30, 0.324)
 
   const defaults = {
@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
-      x.ELEMENTAL_DMG.buff((m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.40 : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff((m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.50 : 0, SOURCE_TRACE)
 
       x.DEF_PEN.buff((e >= 1 && m.e1DefPen) ? 0.16 : 0, SOURCE_E1)
       x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)

@@ -101,8 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons
     MainStatHeader: Main stat upgrade comparisons
-    Roll: roll
-    Damage: Damage
+    AddedRoll: "+1x roll {{stat}}"
     MainStatUpgrade: Main Stat Upgrade
     SubStatUpgrade: Substat Upgrade
     DpsScorePercentUpgrade: DPS Score Δ %
@@ -171,3 +170,12 @@ CharacterPreview:
       Abilities: 200% perfect ability damage
   ScoringDetails:
     Header: How is DPS Score calculated?
+  EST-TBP:
+    Header: Stat Score Analysis
+    RollsCard:
+      Perfection: Perfection
+    MetricsCard:
+      Days: Days
+      Rolls: Weighted Rolls
+      TBP: Estimated TBP
+      Potential: Reroll Potential

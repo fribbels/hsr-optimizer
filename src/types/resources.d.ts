@@ -129,8 +129,7 @@ interface Resources {
       "SubstatUpgradeComparisons": {
         "Header": "Substat upgrade comparisons",
         "MainStatHeader": "Main stat upgrade comparisons",
-        "Roll": "roll",
-        "Damage": "Damage",
+        "AddedRoll": "+1x roll {{stat}}",
         "MainStatUpgrade": "Main Stat Upgrade",
         "SubStatUpgrade": "Substat Upgrade",
         "DpsScorePercentUpgrade": "DPS Score Δ %",
@@ -207,6 +206,18 @@ interface Resources {
       },
       "ScoringDetails": {
         "Header": "How is DPS Score calculated?"
+      },
+      "EST-TBP": {
+        "Header": "Stat Score Analysis",
+        "RollsCard": {
+          "Perfection": "Perfection"
+        },
+        "MetricsCard": {
+          "Days": "Days",
+          "Rolls": "Weighted Rolls",
+          "TBP": "Estimated TBP",
+          "Potential": "Reroll Potential"
+        }
       }
     }
   },
@@ -329,6 +340,7 @@ interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     },
+    "Damage": "DMG",
     "DamagePercent": "DMG %",
     "ReadableStats": {
       "HP%": "HP %",

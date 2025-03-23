@@ -400,7 +400,8 @@ interface Resources {
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
-    }
+    },
+    "CurrentVersion": "Current version: {{Version}}"
   },
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",

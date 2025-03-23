@@ -179,3 +179,4 @@ ShortDMGTypes:
   Dot: Dot DMG
   Break: Break DMG
   CV: CV
+CurrentVersion: "Current version: ({{Version}})"

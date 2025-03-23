@@ -3,6 +3,6 @@ TryOut:
   ButtonText: Try it out!
   description: |-
     Load a sample save file?
-    ⚠️This will replace all your current data⚠️!
+    ⚠️This will replace all your current data!⚠️
   SuccessMessage: Successfully loaded data
   Header: Try it out!

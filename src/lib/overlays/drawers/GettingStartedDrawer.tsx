@@ -43,9 +43,9 @@ export const GettingStartedDrawer = () => {
             <Flex
               style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}
             >
-              {t('TryOut.description')}
+              {t('TryOut.description')/* 'Load a sample save file?' */}
             </Flex>
-          )}// 'Load a sample save file?'
+          )}
           onConfirm={tryItOutClicked}
           placement='bottomLeft'
           okText={t('common:Yes')}// 'Yes'

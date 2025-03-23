@@ -3852,7 +3852,7 @@ interface Resources {
     "TryOut": {
       "DocumentationTitle": "See full guide",
       "ButtonText": "Try it out!",
-      "description": "Load a sample save file? ⚠️This will replace all your current data⚠️!",
+      "description": "Load a sample save file?\n⚠️This will replace all your current data!⚠️",
       "SuccessMessage": "Successfully loaded data",
       "Header": "Try it out!"
     }
@@ -5455,6 +5455,16 @@ interface Resources {
       "E4": "E4 first",
       "E5": "E5 first",
       "E6": "E6 first"
+    },
+    "RefundLabels": {
+      "REFUND_NONE": "None",
+      "REFUND_NONE_FULL": "None",
+      "REFUND_LOW": "{{Percentage}}% refund",
+      "REFUND_LOW_FULL": "{{Percentage}}% refund (Low)",
+      "REFUND_AVG": "{{Percentage}}% refund",
+      "REFUND_AVG_FULL": "{{Percentage}}% refund (Average)",
+      "REFUND_HIGH": "{{Percentage}}% refund",
+      "REFUND_HIGH_FULL": "{{Percentage}}% refund (High)"
     },
     "EidolonLevels": {
       "NONE": "None",

@@ -1,5 +1,22 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Flex,
+  Form as AntDForm,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  Select,
+  SelectProps,
+  Space,
+  Table,
+  TableProps,
+  Tag,
+  TreeSelect,
+  Typography,
+} from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -93,7 +110,13 @@ function Inputs() {
                   <Flex vertical>
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getJade()} style={{ height: 24 }}/>}/>
+                      <InputNumber
+                        placeholder='0'
+                        min={0}
+                        style={{ width: '100%' }}
+                        controls={false}
+                        addonBefore={<img src={Assets.getJade()} style={{ height: 24 }}/>}
+                      />
                     </Form.Item>
                   </Flex>
                 </Flex>
@@ -115,7 +138,13 @@ function Inputs() {
                   <Flex vertical>
                     <HeaderText>{t('Passes')/* Passes */}</HeaderText>
                     <Form.Item name='passes'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getPass()} style={{ height: 24 }}/>}/>
+                      <InputNumber
+                        placeholder='0'
+                        min={0}
+                        style={{ width: '100%' }}
+                        controls={false}
+                        addonBefore={<img src={Assets.getPass()} style={{ height: 24 }}/>}
+                      />
                     </Form.Item>
                   </Flex>
                 </Flex>
@@ -498,31 +527,17 @@ function generateStrategyOptions() {
 }
 
 function generateStarlightOptions() {
-  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'StrategyLabels')
-  const options: SelectProps['options'] = [
-    {
-      value: StarlightRefund.REFUND_NONE,
-      label: 'None',
-      labelInValue: 'None',
-    },
-    {
-      value: StarlightRefund.REFUND_LOW,
-      label: `${refundLabel(StarlightRefund.REFUND_LOW)}% refund (Low)`,
-      labelInValue: `${refundLabel(StarlightRefund.REFUND_LOW)}% refund`,
-    },
-    {
-      value: StarlightRefund.REFUND_AVG,
-      label: `${refundLabel(StarlightRefund.REFUND_AVG, true)}% refund (Average)`,
-      labelInValue: `${refundLabel(StarlightRefund.REFUND_AVG, true)}% refund`,
-    },
-    {
-      value: StarlightRefund.REFUND_HIGH,
-      label: `${refundLabel(StarlightRefund.REFUND_HIGH)}% refund (High)`,
-      labelInValue: `${refundLabel(StarlightRefund.REFUND_HIGH)}% refund`,
-    },
-  ]
-
-  return options
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'RefundLabels')
+  const arr = []
+  for (const key in StarlightRefund) {
+    const refund = key as StarlightRefund
+    arr.push({
+      value: refund,
+      label: t(`${refund}_FULL`, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
+      labelInValue: t(refund, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
+    })
+  }
+  return arr
 }
 
 function refundLabel(starlight: StarlightRefund, showDecimal: boolean = false) {

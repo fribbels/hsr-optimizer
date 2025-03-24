@@ -326,7 +326,7 @@ export class RelicScorer {
         default:
           max = 64.8
       }
-      return max * (metaParts[part].includes(stat) ? 1 : weights[stat])
+      return max * (metaParts[part].includes(stat) ? 1 : (weights[stat] ?? 0))
     })(relic.main.stat, relic.grade, relic.part, scoringMetadata.parts)
     return {
       score,
@@ -798,7 +798,7 @@ export function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata:
   const stats = scoringMetadata.stats
   const parts = scoringMetadata.parts
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
-    const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]
+    const multiplier = parts[part].includes(mainStat) ? 1 : (stats[mainStat] ?? 0)
     // Main stat free roll == 1
     return 1 * minRollValue * multiplier
   }
@@ -968,8 +968,6 @@ function scoreToRating(score: number, substatScore?: SubstatScore, relic?: Relic
 }
 
 function scoredMainStatInvalid(substatScore?: SubstatScore) {
-  // Experimenting: Invalid main stats get a '?' rating
-  // if (substatScore && (substatScore.part != Parts.Hands && substatScore.part != Parts.Head) && )
   return substatScore
     && (substatScore.part != Parts.Hands && substatScore.part != Parts.Head)
     && TsUtils.precisionRound(substatScore.mainStatScore) <= 0
@@ -983,5 +981,5 @@ function getMainStatWeight(relic: Relic, scoringMetadata: ScoringMetadata) {
   if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
     return 1
   }
-  return scoringMetadata.stats[relic.main.stat]
+  return scoringMetadata.stats[relic.main.stat] ?? 0
 }

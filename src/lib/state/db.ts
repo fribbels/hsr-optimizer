@@ -10,6 +10,7 @@ import {
   Parts,
   Sets,
   SIMULATION_SCORE,
+  SubStats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
@@ -433,9 +434,9 @@ export const DB = {
     //   returnScoringMetadata.modified = false
     // }
 
-    for (const key of Object.keys(defaultScoringMetadata.stats)) {
-      if (returnScoringMetadata.stats[key] == null) {
-        returnScoringMetadata.stats[key] = 0
+    for (const stat of SubStats) {
+      if (returnScoringMetadata.stats[stat] == null) {
+        returnScoringMetadata.stats[stat] = 0
       }
     }
 

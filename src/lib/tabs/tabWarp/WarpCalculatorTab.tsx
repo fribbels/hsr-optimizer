@@ -1,40 +1,9 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import {
-  Button,
-  Card,
-  Flex,
-  Form as AntDForm,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  SelectProps,
-  Space,
-  Table,
-  TableProps,
-  Tag,
-  TreeSelect,
-  Typography,
-} from 'antd'
+import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
-import {
-  BannerRotation,
-  DEFAULT_WARP_REQUEST,
-  EidolonLevel,
-  handleWarpRequest,
-  StarlightMultiplier,
-  StarlightRefund,
-  SuperimpositionLevel,
-  WarpIncomeDefinition,
-  WarpIncomeOptions,
-  WarpIncomeType,
-  WarpMilestoneResult,
-  WarpRequest,
-  WarpStrategy,
-} from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeDefinition, WarpIncomeOptions, WarpIncomeType, WarpMilestoneResult, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
@@ -528,16 +497,11 @@ function generateStrategyOptions() {
 
 function generateStarlightOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'RefundLabels')
-  const arr = []
-  for (const key in StarlightRefund) {
-    const refund = key as StarlightRefund
-    arr.push({
-      value: refund,
-      label: t(`${refund}_FULL`, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
-      labelInValue: t(refund, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
-    })
-  }
-  return arr
+  return Object.values(StarlightRefund).map((refund) => ({
+    value: refund,
+    label: t(`${refund}_FULL`, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
+    labelInValue: t(refund, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
+  }))
 }
 
 function refundLabel(starlight: StarlightRefund, showDecimal: boolean = false) {

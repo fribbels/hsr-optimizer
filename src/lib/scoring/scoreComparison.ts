@@ -1,18 +1,18 @@
-import { Stats } from 'lib/constants/constants'
+import { Stats, SubStats } from 'lib/constants/constants'
 import { nullUndefinedToZero } from 'lib/overlays/modals/ScoringModal'
 import { ScoringMetadata } from 'types/metadata'
 
 export enum ScoreCategory {
   DEFAULT,
   DEFAULT_NO_SPEED,
-  MODIFIED
+  MODIFIED,
 }
 
 export function getScoreCategory(defaultMeta: ScoringMetadata, customMeta: ScoringMetadata) {
   let difference = false
   let nonSpdMatches = true
   let spdDiff = false
-  for (const stat of Object.values(Stats)) {
+  for (const stat of SubStats) {
     const c = customMeta.stats[stat]
     const d = defaultMeta.stats[stat]
     if (d != c) {
@@ -33,7 +33,7 @@ export function getScoreCategory(defaultMeta: ScoringMetadata, customMeta: Scori
 
 export function setModifiedScoringMetadata(defaultMeta: ScoringMetadata, customMeta: ScoringMetadata) {
   customMeta.modified = false
-  for (const stat of Object.values(Stats)) {
+  for (const stat of SubStats) {
     if (nullUndefinedToZero(customMeta.stats[stat]) != nullUndefinedToZero(defaultMeta.stats[stat])) {
       customMeta.modified = true
     }

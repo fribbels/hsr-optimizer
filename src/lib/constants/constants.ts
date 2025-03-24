@@ -64,6 +64,31 @@ export const MainStats = [
 ]
 export type MainStats = typeof MainStats[number]
 
+export const AllStats = [
+  Stats.ATK_P,
+  Stats.ATK,
+  Stats.BE,
+  Stats.CD,
+  Stats.CR,
+  Stats.DEF_P,
+  Stats.DEF,
+  Stats.EHR,
+  Stats.ERR,
+  Stats.Fire_DMG,
+  Stats.HP_P,
+  Stats.HP,
+  Stats.Ice_DMG,
+  Stats.Imaginary_DMG,
+  Stats.Lightning_DMG,
+  Stats.OHB,
+  Stats.Physical_DMG,
+  Stats.Quantum_DMG,
+  Stats.RES,
+  Stats.SPD_P,
+  Stats.SPD,
+  Stats.Wind_DMG,
+]
+
 export const MainStatsValues: Record<string, Record<number, { base: number; increment: number }>> = {
   [Stats.HP_P]: {
     5: { base: 6.912, increment: 2.4192 },

@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
+import { AllStats, Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
 import { getScoreCategory, ScoreCategory } from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
 import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
@@ -381,11 +381,12 @@ export class RelicScorer {
         if (optimalMainStats.includes(mainstat) || meta.stats[mainstat] == 1 || !Utils.hasMainStat(part)) {
           mainStat = mainstat
         } else {
-          const scoreEntries = (Object.entries(meta.stats) as [StatsValues, number][])
-            .map((entry) => {
-              if (optimalMainStats.includes(entry[0]) || meta.stats[entry[0]] == 1) {
-                return [entry[0], 1] as [StatsValues, number]
-              } else return [entry[0], entry[1]] as [StatsValues, number]
+          const scoreEntries = AllStats
+            .map((stat) => {
+              const value = meta.stats[stat] ?? 0
+              if (optimalMainStats.includes(stat) || meta.stats[stat] == 1) {
+                return [stat, 1] as [StatsValues, number]
+              } else return [stat, value] as [StatsValues, number]
             })
             .sort((a, b) => {
               // we give the mainstat only stats a score of 6.48 * weight simply to get them in the right area

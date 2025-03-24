@@ -17,7 +17,7 @@ const liftedGrades: Record<string, boolean> = {
   'F+': true,
 }
 
-const reversedLanguages: Languages[] = []
+const reversedLanguages: Partial<Record<Languages, boolean>> = {}
 
 export function DpsScoreGradeRuler(props: {
   score: number
@@ -31,7 +31,7 @@ export function DpsScoreGradeRuler(props: {
   const id = Math.random()
 
   const dmgLabel = t('Damage')
-  const reversedLabels = reversedLanguages.includes(i18n.resolvedLanguage as Languages)
+  const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]
 
   const sortedGrades = Object.entries(SimScoreGrades)
     .sort((a, b) => b[1] - a[1])

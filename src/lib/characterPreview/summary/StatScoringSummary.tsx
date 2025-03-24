@@ -153,11 +153,7 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
       style={cardStyle}
       gap={10}
     >
-      <RelicPreview
-        setSelectedRelic={() => {
-        }} relic={relicAnalysis.relic} unhoverable={true}
-        score={relicAnalysis.relic.scoringResult}
-      />
+      <RelicPreview setSelectedRelic={() => { }} relic={relicAnalysis.relic} unhoverable={true} score={relicAnalysis.relic.scoringResult}/>
       <RelicAnalysisCard relicAnalysis={relicAnalysis}/>
     </Flex>
   )

@@ -1,6 +1,5 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json' with { type: 'json' }
-import i18next from 'i18next'
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v3.2.3'
@@ -8,8 +7,7 @@ export const CURRENT_OPTIMIZER_VERSION = 'v3.2.3'
 
 export const CURRENT_DATA_VERSION = '3.2v6'
 
-// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-const generateMessage = (message?: string) => `${i18next.t('CurrentVersion', { Version: CURRENT_DATA_VERSION })} ${message ? ' - ' + message : ''}`
+const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
   1407: generateMessage('E1 conditionals pending more testing.'), // Castorice
   1405: generateMessage('Added ATK % body to benchmark mains, removed light cone Crit Rate. Now defaults to Main DPS with Sunday/Robin/Huohuo.'), // Anaxa

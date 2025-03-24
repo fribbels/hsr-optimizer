@@ -198,7 +198,7 @@ export const RecommendedPresetsButton = () => {
   const standardSpdOptions = Object.values(spdPresets)
   standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
 
-  function generateStandardSpdOptions(label) {
+  function generateStandardSpdOptions(label: string) {
     return {
       key: label,
       label: label,

@@ -73,8 +73,6 @@ CharacterPreview:
   DMGUpgrades: Мультипликаторы урона
   SubstatUpgradeComparisons:
     Header: Рекомендовано улучшения статов для повышения урона
-    Roll: Прок
-    Damage: Урон
   BuildAnalysis:
     SimulationTeammates: Состав команды
     SimulationSets: Набор реликвий

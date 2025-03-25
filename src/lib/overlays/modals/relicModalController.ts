@@ -220,19 +220,12 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
         continue
       }
 
-      if (stat == Stats.SPD) {
-        const lowSpdValue = parseFloat(value) + (relicForm.grade == 5 ? 2 : 1)
-        upgradeValues.push({ low: Math.floor(lowSpdValue), mid: undefined, high: Math.floor(lowSpdValue + 1) })
-
-        continue
-      }
-
       const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
       const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat as SubStats][relicForm.grade])
 
-      if (Utils.isFlat(stat)) {
+      if (Utils.isFlat(stat) && stat != Stats.SPD) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)
         upgrades.mid = renderFlatStat(fixedValue + upgrades.mid!)
         upgrades.high = renderFlatStat(fixedValue + upgrades.high!)
@@ -255,5 +248,5 @@ function renderFlatStat(value: number) {
 }
 
 function renderPercentStat(value: number) {
-  return parseFloat(Utils.truncate10ths(TsUtils.precisionRound(value)).toFixed(1))
+  return Utils.truncate10ths(TsUtils.precisionRound(value)).toFixed(1)
 }

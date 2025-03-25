@@ -557,6 +557,7 @@ export default function RelicsTab() {
   const getLocaleText = useCallback((params) => {
     if (params.key == 'to') return (t('RelicGrid.To')/* to */)
     if (params.key == 'of') return (t('RelicGrid.Of')/* of */)
+    if (params.key == 'noRowsToShow') return ''
     return params.key
   }, [t])
 
@@ -682,9 +683,9 @@ export default function RelicsTab() {
         {!gridDestroyed && (
           <div
             id='relicGrid' className='ag-theme-balham-dark' style={{
-            ...{ width: TAB_WIDTH, height: 500, resize: 'vertical', overflow: 'hidden' },
-            ...getGridTheme(token),
-          }}
+              ...{ width: TAB_WIDTH, height: 500, resize: 'vertical', overflow: 'hidden' },
+              ...getGridTheme(token),
+            }}
           >
 
             <AgGridReact
@@ -805,7 +806,7 @@ export default function RelicsTab() {
                     <Flex gap={5} style={{ minWidth: 10 }} justify='flex-start'>
                       {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ height: 25 }}/>}
                       {locatorFilters.set
-                        && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
+                      && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
                       {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
                     </Flex>
                     <Typography>
@@ -941,10 +942,10 @@ export default function RelicsTab() {
                           <svg width={10} height={10}>
                             <rect
                               width={10} height={10} style={{
-                              fill: x.color,
-                              strokeWidth: 1,
-                              stroke: 'rgb(0,0,0)',
-                            }}
+                                fill: x.color,
+                                strokeWidth: 1,
+                                stroke: 'rgb(0,0,0)',
+                              }}
                             />
                           </svg>
                         )

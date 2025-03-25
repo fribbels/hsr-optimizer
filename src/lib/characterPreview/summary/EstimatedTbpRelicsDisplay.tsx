@@ -19,6 +19,7 @@ const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
 export const EstimatedTbpRelicsDisplay = (props: {
+  scoringType: string
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) => {
@@ -26,6 +27,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
   const [loading, setLoading] = useState(false)
 
   const {
+    scoringType,
     displayRelics,
     showcaseMetadata,
   } = props
@@ -40,7 +42,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
     }
 
     cachedId = characterId
-    const cacheKey = hashEstTbpRun(displayRelics, characterId)
+    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringType)
     const cached = cachedRelics[cacheKey]
     if (cached) {
       // Deduplicate any requests against the static IN_PROGRESS object

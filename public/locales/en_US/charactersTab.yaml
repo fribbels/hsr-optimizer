@@ -114,7 +114,7 @@ CharacterPreview:
       Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.
     RelicRarityHeader: Relic rarity upgrade comparisons
     RelicRarityNote: |-
-      Estimated TBP measures the average farming time in Days and Trailblaze Power required to upgrade each relic, based on the character's stat weights.
+      Estimated TBP measures the expected farming time in Days and Trailblaze Power required to upgrade each relic based on the character's stat weights.
       This is a metric of statistical rarity for farming prioritization, and does not reflect nor have an impact on DPS Score and Combo DMG.
     Header: DPS Score Calculations
     SimulationTeammates: Simulation teammates

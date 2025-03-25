@@ -168,6 +168,7 @@ function StatScoringSummary(props: {
         />
       </pre>
       <EstimatedTbpRelicsDisplay
+        scoringType={props.scoringType}
         displayRelics={props.displayRelics}
         showcaseMetadata={props.showcaseMetadata}
       />

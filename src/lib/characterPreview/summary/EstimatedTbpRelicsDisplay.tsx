@@ -87,20 +87,14 @@ export const EstimatedTbpRelicsDisplay = (props: {
         />
       </pre>
 
-      {
-        (loading || !enrichedRelics)
-          ? <LoadingSpinner/>
-          : (
-            <Flex vertical gap={40} style={gridStyle}>
-              <RelicContainer relicAnalysis={enrichedRelics.Head}/>
-              <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
-              <RelicContainer relicAnalysis={enrichedRelics.Body}/>
-              <RelicContainer relicAnalysis={enrichedRelics.Feet}/>
-              <RelicContainer relicAnalysis={enrichedRelics.PlanarSphere}/>
-              <RelicContainer relicAnalysis={enrichedRelics.LinkRope}/>
-            </Flex>
-          )
-      }
+      <Flex vertical gap={40} style={gridStyle}>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Head}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Hands}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Body}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Feet}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.PlanarSphere}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.LinkRope}/>
+      </Flex>
     </Flex>
   )
 }
@@ -113,8 +107,8 @@ function LoadingSpinner() {
   )
 }
 
-function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
-  const { relicAnalysis } = props
+function RelicContainer(props: { ready: boolean; relicAnalysis?: RelicAnalysis }) {
+  const { ready, relicAnalysis } = props
 
   const cardStyle = {
     width: '100%',
@@ -128,6 +122,16 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
     border: '1px solid rgba(255, 255, 255, 0.10)',
     WebkitBackdropFilter: 'blur(5px)',
     minHeight: 302,
+  }
+
+  if (!ready) {
+    return (
+      <div style={cardStyle}>
+        <Flex style={{ width: '100%', height: '100%' }} align='center' justify='space-around'>
+          <LoadingSpinner/>
+        </Flex>
+      </div>
+    )
   }
 
   if (!relicAnalysis) {

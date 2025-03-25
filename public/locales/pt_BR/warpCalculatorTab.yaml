@@ -10,6 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: Nenhum
   REFUND_NONE_FULL: Nenhum
+  REFUND_LOW: "Reembolso de {{Percentage}}%"
+  REFUND_LOW_FULL: "Reembolso de {{Percentage}}% (Baixo)"
+  REFUND_AVG: "Reembolso de {{Percentage}}%"
+  REFUND_AVG_FULL: "Reembolso de {{Percentage}}% (Médio)"
+  REFUND_HIGH: "Reembolso de {{Percentage}}%"
+  REFUND_HIGH_FULL: "Reembolso de {{Percentage}}% (Alto)"
 EidolonLevels:
   NONE: Nenhum
   E0: E0

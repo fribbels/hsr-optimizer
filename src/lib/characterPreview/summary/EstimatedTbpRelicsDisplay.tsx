@@ -1,11 +1,9 @@
 import { Flex, Spin } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { EnrichedRelics, enrichRelicAnalysis, flatReduction, hashEstTbpRun, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
-import { CHARACTER_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
@@ -21,8 +19,7 @@ const cachedRelics: Record<string, EnrichedRelics> = {}
 const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
-export const StatScoringSummary = (props: {
-  simScoringResult?: SimulationScore
+export const EstimatedTbpRelicsDisplay = (props: {
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
   scoringType: string
@@ -32,17 +29,12 @@ export const StatScoringSummary = (props: {
   const [loading, setLoading] = useState(false)
 
   const {
-    simScoringResult,
     displayRelics,
     showcaseMetadata,
     scoringType,
   } = props
 
   useEffect(() => {
-    if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
-      return
-    }
-
     const characterId = showcaseMetadata.characterId
     const scoringMetadata = DB.getScoringMetadata(characterId)
 
@@ -74,11 +66,11 @@ export const StatScoringSummary = (props: {
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })
-  }, [displayRelics, showcaseMetadata, scoringType, simScoringResult])
+  }, [displayRelics, showcaseMetadata, scoringType])
 
-  if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
-    return <></>
-  }
+  // if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
+  //   return <></>
+  // }
 
   const gridStyle = {
     display: 'grid',
@@ -90,7 +82,7 @@ export const StatScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical align='center'>
+    <Flex vertical align='center' style={{ width: '100%' }}>
       <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15 }}>
         <ColorizedLinkWithIcon
           text={t('Header')/* Stat Score Analysis */}

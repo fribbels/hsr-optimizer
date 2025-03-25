@@ -1,3 +1,4 @@
+import { ReactComponent } from 'ag-grid-react/dist/types/src/shared/reactComponent'
 import { Divider, Flex, Typography } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
@@ -33,6 +34,7 @@ const { Text } = Typography
 
 export const CharacterScoringSummary = (props: {
   simScoringResult?: SimulationScore
+  estTbpRelicsDisplay: ReactComponent
 }) => {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
@@ -420,6 +422,8 @@ export const CharacterScoringSummary = (props: {
         </pre>
         <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
+
+      {props.estTbpRelicsDisplay}
 
       <Flex gap={25} style={{ width: '100%', marginTop: 30 }} justify='space-around'>
         <Flex vertical gap={defaultGap}>

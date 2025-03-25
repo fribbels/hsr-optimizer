@@ -1,9 +1,10 @@
+import { ReactComponent } from 'ag-grid-react/dist/types/src/shared/reactComponent'
 import { Flex, Segmented, Typography } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
-import { StatScoringSummary } from 'lib/characterPreview/summary/StatScoringSummary'
+import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -42,6 +43,17 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const {
     characterMetadata,
   } = showcaseMetadata
+
+  const estTbpRelicsDisplay = useMemo(() => {
+    return (
+      <MemoizedEstimatedTbpRelicsDisplay
+        simScoringResult={props.simScoringResult}
+        displayRelics={props.displayRelics}
+        showcaseMetadata={props.showcaseMetadata}
+        scoringType={props.scoringType}
+      />
+    )
+  }, [props.displayRelics, props.scoringType, props.showcaseMetadata, props.simScoringResult])
 
   return (
     <Flex vertical style={{ minHeight: 1000 }}>
@@ -132,29 +144,32 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           />
         </Flex>
       </Flex>
-      <MemoizedCharacterScoringSummary simScoringResult={props.simScoringResult}/>
-      <MemoizedStatScoringSummary
-        simScoringResult={props.simScoringResult}
-        displayRelics={props.displayRelics}
-        showcaseMetadata={props.showcaseMetadata}
-        scoringType={props.scoringType}
-      />
+      <MemoizedCharacterScoringSummary simScoringResult={props.simScoringResult} estTbpRelicsDisplay={estTbpRelicsDisplay}/>
+      <StatScoringSummary estTbpRelicsDisplay={estTbpRelicsDisplay}/>
     </Flex>
   )
 }
 
-function MemoizedCharacterScoringSummary(props: { simScoringResult?: SimulationScore }) {
+function StatScoringSummary(props: { estTbpRelicsDisplay: ReactComponent }) {
+  return (
+    <Flex vertical>
+      {props.estTbpRelicsDisplay}
+    </Flex>
+  )
+}
+
+function MemoizedCharacterScoringSummary(props: { simScoringResult?: SimulationScore; estTbpRelicsDisplay: ReactComponent }) {
   const delayedProps = useDelayedProps(props, 150)
 
   const memoizedCharacterScoringSummary = useMemo(() => {
-    return delayedProps ? <CharacterScoringSummary simScoringResult={delayedProps.simScoringResult}/> : null
+    return delayedProps ? <CharacterScoringSummary simScoringResult={delayedProps.simScoringResult} estTbpRelicsDisplay={delayedProps.estTbpRelicsDisplay}/> : null
   }, [delayedProps])
 
   if (!delayedProps) return null
   return memoizedCharacterScoringSummary
 }
 
-function MemoizedStatScoringSummary(props: {
+function MemoizedEstimatedTbpRelicsDisplay(props: {
   simScoringResult?: SimulationScore
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
@@ -165,11 +180,11 @@ function MemoizedStatScoringSummary(props: {
   const memoizedStatScoringSummary = useMemo(() => {
     return delayedProps
       ? (
-        <StatScoringSummary
+        <EstimatedTbpRelicsDisplay
           simScoringResult={delayedProps.simScoringResult}
-          displayRelics={props.displayRelics}
-          showcaseMetadata={props.showcaseMetadata}
-          scoringType={props.scoringType}
+          displayRelics={delayedProps.displayRelics}
+          showcaseMetadata={delayedProps.showcaseMetadata}
+          scoringType={delayedProps.scoringType}
         />
       )
       : null

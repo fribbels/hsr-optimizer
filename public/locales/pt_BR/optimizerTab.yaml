@@ -84,7 +84,7 @@ AdvancedOptions:
   EnemyConfigButtonText: Configurações de inimigo
   CombatBuffsButtonTextNone: Buffs extras de combate
   CombatBuffsButtonText: "Buffs extras de combate ({{activeCount}})"
-  CustomTracesButtonText: Atributos personalizados de traços
+  CustomTracesButtonText: Traços de stats custom
 Grid:
   To: para
   Of: de

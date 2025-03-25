@@ -101,6 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos
     MainStatHeader: Comparação de melhoria de atributo principal
+    AddedRoll: "+1x rolar {{stat}}"
     MainStatUpgrade: Melhoria do Atributo Principal
     SubStatUpgrade: Melhoria do Subatributo
     DpsScorePercentUpgrade: Pontuação de DPS Δ %
@@ -168,3 +169,12 @@ CharacterPreview:
       Abilities: 200% perfeito dano de habilidade
   ScoringDetails:
     Header: Como o placar de DPS é calculado?
+  EST-TBP:
+    Header: Análise de Pontuação de Atributos
+    RollsCard:
+      Perfection: Perfeição
+    MetricsCard:
+      Days: Dias
+      Rolls: Rolls Pesados
+      TBP: TBP Estimado
+      Potential: Potencial de Reroll

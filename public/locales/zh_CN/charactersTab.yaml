@@ -101,8 +101,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
     MainStatHeader: 主词条升级比较
-    Roll: 升级次数
-    Damage: 伤害
     MainStatUpgrade: 主词条升级
     SubStatUpgrade: 副词条升级
     DpsScorePercentUpgrade: DPS评分Δ%

@@ -129,8 +129,7 @@ interface Resources {
       "SubstatUpgradeComparisons": {
         "Header": "Substat upgrade comparisons",
         "MainStatHeader": "Main stat upgrade comparisons",
-        "Roll": "roll",
-        "Damage": "Damage",
+        "AddedRoll": "+1x roll {{stat}}",
         "MainStatUpgrade": "Main Stat Upgrade",
         "SubStatUpgrade": "Substat Upgrade",
         "DpsScorePercentUpgrade": "DPS Score Δ %",
@@ -207,6 +206,18 @@ interface Resources {
       },
       "ScoringDetails": {
         "Header": "How is DPS Score calculated?"
+      },
+      "EST-TBP": {
+        "Header": "Stat Score Analysis",
+        "RollsCard": {
+          "Perfection": "Perfection"
+        },
+        "MetricsCard": {
+          "Days": "Days",
+          "Rolls": "Weighted Rolls",
+          "TBP": "Estimated TBP",
+          "Potential": "Reroll Potential"
+        }
       }
     }
   },
@@ -329,6 +340,7 @@ interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     },
+    "Damage": "DMG",
     "DamagePercent": "DMG %",
     "ReadableStats": {
       "HP%": "HP %",
@@ -400,7 +412,8 @@ interface Resources {
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
-    }
+    },
+    "CurrentVersion": "Current version: ({{Version}})"
   },
   "conditionals": {
     "BetaMessage": "Current version: {{Version}} - Calculations are subject to change.",
@@ -3851,7 +3864,7 @@ interface Resources {
     "TryOut": {
       "DocumentationTitle": "See full guide",
       "ButtonText": "Try it out!",
-      "description": "Load a sample save file?",
+      "description": "Load a sample save file?\n⚠️This will replace all your current data!⚠️",
       "SuccessMessage": "Successfully loaded data",
       "Header": "Try it out!"
     }
@@ -5454,6 +5467,16 @@ interface Resources {
       "E4": "E4 first",
       "E5": "E5 first",
       "E6": "E6 first"
+    },
+    "RefundLabels": {
+      "REFUND_NONE": "None",
+      "REFUND_NONE_FULL": "None",
+      "REFUND_LOW": "{{Percentage}}% refund",
+      "REFUND_LOW_FULL": "{{Percentage}}% refund (Low)",
+      "REFUND_AVG": "{{Percentage}}% refund",
+      "REFUND_AVG_FULL": "{{Percentage}}% refund (Average)",
+      "REFUND_HIGH": "{{Percentage}}% refund",
+      "REFUND_HIGH_FULL": "{{Percentage}}% refund (High)"
     },
     "EidolonLevels": {
       "NONE": "None",

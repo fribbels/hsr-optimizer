@@ -27,7 +27,7 @@ export const StatScoringSummary = (props: {
   showcaseMetadata: ShowcaseMetadata
   scoringType: string
 }) => {
-  const { t, i18n } = useTranslation(['charactersTab', 'common'])
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
   const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -93,7 +93,7 @@ export const StatScoringSummary = (props: {
     <Flex vertical align='center'>
       <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15 }}>
         <ColorizedLinkWithIcon
-          text='Stat Score Analysis (WIP Experimental)'
+          text={t('Header')/* Stat Score Analysis */}
           linkIcon={true}
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
         />
@@ -153,7 +153,7 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
       style={cardStyle}
       gap={10}
     >
-      <RelicPreview setSelectedRelic={() => {}} relic={relicAnalysis.relic} unhoverable={true} score={relicAnalysis.relic.scoringResult}/>
+      <RelicPreview setSelectedRelic={() => { }} relic={relicAnalysis.relic} unhoverable={true} score={relicAnalysis.relic.scoringResult}/>
       <RelicAnalysisCard relicAnalysis={relicAnalysis}/>
     </Flex>
   )
@@ -197,6 +197,8 @@ function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
 function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
   const { relicAnalysis } = props
 
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.RollsCard' })
+
   const percent = relicAnalysis?.currentPotential ?? 0
   const percentDisplay = localeNumber_0(percent)
 
@@ -211,7 +213,7 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
       <Flex vertical style={{ height: 46, paddingBottom: 10 }} justify='space-between' gap={4}>
         <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }}/>
         <Flex justify='space-between'>
-          <span style={textStyle}>Perfection</span>
+          <span style={textStyle}>{t('Perfection')/* Perfection */}</span>
           <span>{percentDisplay}%</span>
         </Flex>
         <div style={{
@@ -245,8 +247,10 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
 function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
   const { relicAnalysis, index } = props
 
-  const textTop = index == 0 ? 'Days' : 'Weighted Rolls'
-  const textBottom = index == 0 ? 'Estimated TBP' : 'Reroll Potential'
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.MetricsCard' })
+
+  const textTop = index == 0 ? t('Days') : t('Rolls')
+  const textBottom = index == 0 ? t('TBP') : t('Potential')
 
   const valueTop = index == 0
     ? localeNumberComma(Math.ceil(relicAnalysis.estDays))

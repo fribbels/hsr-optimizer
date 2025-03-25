@@ -101,8 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0
     MainStatHeader: crwdns44824:0crwdne44824:0
-    Roll: crwdns39704:0crwdne39704:0
-    Damage: crwdns39706:0crwdne39706:0
+    AddedRoll: "crwdns44889:0{{stat}}crwdne44889:0"
     MainStatUpgrade: crwdns44826:0crwdne44826:0
     SubStatUpgrade: crwdns44828:0crwdne44828:0
     DpsScorePercentUpgrade: crwdns44830:0crwdne44830:0
@@ -170,3 +169,12 @@ CharacterPreview:
       Abilities: crwdns39792:0crwdne39792:0
   ScoringDetails:
     Header: crwdns39794:0crwdne39794:0
+  EST-TBP:
+    Header: crwdns44891:0crwdne44891:0
+    RollsCard:
+      Perfection: crwdns44893:0crwdne44893:0
+    MetricsCard:
+      Days: crwdns44895:0crwdne44895:0
+      Rolls: crwdns44897:0crwdne44897:0
+      TBP: crwdns44899:0crwdne44899:0
+      Potential: crwdns44901:0crwdne44901:0

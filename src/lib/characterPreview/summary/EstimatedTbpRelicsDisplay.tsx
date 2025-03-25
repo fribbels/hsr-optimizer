@@ -22,7 +22,6 @@ let cachedId = ''
 export const EstimatedTbpRelicsDisplay = (props: {
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
-  scoringType: string
 }) => {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
   const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
@@ -31,7 +30,6 @@ export const EstimatedTbpRelicsDisplay = (props: {
   const {
     displayRelics,
     showcaseMetadata,
-    scoringType,
   } = props
 
   useEffect(() => {
@@ -66,11 +64,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })
-  }, [displayRelics, showcaseMetadata, scoringType])
-
-  // if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
-  //   return <></>
-  // }
+  }, [displayRelics, showcaseMetadata])
 
   const gridStyle = {
     display: 'grid',
@@ -80,6 +74,8 @@ export const EstimatedTbpRelicsDisplay = (props: {
     width: '100%',
     marginTop: 20,
   }
+
+  const ready = !(loading || !enrichedRelics)
 
   return (
     <Flex vertical align='center' style={{ width: '100%' }}>

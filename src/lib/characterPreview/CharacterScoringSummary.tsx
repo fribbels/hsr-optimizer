@@ -1,16 +1,18 @@
-import { ReactComponent } from 'ag-grid-react/dist/types/src/shared/reactComponent'
-import { Divider, Flex, Typography } from 'antd'
+import { Divider, Flex } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
+import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
+import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
@@ -30,11 +32,10 @@ import { Trans, useTranslation } from 'react-i18next'
 
 // FIXME MED
 
-const { Text } = Typography
-
 export const CharacterScoringSummary = (props: {
   simScoringResult?: SimulationScore
-  estTbpRelicsDisplay: ReactComponent
+  displayRelics: SingleRelicByPart
+  showcaseMetadata: ShowcaseMetadata
 }) => {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
@@ -423,7 +424,10 @@ export const CharacterScoringSummary = (props: {
         <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
 
-      {props.estTbpRelicsDisplay}
+      <EstimatedTbpRelicsDisplay
+        displayRelics={props.displayRelics}
+        showcaseMetadata={props.showcaseMetadata}
+      />
 
       <Flex gap={25} style={{ width: '100%', marginTop: 30 }} justify='space-around'>
         <Flex vertical gap={defaultGap}>

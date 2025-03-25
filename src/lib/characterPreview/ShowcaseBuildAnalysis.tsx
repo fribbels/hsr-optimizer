@@ -9,6 +9,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -151,15 +152,26 @@ function StatScoringSummary(props: {
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
+
   if (props.scoringType != CHARACTER_SCORE) {
     return <></>
   }
 
   return (
-    <EstimatedTbpRelicsDisplay
-      displayRelics={props.displayRelics}
-      showcaseMetadata={props.showcaseMetadata}
-    />
+    <Flex vertical align='center'>
+      <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15, marginBottom: 20 }}>
+        <ColorizedLinkWithIcon
+          text={t('Header')/* Stat Score Analysis */}
+          linkIcon={true}
+          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+        />
+      </pre>
+      <EstimatedTbpRelicsDisplay
+        displayRelics={props.displayRelics}
+        showcaseMetadata={props.showcaseMetadata}
+      />
+    </Flex>
   )
 }
 

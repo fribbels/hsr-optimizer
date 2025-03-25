@@ -1,4 +1,4 @@
-import { Divider, Flex } from 'antd'
+import { Alert, Divider, Flex } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
@@ -424,12 +424,32 @@ export const CharacterScoringSummary = (props: {
         <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
 
-      <EstimatedTbpRelicsDisplay
-        displayRelics={props.displayRelics}
-        showcaseMetadata={props.showcaseMetadata}
-      />
 
-      <Flex gap={25} style={{ width: '100%', marginTop: 30 }} justify='space-around'>
+      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
+        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+          <ColorizedLinkWithIcon
+            text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
+            linkIcon={true}
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+          />
+        </pre>
+        <Alert
+          message={t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
+          type='info'
+          showIcon
+          style={{ marginBottom: 20, width: '100%' }}
+        />
+        <EstimatedTbpRelicsDisplay
+          displayRelics={props.displayRelics}
+          showcaseMetadata={props.showcaseMetadata}
+        />
+      </Flex>
+
+      <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+        {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')/* Simulated benchmark builds */}
+      </pre>
+
+      <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
         <Flex vertical gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}

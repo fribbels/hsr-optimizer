@@ -101,6 +101,11 @@ export function getGlobalThemeConfigFromColorTheme(colorTheme: ColorThemeOverrid
       Dropdown: {
         zIndexPopup: 900,
       },
+      Alert: {
+        colorInfo: '#4bc65d',
+        colorInfoBg: '#1f3464',
+        colorInfoBorder: '#334d8a',
+      },
     },
     algorithm: theme.darkAlgorithm,
   }

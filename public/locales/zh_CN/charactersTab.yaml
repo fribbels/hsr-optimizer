@@ -101,6 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
     MainStatHeader: 主词条升级比较
+    AddedRoll: "+1x {{stat}}副词条"
     MainStatUpgrade: 主词条升级
     SubStatUpgrade: 副词条升级
     DpsScorePercentUpgrade: DPS评分Δ%
@@ -168,3 +169,12 @@ CharacterPreview:
       Abilities: 200% 完美技能伤害
   ScoringDetails:
     Header: DPS评分是如何计算的?
+  EST-TBP:
+    Header: 属性评分分析
+    RollsCard:
+      Perfection: 完美度
+    MetricsCard:
+      Days: 天
+      Rolls: 加权重词条数
+      TBP: 预计开拓力
+      Potential: 重掷潜力

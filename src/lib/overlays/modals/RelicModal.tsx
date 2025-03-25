@@ -1,25 +1,27 @@
 import { CaretRightOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
+import { Button, Flex, Form, Image, Input, InputNumber, InputRef, Modal, Radio, Select, theme } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
-import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
+import { Constants, MainStats, setToId, Stats, SubStats, UnreleasedSets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
-import { Relic, Stat } from 'types/relic'
+import { EmptyObject } from 'types/common'
+import { Relic } from 'types/relic'
 
 // FIXME MED
 
 const { useToken } = theme
 
-function RadioIcon(props) {
+function RadioIcon(props: { value: string; src: string }) {
   return (
     <Radio.Button value={props.value} style={{ height: 35, width: 50, paddingLeft: 10 }}>
       <Image
@@ -31,16 +33,16 @@ function RadioIcon(props) {
   )
 }
 
-function renderMainStat(relic: Relic): Stat {
-  const mainStat: string = relic.main?.stat
-  const mainValue: number = relic.main?.value
+function renderMainStat(relic: Relic): { stat: MainStats; value: number } | EmptyObject {
+  const mainStat = relic.main?.stat
+  const mainValue = relic.main?.value
 
   if (!mainStat) return {}
 
   return renderStat(mainStat, mainValue)
 }
 
-function renderSubstat(relic: Relic, index: number): Stat {
+function renderSubstat(relic: Relic, index: number): { stat: SubStats; value: string } | EmptyObject {
   const substat = relic.substats[index]
   if (!substat?.stat) return {}
 
@@ -50,7 +52,7 @@ function renderSubstat(relic: Relic, index: number): Stat {
   return renderStat(stat, value, relic)
 }
 
-function renderStat(stat: string, value: number, relic?: Relic): Stat {
+function renderStat<S extends SubStats | MainStats>(stat: S, value: number, relic?: Relic): { stat: S; value: number } {
   if (stat == Stats.SPD) {
     if (relic?.verified) {
       return {
@@ -91,7 +93,7 @@ export default function RelicModal(props: {
 }) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { token } = useToken()
-  const [relicForm] = Form.useForm()
+  const [relicForm] = Form.useForm<RelicForm>()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
 
@@ -124,7 +126,7 @@ export default function RelicModal(props: {
       part: Constants.Parts.Head,
       mainStatType: Constants.Stats.HP,
       mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
-    }
+    } as RelicForm
 
     const relic = props.selectedRelic
     if (!relic || props.type != 'edit') {
@@ -173,6 +175,7 @@ export default function RelicModal(props: {
   useEffect(() => {
     if (mainStatOptions.length > 0) {
       const mainStatValues = mainStatOptions.map((item) => item.value)
+      // @ts-ignore
       if (mainStatValues.includes(props.selectedRelic?.main?.stat)) {
         relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat)
       } else {
@@ -226,8 +229,10 @@ export default function RelicModal(props: {
 
       let mainStatValue = TsUtils.calculateRelicMainStatValue(mainStatType, grade, enhance)
 
+      // @ts-ignore TS doesn't like mismatched types when using .includes
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
         mainStatValue = Utils.truncate10ths(mainStatValue)
+      // @ts-ignore TS doesn't like mismatched types when using .includes
       } else if (floorStats.includes(mainStatType)) {
         mainStatValue = Math.floor(mainStatValue)
       } else {
@@ -251,7 +256,7 @@ export default function RelicModal(props: {
 
   const plusThree = () => {
     // Upgrade to nearest 3
-    relicForm.setFieldValue('enhance', Math.floor(Math.min(relicForm.getFieldValue('enhance') + 3, 15) / 3) * 3)
+    relicForm.setFieldValue('enhance', Math.floor(Math.min(relicForm.getFieldValue('enhance') as number + 3, 15) / 3) * 3)
   }
 
   const enhanceOptions: {
@@ -455,13 +460,13 @@ export default function RelicModal(props: {
 }
 
 function SubstatInput(props: {
-  index: number
+  index: 0 | 1 | 2 | 3
   upgrades: RelicUpgradeValues[]
   relicForm: FormInstance
   resetUpgradeValues: () => void
   plusThree: () => void
 }) {
-  const inputRef = useRef(null)
+  const inputRef = useRef<InputRef>(null)
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}`
   const statValueField = `substatValue${props.index}`
@@ -473,12 +478,19 @@ function SubstatInput(props: {
     }
   }
 
-  function upgradeClicked(quality: string) {
+  function upgradeClicked(quality: 'low' | 'mid' | 'high') {
     console.log(props, quality)
 
     props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality])
     props.resetUpgradeValues()
     props.plusThree()
+  }
+
+  const formatStat = (value?: string | number) => {
+    const stat = props.relicForm.getFieldValue(`substatType${props.index}`)
+    if (!value) return ''
+    if (Utils.isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
+    return localeNumber_0(Number(value))
   }
 
   const substatOptionsMemoized = useMemo(() => {
@@ -503,9 +515,11 @@ function SubstatInput(props: {
   }, [i18next.resolvedLanguage])
 
   function UpgradeButton(subProps: {
-    quality: string
+    quality: 'low' | 'mid' | 'high'
   }) {
     const value = props.upgrades?.[props.index]?.[subProps.quality]
+
+    const displayValue = formatStat(value)
 
     return (
       <Flex style={{ width: '100%' }}>
@@ -515,7 +529,7 @@ function SubstatInput(props: {
           onClick={() => upgradeClicked(subProps.quality)}
           disabled={value == undefined} tabIndex={-1}
         >
-          {value || ''}
+          {displayValue}
         </Button>
       </Flex>
     )
@@ -579,7 +593,7 @@ function relicHash(relic: Relic) {
   })
 }
 
-function relicsAreDifferent(relic1: Relic, relic2: Relic) {
+function relicsAreDifferent(relic1?: Relic, relic2?: Relic) {
   if (!relic1 || !relic2) return true
 
   const relic1Hash = relicHash(relic1)

@@ -77,15 +77,15 @@ export function ComboDrawer() {
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
-      width={1125}
+      width={1200}
       className='.comboDrawer'
       extra={(
-        <Flex style={{ width: 716 }} align='center'>
+        <Flex style={{ width: 767 }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
       )}
     >
-      <div style={{ width: 1050, height: '100%' }}>
+      <div style={{ width: 1075, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
         <Selecto
           className='selecto-selection'
@@ -891,7 +891,7 @@ function BooleanSwitch(props: {
   // console.debug(props.sourceKey)
 
   return (
-    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
+    <Flex style={{ width: 275, marginRight: 10 }} align='center' gap={0}>
       <Flex style={{ width: 210 }} align='center'>
         {
           // @ts-ignore
@@ -929,7 +929,7 @@ function NumberSlider(props: {
   const contentItem = props.contentItem
 
   return (
-    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={0}>
+    <Flex style={{ width: 275, marginRight: 10 }} align='center' gap={0}>
       <Flex style={{ width: 210 }} align='center'>
         {
           // @ts-ignore
@@ -974,7 +974,7 @@ function NumberSelect(props: {
   const contentItem = props.contentItem
 
   return (
-    <Flex style={{ width: 250, marginRight: 10 }} align='center' gap={5}>
+    <Flex style={{ width: 275, marginRight: 10 }} align='center' gap={5}>
       <FormSelectWithPopover
         {...contentItem}
         name={contentItem.id}

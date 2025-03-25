@@ -74,11 +74,8 @@ function SubstatWeightDashboard() {
 
 function generateSubstatWeightGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
   const weightedStats = [
-    Stats.ATK,
     Stats.ATK_P,
-    Stats.DEF,
     Stats.DEF_P,
-    Stats.HP,
     Stats.HP_P,
     Stats.SPD,
     Stats.CR,
@@ -86,15 +83,6 @@ function generateSubstatWeightGrid(characters: DBMetadataCharacter[], sets: (typ
     Stats.EHR,
     Stats.RES,
     Stats.BE,
-    Stats.ERR,
-    Stats.OHB,
-    Stats.Physical_DMG,
-    Stats.Fire_DMG,
-    Stats.Ice_DMG,
-    Stats.Lightning_DMG,
-    Stats.Wind_DMG,
-    Stats.Quantum_DMG,
-    Stats.Imaginary_DMG,
   ]
 
   const substatAssets = weightedStats.map((x) => Assets.getStatIcon(x))
@@ -111,7 +99,8 @@ function generateSubstatWeightGrid(characters: DBMetadataCharacter[], sets: (typ
     const rowAssets: ReactElement[] = []
 
     rowAssets.push(<Icon src={Assets.getCharacterAvatarById(character.id)}/>)
-    for (const value of Object.values(character.scoringMetadata.stats)) {
+    for (const stat of weightedStats) {
+      const value = character.scoringMetadata.stats[stat]
       rowAssets.push(<div>{value || ''}</div>)
     }
 
@@ -277,33 +266,33 @@ function GridDisplay(props: {
   return (
     <table style={{ borderCollapse: 'collapse', width: 'fit-content', lineHeight: '0px' }}>
       <tbody>
-      {props.grid.map((row, rowIndex) => (
-        <tr
-          key={rowIndex}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
-        >
-          {row.map((cell, colIndex) => (
-            <td
-              key={`${rowIndex}-${colIndex}`}
-              style={{
-                height: iconSize,
-                width: iconSize,
-                border: '1px solid #464d6bc4',
-                padding: 0,
-                textAlign: 'center',
-                backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
-              }}
-              onMouseEnter={() => setHoveredColumn(colIndex)}
-              onMouseLeave={() => setHoveredColumn(null)}
-            >
-              <div>
-                {cell || ''}
-              </div>
-            </td>
-          ))}
-        </tr>
-      ))}
+        {props.grid.map((row, rowIndex) => (
+          <tr
+            key={rowIndex}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.11)')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
+          >
+            {row.map((cell, colIndex) => (
+              <td
+                key={`${rowIndex}-${colIndex}`}
+                style={{
+                  height: iconSize,
+                  width: iconSize,
+                  border: '1px solid #464d6bc4',
+                  padding: 0,
+                  textAlign: 'center',
+                  backgroundColor: hoveredColumn === colIndex ? 'rgba(255,255,255,0.11)' : '', // Apply background on hover
+                }}
+                onMouseEnter={() => setHoveredColumn(colIndex)}
+                onMouseLeave={() => setHoveredColumn(null)}
+              >
+                <div>
+                  {cell || ''}
+                </div>
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   )

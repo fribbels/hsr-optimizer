@@ -3,21 +3,7 @@ import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, 
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
-import {
-  BannerRotation,
-  DEFAULT_WARP_REQUEST,
-  EidolonLevel,
-  handleWarpRequest,
-  StarlightMultiplier,
-  StarlightRefund,
-  SuperimpositionLevel,
-  WarpIncomeDefinition,
-  WarpIncomeOptions,
-  WarpIncomeType,
-  WarpMilestoneResult,
-  WarpRequest,
-  WarpStrategy,
-} from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeDefinition, WarpIncomeOptions, WarpIncomeType, WarpMilestoneResult, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
@@ -93,7 +79,13 @@ function Inputs() {
                   <Flex vertical>
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getJade()} style={{ height: 24 }}/>}/>
+                      <InputNumber
+                        placeholder='0'
+                        min={0}
+                        style={{ width: '100%' }}
+                        controls={false}
+                        addonBefore={<img src={Assets.getJade()} style={{ height: 24 }}/>}
+                      />
                     </Form.Item>
                   </Flex>
                 </Flex>
@@ -115,7 +107,13 @@ function Inputs() {
                   <Flex vertical>
                     <HeaderText>{t('Passes')/* Passes */}</HeaderText>
                     <Form.Item name='passes'>
-                      <InputNumber placeholder='0' min={0} style={{ width: '100%' }} controls={false} addonBefore={<img src={Assets.getPass()} style={{ height: 24 }}/>}/>
+                      <InputNumber
+                        placeholder='0'
+                        min={0}
+                        style={{ width: '100%' }}
+                        controls={false}
+                        addonBefore={<img src={Assets.getPass()} style={{ height: 24 }}/>}
+                      />
                     </Form.Item>
                   </Flex>
                 </Flex>
@@ -498,31 +496,12 @@ function generateStrategyOptions() {
 }
 
 function generateStarlightOptions() {
-  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'StrategyLabels')
-  const options: SelectProps['options'] = [
-    {
-      value: StarlightRefund.REFUND_NONE,
-      label: 'None',
-      labelInValue: 'None',
-    },
-    {
-      value: StarlightRefund.REFUND_LOW,
-      label: `${refundLabel(StarlightRefund.REFUND_LOW)}% refund (Low)`,
-      labelInValue: `${refundLabel(StarlightRefund.REFUND_LOW)}% refund`,
-    },
-    {
-      value: StarlightRefund.REFUND_AVG,
-      label: `${refundLabel(StarlightRefund.REFUND_AVG, true)}% refund (Average)`,
-      labelInValue: `${refundLabel(StarlightRefund.REFUND_AVG, true)}% refund`,
-    },
-    {
-      value: StarlightRefund.REFUND_HIGH,
-      label: `${refundLabel(StarlightRefund.REFUND_HIGH)}% refund (High)`,
-      labelInValue: `${refundLabel(StarlightRefund.REFUND_HIGH)}% refund`,
-    },
-  ]
-
-  return options
+  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'RefundLabels')
+  return Object.values(StarlightRefund).map((refund) => ({
+    value: refund,
+    label: t(`${refund}_FULL`, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
+    labelInValue: t(refund, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
+  }))
 }
 
 function refundLabel(starlight: StarlightRefund, showDecimal: boolean = false) {

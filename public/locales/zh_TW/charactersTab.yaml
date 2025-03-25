@@ -73,8 +73,6 @@ CharacterPreview:
   DMGUpgrades: 傷害升級
   SubstatUpgradeComparisons:
     Header: 副詞條升級比較
-    Roll: 升級次數
-    Damage: 傷害
   BuildAnalysis:
     SimulationTeammates: 模擬隊友
     SimulationSets: 模擬套裝

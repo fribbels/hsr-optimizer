@@ -39,9 +39,15 @@ export const GettingStartedDrawer = () => {
 
         <Popconfirm
           title={t('common:Confirm')}// Confirm!
-          description={t('TryOut.description')}// 'Load a sample save file?'
+          description={(
+            <Flex
+              style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}
+            >
+              {t('TryOut.description')/* 'Load a sample save file?' */}
+            </Flex>
+          )}
           onConfirm={tryItOutClicked}
-          placement='bottom'
+          placement='bottomLeft'
           okText={t('common:Yes')}// 'Yes'
           cancelText={t('common:Cancel')}// 'Cancel'
         >

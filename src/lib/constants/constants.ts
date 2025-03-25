@@ -7,7 +7,7 @@ export const CURRENT_OPTIMIZER_VERSION = 'v3.2.3'
 
 export const CURRENT_DATA_VERSION = '3.2v6'
 
-const generateMessage = (message: string) => `Current version: (${CURRENT_DATA_VERSION}) ${message ? ' - ' + message : ''}`
+const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
   1407: generateMessage('E1 conditionals pending more testing.'), // Castorice
   1405: generateMessage('Added ATK % body to benchmark mains, removed light cone Crit Rate. Now defaults to Main DPS with Sunday/Robin/Huohuo.'), // Anaxa
@@ -63,6 +63,31 @@ export const MainStats = [
   Stats.Imaginary_DMG,
 ]
 export type MainStats = typeof MainStats[number]
+
+export const AllStats = [
+  Stats.ATK_P,
+  Stats.ATK,
+  Stats.BE,
+  Stats.CD,
+  Stats.CR,
+  Stats.DEF_P,
+  Stats.DEF,
+  Stats.EHR,
+  Stats.ERR,
+  Stats.Fire_DMG,
+  Stats.HP_P,
+  Stats.HP,
+  Stats.Ice_DMG,
+  Stats.Imaginary_DMG,
+  Stats.Lightning_DMG,
+  Stats.OHB,
+  Stats.Physical_DMG,
+  Stats.Quantum_DMG,
+  Stats.RES,
+  Stats.SPD_P,
+  Stats.SPD,
+  Stats.Wind_DMG,
+]
 
 export const MainStatsValues: Record<string, Record<number, { base: number; increment: number }>> = {
   [Stats.HP_P]: {

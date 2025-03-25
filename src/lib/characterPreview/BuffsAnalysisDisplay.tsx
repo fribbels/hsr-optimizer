@@ -364,3 +364,5 @@ const computedStatsTempI18NTranslations = {
   MEMO_DMG_TYPE: 'Memo DMG type',
   ADDITIONAL_DMG_TYPE: 'Additional DMG type',
 }
+
+// function

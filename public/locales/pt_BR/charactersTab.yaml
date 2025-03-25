@@ -101,8 +101,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos
     MainStatHeader: Comparação de melhoria de atributo principal
-    Roll: roll
-    Damage: Dano
     MainStatUpgrade: Melhoria do Atributo Principal
     SubStatUpgrade: Melhoria do Subatributo
     DpsScorePercentUpgrade: Pontuação de DPS Δ %

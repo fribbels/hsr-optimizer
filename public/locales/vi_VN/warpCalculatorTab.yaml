@@ -7,6 +7,9 @@ StrategyLabels:
   E4: Tinh Hồn 4
   E5: Tinh Hồn 5
   E6: Tinh Hồn 6
+RefundLabels:
+  REFUND_NONE: Không có
+  REFUND_NONE_FULL: Không có
 EidolonLevels:
   NONE: Không có
   E0: E0

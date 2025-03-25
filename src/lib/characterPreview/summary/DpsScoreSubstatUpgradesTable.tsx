@@ -43,7 +43,7 @@ export function DpsScoreSubstatUpgradesTable(props: {
         <Flex>
           <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
           <span style={{ marginRight: 10 }}>
-            {`+1x roll ${tCommon(text)} `}
+            {t('AddedRoll', { stat: tCommon(text) })/* +1x roll {{stat}} */}
           </span>
         </Flex>
       ),

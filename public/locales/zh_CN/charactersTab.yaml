@@ -111,8 +111,12 @@ CharacterPreview:
   BuildAnalysis:
     ScoringNote: >-
       DPS评分通过对比相同队伍、光锥和命座下的基准配装伤害，来评估配装质量。评分和连招伤害仅相对于所选队伍配置衡量，不应与不同配置进行对比。
+    RelicRarityHeader: 遗器稀有度升级对比
+    RelicRarityNote: |-
+      预计开拓力衡量依据角色属性权重升级每个遗器所需的预期刷取天数和开拓力。这是用于刷取优先级的稀有度统计指标，并不反映也不影响DPS评分和连招伤害。
     Header: DPS评分计算
     SimulationTeammates: 模拟队友
+    SimulatedBenchmarks: 模拟基准配装
     SimulationSets: 模拟套装
     Rotation:
       Header: 连招伤害循环

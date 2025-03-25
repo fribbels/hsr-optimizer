@@ -1,15 +1,12 @@
 import { Flex, Spin } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { EnrichedRelics, enrichRelicAnalysis, flatReduction, hashEstTbpRun, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
-import { CHARACTER_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { localeNumber_0, localeNumber_00, localeNumberComma } from 'lib/utils/i18nUtils'
 import { EstTbpRunnerInput, EstTbpRunnerOutput, runEstTbpWorker } from 'lib/worker/estTbpWorkerRunner'
@@ -21,28 +18,21 @@ const cachedRelics: Record<string, EnrichedRelics> = {}
 const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
-export const StatScoringSummary = (props: {
-  simScoringResult?: SimulationScore
+export const EstimatedTbpRelicsDisplay = (props: {
+  scoringType: string
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
-  scoringType: string
 }) => {
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
   const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
   const [loading, setLoading] = useState(false)
 
   const {
-    simScoringResult,
+    scoringType,
     displayRelics,
     showcaseMetadata,
-    scoringType,
   } = props
 
   useEffect(() => {
-    if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
-      return
-    }
-
     const characterId = showcaseMetadata.characterId
     const scoringMetadata = DB.getScoringMetadata(characterId)
 
@@ -52,7 +42,7 @@ export const StatScoringSummary = (props: {
     }
 
     cachedId = characterId
-    const cacheKey = hashEstTbpRun(displayRelics, characterId)
+    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringType)
     const cached = cachedRelics[cacheKey]
     if (cached) {
       // Deduplicate any requests against the static IN_PROGRESS object
@@ -74,11 +64,7 @@ export const StatScoringSummary = (props: {
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })
-  }, [displayRelics, showcaseMetadata, scoringType, simScoringResult])
-
-  if (scoringType != CHARACTER_SCORE && simScoringResult != null) {
-    return <></>
-  }
+  }, [displayRelics, showcaseMetadata])
 
   const gridStyle = {
     display: 'grid',
@@ -86,33 +72,20 @@ export const StatScoringSummary = (props: {
     gridTemplateRows: 'repeat(3, auto)', // 3 rows
     gap: '10px',
     width: '100%',
-    marginTop: 20,
   }
 
-  return (
-    <Flex vertical align='center'>
-      <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15 }}>
-        <ColorizedLinkWithIcon
-          text={t('Header')/* Stat Score Analysis */}
-          linkIcon={true}
-          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
-        />
-      </pre>
+  const ready = !(loading || !enrichedRelics)
 
-      {
-        (loading || !enrichedRelics)
-          ? <LoadingSpinner/>
-          : (
-            <Flex vertical gap={40} style={gridStyle}>
-              <RelicContainer relicAnalysis={enrichedRelics.Head}/>
-              <RelicContainer relicAnalysis={enrichedRelics.Hands}/>
-              <RelicContainer relicAnalysis={enrichedRelics.Body}/>
-              <RelicContainer relicAnalysis={enrichedRelics.Feet}/>
-              <RelicContainer relicAnalysis={enrichedRelics.PlanarSphere}/>
-              <RelicContainer relicAnalysis={enrichedRelics.LinkRope}/>
-            </Flex>
-          )
-      }
+  return (
+    <Flex vertical align='center' style={{ width: '100%' }}>
+      <Flex vertical gap={35} style={gridStyle}>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Head}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Hands}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Body}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Feet}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.PlanarSphere}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.LinkRope}/>
+      </Flex>
     </Flex>
   )
 }
@@ -125,8 +98,8 @@ function LoadingSpinner() {
   )
 }
 
-function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
-  const { relicAnalysis } = props
+function RelicContainer(props: { ready: boolean; relicAnalysis?: RelicAnalysis }) {
+  const { ready, relicAnalysis } = props
 
   const cardStyle = {
     width: '100%',
@@ -140,6 +113,16 @@ function RelicContainer(props: { relicAnalysis?: RelicAnalysis }) {
     border: '1px solid rgba(255, 255, 255, 0.10)',
     WebkitBackdropFilter: 'blur(5px)',
     minHeight: 302,
+  }
+
+  if (!ready) {
+    return (
+      <div style={cardStyle}>
+        <Flex style={{ width: '100%', height: '100%' }} align='center' justify='space-around'>
+          <LoadingSpinner/>
+        </Flex>
+      </div>
+    )
   }
 
   if (!relicAnalysis) {

@@ -7,6 +7,9 @@ StrategyLabels:
   E4: E4 d'abord
   E5: E5 d'abord
   E6: E6 d'abord
+RefundLabels:
+  REFUND_NONE: Aucun
+  REFUND_NONE_FULL: Aucun
 EidolonLevels:
   NONE: Aucun
   E0: E0

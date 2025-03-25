@@ -101,8 +101,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: サブステータス強化比較
     MainStatHeader: メインステータス強化比較
-    Roll: サブ
-    Damage: 増加ダメージ
     MainStatUpgrade: メインステータス強化
     SubStatUpgrade: サブステータス強化
     DpsScorePercentUpgrade: DPS スコア変化率

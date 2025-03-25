@@ -65,7 +65,6 @@ CharacterPreview:
   DMGUpgrades: Miglioramento danno
   SubstatUpgradeComparisons:
     Header: Confronto miglioramento statistiche secondarie
-    Damage: Danno
   BuildAnalysis:
     SimulationTeammates: Compagni di squadra nella simulazione
     SimulationSets: Set usato nella simulazione

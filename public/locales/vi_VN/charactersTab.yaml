@@ -97,8 +97,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: So sánh nâng cấp thuộc tính dị vật
     MainStatHeader: So sánh nâng cấp chính di vật
-    Roll: Roll
-    Damage: Sát thương
     MainStatUpgrade: Nâng Cấp Dòng Chính
     SubStatUpgrade: Nâng cấp thuộc tính phụ
     DpsScorePercentUpgrade: Điểm DPS Δ %

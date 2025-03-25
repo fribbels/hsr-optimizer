@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "crwdns40006:0$t(gameData:Elements.Wind)crwdne40006:0"
   Quantum DMG Boost: "crwdns40008:0$t(gameData:Elements.Quantum)crwdne40008:0"
   Imaginary DMG Boost: "crwdns40010:0$t(gameData:Elements.Imaginary)crwdne40010:0"
+Damage: crwdns44903:0crwdne44903:0
 DamagePercent: crwdns40012:0crwdne40012:0
 ReadableStats:
   "HP%": crwdns40014:0crwdne40014:0
@@ -179,3 +180,4 @@ ShortDMGTypes:
   Dot: crwdns40130:0crwdne40130:0
   Break: crwdns40132:0crwdne40132:0
   CV: crwdns40134:0crwdne40134:0
+CurrentVersion: "crwdns44905:0{{Version}}crwdne44905:0"

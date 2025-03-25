@@ -7,6 +7,9 @@ StrategyLabels:
   E4: 4凸優先
   E5: 5凸優先
   E6: 完凸優先
+RefundLabels:
+  REFUND_NONE: なし
+  REFUND_NONE_FULL: なし
 EidolonLevels:
   NONE: なし
   E0: 無凸
@@ -44,6 +47,7 @@ SectionTitles:
   Passes: チケット数
   Jades: 星玉数
   Strategy: 引き方
+  Starlight: 星芒
   Banner: バナー
   New: 新規
   Rerun: 復刻

@@ -97,8 +97,6 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats
     MainStatHeader: Comparaisons d'améliorations de mainstat
-    Roll: roll
-    Damage: Dégâts
     MainStatUpgrade: Améliorations de mainstat
     SubStatUpgrade: Améliorations de substats
     DpsScorePercentUpgrade: Note DPS ∆ %
@@ -141,6 +139,7 @@ CharacterPreview:
         COMBO: COMBO
     CombatBuffs:
       Header: Buffs de combat
+      SubDpsHeader: Buffs de Combat (sous-DPS)
   ScoringColumn:
     Character:
       Header: "Build personnage ({{score}}%)"

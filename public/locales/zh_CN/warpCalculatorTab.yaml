@@ -7,6 +7,9 @@ StrategyLabels:
   E4: 优先4魂
   E5: 优先5魂
   E6: 优先6魂
+RefundLabels:
+  REFUND_NONE: 无
+  REFUND_NONE_FULL: 无
 EidolonLevels:
   NONE: 无
   E0: 0魂

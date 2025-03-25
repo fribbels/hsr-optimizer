@@ -100,8 +100,6 @@ CharacterPreview:
   DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교
-    Roll: 유효옵
-    Damage: 피해량
   BuildAnalysis:
     SimulationTeammates: 시뮬레이션 파티
     SimulationSets: 시뮬레이션 세팅

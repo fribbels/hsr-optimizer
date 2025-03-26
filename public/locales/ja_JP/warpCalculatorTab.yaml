@@ -10,6 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: なし
   REFUND_NONE_FULL: なし
+  REFUND_LOW: "{{Percentage}}% 還元"
+  REFUND_LOW_FULL: "{{Percentage}}% 還元（低）"
+  REFUND_AVG: "{{Percentage}}% 還元"
+  REFUND_AVG_FULL: "{{Percentage}}% 還元（平均）"
+  REFUND_HIGH: "{{Percentage}}% 還元"
+  REFUND_HIGH_FULL: "{{Percentage}}% 還元（高）"
 EidolonLevels:
   NONE: なし
   E0: 無凸

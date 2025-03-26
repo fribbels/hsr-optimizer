@@ -70,20 +70,20 @@ RelicGrid:
           选定角色
           最大潜力
       RerollAvg:
-        Label: "选定角色：重新分配平均潜力"
+        Label: "选定角色：重掷平均潜力"
         Header: |-
           选定角色
-          重配均值
+          重掷均值
       RerollAvgDelta:
-        Label: "选定角色：重新分配平均差值潜力"
+        Label: "选定角色：重掷平均差值潜力"
         Header: |-
           选定角色
-          重配Δ均值
+          重掷Δ均值
       RerollAvgEquippedDelta:
-        Label: "选定角色：重新分配平均差值潜力与已装备对比"
+        Label: "选定角色：重掷平均差值潜力与已装备对比"
         Header: |-
           选定角色
-          重配Δ均值
+          重掷Δ均值
           与已装备对比
     CustomCharacters:
       Label: 自定义角色
@@ -98,10 +98,10 @@ RelicGrid:
           自定义角色
           最大潜力
       RerollAvg:
-        Label: "自定义角色：重新分配平均潜力"
+        Label: "自定义角色：重掷平均潜力"
         Header: |-
           自定义角色
-          重配均值
+          重掷均值
     AllCharacters:
       Label: 所有角色
       AvgPotCol:
@@ -115,10 +115,10 @@ RelicGrid:
           所有角色
           最大潜力
       RerollAvg:
-        Label: "所有角色：重新分配平均潜力"
+        Label: "所有角色：重掷平均潜力"
         Header: |-
           所有角色
-          重配均值
+          重掷均值
     ComingSoon:
       Label: 尽情期待
       SetsPotential:

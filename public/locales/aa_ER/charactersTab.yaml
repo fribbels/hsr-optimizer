@@ -111,8 +111,12 @@ CharacterPreview:
   BuildAnalysis:
     ScoringNote: >-
       crwdns44796:0crwdne44796:0
+    RelicRarityHeader: crwdns44925:0crwdne44925:0
+    RelicRarityNote: |-
+      crwdns44927:0crwdne44927:0
     Header: crwdns44838:0crwdne44838:0
     SimulationTeammates: crwdns39710:0crwdne39710:0
+    SimulatedBenchmarks: crwdns44929:0crwdne44929:0
     SimulationSets: crwdns39712:0crwdne39712:0
     Rotation:
       Header: crwdns39714:0crwdne39714:0

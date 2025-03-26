@@ -270,6 +270,7 @@ Relic:
   Mainstat: 主属性
   Substat: 副词条
   SubstatPlaceholder: 副词条
+  SpdInputWarning: 注意 - 游戏内的速度副词条包含隐藏的小数点，手动输入可能导致不准确。如需要获取精确的速度值，请使用展示选项卡或Reliquary Archiver导入。
   Upgrades: 副词条升级
   Messages:
     SubmitFail: 提交失败！

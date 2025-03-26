@@ -180,3 +180,4 @@ ShortDMGTypes:
   Dot: 持続
   Break: 撃破
   CV: CV
+CurrentVersion: "現在のバージョン：（{{version}}）"

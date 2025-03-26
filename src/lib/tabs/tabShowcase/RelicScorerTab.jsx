@@ -1,4 +1,4 @@
-import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined } from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined, SettingOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -239,8 +239,9 @@ export default function RelicScorerTab() {
               {t('common:Submit')/* Submit */}
             </Button>
             <Button
-              style={{ width: 'fit-content' }}
+              style={{ width: 'fit-content', minWidth: 175 }}
               onClick={() => window.store.getState().setScoringModalOpen(true)}
+              icon={<SettingOutlined/>}
             >
               {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}
             </Button>

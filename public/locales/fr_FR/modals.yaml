@@ -270,6 +270,7 @@ Relic:
   Mainstat: Mainstat
   Substat: Substats
   SubstatPlaceholder: Substat
+  SpdInputWarning: 'Remarque : Les substats de VIT en jeu contiennent des valeurs décimales cachées et peuvent donc être inexactes si elles sont entrées manuellement. Pour assurer des valeurs de VIT précises, utilisez l''onglet Vitrine ou importez vos reliques via Reliquary Archiver.'
   Upgrades: Améliorations de substats
   Messages:
     SubmitFail: Échec de soumission!

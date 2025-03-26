@@ -117,6 +117,7 @@ CharacterPreview:
       Isso é uma métrica de raridade estatística para as prioridades de farm, e não reflete nem tem impacto na Pontuação DPS e no Dano de Combo.
     Header: Cálculos Pontuação DPS
     SimulationTeammates: Equipe de simulação
+    SimulatedBenchmarks: Builds simuladas de benchmark
     SimulationSets: Conjuntos de simulação
     Rotation:
       Header: Rotação do combo de dano

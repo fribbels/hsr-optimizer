@@ -23,9 +23,19 @@ type Distribution = Map<number, number> // TODO: can potentially pick a better d
 // Needs to be 100 to support 0.75 weight ATK%
 const substatWeightRoundingFactor = 100 // will eventually round the substat value to the closest 1/n
 
+const distributionCache = new Map<string, Distribution>()
+
 export function getRollQualityDistribution(substatWeights: number[], numUpgrades: number) {
-  // TODO: MEMOIZE FOR BETTER PERFORMANCE, make sure to sort the weights when using as a key
-  return calculateRollQualityDistribution(substatWeights, numUpgrades)
+  const cacheKey = `${substatWeights.join(',')}_${numUpgrades}`
+
+  if (distributionCache.has(cacheKey)) {
+    return distributionCache.get(cacheKey)!
+  }
+
+  const result = calculateRollQualityDistribution(substatWeights, numUpgrades)
+  distributionCache.set(cacheKey, result)
+
+  return result
 }
 
 // total probability of all values strictly higher than `threshold`
@@ -54,7 +64,7 @@ function calculateRollQualityDistribution(substatWeights: number[], numUpgrades:
   const upgradeDist = convolveMultiply(uniformDistribution(roundedSubstatWeights), rollQuality)
 
   // there are a total of 4 or 5 total `numUpgrades`, so we convolve it on itself that many times
-  const totalUpgradeDist = convolveAddIter(Array(numUpgrades).fill(upgradeDist))
+  const totalUpgradeDist = convolveAddIter(Array(numUpgrades).fill(upgradeDist) as Distribution[])
 
   // combine the initial and the upgrade dist...
   const totalDist = convolveAdd(initialDist, totalUpgradeDist)

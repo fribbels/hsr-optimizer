@@ -4276,6 +4276,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         comboBreak: 0,
         deprioritizeBuffs: true,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],

@@ -325,6 +325,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                     simScoringResult={simScoringResult}
                   />
                 )}
+                placeholder='...'
                 min={0}
                 onBlur={onShowcaseSpdBenchmarkChangeEvent}
                 onPressEnter={onShowcaseSpdBenchmarkChangeEvent}

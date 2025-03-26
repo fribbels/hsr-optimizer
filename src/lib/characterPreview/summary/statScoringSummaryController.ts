@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants/constants'
+import { Parts, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -49,6 +49,20 @@ export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMet
   const potentials = RelicScorer.scoreRelicPotential(relic, characterId)
 
   const weightedRolls = countRelicRolls(relic, scoringMetadata)
+  const valid = validMainStat(relic, scoringMetadata)
+
+  if (!valid) {
+    return {
+      relic: relic,
+      estDays: 0,
+      estTbp: 0,
+      currentPotential: 0,
+      rerollPotential: 0,
+      rerollDelta: 0,
+      weights: scoringMetadata.stats,
+      weightedRolls: weightedRolls,
+    }
+  }
 
   return {
     relic: relic,
@@ -60,6 +74,13 @@ export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMet
     weights: scoringMetadata.stats,
     weightedRolls: weightedRolls,
   }
+}
+
+function validMainStat(relic: Relic, scoringMetadata: ScoringMetadata) {
+  if (relic.part == Parts.Head || relic.part == Parts.Hands) return true
+
+  const acceptableStats = scoringMetadata.parts[relic.part]
+  return acceptableStats.includes(relic.main.stat)
 }
 
 function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {

@@ -77,6 +77,16 @@ export default function RelicScorerTab() {
   console.log('======================================================================= RENDER RelicScorerTab')
 
   function onFinish(x) {
+    console.log('finish', x)
+
+    const id = x?.scorerId?.toString().trim() || ''
+
+    if (!id || id.length != 9) {
+      setLoading(false)
+      Message.error(t('Messages.InvalidIdWarning')/* Invalid ID */)
+      return
+    }
+
     if (latestRefreshDate.current) {
       Message.warning(t('Messages.ThrottleWarning'/* Please wait {{seconds}} seconds before retrying */, { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
       if (loading) {
@@ -89,16 +99,6 @@ export default function RelicScorerTab() {
       setTimeout(() => {
         latestRefreshDate.current = null
       }, throttleSeconds * 1000)
-    }
-
-    console.log('finish', x)
-
-    const id = x?.scorerId?.toString().trim() || ''
-
-    if (!id || id.length != 9) {
-      setLoading(false)
-      Message.error(t('Messages.InvalidIdWarning')/* Invalid ID */)
-      return
     }
 
     setScorerId(id)

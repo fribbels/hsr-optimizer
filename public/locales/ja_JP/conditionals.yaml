@@ -1,4 +1,4 @@
-BetaMessage: "現在のバージョン: {{Version}} - 計算結果は変更される場合があります。"
+BetaMessage: "現在のバージョン： {{Version}} - 計算結果は変更される場合があります。"
 Common:
   BuffPriority:
     Text: "バフを優先する対象"

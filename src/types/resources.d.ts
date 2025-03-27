@@ -139,8 +139,11 @@ interface Resources {
       },
       "BuildAnalysis": {
         "ScoringNote": "DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons. Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.",
+        "RelicRarityHeader": "Relic rarity upgrade comparisons",
+        "RelicRarityNote": "Estimated TBP measures the expected farming time in Days and Trailblaze Power required to upgrade each relic based on the character's stat weights.\nThis is a metric of statistical rarity for farming prioritization, and does not reflect nor have an impact on DPS Score and Combo DMG.",
         "Header": "DPS Score Calculations",
         "SimulationTeammates": "Simulation teammates",
+        "SimulatedBenchmarks": "Simulated benchmark builds",
         "SimulationSets": "Simulation sets",
         "Rotation": {
           "Header": "Combo damage rotation",
@@ -4477,6 +4480,7 @@ interface Resources {
       "Mainstat": "Main stat",
       "Substat": "Substats",
       "SubstatPlaceholder": "Substat",
+      "SpdInputWarning": "Note - SPD substats ingame contain hidden decimal values which are inaccurate if inputted manually. For precise SPD values, use the Showcase tab or Reliquary Archiver import.",
       "Upgrades": "Substat upgrades",
       "Messages": {
         "SubmitFail": "Submit failed!",

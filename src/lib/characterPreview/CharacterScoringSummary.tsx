@@ -9,7 +9,7 @@ import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRu
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { ElementToDamage, MainStats, Parts, Stats, StatsValues, SubStats } from 'lib/constants/constants'
+import { ElementToDamage, MainStats, Parts, SIMULATION_SCORE, Stats, StatsValues, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -430,7 +430,7 @@ export const CharacterScoringSummary = (props: {
           <ColorizedLinkWithIcon
             text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
             linkIcon={true}
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
           />
         </pre>
         <Alert
@@ -442,6 +442,7 @@ export const CharacterScoringSummary = (props: {
         <EstimatedTbpRelicsDisplay
           displayRelics={props.displayRelics}
           showcaseMetadata={props.showcaseMetadata}
+          scoringType={SIMULATION_SCORE}
         />
       </Flex>
 

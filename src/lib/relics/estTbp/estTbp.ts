@@ -21,7 +21,7 @@ export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): num
         return 0.4 * weights[sub]
       }
       return weights[sub]
-    })
+    }).sort((a, b) => a - b)
 
     // 80% vs 20% to get a 3 liner vs a 4 liner
     const threeLinerPSubUpgrade = thresholdProbability(getRollQualityDistribution(statWeights, 4), scoreToBeat)

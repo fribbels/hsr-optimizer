@@ -34,6 +34,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const {
     token,
     combatScoreDetails,
+    simScoringResult,
     showcaseMetadata,
     scoringType,
     setScoringType,
@@ -139,7 +140,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
         showcaseMetadata={props.showcaseMetadata}
       />
       <StatScoringSummary
-        scoringType={props.scoringType}
+        scoringType={simScoringResult ? props.scoringType : CHARACTER_SCORE}
         displayRelics={props.displayRelics}
         showcaseMetadata={props.showcaseMetadata}
       />

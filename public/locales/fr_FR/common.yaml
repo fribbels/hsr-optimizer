@@ -180,3 +180,4 @@ ShortDMGTypes:
   Dot: DGT Dsd
   Break: DGT Rupture
   CV: CV
+CurrentVersion: "Version actuelle : ({{Version}})"

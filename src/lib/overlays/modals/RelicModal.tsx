@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Image, Input, InputNumber, InputRef, Modal, Radio, Select, theme } from 'antd'
+import { Button, Flex, Form, Image, Input, InputNumber, InputRef, Modal, Radio, Select, theme, Tooltip } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
 import { Constants, MainStats, setToId, Stats, SubStats, UnreleasedSets } from 'lib/constants/constants'
@@ -535,6 +535,8 @@ function SubstatInput(props: {
     )
   }
 
+  const stat = props.relicForm.getFieldValue(statTypeField)
+
   return (
     <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Flex gap={10}>
@@ -559,15 +561,21 @@ function SubstatInput(props: {
           />
         </Form.Item>
 
-        <Form.Item name={`substatValue${props.index}`}>
-          <Input
-            ref={inputRef}
-            onFocus={handleFocus}
-            style={{ width: 80 }}
-            onChange={props.resetUpgradeValues}
-            tabIndex={0}
-          />
-        </Form.Item>
+        <Tooltip
+          trigger={['focus']}
+          title={stat == Stats.SPD ? t('SpdInputWarning') : ''}
+          placement='top'
+        >
+          <Form.Item name={`substatValue${props.index}`}>
+            <Input
+              ref={inputRef}
+              onFocus={handleFocus}
+              style={{ width: 80 }}
+              onChange={props.resetUpgradeValues}
+              tabIndex={0}
+            />
+          </Form.Item>
+        </Tooltip>
       </Flex>
       <CaretRightOutlined style={{ width: 12 }}/>
       <Flex gap={5} style={{ width: '100%' }}>

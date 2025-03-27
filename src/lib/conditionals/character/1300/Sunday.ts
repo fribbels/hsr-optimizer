@@ -164,10 +164,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, SOURCE_ULT)
-      x.CD.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
-      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostValue * t.teammateCDValue : 0, SOURCE_ULT)
-      x.UNCONVERTIBLE_CD_BUFF.buffDual((t.beatified) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
+      const cdBuff = (t.beatified) ? ultCdBoostValue * t.teammateCDValue + ultCdBoostBaseValue : 0
+      x.CD.buffDual(cdBuff, SOURCE_ULT)
+      x.UNCONVERTIBLE_CD_BUFF.buffDual(cdBuff, SOURCE_ULT)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
@@ -193,6 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
           action.conditionalState[this.id] = buffValue
           x.m.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
+          x.m.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -215,6 +215,7 @@ if (cr > 1.00) {
 
   (*p_state).${this.id} = buffValue;
   (*p_m).CD += buffValue - stateValue;
+  (*p_m).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
 }
           `)
         },
@@ -239,6 +240,7 @@ if (cr > 1.00) {
 
           action.conditionalState[this.id] = buffValue
           x.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
+          x.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -258,6 +260,7 @@ if (x.CR > 1.00) {
 
   (*p_state).${this.id} = buffValue;
   (*p_x).CD += buffValue - stateValue;
+  (*p_x).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
 }
     `)
         },

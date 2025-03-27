@@ -1,6 +1,8 @@
 import { SimScoreGrades } from 'lib/scoring/characterScorer'
 import { renderThousandsK } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
+import { Languages } from 'lib/utils/i18nUtils'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Bar, BarChart, Label, ReferenceLine, XAxis, YAxis } from 'recharts'
 
 const liftedGrades: Record<string, boolean> = {
@@ -15,15 +17,21 @@ const liftedGrades: Record<string, boolean> = {
   'F+': true,
 }
 
+const reversedLanguages: Partial<Record<Languages, boolean>> = {}
+
 export function DpsScoreGradeRuler(props: {
   score: number
   maximum: number
   benchmark: number
   minimum: number
 }) {
+  const { t, i18n } = useTranslation('common')
   const { maximum, benchmark, minimum } = props
   const score = Math.min(maximum, Math.max(props.score, minimum))
   const id = Math.random()
+
+  const dmgLabel = t('Damage')
+  const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]
 
   const sortedGrades = Object.entries(SimScoreGrades)
     .sort((a, b) => b[1] - a[1])
@@ -62,6 +70,9 @@ export function DpsScoreGradeRuler(props: {
   const low = 10
   const high = 28
   const lift = 36
+
+  const numberOffset = reversedLabels ? low : high
+  const dmgOffset = reversedLabels ? high : low
 
   const chartAreaWidth = CHART_WIDTH - margin.left - margin.right
 
@@ -138,17 +149,17 @@ export function DpsScoreGradeRuler(props: {
         <ReferenceLine x={score} stroke='#fff' strokeWidth={4}/>
         <ReferenceLine x={maximum} stroke={strokeColor} strokeWidth={1}>
           <Label value='200%' position='bottom' fontSize={12} offset={low} fill={labelColor}/>
-          <Label value={`${renderThousandsK(maximum)}`} position='top' fontSize={12} offset={high} fill={labelColor}/>
-          <Label value='DMG' position='top' fontSize={12} offset={low} fill={labelColor}/>
+          <Label value={`${renderThousandsK(maximum)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor}/>
+          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor}/>
         </ReferenceLine>
         <ReferenceLine x={benchmark} stroke={strokeColor} strokeWidth={1}>
-          <Label value={`${renderThousandsK(benchmark)}`} position='top' fontSize={12} offset={high} fill={labelColor}/>
-          <Label value='DMG' position='top' fontSize={12} offset={low} fill={labelColor}/>
+          <Label value={`${renderThousandsK(benchmark)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor}/>
+          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor}/>
         </ReferenceLine>
         <ReferenceLine x={minimum} stroke={strokeColor} strokeWidth={1}>
           <Label value='0%' position='bottom' fontSize={12} offset={low} fill={labelColor}/>
-          <Label value={`${renderThousandsK(minimum)}`} position='top' fontSize={12} offset={high} fill={labelColor}/>
-          <Label value='DMG' position='top' fontSize={12} offset={low} fill={labelColor}/>
+          <Label value={`${renderThousandsK(minimum)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor}/>
+          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor}/>
         </ReferenceLine>
         {sortedGrades.map(([grade, gradeScore]) => {
           const scaledPosition = calculateScaledPosition(gradeScore)

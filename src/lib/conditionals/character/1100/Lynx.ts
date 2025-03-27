@@ -167,7 +167,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const hpBuffPercent = skillHpPercentBuff + (e >= 6 ? 0.06 : 0)
 
-          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context,
+          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context, SOURCE_SKILL,
             (convertibleValue) => convertibleValue * hpBuffPercent,
           )
         },
@@ -193,7 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.skillBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.HP, Stats.ATK, this, x, action, context,
+          dynamicStatConversion(Stats.HP, Stats.ATK, this, x, action, context, SOURCE_E4,
             (convertibleValue) => convertibleValue * atkBuffPercent,
           )
         },

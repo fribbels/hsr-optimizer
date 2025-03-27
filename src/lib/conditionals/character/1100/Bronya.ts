@@ -159,10 +159,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buffTeam((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, SOURCE_ULT)
-      x.CD.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
-      x.UNCONVERTIBLE_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostValue * t.teammateCDValue : 0, SOURCE_ULT)
-      x.UNCONVERTIBLE_CD_BUFF.buffTeam((t.ultBuff) ? ultCdBoostBaseValue : 0, SOURCE_ULT)
+      const cdBuff = (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue + ultCdBoostBaseValue : 0
+      x.CD.buffTeam(cdBuff, SOURCE_ULT)
+      x.UNCONVERTIBLE_CD_BUFF.buffTeam(cdBuff, SOURCE_ULT)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       boostAshblazingAtkP(x, action, context, hitMulti)
@@ -181,7 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.ultBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context,
+          dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context, SOURCE_ULT,
             (convertibleValue) => convertibleValue * ultCdBoostValue,
           )
         },

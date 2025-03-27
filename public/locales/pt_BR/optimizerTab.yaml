@@ -84,7 +84,7 @@ AdvancedOptions:
   EnemyConfigButtonText: Configurações de inimigo
   CombatBuffsButtonTextNone: Buffs extras de combate
   CombatBuffsButtonText: "Buffs extras de combate ({{activeCount}})"
-  CustomTracesButtonText: Atributos personalizados de traços
+  CustomTracesButtonText: Traços de stats custom
 Grid:
   To: para
   Of: de
@@ -341,7 +341,7 @@ Presets:
     SPD177: 177,778 SPD - 8 ações nos primeiros quatro ciclos
     SPD200: 200,000 DPS - 3 ações no primeiro ciclo
   StandardLabel: "Padrão $t(gameData:Characters.{{id}}.Name)"
-  RecommendedPresets: Predefinições recomendadas
+  RecommendedPresets: Predef. recomendadas
   PresetNotAvailable: Predefinição não disponível, selecione outra opção
 CombatBuffs:
   ATK: ATQ

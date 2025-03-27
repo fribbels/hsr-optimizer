@@ -32,6 +32,7 @@ export function RelicPreview(props: {
   setAddModalOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
   showcaseTheme?: ShowcaseTheme
+  unhoverable?: boolean
 }) {
   const {
     source,
@@ -42,6 +43,7 @@ export function RelicPreview(props: {
     setAddModalOpen,
     setSelectedRelic,
     showcaseTheme,
+    unhoverable,
   } = props
   const placeholderRelic: Partial<Relic> = {
     enhance: 0,
@@ -83,15 +85,16 @@ export function RelicPreview(props: {
   return (
     <Card
       size='small'
-      hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL}
+      hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL && !unhoverable}
       onClick={cardClicked}
       style={{
         width: 200,
+        minWidth: 200,
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
-        borderRadius: 8,
+        borderRadius: 6,
         boxShadow: source == null ? undefined : showcaseShadow + showcaseShadowInsetAddition,
       }}
     >
@@ -121,7 +124,7 @@ export function RelicPreview(props: {
                 height: ICON_SIZE,
                 width: ICON_SIZE,
                 borderRadius: ICON_SIZE / 2,
-                outline: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
+                border: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
                 backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
               }}
               src={equippedBySrc}

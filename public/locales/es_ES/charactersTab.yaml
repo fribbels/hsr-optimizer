@@ -73,8 +73,6 @@ CharacterPreview:
   DMGUpgrades: Mejoras de daño
   SubstatUpgradeComparisons:
     Header: Comparación de mejoras de sub estadísticas
-    Roll: tirada
-    Damage: Daño
   BuildAnalysis:
     SimulationTeammates: Simulación de compañeros
     SimulationSets: Simulación de sets

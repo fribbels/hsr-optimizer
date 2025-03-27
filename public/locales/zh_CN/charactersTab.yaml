@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: 基础速度 - 基准将以最低速度配装为目标
       CommonBreakpointsLabel: 常见速度阈值预设（速度增益额外单独考虑）
     BuffPriority:
-      Header: 增益优先权
-      High: 高
-      Low: 低
+      Header: DPS模式
+      High: 主C
+      Low: 副C
   CustomizationSidebar:
     Label: 自定义
     Modes:
@@ -101,8 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
     MainStatHeader: 主词条升级比较
-    Roll: 升级次数
-    Damage: 伤害
+    AddedRoll: "+1x {{stat}}副词条"
     MainStatUpgrade: 主词条升级
     SubStatUpgrade: 副词条升级
     DpsScorePercentUpgrade: DPS评分Δ%
@@ -112,8 +111,12 @@ CharacterPreview:
   BuildAnalysis:
     ScoringNote: >-
       DPS评分通过对比相同队伍、光锥和命座下的基准配装伤害，来评估配装质量。评分和连招伤害仅相对于所选队伍配置衡量，不应与不同配置进行对比。
+    RelicRarityHeader: 遗器稀有度升级对比
+    RelicRarityNote: |-
+      预计开拓力衡量依据角色属性权重升级每个遗器所需的预期刷取天数和开拓力。这是用于刷取优先级的稀有度统计指标，并不反映也不影响DPS评分和连招伤害。
     Header: DPS评分计算
     SimulationTeammates: 模拟队友
+    SimulatedBenchmarks: 模拟基准配装
     SimulationSets: 模拟套装
     Rotation:
       Header: 连招伤害循环
@@ -145,6 +148,7 @@ CharacterPreview:
         COMBO: 连招伤害
     CombatBuffs:
       Header: 战斗增益
+      SubDpsHeader: 战斗增益（副C）
   ScoringColumn:
     Character:
       Header: "角色配装 ({{score}}%)"
@@ -169,3 +173,12 @@ CharacterPreview:
       Abilities: 200% 完美技能伤害
   ScoringDetails:
     Header: DPS评分是如何计算的?
+  EST-TBP:
+    Header: 属性评分分析
+    RollsCard:
+      Perfection: 完美度
+    MetricsCard:
+      Days: 天
+      Rolls: 加权重词条数
+      TBP: 预计开拓力
+      Potential: 重掷潜力

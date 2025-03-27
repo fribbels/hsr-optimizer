@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: crwdns44492:0crwdne44492:0
       CommonBreakpointsLabel: crwdns44494:0crwdne44494:0
     BuffPriority:
-      Header: crwdns44496:0crwdne44496:0
-      High: crwdns44498:0crwdne44498:0
-      Low: crwdns44500:0crwdne44500:0
+      Header: crwdns44879:0crwdne44879:0
+      High: crwdns44881:0crwdne44881:0
+      Low: crwdns44883:0crwdne44883:0
   CustomizationSidebar:
     Label: crwdns39656:0crwdne39656:0
     Modes:
@@ -101,8 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0
     MainStatHeader: crwdns44824:0crwdne44824:0
-    Roll: crwdns39704:0crwdne39704:0
-    Damage: crwdns39706:0crwdne39706:0
+    AddedRoll: "crwdns44889:0{{stat}}crwdne44889:0"
     MainStatUpgrade: crwdns44826:0crwdne44826:0
     SubStatUpgrade: crwdns44828:0crwdne44828:0
     DpsScorePercentUpgrade: crwdns44830:0crwdne44830:0
@@ -112,8 +111,12 @@ CharacterPreview:
   BuildAnalysis:
     ScoringNote: >-
       crwdns44796:0crwdne44796:0
+    RelicRarityHeader: crwdns44925:0crwdne44925:0
+    RelicRarityNote: |-
+      crwdns44927:0crwdne44927:0
     Header: crwdns44838:0crwdne44838:0
     SimulationTeammates: crwdns39710:0crwdne39710:0
+    SimulatedBenchmarks: crwdns44929:0crwdne44929:0
     SimulationSets: crwdns39712:0crwdne39712:0
     Rotation:
       Header: crwdns39714:0crwdne39714:0
@@ -145,6 +148,7 @@ CharacterPreview:
         COMBO: crwdns39756:0crwdne39756:0
     CombatBuffs:
       Header: crwdns44746:0crwdne44746:0
+      SubDpsHeader: crwdns44885:0crwdne44885:0
   ScoringColumn:
     Character:
       Header: "crwdns39758:0{{score}}crwdne39758:0"
@@ -169,3 +173,12 @@ CharacterPreview:
       Abilities: crwdns39792:0crwdne39792:0
   ScoringDetails:
     Header: crwdns39794:0crwdne39794:0
+  EST-TBP:
+    Header: crwdns44891:0crwdne44891:0
+    RollsCard:
+      Perfection: crwdns44893:0crwdne44893:0
+    MetricsCard:
+      Days: crwdns44895:0crwdne44895:0
+      Rolls: crwdns44897:0crwdne44897:0
+      TBP: crwdns44899:0crwdne44899:0
+      Potential: crwdns44901:0crwdne44901:0

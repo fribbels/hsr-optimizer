@@ -5,6 +5,7 @@ import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { VerticalDivider } from 'lib/ui/Dividers'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -62,15 +63,15 @@ export default function ScoringModal() {
     }
   }, [scoringAlgorithmFocusCharacter, scoringModalOpen, scoringAlgorithmForm])
 
-  const panelWidth = 225
+  const panelWidth = 220
   const defaultGap = 5
-  const selectWidth = 360
+  const selectWidth = 260
 
   function StatValueRow(props: { stat: string }) {
     return (
       <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
         <Form.Item name={['stats', props.stat]}>
-          <InputNumberStyled controls={false} size='small'/>
+          <InputNumberStyled controls={false} size='small' min={0} max={1}/>
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
@@ -186,149 +187,139 @@ export default function ScoringModal() {
 
         <TitleDivider>{t('Scoring.StatWeightsHeader')/* Stat weights */}</TitleDivider>
 
-        <Flex gap={10} vertical>
-          <Flex gap={20} justify='space-between'>
-            <Flex vertical gap={5}>
-              <Form.Item name='characterId'>
-                <CharacterSelect
-                  value=''
-                  selectStyle={{}}
-                  onChange={characterSelectorChange}
-                />
-              </Form.Item>
-              <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
-                <img src={previewSrc} style={{ width: panelWidth }}/>
-              </div>
-            </Flex>
-            <Flex vertical gap={3}>
-              <StatValueRow stat={Stats.ATK}/>
-              <StatValueRow stat={Stats.HP}/>
-              <StatValueRow stat={Stats.DEF}/>
-              <StatValueRow stat={Stats.SPD}/>
-              <StatValueRow stat={Stats.CR}/>
-              <StatValueRow stat={Stats.CD}/>
-              <StatValueRow stat={Stats.EHR}/>
-              <StatValueRow stat={Stats.RES}/>
-              <StatValueRow stat={Stats.BE}/>
-            </Flex>
-            <Flex vertical gap={3}>
-              <StatValueRow stat={Stats.ERR}/>
-              <StatValueRow stat={Stats.OHB}/>
-              <StatValueRow stat={Stats.Physical_DMG}/>
-              <StatValueRow stat={Stats.Fire_DMG}/>
-              <StatValueRow stat={Stats.Ice_DMG}/>
-              <StatValueRow stat={Stats.Lightning_DMG}/>
-              <StatValueRow stat={Stats.Wind_DMG}/>
-              <StatValueRow stat={Stats.Quantum_DMG}/>
-              <StatValueRow stat={Stats.Imaginary_DMG}/>
+        <Flex gap={20}>
+          <Flex vertical gap={5}>
+            <Form.Item name='characterId'>
+              <CharacterSelect
+                value=''
+                selectStyle={{}}
+                onChange={characterSelectorChange}
+              />
+            </Form.Item>
+            <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
+              <img src={previewSrc} style={{ width: panelWidth }}/>
+            </div>
+          </Flex>
+
+          <VerticalDivider/>
+
+          <Flex vertical>
+            <Flex justify='space-between'>
+              <Flex vertical gap={defaultGap * 2}>
+                <Flex vertical gap={1} justify='flex-start'>
+                  <Text style={{ marginLeft: 5 }}>
+                    {t('common:Parts.Body')}
+                  </Text>
+                  <Form.Item name={['parts', Parts.Body]}>
+                    <Select
+                      mode='multiple'
+                      allowClear
+                      style={{
+                        width: selectWidth,
+                      }}
+                      placeholder={t('common:Parts.Body')}
+                      maxTagCount='responsive'
+                    >
+                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                      <Select.Option value={Stats.CR}>{t(`common:Stats.${Stats.CR}`)}</Select.Option>
+                      <Select.Option value={Stats.CD}>{t(`common:Stats.${Stats.CD}`)}</Select.Option>
+                      <Select.Option value={Stats.OHB}>{t(`common:Stats.${Stats.OHB}`)}</Select.Option>
+                      <Select.Option value={Stats.EHR}>{t(`common:Stats.${Stats.EHR}`)}</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Flex>
+
+                <Flex vertical gap={1} justify='flex-start'>
+                  <Text style={{ marginLeft: 5 }}>
+                    {t('common:Parts.Feet')}
+                  </Text>
+                  <Form.Item name={['parts', Parts.Feet]}>
+                    <Select
+                      mode='multiple'
+                      allowClear
+                      style={{
+                        width: selectWidth,
+                      }}
+                      placeholder={t('common:Parts.Feet')}
+                      maxTagCount='responsive'
+                    >
+                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                      <Select.Option value={Stats.SPD}>{t(`common:Stats.${Stats.SPD}`)}</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Flex>
+                <Flex vertical gap={1} justify='flex-start'>
+                  <Text style={{ marginLeft: 5 }}>
+                    {t('common:Parts.PlanarSphere')}
+                  </Text>
+                  <Form.Item name={['parts', Parts.PlanarSphere]}>
+                    <Select
+                      mode='multiple'
+                      allowClear
+                      style={{
+                        width: selectWidth,
+                      }}
+                      placeholder={t('common:Parts.PlanarSphere')}
+                      listHeight={400}
+                      maxTagCount='responsive'
+                    >
+                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                      <Select.Option value={Stats.Physical_DMG}>{t(`common:Stats.${Stats.Physical_DMG}`)}</Select.Option>
+                      <Select.Option value={Stats.Fire_DMG}>{t(`common:Stats.${Stats.Fire_DMG}`)}</Select.Option>
+                      <Select.Option value={Stats.Ice_DMG}>{t(`common:Stats.${Stats.Ice_DMG}`)}</Select.Option>
+                      <Select.Option value={Stats.Lightning_DMG}>{t(`common:Stats.${Stats.Lightning_DMG}`)}</Select.Option>
+                      <Select.Option value={Stats.Wind_DMG}>{t(`common:Stats.${Stats.Wind_DMG}`)}</Select.Option>
+                      <Select.Option value={Stats.Quantum_DMG}>{t(`common:Stats.${Stats.Quantum_DMG}`)}</Select.Option>
+                      <Select.Option value={Stats.Imaginary_DMG}>{t(`common:Stats.${Stats.Imaginary_DMG}`)}</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Flex>
+
+                <Flex vertical gap={1} justify='flex-start'>
+                  <Text style={{ marginLeft: 5 }}>
+                    {t('common:Parts.LinkRope')}
+                  </Text>
+
+                  <Form.Item name={['parts', Parts.LinkRope]}>
+                    <Select
+                      mode='multiple'
+                      allowClear
+                      style={{
+                        width: selectWidth,
+                      }}
+                      placeholder={t('common:Parts.LinkRope')}
+                      maxTagCount='responsive'
+                    >
+                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
+                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
+                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
+                      <Select.Option value={Stats.BE}>{t(`common:Stats.${Stats.BE}`)}</Select.Option>
+                      <Select.Option value={Stats.ERR}>{t(`common:Stats.${Stats.ERR}`)}</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Flex>
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
 
-        <TitleDivider>{t('Scoring.MainstatsHeader')/* Optimal mainstats */}</TitleDivider>
+          <VerticalDivider/>
 
-        <Flex justify='space-between'>
-          <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify='flex-start'>
-              <Text style={{ marginLeft: 5 }}>
-                {t('common:Parts.Body')}
-              </Text>
-              <Form.Item name={['parts', Parts.Body]}>
-                <Select
-                  mode='multiple'
-                  allowClear
-                  style={{
-                    width: selectWidth,
-                  }}
-                  placeholder={t('common:Parts.Body')}
-                  maxTagCount='responsive'
-                >
-                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Stats.CR}>{t(`common:Stats.${Stats.CR}`)}</Select.Option>
-                  <Select.Option value={Stats.CD}>{t(`common:Stats.${Stats.CD}`)}</Select.Option>
-                  <Select.Option value={Stats.OHB}>{t(`common:Stats.${Stats.OHB}`)}</Select.Option>
-                  <Select.Option value={Stats.EHR}>{t(`common:Stats.${Stats.EHR}`)}</Select.Option>
-                </Select>
-              </Form.Item>
-            </Flex>
-
-            <Flex vertical gap={1} justify='flex-start'>
-              <Text style={{ marginLeft: 5 }}>
-                {t('common:Parts.Feet')}
-              </Text>
-              <Form.Item name={['parts', Parts.Feet]}>
-                <Select
-                  mode='multiple'
-                  allowClear
-                  style={{
-                    width: selectWidth,
-                  }}
-                  placeholder={t('common:Parts.Feet')}
-                  maxTagCount='responsive'
-                >
-                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Stats.SPD}>{t(`common:Stats.${Stats.SPD}`)}</Select.Option>
-                </Select>
-              </Form.Item>
-            </Flex>
-          </Flex>
-          <Flex vertical gap={defaultGap * 2}>
-            <Flex vertical gap={1} justify='flex-start'>
-              <Text style={{ marginLeft: 5 }}>
-                {t('common:Parts.PlanarSphere')}
-              </Text>
-              <Form.Item name={['parts', Parts.PlanarSphere]}>
-                <Select
-                  mode='multiple'
-                  allowClear
-                  style={{
-                    width: selectWidth,
-                  }}
-                  placeholder={t('common:Parts.PlanarSphere')}
-                  listHeight={400}
-                  maxTagCount='responsive'
-                >
-                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Stats.Physical_DMG}>{t(`common:Stats.${Stats.Physical_DMG}`)}</Select.Option>
-                  <Select.Option value={Stats.Fire_DMG}>{t(`common:Stats.${Stats.Fire_DMG}`)}</Select.Option>
-                  <Select.Option value={Stats.Ice_DMG}>{t(`common:Stats.${Stats.Ice_DMG}`)}</Select.Option>
-                  <Select.Option value={Stats.Lightning_DMG}>{t(`common:Stats.${Stats.Lightning_DMG}`)}</Select.Option>
-                  <Select.Option value={Stats.Wind_DMG}>{t(`common:Stats.${Stats.Wind_DMG}`)}</Select.Option>
-                  <Select.Option value={Stats.Quantum_DMG}>{t(`common:Stats.${Stats.Quantum_DMG}`)}</Select.Option>
-                  <Select.Option value={Stats.Imaginary_DMG}>{t(`common:Stats.${Stats.Imaginary_DMG}`)}</Select.Option>
-                </Select>
-              </Form.Item>
-            </Flex>
-
-            <Flex vertical gap={1} justify='flex-start'>
-              <Text style={{ marginLeft: 5 }}>
-                {t('common:Parts.LinkRope')}
-              </Text>
-
-              <Form.Item name={['parts', Parts.LinkRope]}>
-                <Select
-                  mode='multiple'
-                  allowClear
-                  style={{
-                    width: selectWidth,
-                  }}
-                  placeholder={t('common:Parts.LinkRope')}
-                  maxTagCount='responsive'
-                >
-                  <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                  <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                  <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                  <Select.Option value={Stats.BE}>{t(`common:Stats.${Stats.BE}`)}</Select.Option>
-                  <Select.Option value={Stats.ERR}>{t(`common:Stats.${Stats.ERR}`)}</Select.Option>
-                </Select>
-              </Form.Item>
-            </Flex>
+          <Flex vertical gap={3}>
+            <StatValueRow stat={Stats.ATK}/>
+            <StatValueRow stat={Stats.HP}/>
+            <StatValueRow stat={Stats.DEF}/>
+            <StatValueRow stat={Stats.SPD}/>
+            <StatValueRow stat={Stats.CR}/>
+            <StatValueRow stat={Stats.CD}/>
+            <StatValueRow stat={Stats.EHR}/>
+            <StatValueRow stat={Stats.RES}/>
+            <StatValueRow stat={Stats.BE}/>
           </Flex>
         </Flex>
 

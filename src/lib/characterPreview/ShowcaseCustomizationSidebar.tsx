@@ -220,8 +220,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
           { value: 0, label: tScoring('SpdWeight.Min')/* '0%' */ },
         ],
         buffPriorityOptions: [
-          { value: false, label: tScoring('BuffPriority.High')/* 'High' */ },
-          { value: true, label: tScoring('BuffPriority.Low')/* 'Low' */ },
+          { value: false, label: tScoring('BuffPriority.High')/* 'Main' */ },
+          { value: true, label: tScoring('BuffPriority.Low')/* 'Sub' */ },
         ],
       }
     }, [tScoring])
@@ -234,7 +234,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         gap={16}
         style={{
           position: 'absolute',
-          marginLeft: 1085,
+          marginLeft: 1076,
           width: 130,
         }}
       >
@@ -325,6 +325,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                     simScoringResult={simScoringResult}
                   />
                 )}
+                placeholder='...'
                 min={0}
                 onBlur={onShowcaseSpdBenchmarkChangeEvent}
                 onPressEnter={onShowcaseSpdBenchmarkChangeEvent}

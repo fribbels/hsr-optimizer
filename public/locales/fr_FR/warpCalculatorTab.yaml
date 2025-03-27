@@ -7,6 +7,15 @@ StrategyLabels:
   E4: E4 d'abord
   E5: E5 d'abord
   E6: E6 d'abord
+RefundLabels:
+  REFUND_NONE: Aucun
+  REFUND_NONE_FULL: Aucun
+  REFUND_LOW: "{{Percentage}} de remboursé"
+  REFUND_LOW_FULL: "Remboursement de {{Percentage}}% (Bas)"
+  REFUND_AVG: "{{Percentage}} de remboursé"
+  REFUND_AVG_FULL: "Remboursement de {{Percentage}}% (Moyen)"
+  REFUND_HIGH: "{{Percentage}} de remboursé"
+  REFUND_HIGH_FULL: "Remboursement de {{Percentage}}% (Haut)"
 EidolonLevels:
   NONE: Aucun
   E0: E0
@@ -44,6 +53,7 @@ SectionTitles:
   Passes: Pass
   Jades: Jades
   Strategy: Stratégie
+  Starlight: Lumière d'étoile
   Banner: Bannière
   New: Nouvelle
   Rerun: Rerun

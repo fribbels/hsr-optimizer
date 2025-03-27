@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)伤"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)伤"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)伤"
+Damage: 伤害
 DamagePercent: 伤害%
 ReadableStats:
   "HP%": 生命值 %
@@ -179,3 +180,4 @@ ShortDMGTypes:
   Dot: 持续攻击伤害
   Break: 击破伤害
   CV: 暴击值
+CurrentVersion: "当前版本: ({{Version}})"

@@ -74,11 +74,18 @@ export function DpsScoreMainStatUpgradesTable(props: {
 }
 
 export function sharedSimResultComparator(simScore: SimulationScore, upgrade: SimulationStatUpgrade) {
+  // Cleans up floating point error ranges within 1.0f
+  const scoreDiff = upgrade.simulationResult.simScore - simScore.originalSimScore
+  const adjustedScoreDiff = Math.abs(scoreDiff) < 1 ? 0 : scoreDiff
+
+  const percentDiff = upgrade.percent! - simScore.percent
+  const adjustedPercentDiff = Math.abs(percentDiff) < 0.0001 ? 0 : percentDiff
+
   return {
-    scorePercentUpgrade: (upgrade.percent! - simScore.percent) * 100, // OK
+    scorePercentUpgrade: (adjustedPercentDiff) * 100,
     scoreValueUpgrade: upgrade.percent! * 100,
-    damagePercentUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore) / simScore.originalSimScore * 100,
-    damageValueUpgrade: (upgrade.simulationResult.simScore - simScore.originalSimScore),
+    damagePercentUpgrade: (adjustedScoreDiff) / simScore.originalSimScore * 100,
+    damageValueUpgrade: (adjustedScoreDiff),
   }
 }
 
@@ -96,16 +103,6 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       ),
     },
     {
-      title: t('UpgradedDpsScore'), // Upgraded DPS Score
-      dataIndex: 'scoreValueUpgrade',
-      align: 'center',
-      render: (n: number) => (
-        <>
-          {`${localeNumber_0(Math.max(0, n))}%`}
-        </>
-      ),
-    },
-    {
       title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
       dataIndex: 'damagePercentUpgrade',
       align: 'center',
@@ -114,6 +111,16 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
           <Arrow up={n >= 0}/>
           {` ${localeNumber_00(n)}%`}
         </Flex>
+      ),
+    },
+    {
+      title: t('UpgradedDpsScore'), // Upgraded DPS Score
+      dataIndex: 'scoreValueUpgrade',
+      align: 'center',
+      render: (n: number) => (
+        <>
+          {`${localeNumber_0(Math.max(0, n))}%`}
+        </>
       ),
     },
     {

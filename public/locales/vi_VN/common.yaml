@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+Damage: ST
 DamagePercent: ST %
 ReadableStats:
   "HP%": HP %
@@ -165,6 +166,7 @@ DMGTypes:
   ULT: ST Tuyệt Kỹ
   FUA: ST Đòn Đánh Theo Sau
   MEMO_SKILL: Sát thương linh hồn ký ức
+  MEMO_TALENT: Sát Thương Thiên Phú LHKY
   DOT: ST Duy Trì
   BREAK: ST Kích Phá
   CV: CV
@@ -174,6 +176,7 @@ ShortDMGTypes:
   Ult: ST Tuyệt Kỹ
   Fua: ST Đánh Theo Sau
   Memo_Skill: ST Linh Hồn Ký Ức
+  Memo_Talent: ST Thiên Phú LHKY
   Dot: ST Duy Trì
   Break: ST Kích Phá
   CV: CV

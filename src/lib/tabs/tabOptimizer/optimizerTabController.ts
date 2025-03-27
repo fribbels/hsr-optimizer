@@ -397,6 +397,11 @@ export const OptimizerTabController = {
       console.log('Path mismatch')
     }
 
+    if (charMeta.scoringMetadata.simulation && (!form.teammate0?.characterId || !form.teammate1?.characterId || !form.teammate2?.characterId)) {
+      Message.warning('Select teammates for more accurate optimization results.', 10)
+      console.log('Missing teammates')
+    }
+
     return true
   },
 

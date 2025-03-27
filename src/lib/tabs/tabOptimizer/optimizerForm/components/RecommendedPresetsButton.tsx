@@ -1,8 +1,8 @@
 import { DownOutlined } from '@ant-design/icons'
 import { ApplyColumnStateParams } from 'ag-grid-community'
-import { Button, Dropdown } from 'antd'
+import { Dropdown } from 'antd'
 import { TFunction } from 'i18next'
-import { Constants, Sets } from 'lib/constants/constants'
+import { Constants, ElementNames, PathNames, Sets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
 import DB from 'lib/state/db'
@@ -187,7 +187,7 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
   return spdPresets
 }
 
-const RecommendedPresetsButton = () => {
+export const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
@@ -198,7 +198,7 @@ const RecommendedPresetsButton = () => {
   const standardSpdOptions = Object.values(spdPresets)
   standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
 
-  function generateStandardSpdOptions(label) {
+  function generateStandardSpdOptions(label: string) {
     return {
       key: label,
       label: label,
@@ -229,18 +229,16 @@ const RecommendedPresetsButton = () => {
   }
 
   return (
-    <Dropdown
+    <Dropdown.Button
+      className='full-width-dropdown-button'
+      type='primary'
       menu={actionsMenuProps}
-      trigger={['click']}
-      overlayStyle={{ width: 'max-content' }}
+      onClick={() => applySpdPreset(spdPresets.SPD0.value!, optimizerTabFocusCharacter)}
+      icon={<DownOutlined/>}
+      style={{ flex: 1, width: '100%' }}
     >
-      <a onClick={(e) => e.preventDefault()}>
-        <Button type='primary' style={{ width: '100%' }}>
-          {t('RecommendedPresets')/* Recommended presets */}
-          <DownOutlined/>
-        </Button>
-      </a>
-    </Dropdown>
+      {t('RecommendedPresets')/* Recommended presets */}
+    </Dropdown.Button>
   )
 }
 
@@ -271,23 +269,16 @@ export function applySpdPreset(spd: number, characterId: string | undefined) {
    */
 
   // We dont use the clone here because serializing messes up the applyPreset functions
-  const presets = character.scoringMetadata.presets || []
   const sortOption = metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
-  for (const preset of presets) {
-    preset.apply(form)
-  }
 
   window.optimizerForm.setFieldsValue(form)
   window.onOptimizerFormValuesChange({}, form)
 }
 
-export default RecommendedPresetsButton
-
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
   Utils.mergeUndefinedValues(form, getDefaultForm())
-  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
   form.comboAbilities = scoringMetadata?.simulation?.comboAbilities || [null, 'BASIC']
   form.comboDot = scoringMetadata?.simulation?.comboDot || 0
@@ -304,8 +295,28 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   form.weights.bodyFeet = form.weights.bodyFeet || 0
   form.weights.sphereRope = form.weights.sphereRope || 0
 
+  applySetConditionalPresets(form)
+  applyScoringMetadataPresets(form)
+}
+
+export function applyScoringMetadataPresets(form: Form) {
+  const character = DB.getMetadata().characters[form.characterId]
+  const presets = character?.scoringMetadata?.presets ?? []
+
+  for (const preset of presets) {
+    preset.apply(form)
+  }
+}
+
+export function applySetConditionalPresets(form: Form) {
+  const characterMetadata = DB.getMetadata().characters[form.characterId]
+  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
+
   // Disable elemental conditions by default if the character is not of the same element
-  const element = DB.getMetadata().characters[form.characterId].element
-  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == 'Quantum'
-  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == 'Fire'
+  const element = characterMetadata?.element
+  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == ElementNames.Quantum
+  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire
+
+  const path = characterMetadata?.path
+  form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
 }

@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme } from 'antd'
+import { Button, Flex, Form, Image, Input, InputNumber, Modal, Radio, Select, theme, Tooltip } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
 import { Constants, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
@@ -10,10 +10,8 @@ import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import PropTypes from 'prop-types'
 import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { Character } from 'types/character'
 import { Relic, Stat } from 'types/relic'
 
@@ -32,15 +30,6 @@ function RadioIcon(props) {
     </Radio.Button>
   )
 }
-
-RadioIcon.propTypes = {
-  value: PropTypes.string,
-  src: PropTypes.string,
-}
-
-const InputNumberStyled = styled(InputNumber)`
-    width: 90px
-`
 
 function renderMainStat(relic: Relic): Stat {
   const mainStat: string = relic.main?.stat
@@ -232,8 +221,8 @@ export default function RelicModal(props: {
     const grade: number = relicForm.getFieldValue('grade')
 
     if (mainStatType != undefined && enhance != undefined && grade != undefined) {
-      const specialStats = [Constants.Stats.OHB, Constants.Stats.Physical_DMG, Constants.Stats.Physical_DMG, Constants.Stats.Fire_DMG, Constants.Stats.Ice_DMG, Constants.Stats.Lightning_DMG, Constants.Stats.Wind_DMG, Constants.Stats.Quantum_DMG, Constants.Stats.Imaginary_DMG]
-      const floorStats = [Constants.Stats.HP, Constants.Stats.ATK, Constants.Stats.SPD]
+      const specialStats = [Stats.OHB, Stats.Physical_DMG, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG, Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG]
+      const floorStats = [Stats.HP, Stats.ATK]
 
       let mainStatValue = TsUtils.calculateRelicMainStatValue(mainStatType, grade, enhance)
 
@@ -532,6 +521,8 @@ function SubstatInput(props: {
     )
   }
 
+  const stat = props.relicForm.getFieldValue(statTypeField)
+
   return (
     <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Flex gap={10}>
@@ -556,15 +547,21 @@ function SubstatInput(props: {
           />
         </Form.Item>
 
-        <Form.Item name={`substatValue${props.index}`}>
-          <Input
-            ref={inputRef}
-            onFocus={handleFocus}
-            style={{ width: 80 }}
-            onChange={props.resetUpgradeValues}
-            tabIndex={0}
-          />
-        </Form.Item>
+        <Tooltip
+          trigger={['focus']}
+          title={stat == Stats.SPD ? t('SpdInputWarning') : ''}
+          placement='top'
+        >
+          <Form.Item name={`substatValue${props.index}`}>
+            <Input
+              ref={inputRef}
+              onFocus={handleFocus}
+              style={{ width: 80 }}
+              onChange={props.resetUpgradeValues}
+              tabIndex={0}
+            />
+          </Form.Item>
+        </Tooltip>
       </Flex>
       <CaretRightOutlined style={{ width: 12 }}/>
       <Flex gap={5} style={{ width: '100%' }}>

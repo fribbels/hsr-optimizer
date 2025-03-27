@@ -549,6 +549,7 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: Energia máxima
+        content: Após entrar em batalha, aumenta o dano do portador com base em sua Energia Máxima. O dano aumenta em {{DmgStep}}% por ponto de Energia, até um máximo de 160 Energia.
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:

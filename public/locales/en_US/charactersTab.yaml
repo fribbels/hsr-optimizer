@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: Base SPD - The benchmark will target a minimal SPD build
       CommonBreakpointsLabel: Common SPD breakpoint presets (SPD buffs considered separately)
     BuffPriority:
-      Header: Buff priority
-      High: High
-      Low: Low
+      Header: DPS mode
+      High: Main
+      Low: Sub
   CustomizationSidebar:
     Label: Customization
     Modes:
@@ -101,8 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons
     MainStatHeader: Main stat upgrade comparisons
-    Roll: roll
-    Damage: Damage
+    AddedRoll: "+1x roll {{stat}}"
     MainStatUpgrade: Main Stat Upgrade
     SubStatUpgrade: Substat Upgrade
     DpsScorePercentUpgrade: DPS Score Δ %
@@ -113,8 +112,13 @@ CharacterPreview:
     ScoringNote: >-
       DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons.
       Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.
+    RelicRarityHeader: Relic rarity upgrade comparisons
+    RelicRarityNote: |-
+      Estimated TBP measures the expected farming time in Days and Trailblaze Power required to upgrade each relic based on the character's stat weights.
+      This is a metric of statistical rarity for farming prioritization, and does not reflect nor have an impact on DPS Score and Combo DMG.
     Header: DPS Score Calculations
     SimulationTeammates: Simulation teammates
+    SimulatedBenchmarks: Simulated benchmark builds
     SimulationSets: Simulation sets
     Rotation:
       Header: Combo damage rotation
@@ -146,6 +150,7 @@ CharacterPreview:
         COMBO: COMBO DMG
     CombatBuffs:
       Header: Combat buffs
+      SubDpsHeader: Combat buffs (Sub DPS)
   ScoringColumn:
     Character:
       Header: "Character build ({{score}}%)"
@@ -170,3 +175,12 @@ CharacterPreview:
       Abilities: 200% perfect ability damage
   ScoringDetails:
     Header: How is DPS Score calculated?
+  EST-TBP:
+    Header: Stat Score Analysis
+    RollsCard:
+      Perfection: Perfection
+    MetricsCard:
+      Days: Days
+      Rolls: Weighted Rolls
+      TBP: Estimated TBP
+      Potential: Reroll Potential

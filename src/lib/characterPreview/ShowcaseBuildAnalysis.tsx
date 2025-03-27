@@ -3,10 +3,13 @@ import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
+import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -18,6 +21,7 @@ interface ShowcaseBuildAnalysisProps {
   combatScoreDetails: string
   simScoringResult: SimulationScore | undefined
   showcaseMetadata: ShowcaseMetadata
+  displayRelics: SingleRelicByPart
   setScoringType: (s: string) => void
   setCombatScoreDetails: (s: string) => void
 }
@@ -30,6 +34,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const {
     token,
     combatScoreDetails,
+    simScoringResult,
     showcaseMetadata,
     scoringType,
     setScoringType,
@@ -41,7 +46,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   } = showcaseMetadata
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ minHeight: 1000 }}>
       <Flex justify='center' gap={10}>
         <Flex
           justify='center'
@@ -129,16 +134,66 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           />
         </Flex>
       </Flex>
-      <MemoizedCharacterScoringSummary simScoringResult={props.simScoringResult}/>
+      <MemoizedCharacterScoringSummary
+        simScoringResult={props.simScoringResult}
+        displayRelics={props.displayRelics}
+        showcaseMetadata={props.showcaseMetadata}
+      />
+      <StatScoringSummary
+        scoringType={simScoringResult ? props.scoringType : CHARACTER_SCORE}
+        displayRelics={props.displayRelics}
+        showcaseMetadata={props.showcaseMetadata}
+      />
     </Flex>
   )
 }
 
-function MemoizedCharacterScoringSummary(props: { simScoringResult?: SimulationScore }) {
+function StatScoringSummary(props: {
+  scoringType: string
+  displayRelics: SingleRelicByPart
+  showcaseMetadata: ShowcaseMetadata
+}) {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
+
+  if (props.scoringType != CHARACTER_SCORE) {
+    return <></>
+  }
+
+  return (
+    <Flex vertical align='center'>
+      <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15, marginBottom: 20 }}>
+        <ColorizedLinkWithIcon
+          text={t('Header')/* Stat Score Analysis */}
+          linkIcon={true}
+          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+        />
+      </pre>
+      <EstimatedTbpRelicsDisplay
+        scoringType={props.scoringType}
+        displayRelics={props.displayRelics}
+        showcaseMetadata={props.showcaseMetadata}
+      />
+    </Flex>
+  )
+}
+
+function MemoizedCharacterScoringSummary(props: {
+  simScoringResult?: SimulationScore
+  displayRelics: SingleRelicByPart
+  showcaseMetadata: ShowcaseMetadata
+}) {
   const delayedProps = useDelayedProps(props, 150)
 
   const memoizedCharacterScoringSummary = useMemo(() => {
-    return delayedProps ? <CharacterScoringSummary simScoringResult={delayedProps.simScoringResult}/> : null
+    return delayedProps
+      ? (
+        <CharacterScoringSummary
+          simScoringResult={delayedProps.simScoringResult}
+          displayRelics={delayedProps.displayRelics}
+          showcaseMetadata={delayedProps.showcaseMetadata}
+        />
+      )
+      : null
   }, [delayedProps])
 
   if (!delayedProps) return null

@@ -95,7 +95,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue),
       }),
       min: 0,
-      max: 200,
+      max: 300,
     },
     targetBurdenActive: content.targetBurdenActive,
     burdenAtkBuff: content.burdenAtkBuff,
@@ -133,11 +133,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, SOURCE_ULT)
-      x.UNCONVERTIBLE_SPD_BUFF.buffSingle((t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0, SOURCE_ULT)
+      const spdBuff = (t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0
+      x.SPD.buffSingle(spdBuff, SOURCE_ULT)
+      x.UNCONVERTIBLE_SPD_BUFF.buffSingle(spdBuff, SOURCE_ULT)
       x.ATK_P.buffSingle((t.ultBuff) ? ultAtkBuffValue : 0, SOURCE_ULT)
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
+    finalizeCalculations: (x: ComputedStatsArray) => {
+    },
     gpuFinalizeCalculations: () => '',
     dynamicConditionals: [
       {
@@ -152,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.ultBuff
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.SPD, Stats.SPD, this, x, action, context,
+          dynamicStatConversion(Stats.SPD, Stats.SPD, this, x, action, context, SOURCE_ULT,
             (convertibleValue) => convertibleValue * ultSpdBuffValue,
           )
         },

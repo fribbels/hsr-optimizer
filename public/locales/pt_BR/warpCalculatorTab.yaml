@@ -7,14 +7,31 @@ StrategyLabels:
   E4: E4 primeiro
   E5: E5 primeiro
   E6: E6 primeiro
+RefundLabels:
+  REFUND_NONE: Nenhum
+  REFUND_NONE_FULL: Nenhum
+  REFUND_LOW: "Reembolso de {{Percentage}}%"
+  REFUND_LOW_FULL: "Reembolso de {{Percentage}}% (Baixo)"
+  REFUND_AVG: "Reembolso de {{Percentage}}%"
+  REFUND_AVG_FULL: "Reembolso de {{Percentage}}% (Médio)"
+  REFUND_HIGH: "Reembolso de {{Percentage}}%"
+  REFUND_HIGH_FULL: "Reembolso de {{Percentage}}% (Alto)"
 EidolonLevels:
   NONE: Nenhum
+  E0: E0
   E1: E1
   E2: E2
+  E3: E3
   E4: E4
+  E5: E5
   E6: E6
 SuperimpositionLevels:
   NONE: Nenhum
+  S1: S1
+  S2: S2
+  S3: S3
+  S4: S4
+  S5: S5
 IncomeOptions:
   Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
@@ -24,6 +41,7 @@ IncomeOptions:
     3: PB & Expresso
 PityCounter:
   PityCounter: Contador de Pity
+  CurrentEidolonSuperImp: Atual
   Guaranteed: Garantido
 TotalAvailable: "Tiros disponíveis:"
 SectionTitles:
@@ -35,6 +53,10 @@ SectionTitles:
   Passes: Passes
   Jades: Jades
   Strategy: Estratégia
+  Starlight: Luz Estelar
+  Banner: Banner
+  New: Novo
+  Rerun: Rerun
   AdditionalResources: Recursos adicionais
   Calculate: Calcular
 ColumnTitles:

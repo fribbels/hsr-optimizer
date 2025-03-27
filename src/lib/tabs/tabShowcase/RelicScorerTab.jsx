@@ -1,4 +1,4 @@
-import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined } from '@ant-design/icons'
+import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined, SettingOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -11,7 +11,6 @@ import { Assets } from 'lib/rendering/assets'
 import DB, { AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { Utils } from 'lib/utils/utils'
-import PropTypes from 'prop-types'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -78,6 +77,16 @@ export default function RelicScorerTab() {
   console.log('======================================================================= RENDER RelicScorerTab')
 
   function onFinish(x) {
+    console.log('finish', x)
+
+    const id = x?.scorerId?.toString().trim() || ''
+
+    if (!id || id.length != 9) {
+      setLoading(false)
+      Message.error(t('Messages.InvalidIdWarning')/* Invalid ID */)
+      return
+    }
+
     if (latestRefreshDate.current) {
       Message.warning(t('Messages.ThrottleWarning'/* Please wait {{seconds}} seconds before retrying */, { seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date() - latestRefreshDate.current) / 1000)) }))
       if (loading) {
@@ -90,16 +99,6 @@ export default function RelicScorerTab() {
       setTimeout(() => {
         latestRefreshDate.current = null
       }, throttleSeconds * 1000)
-    }
-
-    console.log('finish', x)
-
-    const id = x?.scorerId?.toString().trim() || ''
-
-    if (!id || id.length != 9) {
-      setLoading(false)
-      Message.error(t('Messages.InvalidIdWarning')/* Invalid ID */)
-      return
     }
 
     setScorerId(id)
@@ -240,8 +239,9 @@ export default function RelicScorerTab() {
               {t('common:Submit')/* Submit */}
             </Button>
             <Button
-              style={{ width: 'fit-content' }}
+              style={{ width: 'fit-content', minWidth: 175 }}
               onClick={() => window.store.getState().setScoringModalOpen(true)}
+              icon={<SettingOutlined/>}
             >
               {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}
             </Button>
@@ -257,9 +257,9 @@ export default function RelicScorerTab() {
     </div>
   )
 }
-RelicScorerTab.propTypes = {
-  active: PropTypes.bool,
-}
+// RelicScorerTab.propTypes = {
+//   active: PropTypes.bool,
+// }
 
 function CharacterPreviewSelection(props) {
   const activeKey = window.store((s) => s.activeKey)
@@ -350,6 +350,7 @@ function CharacterPreviewSelection(props) {
   async function simulateClicked() {
     console.log('Simulate', props.selectedCharacter)
     setCharacterModalOpen(true)
+    setCharacterModalInitialCharacter(props.selectedCharacter)
   }
 
   function onCharacterModalOk(form) {
@@ -524,12 +525,12 @@ function CharacterPreviewSelection(props) {
   )
 }
 
-CharacterPreviewSelection.propTypes = {
-  availableCharacters: PropTypes.array,
-  setAvailableCharacters: PropTypes.func,
-  selectedCharacter: PropTypes.object,
-  setSelectedCharacter: PropTypes.func,
-}
+// CharacterPreviewSelection.propTypes = {
+//   availableCharacters: PropTypes.array,
+//   setAvailableCharacters: PropTypes.func,
+//   selectedCharacter: PropTypes.object,
+//   setSelectedCharacter: PropTypes.func,
+// }
 
 function PresetButton(props) {
   const { preset } = props

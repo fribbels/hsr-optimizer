@@ -1,5 +1,6 @@
 import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import DB from 'lib/state/db'
+import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form, Teammate } from 'types/form'
 
@@ -85,20 +86,8 @@ export function getDefaultForm(initialCharacter: { id: string }) {
     ...defaultEnemyOptions(),
   })
 
-  // Disable elemental conditions by default if the character is not of the same element
-  const element = DB.getMetadata().characters[initialCharacter?.id]?.element
-  if (element) {
-    defaultForm.setConditionals![Sets.GeniusOfBrilliantStars][1] = element === 'Quantum'
-    defaultForm.setConditionals![Sets.ForgeOfTheKalpagniLantern][1] = element === 'Fire'
-  }
-
-  // TODO: very gross, dedupe
-  if (scoringMetadata?.presets) {
-    const presets = scoringMetadata.presets || []
-    for (const preset of presets) {
-      preset.apply(defaultForm)
-    }
-  }
+  applySetConditionalPresets(defaultForm as Form)
+  applyScoringMetadataPresets(defaultForm as Form)
 
   if (scoringMetadata?.simulation?.comboAbilities) {
     defaultForm.comboAbilities = scoringMetadata.simulation.comboAbilities
@@ -154,7 +143,7 @@ export const defaultSetConditionals = {
   [Sets.TheWindSoaringValorous]: [undefined, false],
   [Sets.SacerdosRelivedOrdeal]: [undefined, 0],
   [Sets.ScholarLostInErudition]: [undefined, true],
-  [Sets.HeroOfTriumphantSong]: [undefined, true],
+  [Sets.HeroOfTriumphantSong]: [undefined, false],
   [Sets.PoetOfMourningCollapse]: [undefined, true],
 
   [Sets.SpaceSealingStation]: [undefined, true],

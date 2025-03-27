@@ -1,7 +1,7 @@
 import { Constants } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
-import OptimizerWorker from 'lib/worker/optimizerWorker.ts?worker&inline'
+import OptimizerWorker from 'lib/worker/baseOptimizerWorker.ts?worker&inline'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -28,6 +28,7 @@ type WorkerTask = {
     request: Form
     skip: number
     buffer: ArrayBuffer
+    workerType: WorkerType
   }
   attempts: number
 }

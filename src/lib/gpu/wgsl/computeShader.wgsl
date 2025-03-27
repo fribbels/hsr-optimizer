@@ -375,10 +375,10 @@ fn main(
         x.CD += 0.25;
       }
       if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert == 2) {
-        x.CD += 0.10;
+        x.CD_BOOST += 0.10;
       }
       if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
-        x.CD += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+        x.CD_BOOST += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
       }
       if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
         x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
@@ -396,7 +396,7 @@ fn main(
       // CR
 
       if (p4(sets.WastelanderOfBanditryDesert) >= 1 && setConditionals.valueWastelanderOfBanditryDesert > 0) {
-        x.CR += 0.10;
+        x.CR_BOOST += 0.10;
       }
       if (p4(sets.LongevousDisciple) >= 1) {
         x.CR += 0.08 * f32(setConditionals.valueLongevousDisciple);

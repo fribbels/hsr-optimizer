@@ -205,7 +205,7 @@ export function scoreCharacterSimulation(
     originalSim,
   } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
 
-  const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD])
+  const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
 
   // ===== Simulate the baseline build =====
 
@@ -255,11 +255,12 @@ export function scoreCharacterSimulation(
   } else {
     if (simulationFlags.simPoetActive) {
       // We don't want to have the original character's combat stats penalized by poet if they're not on poet
+      targetSpd = simulationFlags.forceBasicSpdValue
     } else {
       originalSimResult = forcedSpdSimResult
       originalSim = forcedSpdSim
+      targetSpd = originalSimResult.xa[Key.SPD]
     }
-    targetSpd = originalSimResult.xa[Key.SPD]
   }
 
   applyScoringFunction(originalSimResult)

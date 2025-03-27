@@ -132,7 +132,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.DOT_ATK_SCALING.buff((r.ashenRoastStacks > 0) ? talentDotScaling : 0, SOURCE_TALENT)
       x.DOT_ATK_SCALING.buff((e >= 2 && r.e2Dot && r.ashenRoastStacks > 0) ? 3.00 : 0, SOURCE_E2)
-      x.DOT_CHANCE.set(100, SOURCE_TALENT)
+      x.DOT_CHANCE.set(100, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
@@ -152,7 +152,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, SOURCE_E6)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    },
     gpuFinalizeCalculations: () => '',
     dynamicConditionals: [
       {
@@ -166,7 +167,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.ehrToAtkBoost && x.a[Key.EHR] > 0.80
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.EHR, Stats.ATK, this, x, action, context,
+          dynamicStatConversion(Stats.EHR, Stats.ATK, this, x, action, context, SOURCE_TRACE,
             (convertibleValue) => Math.min(2.40, 0.60 * Math.floor((convertibleValue - 0.80) / 0.15)) * context.baseATK,
           )
         },

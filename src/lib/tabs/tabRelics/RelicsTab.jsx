@@ -19,10 +19,12 @@ import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Plot from 'react-plotly.js'
+import createPlotlyComponent from 'react-plotly.js/factory'
+import Plotly from 'plotly.js/dist/plotly-basic'
+
+const Plot = createPlotlyComponent(Plotly)
 
 const { useToken } = theme
 
@@ -555,6 +557,7 @@ export default function RelicsTab() {
   const getLocaleText = useCallback((params) => {
     if (params.key == 'to') return (t('RelicGrid.To')/* to */)
     if (params.key == 'of') return (t('RelicGrid.Of')/* of */)
+    if (params.key == 'noRowsToShow') return ''
     return params.key
   }, [t])
 
@@ -1087,9 +1090,9 @@ export default function RelicsTab() {
     </Flex>
   )
 }
-RelicsTab.propTypes = {
-  active: PropTypes.bool,
-}
+// RelicsTab.propTypes = {
+//   active: PropTypes.bool,
+// }
 
 function cvValueGetter(params) {
   return params.data.augmentedStats[Stats.CR] * 2 + params.data.augmentedStats[Stats.CD]

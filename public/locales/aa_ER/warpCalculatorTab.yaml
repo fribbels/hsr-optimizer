@@ -7,6 +7,15 @@ StrategyLabels:
   E4: crwdns44518:0crwdne44518:0
   E5: crwdns44520:0crwdne44520:0
   E6: crwdns44522:0crwdne44522:0
+RefundLabels:
+  REFUND_NONE: crwdns44909:0crwdne44909:0
+  REFUND_NONE_FULL: crwdns44911:0crwdne44911:0
+  REFUND_LOW: "crwdns44913:0{{Percentage}}crwdne44913:0"
+  REFUND_LOW_FULL: "crwdns44915:0{{Percentage}}crwdne44915:0"
+  REFUND_AVG: "crwdns44917:0{{Percentage}}crwdne44917:0"
+  REFUND_AVG_FULL: "crwdns44919:0{{Percentage}}crwdne44919:0"
+  REFUND_HIGH: "crwdns44921:0{{Percentage}}crwdne44921:0"
+  REFUND_HIGH_FULL: "crwdns44923:0{{Percentage}}crwdne44923:0"
 EidolonLevels:
   NONE: crwdns44840:0crwdne44840:0
   E0: crwdns44842:0crwdne44842:0
@@ -44,6 +53,7 @@ SectionTitles:
   Passes: crwdns44550:0crwdne44550:0
   Jades: crwdns44552:0crwdne44552:0
   Strategy: crwdns44554:0crwdne44554:0
+  Starlight: crwdns44887:0crwdne44887:0
   Banner: crwdns44870:0crwdne44870:0
   New: crwdns44872:0crwdne44872:0
   Rerun: crwdns44874:0crwdne44874:0

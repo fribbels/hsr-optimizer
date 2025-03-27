@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: VIT de base - La référence ciblera le minimum de VIT possible
       CommonBreakpointsLabel: Points d'arrêts communs (Buffs de VIT considérés séparément)
     BuffPriority:
-      Header: Priorité de buff
-      High: Haute
-      Low: Faible
+      Header: Mode de DPS
+      High: 1ᵃᶦʳᵉ
+      Low: 2ᵃᶦʳᵉ
   CustomizationSidebar:
     Label: Customisation
     Modes:
@@ -101,8 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats
     MainStatHeader: Comparaisons d'améliorations de mainstat
-    Roll: roll
-    Damage: Dégâts
+    AddedRoll: "+1x roll {{stat}}"
     MainStatUpgrade: Améliorations de mainstat
     SubStatUpgrade: Améliorations de substats
     DpsScorePercentUpgrade: Note DPS ∆ %
@@ -112,8 +111,13 @@ CharacterPreview:
   BuildAnalysis:
     ScoringNote: >-
       La note de DPS évalue la qualité d'une build en comparant les dégâts infligés par une rotation de capacités de la build équipée à ceux de 2 builds de référence avec les mêmes équipes / cônes de lumière / eidolons. Les notes et DGT Combo sont relatifs à l'équipe et au seuil de vitesse choisi. Ils ne devraient pas être comparés entre différentes configurations.
+    RelicRarityHeader: Comparaisons d'améliorations de rareté de relique
+    RelicRarityNote: |-
+      La PP estimée mesure le nombre moyen de jours et de Puissance de Pionnier requis afin d'améliorer chaque relique en fonction des poids des stats du personnage auquel elles sont équipées.
+      C'est une mesure de la rareté statistique de la relique pour assister au choix de quelle relique améliorer en priorité, et ne porte aucun lien avec la note DPS et les DGT Combo.
     Header: Calculs de la note DPS
     SimulationTeammates: Coéquipiers de simulation
+    SimulatedBenchmarks: Builds de référence simulées
     SimulationSets: Set de simulation
     Rotation:
       Header: Rotation des dégâts de combo
@@ -145,27 +149,37 @@ CharacterPreview:
         COMBO: COMBO
     CombatBuffs:
       Header: Buffs de combat
+      SubDpsHeader: Buffs de Combat (sous-DPS)
   ScoringColumn:
     Character:
       Header: "Build personnage ({{score}}%)"
       BasicStats: Stats basiques du personnage
       CombatStats: <1>stats de combat</1> du personnage
-      Substats: Substats du personnage (min rolls)
+      Substats: Substats du personnage (rolls min)
       Mainstats: Mainstats du personnage
       Abilities: Dégâts des capacités du personnage
     Benchmark:
       Header: "Build référence ({{score}}%)"
       BasicStats: Stats basiques de référence
       CombatStats: <1>stats de combat</1> de référence
-      Substats: Substats de référence 100% (min rolls)
+      Substats: Substats de référence 100% (rolls min)
       Mainstats: Mainstats de référence
       Abilities: Dégâts de capacités de référence
     Perfect:
       Header: "Build parfaite ({{score}}%)"
       BasicStats: Stats basiques parfaites
       CombatStats: <1>stats de combat</1> parfaites
-      Substats: Substats parfaites 200% (max rolls)
+      Substats: Substats parfaites 200% (rolls max)
       Mainstats: Mainstats parfaites
       Abilities: Dégâts de capacités parfaits
   ScoringDetails:
     Header: Comment est calculée la note de DPS?
+  EST-TBP:
+    Header: Analyse de note de stat
+    RollsCard:
+      Perfection: Perfection
+    MetricsCard:
+      Days: Jours
+      Rolls: Rolls pondérés
+      TBP: PP estimée
+      Potential: Potentiel de relancé

@@ -270,6 +270,7 @@ Relic:
   Mainstat: Atributo principal
   Substat: Subatributos
   SubstatPlaceholder: Subatributo
+  SpdInputWarning: Nota - Subatributos de SPD dentro do jogo contém valores decimais ocultos que estarão imprecisos se inseridos manualmente. Para valores de SPD precisos, uso a aba de Apresentação ou o Importador de Relíquias
   Upgrades: Melhorias de subatributo
   Messages:
     SubmitFail: O envio falhou!

@@ -53,7 +53,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     concertoActive: true,
     skillDmgBuff: true,
     talentCdBuff: true,
-    teammateATKValue: 5000,
+    teammateATKValue: 4500,
     traceFuaCdBoost: true,
     e1UltResPen: true,
     e2UltSpdBuff: true,
@@ -177,8 +177,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, SOURCE_ULT)
-      x.UNCONVERTIBLE_ATK_BUFF.buffTeam((t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue : 0, SOURCE_ULT)
+      const atkBuff = (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
+      x.ATK.buffTeam(atkBuff, SOURCE_ULT)
+      x.UNCONVERTIBLE_ATK_BUFF.buffTeam(atkBuff, SOURCE_ULT)
 
       buffAbilityCd(x, FUA_DMG_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, SOURCE_TRACE, Target.TEAM)
     },
@@ -199,7 +200,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.concertoActive
         },
         effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.ATK, Stats.ATK, this, x, action, context,
+          dynamicStatConversion(Stats.ATK, Stats.ATK, this, x, action, context, SOURCE_ULT,
             (convertibleValue) => convertibleValue * ultAtkBuffScalingValue,
           )
         },

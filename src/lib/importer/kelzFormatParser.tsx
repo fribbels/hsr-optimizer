@@ -2,7 +2,7 @@ import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
-import { Constants, Parts } from 'lib/constants/constants'
+import { Constants } from 'lib/constants/constants'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
@@ -10,7 +10,6 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
-import stringSimilarity from 'string-similarity'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
@@ -192,8 +191,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
 }
 
 function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser) {
-  const partMatches = stringSimilarity.findBestMatch(relic.slot, Object.values(Parts))
-  const part = partMatches.bestMatch.target as Parts
+  const part = relic.slot.replace(/\s+/g, '')
 
   const setId = relic.set_id
   const set = relicSetMapping[setId].name
@@ -284,7 +282,7 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
         }
       }
 
-      const { rolls, errorFlag } = rollCounter(s.step, s.count)
+      const { rolls, errorFlag } = rollCounter(s.count, s.step)
 
       if (errorFlag) scanner.badRollInfo = true
 

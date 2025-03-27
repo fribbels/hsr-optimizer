@@ -186,7 +186,7 @@ function convertRelic(preRelic) {
   }
 }
 
-export function rollCounter(step: number | undefined, count: number | undefined) {
+export function rollCounter(count: number | undefined, step: number | undefined) {
   const rolls: Relic['substats'][number]['rolls'] = { high: 0, mid: 0, low: 0 }
   let errorFlag = false
   if (count != undefined && step != undefined) {

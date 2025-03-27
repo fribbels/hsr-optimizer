@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
+import { AllStats, Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
 import { getScoreCategory, ScoreCategory } from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
 import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
@@ -46,6 +46,7 @@ type SubstatScore = {
 
 export type RelicScoringResult = {
   score: string
+  scoreNumber: number
   rating: string
   mainStatScore: number
   part?: Parts
@@ -325,7 +326,7 @@ export class RelicScorer {
         default:
           max = 64.8
       }
-      return max * (metaParts[part].includes(stat) ? 1 : weights[stat])
+      return max * (metaParts[part].includes(stat) ? 1 : (weights[stat] ?? 0))
     })(relic.main.stat, relic.grade, relic.part, scoringMetadata.parts)
     return {
       score,
@@ -380,11 +381,12 @@ export class RelicScorer {
         if (optimalMainStats.includes(mainstat) || meta.stats[mainstat] == 1 || !Utils.hasMainStat(part)) {
           mainStat = mainstat
         } else {
-          const scoreEntries = (Object.entries(meta.stats) as [StatsValues, number][])
-            .map((entry) => {
-              if (optimalMainStats.includes(entry[0]) || meta.stats[entry[0]] == 1) {
-                return [entry[0], 1] as [StatsValues, number]
-              } else return [entry[0], entry[1]] as [StatsValues, number]
+          const scoreEntries = AllStats
+            .map((stat) => {
+              const value = meta.stats[stat] ?? 0
+              if (optimalMainStats.includes(stat) || meta.stats[stat] == 1) {
+                return [stat, 1] as [StatsValues, number]
+              } else return [stat, value] as [StatsValues, number]
             })
             .sort((a, b) => {
               // we give the mainstat only stats a score of 6.48 * weight simply to get them in the right area
@@ -675,6 +677,7 @@ export class RelicScorer {
       // console.warn('scoreCurrentRelic called but no relic given for character', id ?? '????')
       return {
         score: '',
+        scoreNumber: 0,
         rating: '',
         mainStatScore: 0,
       }
@@ -683,6 +686,7 @@ export class RelicScorer {
       console.warn('scoreCurrentRelic called but lacking character', relic)
       return {
         score: '',
+        scoreNumber: 0,
         rating: '',
         mainStatScore: 0,
       }
@@ -697,6 +701,7 @@ export class RelicScorer {
     const mainStatScore = substatScore.mainStatScore
     return {
       score: score.toFixed(1),
+      scoreNumber: score,
       rating,
       mainStatScore,
       part,
@@ -710,7 +715,7 @@ export class RelicScorer {
    * @param relics relics to score against the character
    */
   scoreCharacterWithRelics(character: Character, relics: Relic[]): {
-    relics: object[]
+    relics: RelicScoringResult[]
     totalScore: number
     totalRating: string
   } {
@@ -762,6 +767,7 @@ export class RelicScorer {
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
 
     return {
+      currentPct: Math.max(0, futureScore.current - mainstatBonus) / percentToScore,
       bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore,
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,
@@ -792,7 +798,7 @@ export function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata:
   const stats = scoringMetadata.stats
   const parts = scoringMetadata.parts
   if (part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.PlanarSphere || part == Constants.Parts.LinkRope) {
-    const multiplier = parts[part].includes(mainStat) ? 1 : stats[mainStat]
+    const multiplier = parts[part].includes(mainStat) ? 1 : (stats[mainStat] ?? 0)
     // Main stat free roll == 1
     return 1 * minRollValue * multiplier
   }
@@ -962,8 +968,6 @@ function scoreToRating(score: number, substatScore?: SubstatScore, relic?: Relic
 }
 
 function scoredMainStatInvalid(substatScore?: SubstatScore) {
-  // Experimenting: Invalid main stats get a '?' rating
-  // if (substatScore && (substatScore.part != Parts.Hands && substatScore.part != Parts.Head) && )
   return substatScore
     && (substatScore.part != Parts.Hands && substatScore.part != Parts.Head)
     && TsUtils.precisionRound(substatScore.mainStatScore) <= 0
@@ -977,5 +981,5 @@ function getMainStatWeight(relic: Relic, scoringMetadata: ScoringMetadata) {
   if (scoringMetadata.parts[relic.part].includes(relic.main.stat)) {
     return 1
   }
-  return scoringMetadata.stats[relic.main.stat]
+  return scoringMetadata.stats[relic.main.stat] ?? 0
 }

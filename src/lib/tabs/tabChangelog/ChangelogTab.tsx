@@ -130,6 +130,7 @@ function getChangelogContent() {
         `The Recommended Presets selector is now a one-click button with additional dropdown options`,
         `presets.webp`,
         `Updated the custom stat weights menu to remove unnecessary main stat numeric weights`,
+        `Stat weights are now capped between 0.0 to 1.0`,
         `weights.webp`,
         `SPD substat upgrade options on the Relic edit menu now show their decimal values`,
         `Added a warning for manual input accuracy for SPD substats`,

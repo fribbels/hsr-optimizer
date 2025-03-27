@@ -99,3 +99,43 @@ Relics with main stats (body/feet/sphere/rope) are granted an extra roll to comp
 optimal main stats with desired substats.
 These rolls are min rolls with a value of `5.1` and then, if the main stat is not optimal, scaled down by the stat
 weight to obtain the bonus score value.
+
+## Estimated TBP
+
+The `Relic rarity upgrade comparisons` section shows a breakdown of substat roll quality as well as the statistical rarity of the relic.
+
+The intent of this display is to visualize the relative quality of the build's relics and estimate how much investment (in Trailblaze Power) would be required to find an upgrade. Higher rarity relics do NOT always translate directly to higher damage or DPS score, this 
+should just be used as a heuristic for farming prioritization while the optimizer should be used to determine the best overall build for maximizing damage.
+
+
+![image](https://github.com/user-attachments/assets/cf17632d-9c14-4244-9b67-05e026481428)
+
+* Weighted Rolls
+
+The sum of roll qualities x roll weights of all substats on the relic. Flat stats are weighted as 40% of their main stat value. Each roll has a quality of 0.8, 0.9, or 1.0. For example, with default Topaz weights, the sphere in the screenshot above has:
+
+```
+Weighted Rolls =
+(0.9 + 0.8) * (0.75 * 0.40 ATK weight) +
+(0.9 + 0.8 + 0.8) * (0.75 ATK% weight) +
+(1.0 + 0.9) * (1.0 Crit DMG weight)
+= 4.285
+```
+
+* Days / Estimated TBP
+
+The number of days on average required to farm an upgrade to the number of weighted rolls on this relic. For the same example above, this would mean that an expected average of 10,440 Trailblaze Power, 
+or roughly 44 days are required to farm a Fire DMG% main Duran sphere with higher than 4.285 weighted rolls.
+
+* Perfection
+
+This measures how close to the relic is to the maximum number of weighted rolls. For the example above, a 100% perfection sphere for Topaz (0.75 ATK%, 1.0 SPD, 1.0 CR, 1.0 CD) would require 4 starting rolls, with ATK%, SPD, CR, CD, then five additional rolls into 
+a 1.0 weight stat, all with max roll quality.
+
+* Reroll Potential
+
+The average change in perfection if the relic substats were to be rerolled. For example, the Topaz rope above has all rolls into Crit Rate, which on average would highly likely be a downgrade if rerolled since the other 3 stats are not desired. So the perfection
+rating would drop by 25.7% on average.
+
+
+

@@ -111,6 +111,7 @@ ShortSpacedStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+Damage: DANO
 DamagePercent: DMG %
 ReadableStats:
   "HP%": PV %
@@ -179,3 +180,4 @@ ShortDMGTypes:
   Dot: Dano DoT
   Break: Dano Break
   CV: CV
+CurrentVersion: "Versão atual: ({{Version}})"

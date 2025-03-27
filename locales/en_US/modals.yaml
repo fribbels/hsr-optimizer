@@ -270,6 +270,7 @@ Relic:
   Mainstat: Main stat
   Substat: Substats
   SubstatPlaceholder: Substat
+  SpdInputWarning: Note - SPD substats ingame contain hidden decimal values which are inaccurate if input manually. For precise SPD values, use the Showcase tab or Reliquary Archiver import.
   Upgrades: Substat upgrades
   Messages:
     SubmitFail: Submit failed!

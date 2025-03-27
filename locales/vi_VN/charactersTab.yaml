@@ -59,10 +59,6 @@ CharacterPreview:
       CurrentSpdLabel: Tốc độ hiện tại (SPD) - Mốc chuẩn sẽ khớp với tốc độ cơ bản
       BaseSpdLabel: Tốc độ cơ bản (Base SPD) - Mốc chuẩn sẽ nhắm đến một xây dựng SPD tối thiểu
       CommonBreakpointsLabel: Các mốc SPD phổ biến được thiết lập sẵn (các buff SPD được xem xét riêng biệt)
-    BuffPriority:
-      Header: Ưu tiên buff
-      High: Cao
-      Low: Thấp
   CustomizationSidebar:
     Label: Thay đổi nền
     Modes:
@@ -100,9 +96,17 @@ CharacterPreview:
   DMGUpgrades: Tăng sát thương
   SubstatUpgradeComparisons:
     Header: So sánh nâng cấp thuộc tính dị vật
-    Roll: Roll
-    Damage: Sát thương
+    MainStatHeader: So sánh nâng cấp chính di vật
+    MainStatUpgrade: Nâng Cấp Dòng Chính
+    SubStatUpgrade: Nâng cấp thuộc tính phụ
+    DpsScorePercentUpgrade: Điểm DPS Δ %
+    UpgradedDpsScore: Điểm DPS Nâng Cấp
+    ComboDmgPercentUpgrade: ST Combo Δ %
+    ComboDmgUpgrade: ST Combo Δ
   BuildAnalysis:
+    ScoringNote: >-
+      Điểm DPS đánh giá chất lượng build bằng cách so sánh sát thương của chuỗi kỹ năng với các build tiêu chuẩn có cùng đội hình/nón ánh sáng/Tinh Hồn. Điểm số và sát thương combo chỉ được đo lường dựa trên đội hình đã chọn và không nên so sánh giữa các cấu hình khác nhau.
+    Header: Tính toán điểm DPS
     SimulationTeammates: Đồng đội thí nghiệm
     SimulationSets: Bộ dị vật thí nghiệm
     Rotation:
@@ -112,6 +116,7 @@ CharacterPreview:
       ULT: Tuyệt kỹ
       FUA: Đòn Đánh Theo Sau
       MEMO_SKILL: SKILLᴹ
+      MEMO_TALENT: THIÊN PHÚ LHKY
       DOTS: "Sát thương duy trì:"
       BREAKS: "ST Kích Phá:"
     CombatResults:
@@ -129,6 +134,8 @@ CharacterPreview:
         FUA: 'ĐÒN ĐÁNH THEO SAU:'
         DOT: 'ST DUY TRÌ:'
         BREAK: 'ST Kích Phá:'
+        MEMO_SKILL: ST KỸ NĂNG LHKY
+        MEMO_TALENT: ST THIÊN PHÚ LHKY
         COMBO: 'ST COMBO:'
     CombatBuffs:
       Header: Buffs trong combat

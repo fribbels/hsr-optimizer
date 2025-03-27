@@ -73,19 +73,19 @@ RelicGrid:
           選択キャラ 最大
           ポテンシャル
       RerollAvg:
-        Label: "選択キャラ：リロール後の平均遺物ポテンシャル"
+        Label: "選択キャラ：振り直し後の平均遺物ポテンシャル"
         Header: |-
-          選択 リロール
+          選択 振り直し
           ポテンシャル
       RerollAvgDelta:
-        Label: "選択キャラ：リロール前後の平均ポテンシャル差異"
+        Label: "選択キャラ：振り直し前後の平均ポテンシャル差異"
         Header: |-
-          選択 リロール
+          選択 振り直し
           ポテンシャル差
       RerollAvgEquippedDelta:
-        Label: "選択キャラ：リロール後と装備済み遺物の平均ポテンシャル差異"
+        Label: "選択キャラ：振り直し後と装備済み遺物の平均ポテンシャル差異"
         Header: |-
-          選択 リロール
+          選択 振り直し
           vs 装備済み
           ポテンシャル差
     CustomCharacters:
@@ -101,9 +101,9 @@ RelicGrid:
           指定対象 最大
           ポテンシャル
       RerollAvg:
-        Label: "指定対象：リロール後の平均遺物ポテンシャル"
+        Label: "指定対象：振り直し後の平均遺物ポテンシャル"
         Header: |-
-          指定 リロール
+          指定 振り直し
           ポテンシャル
     AllCharacters:
       Label: 全キャラクター
@@ -118,9 +118,9 @@ RelicGrid:
           全キャラ 最大
           ポテンシャル
       RerollAvg:
-        Label: "全キャラ：リロール後の平均遺物ポテンシャル"
+        Label: "全キャラ：振り直し後の平均遺物ポテンシャル"
         Header: |-
-          全 リロール
+          全 振り直し
           ポテンシャル
     ComingSoon:
       Label: 近日公開

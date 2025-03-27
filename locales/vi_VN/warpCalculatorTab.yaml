@@ -7,10 +7,25 @@ StrategyLabels:
   E4: Tinh Hồn 4
   E5: Tinh Hồn 5
   E6: Tinh Hồn 6
+RefundLabels:
+  REFUND_NONE: Không có
+  REFUND_NONE_FULL: Không có
 EidolonLevels:
   NONE: Không có
+  E0: E0
+  E1: E1
+  E2: E2
+  E3: E3
+  E4: E4
+  E5: E5
+  E6: E6
 SuperimpositionLevels:
   NONE: Không có
+  S1: S1
+  S2: S2
+  S3: S3
+  S4: S4
+  S5: S5
 IncomeOptions:
   Label: "[PB{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
@@ -20,6 +35,7 @@ IncomeOptions:
     3: VDVD + Tiếp Tế
 PityCounter:
   PityCounter: Số Pity (lần nhảy)
+  CurrentEidolonSuperImp: Hiện tại
   Guaranteed: Có Bảo Hiểm
 TotalAvailable: "Vé Tinh Cầu đang có:"
 SectionTitles:
@@ -31,6 +47,9 @@ SectionTitles:
   Passes: Vé Hiện Có
   Jades: Số Ngọc Ánh Sao
   Strategy: Mục Tiêu
+  Banner: Banner
+  New: Mới
+  Rerun: Rerun
   AdditionalResources: Nguồn khác
   Calculate: Tính
 ColumnTitles:

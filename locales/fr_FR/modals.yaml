@@ -270,6 +270,7 @@ Relic:
   Mainstat: Mainstat
   Substat: Substats
   SubstatPlaceholder: Substat
+  SpdInputWarning: 'Remarque : Les substats de VIT en jeu contiennent des valeurs décimales cachées et peuvent donc être inexactes si elles sont entrées manuellement. Pour assurer des valeurs de VIT précises, utilisez l''onglet Vitrine ou importez vos reliques via Reliquary Archiver.'
   Upgrades: Améliorations de substats
   Messages:
     SubmitFail: Échec de soumission!
@@ -338,7 +339,7 @@ Builds:
   NoBuilds:
     NoneSaved: Aucune build enregistrée
 ScoreFooter:
-  ModalTitle: Paramètres de notation de la sim de combat
+  ModalTitle: Paramètres de la sim de combat
   OkText: OK
   ResetButtonText: Réinitialiser à l'équipe standard
   ResetSuccessMsg: Réinitialisé à l'équipe standard

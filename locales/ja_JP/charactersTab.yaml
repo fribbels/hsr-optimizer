@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: 初期速度 - 基準ビルドの速度を最小にします
       CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
     BuffPriority:
-      Header: バフ優先度
-      High: 高
-      Low: 低
+      Header: DPS の型
+      High: メイン
+      Low: サブ
   CustomizationSidebar:
     Label: カスタマイズ
     Modes:
@@ -95,15 +95,28 @@ CharacterPreview:
     Title: "戦闘スコアの詳細"
     Labels:
       CombatStats: 戦闘ステータス
-      SubDpsCombatStats: 戦闘ステータス（サブDPS）
+      SubDpsCombatStats: 戦闘ステータス（サブ DPS）
       DMGUpgrades: 与ダメージ強化
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
-    Header: サブステータス強化の比較
-    Roll: サブ
-    Damage: 増加ダメージ
+    Header: サブステータス強化比較
+    MainStatHeader: メインステータス強化比較
+    AddedRoll: "+1x サブ {{stat}}"
+    MainStatUpgrade: メインステータス強化
+    SubStatUpgrade: サブステータス強化
+    DpsScorePercentUpgrade: DPS スコア変化率
+    UpgradedDpsScore: 強化後の DPS スコア
+    ComboDmgPercentUpgrade: コンボダメージ変化率
+    ComboDmgUpgrade: コンボダメージ変化量
   BuildAnalysis:
+    ScoringNote: >-
+      DPS スコアは、スキル回しのダメージを同じチーム編成・光円錐・星塊を用いた基準ビルドと比較することで、ビルドの品質を評価します。DPS スコア及びコンボダメージは、選択したチーム編成のみに対して相対的に計測されるため、異なるチーム編成間の比較に用いるものではありません。
+    RelicRarityHeader: 遺物希少性向上比較
+    RelicRarityNote: |-
+      推定開拓力は、キャラクターに設定したステータスの重み付けに基づくより強い遺物にそれぞれ乗り換えるのに必要な日数と開拓力を推定するものです。これは遺物収集の優先度を決めるための、統計的珍しさを示す指標であり、DPS スコアやコンボダメージに反映されるものでも、影響を与えるものでもありません。
+    Header: DPS スコア計算
     SimulationTeammates: パーティー編成
+    SimulatedBenchmarks: シミュレートした基準ビルド
     SimulationSets: 遺物
     Rotation:
       Header: スキル回し
@@ -135,6 +148,7 @@ CharacterPreview:
         COMBO: コンボ
     CombatBuffs:
       Header: 戦闘バフ
+      SubDpsHeader: 戦闘バフ（サブ DPS）
   ScoringColumn:
     Character:
       Header: "選択キャラのビルド（{{score}}％）"
@@ -159,3 +173,11 @@ CharacterPreview:
       Abilities: 与ダメージ（完璧ビルド）
   ScoringDetails:
     Header: DPSスコアはどのように計算されますか？
+  EST-TBP:
+    Header: ステータススコア分析
+    RollsCard:
+      Perfection: 完璧度
+    MetricsCard:
+      Days: 日数
+      Rolls: 重み付きサブ数
+      TBP: 推定開拓力

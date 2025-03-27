@@ -104,7 +104,7 @@ Grid:
       BE: 击破特攻
       OHB: 治疗量加成
       ERR: 能量恢复
-      DMG: 增伤
+      DMG: 伤害
       EHP: 有效生命
       WEIGHT: |-
         属性
@@ -151,7 +151,7 @@ Grid:
       BE: Σ 击破
       OHB: Σ 治疗量
       ERR: Σ 能量
-      DMG: Σ 增伤
+      DMG: Σ 伤害
       EHP: 有效生命
       WEIGHT: |-
         属性

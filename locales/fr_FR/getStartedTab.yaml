@@ -1,6 +1,8 @@
 TryOut:
   DocumentationTitle: Voir guide entier
   ButtonText: Essayer !
-  description: Charger un fichier de sauvegarde exemple ?
+  description: |-
+    Charger un fichier de sauvegarde exemple?
+    ⚠️Ceci remplacera toutes vos données actuelles!⚠️
   SuccessMessage: Chargement de données réussite
   Header: Essayer !

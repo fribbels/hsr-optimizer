@@ -1,6 +1,8 @@
 TryOut:
   DocumentationTitle: 查看完整指南
   ButtonText: 试试看！
-  description: 加载示例存档吗？
+  description: |-
+    加载示例存档？
+    ⚠️此操作将替换你当前的所有数据！⚠️
   SuccessMessage: 数据加载成功
   Header: 试试看！

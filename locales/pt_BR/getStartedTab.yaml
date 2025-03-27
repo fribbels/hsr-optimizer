@@ -1,6 +1,8 @@
 TryOut:
   DocumentationTitle: Ver guia completo
   ButtonText: Experimente!
-  description: Carregar um save de amostra?
+  description: |-
+    Carregar um arquivo de save de exemplo?
+    ⚠️Isso ira repor todos os seus dados atuais!⚠️
   SuccessMessage: Dados carregados com sucesso
   Header: Experimente!

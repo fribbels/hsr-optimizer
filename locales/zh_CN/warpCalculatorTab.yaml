@@ -7,6 +7,15 @@ StrategyLabels:
   E4: 优先4魂
   E5: 优先5魂
   E6: 优先6魂
+RefundLabels:
+  REFUND_NONE: 无
+  REFUND_NONE_FULL: 无
+  REFUND_LOW: "{{Percentage}}%返还"
+  REFUND_LOW_FULL: "{{Percentage}}%返还（低）"
+  REFUND_AVG: "{{Percentage}}%返还"
+  REFUND_AVG_FULL: "{{Percentage}}%返还（中）"
+  REFUND_HIGH: "{{Percentage}}%返还"
+  REFUND_HIGH_FULL: "{{Percentage}}%返还（高）"
 EidolonLevels:
   NONE: 无
   E0: 0魂
@@ -44,6 +53,7 @@ SectionTitles:
   Passes: 专票
   Jades: 星琼
   Strategy: 策略
+  Starlight: 星芒
   Banner: 卡池
   New: 新
   Rerun: 复刻

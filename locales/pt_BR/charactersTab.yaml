@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: VEL base - O benchmark terá VEL mínima para a build
       CommonBreakpointsLabel: Predefinições de breakpoints de VEL (buffs de VEL considerados separadamente)
     BuffPriority:
-      Header: Prioridade de Buff
-      High: Alta
-      Low: Baixa
+      Header: Modo DPS
+      High: Principal
+      Low: Sub
   CustomizationSidebar:
     Label: Personalização
     Modes:
@@ -101,8 +101,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos
     MainStatHeader: Comparação de melhoria de atributo principal
-    Roll: roll
-    Damage: Dano
+    AddedRoll: "+1x rolar {{stat}}"
     MainStatUpgrade: Melhoria do Atributo Principal
     SubStatUpgrade: Melhoria do Subatributo
     DpsScorePercentUpgrade: Pontuação de DPS Δ %
@@ -112,8 +111,13 @@ CharacterPreview:
   BuildAnalysis:
     ScoringNote: >-
       A pontuação DPS avalia a qualidade da build comparando o dano de uma rotação de habilidade com construções de benchmark com a mesma equipe/lightcones/eidolons. As pontuações e o dano de combo são medidos apenas em relação à configuração da equipe escolhida e não devem ser comparados entre configurações diferentes.
+    RelicRarityHeader: Comparação de melhoria da raridade da relíquia
+    RelicRarityNote: |-
+      A TBP estimada mede o tempo de farm esperado em Dias e o Poder de Desbravador necessário para melhorar cada relíquia com base nos pesos de estatísticas do personagem.
+      Isso é uma métrica de raridade estatística para as prioridades de farm, e não reflete nem tem impacto na Pontuação DPS e no Dano de Combo.
     Header: Cálculos Pontuação DPS
     SimulationTeammates: Equipe de simulação
+    SimulatedBenchmarks: Builds simuladas de benchmark
     SimulationSets: Conjuntos de simulação
     Rotation:
       Header: Rotação do combo de dano
@@ -145,6 +149,7 @@ CharacterPreview:
         COMBO: Dano do combo
     CombatBuffs:
       Header: Buffs de combate
+      SubDpsHeader: Buffs de Combate (Sub DPS)
   ScoringColumn:
     Character:
       Header: "Build do personagem ({{score}}%)"
@@ -169,3 +174,12 @@ CharacterPreview:
       Abilities: 200% perfeito dano de habilidade
   ScoringDetails:
     Header: Como o placar de DPS é calculado?
+  EST-TBP:
+    Header: Análise de Pontuação de Atributos
+    RollsCard:
+      Perfection: Perfeição
+    MetricsCard:
+      Days: Dias
+      Rolls: Rolls Pesados
+      TBP: TBP Estimado
+      Potential: Potencial de Reroll

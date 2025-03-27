@@ -60,9 +60,9 @@ CharacterPreview:
       BaseSpdLabel: 기본 속도 - 벤치마크를 기본 속도로 설정합니다.
       CommonBreakpointsLabel: 일반적인 속도 프리셋 (속도 버프는 계산 안함)
     BuffPriority:
-      Header: 버프 우선도
-      High: 높음
-      Low: 낮음
+      Header: DPS 유형
+      High: 메인
+      Low: 서브
   CustomizationSidebar:
     Label: 커스텀
     Modes:
@@ -100,8 +100,6 @@ CharacterPreview:
   DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교
-    Roll: 유효옵
-    Damage: 피해량
   BuildAnalysis:
     SimulationTeammates: 시뮬레이션 파티
     SimulationSets: 시뮬레이션 세팅
@@ -135,6 +133,7 @@ CharacterPreview:
         COMBO: 사이클 총 피해량
     CombatBuffs:
       Header: 전투 중 버프
+      SubDpsHeader: 전투 버프 (서브 DPS)
   ScoringColumn:
     Character:
       Header: "캐릭터 빌드({{score}}%)"

@@ -113,8 +113,13 @@ export function flatReduction(stat: string) {
 }
 
 // Scoring type isnt strictly needed in the hash but it helps work around some rendering issues with switching score type
-export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: string, scoringType: string) {
-  return TsUtils.objectHash({ relicsHash: Object.values(displayRelics).map(hashRelic), characterId, scoringType })
+export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: string, scoringType: string, weights: Record<string, number>) {
+  return TsUtils.objectHash({
+    weights,
+    scoringType,
+    characterId,
+    relicsHash: Object.values(displayRelics).map(hashRelic),
+  })
 }
 
 function hashRelic(relic: Relic) {

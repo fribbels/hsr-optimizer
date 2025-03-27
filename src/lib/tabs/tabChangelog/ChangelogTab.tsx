@@ -150,6 +150,7 @@ function getChangelogContent() {
         `Balance: Anaxa now activates 4p Genius by default`,
         `Balance: Anaxa benchmarks can now use ATK% chest`,
         `Balance: Moze benchmarks will now match Energy Regen rope`,
+        `Balance: Remembrance Trailblazer now has Outgoing Healing Boost as optimal main stat`,
         `Balance: Hanya's teammate SPD conditional limit is updated to 300`,
         `Balance: With the launch of the Estimated TBP showcase, character weights are being rebalanced to more accurately reflect relic quality`,
         `— Previously, tankiness stats were overvalued for supports, so their HP/DEF/RES weights are being reduced to 0.25 unless they directly scale with the stat`,

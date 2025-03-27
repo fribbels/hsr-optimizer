@@ -270,6 +270,7 @@ Relic:
   Mainstat: メインステータス
   Substat: サブステータス
   SubstatPlaceholder: サブステータス
+  SpdInputWarning: 注意：ゲーム内に表示される速度サブステータスには小数値が隠れているので、手動で入力した速度値は不正確になってしまいます。正確な速度値を入力したい場合には、ショーケース タブ、または、IceDynamix Reliquary Archiver を使用してインポートする必要があります。
   Upgrades: アップグレード
   Messages:
     SubmitFail: 送信できませんでした！

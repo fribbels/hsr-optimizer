@@ -430,7 +430,7 @@ export const CharacterScoringSummary = (props: {
           <ColorizedLinkWithIcon
             text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
             linkIcon={true}
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
           />
         </pre>
         <Alert

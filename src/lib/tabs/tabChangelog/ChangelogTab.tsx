@@ -101,10 +101,6 @@ function leaks(str: string) {
   return officialOnly ? '' : str
 }
 
-/*
- NOTES:
- */
-
 function getChangelogContent() {
   const changelog: ChangelogContent[] = [
     {
@@ -125,7 +121,7 @@ function getChangelogContent() {
         `Advanced Combo menu updates`,
         `— Partitions are now divided by sections`,
         `— Numeric partitions are now sorted by value`,
-        `— Updated Castorice's default combo rotation conditionals for optimizer and scoring`,
+        `— Updated Castorice's default advanced combo rotation conditionals for optimizer and scoring`,
         `advanced.webp`,
         `Added announcements for character version changes`,
         `announce.webp`,
@@ -133,13 +129,27 @@ function getChangelogContent() {
         `mode.webp`,
         `The Recommended Presets selector is now a one-click button with additional dropdown options`,
         `presets.webp`,
+        `Updated the custom stat weights menu to remove unnecessary main stat numeric weights`,
+        `Stat weights are now capped between 0.0 to 1.0`,
+        `weights.webp`,
+        `SPD substat upgrade options on the Relic edit menu now show their decimal values`,
+        `Added a warning for manual input accuracy for SPD substats`,
+        `warn.webp`,
+        `Added a warning for missing teammates when optimizing DPS characters`,
+        `Added the current data version to the changelog`,
+        `Using the "Simulate relics on another character" button now automatically opens with the current character's fields`,
+        `Fix: Parts of Pioneer Diver of Dead Waters and Wastelander of Banditry Desert are updated to correctly count as on-hit boosts rather than stat buffs`,
         `Fix: Mydei's CR conversion should be unconvertible`,
         `Fix: Sunday's E6 should not convert unconvertible buffs`,
+        `Fix: Robin's default teammate ATK changed to 4500`,
+        `Fix: Robin was previously missing her ult flat ATK buff`,
         `Fix: Visual issue where certain dynamically converted buffs were not showing in the Combat Buffs display`,
+        `Fix: Visual issue where borders were incorrectly drawn on Safari browsers`,
         `Balance: Hero of Triumphant Song set conditional is now disabled by default, except for Remembrance characters`,
         `Balance: Anaxa now defaults to Main DPS scoring`,
         `Balance: Anaxa now activates 4p Genius by default`,
         `Balance: Anaxa benchmarks can now use ATK% chest`,
+        `Balance: Moze benchmarks will now match Energy Regen rope`,
         `Balance: Hanya's teammate SPD conditional limit is updated to 300`,
         `Balance: With the launch of the Estimated TBP showcase, character weights are being rebalanced to more accurately reflect relic quality`,
         `— Previously, tankiness stats were overvalued for supports, so their HP/DEF/RES weights are being reduced to 0.25 unless they directly scale with the stat`,
@@ -164,7 +174,7 @@ function getChangelogContent() {
         `— Harmony`,
         `harmony.webp`,
         `Note that a character's stat weights are evaluated relative to each other`,
-        `This means that reducing the lesser relevance stats' weights will actually increase the scoring weight of the character's primary stat`,
+        `This means that nerfs to the lesser relevance stats' weights will actually buff the scoring weight of the character's primary stats`,
       ],
     },
     {

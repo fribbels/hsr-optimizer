@@ -92,7 +92,9 @@ declare global {
     RelicRollFixer: typeof RelicRollFixer
 
     title: string
-
     WEBGPU_DEBUG: boolean
   }
+
+  // eslint-disable-next-line no-var
+  var WEBGPU_DEBUG: boolean
 }

@@ -10,7 +10,7 @@ import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
-import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
+import { scoreCharacterSimulationAsync } from 'lib/scoring/characterScorer'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -181,16 +181,7 @@ export function getShowcaseSimScoringResult(
   }
 
   const characterShowcaseTemporaryOptions = showcaseTemporaryOptions[character.id] ?? {}
-  let simScoringResult = scoreCharacterSimulation(character, displayRelics, teamSelection, characterShowcaseTemporaryOptions)
-
-  if (!simScoringResult?.originalSim) {
-    simScoringResult = null
-  } else {
-    // Fix elemental damage
-    simScoringResult.originalSimResult[showcaseMetadata.elementalDmgType] = simScoringResult.originalSimResult.ELEMENTAL_DMG
-  }
-
-  return simScoringResult
+  return scoreCharacterSimulationAsync(character, displayRelics, teamSelection, characterShowcaseTemporaryOptions)
 }
 
 export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic | undefined, setSelectedRelic: (r: Relic) => void) {

@@ -42,6 +42,38 @@ const cachedSims: {
   [key: string]: SimulationScore
 } = {}
 
+export type AsyncSimScoringResult = {
+  done: boolean
+  result: SimulationScore | null
+  promise: Promise<SimulationScore | null>
+}
+
+export function scoreCharacterSimulationAsync(
+  character: Character,
+  displayRelics: RelicBuild,
+  teamSelection: string,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
+): AsyncSimScoringResult {
+  const asyncResult: Partial<AsyncSimScoringResult> = {
+    done: false,
+    result: null,
+  }
+
+  asyncResult.promise = new Promise<SimulationScore | null>((resolve, reject) => {
+    const simScoringResult = scoreCharacterSimulation(
+      character,
+      displayRelics,
+      teamSelection,
+      showcaseTemporaryOptions,
+    )
+
+    asyncResult.done = true
+    asyncResult.result = simScoringResult
+  })
+
+  return asyncResult as AsyncSimScoringResult
+}
+
 export function scoreCharacterSimulation(
   character: Character,
   displayRelics: RelicBuild,

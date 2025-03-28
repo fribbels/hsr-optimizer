@@ -6,20 +6,60 @@ import { NONE_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { AsyncSimScoringExecution } from 'lib/scoring/characterScorer'
 import { SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { useState, useEffect } from 'react'
 
 // FIXME MED
 
 const epsilon = 0.001
 
+// Custom hook to track AsyncSimScoringExecution state
+function useAsyncSimScoringExecution(asyncSimScoringExecution: AsyncSimScoringExecution | null) {
+  const [forceRender, setForceRender] = useState(0)
+
+  useEffect(() => {
+    // Create a subscription to the promise to track when it resolves
+    if (asyncSimScoringExecution?.promise) {
+      asyncSimScoringExecution.promise.then(() => {
+        setForceRender(prev => prev + 1)
+      })
+    }
+  }, [asyncSimScoringExecution?.promise])
+
+  return { result: asyncSimScoringExecution }
+}
+
+export function TestStatSummary(props: {
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
+  finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
+}) {
+  const { result: asyncSimScoringExecution } = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+
+  return (
+    <StatText>
+      <Flex vertical style={{ paddingLeft: 4, paddingRight: 6 }}>
+        {asyncSimScoringExecution && (
+          <StatRow
+            finalStats={props.finalStats}
+            stat='simScore'
+            value={asyncSimScoringExecution?.result?.originalSimResult.simScore}
+            loading={!asyncSimScoringExecution.done}
+          />
+        )}
+      </Flex>
+    </StatText>
+  )
+}
+
 export const CharacterStatSummary = (props: {
   characterId: string
   finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
   elementalDmgValue: string
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
   scoringType?: string
-  simScore?: number
   showAll?: boolean
 }) => {
   const edits = calculateStatCustomizations(props.characterId)
@@ -28,19 +68,20 @@ export const CharacterStatSummary = (props: {
   return (
     <StatText>
       <Flex vertical style={{ paddingLeft: 4, paddingRight: 6 }} gap={props.scoringType == NONE_SCORE ? 5 : 3}>
-        <StatRow finalStats={props.finalStats} stat={Stats.HP} edits={edits}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.ATK} edits={edits}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.DEF} edits={edits}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.SPD} edits={edits} preciseSpd={preciseSpd}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.CR} edits={edits}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.CD} edits={edits}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.EHR} edits={edits}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.RES} edits={edits}/>
-        <StatRow finalStats={props.finalStats} stat={Stats.BE} edits={edits}/>
-        {(!props.simScore && props.finalStats[Stats.OHB] > epsilon) && <StatRow finalStats={props.finalStats} stat={Stats.OHB} edits={edits}/>}
-        {(props.showAll || props.finalStats[Stats.ERR] > epsilon || props.simScore == null) && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits}/>}
-        <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits}/>
-        {props.simScore != null && <StatRow finalStats={props.finalStats} stat='simScore' value={props.simScore}/>}
+        <StatRow finalStats={props.finalStats} stat={Stats.HP} edits={edits} />
+        <StatRow finalStats={props.finalStats} stat={Stats.ATK} edits={edits} />
+        <StatRow finalStats={props.finalStats} stat={Stats.DEF} edits={edits} />
+        <StatRow finalStats={props.finalStats} stat={Stats.SPD} edits={edits} preciseSpd={preciseSpd} />
+        <StatRow finalStats={props.finalStats} stat={Stats.CR} edits={edits} />
+        <StatRow finalStats={props.finalStats} stat={Stats.CD} edits={edits} />
+        <StatRow finalStats={props.finalStats} stat={Stats.EHR} edits={edits} />
+        <StatRow finalStats={props.finalStats} stat={Stats.RES} edits={edits} />
+        <StatRow finalStats={props.finalStats} stat={Stats.BE} edits={edits} />
+        {(!props.asyncSimScoringExecution && props.finalStats[Stats.OHB] > epsilon) && <StatRow finalStats={props.finalStats} stat={Stats.OHB} edits={edits} />}
+        {(props.showAll || props.finalStats[Stats.ERR] > epsilon || props.asyncSimScoringExecution == null) && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits} />}
+        <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits} />
+        {props.asyncSimScoringExecution != null && props.asyncSimScoringExecution.done
+          && <StatRow finalStats={props.finalStats} stat='simScore' value={props.asyncSimScoringExecution.result?.originalSimResult.simScore} />}
       </Flex>
     </StatText>
   )

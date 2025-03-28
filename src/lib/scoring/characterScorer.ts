@@ -42,36 +42,46 @@ const cachedSims: {
   [key: string]: SimulationScore
 } = {}
 
-export type AsyncSimScoringResult = {
+export type AsyncSimScoringExecution = {
   done: boolean
   result: SimulationScore | null
   promise: Promise<SimulationScore | null>
 }
 
-export function scoreCharacterSimulationAsync(
+export function getShowcaseSimScoringExecution(
   character: Character,
   displayRelics: RelicBuild,
   teamSelection: string,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
-): AsyncSimScoringResult {
-  const asyncResult: Partial<AsyncSimScoringResult> = {
+): AsyncSimScoringExecution {
+  console.log('Start async')
+  const asyncResult: Partial<AsyncSimScoringExecution> = {
     done: false,
     result: null,
   }
 
   asyncResult.promise = new Promise<SimulationScore | null>((resolve, reject) => {
-    const simScoringResult = scoreCharacterSimulation(
-      character,
-      displayRelics,
-      teamSelection,
-      showcaseTemporaryOptions,
-    )
+    console.log('Setting up async operation')
 
-    asyncResult.done = true
-    asyncResult.result = simScoringResult
+    setTimeout(() => {
+      console.log('Call scoreCharacterSimulation (async)')
+      const simScoringResult = scoreCharacterSimulation(
+        character,
+        displayRelics,
+        teamSelection,
+        showcaseTemporaryOptions,
+      )
+
+      asyncResult.done = true
+      asyncResult.result = simScoringResult
+      console.log('Resolve async')
+
+      resolve(simScoringResult)
+    }, 1500)
   })
 
-  return asyncResult as AsyncSimScoringResult
+  console.log('Return async')
+  return asyncResult as AsyncSimScoringExecution
 }
 
 export function scoreCharacterSimulation(
@@ -1082,160 +1092,6 @@ export function getSimScoreGrade(score: number, verified: boolean, numRelics: nu
   }
   return '?'
 }
-
-// 1.00 => SSS
-// const SimScoreGrades = {
-//   'WTF+': 115,
-//   'WTF': 110,
-//   'SSS+': 105,
-//   'SSS': 100,
-//   'SS+': 95,
-//   'SS': 90,
-//   'S+': 85,
-//   'S': 80,
-//   'A+': 75,
-//   'A': 70,
-//   'B+': 65,
-//   'B': 60,
-//   'C+': 55,
-//   'C': 50,
-//   'D+': 45,
-//   'D': 40,
-//   'F+': 35,
-//   'F': 30,
-// }
-
-// 1.00 => SSS, WTF nerf
-// const SimScoreGrades = {
-//   'WTF+': 130,
-//   'WTF': 120,
-//   'SSS+': 110,
-//   'SSS': 100,
-//   'SS+': 95,
-//   'SS': 90,
-//   'S+': 85,
-//   'S': 80,
-//   'A+': 75,
-//   'A': 70,
-//   'B+': 65,
-//   'B': 60,
-//   'C+': 55,
-//   'C': 50,
-//   'D+': 45,
-//   'D': 40,
-//   'F+': 35,
-//   'F': 30,
-// }
-
-// // 1.00 => SS+
-// const SimScoreGrades = {
-//   'WTF+': 120,
-//   'WTF': 115,
-//   'SSS+': 110,
-//   'SSS': 105,
-//   'SS+': 100,
-//   'SS': 95,
-//   'S+': 90,
-//   'S': 85,
-//   'A+': 80,
-//   'A': 75,
-//   'B+': 70,
-//   'B': 65,
-//   'C+': 60,
-//   'C': 55,
-//   'D+': 50,
-//   'D': 45,
-//   'F+': 40,
-//   'F': 35,
-// }
-
-// 1.00 => SS
-// const SimScoreGrades = {
-//   'WTF+': 125,
-//   'WTF': 120,
-//   'SSS+': 115,
-//   'SSS': 110,
-//   'SS+': 105,
-//   'SS': 100,
-//   'S+': 95,
-//   'S': 90,
-//   'A+': 85,
-//   'A': 80,
-//   'B+': 75,
-//   'B': 70,
-//   'C+': 65,
-//   'C': 60,
-//   'D+': 55,
-//   'D': 50,
-//   'F+': 45,
-//   'F': 40,
-// }
-
-// 1.00 => S+
-// const SimScoreGrades = {
-//   'WTF+': 130,
-//   'WTF': 125,
-//   'SSS+': 120,
-//   'SSS': 115,
-//   'SS+': 110,
-//   'SS': 105,
-//   'S+': 100,
-//   'S': 95,
-//   'A+': 90,
-//   'A': 85,
-//   'B+': 80,
-//   'B': 75,
-//   'C+': 70,
-//   'C': 65,
-//   'D+': 60,
-//   'D': 55,
-//   'F+': 50,
-//   'F': 45,
-// }
-
-// 1.00 => S
-// const SimScoreGrades = {
-//   'WTF+': 135,
-//   'WTF': 130,
-//   'SSS+': 125,
-//   'SSS': 120,
-//   'SS+': 115,
-//   'SS': 110,
-//   'S+': 105,
-//   'S': 100,
-//   'A+': 95,
-//   'A': 90,
-//   'B+': 85,
-//   'B': 80,
-//   'C+': 75,
-//   'C': 70,
-//   'D+': 65,
-//   'D': 60,
-//   'F+': 55,
-//   'F': 50,
-// }
-
-// // Gradual scale
-// const SimScoreGrades = {
-//   'WTF+': 140, // +10
-//   'WTF': 130, // +9
-//   'SSS+': 121, // +8
-//   'SSS': 113, // +7
-//   'SS+': 106, // +6
-//   'SS': 100, // +5
-//   'S+': 95,
-//   'S': 90,
-//   'A+': 85,
-//   'A': 80,
-//   'B+': 75,
-//   'B': 70,
-//   'C+': 65,
-//   'C': 60,
-//   'D+': 55,
-//   'D': 50,
-//   'F+': 45,
-//   'F': 40,
-// }
 
 // Gradual scale
 export const SimScoreGrades = {

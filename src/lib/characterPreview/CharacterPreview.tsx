@@ -6,7 +6,6 @@ import {
   getPreviewRelics,
   getShowcaseDisplayDimensions,
   getShowcaseMetadata,
-  getShowcaseSimScoringResult,
   getShowcaseStats,
   handleTeamSelection,
   ShowcaseDisplayDimensions,
@@ -14,7 +13,7 @@ import {
   showcaseOnEditOk,
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
-import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
+import { CharacterStatSummary, TestStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
 import {
@@ -42,6 +41,7 @@ import React, { useRef, useState } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import { Relic } from 'types/relic'
+import { AsyncSimScoringExecution, getShowcaseSimScoringExecution } from 'lib/scoring/characterScorer'
 
 const { useToken } = theme
 
@@ -127,12 +127,10 @@ export function CharacterPreview(props: {
   // ===== Simulation =====
 
   const currentSelection = handleTeamSelection(character, prevCharId, teamSelectionByCharacter)
-  const simScoringResult = getShowcaseSimScoringResult(
+  const asyncSimScoringExecution = getShowcaseSimScoringExecution(
     character,
     displayRelics,
-    scoringType,
     currentSelection,
-    showcaseMetadata,
     showcaseTemporaryOptions,
   )
 
@@ -267,36 +265,36 @@ export function CharacterPreview(props: {
 
           {/* Portrait left panel */}
           {source != ShowcaseSource.BUILDS_MODAL
-          && (
-            <Flex vertical gap={8} className='character-build-portrait'>
-              <ShowcasePortrait
-                source={source}
-                character={character}
-                displayDimensions={displayDimensions}
-                customPortrait={portraitToUse}
-                editPortraitModalOpen={editPortraitModalOpen}
-                setEditPortraitModalOpen={setEditPortraitModalOpen}
-                onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
-                artistName={artistName}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                setCharacterModalAdd={setCharacterModalAdd}
-                onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
-              />
-
-              {simScoringResult && (
-                <ShowcaseLightConeSmall
+            && (
+              <Flex vertical gap={8} className='character-build-portrait'>
+                <ShowcasePortrait
                   source={source}
                   character={character}
-                  showcaseMetadata={showcaseMetadata}
                   displayDimensions={displayDimensions}
+                  customPortrait={portraitToUse}
+                  editPortraitModalOpen={editPortraitModalOpen}
+                  setEditPortraitModalOpen={setEditPortraitModalOpen}
+                  onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
+                  artistName={artistName}
                   setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                   setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
                   setCharacterModalAdd={setCharacterModalAdd}
+                  onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
                 />
-              )}
-            </Flex>
-          )}
+
+                {asyncSimScoringExecution && (
+                  <ShowcaseLightConeSmall
+                    source={source}
+                    character={character}
+                    showcaseMetadata={showcaseMetadata}
+                    displayDimensions={displayDimensions}
+                    setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                    setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                    setCharacterModalAdd={setCharacterModalAdd}
+                  />
+                )}
+              </Flex>
+            )}
 
           {/* Character details middle panel */}
           <Flex vertical justify='space-between' gap={8} style={{}}>
@@ -328,9 +326,13 @@ export function CharacterPreview(props: {
                 finalStats={finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 scoringType={scoringType}
-                simScore={simScoringResult ? simScoringResult.originalSimResult.simScore : undefined}
+                asyncSimScoringExecution={asyncSimScoringExecution}
               />
 
+              <TestStatSummary
+                finalStats={finalStats}
+                asyncSimScoringExecution={asyncSimScoringExecution}
+              />
               {/* {simScoringResult && ( */}
               {/*  <> */}
               {/*    <ShowcaseDpsScoreHeader result={simScoringResult} relics={displayRelics}/> */}
@@ -358,8 +360,14 @@ export function CharacterPreview(props: {
               {/*      /> */}
               {/*    )} */}
 
-              {/*    <ShowcaseLightConeLargeName */}
+              {/*    <ShowcaseLightConeLarge */}
+              {/*      source={source} */}
+              {/*      character={character} */}
               {/*      showcaseMetadata={showcaseMetadata} */}
+              {/*      displayDimensions={displayDimensions} */}
+              {/*      setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter} */}
+              {/*      setOriginalCharacterModalOpen={setOriginalCharacterModalOpen} */}
+              {/*      setCharacterModalAdd={setCharacterModalAdd} */}
               {/*    /> */}
               {/*  </> */}
               {/* )} */}
@@ -395,7 +403,7 @@ export function CharacterPreview(props: {
         </Flex>
       </ConfigProvider>
 
-      <CharacterAnnouncement characterId={showcaseMetadata.characterId}/>
+      <CharacterAnnouncement characterId={showcaseMetadata.characterId} />
 
       {/* Showcase analysis footer */}
       {/* {source != ShowcaseSource.BUILDS_MODAL */}

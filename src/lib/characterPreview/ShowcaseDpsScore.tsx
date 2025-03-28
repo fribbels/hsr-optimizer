@@ -3,6 +3,7 @@ import { Button, Card, ConfigProvider, Flex, Segmented } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades } from 'lib/characterPreview/CharacterScoringSummary'
+import { useAsyncSimScoringExecution } from 'lib/characterPreview/CharacterStatSummary'
 import StatText from 'lib/characterPreview/StatText'
 import { COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
@@ -20,12 +21,11 @@ import React, { CSSProperties, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
-import { useAsyncSimScoringExecution } from 'lib/characterPreview/CharacterStatSummary'
 
 export function ShowcaseDpsScorePanel(props: {
   characterId: string
   token: GlobalToken
-  simScoringResult: SimulationScore
+  asyncSimScoringExecution: AsyncSimScoringExecution
   teamSelection: string
   combatScoreDetails: string
   displayRelics: SingleRelicByPart
@@ -35,7 +35,7 @@ export function ShowcaseDpsScorePanel(props: {
   const {
     characterId,
     token,
-    simScoringResult,
+    asyncSimScoringExecution,
     teamSelection,
     combatScoreDetails,
     displayRelics,
@@ -46,6 +46,7 @@ export function ShowcaseDpsScorePanel(props: {
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
+  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
   return (
     <Flex
@@ -211,13 +212,15 @@ export function ShowcaseDpsScoreHeader(props: {
       </StatText>
       <StatText style={textStyle}>
         {
-          t(
-            'CharacterPreview.ScoreHeader.Score',
-            {
-              score: localeNumber_0(Utils.truncate10ths(Math.max(0, (simScoringExecution?.result?.percent ?? 0) * 100))),
-              grade: getSimScoreGrade(simScoringExecution?.result?.percent ?? 0, verified, numRelics, lightCone),
-            },
-          )
+          !simScoringExecution?.done
+            ? 'Loading...'
+            : t(
+              'CharacterPreview.ScoreHeader.Score',
+              {
+                score: localeNumber_0(Utils.truncate10ths(Math.max(0, (simScoringExecution?.result?.percent ?? 0) * 100))),
+                grade: getSimScoreGrade(simScoringExecution?.result?.percent ?? 0, verified, numRelics, lightCone),
+              },
+            )
           /* DPS Score {{score}}% {{grade}} */
         }
       </StatText>
@@ -225,7 +228,7 @@ export function ShowcaseDpsScoreHeader(props: {
   )
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ filter: !simScoringExecution?.done ? 'blur(2px)' : 'none' }}>
       {textDisplay}
     </Flex>
   )

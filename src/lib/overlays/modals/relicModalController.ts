@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { MainStats, Sets, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
+import { MainStats, Parts, Sets, SetsOrnamentsNames, SetsRelicsNames, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
@@ -24,7 +24,7 @@ type RelicFormStat = {
 }
 
 export type RelicForm = {
-  part: string
+  part: Parts
   mainStatType: MainStats
   mainStatValue: number
   set: Sets
@@ -223,7 +223,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
       const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
-      const upgrades: RelicUpgradeValues = Utils.clone(SubStatValues[stat as SubStats][relicForm.grade])
+      const upgrades: RelicUpgradeValues = TsUtils.clone(SubStatValues[stat as SubStats][relicForm.grade as 5 | 4 | 3 | 2])
 
       if (Utils.isFlat(stat) && stat != Stats.SPD) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)

@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react'
 const epsilon = 0.001
 
 // Custom hook to track AsyncSimScoringExecution state
-function useAsyncSimScoringExecution(asyncSimScoringExecution: AsyncSimScoringExecution | null) {
+export function useAsyncSimScoringExecution(asyncSimScoringExecution: AsyncSimScoringExecution | null) {
   const [forceRender, setForceRender] = useState(0)
 
   useEffect(() => {

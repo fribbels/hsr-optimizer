@@ -61,6 +61,8 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
     )
   }
 
+  const result = simScoringExecution.result!
+
   return (
     <Flex vertical style={{ minHeight: 1000 }}>
       <Flex justify='center' gap={10}>
@@ -151,12 +153,12 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
         </Flex>
       </Flex>
       <MemoizedCharacterScoringSummary
-        simScoringResult={props.simScoringResult}
+        simScoringResult={result}
         displayRelics={props.displayRelics}
         showcaseMetadata={props.showcaseMetadata}
       />
       <StatScoringSummary
-        scoringType={simScoringResult ? props.scoringType : CHARACTER_SCORE}
+        scoringType={result ? props.scoringType : CHARACTER_SCORE}
         displayRelics={props.displayRelics}
         showcaseMetadata={props.showcaseMetadata}
       />

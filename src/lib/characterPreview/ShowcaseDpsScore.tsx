@@ -52,7 +52,7 @@ export function ShowcaseDpsScorePanel(props: {
     return (
       <span
         style={{
-          filter: 'blur(2px)',
+          filter: 'blur(20px)',
           minHeight: 157,
         }}
       >

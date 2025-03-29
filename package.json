@@ -19,7 +19,7 @@
     "antd": "5.22.7",
     "chroma-js": "^3.1.2",
     "fast-sort": "^3.4.0",
-    "html-to-image": "^1.11.11",
+    "html-to-image": "^1.11.13",
     "i18next": "^23.14.0",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.6.1",

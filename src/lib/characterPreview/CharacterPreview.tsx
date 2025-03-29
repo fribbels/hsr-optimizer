@@ -14,6 +14,7 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
+import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
 import {
@@ -24,7 +25,7 @@ import {
   standardShowcasePreferences,
   urlToColorCache,
 } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
-import { ShowcaseDpsScoreHeader } from 'lib/characterPreview/ShowcaseDpsScore'
+import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
@@ -334,18 +335,18 @@ export function CharacterPreview(props: {
                 <>
                   <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics}/>
 
-                  {/* <ShowcaseDpsScorePanel */}
-                  {/*  characterId={showcaseMetadata.characterId} */}
-                  {/*  token={seedToken} */}
-                  {/*  asyncSimScoringExecution={asyncSimScoringExecution} */}
-                  {/*  teamSelection={currentSelection} */}
-                  {/*  combatScoreDetails={combatScoreDetails} */}
-                  {/*  displayRelics={displayRelics} */}
-                  {/*  setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter} */}
-                  {/*  setRedrawTeammates={setRedrawTeammates} */}
-                  {/* /> */}
+                  <ShowcaseDpsScorePanel
+                    characterId={showcaseMetadata.characterId}
+                    token={seedToken}
+                    asyncSimScoringExecution={asyncSimScoringExecution}
+                    teamSelection={currentSelection}
+                    combatScoreDetails={combatScoreDetails}
+                    displayRelics={displayRelics}
+                    setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
+                    setRedrawTeammates={setRedrawTeammates}
+                  />
 
-                  {/* <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} asyncSimScoringExecution={asyncSimScoringExecution}/> */}
+                  <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} asyncSimScoringExecution={asyncSimScoringExecution}/>
                 </>
               )}
 
@@ -403,19 +404,19 @@ export function CharacterPreview(props: {
       <CharacterAnnouncement characterId={showcaseMetadata.characterId}/>
 
       {/* Showcase analysis footer */}
-      {/* {source != ShowcaseSource.BUILDS_MODAL */}
-      {/* && ( */}
-      {/*  <ShowcaseBuildAnalysis */}
-      {/*    token={token} */}
-      {/*    simScoringResult={simScoringResult!} */}
-      {/*    combatScoreDetails={combatScoreDetails} */}
-      {/*    showcaseMetadata={showcaseMetadata} */}
-      {/*    scoringType={scoringType} */}
-      {/*    displayRelics={displayRelics} */}
-      {/*    setScoringType={setScoringType} */}
-      {/*    setCombatScoreDetails={setCombatScoreDetails} */}
-      {/*  /> */}
-      {/* )} */}
+      {source != ShowcaseSource.BUILDS_MODAL
+      && (
+        <ShowcaseBuildAnalysis
+          token={token}
+          asyncSimScoringExecution={asyncSimScoringExecution}
+          combatScoreDetails={combatScoreDetails}
+          showcaseMetadata={showcaseMetadata}
+          scoringType={scoringType}
+          displayRelics={displayRelics}
+          setScoringType={setScoringType}
+          setCombatScoreDetails={setCombatScoreDetails}
+        />
+      )}
     </Flex>
   )
 }

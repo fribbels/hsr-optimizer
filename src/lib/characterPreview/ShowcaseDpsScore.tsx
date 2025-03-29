@@ -48,6 +48,20 @@ export function ShowcaseDpsScorePanel(props: {
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
   const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
+  if (!simScoringExecution?.done) {
+    return (
+      <span
+        style={{
+          filter: 'blur(2px)',
+          minHeight: 157,
+        }}
+      >
+      </span>
+    )
+  }
+
+  const result = simScoringExecution?.result!
+
   return (
     <Flex
       vertical
@@ -55,7 +69,7 @@ export function ShowcaseDpsScorePanel(props: {
       <Flex justify='space-around' style={{ padding: '0 5px' }}>
         <CharacterPreviewScoringTeammate
           index={0}
-          result={simScoringResult}
+          result={result}
           token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -63,7 +77,7 @@ export function ShowcaseDpsScorePanel(props: {
         />
         <CharacterPreviewScoringTeammate
           index={1}
-          result={simScoringResult}
+          result={result}
           token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -71,7 +85,7 @@ export function ShowcaseDpsScorePanel(props: {
         />
         <CharacterPreviewScoringTeammate
           index={2}
-          result={simScoringResult}
+          result={result}
           token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -95,12 +109,28 @@ export function ShowcaseDpsScorePanel(props: {
 
 export function ShowcaseCombatScoreDetailsFooter(props: {
   combatScoreDetails: string
-  simScoringResult: SimulationScore
+  asyncSimScoringExecution: AsyncSimScoringExecution
 }) {
   const {
     combatScoreDetails,
-    simScoringResult,
+    asyncSimScoringExecution,
   } = props
+
+  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+
+  if (!simScoringExecution?.done) {
+    return (
+      <span
+        style={{
+          filter: 'blur(2px)',
+          minHeight: 182,
+        }}
+      >
+      </span>
+    )
+  }
+
+  const result = simScoringExecution.result!
 
   return (
     <>
@@ -108,7 +138,7 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
         combatScoreDetails == DAMAGE_UPGRADES
         && (
           <Flex vertical gap={defaultGap}>
-            <CharacterCardScoringStatUpgrades result={simScoringResult} />
+            <CharacterCardScoringStatUpgrades result={result}/>
           </Flex>
         )
       }
@@ -117,7 +147,7 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
         combatScoreDetails == COMBAT_STATS
         && (
           <Flex vertical gap={defaultGap}>
-            <CharacterCardCombatStats result={simScoringResult} />
+            <CharacterCardCombatStats result={result}/>
           </Flex>
         )
       }
@@ -168,8 +198,8 @@ function CharacterPreviewScoringTeammate(props: {
             border: showcaseOutline,
           }}
         />
-        <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12} />
-        <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }} />
+        <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>
+        <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }}/>
         <OverlayText
           text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
           top={-18}
@@ -213,7 +243,7 @@ export function ShowcaseDpsScoreHeader(props: {
       <StatText style={textStyle}>
         {
           !simScoringExecution?.done
-            ? 'Loading...'
+            ? 'DPS Score Loading...'
             : t(
               'CharacterPreview.ScoreHeader.Score',
               {
@@ -296,7 +326,7 @@ function ShowcaseTeamSelectPanel(props: {
                 <Flex vertical gap={10}>
                   <HeaderText>{t('modals:ScoreFooter.ModalTitle')/* Combat sim scoring settings */}</HeaderText>
                   <Button
-                    icon={<SyncOutlined />}
+                    icon={<SyncOutlined/>}
                     onClick={() => {
                       const characterMetadata = Utils.clone(DB.getMetadata().characters[characterId])
                       const simulation = characterMetadata.scoringMetadata.simulation
@@ -312,7 +342,7 @@ function ShowcaseTeamSelectPanel(props: {
                     {t('modals:ScoreFooter.ResetButtonText')/* Reset custom team to default */}
                   </Button>
                   <Button
-                    icon={<SwapOutlined />}
+                    icon={<SwapOutlined/>}
                     onClick={() => {
                       const characterMetadata = Utils.clone(DB.getScoringMetadata(characterId))
                       const simulation = characterMetadata.simulation
@@ -358,7 +388,7 @@ function ShowcaseTeamSelectPanel(props: {
         },
         {
           label: (
-            <SettingOutlined />
+            <SettingOutlined/>
           ),
           value: SETTINGS_TEAM,
           className: 'short-segmented',

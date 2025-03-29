@@ -3,10 +3,12 @@ import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
+import { useAsyncSimScoringExecution } from 'lib/characterPreview/CharacterStatSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { CHARACTER_SCORE, COMBAT_STATS, DAMAGE_UPGRADES, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { AsyncSimScoringExecution } from 'lib/scoring/characterScorer'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -19,7 +21,7 @@ interface ShowcaseBuildAnalysisProps {
   token: GlobalToken
   scoringType: string
   combatScoreDetails: string
-  simScoringResult: SimulationScore | undefined
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
   showcaseMetadata: ShowcaseMetadata
   displayRelics: SingleRelicByPart
   setScoringType: (s: string) => void
@@ -34,7 +36,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const {
     token,
     combatScoreDetails,
-    simScoringResult,
+    asyncSimScoringExecution,
     showcaseMetadata,
     scoringType,
     setScoringType,
@@ -44,6 +46,20 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const {
     characterMetadata,
   } = showcaseMetadata
+
+  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+
+  if (!simScoringExecution?.done) {
+    return (
+      <span
+        style={{
+          filter: 'blur(2px)',
+          minHeight: 182,
+        }}
+      >
+      </span>
+    )
+  }
 
   return (
     <Flex vertical style={{ minHeight: 1000 }}>

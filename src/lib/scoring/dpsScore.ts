@@ -1,0 +1,386 @@
+import { CUSTOM_TEAM } from 'lib/constants/constants'
+import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Character } from 'types/character'
+import { ScoringMetadata, ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
+
+const cachedSims: {
+  [key: string]: SimulationScore
+} = {}
+
+export function scoreCharacterSimulation(
+  character: Character,
+  displayRelics: RelicBuild,
+  teamSelection: string,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+  defaultScoringMetadata: ScoringMetadata,
+  customScoringMetadata: ScoringMetadata,
+): SimulationScore | null {
+  const originalForm = character.form
+  const characterId = originalForm.characterId
+  const characterEidolon = originalForm.characterEidolon
+  const lightCone = originalForm.lightCone
+  const lightConeSuperimposition = originalForm.lightConeSuperimposition
+
+  if (!defaultScoringMetadata?.simulation) {
+    console.log('No scoring sim defined for this character')
+    return null
+  }
+
+  if (!characterId || !originalForm) {
+    console.log('Invalid character sim setup')
+    return null
+  }
+
+  const metadata: SimulationMetadata = TsUtils.clone(defaultScoringMetadata.simulation)
+  const customMetadata: SimulationMetadata = TsUtils.clone(customScoringMetadata.simulation!)
+  const traces = customScoringMetadata.traces
+  const deprioritizeBuffs = customMetadata.deprioritizeBuffs ?? false
+
+  if (teamSelection == CUSTOM_TEAM) {
+    metadata.teammates = customMetadata.teammates
+  }
+  //
+  // const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
+  //
+  // const cacheKey = TsUtils.objectHash({
+  //   traces,
+  //   characterId,
+  //   characterEidolon,
+  //   lightCone,
+  //   lightConeSuperimposition,
+  //   relicsByPart,
+  //   metadata,
+  //   customMetadata,
+  //   showcaseTemporaryOptions,
+  // })
+  //
+  // if (cachedSims[cacheKey]) {
+  //   return cachedSims[cacheKey]
+  // }
+  //
+  // const simulationFlags: SimulationFlags = {
+  //   addBreakEffect: false,
+  //   overcapCritRate: false,
+  //   simPoetActive: false,
+  //   characterPoetActive: false,
+  //   forceBasicSpd: true,
+  //   forceBasicSpdValue: 0,
+  // }
+  //
+  // // Optimize requested stats
+  //
+  // const substats: string[] = metadata.substats
+  //
+  // // Special handling for break effect carries
+  // if (metadata.comboBreak > 0) {
+  //   // Add break if the combo uses it
+  //   simulationFlags.addBreakEffect = true
+  // }
+  // if (metadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
+  //   // Add break if the harmony trailblazer | fugue is on the team
+  //   simulationFlags.addBreakEffect = true
+  // }
+  // if (simulationFlags.addBreakEffect && !substats.includes(Stats.BE)) {
+  //   substats.push(Stats.BE)
+  // }
+  // if (simulationFlags.addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
+  //   metadata.parts[Parts.LinkRope].push(Stats.BE)
+  // }
+  // if (simulationFlags.addBreakEffect
+  //   && !metadata.relicSets.find((sets) =>
+  //     sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+  //   metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  // }
+  // if (simulationFlags.addBreakEffect
+  //   && !metadata.relicSets.find((sets) =>
+  //     sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+  //   metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  // }
+  // if (simulationFlags.addBreakEffect
+  //   && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
+  //   metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
+  // }
+  // if (simulationFlags.addBreakEffect
+  //   && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
+  //   metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+  // }
+  // if (metadata.teammates.find((x) => x.characterId == '1313' && x.characterEidolon == 6)) {
+  //   simulationFlags.overcapCritRate = true
+  // }
+  //
+  // // Get the simulation sets
+  //
+  // const simulationSets = calculateSimSets(metadata, relicsByPart)
+  //
+  // if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse
+  //   && relicsByPart.Hands.set == Sets.PoetOfMourningCollapse
+  //   && relicsByPart.Body.set == Sets.PoetOfMourningCollapse
+  //   && relicsByPart.Feet.set == Sets.PoetOfMourningCollapse
+  // ) {
+  //   simulationFlags.characterPoetActive = true
+  // }
+  //
+  // if (simulationSets.relicSet1 == Sets.PoetOfMourningCollapse && simulationSets.relicSet2 == Sets.PoetOfMourningCollapse) {
+  //   simulationFlags.simPoetActive = true
+  // }
+  //
+  // // Set up default request
+  //
+  // const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
+  // const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
+  //   metadata.teammates[0].lightCone,
+  //   metadata.teammates[0].characterEidolon,
+  //   metadata.teammates[0].lightConeSuperimposition,
+  //   true)
+  // const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId,
+  //   metadata.teammates[1].lightCone,
+  //   metadata.teammates[1].characterEidolon,
+  //   metadata.teammates[1].lightConeSuperimposition,
+  //   true)
+  // const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId,
+  //   metadata.teammates[2].lightCone,
+  //   metadata.teammates[2].characterEidolon,
+  //   metadata.teammates[2].lightConeSuperimposition,
+  //   true)
+  // simulationForm.teammate0 = simulationFormT0
+  // simulationForm.teammate1 = simulationFormT1
+  // simulationForm.teammate2 = simulationFormT2
+  //
+  // simulationForm.deprioritizeBuffs = deprioritizeBuffs
+  //
+  // // Cache context for reuse
+  //
+  // const context = generateContext(simulationForm)
+  //
+  // // Generate scoring function
+  //
+  // const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
+  //   if (!result) return
+  //
+  //   result.unpenalizedSimScore = result.xa[Key.COMBO_DMG]
+  //   result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
+  //   result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
+  // }
+  //
+  // // ===== Simulate the original build =====
+  //
+  // let {
+  //   originalSimResult,
+  //   originalSim,
+  // } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+  //
+  // const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
+  //
+  // // ===== Simulate the baseline build =====
+  //
+  // const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
+  //   relicsByPart,
+  //   simulationForm,
+  //   context,
+  //   simulationSets,
+  //   benchmarkScoringParams,
+  //   simulationFlags,
+  // )
+  // applyScoringFunction(baselineSimResult)
+  //
+  // // Special handling for poet - force the spd to certain thresholds when poet is active
+  //
+  // const spdBenchmark = showcaseTemporaryOptions.spdBenchmark != null
+  //   ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
+  //   : null
+  //
+  // if (simulationFlags.simPoetActive) {
+  //   // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
+  //   if (baselineSimResult[Stats.SPD] < 95) {
+  //     simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.999, spdBenchmark ?? 94.999)
+  //   } else if (baselineSimResult[Stats.SPD] < 110) {
+  //     simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
+  //   } else {
+  //     // No-op
+  //   }
+  // } else {
+  //   // When the sim does not have poet, force the original spd and proceed as regular
+  //   simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
+  // }
+  //
+  // // ===== Simulate the forced spd build =====
+  //
+  // const {
+  //   originalSimResult: forcedSpdSimResult,
+  //   originalSim: forcedSpdSim,
+  // } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+  //
+  // // ===== Calculate the benchmarks' speed target =====
+  //
+  // let targetSpd: number
+  // if (simulationFlags.characterPoetActive) {
+  //   // When the original character has poet, benchmark against the original character
+  //   targetSpd = forcedSpdSimResult.xa[Key.SPD]
+  // } else {
+  //   if (simulationFlags.simPoetActive) {
+  //     // We don't want to have the original character's combat stats penalized by poet if they're not on poet
+  //     targetSpd = simulationFlags.forceBasicSpdValue
+  //   } else {
+  //     originalSimResult = forcedSpdSimResult
+  //     originalSim = forcedSpdSim
+  //     targetSpd = originalSimResult.xa[Key.SPD]
+  //   }
+  // }
+  //
+  // applyScoringFunction(originalSimResult)
+  //
+  // // Generate partials to calculate speed rolls
+  //
+  // const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
+  // const candidateBenchmarkSims: Simulation[] = []
+  //
+  // // Run benchmark sims
+  // for (const partialSimulationWrapper of partialSimulationWrappers) {
+  //   const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
+  //
+  //   // Find the speed deduction
+  //   const finalSpeed = simulationResult.xa[Key.SPD]
+  //   partialSimulationWrapper.finalSpeed = finalSpeed
+  //
+  //   const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
+  //   const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, benchmarkScoringParams.speedRollValue), 3)
+  //
+  //   partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, benchmarkScoringParams))
+  //
+  //   if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+  //     console.log('Rejected candidate sim with non SPD boots')
+  //     continue
+  //   }
+  //
+  //   // Define min/max limits
+  //   const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams, simulationFlags)
+  //   const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, simulationFlags)
+  //
+  //   // Start the sim search at the max then iterate downwards
+  //   Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
+  //
+  //   const candidateBenchmarkSim = computeOptimalSimulation(
+  //     partialSimulationWrapper,
+  //     minSubstatRollCounts,
+  //     maxSubstatRollCounts,
+  //     simulationForm,
+  //     context,
+  //     applyScoringFunction,
+  //     metadata,
+  //     benchmarkScoringParams,
+  //     simulationFlags,
+  //   )
+  //   applyScoringFunction(candidateBenchmarkSim.result)
+  //
+  //   // DEBUG
+  //   candidateBenchmarkSim.key = JSON.stringify(candidateBenchmarkSim.request)
+  //   candidateBenchmarkSim.name = ''
+  //
+  //   if (partialSimulationWrapper.simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+  //     // Reject non speed boot builds that exceed the speed cap. 48 - 11 * 2 = 26 max subs that can go in to SPD
+  //     console.log('Rejected candidate sim')
+  //   } else {
+  //     candidateBenchmarkSims.push(candidateBenchmarkSim)
+  //   }
+  // }
+  //
+  // // Try to minimize the penalty modifier before optimizing sim score
+  //
+  // candidateBenchmarkSims.sort(simSorter)
+  // const benchmarkSim = candidateBenchmarkSims[0]
+  // const benchmarkSimResult = benchmarkSim.result
+  //
+  // // console.log('bestSims', candidateBenchmarkSims)
+  //
+  // // ===== Calculate the maximum build =====
+  //
+  // const maximumSim = simulateMaximumBuild(
+  //   benchmarkSim,
+  //   targetSpd,
+  //   metadata,
+  //   simulationForm,
+  //   context,
+  //   applyScoringFunction,
+  //   baselineSimResult,
+  //   originalSimResult,
+  //   simulationFlags,
+  // )
+  // const maximumSimResult = maximumSim.result
+  // applyScoringFunction(maximumSimResult)
+  //
+  // // ===== Calculate percentage values =====
+  //
+  // const benchmarkSimScore = benchmarkSimResult.simScore
+  // const originalSimScore = originalSimResult.simScore
+  // const baselineSimScore = baselineSimResult.simScore
+  // const maximumSimScore = maximumSimResult.simScore
+  //
+  // const percent = originalSimScore >= benchmarkSimScore
+  //   ? 1 + (originalSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+  //   : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+  //
+  // // ===== Calculate upgrades =====
+  //
+  // const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
+  //   originalSimResult,
+  //   originalSim, candidateBenchmarkSims[0],
+  //   simulationForm,
+  //   context,
+  //   metadata,
+  //   applyScoringFunction,
+  //   benchmarkScoringParams,
+  // )
+  //
+  // for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
+  //   const upgradeSimScore = upgrade.simulationResult.simScore
+  //   const percent = upgradeSimScore >= benchmarkSimScore
+  //     ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+  //     : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+  //   upgrade.percent = percent
+  // }
+  //
+  // // Sort upgrades descending
+  // substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  // setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  // mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  //
+  // const simScoringResult: SimulationScore = {
+  //   percent: percent,
+  //
+  //   originalSim: originalSim,
+  //   baselineSim: baselineSim,
+  //   benchmarkSim: benchmarkSim,
+  //   maximumSim: maximumSim,
+  //
+  //   originalSimResult: originalSimResult,
+  //   baselineSimResult: baselineSimResult,
+  //   benchmarkSimResult: benchmarkSimResult,
+  //   maximumSimResult: maximumSimResult,
+  //
+  //   originalSimScore: originalSimScore,
+  //   baselineSimScore: baselineSimScore,
+  //   benchmarkSimScore: benchmarkSimScore,
+  //   maximumSimScore: maximumSimScore,
+  //
+  //   substatUpgrades: substatUpgradeResults,
+  //   setUpgrades: setUpgradeResults,
+  //   mainUpgrades: mainUpgradeResults,
+  //
+  //   simulationForm: simulationForm,
+  //   simulationMetadata: metadata,
+  //   characterMetadata: characterMetadata,
+  //
+  //   originalSpd: originalSpd,
+  //   spdBenchmark: spdBenchmark,
+  //   simulationFlags: simulationFlags,
+  // }
+  //
+  // cachedSims[cacheKey] = simScoringResult
+  //
+  // // console.log('simScoringResult', simScoringResult)
+  //
+  // return simScoringResult
+
+  return null
+}

@@ -2,13 +2,15 @@ import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
 import DpsScoreWorker from 'lib/worker/baseWorker.ts?worker&inline'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Character } from 'types/character'
-import { ShowcaseTemporaryOptions } from 'types/metadata'
+import { ScoringMetadata, ShowcaseTemporaryOptions } from 'types/metadata'
 
 export type DpsScoreRunnerInput = {
   character: Character
   displayRelics: RelicBuild
   teamSelection: string
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
+  defaultScoringMetadata: ScoringMetadata
+  customScoringMetadata: ScoringMetadata
 }
 
 export type DpsScoreRunnerOutput = {
@@ -20,6 +22,8 @@ export type DpsScoreWorkerInput = {
   displayRelics: RelicBuild
   teamSelection: string
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
+  defaultScoringMetadata: ScoringMetadata
+  customScoringMetadata: ScoringMetadata
   workerType: WorkerType
 }
 

@@ -1,4 +1,4 @@
-import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
+import { scoreCharacterSimulation } from 'lib/scoring/dpsScore'
 import { DpsScoreWorkerInput } from 'lib/worker/dpsScoreWorkerRunner'
 
 export function dpsScoreWorker(e: MessageEvent<DpsScoreWorkerInput>) {
@@ -9,6 +9,8 @@ export function dpsScoreWorker(e: MessageEvent<DpsScoreWorkerInput>) {
     input.displayRelics,
     input.teamSelection,
     input.showcaseTemporaryOptions,
+    input.defaultScoringMetadata,
+    input.customScoringMetadata,
   )
 
   self.postMessage({

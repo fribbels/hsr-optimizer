@@ -29,6 +29,7 @@ import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import { DpsScoreRunnerOutput, runDpsScoreWorker } from 'lib/worker/dpsScoreWorkerRunner'
 import { Character } from 'types/character'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
@@ -65,18 +66,25 @@ export function getShowcaseSimScoringExecution(
 
     setTimeout(() => {
       console.log('Call scoreCharacterSimulation (async)')
-      const simScoringResult = scoreCharacterSimulation(
+      // const simScoringResult = scoreCharacterSimulation(
+      //   character,
+      //   displayRelics,
+      //   teamSelection,
+      //   showcaseTemporaryOptions,
+      // )
+
+      void runDpsScoreWorker({
         character,
         displayRelics,
         teamSelection,
         showcaseTemporaryOptions,
-      )
+      }, (output: DpsScoreRunnerOutput) => {
+        asyncResult.done = true
+        asyncResult.result = output.simScoringResult
+        console.log('Resolve async')
 
-      asyncResult.done = true
-      asyncResult.result = simScoringResult
-      console.log('Resolve async')
-
-      resolve(simScoringResult)
+        resolve(output.simScoringResult)
+      })
     }, 1500)
   })
 

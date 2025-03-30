@@ -17,7 +17,7 @@ import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
-import {
+import ShowcaseCustomizationSidebar, {
   defaultShowcasePreferences,
   getDefaultColor,
   getOverrideColorMode,
@@ -210,22 +210,20 @@ export function CharacterPreview(props: {
         setOpen={setAddModalOpen}
         open={addModalOpen}
       />
-      {/* <ShowcaseCustomizationSidebar */}
-      {/*  ref={sidebarRef} */}
-      {/*  source={source} */}
-      {/*  id={props.id} */}
-      {/*  characterId={character.id} */}
-      {/*  simScoringResult={simScoringResult} */}
-      {/*  token={seedToken} */}
-      {/*  showcasePreferences={characterShowcasePreferences} */}
-      {/*  setOverrideTheme={() => { */}
-      {/*  }} */}
-      {/*  scoringType={scoringType} */}
-      {/*  seedColor={overrideSeedColor} */}
-      {/*  setSeedColor={setSeedColor} */}
-      {/*  colorMode={overrideColorMode} */}
-      {/*  setColorMode={setColorMode} */}
-      {/* /> */}
+      <ShowcaseCustomizationSidebar
+        ref={sidebarRef}
+        source={source}
+        id={props.id}
+        characterId={character.id}
+        asyncSimScoringExecution={asyncSimScoringExecution}
+        token={seedToken}
+        showcasePreferences={characterShowcasePreferences}
+        scoringType={scoringType}
+        seedColor={overrideSeedColor}
+        setSeedColor={setSeedColor}
+        colorMode={overrideColorMode}
+        setColorMode={setColorMode}
+      />
 
       <ConfigProvider theme={seedTheme}>
 
@@ -265,8 +263,7 @@ export function CharacterPreview(props: {
           />
 
           {/* Portrait left panel */}
-          {source != ShowcaseSource.BUILDS_MODAL
-          && (
+          {source != ShowcaseSource.BUILDS_MODAL && (
             <Flex vertical gap={8} className='character-build-portrait'>
               <ShowcasePortrait
                 source={source}

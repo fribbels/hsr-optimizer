@@ -2,10 +2,10 @@ import { SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, ConfigProvider, Flex, Segmented } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
-import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades } from 'lib/characterPreview/CharacterScoringSummary'
+import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterScoringSummary'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/CharacterStatSummary'
 import StatText from 'lib/characterPreview/StatText'
-import { COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
+import { CUSTOM_TEAM, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
@@ -27,7 +27,6 @@ export function ShowcaseDpsScorePanel(props: {
   token: GlobalToken
   asyncSimScoringExecution: AsyncSimScoringExecution
   teamSelection: string
-  combatScoreDetails: string
   displayRelics: SingleRelicByPart
   setTeamSelectionByCharacter: (t: Record<string, string>) => void
   setRedrawTeammates: (n: number) => void
@@ -37,7 +36,6 @@ export function ShowcaseDpsScorePanel(props: {
     token,
     asyncSimScoringExecution,
     teamSelection,
-    combatScoreDetails,
     displayRelics,
     setTeamSelectionByCharacter,
     setRedrawTeammates,
@@ -108,15 +106,13 @@ export function ShowcaseDpsScorePanel(props: {
 }
 
 export function ShowcaseCombatScoreDetailsFooter(props: {
-  combatScoreDetails: string
-  asyncSimScoringExecution: AsyncSimScoringExecution
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
 }) {
   const {
-    combatScoreDetails,
     asyncSimScoringExecution,
   } = props
 
-  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
   if (!simScoringExecution?.done) {
     return (
@@ -133,25 +129,9 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
   const result = simScoringExecution.result!
 
   return (
-    <>
-      {
-        combatScoreDetails == DAMAGE_UPGRADES
-        && (
-          <Flex vertical gap={defaultGap}>
-            <CharacterCardScoringStatUpgrades result={result}/>
-          </Flex>
-        )
-      }
-
-      {
-        combatScoreDetails == COMBAT_STATS
-        && (
-          <Flex vertical gap={defaultGap}>
-            <CharacterCardCombatStats result={result}/>
-          </Flex>
-        )
-      }
-    </>
+    <Flex vertical gap={defaultGap}>
+      <CharacterCardCombatStats result={result}/>
+    </Flex>
   )
 }
 

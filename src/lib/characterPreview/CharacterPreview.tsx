@@ -29,7 +29,7 @@ import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsSc
 import { ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
-import { COMBAT_STATS, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import { ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
@@ -75,7 +75,6 @@ export function CharacterPreview(props: {
   const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
 
   const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
-  const [combatScoreDetails, setCombatScoreDetails] = useState(COMBAT_STATS)
   const prevCharId = useRef<string | undefined>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
@@ -340,13 +339,12 @@ export function CharacterPreview(props: {
                     token={seedToken}
                     asyncSimScoringExecution={asyncSimScoringExecution}
                     teamSelection={currentSelection}
-                    combatScoreDetails={combatScoreDetails}
                     displayRelics={displayRelics}
                     setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
                     setRedrawTeammates={setRedrawTeammates}
                   />
 
-                  <ShowcaseCombatScoreDetailsFooter combatScoreDetails={combatScoreDetails} asyncSimScoringExecution={asyncSimScoringExecution}/>
+                  <ShowcaseCombatScoreDetailsFooter asyncSimScoringExecution={asyncSimScoringExecution}/>
                 </>
               )}
 
@@ -409,12 +407,10 @@ export function CharacterPreview(props: {
         <ShowcaseBuildAnalysis
           token={token}
           asyncSimScoringExecution={asyncSimScoringExecution}
-          combatScoreDetails={combatScoreDetails}
           showcaseMetadata={showcaseMetadata}
           scoringType={scoringType}
           displayRelics={displayRelics}
           setScoringType={setScoringType}
-          setCombatScoreDetails={setCombatScoreDetails}
         />
       )}
     </Flex>

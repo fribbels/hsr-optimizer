@@ -11,11 +11,6 @@
     "pnpm": ">=999.0.0",
     "yarn": ">=999.0.0"
   },
-  "overrides": {
-    "@jimp/core": {
-      "phin": "3.7.1"
-    }
-  },
   "scripts": {
     "start": "vite",
     "start:prod": "vite build && vite preview",
@@ -78,7 +73,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0",
+    "@playwright/test": "^1.51.1",
     "@stylistic/eslint-plugin": "^1.8.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -103,5 +98,13 @@
     "vite": "^6.2.3",
     "vite-tsconfig-paths": "^4.3.1",
     "vitest": "^3.0.9"
+  },
+  "overrides": {
+    "@jimp/core": {
+      "phin": "3.7.1"
+    },
+    "@typescript-eslint/utils": {
+      "eslint": "$ROOT"
+    }
   }
 }

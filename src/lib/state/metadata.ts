@@ -2741,6 +2741,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -3561,6 +3562,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
@@ -4077,6 +4079,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -4239,6 +4242,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -4576,6 +4580,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [],
@@ -6162,7 +6167,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.Lightning_DMG,
         ],
         [Parts.LinkRope]: [
-          Stats.ERR,
           Stats.ATK_P,
           Stats.ERR,
         ],
@@ -6463,6 +6467,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [

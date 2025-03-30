@@ -6,7 +6,7 @@ import { StatToKey } from 'lib/optimization/computedStatsArray'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { PartialSimulationWrapper, RelicBuild, ScoringFunction, ScoringParams, SimulationFlags, SimulationResult, SimulationScore } from 'lib/scoring/simScoringUtils'
-import { calculateOrnamentSets, calculateRelicSets, convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
+import { convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -438,51 +438,6 @@ function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
   return sum
 }
 
-type SimulationSets = {
-  relicSet1: string
-  relicSet2: string
-  ornamentSet: string
-}
-
-function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
-  // Allow equivalent sets
-  const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
-
-  let relicSet1 = metadata.relicSets[0][0]
-  let relicSet2 = metadata.relicSets[0][1]
-  let ornamentSet = metadata.ornamentSets[0]
-
-  const equivalents: string[][] = metadata.relicSets.map((x: string[]) => x.sort())
-  for (const equivalent of equivalents) {
-    // Find 4p matches
-    if (relicSetNames[0] == equivalent[0] && relicSetNames[1] == equivalent[1]) {
-      relicSet1 = equivalent[0]
-      relicSet2 = equivalent[1]
-      break
-    }
-
-    // Find 2p matches
-    // A single array will contain all the 2p options
-    if (equivalent[0] != equivalent[1]) {
-      if (equivalent.includes(relicSetNames[0]) && equivalent.includes(relicSetNames[1])) {
-        relicSet1 = relicSetNames[0]
-        relicSet2 = relicSetNames[1]
-        break
-      }
-    }
-  }
-
-  const relicEquivalents = metadata.ornamentSets
-  for (const equivalent of relicEquivalents) {
-    if (ornamentSetName == equivalent) {
-      ornamentSet = equivalent
-      break
-    }
-  }
-
-  return { relicSet1, relicSet2, ornamentSet }
-}
-
 function isErrRopeForced(
   form: Form,
   metadata: SimulationMetadata,
@@ -638,25 +593,6 @@ function simulateOriginalCharacter(
     originalSimResult,
     originalSim,
   }
-}
-
-function calculateSetNames(relicsByPart: RelicBuild) {
-  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelicWithSetAndSubstats())
-  const relicSets = [
-    relicsByPart[Parts.Head].set,
-    relicsByPart[Parts.Hands].set,
-    relicsByPart[Parts.Body].set,
-    relicsByPart[Parts.Feet].set,
-  ].filter((x) => x != -1)
-  const ornamentSets = [
-    relicsByPart[Parts.PlanarSphere].set,
-    relicsByPart[Parts.LinkRope].set,
-  ].filter((x) => x != -1)
-  const relicSetNames = calculateRelicSets(relicSets, true)
-  const ornamentSetName: string | undefined = calculateOrnamentSets(ornamentSets, true)
-  relicSetNames.sort()
-
-  return { relicSetNames, ornamentSetName }
 }
 
 export function calculatePenaltyMultiplier(

@@ -1,5 +1,5 @@
-import { CUSTOM_TEAM } from 'lib/constants/constants'
-import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
+import { Constants, CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
+import { cloneRelicsFillEmptySlots, RelicBuild, SimulationFlags, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
 import { ScoringMetadata, ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
@@ -40,78 +40,78 @@ export function scoreCharacterSimulation(
   if (teamSelection == CUSTOM_TEAM) {
     metadata.teammates = customMetadata.teammates
   }
-  //
-  // const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
-  //
-  // const cacheKey = TsUtils.objectHash({
-  //   traces,
-  //   characterId,
-  //   characterEidolon,
-  //   lightCone,
-  //   lightConeSuperimposition,
-  //   relicsByPart,
-  //   metadata,
-  //   customMetadata,
-  //   showcaseTemporaryOptions,
-  // })
-  //
-  // if (cachedSims[cacheKey]) {
-  //   return cachedSims[cacheKey]
-  // }
-  //
-  // const simulationFlags: SimulationFlags = {
-  //   addBreakEffect: false,
-  //   overcapCritRate: false,
-  //   simPoetActive: false,
-  //   characterPoetActive: false,
-  //   forceBasicSpd: true,
-  //   forceBasicSpdValue: 0,
-  // }
-  //
-  // // Optimize requested stats
-  //
-  // const substats: string[] = metadata.substats
-  //
-  // // Special handling for break effect carries
-  // if (metadata.comboBreak > 0) {
-  //   // Add break if the combo uses it
-  //   simulationFlags.addBreakEffect = true
-  // }
-  // if (metadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
-  //   // Add break if the harmony trailblazer | fugue is on the team
-  //   simulationFlags.addBreakEffect = true
-  // }
-  // if (simulationFlags.addBreakEffect && !substats.includes(Stats.BE)) {
-  //   substats.push(Stats.BE)
-  // }
-  // if (simulationFlags.addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
-  //   metadata.parts[Parts.LinkRope].push(Stats.BE)
-  // }
-  // if (simulationFlags.addBreakEffect
-  //   && !metadata.relicSets.find((sets) =>
-  //     sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
-  //   metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
-  // }
-  // if (simulationFlags.addBreakEffect
-  //   && !metadata.relicSets.find((sets) =>
-  //     sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
-  //   metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
-  // }
-  // if (simulationFlags.addBreakEffect
-  //   && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
-  //   metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
-  // }
-  // if (simulationFlags.addBreakEffect
-  //   && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
-  //   metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
-  // }
-  // if (metadata.teammates.find((x) => x.characterId == '1313' && x.characterEidolon == 6)) {
-  //   simulationFlags.overcapCritRate = true
-  // }
-  //
-  // // Get the simulation sets
-  //
-  // const simulationSets = calculateSimSets(metadata, relicsByPart)
+
+  const relicsByPart = cloneRelicsFillEmptySlots(displayRelics)
+
+  const cacheKey = TsUtils.objectHash({
+    traces,
+    characterId,
+    characterEidolon,
+    lightCone,
+    lightConeSuperimposition,
+    relicsByPart,
+    metadata,
+    customMetadata,
+    showcaseTemporaryOptions,
+  })
+
+  if (cachedSims[cacheKey]) {
+    return cachedSims[cacheKey]
+  }
+
+  const simulationFlags: SimulationFlags = {
+    addBreakEffect: false,
+    overcapCritRate: false,
+    simPoetActive: false,
+    characterPoetActive: false,
+    forceBasicSpd: true,
+    forceBasicSpdValue: 0,
+  }
+
+  // Optimize requested stats
+
+  const substats: string[] = metadata.substats
+
+  // Special handling for break effect carries
+  if (metadata.comboBreak > 0) {
+    // Add break if the combo uses it
+    simulationFlags.addBreakEffect = true
+  }
+  if (metadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
+    // Add break if the harmony trailblazer | fugue is on the team
+    simulationFlags.addBreakEffect = true
+  }
+  if (simulationFlags.addBreakEffect && !substats.includes(Stats.BE)) {
+    substats.push(Stats.BE)
+  }
+  if (simulationFlags.addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
+    metadata.parts[Parts.LinkRope].push(Stats.BE)
+  }
+  if (simulationFlags.addBreakEffect
+    && !metadata.relicSets.find((sets) =>
+      sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  }
+  if (simulationFlags.addBreakEffect
+    && !metadata.relicSets.find((sets) =>
+      sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  }
+  if (simulationFlags.addBreakEffect
+    && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
+    metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
+  }
+  if (simulationFlags.addBreakEffect
+    && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
+    metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+  }
+  if (metadata.teammates.find((x) => x.characterId == '1313' && x.characterEidolon == 6)) {
+    simulationFlags.overcapCritRate = true
+  }
+
+  // Get the simulation sets
+
+  const simulationSets = calculateSimSets(metadata, relicsByPart)
   //
   // if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse
   //   && relicsByPart.Hands.set == Sets.PoetOfMourningCollapse
@@ -384,3 +384,103 @@ export function scoreCharacterSimulation(
 
   return null
 }
+
+type SimulationSets = {
+  relicSet1: string
+  relicSet2: string
+  ornamentSet: string
+}
+
+function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
+  // Allow equivalent sets
+  const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
+
+  let relicSet1 = metadata.relicSets[0][0]
+  let relicSet2 = metadata.relicSets[0][1]
+  let ornamentSet = metadata.ornamentSets[0]
+
+  const equivalents: string[][] = metadata.relicSets.map((x: string[]) => x.sort())
+  for (const equivalent of equivalents) {
+    // Find 4p matches
+    if (relicSetNames[0] == equivalent[0] && relicSetNames[1] == equivalent[1]) {
+      relicSet1 = equivalent[0]
+      relicSet2 = equivalent[1]
+      break
+    }
+
+    // Find 2p matches
+    // A single array will contain all the 2p options
+    if (equivalent[0] != equivalent[1]) {
+      if (equivalent.includes(relicSetNames[0]) && equivalent.includes(relicSetNames[1])) {
+        relicSet1 = relicSetNames[0]
+        relicSet2 = relicSetNames[1]
+        break
+      }
+    }
+  }
+
+  const relicEquivalents = metadata.ornamentSets
+  for (const equivalent of relicEquivalents) {
+    if (ornamentSetName == equivalent) {
+      ornamentSet = equivalent
+      break
+    }
+  }
+
+  return { relicSet1, relicSet2, ornamentSet }
+}
+
+function calculateSetNames(relicsByPart: RelicBuild) {
+  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelicWithSetAndSubstats())
+  const relicSets = [
+    relicsByPart[Parts.Head].set,
+    relicsByPart[Parts.Hands].set,
+    relicsByPart[Parts.Body].set,
+    relicsByPart[Parts.Feet].set,
+  ].filter((x) => x != -1)
+  const ornamentSets = [
+    relicsByPart[Parts.PlanarSphere].set,
+    relicsByPart[Parts.LinkRope].set,
+  ].filter((x) => x != -1)
+  const relicSetNames = calculateRelicSets(relicSets, true)
+  const ornamentSetName: string | undefined = calculateOrnamentSets(ornamentSets, true)
+  relicSetNames.sort()
+
+  return { relicSetNames, ornamentSetName }
+}
+
+export function calculateRelicSets(relicSets: (string | number)[], nameProvided = false) {
+  const relicSetNames: string[] = []
+  while (relicSets.length > 0) {
+    const value = relicSets[0]
+    if (relicSets.lastIndexOf(value)) {
+      const setName = nameProvided ? value : Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
+      relicSetNames.push(setName as string)
+
+      const otherIndex = relicSets.lastIndexOf(value)
+      relicSets.splice(otherIndex, 1)
+    }
+    relicSets.splice(0, 1)
+  }
+
+  return relicSetNames
+}
+
+export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = true): string | undefined {
+  if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
+    return (
+      nameProvided
+        ? ornamentSets[1] as string
+        : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
+    )
+  }
+  return undefined
+}
+
+function emptyRelicWithSetAndSubstats() {
+  return {
+    set: -1,
+    substats: [],
+  }
+}
+

@@ -911,7 +911,7 @@ Characters:
       teammateCDValue:
         text: Bronya's Combat CD
         content: Increases the ATK of all allies by {{ultAtkBoostValue}}% and CRIT DMG by {{ultCdBoostValue}}% of Bronya's CRIT DMG plus {{ultCdBoostBaseValue}}% for 2 turns.
-  Castorice: #TODO
+  Castorice:
     Content:
       memospriteActive:
         text: Memosprite active

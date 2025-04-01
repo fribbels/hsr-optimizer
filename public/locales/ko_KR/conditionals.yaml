@@ -173,6 +173,10 @@ Lightcones:
         text: '[유광] 스택'
         content: >-
           장착한 캐릭터가 추가 공격 발동 시 [유광]을 1스택 획득한다, 최대 중첩수: 2스택. [유광] 1스택마다 장착한 캐릭터가 가하는 필살기 피해가 목표의 방어력을 {{DefIgnore}}% 무시한다. 장착한 캐릭터의 턴 종료 시 [유광]이 1스택 해제된다.
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: 데미지 버프
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -693,6 +697,12 @@ Characters:
         text: 6돌 버프
         content: >-
           아글라이아가 [지고의 자태] 상태일 시 자신과 의상공의 번개 속성 저항 관통이 20% 증가한다. 아글라이아 또는 의상공의 속도가 160/240/320pt를 초과할 시 가하는 연계 공격 피해가 10%/30%/60% 증가한다.
+  Anaxa:
+    Content:
+      e1DefPen:
+        text: 1돌 방어력 무시
+      e6Buffs:
+        text: 6돌 버프
   Argenti:
     Content:
       ultEnhanced:
@@ -857,6 +867,16 @@ Characters:
       teammateCDValue:
         text: 치피 (전투)
         content: '모든 아군의 공격력이 {{ultAtkBoostValue}}% 증가하고, 동시에 브로냐 치명타 피해 {{ultCdBoostValue}}%+{{ultCdBoostBaseValue}}%만큼의 치명타 피해가 증가한다. 지속 시간: 2턴'
+  Castorice:
+    Content:
+      spdBuff:
+        text: 속도 버프
+      talentDmgStacks:
+        text: 특성 스택
+      teamDmgBoost:
+        text: 아군 가하는 피해 증가
+      e6Buffs:
+        text: 6돌 버프
   Clara:
     Content:
       ultBuff:

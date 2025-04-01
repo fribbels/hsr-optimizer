@@ -173,12 +173,25 @@ Lightcones:
         text: crwdns40270:0crwdne40270:0
         content: >-
           crwdns43980:0{{DefIgnore}}crwdne43980:0
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: crwdns44933:0crwdne44933:0
+        content: crwdns44935:0{{DmgBuff}}crwdne44935:0
+      defPen:
+        text: crwdns44937:0crwdne44937:0
+        content: crwdns44939:0{{DefShred}}crwdne44939:0
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: crwdns40274:0crwdne40274:0
         content: >-
           crwdns43982:0{{breakVulnerability}}crwdne43982:0
+  MakeFarewellsMoreBeautiful:
+    Content:
+      deathFlower:
+        text: crwdns44941:0crwdne44941:0
+        content: crwdns44943:0{{DefIgnore}}crwdne44943:0
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -514,6 +527,11 @@ Lightcones:
       cdBuffActive:
         text: 'crwdns40522:0crwdne40522:0'
         content: crwdns44054:0{{CritBuff}}crwdne44054:0
+  TheGreatCosmicEnterprise:
+    Content:
+      weaknessTypes:
+        text: crwdns44945:0crwdne44945:0
+        content: crwdns44947:0{{DmgBuff}}crwdne44947:0
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -697,6 +715,34 @@ Characters:
         text: crwdns43872:0crwdne43872:0
         content: >-
           crwdns43874:0crwdne43874:0
+  Anaxa:
+    Content:
+      skillHits:
+        text: crwdns44949:0crwdne44949:0
+        content: crwdns44951:0crwdne44951:0
+      exposedNature:
+        text: crwdns44953:0crwdne44953:0
+        content: >-
+          crwdns44955:0{{DmgBuff}}crwdne44955:0
+      eruditionTeammateBuffs:
+        text: crwdns44957:0crwdne44957:0
+        content: >-
+          crwdns44959:0:BR:crwdnd44959:0:BR:crwdne44959:0
+      enemyWeaknessTypes:
+        text: crwdns44961:0crwdne44961:0
+        content: crwdns44963:0crwdne44963:0
+      e1DefPen:
+        text: crwdns44965:0crwdne44965:0
+        content: crwdns44967:0crwdne44967:0
+      e2ResPen:
+        text: crwdns44969:0crwdne44969:0
+        content: crwdns44971:0crwdne44971:0
+      e4AtkBuffStacks:
+        text: crwdns44973:0crwdne44973:0
+        content: crwdns44975:0crwdne44975:0
+      e6Buffs:
+        text: crwdns44977:0crwdne44977:0
+        content: crwdns44979:0crwdne44979:0
   Argenti:
     Content:
       ultEnhanced:
@@ -860,6 +906,36 @@ Characters:
       teammateCDValue:
         text: crwdns40822:0crwdne40822:0
         content: crwdns40824:0{{ultAtkBoostValue}}crwdnd40824:0{{ultCdBoostValue}}crwdnd40824:0{{ultCdBoostBaseValue}}crwdne40824:0
+  Castorice:
+    Content:
+      memospriteActive:
+        text: crwdns44981:0crwdne44981:0
+        content: crwdns44983:0{{ResDown}}crwdne44983:0
+      spdBuff:
+        text: crwdns44985:0crwdne44985:0
+        content: crwdns44987:0crwdne44987:0
+      talentDmgStacks:
+        text: crwdns44989:0crwdne44989:0
+        content: crwdns44991:0{{DmgBuff}}crwdne44991:0
+      memoSkillEnhances:
+        text: crwdns44993:0crwdne44993:0
+        content: crwdns44995:0{{Multiplier1Enhance}}crwdnd44995:0{{Multiplier2Enhance}}crwdnd44995:0{{Multiplier2Enhance}}crwdne44995:0
+      memoTalentHits:
+        text: crwdns44997:0crwdne44997:0
+        content: crwdns44999:0{{BounceCount}}crwdnd44999:0{{Scaling}}crwdne44999:0
+      teamDmgBoost:
+        text: crwdns45001:0crwdne45001:0
+        content: crwdns45003:0crwdne45003:0
+      memoDmgStacks:
+        text: crwdns45005:0crwdne45005:0
+        content: crwdns45007:0crwdne45007:0
+      e1EnemyHp50:
+        text: crwdns45009:0crwdne45009:0
+        content: crwdns45011:0crwdne45011:0
+      e6Buffs:
+        text: crwdns45013:0crwdne45013:0
+        content: >-
+          crwdns45015:0:BR:crwdne45015:0
   Clara:
     Content:
       ultBuff:

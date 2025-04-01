@@ -173,6 +173,10 @@ Lightcones:
         text: 流光层数
         content: >-
           装备者施放追加攻击时，获得1层【流光】，最多叠加2层。每层【流光】使装备者造成的终结技伤害无视目标{{DefIgnore}}%的防御力。装备者回合结束时，移除1层【流光】。
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: 伤害提高
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -697,6 +701,12 @@ Characters:
         text: 6魂增益
         content: >-
           当阿格莱雅处于【至高之姿】状态时，自身与衣匠的雷属性抗性穿透提高20%，当阿格莱雅或衣匠的速度高于160/240/320点时，其造成的连携攻击伤害提高10%/30%/60%。
+  Anaxa:
+    Content:
+      e1DefPen:
+        text: 1魂防御穿透
+      e6Buffs:
+        text: 6魂增益
   Argenti:
     Content:
       ultEnhanced:
@@ -860,6 +870,16 @@ Characters:
       teammateCDValue:
         text: 布洛妮娅战斗中的暴击伤害
         content: 使我方全体攻击力提高{{ultAtkBoostValue}}%，同时提高等同于布洛妮娅{{ultCdBoostValue}}%暴击伤害+{{ultCdBoostBaseValue}}%的暴击伤害，持续2回合。
+  Castorice:
+    Content:
+      spdBuff:
+        text: 速度增益
+      talentDmgStacks:
+        text: 天赋增伤层数
+      teamDmgBoost:
+        text: 团队伤害提升
+      e6Buffs:
+        text: 6魂增益
   Clara:
     Content:
       ultBuff:

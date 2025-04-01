@@ -1,7 +1,5 @@
-import i18next from 'i18next'
 import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -11,7 +9,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Castorice.Content')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.ULT_BASIC_MEMO_TALENT_3_SKILL_TALENT_MEMO_SKILL_5
   const {
@@ -76,65 +74,71 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     memospriteActive: {
       id: 'memospriteActive',
       formItem: 'switch',
-      text: 'Memosprite active',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('memospriteActive.text'),
+      content: t('memospriteActive.content', { ResDown: TsUtils.precisionRound(100 * ultTerritoryResPen) }),
     },
     spdBuff: {
       id: 'spdBuff',
       formItem: 'switch',
-      text: 'SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('spdBuff.text'),
+      content: t('spdBuff.content'),
     },
     teamDmgBoost: {
       id: 'teamDmgBoost',
       formItem: 'switch',
-      text: 'Team DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('teamDmgBoost.text'),
+      content: t('teamDmgBoost.content'),
     },
     talentDmgStacks: {
       id: 'talentDmgStacks',
       formItem: 'slider',
-      text: 'Talent DMG stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('talentDmgStacks.text'),
+      content: t('talentDmgStacks.content', { DmgBuff: TsUtils.precisionRound(100 * talentDmgBoost) }),
       min: 0,
       max: 3,
     },
     memoSkillEnhances: {
       id: 'memoSkillEnhances',
       formItem: 'slider',
-      text: 'Memo Skill enhances',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('memoSkillEnhances.text'),
+      content: t('memoSkillEnhances.content', {
+        Multiplier1Enhance: TsUtils.precisionRound(100 * memoSkillScaling2),
+        Multiplier2Enhance: TsUtils.precisionRound(100 * memoSkillScaling3),
+      }),
       min: 1,
       max: 3,
     },
     memoDmgStacks: {
       id: 'memoDmgStacks',
       formItem: 'slider',
-      text: 'Memo DMG stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('memoDmgStacks.text'),
+      content: t('memoDmgStacks.content'),
       min: 0, // Set to 0 for rotation preprocessor
       max: 6,
     },
     memoTalentHits: {
       id: 'memoTalentHits',
       formItem: 'slider',
-      text: 'Memo Talent hits',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('memoTalentHits.text'),
+      content: t('memoTalentHits.content', {
+        BounceCount: e >= 6 ? 9 : 6,
+        Scaling: TsUtils.precisionRound(100 * memoTalentScaling),
+      }),
       min: 0,
       max: e >= 6 ? 9 : 6,
     },
     e1EnemyHp50: {
       id: 'e1EnemyHp50',
       formItem: 'switch',
-      text: 'E1 Enemy HP ≤ 50%',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1EnemyHp50.text'),
+      content: t('e1EnemyHp50.content'),
       disabled: e < 1,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6Buffs.text'),
+      content: t('e6Buffs.content'),
       disabled: e < 6,
     },
   }

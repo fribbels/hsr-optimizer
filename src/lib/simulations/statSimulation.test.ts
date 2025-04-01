@@ -13,8 +13,7 @@ const TEST = 'TEST'
 test('statSim', () => {
   const form = generateFullDefaultForm('1005', '23006', 6, 5)
   const request: SimulationRequest = {
-    name: TEST,
-    simBody: Stats.CD,
+    simBody: Stats.CR,
     simFeet: Stats.SPD,
     simLinkRope: Stats.ATK_P,
     simPlanarSphere: Stats.Lightning_DMG,
@@ -27,7 +26,6 @@ test('statSim', () => {
   }
   const simulation: Simulation = {
     simType: StatSimTypes.SubstatRolls,
-    penaltyMultiplier: 0,
     request: request,
   } as Simulation
 

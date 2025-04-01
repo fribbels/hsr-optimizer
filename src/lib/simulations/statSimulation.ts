@@ -40,50 +40,6 @@ function simulationRelic(set: string, mainStat: string, mainValue: number): Simu
   }
 }
 
-export type SimulationRelicByPart = {
-  LinkRope: SimulationRelic
-  PlanarSphere: SimulationRelic
-  Feet: SimulationRelic
-  Body: SimulationRelic
-  Hands: SimulationRelic
-  Head: SimulationRelic
-}
-
-function generateSimRelics(request: SimulationRequest, params: RunSimulationsParams): SimulationRelicByPart {
-  return {
-    [Parts.Head]: simulationRelic(request.simRelicSet1, Constants.Stats.HP, 705.600),
-    [Parts.Hands]: simulationRelic(request.simRelicSet1, Constants.Stats.ATK, 352.800),
-    [Parts.Body]: simulationRelic(request.simRelicSet2, request.simBody, StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier),
-    [Parts.Feet]: simulationRelic(request.simRelicSet2, request.simFeet, StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier),
-    [Parts.LinkRope]: simulationRelic(request.simOrnamentSet, request.simLinkRope, StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier),
-    [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet, request.simPlanarSphere, StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
-  }
-}
-
-function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: RunSimulationsParams) {
-  const request = sim.request
-  for (const substat of SubStats) {
-    let value = request.stats[substat]
-    if (!value) continue
-
-    if (sim.simType == StatSimTypes.SubstatRolls) {
-      const substatScale = isFlat(substat) ? 1 : 0.01
-      const substatValue = substat == Stats.SPD
-        ? params.speedRollValue
-        : StatCalculator.getMaxedSubstatValue(substat, params.quality)
-
-      let substatCount = sim.request.stats[substat] || 0
-      substatCount = params.substatRollsModifier(substatCount, substat, request)
-
-      value = precisionRound(substatCount * substatValue * substatScale)
-    }
-
-    if (value) {
-      relics.Head.condensedStats.push([statToKey[substat], value])
-    }
-  }
-}
-
 const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
 const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
@@ -122,7 +78,7 @@ export function simulate(
     // For optimizer grid syncing with sim table
     const optimizerDisplayData = formatOptimizerDisplayData(x)
     optimizerDisplayData.statSim = {
-      key: sim.key,
+      key: sim.key!,
     }
     simulationResults.push(optimizerDisplayData as SimulationResult)
   }
@@ -130,13 +86,48 @@ export function simulate(
   return simulationResults
 }
 
-// TODO: Is this still relevant
-// Generate relic sets
-// Since the optimizer uses index based relic set identification, it can't handle an empty set
-// We have to fake rainbow sets by forcing a 2+1+1 or a 1+1+1+1 combination
-// For planar sets we can't the index be negative or NaN, so we just use two unmatched sets
-export function condenseRelic(relic: SimulationRelic) {
+export type SimulationRelicByPart = {
+  LinkRope: SimulationRelic
+  PlanarSphere: SimulationRelic
+  Feet: SimulationRelic
+  Body: SimulationRelic
+  Hands: SimulationRelic
+  Head: SimulationRelic
+}
 
+function generateSimRelics(request: SimulationRequest, params: RunSimulationsParams): SimulationRelicByPart {
+  return {
+    [Parts.Head]: simulationRelic(request.simRelicSet1, Constants.Stats.HP, 705.600),
+    [Parts.Hands]: simulationRelic(request.simRelicSet1, Constants.Stats.ATK, 352.800),
+    [Parts.Body]: simulationRelic(request.simRelicSet2, request.simBody, StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier),
+    [Parts.Feet]: simulationRelic(request.simRelicSet2, request.simFeet, StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier),
+    [Parts.LinkRope]: simulationRelic(request.simOrnamentSet, request.simLinkRope, StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier),
+    [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet, request.simPlanarSphere, StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
+  }
+}
+
+function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: RunSimulationsParams) {
+  const request = sim.request
+  for (const substat of SubStats) {
+    const value = sim.simType == StatSimTypes.SubstatRolls
+      ? request.stats[substat]
+      : convertRollCountsToSubstatTotal(substat, sim, params)
+
+    if (!value) continue
+    relics.Head.condensedStats.push([statToKey[substat], value])
+  }
+}
+
+function convertRollCountsToSubstatTotal(substat: SubStats, sim: Simulation, params: RunSimulationsParams) {
+  const substatScale = isFlat(substat) ? 1 : 0.01
+  const substatValue = substat == Stats.SPD
+    ? params.speedRollValue
+    : StatCalculator.getMaxedSubstatValue(substat, params.quality)
+
+  let substatCount = sim.request.stats[substat] || 0
+  substatCount = params.substatRollsModifier(substatCount, substat, sim.request)
+
+  return precisionRound(substatCount * substatValue * substatScale)
 }
 
 // Hardcoded

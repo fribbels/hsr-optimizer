@@ -595,28 +595,6 @@ function simulateOriginalCharacter(
   }
 }
 
-export function calculatePenaltyMultiplier(
-  simulationResult: SimulationResult,
-  metadata: SimulationMetadata,
-  scoringParams: ScoringParams,
-) {
-  let newPenaltyMultiplier = 1
-  if (metadata.breakpoints) {
-    for (const stat of Object.keys(metadata.breakpoints)) {
-      if (Utils.isFlat(stat)) {
-        // Flats are penalized by their percentage
-        newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
-      } else {
-        // Percents are penalize by half of the missing stat's breakpoint roll percentage
-        newPenaltyMultiplier *= Math.min(1,
-          1 - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality))
-      }
-    }
-  }
-  simulationResult.penaltyMultiplier = newPenaltyMultiplier
-  return newPenaltyMultiplier
-}
-
 // Score on 1.00 scale
 export function getSimScoreGrade(score: number, verified: boolean, numRelics: number, lightCone: boolean = true) {
   if (numRelics != 6 || !lightCone) {

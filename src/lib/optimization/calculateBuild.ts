@@ -27,7 +27,7 @@ export function calculateBuild(
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
-  internal: boolean = false,
+  internal: boolean = false, // TODO: Remove
   forcedBasicSpd: number = 0) {
   if (!reuseRequest) {
     request = Utils.clone(request)

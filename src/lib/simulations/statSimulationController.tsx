@@ -28,11 +28,10 @@ import { Relic, Stat } from 'types/relic'
 
 export type Simulation = {
   name?: string
-  key: string
+  key?: string
   simType: StatSimTypes
   request: SimulationRequest
-  result: SimulationResult
-  penaltyMultiplier: number
+  result?: SimulationResult
 }
 
 export type SimulationRequest = {

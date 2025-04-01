@@ -1,5 +1,6 @@
 import { Constants, MainStats, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { isFlat } from 'lib/utils/statUtils'
 
 const maxedMainStats = {
   [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],
@@ -21,13 +22,6 @@ const maxedMainStats = {
   [Constants.Stats.Wind_DMG]: [7.714, 15.490, 25.878, 38.880],
   [Constants.Stats.Quantum_DMG]: [7.714, 15.490, 25.878, 38.880],
   [Constants.Stats.Imaginary_DMG]: [7.714, 15.490, 25.878, 38.880],
-}
-
-function isFlat(stat: string) {
-  return stat == Constants.Stats.HP
-    || stat == Constants.Stats.ATK
-    || stat == Constants.Stats.DEF
-    || stat == Constants.Stats.SPD
 }
 
 export const StatCalculator = {

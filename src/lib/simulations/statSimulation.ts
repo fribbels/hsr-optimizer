@@ -8,6 +8,7 @@ import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -35,7 +36,7 @@ export type SimulationRelic = {
 function simulationRelic(set: string, mainStat: string, mainValue: number): SimulationRelic {
   return {
     set: set,
-    condensedStats: [],
+    condensedStats: [[statToKey[mainStat], mainValue]],
   }
 }
 
@@ -63,8 +64,10 @@ function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: Run
   const request = sim.request
   for (const substat of SubStats) {
     let value = request.stats[substat]
+    if (!value) continue
 
     if (sim.simType == StatSimTypes.SubstatRolls) {
+      const substatScale = isFlat(substat) ? 1 : 0.01
       const substatValue = substat == Stats.SPD
         ? params.speedRollValue
         : StatCalculator.getMaxedSubstatValue(substat, params.quality)
@@ -72,7 +75,7 @@ function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: Run
       let substatCount = sim.request.stats[substat] || 0
       substatCount = params.substatRollsModifier(substatCount, substat, request)
 
-      value = substatCount * precisionRound(substatValue)
+      value = precisionRound(substatCount * substatValue * substatScale)
     }
 
     if (value) {
@@ -137,7 +140,7 @@ export function condenseRelic(relic: SimulationRelic) {
 }
 
 // Hardcoded
-const statToKey = {
+const statToKey: Record<string, number> = {
   [Stats.HP_P]: 0,
   [Stats.ATK_P]: 1,
   [Stats.DEF_P]: 2,

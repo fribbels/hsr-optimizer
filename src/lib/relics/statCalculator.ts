@@ -1,6 +1,5 @@
 import { Constants, MainStats, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
-import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/relic'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const maxedMainStats = {
   [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],
@@ -24,39 +23,26 @@ const maxedMainStats = {
   [Constants.Stats.Imaginary_DMG]: [7.714, 15.490, 25.878, 38.880],
 }
 
+function isFlat(stat: string) {
+  return stat == Constants.Stats.HP
+    || stat == Constants.Stats.ATK
+    || stat == Constants.Stats.DEF
+    || stat == Constants.Stats.SPD
+}
+
 export const StatCalculator = {
   getMaxedSubstatValue: (stat: SubStats, quality = 1) => {
     if (quality == 0.8) {
-      return Utils.precisionRound(SubStatValues[stat][5].low)
+      return precisionRound(SubStatValues[stat][5].low)
     }
     if (quality == 0.9) {
-      return Utils.precisionRound(SubStatValues[stat][5].mid)
+      return precisionRound(SubStatValues[stat][5].mid)
     }
-    return Utils.precisionRound(SubStatValues[stat][5].high)
+    return precisionRound(SubStatValues[stat][5].high)
   },
-  getMaxedStatValue: (stat: MainStats | 'NONE') => {
-    if (stat === 'NONE') { // Fake stat for relic scoring
-      return 0
-    }
-    const scaling = Utils.isFlat(stat) ? 1 : 100
-    return Utils.precisionRound(maxedMainStats[stat][3] / scaling)
-  },
-
-  calculateCv: (relics: Relic[]) => {
-    let total = 0
-    for (const relic of relics) {
-      if (!relic?.condensedStats) continue
-      for (const condensedStat of relic.condensedStats) {
-        if (condensedStat[0] == Constants.Stats.CD) {
-          total += condensedStat[1]
-        }
-        if (condensedStat[0] == Constants.Stats.CR) {
-          total += condensedStat[1] * 2
-        }
-      }
-    }
-
-    return Utils.precisionRound(total * 100)
+  getMaxedStatValue: (stat: MainStats) => {
+    const scaling = isFlat(stat) ? 1 : 100
+    return precisionRound(maxedMainStats[stat][3] / scaling)
   },
 
   getZeroes: () => {

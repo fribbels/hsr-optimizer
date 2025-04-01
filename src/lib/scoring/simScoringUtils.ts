@@ -116,17 +116,19 @@ export const maximumScoringParams: ScoringParams = {
   substatRollsModifier: (rolls: number) => rolls,
 }
 
-export function substatRollsModifier(rolls: number,
+export function substatRollsModifier(
+  rolls: number,
   stat: string,
-  relics: {
-    [key: string]: Relic
-  }) {
-  // if (stat == Stats.SPD) return rolls
-  // Diminishing returns
-
-  const mainsCount = Object.values(relics)
-    .filter((x) => x.augmentedStats!.mainStat == stat)
-    .length
+  sim: Simulation,
+) {
+  const mainsCount = [
+    sim.request.simFeet,
+    sim.request.simFeet,
+    sim.request.simFeet,
+    sim.request.simFeet,
+    sim.request.simFeet,
+    sim.request.simFeet,
+  ].filter((x) => x == stat).length
 
   return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
 }

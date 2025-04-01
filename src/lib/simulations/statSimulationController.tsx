@@ -290,7 +290,7 @@ export type RunSimulationsParams = {
   quality: number
   speedRollValue: number
   mainStatMultiplier: number
-  substatRollsModifier: (num: number, stat: string, relics: Record<Parts, Relic>) => number
+  substatRollsModifier: (num: number, stat: string, simRequest: SimulationRequest) => number
   simulationFlags: SimulationFlags
 }
 

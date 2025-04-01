@@ -1,5 +1,4 @@
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { OrnamentSetCount, OrnamentSetToIndex, Parts, PartsArray, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
@@ -15,22 +14,21 @@ import {
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
-import { RelicFilters } from 'lib/relics/relicFilters'
+import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/statSimulation'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
 export function calculateBuild(
   request: Form,
-  relics: SingleRelicByPart,
+  relics: SimulationRelicByPart,
   cachedContext: OptimizerContext | null,
   cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   reuseRequest: boolean = false,
   reuseComboState: boolean = false,
   internal: boolean = false,
-  forcedBasicSpd: number = 0,
-  weightScore: boolean = false) {
+  forcedBasicSpd: number = 0) {
   if (!reuseRequest) {
     request = Utils.clone(request)
   }
@@ -48,14 +46,9 @@ export function calculateBuild(
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
 
-  if (weightScore) {
-    RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
-  }
-
   // When the relic is empty / has no set, we have to use an unused set index to simulate a broken set
-  const unusedSets = generateUnusedSets(relics)
   let unusedSetCounter = 0
-
+  const unusedSets = generateUnusedSets(relics)
   const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
   const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
   const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
@@ -75,7 +68,7 @@ export function calculateBuild(
   c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, -1)
 
   calculateBasicSetEffects(c, context, setCounts, sets)
-  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
+  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
 
@@ -133,7 +126,7 @@ export function calculateBuild(
   return x
 }
 
-function generateUnusedSets(relics: SingleRelicByPart) {
+function generateUnusedSets(relics: SimulationRelicByPart) {
   const usedSets = new Set([
     RelicSetToIndex[relics.Head.set as SetsRelics],
     RelicSetToIndex[relics.Hands.set as SetsRelics],
@@ -145,16 +138,18 @@ function generateUnusedSets(relics: SingleRelicByPart) {
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
-function extractRelics(relics: SingleRelicByPart) {
-  for (const part of Object.keys(Constants.Parts)) {
-    relics[part as Parts] = relics[part as Parts] || emptyRelicWithSetAndSubstats()
+function extractRelics(relics: SimulationRelicByPart) {
+  for (const part of PartsArray) {
+    if (!relics[part]) {
+      relics[part as Parts] = emptyRelicWithSetAndSubstats()
+    }
   }
   return relics
 }
 
-export function emptyRelicWithSetAndSubstats() {
+export function emptyRelicWithSetAndSubstats(): SimulationRelic {
   return {
-    set: -1,
-    substats: [],
+    set: '',
+    condensedStats: [],
   }
 }

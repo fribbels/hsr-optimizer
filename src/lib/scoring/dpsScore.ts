@@ -156,6 +156,8 @@ export function scoreCharacterSimulation(
 
   const context = generateContext(simulationForm)
 
+  // Kick off workers here
+
   // Generate scoring function
 
   // const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
@@ -168,10 +170,10 @@ export function scoreCharacterSimulation(
   //
   // // ===== Simulate the original build =====
   //
-  // let {
-  //   originalSimResult,
-  //   originalSim,
-  // } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+  const {
+    originalSimResult,
+    originalSim,
+  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
   //
   // const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
   //

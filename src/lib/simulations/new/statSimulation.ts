@@ -3,7 +3,7 @@ import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStat
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
-import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { simulateBuild } from 'lib/simulations/new/simulateBuild'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { Form } from 'types/form'

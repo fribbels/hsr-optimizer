@@ -1,6 +1,6 @@
 import { Sets, Stats } from 'lib/constants/constants'
 import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
-import { runStatSimulations } from 'lib/simulations/statSimulation'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import { Metadata } from 'lib/state/metadata'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'

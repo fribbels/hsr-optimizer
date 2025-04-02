@@ -1,6 +1,6 @@
 import { Sets, Stats } from 'lib/constants/constants'
-import { runStatSimulations, StatSimTypes } from 'lib/simulations/statSimulation'
-import { transformWorkerContext } from 'lib/simulations/workerContextTransform'
+import { runStatSimulations, StatSimTypes } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { DpsScoreWorkerInput } from 'lib/worker/dpsScoreWorkerRunner'
 
 export function dpsScoreWorker(e: MessageEvent<DpsScoreWorkerInput>) {

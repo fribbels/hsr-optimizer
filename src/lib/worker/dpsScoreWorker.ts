@@ -1,9 +1,7 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Sets, Stats } from 'lib/constants/constants'
-import { simulate, StatSimTypes } from 'lib/simulations/statSimulation'
-// import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
-// import { DpsScoreWorkerInput } from 'lib/worker/dpsScoreWorkerRunner'
+import { runStatSimulations, StatSimTypes } from 'lib/simulations/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/workerContextTransform'
+import { DpsScoreWorkerInput } from 'lib/worker/dpsScoreWorkerRunner'
 
 export function dpsScoreWorker(e: MessageEvent<DpsScoreWorkerInput>) {
   const input = e.data
@@ -21,14 +19,7 @@ export function dpsScoreWorker(e: MessageEvent<DpsScoreWorkerInput>) {
   const form = input.form
   const context = input.context
 
-  context.characterConditionalController = CharacterConditionalsResolver.get(context)
-  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
-
-  for (const action of context.actions) {
-    // Reconstruct arrays after transfer
-    action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
-    action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
-  }
+  transformWorkerContext(context)
 
   const request: SimulationRequest = {
     simBody: Stats.CR,
@@ -47,7 +38,7 @@ export function dpsScoreWorker(e: MessageEvent<DpsScoreWorkerInput>) {
     request: request,
   } as Simulation
 
-  const result = simulate([simulation], form, context, {})
+  const result = runStatSimulations([simulation], form, context, {})
 
   self.postMessage({
     simScoringResult: result,

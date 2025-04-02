@@ -1,6 +1,6 @@
 import { Constants, MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
@@ -40,16 +40,24 @@ function simulationRelic(set: string, mainStat: string, mainValue: number): Simu
 const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
 const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
-export function simulate(
+export type RunStatSimulationsResult = {
+  simScore: number
+  xa: Float32Array
+  ca: Float32Array
+}
+
+// Can be called from both main and worker
+// Context must exist
+export function runStatSimulations(
   simulations: Simulation[],
   form: Form,
-  context: OptimizerContext | null,
+  context: OptimizerContext,
   inputParams: Partial<RunSimulationsParams> = {},
-): SimulationResult[] {
+): RunStatSimulationsResult[] {
   const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
+  const simulationResults: RunStatSimulationsResult[] = []
 
-  const simulationResults: SimulationResult[] = []
   for (const sim of simulations) {
     const request = sim.request
 
@@ -67,16 +75,16 @@ export function simulate(
       forcedBasicSpd,
     )
 
-    console.log(JSON.stringify(simRelics, null, 2))
-    console.log(JSON.stringify(x.toComputedStatsObject(), null, 2))
-    // TODO: Clean this
-    // For optimizer grid syncing with sim table
-    // const optimizerDisplayData = formatOptimizerDisplayData(x)
-    // optimizerDisplayData.statSim = {
-    //   key: sim.key!,
-    // }
-    // simulationResults.push(optimizerDisplayData as SimulationResult)
+    const result: RunStatSimulationsResult = {
+      xa: x.a,
+      ca: x.c.a,
+      simScore: x.a[Key.COMBO_DMG],
+    }
+
+    simulationResults.push(result)
   }
+
+  console.log(simulationResults)
 
   return simulationResults
 }

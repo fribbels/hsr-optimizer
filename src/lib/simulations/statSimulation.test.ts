@@ -1,6 +1,6 @@
 import { Sets, Stats } from 'lib/constants/constants'
 import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
-import { simulate } from 'lib/simulations/statSimulation'
+import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import { Metadata } from 'lib/state/metadata'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -29,7 +29,7 @@ test('statSim', () => {
     request: request,
   } as Simulation
 
-  const result = simulate([simulation], form, null, {})
+  const result = runStatSimulations([simulation], form, null, {})
 
   console.log(result)
 })

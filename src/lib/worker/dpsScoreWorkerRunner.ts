@@ -1,5 +1,9 @@
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
 import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import DpsScoreWorker from 'lib/worker/baseWorker.ts?worker&inline'
+import { DEBUG } from 'lib/worker/dpsScoreWorker'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Character } from 'types/character'
 import { ScoringMetadata, ShowcaseTemporaryOptions } from 'types/metadata'
@@ -55,8 +59,15 @@ function handleWork(runnerInput: DpsScoreRunnerInput): Promise<DpsScoreWorkerOut
   return new Promise((resolve, reject) => {
     const worker = new DpsScoreWorker()
 
+    const form = generateFullDefaultForm('1005', '23006', 6, 5)
+    const context = TsUtils.clone(generateContext(form))
+
+    console.log(form)
+    console.log(context)
     const input: DpsScoreWorkerInput = {
       ...runnerInput,
+      form: form,
+      context: context,
       workerType: WorkerType.DPS_SCORE,
     }
 
@@ -75,3 +86,7 @@ function handleWork(runnerInput: DpsScoreRunnerInput): Promise<DpsScoreWorkerOut
     worker.postMessage(input)
   })
 }
+
+window.handleWork = handleWork
+
+DEBUG()

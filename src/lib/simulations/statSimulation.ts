@@ -1,12 +1,9 @@
 import { Constants, MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
-import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
-import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { Form } from 'types/form'
@@ -62,25 +59,23 @@ export function simulate(
     const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
     const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
 
-    const x = calculateBuild(
-      form,
+    const x = simulateBuild(
       simRelics,
       context,
       basicStatsArray,
       computedStatsArray,
-      true,
-      true,
-      false,
       forcedBasicSpd,
     )
 
+    console.log(JSON.stringify(simRelics, null, 2))
+    console.log(JSON.stringify(x.toComputedStatsObject(), null, 2))
     // TODO: Clean this
     // For optimizer grid syncing with sim table
-    const optimizerDisplayData = formatOptimizerDisplayData(x)
-    optimizerDisplayData.statSim = {
-      key: sim.key!,
-    }
-    simulationResults.push(optimizerDisplayData as SimulationResult)
+    // const optimizerDisplayData = formatOptimizerDisplayData(x)
+    // optimizerDisplayData.statSim = {
+    //   key: sim.key!,
+    // }
+    // simulationResults.push(optimizerDisplayData as SimulationResult)
   }
 
   return simulationResults
@@ -106,12 +101,42 @@ function generateSimRelics(request: SimulationRequest, params: RunSimulationsPar
   }
 }
 
+export enum StatSimTypes {
+  Disabled = 'disabled',
+  SubstatTotals = 'substatTotals',
+  SubstatRolls = 'substatRolls',
+}
+
+type Simulation = {
+  name?: string
+  key?: string
+  simType: StatSimTypes
+  request: SimulationRequest
+  result?: SimulationResult
+}
+
+type SimulationStats = {
+  [key: string]: number
+}
+
+type SimulationRequest = {
+  name?: string // This name is optionally provided from the sim form, then the parent either autogens or inherits
+  simRelicSet1: string
+  simRelicSet2: string
+  simOrnamentSet: string
+  simBody: string
+  simFeet: string
+  simPlanarSphere: string
+  simLinkRope: string
+  stats: SimulationStats
+}
+
 function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: RunSimulationsParams) {
   const request = sim.request
   for (const substat of SubStats) {
     const value = sim.simType == StatSimTypes.SubstatRolls
-      ? request.stats[substat]
-      : convertRollCountsToSubstatTotal(substat, sim, params)
+      ? convertRollCountsToSubstatTotal(substat, sim, params)
+      : request.stats[substat]
 
     if (!value) continue
     relics.Head.condensedStats.push([statToKey[substat], value])
@@ -155,3 +180,4 @@ const statToKey: Record<string, number> = {
   [Stats.Quantum_DMG]: 20,
   [Stats.Imaginary_DMG]: 21,
 } as const
+

@@ -1,15 +1,18 @@
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
+import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts } from 'lib/constants/constants'
 import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { SimulationRelicByPart } from 'lib/simulations/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/workerContextTransform'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -19,7 +22,7 @@ import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
 import { Character } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
-import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter, ShowcaseTemporaryOptions } from 'types/metadata'
+import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
@@ -156,7 +159,10 @@ export function getShowcaseStats(
 ) {
   const statCalculationRelics = TsUtils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
-  const x = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null, null, null)
+  const form = OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form))
+  const context = generateContext(form)
+  transformWorkerContext(context)
+  const x = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null, null)
   const basicStats = x.c.toBasicStatsObject()
   const finalStats: BasicStatsObject = {
     ...basicStats,

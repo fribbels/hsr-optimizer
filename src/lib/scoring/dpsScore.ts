@@ -1,7 +1,10 @@
 import { Constants, CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
 import { cloneRelicsFillEmptySlots, RelicBuild, SimulationFlags, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
+import { Form } from 'types/form'
 import { ScoringMetadata, ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
 
 const cachedSims: {
@@ -112,49 +115,49 @@ export function scoreCharacterSimulation(
   // Get the simulation sets
 
   const simulationSets = calculateSimSets(metadata, relicsByPart)
-  //
-  // if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse
-  //   && relicsByPart.Hands.set == Sets.PoetOfMourningCollapse
-  //   && relicsByPart.Body.set == Sets.PoetOfMourningCollapse
-  //   && relicsByPart.Feet.set == Sets.PoetOfMourningCollapse
-  // ) {
-  //   simulationFlags.characterPoetActive = true
-  // }
-  //
-  // if (simulationSets.relicSet1 == Sets.PoetOfMourningCollapse && simulationSets.relicSet2 == Sets.PoetOfMourningCollapse) {
-  //   simulationFlags.simPoetActive = true
-  // }
-  //
-  // // Set up default request
-  //
-  // const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
-  // const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
-  //   metadata.teammates[0].lightCone,
-  //   metadata.teammates[0].characterEidolon,
-  //   metadata.teammates[0].lightConeSuperimposition,
-  //   true)
-  // const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId,
-  //   metadata.teammates[1].lightCone,
-  //   metadata.teammates[1].characterEidolon,
-  //   metadata.teammates[1].lightConeSuperimposition,
-  //   true)
-  // const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId,
-  //   metadata.teammates[2].lightCone,
-  //   metadata.teammates[2].characterEidolon,
-  //   metadata.teammates[2].lightConeSuperimposition,
-  //   true)
-  // simulationForm.teammate0 = simulationFormT0
-  // simulationForm.teammate1 = simulationFormT1
-  // simulationForm.teammate2 = simulationFormT2
-  //
-  // simulationForm.deprioritizeBuffs = deprioritizeBuffs
-  //
-  // // Cache context for reuse
-  //
-  // const context = generateContext(simulationForm)
-  //
-  // // Generate scoring function
-  //
+
+  if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse
+    && relicsByPart.Hands.set == Sets.PoetOfMourningCollapse
+    && relicsByPart.Body.set == Sets.PoetOfMourningCollapse
+    && relicsByPart.Feet.set == Sets.PoetOfMourningCollapse
+  ) {
+    simulationFlags.characterPoetActive = true
+  }
+
+  if (simulationSets.relicSet1 == Sets.PoetOfMourningCollapse && simulationSets.relicSet2 == Sets.PoetOfMourningCollapse) {
+    simulationFlags.simPoetActive = true
+  }
+
+  // Set up default request
+
+  const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
+  const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
+    metadata.teammates[0].lightCone,
+    metadata.teammates[0].characterEidolon,
+    metadata.teammates[0].lightConeSuperimposition,
+    true)
+  const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId,
+    metadata.teammates[1].lightCone,
+    metadata.teammates[1].characterEidolon,
+    metadata.teammates[1].lightConeSuperimposition,
+    true)
+  const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId,
+    metadata.teammates[2].lightCone,
+    metadata.teammates[2].characterEidolon,
+    metadata.teammates[2].lightConeSuperimposition,
+    true)
+  simulationForm.teammate0 = simulationFormT0
+  simulationForm.teammate1 = simulationFormT1
+  simulationForm.teammate2 = simulationFormT2
+
+  simulationForm.deprioritizeBuffs = deprioritizeBuffs
+
+  // Cache context for reuse
+
+  const context = generateContext(simulationForm)
+
+  // Generate scoring function
+
   // const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
   //   if (!result) return
   //

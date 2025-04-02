@@ -5,8 +5,8 @@ import OptimizerWorker from 'lib/worker/baseOptimizerWorker.ts?worker&inline'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-// const poolSize = 1
-const poolSize = Math.min(10, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
+const poolSize = 1
+// const poolSize = Math.min(10, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
 console.log('Using pool size ' + poolSize)
 

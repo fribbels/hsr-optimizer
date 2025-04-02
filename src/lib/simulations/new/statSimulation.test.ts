@@ -1,6 +1,10 @@
 import { Sets, Stats } from 'lib/constants/constants'
+import { addE6S5Teammate } from 'lib/gpu/tests/webgpuTestGenerator'
+import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import { Metadata } from 'lib/state/metadata'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -8,7 +12,14 @@ import { test } from 'vitest'
 
 Metadata.initialize()
 
-const TEST = 'TEST'
+function expectWithinDelta(actual: number, expected: number, delta: number = 0.001): void {
+  const difference = Math.abs(actual - expected)
+  const pass = difference <= delta
+
+  if (!pass) {
+    throw new Error(`Expected ${actual} to be within ${delta} of ${expected} (difference: ${difference})`)
+  }
+}
 
 test('statSim', () => {
   const form = generateFullDefaultForm('1005', '23006', 6, 5)
@@ -24,12 +35,21 @@ test('statSim', () => {
       [Stats.ATK_P]: 3,
     },
   }
+
+  addE6S5Teammate(form, 0, '8008', '21051')
+  addE6S5Teammate(form, 1, '1225', '23035')
+  addE6S5Teammate(form, 2, '1313', '23034')
+
   const simulation: Simulation = {
     simType: StatSimTypes.SubstatRolls,
     request: request,
   } as Simulation
 
-  const result = runStatSimulations([simulation], form, null, {})
+  const context = generateContext(form)
+  transformWorkerContext(context)
+  const results = runStatSimulations([simulation], form, context, {})
+  const computedStatsObject = toComputedStatsObject(results[0].xa)
 
-  console.log(result)
+  expectWithinDelta(computedStatsObject.COMBO_DMG, 1258999, 1.0)
 })
+

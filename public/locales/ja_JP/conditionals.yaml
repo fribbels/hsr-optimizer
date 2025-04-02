@@ -173,6 +173,10 @@ Lightcones:
         text: '「流光」層数'
         content: >-
           装備キャラが追加攻撃を行う時、「流光」を1層獲得する。「流光」は最大で2層累積できる。「流光」が1層あるごとに、装備キャラの与える必殺技ダメージが敵の防御力を{{DefIgnore}}%無視する。装備キャラのターン終了時、「流光」が1層解除される。
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: ダメバフ
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -697,6 +701,12 @@ Characters:
         text: 6凸 必殺/追加攻撃強化
         content: >-
           アグライアが「至高の姿」状態の時、自身とラフトラの雷属性耐性貫通+20%。 また、アグライアの速度が160/240/320を超える時、自身の連携攻撃ダメージ+10%/30%/60%。 ラフトラの速度が160/240/320を超える時、自身の連携攻撃ダメージ+10%/30%/60%。
+  Anaxa:
+    Content:
+      e1DefPen:
+        text: 1凸 敵防御力無視
+      e6Buffs:
+        text: 6凸 必殺/追加攻撃強化
   Argenti:
     Content:
       ultEnhanced:
@@ -861,6 +871,16 @@ Characters:
       teammateCDValue:
         text: 会心ダメージ（戦闘時）
         content: 味方全体の攻撃力+{{ultAtkBoostValue}}%、会心ダメージがブローニャの会心ダメージ{{ultCdBoostValue}}%分+{{ultCdBoostBaseValue}}%アップする、2ターン継続。
+  Castorice:
+    Content:
+      spdBuff:
+        text: 速度バフ
+      talentDmgStacks:
+        text: 天賦の層数
+      teamDmgBoost:
+        text: 味方与ダメージ増加
+      e6Buffs:
+        text: 6凸 必殺/追加攻撃強化
   Clara:
     Content:
       ultBuff:

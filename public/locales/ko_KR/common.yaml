@@ -180,3 +180,4 @@ ShortDMGTypes:
   Dot: 지속 피해량
   Break: 격파 피해량
   CV: 치명타 계수
+CurrentVersion: "적용 버전 : ({{Version}}"

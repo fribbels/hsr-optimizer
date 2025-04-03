@@ -792,7 +792,7 @@ fn calculateAbilityDmg(
   var abilityCritDmgOutput: f32 = 0;
   if (abilityDmg > 0) {
     let abilityCr = min(1, x.CR + abilityCrBoost);
-    let abilityCd = x.CD + x.CD_BOOST + abilityCdBoost;
+    let abilityCd = x.CD + abilityCdBoost;
     let abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr);
     let abilityVulnerabilityMulti = 1 + x.VULNERABILITY + abilityVulnerability;
     let abilityDefMulti = calculateDefMulti(baseDefPen + abilityDefPen);

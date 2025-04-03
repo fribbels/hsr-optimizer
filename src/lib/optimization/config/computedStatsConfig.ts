@@ -1,15 +1,4 @@
-import {
-  AbilityType,
-  ADDITIONAL_DMG_TYPE,
-  BASIC_DMG_TYPE,
-  BREAK_DMG_TYPE,
-  DOT_DMG_TYPE,
-  FUA_DMG_TYPE,
-  MEMO_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  SUPER_BREAK_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType, ADDITIONAL_DMG_TYPE, BASIC_DMG_TYPE, BREAK_DMG_TYPE, DOT_DMG_TYPE, FUA_DMG_TYPE, MEMO_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 
 enum StatCategory {
   CD,
@@ -36,8 +25,8 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   ATK: { flat: true, label: 'ATK' },
   DEF: { flat: true, label: 'DEF' },
   SPD: { flat: true, default: 0.0001, label: 'SPD' },
-  CR: { label: 'Crit Rate' },
-  CD: { label: 'Crit DMG' },
+  CR: { label: 'CRIT Rate' },
+  CD: { label: 'CRIT DMG' },
   EHR: { label: 'Effect Hit Rate' },
   RES: { label: 'Effect RES' },
   BE: { label: 'Break Effect' },
@@ -48,7 +37,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   PHYSICAL_DMG_BOOST: { label: 'Physical DMG Boost' },
   FIRE_DMG_BOOST: { label: 'Fire DMG Boost' },
   ICE_DMG_BOOST: { label: 'Ice DMG Boost' },
-  LIGHTNING_DMG_BOOST: { label: 'Thunder DMG Boost' },
+  LIGHTNING_DMG_BOOST: { label: 'Lightning DMG Boost' },
   WIND_DMG_BOOST: { label: 'Wind DMG Boost' },
   QUANTUM_DMG_BOOST: { label: 'Quantum DMG Boost' },
   IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
@@ -76,8 +65,8 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   UNCONVERTIBLE_ATK_BUFF: { flat: true, label: 'Unconvertible ATK' },
   UNCONVERTIBLE_DEF_BUFF: { flat: true, label: 'Unconvertible DEF' },
   UNCONVERTIBLE_SPD_BUFF: { flat: true, label: 'Unconvertible SPD' },
-  UNCONVERTIBLE_CR_BUFF: { label: 'Unconvertible Crit Rate' },
-  UNCONVERTIBLE_CD_BUFF: { label: 'Unconvertible Crit DMG' },
+  UNCONVERTIBLE_CR_BUFF: { label: 'Unconvertible CRIT Rate' },
+  UNCONVERTIBLE_CD_BUFF: { label: 'Unconvertible CRIT DMG' },
   UNCONVERTIBLE_EHR_BUFF: { label: 'Unconvertible Effect Hit Rate' },
   UNCONVERTIBLE_BE_BUFF: { label: 'Unconvertible Break Effect' },
   UNCONVERTIBLE_OHB_BUFF: { label: 'Unconvertible Outgoing Healing Boost' },
@@ -265,4 +254,3 @@ export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
 ) as ComputedStatsObject
 
 export const StatsConfigByIndex: StatConfig[] = Object.values(StatsConfig).sort((a, b) => a.index - b.index)
-

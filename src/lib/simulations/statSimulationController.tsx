@@ -528,8 +528,10 @@ export function convertRelicsToSimulation(
 
   // Sum up substat rolls
   for (const relic of relics) {
-    for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+    if (relic.substats) {
+      for (const substat of relic.substats) {
+        accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+      }
     }
   }
 
@@ -542,10 +544,10 @@ export function convertRelicsToSimulation(
     simRelicSet1: relicSet1,
     simRelicSet2: relicSet2,
     simOrnamentSet: ornamentSet,
-    simBody: relicsByPart[Parts.Body].main.stat,
-    simFeet: relicsByPart[Parts.Feet].main.stat,
-    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
-    simLinkRope: relicsByPart[Parts.LinkRope].main.stat,
+    simBody: relicsByPart[Parts.Body].main?.stat || null,
+    simFeet: relicsByPart[Parts.Feet].main?.stat || null,
+    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main?.stat || null,
+    simLinkRope: relicsByPart[Parts.LinkRope].main?.stat || null,
     stats: {
       [Stats.HP]: accumulatedSubstatRolls[Stats.HP] || null,
       [Stats.ATK]: accumulatedSubstatRolls[Stats.ATK] || null,

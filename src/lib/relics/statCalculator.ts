@@ -35,6 +35,7 @@ export const StatCalculator = {
     return precisionRound(SubStatValues[stat][5].high)
   },
   getMaxedStatValue: (stat: MainStats) => {
+    if (!stat) return 0
     const scaling = isFlat(stat) ? 1 : 100
     return precisionRound(maxedMainStats[stat][3] / scaling)
   },

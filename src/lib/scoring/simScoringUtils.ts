@@ -201,7 +201,7 @@ export function cloneRelicsFillEmptySlots(displayRelics: RelicBuild) {
       set: -1,
       substats: [],
       main: {
-        stat: 'NONE',
+        stat: null,
         value: 0,
       },
     }

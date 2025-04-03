@@ -10,10 +10,13 @@ import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutp
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
   const input = e.data
 
-  const result = computeOptimalSimulation(input, () => 1)
+  const optimalSimulation = computeOptimalSimulation(input, () => 1)
+
+  // TODO
+  delete optimalSimulation.result.x
 
   const workerOutput: ComputeOptimalSimulationWorkerOutput = {
-    simulation: result,
+    simulation: optimalSimulation,
   }
 
   self.postMessage(workerOutput)
@@ -30,6 +33,9 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     scoringParams,
     simulationFlags,
   } = input
+
+  // TODO
+  scoringParams.substatRollsModifier = () => 1
 
   const minSubstatRollCounts = inputMinSubstatRollCounts
   const maxSubstatRollCounts = inputMaxSubstatRollCounts

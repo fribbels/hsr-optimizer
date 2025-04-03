@@ -5,6 +5,7 @@ import { emptyRelicWithSetAndSubstats } from 'lib/optimization/calculateBuild'
 import { StatToKey } from 'lib/optimization/computedStatsArray'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { calculateSetNames, scoreCharacterSimulation } from 'lib/scoring/dpsScore'
 import { PartialSimulationWrapper, RelicBuild, ScoringFunction, ScoringParams, SimulationFlags, SimulationResult, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
@@ -12,7 +13,6 @@ import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { DpsScoreRunnerOutput, runDpsScoreWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
@@ -47,20 +47,16 @@ export function getShowcaseSimScoringExecution(
       console.log('Call scoreCharacterSimulation (async)')
       const characterMetadata = DB.getMetadata().characters[character.id]
 
-      void runDpsScoreWorker({
+      // scoreCharacterSimulation(character, displayRelics, teamSelection, showcaseTemporaryOptions, defa)
+
+      scoreCharacterSimulation(
         character,
         displayRelics,
         teamSelection,
         showcaseTemporaryOptions,
-        defaultScoringMetadata: characterMetadata.scoringMetadata,
-        customScoringMetadata: DB.getScoringMetadata(character.id),
-      }, (output: DpsScoreRunnerOutput) => {
-        asyncResult.done = true
-        asyncResult.result = output.simScoringResult
-        console.log('Resolve async')
-
-        resolve(output.simScoringResult)
-      })
+        characterMetadata.scoringMetadata,
+        DB.getScoringMetadata(character.id),
+      )
     }, 500)
   })
 

@@ -14,6 +14,7 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ComputeOptimalSimulationRunnerInput, runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
@@ -169,6 +170,7 @@ export async function scoreCharacterSimulation(
   // Cache context for reuse
 
   const context = generateContext(simulationForm)
+  transformWorkerContext(context)
 
   // Kick off workers here
 
@@ -254,6 +256,8 @@ export async function scoreCharacterSimulation(
   const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
   const candidateBenchmarkSims: Simulation[] = []
 
+  const clonedContext = TsUtils.clone(context)
+
   // Run benchmark sims
   for (const partialSimulationWrapper of partialSimulationWrappers) {
     // const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
@@ -286,9 +290,9 @@ export async function scoreCharacterSimulation(
       inputMinSubstatRollCounts: minSubstatRollCounts,
       inputMaxSubstatRollCounts: maxSubstatRollCounts,
       simulationForm: simulationForm,
-      context: context,
+      context: clonedContext,
       metadata: metadata,
-      scoringParams: benchmarkScoringParams,
+      scoringParams: TsUtils.clone(benchmarkScoringParams),
       simulationFlags: simulationFlags,
     }
     const runnerOutput = await runComputeOptimalSimulationWorker(input)
@@ -453,7 +457,7 @@ function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild
   return { relicSet1, relicSet2, ornamentSet }
 }
 
-function calculateSetNames(relicsByPart: RelicBuild) {
+export function calculateSetNames(relicsByPart: RelicBuild) {
   Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelicWithSetAndSubstats())
   const relicSets = [
     relicsByPart[Parts.Head].set,

@@ -12,7 +12,7 @@ import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { DpsScoreRunnerOutput, runDpsScoreWorker } from 'lib/worker/dpsScoreWorkerRunner'
+import { DpsScoreRunnerOutput, runDpsScoreWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
@@ -447,7 +447,7 @@ function isErrRopeForced(
 }
 
 // Generate all main stat possibilities
-function generatePartialSimulations(
+export function generatePartialSimulations(
   character: Character,
   metadata: SimulationMetadata,
   simulationSets: SimulationSets,
@@ -510,7 +510,7 @@ function generatePartialSimulations(
   return results
 }
 
-function simulateBaselineCharacter(
+export function simulateBaselineCharacter(
   displayRelics: RelicBuild,
   simulationForm: Form,
   context: OptimizerContext,
@@ -548,7 +548,7 @@ function simulateBaselineCharacter(
 }
 
 // TODO: why is this function used twice
-function simulateOriginalCharacter(
+export function simulateOriginalCharacter(
   displayRelics: RelicBuild,
   simulationSets: SimulationSets,
   simulationForm: Form,

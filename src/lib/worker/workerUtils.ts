@@ -3,4 +3,5 @@ export enum WorkerType {
   EST_TBP,
   BENCHMARK,
   DPS_SCORE,
+  COMPUTE_OPTIMAL_SIMULATION,
 }

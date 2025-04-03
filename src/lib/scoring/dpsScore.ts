@@ -1,8 +1,22 @@
-import { Constants, CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
+import { Constants, CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
-import { cloneRelicsFillEmptySlots, RelicBuild, SimulationFlags, SimulationScore } from 'lib/scoring/simScoringUtils'
+import { generateFullDefaultForm, generatePartialSimulations, simulateBaselineCharacter, simulateOriginalCharacter } from 'lib/scoring/characterScorer'
+import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
+import {
+  benchmarkScoringParams,
+  cloneRelicsFillEmptySlots,
+  invertDiminishingReturnsSpdFormula,
+  originalScoringParams,
+  RelicBuild,
+  SimulationFlags,
+  SimulationScore,
+  spdRollsCap,
+} from 'lib/scoring/simScoringUtils'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { ComputeOptimalSimulationRunnerInput, runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
 import { ScoringMetadata, ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
@@ -11,7 +25,7 @@ const cachedSims: {
   [key: string]: SimulationScore
 } = {}
 
-export function scoreCharacterSimulation(
+export async function scoreCharacterSimulation(
   character: Character,
   displayRelics: RelicBuild,
   teamSelection: string,
@@ -170,125 +184,129 @@ export function scoreCharacterSimulation(
   //
   // // ===== Simulate the original build =====
   //
-  const {
+  let {
     originalSimResult,
     originalSim,
   } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
-  //
-  // const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
-  //
+
+  const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
+
   // // ===== Simulate the baseline build =====
-  //
-  // const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
-  //   relicsByPart,
-  //   simulationForm,
-  //   context,
-  //   simulationSets,
-  //   benchmarkScoringParams,
-  //   simulationFlags,
-  // )
+
+  const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
+    relicsByPart,
+    simulationForm,
+    context,
+    simulationSets,
+    benchmarkScoringParams,
+    simulationFlags,
+  )
   // applyScoringFunction(baselineSimResult)
   //
   // // Special handling for poet - force the spd to certain thresholds when poet is active
   //
-  // const spdBenchmark = showcaseTemporaryOptions.spdBenchmark != null
-  //   ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
-  //   : null
-  //
-  // if (simulationFlags.simPoetActive) {
-  //   // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
-  //   if (baselineSimResult[Stats.SPD] < 95) {
-  //     simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.999, spdBenchmark ?? 94.999)
-  //   } else if (baselineSimResult[Stats.SPD] < 110) {
-  //     simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
-  //   } else {
-  //     // No-op
-  //   }
-  // } else {
-  //   // When the sim does not have poet, force the original spd and proceed as regular
-  //   simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
-  // }
+  const spdBenchmark = showcaseTemporaryOptions.spdBenchmark != null
+    ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
+    : null
+
+  if (simulationFlags.simPoetActive) {
+    // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
+    if (baselineSimResult[Stats.SPD] < 95) {
+      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.999, spdBenchmark ?? 94.999)
+    } else if (baselineSimResult[Stats.SPD] < 110) {
+      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
+    } else {
+      // No-op
+    }
+  } else {
+    // When the sim does not have poet, force the original spd and proceed as regular
+    simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
+  }
   //
   // // ===== Simulate the forced spd build =====
   //
-  // const {
-  //   originalSimResult: forcedSpdSimResult,
-  //   originalSim: forcedSpdSim,
-  // } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+  const {
+    originalSimResult: forcedSpdSimResult,
+    originalSim: forcedSpdSim,
+  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
   //
   // // ===== Calculate the benchmarks' speed target =====
   //
-  // let targetSpd: number
-  // if (simulationFlags.characterPoetActive) {
-  //   // When the original character has poet, benchmark against the original character
-  //   targetSpd = forcedSpdSimResult.xa[Key.SPD]
-  // } else {
-  //   if (simulationFlags.simPoetActive) {
-  //     // We don't want to have the original character's combat stats penalized by poet if they're not on poet
-  //     targetSpd = simulationFlags.forceBasicSpdValue
-  //   } else {
-  //     originalSimResult = forcedSpdSimResult
-  //     originalSim = forcedSpdSim
-  //     targetSpd = originalSimResult.xa[Key.SPD]
-  //   }
-  // }
+  let targetSpd: number
+  if (simulationFlags.characterPoetActive) {
+    // When the original character has poet, benchmark against the original character
+    targetSpd = forcedSpdSimResult.xa[Key.SPD]
+  } else {
+    if (simulationFlags.simPoetActive) {
+      // We don't want to have the original character's combat stats penalized by poet if they're not on poet
+      targetSpd = simulationFlags.forceBasicSpdValue
+    } else {
+      originalSimResult = forcedSpdSimResult
+      originalSim = forcedSpdSim
+      targetSpd = originalSimResult.xa[Key.SPD]
+    }
+  }
   //
   // applyScoringFunction(originalSimResult)
   //
   // // Generate partials to calculate speed rolls
   //
-  // const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
-  // const candidateBenchmarkSims: Simulation[] = []
-  //
-  // // Run benchmark sims
-  // for (const partialSimulationWrapper of partialSimulationWrappers) {
-  //   const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
-  //
-  //   // Find the speed deduction
-  //   const finalSpeed = simulationResult.xa[Key.SPD]
-  //   partialSimulationWrapper.finalSpeed = finalSpeed
-  //
-  //   const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
-  //   const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, benchmarkScoringParams.speedRollValue), 3)
-  //
-  //   partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, benchmarkScoringParams))
-  //
-  //   if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
-  //     console.log('Rejected candidate sim with non SPD boots')
-  //     continue
-  //   }
-  //
-  //   // Define min/max limits
-  //   const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams, simulationFlags)
-  //   const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, simulationFlags)
-  //
-  //   // Start the sim search at the max then iterate downwards
-  //   Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
-  //
-  //   const candidateBenchmarkSim = computeOptimalSimulation(
-  //     partialSimulationWrapper,
-  //     minSubstatRollCounts,
-  //     maxSubstatRollCounts,
-  //     simulationForm,
-  //     context,
-  //     applyScoringFunction,
-  //     metadata,
-  //     benchmarkScoringParams,
-  //     simulationFlags,
-  //   )
-  //   applyScoringFunction(candidateBenchmarkSim.result)
-  //
-  //   // DEBUG
-  //   candidateBenchmarkSim.key = JSON.stringify(candidateBenchmarkSim.request)
-  //   candidateBenchmarkSim.name = ''
-  //
-  //   if (partialSimulationWrapper.simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
-  //     // Reject non speed boot builds that exceed the speed cap. 48 - 11 * 2 = 26 max subs that can go in to SPD
-  //     console.log('Rejected candidate sim')
-  //   } else {
-  //     candidateBenchmarkSims.push(candidateBenchmarkSim)
-  //   }
-  // }
+  const partialSimulationWrappers = generatePartialSimulations(character, metadata, simulationSets, originalSim)
+  const candidateBenchmarkSims: Simulation[] = []
+
+  // Run benchmark sims
+  for (const partialSimulationWrapper of partialSimulationWrappers) {
+    // const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
+    const simulationResults = runStatSimulations([partialSimulationWrapper.simulation], simulationForm, context)
+    const simulationResult = simulationResults[0]
+
+    // Find the speed deduction
+    const finalSpeed = simulationResult.xa[Key.SPD]
+    partialSimulationWrapper.finalSpeed = finalSpeed
+
+    const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
+    const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, benchmarkScoringParams.speedRollValue), 3)
+
+    partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, benchmarkScoringParams))
+
+    if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+      console.log('Rejected candidate sim with non SPD boots')
+      continue
+    }
+
+    // Define min/max limits
+    const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams, simulationFlags)
+    const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, simulationFlags)
+
+    // Start the sim search at the max then iterate downwards
+    Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
+
+    const input: ComputeOptimalSimulationRunnerInput = {
+      partialSimulationWrapper: partialSimulationWrapper,
+      inputMinSubstatRollCounts: minSubstatRollCounts,
+      inputMaxSubstatRollCounts: maxSubstatRollCounts,
+      simulationForm: simulationForm,
+      context: context,
+      metadata: metadata,
+      scoringParams: benchmarkScoringParams,
+      simulationFlags: simulationFlags,
+    }
+    const runnerOutput = await runComputeOptimalSimulationWorker(input)
+    const candidateBenchmarkSim = runnerOutput.simulation
+
+    // DEBUG
+    // candidateBenchmarkSim.key = JSON.stringify(candidateBenchmarkSim.request)
+    // candidateBenchmarkSim.name = ''
+
+    if (!candidateBenchmarkSim || partialSimulationWrapper.simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+      // Reject non speed boot builds that exceed the speed cap. 48 - 11 * 2 = 26 max subs that can go in to SPD
+      console.log('Rejected candidate sim')
+    } else {
+      candidateBenchmarkSims.push(candidateBenchmarkSim)
+    }
+  }
+
+  console.log(candidateBenchmarkSims)
   //
   // // Try to minimize the penalty modifier before optimizing sim score
   //

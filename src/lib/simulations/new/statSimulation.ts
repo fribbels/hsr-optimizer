@@ -41,9 +41,10 @@ const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedSt
 const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
 export type RunStatSimulationsResult = {
-  simScore: number
+  x: ComputedStatsArray
   xa: Float32Array
   ca: Float32Array
+  simScore: number
 }
 
 // Can be called from both main and worker
@@ -61,9 +62,7 @@ export function runStatSimulations(
   for (const sim of simulations) {
     const request = sim.request
 
-    const simRelics = generateSimRelics(request, params)
-    addSubstats(simRelics, sim, params)
-
+    const simRelics = generateSimRelics(request, sim, params)
     const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
     const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
 
@@ -76,6 +75,7 @@ export function runStatSimulations(
     )
 
     const result: RunStatSimulationsResult = {
+      x: x,
       xa: x.a,
       ca: x.c.a,
       simScore: x.a[Key.COMBO_DMG],
@@ -98,8 +98,8 @@ export type SimulationRelicByPart = {
   Head: SimulationRelic
 }
 
-function generateSimRelics(request: SimulationRequest, params: RunSimulationsParams): SimulationRelicByPart {
-  return {
+function generateSimRelics(request: SimulationRequest, sim: Simulation, params: RunSimulationsParams): SimulationRelicByPart {
+  const simRelics = {
     [Parts.Head]: simulationRelic(request.simRelicSet1, Constants.Stats.HP, 705.600),
     [Parts.Hands]: simulationRelic(request.simRelicSet1, Constants.Stats.ATK, 352.800),
     [Parts.Body]: simulationRelic(request.simRelicSet2, request.simBody, StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier),
@@ -107,6 +107,9 @@ function generateSimRelics(request: SimulationRequest, params: RunSimulationsPar
     [Parts.LinkRope]: simulationRelic(request.simOrnamentSet, request.simLinkRope, StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier),
     [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet, request.simPlanarSphere, StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
   }
+
+  addSubstats(simRelics, sim, params)
+  return simRelics
 }
 
 export enum StatSimTypes {

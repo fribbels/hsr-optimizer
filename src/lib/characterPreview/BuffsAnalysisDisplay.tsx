@@ -3,10 +3,12 @@ import { Sets, setToId } from 'lib/constants/constants'
 import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
-import { runSimulations } from 'lib/simulations/statSimulationController'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
@@ -72,7 +74,9 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
 function rerunSim(result?: SimulationScore) {
   if (!result) return null
   result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim], originalScoringParams)[0]
+  const context = generateContext(result.simulationForm)
+  transformWorkerContext(context)
+  const rerun = runStatSimulations(result.simulationForm, context, [result.originalSim], originalScoringParams)[0]
   const x = rerun.tracedX!
   return aggregateCombatBuffs(x, result.simulationForm)
 }

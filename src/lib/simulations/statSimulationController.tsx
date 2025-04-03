@@ -6,6 +6,7 @@ import { Message } from 'lib/interactions/message'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateCurrentlyEquippedRow, formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -13,6 +14,9 @@ import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -441,10 +445,13 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, null, existingSimulations, undefined, true)
-  simulationResults.forEach((x) => x.id = x.statSim.key)
+  const context = generateContext(form)
+  transformWorkerContext(context)
 
-  OptimizerTabController.setRows(simulationResults)
+  const simulationResults = runStatSimulations(existingSimulations, form, context)
+  const optimizerDisplayData = simulationResults.map((x) => transformOptimizerDisplayData(x.x))
+
+  OptimizerTabController.setRows(optimizerDisplayData)
 
   calculateCurrentlyEquippedRow(form)
   window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })

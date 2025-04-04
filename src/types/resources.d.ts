@@ -5264,9 +5264,7 @@ interface Resources {
               "Dot": "Dot",
               "Break": "Break",
               "Memo Skill": "Memo Skill",
-              "Memo Talent": "Memo Talent",
-              "Additional": "Additional",
-              "Super Break": "Super Break"
+              "Memo Talent": "Memo Talent"
             },
             "Suffix": {
               "ATK scaling": "ATK scaling",
@@ -5335,9 +5333,20 @@ interface Resources {
             "Ult Additional DMG CR override": "Ult Additional DMG CR override",
             "Ult Additional DMG CD override": "Ult Additional DMG CD override"
           },
-          "DmgType": "{{ability}} DMG Type",
-          "ResPen": "{{element} RES PEN",
-          "Unconvertible": "Unconvertible {{stat}}"
+          "DmgTypes": {
+            "Basic": "Basic DMG type",
+            "Skill": "Skill DMG type",
+            "Ult": "Ult DMG type",
+            "Fua": "Fua DMG type",
+            "Dot": "Dot DMG type",
+            "Break": "Break DMG type",
+            "MemoSkill": "Memo Skill DMG type",
+            "MemoTalent": "Memo Talent DMG type",
+            "Additional": "Additional DMG type",
+            "SuperBreak": "Super Break DMG type"
+          },
+          "ResPen": "$t(common:Elements.{{element}}) RES PEN",
+          "Unconvertible": "Unconvertible  $t(common:Stats.{{stat}})"
         }
       }
     }

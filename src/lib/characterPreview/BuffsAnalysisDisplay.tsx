@@ -198,61 +198,15 @@ export enum BuffDisplaySize {
   LARGE = 450,
 }
 
-// Pattern priority:\
-// composite\
-// standalone\
-// dmg type\
-// res pen\
-// unconvertible stat\
-// stat (i.e. tCommon(`Stats.${stat}`)\
-// all remaining go to misc without regex checking
 function translatedLabel(stat: keyof ComputedStatsObject, isMemo = false) {
-  const label = StatsConfig[stat]?.label ?? stat
-  const t = i18next.getFixedT(null, 'optimizerTab', 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats')
-  const tCommon = i18next.getFixedT(null, 'common')
-  const compositeLabel = /^(Basic|Skill|Ult|Fua|Dot|Break|Memo Skill|Memo Talent) (ATK scaling|DEF scaling|HP scaling|Special scaling|ATK % boost|Crit Rate boost|Crit DMG boost|DMG boost|Vulnerability|RES PEN|DEF PEN|Break DEF PEN|Toughness DMG|Super Break multiplier|Break Efficiency boost|True DMG multiplier|Final DMG multiplier|Break DMG multiplier|Additional DMG scaling|Additional DMG|DMG)$/
-  const standaloneLabel = /^(ATK % boost|Crit Rate boost|Crit DMG boost|Vulnerability|RES PEN|DEF PEN|Break DEF PEN|Super Break multiplier|Break Efficiency boost|True DMG multiplier|Final DMG multiplier|DMG)$/
-  const dmgTypeLabel = /(Basic|Skill|Ult|Fua|Dot|Break|Memo Skill|Memo Talent|Additional|Super Break) DMG type/
-  const resPenLabel = /(Physical|Fire|Ice|Lightning|Wind|Quantum|Imaginary) RES PEN/
-  const unconvertibleLabel = /Unconvertible (.*)/
-  let matchArr = compositeLabel.exec(label)
-  if (matchArr) {
-    const prefix = t(`CompositeLabels.Prefix.${matchArr[1]}` as never) as string
-    const suffix = t(`CompositeLabels.Suffix.${matchArr[2]}` as never) as string
-    const finalLabel = t('CompositeLabels.Label', { prefix, suffix }) as string
+  const label = StatsConfig[stat].label
+  if (label.composite) {
+    const prefix: string = i18next.t(`${label.prefix.ns}:${label.prefix.key}` as never, label.prefix.args)
+    const suffix: string = i18next.t(`${label.suffix.ns}:${label.suffix.key}` as never, label.suffix.args)
+    const finalLabel = i18next.t('optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Label', { prefix, suffix }) as string
+    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
+  } else {
+    const finalLabel: string = i18next.t(`${label.ns}:${label.key}` as never, label.args)
     return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
   }
-  matchArr = standaloneLabel.exec(label)
-  if (matchArr) {
-    const finalLabel = t(`CompositeLabels.Suffix.${matchArr[1]}` as never) as string
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
-  }
-  matchArr = dmgTypeLabel.exec(label)
-  if (matchArr) {
-    const ability = t(`CompositeLabels.Prefix.${matchArr[1]}` as never) as string
-    const finalLabel = t('DmgType', { ability })
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
-  }
-  matchArr = resPenLabel.exec(label)
-  if (matchArr) {
-    const element = tCommon(`Elements.${matchArr[1]}` as never) as string
-    const finalLabel = t('ResPen', { element })
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
-  }
-  matchArr = unconvertibleLabel.exec(label)
-  if (matchArr) {
-    const stat = tCommon(`Stats.${matchArr[1]}` as never) as string
-    const finalLabel = t('Unconvertible', { stat })
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
-  }// dmg boost uses the full "element dmg boost" so we can't use only ReadableStats
-  if (i18next.exists(`Stats.${label}`)) {
-    const finalLabel = tCommon(`Stats.${label}` as never) as string
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
-  }// the keys don't have a space between the stat and the % but the labels do, remove for comparison/lookup
-  if (i18next.exists(`ReadableStats.${label.replace(' ', '')}`)) {
-    const finalLabel = tCommon(`ReadableStats.${label.replace(' ', '')}` as never) as string
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
-  }
-  const finalLabel = t(`Misc.${label}` as never) as string
-  return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
 }

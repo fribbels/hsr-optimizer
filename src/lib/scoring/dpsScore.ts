@@ -258,8 +258,7 @@ export async function scoreCharacterSimulation(
 
   const clonedContext = TsUtils.clone(context)
 
-  // Run benchmark sims
-  for (const partialSimulationWrapper of partialSimulationWrappers) {
+  const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
     // const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
     const simulationResults = runStatSimulations([partialSimulationWrapper.simulation], simulationForm, context)
     const simulationResult = simulationResults[0]
@@ -275,7 +274,7 @@ export async function scoreCharacterSimulation(
 
     if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
       console.log('Rejected candidate sim with non SPD boots')
-      continue
+      return null
     }
 
     // Define min/max limits
@@ -295,20 +294,29 @@ export async function scoreCharacterSimulation(
       scoringParams: TsUtils.clone(benchmarkScoringParams),
       simulationFlags: simulationFlags,
     }
-    const runnerOutput = await runComputeOptimalSimulationWorker(input)
+
+    return runComputeOptimalSimulationWorker(input)
+  })
+
+  console.time('runner')
+  const runnerOutputs = await Promise.all(runnerPromises)
+  console.timeEnd('runner')
+  runnerOutputs.forEach((runnerOutput, index) => {
+    if (!runnerOutput) return
+
     const candidateBenchmarkSim = runnerOutput.simulation
 
     // DEBUG
     // candidateBenchmarkSim.key = JSON.stringify(candidateBenchmarkSim.request)
     // candidateBenchmarkSim.name = ''
 
-    if (!candidateBenchmarkSim || partialSimulationWrapper.simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+    if (!candidateBenchmarkSim || partialSimulationWrappers[index].simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrappers[index].simulation.request.simFeet != Stats.SPD) {
       // Reject non speed boot builds that exceed the speed cap. 48 - 11 * 2 = 26 max subs that can go in to SPD
       console.log('Rejected candidate sim')
     } else {
       candidateBenchmarkSims.push(candidateBenchmarkSim)
     }
-  }
+  })
 
   console.log(candidateBenchmarkSims)
   //
@@ -510,4 +518,5 @@ function emptyRelicWithSetAndSubstats() {
     substats: [],
   }
 }
+
 

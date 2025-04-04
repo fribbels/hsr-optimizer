@@ -57,7 +57,7 @@ export function getShowcaseSimScoringExecution(
         characterMetadata.scoringMetadata,
         DB.getScoringMetadata(character.id),
       )
-    }, 500)
+    }, 0)
   })
 
   console.log('Return async')

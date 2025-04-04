@@ -44,12 +44,13 @@ export async function runComputeOptimalSimulationWorker(
 ) {
   const promise: Promise<ComputeOptimalSimulationWorkerOutput> = handleWork(input)
 
-  const workerOutput = await promise
-  const runnerOutput: ComputeOptimalSimulationRunnerOutput = {
-    simulation: workerOutput.simulation,
-  }
+  promise.then((workerOutput) => {
+    const runnerOutput: ComputeOptimalSimulationRunnerOutput = {
+      simulation: workerOutput.simulation,
+    }
+    if (callback) callback(runnerOutput)
+  }).catch((e) => console.error(e))
 
-  if (callback) callback(runnerOutput)
   return promise
 }
 

@@ -84,7 +84,7 @@ export function runStatSimulations(
     simulationResults.push(result)
   }
 
-  console.log(simulationResults)
+  // console.log(simulationResults)
 
   return simulationResults
 }

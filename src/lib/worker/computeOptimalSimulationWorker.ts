@@ -1,16 +1,21 @@
 import { Stats, SubStats } from 'lib/constants/constants'
-import { StatToKey } from 'lib/optimization/computedStatsArray'
-import { SimulationResult } from 'lib/scoring/simScoringUtils'
+import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
+import { StatCalculator } from 'lib/relics/statCalculator'
+import { benchmarkScoringParams, ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, SimulationStats } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { SimulationMetadata } from 'types/metadata'
+import { Relic } from 'types/relic'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
+  console.time('Promise1')
+
   const input = e.data
 
-  const optimalSimulation = computeOptimalSimulation(input, () => 1)
+  const optimalSimulation = computeOptimalSimulation(input)
 
   // TODO
   delete optimalSimulation.result.x
@@ -22,7 +27,24 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   self.postMessage(workerOutput)
 }
 
-export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput, applyScoringFunction: () => number) {
+function substatRollsModifier(
+  rolls: number,
+  stat: string,
+  relics: {
+    [key: string]: Relic
+  },
+) {
+  // if (stat == Stats.SPD) return rolls
+  // Diminishing returns
+
+  const mainsCount = Object.values(relics)
+    .filter((x) => x?.augmentedStats?.mainStat == stat)
+    .length
+
+  return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
+}
+
+export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
   const {
     partialSimulationWrapper,
     inputMinSubstatRollCounts,
@@ -34,8 +56,17 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     simulationFlags,
   } = input
 
-  // TODO
-  scoringParams.substatRollsModifier = () => 1
+  const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
+    if (!result) return
+
+    result.unpenalizedSimScore = result.xa[Key.COMBO_DMG]
+    result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams) // TODO: This should be using standardized params
+    result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
+  }
+
+  scoringParams.substatRollsModifier = scoringParams.quality == 0.8
+    ? substatRollsModifier
+    : (rolls: number) => rolls
 
   const minSubstatRollCounts = inputMinSubstatRollCounts
   const maxSubstatRollCounts = inputMaxSubstatRollCounts
@@ -249,4 +280,86 @@ function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
 
 export function DEBUG() {
 
+}
+
+function diminishingReturnsFormula(mainsCount: number, rolls: number) {
+  const lowerLimit = 12 - 2 * mainsCount
+  if (rolls <= lowerLimit) {
+    return rolls
+  }
+
+  const excess = Math.max(0, rolls - (lowerLimit))
+  const diminishedExcess = excess / (Math.pow(excess, 0.25))
+
+  return lowerLimit + diminishedExcess
+}
+
+function spdDiminishingReturnsFormula(mainsCount: number, rolls: number) {
+  const lowerLimit = 12 - 2 * mainsCount
+  if (rolls <= lowerLimit) {
+    return rolls
+  }
+
+  const excess = Math.max(0, rolls - (lowerLimit))
+  const diminishedExcess = excess / (Math.pow(excess, 0.10))
+
+  return lowerLimit + diminishedExcess
+}
+
+function invertDiminishingReturnsSpdFormula(mainsCount: number, target: number, rollValue: number) {
+  let current = 0
+  let rolls = 0
+
+  while (current < target) {
+    rolls++
+    current = spdDiminishingReturnsFormula(mainsCount, rolls) * rollValue
+  }
+
+  const previousRolls = rolls - 1
+  const previousValue = spdDiminishingReturnsFormula(mainsCount, previousRolls) * rollValue
+
+  if (current === target) {
+    return rolls
+  }
+
+  // Narrow down interpolation of fractional rolls by binary search
+  let low = previousRolls
+  let high = rolls
+  let mid = 0
+  const precision = 1e-6
+
+  while (high - low > precision) {
+    mid = (low + high) / 2
+    const interpolatedValue = spdDiminishingReturnsFormula(mainsCount, mid) * rollValue
+
+    if (interpolatedValue < target) {
+      low = mid
+    } else {
+      high = mid
+    }
+  }
+
+  return mid
+}
+
+export function calculatePenaltyMultiplier(
+  simulationResult: SimulationResult,
+  metadata: SimulationMetadata,
+  scoringParams: ScoringParams,
+) {
+  let newPenaltyMultiplier = 1
+  if (metadata.breakpoints) {
+    for (const stat of Object.keys(metadata.breakpoints)) {
+      if (Utils.isFlat(stat)) {
+        // Flats are penalized by their percentage
+        newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
+      } else {
+        // Percents are penalize by half of the missing stat's breakpoint roll percentage
+        newPenaltyMultiplier *= Math.min(1,
+          1 - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality))
+      }
+    }
+  }
+  simulationResult.penaltyMultiplier = newPenaltyMultiplier
+  return newPenaltyMultiplier
 }

@@ -11,8 +11,6 @@ import { SimulationMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
-  console.time('Promise1')
-
   const input = e.data
 
   const optimalSimulation = computeOptimalSimulation(input)

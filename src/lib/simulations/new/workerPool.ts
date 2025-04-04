@@ -1,122 +1,145 @@
-// Define interface types for tasks and worker pool
-interface Task<InputType, OutputType> {
-  input: InputType
-  resolve: (value: OutputType | PromiseLike<OutputType>) => void
-  reject: (reason?: any) => void
-}
+import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
+import { WorkerType } from 'lib/worker/workerUtils'
 
-export class WorkerPool<InputType, OutputType> {
+// Improved worker pool with debugging
+export class WorkerPool {
   private workers: Worker[] = []
-  private queue: Task<InputType, OutputType>[] = []
   private available: number[] = []
+  private queue: Array<{
+    input: any
+    resolve: (value: any) => void
+    reject: (reason?: any) => void
+  }> = []
 
-  /**
-   * Creates a new worker pool
-   * @param size Number of workers to create
-   * @param workerScript URL or path to the worker script
-   * @param options Optional worker options
-   */
-  constructor(
-    size: number,
-    private workerScript: string | URL,
-    private options?: WorkerOptions,
-  ) {
+  constructor(size: number) {
+    console.log(`[WorkerPool] Initializing pool with ${size} workers`)
+
     // Create workers once
     for (let i = 0; i < size; i++) {
-      const worker = new Worker(workerScript, options)
-      this.workers.push(worker)
-      this.available.push(i)
+      console.log(`[WorkerPool] Creating worker ${i}`)
+      try {
+        const worker = new ComputeOptimalSimulationWorker()
+        this.setupWorker(worker, i)
+        this.workers.push(worker)
+        this.available.push(i)
+      } catch (error) {
+        console.error(`[WorkerPool] Error creating worker ${i}:`, error)
+      }
     }
+
+    console.log(`[WorkerPool] Pool initialized with ${this.workers.length} workers`)
   }
 
-  /**
-   * Gets the current number of available workers
-   */
-  get availableWorkers(): number {
-    return this.available.length
-  }
-
-  /**
-   * Gets the current size of the task queue
-   */
-  get queueSize(): number {
-    return this.queue.length
-  }
-
-  /**
-   * Gets the total size of the worker pool
-   */
-  get poolSize(): number {
-    return this.workers.length
-  }
-
-  /**
-   * Runs a task on an available worker, or queues it if none available
-   * @param input The input to pass to the worker
-   * @returns Promise that resolves with the worker result
-   */
-  runTask(input: InputType): Promise<OutputType> {
-    return new Promise<OutputType>((resolve, reject) => {
-      const task: Task<InputType, OutputType> = { input, resolve, reject }
-
+  runTask(input: any): Promise<any> {
+    return new Promise((resolve, reject) => {
       if (this.available.length > 0) {
+        // Use an available worker
         const workerIndex = this.available.shift()!
-        this.runTaskOnWorker(task, workerIndex)
+        this.runTaskOnWorker(input, resolve, reject, workerIndex)
       } else {
-        this.queue.push(task)
+        // Queue the task for later
+        this.queue.push({ input, resolve, reject })
       }
     })
   }
 
-  /**
-   * Terminates all workers in the pool
-   */
   terminate(): void {
-    this.workers.forEach((worker) => worker.terminate())
+    this.workers.forEach((worker, index) => {
+      console.log(`[WorkerPool] Terminating worker ${index}`)
+      worker.terminate()
+    })
     this.workers = []
     this.available = []
     this.queue = []
   }
 
-  /**
-   * Runs a specific task on a specific worker
-   * @param task The task to run
-   * @param workerIndex The index of the worker to use
-   */
-  private runTaskOnWorker(task: Task<InputType, OutputType>, workerIndex: number): void {
+  getStats(): { workers: number; available: number; queued: number } {
+    return {
+      workers: this.workers.length,
+      available: this.available.length,
+      queued: this.queue.length,
+    }
+  }
+
+  private setupWorker(worker: Worker, index: number): void {
+    // Add global error handler
+    worker.onerror = (error) => {
+      console.error(`[WorkerPool] Worker ${index} error:`, error)
+    }
+
+    // Test message to ensure worker is responsive
+    worker.postMessage({ type: 'PING' })
+
+    // Setup one-time ping response listener
+    const pingHandler = (e: MessageEvent) => {
+      if (e.data?.type === 'PONG') {
+        console.log(`[WorkerPool] Worker ${index} responded to ping`)
+        worker.removeEventListener('message', pingHandler)
+      }
+    }
+
+    worker.addEventListener('message', pingHandler)
+  }
+
+  private runTaskOnWorker(input: any, resolve: (value: any) => void, reject: (reason?: any) => void, workerIndex: number): void {
     const worker = this.workers[workerIndex]
 
     const messageHandler = (e: MessageEvent) => {
       worker.removeEventListener('message', messageHandler)
-      task.resolve(e.data as OutputType)
-
-      // Return worker to the available pool
-      this.available.push(workerIndex)
-
-      // Check if there are queued tasks
-      if (this.queue.length > 0) {
-        const nextTask = this.queue.shift()!
-        this.runTaskOnWorker(nextTask, workerIndex)
-      }
+      worker.removeEventListener('error', errorHandler)
+      resolve(e.data)
+      this.workerDone(workerIndex)
     }
 
-    const errorHandler = (error: ErrorEvent) => {
+    const errorHandler = (e: ErrorEvent) => {
+      console.error(`[WorkerPool] Worker ${workerIndex} task error:`, e)
+      worker.removeEventListener('message', messageHandler)
       worker.removeEventListener('error', errorHandler)
-      console.error('Worker error:', error)
-      task.reject(error)
-
-      // Return worker to the available pool
-      this.available.push(workerIndex)
-
-      // Check if there are queued tasks
-      if (this.queue.length > 0) {
-        const nextTask = this.queue.shift()!
-        this.runTaskOnWorker(nextTask, workerIndex)
-      }
+      reject(e)
+      this.workerDone(workerIndex)
     }
 
     worker.addEventListener('message', messageHandler)
     worker.addEventListener('error', errorHandler)
-    worker.postMessage(task.input)
+
+    worker.postMessage(input)
+  }
+
+  private workerDone(workerIndex: number): void {
+    // Check if there are queued tasks
+    if (this.queue.length > 0) {
+      const task = this.queue.shift()!
+      this.runTaskOnWorker(task.input, task.resolve, task.reject, workerIndex)
+    } else {
+      // Return worker to the available pool
+      this.available.push(workerIndex)
+    }
+  }
+}
+
+// Singleton instance for app-wide use
+export const simulationWorkerPool = new WorkerPool(
+  Math.min(navigator.hardwareConcurrency || 4, 4), // Use available cores, max 4
+)
+
+// Updated runner function to use the pool with debugging
+export async function runComputeOptimalSimulationWorker(input: any): Promise<any> {
+  // Ensure workerType is set properly
+  const enhancedInput = {
+    ...input,
+    workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION, // This matches your WorkerType enum value
+  }
+
+  try {
+    const startTime = performance.now()
+    const result = await simulationWorkerPool.runTask(enhancedInput)
+    const endTime = performance.now()
+
+    console.log(`[WorkerPool] Task completed in ${endTime - startTime}ms`)
+    return result
+  } catch (error) {
+    console.error('[WorkerPool] Worker execution error:', error)
+    // Return a default error result
+    return { simulation: null }
   }
 }

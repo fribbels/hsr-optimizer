@@ -15,9 +15,10 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
+import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { ComputeOptimalSimulationRunnerInput, runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { ComputeOptimalSimulationRunnerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
 import { ScoringMetadata, ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
@@ -258,6 +259,7 @@ export async function scoreCharacterSimulation(
 
   const clonedContext = TsUtils.clone(context)
 
+  console.time('!!!!!!!!!!!!!!!!! runner')
   const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
     // const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
     const simulationResults = runStatSimulations([partialSimulationWrapper.simulation], simulationForm, context)
@@ -298,9 +300,8 @@ export async function scoreCharacterSimulation(
     return runComputeOptimalSimulationWorker(input)
   })
 
-  console.time('runner')
   const runnerOutputs = await Promise.all(runnerPromises)
-  console.timeEnd('runner')
+  console.timeEnd('!!!!!!!!!!!!!!!!! runner')
   runnerOutputs.forEach((runnerOutput, index) => {
     if (!runnerOutput) return
 

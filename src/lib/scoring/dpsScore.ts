@@ -9,15 +9,20 @@ import {
   invertDiminishingReturnsSpdFormula,
   originalScoringParams,
   RelicBuild,
+  ScoringFunction,
+  simSorter,
   SimulationFlags,
+  SimulationResult,
   SimulationScore,
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
+import { simulateMaximumBuild } from 'lib/scoring/simulateMaximum'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { calculatePenaltyMultiplier } from 'lib/worker/computeOptimalSimulationWorker'
 import { ComputeOptimalSimulationRunnerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
@@ -177,13 +182,13 @@ export async function scoreCharacterSimulation(
 
   // Generate scoring function
 
-  // const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
-  //   if (!result) return
-  //
-  //   result.unpenalizedSimScore = result.xa[Key.COMBO_DMG]
-  //   result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
-  //   result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
-  // }
+  const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
+    if (!result) return
+
+    const unpenalizedSimScore = result.xa[Key.COMBO_DMG]
+    const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
+    result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
+  }
   //
   // // ===== Simulate the original build =====
   //
@@ -323,28 +328,30 @@ export async function scoreCharacterSimulation(
   //
   // // Try to minimize the penalty modifier before optimizing sim score
   //
-  // candidateBenchmarkSims.sort(simSorter)
-  // const benchmarkSim = candidateBenchmarkSims[0]
-  // const benchmarkSimResult = benchmarkSim.result
+  candidateBenchmarkSims.sort(simSorter)
+  const benchmarkSim = candidateBenchmarkSims[0]
+  const benchmarkSimResult = benchmarkSim.result
   //
   // // console.log('bestSims', candidateBenchmarkSims)
   //
   // // ===== Calculate the maximum build =====
   //
-  // const maximumSim = simulateMaximumBuild(
-  //   benchmarkSim,
-  //   targetSpd,
-  //   metadata,
-  //   simulationForm,
-  //   context,
-  //   applyScoringFunction,
-  //   baselineSimResult,
-  //   originalSimResult,
-  //   simulationFlags,
-  // )
-  // const maximumSimResult = maximumSim.result
-  // applyScoringFunction(maximumSimResult)
-  //
+  const maximumSim = await simulateMaximumBuild(
+    benchmarkSim,
+    targetSpd,
+    metadata,
+    simulationForm,
+    context,
+    applyScoringFunction,
+    baselineSimResult,
+    originalSimResult,
+    simulationFlags,
+  )
+  const maximumSimResult = maximumSim.result!
+  applyScoringFunction(maximumSimResult)
+
+  console.log('max', maximumSim)
+
   // // ===== Calculate percentage values =====
   //
   // const benchmarkSimScore = benchmarkSimResult.simScore

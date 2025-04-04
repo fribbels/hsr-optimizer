@@ -3,6 +3,7 @@ import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { benchmarkScoringParams, ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { Simulation, SimulationStats } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -13,6 +14,8 @@ import { Relic } from 'types/relic'
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
   const input = e.data
 
+  const context = input.context
+  transformWorkerContext(context)
   const optimalSimulation = computeOptimalSimulation(input)
 
   // TODO

@@ -1,7 +1,7 @@
 import { Stats, SubStats } from 'lib/constants/constants'
 import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { benchmarkScoringParams, ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { benchmarkScoringParams, ScoringFunction, ScoringParams, SimulationResult, substatRollsModifier } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { Simulation, SimulationStats } from 'lib/simulations/statSimulationController'
@@ -9,7 +9,6 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { SimulationMetadata } from 'types/metadata'
-import { Relic } from 'types/relic'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
   const input = e.data
@@ -28,22 +27,22 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   self.postMessage(workerOutput)
 }
 
-function substatRollsModifier(
-  rolls: number,
-  stat: string,
-  relics: {
-    [key: string]: Relic
-  },
-) {
-  // if (stat == Stats.SPD) return rolls
-  // Diminishing returns
-
-  const mainsCount = Object.values(relics)
-    .filter((x) => x?.augmentedStats?.mainStat == stat)
-    .length
-
-  return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
-}
+// function substatRollsModifier(
+//   rolls: number,
+//   stat: string,
+//   relics: {
+//     [key: string]: Relic
+//   },
+// ) {
+//   // if (stat == Stats.SPD) return rolls
+//   // Diminishing returns
+//
+//   const mainsCount = Object.values(relics)
+//     .filter((x) => x?.augmentedStats?.mainStat == stat)
+//     .length
+//
+//   return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
+// }
 
 export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
   const {

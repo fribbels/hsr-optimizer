@@ -164,7 +164,7 @@ function convertRollCountsToSubstatTotal(substat: SubStats, sim: Simulation, par
     : StatCalculator.getMaxedSubstatValue(substat, params.quality)
 
   let substatCount = sim.request.stats[substat] || 0
-  substatCount = params.substatRollsModifier(substatCount, substat, sim.request)
+  substatCount = params.substatRollsModifier(substatCount, substat, sim)
 
   return precisionRound(substatCount * substatValue * substatScale)
 }

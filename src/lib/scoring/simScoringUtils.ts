@@ -18,11 +18,11 @@ export type ScoringParams = {
   baselineFreeRolls: number
   limitFlatStats: boolean
   enforcePossibleDistribution: boolean
-  substatRollsModifier: (rolls: number,
+  substatRollsModifier: (
+    rolls: number,
     stat: string,
-    relics: {
-      [key: string]: Relic
-    }) => number
+    sim: Simulation,
+  ) => number
 }
 
 export type SimulationResult = OptimizerDisplayData & {

@@ -122,12 +122,10 @@ export function substatRollsModifier(
   sim: Simulation,
 ) {
   const mainsCount = [
+    sim.request.simBody,
     sim.request.simFeet,
-    sim.request.simFeet,
-    sim.request.simFeet,
-    sim.request.simFeet,
-    sim.request.simFeet,
-    sim.request.simFeet,
+    sim.request.simPlanarSphere,
+    sim.request.simLinkRope,
   ].filter((x) => x == stat).length
 
   return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)

@@ -17,6 +17,8 @@ export function transformWorkerContext(context: OptimizerContext) {
     // Reconstruct arrays after transfer
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
     action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
+
+    action.conditionalState = {}
   }
 }
 

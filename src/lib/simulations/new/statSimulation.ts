@@ -58,6 +58,9 @@ export function runStatSimulations(
   const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
   const simulationResults: RunStatSimulationsResult[] = []
+  for (const action of context.actions) {
+    action.conditionalState = {}
+  }
 
   for (const sim of simulations) {
     const request = sim.request

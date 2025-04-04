@@ -200,7 +200,8 @@ export enum BuffDisplaySize {
 }
 
 function translatedLabel(stat: keyof ComputedStatsObject, isMemo = false) {
-  const label = StatsConfig[stat].label
+  const label = StatsConfig[stat]?.label
+  if (!label) return stat
   if (label.composite) {
     const prefix: string = i18next.t(`${label.prefix.ns}:${label.prefix.key}` as never, label.prefix.args)
     const suffix: string = i18next.t(`${label.suffix.ns}:${label.suffix.key}` as never, label.suffix.args)

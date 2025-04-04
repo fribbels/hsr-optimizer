@@ -150,6 +150,7 @@ export const Utils = {
         style: {
           zoom: scale,
         },
+        skipFonts: true, // TODO: remove once html-to-image gets patched (c.f. https://github.com/bubkoo/html-to-image/issues/508)?
       }
 
       let i = 0

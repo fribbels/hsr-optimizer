@@ -20,8 +20,6 @@ import { ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
-// FIXME HIGH
-
 export type AsyncSimScoringExecution = {
   done: boolean
   result: SimulationScore | null
@@ -36,15 +34,13 @@ export function getShowcaseSimScoringExecution(
 ): AsyncSimScoringExecution {
   console.log('Start async')
 
-  // Create a properly structured async result object
   const asyncResult: AsyncSimScoringExecution = {
     done: false,
     result: null,
-    promise: null as any, // Will be assigned below
+    promise: null as any,
   }
 
-  // Create the promise that actually performs the work
-  asyncResult.promise = (async () => {
+  async function runSimulation() {
     console.log('Executing async operation')
 
     try {
@@ -63,7 +59,6 @@ export function getShowcaseSimScoringExecution(
 
       simulationScore.characterMetadata = characterMetadata
 
-      // Update the result fields
       asyncResult.result = simulationScore
       asyncResult.done = true
 
@@ -73,7 +68,9 @@ export function getShowcaseSimScoringExecution(
       asyncResult.done = true
       throw error
     }
-  })()
+  }
+
+  asyncResult.promise = runSimulation()
 
   console.log('Return async')
   return asyncResult

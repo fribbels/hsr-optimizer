@@ -222,7 +222,7 @@ export default function RelicFilterBar(props: {
 
       weights.rerollAvgSelectedEquippedDelta = characterId ? weights.rerollAvgSelected : 0
       if (characterId) {
-        const equippedRelicId = DB.getCharacterById(characterId).equipped[relic.part]
+        const equippedRelicId = DB.getCharacterById(characterId)?.equipped?.[relic.part]
         if (equippedRelicId) weights.rerollAvgSelectedEquippedDelta -= relicScorer.scoreRelicPotential(DB.getRelicById(equippedRelicId), characterId).averagePct
       }
 

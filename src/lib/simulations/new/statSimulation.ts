@@ -13,7 +13,7 @@ type RunSimulationsParams = {
   quality: number
   speedRollValue: number
   mainStatMultiplier: number
-  substatRollsModifier: (num: number, stat: string, simRequest: SimulationRequest) => number
+  substatRollsModifier: (num: number, stat: string, sim: Simulation) => number
   simulationFlags: SimulationFlags
 }
 
@@ -77,6 +77,7 @@ export function runStatSimulations(
       forcedBasicSpd,
     )
 
+    // x is only stable only if a single run was computed
     const result: RunStatSimulationsResult = {
       x: x,
       xa: x.a,

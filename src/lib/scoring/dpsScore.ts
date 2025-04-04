@@ -182,6 +182,7 @@ export async function scoreCharacterSimulation(
 
   // Generate scoring function
 
+  // Using this on a worker output is dangerous as only simScore is reliable, x may have changed
   const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
     if (!result) return
 
@@ -348,7 +349,7 @@ export async function scoreCharacterSimulation(
     simulationFlags,
   )
   const maximumSimResult = maximumSim.result!
-  applyScoringFunction(maximumSimResult)
+  // applyScoringFunction(maximumSimResult)
 
   console.log('max', maximumSim)
 

@@ -35,35 +35,48 @@ export function getShowcaseSimScoringExecution(
   showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
 ): AsyncSimScoringExecution {
   console.log('Start async')
-  const asyncResult: Partial<AsyncSimScoringExecution> = {
+
+  // Create a properly structured async result object
+  const asyncResult: AsyncSimScoringExecution = {
     done: false,
     result: null,
+    promise: null as any, // Will be assigned below
   }
 
-  asyncResult.promise = new Promise<SimulationScore | null>((resolve, reject) => {
-    console.log('Setting up async operation')
+  // Create the promise that actually performs the work
+  asyncResult.promise = (async () => {
+    console.log('Executing async operation')
 
-    setTimeout(() => {
-      console.log('Call scoreCharacterSimulation (async)')
+    try {
       const characterMetadata = DB.getMetadata().characters[character.id]
 
-      void scoreCharacterSimulation(
+      const simulationScore = await scoreCharacterSimulation(
         character,
         displayRelics,
         teamSelection,
         showcaseTemporaryOptions,
         characterMetadata.scoringMetadata,
         DB.getScoringMetadata(character.id),
-      ).then((simulationScore) => {
-        console.log('DONE', simulationScore)
-        asyncResult.result = simulationScore
-        asyncResult.done = true
-      })
-    }, 0)
-  })
+      )
+
+      console.log('DONE', simulationScore)
+
+      simulationScore.characterMetadata = characterMetadata
+
+      // Update the result fields
+      asyncResult.result = simulationScore
+      asyncResult.done = true
+
+      return simulationScore
+    } catch (error) {
+      console.error('Error in simulation:', error)
+      asyncResult.done = true
+      throw error
+    }
+  })()
 
   console.log('Return async')
-  return asyncResult as AsyncSimScoringExecution
+  return asyncResult
 }
 
 export type SimulationStatUpgrade = {

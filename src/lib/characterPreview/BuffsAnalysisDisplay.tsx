@@ -4,6 +4,7 @@ import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
@@ -76,8 +77,9 @@ function rerunSim(result?: SimulationScore) {
   result.simulationForm.trace = true
   const context = generateContext(result.simulationForm)
   transformWorkerContext(context)
-  const rerun = runStatSimulations(result.simulationForm, context, [result.originalSim], originalScoringParams)[0]
-  const x = rerun.tracedX!
+  const rerun = runStatSimulations([result.originalSim], result.simulationForm, context, originalScoringParams)[0]
+  const optimizerDisplayData = formatOptimizerDisplayData(rerun.x)
+  const x = optimizerDisplayData.tracedX!
   return aggregateCombatBuffs(x, result.simulationForm)
 }
 

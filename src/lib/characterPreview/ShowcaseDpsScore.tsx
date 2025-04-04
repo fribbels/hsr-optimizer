@@ -197,6 +197,8 @@ export function ShowcaseDpsScoreHeader(props: {
   const { t } = useTranslation(['charactersTab'])
   const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
+  console.log('???', simScoringExecution)
+
   const verified = Object.values(relics).filter((x) => x?.verified).length == 6
   const numRelics = Object.values(relics).filter((x) => !!x).length
 

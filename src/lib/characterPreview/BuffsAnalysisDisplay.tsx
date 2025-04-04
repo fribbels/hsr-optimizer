@@ -9,6 +9,7 @@ import { originalScoringParams, SimulationScore } from 'lib/scoring/simScoringUt
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runSimulations } from 'lib/simulations/statSimulationController'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -159,9 +160,9 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
     if (bool) {
       value = buff.value ? 'True' : 'False'
     } else if (percent) {
-      value = `${TsUtils.precisionRound(buff.value * 100, 2)} %`
+      value = `${TsUtils.precisionRound(buff.value * 100, 2).toLocaleString(currentLocale())} %`
     } else {
-      value = `${TsUtils.precisionRound(buff.value, 0)}`
+      value = TsUtils.precisionRound(buff.value, 0).toLocaleString(currentLocale())
     }
 
     return {

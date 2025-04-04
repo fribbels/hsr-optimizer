@@ -1,7 +1,7 @@
 import { Constants, CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { generateFullDefaultForm, generatePartialSimulations, simulateBaselineCharacter, simulateOriginalCharacter } from 'lib/scoring/characterScorer'
+import { generateFullDefaultForm, generatePartialSimulations, generateStatImprovements, simulateBaselineCharacter, simulateOriginalCharacter } from 'lib/scoring/characterScorer'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import {
   benchmarkScoringParams,
@@ -39,7 +39,7 @@ export async function scoreCharacterSimulation(
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
   defaultScoringMetadata: ScoringMetadata,
   customScoringMetadata: ScoringMetadata,
-): SimulationScore | null {
+) {
   const originalForm = character.form
   const characterId = originalForm.characterId
   const characterEidolon = originalForm.characterEidolon
@@ -209,7 +209,7 @@ export async function scoreCharacterSimulation(
     benchmarkScoringParams,
     simulationFlags,
   )
-  // applyScoringFunction(baselineSimResult)
+  applyScoringFunction(baselineSimResult)
   //
   // // Special handling for poet - force the spd to certain thresholds when poet is active
   //
@@ -255,7 +255,7 @@ export async function scoreCharacterSimulation(
     }
   }
   //
-  // applyScoringFunction(originalSimResult)
+  applyScoringFunction(originalSimResult)
   //
   // // Generate partials to calculate speed rolls
   //
@@ -352,80 +352,78 @@ export async function scoreCharacterSimulation(
 
   console.log('max', maximumSim)
 
-  // // ===== Calculate percentage values =====
-  //
-  // const benchmarkSimScore = benchmarkSimResult.simScore
-  // const originalSimScore = originalSimResult.simScore
-  // const baselineSimScore = baselineSimResult.simScore
-  // const maximumSimScore = maximumSimResult.simScore
-  //
-  // const percent = originalSimScore >= benchmarkSimScore
-  //   ? 1 + (originalSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-  //   : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
-  //
-  // // ===== Calculate upgrades =====
-  //
-  // const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
-  //   originalSimResult,
-  //   originalSim, candidateBenchmarkSims[0],
-  //   simulationForm,
-  //   context,
-  //   metadata,
-  //   applyScoringFunction,
-  //   benchmarkScoringParams,
-  // )
-  //
-  // for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
-  //   const upgradeSimScore = upgrade.simulationResult.simScore
-  //   const percent = upgradeSimScore >= benchmarkSimScore
-  //     ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-  //     : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
-  //   upgrade.percent = percent
-  // }
-  //
-  // // Sort upgrades descending
-  // substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-  // setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-  // mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-  //
-  // const simScoringResult: SimulationScore = {
-  //   percent: percent,
-  //
-  //   originalSim: originalSim,
-  //   baselineSim: baselineSim,
-  //   benchmarkSim: benchmarkSim,
-  //   maximumSim: maximumSim,
-  //
-  //   originalSimResult: originalSimResult,
-  //   baselineSimResult: baselineSimResult,
-  //   benchmarkSimResult: benchmarkSimResult,
-  //   maximumSimResult: maximumSimResult,
-  //
-  //   originalSimScore: originalSimScore,
-  //   baselineSimScore: baselineSimScore,
-  //   benchmarkSimScore: benchmarkSimScore,
-  //   maximumSimScore: maximumSimScore,
-  //
-  //   substatUpgrades: substatUpgradeResults,
-  //   setUpgrades: setUpgradeResults,
-  //   mainUpgrades: mainUpgradeResults,
-  //
-  //   simulationForm: simulationForm,
-  //   simulationMetadata: metadata,
-  //   characterMetadata: characterMetadata,
-  //
-  //   originalSpd: originalSpd,
-  //   spdBenchmark: spdBenchmark,
-  //   simulationFlags: simulationFlags,
-  // }
-  //
-  // cachedSims[cacheKey] = simScoringResult
-  //
-  // // console.log('simScoringResult', simScoringResult)
-  //
-  // return simScoringResult
+  // ===== Calculate percentage values =====
 
-  return null
+  const benchmarkSimScore = benchmarkSimResult.simScore
+  const originalSimScore = originalSimResult.simScore
+  const baselineSimScore = baselineSimResult.simScore
+  const maximumSimScore = maximumSimResult.simScore
+
+  const percent = originalSimScore >= benchmarkSimScore
+    ? 1 + (originalSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+    : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+
+  // ===== Calculate upgrades =====
+
+  const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
+    originalSimResult,
+    originalSim, candidateBenchmarkSims[0],
+    simulationForm,
+    context,
+    metadata,
+    applyScoringFunction,
+    benchmarkScoringParams,
+  )
+  //
+  for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
+    const upgradeSimScore = upgrade.simulationResult.simScore
+    const percent = upgradeSimScore >= benchmarkSimScore
+      ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+      : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+    upgrade.percent = percent
+  }
+
+  // Sort upgrades descending
+  substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+
+  const simScoringResult: SimulationScore = {
+    percent: percent,
+
+    originalSim: originalSim,
+    baselineSim: baselineSim,
+    benchmarkSim: benchmarkSim,
+    maximumSim: maximumSim,
+
+    originalSimResult: originalSimResult,
+    baselineSimResult: baselineSimResult,
+    benchmarkSimResult: benchmarkSimResult,
+    maximumSimResult: maximumSimResult,
+
+    originalSimScore: originalSimScore,
+    baselineSimScore: baselineSimScore,
+    benchmarkSimScore: benchmarkSimScore,
+    maximumSimScore: maximumSimScore,
+
+    substatUpgrades: substatUpgradeResults,
+    setUpgrades: setUpgradeResults,
+    mainUpgrades: mainUpgradeResults,
+
+    simulationForm: simulationForm,
+    simulationMetadata: metadata,
+    // characterMetadata: metadata,
+
+    originalSpd: originalSpd,
+    spdBenchmark: spdBenchmark,
+    simulationFlags: simulationFlags,
+  }
+
+  cachedSims[cacheKey] = simScoringResult
+
+  // console.log('simScoringResult', simScoringResult)
+
+  return simScoringResult
 }
 
 type SimulationSets = {

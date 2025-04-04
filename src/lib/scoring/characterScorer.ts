@@ -47,16 +47,18 @@ export function getShowcaseSimScoringExecution(
       console.log('Call scoreCharacterSimulation (async)')
       const characterMetadata = DB.getMetadata().characters[character.id]
 
-      // scoreCharacterSimulation(character, displayRelics, teamSelection, showcaseTemporaryOptions, defa)
-
-      scoreCharacterSimulation(
+      void scoreCharacterSimulation(
         character,
         displayRelics,
         teamSelection,
         showcaseTemporaryOptions,
         characterMetadata.scoringMetadata,
         DB.getScoringMetadata(character.id),
-      )
+      ).then((simulationScore) => {
+        console.log('DONE', simulationScore)
+        asyncResult.result = simulationScore
+        asyncResult.done = true
+      })
     }, 0)
   })
 
@@ -72,7 +74,7 @@ export type SimulationStatUpgrade = {
   percent?: number
 }
 
-function generateStatImprovements(
+export function generateStatImprovements(
   originalSimResult: SimulationResult,
   originalSim: Simulation,
   benchmark: Simulation,

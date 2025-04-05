@@ -524,19 +524,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: Basic
-      Skill: Skill
-      Ult: Ult
-      Talent: Talento
-      Technique: Técnica
-      Trace: Traço
-      Memo: Memo
-      E1: E1
-      E2: E2
-      E4: E4
-      E6: E6
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Subatributo'
@@ -577,3 +564,32 @@ ExpandedDataPanel:
       jointDmg: Dano Conjunto
       dotDmg: Dano DoT
       memoDmg: Dano Memo
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Basic
+      Skill: Skill
+      Ult: Ult
+      Talent: Talento
+      Technique: Técnica
+      Trace: Traço
+      Memo: Memo
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Basic: Basic
+          Skill: Skill
+          Ult: Ult
+          Fua: FuA
+          Dot: Dot
+          Break: Quebra
+        Suffix:
+          DMG boost: Boost de DMG
+          Additional DMG: Dano Adicional
+          DMG: DANO
+      Misc:
+        Memosprite: Memosprite
+        Combo DMG: Dano de Combo

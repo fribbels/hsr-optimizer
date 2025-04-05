@@ -80,3 +80,12 @@ ExpandedDataPanel:
     TooltipText:
       breakDmg: 擊破傷害
       dotDmg: 持續傷害
+  BuffsAnalysisDisplay:
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Break: 擊破
+        Suffix:
+          DMG boost: 傷害提高
+      Misc:
+        Combo DMG: 連招傷害

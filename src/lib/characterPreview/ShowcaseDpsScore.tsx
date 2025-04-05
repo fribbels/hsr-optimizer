@@ -283,7 +283,7 @@ function ShowcaseTeamSelectPanel(props: {
         if (selection == SETTINGS_TEAM) {
           window.modalApi.info({
             icon: null,
-            width: 400,
+            width: 'fit-content',
             okText: t('common:Ok'),
             maskClosable: true,
             content: (

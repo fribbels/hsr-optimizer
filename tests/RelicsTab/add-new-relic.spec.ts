@@ -15,7 +15,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
 
   // add "hands"
   await page.locator('label:nth-child(2) > span:nth-child(2) > .ant-image > .ant-image-img').click()
-  await page.locator('#set').click()
+  await page.getByRole('dialog').getByText('Passerby of Wandering Cloud').click()
 
   // add "Musketeer of Wild Wheat"
   await page.getByText('Musketeer of Wild Wheat').nth(2).click()

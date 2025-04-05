@@ -10,7 +10,7 @@ import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
-export async function simulateMaximumBuild(
+export async function generatePerfectBuild(
   bestSim: Simulation,
   targetSpd: number,
   metadata: SimulationMetadata,

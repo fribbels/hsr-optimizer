@@ -6,7 +6,7 @@ import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { calculateSetNames, scoreCharacterSimulation } from 'lib/scoring/dpsScore'
 import { PartialSimulationWrapper, RelicBuild, ScoringFunction, ScoringParams, SimulationFlags, SimulationResult, SimulationScore } from 'lib/scoring/simScoringUtils'
-import { convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
+import { convertRelicsToSimulation, runSimulations, Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -436,14 +436,6 @@ export function generateFullDefaultForm(
 //   )
 //   return currentSimulation
 // }
-
-function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
-  let sum = 0
-  for (const stat of SubStats) {
-    sum += maxSubstatRollCounts[stat]
-  }
-  return sum
-}
 
 function isErrRopeForced(
   form: Form,

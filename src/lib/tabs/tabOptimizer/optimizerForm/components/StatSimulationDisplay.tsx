@@ -221,7 +221,7 @@ function SimulationInputs() {
   )
 }
 
-function SetsSection(props: { simType: string }) {
+export function SetsSection(props: { simType: string }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   return (
     <>
@@ -276,7 +276,7 @@ function SetsSection(props: { simType: string }) {
   )
 }
 
-function MainStatsSection(props: { simType: string }) {
+export function MainStatsSection(props: { simType: string }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation.MainStatsSelection' })
   const BodyStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.EHR, Stats.OHB]

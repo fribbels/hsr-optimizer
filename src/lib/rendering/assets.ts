@@ -126,6 +126,9 @@ export const Assets = {
   getScoreNoSpeed: () => {
     return getImageUrl('/misc/noSpdScore.webp')
   },
+  getBlankLightCone: () => {
+    return getImageUrl('/misc/blankLightCone.webp')
+  },
   getPart: (part: string) => {
     const mapping: Record<Parts, string> = {
       [Parts.Head]: 'partHead',

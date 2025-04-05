@@ -1,7 +1,5 @@
-export type NumberToNumberMap = {
-  [key: number]: number
-}
+export type NumberToNumberMap = Record<number, number>
 
-export type StringToNumberMap = {
-  [key: string]: number
-}
+export type StringToNumberMap = Record<string, number>
+
+export type EmptyObject = Record<string, never>

@@ -27,6 +27,7 @@ CharacterWithCount_other: "{{count}} characters"
 Character_one: character
 Character_other: characters
 VerifiedRelicHoverText: Relic substats verified by relic scorer (speed decimals)
+Verified4LinerHoverText: Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
 CombatStats: Combat Stats
 MemospriteLabel: "{{label}}ᴹ"
 Parts:

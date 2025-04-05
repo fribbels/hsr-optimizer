@@ -50,11 +50,13 @@ export const RelicRollGrader = {
         x.rolls = { high: 0, mid: 0, low: 0 }
         x.addedRolls = 0
       })
+      relic.initialRolls = 0
       return
     }
 
     // Verified relics *should* have their rolls correct - validate that the roll counts match the stat value before continuing
     if (relic.verified && !relic.substats.some((substat) => substat.rolls == null)) {
+      calculateInitialRolls(relic)
       if (validatedRolls(relic)) {
         return
       }
@@ -83,6 +85,7 @@ export const RelicRollGrader = {
       // @ts-ignore addedRolls potentially undefined per the type
       highestRolledSubstat.addedRolls -= 1
     }
+    calculateInitialRolls(relic)
   },
 }
 
@@ -100,4 +103,10 @@ function validatedRolls(relic: UnaugmentedRelic) {
   }
 
   return true
+}
+
+// assumes accurate addedRolls values
+function calculateInitialRolls(relic: UnaugmentedRelic) {
+  const totalRolls = relic.substats.reduce((acc, curr) => acc + (curr.addedRolls ?? 0) + 1, 0)
+  relic.initialRolls = totalRolls - Math.floor(relic.enhance / 3)
 }

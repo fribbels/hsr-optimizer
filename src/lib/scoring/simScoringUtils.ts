@@ -60,7 +60,7 @@ export type SimulationScore = {
   characterMetadata: DBMetadataCharacter
 
   originalSpd: number
-  spdBenchmark: number | null
+  spdBenchmark: number | undefined
   simulationFlags: SimulationFlags
 }
 

@@ -1,11 +1,13 @@
 import { Constants, CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { generateFullDefaultForm, generateStatImprovements, simulateBaselineCharacter, simulateOriginalCharacter } from 'lib/scoring/characterScorer'
+import { generateFullDefaultForm, simulateOriginalCharacter } from 'lib/scoring/characterScorer'
 import { benchmarkScoringParams, cloneRelicsFillEmptySlots, originalScoringParams, RelicBuild, ScoringFunction, SimulationFlags, SimulationResult, SimulationScore } from 'lib/scoring/simScoringUtils'
+import { simulateBaselineCharacter } from 'lib/simulations/new/benchmarks/generateBaselineBuild'
 import { generateBenchmarkBuild } from 'lib/simulations/new/benchmarks/generateBenchmarkBuild'
 
 import { generatePerfectBuild } from 'lib/simulations/new/benchmarks/generatePerfectBuild'
+import { generateStatImprovements } from 'lib/simulations/new/scoringUpgrades'
 import { applySpeedAdjustments, calculateTargetSpeed } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -164,8 +166,6 @@ export async function scoreCharacterSimulation(
   const context = generateContext(simulationForm)
   transformWorkerContext(context)
 
-  // Kick off workers here
-
   // Generate scoring function
 
   // Using this on a worker output is dangerous as only simScore is reliable, x may have changed
@@ -246,7 +246,7 @@ export async function scoreCharacterSimulation(
     originalSimResult,
     simulationFlags,
   )
-  const benchmarkSimResult = benchmarkSim.result
+  const benchmarkSimResult = benchmarkSim.result!
 
   // ===== Calculate the maximum build =====
 
@@ -381,10 +381,12 @@ export function calculateSetNames(relicsByPart: RelicBuild) {
     relicsByPart[Parts.Hands].set,
     relicsByPart[Parts.Body].set,
     relicsByPart[Parts.Feet].set,
+    // @ts-ignore
   ].filter((x) => x != -1)
   const ornamentSets = [
     relicsByPart[Parts.PlanarSphere].set,
     relicsByPart[Parts.LinkRope].set,
+    // @ts-ignore
   ].filter((x) => x != -1)
   const relicSetNames = calculateRelicSets(relicSets, true)
   const ornamentSetName: string | undefined = calculateOrnamentSets(ornamentSets, true)
@@ -428,4 +430,45 @@ function emptyRelicWithSetAndSubstats() {
   }
 }
 
+// Gradual scale
+export const SimScoreGrades = {
+  'AEON': 150, // Verified only
+  'WTF+': 140, // +10
+  'WTF': 130, // +9
+  'SSS+': 121, // +8
+  'SSS': 113, // +7
+  'SS+': 106, // +6
+  'SS': 100, // Benchmark
+  'S+': 95,
+  'S': 90,
+  'A+': 85,
+  'A': 80,
+  'B+': 75,
+  'B': 70,
+  'C+': 65,
+  'C': 60,
+  'D+': 55,
+  'D': 50,
+  'F+': 45,
+  'F': 40,
+}
 
+// Score on 1.00 scale
+export function getSimScoreGrade(score: number, verified: boolean, numRelics: number, lightCone: boolean = true) {
+  if (numRelics != 6 || !lightCone) {
+    return '?'
+  }
+
+  let best = 'WTF+'
+  const percent = TsUtils.precisionRound(score * 100)
+  for (const [key, value] of Object.entries(SimScoreGrades)) {
+    if (key == 'AEON' && !verified) {
+      continue
+    }
+    best = key
+    if (percent >= value) {
+      return best
+    }
+  }
+  return '?'
+}

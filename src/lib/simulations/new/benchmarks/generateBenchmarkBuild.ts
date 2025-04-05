@@ -4,6 +4,7 @@ import { SimulationSets } from 'lib/scoring/dpsScore'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import { benchmarkScoringParams, invertDiminishingReturnsSpdFormula, PartialSimulationWrapper, simSorter, SimulationFlags, SimulationResult, spdRollsCap } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { isErrRopeForced } from 'lib/simulations/new/utils/benchmarkUtils'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
 import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -163,12 +164,4 @@ export function generatePartialSimulations(
   }
 
   return results
-}
-
-function isErrRopeForced(
-  form: Form,
-  metadata: SimulationMetadata,
-  originalSim: Simulation,
-) {
-  return originalSim.request.simLinkRope == Stats.ERR && metadata.errRopeEidolon != null && form.characterEidolon >= metadata.errRopeEidolon
 }

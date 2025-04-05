@@ -524,19 +524,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: Normale
-      Skill: Compétence
-      Ult: Ult
-      Talent: Talent
-      Technique: Technique
-      Trace: Trace
-      Memo: Mnémesprit
-      E1: E1
-      E2: E2
-      E4: E4
-      E6: E6
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Substat'
@@ -577,3 +564,32 @@ ExpandedDataPanel:
       jointDmg: DGT Conjointe
       dotDmg: DGT Dsd
       memoDmg: DGT Mnémesprit
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Normale
+      Skill: Compétence
+      Ult: Ult
+      Talent: Talent
+      Technique: Technique
+      Trace: Trace
+      Memo: Mnémesprit
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Basic: Norm
+          Skill: Comp
+          Ult: Ult
+          Fua: Ads
+          Dot: DsD
+          Break: Rupture
+        Suffix:
+          DMG boost: Bonus de DGT
+          Additional DMG: Dégâts additionnels
+          DMG: DGT
+      Misc:
+        Memosprite: Mnémesprit
+        Combo DMG: DGT Combo

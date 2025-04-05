@@ -378,6 +378,8 @@ export default function RelicModal(props: {
                     showSearch
                     style={{ width: 115 }}
                     options={enhanceOptions}
+                    virtual={false}
+                    getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                   />
                 </Form.Item>
 
@@ -396,6 +398,8 @@ export default function RelicModal(props: {
                       { value: 5, label: '5 ★' },
                     ]}
                     onChange={resetUpgradeValues}
+                    virtual={false}
+                    getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                   />
                 </Form.Item>
               </Flex>
@@ -412,6 +416,7 @@ export default function RelicModal(props: {
                     maxTagCount='responsive'
                     options={mainStatOptions}
                     disabled={mainStatOptions.length <= 1}
+                    getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                   />
                 </Form.Item>
 
@@ -432,6 +437,8 @@ export default function RelicModal(props: {
                   style={{ height: 35 }}
                   options={characterOptions}
                   optionLabelProp='title'
+                  virtual={false}
+                  getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                 />
               </Form.Item>
 
@@ -599,6 +606,7 @@ function SubstatInput(props: {
               props.resetUpgradeValues()
             }}
             tabIndex={0}
+            getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
           />
         </Form.Item>
 

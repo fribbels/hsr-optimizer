@@ -2,7 +2,7 @@ import { CaretRightOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Image, Input, InputNumber, InputRef, Modal, Radio, Select, theme, Tooltip } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
-import { Constants, MainStats, setToId, Stats, SubStats, UnreleasedSets } from 'lib/constants/constants'
+import { Constants, MainStats, Parts, setToId, Stats, SubStats, UnreleasedSets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
@@ -98,24 +98,51 @@ export default function RelicModal(props: {
   const characters: Character[] = window.store((s) => s.characters)
 
   const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters, longNameLabel: true }), [characters, i18next.resolvedLanguage])
-  const setOptions = useMemo(
-    function getSetOptions() {
-      const setOptions: {
-        label: ReactElement
-        value: string
-      }[] = []
-      for (const entry of [...Object.entries(Constants.SetsRelics), ...Object.entries(Constants.SetsOrnaments)].filter((x) => !UnreleasedSets[x[1]])) {
-        setOptions.push({
-          label: (
-            <Flex align='center' gap={10}>
-              <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
-              {i18next.t(`gameData:RelicSets.${setToId[entry[1]]}.Name`)}
-            </Flex>),
-          value: entry[1],
-        })
-      }
-      return setOptions
-    }, [i18next.resolvedLanguage])
+
+  const relicOptions = useMemo(() => {
+    const setOptions: {
+      label: ReactElement
+      value: string
+    }[] = []
+    for (const entry of Object.entries(Constants.SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
+      setOptions.push({
+        label: (
+          <Flex align='center' gap={10}>
+            <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
+            {t(`gameData:RelicSets.${setToId[entry[1]]}.Name`)}
+          </Flex>),
+        value: entry[1],
+      })
+    }
+    return setOptions
+  }, [t])
+
+  const planarOptions = useMemo(() => {
+    const setOptions: {
+      label: ReactElement
+      value: string
+    }[] = []
+    for (const entry of Object.entries(Constants.SetsOrnaments).filter((x) => !UnreleasedSets[x[1]])) {
+      setOptions.push({
+        label: (
+          <Flex align='center' gap={10}>
+            <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])}/>
+            {t(`gameData:RelicSets.${setToId[entry[1]]}.Name`)}
+          </Flex>),
+        value: entry[1],
+      })
+    }
+    return setOptions
+  }, [t])
+
+  const part = Form.useWatch('part', relicForm)
+  function getSetOptions(part: Parts) {
+    if (!part) return relicOptions.concat(planarOptions)
+    if (part === Parts.LinkRope || part === Parts.PlanarSphere) return planarOptions
+    return relicOptions
+  }
+  const setOptions = getSetOptions(part)
+
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
@@ -206,7 +233,8 @@ export default function RelicModal(props: {
   const onValuesChange = (formValues: RelicForm) => {
     let mainStatOptions: MainStatOption[] = []
     if (formValues.part) {
-      mainStatOptions = Object.entries(Constants.PartsMainStats[formValues.part]).map((entry) => ({
+      const part = formValues.part
+      mainStatOptions = Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
         label: (
           <Flex align='center' gap={10}>
             <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }}/>
@@ -217,6 +245,17 @@ export default function RelicModal(props: {
       }))
       setMainStatOptions(mainStatOptions)
       relicForm.setFieldValue('mainStatType', mainStatOptions[0]?.value)
+
+      const defaultSet = getSetOptions(part)[0].value
+      if (part === Parts.PlanarSphere || part === Parts.LinkRope) {
+        // @ts-ignore
+        if (!Object.values(Constants.SetsOrnaments).includes(formValues.set)) {
+          relicForm.setFieldValue('set', defaultSet)
+        }
+        // @ts-ignore
+      } else if (!Object.values(Constants.SetsRelics).includes(formValues.set)) {
+        relicForm.setFieldValue('set', defaultSet)
+      }
     }
 
     const mainStatType: string = mainStatOptions[0]?.value || relicForm.getFieldValue('mainStatType')
@@ -325,6 +364,8 @@ export default function RelicModal(props: {
                   placeholder={t('Relic.Set')/* Set */}
                   options={setOptions}
                   maxTagCount='responsive'
+                  virtual={false}
+                  getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                 >
                 </Select>
               </Form.Item>

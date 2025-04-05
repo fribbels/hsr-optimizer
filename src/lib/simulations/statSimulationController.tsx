@@ -6,6 +6,7 @@ import { Message } from 'lib/interactions/message'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateCurrentlyEquippedRow, formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { emptyRelic } from 'lib/optimization/optimizerUtils'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -13,6 +14,9 @@ import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -28,11 +32,10 @@ import { Relic, Stat } from 'types/relic'
 
 export type Simulation = {
   name?: string
-  key: string
+  key?: string
   simType: StatSimTypes
   request: SimulationRequest
-  result: SimulationResult
-  penaltyMultiplier: number
+  result?: SimulationResult
 }
 
 export type SimulationRequest = {
@@ -290,7 +293,7 @@ export type RunSimulationsParams = {
   quality: number
   speedRollValue: number
   mainStatMultiplier: number
-  substatRollsModifier: (num: number, stat: string, relics: Record<Parts, Relic>) => number
+  substatRollsModifier: (num: number, stat: string, simRequest: SimulationRequest) => number
   simulationFlags: SimulationFlags
 }
 
@@ -442,10 +445,13 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, null, existingSimulations, undefined, true)
-  simulationResults.forEach((x) => x.id = x.statSim.key)
+  const context = generateContext(form)
+  transformWorkerContext(context)
 
-  OptimizerTabController.setRows(simulationResults)
+  const simulationResults = runStatSimulations(existingSimulations, form, context)
+  const optimizerDisplayData = simulationResults.map((x) => transformOptimizerDisplayData(x.x))
+
+  OptimizerTabController.setRows(optimizerDisplayData)
 
   calculateCurrentlyEquippedRow(form)
   window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
@@ -522,8 +528,10 @@ export function convertRelicsToSimulation(
 
   // Sum up substat rolls
   for (const relic of relics) {
-    for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+    if (relic.substats) {
+      for (const substat of relic.substats) {
+        accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+      }
     }
   }
 
@@ -536,10 +544,10 @@ export function convertRelicsToSimulation(
     simRelicSet1: relicSet1,
     simRelicSet2: relicSet2,
     simOrnamentSet: ornamentSet,
-    simBody: relicsByPart[Parts.Body].main.stat,
-    simFeet: relicsByPart[Parts.Feet].main.stat,
-    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
-    simLinkRope: relicsByPart[Parts.LinkRope].main.stat,
+    simBody: relicsByPart[Parts.Body].main?.stat || null,
+    simFeet: relicsByPart[Parts.Feet].main?.stat || null,
+    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main?.stat || null,
+    simLinkRope: relicsByPart[Parts.LinkRope].main?.stat || null,
     stats: {
       [Stats.HP]: accumulatedSubstatRolls[Stats.HP] || null,
       [Stats.ATK]: accumulatedSubstatRolls[Stats.ATK] || null,

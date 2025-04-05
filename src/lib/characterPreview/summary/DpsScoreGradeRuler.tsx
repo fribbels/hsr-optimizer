@@ -1,4 +1,4 @@
-import { SimScoreGrades } from 'lib/scoring/characterScorer'
+import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import { renderThousandsK } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import { Languages } from 'lib/utils/i18nUtils'
 import React from 'react'

@@ -406,6 +406,14 @@ export const Parts = {
   LinkRope: 'LinkRope',
 } as const
 export type Parts = typeof Parts[keyof typeof Parts]
+export const PartsArray = [
+  Parts.Head,
+  Parts.Hands,
+  Parts.Body,
+  Parts.Feet,
+  Parts.PlanarSphere,
+  Parts.LinkRope,
+] as const
 
 export const MainStatParts = {
   Body: 'Body',

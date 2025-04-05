@@ -24,7 +24,7 @@ import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { filterUnique } from 'lib/utils/arrayUtils'
-import { localeNumber, localeNumber_0, localeNumber_00, localeNumber_000, numberToLocaleString } from 'lib/utils/i18nUtils'
+import { localeNumber, localeNumber_0, localeNumber_000, numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
@@ -685,79 +685,6 @@ function Arrow() {
   return (
     <Flex align='center'>
       <UpArrow/>
-    </Flex>
-  )
-}
-
-export function CharacterCardScoringStatUpgrades(props: {
-  result: SimulationScore
-}) {
-  const { t } = useTranslation(['common', 'charactersTab'])
-  const result = props.result
-  const rows: ReactElement[] = []
-  const baseDmg = result.originalSimResult.simScore
-  const basePercent = result.percent
-  const statUpgrades = result.substatUpgrades.filter((statUpgrade) => statUpgrade.stat != Stats.SPD)
-  for (const statUpgrade of statUpgrades.slice(0, 4)) {
-    const stat = statUpgrade.stat!
-    const upgradeDmg = statUpgrade.simulationResult.simScore / baseDmg - 1
-
-    rows.push(
-      <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatTextSm>{`+1x ${t(`ShortReadableStats.${stat as SubStats}`)}`}</StatTextSm>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
-      </Flex>,
-    )
-  }
-
-  const extraRows: ReactElement[] = []
-
-  const mainUpgrade = result.mainUpgrades[0]
-  if (mainUpgrade && mainUpgrade.percent! - basePercent > 0) {
-    const part = mainUpgrade.part!
-    const stat = mainUpgrade.stat
-    const upgradeDmg = mainUpgrade.simulationResult.simScore / baseDmg - 1
-
-    extraRows.push(
-      <Flex gap={3} key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%', paddingLeft: 1 }}>
-        <img src={Assets.getPart(part)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <StatTextSm>{`➔ ${t(`ShortReadableStats.${stat as MainStats}`)}`}</StatTextSm>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
-      </Flex>,
-    )
-  }
-
-  const setUpgrade = result.setUpgrades[0]
-  if (setUpgrade.percent! - basePercent > 0) {
-    const upgradeDmg = setUpgrade.simulationResult.simScore / baseDmg - 1
-
-    extraRows.push(
-      <Flex gap={2} key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%', paddingLeft: 1 }}>
-        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet1)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <img src={Assets.getSetImage(setUpgrade.simulation.request.simRelicSet2)} style={{ width: iconSize, height: iconSize, marginRight: 5 }}/>
-        <img src={Assets.getSetImage(setUpgrade.simulation.request.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`+ ${localeNumber_00((upgradeDmg * 100))}%`}</StatTextSm>
-      </Flex>,
-    )
-  }
-
-  if (extraRows.length) {
-    rows.splice(4 - extraRows.length, extraRows.length)
-    extraRows.map((row) => rows.unshift(row))
-  }
-
-  return (
-    <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 0 }}>
-      <Flex vertical align='center'>
-        <HeaderText style={{ fontSize: 16 }}>
-          {t('charactersTab:CharacterPreview.DMGUpgrades')/* Damage Upgrades */}
-        </HeaderText>
-      </Flex>
-      {rows}
     </Flex>
   )
 }

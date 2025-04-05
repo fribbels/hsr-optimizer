@@ -12,37 +12,17 @@ import {
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { generateContext } from 'lib/optimization/context/calculateContext'
-import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/new/statSimulation'
-import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-export function calculateBuild(
-  request: Form,
+// To use after combo state and context has been initialized
+export function simulateBuild(
   relics: SimulationRelicByPart,
-  cachedContext: OptimizerContext | null,
+  context: OptimizerContext,
   cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
-  reuseRequest: boolean = false,
-  reuseComboState: boolean = false,
-  internal: boolean = false, // TODO: Remove
-  forcedBasicSpd: number = 0) {
-  if (!reuseRequest) {
-    request = Utils.clone(request)
-  }
-
-  const context = cachedContext ?? generateContext(request)
-  if (reuseComboState) {
-    // Clean combo state
-    for (const action of context.actions) {
-      action.conditionalState = {}
-    }
-  } else {
-    transformComboState(request, context)
-  }
-
+  forcedBasicSpd: number = 0,
+) {
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
 
@@ -86,7 +66,6 @@ export function calculateBuild(
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
-    const a = x.a
     x.setPrecompute(action.precomputedX.a)
     if (x.a[Key.MEMOSPRITE]) {
       m.setPrecompute(action.precomputedM.a)
@@ -96,6 +75,8 @@ export function calculateBuild(
       x.tracePrecompute(action.precomputedX)
       m.tracePrecompute(action.precomputedM)
     }
+
+    const a = x.a
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)

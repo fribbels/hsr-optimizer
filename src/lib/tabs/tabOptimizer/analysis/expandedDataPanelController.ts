@@ -9,7 +9,10 @@ import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { SimulationResult } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
-import { convertRelicsToSimulation, ornamentSetIndexToName, relicSetIndexToNames, runSimulations, Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
+import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
+import { convertRelicsToSimulation, ornamentSetIndexToName, relicSetIndexToNames, Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
@@ -40,6 +43,7 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 
   const request = analysis.request
   const context = generateContext(request)
+  transformWorkerContext(context)
 
   const relicSets = relicSetIndexToNames(relicSetIndex)
   const ornamentSets = ornamentSetIndexToName(ornamentSetIndex)
@@ -50,11 +54,12 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
     const upgradeSim = TsUtils.clone(simulationRequest)
     upgradeSim.stats[substat] = (upgradeSim.stats[substat] ?? 0) + 1.0
 
-    const simResult = runSimulations(request, context, [{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation])[0]
+    const simResult = runStatSimulations([{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation], request, context)[0]
+    const optimizerDisplayData = transformOptimizerDisplayData(simResult.x)
     statUpgrades.push({
       stat: substat,
       simRequest: upgradeSim,
-      simResult: simResult,
+      simResult: optimizerDisplayData,
     })
   }
 
@@ -71,8 +76,13 @@ export function generateAnalysisData(currentRowData: OptimizerDisplayData, selec
 
   request.trace = true
 
-  const oldX = calculateBuild(request, oldRelics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
-  const newX = calculateBuild(request, newRelics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const contextOld = generateContext(request)
+  transformWorkerContext(contextOld)
+  const contextNew = generateContext(request)
+  transformWorkerContext(contextNew)
+
+  const oldX = calculateBuild(request, oldRelics, contextOld, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const newX = calculateBuild(request, newRelics, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

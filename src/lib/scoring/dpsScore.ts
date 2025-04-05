@@ -6,6 +6,7 @@ import { benchmarkScoringParams, cloneRelicsFillEmptySlots, originalScoringParam
 import { generateBenchmarkBuild } from 'lib/simulations/new/benchmarks/generateBenchmarkBuild'
 
 import { generatePerfectBuild } from 'lib/simulations/new/benchmarks/generatePerfectBuild'
+import { applySpeedAdjustments, calculateTargetSpeed } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { calculatePenaltyMultiplier } from 'lib/worker/computeOptimalSimulationWorker'
@@ -175,9 +176,9 @@ export async function scoreCharacterSimulation(
     const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
     result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
   }
-  //
-  // // ===== Simulate the original build =====
-  //
+
+  // ===== Simulate the original build =====
+
   let {
     originalSimResult,
     originalSim,
@@ -185,7 +186,7 @@ export async function scoreCharacterSimulation(
 
   const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
 
-  // // ===== Simulate the baseline build =====
+  // ===== Simulate the baseline build =====
 
   const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
     relicsByPart,
@@ -196,50 +197,38 @@ export async function scoreCharacterSimulation(
     simulationFlags,
   )
   applyScoringFunction(baselineSimResult)
-  //
-  // // Special handling for poet - force the spd to certain thresholds when poet is active
-  //
+
   const spdBenchmark = showcaseTemporaryOptions.spdBenchmark != null
     ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
-    : null
+    : undefined
 
-  if (simulationFlags.simPoetActive) {
-    // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
-    if (baselineSimResult[Stats.SPD] < 95) {
-      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.999, spdBenchmark ?? 94.999)
-    } else if (baselineSimResult[Stats.SPD] < 110) {
-      simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
-    } else {
-      // No-op
-    }
-  } else {
-    // When the sim does not have poet, force the original spd and proceed as regular
-    simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
-  }
-  //
-  // // ===== Simulate the forced spd build =====
-  //
+  applySpeedAdjustments(
+    simulationFlags,
+    baselineSimResult,
+    originalSpd,
+    spdBenchmark,
+  )
+
+  // ===== Simulate the forced spd build =====
+
   const {
     originalSimResult: forcedSpdSimResult,
     originalSim: forcedSpdSim,
   } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
-  //
-  // // ===== Calculate the benchmarks' speed target =====
-  //
-  let targetSpd: number
-  if (simulationFlags.characterPoetActive) {
-    // When the original character has poet, benchmark against the original character
-    targetSpd = forcedSpdSimResult.xa[Key.SPD]
-  } else {
-    if (simulationFlags.simPoetActive) {
-      // We don't want to have the original character's combat stats penalized by poet if they're not on poet
-      targetSpd = simulationFlags.forceBasicSpdValue
-    } else {
-      originalSimResult = forcedSpdSimResult
-      originalSim = forcedSpdSim
-      targetSpd = originalSimResult.xa[Key.SPD]
-    }
-  }
+
+  // ===== Calculate the benchmarks' speed target =====
+
+  const targetSpeedResults = calculateTargetSpeed(
+    originalSim,
+    originalSimResult,
+    forcedSpdSim,
+    forcedSpdSimResult,
+    simulationFlags,
+  )
+  const targetSpd = targetSpeedResults.targetSpd
+  originalSimResult = targetSpeedResults.originalSimResult
+  originalSim = targetSpeedResults.originalSim
+
   //
   applyScoringFunction(originalSimResult)
 

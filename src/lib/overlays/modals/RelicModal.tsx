@@ -7,6 +7,7 @@ import { Message } from 'lib/interactions/message'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
+import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -97,6 +98,14 @@ export default function RelicModal(props: {
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
 
+  useEffect(() => {
+    if (props.open) {
+      lockScroll()
+    } else {
+      unlockScroll()
+    }
+  }, [props.open])
+
   const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters, longNameLabel: true }), [characters, i18next.resolvedLanguage])
 
   const relicOptions = useMemo(() => {
@@ -136,11 +145,13 @@ export default function RelicModal(props: {
   }, [t])
 
   const part = Form.useWatch('part', relicForm)
+
   function getSetOptions(part: Parts) {
     if (!part) return relicOptions.concat(planarOptions)
     if (part === Parts.LinkRope || part === Parts.PlanarSphere) return planarOptions
     return relicOptions
   }
+
   const setOptions = getSetOptions(part)
 
   const equippedBy: string = Form.useWatch('equippedBy', relicForm)
@@ -271,7 +282,7 @@ export default function RelicModal(props: {
       // @ts-ignore TS doesn't like mismatched types when using .includes
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
         mainStatValue = Utils.truncate10ths(mainStatValue)
-      // @ts-ignore TS doesn't like mismatched types when using .includes
+        // @ts-ignore TS doesn't like mismatched types when using .includes
       } else if (floorStats.includes(mainStatType)) {
         mainStatValue = Math.floor(mainStatValue)
       } else {
@@ -361,11 +372,10 @@ export default function RelicModal(props: {
                   style={{
                     width: 300,
                   }}
+                  listHeight={350}
                   placeholder={t('Relic.Set')/* Set */}
                   options={setOptions}
                   maxTagCount='responsive'
-                  virtual={false}
-                  getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                 >
                 </Select>
               </Form.Item>
@@ -378,8 +388,6 @@ export default function RelicModal(props: {
                     showSearch
                     style={{ width: 115 }}
                     options={enhanceOptions}
-                    virtual={false}
-                    getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                   />
                 </Form.Item>
 
@@ -398,8 +406,6 @@ export default function RelicModal(props: {
                       { value: 5, label: '5 ★' },
                     ]}
                     onChange={resetUpgradeValues}
-                    virtual={false}
-                    getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                   />
                 </Form.Item>
               </Flex>
@@ -416,7 +422,6 @@ export default function RelicModal(props: {
                     maxTagCount='responsive'
                     options={mainStatOptions}
                     disabled={mainStatOptions.length <= 1}
-                    getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                   />
                 </Form.Item>
 
@@ -437,8 +442,6 @@ export default function RelicModal(props: {
                   style={{ height: 35 }}
                   options={characterOptions}
                   optionLabelProp='title'
-                  virtual={false}
-                  getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
                 />
               </Form.Item>
 
@@ -606,7 +609,6 @@ function SubstatInput(props: {
               props.resetUpgradeValues()
             }}
             tabIndex={0}
-            getPopupContainer={(trigger) => trigger.parentElement as HTMLElement}
           />
         </Form.Item>
 

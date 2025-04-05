@@ -26,8 +26,10 @@ CharacterWithCount_one: "{{count}} personnage"
 CharacterWithCount_other: "{{count}} personnages"
 Character_one: personnage
 Character_other: personnages
-VerifiedRelicHoverText: Substats confirmées par l'appréciateur de reliques (décimales de vitesse)
+VerifiedRelicHoverText: Substats confirmées (décimales de vitesse precises)
+Verified4LinerHoverText: Substats et nombre de rolls initiaux confirmés (décimales de vitesse précises + 4 substats initiales)
 CombatStats: Stats de Combat
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: Tête
   Hands: Mains

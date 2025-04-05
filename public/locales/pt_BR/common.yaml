@@ -27,7 +27,9 @@ CharacterWithCount_other: "{{count}} personagens"
 Character_one: personagem
 Character_other: personagens
 VerifiedRelicHoverText: Subatributos das relíquias verificados pelo pontuador de relíquias (decimais de velocidade)
+Verified4LinerHoverText: Subatributos da relíquia e contagem inicial de rolls verificada pelo avaliador de relíquias (decimais de velocidade precisas + 4 subatributos iniciais)
 CombatStats: Atributos de combate
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: Cabeça
   Hands: Mãos

@@ -63,6 +63,7 @@ export const AppPages = {
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
   WARP: 'WARP',
+  BENCHMARKS: 'BENCHMARKS',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',

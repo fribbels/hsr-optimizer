@@ -131,7 +131,7 @@ export default function RelicFilterBar(props: {
     return arr.map((x) => {
       return {
         key: x,
-        display: <div>{x}</div>,
+        display: Renderer.renderInitialRolls({ initialRolls: x, grade: 5 } as Relic),
       }
     })
   }
@@ -145,7 +145,7 @@ export default function RelicFilterBar(props: {
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
   const equippedByData = generateEquippedByTags(['true', 'false'])
-  const initialRollsData = generateInitialRollsTags([3, 4])
+  const initialRollsData = generateInitialRollsTags([4, 3])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code

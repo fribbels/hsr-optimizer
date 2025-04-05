@@ -254,6 +254,7 @@ interface Resources {
     "Character_one": "character",
     "Character_other": "characters",
     "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
+    "4LinerHoverText": "Relic with 4 initial rolls",
     "CombatStats": "Combat Stats",
     "Parts": {
       "Head": "Head",

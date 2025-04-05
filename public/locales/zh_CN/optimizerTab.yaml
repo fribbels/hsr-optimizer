@@ -524,19 +524,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: 普攻
-      Skill: 战技
-      Ult: 终结技
-      Talent: 天赋
-      Technique: 秘技
-      Trace: 行迹
-      Memo: 忆灵
-      E1: 1魂
-      E2: 2魂
-      E4: 4魂
-      E6: 6魂
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x 副词条'
@@ -577,3 +564,33 @@ ExpandedDataPanel:
       jointDmg: 连携伤害
       dotDmg: 持续攻击伤害
       memoDmg: 忆灵伤害
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 普攻
+      Skill: 战技
+      Ult: 终结技
+      Talent: 天赋
+      Technique: 秘技
+      Trace: 行迹
+      Memo: 忆灵
+      E1: 1魂
+      E2: 2魂
+      E4: 4魂
+      E6: 6魂
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Basic: 普攻
+          Skill: 战技
+          Ult: 终结技
+          Fua: 追加攻击
+          Dot: 持续
+          Break: 击破
+        Suffix:
+          DMG boost: 伤害提高
+          DEF PEN: 防御穿透
+          Additional DMG: 额外伤害
+          DMG: 伤害
+      Misc:
+        Memosprite: 忆灵
+        Combo DMG: 连招伤害

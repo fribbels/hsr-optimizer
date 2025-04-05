@@ -5384,6 +5384,7 @@ interface Resources {
       "Part": "Part",
       "Enhance": "Enhance",
       "Grade": "Grade",
+      "InitialRolls": "Initial Rolls",
       "Verified": "Verified",
       "Equipped": "Equipped",
       "Clear": "Clear",

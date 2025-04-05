@@ -177,20 +177,48 @@ export const Renderer = {
 
   renderGradeCell: (x: { data: Relic }) => {
     const relic = x.data
-    return Renderer.renderGrade(relic)
+    return Renderer.renderGrade(relic, true)
   },
-  renderGrade: (relic: Relic) => {
-    const color = gradeToColor[relic.grade] || ''
-    return (
-      relic.verified
+  renderGrade: (relic: Relic, highlight4Liners = false) => {
+    const color = gradeToColor[relic.grade as keyof typeof gradeToColor] ?? ''
+    if (highlight4Liners && relic.initialRolls == 4) {
+      return relic.verified
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
-            title={i18next.t('common:VerifiedRelicHoverText')/* Relic substats verified by relic scorer (speed decimals) */}
+            title={i18next.t('Verified4LinerHoverText')}
+            // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
           >
-            <CheckCircleFilled
-              style={{ fontSize: '14px', color: color }}
-            />
+            <Flex>
+              <svg viewBox='64 64 896 896' focusable='false' data-icon='check-circle' width='14' height='14' fill={color == '' ? 'transparent' : color}>
+                {/* <!-- Ring with cutout for inner circle --> */}
+                <path d='M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 100c192.5 0 348 155.5 348 348s-155.5 348-348 348S164 704.5 164 512 319.5 164 512 164z' fillRule='evenodd'/>
+
+                {/* <!-- Inner circle with checkmark cutout (smaller) --> */}
+                <path d='M512 240C362.2 240 240 362.2 240 512s122.2 272 272 272 272-122.2 272-272S661.8 240 512 240zm193.5 125.7l-210.6 292a31.8 31.8 0 01-51.7 0L318.5 484.9c-3.8-5.3 0-12.7 6.5-12.7h46.9c10.2 0 19.9 4.9 25.9 13.3l71.2 98.8 157.2-218c6-8.3 15.6-13.3 25.9-13.3H699c6.5 0 10.3 7.4 6.5 12.7z' fillRule='evenodd'/>
+              </svg>
+            </Flex>
+          </Tooltip>
+        )
+        : (
+          <Flex>
+            <svg viewBox='64 64 896 896' focusable='false' data-icon='circle' width='14' height='14' fill={color == '' ? 'transparent' : color}>
+              {/* <!-- Ring with cutout for inner circle --> */}
+              <path d='M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 100c192.5 0 348 155.5 348 348s-155.5 348-348 348S164 704.5 164 512 319.5 164 512 164z' fillRule='evenodd'/>
+
+              {/* <!-- Inner circle with checkmark cutout (smaller) --> */}
+              <path d='M512 240C362.2 240 240 362.2 240 512s122.2 272 272 272 272-122.2 272-272S661.8 240 512 240z' fillRule='evenodd'/>
+            </svg>
+          </Flex>
+        )
+    } else {
+      return relic.verified
+        ? (
+          <Tooltip
+            mouseEnterDelay={0.4}
+            title={i18next.t('VerifiedRelicHoverText')/* Relic substats verified by relic scorer (speed decimals) */}
+          >
+            <CheckCircleFilled style={{ fontSize: '14px', color: color }}/>
           </Tooltip>
         )
         : (
@@ -200,7 +228,7 @@ export const Renderer = {
             </svg>
           </Flex>
         )
-    )
+    }
   },
   renderEquippedBy: (equippedBy: string) => {
     return (
@@ -208,6 +236,18 @@ export const Renderer = {
         ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }}/>
         : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
     )
+  },
+  renderInitialRolls: (relic: Relic) => {
+    return relic.initialRolls == 4
+      ? (
+        <Tooltip
+          mouseEnterDelay={0.4}
+          title={i18next.t('4LinerHoverText')/* 'Relic with 4 initial rolls' */}
+        >
+          {Renderer.renderGrade(relic, true)}
+        </Tooltip>
+      )
+      : Renderer.renderGrade(relic, true)
   },
 }
 

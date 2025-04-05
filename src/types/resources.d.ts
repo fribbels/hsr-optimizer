@@ -254,6 +254,8 @@ interface Resources {
     "Character_one": "character",
     "Character_other": "characters",
     "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
+    "4LinerHoverText": "Relic with 4 initial substats",
+    "Verified4LinerHoverText": "Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)",
     "CombatStats": "Combat Stats",
     "Parts": {
       "Head": "Head",
@@ -5384,6 +5386,7 @@ interface Resources {
       "Part": "Part",
       "Enhance": "Enhance",
       "Grade": "Grade",
+      "InitialRolls": "Initial Rolls",
       "Verified": "Verified",
       "Equipped": "Equipped",
       "Clear": "Clear",

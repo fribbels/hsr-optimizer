@@ -11,7 +11,7 @@ let optimizerPartToPartId: Record<string, string>
 let initialized = false
 
 export const RelicRollFixer = {
-  fixMainStatValue: <T extends UnaugmentedRelic>(relic: T) => {
+  fixMainStatValue: (relic: UnaugmentedRelic) => {
     if (!initialized) RelicRollFixer.initialize()
 
     const enhance = relic.enhance

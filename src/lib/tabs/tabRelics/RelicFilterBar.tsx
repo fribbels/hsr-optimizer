@@ -127,6 +127,15 @@ export default function RelicFilterBar(props: {
     })
   }
 
+  function generateInitialRollsTags(arr: number[]) {
+    return arr.map((x) => {
+      return {
+        key: x,
+        display: Renderer.renderInitialRolls({ initialRolls: x, grade: 5 } as Relic),
+      }
+    })
+  }
+
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags(['true', 'false'])
   const setsData = generateImageTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]),
@@ -136,6 +145,7 @@ export default function RelicFilterBar(props: {
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
   const equippedByData = generateEquippedByTags(['true', 'false'])
+  const initialRollsData = generateInitialRollsTags([4, 3])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -258,6 +268,7 @@ export default function RelicFilterBar(props: {
       grade: [],
       verified: [],
       equippedBy: [],
+      initialRolls: [],
     })
   }
 
@@ -291,6 +302,10 @@ export default function RelicFilterBar(props: {
         <Flex vertical flex={0.5}>
           <HeaderText>{t('RelicFilterBar.Grade')/* Grade */}</HeaderText>
           <FilterRow name='grade' tags={gradeData} flexBasis='15%'/>
+        </Flex>
+        <Flex vertical flex={0.25}>
+          <HeaderText>{t('RelicFilterBar.InitialRolls')/* Initial rolls */ }</HeaderText>
+          <FilterRow name='initialRolls' tags={initialRollsData} flexBasis='15%'/>
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Verified')/* Verified */}</HeaderText>

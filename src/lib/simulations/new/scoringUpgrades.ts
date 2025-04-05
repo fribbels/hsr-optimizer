@@ -1,5 +1,4 @@
 import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
-import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { isErrRopeForced, partsToFilterMapping } from 'lib/simulations/new/utils/benchmarkUtils'
 import { runSimulations, Simulation } from 'lib/simulations/statSimulationController'
@@ -7,6 +6,14 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
+
+export type SimulationStatUpgrade = {
+  simulation: Simulation
+  simulationResult: SimulationResult
+  part?: string
+  stat?: string
+  percent?: number
+}
 
 export function generateStatImprovements(
   originalSimResult: SimulationResult,

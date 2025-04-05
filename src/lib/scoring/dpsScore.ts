@@ -1,15 +1,17 @@
 import { Constants, CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { generateFullDefaultForm, simulateOriginalCharacter } from 'lib/scoring/characterScorer'
 import { benchmarkScoringParams, cloneRelicsFillEmptySlots, originalScoringParams, RelicBuild, ScoringFunction, SimulationFlags, SimulationResult, SimulationScore } from 'lib/scoring/simScoringUtils'
-import { simulateBaselineCharacter } from 'lib/simulations/new/benchmarks/generateBaselineBuild'
-import { generateBenchmarkBuild } from 'lib/simulations/new/benchmarks/generateBenchmarkBuild'
+import { simulateBaselineBuild } from 'lib/simulations/new/benchmarks/simulateBaselineBuild'
+import { simulateBenchmarkBuild } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
+import { simulateOriginalBuild } from 'lib/simulations/new/benchmarks/simulateOriginalBuild'
 
-import { generatePerfectBuild } from 'lib/simulations/new/benchmarks/generatePerfectBuild'
+import { simulatePerfectBuild } from 'lib/simulations/new/benchmarks/simulatePerfectBuild'
 import { generateStatImprovements } from 'lib/simulations/new/scoringUpgrades'
+import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedAdjustments, calculateTargetSpeed } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
+import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { calculatePenaltyMultiplier } from 'lib/worker/computeOptimalSimulationWorker'
 import { Character } from 'types/character'
@@ -19,6 +21,62 @@ import { ScoringMetadata, ShowcaseTemporaryOptions, SimulationMetadata } from 't
 const cachedSims: {
   [key: string]: SimulationScore
 } = {}
+
+export type AsyncSimScoringExecution = {
+  done: boolean
+  result: SimulationScore | null
+  promise: Promise<SimulationScore | null>
+}
+
+export function getShowcaseSimScoringExecution(
+  character: Character,
+  displayRelics: RelicBuild,
+  teamSelection: string,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
+): AsyncSimScoringExecution {
+  console.log('Start async')
+
+  const asyncResult: AsyncSimScoringExecution = {
+    done: false,
+    result: null,
+    promise: null as any,
+  }
+
+  async function runSimulation() {
+    console.log('Executing async operation')
+
+    try {
+      const characterMetadata = DB.getMetadata().characters[character.id]
+
+      const simulationScore = await scoreCharacterSimulation(
+        character,
+        displayRelics,
+        teamSelection,
+        showcaseTemporaryOptions,
+        characterMetadata.scoringMetadata,
+        DB.getScoringMetadata(character.id),
+      )
+
+      console.log('DONE', simulationScore)
+
+      simulationScore.characterMetadata = characterMetadata
+
+      asyncResult.result = simulationScore
+      asyncResult.done = true
+
+      return simulationScore
+    } catch (error) {
+      console.error('Error in simulation:', error)
+      asyncResult.done = true
+      throw error
+    }
+  }
+
+  asyncResult.promise = runSimulation()
+
+  console.log('Return async')
+  return asyncResult
+}
 
 export async function scoreCharacterSimulation(
   character: Character,
@@ -182,13 +240,13 @@ export async function scoreCharacterSimulation(
   let {
     originalSimResult,
     originalSim,
-  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+  } = simulateOriginalBuild(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
 
   const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
 
   // ===== Simulate the baseline build =====
 
-  const { baselineSimResult, baselineSim } = simulateBaselineCharacter(
+  const { baselineSimResult, baselineSim } = simulateBaselineBuild(
     relicsByPart,
     simulationForm,
     context,
@@ -214,7 +272,7 @@ export async function scoreCharacterSimulation(
   const {
     originalSimResult: forcedSpdSimResult,
     originalSim: forcedSpdSim,
-  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+  } = simulateOriginalBuild(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
 
   // ===== Calculate the benchmarks' speed target =====
 
@@ -234,7 +292,7 @@ export async function scoreCharacterSimulation(
 
   // ===== Calculate the benchmark build =====
 
-  const benchmarkSim = await generateBenchmarkBuild(
+  const benchmarkSim = await simulateBenchmarkBuild(
     character,
     simulationSets,
     originalSim,
@@ -250,7 +308,7 @@ export async function scoreCharacterSimulation(
 
   // ===== Calculate the maximum build =====
 
-  const maximumSim = await generatePerfectBuild(
+  const maximumSim = await simulatePerfectBuild(
     benchmarkSim,
     targetSpd,
     metadata,

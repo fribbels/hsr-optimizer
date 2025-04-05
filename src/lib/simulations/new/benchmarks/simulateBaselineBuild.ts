@@ -1,15 +1,15 @@
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
 import { emptyRelicWithSetAndSubstats } from 'lib/optimization/calculateBuild'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { simulateOriginalCharacter } from 'lib/scoring/characterScorer'
 import { SimulationSets } from 'lib/scoring/dpsScore'
 import { RelicBuild, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
+import { simulateOriginalBuild } from 'lib/simulations/new/benchmarks/simulateOriginalBuild'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
-export function simulateBaselineCharacter(
+export function simulateBaselineBuild(
   displayRelics: RelicBuild,
   simulationForm: Form,
   context: OptimizerContext,
@@ -39,7 +39,7 @@ export function simulateBaselineCharacter(
   const {
     originalSimResult,
     originalSim,
-  } = simulateOriginalCharacter(relicsByPart, simulationSets, simulationForm, context, scoringParams, simulationFlags, 0, true)
+  } = simulateOriginalBuild(relicsByPart, simulationSets, simulationForm, context, scoringParams, simulationFlags, 0, true)
   return {
     baselineSimResult: originalSimResult,
     baselineSim: originalSim,

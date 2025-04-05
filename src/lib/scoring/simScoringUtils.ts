@@ -1,7 +1,8 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
+
+import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'

@@ -3,7 +3,8 @@ import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/test
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { generateFullDefaultForm } from 'lib/scoring/characterScorer'
+
+import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Form } from 'types/form'

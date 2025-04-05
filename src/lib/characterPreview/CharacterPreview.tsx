@@ -35,7 +35,8 @@ import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsU
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
-import { getShowcaseSimScoringExecution } from 'lib/scoring/characterScorer'
+
+import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'

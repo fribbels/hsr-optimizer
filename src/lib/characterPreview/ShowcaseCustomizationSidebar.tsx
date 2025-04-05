@@ -9,7 +9,8 @@ import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPr
 import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Assets } from 'lib/rendering/assets'
-import { AsyncSimScoringExecution } from 'lib/scoring/characterScorer'
+
+import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'

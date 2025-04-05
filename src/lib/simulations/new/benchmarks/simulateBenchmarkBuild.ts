@@ -15,7 +15,7 @@ import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
-export async function generateBenchmarkBuild(
+export async function simulateBenchmarkBuild(
   character: Character,
   simulationSets: SimulationSets,
   originalSim: Simulation,

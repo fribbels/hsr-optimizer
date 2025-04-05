@@ -27,7 +27,9 @@ CharacterWithCount_other: "crwdns39846:0{{count}}crwdne39846:0"
 Character_one: crwdns39848:0crwdne39848:0
 Character_other: crwdns39850:0crwdne39850:0
 VerifiedRelicHoverText: crwdns39852:0crwdne39852:0
+Verified4LinerHoverText: crwdns45017:0crwdne45017:0
 CombatStats: crwdns39854:0crwdne39854:0
+MemospriteLabel: "crwdns45019:0{{label}}crwdne45019:0"
 Parts:
   Head: crwdns39856:0crwdne39856:0
   Hands: crwdns39858:0crwdne39858:0
@@ -159,6 +161,14 @@ ShortReadableStats:
   Wind DMG Boost: "crwdns40096:0$t(gameData:Elements.Wind)crwdne40096:0"
   Quantum DMG Boost: "crwdns40098:0$t(gameData:Elements.Quantum)crwdne40098:0"
   Imaginary DMG Boost: "crwdns40100:0$t(gameData:Elements.Imaginary)crwdne40100:0"
+Elements:
+  Physical: "crwdns45021:0$t(gameData:Elements.Physical)crwdne45021:0"
+  Fire: "crwdns45023:0$t(gameData:Elements.Fire)crwdne45023:0"
+  Ice: "crwdns45025:0$t(gameData:Elements.Ice)crwdne45025:0"
+  Lightning: "crwdns45027:0$t(gameData:Elements.Thunder)crwdne45027:0"
+  Wind: "crwdns45029:0$t(gameData:Elements.Wind)crwdne45029:0"
+  Quantum: "crwdns45031:0$t(gameData:Elements.Quantum)crwdne45031:0"
+  Imaginary: "crwdns45033:0$t(gameData:Elements.Imaginary)crwdne45033:0"
 DMGTypes:
   simScore: crwdns40102:0crwdne40102:0
   BASIC: crwdns40104:0crwdne40104:0

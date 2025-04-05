@@ -159,6 +159,14 @@ ShortReadableStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)伤"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)伤"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)伤"
+Elements:
+  Physical: "$t(gameData:Elements.Physical)伤"
+  Fire: "$t(gameData:Elements.Fire)伤"
+  Ice: "$t(gameData:Elements.Ice)伤"
+  Lightning: "$t(gameData:Elements.Thunder)伤"
+  Wind: "$t(gameData:Elements.Wind)伤"
+  Quantum: "$t(gameData:Elements.Quantum)伤"
+  Imaginary: "$t(gameData:Elements.Imaginary)伤"
 DMGTypes:
   simScore: 连招伤害
   BASIC: 普攻伤害

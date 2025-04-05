@@ -242,9 +242,8 @@ export async function scoreCharacterSimulation(
   }
   //
   applyScoringFunction(originalSimResult)
-  //
-  // // Generate partials to calculate speed rolls
-  //
+
+  // ===== Calculate the benchmark build =====
 
   const benchmarkSim = await generateBenchmarkBuild(
     character,
@@ -259,11 +258,9 @@ export async function scoreCharacterSimulation(
     simulationFlags,
   )
   const benchmarkSimResult = benchmarkSim.result
-  //
-  // // console.log('bestSims', candidateBenchmarkSims)
-  //
-  // // ===== Calculate the maximum build =====
-  //
+
+  // ===== Calculate the maximum build =====
+
   const maximumSim = await generatePerfectBuild(
     benchmarkSim,
     targetSpd,
@@ -276,7 +273,6 @@ export async function scoreCharacterSimulation(
     simulationFlags,
   )
   const maximumSimResult = maximumSim.result!
-  // applyScoringFunction(maximumSimResult)
 
   console.log('max', maximumSim)
 
@@ -301,20 +297,10 @@ export async function scoreCharacterSimulation(
     metadata,
     applyScoringFunction,
     benchmarkScoringParams,
+    baselineSimScore,
+    benchmarkSimScore,
+    maximumSimScore,
   )
-  //
-  for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
-    const upgradeSimScore = upgrade.simulationResult.simScore
-    const percent = upgradeSimScore >= benchmarkSimScore
-      ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-      : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
-    upgrade.percent = percent
-  }
-
-  // Sort upgrades descending
-  substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-  setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-  mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
 
   const simScoringResult: SimulationScore = {
     percent: percent,

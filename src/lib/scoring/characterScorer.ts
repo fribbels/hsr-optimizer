@@ -92,6 +92,9 @@ export function generateStatImprovements(
   metadata: SimulationMetadata,
   applyScoringFunction: ScoringFunction,
   scoringParams: ScoringParams,
+  baselineSimScore: number,
+  benchmarkSimScore: number,
+  maximumSimScore: number,
 ) {
   const substatUpgradeResults: SimulationStatUpgrade[] = []
   for (const substatType of metadata.substats) {
@@ -163,6 +166,20 @@ export function generateStatImprovements(
   upgradeMain(Parts.Feet)
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
+
+  //
+  for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
+    const upgradeSimScore = upgrade.simulationResult.simScore
+    const percent = upgradeSimScore >= benchmarkSimScore
+      ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
+      : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+    upgrade.percent = percent
+  }
+
+  // Sort upgrades descending
+  substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
 
   // console.log('Stat improvements', mainUpgradeResults)
 

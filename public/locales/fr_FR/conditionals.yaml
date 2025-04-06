@@ -177,6 +177,8 @@ Lightcones:
     Content:
       dmgBoost:
         text: Bonus de DGT
+      defPen:
+        text: PÉN de DÉF
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:

@@ -38,6 +38,7 @@ type RelicTabFilters = {
   grade: (string | number)[]
   verified: (string | number)[]
   equippedBy: (string | number)[]
+  initialRolls: (string | number)[]
 }
 
 export type HsrOptimizerStore = {

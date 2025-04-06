@@ -322,81 +322,6 @@ export const StatsToReadable = {
   [Stats.Imaginary_DMG]: 'Imaginary DMG',
 }
 
-export const StatsToReadableShort = {
-  [Stats.HP_P]: 'HP %',
-  [Stats.ATK_P]: 'ATK %',
-  [Stats.DEF_P]: 'DEF %',
-  [Stats.SPD_P]: 'SPD %',
-  [Stats.HP]: 'HP',
-  [Stats.ATK]: 'ATK',
-  [Stats.DEF]: 'DEF',
-  [Stats.SPD]: 'SPD',
-  [Stats.CR]: 'CRIT Rate',
-  [Stats.CD]: 'CRIT DMG',
-  [Stats.EHR]: 'HIT',
-  [Stats.RES]: 'RES',
-  [Stats.BE]: 'Break',
-  [Stats.ERR]: 'Energy',
-  [Stats.OHB]: 'Healing',
-  [Stats.Physical_DMG]: 'Physical',
-  [Stats.Fire_DMG]: 'Fire',
-  [Stats.Ice_DMG]: 'Ice',
-  [Stats.Lightning_DMG]: 'Lightning',
-  [Stats.Wind_DMG]: 'Wind',
-  [Stats.Quantum_DMG]: 'Quantum',
-  [Stats.Imaginary_DMG]: 'Imaginary',
-}
-
-export const StatsToShort = {
-  [Stats.HP_P]: 'HP%',
-  [Stats.ATK_P]: 'ATK%',
-  [Stats.DEF_P]: 'DEF%',
-  [Stats.SPD_P]: 'SPD%',
-  [Stats.HP]: 'HP',
-  [Stats.ATK]: 'ATK',
-  [Stats.DEF]: 'DEF',
-  [Stats.SPD]: 'SPD',
-  [Stats.CR]: 'CR',
-  [Stats.CD]: 'CD',
-  [Stats.EHR]: 'EHR',
-  [Stats.RES]: 'RES',
-  [Stats.BE]: 'BE',
-  [Stats.ERR]: 'ERR',
-  [Stats.OHB]: 'OHB',
-  [Stats.Physical_DMG]: 'Physical',
-  [Stats.Fire_DMG]: 'Fire',
-  [Stats.Ice_DMG]: 'Ice',
-  [Stats.Lightning_DMG]: 'Lightning',
-  [Stats.Wind_DMG]: 'Wind',
-  [Stats.Quantum_DMG]: 'Quantum',
-  [Stats.Imaginary_DMG]: 'Imaginary',
-}
-
-export const StatsToShortSpaced = {
-  [Stats.HP_P]: 'HP %',
-  [Stats.ATK_P]: 'ATK %',
-  [Stats.DEF_P]: 'DEF %',
-  [Stats.SPD_P]: 'SPD %',
-  [Stats.HP]: 'HP',
-  [Stats.ATK]: 'ATK',
-  [Stats.DEF]: 'DEF',
-  [Stats.SPD]: 'SPD',
-  [Stats.CR]: 'CR',
-  [Stats.CD]: 'CD',
-  [Stats.EHR]: 'EHR',
-  [Stats.RES]: 'RES',
-  [Stats.BE]: 'BE',
-  [Stats.ERR]: 'ERR',
-  [Stats.OHB]: 'OHB',
-  [Stats.Physical_DMG]: 'Physical',
-  [Stats.Fire_DMG]: 'Fire',
-  [Stats.Ice_DMG]: 'Ice',
-  [Stats.Lightning_DMG]: 'Lightning',
-  [Stats.Wind_DMG]: 'Wind',
-  [Stats.Quantum_DMG]: 'Quantum',
-  [Stats.Imaginary_DMG]: 'Imaginary',
-}
-
 export const Parts = {
   Head: 'Head',
   Hands: 'Hands',
@@ -431,7 +356,6 @@ export const PartsToReadable = {
   [Parts.PlanarSphere]: 'Sphere',
   [Parts.LinkRope]: 'Rope',
 } as const
-export type PartsToReadable = typeof PartsToReadable[keyof typeof PartsToReadable]
 
 export const PartsMainStats = {
   [Parts.Head]: [Stats.HP],

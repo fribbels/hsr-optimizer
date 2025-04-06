@@ -1,6 +1,10 @@
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
 import { Flex, Image, Tooltip } from 'antd'
 import i18next from 'i18next'
+import { CircleIcon } from 'icons/CircleIcon'
+import { RingedCircle4Icon } from 'icons/RingedCircle4Icon'
+import { RingedCircleCheckIcon } from 'icons/RingedCircleCheckIcon'
+import { RingedCircleIcon } from 'icons/RingedCircleIcon'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { currentLocale, localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
@@ -177,30 +181,35 @@ export const Renderer = {
 
   renderGradeCell: (x: { data: Relic }) => {
     const relic = x.data
-    return Renderer.renderGrade(relic)
+    return Renderer.renderGrade(relic, true)
   },
-  renderGrade: (relic: Relic) => {
-    const color = gradeToColor[relic.grade] || ''
-    return (
-      relic.verified
+  renderGrade: (relic: Relic, highlight4Liners = false) => {
+    const color = gradeToColor[relic.grade as keyof typeof gradeToColor] ?? ''
+    const circleColor = color == '' ? 'transparent' : color
+    if (highlight4Liners && relic.initialRolls == 4) {
+      return relic.verified
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
-            title={i18next.t('common:VerifiedRelicHoverText')/* Relic substats verified by relic scorer (speed decimals) */}
+            title={i18next.t('Verified4LinerHoverText')}
+            // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
           >
-            <CheckCircleFilled
-              style={{ fontSize: '14px', color: color }}
-            />
+            <RingedCircleCheckIcon color={circleColor}/>
           </Tooltip>
         )
-        : (
-          <Flex>
-            <svg width='14' height='14' viewBox='0 0 14 14' style={{ display: 'inline-block', verticalAlign: 'middle' }}>
-              <circle cx='7' cy='7' r='7' fill={color == '' ? 'transparent' : color}/>
-            </svg>
-          </Flex>
+        : <RingedCircleIcon color={circleColor}/>
+    } else {
+      return relic.verified
+        ? (
+          <Tooltip
+            mouseEnterDelay={0.4}
+            title={i18next.t('VerifiedRelicHoverText')/* Relic substats verified by relic scorer (speed decimals) */}
+          >
+            <CheckCircleFilled style={{ fontSize: '14px', color: color }}/>
+          </Tooltip>
         )
-    )
+        : <CircleIcon color={circleColor}/>
+    }
   },
   renderEquippedBy: (equippedBy: string) => {
     return (
@@ -208,6 +217,11 @@ export const Renderer = {
         ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }}/>
         : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
     )
+  },
+  renderInitialRolls: (relic: Relic) => {
+    return relic.initialRolls == 4
+      ? <RingedCircle4Icon color={gradeToColor[5]}/>
+      : Renderer.renderGrade(relic, true)
   },
 }
 

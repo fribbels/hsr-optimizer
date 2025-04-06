@@ -173,12 +173,25 @@ Lightcones:
         text: '[유광] 스택'
         content: >-
           장착한 캐릭터가 추가 공격 발동 시 [유광]을 1스택 획득한다, 최대 중첩수: 2스택. [유광] 1스택마다 장착한 캐릭터가 가하는 필살기 피해가 목표의 방어력을 {{DefIgnore}}% 무시한다. 장착한 캐릭터의 턴 종료 시 [유광]이 1스택 해제된다.
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: 데미지 버프
+        content: 적이 장착한 캐릭터가 부여한 약점을 보유했을 경우 장착한 캐릭터가 대상에게 가하는 피해가 {{DmgBuff}}% 증가한다.
+      defPen:
+        text: 방어력 무시
+        content: '적이 장착한 캐릭터의 공격을 받을 시 장착한 캐릭터가 대상의 방어력을 {{DefShred}}% 감소시킨다, 지속 시간: 2턴. 같은 유형의 효과는 중첩되지 않는다'
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: '[타오름] 스택'
         content: >-
           적의 약점이 격파될 시 100%의 기본 확률로 대상을 [타오름] 상태에 빠트리고 받는 격파 피해를 {{breakVulnerability}}% 증가시킨다, 지속 시간: 2턴. 해당 효과는 2스택 중첩 가능하다.
+  MakeFarewellsMoreBeautiful:
+    Content:
+      deathFlower:
+        text: '[저승의 꽃]'
+        content: '장착한 캐릭터 또는 장착한 캐릭터의 기억 정령이 자신의 턴 동안 HP를 잃을 시, 장착한 캐릭터가 [저승의 꽃]을 획득한다. [저승의 꽃]은 장착한 캐릭터와 장착한 캐릭터의 기억 정령이 피해를 가할 시 목표의 방어력을 {{DefIgnore}}% 무시하게 한다, 지속 시간: 2턴'
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -514,6 +527,11 @@ Lightcones:
       cdBuffActive:
         text: '≥ 2 약점 속성을 지닐 때 버프'
         content: '장착한 캐릭터가 공격 발동 후 피격된 적 2기 이상이 대응하는 약점 속성을 보유하고 있으면 장착한 캐릭터의 치명타 피해가 {{CritBuff}}% 증가한다. 지속 시간: 2턴'
+  TheGreatCosmicEnterprise:
+    Content:
+      weaknessTypes:
+        text: 약점 갯수
+        content: 적이 서로 다른 속성의 약점을 1개 보유할 때마다 장착한 캐릭터가 대상에게 가하는 피해가 {{DmgBuff}}% 증가하며, 최대 7개까지 계산한다
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -537,6 +555,7 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: 최대 에너지
+        content: '전투 진입 후 장착한 캐릭터의 에너지 최대치에 따라 장착한 캐릭터가 가하는 피해가 증가한다: 에너지 1pt당 {{DmgStep}}% 증가. 최대 160pt까지 계산한다.'
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -651,6 +670,10 @@ Characters:
         content: >-
           [눈물 베기]: 지정된 단일 적에게 아케론 공격력의 {{RainbladeScaling}}%만큼 번개 속성 피해를 가하고, 목표의 [아즈사카]를 최대 3스택 소거한다. [아즈사카] 소거 시 즉시 모든 적에게 아케론 공격력의 {{CrimsonKnotScaling}}%만큼 번개 속성 피해를 가하고, [아즈사카]를 1스택 소거할 때마다 이번 피해 배율이 추가로 증가한다.
           ::BR::필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택
+      nihilityTeammatesBuff:
+        text: 공허 편성 버프
+        content: >-
+          아군 파티에 아케론을 제외한 「공허」 운명의 길 캐릭터가 1명/2명 존재 시, 아케론의 일반 공격, 전투 스킬, 필살기로 가하는 피해가 기존 피해의 115%/160%가 된다.::E2: 행적 [나락] 최대치 도달에 필요한 「공허」 운명의 길 캐릭터의 수가 1명 감소한다. 자신의 턴이 시작되면 [꿈 조각]을 1pt 획득하고, 동시에 [아즈사카]가 가장 많은 적에게 [아즈사카]를 1스택 부여한다.
       thunderCoreStacks:
         text: 뇌심 스택
         content: '필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴'
@@ -693,6 +716,34 @@ Characters:
         text: 6돌 버프
         content: >-
           아글라이아가 [지고의 자태] 상태일 시 자신과 의상공의 번개 속성 저항 관통이 20% 증가한다. 아글라이아 또는 의상공의 속도가 160/240/320pt를 초과할 시 가하는 연계 공격 피해가 10%/30%/60% 증가한다.
+  Anaxa:
+    Content:
+      skillHits:
+        text: 전투스킬 추가 사용
+        content: 전투 스킬 메인 타겟 수
+      exposedNature:
+        text: '[성질 발로]'
+        content: >-
+          아낙사가 필드에 있을 시, 최소 5가지 다른 속성 약점을 보유한 적을 [성질 발로] 상태에 빠트린다. 아낙사가 [성질 발로] 상태의 목표에게 가하는 피해가 {{DmgBuff}}% 증가한다
+      eruditionTeammateBuffs:
+        text: 아군 지식 수
+        content: >-
+          아군 파티 내 「지식」 운명의 길 캐릭터의 수에 따라 이번 전투에서 아래 중 하나의 효과를 발동한다.::BR::1명: 아낙사의 치명타 피해가 140% 증가한다::BR::최소 2명: 모든 아군이 가하는 피해가 50% 증가한다
+      enemyWeaknessTypes:
+        text: 적 약화
+        content: 적이 서로 다른 속성의 약점을 1개 보유할 때마다 아낙사가 대상에게 가하는 피해는 방어력을 4% 무시하며, 최대 7개까지 계산된다
+      e1DefPen:
+        text: 1돌 방어력 무시
+        content: '처음 전투 스킬을 발동한 후 전투 스킬 포인트를 1pt 회복한다. 전투 스킬을 발동해 적 명중 시 목표의 방어력을 16% 감소시킨다, 지속 시간: 2턴'
+      e2ResPen:
+        text: 2돌 속성 저항 감소
+        content: 적이 필드 진입 시 특성의 약점 부여 효과를 1회 발동하며, 대상의 모든 속성 저항을 20% 감소시킨다
+      e4AtkBuffStacks:
+        text: 4돌 공경력 증가
+        content: '전투 스킬 발동 시 공격력이 30% 증가한다, 지속 시간: 2턴, 해당 효과 최대 중첩수: 2스택'
+      e6Buffs:
+        text: 6돌 버프
+        content: 아낙사가 가하는 피해가 기존 피해의 130%가 된다. 행적 [필요한 공백]의 두 가지 효과가 바로 발동되며, 더 이상 아군 파티 내 「지식」 운명의 길 캐릭터 수에 의존하지 않는다
   Argenti:
     Content:
       ultEnhanced:
@@ -857,6 +908,36 @@ Characters:
       teammateCDValue:
         text: 치피 (전투)
         content: '모든 아군의 공격력이 {{ultAtkBoostValue}}% 증가하고, 동시에 브로냐 치명타 피해 {{ultCdBoostValue}}%+{{ultCdBoostBaseValue}}%만큼의 치명타 피해가 증가한다. 지속 시간: 2턴'
+  Castorice:
+    Content:
+      memospriteActive:
+        text: 기억 정령 존재
+        content: 죽음의 용이 필드에 있을 시, 경계 [세상을 잊은 저승]을 전개하여 모든 적의 모든 속성 저항을 {{ResDown}}% 감소시킨다
+      spdBuff:
+        text: 속도 버프
+        content: 카스토리스의 현재 HP가 자신의 HP 최대치의 50% 이상일 시 카스토리스의 속도가 40% 증가한다
+      talentDmgStacks:
+        text: 특성 스택
+        content: '아군이 HP를 잃을 시 카스토리스와 죽음의 용이 가하는 피해가 {{DmgBuff}}% 증가한다, 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴'
+      memoSkillEnhances:
+        text: 기억 정령 강화 전스
+        content: 1회의 공격 동안 [암흑을 불태우는 화염의 숨결]을 중복 발동할 수 있으며, 중복 발동 시 피해 배율이 순차대로 {{Multiplier1Enhance}}%/{{Multiplier2Enhance}}%로 증가하며, {{Multiplier2Enhance}}%에 도달하면 더 이상 증가하지 않는다. 피해 배율 증가 효과는 죽음의 용이 사라지기 전까지 감소하지 않는다
+      memoTalentHits:
+        text: 기억정령 자폭
+        content: 죽음의 용이 사라질 시 피해를 {{BounceCount}}회 가하며, 피해당 랜덤 단일 적에게 카스토리스 HP 최대치의 {{Scaling}}%만큼 양자 속성 피해를 가한다
+      teamDmgBoost:
+        text: 아군 가하는 피해 증가
+        content: '죽음의 용이 소환될 시, 모든 아군이 가하는 피해가 10% 증가한다, 지속 시간: 3턴'
+      memoDmgStacks:
+        text: 기억정령 가피증 스택
+        content: '죽음의 용이 [암흑을 불태우는 화염의 숨결]을 발동할 때마다 가하는 피해가 30% 증가한다, 해당 효과 최대 중첩수: 6스택, 이번 턴이 종료될 때까지 지속된다'
+      e1EnemyHp50:
+        text: 1돌 적 HP ≤ 50%
+        content: 적의 현재 HP가 자신의 HP 최대치의 80%/50% 이하일 시, [뼈의 발톱, 저승 용의 포옹], [어둠을 찢는 발톱], [암흑을 불태우는 화염의 숨결], [묘지를 불사르는 어둠의 날개]가 대상에게 가하는 피해가 기존 피해의 120%/140%가 된다
+      e6Buffs:
+        text: 6돌 버프
+        content: >-
+          카스토리스와 죽음의 용이 피해를 가할 시 양자 속성 저항 관통이 20% 증가한다. 죽음의 용은 공격 중에 약점 속성을 무시하고 적의 강인성을 감소시킬 수 있으며, 약점 격파 시 양자 속성의 약점 격파 효과를 발동하고, 특성 [묘지를 불사르는 어둠의 날개]의 바운스 발동 횟수가 추가로 3회 증가한다
   Clara:
     Content:
       ultBuff:
@@ -1541,6 +1622,9 @@ Characters:
         text: 특성 스택
         content: >-
           아군이 전투 스킬 포인트를 1pt 소모할 때마다 모든 아군이 가하는 피해가 {talentBaseStackBoost}% 증가한다, 해당 효과 지속 시간: 2턴, 최대 중첩수: 3스택::BR::E2: 특성의 각 스택 효과는 추가로 아군이 피해를 가할 시 목표의 방어력을 8% 무시하게 한다.
+      quantumAlliesAtkBuff:
+        text: 양자 속성 공격력 버프
+        content: 모든 아군의 공격력이 15% 증가한다. 아군 파티 중 양자 속성 캐릭터가 1명/2명/3명 존재 시 아군 양자 속성 캐릭터의 공격력이 추가로 5%/15%/30% 증가한다.
     TeammateContent:
       teammateCDValue:
         text: 스파클 치피 (전투시)

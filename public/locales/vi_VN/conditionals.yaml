@@ -164,6 +164,10 @@ Lightcones:
         text: Tầng Lưu Quang
         content: >-
           Khi người trang bị thi triển Đòn Đánh Theo Sau sẽ nhận 1 tầng Lưu Quang, tối đa cộng dồn 2 tầng. Mỗi tầng Lưu Quang khiến sát thương Tuyệt Kỹ mà người trang bị gây ra bỏ qua {{DefIgnore}}% phòng thủ của mục tiêu. Khi hiệp của người trang bị kết thúc sẽ xóa bỏ 1 tầng Lưu Quang.
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: Tăng Sát Thương
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -686,6 +690,12 @@ Characters:
         text: E6 Tăng Gì Đó
         content: >-
           Khi Aglaea ở trạng thái Tư Thế Tối Cao, Xuyên Kháng Lôi của bản thân và Thợ May tăng 20%. Khi Aglaea và [sic] Thợ May có tốc độ cao hơn 160/240/320 điểm, sát thương gây ra bởi Tấn Công Phối Hợp sẽ tăng 10%/30%/60%.
+  Anaxa:
+    Content:
+      e1DefPen:
+        text: E1 Xuyên Phòng Thủ
+      e6Buffs:
+        text: E6 Tăng Gì Đó
   Argenti:
     Content:
       ultEnhanced:
@@ -850,6 +860,16 @@ Characters:
       teammateCDValue:
         text: Sát Thương Bạo Kích trong Combat của Bronya
         content: Khiến toàn bộ phe ta tăng {{ultAtkBoostValue}}% tấn công, đồng thời tăng sát thương bạo kích bằng {{ultCdBoostValue}}% sát thương bạo kích của Bronya {{ultCdBoostBaseValue}}%, duy trì 2 hiệp.
+  Castorice:
+    Content:
+      spdBuff:
+        text: Tăng Tốc Độ
+      talentDmgStacks:
+        text: Thiên Phú ST Tăng
+      teamDmgBoost:
+        text: Tăng Sát Thương Đội
+      e6Buffs:
+        text: E6 Tăng Gì Đó
   Clara:
     Content:
       ultBuff:

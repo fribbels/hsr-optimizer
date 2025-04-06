@@ -13,6 +13,7 @@ Import:
     BadSource: 소스 문자열이 다릅니다. 현재{{jsonSource}}, 이후{{configSource}}
     BadVersion: json 버전이 다릅니다. 현재{{jsonVersion}}, 이후{{configVersion}}
     OutdatedVersion: "스캐너 버전이 {{buildVersion}} 여서 잘못된 데이터를 가져올 수 있습니다. Github에서 최신버전을 받으세요!"
+    BadMainstat: 주옵 {{mainstat}}, 부위 {{part}}의 유물 메인 상태를 가져오지 못했습니다.
   ParserWarning:
     BadRollInfo: 스캐너 파일이 오래되었거나 잘못된 정보가 포함되어 있을 수 있습니다. 스캐너를 업데이트해 주세요.
   Stage1:
@@ -20,6 +21,7 @@ Import:
     ReliquaryDesc:
       Title: (권장) IceDynamix Reliquary Archiver
       Link: Github
+      OnlineMsg: "상태: 버전 {{version}} 지원"
       OfflineMsg: "***** 상태: {{version}} 버전 패치 후 변경 사항을 적용 중 *****"
       l1: 소수점 단위로 속도 정밀 표시, 빠른 스캔
       l2: 모든 인벤토리와 캐릭터 목록 추출

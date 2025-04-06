@@ -49,7 +49,7 @@ export enum BasePath {
   BETA = '/dreary-quibbles',
 }
 
-// This string is replaced by /dreary-quibbles by github actions, don't change
+// This string is replaced by BasePath.BETA by github actions, don't change
 export const BASE_PATH: BasePath = BasePath.MAIN
 
 export const AppPages = {
@@ -207,6 +207,7 @@ window.store = create((set) => {
       grade: [],
       verified: [],
       equippedBy: [],
+      initialRolls: [],
     },
     characterTabFilters: {
       name: '',

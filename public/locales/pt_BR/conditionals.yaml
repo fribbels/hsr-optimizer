@@ -173,6 +173,10 @@ Lightcones:
         text: Acúmulos de Luminflux
         content: >-
           Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: Boost de DMG
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -709,6 +713,12 @@ Characters:
         text: Buffs E6
         content: >-
           Enquanto Aglaea estiver em "Postura Suprema", aumenta a RES PEN de Relâmpago de Aglaea em Confeccionado em 20%. Quando a SPD de Aglaea ou Confeccionadora forem maior que 160/240/320, o dano do ataque Conjunto aumenta em 10%/30%/60%
+  Anaxa:
+    Content:
+      e1DefPen:
+        text: PEN de DEF E1
+      e6Buffs:
+        text: Buffs E6
   Argenti:
     Content:
       ultEnhanced:
@@ -872,6 +882,16 @@ Characters:
       teammateCDValue:
         text: CD de Combate da Bronya
         content: Aumenta o ATK de todos os aliados em {{ultAtkBoostValue}}% e o CRIT DMG em {{ultCdBoostValue}}% do CRIT DMG de Bronya mais {{ultCdBoostBaseValue}}% por 2 turnos.
+  Castorice:
+    Content:
+      spdBuff:
+        text: Buff de SPD
+      talentDmgStacks:
+        text: Acúmulos de DMG do Talento
+      teamDmgBoost:
+        text: Aumento de Dano da Equipe
+      e6Buffs:
+        text: Buffs E6
   Clara:
     Content:
       ultBuff:

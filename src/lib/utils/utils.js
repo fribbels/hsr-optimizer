@@ -2,6 +2,8 @@ import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
 import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
+import { Message } from 'lib/interactions/message.js'
+import { currentLocale } from 'lib/utils/i18nUtils.js'
 
 console.debug = (...args) => {
   let messageConfig = '%c%s '
@@ -148,6 +150,7 @@ export const Utils = {
         style: {
           zoom: scale,
         },
+        skipFonts: true, // TODO: remove once html-to-image gets patched (c.f. https://github.com/bubkoo/html-to-image/issues/508)?
       }
 
       let i = 0
@@ -172,8 +175,8 @@ export const Utils = {
 
     function handleBlob(blob) {
       const prefix = characterName || 'Hsr-optimizer'
-      const date = new Date().toLocaleDateString(resolvedLanguage()).replace(/[^apm\d]+/gi, '-')
-      const time = new Date().toLocaleTimeString(resolvedLanguage()).replace(/[^apm\d]+/gi, '-')
+      const date = new Date().toLocaleDateString(currentLocale()).replace(/[^apm\d]+/gi, '-')
+      const time = new Date().toLocaleTimeString(currentLocale()).replace(/[^apm\d]+/gi, '-')
       const filename = `${prefix}_${date}_${time}.png`
 
       if (action == 'clipboard') {
@@ -340,8 +343,4 @@ export const Utils = {
   filterUnique: (arr) => {
     return arr.filter((value, index, array) => array.indexOf(value) === index)
   },
-}
-
-function resolvedLanguage() {
-  i18next.resolvedLanguage.replace('_', '-')
 }

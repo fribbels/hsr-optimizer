@@ -9,6 +9,26 @@ import { initReactI18next } from 'react-i18next'
 window.yaml = yaml
 export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'vi_VN', 'zh_CN'] as const
 
+const namespaces = [
+  'charactersTab',
+  'common',
+  'conditionals',
+  'gameData',
+  'getStartedTab',
+  'hint',
+  'hometab',
+  'importSaveTab',
+  'modals',
+  'notifications',
+  'optimizerTab',
+  'relicScorerTab',
+  'relicsTab',
+  'settings',
+  'sidebar',
+  'warpCalculatorTab',
+] as const
+export type Namespaces = typeof namespaces[number]
+
 export const isBeta = BASE_PATH === BasePath.BETA
 
 export const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
@@ -17,24 +37,7 @@ void i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    ns: [
-      'charactersTab',
-      'common',
-      'conditionals',
-      'gameData',
-      'getStartedTab',
-      'hint',
-      'hometab',
-      'importSaveTab',
-      'modals',
-      'notifications',
-      'optimizerTab',
-      'relicScorerTab',
-      'relicsTab',
-      'settings',
-      'sidebar',
-      'warpCalculatorTab',
-    ],
+    ns: namespaces,
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
     debug: false,

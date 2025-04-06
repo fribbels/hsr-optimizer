@@ -100,8 +100,23 @@ CharacterPreview:
   DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교
+    MainStatHeader: 주옵 강화 비교
+    AddedRoll: "+1x 부옵"
+    MainStatUpgrade: 주옵 강화
+    SubStatUpgrade: 부옵 강화
+    DpsScorePercentUpgrade: DPS 점수 Δ %
+    UpgradedDpsScore: 강화 시 DPS 점수
+    ComboDmgPercentUpgrade: 콤보 DMG Δ %
+    ComboDmgUpgrade: 콤보 DMG Δ
   BuildAnalysis:
+    ScoringNote: >-
+      DPS 점수는 스킬 회전의 피해를 같은 팀 편성, 광원추, 별괴를 이용한 기준 빌드와 비교함으로써 빌드의 품질을 평가합니다. DPS 점수 및 콤보 데미지는 선택한 팀 편성에 대해서만 상대적으로 계측되기 때문에 다른 팀 편성 간의 비교에 이용되는 것이 아닙니다.
+    RelicRarityHeader: 유물 희귀도 강화 비교
+    RelicRarityNote: |-
+      추정 개척력은 캐릭터에 설정한 상태의 가중치를 바탕으로 보다 강한 유물로 각각 갈아타는데 필요한 일수와 개척력을 추정하는 것입니다. 이는 유물 수집의 우선순위를 정하기 위한 통계적 희귀성을 나타내는 지표로 DPS 스코어나 콤보 데미지에 반영되는 것도, 영향을 주는 것도 아닙니다.
+    Header: DPS 점수 계산
     SimulationTeammates: 시뮬레이션 파티
+    SimulatedBenchmarks: 시뮬레이션 기준 빌드
     SimulationSets: 시뮬레이션 세팅
     Rotation:
       Header: 사이클
@@ -158,3 +173,12 @@ CharacterPreview:
       Abilities: 200% 종결 피해량
   ScoringDetails:
     Header: DPS 점수 계산법
+  EST-TBP:
+    Header: 스텟 점수 분석
+    RollsCard:
+      Perfection: 완벽도
+    MetricsCard:
+      Days: 일
+      Rolls: 리롤 가중치
+      TBP: 추정 개척력
+      Potential: 리롤 잠재력

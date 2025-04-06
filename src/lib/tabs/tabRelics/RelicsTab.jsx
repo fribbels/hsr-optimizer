@@ -19,10 +19,11 @@ import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import { currentLocale } from 'lib/utils/i18nUtils.js'
+import Plotly from 'plotly.js/dist/plotly-basic'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import createPlotlyComponent from 'react-plotly.js/factory'
-import Plotly from 'plotly.js/dist/plotly-basic'
 
 const Plot = createPlotlyComponent(Plotly)
 
@@ -131,6 +132,15 @@ export default function RelicsTab() {
           type: 'false',
         },
       ],
+      operator: 'OR',
+    }
+
+    filterModel.initialRolls = {
+      conditions: relicTabFilters.initialRolls.map((x) => ({
+        filterType: 'number',
+        type: 'equals',
+        filter: x,
+      })),
       operator: 'OR',
     }
 
@@ -350,6 +360,7 @@ export default function RelicsTab() {
 
   const columnDefs = useMemo(() => [
     { field: 'verified', hide: true, filter: 'agTextColumnFilter', filterParams: { maxNumConditions: 2 } },
+    { field: 'initialRolls', hide: true, filter: 'agNumberColumnFilter' },
     {
       field: 'equippedBy',
       headerName: t('RelicGrid.Headers.EquippedBy')/* Owner */,
@@ -703,7 +714,7 @@ export default function RelicsTab() {
               pagination={true}
               paginationPageSizeSelector={false}
               paginationPageSize={2100}
-              paginationNumberFormatter={(param) => param.value.toLocaleString(i18n.resolvedLanguage.split('_')[0])}
+              paginationNumberFormatter={(param) => param.value.toLocaleString(currentLocale())}
               getLocaleText={getLocaleText}
 
               onSelectionChanged={onSelectionChanged}

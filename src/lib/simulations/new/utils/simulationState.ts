@@ -1,5 +1,6 @@
-import { SimulationSets } from 'lib/scoring/dpsScore'
-import { RelicBuild, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
+import { Sets, Stats } from 'lib/constants/constants'
+import { RelicBuild, ScoringParams } from 'lib/scoring/simScoringUtils'
+import { SimulationRequest } from 'lib/simulations/statSimulationController'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
@@ -39,53 +40,40 @@ export type SimulationState = {
   }
 }
 
-export function createSimulationState(
-  // Required parameters
-  context: OptimizerContext,
+export type SimulationStateInputs = SimulationState['inputs']
+export type SimulationStateConfig = SimulationState['config']
+
+export function createCustomBenchmarkSimulationState(
   form: Form,
+  context: OptimizerContext,
   metadata: SimulationMetadata,
+  simulationRequest: SimulationRequest,
   scoringParams: ScoringParams,
-  simulationSets: SimulationSets,
-  // Optional parameters
-  options: {
-    simulationFlags?: SimulationFlags
-    character?: Character
-    displayRelics?: RelicBuild
-    customMainStats?: SimulationState['inputs']['customMainStats']
-    customTargetSpd?: number
-    spdBenchmark?: number
-    mainStatMultiplier?: number
-    overwriteSets?: boolean
-  } = {},
 ): SimulationState {
-  return {
-    inputs: {
-      context,
-      form,
-      metadata,
-      scoringParams,
-      character: options.character,
-      displayRelics: options.displayRelics,
-      customMainStats: options.customMainStats,
-      customTargetSpd: options.customTargetSpd,
-    },
-    config: {
-      spdBenchmark: options.spdBenchmark,
-      mainStatMultiplier: options.mainStatMultiplier ?? 1,
-      overwriteSets: options.overwriteSets ?? false,
-      simulationSets,
-    },
-    results: {},
-    status: {
-      originalBuildCompleted: false,
-      baselineBuildCompleted: false,
-      speedAdjustmentsCompleted: false,
-      benchmarkBuildCompleted: false,
-      perfectBuildCompleted: false,
-      scoreCalculated: false,
-    },
-    metrics: {
-      startTime: performance.now(),
-    },
+  const inputs: SimulationStateInputs = {
+    context,
+    form,
+    metadata,
+    scoringParams,
   }
+
+  const config: SimulationStateConfig = {
+    overwriteSets: true,
+    addBreakEffect: false,
+    overcapCritRate: false,
+    simPoetActive: false,
+    characterPoetActive: isPoet(simulationRequest),
+    forceBasicSpd: true,
+    forceBasicSpdValue: simulationRequest.stats[Stats.SPD],
+  }
+
+  return {
+    inputs,
+    config,
+  }
+}
+
+function isPoet(simulationRequest: SimulationRequest) {
+  return simulationRequest.simRelicSet1 == Sets.PoetOfMourningCollapse
+    && simulationRequest.simRelicSet2 == Sets.PoetOfMourningCollapse
 }

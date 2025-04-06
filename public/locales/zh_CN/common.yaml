@@ -27,7 +27,9 @@ CharacterWithCount_other: "{{count}}个角色"
 Character_one: 角色
 Character_other: 角色
 VerifiedRelicHoverText: 遗器副词条已通过遗器评分器验证（速度小数位）
+Verified4LinerHoverText: 遗器副词条及初始词条数量由遗器评分器校验（包含精确的速度小数值和4条初始副词条）
 CombatStats: 战斗属性
+MemospriteLabel: "忆灵{{label}}"
 Parts:
   Head: 头部
   Hands: 手部

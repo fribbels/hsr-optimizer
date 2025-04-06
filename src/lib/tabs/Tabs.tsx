@@ -1,7 +1,6 @@
 import { Flex, Typography } from 'antd'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
 import { AppPages, PageToRoute } from 'lib/state/db'
-import BenchmarksTab from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
 import CharacterTab from 'lib/tabs/tabCharacters/CharacterTab'
 import HomeTab from 'lib/tabs/tabHome/HomeTab'
@@ -40,7 +39,7 @@ const Tabs = () => {
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
-  const benchmarksTab = React.useMemo(() => <BenchmarksTab/>, [])
+  // const benchmarksTab = React.useMemo(() => <BenchmarksTab/>, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
@@ -73,7 +72,7 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WARP} content={warpCalculatorTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.BENCHMARKS} content={benchmarksTab}/>
+      {/* <TabRenderer activeKey={activeKey} tabKey={AppPages.BENCHMARKS} content={benchmarksTab}/> */}
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>

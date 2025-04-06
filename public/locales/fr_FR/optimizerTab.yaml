@@ -588,6 +588,7 @@ ExpandedDataPanel:
           Break: Rupture
         Suffix:
           DMG boost: Bonus de DGT
+          DEF PEN: PÉN de DÉF
           Additional DMG: Dégâts additionnels
           DMG: DGT
       Misc:

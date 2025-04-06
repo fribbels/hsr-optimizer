@@ -26,8 +26,10 @@ CharacterWithCount_one: "{{count}} personnage"
 CharacterWithCount_other: "{{count}} personnages"
 Character_one: personnage
 Character_other: personnages
-VerifiedRelicHoverText: Substats confirmées par l'appréciateur de reliques (décimales de vitesse)
+VerifiedRelicHoverText: Substats confirmées (décimales de vitesse precises)
+Verified4LinerHoverText: Substats et nombre de rolls initiaux confirmés (décimales de vitesse précises + 4 substats initiales)
 CombatStats: Stats de Combat
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: Tête
   Hands: Mains
@@ -159,6 +161,14 @@ ShortReadableStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+Elements:
+  Physical: "$t(gameData:Elements.Physical)"
+  Fire: "$t(gameData:Elements.Fire)"
+  Ice: "$t(gameData:Elements.Ice)"
+  Lightning: "$t(gameData:Elements.Thunder)"
+  Wind: "$t(gameData:Elements.Wind)"
+  Quantum: "$t(gameData:Elements.Quantum)"
+  Imaginary: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
   simScore: DGT Combo
   BASIC: Dégâts normale

@@ -63,9 +63,7 @@ export function runStatSimulations(
   }
 
   for (const sim of simulations) {
-    const request = sim.request
-
-    const simRelics = generateSimRelics(request, sim, params)
+    const simRelics = generateSimRelics(sim, params)
     const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
     const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
 
@@ -102,17 +100,20 @@ export type SimulationRelicByPart = {
   Head: SimulationRelic
 }
 
-function generateSimRelics(request: SimulationRequest, sim: Simulation, params: RunSimulationsParams): SimulationRelicByPart {
+export function generateSimRelics(simulation: Simulation, params: RunSimulationsParams): SimulationRelicByPart {
+  const request = simulation.request
   const simRelics = {
     [Parts.Head]: simulationRelic(request.simRelicSet1, Constants.Stats.HP, 705.600),
     [Parts.Hands]: simulationRelic(request.simRelicSet1, Constants.Stats.ATK, 352.800),
     [Parts.Body]: simulationRelic(request.simRelicSet2, request.simBody, StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier),
     [Parts.Feet]: simulationRelic(request.simRelicSet2, request.simFeet, StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier),
     [Parts.LinkRope]: simulationRelic(request.simOrnamentSet, request.simLinkRope, StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier),
-    [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet, request.simPlanarSphere, StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
+    [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet,
+      request.simPlanarSphere,
+      StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
   }
 
-  addSubstats(simRelics, sim, params)
+  addSubstats(simRelics, simulation, params)
   return simRelics
 }
 
@@ -195,4 +196,3 @@ const statToKey: Record<string, number> = {
   [Stats.Quantum_DMG]: 20,
   [Stats.Imaginary_DMG]: 21,
 } as const
-

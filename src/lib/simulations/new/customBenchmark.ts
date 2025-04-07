@@ -1,6 +1,6 @@
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { maximumScoringParams } from 'lib/scoring/simScoringUtils'
-import { createCustomBenchmarkSimulationState } from 'lib/simulations/new/utils/simulationState'
+import { createCustomBenchmarkSimulationState, SimulationState } from 'lib/simulations/new/utils/simulationState'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -24,7 +24,7 @@ export function generateCustomBenchmark() {
   const context = generateContext(form)
   transformWorkerContext(context)
 
-  createCustomBenchmarkSimulationState(
+  const simulationState: SimulationState = createCustomBenchmarkSimulationState(
     form,
     context,
     simulationMetadata,

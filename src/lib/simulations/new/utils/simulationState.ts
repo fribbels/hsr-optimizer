@@ -1,7 +1,6 @@
 import { Sets, Stats } from 'lib/constants/constants'
-import { RelicBuild, ScoringParams } from 'lib/scoring/simScoringUtils'
+import { ScoringParams } from 'lib/scoring/simScoringUtils'
 import { SimulationRequest } from 'lib/simulations/statSimulationController'
-import { Character } from 'types/character'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
@@ -13,16 +12,7 @@ export type SimulationState = {
     metadata: SimulationMetadata
     scoringParams: ScoringParams
 
-    character?: Character
-    displayRelics?: RelicBuild
-
-    customMainStats?: {
-      bodyMainStat?: string
-      feetMainStat?: string
-      planarSphereMainStat?: string
-      linkRopeMainStat?: string
-    }
-    customTargetSpd?: number
+    // Unused below
   }
 
   // Configuration

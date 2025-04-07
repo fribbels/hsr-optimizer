@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: メインステータスのブースト
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"

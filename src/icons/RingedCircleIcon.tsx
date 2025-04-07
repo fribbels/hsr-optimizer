@@ -17,5 +17,5 @@ const IconSVG = (props: { color?: string }) => {
 }
 
 export const RingedCircleIcon = (props: React.ComponentProps<typeof Icon> & { color?: string }) => {
-  return <Icon component={() => IconSVG(props)} {...props}/>
+  return <IconSVG {...props}/>
 }

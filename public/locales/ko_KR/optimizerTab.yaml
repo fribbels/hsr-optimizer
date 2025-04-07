@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 주 옵션 스텟
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"

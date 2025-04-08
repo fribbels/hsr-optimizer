@@ -191,9 +191,15 @@ Characters:
   "1405":
     Name: Anaxa
     LongName: Anaxa
+  "1406":
+    Name: Cipher
+    LongName: Cipher
   "1407":
     Name: Castorice
     LongName: Castorice
+  "1409":
+    Name: Hyacine
+    LongName: Hyacine
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -620,6 +626,10 @@ Lightcones:
     Name: Make Farewells More Beautiful
   "23041":
     Name: Life Should Be Cast to Flames
+  "23042":
+    Name: May Rainbows Remain in the Sky
+  "23043":
+    Name: Lies, Aflutter in the Wind
   "24000":
     Name: On the Fall of an Aeon
   "24001":

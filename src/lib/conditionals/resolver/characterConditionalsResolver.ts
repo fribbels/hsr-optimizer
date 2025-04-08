@@ -60,6 +60,8 @@ import sunday from 'lib/conditionals/character/1300/Sunday'
 import aglaea from 'lib/conditionals/character/1400/Aglaea'
 import anaxa from 'lib/conditionals/character/1400/Anaxa'
 import castorice from 'lib/conditionals/character/1400/Castorice'
+import cipher from 'lib/conditionals/character/1400/Cipher'
+import hyacine from 'lib/conditionals/character/1400/Hyacine'
 import mydei from 'lib/conditionals/character/1400/Mydei'
 import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
@@ -148,6 +150,8 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
 
   1405: anaxa,
   1407: castorice,
+  1406: cipher,
+  1409: hyacine,
 }
 
 /**

@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -16,8 +17,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
-  // TODO
-  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
+  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.ULT_BASIC_MEMO_SKILL_3_SKILL_TALENT_MEMO_TALENT_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
@@ -30,7 +30,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1402')
+  } = Source.character('1409')
 
   // TODO: Scaling
 
@@ -223,13 +223,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.HP.buff((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.a[Key.BASE_HP] : 0, SOURCE_TRACE)
       x.m.HP.buff((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.m.a[Key.BASE_HP] : 0, SOURCE_TRACE)
 
+      standardHpHealFinalizer(x)
       // TODO: Finalizers
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // TODO: Finalizers
-      return ``
+      return gpuStandardHpHealFinalizer() + `
+if (x.SPD >= 2.00 && ${wgslTrue(r.spd200HpBuff)}) { 
+  x.HP += 0.20 * x.BASE_HP; 
+  m.HP += 0.20 * m.BASE_HP; 
+}
+      `
     },
     dynamicConditionals: [
       {

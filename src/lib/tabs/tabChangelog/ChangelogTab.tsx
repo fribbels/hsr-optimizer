@@ -110,6 +110,23 @@ function getChangelogContent() {
     },
     {
       title: '',
+      date: '2025-04-07',
+      content: [
+        leaks(`Updated content to v3.3v1`),
+        leaks(`Added Cipher showcase`),
+        leaks(`cipher.webp`),
+        leaks(`Added Hyacine showcase`),
+        leaks(`hyacine.webp`),
+        `Added new Relics tab display and filter for 4 starting line relics`,
+        `lines4.webp`,
+        `Updated Warp Planner income estimates for 3.2 patch`,
+        `warp.webp`,
+        `Added a +0 option to the boost main stat selector in the optimizer`,
+        `boost0.webp`,
+      ],
+    },
+    {
+      title: '',
       date: '2025-03-27',
       content: [
         `Updated content to 3.2v6`,

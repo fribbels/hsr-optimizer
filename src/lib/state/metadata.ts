@@ -6755,7 +6755,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
           [Parts.PlanarSphere]: [
             Stats.ATK_P,
-            Stats.Wind_DMG,
+            Stats.Quantum_DMG,
           ],
           [Parts.LinkRope]: [
             Stats.ATK_P,

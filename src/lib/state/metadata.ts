@@ -6705,6 +6705,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Constants.Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -6723,7 +6724,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.VALOROUS_SET,
       ],
-      sortOption: SortOption.ULT,
+      sortOption: SortOption.FUA,
       hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {

@@ -1,7 +1,10 @@
 import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 
@@ -25,20 +28,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-
-    // TODO: ID
-  } = Source.character('1220')
+  } = Source.character('1406')
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 2.50, 2.50)
-  const skillAtkBuff = skill(e, 0.37, 0.37)
+  const skillScaling = skill(e, 2.00, 2.20)
+  const skillAtkBuff = skill(e, 0.30, 0.33)
 
-  const ultScaling = ult(e, 0.60, 0.648)
-  const ultBrokenScaling = ult(e, 0.30, 0.33)
-  const ultFinalScaling = ult(e, 1.60, 1.728)
+  const ultScaling = ult(e, 1.20, 1.296)
+  const ultSecondaryScaling = ult(e, 0.40, 0.432)
 
-  const fuaScaling = talent(e, 1.10, 1.21)
-  const talentDmgBuff = talent(e, 0.60, 0.66)
+  const fuaScaling = talent(e, 4.00, 4.40)
 
   // TODO: Ashblazing
 
@@ -61,6 +60,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     defPen: true,
     skillAtkBuff: true,
+    spdBasedBuffs: true,
+    e1Vulnerability: true,
+    e2CdBuff: true,
+    e4AdditionalDmg: true,
+    e6FuaDmg: true,
     // talentDmgBuff: true,
     // skillAtkBuff: true,
     // e1OriginalDmgBoost: true,
@@ -70,6 +74,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     defPen: true,
+    e1Vulnerability: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -84,6 +89,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: 'Skill ATK buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    spdBasedBuffs: {
+      id: 'spdBasedBuffs',
+      formItem: 'switch',
+      text: 'SPD based buffs',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    e1Vulnerability: {
+      id: 'e1Vulnerability',
+      formItem: 'switch',
+      text: 'E1 vulnerability',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 1,
+    },
+    e2CdBuff: {
+      id: 'e2CdBuff',
+      formItem: 'switch',
+      text: 'E2 CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 2,
+    },
+    e4AdditionalDmg: {
+      id: 'e4AdditionalDmg',
+      formItem: 'switch',
+      text: 'E4 Additional DMG',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 4,
+    },
+    e6FuaDmg: {
+      id: 'e6FuaDmg',
+      formItem: 'switch',
+      text: 'E6 Fua DMG',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 6,
     },
     // skillAtkBuff: {
     //   id: 'skillAtkBuff',
@@ -116,6 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     defPen: content.defPen,
+    e1Vulnerability: content.e1Vulnerability,
   }
 
   return {
@@ -124,90 +164,113 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      // x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
-      //
-      // if (r.weaknessBrokenUlt) {
-      //   x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
-      // }
-      //
-      // if (e >= 6 && r.e6Buffs) {
-      //   x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_E6)
-      // }
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      x.DEF_PEN.buffTeam((m.defPen) ? 0.30 : 0, SOURCE_TRACE)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.ATK_P.buff((r.skillAtkBuff) ? skillAtkBuff : 0, SOURCE_SKILL)
 
-      // Special case where we force the weakness break on if the ult break option is enabled
-      // if (!r.weaknessBrokenUlt) {
-      //   x.ULT_BREAK_EFFICIENCY_BOOST.buff(1.00, SOURCE_ULT)
-      // }
-      //
-      // buffAbilityCd(x, FUA_DMG_TYPE, 0.36, SOURCE_TRACE)
-      //
-      // x.ATK_P.buff((r.skillAtkBuff) ? 0.48 : 0, SOURCE_TRACE)
-      // x.ELEMENTAL_DMG.buff((r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
-      //
+      x.CD.buff((e >= 2 && r.e2CdBuff) ? 0.80 : 0, SOURCE_E2)
+      x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaDmg) ? 3.50 : 0, SOURCE_E6)
+
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      // x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(ultSecondaryScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+
+      if (e >= 4) {
+        x.BASIC_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
+        x.SKILL_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
+        x.ULT_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
+        x.FUA_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
+      }
       //
-      // x.ULT_ATK_SCALING.buff(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling, SOURCE_ULT)
-      //
-      // x.ULT_FINAL_DMG_BOOST.buff((e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, SOURCE_E1)
-      //
-      // if (e >= 4) {
-      //   x.SPD_P.buff(0.08, SOURCE_E1)
-      //   x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_E1)
-      // }
-      //
-      // if (e >= 6 && r.e6Buffs) {
-      //   buffAbilityResPen(x, ULT_DMG_TYPE, 0.20, SOURCE_E6)
-      //   x.FUA_ATK_SCALING.buff(1.40, SOURCE_E6)
-      // }
-      //
-      // x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      // x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      // x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      // x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
+
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.FUA_TOUGHNESS_DMG.buff(20, SOURCE_TALENT)
 
       return x
+    },
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      x.DEF_PEN.buffTeam((m.defPen) ? 0.30 : 0, SOURCE_TRACE)
+      x.VULNERABILITY.buffTeam((e >= 1 && m.e1Vulnerability) ? 0.25 : 0, SOURCE_E1)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buff((r.spdBasedBuffs && x.a[Key.SPD] >= 140) ? 0.25 : 0, SOURCE_TRACE)
-      x.CR.buff((r.spdBasedBuffs && x.a[Key.SPD] >= 170) ? 0.25 : 0, SOURCE_TRACE)
-
       // TODO: Recorded value
 
-      // TODO: Finalizers
-
-      // const ultHitMulti = getUltHitMulti(action, context)
-      // const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-      //
-      // const ultAshblazingAtkP = calculateAshblazingSetP(x, action, context, ultHitMulti)
-      // const fuaAshblazingAtkP = calculateAshblazingSetP(x, action, context, fuaHitMulti)
-      //
-      // x.ULT_ATK_P_BOOST.buff(ultAshblazingAtkP, Source.NONE)
-      // x.FUA_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      // const ultHitMulti = getUltHitMulti(action, context)
-      // const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-
-      return ''
-      //       return `
-      // x.ULT_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${ultHitMulti});
-      // x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${fuaHitMulti});
-      //     `
+      return gpuStandardAdditionalDmgAtkFinalizer()
     },
+    dynamicConditionals: [
+      {
+        id: 'CipherSpdActivation140',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.SINGLE,
+        dependsOn: [Stats.SPD],
+        chainsTo: [Stats.CR],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.spdBasedBuffs && x.a[Key.SPD] >= 140
+        },
+        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 140) ? 0.25 : 0, SOURCE_TRACE, action, context)//
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return conditionalWgslWrapper(this, `
+if (
+  (*p_state).CipherSpdActivation140 == 0.0 &&
+  x.SPD >= 140 &&
+  ${wgslTrue(r.spdBasedBuffs)}
+) {
+  (*p_state).CipherSpdActivation140 = 1.0;
+  (*p_x).CR += 0.25;
+}
+    `)
+        },
+      },
+      {
+        id: 'CipherSpdActivation170',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.SINGLE,
+        dependsOn: [Stats.SPD],
+        chainsTo: [Stats.CR],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return r.spdBasedBuffs && x.a[Key.SPD] >= 170
+        },
+        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 170) ? 0.25 : 0, SOURCE_TRACE, action, context)//
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return conditionalWgslWrapper(this, `
+if (
+  (*p_state).CipherSpdActivation140 == 0.0 &&
+  x.SPD >= 170 &&
+  ${wgslTrue(r.spdBasedBuffs)}
+) {
+  (*p_state).CipherSpdActivation140 = 1.0;
+  (*p_x).CR += 0.25;
+}
+    `)
+        },
+      },
+    ],
   }
 }

@@ -9,7 +9,7 @@ export const CURRENT_DATA_VERSION = '3.3v1'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  1406: generateMessage(`Talent's recorded True DMG is not included. Ashblazing stacks TBD.`), // Cipher
+  1406: generateMessage(`Talent's recorded True DMG is not included. Ashblazing stacks TBD. Defaults to Sub SPD mode.`), // Cipher
 }
 
 export const Stats = {

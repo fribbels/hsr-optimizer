@@ -2,15 +2,15 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.2.3'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.3.1'
 // Represents the beta data content version, used for display but not for update notifications
 
-export const CURRENT_DATA_VERSION = '3.2v6'
+export const CURRENT_DATA_VERSION = '3.3v1'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  1407: generateMessage('E1 conditionals pending more testing.'), // Castorice
-  1405: generateMessage('Added ATK % body to benchmark mains, removed light cone Crit Rate. Now defaults to Main DPS with Sunday/Robin/Huohuo.'), // Anaxa
+  // 1407: generateMessage('E1 conditionals pending more testing.'), // Castorice
+  // 1405: generateMessage('Added ATK % body to benchmark mains, removed light cone Crit Rate. Now defaults to Main DPS with Sunday/Robin/Huohuo.'), // Anaxa
 }
 
 export const Stats = {

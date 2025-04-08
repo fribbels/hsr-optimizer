@@ -651,7 +651,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     1407: ['#b985fd'], // castorice
 
     1406: ['#5962ff'], // cipher
-    1409: ['#b6fffa'], // hyacine
+    1409: ['#a8ffde'], // hyacine
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

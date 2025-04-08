@@ -1,0 +1,24 @@
+name: deploy-gh-pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+      GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: git config --global user.email "fribbelsgithub@gmail.com"
+      - run: git config --global user.name "GH Actions"
+      - run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/fribbels/hsr-optimizer
+      - run: npm install
+      - run: npm run deploy

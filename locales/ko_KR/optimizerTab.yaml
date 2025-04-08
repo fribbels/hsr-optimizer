@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 주 옵션 스텟
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -319,7 +320,9 @@ SetConditionals:
     Watchmaker: 활성화되면 전투 스텟에 격파 특수효과 버프가 적용됩니다.
     Valorous: 치명타 확률 버프는 기본적으로 항상 켜져 있습니다. 선택한 버프는 스택 수에 따른 데미지 계산에 적용됩니다.
     Differentiator: 활성화되면 전투 스텟에 치명타 확률 버프가 적용됩니다.
+    Penacony: 이 옵션이 활성화된 경우, 데미지 버프가 착용자가 소환한 정령에 대해 적용됩니다.
     Sigonia: 선택된 치명타 데미지 버프는 캐릭터가 적을 물리쳤다고 가정하여 전투 스텟에 적용됩니다
+    Izumo: 이 옵션이 활성화된 경우 같은 운명을 따르는 아군이 있을 때 12%의 치명타 확률 버프가 계산에 적용됩니다.
     Duran: 선택된 버프는 스택 수에 따른 피해 계산에 적용됩니다.
     Kalpagni: 활성화되면 격파 특수효과 버프를 적용하여 전투 스텟에 적용됩니다.
     Lushaka: 선택한 버프가 피해 계산에 적용됩니다.
@@ -522,19 +525,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: 기본 공격
-      Skill: 전투 스킬
-      Ult: 필살기
-      Talent: 특성
-      Technique: 비술
-      Trace: 행적
-      Memo: 기억정령
-      E1: 1돌
-      E2: 2돌
-      E4: 4돌
-      E6: 6돌
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x 부 옵션'
@@ -575,3 +565,33 @@ ExpandedDataPanel:
       jointDmg: 연계 공격
       dotDmg: 지속 피해량
       memoDmg: 기억정령 피해
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 기본 공격
+      Skill: 전투 스킬
+      Ult: 필살기
+      Talent: 특성
+      Technique: 비술
+      Trace: 행적
+      Memo: 기억정령
+      E1: 1돌
+      E2: 2돌
+      E4: 4돌
+      E6: 6돌
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Basic: 기본 공격
+          Skill: 전투 스킬
+          Ult: 필살기
+          Fua: 추가 공격
+          Dot: 지속피해
+          Break: 격파
+        Suffix:
+          DMG boost: 데미지 버프
+          DEF PEN: 방어력 무시
+          Additional DMG: 추가 피해
+          DMG: 데미지
+      Misc:
+        Memosprite: 기억 정령
+        Combo DMG: 사이클 총 피해량

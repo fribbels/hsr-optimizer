@@ -173,12 +173,25 @@ Lightcones:
         text: 流光层数
         content: >-
           装备者施放追加攻击时，获得1层【流光】，最多叠加2层。每层【流光】使装备者造成的终结技伤害无视目标{{DefIgnore}}%的防御力。装备者回合结束时，移除1层【流光】。
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: 伤害提高
+        content: 若敌方目标拥有装备者添加的弱点，装备者对其造成的伤害提高{{DmgBuff}}%。
+      defPen:
+        text: 防御穿透
+        content: 当敌方目标受到装备者攻击时，装备者使其防御力降低{{DefShred}}%，持续2回合。
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: 击破易伤层数
         content: >-
           当有敌方目标的弱点被击破时，有 100% 的基础概率使其陷入【焚灼】状态，受到的击破伤害提高{{breakVulnerability}}%，持续2回合，此效果可叠加2层。
+  MakeFarewellsMoreBeautiful:
+    Content:
+      deathFlower:
+        text: 冥花防御穿透
+        content: 装备者或装备者的忆灵在自身回合内损失生命值时，装备者获得【冥花】，【冥花】可以使装备者和装备者的忆灵造成伤害时，无视目标{{DefIgnore}}%的防御力，持续2回合。
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -514,6 +527,11 @@ Lightcones:
       cdBuffActive:
         text: '≥2个对应属性弱点目标暴击伤害增益'
         content: 装备者施放攻击后，若有不少于2个被攻击的敌方目标具有对应属性弱点，装备者的暴击伤害提高{{CritBuff}}%，持续2回合。
+  TheGreatCosmicEnterprise:
+    Content:
+      weaknessTypes:
+        text: 属性弱点数量
+        content: 敌方目标每拥有1个不同属性的弱点，装备者对其造成的伤害提高{{DmgBuff}}%，最多计入7个。
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -697,6 +715,34 @@ Characters:
         text: 6魂增益
         content: >-
           当阿格莱雅处于【至高之姿】状态时，自身与衣匠的雷属性抗性穿透提高20%，当阿格莱雅或衣匠的速度高于160/240/320点时，其造成的连携攻击伤害提高10%/30%/60%。
+  Anaxa:
+    Content:
+      skillHits:
+        text: 战技额外命中数
+        content: 战技命中主目标的次数
+      exposedNature:
+        text: 质性揭露状态
+        content: >-
+          那刻夏在场时，使拥有至少5个不同属性弱点的敌方目标陷入【质性揭露】状态。那刻夏对处于【质性揭露】状态的目标造成的伤害提高{{DmgBuff}}%。
+      eruditionTeammateBuffs:
+        text: 智识队友增益
+        content: >-
+          根据我方队伍中「智识」命途角色的数量，在本场战斗中触发其中1个效果：:BR: 1名：那刻夏的暴击伤害提高140%。:BR: 至少2名：我方全体造成的伤害提高50%。
+      enemyWeaknessTypes:
+        text: 敌方属性弱点数量
+        content: 敌方目标每拥有1个不同属性的弱点，那刻夏对其造成的伤害无视4%的防御力，最多计入7个。
+      e1DefPen:
+        text: 1魂防御穿透
+        content: 施放战技击中敌方目标时，使目标防御力降低16%，持续2回合。
+      e2ResPen:
+        text: 2魂属性抗性穿透
+        content: 施放战技击中敌方目标时，使目标防御力降低16%，持续2回合。
+      e4AtkBuffStacks:
+        text: 4魂攻击力增益层数
+        content: 施放战技时，攻击力提高30%，持续2回合。该效果最多叠2 层。
+      e6Buffs:
+        text: 6魂增益
+        content: 那刻夏造成的伤害为原伤害的130%。行迹【必要的留白】的2种效果都会直接触发，不再依赖我方队伍中智识命途角色的数量。
   Argenti:
     Content:
       ultEnhanced:
@@ -860,6 +906,36 @@ Characters:
       teammateCDValue:
         text: 布洛妮娅战斗中的暴击伤害
         content: 使我方全体攻击力提高{{ultAtkBoostValue}}%，同时提高等同于布洛妮娅{{ultCdBoostValue}}%暴击伤害+{{ultCdBoostBaseValue}}%的暴击伤害，持续2回合。
+  Castorice:
+    Content:
+      memospriteActive:
+        text: 忆灵启用
+        content: 死龙在场时，展开境界【遗世冥域】，使敌方全体全属性抗性降低{{ResDown}}%。
+      spdBuff:
+        text: 速度增益
+        content: 遐蝶当前生命值大于等于自身生命上限的50%时，遐蝶速度提高40%。
+      talentDmgStacks:
+        text: 天赋增伤层数
+        content: 我方损失生命值时，遐蝶与死龙造成的伤害提高{{DmgBuff}}% ，该效果最多叠加3层，持续3回合。
+      memoSkillEnhances:
+        text: 忆灵技强化
+        content: 一次攻击中可重复发动【燎尽黯泽的焰息】，重复发动时，伤害倍率依次提高至{{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%，达到{{Multiplier2Enhance}}%后不再提高，伤害倍率提高效果在死龙消失前不会降低。
+      memoTalentHits:
+        text: 忆灵天赋命中次数
+        content: 死龙消失时，造成{{BounceCount}}次伤害，每次伤害对敌方随机单体造成等同于遐蝶{{Scaling}}%生命上限的量子属性伤害。
+      teamDmgBoost:
+        text: 团队伤害提升
+        content: 死龙被召唤时，我方全体造成的伤害提高10%，持续3回合。
+      memoDmgStacks:
+        text: 忆灵伤害层数
+        content: 死龙每次施放【燎尽黯泽的焰息】时，造成的伤害提高30%，该效果最多叠加6层，持续至本回合结束。
+      e1EnemyHp50:
+        text: 1魂敌方生命值 ≤ 50%
+        content: 敌方目标当前生命值小于等于自身生命上限50%时，【骸爪，冥龙之环拥】、【擘裂冥茫的爪痕】、【燎尽黯泽的焰息】、【灼掠幽墟的晦翼】对其造成的伤害为原伤害的140%。
+      e6Buffs:
+        text: 6魂增益
+        content: >-
+          遐蝶与死龙造成伤害时，量子属性抗性穿透提高20%。:BR:触发天赋【灼掠幽墟的晦翼】的弹射次数额外增加3次。
   Clara:
     Content:
       ultBuff:

@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: crwdns42772:0crwdne42772:0
   BoostMain:
     Header: crwdns42774:0crwdne42774:0
+    Label0: "crwdns45203:0crwdne45203:0"
     Label3: "crwdns42776:0crwdne42776:0"
     Label6: "crwdns42778:0crwdne42778:0"
     Label9: "crwdns42780:0crwdne42780:0"
@@ -504,19 +505,6 @@ StatSimulation:
     ShortStat: "crwdns43414:0$t(common:ShortReadableStats.{{stat}})crwdne43414:0"
     LabelStat: "crwdns43416:0$t(common:ReadableStats.{{stat}})crwdne43416:0"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: crwdns44658:0crwdne44658:0
-      Skill: crwdns44660:0crwdne44660:0
-      Ult: crwdns44662:0crwdne44662:0
-      Talent: crwdns44664:0crwdne44664:0
-      Technique: crwdns44666:0crwdne44666:0
-      Trace: crwdns44668:0crwdne44668:0
-      Memo: crwdns44670:0crwdne44670:0
-      E1: crwdns44672:0crwdne44672:0
-      E2: crwdns44674:0crwdne44674:0
-      E4: crwdns44676:0crwdne44676:0
-      E6: crwdns44678:0crwdne44678:0
   SubstatUpgrades:
     ColumnHeaders:
       Substat: 'crwdns44680:0crwdne44680:0'
@@ -557,3 +545,105 @@ ExpandedDataPanel:
       jointDmg: crwdns44740:0crwdne44740:0
       dotDmg: crwdns44742:0crwdne44742:0
       memoDmg: crwdns44744:0crwdne44744:0
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: crwdns44658:0crwdne44658:0
+      Skill: crwdns44660:0crwdne44660:0
+      Ult: crwdns44662:0crwdne44662:0
+      Talent: crwdns44664:0crwdne44664:0
+      Technique: crwdns44666:0crwdne44666:0
+      Trace: crwdns44668:0crwdne44668:0
+      Memo: crwdns44670:0crwdne44670:0
+      E1: crwdns44672:0crwdne44672:0
+      E2: crwdns44674:0crwdne44674:0
+      E4: crwdns44676:0crwdne44676:0
+      E6: crwdns44678:0crwdne44678:0
+    Stats:
+      CompositeLabels:
+        Label: "crwdns45035:0{{prefix}}crwdnd45035:0{{suffix}}crwdne45035:0"
+        Prefix:
+          Basic: crwdns45037:0crwdne45037:0
+          Skill: crwdns45039:0crwdne45039:0
+          Ult: crwdns45041:0crwdne45041:0
+          Fua: crwdns45043:0crwdne45043:0
+          Dot: crwdns45045:0crwdne45045:0
+          Break: crwdns45047:0crwdne45047:0
+          Memo Skill: crwdns45049:0crwdne45049:0
+          Memo Talent: crwdns45051:0crwdne45051:0
+        Suffix:
+          ATK scaling: crwdns45053:0crwdne45053:0
+          DEF scaling: crwdns45055:0crwdne45055:0
+          HP scaling: crwdns45057:0crwdne45057:0
+          Special scaling: crwdns45059:0crwdne45059:0
+          "ATK % boost": crwdns45061:0crwdne45061:0
+          Crit Rate boost: crwdns45063:0crwdne45063:0
+          Crit DMG boost: crwdns45065:0crwdne45065:0
+          DMG boost: crwdns45067:0crwdne45067:0
+          Vulnerability: crwdns45069:0crwdne45069:0
+          RES PEN: crwdns45071:0crwdne45071:0
+          DEF PEN: crwdns45073:0crwdne45073:0
+          Break DEF PEN: crwdns45075:0crwdne45075:0
+          Toughness DMG: crwdns45077:0crwdne45077:0
+          Super Break multiplier: crwdns45079:0crwdne45079:0
+          Break Efficiency boost: crwdns45081:0crwdne45081:0
+          True DMG multiplier: crwdns45083:0crwdne45083:0
+          Final DMG multiplier: crwdns45085:0crwdne45085:0
+          Break DMG multiplier: crwdns45087:0crwdne45087:0
+          Additional DMG scaling: crwdns45089:0crwdne45089:0
+          Additional DMG: crwdns45091:0crwdne45091:0
+          DMG: crwdns45093:0crwdne45093:0
+      Misc:
+        Base HP: crwdns45095:0crwdne45095:0
+        Base ATK: crwdns45097:0crwdne45097:0
+        Base DEF: crwdns45099:0crwdne45099:0
+        Base SPD: crwdns45101:0crwdne45101:0
+        Memosprite base HP scaling: crwdns45103:0crwdne45103:0
+        Memosprite base DEF scaling: crwdns45105:0crwdne45105:0
+        Memosprite base ATK scaling: crwdns45107:0crwdne45107:0
+        Memosprite base SPD scaling: crwdns45109:0crwdne45109:0
+        Memosprite base HP flat: crwdns45111:0crwdne45111:0
+        Memosprite base DEF flat: crwdns45113:0crwdne45113:0
+        Memosprite base ATK flat: crwdns45115:0crwdne45115:0
+        Memosprite base SPD flat: crwdns45117:0crwdne45117:0
+        Elemental DMG: crwdns45119:0crwdne45119:0
+        DMG reduction: crwdns45121:0crwdne45121:0
+        Effective HP: crwdns45123:0crwdne45123:0
+        Summons: crwdns45125:0crwdne45125:0
+        Memosprite: crwdns45127:0crwdne45127:0
+        Enemy weakness broken: crwdns45129:0crwdne45129:0
+        Prioritize memosprite buffs: crwdns45131:0crwdne45131:0
+        Deprioritize buffs: crwdns45133:0crwdne45133:0
+        Combo DMG: crwdns45135:0crwdne45135:0
+        Dot base chance: crwdns45137:0crwdne45137:0
+        Effect RES PEN: crwdns45139:0crwdne45139:0
+        Dot DMG split: crwdns45141:0crwdne45141:0
+        Dot stacks: crwdns45143:0crwdne45143:0
+        Heal ability type: crwdns45145:0crwdne45145:0
+        Heal flat: crwdns45147:0crwdne45147:0
+        Heal scaling: crwdns45149:0crwdne45149:0
+        Heal value: crwdns45151:0crwdne45151:0
+        Shield flat: crwdns45153:0crwdne45153:0
+        Shield scaling: crwdns45155:0crwdne45155:0
+        Shield value: crwdns45157:0crwdne45157:0
+        Shield boost: crwdns45159:0crwdne45159:0
+        Skill Outgoing Healing Boost: crwdns45161:0crwdne45161:0
+        Ult Outgoing Healing Boost: crwdns45163:0crwdne45163:0
+        Super Break DEF PEN: crwdns45165:0crwdne45165:0
+        Super Break DMG Boost: crwdns45167:0crwdne45167:0
+        Super Break Vulnerability: crwdns45169:0crwdne45169:0
+        Additional DMG boost: crwdns45171:0crwdne45171:0
+        Ult Additional DMG CR override: crwdns45173:0crwdne45173:0
+        Ult Additional DMG CD override: crwdns45175:0crwdne45175:0
+      DmgTypes:
+        Basic: crwdns45177:0crwdne45177:0
+        Skill: crwdns45179:0crwdne45179:0
+        Ult: crwdns45181:0crwdne45181:0
+        Fua: crwdns45183:0crwdne45183:0
+        Dot: crwdns45185:0crwdne45185:0
+        Break: crwdns45187:0crwdne45187:0
+        MemoSkill: crwdns45189:0crwdne45189:0
+        MemoTalent: crwdns45191:0crwdne45191:0
+        Additional: crwdns45193:0crwdne45193:0
+        SuperBreak: crwdns45195:0crwdne45195:0
+      ResPen: "crwdns45197:0$t(common:Elements.{{element}})crwdne45197:0"
+      Unconvertible: "crwdns45199:0$t(common:Stats.{{stat}})crwdne45199:0"

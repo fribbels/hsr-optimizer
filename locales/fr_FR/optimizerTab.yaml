@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: Niv. de mainstat
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -524,19 +525,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: Normale
-      Skill: Compétence
-      Ult: Ult
-      Talent: Talent
-      Technique: Technique
-      Trace: Trace
-      Memo: Mnémesprit
-      E1: E1
-      E2: E2
-      E4: E4
-      E6: E6
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Substat'
@@ -577,3 +565,105 @@ ExpandedDataPanel:
       jointDmg: DGT Conjointe
       dotDmg: DGT Dsd
       memoDmg: DGT Mnémesprit
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Normale
+      Skill: Compétence
+      Ult: Ult
+      Talent: Talent
+      Technique: Technique
+      Trace: Trace
+      Memo: Mnémesprit
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+    Stats:
+      CompositeLabels:
+        Label: "{{suffix}} de {{prefix}}"
+        Prefix:
+          Basic: Norm
+          Skill: Comp
+          Ult: Ult
+          Fua: Ads
+          Dot: DsD
+          Break: Rupture
+          Memo Skill: Compétence de Mémo
+          Memo Talent: Talent de Mémo
+        Suffix:
+          ATK scaling: Multiplicateur d'ATQ
+          DEF scaling: Multiplicateur de DÉF
+          HP scaling: Multiplicateur de PV
+          Special scaling: Multiplicateur spécial
+          "ATK % boost": Bonus de % d'ATQ
+          Crit Rate boost: Bonus de Taux Critique
+          Crit DMG boost: Bonus de DGT Critique
+          DMG boost: Bonus de DGT
+          Vulnerability: Vulnérabilité
+          RES PEN: PÉN de RÉS
+          DEF PEN: PÉN de DÉF
+          Break DEF PEN: PÉN de DÉF de rupture
+          Toughness DMG: DGT de robustesse
+          Super Break multiplier: Multiplicateur de Rupture Extrême
+          Break Efficiency boost: Bonus d'Efficacité de Rupture
+          True DMG multiplier: Multiplicateur de DGT Réels
+          Final DMG multiplier: Multiplicateur de DGT totaux
+          Break DMG multiplier: Multiplicateur de DGT de Rupture
+          Additional DMG scaling: Multiplicateur de DGT Additionnels
+          Additional DMG: Dégâts additionnels
+          DMG: DGT
+      Misc:
+        Base HP: PV de base
+        Base ATK: ATQ de base
+        Base DEF: DÉF de base
+        Base SPD: VIT de base
+        Memosprite base HP scaling: PV de base de Mnémesprit par conversion
+        Memosprite base DEF scaling: DÉF de base de Mnémesprit par conversion
+        Memosprite base ATK scaling: ATQ de base de Mnémesprit par conversion
+        Memosprite base SPD scaling: VIT de base de Mnémesprit par conversion
+        Memosprite base HP flat: PV fixe de base de Mnémesprit
+        Memosprite base DEF flat: DÉF fixe de base de Mnémesprit
+        Memosprite base ATK flat: ATQ fixe de base de Mnémesprit
+        Memosprite base SPD flat: VIT fixe de base de Mnémesprit
+        Elemental DMG: DGT Élémentaires
+        DMG reduction: Réduction de DGT
+        Effective HP: PV effectifs
+        Summons: Invocations
+        Memosprite: Mnémesprit
+        Enemy weakness broken: Enemi en état de rupture
+        Prioritize memosprite buffs: Prioriser les buffs de Mnémesprit
+        Deprioritize buffs: Dé-prioriser les buffs
+        Combo DMG: DGT Combo
+        Dot base chance: Taux d'application de base de DSD
+        Effect RES PEN: PÉN RÉS Eff
+        Dot DMG split: Partition de DGT de DSD
+        Dot stacks: Cumuls de DSD
+        Heal ability type: Capacité de soins
+        Heal flat: Soins constants
+        Heal scaling: Soins par conversion
+        Heal value: Valeur de Soins
+        Shield flat: Bouclier constant
+        Shield scaling: Bouclier par conversion
+        Shield value: Valeur de bouclier
+        Shield boost: Bonus de Bouclier
+        Skill Outgoing Healing Boost: Bonus de soins de Compétence
+        Ult Outgoing Healing Boost: Bonus de soins d' Ultime
+        Super Break DEF PEN: PÉN de DÉF de rupture extrême
+        Super Break DMG Boost: Bonus de DGT de Rupture Extrême
+        Super Break Vulnerability: Vulnérabilité de rupture extrême
+        Additional DMG boost: Bonus de DGT additionnels
+        Ult Additional DMG CR override: DGT CRIT fixe de DGT Additionnels d'ULT
+        Ult Additional DMG CD override: Taux CRIT fixe de DGT Additionnels d'ULT
+      DmgTypes:
+        Basic: Type de DGT de Basique
+        Skill: Type de DGT de Compétence
+        Ult: Type de DGT d'Ult
+        Fua: Type de DGT d'ADS
+        Dot: Type de DGT de DSD
+        Break: Type de DGT de Rupture
+        MemoSkill: Type de DGT de Comp. de Mnémesprit
+        MemoTalent: Type de DGT de Talent de Mnémesprit
+        Additional: Type de DGT de DGT additionels
+        SuperBreak: Type de DGT de Rupture Extrême
+      ResPen: "PÉN de RÉS $t(common:Elements.{{element}})"
+      Unconvertible: "$t(common:Stats.{{stat}}) inconvertible"

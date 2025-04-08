@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 提升主属性
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -524,19 +525,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: 普攻
-      Skill: 战技
-      Ult: 终结技
-      Talent: 天赋
-      Technique: 秘技
-      Trace: 行迹
-      Memo: 忆灵
-      E1: 1魂
-      E2: 2魂
-      E4: 4魂
-      E6: 6魂
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x 副词条'
@@ -577,3 +565,105 @@ ExpandedDataPanel:
       jointDmg: 连携伤害
       dotDmg: 持续攻击伤害
       memoDmg: 忆灵伤害
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 普攻
+      Skill: 战技
+      Ult: 终结技
+      Talent: 天赋
+      Technique: 秘技
+      Trace: 行迹
+      Memo: 忆灵
+      E1: 1魂
+      E2: 2魂
+      E4: 4魂
+      E6: 6魂
+    Stats:
+      CompositeLabels:
+        Label: "{{prefix}}{{suffix}}"
+        Prefix:
+          Basic: 普攻
+          Skill: 战技
+          Ult: 终结技
+          Fua: 追加攻击
+          Dot: 持续
+          Break: 击破
+          Memo Skill: 忆灵技
+          Memo Talent: 忆灵天赋
+        Suffix:
+          ATK scaling: 攻击力加成
+          DEF scaling: 防御值加成
+          HP scaling: 生命值加成
+          Special scaling: 特殊加成
+          "ATK % boost": 攻击力%提升
+          Crit Rate boost: 暴击率提升
+          Crit DMG boost: 暴击伤害提升
+          DMG boost: 伤害提高
+          Vulnerability: 易伤
+          RES PEN: 抗性穿透
+          DEF PEN: 防御穿透
+          Break DEF PEN: 击破防御穿透
+          Toughness DMG: 韧性伤害值
+          Super Break multiplier: 击破特攻倍率
+          Break Efficiency boost: 击破效率提升
+          True DMG multiplier: 真实伤害倍率
+          Final DMG multiplier: 最终伤害倍率
+          Break DMG multiplier: 击破伤害倍率
+          Additional DMG scaling: 额外伤害倍率
+          Additional DMG: 额外伤害
+          DMG: 伤害
+      Misc:
+        Base HP: 基础生命值
+        Base ATK: 基础攻击力
+        Base DEF: 基础防御值
+        Base SPD: 基础速度
+        Memosprite base HP scaling: 忆灵基础生命值加成
+        Memosprite base DEF scaling: 忆灵基础防御值加成
+        Memosprite base ATK scaling: 忆灵基础攻击力加成
+        Memosprite base SPD scaling: 忆灵基础速度加成
+        Memosprite base HP flat: 忆灵初始固定生命值
+        Memosprite base DEF flat: 忆灵初始固定防御值
+        Memosprite base ATK flat: 忆灵初始固定攻击力
+        Memosprite base SPD flat: 忆灵初始固定速度
+        Elemental DMG: 元素伤害
+        DMG reduction: 减伤
+        Effective HP: 有效生命值
+        Summons: 召唤物
+        Memosprite: 忆灵
+        Enemy weakness broken: 敌方被弱点击破
+        Prioritize memosprite buffs: 提升忆灵增益优先级
+        Deprioritize buffs: 降低增益优先级
+        Combo DMG: 连招伤害
+        Dot base chance: 持续伤害基础几率
+        Effect RES PEN: 效果抵抗穿透
+        Dot DMG split: 持续伤害
+        Dot stacks: 持续伤害层数
+        Heal ability type: 治疗技能类型
+        Heal flat: 基础治疗量
+        Heal scaling: 治疗加成
+        Heal value: 治疗量
+        Shield flat: 基础护盾值
+        Shield scaling: 护盾加成
+        Shield value: 护盾值
+        Shield boost: 护盾提升
+        Skill Outgoing Healing Boost: 战技治疗量加成
+        Ult Outgoing Healing Boost: 终结技治疗量加成
+        Super Break DEF PEN: 超击破防御穿透
+        Super Break DMG Boost: 超击破伤害提升
+        Super Break Vulnerability: 超击破易伤
+        Additional DMG boost: 额外伤害提升
+        Ult Additional DMG CR override: 终结技额外伤害暴击率覆盖
+        Ult Additional DMG CD override: 终结技额外伤害爆伤覆盖
+      DmgTypes:
+        Basic: 普攻伤害类型
+        Skill: 战技伤害类型
+        Ult: 终结技伤害类型
+        Fua: 追加攻击伤害类型
+        Dot: 持续伤害类型
+        Break: 击破伤害类型
+        MemoSkill: 忆灵技伤害类型
+        MemoTalent: 忆灵天赋伤害类型
+        Additional: 额外伤害类型
+        SuperBreak: 超击破伤害类型
+      ResPen: "$t(common:Elements.{{element}})抗性穿透"
+      Unconvertible: "不可转化的$t(common:Stats.{{stat}})"

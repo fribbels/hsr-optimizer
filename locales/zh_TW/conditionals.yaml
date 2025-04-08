@@ -124,6 +124,10 @@ Lightcones:
     Content:
       luminfluxUltStacks:
         text: 流光層數
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: 傷害提高
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -530,6 +534,12 @@ Characters:
     Content:
       e6Buffs:
         text: 6魂增益
+  Anaxa:
+    Content:
+      e1DefPen:
+        text: 1魂防禦穿透
+      e6Buffs:
+        text: 6魂增益
   Argenti:
     Content:
       ultEnhanced:
@@ -664,6 +674,12 @@ Characters:
       teammateCDValue:
         text: 布洛妮亞戰鬥中的暴擊傷害
         content: 使我方全體攻擊力提高{{ultAtkBoostValue}}%，同時提高等同於布洛妮亞{{ultCdBoostValue}}%暴擊傷害+{{ultCdBoostBaseValue}}%的暴擊傷害，持續2回合。
+  Castorice:
+    Content:
+      spdBuff:
+        text: 速度增益
+      e6Buffs:
+        text: 6魂增益
   Clara:
     Content:
       ultBuff:

@@ -189,11 +189,17 @@ Characters:
     Name: Мидей
     LongName: Мидей
   "1405":
-    Name: Anaxa
-    LongName: Anaxa
+    Name: Анакса
+    LongName: Анакса
+  "1406":
+    Name: Cipher
+    LongName: Cipher
   "1407":
-    Name: Castorice
-    LongName: Castorice
+    Name: Кастория
+    LongName: Кастория
+  "1409":
+    Name: Hyacine
+    LongName: Hyacine
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -315,6 +321,14 @@ RelicSets:
     Name: Поющий элегии рапсод
     Description2pc: Повышает квантовый урон на 10%.
     Description4pc: Понижает скорость владельца на 8%. Если скорость владельца до начала боя ниже 110 или 95, то его крит. шанс повышается на 20% или 32% соответственно. Этот эффект также применяется к духу памяти владельца.
+  "125":
+    Name: Warrior Goddess of Daythunder
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has "Gentle Rain", increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked.
+  "126":
+    Name: Captain Over Cursed Waves
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: When the wearer is the target of another ally target's ability, gains 1 stack of "Help." Stacks up to 3 times. When using Ultimate, consumes all "Help," each stack increasing the wearer's ATK by 16%, lasting until the end of the turn.
   "301":
     Name: Запечатывающая космос станция
     Description2pc: Повышает силу атаки владельца на 12%. Если скорость владельца выше или равна 120 ед., то его сила атаки повышается на доп. 12%.
@@ -535,7 +549,7 @@ Lightcones:
   "22003":
     Name: "Запись ниндзя: Музыкальная охота"
   "22004":
-    Name: The Great Cosmic Enterprise
+    Name: Бизнес космических масштабов
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -617,9 +631,13 @@ Lightcones:
   "23039":
     Name: Огонь крови, воспламени мой путь
   "23040":
-    Name: Make Farewells More Beautiful
+    Name: Пусть прощание будет прекрасным
   "23041":
-    Name: Life Should Be Cast to Flames
+    Name: Брошенная в пламя жизнь
+  "23042":
+    Name: May Rainbows Remain in the Sky
+  "23043":
+    Name: Lies, Aflutter in the Wind
   "24000":
     Name: О падении Эона
   "24001":

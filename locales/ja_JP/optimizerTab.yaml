@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: メインステータスのブースト
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -508,19 +509,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: 通常
-      Skill: スキル
-      Ult: 必殺
-      Talent: 天賦
-      Technique: 秘技
-      Trace: 軌跡
-      Memo: 精霊
-      E1: 1凸
-      E2: 2凸
-      E4: 4凸
-      E6: 6凸
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x サブステ'
@@ -561,3 +549,33 @@ ExpandedDataPanel:
       jointDmg: 連携ダメージ
       dotDmg: 持続ダメージ
       memoDmg: 精霊ダメージ
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 通常
+      Skill: スキル
+      Ult: 必殺
+      Talent: 天賦
+      Technique: 秘技
+      Trace: 軌跡
+      Memo: 精霊
+      E1: 1凸
+      E2: 2凸
+      E4: 4凸
+      E6: 6凸
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Basic: 基礎
+          Skill: スキル
+          Ult: 必殺
+          Fua: 追加
+          Dot: 持続
+          Break: 撃破
+        Suffix:
+          DMG boost: ダメバフ
+          DEF PEN: 防御力ダウン
+          Additional DMG: 付加ダメージ
+          DMG: ダメージ
+      Misc:
+        Memosprite: 記憶の精霊
+        Combo DMG: コンボダメージ

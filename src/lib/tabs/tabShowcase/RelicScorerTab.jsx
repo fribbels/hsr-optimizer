@@ -203,11 +203,10 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        {/*
-         <Flex gap={10} vertical align='center'>
-         <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 2.6 })}</h3></Text>
-         </Flex>
-         */}
+        <Flex gap={10} vertical align='center'>
+          <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.2 })}</h3></Text>
+        </Flex>
+
         <Flex gap={10} vertical align='center'>
           <Text>
             {officialOnly

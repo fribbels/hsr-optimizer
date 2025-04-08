@@ -27,7 +27,9 @@ CharacterWithCount_other: "{{count}} characters"
 Character_one: character
 Character_other: characters
 VerifiedRelicHoverText: Relic substats verified by relic scorer (speed decimals)
+Verified4LinerHoverText: Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
 CombatStats: Combat Stats
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: Head
   Hands: Hands
@@ -159,6 +161,14 @@ ShortReadableStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+Elements:
+  Physical: "$t(gameData:Elements.Physical)"
+  Fire: "$t(gameData:Elements.Fire)"
+  Ice: "$t(gameData:Elements.Ice)"
+  Lightning: "$t(gameData:Elements.Thunder)"
+  Wind: "$t(gameData:Elements.Wind)"
+  Quantum: "$t(gameData:Elements.Quantum)"
+  Imaginary: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
   simScore: Combo DMG
   BASIC: Basic Damage

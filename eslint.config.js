@@ -47,6 +47,10 @@ const config = tseslint.config(
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/dot-notation': ['warn', {
+        allowKeywords: true,
+        allowPattern: '',
+      }],
     },
   },
   {
@@ -80,6 +84,7 @@ const config = tseslint.config(
       'react/react-in-jsx-scope': 'off',
       'react-hooks/rules-of-hooks': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
+      'react/display-name': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-misused-promises': 'off',

@@ -1,14 +1,13 @@
-import i18next from 'i18next'
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LifeShouldBeCastToFlames')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LifeShouldBeCastToFlames.Content')
   const { SOURCE_LC } = Source.lightCone('23041')
 
   const sValueDmg = [0.60, 0.70, 0.80, 0.90, 1.00]
@@ -28,15 +27,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: 'DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('dmgBoost.text'),
+      content: t('dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValueDmg[s]) }),
     },
     defPen: {
       lc: true,
       id: 'defPen',
       formItem: 'switch',
-      text: 'DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('defPen.text'),
+      content: t('defPen.content', { DefShred: TsUtils.precisionRound(100 * sValuesDefPen[s]) }),
     },
   }
 

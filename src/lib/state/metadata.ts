@@ -709,6 +709,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.HP_P]: 0.525 },
       5: { [Constants.Stats.HP_P]: 0.60 },
     },
+    23042: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
+    23043: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
     23041: {},
     24000: {},
     24001: {
@@ -880,6 +894,8 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23038: 210,
     23039: 165,
     24005: 300,
+
+    23043: 370,
   }
 }
 
@@ -1253,6 +1269,16 @@ function getOverrideImageCenter(): Record<string, {
       x: 875,
       y: 950,
       z: 1.00,
+    },
+    1406: { // Cipher
+      x: 1050,
+      y: 900,
+      z: 1,
+    },
+    1409: { // Hyacine
+      x: 1215,
+      y: 1025,
+      z: 1.05,
     },
   }
 }
@@ -6632,6 +6658,146 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: '1222', // Lingsha
             lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1409: { // Hyacine
+      stats: {
+        [Constants.Stats.ATK]: 0,
+        [Constants.Stats.ATK_P]: 0,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 1,
+        [Constants.Stats.HP_P]: 1,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 0,
+        [Constants.Stats.CD]: 0.50,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0.50,
+        [Constants.Stats.BE]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.OHB,
+          Constants.Stats.HP_P,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.HP_P,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ERR,
+          Constants.Stats.HP_P,
+        ],
+      },
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
+      sortOption: SortOption.HEAL,
+      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      hiddenColumns: [SortOption.DOT],
+    },
+    1406: { // Cipher
+      stats: {
+        [Constants.Stats.ATK]: 0.75,
+        [Constants.Stats.ATK_P]: 0.75,
+        [Constants.Stats.DEF]: 0,
+        [Constants.Stats.DEF_P]: 0,
+        [Constants.Stats.HP]: 0,
+        [Constants.Stats.HP_P]: 0,
+        [Constants.Stats.SPD]: 1,
+        [Constants.Stats.CR]: 1,
+        [Constants.Stats.CD]: 1,
+        [Constants.Stats.EHR]: 0,
+        [Constants.Stats.RES]: 0,
+        [Constants.Stats.BE]: 0,
+      },
+      parts: {
+        [Constants.Parts.Body]: [
+          Constants.Stats.CR,
+          Constants.Stats.CD,
+          Constants.Stats.EHR,
+        ],
+        [Constants.Parts.Feet]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.SPD,
+        ],
+        [Constants.Parts.PlanarSphere]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.Quantum_DMG,
+        ],
+        [Constants.Parts.LinkRope]: [
+          Constants.Stats.ATK_P,
+          Constants.Stats.ERR,
+        ],
+      },
+      presets: [
+        PresetEffects.fnAshblazingSet(1),
+        PresetEffects.fnPioneerSet(4),
+        PresetEffects.VALOROUS_SET,
+      ],
+      sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK,
+        ],
+        comboAbilities: [NULL, ULT, FUA, SKILL, SKILL, BASIC],
+        comboDot: 0,
+        comboBreak: 0,
+        errRopeEidolon: 0,
+        relicSets: [
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.DuranDynastyOfRunningWolves,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+        ],
+        teammates: [
+          {
+            characterId: '1220', // Feixiao
+            lightCone: '23031', // Venture
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

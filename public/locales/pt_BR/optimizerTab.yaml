@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★ +
   BoostMain:
     Header: Melhorar atributo principal
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -524,19 +525,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: Basic
-      Skill: Skill
-      Ult: Ult
-      Talent: Talento
-      Technique: Técnica
-      Trace: Traço
-      Memo: Memo
-      E1: E1
-      E2: E2
-      E4: E4
-      E6: E6
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Subatributo'
@@ -577,3 +565,105 @@ ExpandedDataPanel:
       jointDmg: Dano Conjunto
       dotDmg: Dano DoT
       memoDmg: Dano Memo
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Basic
+      Skill: Skill
+      Ult: Ult
+      Talent: Talento
+      Technique: Técnica
+      Trace: Traço
+      Memo: Memo
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+    Stats:
+      CompositeLabels:
+        Label: "{{prefix}} {{suffix}}"
+        Prefix:
+          Basic: Basic
+          Skill: Skill
+          Ult: Ult
+          Fua: FuA
+          Dot: Dot
+          Break: Quebra
+          Memo Skill: Perícia do Memo
+          Memo Talent: Talento do Memo
+        Suffix:
+          ATK scaling: Scaling de ATQ
+          DEF scaling: Scaling de DEF
+          HP scaling: Scaling de HP
+          Special scaling: Scaling Especial
+          "ATK % boost": Aumento de ATQ %
+          Crit Rate boost: Aumento de Taxa Crítica
+          Crit DMG boost: Aumento de Dano Crítico
+          DMG boost: Boost de DMG
+          Vulnerability: Vulnerabilidade
+          RES PEN: RES PEN
+          DEF PEN: DEF PEN
+          Break DEF PEN: Quebra DEF PEN
+          Toughness DMG: Dano de Resistência
+          Super Break multiplier: Multiplicador de Super Quebra
+          Break Efficiency boost: Aumento de Eficiência de Quebra
+          True DMG multiplier: Multiplicador de Dano Real
+          Final DMG multiplier: Multiplicador de Dano Final
+          Break DMG multiplier: Multiplicador de Dano de Quebra
+          Additional DMG scaling: Scaling de Dano Adicional
+          Additional DMG: Dano Adicional
+          DMG: DANO
+      Misc:
+        Base HP: PV Base
+        Base ATK: ATQ Base
+        Base DEF: DEF Base
+        Base SPD: VEL Base
+        Memosprite base HP scaling: Scaling de PV Base do Memo
+        Memosprite base DEF scaling: Scaling de DEF Base do Memo
+        Memosprite base ATK scaling: Scaling de ATQ Base do Memo
+        Memosprite base SPD scaling: Scaling de VEL Base do Memo
+        Memosprite base HP flat: PV Flat Base do Memo
+        Memosprite base DEF flat: DEF Flat Base do Memo
+        Memosprite base ATK flat: ATQ Flat Base do Memo
+        Memosprite base SPD flat: VEL Flat Base do Memo
+        Elemental DMG: Dano Elemental
+        DMG reduction: Redução de Dano
+        Effective HP: PV Efetivo
+        Summons: Invocações
+        Memosprite: Memosprite
+        Enemy weakness broken: Resistência do inimigo quebrada
+        Prioritize memosprite buffs: Priorizar buffs do Memo
+        Deprioritize buffs: Despriorizar buffs
+        Combo DMG: Dano de Combo
+        Dot base chance: DOT chance base
+        Effect RES PEN: PEN RES Efeito
+        Dot DMG split: DOT divisão de dano
+        Dot stacks: DOT acúmulos
+        Heal ability type: Tipo de habilidade de cura
+        Heal flat: Cura flat
+        Heal scaling: Cura scaling
+        Heal value: Cura valor
+        Shield flat: Escudo flat
+        Shield scaling: Escudo scaling
+        Shield value: Escudo valor
+        Shield boost: Escudo aumento
+        Skill Outgoing Healing Boost: Aumento de Cura Realizada Perícia
+        Ult Outgoing Healing Boost: Aumento de Cura Realizada Ult
+        Super Break DEF PEN: Super Quebra DEF PEN
+        Super Break DMG Boost: Super Quebra aumento de dano
+        Super Break Vulnerability: Super Quebra vulnerabilidade
+        Additional DMG boost: Aumento de dano adicional
+        Ult Additional DMG CR override: Substituição de CR do dano adicional Ult
+        Ult Additional DMG CD override: Substituição de CD do dano adicional Ult
+      DmgTypes:
+        Basic: Dano tipo Básico
+        Skill: Dano tipo Perícia
+        Ult: Dano tipo Ult
+        Fua: Dano tipo FUA
+        Dot: Dano tipo DOT
+        Break: Dano tipo Quebra
+        MemoSkill: Dano tipo Perícia Memo
+        MemoTalent: Dano tipo Talento Memo
+        Additional: Dano tipo Adicional
+        SuperBreak: Dano tipo Super Quebra
+      ResPen: "$t(common:Elements.{{element}}) RES PEN"
+      Unconvertible: "Inconversível $t(common:Stats.{{stat}})"

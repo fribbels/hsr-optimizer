@@ -1,5 +1,8 @@
 TryOut:
   DocumentationTitle: 전체 가이드 보기
   ButtonText: 직접 해보기
+  description: |-
+    샘플 파일을 가져오시겠습니까?
+    ⚠️ 현재 모든 데이터를 덮어 씌웁니다! ⚠️
   SuccessMessage: 데이터를 불러왔습니다.
   Header: 직접 해보기

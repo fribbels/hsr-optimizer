@@ -8,5 +8,5 @@ const IconSVG = () => (
 )
 
 export const UpArrow = (props: React.ComponentProps<typeof Icon>) => {
-  return <Icon component={IconSVG} {...props}/>
+  return <IconSVG {...props}/>
 }

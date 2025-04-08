@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium-headless-shell
       - name: Run Playwright tests
         run: npx playwright test --config tests/playwright.config.ts
       - uses: actions/upload-artifact@v4

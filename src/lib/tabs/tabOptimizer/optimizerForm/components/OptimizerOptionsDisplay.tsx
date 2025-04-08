@@ -179,6 +179,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[
+                  { value: 0, label: t('OptimizerOptions.BoostMain.Label0') }, // '+0'
                   { value: 3, label: t('OptimizerOptions.BoostMain.Label3') }, // '+3'
                   { value: 6, label: t('OptimizerOptions.BoostMain.Label6') }, // '+6'
                   { value: 9, label: t('OptimizerOptions.BoostMain.Label9') }, // '+9'

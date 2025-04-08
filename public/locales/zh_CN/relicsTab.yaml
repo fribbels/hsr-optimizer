@@ -2,6 +2,7 @@ RelicFilterBar:
   Part: 部件
   Enhance: 强化等级
   Grade: 稀有度
+  InitialRolls: 初始副词条
   Verified: 已验证
   Equipped: 已装备
   Clear: 清除

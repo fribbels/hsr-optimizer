@@ -1,5 +1,8 @@
 TryOut:
   DocumentationTitle: ガイド全文を表示
   ButtonText: サンプルで試す
+  description: |-
+    サンプルファイルを読み込みますか？
+    ⚠️すべての現データが上書きされます！⚠️
   SuccessMessage: データを読み込みました
   Header: 試してみましょう！

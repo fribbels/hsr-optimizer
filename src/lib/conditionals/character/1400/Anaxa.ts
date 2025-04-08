@@ -1,18 +1,15 @@
-import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, countTeamPath } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION, PathNames } from 'lib/constants/constants'
+import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
-
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Anaxa')
-  const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Anaxa.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -55,50 +52,50 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillHits: {
       id: 'skillHits',
       formItem: 'slider',
-      text: 'Skill additional hits',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('skillHits.text'),
+      content: t('skillHits.content'),
       min: 0,
       max: 4,
     },
     exposedNature: {
       id: 'exposedNature',
       formItem: 'switch',
-      text: 'Exposed Nature',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('exposedNature.text'),
+      content: t('exposedNature.content', { DmgBuff: TsUtils.precisionRound(100 * talentDmgScaling) }),
     },
     eruditionTeammateBuffs: {
       id: 'eruditionTeammateBuffs',
       formItem: 'switch',
-      text: 'Erudition teammate buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('eruditionTeammateBuffs.text'),
+      content: t('eruditionTeammateBuffs.content'),
     },
     enemyWeaknessTypes: {
       id: 'enemyWeaknessTypes',
       formItem: 'slider',
-      text: 'Enemy weaknesses',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('enemyWeaknessTypes.text'),
+      content: t('enemyWeaknessTypes.content'),
       min: 0,
       max: 7,
     },
     e1DefPen: {
       id: 'e1DefPen',
       formItem: 'switch',
-      text: 'E1 DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1DefPen.text'),
+      content: t('e1DefPen.content'),
       disabled: e < 1,
     },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2ResPen.text'),
+      content: t('e2ResPen.content'),
       disabled: e < 2,
     },
     e4AtkBuffStacks: {
       id: 'e4AtkBuffStacks',
       formItem: 'slider',
-      text: 'E4 ATK buff stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4AtkBuffStacks.text'),
+      content: t('e4AtkBuffStacks.content'),
       min: 0,
       max: 2,
       disabled: e < 4,
@@ -106,8 +103,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6Buffs.text'),
+      content: t('e6Buffs.content'),
       disabled: e < 6,
     },
   }

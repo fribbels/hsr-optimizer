@@ -173,6 +173,12 @@ Lightcones:
         text: Cumuls de Lumière vive
         content: >-
           Lorsque le porteur lance une attaque de suivi, il gagne 1 cumul de Lumière vive jusqu'à un maximum de 2 fois. Chaque cumul de Lumière vive permet aux DGT d'ultime infligés par le porteur d'ignorer {{DefIgnore}}% de la DÉF de la cible. Lorsque le tour du porteur se termine, supprime 1 cumul de Lumière vive.
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
+      defPen:
+        text: PÉN de DÉF
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
@@ -697,6 +703,12 @@ Characters:
         text: 'E6: Divers bonus'
         content: >-
           Augmente la PÉN de RÉS à la foudre d'Aglaé et de la Costumière de 20% lorsque Aglaé est dans l'état Posture de suprématie. Lorsque la VIT d'Aglaé ou de la Costumière est supérieure à 160/240/320, les DGT infligés par l'ATQ conjointe augmentent de 10%/30%/60%
+  Anaxa:
+    Content:
+      e1DefPen:
+        text: 'E1: PÉN de DÉF'
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Argenti:
     Content:
       ultEnhanced:
@@ -860,6 +872,16 @@ Characters:
       teammateCDValue:
         text: DC en combat de Bronya
         content: Augmente l'ATQ de tous les alliés de {{ultAtkBoostValue}}% et augmente leurs DGT critiques d'un montant équivalent à {{ultCdBoostValue}}% des DGT critiques de Bronya + {{ultCdBoostBaseValue}}% pendant 2 tours.
+  Castorice:
+    Content:
+      spdBuff:
+        text: Bonus de VIT
+      talentDmgStacks:
+        text: Cumuls de bonus de DGT du talent
+      teamDmgBoost:
+        text: Bonus d'équipe de DGT
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Clara:
     Content:
       ultBuff:

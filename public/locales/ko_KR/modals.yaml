@@ -209,6 +209,22 @@ Scoring:
       SuccessMessage: "격파 피해 필터의 최솟값을 초기화 했습니다."
       Description: "곂파 피해 필터의 최솟값이 너무 높은 것 같습니다."
       ButtonText: "격파 피해 필터의 최솟값을 초기화 했습니다."
+    MAX_MEMO_SKILL:
+      SuccessMessage: "최대 기억정령 전스 필터 재설정"
+      Description: "기억정령 전스 데미지 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "최대 기억정령 전스 필터 재설정"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "최소 기억정령 전스 필터 재설정"
+      Description: "기억정령 전스 데미지 필터의 최솟값이 너무 높은 것 같습니다."
+      ButtonText: "최소 기억정령 전스 필터 재설정"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "최대 기억정령 전스 필터 재설정"
+      Description: "기억정령 특성 데미지 필터의 최댓값이 너무 낮은 것 같습니다."
+      ButtonText: "최대 기억정령 특성 필터 재설정"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "최소 기억정령 특성 필터 재설정"
+      Description: "기억정령 특성 데미지 필터의 최댓값이 너무 높은 것 같습니다."
+      ButtonText: "최소 기억정령 특성 필터 재설정"
     MAX_HEAL:
       SuccessMessage: "치유 필터의 최댓값을 초기화 했습니다."
       Description: "치유 필터의 최댓값이 너무 낮은 것 같습니다."
@@ -254,6 +270,7 @@ Relic:
   Mainstat: 주 옵션
   Substat: 부 옵션
   SubstatPlaceholder: 부 옵션
+  SpdInputWarning: '주의: 게임 내에 표시되는 속도 하위 상태에는 작은 수치가 숨어 있기 때문에 수동으로 입력한 속도 값은 부정확하게 되어 버립니다. 정확한 속도 값을 입력하려면 쇼케이스 탭 또는Reliquary Archive를 사용하여 가져와야 합니다.'
   Upgrades: 부 옵션 레벨업
   Messages:
     SubmitFail: 제출 실패!

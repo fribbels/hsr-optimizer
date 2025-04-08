@@ -173,12 +173,25 @@ Lightcones:
         text: Acúmulos de Luminflux
         content: >-
           Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: Boost de DMG
+        content: Se o inimigo alvo tiver uma Fraqueza implantada pelo usuário, aumenta o dano do usuário em {{DmgBuff}}%.
+      defPen:
+        text: DEF PEN
+        content: Quando alvos inimigos são atacados pelo usuário, o usuário diminui sua DEF em {{DefShred}}%, durando 2 turnos.
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: Vulnerabilidade de quebra acumula
         content: >-
           Quando a Fraqueza de um alvo inimigo é quebrada, há uma chance básica de 100% de infligir o estado “Charring” nele, o que aumenta o Dano de Quebra recebido em {{breakVulnerability}}%, com duração de 2 turnos. Esse efeito pode se acumular 2 vezes.
+  MakeFarewellsMoreBeautiful:
+    Content:
+      deathFlower:
+        text: DEF PEN Flor da Morte
+        content: Quando o usuário ou seu memosprite perdem HP durante seu próprio turno, o usuário ganha "Flor da Morte", que permite que o usuário e seu memosprite ignorem {{DefIgnore}}% da DEF do alvo ao realizar dano, durando de 2 rodadas.
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -526,6 +539,11 @@ Lightcones:
       cdBuffActive:
         text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
         content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
+  TheGreatCosmicEnterprise:
+    Content:
+      weaknessTypes:
+        text: Tipos de fraqueza
+        content: Para cada tipo de fraqueza diferente que o alvo inimigo tenha, aumenta o dano causado pelo portador em {{DmgBuff}}%, até um máximo de 7 tipos de Fraqueza.
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -709,6 +727,34 @@ Characters:
         text: Buffs E6
         content: >-
           Enquanto Aglaea estiver em "Postura Suprema", aumenta a RES PEN de Relâmpago de Aglaea em Confeccionado em 20%. Quando a SPD de Aglaea ou Confeccionadora forem maior que 160/240/320, o dano do ataque Conjunto aumenta em 10%/30%/60%
+  Anaxa:
+    Content:
+      skillHits:
+        text: Acertos adicionais da perícia
+        content: Número de vezes que a perícia acerta o alvo principal
+      exposedNature:
+        text: Revelação da Essência
+        content: >-
+          Enquanto Anaxa estiver em campo, inflige o estado "Revelação da Essência" aos alvos inimigos com no mínimo 5 fraquezas diferentes. Anaxa inflige {{DmgBuff}}% mais dano em alvos no estado "Revelação da Essência"
+      eruditionTeammateBuffs:
+        text: Buff de personagens da Erudição
+        content: >-
+          Ativa qualquer 1 efeito na batalha atual com base no número de personagens no Caminho da Erudição na equipe: ::BR:: 1: aumenta o Dano CRIT de Anaxa em 140%. ::BR:: Pelo menos 2: aumenta o Dano causado por todos os aliados em 50%.
+      enemyWeaknessTypes:
+        text: Fraquezas do inimigo
+        content: Para cada Tipo de Fraqueza diferente que um inimigo-alvo possui, o Dano que Anaxa causa a esse inimigo ignora 4% de DEF, até um máximo de 7 Tipos de Fraqueza.
+      e1DefPen:
+        text: PEN de DEF E1
+        content: Quando qualquer inimigo-alvo for atingido pela Perícia desta unidade, diminui a DEF do alvo em 16% por 2 rodada(s).
+      e2ResPen:
+        text: E2 RES PEN
+        content: Quando os inimigos-alvo entram em batalha, ativa o efeito de “Implante de Fraqueza” do Talento 1 vez, e reduz a RES a Todos os Tipos deles em 20%.
+      e4AtkBuffStacks:
+        text: E4 Acúmulos de buff de ATQ
+        content: Ao usar a Perícia, aumenta o ATQ em 30% por 2 rodada(s). Este efeito pode ser acumulado até 2 vez(es).
+      e6Buffs:
+        text: Buffs E6
+        content: O Dano causado por Anaxa é igual a 130% do Dano original. Os 2 efeitos do Rastro “Hiato Imperativo” serão ativados diretamente e não dependerão mais do número de personagens da Erudição na equipe.
   Argenti:
     Content:
       ultEnhanced:
@@ -872,6 +918,37 @@ Characters:
       teammateCDValue:
         text: CD de Combate da Bronya
         content: Aumenta o ATK de todos os aliados em {{ultAtkBoostValue}}% e o CRIT DMG em {{ultCdBoostValue}}% do CRIT DMG de Bronya mais {{ultCdBoostBaseValue}}% por 2 turnos.
+  Castorice:
+    Content:
+      memospriteActive:
+        text: Memosprita ativo
+        content: Enquanto "Dragão Abissal" estiver em campo, o território "Reino Perdido" é ativado, reduzindo RES a Todos os Tipos de todos eo inimigos em {{ResDown}}%
+      spdBuff:
+        text: Buff de SPD
+        content: Enquanto os PV atuais de Castorice forem iguais ou maiores a 50% de seus PV máximos, aumenta a VEL dela em 40%.
+      talentDmgStacks:
+        text: Acúmulos de DMG do Talento
+        content: Quando aliados perdem PV, o dano causado por "Dragão Abissal" e Castorice aumentam em {{DmgBuff}}%. Esse efeito pode acúmular até 3 vezes, durando por 3 vezes.
+      memoSkillEnhances:
+        text: Aprimoramentos de Perícias Memo
+        content: Em um único ataque, "Sopro de Chama Negra" pode ser ativado repetidamente, com o multiplicador de dano aumentando sucessivamente para {{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%, até {{Multiplier2Enhance}}%. O multiplicador de dano não será reduzido antes do desaparecimento do "Dragão Abissal".
+      memoTalentHits:
+        text: Acertos do Talento do Memo
+        content: Quando o Dragão Abissal desaparece, causa {{BounceCount}} instâncias de dano, com cada instância causando dano Quântico igual à {{Scaling}}% do PV máximo de Castorice à uma unidade inimiga aleatória.
+      teamDmgBoost:
+        text: Aumento de Dano da Equipe
+        content: Quando Dragão Abissal é invocado, aumenta o dano causado por todos os aliados em 10% por 3 turnos.
+      memoDmgStacks:
+        text: Acúmulos de dano do Memo
+        content: Quando vez que o Dragão Abissal usar "Sopro de Chama Negra", aumenta o seu dano causado em 30%. Esse efeito acumula até 6 vezes e dura até o final desse turno.
+      e1EnemyHp50:
+        text: E1 PV do inimigo ≤ 50%
+        content: Quando os PV dos inimigos-alvo forem iguais a 80%/50% ou menores, o Dano causado com "Garraespectral do Dragão da Perdição", "Garras Rompem o Véu", "Sopro de Chama Negra" e "Asas Sobre as Ruínas" é igual a 120%/140% do Dano original.
+      e6Buffs:
+        text: Buffs E6
+        content: >-
+          Quando Castorice ou "Dragão Abissal" causam Dano, aumenta a PEN de RES a Quântico em 20% e, adicionalmente, aumenta o número de Rebotes para o Talento do "Dragão Abissal", "Asas Sobre as Ruínas", em 3 vez(es).
+
   Clara:
     Content:
       ultBuff:

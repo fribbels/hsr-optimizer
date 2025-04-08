@@ -254,7 +254,9 @@ interface Resources {
     "Character_one": "character",
     "Character_other": "characters",
     "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
+    "Verified4LinerHoverText": "Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)",
     "CombatStats": "Combat Stats",
+    "MemospriteLabel": "{{label}}ᴹ",
     "Parts": {
       "Head": "Head",
       "Hands": "Hands",
@@ -393,6 +395,15 @@ interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
     },
+    "Elements": {
+      "Physical": "$t(gameData:Elements.Physical)",
+      "Fire": "$t(gameData:Elements.Fire)",
+      "Ice": "$t(gameData:Elements.Ice)",
+      "Lightning": "$t(gameData:Elements.Thunder)",
+      "Wind": "$t(gameData:Elements.Wind)",
+      "Quantum": "$t(gameData:Elements.Quantum)",
+      "Imaginary": "$t(gameData:Elements.Imaginary)"
+    },
     "DMGTypes": {
       "simScore": "Combo DMG",
       "BASIC": "Basic Damage",
@@ -434,7 +445,8 @@ interface Resources {
         "Skill": "Healing ability: Skill",
         "Ult": "Healing ability: Ult",
         "Talent": "Healing ability: Talent",
-        "Trace": "Healing ability: Trace"
+        "Trace": "Healing ability: Trace",
+        "MemoTalent": "Healing ability: Talentᴹ"
       },
       "ShieldAbility": {
         "Text": "Shielding ability",
@@ -659,11 +671,31 @@ interface Resources {
           }
         }
       },
+      "LifeShouldBeCastToFlames": {
+        "Content": {
+          "dmgBoost": {
+            "text": "DMG boost",
+            "content": "If the enemy target has a Weakness implanted by the wearer, increases the wearer's DMG dealt to it by {{DmgBuff}}% ."
+          },
+          "defPen": {
+            "text": "DEF PEN",
+            "content": "When enemy targets are attacked by the wearer, the wearer decreases its DEF by {{DefShred}}%, lasting for 2 turns."
+          }
+        }
+      },
       "LongRoadLeadsHome": {
         "Content": {
           "breakVulnerabilityStacks": {
             "text": "Break vulnerability stacks",
             "content": "When an enemy target's Weakness gets broken, there is a 100% base chance to inflict the \"Charring\" state on it, which increases its Break DMG taken by {{breakVulnerability}}%, lasting for 2 turns. This effect can stack 2 times."
+          }
+        }
+      },
+      "MakeFarewellsMoreBeautiful": {
+        "Content": {
+          "deathFlower": {
+            "text": "Death Flower DEF PEN",
+            "content": "When the wearer or their memosprite loses HP during their own turn, the wearer gains \"Death Flower,\" which allows the wearer and their memosprite to ignore {{DefIgnore}}% of the target's DEF when dealing DMG, lasting for 2 turns."
           }
         }
       },
@@ -1157,6 +1189,14 @@ interface Resources {
           }
         }
       },
+      "TheGreatCosmicEnterprise": {
+        "Content": {
+          "weaknessTypes": {
+            "text": "Weakness types",
+            "content": "For every different Weakness Type an enemy target has, increases the DMG dealt by the wearer by {{DmgBuff}}%, up to a max of 7 Weakness Types."
+          }
+        }
+      },
       "TheMolesWelcomeYou": {
         "Content": {
           "atkBuffStacks": {
@@ -1423,6 +1463,42 @@ interface Resources {
           }
         }
       },
+      "Anaxa": {
+        "Content": {
+          "skillHits": {
+            "text": "Skill additional hits",
+            "content": "Number of times the skill hits the main target"
+          },
+          "exposedNature": {
+            "text": "Qualitative Disclosure",
+            "content": "While Anaxa is on the battlefield, inflicts the \"Qualitative Disclosure\" state to enemy targets with at least 5 different Weaknesses. Anaxa deals {{DmgBuff}}% more DMG to targets in \"Qualitative Disclosure\" state."
+          },
+          "eruditionTeammateBuffs": {
+            "text": "Erudition teammate buffs",
+            "content": "Trigger any 1 effect in the current battle based on the number of characters on the Path of Erudition in the team: ::BR:: 1: Increases Anaxa's CRIT DMG by 140%. ::BR:: At least 2: Increases DMG dealt by all allies by 50%."
+          },
+          "enemyWeaknessTypes": {
+            "text": "Enemy weaknesses",
+            "content": "For every different Weakness Type an enemy target has, the DMG that Anaxa deals to that target ignores 4% of DEF, up to a max of 7 Weakness Types."
+          },
+          "e1DefPen": {
+            "text": "E1 DEF PEN",
+            "content": "When any enemy targets are hit by this Anaxa's Skill, decreases the targets' DEF by 16% for 2 turns."
+          },
+          "e2ResPen": {
+            "text": "E2 RES PEN",
+            "content": "When enemy targets enter the battle, triggers the Talent's Weakness Implant effect 1 time, and reduces their All-Type RES by 20%."
+          },
+          "e4AtkBuffStacks": {
+            "text": "E4 ATK buff stacks",
+            "content": "When using Skill, increases ATK by 30% for 2 turns. This effect can stack up to 2 times."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "The DMG dealt by Anaxa is 130% of the original DMG. The 2 effects of the Trace \"Imperative Hiatus\" will be triggered directly and will no longer depend on the number of Erudition characters on the team."
+          }
+        }
+      },
       "Argenti": {
         "Content": {
           "ultEnhanced": {
@@ -1638,6 +1714,46 @@ interface Resources {
           "teammateCDValue": {
             "text": "Bronya's Combat CD",
             "content": "Increases the ATK of all allies by {{ultAtkBoostValue}}% and CRIT DMG by {{ultCdBoostValue}}% of Bronya's CRIT DMG plus {{ultCdBoostBaseValue}}% for 2 turns."
+          }
+        }
+      },
+      "Castorice": {
+        "Content": {
+          "memospriteActive": {
+            "text": "Memosprite active",
+            "content": "While Netherwing is on the field, the Territory \"Lost Netherland\" is active, decreasing all enemies' All-Type RES by {{ResDown}}%."
+          },
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "When Castorice's current HP is greater or equal to 50% of this unit's Max HP, her SPD increases by 40%."
+          },
+          "talentDmgStacks": {
+            "text": "Talent DMG stacks",
+            "content": "When allies lose HP, Castorice's and Netherwing's DMG dealt increase by {{DmgBuff}}%. This effect can stack up to 3 times, lasting for 3 turns."
+          },
+          "memoSkillEnhances": {
+            "text": "Memo Skill enhances",
+            "content": "In one attack, \"Breath Scorches the Shadow\" can be activated repeatedly, with the DMG multiplier increasing respectively to {{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%, until {{Multiplier2Enhance}}%. The DMG Multiplier Boost effect will not be reduced before Netherwing disappears."
+          },
+          "memoTalentHits": {
+            "text": "Memo Talent hits",
+            "content": "When Netherwing disappears, deals {{BounceCount}} instances of DMG, with every instance dealing Quantum DMG equal to {{Scaling}}% of Castorice's Max HP to one random enemy units."
+          },
+          "teamDmgBoost": {
+            "text": "Team DMG boost",
+            "content": "When Netherwing is summoned, increases DMG dealt by all allies by 10% for 3 turns."
+          },
+          "memoDmgStacks": {
+            "text": "Memo DMG stacks",
+            "content": "Each time Netherwing uses \"Breath Scorches the Shadow,\" increases its DMG dealt by 30%. This effect stacks up to 6 and lasts until the end of this turn."
+          },
+          "e1EnemyHp50": {
+            "text": "E1 Enemy HP ≤ 50%",
+            "content": "When the enemy target's current HP is 50% or lower than this unit's Max HP, the DMG dealt with \"Boneclaw, Doomdrake's Embrace,\" \"Claw Splits the Veil,\" \"Breath Scorches the Shadow,\" and \"Wings Sweep the Ruins\" is 140% of the original DMG."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%. ::BR:: Increases the Bounce count for Netherwing's Talent \"Wings Sweep the Ruins\" by 3 times."
           }
         }
       },
@@ -3217,9 +3333,17 @@ interface Resources {
         "Name": "Anaxa",
         "LongName": "Anaxa"
       },
+      "1406": {
+        "Name": "Cipher",
+        "LongName": "Cipher"
+      },
       "1407": {
         "Name": "Castorice",
         "LongName": "Castorice"
+      },
+      "1409": {
+        "Name": "Hyacine",
+        "LongName": "Hyacine"
       },
       "8001": {
         "Name": "Caelus",
@@ -3374,6 +3498,16 @@ interface Resources {
         "Name": "Poet of Mourning Collapse",
         "Description2pc": "Increases Quantum DMG by 10%.",
         "Description4pc": "Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is lower than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect applies to the wearer's memosprite at the same time."
+      },
+      "125": {
+        "Name": "Warrior Goddess of Daythunder",
+        "Description2pc": "Increases SPD by 6%.",
+        "Description4pc": "When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has \"Gentle Rain\", increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked."
+      },
+      "126": {
+        "Name": "Captain Over Cursed Waves",
+        "Description2pc": "Increases CRIT DMG by 16%.",
+        "Description4pc": "When the wearer is the target of another ally target's ability, gains 1 stack of \"Help.\" Stacks up to 3 times. When using Ultimate, consumes all \"Help,\" each stack increasing the wearer's ATK by 16%, lasting until the end of the turn."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -3822,6 +3956,12 @@ interface Resources {
       },
       "23041": {
         "Name": "Life Should Be Cast to Flames"
+      },
+      "23042": {
+        "Name": "May Rainbows Remain in the Sky"
+      },
+      "23043": {
+        "Name": "Lies, Aflutter in the Wind"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -4480,7 +4620,7 @@ interface Resources {
       "Mainstat": "Main stat",
       "Substat": "Substats",
       "SubstatPlaceholder": "Substat",
-      "SpdInputWarning": "Note - SPD substats ingame contain hidden decimal values which are inaccurate if inputted manually. For precise SPD values, use the Showcase tab or Reliquary Archiver import.",
+      "SpdInputWarning": "Note - SPD substats ingame contain hidden decimal values which are inaccurate if input manually. For precise SPD values, use the Showcase tab or Reliquary Archiver import.",
       "Upgrades": "Substat upgrades",
       "Messages": {
         "SubmitFail": "Submit failed!",
@@ -4704,6 +4844,7 @@ interface Resources {
       },
       "BoostMain": {
         "Header": "Boost main stat",
+        "Label0": "+0",
         "Label3": "+3",
         "Label6": "+6",
         "Label9": "+9",
@@ -5183,21 +5324,6 @@ interface Resources {
       }
     },
     "ExpandedDataPanel": {
-      "BuffsAnalysisDisplay": {
-        "Sources": {
-          "Basic": "Basic",
-          "Skill": "Skill",
-          "Ult": "Ult",
-          "Talent": "Talent",
-          "Technique": "Technique",
-          "Trace": "Trace",
-          "Memo": "Memo",
-          "E1": "E1",
-          "E2": "E2",
-          "E4": "E4",
-          "E6": "E6"
-        }
-      },
       "SubstatUpgrades": {
         "ColumnHeaders": {
           "Substat": "+1x Substat",
@@ -5243,6 +5369,116 @@ interface Resources {
           "dotDmg": "Dot DMG",
           "memoDmg": "Memo DMG"
         }
+      },
+      "BuffsAnalysisDisplay": {
+        "Sources": {
+          "Basic": "Basic",
+          "Skill": "Skill",
+          "Ult": "Ult",
+          "Talent": "Talent",
+          "Technique": "Technique",
+          "Trace": "Trace",
+          "Memo": "Memo",
+          "E1": "E1",
+          "E2": "E2",
+          "E4": "E4",
+          "E6": "E6"
+        },
+        "Stats": {
+          "CompositeLabels": {
+            "Label": "{{prefix}} {{suffix}}",
+            "Prefix": {
+              "Basic": "Basic",
+              "Skill": "Skill",
+              "Ult": "Ult",
+              "Fua": "Fua",
+              "Dot": "Dot",
+              "Break": "Break",
+              "Memo Skill": "Memo Skill",
+              "Memo Talent": "Memo Talent"
+            },
+            "Suffix": {
+              "ATK scaling": "ATK scaling",
+              "DEF scaling": "DEF scaling",
+              "HP scaling": "HP scaling",
+              "Special scaling": "Special scaling",
+              "ATK % boost": "ATK % boost",
+              "Crit Rate boost": "Crit Rate boost",
+              "Crit DMG boost": "Crit DMG boost",
+              "DMG boost": "DMG boost",
+              "Vulnerability": "Vulnerability",
+              "RES PEN": "RES PEN",
+              "DEF PEN": "DEF PEN",
+              "Break DEF PEN": "Break DEF PEN",
+              "Toughness DMG": "Toughness DMG",
+              "Super Break multiplier": "Super Break multiplier",
+              "Break Efficiency boost": "Break Efficiency boost",
+              "True DMG multiplier": "True DMG multiplier",
+              "Final DMG multiplier": "Final DMG multiplier",
+              "Break DMG multiplier": "Break DMG multiplier",
+              "Additional DMG scaling": "Additional DMG scaling",
+              "Additional DMG": "Additional DMG",
+              "DMG": "DMG"
+            }
+          },
+          "Misc": {
+            "Base HP": "Base HP",
+            "Base ATK": "Base ATK",
+            "Base DEF": "Base DEF",
+            "Base SPD": "Base SPD",
+            "Memosprite base HP scaling": "Memosprite base HP scaling",
+            "Memosprite base DEF scaling": "Memosprite base DEF scaling",
+            "Memosprite base ATK scaling": "Memosprite base ATK scaling",
+            "Memosprite base SPD scaling": "Memosprite base SPD scaling",
+            "Memosprite base HP flat": "Memosprite base HP flat",
+            "Memosprite base DEF flat": "Memosprite base DEF flat",
+            "Memosprite base ATK flat": "Memosprite base ATK flat",
+            "Memosprite base SPD flat": "Memosprite base SPD flat",
+            "Elemental DMG": "Elemental DMG",
+            "DMG reduction": "DMG reduction",
+            "Effective HP": "Effective HP",
+            "Summons": "Summons",
+            "Memosprite": "Memosprite",
+            "Enemy weakness broken": "Enemy weakness broken",
+            "Prioritize memosprite buffs": "Prioritize memosprite buffs",
+            "Deprioritize buffs": "Deprioritize buffs",
+            "Combo DMG": "Combo DMG",
+            "Dot base chance": "Dot base chance",
+            "Effect RES PEN": "Effect RES PEN",
+            "Dot DMG split": "Dot DMG split",
+            "Dot stacks": "Dot stacks",
+            "Heal ability type": "Heal ability type",
+            "Heal flat": "Heal flat",
+            "Heal scaling": "Heal scaling",
+            "Heal value": "Heal value",
+            "Shield flat": "Shield flat",
+            "Shield scaling": "Shield scaling",
+            "Shield value": "Shield value",
+            "Shield boost": "Shield boost",
+            "Skill Outgoing Healing Boost": "Skill Outgoing Healing Boost",
+            "Ult Outgoing Healing Boost": "Ult Outgoing Healing Boost",
+            "Super Break DEF PEN": "Super Break DEF PEN",
+            "Super Break DMG Boost": "Super Break DMG Boost",
+            "Super Break Vulnerability": "Super Break Vulnerability",
+            "Additional DMG boost": "Additional DMG boost",
+            "Ult Additional DMG CR override": "Ult Additional DMG CR override",
+            "Ult Additional DMG CD override": "Ult Additional DMG CD override"
+          },
+          "DmgTypes": {
+            "Basic": "Basic DMG type",
+            "Skill": "Skill DMG type",
+            "Ult": "Ult DMG type",
+            "Fua": "Fua DMG type",
+            "Dot": "Dot DMG type",
+            "Break": "Break DMG type",
+            "MemoSkill": "Memo Skill DMG type",
+            "MemoTalent": "Memo Talent DMG type",
+            "Additional": "Additional DMG type",
+            "SuperBreak": "Super Break DMG type"
+          },
+          "ResPen": "$t(common:Elements.{{element}}) RES PEN",
+          "Unconvertible": "Unconvertible  $t(common:Stats.{{stat}})"
+        }
       }
     }
   },
@@ -5280,6 +5516,7 @@ interface Resources {
       "Part": "Part",
       "Enhance": "Enhance",
       "Grade": "Grade",
+      "InitialRolls": "Initial Rolls",
       "Verified": "Verified",
       "Equipped": "Equipped",
       "Clear": "Clear",

@@ -27,7 +27,9 @@ CharacterWithCount_other: "{{count}}个角色"
 Character_one: 角色
 Character_other: 角色
 VerifiedRelicHoverText: 遗器副词条已通过遗器评分器验证（速度小数位）
+Verified4LinerHoverText: 遗器副词条及初始词条数量由遗器评分器校验（包含精确的速度小数值和4条初始副词条）
 CombatStats: 战斗属性
+MemospriteLabel: "忆灵{{label}}"
 Parts:
   Head: 头部
   Hands: 手部
@@ -159,6 +161,14 @@ ShortReadableStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)伤"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)伤"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)伤"
+Elements:
+  Physical: "$t(gameData:Elements.Physical)伤"
+  Fire: "$t(gameData:Elements.Fire)伤"
+  Ice: "$t(gameData:Elements.Ice)伤"
+  Lightning: "$t(gameData:Elements.Thunder)伤"
+  Wind: "$t(gameData:Elements.Wind)伤"
+  Quantum: "$t(gameData:Elements.Quantum)伤"
+  Imaginary: "$t(gameData:Elements.Imaginary)伤"
 DMGTypes:
   simScore: 连招伤害
   BASIC: 普攻伤害

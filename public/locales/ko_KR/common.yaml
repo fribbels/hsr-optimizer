@@ -159,6 +159,14 @@ ShortReadableStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+Elements:
+  Physical: "$t(gameData:Elements.Physical)"
+  Fire: "$t(gameData:Elements.Fire)"
+  Ice: "$t(gameData:Elements.Ice)"
+  Lightning: "$t(gameData:Elements.Thunder)"
+  Wind: "$t(gameData:Elements.Wind)"
+  Quantum: "$t(gameData:Elements.Quantum)"
+  Imaginary: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
   simScore: 사이클 총 피해량
   BASIC: 일반 공격 피해량
@@ -180,3 +188,4 @@ ShortDMGTypes:
   Dot: 지속 피해량
   Break: 격파 피해량
   CV: 치명타 계수
+CurrentVersion: "적용 버전 : ({{Version}}"

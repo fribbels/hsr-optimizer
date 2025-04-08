@@ -173,12 +173,25 @@ Lightcones:
         text: '「流光」層数'
         content: >-
           装備キャラが追加攻撃を行う時、「流光」を1層獲得する。「流光」は最大で2層累積できる。「流光」が1層あるごとに、装備キャラの与える必殺技ダメージが敵の防御力を{{DefIgnore}}%無視する。装備キャラのターン終了時、「流光」が1層解除される。
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: ダメバフ
+        content: 敵に装備キャラが付与した弱点属性がある場合、装備キャラがその敵に与えるダメージ+{{DmgBuff}}%。
+      defPen:
+        text: 防御力ダウン
+        content: 敵が装備キャラの攻撃を受ける時、装備キャラがその敵の防御力を{{DefShred}}%ダウンさせる。
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: '「着火」層数'
         content: >-
           敵が弱点撃破される時、100%の基礎確率で「着火」状態を付与し、敵が受ける弱点撃破ダメージ+{{breakVulnerability}}%。2ターン継続、最大2層累積できる。
+  MakeFarewellsMoreBeautiful:
+    Content:
+      deathFlower:
+        text: '「冥花」防御力無視'
+        content: 装備キャラまたは装備キャラの記憶の精霊が自身のターンでHPを失った時、装備キャラは「冥花」を獲得する。「冥花」を持つ場合、装備キャラおよびその記憶の精霊によるダメージは、ターゲットの防御力を{{DefIgnore}}%無視する。2ターン継続。
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -514,6 +527,11 @@ Lightcones:
       cdBuffActive:
         text: '会心ダメバフ'
         content: 装備キャラが攻撃を行った後、攻撃を受けた敵のうち、装備キャラの属性に対応する弱点属性を持つ敵が2体以上の場合、装備キャラの会心ダメージ+{{CritBuff}}%、2ターン継続。
+  TheGreatCosmicEnterprise:
+    Content:
+      weaknessTypes:
+        text: 弱点属性の数
+        content: 敵が持つ異なる弱点属性1つにつき、装備キャラがその敵に与えるダメージ+{{DmgBuff}}%。弱点属性は最大7つまでカウントされる。
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -694,9 +712,37 @@ Characters:
         content: >-
           アグライアまたはラフトラが行動する時、アグライアまたはラフトラの与えるダメージが敵の防御力を14%無視する。この効果は最大で3層累積でき、アグライアとラフトラ以外の任意のユニットがスキルを発動する時まで継続する。
       e6Buffs:
-        text: 6凸 必殺/追加攻撃強化
+        text: 6凸 バフ
         content: >-
           アグライアが「至高の姿」状態の時、自身とラフトラの雷属性耐性貫通+20%。 また、アグライアの速度が160/240/320を超える時、自身の連携攻撃ダメージ+10%/30%/60%。 ラフトラの速度が160/240/320を超える時、自身の連携攻撃ダメージ+10%/30%/60%。
+  Anaxa:
+    Content:
+      skillHits:
+        text: スキルの追加ヒット数
+        content: ターゲットにスキルがヒットする回数
+      exposedNature:
+        text: 敵「本質暴露」状態
+        content: >-
+          アナイクスがフィールドにいる時、異なる弱点属性を5つ以上持つ敵は「本質暴露」状態になる。「本質暴露」状態の敵に対して、アナイクスの与ダメージ+{{DmgBuff}}%。
+      eruditionTeammateBuffs:
+        text: 知恵運命の味方バフ
+        content: >-
+          パーティ内の「知恵」の運命を歩むキャラクターの数に応じて、今回の戦闘で以下どちらかの効果を発動する。::BR:: 1名の場合、アナイクスの会心ダメージ+140%。::BR:: 2名以上の場合、味方全体の与ダメージ+50%。
+      enemyWeaknessTypes:
+        text: 敵の弱点属性数
+        content: 敵が持つ異なる弱点属性1つにつき、アナイクスが与えるダメージはその敵の防御力を4%無視する。弱点属性は最大7つまでカウントされる。
+      e1DefPen:
+        text: 1凸 敵防御力無視
+        content: 戦闘スキルが敵に命中する時、敵の防御力-16%、2ターン継続。
+      e2ResPen:
+        text: 2凸 全属性耐性ダウン
+        content: 敵が戦闘に入る時、天賦の弱点付与効果を1回発動し、その敵の全属性耐性を20%ダウンさせる。
+      e4AtkBuffStacks:
+        text: 4凸 攻撃力バフ総数
+        content: 戦闘スキルを発動する時、攻撃力+30%、2ターン継続。この効果は最大で2層累積できる。
+      e6Buffs:
+        text: 6凸 バフ
+        content: アナイクスの与ダメージは本来の130%になる。軌跡「必要な空白」の2つの効果は同時に直接発動するようになり、パーティ内の「知恵」の運命を歩むキャラクターの数に依存しなくなる。
   Argenti:
     Content:
       ultEnhanced:
@@ -861,6 +907,36 @@ Characters:
       teammateCDValue:
         text: 会心ダメージ（戦闘時）
         content: 味方全体の攻撃力+{{ultAtkBoostValue}}%、会心ダメージがブローニャの会心ダメージ{{ultCdBoostValue}}%分+{{ultCdBoostBaseValue}}%アップする、2ターン継続。
+  Castorice:
+    Content:
+      memospriteActive:
+        text: '「死竜」召喚済み'
+        content: 記憶の精霊「死竜」を召喚している間、境界「遺世の冥域」を展開し、敵全体の全属性耐性を{{ResDown}}%ダウンさせる。
+      spdBuff:
+        text: 速度バフ
+        content: キャストリスの残りHPが自身の最大HP50%以上の時、キャストリスの速度+40%。
+      talentDmgStacks:
+        text: 天賦の層数
+        content: 味方がHPを失った時、キャストリスと死竜の与ダメージ+{{DmgBuff}}%、この効果は最大で3層累積できる。3ターン継続。
+      memoSkillEnhances:
+        text: 精霊スキル強化数
+        content: 1回の攻撃で「晦冥焼き払う息吹」を重複して発動することができ、その際、ダメージ倍率はそれぞれ{{Multiplier1Enhance}}%/{{Multiplier2Enhance}}%までアップする。すでに{{Multiplier2Enhance}}%までアップした場合、それ以上は上がらない。また、この効果により上昇したダメージ倍率は死竜が消えるまで下がらない。
+      memoTalentHits:
+        text: 精霊天賦攻撃ヒット数
+        content: 死竜が消える時、敵に{{BounceCount}}回ダメージを与える。1ヒットごとにランダムな敵単体にキャストリスの最大HP{{Scaling}}%分の量子属性ダメージを与える。
+      teamDmgBoost:
+        text: 味方与ダメージ増加
+        content: 死竜が召喚された時、味方全体の与ダメージ+10%、3ターン継続。
+      memoDmgStacks:
+        text: 精霊ダメージ層数
+        content: 死竜が「晦冥焼き払う息吹」を発動するたびに、与ダメージ+30%。この効果は最大6層まで累積できる。ターンが終了するまで継続。
+      e1EnemyHp50:
+        text: 1凸 敵HP≦50%
+        content: 敵の残りHPが自身の最大HPの50%以下の時、その敵に対する「骸爪、冥竜の抱擁」、「冥茫裂く爪痕」、「晦冥焼き払う息吹」、「幽墟奪略の晦翼」の与ダメージは本来の140%になる。
+      e6Buffs:
+        text: 6凸 バフ
+        content: >-
+          キャストリスと死竜がダメージを与えた時、量子属性耐性貫通+20%。::BR:: 天賦「幽墟奪略の晦翼」のバウンド回数+3。
   Clara:
     Content:
       ultBuff:
@@ -1629,7 +1705,7 @@ Characters:
         text: 4凸 知恵キャラへの速度バフ
         content: パーティ内の「知恵」の運命を歩むキャラクターの速度+12%。
       e6Buffs:
-        text: 6凸 必殺/追加攻撃強化
+        text: 6凸 バフ
         content: マダム・ヘルタの氷属性耐性貫通+20%。 また、必殺技のダメージ倍率がフィールド上の敵の数に応じてアップする。 敵の数が3体以上の場合、必殺技のダメージ倍率+140%。 敵の数が2体の場合、必殺技のダメージ倍率+250%。 敵の数が1体の場合、必殺技のダメージ倍率+400%。
   Tingyun:
     Content:

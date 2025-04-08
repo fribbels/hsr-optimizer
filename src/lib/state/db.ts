@@ -50,7 +50,7 @@ export enum BasePath {
   BETA = '/dreary-quibbles',
 }
 
-// This string is replaced by /dreary-quibbles by github actions, don't change
+// This string is replaced by BasePath.BETA by github actions, don't change
 export const BASE_PATH: BasePath = BasePath.MAIN
 
 export const AppPages = {
@@ -59,7 +59,6 @@ export const AppPages = {
   RELICS: 'RELICS',
   IMPORT: 'IMPORT',
 
-  GETTING_STARTED: 'GETTING_STARTED',
   CHANGELOG: 'CHANGELOG',
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
@@ -79,7 +78,6 @@ export const PageToRoute = {
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
   [AppPages.WARP]: BASE_PATH + '#warp',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
-  [AppPages.GETTING_STARTED]: BASE_PATH + '#getting-started',
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
@@ -91,7 +89,6 @@ export const RouteToPage = {
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.WARP]]: AppPages.WARP,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
-  [PageToRoute[AppPages.GETTING_STARTED]]: AppPages.GETTING_STARTED,
 
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
@@ -208,6 +205,7 @@ window.store = create((set) => {
       grade: [],
       verified: [],
       equippedBy: [],
+      initialRolls: [],
     },
     characterTabFilters: {
       name: '',

@@ -41,6 +41,14 @@ Messages:
   UnequipWarning: "Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    BenchmarkSpd:
+      CurrentSpdLabel: Текущее SPD - Эталоном будет SPD текущей сборки
+      BaseSpdLabel: Базовое SPD - Эталоном будет минимальное SPD
+      CommonBreakpointsLabel: Пресеты контрольных точек для SPD (без учета SPD баффов)
+    BuffPriority:
+      Header: Режим DPS
+      Low: Доп
   CustomizationSidebar:
     Label: Кастомизация
     Modes:
@@ -64,11 +72,12 @@ CharacterPreview:
     Title: "Алгоритм подсчета очков:"
     Labels:
       CombatScore: Боевая эффективность с учётом команды
+      CombatScoreTBD: В бою (недоступно)
       StatScore: Оценка сборки персонажа
   DetailsSlider:
     Title: "Детали боевого счета:"
     Labels:
-      CombatStats: Статы персонажа при учёте команды
+      CombatStats: Статы персонажа в бою
       DMGUpgrades: Мультипликаторы урона
   DMGUpgrades: Мультипликаторы урона
   SubstatUpgradeComparisons:

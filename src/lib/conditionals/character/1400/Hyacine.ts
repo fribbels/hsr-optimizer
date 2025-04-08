@@ -180,6 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.OHB.buffBaseDual((r.healTargetHp50) ? 0.25 : 0, SOURCE_TRACE)
       x.RES.buff((r.resBuff) ? 0.50 : 0, SOURCE_TRACE)
 
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(0, SOURCE_MEMO)
       x.MEMO_BASE_SPD_SCALING.buff(0, SOURCE_MEMO)
@@ -279,7 +280,7 @@ if (
           const unconvertibleValue = x.a[Key.UNCONVERTIBLE_SPD_BUFF] ?? 0
 
           const stateValue = action.conditionalState[this.id] ?? 0
-          const convertibleValue = statValue - unconvertibleValue
+          const convertibleValue = Math.min(400, statValue - unconvertibleValue)
 
           if (convertibleValue <= 0) return
 
@@ -305,7 +306,7 @@ if (${wgslFalse(r.spd200HpBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).${this.id};
-let convertibleValue: f32 = x.SPD - x.UNCONVERTIBLE_SPD_BUFF;
+let convertibleValue: f32 = min(400, x.SPD - x.UNCONVERTIBLE_SPD_BUFF);
 
 if (!(${true}) || convertibleValue <= 0) {
   return;

@@ -47,13 +47,13 @@ CharacterPreview:
       BaseSpdLabel: Базовое SPD - Эталоном будет минимальное SPD
       CommonBreakpointsLabel: Пресеты контрольных точек для SPD (без учета SPD баффов)
     BuffPriority:
-      Header: Режим DPS
+      Header: Режим ДД
       Low: Доп
   CustomizationSidebar:
     Label: Кастомизация
     Modes:
       Auto: Автоматически
-      Custom: Пользовательский
+      Custom: Вручную
       Standard: Стандартный
     PaletteLabel: Портретная цветовая палитра
   ArtBy: "Арт от {{artistName}}"
@@ -67,22 +67,24 @@ CharacterPreview:
     NoSelectedCharacter: Нет выбранного персонажа
   ScoreHeader:
     Title: Эффективность сборки
-    Score: "Оценка DPS {{score}}% {{grade}}"
+    Score: "Оценка урона {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: "Алгоритм подсчета очков:"
+    Title: "Расчет оценки:"
     Labels:
-      CombatScore: Боевая эффективность с учётом команды
+      CombatScore: В бою
       CombatScoreTBD: В бою (недоступно)
-      StatScore: Оценка сборки персонажа
+      StatScore: Статы персонажа
   DetailsSlider:
     Title: "Детали боевого счета:"
     Labels:
-      CombatStats: Статы персонажа в бою
+      CombatStats: Статы в бою с учетом команды
       DMGUpgrades: Мультипликаторы урона
   DMGUpgrades: Мультипликаторы урона
   SubstatUpgradeComparisons:
-    Header: Рекомендовано улучшения статов для повышения урона
+    Header: Сравнение статов для повышения урона
   BuildAnalysis:
+    ScoringNote: >-
+      Для расчета оценивается качество сборки, сравнивая урон в ротации с уроном эталонных сборок при одинаковых командах / конусах / эйдолонах. Оценки и Combo DMG рассчитываются только для выбранной команды и не должна сравниваться с другими конфигурациями.
     SimulationTeammates: Состав команды
     SimulationSets: Набор реликвий
     Rotation:

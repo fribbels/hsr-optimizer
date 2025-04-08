@@ -709,6 +709,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.HP_P]: 0.525 },
       5: { [Constants.Stats.HP_P]: 0.60 },
     },
+    23042: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
+    23043: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
     23041: {},
     24000: {},
     24001: {

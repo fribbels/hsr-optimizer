@@ -254,7 +254,6 @@ interface Resources {
     "Character_one": "character",
     "Character_other": "characters",
     "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
-    "4LinerHoverText": "Relic with 4 initial substats",
     "Verified4LinerHoverText": "Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)",
     "CombatStats": "Combat Stats",
     "MemospriteLabel": "{{label}}ᴹ",
@@ -446,7 +445,8 @@ interface Resources {
         "Skill": "Healing ability: Skill",
         "Ult": "Healing ability: Ult",
         "Talent": "Healing ability: Talent",
-        "Trace": "Healing ability: Trace"
+        "Trace": "Healing ability: Trace",
+        "MemoTalent": "Healing ability: Talentᴹ"
       },
       "ShieldAbility": {
         "Text": "Shielding ability",
@@ -4844,6 +4844,7 @@ interface Resources {
       },
       "BoostMain": {
         "Header": "Boost main stat",
+        "Label0": "+0",
         "Label3": "+3",
         "Label6": "+6",
         "Label9": "+9",

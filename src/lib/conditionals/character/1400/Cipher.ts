@@ -51,7 +51,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   //   + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
   //   + 8 * 0.2285)
 
-  function getUltHitMulti(action: OptimizerAction, context: OptimizerContext) {
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals as Conditionals<typeof content>
 
     return 1
@@ -65,11 +65,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e2CdBuff: true,
     e4AdditionalDmg: true,
     e6FuaDmg: true,
-    // talentDmgBuff: true,
-    // skillAtkBuff: true,
-    // e1OriginalDmgBoost: true,
-    // e4Buffs: true,
-    // e6Buffs: true,
   }
 
   const teammateDefaults = {
@@ -124,33 +119,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },
-    // skillAtkBuff: {
-    //   id: 'skillAtkBuff',
-    //   formItem: 'switch',
-    //   text: t('Content.skillAtkBuff.text'),
-    //   content: t('Content.skillAtkBuff.content'),
-    // },
-    // e1OriginalDmgBoost: {
-    //   id: 'e1OriginalDmgBoost',
-    //   formItem: 'switch',
-    //   text: t('Content.e1OriginalDmgBoost.text'),
-    //   content: t('Content.e1OriginalDmgBoost.content'),
-    //   disabled: e < 1,
-    // },
-    // e4Buffs: {
-    //   id: 'e4Buffs',
-    //   formItem: 'switch',
-    //   text: t('Content.e4Buffs.text'),
-    //   content: t('Content.e4Buffs.content'),
-    //   disabled: e < 4,
-    // },
-    // e6Buffs: {
-    //   id: 'e6Buffs',
-    //   formItem: 'switch',
-    //   text: t('Content.e6Buffs.text'),
-    //   content: t('Content.e6Buffs.content'),
-    //   disabled: e < 6,
-    // },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
@@ -185,7 +153,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.ULT_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
         x.FUA_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
       }
-      //
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
@@ -225,7 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 140) ? 0.25 : 0, SOURCE_TRACE, action, context)//
+          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 140) ? 0.25 : 0, SOURCE_TRACE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -255,7 +222,7 @@ if (
         effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 170) ? 0.25 : 0, SOURCE_TRACE, action, context)//
+          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 170) ? 0.25 : 0, SOURCE_TRACE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

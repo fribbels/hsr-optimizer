@@ -6724,6 +6724,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.fnAshblazingSet(1),
+        PresetEffects.fnPioneerSet(4),
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.FUA,

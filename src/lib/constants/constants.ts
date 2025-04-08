@@ -9,8 +9,7 @@ export const CURRENT_DATA_VERSION = '3.3v1'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  // 1407: generateMessage('E1 conditionals pending more testing.'), // Castorice
-  // 1405: generateMessage('Added ATK % body to benchmark mains, removed light cone Crit Rate. Now defaults to Main DPS with Sunday/Robin/Huohuo.'), // Anaxa
+  1406: generateMessage(`Talent's recorded True DMG is not included.`), // Cipher
 }
 
 export const Stats = {

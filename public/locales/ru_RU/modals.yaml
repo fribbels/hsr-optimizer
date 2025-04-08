@@ -184,7 +184,8 @@ ScoreFooter:
   ResetSuccessMsg: Восстановить команды по умолчанию
   SyncSuccessMsg: Союзники синхронизированы
   TeamOptions:
-    Custom: Пользовательский
+    Default: Стандартный
+    Custom: Вручную
 CharacterSelect:
   SingleSelect:
     Placeholder: Персонаж

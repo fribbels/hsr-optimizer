@@ -32,9 +32,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1409')
 
-  // TODO: Scaling
-
-  const basicScaling = basic(e, 0.50, 0.55)//
+  const basicScaling = basic(e, 0.50, 0.55)
 
   const skillHealScaling = skill(e, 0.08, 0.088)
   const skillHealFlat = skill(e, 160, 178)
@@ -45,13 +43,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const ultHpBuffPercent = ult(e, 0.30, 0.33)
   const ultHpBuffFlat = ult(e, 600, 667.5)
 
-  const talentHealingDmgStackValue = talent(e, 0.80, 0.88)//
+  const talentHealingDmgStackValue = talent(e, 0.80, 0.88)
 
   // TODO: Heal tally
 
   const defaults = {
     healAbility: SKILL_DMG_TYPE,
-    buffPriority: BUFF_PRIORITY_SELF,
+    buffPriority: BUFF_PRIORITY_MEMO,
     clearSkies: true,
     healTargetHp50: true,
     resBuff: true,
@@ -178,32 +176,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buffBaseDual(1.00, SOURCE_TRACE)//
-      x.OHB.buffBaseDual((r.healTargetHp50) ? 0.25 : 0, SOURCE_TRACE)//
-      x.RES.buff((r.resBuff) ? 0.50 : 0, SOURCE_TRACE)//
+      x.CR.buffBaseDual(1.00, SOURCE_TRACE)
+      x.OHB.buffBaseDual((r.healTargetHp50) ? 0.25 : 0, SOURCE_TRACE)
+      x.RES.buff((r.resBuff) ? 0.50 : 0, SOURCE_TRACE)
 
       x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(0, SOURCE_MEMO)
       x.MEMO_BASE_SPD_SCALING.buff(0, SOURCE_MEMO)
       x.MEMO_BASE_SPD_FLAT.buff(0, SOURCE_MEMO)
 
-      x.m.ELEMENTAL_DMG.buff((r.healingDmgStacks) * talentHealingDmgStackValue, SOURCE_TALENT)//
+      x.m.ELEMENTAL_DMG.buff((r.healingDmgStacks) * talentHealingDmgStackValue, SOURCE_TALENT)
 
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_MEMO)//
+      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_MEMO)
 
-      if (r.healAbility == SKILL_DMG_TYPE) { //
+      if (r.healAbility == SKILL_DMG_TYPE) {
         x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
         x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
         x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
       }
-      if (r.healAbility == ULT_DMG_TYPE) { //
+      if (r.healAbility == ULT_DMG_TYPE) {
         x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
         x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
         x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
       }
 
-      // x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
-      // x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -213,9 +211,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.HP.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffFlat * 0.50 : 0, SOURCE_E1)
       x.HP_P.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffPercent * 0.50 : 0, SOURCE_E1)
 
-      x.SPD_P.buff((m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
+      x.SPD_P.buffTeam((m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
 
-      x.RES_PEN.buff((e >= 6 && m.e6ResPen) ? 0.24 : 0, SOURCE_E6)
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.24 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -242,8 +240,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          x.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)//
-          x.m.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.m.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)//
+          x.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
+          x.m.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.m.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
         },
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

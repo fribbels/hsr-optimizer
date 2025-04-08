@@ -880,6 +880,8 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23038: 210,
     23039: 165,
     24005: 300,
+
+    23043: 370,
   }
 }
 
@@ -1255,14 +1257,14 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.00,
     },
     1406: { // Cipher
-      x: 1024,
-      y: 1050,
+      x: 1050,
+      y: 900,
       z: 1,
     },
     1409: { // Hyacine
-      x: 1024,
-      y: 1050,
-      z: 1,
+      x: 1215,
+      y: 1025,
+      z: 1.05,
     },
   }
 }

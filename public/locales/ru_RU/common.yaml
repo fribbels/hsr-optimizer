@@ -21,7 +21,7 @@ Score: Очки
 Reset: Сбросить
 EidolonNShort: "Е{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
-LevelShort: "{{level}}ур."
+LevelShort: "{{level}} ур."
 CharacterWithCount_one: "{{count}} персонаж"
 CharacterWithCount_other: "Персонажей: {{count}}"
 Character_one: персонаж
@@ -53,8 +53,8 @@ Stats:
   SPD: Скорость
   CRIT Rate: Крит. шанс
   CRIT DMG: Крит. урон
-  Effect Hit Rate: Шанс попадания эффектов
-  Effect RES: Сопротивление эффектам
+  Effect Hit Rate: Шанс  эффектов
+  Effect RES: Сопротивление
   Break Effect: Эффект пробития
   Energy Regeneration Rate: Скорость восстановления энергии
   Outgoing Healing Boost: Бонус исцеления
@@ -91,7 +91,7 @@ ShortStats:
 ShortSpacedStats:
   "HP%": HP %
   HP: HP
-  "ATK%": АТК %
+  "ATK%": Атака %
   ATK: Сила атаки
   "DEF%": ЗАЩ %
   DEF: Защита
@@ -115,30 +115,30 @@ DamagePercent: Урон %
 ReadableStats:
   "HP%": HP %
   HP: HP
-  "ATK%": АТК %
-  ATK: Сила атаки
+  "ATK%": Атака %
+  ATK: Атака
   "DEF%": ЗАЩ %
   DEF: Защита
   "SPD%": SPD %
   SPD: SPD
   CRIT Rate: Крит. шанс
   CRIT DMG: Крит. урон
-  Effect Hit Rate: Шанс попадания эффектов
-  Effect RES: Сопротивление эффектам
-  Break Effect: Эффект пробития
+  Effect Hit Rate: Шанс эффектов
+  Effect RES: Сопротивление
+  Break Effect: Пробитие
   Energy Regeneration Rate: Скорость восстановление энергии
   Outgoing Healing Boost: Бонус исцеления
   Physical DMG Boost: "Бонус $t(gameData:Elements.Physical) урона"
   Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
   Ice DMG Boost: "Бонус $t(gameData:Elements.Ice) урона"
-  Lightning DMG Boost: "Бонус $t(gameData:Elements.Thunder) урона"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder) урон"
   Wind DMG Boost: "Бонус $t(gameData:Elements.Wind) урона"
   Quantum DMG Boost: "Бонус $t(gameData:Elements.Quantum) урона"
   Imaginary DMG Boost: "Бонус $t(gameData:Elements.Imaginary) урона"
 ShortReadableStats:
   "HP%": HP %
   HP: HP
-  "ATK%": АТК %
+  "ATK%": Атака %
   ATK: Сила атаки
   "DEF%": ЗАЩ %
   DEF: Защита

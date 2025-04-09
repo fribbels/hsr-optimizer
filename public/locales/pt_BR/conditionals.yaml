@@ -195,7 +195,7 @@ Lightcones:
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
-        text: Aumento de Dano da Equipe
+        text: DMG Boost da Equipe
         content: Depois que o usuário usar Perícia, aumenta o dano causado por todos os aliados em {{DmgBoost}}%, durando 3 rodadas.
   MomentOfVictory:
     Content:
@@ -927,19 +927,19 @@ Characters:
         text: Buff de SPD
         content: Enquanto os PV atuais de Castorice forem iguais ou maiores a 50% de seus PV máximos, aumenta a VEL dela em 40%.
       talentDmgStacks:
-        text: Acúmulos de DMG do Talento
+        text: DMG Stacks do Talento
         content: Quando aliados perdem PV, o dano causado por "Dragão Abissal" e Castorice aumentam em {{DmgBuff}}%. Esse efeito pode acúmular até 3 vezes, durando por 3 vezes.
       memoSkillEnhances:
-        text: Aprimoramentos de Perícias Memo
+        text: Melhoria de Períciaᴹ
         content: Em um único ataque, "Sopro de Chama Negra" pode ser ativado repetidamente, com o multiplicador de dano aumentando sucessivamente para {{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%, até {{Multiplier2Enhance}}%. O multiplicador de dano não será reduzido antes do desaparecimento do "Dragão Abissal".
       memoTalentHits:
-        text: Acertos do Talento do Memo
+        text: Hits do Talento Memo
         content: Quando o Dragão Abissal desaparece, causa {{BounceCount}} instâncias de dano, com cada instância causando dano Quântico igual à {{Scaling}}% do PV máximo de Castorice à uma unidade inimiga aleatória.
       teamDmgBoost:
-        text: Aumento de Dano da Equipe
+        text: DMG Boost da Equipe
         content: Quando Dragão Abissal é invocado, aumenta o dano causado por todos os aliados em 10% por 3 turnos.
       memoDmgStacks:
-        text: Acúmulos de dano do Memo
+        text: DMG stacks do Memo
         content: Quando vez que o Dragão Abissal usar "Sopro de Chama Negra", aumenta o seu dano causado em 30%. Esse efeito acumula até 6 vezes e dura até o final desse turno.
       e1EnemyHp50:
         text: E1 PV do inimigo ≤ 50%
@@ -1627,7 +1627,7 @@ Characters:
         content: >-
           Quando aliados com Cipher ativam o efeito de DMG Boost fornecido pelo Talento de Sparkle, cada pilha aumenta adicionalmente seu efeito em {{cipherTalentStackBoost}}%, durando por 2 turnos.::BR::E1: O efeito de Cipher aplicado pela Ultimativa dura 1 turno extra. Todos os aliados afetados por Cipher têm seu ATK aumentado em 40%.
       talentStacks:
-        text: Acúmulos de DMG do Talento
+        text: DMG Stacks do Talento
         content: >-
           Sempre que um aliado consome 1 Ponto de Habilidade, o DMG de todos os aliados aumenta em {{talentBaseStackBoost}}%. Esse efeito dura por 2 turnos e pode acumular até 3 vezes.::BR::E2: Cada acúmulo do Talento permite que os aliados ignorem 8% da DEF do alvo inimigo ao causar DMG.
       quantumAlliesAtkBuff:

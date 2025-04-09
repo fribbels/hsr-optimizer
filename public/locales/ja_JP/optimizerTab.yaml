@@ -564,18 +564,90 @@ ExpandedDataPanel:
       E6: 6凸
     Stats:
       CompositeLabels:
+        Label: "{{prefix}}　{{suffix}}"
         Prefix:
-          Basic: 基礎
-          Skill: スキル
-          Ult: 必殺
-          Fua: 追加
-          Dot: 持続
-          Break: 撃破
+          Basic: 通常攻撃　
+          Skill: 戦闘スキル
+          Ult: 必殺技攻撃
+          Fua: 追加攻撃　
+          Dot: 持続攻撃　
+          Break: 撃破攻撃　
+          Memo Skill: 精霊スキル
+          Memo Talent: 精霊天賦　
         Suffix:
-          DMG boost: ダメバフ
-          DEF PEN: 防御力ダウン
+          ATK scaling: 攻撃力倍率
+          DEF scaling: 防御力倍率
+          HP scaling: HP倍率
+          Special scaling: 特殊倍率
+          "ATK % boost": 攻撃力割合増加
+          Crit Rate boost: 会心率増加
+          Crit DMG boost: 会心ダメージ増加
+          DMG boost: ダメージバフ
+          Vulnerability: 敵被ダメージ増加
+          RES PEN: 耐性貫通
+          DEF PEN: 防御力無視
+          Break DEF PEN: 撃破後防御力無視
+          Toughness DMG: 削靭値
+          Super Break multiplier: 超撃破倍率
+          Break Efficiency boost: 弱点撃破効率増加
+          True DMG multiplier: 確定ダメージ倍率
+          Final DMG multiplier: 最終ダメージ倍率
+          Break DMG multiplier: 撃破ダメージ倍率
+          Additional DMG scaling: 付加ダメージ倍率
           Additional DMG: 付加ダメージ
           DMG: ダメージ
       Misc:
+        Base HP: 基礎 HP
+        Base ATK: 基礎攻撃力
+        Base DEF: 基礎防御力
+        Base SPD: 基礎速度
+        Memosprite base HP scaling: 精霊基礎 HP 倍率
+        Memosprite base DEF scaling: 精霊基礎防御力倍率
+        Memosprite base ATK scaling: 精霊基礎攻撃力倍率
+        Memosprite base SPD scaling: 精霊基礎速度倍率
+        Memosprite base HP flat: 精霊基礎 HP 値
+        Memosprite base DEF flat: 精霊基礎防御力値
+        Memosprite base ATK flat: 精霊基礎攻撃力値
+        Memosprite base SPD flat: 精霊基礎速度値
+        Elemental DMG: 属性ダメージ
+        DMG reduction: ダメージ軽減
+        Effective HP: EHP
+        Summons: 召喚数
         Memosprite: 記憶の精霊
+        Enemy weakness broken: 敵弱点撃破状態
+        Prioritize memosprite buffs: 精霊へバフを優先
+        Deprioritize buffs: バフの優先度を下げる
         Combo DMG: コンボダメージ
+        Dot base chance: 持続デバフ付与基礎確率
+        Effect RES PEN: 属性耐性貫通
+        Dot DMG split: 持続デバフ分散
+        Dot stacks: 持続デバフ層数
+        Heal ability type: 治癒アビリティの種類
+        Heal flat: 治癒量値
+        Heal scaling: 治癒量倍率
+        Heal value: 治癒量
+        Shield flat: シールド量値
+        Shield scaling: シールド量倍率
+        Shield value: シールド量
+        Shield boost: シールド量増加
+        Skill Outgoing Healing Boost: スキル治癒量増加
+        Ult Outgoing Healing Boost: 必殺技治癒量増加
+        Super Break DEF PEN: 超撃破時の防御力無視
+        Super Break DMG Boost: 超撃破時のダメージ増加
+        Super Break Vulnerability: 超撃破時の敵被ダメージ増加
+        Additional DMG boost: 付加ダメージ増加
+        Ult Additional DMG CR override: 必殺技付加ダメージ（会心率無視）
+        Ult Additional DMG CD override: 必殺技付加ダメージ（会心ダメージ無視）
+      DmgTypes:
+        Basic: 通常攻撃ダメージの種類
+        Skill: スキルダメージの種類
+        Ult: 必殺技ダメージの種類
+        Fua: 追加攻撃の種類
+        Dot: 持続ダメージの種類
+        Break: 撃破特効の種類
+        MemoSkill: 精霊スキルダメージの種類
+        MemoTalent: 精霊天賦ダメージの種類
+        Additional: 付加ダメージの種類
+        SuperBreak: 超撃破ダメージの種類
+      ResPen: "$t(common:Elements.{{element}})耐性貫通"
+      Unconvertible: "変換不能な$t(common:Stats.{{stat}})"

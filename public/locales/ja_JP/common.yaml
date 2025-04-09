@@ -29,6 +29,7 @@ Character_other: キャラクター
 VerifiedRelicHoverText: 遺物スコア計算によって検証済みの遺物サブステータス（小数点以下部分の速度）
 Verified4LinerHoverText: 遺物スコア計算によって検証済みの遺物サブステータス及び初期サブステータス出現回数（小数点以下部分の速度と、4つの初期サブステータス）
 CombatStats: 戦闘中のステータス
+MemospriteLabel: "精霊{{label}}"
 Parts:
   Head: 頭部
   Hands: 手部

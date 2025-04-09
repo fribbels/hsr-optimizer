@@ -165,7 +165,7 @@ Lightcones:
         content: >-
           自身以外の味方が攻撃を受ける、またはHPを消費した後、装備キャラは「月蝕」を1層獲得する。この効果は最大で3層累積できる。「月蝕」1層につき、装備キャラの次の攻撃の与ダメージ+{{DmgBuff}}%。
       maxStackDefPen:
-        text: '「月蝕」3層時の防御力デバフ'
+        text: '「月蝕」3層時の防御力無視'
         content: '「月蝕」が上限の3層に累積した時、その回の攻撃は敵の防御力を{{DefIgnore}}%無視する。この効果は装備キャラが攻撃を行った後に解除される。'
   IVentureForthToHunt:
     Content:
@@ -259,7 +259,7 @@ Lightcones:
           装備キャラが必殺技を発動して敵を攻撃した後、その敵を「忘憂」状態にする、2ターン継続。「忘憂」状態の敵が受けるダメージ+{{Vulnerability}}%。装備キャラの撃破特効が150%以上の場合、敵の受けるダメージアップ効果がさらに+{{AdditionalVulnerability}}%。
     TeammateContent:
       additionalVulnerability:
-        text: 追加のダメージアップ
+        text: 追加の敵被ダメージ増加
         content: >-
           装備キャラが必殺技を発動して敵を攻撃した後、その敵を「忘憂」状態にする、2ターン継続。「忘憂」状態の敵が受けるダメージ+{{Vulnerability}}%。装備キャラの撃破特効が150%以上の場合、敵の受けるダメージアップ効果がさらに+{{AdditionalVulnerability}}%。
   SheAlreadyShutHerEyes:
@@ -684,7 +684,7 @@ Characters:
         text: 1凸 会心率バフ
         content: デバフ状態の敵にダメージを与える時、会心率+18%。
       e4UltVulnerability:
-        text: 4凸 必殺技被ダメアップ
+        text: 4凸 必殺技敵被ダメ増加
         content: 戦闘に入った敵は、必殺技被ダメージアップ状態になり、受ける必殺技ダメージ+8%。
       e6UltBuffs:
         text: 6凸 必殺技バフ
@@ -735,7 +735,7 @@ Characters:
         text: 1凸 敵防御力無視
         content: 戦闘スキルが敵に命中する時、敵の防御力-16%、2ターン継続。
       e2ResPen:
-        text: 2凸 全属性耐性ダウン
+        text: 2凸 全属性耐性貫通
         content: 敵が戦闘に入る時、天賦の弱点付与効果を1回発動し、その敵の全属性耐性を20%ダウンさせる。
       e4AtkBuffStacks:
         text: 4凸 攻撃力バフ総数
@@ -876,7 +876,7 @@ Characters:
         content: >-
           「九死の決闘」状態で「ポケットアドバンテージ」を獲得する時、SPを1回復する。同時に撃破特効+30%、2ターン継続。この効果はターンが回ってくるたびに1回まで発動でき、獲得する「ポケットアドバンテージ」が上限を超える時にも触発される。
       e4TargetStandoffVulnerability:
-        text: 4凸 敵被ダメージアップ
+        text: 4凸 敵被ダメージ増加
         content: >-
           「九死の決闘」状態の敵がブートヒルの攻撃を受ける時、被ダメージアップ効果さらに+12%。ブートヒルが「九死の決闘」状態の敵の攻撃を受ける時、被ダメージアップ効果-12%。
       e6AdditionalBreakDmg:
@@ -1295,7 +1295,7 @@ Characters:
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
-        text: 1凸 敵持続ダメアップ
+        text: 1凸 敵持続ダメ増加
         content: 天賦効果により追加攻撃を行った時、100%の基礎確率でターゲットの受ける持続ダメージ+30%、2ターン継続。
       e2TeamDotBoost:
         text: 2凸 味方の持続ダメバフ

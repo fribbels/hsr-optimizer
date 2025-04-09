@@ -28,8 +28,10 @@ function presetCharacters() {
     { characterId: char(1405), lightConeId: lc(23041) },
     { characterId: char(1407), lightConeId: lc(23040) },
 
-    { characterId: char(1221), lightConeId: lc(23030), rerun: true },
-    { characterId: char(1217), lightConeId: lc(23017), rerun: true },
+    { characterId: char(1308), lightConeId: lc(23024), rerun: true },
+    { characterId: char(1225), lightConeId: lc(23035), rerun: true },
+    { characterId: char(1218), lightConeId: lc(23029), rerun: true },
+    { characterId: char(1305), lightConeId: lc(23020), rerun: true },
 
     { custom: true },
   ].filter((x) => x.characterId != null || x.custom) // Unreleased characters
@@ -203,9 +205,9 @@ export default function RelicScorerTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        <Flex gap={10} vertical align='center'>
-          <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.2 })}</h3></Text>
-        </Flex>
+        {/* <Flex gap={10} vertical align='center'> */}
+        {/*  <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.2 })}</h3></Text> */}
+        {/* </Flex> */}
 
         <Flex gap={10} vertical align='center'>
           <Text>

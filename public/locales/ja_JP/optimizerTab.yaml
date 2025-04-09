@@ -412,7 +412,7 @@ ComboFilter:
     Dot: 持続
     Break: 撃破
   ComboOptions:
-    Basic: 基礎
+    Basic: 通常
     Skill: スキル
     Ult: 必殺
     Fua: 追加
@@ -565,7 +565,7 @@ ExpandedDataPanel:
     Stats:
       CompositeLabels:
         Prefix:
-          Basic: 基礎
+          Basic: 通常
           Skill: スキル
           Ult: 必殺
           Fua: 追加

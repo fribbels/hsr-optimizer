@@ -26,7 +26,8 @@ CharacterWithCount_one: "{{count}}人"
 CharacterWithCount_other: "{{count}}人"
 Character_one: キャラクター
 Character_other: キャラクター
-VerifiedRelicHoverText: 遺物スコアラーにより検証済みの遺物サブステータス
+VerifiedRelicHoverText: 遺物スコア計算によって検証済みの遺物サブステータス（小数点以下部分の速度）
+Verified4LinerHoverText: 遺物スコア計算によって検証済みの遺物サブステータス及び初期サブステータス出現回数（小数点以下部分の速度と、4つの初期サブステータス）
 CombatStats: 戦闘中のステータス
 Parts:
   Head: 頭部

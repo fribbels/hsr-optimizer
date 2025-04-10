@@ -128,7 +128,7 @@ ReadableStats:
   Break Effect: Пробитие
   Energy Regeneration Rate: Скорость восстановление энергии
   Outgoing Healing Boost: Бонус исцеления
-  Physical DMG Boost: "Бонус $t(gameData:Elements.Physical) урона"
+  Physical DMG Boost: "$t(gameData:Elements.Physical) урон"
   Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
   Ice DMG Boost: "Бонус $t(gameData:Elements.Ice) урона"
   Lightning DMG Boost: "$t(gameData:Elements.Thunder) урон"

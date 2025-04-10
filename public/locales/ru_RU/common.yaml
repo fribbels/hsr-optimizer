@@ -126,7 +126,7 @@ ReadableStats:
   Effect Hit Rate: Шанс эффектов
   Effect RES: Сопротивление
   Break Effect: Пробитие
-  Energy Regeneration Rate: Скорость восстановление энергии
+  Energy Regeneration Rate: Восстановление энергии
   Outgoing Healing Boost: Бонус исцеления
   Physical DMG Boost: "$t(gameData:Elements.Physical) урон"
   Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
@@ -167,7 +167,7 @@ Elements:
   Quantum: "$t(gameData:Elements.Quantum)"
   Imaginary: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
-  simScore: Урон комбо
+  simScore: Урон Комбо
   BASIC: Урон базовой атаки
   SKILL: Урон навыка
   ULT: Урон сверхспособности

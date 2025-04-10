@@ -42,9 +42,21 @@ Messages:
   DeleteWarning: "Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
   ScoringSidebar:
+    Stats:
+      Header: Статы
+      ButtonText: Следы
+    SpdPrecision:
+      Header: Точность SPD
+      Low: ".0"
+      High: ".000"
+    SpdWeight:
+      Header: Вес SPD
+      Max: 100%
+      Min: 0%
     BenchmarkSpd:
-      CurrentSpdLabel: Текущее SPD - Эталоном будет SPD текущей сборки
-      BaseSpdLabel: Базовое SPD - Эталоном будет минимальное SPD
+      Header: Эталонное SPD
+      CurrentSpdLabel: Текущая скорость - Эталоном будет SPD текущей сборки
+      BaseSpdLabel: Базовая скорость - Эталоном будет минимальное SPD
       CommonBreakpointsLabel: Пресеты контрольных точек для SPD (без учета SPD баффов)
     BuffPriority:
       Header: Режим DPS
@@ -84,7 +96,7 @@ CharacterPreview:
     Header: Сравнение статов для повышения урона
   BuildAnalysis:
     ScoringNote: >-
-      В расчете оценивается качество сборки, сравнивая урон персонажа в текущей сборке с уроном в эталонных сборках при одинаковых командах / конусах / эйдолонах. Оценки и Урон Комбо рассчитываются только для выбранной команды персонажа и не должны сравниваться с конфигурациями других персонажей.
+      В расчете оценивается только качество сборки, сравнивая урон персонажа в текущей сборке с уроном в эталонных сборках при одинаковых командах / конусах / эйдолонах. Оценки и Урон Комбо рассчитываются только для выбранной команды персонажа и не могут сравниваться с другими конфигурациями команд и персонажей.
     SimulationTeammates: Состав команды
     SimulationSets: Наборы реликвий
     Rotation:
@@ -93,7 +105,7 @@ CharacterPreview:
       SKILL: Навык
       ULT: Ультимейт
       FUA: Бонусная атака
-      DOTS: "Дот"
+      DOTS: "Доты"
       BREAKS: "Урон пробитием"
     CombatResults:
       Header: Значения урона в бою

@@ -34,6 +34,7 @@ export const StatCalculator = {
     }
     return Utils.precisionRound(SubStatValues[stat][5].high)
   },
+
   getMaxedStatValue: (stat: MainStats | 'NONE') => {
     if (stat === 'NONE') { // Fake stat for relic scoring
       return 0

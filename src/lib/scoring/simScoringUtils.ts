@@ -78,7 +78,6 @@ export type PartialSimulationWrapper = {
 }
 
 export type SimulationFlags = {
-  addBreakEffect: boolean
   overcapCritRate: boolean
   simPoetActive: boolean
   characterPoetActive: boolean

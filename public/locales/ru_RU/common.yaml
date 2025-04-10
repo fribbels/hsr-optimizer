@@ -130,7 +130,7 @@ ReadableStats:
   Outgoing Healing Boost: Бонус исцеления
   Physical DMG Boost: "$t(gameData:Elements.Physical) урон"
   Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
-  Ice DMG Boost: "Бонус $t(gameData:Elements.Ice) урона"
+  Ice DMG Boost: "$t(gameData:Elements.Ice) урон"
   Lightning DMG Boost: "$t(gameData:Elements.Thunder) урон"
   Wind DMG Boost: "Бонус $t(gameData:Elements.Wind) урона"
   Quantum DMG Boost: "Бонус $t(gameData:Elements.Quantum) урона"
@@ -179,9 +179,10 @@ DMGTypes:
 ShortDMGTypes:
   Basic: Урон базовой атаки
   Skill: Урон навыка
-  Ult: Урон сверхспособности
+  Ult: Урон ультимейта
   Fua: Урон бонус-атаки
-  Memo_Skill: Урон Навыкаᴹ
+  Memo_Skill: Урон навыкаᴹ
+  Memo_Talent: Урон талантаᴹ
   Dot: Периодический урон
   Break: Урон пробития
   CV: КМ

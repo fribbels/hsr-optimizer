@@ -4,7 +4,6 @@ import {
   ComputeEngine,
   Constants,
   CURRENT_OPTIMIZER_VERSION,
-  DAMAGE_UPGRADES,
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
   Parts,

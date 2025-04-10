@@ -181,7 +181,10 @@ Builds:
     SuccessMessageAll: "Все сборки для {{characterName}} успешно удалены"
     SuccessMessageSingle: "Сборка: {{name}} успешно удалена"
 ScoreFooter:
+  ModalTitle: Настройки оценки "В бою"
+  ResetButtonText: Восстановить команду по умолчанию
   ResetSuccessMsg: Восстановить команды по умолчанию
+  SyncButtonText: Синхронизировать эйдолоны / конусы
   SyncSuccessMsg: Союзники синхронизированы
   TeamOptions:
     Default: Стандартный

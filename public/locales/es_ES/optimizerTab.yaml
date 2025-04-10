@@ -68,3 +68,10 @@ ExpandedDataPanel:
       breakDmg: Ruptura
     YAxisLabel:
       BREAK_DMG: Ruptura
+  BuffsAnalysisDisplay:
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Break: Ruptura
+      Misc:
+        Combo DMG: Combo de Daño

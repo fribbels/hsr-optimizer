@@ -1,5 +1,5 @@
 import Icon, { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined, SettingOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
+import { Alert, Button, Dropdown, Flex, Form, Input, Segmented, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
@@ -23,10 +23,10 @@ function presetCharacters() {
   const char = (name) => Object.values(DB.getMetadata().characters).find((x) => x.id == name)?.id || null
   const lc = (name) => Object.values(DB.getMetadata().lightCones).find((x) => x.id == name)?.id || null
   return [
+    { characterId: char(1406), lightConeId: lc(23043) },
+    { characterId: char(1409), lightConeId: lc(23042) },
     { characterId: char(1405), lightConeId: lc(23041) },
     { characterId: char(1407), lightConeId: lc(23040) },
-    { characterId: char(1403), lightConeId: lc(23038) },
-    { characterId: char(1404), lightConeId: lc(23039) },
 
     { characterId: char(1221), lightConeId: lc(23030), rerun: true },
     { characterId: char(1217), lightConeId: lc(23017), rerun: true },
@@ -495,6 +495,16 @@ function CharacterPreviewSelection(props) {
           </Flex>
         </Flex>
 
+
+        {props?.availableCharacters?.length > 0 && (
+          <Alert
+            message={<>Note: Combo DMG is used to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!</>}
+            type='info'
+            showIcon
+            style={{ marginBottom: 5, width: '100%' }}
+          />
+        )}
+
         <Segmented
           style={{ width: '100%', overflow: 'hidden' }}
           options={options}
@@ -622,7 +632,8 @@ function Sidebar(props) {
       style={{
         position: 'relative',
         left: -120,
-        top: 40,
+        // top: 40,
+        top: 95, // With announcement banner
         width: 0,
         height: 0,
       }}

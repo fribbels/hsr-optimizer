@@ -49,7 +49,7 @@ On average, the number of warps that are needed to reach the corresponding goal.
 * Base character pull rate: 0.6%
 * Base light cone pull rate: 0.8%
 * Character success rate: 50% + (1/8 * 50%) = 56.25%
-* Light Cone success rate: 75% + (1/8 * 75%) = 78.125%
+* Light Cone success rate: 75% + (1/8 * 25%) = 78.125%
 
 ## FAQ
 

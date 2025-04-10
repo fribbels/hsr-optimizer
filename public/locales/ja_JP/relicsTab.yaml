@@ -2,6 +2,7 @@ RelicFilterBar:
   Part: 部位
   Enhance: 強化
   Grade: レア度
+  InitialRolls: 初期サブ数
   Verified: 確認済み
   Equipped: 装備済み
   Clear: クリア

@@ -79,3 +79,10 @@ ExpandedDataPanel:
     TooltipText:
       breakDmg: Урон пробития
       dotDmg: Периодический урон
+  BuffsAnalysisDisplay:
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Break: ЭП
+      Misc:
+        Combo DMG: Урон комбо

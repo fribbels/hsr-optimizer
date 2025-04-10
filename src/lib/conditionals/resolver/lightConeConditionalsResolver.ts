@@ -100,9 +100,11 @@ import InTheNight from 'lib/conditionals/lightcone/5star/InTheNight'
 import IntotheUnreachableVeil from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import IShallBeMyOwnSword from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import IVentureForthToHunt from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import LiesAflutterInTheWind from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import LifeShouldBeCastToFlames from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import LongRoadLeadsHome from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import MakeFarewellsMoreBeautiful from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import MayRainbowsRemainInTheSky from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import MemorysCurtainNeverFalls from 'lib/conditionals/lightcone/5star/MemorysCurtainNeverFalls'
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -184,6 +186,8 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23039: FlameOfBloodBlazeMyPath,
   23040: MakeFarewellsMoreBeautiful,
   23041: LifeShouldBeCastToFlames,
+  23043: LiesAflutterInTheWind,
+  23042: MayRainbowsRemainInTheSky,
 
   24005: MemorysCurtainNeverFalls,
 }

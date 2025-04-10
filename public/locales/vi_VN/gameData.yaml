@@ -191,9 +191,15 @@ Characters:
   "1405":
     Name: Anaxa
     LongName: Anaxa
+  "1406":
+    Name: Cipher
+    LongName: Cipher
   "1407":
     Name: Castorice
     LongName: Castorice
+  "1409":
+    Name: Hyacine
+    LongName: Hyacine
   "8001":
     Name: Caelus
     LongName: Caelus (Hủy Diệt)
@@ -315,6 +321,14 @@ RelicSets:
     Name: Nhà Thơ Khúc Bi Ca Vong Quốc
     Description2pc: Sát Thương Lượng Tử tăng 10%.
     Description4pc: Khiến Tốc Độ của người trang bị giảm 8%. Trước khi vào chiến đấu, nếu Tốc Độ của người trang bị dưới 110/95, sẽ khiến Tỷ Lệ Bạo Kích của người trang bị tăng 20%/32%. Hiệu ứng này đồng thời có hiệu lực với Linh Hồn Ký Ức của người trang bị.
+  "125":
+    Name: Warrior Goddess of Daythunder
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has "Gentle Rain", increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked.
+  "126":
+    Name: Captain Over Cursed Waves
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: When the wearer is the target of another ally target's ability, gains 1 stack of "Help." Stacks up to 3 times. When using Ultimate, consumes all "Help," each stack increasing the wearer's ATK by 16%, lasting until the end of the turn.
   "301":
     Name: Trạm Phong Ấn Không Gian
     Description2pc: Tăng 12% Tấn Công của người trang bị. Khi tốc độ của người trang bị từ 120 trở lên, Tấn Công tăng thêm 12%.
@@ -371,7 +385,7 @@ RelicSets:
     Description2pc: Khiến Sát Thương Bạo Kích của người trang bị tăng 16%, khi tồn tại mục tiêu mà người trang bị triệu hồi, Sát Thương Bạo Kích sẽ tăng thêm 32%.
   "319":
     Name: Vùng Đất Nhặt Hài Cốt Tĩnh Lặng
-    Description2pc: Tăng12% Giới Hạn HP của người trang bị. Khi Giới Hạn HP của người trang bị lớn hơn hoặc bằng 5000, sẽ tăng 28% Sát Thương Bạo Kích của người trang bị và Linh Hồn Ký Ức của người đó.
+    Description2pc: Tăng 12% Giới Hạn HP của người trang bị. Khi Giới Hạn HP của người trang bị lớn hơn hoặc bằng 5000, sẽ tăng 28% Sát Thương Bạo Kích của người trang bị và Linh Hồn Ký Ức của người đó.
   "320":
     Name: Đại Thụ Trầm Tư
     Description2pc: Khiến Tốc Độ của người trang bị tăng 6%. Khi Tốc Độ của người trang bị từ 135/180 trở lên, thì Lượng Trị Liệu của người trang bị và Linh Hồn Ký Ức của người đó sẽ tăng 12%/20%.
@@ -535,7 +549,7 @@ Lightcones:
   "22003":
     Name: Nhẫn Sự Lục-Săn Bắn Âm Luật
   "22004":
-    Name: The Great Cosmic Enterprise
+    Name: Kinh Doanh Tầm Cỡ Vũ Trụ
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -617,9 +631,13 @@ Lightcones:
   "23039":
     Name: Huyết Hỏa, Hãy Thiêu Đốt Con Đường Phía Trước
   "23040":
-    Name: Make Farewells More Beautiful
+    Name: Để Lời Từ Biệt Đẹp Đẽ Hơn
   "23041":
-    Name: Life Should Be Cast to Flames
+    Name: Sinh Mệnh Đáng Bị Thiêu Rụi
+  "23042":
+    Name: May Rainbows Remain in the Sky
+  "23043":
+    Name: Lies, Aflutter in the Wind
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":

@@ -26,8 +26,10 @@ CharacterWithCount_one: "{{count}}人"
 CharacterWithCount_other: "{{count}}人"
 Character_one: キャラクター
 Character_other: キャラクター
-VerifiedRelicHoverText: 遺物スコアラーにより検証済みの遺物サブステータス
+VerifiedRelicHoverText: 遺物スコア計算によって検証済みの遺物サブステータス（小数点以下部分の速度）
+Verified4LinerHoverText: 遺物スコア計算によって検証済みの遺物サブステータス及び初期サブステータス出現回数（小数点以下部分の速度と、4つの初期サブステータス）
 CombatStats: 戦闘中のステータス
+MemospriteLabel: "精霊{{label}}"
 Parts:
   Head: 頭部
   Hands: 手部
@@ -159,6 +161,14 @@ ShortReadableStats:
   Wind DMG Boost: "$t(gameData:Elements.Wind)"
   Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
   Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+Elements:
+  Physical: "$t(gameData:Elements.Physical)"
+  Fire: "$t(gameData:Elements.Fire)"
+  Ice: "$t(gameData:Elements.Ice)"
+  Lightning: "$t(gameData:Elements.Thunder)"
+  Wind: "$t(gameData:Elements.Wind)"
+  Quantum: "$t(gameData:Elements.Quantum)"
+  Imaginary: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
   simScore: コンボダメージ
   BASIC: 通常攻撃ダメージ

@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: Level tối thiểu
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -520,19 +521,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: Tấn công thường
-      Skill: Chiến kỹ
-      Ult: Tuyệt Kỹ
-      Talent: Thiên Phú
-      Technique: Bí Kỹ
-      Trace: Năng Lực Thêm
-      Memo: LH Ký Ức
-      E1: E1
-      E2: E2
-      E4: E4
-      E6: E6
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Thuộc tính phụ'
@@ -573,3 +561,32 @@ ExpandedDataPanel:
       jointDmg: ST Chung
       dotDmg: ST Duy Trì
       memoDmg: ST Linh Hồn KÝ Ức
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: Tấn công thường
+      Skill: Chiến kỹ
+      Ult: Tuyệt Kỹ
+      Talent: Thiên Phú
+      Technique: Bí Kỹ
+      Trace: Năng Lực Thêm
+      Memo: LH Ký Ức
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Basic: Tấn công thường
+          Skill: Chiến kỹ
+          Ult: Tuyệt Kỹ
+          Fua: Đòn theo sau
+          Dot: Dot
+          Break: Kích Phá
+        Suffix:
+          DMG boost: Tăng Sát Thương
+          Additional DMG: ST Kèm Theo
+          DMG: ST
+      Misc:
+        Memosprite: Linh hồn ký ức
+        Combo DMG: ST Combo

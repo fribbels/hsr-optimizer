@@ -191,9 +191,15 @@ Characters:
   "1405":
     Name: Anaxa
     LongName: Anaxa
+  "1406":
+    Name: Cipher
+    LongName: Cipher
   "1407":
     Name: Castorice
     LongName: Castorice
+  "1409":
+    Name: Hyacine
+    LongName: Hyacine
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -315,6 +321,14 @@ RelicSets:
     Name: Poétesse du déclin funèbre
     Description2pc: Augmente les DGT quantiques infligés de 10%.
     Description4pc: Réduit la VIT du porteur de 8%. Si sa VIT est inférieure à 110/95 en entrant en combat, ses chances de coup critique augmentent de 20%/32%. Cet effet s'applique également au mnémesprit du porteur au même moment.
+  "125":
+    Name: Warrior Goddess of Daythunder
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has "Gentle Rain", increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked.
+  "126":
+    Name: Captain Over Cursed Waves
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: When the wearer is the target of another ally target's ability, gains 1 stack of "Help." Stacks up to 3 times. When using Ultimate, consumes all "Help," each stack increasing the wearer's ATK by 16%, lasting until the end of the turn.
   "301":
     Name: Station de scellement spatial
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, son ATQ augmente encore de 12%.
@@ -535,7 +549,7 @@ Lightcones:
   "22003":
     Name: "Registre ninja\_: Chasse au son"
   "22004":
-    Name: The Great Cosmic Enterprise
+    Name: La grande entreprise cosmique
   "23000":
     Name: Nuit sur la voie lactée
   "23001":
@@ -617,9 +631,13 @@ Lightcones:
   "23039":
     Name: Flamme de sang, illumine mon chemin
   "23040":
-    Name: Make Farewells More Beautiful
+    Name: Des adieux encore plus beaux
   "23041":
-    Name: Life Should Be Cast to Flames
+    Name: Une vie forgée dans les flammes
+  "23042":
+    Name: May Rainbows Remain in the Sky
+  "23043":
+    Name: Lies, Aflutter in the Wind
   "24000":
     Name: La chute d'un Aiôn
   "24001":

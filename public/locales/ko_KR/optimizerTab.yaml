@@ -74,6 +74,7 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 주 옵션 스텟
+    Label0: "+0"
     Label3: "+3"
     Label6: "+6"
     Label9: "+9"
@@ -524,19 +525,6 @@ StatSimulation:
     ShortStat: "$t(common:ShortReadableStats.{{stat}})"
     LabelStat: "$t(common:ReadableStats.{{stat}})"
 ExpandedDataPanel:
-  BuffsAnalysisDisplay:
-    Sources:
-      Basic: 기본 공격
-      Skill: 전투 스킬
-      Ult: 필살기
-      Talent: 특성
-      Technique: 비술
-      Trace: 행적
-      Memo: 기억정령
-      E1: 1돌
-      E2: 2돌
-      E4: 4돌
-      E6: 6돌
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x 부 옵션'
@@ -577,3 +565,33 @@ ExpandedDataPanel:
       jointDmg: 연계 공격
       dotDmg: 지속 피해량
       memoDmg: 기억정령 피해
+  BuffsAnalysisDisplay:
+    Sources:
+      Basic: 기본 공격
+      Skill: 전투 스킬
+      Ult: 필살기
+      Talent: 특성
+      Technique: 비술
+      Trace: 행적
+      Memo: 기억정령
+      E1: 1돌
+      E2: 2돌
+      E4: 4돌
+      E6: 6돌
+    Stats:
+      CompositeLabels:
+        Prefix:
+          Basic: 기본 공격
+          Skill: 전투 스킬
+          Ult: 필살기
+          Fua: 추가 공격
+          Dot: 지속피해
+          Break: 격파
+        Suffix:
+          DMG boost: 데미지 버프
+          DEF PEN: 방어력 무시
+          Additional DMG: 추가 피해
+          DMG: 데미지
+      Misc:
+        Memosprite: 기억 정령
+        Combo DMG: 사이클 총 피해량

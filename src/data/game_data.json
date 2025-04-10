@@ -6176,72 +6176,72 @@
       },
       "traceTree": [
         {
-          "id": "1405201_3.2v4",
+          "id": "1405201",
           "stat": "Wind DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": []
         },
         {
-          "id": "1405202_3.2v4",
+          "id": "1405202",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1405203_3.2v4",
+              "id": "1405203",
               "stat": "Wind DMG Boost",
               "value": 0.032,
-              "pre": "1405202_3.2v4",
+              "pre": "1405202",
               "children": []
             },
             {
-              "id": "1405204_3.2v4",
+              "id": "1405204",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1405202_3.2v4",
+              "pre": "1405202",
               "children": []
             }
           ]
         },
         {
-          "id": "1405205_3.2v4",
+          "id": "1405205",
           "stat": "Wind DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1405206_3.2v4",
+              "id": "1405206",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1405205_3.2v4",
+              "pre": "1405205",
               "children": []
             },
             {
-              "id": "1405207_3.2v4",
+              "id": "1405207",
               "stat": "Wind DMG Boost",
               "value": 0.048,
-              "pre": "1405205_3.2v4",
+              "pre": "1405205",
               "children": []
             }
           ]
         },
         {
-          "id": "1405208_3.2v4",
+          "id": "1405208",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1405209_3.2v4",
+          "id": "1405209",
           "stat": "CRIT Rate",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1405210_3.2v4",
+          "id": "1405210",
           "stat": "Wind DMG Boost",
           "value": 0.064,
           "pre": null,
@@ -6254,6 +6254,105 @@
         "ATK": 756.756,
         "DEF": 557.865,
         "SPD": 97,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1406": {
+      "id": "1406",
+      "name": "Cipher",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Quantum",
+      "traces": {
+        "Quantum DMG Boost": 0.144,
+        "HP%": 0.1,
+        "SPD": 14
+      },
+      "traceTree": [
+        {
+          "id": "1406201_3.3v1",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1406210_3.3v1",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1406201_3.3v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1406202_3.3v1",
+          "stat": "Quantum DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1406203_3.3v1",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1406202_3.3v1",
+              "children": [
+                {
+                  "id": "1406204_3.3v1",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1406203_3.3v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1406205_3.3v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1406206_3.3v1",
+              "stat": "Quantum DMG Boost",
+              "value": 0.048,
+              "pre": "1406205_3.3v1",
+              "children": [
+                {
+                  "id": "1406207_3.3v1",
+                  "stat": "SPD",
+                  "value": 3,
+                  "pre": "1406206_3.3v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1406208_3.3v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1406209_3.3v1",
+          "stat": "Quantum DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 100,
+      "stats": {
+        "HP": 931.392,
+        "ATK": 640.332,
+        "DEF": 509.355,
+        "SPD": 106,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -6272,72 +6371,72 @@
       },
       "traceTree": [
         {
-          "id": "1407201_3.2v4",
+          "id": "1407201",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1407202_3.2v4",
+              "id": "1407202",
               "stat": "Quantum DMG Boost",
               "value": 0.032,
-              "pre": "1407201_3.2v4",
+              "pre": "1407201",
               "children": []
             },
             {
-              "id": "1407203_3.2v4",
+              "id": "1407203",
               "stat": "CRIT Rate",
               "value": 0.027,
-              "pre": "1407201_3.2v4",
+              "pre": "1407201",
               "children": []
             }
           ]
         },
         {
-          "id": "1407204_3.2v4",
+          "id": "1407204",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1407205_3.2v4",
+          "id": "1407205",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1407206_3.2v4",
+          "id": "1407206",
           "stat": "Quantum DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": []
         },
         {
-          "id": "1407207_3.2v4",
+          "id": "1407207",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1407208_3.2v4",
+          "id": "1407208",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1407209_3.2v4",
+              "id": "1407209",
               "stat": "Quantum DMG Boost",
               "value": 0.064,
-              "pre": "1407208_3.2v4",
+              "pre": "1407208",
               "children": [
                 {
-                  "id": "1407210_3.2v4",
+                  "id": "1407210",
                   "stat": "CRIT Rate",
                   "value": 0.053,
-                  "pre": "1407209_3.2v4",
+                  "pre": "1407209",
                   "children": []
                 }
               ]
@@ -6351,6 +6450,103 @@
         "ATK": 523.908,
         "DEF": 485.1,
         "SPD": 95,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1409": {
+      "id": "1409",
+      "name": "Hyacine",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Wind",
+      "traces": {
+        "HP%": 0.1,
+        "Effect RES": 0.18,
+        "SPD": 14
+      },
+      "traceTree": [
+        {
+          "id": "1409201_3.3v1",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1409202_3.3v1",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1409201_3.3v1",
+              "children": []
+            },
+            {
+              "id": "1409203_3.3v1",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1409201_3.3v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1409204_3.3v1",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1409205_3.3v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1409206_3.3v1",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1409207_3.3v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1409208_3.3v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1409209_3.3v1",
+              "stat": "Effect RES",
+              "value": 0.08,
+              "pre": "1409208_3.3v1",
+              "children": [
+                {
+                  "id": "1409210_3.3v1",
+                  "stat": "SPD",
+                  "value": 4,
+                  "pre": "1409209_3.3v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 150,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 388.08,
+        "DEF": 630.63,
+        "SPD": 110,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -8090,7 +8286,7 @@
     },
     "22004": {
       "id": "22004",
-      "name": "The Great Cosmic Enterprise",
+      "name": "",
       "rarity": 4,
       "path": "Erudition",
       "stats": {
@@ -8098,7 +8294,7 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23000": {
       "id": "23000",
@@ -8582,7 +8778,7 @@
     },
     "23040": {
       "id": "23040",
-      "name": "Make Farewells More Beautiful",
+      "name": "",
       "rarity": 5,
       "path": "Remembrance",
       "stats": {
@@ -8590,13 +8786,37 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23041": {
       "id": "23041",
-      "name": "Life Should Be Cast to Flames",
+      "name": "",
       "rarity": 5,
       "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "23042": {
+      "id": "23042",
+      "name": "May Rainbows Remain in the Sky",
+      "rarity": 5,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 476.28,
+        "DEF": 529.2
+      },
+      "unreleased": true
+    },
+    "23043": {
+      "id": "23043",
+      "name": "Lies, Aflutter in the Wind",
+      "rarity": 5,
+      "path": "Nihility",
       "stats": {
         "HP": 952.56,
         "ATK": 582.12,
@@ -8777,6 +8997,16 @@
       "id": "301",
       "name": "Space Sealing Station",
       "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's SPD reaches <b>120</b> or higher, the wearer's ATK increases by an extra <b>12%</b>."
+    },
+    {
+      "id": "126",
+      "name": "Captain Over Cursed Waves",
+      "skills": "Increases CRIT DMG by <b>16%</b>. When the wearer is the target of another ally target's ability, gains 1 stack of \"Help.\" Stacks up to <b>3</b> times. When using Ultimate, consumes all \"Help,\" each stack increasing the wearer's ATK by <b>16%</b>, lasting until the end of the turn."
+    },
+    {
+      "id": "125",
+      "name": "Warrior Goddess of Daythunder",
+      "skills": "Increases SPD by <b>6%</b>. When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for <b>2</b> turn(s). When the wearer has \"Gentle Rain\", increases SPD by <b>6%</b>, and increases all allies' CRIT DMG by <b>15%</b>. This effect cannot be stacked."
     },
     {
       "id": "124",

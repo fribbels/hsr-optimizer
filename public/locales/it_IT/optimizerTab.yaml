@@ -11,3 +11,8 @@ Sidebar:
       Experimental: Motore di calcolo impostato su GPU (Sperimentale)
 TeammateCard:
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
+ExpandedDataPanel:
+  BuffsAnalysisDisplay:
+    Stats:
+      Misc:
+        Combo DMG: DANNO della combo

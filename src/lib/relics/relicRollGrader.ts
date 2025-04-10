@@ -97,7 +97,7 @@ function validatedRolls(relic: UnaugmentedRelic) {
       + rolls.mid * StatCalculator.getMaxedSubstatValue(stat, 0.9)
       + rolls.high * StatCalculator.getMaxedSubstatValue(stat, 1.0)
 
-    if (TsUtils.precisionRound(value) != TsUtils.precisionRound(substat.value)) {
+    if (TsUtils.precisionRound(value, 3) != TsUtils.precisionRound(substat.value, 3)) {
       return false
     }
   }

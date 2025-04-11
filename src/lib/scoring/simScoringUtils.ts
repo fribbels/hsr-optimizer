@@ -1,7 +1,8 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
+
+import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
@@ -18,11 +19,11 @@ export type ScoringParams = {
   baselineFreeRolls: number
   limitFlatStats: boolean
   enforcePossibleDistribution: boolean
-  substatRollsModifier: (rolls: number,
+  substatRollsModifier: (
+    rolls: number,
     stat: string,
-    relics: {
-      [key: string]: Relic
-    }) => number
+    sim: Simulation,
+  ) => number
 }
 
 export type SimulationResult = OptimizerDisplayData & {
@@ -60,7 +61,7 @@ export type SimulationScore = {
   characterMetadata: DBMetadataCharacter
 
   originalSpd: number
-  spdBenchmark: number | null
+  spdBenchmark: number | undefined
   simulationFlags: SimulationFlags
 }
 
@@ -77,7 +78,6 @@ export type PartialSimulationWrapper = {
 }
 
 export type SimulationFlags = {
-  addBreakEffect: boolean
   overcapCritRate: boolean
   simPoetActive: boolean
   characterPoetActive: boolean
@@ -116,17 +116,17 @@ export const maximumScoringParams: ScoringParams = {
   substatRollsModifier: (rolls: number) => rolls,
 }
 
-export function substatRollsModifier(rolls: number,
+export function substatRollsModifier(
+  rolls: number,
   stat: string,
-  relics: {
-    [key: string]: Relic
-  }) {
-  // if (stat == Stats.SPD) return rolls
-  // Diminishing returns
-
-  const mainsCount = Object.values(relics)
-    .filter((x) => x.augmentedStats!.mainStat == stat)
-    .length
+  sim: Simulation,
+) {
+  const mainsCount = [
+    sim.request.simBody,
+    sim.request.simFeet,
+    sim.request.simPlanarSphere,
+    sim.request.simLinkRope,
+  ].filter((x) => x == stat).length
 
   return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
 }
@@ -199,7 +199,7 @@ export function cloneRelicsFillEmptySlots(displayRelics: RelicBuild) {
       set: -1,
       substats: [],
       main: {
-        stat: 'NONE',
+        stat: null,
         value: 0,
       },
     }

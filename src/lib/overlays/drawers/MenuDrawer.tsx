@@ -65,6 +65,15 @@ const MenuDrawer = () => {
           </Flex>
         ),
         AppPages.WARP),
+      // getItem(
+      //   (
+      //     <Flex>
+      //       <ProjectOutlined style={{ marginRight: 5, width: 16 }}/>
+      //       {' '}
+      //       Benchmarks
+      //     </Flex>
+      //   ),
+      //   AppPages.BENCHMARKS),
     ]),
     getItem(t('Optimization.Title')/* Optimization */, 'subOptimizer', <LineChartOutlined/>, [
       getItem(

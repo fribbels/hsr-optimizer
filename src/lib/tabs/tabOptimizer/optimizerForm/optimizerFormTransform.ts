@@ -5,7 +5,7 @@ import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaul
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { applyMetadataPresetToForm, applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ConditionalValueMap } from 'types/conditionals'
@@ -225,7 +225,7 @@ export function formToDisplay(form: Form) {
     // Apply any presets to new characters
     if (metadata && scoringMetadata) {
       for (const preset of scoringMetadata.presets || []) {
-        preset.apply(newForm as Form)
+        applyPreset(newForm as Form, preset)
       }
 
       newForm.mainBody = scoringMetadata.parts[Constants.Parts.Body]

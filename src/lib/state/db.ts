@@ -4,7 +4,6 @@ import {
   ComputeEngine,
   Constants,
   CURRENT_OPTIMIZER_VERSION,
-  DAMAGE_UPGRADES,
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
   Parts,
@@ -63,6 +62,7 @@ export const AppPages = {
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
   WARP: 'WARP',
+  BENCHMARKS: 'BENCHMARKS',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
@@ -106,7 +106,6 @@ const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.optimizerCharacterId]: null,
   [SavedSessionKeys.relicScorerSidebarOpen]: true,
   [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
-  [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,

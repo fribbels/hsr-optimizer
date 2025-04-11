@@ -76,6 +76,7 @@ export type Form = {
   // Optimizer additional data
   statSim?: {
     key: string
+    benchmarks: SimulationRequest
     substatRolls: SimulationRequest
     substatTotals: SimulationRequest
     simulations: Simulation[]

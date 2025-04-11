@@ -187,7 +187,6 @@ export type SavedSession = {
   optimizerCharacterId: string | null
   relicScorerSidebarOpen: boolean
   scoringType: string
-  combatScoreDetails: string
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean

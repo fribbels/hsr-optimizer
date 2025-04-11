@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: crwdns39676:0crwdne39676:0
     RevertedPortrait: crwdns39678:0crwdne39678:0
     NoSelectedCharacter: crwdns39680:0crwdne39680:0
+    NoSelectedLightCone: crwdns45205:0crwdne45205:0
   ScoreHeader:
     Title: crwdns39682:0crwdne39682:0
     TitleBenchmark: "crwdns44466:0{{spd}}crwdne44466:0"

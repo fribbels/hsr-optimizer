@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: 画像を変更しました
     RevertedPortrait: 画像を復元しました
     NoSelectedCharacter: キャラクターが選択されていません
+    NoSelectedLightCone: 光円錐が選択されていません
   ScoreHeader:
     Title: 戦闘シミュレーション
     TitleBenchmark: "{{spd}} 基準速度"

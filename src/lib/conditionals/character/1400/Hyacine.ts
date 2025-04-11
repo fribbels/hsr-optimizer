@@ -220,11 +220,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       standardHpHealFinalizer(x)
+      x.m.MEMO_SKILL_DMG.buff(0.20 * x.a[Key.HEAL_VALUE], Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return gpuStandardHpHealFinalizer()
+      return gpuStandardHpHealFinalizer() + `
+m.MEMO_SKILL_DMG += 0.20 * x.HEAL_VALUE;
+      `
     },
     dynamicConditionals: [
       {

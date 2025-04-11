@@ -1,6 +1,6 @@
 ScreenshotMessages:
   ScreenshotSuccess: Скриншот скопирован в буфер обмена
-  ScreenshotFailed: Не удается сохранить снимок экрана в буфер обмена, попробуйте нажать кнопку загрузки справа
+  ScreenshotFailed: Не удается сохранить скриншот в буфер обмена, попробуйте нажать кнопку загрузки справа
   DownloadSuccess: Скаченный скриншот
 CharacterMenu:
   ButtonText: Меню персонажей
@@ -8,15 +8,15 @@ CharacterMenu:
     Label: Персонаж
     Options:
       Add: Добавить нового персонажа
-      Edit: Изменить персонаж / световой конус
-      Switch: Поменять местами реликвии
+      Edit: Изменить эйдолоны / световой конус
+      Switch: Поменять реликвии с другого персонажа
       Unequip: Снять реликвии
       Delete: Удалить персонажа
   Build:
     Label: Сборки
     Options:
       Save: Сохранить сборку
-      View: Просмотр сохраненных сборки
+      View: Просмотр сохраненных сборок
   Scoring:
     Label: Очки
     Options:
@@ -55,27 +55,30 @@ CharacterPreview:
       Min: 0%
     BenchmarkSpd:
       Header: Эталонное SPD
+      BenchmarkOptionsLabel: Варианты выбора SPD тестовых сборок
       CurrentSpdLabel: Текущая скорость - Эталоном будет SPD текущей сборки
       BaseSpdLabel: Базовая скорость - Эталоном будет минимальное SPD
       CommonBreakpointsLabel: Пресеты контрольных точек для SPD (без учета SPD баффов)
     BuffPriority:
       Header: Режим DPS
+      High: Основной
       Low: Доп
   CustomizationSidebar:
-    Label: Кастомизация
+    Label: Внешний вид
     Modes:
       Auto: Автоматически
       Custom: Вручную
       Standard: Стандартный
     PaletteLabel: Портретная цветовая палитра
+    ShowUID: Показать UID
   ArtBy: "Арт от {{artistName}}"
-  EditCharacter: Изменить персонаж
+  EditCharacter: Настройка персонажа
   EditPortrait: Изменить картинку персонажа
   CharacterScore: "Оценка персонажа: {{score}} {{grade}}"
   Messages:
     AddedRelic: Реликвия успешно добавлена
     SavedPortrait: Картинка успешно сохранён
-    RevertedPortrait: Картинка успешно удалена
+    RevertedPortrait: Изображение успешно восстановлено
     NoSelectedCharacter: Нет выбранного персонажа
   ScoreHeader:
     Title: Эффективность сборки
@@ -86,18 +89,31 @@ CharacterPreview:
       CombatScore: В бою
       CombatScoreTBD: В бою (недоступно)
       StatScore: Статы персонажа
+      NoneScore: Нет
   DetailsSlider:
-    Title: "Детали боевого счета:"
+    Title: "Детали оценки:"
     Labels:
-      CombatStats: Статы в бою с учетом команды
-      DMGUpgrades: Мультипликаторы урона
-  DMGUpgrades: Мультипликаторы урона
+      CombatStats: Статы персонажа в бою
+      SubDpsCombatStats: Статы в бою (Доп DPS)
+      DMGUpgrades: Повышение урона
+  DMGUpgrades: Повышение урона
   SubstatUpgradeComparisons:
     Header: Сравнение статов для повышения урона
+    MainStatHeader: Сравнение главных статов реликвий
+    AddedRoll: "+1x прок {{stat}}"
+    MainStatUpgrade: Смена главного стата
+    SubStatUpgrade: Стат для улучшения
+    DpsScorePercentUpgrade: Δ оценки урона %
+    UpgradedDpsScore: Оценка урона
+    ComboDmgPercentUpgrade: Δ Урона Комбо %
+    ComboDmgUpgrade: Δ Урона Комбо
   BuildAnalysis:
     ScoringNote: >-
       В расчете оценивается только качество сборки, сравнивая урон персонажа в текущей сборке с уроном в эталонных сборках при одинаковых командах / конусах / эйдолонах. Оценки и Урон Комбо рассчитываются только для выбранной команды персонажа и не могут сравниваться с другими конфигурациями команд и персонажей.
+    RelicRarityHeader: Оценка реликвий в сборке
+    Header: Расчет оценки урона
     SimulationTeammates: Состав команды
+    SimulatedBenchmarks: Конфигурация тестовых сборок при оценке
     SimulationSets: Наборы реликвий
     Rotation:
       Header: Ротация способностей для Урона Комбо
@@ -105,6 +121,8 @@ CharacterPreview:
       SKILL: Навык
       ULT: Ультимейт
       FUA: Бонусная атака
+      MEMO_SKILL: Навыкᴹ
+      MEMO_TALENT: Талантᴹ
       DOTS: "Доты"
       BREAKS: "Урон пробитием"
     CombatResults:
@@ -122,7 +140,12 @@ CharacterPreview:
         FUA: УРОН ДАЗОВОЙ АТАКИ
         DOT: ДОТ УРОН
         BREAK: УРОН ПРОБИТИЕМ
+        MEMO_SKILL: Урона навыкаᴹ
+        MEMO_TALENT: Урон талантаᴹ
         COMBO: СУММАРНЫЙ УРОН
+    CombatBuffs:
+      Header: Усиления в бою
+      SubDpsHeader: Усиления в бою (Доп DPS)
   ScoringColumn:
     Character:
       Header: "Текущая сборка ({{score}}%)"

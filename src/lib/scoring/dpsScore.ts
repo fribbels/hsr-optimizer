@@ -181,7 +181,7 @@ export async function scoreCharacterSimulation(
 
   // Get the simulation sets
 
-  const simulationSets = calculateSimSets(metadata, relicsByPart)
+  const simulationSets = calculateSimSetsFromRelics(metadata, relicsByPart)
 
   if (relicsByPart.Head.set == Sets.PoetOfMourningCollapse
     && relicsByPart.Hands.set == Sets.PoetOfMourningCollapse
@@ -393,10 +393,15 @@ export type SimulationSets = {
   ornamentSet: string
 }
 
-function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
+function calculateSimSetsFromRelics(metadata: SimulationMetadata, relicsByPart: RelicBuild): SimulationSets {
   // Allow equivalent sets
   const { relicSetNames, ornamentSetName } = calculateSetNames(relicsByPart)
 
+  return calculateSimSets(relicSetNames[0], relicSetNames[1], ornamentSetName!, metadata)
+}
+
+export function calculateSimSets(relicSetName0: string, relicSetName1: string, ornamentSetName: string, metadata: SimulationMetadata): SimulationSets {
+  // Allow equivalent sets
   let relicSet1 = metadata.relicSets[0][0]
   let relicSet2 = metadata.relicSets[0][1]
   let ornamentSet = metadata.ornamentSets[0]
@@ -404,7 +409,7 @@ function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild
   const equivalents: string[][] = metadata.relicSets.map((x: string[]) => x.sort())
   for (const equivalent of equivalents) {
     // Find 4p matches
-    if (relicSetNames[0] == equivalent[0] && relicSetNames[1] == equivalent[1]) {
+    if (relicSetName0 == equivalent[0] && relicSetName1 == equivalent[1]) {
       relicSet1 = equivalent[0]
       relicSet2 = equivalent[1]
       break
@@ -413,9 +418,9 @@ function calculateSimSets(metadata: SimulationMetadata, relicsByPart: RelicBuild
     // Find 2p matches
     // A single array will contain all the 2p options
     if (equivalent[0] != equivalent[1]) {
-      if (equivalent.includes(relicSetNames[0]) && equivalent.includes(relicSetNames[1])) {
-        relicSet1 = relicSetNames[0]
-        relicSet2 = relicSetNames[1]
+      if (equivalent.includes(relicSetName0) && equivalent.includes(relicSetName1)) {
+        relicSet1 = relicSetName0
+        relicSet2 = relicSetName1
         break
       }
     }

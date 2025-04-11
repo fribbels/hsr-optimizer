@@ -9,7 +9,7 @@ import { isFlat } from 'lib/utils/statUtils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-type RunSimulationsParams = {
+export type RunSimulationsParams = {
   quality: number
   speedRollValue: number
   mainStatMultiplier: number
@@ -123,7 +123,7 @@ export enum StatSimTypes {
   SubstatRolls = 'substatRolls',
 }
 
-type Simulation = {
+export type Simulation = {
   name?: string
   key?: string
   simType: StatSimTypes

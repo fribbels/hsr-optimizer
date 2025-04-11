@@ -1,11 +1,21 @@
 import { CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { Key } from 'lib/optimization/computedStatsArray'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
+import { benchmarkScoringParams, originalScoringParams, SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { RunSimulationsParams, runStatSimulations, Simulation } from 'lib/simulations/new/statSimulation'
+import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
+import { convertRelicsToSimulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
+import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { calculatePenaltyMultiplier } from 'lib/worker/computeOptimalSimulationWorker'
 import { Character } from 'types/character'
+import { Form, OptimizerForm } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
+import { OptimizerContext } from 'types/optimizer'
 
 export interface CustomBenchmarkResult {
   benchmarkSim: Simulation
@@ -20,6 +30,7 @@ export interface CustomBenchmarkResult {
 function call(
   character: Character,
   teamSelection: string,
+  singleRelicByPart: SingleRelicByPart,
 ) {
   const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
   if (!simulationMetadata) {
@@ -29,7 +40,10 @@ function call(
   const orchestrator = new DpsScoreBenchmarkOrchestrator(simulationMetadata)
 
   orchestrator.setMetadata()
+  orchestrator.setActualSimRequest(singleRelicByPart)
   orchestrator.setFlags()
+  orchestrator.setSimSets()
+  orchestrator.setSimForm(character.form)
 }
 
 export function resolveDpsScoreSimulationMetadata(
@@ -44,8 +58,8 @@ export function resolveDpsScoreSimulationMetadata(
     return null
   }
 
-  const customScoringMetadata = TsUtils.clone(DB.getMetadata().characters[character.id].scoringMetadata)
-  const defaultScoringMetadata = TsUtils.clone(DB.getScoringMetadata(character.id))
+  const customScoringMetadata = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata)
+  const defaultScoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
 
   if (!defaultScoringMetadata?.simulation || !customScoringMetadata?.simulation) {
     console.log('No scoring sim defined for this character')
@@ -64,6 +78,10 @@ export function resolveDpsScoreSimulationMetadata(
 export class DpsScoreBenchmarkOrchestrator {
   private metadata: SimulationMetadata
   private flags: SimulationFlags
+  private simSets: SimulationSets | undefined
+  private actualSimRequest: SimulationRequest | undefined
+  private form: OptimizerForm | undefined
+  private context: OptimizerContext | undefined
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -117,13 +135,133 @@ export class DpsScoreBenchmarkOrchestrator {
 
   public setFlags() {
     const metadata = this.metadata
+    const simRequest = this.actualSimRequest!
+    const simSets = this.simSets!
     if (metadata.teammates.find((teammate) => teammate.characterId == '1313' && teammate.characterEidolon == 6)) {
       this.flags.overcapCritRate = true
     }
+    if (simRequest.simRelicSet1 == Sets.PoetOfMourningCollapse && simRequest.simRelicSet2 == Sets.PoetOfMourningCollapse) {
+      this.flags.characterPoetActive = true
+    }
+    if (simSets.relicSet1 == Sets.PoetOfMourningCollapse && simSets.relicSet2 == Sets.PoetOfMourningCollapse) {
+      this.flags.simPoetActive = true
+    }
   }
 
-  public setRelics(relicsByPart: SingleRelicByPart) {
+  public setActualSimRequest(relicsByPart: SingleRelicByPart) {
+    const relics = TsUtils.clone(relicsByPart)
+    const { relicSetNames, ornamentSetName } = calculateSetNames(relics)
+    const scoringParams = benchmarkScoringParams
 
+    this.actualSimRequest = convertRelicsToSimulation(
+      relicsByPart,
+      relicSetNames[0],
+      relicSetNames[1],
+      ornamentSetName,
+      scoringParams.quality,
+      scoringParams.speedRollValue,
+    ) as SimulationRequest
+  }
+
+  public setSimSets() {
+    const simRequest = this.actualSimRequest!
+    this.simSets = calculateSimSets(simRequest.simRelicSet1, simRequest.simRelicSet2, simRequest.simOrnamentSet, this.metadata)
+  }
+
+  public setSimForm(form: OptimizerForm) {
+    const metadata = this.metadata
+    const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
+
+    const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
+    const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
+      metadata.teammates[0].lightCone,
+      metadata.teammates[0].characterEidolon,
+      metadata.teammates[0].lightConeSuperimposition,
+      true)
+    const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId,
+      metadata.teammates[1].lightCone,
+      metadata.teammates[1].characterEidolon,
+      metadata.teammates[1].lightConeSuperimposition,
+      true)
+    const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId,
+      metadata.teammates[2].lightCone,
+      metadata.teammates[2].characterEidolon,
+      metadata.teammates[2].lightConeSuperimposition,
+      true)
+    simulationForm.teammate0 = simulationFormT0
+    simulationForm.teammate1 = simulationFormT1
+    simulationForm.teammate2 = simulationFormT2
+
+    simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
+
+    // Cache context for reuse
+    const context = generateContext(simulationForm)
+    transformWorkerContext(context)
+
+    this.form = simulationForm
+    this.context = context
+  }
+
+  public setBaselineBuild() {
+
+  }
+
+  public setOriginalBuild() {
+    const form = this.form!
+    const context = this.context!
+
+    const originalSim: Simulation = {
+      simType: StatSimTypes.SubstatRolls,
+      request: this.actualSimRequest,
+    } as Simulation
+
+    const simParams: RunSimulationsParams = {
+      ...originalScoringParams,
+      substatRollsModifier: (rolls: number) => rolls,
+      mainStatMultiplier: 1,
+      simulationFlags: this.flags,
+    }
+
+    const originalSimResult = runStatSimulations([originalSim], form, context, simParams)[0]
+    const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
+
+    //
+    // let {
+    //   originalSimResult,
+    //   originalSim,
+    // } = simulateOriginalBuild(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+    //
+    // const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
+    //
+    // // ===== Simulate the baseline build =====
+    //
+    // const { baselineSimResult, baselineSim } = simulateBaselineBuild(
+    //   relicsByPart,
+    //   simulationForm,
+    //   context,
+    //   simulationSets,
+    //   benchmarkScoringParams,
+    //   simulationFlags,
+    // )
+    // applyScoringFunction(baselineSimResult)
+    //
+    // const spdBenchmark = showcaseTemporaryOptions.spdBenchmark != null
+    //   ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
+    //   : undefined
+    //
+    // applySpeedAdjustments(
+    //   simulationFlags,
+    //   baselineSimResult,
+    //   originalSpd,
+    //   spdBenchmark,
+    // )
+    //
+    // // ===== Simulate the forced spd build =====
+    //
+    // const {
+    //   originalSimResult: forcedSpdSimResult,
+    //   originalSim: forcedSpdSim,
+    // } = simulateOriginalBuild(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
   }
 
   // public async run(includePerfectBuild: boolean = false): Promise<CustomBenchmarkResult> {
@@ -208,4 +346,12 @@ export class DpsScoreBenchmarkOrchestrator {
   //
   //   return result
   // }
+
+  public scoringFunction(result: SimulationResult, penalty = true) {
+    if (!result) return
+
+    const unpenalizedSimScore = result.xa[Key.COMBO_DMG]
+    const penaltyMultiplier = calculatePenaltyMultiplier(result, this.metadata, benchmarkScoringParams)
+    result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
+  }
 }

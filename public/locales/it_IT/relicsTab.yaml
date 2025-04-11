@@ -31,31 +31,31 @@ RelicGrid:
       Principale
   ValueColumns:
     SelectedCharacter:
-      Label: PG selezionato
+      Label: Personaggio scelto
       ScoreCol:
-        Label: "PG selezionato: Punteggio"
+        Label: "Personaggio scelto: Punteggio"
         Header: |-
           PG Selezionato
           Punteggio
       AvgPotCol:
-        Label: "PG selezionato: Valore medio"
+        Label: "Personaggio scelto: Potenziale medio"
         Header: |-
           PG Selezionato
           Valore Medio
       MaxPotCol:
-        Label: "PG selezionato: Valore massimo"
+        Label: "Personaggio scelto: Potenziale massimo"
         Header: |-
           PG Selezionato
           Valore Massimo
     CustomCharacters:
-      Label: PG personalizzati
+      Label: Personaggi selezionati
       AvgPotCol:
-        Label: "PG personalizzati: Valore medio"
+        Label: "Personaggi selezionati: Potenziale medio"
         Header: |-
           PG Personalizzato
           Valore Medio
       MaxPotCol:
-        Label: "PG personalizzati: Valore massimo"
+        Label: "Personaggi selezionati: Potenziale massimo"
         Header: |-
           PG Personalizzato
           Valore Massimo

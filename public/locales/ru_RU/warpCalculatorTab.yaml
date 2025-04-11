@@ -7,6 +7,13 @@ StrategyLabels:
   E4: Сначала Э4
   E5: Сначала Э5
   E6: Сначала Э6
+RefundLabels:
+  REFUND_NONE: Нет
+  REFUND_NONE_FULL: Нет
+EidolonLevels:
+  NONE: Нет
+SuperimpositionLevels:
+  NONE: Нет
 IncomeOptions:
   Type:
     0: Нет

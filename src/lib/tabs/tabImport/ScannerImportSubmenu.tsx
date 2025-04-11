@@ -288,7 +288,7 @@ export function ScannerImportSubmenu() {
 
           <Checkbox
             checked={onlyImportExisting}
-            disabled={loading2}
+            disabled={loading2 || !DB.getCharacters().length}
             onChange={(e) => setOnlyImportExisting(e.target.checked)}
           >
             {t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}

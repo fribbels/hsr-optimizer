@@ -17,7 +17,7 @@ Ok: Ок
 Yes: "Да"
 No: "Нет"
 Save: Сохранить
-Score: Очки
+Score: Оценка
 Reset: Сбросить
 EidolonNShort: "Е{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
@@ -120,13 +120,13 @@ ReadableStats:
   "DEF%": ЗАЩ %
   DEF: Защита
   "SPD%": SPD %
-  SPD: SPD
+  SPD: Скорость
   CRIT Rate: Крит. шанс
   CRIT DMG: Крит. урон
   Effect Hit Rate: Шанс эффектов
   Effect RES: Сопротивление
   Break Effect: Пробитие
-  Energy Regeneration Rate: Восстановление энергии
+  Energy Regeneration Rate: Восст. энергии
   Outgoing Healing Boost: Бонус исцеления
   Physical DMG Boost: "$t(gameData:Elements.Physical) урон"
   Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"

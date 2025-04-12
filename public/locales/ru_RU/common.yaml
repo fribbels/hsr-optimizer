@@ -28,6 +28,7 @@ Character_one: персонаж
 Character_other: персонажи
 VerifiedRelicHoverText: Доп. статы реликвий одобренные оценщиком реликвий (десятичные доли скорости)
 CombatStats: Статы персонажа при учёте команды
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: Голова
   Hands: Руки
@@ -132,9 +133,9 @@ ReadableStats:
   Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
   Ice DMG Boost: "$t(gameData:Elements.Ice) урон"
   Lightning DMG Boost: "$t(gameData:Elements.Thunder) урон"
-  Wind DMG Boost: "Бонус $t(gameData:Elements.Wind) урона"
-  Quantum DMG Boost: "Бонус $t(gameData:Elements.Quantum) урона"
-  Imaginary DMG Boost: "Бонус $t(gameData:Elements.Imaginary) урона"
+  Wind DMG Boost: "$t(gameData:Elements.Wind) урон"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum) урон"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary) урон"
 ShortReadableStats:
   "HP%": HP %
   HP: HP
@@ -186,3 +187,4 @@ ShortDMGTypes:
   Dot: Периодический урон
   Break: Урон пробития
   CV: КМ
+CurrentVersion: "Текущая версия: ({{Version}})"

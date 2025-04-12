@@ -4,6 +4,8 @@ import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
 import { baselineScoringParams, benchmarkScoringParams, originalScoringParams, SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { simulateBenchmarkBuild } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
+import { simulatePerfectBuild } from 'lib/simulations/new/benchmarks/simulatePerfectBuild'
 import { RunSimulationsParams, runStatSimulations, RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulation'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
@@ -48,6 +50,9 @@ function call(
   orchestrator.setSimForm(character.form)
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
+
+  orchestrator.calculateBenchmark()
+  orchestrator.calculatePerfection()
 }
 
 export function resolveDpsScoreSimulationMetadata(
@@ -95,8 +100,8 @@ export class DpsScoreBenchmarkOrchestrator {
   private originalSimResult?: RunStatSimulationsResult
   private benchmarkSimRequest?: SimulationRequest
   private benchmarkSimResult?: RunStatSimulationsResult
-  private perfectSimRequest?: SimulationRequest
-  private perfectSimResult?: RunStatSimulationsResult
+  private perfectionSimRequest?: SimulationRequest
+  private perfectionSimResult?: RunStatSimulationsResult
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -273,6 +278,35 @@ export class DpsScoreBenchmarkOrchestrator {
 
     this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags)
     this.originalSimResult = forcedSpdSimResult
+  }
+
+  public async calculateBenchmark() {
+    const benchmarkSim = await simulateBenchmarkBuild(
+      character,
+      simulationSets,
+      originalSim,
+      targetSpd,
+      metadata,
+      simulationForm,
+      context,
+      baselineSimResult,
+      originalSimResult,
+      simulationFlags,
+    )
+  }
+
+  public async calculatePerfection() {
+    const maximumSim = await simulatePerfectBuild(
+      benchmarkSim,
+      targetSpd,
+      metadata,
+      simulationForm,
+      context,
+      applyScoringFunction,
+      baselineSimResult,
+      originalSimResult,
+      simulationFlags,
+    )
   }
 
   // public async run(includePerfectBuild: boolean = false): Promise<CustomBenchmarkResult> {

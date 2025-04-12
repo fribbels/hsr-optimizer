@@ -305,11 +305,19 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
             seen[partition.value] = partition
             newPartitions.push(partition)
           }
+          for (let j = 1; j < partition.activations.length; j++) {
+            partition.activations[j] = false
+          }
         }
-        // TODO: all others activation[0] should get false
 
-        // numberUpdateConditional.partitions[0].value = numberBaseConditional.partitions[0].value
-        // numberUpdateConditional.partitions[0].activations[0] = numberBaseConditional.partitions[0].activations[0]
+        for (let i = 0; i < newPartitions.length; i++) {
+          if (newPartitions[i].value == numberBaseConditional.partitions[0].value) {
+            newPartitions[i].activations[0] = true
+          } else {
+            newPartitions[i].activations[0] = false
+          }
+        }
+
         numberUpdateConditional.partitions = newPartitions
         baseConditionals[key] = updateConditional
       }

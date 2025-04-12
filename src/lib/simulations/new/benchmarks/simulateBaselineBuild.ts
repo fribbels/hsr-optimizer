@@ -32,7 +32,6 @@ export function simulateBaselineBuild(
 
         relic.substats.push({
           stat: substat,
-          // No substats for baseline
           value: StatCalculator.getMaxedSubstatValue(substat, scoringParams.quality) * 0,
         })
       }

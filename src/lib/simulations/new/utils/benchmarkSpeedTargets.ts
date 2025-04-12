@@ -1,14 +1,14 @@
 // speedCalculator.ts
-import { Stats } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { SimulationFlags } from 'lib/scoring/simScoringUtils'
+import { RunStatSimulationsResult } from 'lib/simulations/new/statSimulation'
 import { Simulation } from 'lib/simulations/statSimulationController'
 
 export function calculateTargetSpeed(
   originalSim: Simulation,
-  originalSimResult: SimulationResult,
+  originalSimResult: RunStatSimulationsResult,
   forcedSpdSim: Simulation,
-  forcedSpdSimResult: SimulationResult,
+  forcedSpdSimResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
 ) {
   let targetSpd: number
@@ -30,9 +30,31 @@ export function calculateTargetSpeed(
   return { targetSpd, originalSimResult, originalSim }
 }
 
-export function applySpeedAdjustments(
+export function calculateTargetSpeedNew(
+  originalSimResult: RunStatSimulationsResult,
+  forcedSpdSimResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
-  baselineSimResult: SimulationResult,
+) {
+  let targetSpd: number
+
+  if (simulationFlags.characterPoetActive) {
+    // When the original character has poet, benchmark against the original character
+    targetSpd = forcedSpdSimResult.xa[Key.SPD]
+  } else {
+    if (simulationFlags.simPoetActive) {
+      // We don't want to have the original character's combat stats penalized by poet if they're not on poet
+      targetSpd = simulationFlags.forceBasicSpdValue
+    } else {
+      targetSpd = originalSimResult.xa[Key.SPD]
+    }
+  }
+
+  return targetSpd
+}
+
+export function applySpeedFlags(
+  simulationFlags: SimulationFlags,
+  baselineSimResult: RunStatSimulationsResult,
   originalSpd: number,
   spdBenchmark?: number,
 ): void {
@@ -40,9 +62,9 @@ export function applySpeedAdjustments(
 
   if (simulationFlags.simPoetActive) {
     // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
-    if (baselineSimResult[Stats.SPD] < 95) {
+    if (baselineSimResult.ca[Key.SPD] < 95) {
       simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 94.999, spdBenchmark ?? 94.999)
-    } else if (baselineSimResult[Stats.SPD] < 110) {
+    } else if (baselineSimResult.ca[Key.SPD] < 110) {
       simulationFlags.forceBasicSpdValue = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
     } else {
       // No-op

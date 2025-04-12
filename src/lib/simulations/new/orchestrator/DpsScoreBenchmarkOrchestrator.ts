@@ -3,9 +3,10 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
-import { benchmarkScoringParams, originalScoringParams, SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
-import { RunSimulationsParams, runStatSimulations, Simulation } from 'lib/simulations/new/statSimulation'
+import { baselineScoringParams, benchmarkScoringParams, originalScoringParams, SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { RunSimulationsParams, runStatSimulations, RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulation'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
+import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { convertRelicsToSimulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
@@ -14,7 +15,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { calculatePenaltyMultiplier } from 'lib/worker/computeOptimalSimulationWorker'
 import { Character } from 'types/character'
 import { Form, OptimizerForm } from 'types/form'
-import { SimulationMetadata } from 'types/metadata'
+import { ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
 export interface CustomBenchmarkResult {
@@ -31,6 +32,7 @@ function call(
   character: Character,
   teamSelection: string,
   singleRelicByPart: SingleRelicByPart,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ) {
   const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
   if (!simulationMetadata) {
@@ -44,6 +46,8 @@ function call(
   orchestrator.setFlags()
   orchestrator.setSimSets()
   orchestrator.setSimForm(character.form)
+  orchestrator.setBaselineBuild()
+  orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
 }
 
 export function resolveDpsScoreSimulationMetadata(
@@ -78,10 +82,21 @@ export function resolveDpsScoreSimulationMetadata(
 export class DpsScoreBenchmarkOrchestrator {
   private metadata: SimulationMetadata
   private flags: SimulationFlags
-  private simSets: SimulationSets | undefined
-  private actualSimRequest: SimulationRequest | undefined
-  private form: OptimizerForm | undefined
-  private context: OptimizerContext | undefined
+  private simSets?: SimulationSets
+  private actualSimRequest?: SimulationRequest
+  private form?: OptimizerForm
+  private context?: OptimizerContext
+  private spdBenchmark?: number
+  private targetSpd?: number
+
+  private baselineSimRequest?: SimulationRequest
+  private baselineSimResult?: RunStatSimulationsResult
+  private originalSimRequest?: SimulationRequest
+  private originalSimResult?: RunStatSimulationsResult
+  private benchmarkSimRequest?: SimulationRequest
+  private benchmarkSimResult?: RunStatSimulationsResult
+  private perfectSimRequest?: SimulationRequest
+  private perfectSimResult?: RunStatSimulationsResult
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -203,12 +218,35 @@ export class DpsScoreBenchmarkOrchestrator {
   }
 
   public setBaselineBuild() {
-
-  }
-
-  public setOriginalBuild() {
     const form = this.form!
     const context = this.context!
+    const actualSimRequest = this.actualSimRequest!
+
+    const baselineSimRequest = {
+      ...actualSimRequest,
+      stats: { [Stats.SPD]: actualSimRequest.stats[Stats.SPD] },
+    }
+
+    const baselineSim: Simulation = {
+      simType: StatSimTypes.SubstatRolls,
+      request: baselineSimRequest,
+    } as Simulation
+
+    const simParams: RunSimulationsParams = {
+      ...baselineScoringParams,
+      mainStatMultiplier: 0,
+      simulationFlags: this.flags,
+    }
+
+    this.baselineSimRequest = baselineSimRequest
+    this.baselineSimResult = runStatSimulations([baselineSim], form, context, simParams)[0]
+  }
+
+  public setOriginalBuild(inputSpdBenchmark?: number) {
+    const form = this.form!
+    const context = this.context!
+    const baselineSimResult = this.baselineSimResult!
+    const flags = this.flags!
 
     const originalSim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
@@ -217,7 +255,6 @@ export class DpsScoreBenchmarkOrchestrator {
 
     const simParams: RunSimulationsParams = {
       ...originalScoringParams,
-      substatRollsModifier: (rolls: number) => rolls,
       mainStatMultiplier: 1,
       simulationFlags: this.flags,
     }
@@ -225,43 +262,17 @@ export class DpsScoreBenchmarkOrchestrator {
     const originalSimResult = runStatSimulations([originalSim], form, context, simParams)[0]
     const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
 
-    //
-    // let {
-    //   originalSimResult,
-    //   originalSim,
-    // } = simulateOriginalBuild(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
-    //
-    // const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
-    //
-    // // ===== Simulate the baseline build =====
-    //
-    // const { baselineSimResult, baselineSim } = simulateBaselineBuild(
-    //   relicsByPart,
-    //   simulationForm,
-    //   context,
-    //   simulationSets,
-    //   benchmarkScoringParams,
-    //   simulationFlags,
-    // )
-    // applyScoringFunction(baselineSimResult)
-    //
-    // const spdBenchmark = showcaseTemporaryOptions.spdBenchmark != null
-    //   ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
-    //   : undefined
-    //
-    // applySpeedAdjustments(
-    //   simulationFlags,
-    //   baselineSimResult,
-    //   originalSpd,
-    //   spdBenchmark,
-    // )
-    //
-    // // ===== Simulate the forced spd build =====
-    //
-    // const {
-    //   originalSimResult: forcedSpdSimResult,
-    //   originalSim: forcedSpdSim,
-    // } = simulateOriginalBuild(relicsByPart, simulationSets, simulationForm, context, originalScoringParams, simulationFlags)
+    this.spdBenchmark = inputSpdBenchmark != null
+      ? Math.max(baselineSimResult.ca[Key.SPD], inputSpdBenchmark)
+      : undefined
+
+    applySpeedFlags(flags, baselineSimResult, originalSpd, this.spdBenchmark)
+
+    // Force SPD
+    const forcedSpdSimResult = runStatSimulations([originalSim], form, context, simParams)[0]
+
+    this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags)
+    this.originalSimResult = forcedSpdSimResult
   }
 
   // public async run(includePerfectBuild: boolean = false): Promise<CustomBenchmarkResult> {

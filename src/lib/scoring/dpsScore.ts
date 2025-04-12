@@ -9,7 +9,7 @@ import { simulateOriginalBuild } from 'lib/simulations/new/benchmarks/simulateOr
 import { simulatePerfectBuild } from 'lib/simulations/new/benchmarks/simulatePerfectBuild'
 import { generateStatImprovements } from 'lib/simulations/new/scoringUpgrades'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
-import { applySpeedAdjustments, calculateTargetSpeed } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
+import { applySpeedFlags, calculateTargetSpeed } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -260,7 +260,7 @@ export async function scoreCharacterSimulation(
     ? Math.max(baselineSimResult[Stats.SPD], showcaseTemporaryOptions.spdBenchmark)
     : undefined
 
-  applySpeedAdjustments(
+  applySpeedFlags(
     simulationFlags,
     baselineSimResult,
     originalSpd,

@@ -98,6 +98,8 @@ export const benchmarkScoringParams: ScoringParams = {
   substatRollsModifier: substatRollsModifier,
 }
 
+export const baselineScoringParams: ScoringParams = benchmarkScoringParams
+
 export const originalScoringParams: ScoringParams = {
   ...benchmarkScoringParams,
   substatRollsModifier: (rolls: number) => rolls,

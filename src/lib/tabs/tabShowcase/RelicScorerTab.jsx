@@ -12,7 +12,7 @@ import DB, { AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -273,7 +273,8 @@ function CharacterPreviewSelection(props) {
   const [screenshotLoading, setScreenshotLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
-  const { t } = useTranslation(['relicScorerTab', 'gameData'])
+  const { t } = useTranslation('relicScorerTab')
+  const { t: tCharacter } = useTranslation('gameData', { keyPrefix: 'Characters' })
 
   const items = [
     {
@@ -429,7 +430,7 @@ function CharacterPreviewSelection(props) {
     setDownloadLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
-      const name = props.selectedCharacter ? t(`gameData:Characters.${props.selectedCharacter.id}.Name`) : null
+      const name = props.selectedCharacter ? tCharacter(`${props.selectedCharacter.id}.Name`) : null
       Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
@@ -499,7 +500,11 @@ function CharacterPreviewSelection(props) {
 
         {props?.availableCharacters?.length > 0 && (
           <Alert
-            message={<>Note: Combo DMG is used to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!</>}
+            message={(
+              <Trans t={t} i18nKey='Disclaimer'>
+                Note: Combo DMG is used to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!
+              </Trans>
+            )}
             type='info'
             showIcon
             style={{ marginBottom: 5, width: '100%' }}

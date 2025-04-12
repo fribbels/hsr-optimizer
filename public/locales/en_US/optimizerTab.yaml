@@ -568,8 +568,8 @@ ExpandedDataPanel:
       memoDmg: Memo DMG
   BuffsAnalysisDisplay:
     Values:
-      BoolFalse: No
-      BoolTrue: Yes
+      BoolFalse: "No"
+      BoolTrue: "Yes"
     Sources:
       Basic: Basic
       Skill: Skill

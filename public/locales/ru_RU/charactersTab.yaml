@@ -1,7 +1,7 @@
 ScreenshotMessages:
   ScreenshotSuccess: Скриншот скопирован в буфер обмена
   ScreenshotFailed: Не удается сохранить скриншот в буфер обмена, попробуйте нажать кнопку загрузки справа
-  DownloadSuccess: Скаченный скриншот
+  DownloadSuccess: Загружен скриншот
 CharacterMenu:
   ButtonText: Меню персонажей
   Character:
@@ -83,6 +83,7 @@ CharacterPreview:
     NoSelectedLightCone: Конус не выбран
   ScoreHeader:
     Title: Эффективность сборки
+    TitleBenchmark: "Эталонное SPD {{spd}}"
     Score: "Оценка урона {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Способ оценки:"

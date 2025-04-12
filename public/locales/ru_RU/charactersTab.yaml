@@ -18,14 +18,14 @@ CharacterMenu:
       Save: Сохранить сборку
       View: Просмотр сохраненных сборок
   Scoring:
-    Label: Очки
+    Label: Оценка
     Options:
       ScoringModal: Алгоритм подсчета очков
   Priority:
     Label: Приоритет
     Options:
-      SortByScore: Отсортируйте всех персонажей по количеству баллов
-      MoveToTop: Переместите персонажа на самый верх
+      SortByScore: Отсортировать персонажей по оценке сборки
+      MoveToTop: Переместить персонажа на самый верх
 SearchPlaceholder: Поиск
 GridHeaders:
   Icon: Иконка

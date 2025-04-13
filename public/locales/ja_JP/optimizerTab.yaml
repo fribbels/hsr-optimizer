@@ -550,6 +550,9 @@ ExpandedDataPanel:
       dotDmg: 持続ダメージ
       memoDmg: 精霊ダメージ
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "いいえ"
+      BoolTrue: "はい"
     Sources:
       Basic: 通常
       Skill: スキル

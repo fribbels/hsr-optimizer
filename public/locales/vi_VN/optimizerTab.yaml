@@ -562,6 +562,9 @@ ExpandedDataPanel:
       dotDmg: ST Duy Trì
       memoDmg: ST Linh Hồn KÝ Ức
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Không"
+      BoolTrue: "Có"
     Sources:
       Basic: Tấn công thường
       Skill: Chiến kỹ

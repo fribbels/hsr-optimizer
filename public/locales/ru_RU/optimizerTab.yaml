@@ -86,6 +86,9 @@ ExpandedDataPanel:
       breakDmg: Урон пробития
       dotDmg: Периодический урон
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Нет"
+      BoolTrue: "Да"
     Stats:
       CompositeLabels:
         Prefix:

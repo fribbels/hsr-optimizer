@@ -566,6 +566,9 @@ ExpandedDataPanel:
       dotDmg: Dano DoT
       memoDmg: Dano Memo
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Não"
+      BoolTrue: "Sim"
     Sources:
       Basic: Basic
       Skill: Skill

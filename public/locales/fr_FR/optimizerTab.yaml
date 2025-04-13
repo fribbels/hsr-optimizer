@@ -566,6 +566,9 @@ ExpandedDataPanel:
       dotDmg: DGT Dsd
       memoDmg: DGT Mnémesprit
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Non"
+      BoolTrue: "Oui"
     Sources:
       Basic: Normale
       Skill: Compétence

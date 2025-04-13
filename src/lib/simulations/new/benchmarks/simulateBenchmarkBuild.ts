@@ -1,9 +1,8 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
 import { DpsScoreBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/DpsScoreBenchmarkOrchestrator'
-import { Simulation, StatSimTypes } from 'lib/simulations/new/statSimulation'
+import { Simulation, SimulationRequest, SimulationStats, StatSimTypes } from 'lib/simulations/new/simulationStats'
 import { isErrRopeForced } from 'lib/simulations/new/utils/benchmarkUtils'
-import { SimulationRequest, SimulationStats } from 'lib/simulations/statSimulationController'
 
 // Generate all main stat possibilities
 export function generatePartialSimulations(

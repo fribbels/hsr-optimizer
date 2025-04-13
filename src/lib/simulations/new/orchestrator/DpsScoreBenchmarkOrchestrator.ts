@@ -20,12 +20,13 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
 import { generateStatImprovements, SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
-import { RunSimulationsParams, runStatSimulations, RunStatSimulationsResult, Simulation, StatSimTypes } from 'lib/simulations/new/statSimulation'
+import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/simulationStats'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
-import { convertRelicsToSimulation, SimulationRequest } from 'lib/simulations/statSimulationController'
+import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -405,10 +406,10 @@ export class DpsScoreBenchmarkOrchestrator {
       return runComputeOptimalSimulationWorker(input)
     })
 
-    console.time('!!!!!!!!!!!!!!!!! runner')
+    console.time('===== Benchmark runner time')
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
-    console.timeEnd('!!!!!!!!!!!!!!!!! runner')
+    console.timeEnd('===== Benchmark runner time')
 
     console.log(candidates)
 
@@ -475,8 +476,11 @@ export class DpsScoreBenchmarkOrchestrator {
         runnerPromises.push(runComputeOptimalSimulationWorker(input) as Promise<ComputeOptimalSimulationRunnerOutput>)
       }
     }
+
+    console.time('===== Perfection runner time')
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
+    console.timeEnd('===== Perfection runner time')
 
     // Find the highest scoring
     candidates.sort(simSorter)
@@ -510,7 +514,7 @@ export class DpsScoreBenchmarkOrchestrator {
 
   public calculateUpgrades() {
     const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
-      this.originalSim!,
+      this.originalSim,
       this.benchmarkSimRequest!,
       this.form!,
       this.context!,
@@ -558,89 +562,6 @@ export class DpsScoreBenchmarkOrchestrator {
       simulationFlags: this.flags,
     }
   }
-
-  // public async run(includePerfectBuild: boolean = false): Promise<CustomBenchmarkResult> {
-  //   try {
-  //     // Step 1: Simulate benchmark build directly
-  //     await this.runBenchmarkBuild()
-  //
-  //     // Step 2: Optionally simulate perfect build
-  //     if (includePerfectBuild) {
-  //       await this.runPerfectBuild()
-  //     }
-  //
-  //     // Return results
-  //     return this.getResults()
-  //   } finally {
-  //     // Record total time
-  //     this.state.metrics.totalTime = performance.now() - this.state.metrics.startTime
-  //   }
-  // }
-  //
-  // public getState(): SimulationState {
-  //   return this.state
-  // }
-  //
-  // private async runBenchmarkBuild(): Promise<void> {
-  //   if (this.state.status.benchmarkBuildCompleted) {
-  //     return // Already completed
-  //   }
-  //
-  //   const startTime = performance.now()
-  //
-  //   // Run the simulation
-  //   const { benchmarkSim, benchmarkSimResult } = await simulateBenchmarkBuild(this.state)
-  //
-  //   // Update state
-  //   this.state.results.benchmarkSim = benchmarkSim
-  //   this.state.results.benchmarkSimResult = benchmarkSimResult
-  //   this.state.status.benchmarkBuildCompleted = true
-  //   this.state.metrics.benchmarkBuildTime = performance.now() - startTime
-  // }
-  //
-  // private async runPerfectBuild(): Promise<void> {
-  //   if (this.state.status.perfectBuildCompleted) {
-  //     return // Already completed
-  //   }
-  //
-  //   const startTime = performance.now()
-  //
-  //   // Ensure benchmark build is completed
-  //   if (!this.state.status.benchmarkBuildCompleted) {
-  //     await this.runBenchmarkBuild()
-  //   }
-  //
-  //   // Run the simulation
-  //   const { perfectSim, perfectSimResult } = await simulatePerfectBuild(this.state)
-  //
-  //   // Update state
-  //   this.state.results.perfectSim = perfectSim
-  //   this.state.results.perfectSimResult = perfectSimResult
-  //   this.state.status.perfectBuildCompleted = true
-  //   this.state.metrics.perfectBuildTime = performance.now() - startTime
-  // }
-  //
-  // private getResults(): CustomBenchmarkResult {
-  //   if (!this.state.status.benchmarkBuildCompleted) {
-  //     throw new Error('Benchmark simulation not completed')
-  //   }
-  //
-  //   const result: CustomBenchmarkResult = {
-  //     benchmarkSim: this.state.results.benchmarkSim!,
-  //     benchmarkSimResult: this.state.results.benchmarkSimResult!,
-  //     metrics: {
-  //       totalTime: this.state.metrics.totalTime!,
-  //     },
-  //   }
-  //
-  //   // Include perfect build results if available
-  //   if (this.state.status.perfectBuildCompleted) {
-  //     result.perfectSim = this.state.results.perfectSim
-  //     result.perfectSimResult = this.state.results.perfectSimResult
-  //   }
-  //
-  //   return result
-  // }
 
   public scoringFunction = (result: RunStatSimulationsResult, penalty = true) => {
     if (!result) return

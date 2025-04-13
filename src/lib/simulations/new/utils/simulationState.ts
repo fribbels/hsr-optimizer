@@ -1,6 +1,6 @@
 import { Sets, Stats } from 'lib/constants/constants'
 import { ScoringParams } from 'lib/scoring/simScoringUtils'
-import { SimulationRequest } from 'lib/simulations/statSimulationController'
+import { SimulationRequest } from 'lib/simulations/new/simulationStats'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'

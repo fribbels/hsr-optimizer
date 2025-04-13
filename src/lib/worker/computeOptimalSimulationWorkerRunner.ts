@@ -1,6 +1,5 @@
 import { PartialSimulationWrapper, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
-import { Simulation } from 'lib/simulations/new/statSimulation'
-import { SimulationStats } from 'lib/simulations/statSimulationController'
+import { Simulation, SimulationStats } from 'lib/simulations/new/simulationStats'
 import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
 import { DEBUG } from 'lib/worker/computeOptimalSimulationWorker'
 import { WorkerType } from 'lib/worker/workerUtils'

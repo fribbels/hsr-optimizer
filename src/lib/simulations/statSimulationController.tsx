@@ -15,6 +15,7 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
+import { SimulationRequest } from 'lib/simulations/new/simulationStats'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
@@ -29,20 +30,6 @@ import { OptimizerContext } from 'types/optimizer'
 import { Relic, Stat } from 'types/relic'
 
 // FIXME HIGH
-
-export type SimulationRequest = {
-  name?: string // This name is optionally provided from the sim form, then the parent either autogens or inherits
-  simRelicSet1: string
-  simRelicSet2: string
-  simOrnamentSet: string
-  simBody: string
-  simFeet: string
-  simPlanarSphere: string
-  simLinkRope: string
-  stats: SimulationStats
-}
-
-export type SimulationStats = Record<string, number>
 
 export function saveStatSimulationBuildFromForm() {
   const form: Form = window.optimizerForm.getFieldsValue()

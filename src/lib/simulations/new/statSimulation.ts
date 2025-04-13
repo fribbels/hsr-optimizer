@@ -4,18 +4,11 @@ import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimizatio
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/new/simulateBuild'
+import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRelic, SimulationRelicByPart, StatSimTypes } from 'lib/simulations/new/simulationStats'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
-
-export type RunSimulationsParams = {
-  quality: number
-  speedRollValue: number
-  mainStatMultiplier: number
-  substatRollsModifier: (num: number, stat: string, sim: Simulation) => number
-  simulationFlags: SimulationFlags
-}
 
 const defaultSimulationParams: RunSimulationsParams = {
   quality: 1,
@@ -23,11 +16,6 @@ const defaultSimulationParams: RunSimulationsParams = {
   mainStatMultiplier: 1,
   substatRollsModifier: (num: number) => num,
   simulationFlags: {} as SimulationFlags,
-}
-
-export type SimulationRelic = {
-  set: string
-  condensedStats: [number, number][]
 }
 
 function simulationRelic(set: string, mainStat: string, mainValue: number): SimulationRelic {
@@ -39,13 +27,6 @@ function simulationRelic(set: string, mainStat: string, mainValue: number): Simu
 
 const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
 const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
-
-export type RunStatSimulationsResult = {
-  x: ComputedStatsArray
-  xa: Float32Array
-  ca: Float32Array
-  simScore: number
-}
 
 // Can be called from both main and worker
 // Context must exist
@@ -91,15 +72,6 @@ export function runStatSimulations(
   return simulationResults
 }
 
-export type SimulationRelicByPart = {
-  LinkRope: SimulationRelic
-  PlanarSphere: SimulationRelic
-  Feet: SimulationRelic
-  Body: SimulationRelic
-  Hands: SimulationRelic
-  Head: SimulationRelic
-}
-
 export function generateSimRelics(simulation: Simulation, params: RunSimulationsParams): SimulationRelicByPart {
   const request = simulation.request
   const simRelics = {
@@ -115,35 +87,6 @@ export function generateSimRelics(simulation: Simulation, params: RunSimulations
 
   addSubstats(simRelics, simulation, params)
   return simRelics
-}
-
-export enum StatSimTypes {
-  Disabled = 'disabled',
-  SubstatRolls = 'substatRolls',
-}
-
-export type Simulation = {
-  name?: string
-  key?: string
-  simType: StatSimTypes
-  request: SimulationRequest
-  result?: RunStatSimulationsResult
-}
-
-type SimulationStats = {
-  [key: string]: number
-}
-
-type SimulationRequest = {
-  name?: string // This name is optionally provided from the sim form, then the parent either autogens or inherits
-  simRelicSet1: string
-  simRelicSet2: string
-  simOrnamentSet: string
-  simBody: string
-  simFeet: string
-  simPlanarSphere: string
-  simLinkRope: string
-  stats: SimulationStats
 }
 
 function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: RunSimulationsParams) {
@@ -195,3 +138,4 @@ const statToKey: Record<string, number> = {
   [Stats.Quantum_DMG]: 20,
   [Stats.Imaginary_DMG]: 21,
 } as const
+

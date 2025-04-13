@@ -1,12 +1,12 @@
 import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
 import { ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { Simulation, SimulationRequest } from 'lib/simulations/new/simulationStats'
 import { isErrRopeForced, partsToFilterMapping } from 'lib/simulations/new/utils/benchmarkUtils'
-import { runSimulations, SimulationRequest } from 'lib/simulations/statSimulationController'
+import { runSimulations } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
-import { Simulation } from './statSimulation'
 
 export type SimulationStatUpgrade = {
   simulation: Simulation

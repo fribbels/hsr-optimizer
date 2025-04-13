@@ -14,7 +14,7 @@ import {
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
-import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/new/statSimulation'
+import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/new/simulationStats'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'

@@ -17,7 +17,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { OrnamentSetsConfig, RelicSetsConfig, SetKeys, SetKeyType } from 'lib/optimization/config/setsConfig'
-import { SimulationRelic } from 'lib/simulations/new/statSimulation'
+import { SimulationRelic } from 'lib/simulations/new/simulationStats'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
 
 const SET_EFFECTS = new Map()

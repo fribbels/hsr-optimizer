@@ -2,8 +2,7 @@ import { Stats, SubStats } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { PartialSimulationWrapper, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
-import { RunStatSimulationsResult } from 'lib/simulations/new/statSimulation'
-import { SimulationStats } from 'lib/simulations/statSimulationController'
+import { RunStatSimulationsResult, SimulationStats } from 'lib/simulations/new/simulationStats'
 import { SimulationMetadata } from 'types/metadata'
 
 export function calculateMinSubstatRollCounts(

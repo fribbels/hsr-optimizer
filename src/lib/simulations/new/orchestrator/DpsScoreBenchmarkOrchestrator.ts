@@ -62,32 +62,6 @@ import { OptimizerContext } from 'types/optimizer'
 
  */
 
-export async function runOrchestrator(
-  character: Character,
-  simulationMetadata: SimulationMetadata,
-  singleRelicByPart: SingleRelicByPart,
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
-) {
-  const orchestrator = new DpsScoreBenchmarkOrchestrator(simulationMetadata)
-
-  orchestrator.setMetadata()
-  orchestrator.setOriginalSimRequest(singleRelicByPart)
-  orchestrator.setSimSets()
-  orchestrator.setFlags()
-  orchestrator.setSimForm(character.form)
-  orchestrator.setBaselineBuild()
-  orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
-
-  await orchestrator.calculateBenchmark()
-  await orchestrator.calculatePerfection()
-
-  orchestrator.calculateScores()
-  orchestrator.calculateUpgrades()
-  orchestrator.calculateResults()
-
-  return orchestrator
-}
-
 export function resolveDpsScoreSimulationMetadata(
   character: Character,
   teamSelection: string,
@@ -118,6 +92,32 @@ export function resolveDpsScoreSimulationMetadata(
   console.debug(defaultScoringMetadata)
 
   return metadata
+}
+
+export async function runOrchestrator(
+  character: Character,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: SingleRelicByPart,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+) {
+  const orchestrator = new DpsScoreBenchmarkOrchestrator(simulationMetadata)
+
+  orchestrator.setMetadata()
+  orchestrator.setOriginalSimRequest(singleRelicByPart)
+  orchestrator.setSimSets()
+  orchestrator.setFlags()
+  orchestrator.setSimForm(character.form)
+  orchestrator.setBaselineBuild()
+  orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
+
+  await orchestrator.calculateBenchmark()
+  await orchestrator.calculatePerfection()
+
+  orchestrator.calculateScores()
+  orchestrator.calculateUpgrades()
+  orchestrator.calculateResults()
+
+  return orchestrator
 }
 
 export class DpsScoreBenchmarkOrchestrator {
@@ -506,6 +506,7 @@ export class DpsScoreBenchmarkOrchestrator {
       this.form!,
       this.context!,
       this.metadata,
+      this.flags,
       benchmarkScoringParams,
       this.baselineSimResult?.simScore!,
       this.benchmarkSimResult?.simScore!,

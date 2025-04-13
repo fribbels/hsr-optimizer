@@ -1,8 +1,8 @@
 import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
-import { applyScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { applyScoringFunction, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
-import { Simulation, SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
-import { isErrRopeForced, partsToFilterMapping } from 'lib/simulations/new/utils/benchmarkUtils'
+import { RunStatSimulationsResult, Simulation, SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
+import { partsToFilterMapping } from 'lib/simulations/new/utils/benchmarkUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
@@ -10,7 +10,7 @@ import { OptimizerContext } from 'types/optimizer'
 
 export type SimulationStatUpgrade = {
   simulation: Simulation
-  simulationResult: SimulationResult
+  simulationResult: RunStatSimulationsResult
   part?: string
   stat?: string
   percent?: number
@@ -22,6 +22,7 @@ export function generateStatImprovements(
   simulationForm: Form,
   context: OptimizerContext,
   metadata: SimulationMetadata,
+  flags: SimulationFlags,
   scoringParams: ScoringParams,
   baselineSimScore: number,
   benchmarkSimScore: number,
@@ -67,14 +68,12 @@ export function generateStatImprovements(
   // Upgrade mains
   const mainUpgradeResults: SimulationStatUpgrade[] = []
 
-  const forceErrRope = isErrRopeForced(simulationForm, metadata, originalSim)
-
   function upgradeMain(part: MainStatParts) {
     for (const upgradeMainStat of metadata.parts[part]) {
       const originalSimClone: Simulation = TsUtils.clone(originalSim)
       const simMainName = partsToFilterMapping[part]
       const simMainStat: string = originalSimClone.request[simMainName]
-      if (forceErrRope && simMainStat == Stats.ERR) continue
+      if (flags.forceErrRope && simMainStat == Stats.ERR) continue
       if (upgradeMainStat == simMainStat) continue
       if (upgradeMainStat == Stats.SPD) continue
       if (simMainStat == Stats.SPD) continue
@@ -113,8 +112,6 @@ export function generateStatImprovements(
   substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
   setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
   mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-
-  // console.log('Stat improvements', mainUpgradeResults)
 
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }

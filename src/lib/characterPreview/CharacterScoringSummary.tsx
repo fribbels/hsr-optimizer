@@ -18,7 +18,7 @@ import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computed
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { Simulation } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -190,7 +190,8 @@ export const CharacterScoringSummary = (props: {
     precision: number
     type: 'Character' | 'Benchmark' | 'Perfect'
   }) {
-    const request = props.simulation.request
+    const simulation = TsUtils.clone(props.simulation)
+    const request = simulation.request
     const simResult = TsUtils.clone(props.simulation.result)
     const basicStats = toBasicStatsObject(simResult.ca)
     const combatStats = toComputedStatsObject(simResult.xa)

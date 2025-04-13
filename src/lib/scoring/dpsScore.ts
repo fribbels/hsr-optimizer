@@ -1,7 +1,7 @@
 import { Constants, Parts } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
-import { runOrchestrator } from 'lib/simulations/new/orchestrator/DpsScoreBenchmarkOrchestrator'
+import { resolveDpsScoreSimulationMetadata, runOrchestrator } from 'lib/simulations/new/orchestrator/DpsScoreBenchmarkOrchestrator'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
@@ -32,16 +32,19 @@ export function getShowcaseSimScoringExecution(
 
     try {
       const characterMetadata = DB.getMetadata().characters[character.id]
+      const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
+      if (!simulationMetadata) {
+        return null
+      }
 
       const relics = displayRelics as SingleRelicByPart
-      const simulationScore = await runOrchestrator(character, teamSelection, relics, showcaseTemporaryOptions)
+      const simulationOrchestrator = await runOrchestrator(character, simulationMetadata, relics, showcaseTemporaryOptions)
+      const simulationScore = simulationOrchestrator.simulationScore
+      console.log('Orchestrator', simulationOrchestrator)
 
       if (!simulationScore) return null
 
-      console.log('DONE', simulationScore)
-
       simulationScore.characterMetadata = characterMetadata
-
       asyncResult.result = simulationScore
       asyncResult.done = true
 

@@ -66,15 +66,10 @@ import { OptimizerContext } from 'types/optimizer'
 
 export async function runOrchestrator(
   character: Character,
-  teamSelection: string,
+  simulationMetadata: SimulationMetadata,
   singleRelicByPart: SingleRelicByPart,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ) {
-  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
-  if (!simulationMetadata) {
-    return null
-  }
-
   const orchestrator = new DpsScoreBenchmarkOrchestrator(simulationMetadata)
 
   orchestrator.setMetadata()
@@ -92,7 +87,7 @@ export async function runOrchestrator(
   orchestrator.calculateUpgrades()
   orchestrator.calculateResults()
 
-  return orchestrator.simulationScore!
+  return orchestrator
 }
 
 export function resolveDpsScoreSimulationMetadata(

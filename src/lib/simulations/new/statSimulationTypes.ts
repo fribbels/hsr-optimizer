@@ -57,3 +57,11 @@ export type SimulationRelicByPart = {
   Hands: SimulationRelic
   Head: SimulationRelic
 }
+export type SimulationRelicArrayByPart = {
+  LinkRope: SimulationRelic[]
+  PlanarSphere: SimulationRelic[]
+  Feet: SimulationRelic[]
+  Body: SimulationRelic[]
+  Hands: SimulationRelic[]
+  Head: SimulationRelic[]
+}

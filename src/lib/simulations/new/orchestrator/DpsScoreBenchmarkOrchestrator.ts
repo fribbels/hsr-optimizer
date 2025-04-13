@@ -1,30 +1,34 @@
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { Key } from 'lib/optimization/computedStatsArray'
+import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import {
   baselineScoringParams,
   benchmarkScoringParams,
   invertDiminishingReturnsSpdFormula,
+  maximumScoringParams,
   originalScoringParams,
+  PartialSimulationWrapper,
+  ScoringParams,
   simSorter,
   SimulationFlags,
   SimulationResult,
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
-import { RunSimulationsParams, runStatSimulations, RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulation'
+import { generateStatImprovements } from 'lib/simulations/new/scoringUpgrades'
+import { RunSimulationsParams, runStatSimulations, RunStatSimulationsResult, Simulation, StatSimTypes } from 'lib/simulations/new/statSimulation'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
 import { convertRelicsToSimulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { calculatePenaltyMultiplier } from 'lib/worker/computeOptimalSimulationWorker'
+import { Utils } from 'lib/utils/utils'
 import { ComputeOptimalSimulationRunnerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { Form, OptimizerForm } from 'types/form'
@@ -64,6 +68,7 @@ function call(
 
   orchestrator.calculateBenchmark()
   orchestrator.calculatePerfection()
+  orchestrator.calculateUpgrades()
 }
 
 export function resolveDpsScoreSimulationMetadata(
@@ -99,7 +104,6 @@ export class DpsScoreBenchmarkOrchestrator {
   public metadata: SimulationMetadata
   public flags: SimulationFlags
   public simSets?: SimulationSets
-  public actualSimRequest?: SimulationRequest
   public form?: OptimizerForm
   public context?: OptimizerContext
   public spdBenchmark?: number
@@ -107,6 +111,8 @@ export class DpsScoreBenchmarkOrchestrator {
 
   public baselineSimRequest?: SimulationRequest
   public baselineSimResult?: RunStatSimulationsResult
+
+  public originalSim?: Simulation
   public originalSimRequest?: SimulationRequest
   public originalSimResult?: RunStatSimulationsResult
 
@@ -116,7 +122,9 @@ export class DpsScoreBenchmarkOrchestrator {
 
   public perfectionSimRequest?: SimulationRequest
   public perfectionSimResult?: RunStatSimulationsResult
-  public perfectSimCandidates?: Simulation[]
+  public perfectionSimCandidates?: Simulation[]
+
+  public percent?: number
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -170,7 +178,7 @@ export class DpsScoreBenchmarkOrchestrator {
 
   public setFlags() {
     const metadata = this.metadata
-    const simRequest = this.actualSimRequest!
+    const simRequest = this.originalSimRequest!
     const simSets = this.simSets!
     if (metadata.teammates.find((teammate) => teammate.characterId == '1313' && teammate.characterEidolon == 6)) {
       this.flags.overcapCritRate = true
@@ -188,7 +196,7 @@ export class DpsScoreBenchmarkOrchestrator {
     const { relicSetNames, ornamentSetName } = calculateSetNames(relics)
     const scoringParams = benchmarkScoringParams
 
-    this.actualSimRequest = convertRelicsToSimulation(
+    this.originalSimRequest = convertRelicsToSimulation(
       relicsByPart,
       relicSetNames[0],
       relicSetNames[1],
@@ -199,7 +207,7 @@ export class DpsScoreBenchmarkOrchestrator {
   }
 
   public setSimSets() {
-    const simRequest = this.actualSimRequest!
+    const simRequest = this.originalSimRequest!
     this.simSets = calculateSimSets(simRequest.simRelicSet1, simRequest.simRelicSet2, simRequest.simOrnamentSet, this.metadata)
   }
 
@@ -240,11 +248,11 @@ export class DpsScoreBenchmarkOrchestrator {
   public setBaselineBuild() {
     const form = this.form!
     const context = this.context!
-    const actualSimRequest = this.actualSimRequest!
+    const originalSimRequest = this.originalSimRequest!
 
     const baselineSimRequest = {
-      ...actualSimRequest,
-      stats: { [Stats.SPD]: actualSimRequest.stats[Stats.SPD] },
+      ...originalSimRequest,
+      stats: { [Stats.SPD]: originalSimRequest.stats[Stats.SPD] },
     }
 
     const baselineSim: Simulation = {
@@ -270,7 +278,7 @@ export class DpsScoreBenchmarkOrchestrator {
 
     const originalSim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
-      request: this.actualSimRequest,
+      request: this.originalSimRequest,
     } as Simulation
 
     const simParams: RunSimulationsParams = {
@@ -293,6 +301,7 @@ export class DpsScoreBenchmarkOrchestrator {
 
     this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags)
     this.originalSimResult = forcedSpdSimResult
+    this.originalSim = originalSim
   }
 
   public async calculateBenchmark() {
@@ -374,22 +383,110 @@ export class DpsScoreBenchmarkOrchestrator {
     this.benchmarkSimCandidates = candidateBenchmarkSims
     this.benchmarkSimResult = benchmarkSim.result!
     this.benchmarkSimRequest = benchmarkSim.request
-
-    return benchmarkSim
   }
 
   public async calculatePerfection() {
-    // const maximumSim = await simulatePerfectBuild(
-    //   benchmarkSim,
-    //   targetSpd,
-    //   metadata,
-    //   simulationForm,
-    //   context,
-    //   applyScoringFunction,
-    //   baselineSimResult,
-    //   originalSimResult,
-    //   simulationFlags,
-    // )
+    const form = this.form!
+    const context = this.context!
+    const metadata = this.metadata!
+    const targetSpd = this.targetSpd!
+    const baselineSimResult = this.baselineSimResult!
+    const benchmarkSimRequest = this.benchmarkSimRequest!
+    const flags = this.flags!
+
+    // Convert the benchmark spd rolls to max spd rolls
+    const spdDiff = targetSpd - baselineSimResult.xa[Key.SPD]
+
+    // Spheres with DMG % are unique because they can alter a build due to DMG % not being a substat.
+    // Permute the sphere options to find the best
+    const clonedContext = TsUtils.clone(context)
+    // @ts-ignore
+    const promises: Promise<any>[] = []
+    for (const feetMainStat of metadata.parts[Parts.Feet]) {
+      for (const sphereMainStat of metadata.parts[Parts.PlanarSphere]) {
+        const bestSimClone: Simulation = TsUtils.clone({ request: benchmarkSimRequest, simType: StatSimTypes.SubstatRolls })
+        bestSimClone.request.simPlanarSphere = sphereMainStat
+        bestSimClone.request.simFeet = feetMainStat
+
+        const spdRolls = feetMainStat == Stats.SPD
+          ? Math.max(0, TsUtils.precisionRound((spdDiff - 25.032) / maximumScoringParams.speedRollValue))
+          : Math.max(0, TsUtils.precisionRound((spdDiff) / maximumScoringParams.speedRollValue))
+
+        if (spdRolls > 36 && feetMainStat != Stats.SPD) {
+          continue
+        }
+
+        const partialSimulationWrapper: PartialSimulationWrapper = {
+          simulation: bestSimClone,
+          finalSpeed: 0, // not needed
+          speedRollsDeduction: Math.min(spdRolls, spdRollsCap(bestSimClone, maximumScoringParams)),
+        }
+
+        const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams, flags)
+        const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, flags)
+        Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
+
+        const input: ComputeOptimalSimulationRunnerInput = {
+          partialSimulationWrapper: partialSimulationWrapper,
+          inputMinSubstatRollCounts: minSubstatRollCounts,
+          inputMaxSubstatRollCounts: maxSubstatRollCounts,
+          simulationForm: form,
+          context: clonedContext,
+          metadata: metadata,
+          scoringParams: TsUtils.clone(maximumScoringParams),
+          simulationFlags: flags,
+        }
+
+        promises.push(runComputeOptimalSimulationWorker(input))
+      }
+    }
+
+    const results = await Promise.all(promises)
+    const candidatePerfectionSimulations: Simulation[] = results.map((x) => x.simulation)
+
+    // Find the highest scoring
+    candidatePerfectionSimulations.sort(simSorter)
+    const perfectionSim = candidatePerfectionSimulations[0]
+
+    this.perfectionSimCandidates = candidatePerfectionSimulations
+    this.perfectionSimResult = perfectionSim.result!
+    this.perfectionSimRequest = perfectionSim.request
+  }
+
+  public calculateScores() {
+    const originalSimResult = this.originalSimResult!
+    const baselineSimResult = this.baselineSimResult!
+    const benchmarkSimResult = this.benchmarkSimResult!
+    const perfectionSimResult = this.perfectionSimResult!
+
+    this.scoringFunction(originalSimResult)
+    this.scoringFunction(baselineSimResult)
+
+    const benchmarkSimScore = benchmarkSimResult.simScore
+    const originalSimScore = originalSimResult.simScore
+    const baselineSimScore = baselineSimResult.simScore
+    const perfectionSimScore = perfectionSimResult.simScore
+
+    const percent = originalSimScore >= benchmarkSimScore
+      ? 1 + (originalSimScore - benchmarkSimScore) / (perfectionSimScore - benchmarkSimScore)
+      : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+
+    this.percent = percent
+  }
+
+  public calculateUpgrades() {
+    const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
+      this.originalSim!,
+      benchmarkSim,
+      simulationForm,
+      context,
+      metadata,
+      applyScoringFunction,
+      benchmarkScoringParams,
+      baselineSimScore,
+      benchmarkSimScore,
+      maximumSimScore,
+    )
   }
 
   // public async run(includePerfectBuild: boolean = false): Promise<CustomBenchmarkResult> {
@@ -475,11 +572,33 @@ export class DpsScoreBenchmarkOrchestrator {
   //   return result
   // }
 
-  public scoringFunction(result: SimulationResult, penalty = true) {
+  public scoringFunction(result: RunStatSimulationsResult, penalty = true) {
     if (!result) return
 
     const unpenalizedSimScore = result.xa[Key.COMBO_DMG]
-    const penaltyMultiplier = calculatePenaltyMultiplier(result, this.metadata, benchmarkScoringParams)
+    const penaltyMultiplier = this.calculatePenaltyMultiplier(result, this.metadata, benchmarkScoringParams)
     result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
+  }
+
+  public calculatePenaltyMultiplier(
+    simulationResult: RunStatSimulationsResult,
+    metadata: SimulationMetadata,
+    scoringParams: ScoringParams,
+  ) {
+    let newPenaltyMultiplier = 1
+    if (metadata.breakpoints) {
+      for (const stat of Object.keys(metadata.breakpoints)) {
+        if (Utils.isFlat(stat)) {
+          // Flats are penalized by their percentage
+          newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
+        } else {
+          // Percents are penalize by half of the missing stat's breakpoint roll percentage
+          newPenaltyMultiplier *= Math.min(1,
+            1 - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality))
+        }
+      }
+    }
+
+    return newPenaltyMultiplier
   }
 }

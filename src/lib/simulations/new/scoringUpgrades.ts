@@ -1,11 +1,12 @@
 import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
 import { ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { isErrRopeForced, partsToFilterMapping } from 'lib/simulations/new/utils/benchmarkUtils'
-import { runSimulations, Simulation } from 'lib/simulations/statSimulationController'
+import { runSimulations, SimulationRequest } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
+import { Simulation } from './statSimulation'
 
 export type SimulationStatUpgrade = {
   simulation: Simulation
@@ -16,9 +17,8 @@ export type SimulationStatUpgrade = {
 }
 
 export function generateStatImprovements(
-  originalSimResult: SimulationResult,
   originalSim: Simulation,
-  benchmark: Simulation,
+  benchmarkRequest: SimulationRequest,
   simulationForm: Form,
   context: OptimizerContext,
   metadata: SimulationMetadata,
@@ -49,9 +49,9 @@ export function generateStatImprovements(
   // Upgrade Set
   const setUpgradeResults: SimulationStatUpgrade[] = []
   const originalSimClone: Simulation = TsUtils.clone(originalSim)
-  originalSimClone.request.simRelicSet1 = benchmark.request.simRelicSet1
-  originalSimClone.request.simRelicSet2 = benchmark.request.simRelicSet2
-  originalSimClone.request.simOrnamentSet = benchmark.request.simOrnamentSet
+  originalSimClone.request.simRelicSet1 = benchmarkRequest.simRelicSet1
+  originalSimClone.request.simRelicSet2 = benchmarkRequest.simRelicSet2
+  originalSimClone.request.simOrnamentSet = benchmarkRequest.simOrnamentSet
 
   const setUpgradeResult = runSimulations(simulationForm, context, [originalSimClone], {
     ...scoringParams,

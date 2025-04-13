@@ -566,6 +566,9 @@ ExpandedDataPanel:
       dotDmg: 持续攻击伤害
       memoDmg: 忆灵伤害
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "否"
+      BoolTrue: "是"
     Sources:
       Basic: 普攻
       Skill: 战技

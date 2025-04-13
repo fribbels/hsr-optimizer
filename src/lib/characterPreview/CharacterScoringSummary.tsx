@@ -191,10 +191,12 @@ export const CharacterScoringSummary = (props: {
     type: 'Character' | 'Benchmark' | 'Perfect'
   }) {
     const simulation = TsUtils.clone(props.simulation)
-    const request = simulation.request
-    const simResult = TsUtils.clone(props.simulation.result)
+    const simRequest = simulation.request
+    const simResult = simulation.result!
+
     const basicStats = toBasicStatsObject(simResult.ca)
     const combatStats = toComputedStatsObject(simResult.xa)
+
     const highlight = props.type == 'Character'
     const color = 'rgb(225, 165, 100)'
     basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
@@ -202,12 +204,12 @@ export const CharacterScoringSummary = (props: {
 
     const diminishingReturns: Record<string, number> = {}
     if (props.type == 'Benchmark') {
-      for (const [stat, rolls] of Object.entries(request.stats)) {
+      for (const [stat, rolls] of Object.entries(simRequest.stats)) {
         const mainsCount = [
-          request.simBody,
-          request.simFeet,
-          request.simPlanarSphere,
-          request.simLinkRope,
+          simRequest.simBody,
+          simRequest.simFeet,
+          simRequest.simPlanarSphere,
+          simRequest.simLinkRope,
           Stats.ATK,
           Stats.HP,
         ].filter((x) => x == stat).length
@@ -219,7 +221,7 @@ export const CharacterScoringSummary = (props: {
       }
     }
 
-    const stats = request.stats
+    const stats = simRequest.stats
     const precision = props.precision
 
     return (
@@ -242,7 +244,6 @@ export const CharacterScoringSummary = (props: {
             characterId={characterId}
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
-            simScore={simResult.simScore}
             showAll={true}
           />
         </Flex>
@@ -257,7 +258,6 @@ export const CharacterScoringSummary = (props: {
             characterId={characterId}
             finalStats={combatStats}
             elementalDmgValue={elementalDmgValue}
-            simScore={simResult.simScore}
             showAll={true}
           />
         </Flex>
@@ -355,13 +355,13 @@ export const CharacterScoringSummary = (props: {
           {/* Character main stats/100% benchmark main stats/200% perfect main stats */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10}>
-              <ScoringStat stat={request.simBody !== 'NONE' ? t(`common:ReadableStats.${request.simBody as MainStats}`) : ''} part={Parts.Body}/>
-              <ScoringStat stat={request.simFeet !== 'NONE' ? t(`common:ReadableStats.${request.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
+              <ScoringStat stat={simRequest.simBody !== 'NONE' ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
+              <ScoringStat stat={simRequest.simFeet !== 'NONE' ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
               <ScoringStat
-                stat={request.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${request.simPlanarSphere as MainStats}`) : ''}
+                stat={simRequest.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''}
                 part={Parts.PlanarSphere}
               />
-              <ScoringStat stat={request.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${request.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
+              <ScoringStat stat={simRequest.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
             </Flex>
           </Flex>
         </Flex>
@@ -373,14 +373,14 @@ export const CharacterScoringSummary = (props: {
           {/* Character/100% benchmark/200% perfect ability damage */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10} style={{ width: 230 }}>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Basic')) + ':'} number={simResult.BASIC} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Skill')) + ':'} number={simResult.SKILL} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.ULT} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Fua')) + ':'} number={simResult.FUA} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Skill')) + ':'} number={simResult.MEMO_SKILL} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Talent')) + ':'} number={simResult.MEMO_TALENT} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Dot')) + ':'} number={simResult.DOT} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Break')) + ':'} number={simResult.BREAK} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Basic')) + ':'} number={simResult.xa[Key.BASIC_DMG]} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Skill')) + ':'} number={simResult.xa[Key.SKILL_DMG]} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.xa[Key.ULT_DMG]} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Fua')) + ':'} number={simResult.xa[Key.FUA_DMG]} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Skill')) + ':'} number={simResult.xa[Key.MEMO_SKILL_DMG]} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Talent')) + ':'} number={simResult.xa[Key.MEMO_TALENT_DMG]} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Dot')) + ':'} number={simResult.xa[Key.DOT_DMG]} precision={1}/>
+              <ScoringNumber label={String(t('common:ShortDMGTypes.Break')) + ':'} number={simResult.xa[Key.BREAK_DMG]} precision={1}/>
             </Flex>
           </Flex>
         </Flex>

@@ -403,7 +403,7 @@ export class DpsScoreBenchmarkOrchestrator {
     const benchmarkSim = candidates[0]
 
     this.benchmarkSimCandidates = candidates
-    this.benchmarkSimResult = benchmarkSim.result!
+    this.benchmarkSimResult = cloneWorkerResult(benchmarkSim.result!)
     this.benchmarkSimRequest = benchmarkSim.request
   }
 
@@ -564,6 +564,20 @@ function cloneSimResult(result: RunStatSimulationsResult) {
   result.x = x
   result.xa = x.a
   result.ca = x.c.a
+
+  return result
+}
+
+function cloneWorkerResult(result: RunStatSimulationsResult) {
+  const clone = new ComputedStatsArrayCore(false)
+  const xa = new Float32Array(result.xa)
+  const ca = new Float32Array(result.ca)
+  clone.a.set(xa)
+  clone.c.a.set(ca)
+
+  result.x = clone as ComputedStatsArray
+  result.xa = xa
+  result.ca = ca
 
   return result
 }

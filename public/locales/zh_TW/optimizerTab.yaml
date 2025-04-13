@@ -81,6 +81,9 @@ ExpandedDataPanel:
       breakDmg: 擊破傷害
       dotDmg: 持續傷害
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "否"
+      BoolTrue: "是"
     Stats:
       CompositeLabels:
         Prefix:

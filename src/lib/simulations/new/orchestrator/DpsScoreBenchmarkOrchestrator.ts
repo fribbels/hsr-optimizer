@@ -490,6 +490,9 @@ export class DpsScoreBenchmarkOrchestrator {
     const benchmarkSimResult = this.benchmarkSimResult!
     const perfectionSimResult = this.perfectionSimResult!
 
+    this.scoringFunction(baselineSimResult)
+    this.scoringFunction(originalSimResult)
+
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
     const baselineSimScore = baselineSimResult.simScore

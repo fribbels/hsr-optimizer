@@ -12,7 +12,7 @@ import DB, { AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
 // NOTE: These strings are replaced by github actions for beta deployment, don't change
@@ -501,9 +501,7 @@ function CharacterPreviewSelection(props) {
         {props?.availableCharacters?.length > 0 && (
           <Alert
             message={(
-              <Trans t={t} i18nKey='Disclaimer'>
-                Note: Combo DMG is used to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!
-              </Trans>
+              <>Note: Combo DMG is used to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!</>
             )}
             type='info'
             showIcon

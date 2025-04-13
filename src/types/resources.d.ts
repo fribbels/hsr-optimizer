@@ -5512,10 +5512,7 @@ interface Resources {
       "AllCharacters": "Import all characters & all relics into optimizer"
     },
     "SimulateRelics": "Simulate relics on another character",
-    "OptimizeOnCharacter": "Optimize character stats",
-    "Disclaimer": {
-      "Note": "Combo DMG is used to compare different relics within the context of the selected team, and should <1>NOT</1> be used to compare different teams!"
-    }
+    "OptimizeOnCharacter": "Optimize character stats"
   },
   "relicsTab": {
     "RelicFilterBar": {
@@ -5676,6 +5673,11 @@ interface Resources {
       "Label": "Relic potential scoring on load",
       "OnStartup": "Default: Automatically score relics on page load",
       "Manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
+    },
+    "ExpandedInfoPanelPosition": {
+      "Label": "Optimizer Expanded info panel position",
+      "Above": "Show expanded info above relics preview",
+      "Below": "Default: Show expanded info below relics preview"
     }
   },
   "sidebar": {

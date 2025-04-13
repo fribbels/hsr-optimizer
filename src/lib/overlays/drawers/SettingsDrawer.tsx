@@ -97,11 +97,11 @@ export const SettingsDrawer = () => {
   const optionsExpandedInfoPanelPosition = [
     {
       value: SettingOptions.ExpandedInfoPanelPosition.Above,
-      label: <span>Show expanded info above relics preview</span>,
+      label: <span>{t('ExpandedInfoPanelPosition.Above')/* Show expanded info above relics preview */}</span>,
     },
     {
       value: SettingOptions.ExpandedInfoPanelPosition.Below,
-      label: <span>Default: Show expanded info below relics preview</span>,
+      label: <span>{t('ExpandedInfoPanelPosition.Below')/* Default: Show expanded info below relics preview */}</span>,
     },
   ]
 
@@ -159,7 +159,7 @@ export const SettingsDrawer = () => {
             </Form.Item>
           </Flex>
           <Flex justify='space-between' align='center'>
-            <Text>Optimizer Expanded info panel position</Text>
+            <Text>{t('ExpandedInfoPanelPosition.Label')/* Optimizer Expanded info panel position */}</Text>
             <Form.Item name={SettingOptions.ExpandedInfoPanelPosition.name}>
               <Select
                 style={{ width: 500 }}

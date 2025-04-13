@@ -46,6 +46,32 @@ export interface CustomBenchmarkResult {
   }
 }
 
+/*
+ TODO: Caching
+
+
+ const cachedSims: {
+ [key: string]: SimulationScore
+ } = {}
+
+ const cacheKey = TsUtils.objectHash({
+ traces,
+ characterId,
+ characterEidolon,
+ lightCone,
+ lightConeSuperimposition,
+ relicsByPart,
+ metadata,
+ customMetadata,
+ showcaseTemporaryOptions,
+ })
+
+ if (cachedSims[cacheKey]) {
+ return cachedSims[cacheKey]
+ }
+
+ */
+
 export async function runOrchestrator(
   character: Character,
   teamSelection: string,
@@ -75,6 +101,10 @@ export async function runOrchestrator(
   orchestrator.calculateResults()
 
   return orchestrator.simulationScore!
+}
+
+function test() {
+
 }
 
 export function resolveDpsScoreSimulationMetadata(

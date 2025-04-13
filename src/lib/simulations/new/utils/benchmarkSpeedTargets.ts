@@ -2,33 +2,6 @@
 import { Key } from 'lib/optimization/computedStatsArray'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { RunStatSimulationsResult } from 'lib/simulations/new/statSimulation'
-import { Simulation } from 'lib/simulations/statSimulationController'
-
-export function calculateTargetSpeed(
-  originalSim: Simulation,
-  originalSimResult: RunStatSimulationsResult,
-  forcedSpdSim: Simulation,
-  forcedSpdSimResult: RunStatSimulationsResult,
-  simulationFlags: SimulationFlags,
-) {
-  let targetSpd: number
-
-  if (simulationFlags.characterPoetActive) {
-    // When the original character has poet, benchmark against the original character
-    targetSpd = forcedSpdSimResult.xa[Key.SPD]
-  } else {
-    if (simulationFlags.simPoetActive) {
-      // We don't want to have the original character's combat stats penalized by poet if they're not on poet
-      targetSpd = simulationFlags.forceBasicSpdValue
-    } else {
-      originalSimResult = forcedSpdSimResult
-      originalSim = forcedSpdSim
-      targetSpd = originalSimResult.xa[Key.SPD]
-    }
-  }
-
-  return { targetSpd, originalSimResult, originalSim }
-}
 
 export function calculateTargetSpeedNew(
   originalSimResult: RunStatSimulationsResult,
@@ -74,3 +47,4 @@ export function applySpeedFlags(
     simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
   }
 }
+

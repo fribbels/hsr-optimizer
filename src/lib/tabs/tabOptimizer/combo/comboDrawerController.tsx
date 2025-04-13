@@ -285,6 +285,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
 
         const seen: Record<number, ComboSubNumberConditional> = {}
 
+        // Insert new conditionals
         for (let i = 0; i < numberUpdateConditional.partitions.length; i++) {
           const partition = numberUpdateConditional.partitions[i]
           if (seen[partition.value]) {
@@ -292,11 +293,15 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
               seen[partition.value].activations[j] = seen[partition.value].activations[j] || numberUpdateConditional.partitions[i].activations[j]
             }
           } else {
+            // Skip merging empty partitions
+            if (!partition.activations.some(activation => activation)) continue
+
             seen[partition.value] = partition
             newPartitions.push(partition)
           }
         }
 
+        // Insert base conditionals
         for (let i = 0; i < numberBaseConditional.partitions.length; i++) {
           const partition = numberBaseConditional.partitions[i]
           if (seen[partition.value]) {
@@ -310,11 +315,21 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
           }
         }
 
+        // The only 0 index activation should be the base conditional
         for (let i = 0; i < newPartitions.length; i++) {
           if (newPartitions[i].value == numberBaseConditional.partitions[0].value) {
             newPartitions[i].activations[0] = true
           } else {
             newPartitions[i].activations[0] = false
+          }
+        }
+
+        // Move the base conditional to the front
+        for (let i = 0; i < newPartitions.length; i++) {
+          if (newPartitions[i].value == numberBaseConditional.partitions[0].value) {
+            const partition = newPartitions.splice(i, 1)[0]
+            newPartitions.unshift(partition)
+            break
           }
         }
 

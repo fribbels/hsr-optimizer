@@ -71,7 +71,6 @@ export type ScoringFunction = (result: RunStatSimulationsResult, penalty?: boole
 
 export type PartialSimulationWrapper = {
   simulation: Simulation
-  finalSpeed: number
   speedRollsDeduction: number
 }
 
@@ -79,6 +78,7 @@ export type SimulationFlags = {
   overcapCritRate: boolean
   simPoetActive: boolean
   characterPoetActive: boolean
+  forceErrRope: boolean
   forceBasicSpd: boolean
   forceBasicSpdValue: number
 }
@@ -211,5 +211,10 @@ export function spdRollsCap(
 export function simSorter(a: Simulation, b: Simulation) {
   const aResult = a.result
   const bResult = b.result
+
+  if (!aResult && !bResult) return 0
+  if (!aResult) return 1
+  if (!bResult) return -1
+
   return bResult.simScore - aResult.simScore
 }

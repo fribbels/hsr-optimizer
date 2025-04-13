@@ -30,14 +30,6 @@ import { Relic, Stat } from 'types/relic'
 
 // FIXME HIGH
 
-export type Simulation = {
-  name?: string
-  key?: string
-  simType: StatSimTypes
-  request: SimulationRequest
-  result?: SimulationResult
-}
-
 export type SimulationRequest = {
   name?: string // This name is optionally provided from the sim form, then the parent either autogens or inherits
   simRelicSet1: string
@@ -50,9 +42,7 @@ export type SimulationRequest = {
   stats: SimulationStats
 }
 
-export type SimulationStats = {
-  [key: string]: number
-}
+export type SimulationStats = Record<string, number>
 
 export function saveStatSimulationBuildFromForm() {
   const form: Form = window.optimizerForm.getFieldsValue()

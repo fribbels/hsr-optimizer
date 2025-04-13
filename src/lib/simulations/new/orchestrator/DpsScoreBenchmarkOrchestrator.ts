@@ -29,7 +29,7 @@ import { convertRelicsToSimulation, SimulationRequest } from 'lib/simulations/st
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { ComputeOptimalSimulationRunnerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { ComputeOptimalSimulationRunnerInput, ComputeOptimalSimulationRunnerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { Form, OptimizerForm } from 'types/form'
 import { ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
@@ -90,10 +90,6 @@ export async function runOrchestrator(
   orchestrator.calculateResults()
 
   return orchestrator.simulationScore!
-}
-
-function test() {
-
 }
 
 export function resolveDpsScoreSimulationMetadata(
@@ -167,6 +163,7 @@ export class DpsScoreBenchmarkOrchestrator {
       overcapCritRate: false,
       simPoetActive: false,
       characterPoetActive: false,
+      forceErrRope: false,
       forceBasicSpd: true,
       forceBasicSpdValue: 0,
     }
@@ -212,17 +209,22 @@ export class DpsScoreBenchmarkOrchestrator {
   }
 
   public setFlags() {
+    const form = this.form!
     const metadata = this.metadata
-    const simRequest = this.originalSimRequest!
+    const originalSimRequest = this.originalSimRequest!
     const simSets = this.simSets!
+
     if (metadata.teammates.find((teammate) => teammate.characterId == '1313' && teammate.characterEidolon == 6)) {
       this.flags.overcapCritRate = true
     }
-    if (simRequest.simRelicSet1 == Sets.PoetOfMourningCollapse && simRequest.simRelicSet2 == Sets.PoetOfMourningCollapse) {
+    if (originalSimRequest.simRelicSet1 == Sets.PoetOfMourningCollapse && originalSimRequest.simRelicSet2 == Sets.PoetOfMourningCollapse) {
       this.flags.characterPoetActive = true
     }
     if (simSets.relicSet1 == Sets.PoetOfMourningCollapse && simSets.relicSet2 == Sets.PoetOfMourningCollapse) {
       this.flags.simPoetActive = true
+    }
+    if (originalSimRequest.simLinkRope == Stats.ERR && metadata.errRopeEidolon != null && form.characterEidolon >= metadata.errRopeEidolon) {
+      this.flags.forceErrRope = true
     }
   }
 
@@ -362,36 +364,32 @@ export class DpsScoreBenchmarkOrchestrator {
     const targetSpd = this.targetSpd!
     const baselineSimResult = this.baselineSimResult!
 
-    const partialSimulationWrappers = generatePartialSimulations(this)
-    const candidateBenchmarkSims: Simulation[] = []
-
+    // Clone to remove functions
     const clonedContext = TsUtils.clone(context)
+    const clonedBenchmarkScoringParams = TsUtils.clone(benchmarkScoringParams)
+
+    const partialSimulationWrappers = generatePartialSimulations(this)
 
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
-      // const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
-      const simulationResults = runStatSimulations([partialSimulationWrapper.simulation], form, context)
-      const simulationResult = simulationResults[0]
+      const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
       // Find the speed deduction
       const finalSpeed = simulationResult.xa[Key.SPD]
-      partialSimulationWrapper.finalSpeed = finalSpeed
-
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
-      const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, benchmarkScoringParams.speedRollValue), 3)
+      const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue), 3)
 
-      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, benchmarkScoringParams))
-
+      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, clonedBenchmarkScoringParams))
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
         console.log('Rejected candidate sim with non SPD boots')
         return null
       }
 
       // Define min/max limits
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams, flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, flags)
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, clonedBenchmarkScoringParams, baselineSimResult, flags)
 
       // Start the sim search at the max then iterate downwards
-      Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
+      partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 
       const input: ComputeOptimalSimulationRunnerInput = {
         partialSimulationWrapper: partialSimulationWrapper,
@@ -400,7 +398,7 @@ export class DpsScoreBenchmarkOrchestrator {
         simulationForm: form,
         context: clonedContext,
         metadata: metadata,
-        scoringParams: TsUtils.clone(benchmarkScoringParams),
+        scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
       }
 
@@ -408,29 +406,16 @@ export class DpsScoreBenchmarkOrchestrator {
     })
 
     console.time('!!!!!!!!!!!!!!!!! runner')
-    const runnerOutputs = await Promise.all(runnerPromises)
+    const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
+    const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('!!!!!!!!!!!!!!!!! runner')
-    runnerOutputs.forEach((runnerOutput, index) => {
-      if (!runnerOutput) return
 
-      const candidateBenchmarkSim = runnerOutput.simulation
+    console.log(candidates)
 
-      if (!candidateBenchmarkSim || partialSimulationWrappers[index].simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrappers[index].simulation.request.simFeet != Stats.SPD) {
-        // Reject non speed boot builds that exceed the speed cap. 48 - 11 * 2 = 26 max subs that can go in to SPD
-        console.log('Rejected candidate sim')
-      } else {
-        candidateBenchmarkSims.push(candidateBenchmarkSim)
-      }
-    })
+    candidates.sort(simSorter)
+    const benchmarkSim = candidates[0]
 
-    console.log(candidateBenchmarkSims)
-
-    // Try to minimize the penalty modifier before optimizing sim score
-
-    candidateBenchmarkSims.sort(simSorter)
-    const benchmarkSim = candidateBenchmarkSims[0]
-
-    this.benchmarkSimCandidates = candidateBenchmarkSims
+    this.benchmarkSimCandidates = candidates
     this.benchmarkSimResult = benchmarkSim.result!
     this.benchmarkSimRequest = benchmarkSim.request
   }
@@ -444,14 +429,15 @@ export class DpsScoreBenchmarkOrchestrator {
     const benchmarkSimRequest = this.benchmarkSimRequest!
     const flags = this.flags
 
+    const clonedContext = TsUtils.clone(context)
+
     // Convert the benchmark spd rolls to max spd rolls
     const spdDiff = targetSpd - baselineSimResult.xa[Key.SPD]
 
     // Spheres with DMG % are unique because they can alter a build due to DMG % not being a substat.
     // Permute the sphere options to find the best
-    const clonedContext = TsUtils.clone(context)
     // @ts-ignore
-    const promises: Promise<any>[] = []
+    const runnerPromises: Promise<ComputeOptimalSimulationRunnerOutput>[] = []
     for (const feetMainStat of metadata.parts[Parts.Feet]) {
       for (const sphereMainStat of metadata.parts[Parts.PlanarSphere]) {
         const bestSimClone: Simulation = TsUtils.clone({ request: benchmarkSimRequest, simType: StatSimTypes.SubstatRolls })
@@ -468,7 +454,6 @@ export class DpsScoreBenchmarkOrchestrator {
 
         const partialSimulationWrapper: PartialSimulationWrapper = {
           simulation: bestSimClone,
-          finalSpeed: 0, // not needed
           speedRollsDeduction: Math.min(spdRolls, spdRollsCap(bestSimClone, maximumScoringParams)),
         }
 
@@ -487,18 +472,17 @@ export class DpsScoreBenchmarkOrchestrator {
           simulationFlags: flags,
         }
 
-        promises.push(runComputeOptimalSimulationWorker(input))
+        runnerPromises.push(runComputeOptimalSimulationWorker(input) as Promise<ComputeOptimalSimulationRunnerOutput>)
       }
     }
-
-    const results = await Promise.all(promises)
-    const candidatePerfectionSimulations: Simulation[] = results.map((x) => x.simulation)
+    const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
+    const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
 
     // Find the highest scoring
-    candidatePerfectionSimulations.sort(simSorter)
-    const perfectionSim = candidatePerfectionSimulations[0]
+    candidates.sort(simSorter)
+    const perfectionSim = candidates[0]
 
-    this.perfectionSimCandidates = candidatePerfectionSimulations
+    this.perfectionSimCandidates = candidates
     this.perfectionSimResult = perfectionSim.result!
     this.perfectionSimRequest = perfectionSim.request
   }

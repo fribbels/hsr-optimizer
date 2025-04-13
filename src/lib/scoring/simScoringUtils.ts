@@ -3,7 +3,7 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 
 import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
-import { Simulation } from 'lib/simulations/new/statSimulation'
+import { RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulation'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
@@ -42,10 +42,10 @@ export type SimulationScore = {
   benchmarkSim: Simulation
   maximumSim: Simulation
 
-  originalSimResult: SimulationResult
-  baselineSimResult: SimulationResult
-  benchmarkSimResult: SimulationResult
-  maximumSimResult: SimulationResult
+  originalSimResult: RunStatSimulationsResult
+  baselineSimResult: RunStatSimulationsResult
+  benchmarkSimResult: RunStatSimulationsResult
+  maximumSimResult: RunStatSimulationsResult
 
   originalSimScore: number
   baselineSimScore: number
@@ -58,7 +58,7 @@ export type SimulationScore = {
 
   simulationForm: Form
   simulationMetadata: SimulationMetadata
-  characterMetadata: DBMetadataCharacter
+  characterMetadata?: DBMetadataCharacter
 
   originalSpd: number
   spdBenchmark: number | undefined
@@ -69,7 +69,7 @@ export type RelicBuild = {
   [key: string]: Relic
 }
 
-export type ScoringFunction = (result: SimulationResult, penalty?: boolean) => void
+export type ScoringFunction = (result: RunStatSimulationsResult, penalty?: boolean) => void
 
 export type PartialSimulationWrapper = {
   simulation: Simulation

@@ -1,4 +1,5 @@
 import { Constants, CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { benchmarkScoringParams, cloneRelicsFillEmptySlots, originalScoringParams, RelicBuild, ScoringFunction, SimulationFlags, SimulationResult, SimulationScore } from 'lib/scoring/simScoringUtils'
@@ -7,6 +8,7 @@ import { simulateBenchmarkBuild } from 'lib/simulations/new/benchmarks/simulateB
 import { simulateOriginalBuild } from 'lib/simulations/new/benchmarks/simulateOriginalBuild'
 
 import { simulatePerfectBuild } from 'lib/simulations/new/benchmarks/simulatePerfectBuild'
+import { runOrchestrator } from 'lib/simulations/new/orchestrator/DpsScoreBenchmarkOrchestrator'
 import { generateStatImprovements } from 'lib/simulations/new/scoringUpgrades'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeed } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
@@ -48,14 +50,10 @@ export function getShowcaseSimScoringExecution(
     try {
       const characterMetadata = DB.getMetadata().characters[character.id]
 
-      const simulationScore = await scoreCharacterSimulation(
-        character,
-        displayRelics,
-        teamSelection,
-        showcaseTemporaryOptions,
-        characterMetadata.scoringMetadata,
-        DB.getScoringMetadata(character.id),
-      )
+      const relics = displayRelics as SingleRelicByPart
+      const simulationScore = await runOrchestrator(character, teamSelection, relics, showcaseTemporaryOptions)
+
+      if (!simulationScore) return null
 
       console.log('DONE', simulationScore)
 

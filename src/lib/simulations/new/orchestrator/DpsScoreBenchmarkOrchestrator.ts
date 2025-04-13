@@ -16,10 +16,11 @@ import {
   simSorter,
   SimulationFlags,
   SimulationResult,
+  SimulationScore,
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
-import { generateStatImprovements } from 'lib/simulations/new/scoringUpgrades'
+import { generateStatImprovements, SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
 import { RunSimulationsParams, runStatSimulations, RunStatSimulationsResult, Simulation, StatSimTypes } from 'lib/simulations/new/statSimulation'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
@@ -45,7 +46,7 @@ export interface CustomBenchmarkResult {
   }
 }
 
-function call(
+export async function runOrchestrator(
   character: Character,
   teamSelection: string,
   singleRelicByPart: SingleRelicByPart,
@@ -60,15 +61,20 @@ function call(
 
   orchestrator.setMetadata()
   orchestrator.setActualSimRequest(singleRelicByPart)
-  orchestrator.setFlags()
   orchestrator.setSimSets()
+  orchestrator.setFlags()
   orchestrator.setSimForm(character.form)
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
 
-  orchestrator.calculateBenchmark()
-  orchestrator.calculatePerfection()
+  await orchestrator.calculateBenchmark()
+  await orchestrator.calculatePerfection()
+
+  orchestrator.calculateScores()
   orchestrator.calculateUpgrades()
+  orchestrator.calculateResults()
+
+  return orchestrator.simulationScore!
 }
 
 export function resolveDpsScoreSimulationMetadata(
@@ -108,7 +114,9 @@ export class DpsScoreBenchmarkOrchestrator {
   public context?: OptimizerContext
   public spdBenchmark?: number
   public targetSpd?: number
+  public originalSpd?: number
 
+  public baselineSim?: Simulation
   public baselineSimRequest?: SimulationRequest
   public baselineSimResult?: RunStatSimulationsResult
 
@@ -124,7 +132,12 @@ export class DpsScoreBenchmarkOrchestrator {
   public perfectionSimResult?: RunStatSimulationsResult
   public perfectionSimCandidates?: Simulation[]
 
+  public substatUpgradeResults?: SimulationStatUpgrade[]
+  public setUpgradeResults?: SimulationStatUpgrade[]
+  public mainUpgradeResults?: SimulationStatUpgrade[]
+
   public percent?: number
+  public simulationScore?: SimulationScore
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -266,6 +279,7 @@ export class DpsScoreBenchmarkOrchestrator {
       simulationFlags: this.flags,
     }
 
+    this.baselineSim = baselineSim
     this.baselineSimRequest = baselineSimRequest
     this.baselineSimResult = runStatSimulations([baselineSim], form, context, simParams)[0]
   }
@@ -299,6 +313,9 @@ export class DpsScoreBenchmarkOrchestrator {
     // Force SPD
     const forcedSpdSimResult = runStatSimulations([originalSim], form, context, simParams)[0]
 
+    originalSim.result = forcedSpdSimResult
+
+    this.originalSpd = originalSpd
     this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags)
     this.originalSimResult = forcedSpdSimResult
     this.originalSim = originalSim
@@ -477,16 +494,52 @@ export class DpsScoreBenchmarkOrchestrator {
   public calculateUpgrades() {
     const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
       this.originalSim!,
-      benchmarkSim,
-      simulationForm,
-      context,
-      metadata,
-      applyScoringFunction,
+      this.benchmarkSimRequest!,
+      this.form!,
+      this.context!,
+      this.metadata!,
+      this.scoringFunction,
       benchmarkScoringParams,
-      baselineSimScore,
-      benchmarkSimScore,
-      maximumSimScore,
+      this.baselineSimResult?.simScore!,
+      this.benchmarkSimResult?.simScore!,
+      this.perfectionSimResult?.simScore!,
     )
+
+    this.substatUpgradeResults = substatUpgradeResults
+    this.setUpgradeResults = setUpgradeResults
+    this.mainUpgradeResults = mainUpgradeResults
+  }
+
+  public calculateResults() {
+    this.simulationScore = {
+      percent: this.percent!,
+
+      originalSim: this.originalSim!,
+      baselineSim: this.baselineSim!,
+      benchmarkSim: this.benchmarkSimCandidates![0],
+      maximumSim: this.perfectionSimCandidates![0],
+
+      originalSimResult: this.originalSimResult!,
+      baselineSimResult: this.baselineSimResult!,
+      benchmarkSimResult: this.benchmarkSimResult!,
+      maximumSimResult: this.perfectionSimResult!,
+
+      originalSimScore: this.originalSimResult!.simScore,
+      baselineSimScore: this.baselineSimResult!.simScore,
+      benchmarkSimScore: this.benchmarkSimResult!.simScore,
+      maximumSimScore: this.perfectionSimResult!.simScore,
+
+      substatUpgrades: this.substatUpgradeResults!,
+      setUpgrades: this.setUpgradeResults!,
+      mainUpgrades: this.mainUpgradeResults!,
+
+      simulationForm: this.form!,
+      simulationMetadata: this.metadata!,
+
+      originalSpd: this.originalSpd!,
+      spdBenchmark: this.spdBenchmark!,
+      simulationFlags: this.flags!,
+    }
   }
 
   // public async run(includePerfectBuild: boolean = false): Promise<CustomBenchmarkResult> {
@@ -572,7 +625,7 @@ export class DpsScoreBenchmarkOrchestrator {
   //   return result
   // }
 
-  public scoringFunction(result: RunStatSimulationsResult, penalty = true) {
+  public scoringFunction = (result: RunStatSimulationsResult, penalty = true) => {
     if (!result) return
 
     const unpenalizedSimScore = result.xa[Key.COMBO_DMG]

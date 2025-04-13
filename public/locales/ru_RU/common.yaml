@@ -17,7 +17,7 @@ Ok: Ок
 Yes: "Да"
 No: "Нет"
 Save: Сохранить
-Score: Очки
+Score: Оценка
 Reset: Сбросить
 EidolonNShort: "Е{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
@@ -120,17 +120,17 @@ ReadableStats:
   "DEF%": ЗАЩ %
   DEF: Защита
   "SPD%": SPD %
-  SPD: SPD
+  SPD: Скорость
   CRIT Rate: Крит. шанс
   CRIT DMG: Крит. урон
   Effect Hit Rate: Шанс эффектов
   Effect RES: Сопротивление
   Break Effect: Пробитие
-  Energy Regeneration Rate: Скорость восстановление энергии
+  Energy Regeneration Rate: Восст. энергии
   Outgoing Healing Boost: Бонус исцеления
-  Physical DMG Boost: "Бонус $t(gameData:Elements.Physical) урона"
+  Physical DMG Boost: "$t(gameData:Elements.Physical) урон"
   Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
-  Ice DMG Boost: "Бонус $t(gameData:Elements.Ice) урона"
+  Ice DMG Boost: "$t(gameData:Elements.Ice) урон"
   Lightning DMG Boost: "$t(gameData:Elements.Thunder) урон"
   Wind DMG Boost: "Бонус $t(gameData:Elements.Wind) урона"
   Quantum DMG Boost: "Бонус $t(gameData:Elements.Quantum) урона"
@@ -167,7 +167,7 @@ Elements:
   Quantum: "$t(gameData:Elements.Quantum)"
   Imaginary: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
-  simScore: Урон комбо
+  simScore: Урон Комбо
   BASIC: Урон базовой атаки
   SKILL: Урон навыка
   ULT: Урон сверхспособности
@@ -179,9 +179,10 @@ DMGTypes:
 ShortDMGTypes:
   Basic: Урон базовой атаки
   Skill: Урон навыка
-  Ult: Урон сверхспособности
+  Ult: Урон ультимейта
   Fua: Урон бонус-атаки
-  Memo_Skill: Урон Навыкаᴹ
+  Memo_Skill: Урон навыкаᴹ
+  Memo_Talent: Урон талантаᴹ
   Dot: Периодический урон
   Break: Урон пробития
   CV: КМ

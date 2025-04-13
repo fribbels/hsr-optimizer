@@ -101,7 +101,8 @@ interface Resources {
         "AddedRelic": "Successfully added relic",
         "SavedPortrait": "Successfully saved portrait",
         "RevertedPortrait": "Successfully reverted portrait",
-        "NoSelectedCharacter": "No selected character"
+        "NoSelectedCharacter": "No selected character",
+        "NoSelectedLightCone": "No Selected light cone"
       },
       "ScoreHeader": {
         "Title": "Combat Sim",
@@ -445,8 +446,7 @@ interface Resources {
         "Skill": "Healing ability: Skill",
         "Ult": "Healing ability: Ult",
         "Talent": "Healing ability: Talent",
-        "Trace": "Healing ability: Trace",
-        "MemoTalent": "Healing ability: Talentᴹ"
+        "Trace": "Healing ability: Trace"
       },
       "ShieldAbility": {
         "Text": "Shielding ability",

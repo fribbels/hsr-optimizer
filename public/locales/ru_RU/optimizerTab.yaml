@@ -62,6 +62,7 @@ MinMaxFilters:
   SKILLLabel: Навык
   ULTLabel: Ультимейт
   FUALabel: Бонусная атака
+  MEMOSKILLLabel: Навыкᴹ
 TeammateCard:
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
 StatSimulation:
@@ -85,4 +86,4 @@ ExpandedDataPanel:
         Prefix:
           Break: ЭП
       Misc:
-        Combo DMG: Урон комбо
+        Combo DMG: Урон Комбо

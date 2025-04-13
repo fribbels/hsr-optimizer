@@ -42,7 +42,7 @@ Messages:
 CharacterPreview:
   ArtBy: "Immagine di {{artistName}}"
   EditCharacter: Modifica personaggio
-  EditPortrait: Modifica portrait
+  EditPortrait: Modifica ritratto
   CharacterScore: "Punteggio personaggio: {{score}} {{grade}}"
   Messages:
     AddedRelic: Reliquia aggiunta con successo

@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: Successfully saved portrait
     RevertedPortrait: Successfully reverted portrait
     NoSelectedCharacter: No selected character
+    NoSelectedLightCone: No Selected light cone
   ScoreHeader:
     Title: Combat Sim
     TitleBenchmark: "{{spd}} SPD Benchmark"

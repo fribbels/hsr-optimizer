@@ -16,6 +16,7 @@ import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { CSSProperties, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -280,11 +281,11 @@ function ShowcaseTeamSelectPanel(props: {
       return Message.error(t('CharacterPreview.Messages.NoSelectedCharacter')/* No selected character */)
     }
     if (!form.lightCone) {
-      return Message.error(t('CharacterPreview.Messages.NoSelectedCharacter')/* No selected character */)
+      return Message.error(t('CharacterPreview.Messages.NoSelectedLightCone')/* No Selected light cone */)
     }
 
-    const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
-    const simulation = scoringMetadata.simulation
+    const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+    const simulation = scoringMetadata.simulation!
 
     simulation.teammates[selectedTeammateIndex] = form
 
@@ -310,8 +311,8 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     icon={<SyncOutlined/>}
                     onClick={() => {
-                      const characterMetadata = Utils.clone(DB.getMetadata().characters[characterId])
-                      const simulation = characterMetadata.scoringMetadata.simulation
+                      const characterMetadata = TsUtils.clone(DB.getMetadata().characters[characterId])
+                      const simulation = characterMetadata.scoringMetadata.simulation!
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
 
@@ -326,8 +327,8 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     icon={<SwapOutlined/>}
                     onClick={() => {
-                      const characterMetadata = Utils.clone(DB.getScoringMetadata(characterId))
-                      const simulation = characterMetadata.simulation
+                      const characterMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+                      const simulation = characterMetadata.simulation!
 
                       for (const teammate of simulation.teammates) {
                         const form = DB.getCharacterById(teammate.characterId)?.form

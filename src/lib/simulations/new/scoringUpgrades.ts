@@ -1,5 +1,5 @@
 import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
-import { ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { applyScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
 import { isErrRopeForced, partsToFilterMapping } from 'lib/simulations/new/utils/benchmarkUtils'
@@ -22,7 +22,6 @@ export function generateStatImprovements(
   simulationForm: Form,
   context: OptimizerContext,
   metadata: SimulationMetadata,
-  applyScoringFunction: ScoringFunction,
   scoringParams: ScoringParams,
   baselineSimScore: number,
   benchmarkSimScore: number,
@@ -39,7 +38,7 @@ export function generateStatImprovements(
       substatRollsModifier: (num: number) => num,
     })[0]
 
-    applyScoringFunction(statImprovementResult)
+    applyScoringFunction(statImprovementResult, metadata)
     substatUpgradeResults.push({
       stat: stat,
       simulation: originalSimClone,
@@ -59,7 +58,7 @@ export function generateStatImprovements(
     substatRollsModifier: (num: number) => num,
   })[0]
 
-  applyScoringFunction(setUpgradeResult)
+  applyScoringFunction(setUpgradeResult, metadata)
   setUpgradeResults.push({
     simulation: originalSimClone,
     simulationResult: setUpgradeResult,
@@ -86,7 +85,7 @@ export function generateStatImprovements(
         substatRollsModifier: (num: number) => num,
       })[0]
 
-      applyScoringFunction(mainUpgradeResult)
+      applyScoringFunction(mainUpgradeResult, metadata)
       const simulationStatUpgrade = {
         stat: upgradeMainStat,
         part: part,

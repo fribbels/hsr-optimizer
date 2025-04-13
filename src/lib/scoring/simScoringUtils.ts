@@ -1,8 +1,11 @@
-import { Stats } from 'lib/constants/constants'
+import { Stats, SubStats } from 'lib/constants/constants'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
+import { StatCalculator } from 'lib/relics/statCalculator'
 
 import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
 import { RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulationTypes'
+import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
@@ -66,8 +69,6 @@ export type SimulationScore = {
 export type RelicBuild = {
   [key: string]: Relic
 }
-
-export type ScoringFunction = (result: RunStatSimulationsResult, penalty?: boolean) => void
 
 export type PartialSimulationWrapper = {
   simulation: Simulation
@@ -217,4 +218,34 @@ export function simSorter(a: Simulation, b: Simulation) {
   if (!bResult) return -1
 
   return bResult.simScore - aResult.simScore
+}
+
+export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true) {
+  if (!result) return
+
+  const unpenalizedSimScore = result.xa[Key.COMBO_DMG]
+  const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
+  result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
+}
+
+export function calculatePenaltyMultiplier(
+  simulationResult: RunStatSimulationsResult,
+  metadata: SimulationMetadata,
+  scoringParams: ScoringParams,
+) {
+  let newPenaltyMultiplier = 1
+  if (metadata.breakpoints) {
+    for (const stat of Object.keys(metadata.breakpoints)) {
+      if (Utils.isFlat(stat)) {
+        // Flats are penalized by their percentage
+        newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
+      } else {
+        // Percents are penalize by half of the missing stat's breakpoint roll percentage
+        newPenaltyMultiplier *= Math.min(1,
+          1 - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality))
+      }
+    }
+  }
+
+  return newPenaltyMultiplier
 }

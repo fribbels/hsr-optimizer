@@ -1,18 +1,17 @@
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, StatToKey } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import {
+  applyScoringFunction,
   baselineScoringParams,
   benchmarkScoringParams,
   invertDiminishingReturnsSpdFormula,
   maximumScoringParams,
   originalScoringParams,
   PartialSimulationWrapper,
-  ScoringParams,
   simSorter,
   SimulationFlags,
   SimulationScore,
@@ -29,7 +28,6 @@ import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPoo
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import { ComputeOptimalSimulationRunnerInput, ComputeOptimalSimulationRunnerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { Form, OptimizerForm } from 'types/form'
@@ -489,13 +487,14 @@ export class DpsScoreBenchmarkOrchestrator {
   }
 
   public calculateScores() {
+    const metadata = this.metadata
     const originalSimResult = this.originalSimResult!
     const baselineSimResult = this.baselineSimResult!
     const benchmarkSimResult = this.benchmarkSimResult!
     const perfectionSimResult = this.perfectionSimResult!
 
-    this.scoringFunction(baselineSimResult)
-    this.scoringFunction(originalSimResult)
+    applyScoringFunction(baselineSimResult, metadata)
+    applyScoringFunction(originalSimResult, metadata)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
@@ -516,7 +515,6 @@ export class DpsScoreBenchmarkOrchestrator {
       this.form!,
       this.context!,
       this.metadata,
-      this.scoringFunction,
       benchmarkScoringParams,
       this.baselineSimResult?.simScore!,
       this.benchmarkSimResult?.simScore!,
@@ -559,36 +557,6 @@ export class DpsScoreBenchmarkOrchestrator {
       simulationFlags: this.flags,
     }
   }
-
-  public scoringFunction = (result: RunStatSimulationsResult, penalty = true) => {
-    if (!result) return
-
-    const unpenalizedSimScore = result.xa[Key.COMBO_DMG]
-    const penaltyMultiplier = this.calculatePenaltyMultiplier(result, this.metadata, benchmarkScoringParams)
-    result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
-  }
-
-  public calculatePenaltyMultiplier(
-    simulationResult: RunStatSimulationsResult,
-    metadata: SimulationMetadata,
-    scoringParams: ScoringParams,
-  ) {
-    let newPenaltyMultiplier = 1
-    if (metadata.breakpoints) {
-      for (const stat of Object.keys(metadata.breakpoints)) {
-        if (Utils.isFlat(stat)) {
-          // Flats are penalized by their percentage
-          newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
-        } else {
-          // Percents are penalize by half of the missing stat's breakpoint roll percentage
-          newPenaltyMultiplier *= Math.min(1,
-            1 - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality))
-        }
-      }
-    }
-
-    return newPenaltyMultiplier
-  }
 }
 
 function cloneComputedStatsArray(x: ComputedStatsArray) {
@@ -598,3 +566,4 @@ function cloneComputedStatsArray(x: ComputedStatsArray) {
 
   return clone as ComputedStatsArray
 }
+

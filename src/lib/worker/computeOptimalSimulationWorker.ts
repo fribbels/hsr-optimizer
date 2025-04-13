@@ -1,14 +1,12 @@
 import { Stats, SubStats } from 'lib/constants/constants'
-import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
-import { StatCalculator } from 'lib/relics/statCalculator'
-import { benchmarkScoringParams, ScoringFunction, ScoringParams, SimulationResult, substatRollsModifier } from 'lib/scoring/simScoringUtils'
+import { StatToKey } from 'lib/optimization/computedStatsArray'
+import { applyScoringFunction, SimulationResult, substatRollsModifier } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import { SimulationMetadata } from 'types/metadata'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
   const input = e.data
@@ -17,7 +15,7 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   transformWorkerContext(context)
   const optimalSimulation = computeOptimalSimulation(input)
 
-  // TODO
+  // @ts-ignore
   delete optimalSimulation.result.x
 
   const workerOutput: ComputeOptimalSimulationWorkerOutput = {
@@ -38,14 +36,6 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     scoringParams,
     simulationFlags,
   } = input
-
-  const applyScoringFunction: ScoringFunction = (result: SimulationResult, penalty = true) => {
-    if (!result) return
-
-    result.unpenalizedSimScore = result.xa[Key.COMBO_DMG]
-    result.penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams) // TODO: This should be using standardized params
-    result.simScore = result.unpenalizedSimScore * (penalty ? result.penaltyMultiplier : 1)
-  }
 
   scoringParams.substatRollsModifier = scoringParams.quality == 0.8
     ? substatRollsModifier
@@ -164,7 +154,7 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
         }
       }
 
-      applyScoringFunction(newSimResult)
+      applyScoringFunction(newSimResult, metadata)
 
       if (!bestSim || newSimResult.simScore > bestSimResult.simScore) {
         bestSim = newSimulation
@@ -263,26 +253,4 @@ function sumSubstatRolls(maxSubstatRollCounts: StatSimulationTypes) {
 
 export function DEBUG() {
 
-}
-
-export function calculatePenaltyMultiplier(
-  simulationResult: SimulationResult,
-  metadata: SimulationMetadata,
-  scoringParams: ScoringParams,
-) {
-  let newPenaltyMultiplier = 1
-  if (metadata.breakpoints) {
-    for (const stat of Object.keys(metadata.breakpoints)) {
-      if (Utils.isFlat(stat)) {
-        // Flats are penalized by their percentage
-        newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
-      } else {
-        // Percents are penalize by half of the missing stat's breakpoint roll percentage
-        newPenaltyMultiplier *= Math.min(1,
-          1 - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality))
-      }
-    }
-  }
-  simulationResult.penaltyMultiplier = newPenaltyMultiplier
-  return newPenaltyMultiplier
 }

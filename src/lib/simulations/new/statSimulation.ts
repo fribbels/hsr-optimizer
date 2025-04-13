@@ -4,7 +4,7 @@ import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimizatio
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/new/simulateBuild'
-import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRelic, SimulationRelicByPart, StatSimTypes } from 'lib/simulations/new/simulationStats'
+import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRelic, SimulationRelicByPart, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { Form } from 'types/form'

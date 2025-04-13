@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants/constants'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 
 import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
-import { RunStatSimulationsResult, Simulation } from 'lib/simulations/new/simulationStats'
+import { RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulationTypes'
 import { Form } from 'types/form'
 import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'

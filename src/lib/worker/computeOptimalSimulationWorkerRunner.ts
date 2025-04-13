@@ -1,5 +1,5 @@
 import { PartialSimulationWrapper, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
-import { Simulation, SimulationStats } from 'lib/simulations/new/simulationStats'
+import { Simulation, StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
 import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
 import { DEBUG } from 'lib/worker/computeOptimalSimulationWorker'
 import { WorkerType } from 'lib/worker/workerUtils'
@@ -9,8 +9,8 @@ import { OptimizerContext } from 'types/optimizer'
 
 export type ComputeOptimalSimulationRunnerInput = {
   partialSimulationWrapper: PartialSimulationWrapper
-  inputMinSubstatRollCounts: SimulationStats
-  inputMaxSubstatRollCounts: SimulationStats
+  inputMinSubstatRollCounts: StatSimulationTypes
+  inputMaxSubstatRollCounts: StatSimulationTypes
   simulationForm: Form
   context: OptimizerContext
   metadata: SimulationMetadata
@@ -24,8 +24,8 @@ export type ComputeOptimalSimulationRunnerOutput = {
 
 export type ComputeOptimalSimulationWorkerInput = {
   partialSimulationWrapper: PartialSimulationWrapper
-  inputMinSubstatRollCounts: SimulationStats
-  inputMaxSubstatRollCounts: SimulationStats
+  inputMinSubstatRollCounts: StatSimulationTypes
+  inputMaxSubstatRollCounts: StatSimulationTypes
   simulationForm: Form
   context: OptimizerContext
   metadata: SimulationMetadata

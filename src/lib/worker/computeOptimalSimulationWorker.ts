@@ -2,8 +2,8 @@ import { Stats, SubStats } from 'lib/constants/constants'
 import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { benchmarkScoringParams, ScoringFunction, ScoringParams, SimulationResult, substatRollsModifier } from 'lib/scoring/simScoringUtils'
-import { SimulationStats } from 'lib/simulations/new/simulationStats'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -140,7 +140,7 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
 
   while (sum > goal) {
     let bestSim: Simulation = undefined
-    let bestSimStats: SimulationStats = undefined
+    let bestSimStats: StatSimulationTypes = undefined
     let bestSimResult: SimulationResult = undefined
     let reducedStat: string = undefined
 
@@ -271,7 +271,7 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
   return currentSimulation
 }
 
-function sumSubstatRolls(maxSubstatRollCounts: SimulationStats) {
+function sumSubstatRolls(maxSubstatRollCounts: StatSimulationTypes) {
   let sum = 0
   for (const stat of SubStats) {
     sum += maxSubstatRollCounts[stat]

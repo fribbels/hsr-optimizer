@@ -1,22 +1,16 @@
 import { Flex, Tag } from 'antd'
 import i18next from 'i18next'
-import { Constants, MainStats, Parts, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
+import { Constants, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
-import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { calculateCurrentlyEquippedRow, formatOptimizerDisplayData } from 'lib/optimization/optimizer'
-import { emptyRelic } from 'lib/optimization/optimizerUtils'
+import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
 import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
-import { SimulationRequest } from 'lib/simulations/new/simulationStats'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { Simulation, SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -26,7 +20,6 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
 import { Relic, Stat } from 'types/relic'
 
 // FIXME HIGH
@@ -264,153 +257,6 @@ export function deleteAllStatSimulationBuilds() {
 
 export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
-}
-
-export type RunSimulationsParams = {
-  quality: number
-  speedRollValue: number
-  mainStatMultiplier: number
-  substatRollsModifier: (num: number, stat: string, simRequest: SimulationRequest) => number
-  simulationFlags: SimulationFlags
-}
-
-const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
-const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
-
-export const defaultSimulationParams: RunSimulationsParams = {
-  quality: 1,
-  speedRollValue: 2.6,
-  mainStatMultiplier: 1,
-  substatRollsModifier: (num: number) => num,
-  simulationFlags: {} as SimulationFlags,
-}
-
-export function runSimulations(
-  form: Form,
-  context: OptimizerContext | null,
-  simulations: Simulation[],
-  inputParams: Partial<RunSimulationsParams> = {},
-  weight: boolean = false,
-): SimulationResult[] {
-  const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
-  const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
-
-  const simulationResults: SimulationResult[] = []
-  for (const sim of simulations) {
-    const request = sim.request
-
-    const head: Relic = emptyRelic()
-    const hands: Relic = emptyRelic()
-    const body: Relic = emptyRelic()
-    const feet: Relic = emptyRelic()
-    const linkRope: Relic = emptyRelic()
-    const planarSphere: Relic = emptyRelic()
-
-    head.augmentedStats!.mainStat = Constants.Stats.HP
-    hands.augmentedStats!.mainStat = Constants.Stats.ATK
-    body.augmentedStats!.mainStat = request.simBody
-    feet.augmentedStats!.mainStat = request.simFeet
-    linkRope.augmentedStats!.mainStat = request.simLinkRope
-    planarSphere.augmentedStats!.mainStat = request.simPlanarSphere
-
-    head.augmentedStats!.mainValue = 705.600// * params.mainStatMultiplier
-    hands.augmentedStats!.mainValue = 352.800// * params.mainStatMultiplier
-    body.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier
-    feet.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier
-    linkRope.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier
-    planarSphere.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier
-
-    // Generate relic sets
-    // Since the optimizer uses index based relic set identification, it can't handle an empty set
-    // We have to fake rainbow sets by forcing a 2+1+1 or a 1+1+1+1 combination
-    // For planar sets we can't the index be negative or NaN, so we just use two unmatched sets
-    const unusedRelicSets = SetsRelicsNames.filter((x) => x != request.simRelicSet1 && x != request.simRelicSet2)
-
-    head.set = request.simRelicSet1 as SetsRelics || unusedRelicSets[0]
-    hands.set = request.simRelicSet1 as SetsRelics || unusedRelicSets[1]
-    body.set = request.simRelicSet2 as SetsRelics || unusedRelicSets[2]
-    feet.set = request.simRelicSet2 as SetsRelics || unusedRelicSets[3]
-    linkRope.set = request.simOrnamentSet as SetsOrnaments || SetsOrnamentsNames[0]
-    planarSphere.set = request.simOrnamentSet as SetsOrnaments || SetsOrnamentsNames[1]
-
-    head.part = Parts.Head
-    hands.part = Parts.Hands
-    body.part = Parts.Body
-    feet.part = Parts.Feet
-    linkRope.part = Parts.LinkRope
-    planarSphere.part = Parts.PlanarSphere
-
-    const relicsByPart = {
-      [Parts.Head]: [head],
-      [Parts.Hands]: [hands],
-      [Parts.Body]: [body],
-      [Parts.Feet]: [feet],
-      [Parts.LinkRope]: [linkRope],
-      [Parts.PlanarSphere]: [planarSphere],
-    }
-    const relics: Record<Parts, Relic> = {
-      [Parts.Head]: head,
-      [Parts.Hands]: hands,
-      [Parts.Body]: body,
-      [Parts.Feet]: feet,
-      [Parts.LinkRope]: linkRope,
-      [Parts.PlanarSphere]: planarSphere,
-    }
-
-    // Convert substat rolls to value totals
-    const substatValues: { stat: SubStats; value: number }[] = []
-
-    // Convert value totals to substat objects
-    for (const substat of SubStats) {
-      let value = sim.request.stats[substat]
-
-      if (sim.simType == StatSimTypes.SubstatRolls) {
-        const substatValue = substat == Stats.SPD
-          ? params.speedRollValue
-          : StatCalculator.getMaxedSubstatValue(substat, params.quality)
-
-        let substatCount = Utils.precisionRound((sim.request.stats[substat] || 0))
-        substatCount = params.substatRollsModifier(substatCount, substat, relics)
-
-        value = substatCount * substatValue
-      }
-
-      if (value) {
-        substatValues.push({
-          stat: substat,
-          value: value,
-        })
-      }
-    }
-
-    head.substats = substatValues
-
-    RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
-
-    const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
-    const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
-
-    const x = calculateBuild(
-      form,
-      relics,
-      context,
-      basicStatsArray,
-      computedStatsArray,
-      true,
-      true,
-      false,
-      forcedBasicSpd,
-      weight,
-    )
-    const optimizerDisplayData = formatOptimizerDisplayData(x)
-    // For optimizer grid syncing with sim table
-    optimizerDisplayData.statSim = {
-      key: sim.key,
-    }
-    simulationResults.push(optimizerDisplayData)
-  }
-
-  return simulationResults
 }
 
 export function startOptimizerStatSimulation() {

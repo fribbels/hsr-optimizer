@@ -1,8 +1,8 @@
 import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
 import { ScoringFunction, ScoringParams, SimulationResult } from 'lib/scoring/simScoringUtils'
-import { Simulation, SimulationRequest } from 'lib/simulations/new/simulationStats'
+import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { Simulation, SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
 import { isErrRopeForced, partsToFilterMapping } from 'lib/simulations/new/utils/benchmarkUtils'
-import { runSimulations } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
@@ -34,10 +34,11 @@ export function generateStatImprovements(
     const originalSimClone: Simulation = TsUtils.clone(originalSim)
     originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + 1.0
 
-    const statImprovementResult = runSimulations(simulationForm, context, [originalSimClone], {
+    const statImprovementResult = runStatSimulations([originalSimClone], simulationForm, context, {
       ...scoringParams,
       substatRollsModifier: (num: number) => num,
     })[0]
+
     applyScoringFunction(statImprovementResult)
     substatUpgradeResults.push({
       stat: stat,
@@ -53,10 +54,11 @@ export function generateStatImprovements(
   originalSimClone.request.simRelicSet2 = benchmarkRequest.simRelicSet2
   originalSimClone.request.simOrnamentSet = benchmarkRequest.simOrnamentSet
 
-  const setUpgradeResult = runSimulations(simulationForm, context, [originalSimClone], {
+  const setUpgradeResult = runStatSimulations([originalSimClone], simulationForm, context, {
     ...scoringParams,
     substatRollsModifier: (num: number) => num,
   })[0]
+
   applyScoringFunction(setUpgradeResult)
   setUpgradeResults.push({
     simulation: originalSimClone,
@@ -79,10 +81,11 @@ export function generateStatImprovements(
       if (simMainStat == Stats.SPD) continue
 
       originalSimClone.request[simMainName] = upgradeMainStat
-      const mainUpgradeResult = runSimulations(simulationForm, context, [originalSimClone], {
+      const mainUpgradeResult = runStatSimulations([originalSimClone], simulationForm, context, {
         ...scoringParams,
         substatRollsModifier: (num: number) => num,
       })[0]
+
       applyScoringFunction(mainUpgradeResult)
       const simulationStatUpgrade = {
         stat: upgradeMainStat,

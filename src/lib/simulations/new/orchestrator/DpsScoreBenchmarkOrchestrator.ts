@@ -20,8 +20,8 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
 import { generateStatImprovements, SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
-import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/simulationStats'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
@@ -39,6 +39,8 @@ import { OptimizerContext } from 'types/optimizer'
 /*
  TODO: Caching
 
+ const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
+ const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
 
  const cachedSims: {
  [key: string]: SimulationScore
@@ -514,7 +516,7 @@ export class DpsScoreBenchmarkOrchestrator {
 
   public calculateUpgrades() {
     const { substatUpgradeResults, setUpgradeResults, mainUpgradeResults } = generateStatImprovements(
-      this.originalSim,
+      this.originalSim!,
       this.benchmarkSimRequest!,
       this.form!,
       this.context!,

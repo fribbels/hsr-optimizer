@@ -15,7 +15,6 @@ import {
   ScoringParams,
   simSorter,
   SimulationFlags,
-  SimulationResult,
   SimulationScore,
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
@@ -35,16 +34,6 @@ import { Character } from 'types/character'
 import { Form, OptimizerForm } from 'types/form'
 import { ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
-
-export interface CustomBenchmarkResult {
-  benchmarkSim: Simulation
-  benchmarkSimResult: SimulationResult
-  perfectSim?: Simulation
-  perfectSimResult?: SimulationResult
-  metrics: {
-    totalTime: number
-  }
-}
 
 /*
  TODO: Caching

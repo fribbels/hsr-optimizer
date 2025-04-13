@@ -47,4 +47,3 @@ export function applySpeedFlags(
     simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
   }
 }
-

@@ -119,7 +119,6 @@ export function generateSimRelics(simulation: Simulation, params: RunSimulations
 
 export enum StatSimTypes {
   Disabled = 'disabled',
-  SubstatTotals = 'substatTotals',
   SubstatRolls = 'substatRolls',
 }
 

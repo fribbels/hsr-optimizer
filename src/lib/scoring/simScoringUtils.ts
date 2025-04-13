@@ -1,10 +1,8 @@
-import { Parts, Stats } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { Stats } from 'lib/constants/constants'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 
 import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
 import { RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulation'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
@@ -191,23 +189,6 @@ export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: n
   }
 
   return mid
-}
-
-export function cloneRelicsFillEmptySlots(displayRelics: RelicBuild) {
-  const cloned: RelicBuild = TsUtils.clone(displayRelics)
-  const relicsByPart: SingleRelicByPart = {} as SingleRelicByPart
-  for (const part of Object.values(Parts)) {
-    relicsByPart[part] = cloned[part] || {
-      set: -1,
-      substats: [],
-      main: {
-        stat: null,
-        value: 0,
-      },
-    }
-  }
-
-  return relicsByPart
 }
 
 export function isSpdBoots(simulation: Simulation) {

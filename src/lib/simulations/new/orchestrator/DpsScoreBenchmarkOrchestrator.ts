@@ -299,11 +299,7 @@ export class DpsScoreBenchmarkOrchestrator {
       simulationFlags: this.flags,
     }
 
-    const baselineSimResult = runStatSimulations([baselineSim], form, context, simParams)[0]
-
-    baselineSimResult.x = cloneComputedStatsArray(baselineSimResult.x)
-    baselineSimResult.xa = baselineSimResult.x.a
-    baselineSimResult.ca = baselineSimResult.x.c.a
+    const baselineSimResult = cloneSimResult(runStatSimulations([baselineSim], form, context, simParams)[0])
 
     this.baselineSim = baselineSim
     this.baselineSimRequest = baselineSimRequest
@@ -327,7 +323,7 @@ export class DpsScoreBenchmarkOrchestrator {
       simulationFlags: this.flags,
     }
 
-    const originalSimResult = runStatSimulations([originalSim], form, context, simParams)[0]
+    const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
     const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
 
     this.spdBenchmark = inputSpdBenchmark != null
@@ -337,12 +333,7 @@ export class DpsScoreBenchmarkOrchestrator {
     applySpeedFlags(flags, baselineSimResult, originalSpd, this.spdBenchmark)
 
     // Force SPD
-    const forcedSpdSimResult = runStatSimulations([originalSim], form, context, simParams)[0]
-
-    // TODO: clone results util
-    forcedSpdSimResult.x = cloneComputedStatsArray(forcedSpdSimResult.x)
-    forcedSpdSimResult.xa = forcedSpdSimResult.x.a
-    forcedSpdSimResult.ca = forcedSpdSimResult.x.c.a
+    const forcedSpdSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
 
     originalSim.result = forcedSpdSimResult
 
@@ -565,5 +556,14 @@ function cloneComputedStatsArray(x: ComputedStatsArray) {
   clone.c.a.set(new Float32Array(x.c.a))
 
   return clone as ComputedStatsArray
+}
+
+function cloneSimResult(result: RunStatSimulationsResult) {
+  const x = cloneComputedStatsArray(result.x)
+  result.x = x
+  result.xa = x.a
+  result.ca = x.c.a
+
+  return result
 }
 

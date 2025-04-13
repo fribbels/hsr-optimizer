@@ -746,11 +746,11 @@ export const DB = {
   },
 
   saveCharacterBuild: (name: string,
-    characterId: string,
-    score: {
-      rating: string
-      score: string
-    }) => {
+                       characterId: string,
+                       score: {
+                         rating: string
+                         score: string
+                       }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')

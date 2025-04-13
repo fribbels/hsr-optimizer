@@ -47,6 +47,7 @@ const config = tseslint.config(
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
       '@typescript-eslint/dot-notation': ['warn', {
         allowKeywords: true,
         allowPattern: '',

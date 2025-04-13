@@ -1,6 +1,6 @@
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
@@ -60,7 +60,7 @@ export async function runOrchestrator(
   const orchestrator = new DpsScoreBenchmarkOrchestrator(simulationMetadata)
 
   orchestrator.setMetadata()
-  orchestrator.setActualSimRequest(singleRelicByPart)
+  orchestrator.setOriginalSimRequest(singleRelicByPart)
   orchestrator.setSimSets()
   orchestrator.setFlags()
   orchestrator.setSimForm(character.form)
@@ -89,8 +89,8 @@ export function resolveDpsScoreSimulationMetadata(
     return null
   }
 
-  const customScoringMetadata = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata)
-  const defaultScoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+  const customScoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+  const defaultScoringMetadata = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata)
 
   if (!defaultScoringMetadata?.simulation || !customScoringMetadata?.simulation) {
     console.log('No scoring sim defined for this character')
@@ -102,6 +102,9 @@ export function resolveDpsScoreSimulationMetadata(
   const metadata = defaultScoringMetadata.simulation
   metadata.teammates = teamSelection == CUSTOM_TEAM ? customScoringMetadata.simulation.teammates : defaultScoringMetadata.simulation.teammates
   metadata.deprioritizeBuffs = customScoringMetadata.simulation.deprioritizeBuffs ?? false
+
+  console.debug(customScoringMetadata)
+  console.debug(defaultScoringMetadata)
 
   return metadata
 }
@@ -204,7 +207,7 @@ export class DpsScoreBenchmarkOrchestrator {
     }
   }
 
-  public setActualSimRequest(relicsByPart: SingleRelicByPart) {
+  public setOriginalSimRequest(relicsByPart: SingleRelicByPart) {
     const relics = TsUtils.clone(relicsByPart)
     const { relicSetNames, ornamentSetName } = calculateSetNames(relics)
     const scoringParams = benchmarkScoringParams
@@ -265,7 +268,7 @@ export class DpsScoreBenchmarkOrchestrator {
 
     const baselineSimRequest = {
       ...originalSimRequest,
-      stats: { [Stats.SPD]: originalSimRequest.stats[Stats.SPD] },
+      stats: {},
     }
 
     const baselineSim: Simulation = {
@@ -279,16 +282,22 @@ export class DpsScoreBenchmarkOrchestrator {
       simulationFlags: this.flags,
     }
 
+    const baselineSimResult = runStatSimulations([baselineSim], form, context, simParams)[0]
+
+    baselineSimResult.x = cloneComputedStatsArray(baselineSimResult.x)
+    baselineSimResult.xa = baselineSimResult.x.a
+    baselineSimResult.ca = baselineSimResult.x.c.a
+
     this.baselineSim = baselineSim
     this.baselineSimRequest = baselineSimRequest
-    this.baselineSimResult = runStatSimulations([baselineSim], form, context, simParams)[0]
+    this.baselineSimResult = baselineSimResult
   }
 
   public setOriginalBuild(inputSpdBenchmark?: number) {
     const form = this.form!
     const context = this.context!
     const baselineSimResult = this.baselineSimResult!
-    const flags = this.flags!
+    const flags = this.flags
 
     const originalSim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
@@ -313,19 +322,24 @@ export class DpsScoreBenchmarkOrchestrator {
     // Force SPD
     const forcedSpdSimResult = runStatSimulations([originalSim], form, context, simParams)[0]
 
+    // TODO: clone results util
+    forcedSpdSimResult.x = cloneComputedStatsArray(forcedSpdSimResult.x)
+    forcedSpdSimResult.xa = forcedSpdSimResult.x.a
+    forcedSpdSimResult.ca = forcedSpdSimResult.x.c.a
+
     originalSim.result = forcedSpdSimResult
 
-    this.originalSpd = originalSpd
-    this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags)
     this.originalSimResult = forcedSpdSimResult
     this.originalSim = originalSim
+    this.originalSpd = originalSpd
+    this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags)
   }
 
   public async calculateBenchmark() {
     const form = this.form!
     const context = this.context!
-    const metadata = this.metadata!
-    const flags = this.flags!
+    const metadata = this.metadata
+    const flags = this.flags
     const targetSpd = this.targetSpd!
     const baselineSimResult = this.baselineSimResult!
 
@@ -405,11 +419,11 @@ export class DpsScoreBenchmarkOrchestrator {
   public async calculatePerfection() {
     const form = this.form!
     const context = this.context!
-    const metadata = this.metadata!
+    const metadata = this.metadata
     const targetSpd = this.targetSpd!
     const baselineSimResult = this.baselineSimResult!
     const benchmarkSimRequest = this.benchmarkSimRequest!
-    const flags = this.flags!
+    const flags = this.flags
 
     // Convert the benchmark spd rolls to max spd rolls
     const spdDiff = targetSpd - baselineSimResult.xa[Key.SPD]
@@ -476,9 +490,6 @@ export class DpsScoreBenchmarkOrchestrator {
     const benchmarkSimResult = this.benchmarkSimResult!
     const perfectionSimResult = this.perfectionSimResult!
 
-    this.scoringFunction(originalSimResult)
-    this.scoringFunction(baselineSimResult)
-
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
     const baselineSimScore = baselineSimResult.simScore
@@ -497,7 +508,7 @@ export class DpsScoreBenchmarkOrchestrator {
       this.benchmarkSimRequest!,
       this.form!,
       this.context!,
-      this.metadata!,
+      this.metadata,
       this.scoringFunction,
       benchmarkScoringParams,
       this.baselineSimResult?.simScore!,
@@ -534,11 +545,11 @@ export class DpsScoreBenchmarkOrchestrator {
       mainUpgrades: this.mainUpgradeResults!,
 
       simulationForm: this.form!,
-      simulationMetadata: this.metadata!,
+      simulationMetadata: this.metadata,
 
       originalSpd: this.originalSpd!,
       spdBenchmark: this.spdBenchmark!,
-      simulationFlags: this.flags!,
+      simulationFlags: this.flags,
     }
   }
 
@@ -654,4 +665,12 @@ export class DpsScoreBenchmarkOrchestrator {
 
     return newPenaltyMultiplier
   }
+}
+
+function cloneComputedStatsArray(x: ComputedStatsArray) {
+  const clone = new ComputedStatsArrayCore(false)
+  clone.a.set(new Float32Array(x.a))
+  clone.c.a.set(new Float32Array(x.c.a))
+
+  return clone as ComputedStatsArray
 }

@@ -1,20 +1,31 @@
-import { CUSTOM_TEAM, Parts, Sets, Stats } from 'lib/constants/constants'
+import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
-import { baselineScoringParams, benchmarkScoringParams, originalScoringParams, SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
-import { simulateBenchmarkBuild } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
-import { simulatePerfectBuild } from 'lib/simulations/new/benchmarks/simulatePerfectBuild'
+import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
+import {
+  baselineScoringParams,
+  benchmarkScoringParams,
+  invertDiminishingReturnsSpdFormula,
+  originalScoringParams,
+  simSorter,
+  SimulationFlags,
+  SimulationResult,
+  spdRollsCap,
+} from 'lib/scoring/simScoringUtils'
+import { generatePartialSimulations } from 'lib/simulations/new/benchmarks/simulateBenchmarkBuild'
 import { RunSimulationsParams, runStatSimulations, RunStatSimulationsResult, Simulation } from 'lib/simulations/new/statSimulation'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
+import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
 import { convertRelicsToSimulation, SimulationRequest } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { calculatePenaltyMultiplier } from 'lib/worker/computeOptimalSimulationWorker'
+import { ComputeOptimalSimulationRunnerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
 import { Form, OptimizerForm } from 'types/form'
 import { ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
@@ -85,23 +96,27 @@ export function resolveDpsScoreSimulationMetadata(
 }
 
 export class DpsScoreBenchmarkOrchestrator {
-  private metadata: SimulationMetadata
-  private flags: SimulationFlags
-  private simSets?: SimulationSets
-  private actualSimRequest?: SimulationRequest
-  private form?: OptimizerForm
-  private context?: OptimizerContext
-  private spdBenchmark?: number
-  private targetSpd?: number
+  public metadata: SimulationMetadata
+  public flags: SimulationFlags
+  public simSets?: SimulationSets
+  public actualSimRequest?: SimulationRequest
+  public form?: OptimizerForm
+  public context?: OptimizerContext
+  public spdBenchmark?: number
+  public targetSpd?: number
 
-  private baselineSimRequest?: SimulationRequest
-  private baselineSimResult?: RunStatSimulationsResult
-  private originalSimRequest?: SimulationRequest
-  private originalSimResult?: RunStatSimulationsResult
-  private benchmarkSimRequest?: SimulationRequest
-  private benchmarkSimResult?: RunStatSimulationsResult
-  private perfectionSimRequest?: SimulationRequest
-  private perfectionSimResult?: RunStatSimulationsResult
+  public baselineSimRequest?: SimulationRequest
+  public baselineSimResult?: RunStatSimulationsResult
+  public originalSimRequest?: SimulationRequest
+  public originalSimResult?: RunStatSimulationsResult
+
+  public benchmarkSimRequest?: SimulationRequest
+  public benchmarkSimResult?: RunStatSimulationsResult
+  public benchmarkSimCandidates?: Simulation[]
+
+  public perfectionSimRequest?: SimulationRequest
+  public perfectionSimResult?: RunStatSimulationsResult
+  public perfectSimCandidates?: Simulation[]
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -281,32 +296,100 @@ export class DpsScoreBenchmarkOrchestrator {
   }
 
   public async calculateBenchmark() {
-    const benchmarkSim = await simulateBenchmarkBuild(
-      character,
-      simulationSets,
-      originalSim,
-      targetSpd,
-      metadata,
-      simulationForm,
-      context,
-      baselineSimResult,
-      originalSimResult,
-      simulationFlags,
-    )
+    const form = this.form!
+    const context = this.context!
+    const metadata = this.metadata!
+    const flags = this.flags!
+    const targetSpd = this.targetSpd!
+    const baselineSimResult = this.baselineSimResult!
+
+    const partialSimulationWrappers = generatePartialSimulations(this)
+    const candidateBenchmarkSims: Simulation[] = []
+
+    const clonedContext = TsUtils.clone(context)
+
+    const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
+      // const simulationResult = runSimulations(simulationForm, context, [partialSimulationWrapper.simulation], benchmarkScoringParams)[0]
+      const simulationResults = runStatSimulations([partialSimulationWrapper.simulation], form, context)
+      const simulationResult = simulationResults[0]
+
+      // Find the speed deduction
+      const finalSpeed = simulationResult.xa[Key.SPD]
+      partialSimulationWrapper.finalSpeed = finalSpeed
+
+      const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
+      const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, benchmarkScoringParams.speedRollValue), 3)
+
+      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, benchmarkScoringParams))
+
+      if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+        console.log('Rejected candidate sim with non SPD boots')
+        return null
+      }
+
+      // Define min/max limits
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, benchmarkScoringParams, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, benchmarkScoringParams, baselineSimResult, flags)
+
+      // Start the sim search at the max then iterate downwards
+      Object.values(SubStats).map((stat) => partialSimulationWrapper.simulation.request.stats[stat] = maxSubstatRollCounts[stat])
+
+      const input: ComputeOptimalSimulationRunnerInput = {
+        partialSimulationWrapper: partialSimulationWrapper,
+        inputMinSubstatRollCounts: minSubstatRollCounts,
+        inputMaxSubstatRollCounts: maxSubstatRollCounts,
+        simulationForm: form,
+        context: clonedContext,
+        metadata: metadata,
+        scoringParams: TsUtils.clone(benchmarkScoringParams),
+        simulationFlags: flags,
+      }
+
+      return runComputeOptimalSimulationWorker(input)
+    })
+
+    console.time('!!!!!!!!!!!!!!!!! runner')
+    const runnerOutputs = await Promise.all(runnerPromises)
+    console.timeEnd('!!!!!!!!!!!!!!!!! runner')
+    runnerOutputs.forEach((runnerOutput, index) => {
+      if (!runnerOutput) return
+
+      const candidateBenchmarkSim = runnerOutput.simulation
+
+      if (!candidateBenchmarkSim || partialSimulationWrappers[index].simulation.request.stats[Stats.SPD] > 26 && partialSimulationWrappers[index].simulation.request.simFeet != Stats.SPD) {
+        // Reject non speed boot builds that exceed the speed cap. 48 - 11 * 2 = 26 max subs that can go in to SPD
+        console.log('Rejected candidate sim')
+      } else {
+        candidateBenchmarkSims.push(candidateBenchmarkSim)
+      }
+    })
+
+    console.log(candidateBenchmarkSims)
+
+    // Try to minimize the penalty modifier before optimizing sim score
+
+    candidateBenchmarkSims.sort(simSorter)
+    const benchmarkSim = candidateBenchmarkSims[0]
+
+    this.benchmarkSimCandidates = candidateBenchmarkSims
+    this.benchmarkSimResult = benchmarkSim.result!
+    this.benchmarkSimRequest = benchmarkSim.request
+
+    return benchmarkSim
   }
 
   public async calculatePerfection() {
-    const maximumSim = await simulatePerfectBuild(
-      benchmarkSim,
-      targetSpd,
-      metadata,
-      simulationForm,
-      context,
-      applyScoringFunction,
-      baselineSimResult,
-      originalSimResult,
-      simulationFlags,
-    )
+    // const maximumSim = await simulatePerfectBuild(
+    //   benchmarkSim,
+    //   targetSpd,
+    //   metadata,
+    //   simulationForm,
+    //   context,
+    //   applyScoringFunction,
+    //   baselineSimResult,
+    //   originalSimResult,
+    //   simulationFlags,
+    // )
   }
 
   // public async run(includePerfectBuild: boolean = false): Promise<CustomBenchmarkResult> {

@@ -3,11 +3,11 @@ import { Key } from 'lib/optimization/computedStatsArray'
 import { SimulationSets } from 'lib/scoring/dpsScore'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import { benchmarkScoringParams, invertDiminishingReturnsSpdFormula, PartialSimulationWrapper, simSorter, SimulationFlags, SimulationResult, spdRollsCap } from 'lib/scoring/simScoringUtils'
-import { runStatSimulations } from 'lib/simulations/new/statSimulation'
+import { DpsScoreBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/DpsScoreBenchmarkOrchestrator'
+import { runStatSimulations, Simulation, StatSimTypes } from 'lib/simulations/new/statSimulation'
 import { isErrRopeForced } from 'lib/simulations/new/utils/benchmarkUtils'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
-import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { SimulationRequest } from 'lib/simulations/statSimulationController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ComputeOptimalSimulationRunnerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Character } from 'types/character'
@@ -104,15 +104,21 @@ export async function simulateBenchmarkBuild(
 
 // Generate all main stat possibilities
 export function generatePartialSimulations(
-  character: Character,
-  metadata: SimulationMetadata,
-  simulationSets: SimulationSets,
-  originalSim: Simulation,
+  orchestrator: DpsScoreBenchmarkOrchestrator,
+  // character: Character,
+  // metadata: SimulationMetadata,
+  // simulationSets: SimulationSets,
+  // originalSim: Simulation,
 ) {
-  const forceSpdBoots = false // originalBaseSpeed - baselineSimResult.x[Stats.SPD] > 2.0 * 2 * 5 // 3 min spd rolls per piece
+  const metadata = orchestrator.metadata
+  const form = orchestrator.form!
+  const originalSim = orchestrator.originalSimRequest!
+  const simulationSets = orchestrator.simSets!
+
+  const forceSpdBoots = false
   const feetParts: string[] = forceSpdBoots ? [Stats.SPD] : metadata.parts[Parts.Feet]
 
-  const forceErrRope = isErrRopeForced(character.form, metadata, originalSim)
+  const forceErrRope = isErrRopeForced(form, metadata, originalSim)
   const ropeParts: string[] = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets

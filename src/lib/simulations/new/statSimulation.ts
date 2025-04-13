@@ -2,7 +2,7 @@ import { Constants, MainStats, Parts, Stats, SubStats } from 'lib/constants/cons
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/new/simulateBuild'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
@@ -128,7 +128,7 @@ export type Simulation = {
   key?: string
   simType: StatSimTypes
   request: SimulationRequest
-  result?: SimulationResult
+  result?: RunStatSimulationsResult
 }
 
 type SimulationStats = {

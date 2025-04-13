@@ -3,7 +3,7 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 
 import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { Simulation } from 'lib/simulations/new/statSimulation'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
 import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'

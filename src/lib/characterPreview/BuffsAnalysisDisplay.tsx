@@ -108,7 +108,7 @@ type BuffTableItem = {
 
 function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
   const { buffs } = props
-  const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay.Sources' })
+  const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const { t: tGameData } = useTranslation('gameData')
   const size = props.size ?? BuffDisplaySize.SMALL
 
@@ -145,7 +145,7 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
     let sourceLabel
     switch (buff.source.buffType) {
       case BUFF_TYPE.CHARACTER:
-        sourceLabel = tOptimizerTab(`${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
+        sourceLabel = tOptimizerTab(`Sources.${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
         break
       case BUFF_TYPE.LIGHTCONE:
         sourceLabel = tGameData(`Lightcones.${buff.source.id}.Name` as never)
@@ -158,9 +158,9 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
     }
     let value
     if (bool) {
-      value = buff.value ? 'True' : 'False'
+      value = tOptimizerTab(`Values.${buff.value ? 'BoolTrue' : 'BoolFalse'}`)
     } else if (percent) {
-      value = `${TsUtils.precisionRound(buff.value * 100, 2).toLocaleString(currentLocale())} %`
+      value = TsUtils.precisionRound(buff.value * 100, 2).toLocaleString(currentLocale()) + ' %'
     } else {
       value = TsUtils.precisionRound(buff.value, 0).toLocaleString(currentLocale())
     }

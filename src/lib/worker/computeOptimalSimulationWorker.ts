@@ -4,7 +4,7 @@ import { applyScoringFunction, SimulationResult, substatRollsModifier } from 'li
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { sumArray } from 'lib/utils/mathUtils'
 import { Utils } from 'lib/utils/utils'
 import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 
@@ -54,8 +54,8 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
   let speedCap = true
   let simulationRuns = 0
 
-  const sumRequest: number = TsUtils.sumArray(Object.values(currentSimulation.request.stats))
-  const sumMin: number = TsUtils.sumArray(Object.values(minSubstatRollCounts))
+  const sumRequest: number = sumArray(Object.values(currentSimulation.request.stats))
+  const sumMin: number = sumArray(Object.values(minSubstatRollCounts))
   if (sumRequest == sumMin || sumRequest < goal) {
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
       ...scoringParams,

@@ -11,12 +11,15 @@ export class WorkerPool {
     reject: (reason?: any) => void
   }> = []
 
-  constructor(size: number) {
-    console.log(`[WorkerPool] Initializing pool with ${size} workers`)
+  constructor() {
+    const INITIAL_WORKER_COUNT = 1
+    const MAX_WORKER_COUNT = Math.min(1, Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency))
 
-    // Create workers once
-    for (let i = 0; i < size; i++) {
-      console.log(`[WorkerPool] Creating worker ${i}`)
+    console.log(`[WorkerPool] Initializing pool with ${INITIAL_WORKER_COUNT} workers`)
+
+    // Create initial once
+    for (let i = 0; i < INITIAL_WORKER_COUNT; i++) {
+      console.log(`[WorkerPool] Creating initial worker ${i}`)
       try {
         const worker = new ComputeOptimalSimulationWorker()
         this.setupWorker(worker, i)
@@ -25,6 +28,25 @@ export class WorkerPool {
       } catch (error) {
         console.error(`[WorkerPool] Error creating worker ${i}:`, error)
       }
+    }
+
+    for (let i = INITIAL_WORKER_COUNT; i < MAX_WORKER_COUNT; i++) {
+      setTimeout(() => {
+        console.log(`[WorkerPool] Creating additional worker ${i}`)
+        try {
+          const worker = new ComputeOptimalSimulationWorker()
+          this.setupWorker(worker, i)
+          this.workers.push(worker)
+          this.available.push(i)
+
+          // Log completion when all workers are created
+          if (this.workers.length === MAX_WORKER_COUNT) {
+            console.log(`[WorkerPool] Pool finalized with ${this.workers.length} workers`)
+          }
+        } catch (error) {
+          console.error(`[WorkerPool] Error creating worker ${i}:`, error)
+        }
+      }, i * 500) // 100ms delay between each additional worker
     }
 
     console.log(`[WorkerPool] Pool initialized with ${this.workers.length} workers`)
@@ -117,10 +139,7 @@ export class WorkerPool {
   }
 }
 
-// Singleton instance for app-wide use
-export const simulationWorkerPool = new WorkerPool(
-  Math.min(navigator.hardwareConcurrency || 4, 4), // Use available cores, max 4
-)
+export const simulationWorkerPool = new WorkerPool()
 
 // Updated runner function to use the pool with debugging
 export async function runComputeOptimalSimulationWorker(input: any): Promise<any> {

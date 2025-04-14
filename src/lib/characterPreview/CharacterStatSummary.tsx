@@ -60,16 +60,15 @@ export const CharacterStatSummary = (props: {
         {(!props.asyncSimScoringExecution && props.finalStats[Stats.OHB] > epsilon) && <StatRow finalStats={props.finalStats} stat={Stats.OHB} edits={edits}/>}
         {(props.showAll || props.finalStats[Stats.ERR] > epsilon || props.asyncSimScoringExecution == null) && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits}/>}
         <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits}/>
-        {props.asyncSimScoringExecution == null
-        && (
+
+        {props.asyncSimScoringExecution == null && (
           <StatRow
             finalStats={props.finalStats}
             stat='simScore'
             value={props.simScore}
           />
         )}
-        {props.asyncSimScoringExecution != null
-        && (
+        {props.asyncSimScoringExecution != null && (
           <StatRow
             finalStats={props.finalStats}
             stat='simScore'

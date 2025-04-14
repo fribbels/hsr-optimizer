@@ -392,10 +392,11 @@ export class DpsScoreBenchmarkOrchestrator {
       return runComputeOptimalSimulationWorker(input)
     })
 
-    console.time('===== Benchmark runner time')
+    const id = TsUtils.uuid()
+    console.time('===== Benchmark runner time ' + id)
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
-    console.timeEnd('===== Benchmark runner time')
+    console.timeEnd('===== Benchmark runner time ' + id)
 
     console.log(candidates)
 
@@ -463,10 +464,11 @@ export class DpsScoreBenchmarkOrchestrator {
       }
     }
 
-    console.time('===== Perfection runner time')
+    const id = TsUtils.uuid()
+    console.time('===== Perfection runner time ' + id)
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
-    console.timeEnd('===== Perfection runner time')
+    console.timeEnd('===== Perfection runner time ' + id)
 
     // Find the highest scoring
     candidates.sort(simSorter)

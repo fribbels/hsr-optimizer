@@ -26,7 +26,7 @@ import { Relic, Stat } from 'types/relic'
 
 // FIXME HIGH
 
-export function saveStatSimulationBuildFromForm() {
+export function saveStatSimulationBuildFromForm(startSim = true) {
   const form: Form = window.optimizerForm.getFieldsValue()
   console.log('Save statSim', form.statSim)
 
@@ -45,7 +45,7 @@ export function saveStatSimulationBuildFromForm() {
     return null
   }
 
-  return saveStatSimulationRequest(simRequest, simType, true)
+  return saveStatSimulationRequest(simRequest, simType, startSim)
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
@@ -219,7 +219,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 }
 
 export function overwriteStatSimulationBuild() {
-  if (saveStatSimulationBuildFromForm() === null) return
+  if (saveStatSimulationBuildFromForm(false) === null) return
 
   const selectedSim = window.store.getState().selectedStatSimulations
   const statSims: Simulation[] = window.store.getState().statSimulations
@@ -236,7 +236,9 @@ export function overwriteStatSimulationBuild() {
   setFormStatSimulations(updatedSims)
   window.store.getState().setSelectedStatSimulations([newSim.key])
 
-  autosave()
+  setTimeout(() => {
+    startOptimizerStatSimulation()
+  }, 0)
 }
 
 export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {

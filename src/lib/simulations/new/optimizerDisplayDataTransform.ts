@@ -9,6 +9,10 @@ export function transformOptimizerDisplayData(x: ComputedStatsArray, key?: strin
     optimizerDisplayData.statSim = {
       key: key,
     }
+
+    // Using the key string for the ID for optimizer grid, since the id does not need to be a permutation index here
+    // @ts-ignore
+    optimizerDisplayData.id = key
   }
 
   return optimizerDisplayData

@@ -36,8 +36,9 @@ export const CharacterStatSummary = (props: {
   characterId: string
   finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
   elementalDmgValue: string
-  asyncSimScoringExecution: AsyncSimScoringExecution | null
+  asyncSimScoringExecution?: AsyncSimScoringExecution | null
   scoringType?: string
+  simScore?: number
   showAll?: boolean
 }) => {
   const edits = calculateStatCustomizations(props.characterId)
@@ -59,12 +60,24 @@ export const CharacterStatSummary = (props: {
         {(!props.asyncSimScoringExecution && props.finalStats[Stats.OHB] > epsilon) && <StatRow finalStats={props.finalStats} stat={Stats.OHB} edits={edits}/>}
         {(props.showAll || props.finalStats[Stats.ERR] > epsilon || props.asyncSimScoringExecution == null) && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits}/>}
         <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits}/>
-        <StatRow
-          finalStats={props.finalStats}
-          stat='simScore'
-          value={simScoringExecution?.result?.originalSimResult.simScore}
-          loading={!simScoringExecution?.done}
-        />
+        {props.asyncSimScoringExecution == null
+        && (
+          <StatRow
+            finalStats={props.finalStats}
+            stat='simScore'
+            value={props.simScore}
+          />
+        )}
+        {props.asyncSimScoringExecution != null
+        && (
+          <StatRow
+            finalStats={props.finalStats}
+            stat='simScore'
+            value={simScoringExecution?.result?.originalSimResult.simScore}
+            loading={!simScoringExecution?.done}
+          />
+        )}
+
       </Flex>
     </StatText>
   )

@@ -244,6 +244,7 @@ export const CharacterScoringSummary = (props: {
             characterId={characterId}
             finalStats={basicStats}
             elementalDmgValue={elementalDmgValue}
+            simScore={simResult.simScore}
             showAll={true}
           />
         </Flex>
@@ -258,6 +259,7 @@ export const CharacterScoringSummary = (props: {
             characterId={characterId}
             finalStats={combatStats}
             elementalDmgValue={elementalDmgValue}
+            simScore={simResult.simScore}
             showAll={true}
           />
         </Flex>

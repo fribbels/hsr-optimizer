@@ -3,6 +3,7 @@ import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, 
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateCustomBenchmark } from 'lib/simulations/new/customBenchmark'
+import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import {
   deleteAllStatSimulationBuilds,
   importOptimizerBuild,
@@ -23,13 +24,6 @@ import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 
 const { Text } = Typography
-
-export enum StatSimTypes {
-  Disabled = 'disabled',
-  SubstatTotals = 'substatTotals',
-  SubstatRolls = 'substatRolls',
-  Benchmarks = 'benchmarks',
-}
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 680

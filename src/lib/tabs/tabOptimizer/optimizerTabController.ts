@@ -322,7 +322,7 @@ export const OptimizerTabController = {
       for (const key of Object.keys(build)) {
         out[key as Parts] = DB.getRelicById(build[key as Parts]!)
       }
-      return out
+      return out as SingleRelicByPart
     }
     const lSize = permutationSizes.lSize
     const pSize = permutationSizes.pSize

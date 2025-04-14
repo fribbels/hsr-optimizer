@@ -3,11 +3,10 @@ import { addE6S5Teammate } from 'lib/gpu/tests/webgpuTestGenerator'
 import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
-import { Simulation, SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
+import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { Metadata } from 'lib/state/metadata'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { test } from 'vitest'
 
 Metadata.initialize()

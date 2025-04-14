@@ -4,6 +4,7 @@ import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 export enum StatSimTypes {
   Disabled = 'disabled',
   SubstatRolls = 'substatRolls',
+  Benchmarks = 'benchmarks',
 }
 
 export type Simulation = {

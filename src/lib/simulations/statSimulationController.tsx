@@ -3,6 +3,7 @@ import i18next from 'i18next'
 import { Constants, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
+import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -10,13 +11,13 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
-import { Simulation, SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
+import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
@@ -48,8 +49,8 @@ export function saveStatSimulationBuildFromForm() {
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
   const existingSimulations = (window.store.getState().statSimulations || [])
-  const key = Utils.randomId()
-  const name = simRequest.name || undefined
+  const key = TsUtils.uuid()
+  const name = simRequest.name ?? undefined
   const simulation = {
     name: name,
     key: key,
@@ -90,7 +91,7 @@ function hashSim(sim: Simulation) {
     }
   }
 
-  return Utils.objectHash({
+  return TsUtils.objectHash({
     simType: sim.simType,
     request: cleanedRequest,
   })
@@ -293,7 +294,7 @@ function autosave() {
 }
 
 export function importOptimizerBuild() {
-  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0]
+  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0] as OptimizerDisplayData
 
   if (!selectedRow) {
     Message.warning(i18next.t('optimizerTab:StatSimulation.NothingToImport'))// 'Run the optimizer first, then select a row from the optimizer results to import'
@@ -316,7 +317,7 @@ export function importOptimizerBuild() {
   const ornamentSetIndex: number = selectedRow.ornamentSetIndex
   const ornamentSetName: string | undefined = ornamentSetIndexToName(ornamentSetIndex)
 
-  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1)
+  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1) as SimulationRequest
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
 }
 

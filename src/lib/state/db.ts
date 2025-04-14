@@ -19,9 +19,9 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
+import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
@@ -746,11 +746,11 @@ export const DB = {
   },
 
   saveCharacterBuild: (name: string,
-                       characterId: string,
-                       score: {
-                         rating: string
-                         score: string
-                       }) => {
+    characterId: string,
+    score: {
+      rating: string
+      score: string
+    }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')

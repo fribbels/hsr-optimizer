@@ -26,10 +26,11 @@ import ShowcaseCustomizationSidebar, {
   urlToColorCache,
 } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
-import { ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
+import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
-import { ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
+import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
@@ -196,7 +197,7 @@ export function CharacterPreview(props: {
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
   return (
-    <Flex vertical style={{ width: 1068 }}>
+    <Flex vertical style={{ width: 1068, minHeight: 2000 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         type='edit'
@@ -281,7 +282,7 @@ export function CharacterPreview(props: {
                 onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
               />
 
-              {asyncSimScoringExecution && (
+              {scoringType == SIMULATION_SCORE && (
                 <ShowcaseLightConeSmall
                   source={source}
                   character={character}
@@ -328,7 +329,7 @@ export function CharacterPreview(props: {
                 asyncSimScoringExecution={asyncSimScoringExecution}
               />
 
-              {asyncSimScoringExecution && (
+              {scoringType == SIMULATION_SCORE && (
                 <>
                   <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics}/>
 
@@ -346,40 +347,34 @@ export function CharacterPreview(props: {
                 </>
               )}
 
-              {/* {!simScoringResult && ( */}
-              {/*  <> */}
-              {/*    {scoringType != NONE_SCORE && ( */}
-              {/*      <ShowcaseStatScore */}
-              {/*        scoringResults={scoringResults} */}
-              {/*      /> */}
-              {/*    )} */}
+              {scoringType != SIMULATION_SCORE && (
+                <>
+                  {scoringType != NONE_SCORE && (
+                    <ShowcaseStatScore
+                      scoringResults={scoringResults}
+                    />
+                  )}
 
-              {/*    <ShowcaseLightConeLarge */}
-              {/*      source={source} */}
-              {/*      character={character} */}
-              {/*      showcaseMetadata={showcaseMetadata} */}
-              {/*      displayDimensions={displayDimensions} */}
-              {/*      setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter} */}
-              {/*      setOriginalCharacterModalOpen={setOriginalCharacterModalOpen} */}
-              {/*      setCharacterModalAdd={setCharacterModalAdd} */}
-              {/*    /> */}
-              {/*  </> */}
-              {/* )} */}
+                  <ShowcaseLightConeLargeName
+                    showcaseMetadata={showcaseMetadata}
+                  />
+                </>
+              )}
             </Flex>
 
-            {/* {!simScoringResult && ( */}
-            {/*  <> */}
-            {/*    <ShowcaseLightConeLarge */}
-            {/*      source={source} */}
-            {/*      character={character} */}
-            {/*      showcaseMetadata={showcaseMetadata} */}
-            {/*      displayDimensions={displayDimensions} */}
-            {/*      setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter} */}
-            {/*      setOriginalCharacterModalOpen={setOriginalCharacterModalOpen} */}
-            {/*      setCharacterModalAdd={setCharacterModalAdd} */}
-            {/*    /> */}
-            {/*  </> */}
-            {/* )} */}
+            {scoringType != SIMULATION_SCORE && (
+              <>
+                <ShowcaseLightConeLarge
+                  source={source}
+                  character={character}
+                  showcaseMetadata={showcaseMetadata}
+                  displayDimensions={displayDimensions}
+                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                  setCharacterModalAdd={setCharacterModalAdd}
+                />
+              </>
+            )}
           </Flex>
 
           {/* Relics right panel */}
@@ -400,8 +395,7 @@ export function CharacterPreview(props: {
       <CharacterAnnouncement characterId={showcaseMetadata.characterId}/>
 
       {/* Showcase analysis footer */}
-      {source != ShowcaseSource.BUILDS_MODAL
-      && (
+      {source != ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
           token={token}
           asyncSimScoringExecution={asyncSimScoringExecution}

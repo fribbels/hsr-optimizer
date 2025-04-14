@@ -110,11 +110,13 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           />
         </Flex>
       </Flex>
-      <MemoizedCharacterScoringSummary
-        simScoringResult={result}
-        displayRelics={props.displayRelics}
-        showcaseMetadata={props.showcaseMetadata}
-      />
+      {scoringType == SIMULATION_SCORE && (
+        <MemoizedCharacterScoringSummary
+          simScoringResult={result}
+          displayRelics={props.displayRelics}
+          showcaseMetadata={props.showcaseMetadata}
+        />
+      )}
       <StatScoringSummary
         scoringType={result ? props.scoringType : CHARACTER_SCORE}
         displayRelics={props.displayRelics}

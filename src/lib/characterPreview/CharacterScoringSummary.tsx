@@ -598,10 +598,10 @@ function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
   xa[Key.ELEMENTAL_DMG] += xa[Key[`${ability}_DMG_BOOST`]]
   if (ability != SortOption.DOT.key) {
     // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unused-expressions
     xa[Key[`${ability}_CR_BOOST`]] && (xa[Key.CR] += xa[Key[`${ability}_CR_BOOST`]])
     // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unused-expressions
     xa[Key[`${ability}_CD_BOOST`]] && (xa[Key.CD] += xa[Key[`${ability}_CD_BOOST`]])
   }
 }
@@ -616,16 +616,17 @@ export function CharacterCardCombatStats(props: {
   result: SimulationScore
 }) {
   const result = props.result
+  const characterMetadata = result.characterMetadata!
   const xa = new Float32Array(result.originalSimResult.xa)
-  const sortOption = result.characterMetadata.scoringMetadata.sortOption
+  const sortOption = characterMetadata.scoringMetadata.sortOption
   addOnHitStats(xa, sortOption)
 
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
   const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
-  const originalSimulationMetadata = result.characterMetadata.scoringMetadata.simulation!
-  const elementalDmgValue = ElementToDamage[result.characterMetadata.element]
+  const originalSimulationMetadata = characterMetadata.scoringMetadata.simulation!
+  const elementalDmgValue = ElementToDamage[characterMetadata.element]
   let substats = originalSimulationMetadata.substats as SubStats[]
   substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
   if (substats.length < 5) substats.push(Stats.SPD)

@@ -177,23 +177,6 @@ function SimulationInputs() {
           />
         </AntDForm.Item>
 
-        <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatTotals ? 'flex' : 'none' }}>
-          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-            <SetsSection simType={StatSimTypes.SubstatTotals}/>
-            <MainStatsSection simType={StatSimTypes.SubstatTotals}/>
-
-            <HeaderText>{t('OptionsHeader')/* Options */}</HeaderText>
-
-            <AntDForm.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
-              <Input placeholder={t('SimulationNamePlaceholder')/* 'Simulation name (Optional)' */} autoComplete='off'/>
-            </AntDForm.Item>
-          </Flex>
-
-          <VerticalDivider/>
-
-          <SubstatsSection simType={StatSimTypes.SubstatTotals} title={t('TotalsHeader')/* 'Substat value totals' */}/>
-        </Flex>
-
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <SetsSection simType={StatSimTypes.SubstatRolls}/>

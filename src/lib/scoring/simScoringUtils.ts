@@ -1,6 +1,6 @@
 import { Stats, SubStats } from 'lib/constants/constants'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, ComputedStatsArrayCore, Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 
 import { SimulationStatUpgrade } from 'lib/simulations/new/scoringUpgrades'
@@ -248,4 +248,40 @@ export function calculatePenaltyMultiplier(
   }
 
   return newPenaltyMultiplier
+}
+
+function cloneComputedStatsArray(x: ComputedStatsArray) {
+  const clone = new ComputedStatsArrayCore(false)
+  clone.a.set(new Float32Array(x.a))
+  clone.c.a.set(new Float32Array(x.c.a))
+
+  clone.c.id = x.c.id
+  clone.c.relicSetIndex = x.c.relicSetIndex
+  clone.c.ornamentSetIndex = x.c.ornamentSetIndex
+
+  return clone as ComputedStatsArray
+}
+
+export function cloneSimResult(result: RunStatSimulationsResult) {
+  const x = cloneComputedStatsArray(result.x)
+  result.x = x
+  result.xa = x.a
+  result.ca = x.c.a
+
+  return result
+}
+
+// Does not clone relic/ornament set index
+export function cloneWorkerResult(result: RunStatSimulationsResult) {
+  const clone = new ComputedStatsArrayCore(false)
+  const xa = new Float32Array(result.xa)
+  const ca = new Float32Array(result.ca)
+  clone.a.set(xa)
+  clone.c.a.set(ca)
+
+  result.x = clone as ComputedStatsArray
+  result.xa = xa
+  result.ca = ca
+
+  return result
 }

@@ -1,6 +1,6 @@
 import { CUSTOM_TEAM, Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
@@ -8,6 +8,8 @@ import {
   applyScoringFunction,
   baselineScoringParams,
   benchmarkScoringParams,
+  cloneSimResult,
+  cloneWorkerResult,
   invertDiminishingReturnsSpdFormula,
   maximumScoringParams,
   originalScoringParams,
@@ -551,36 +553,5 @@ export class DpsScoreBenchmarkOrchestrator {
       simulationFlags: this.flags,
     }
   }
-}
-
-function cloneComputedStatsArray(x: ComputedStatsArray) {
-  const clone = new ComputedStatsArrayCore(false)
-  clone.a.set(new Float32Array(x.a))
-  clone.c.a.set(new Float32Array(x.c.a))
-
-  return clone as ComputedStatsArray
-}
-
-export function cloneSimResult(result: RunStatSimulationsResult) {
-  const x = cloneComputedStatsArray(result.x)
-  result.x = x
-  result.xa = x.a
-  result.ca = x.c.a
-
-  return result
-}
-
-function cloneWorkerResult(result: RunStatSimulationsResult) {
-  const clone = new ComputedStatsArrayCore(false)
-  const xa = new Float32Array(result.xa)
-  const ca = new Float32Array(result.ca)
-  clone.a.set(xa)
-  clone.c.a.set(ca)
-
-  result.x = clone as ComputedStatsArray
-  result.xa = xa
-  result.ca = ca
-
-  return result
 }
 

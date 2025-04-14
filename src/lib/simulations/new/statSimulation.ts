@@ -2,7 +2,7 @@ import { Constants, MainStats, Parts, Stats, SubStats } from 'lib/constants/cons
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { SimulationFlags } from 'lib/scoring/simScoringUtils'
+import { cloneSimResult, SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/new/simulateBuild'
 import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRelic, SimulationRelicByPart, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -16,6 +16,7 @@ const defaultSimulationParams: RunSimulationsParams = {
   mainStatMultiplier: 1,
   substatRollsModifier: (num: number) => num,
   simulationFlags: {} as SimulationFlags,
+  stabilize: false,
 }
 
 function simulationRelic(set: string, mainStat: string, mainValue: number): SimulationRelic {
@@ -62,9 +63,10 @@ export function runStatSimulations(
       xa: x.a,
       ca: x.c.a,
       simScore: x.a[Key.COMBO_DMG],
+      key: sim.key,
     }
 
-    simulationResults.push(result)
+    simulationResults.push(params.stabilize ? cloneSimResult(result) : result)
   }
 
   return simulationResults

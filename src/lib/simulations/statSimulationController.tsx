@@ -17,6 +17,7 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
@@ -261,7 +262,7 @@ export function setFormStatSimulations(simulations: Simulation[]) {
 }
 
 export function startOptimizerStatSimulation() {
-  const form: Form = OptimizerTabController.getForm()
+  const form = OptimizerTabController.getForm()
   const existingSimulations = (window.store.getState().statSimulations || [])
 
   if (existingSimulations.length == 0) return
@@ -272,15 +273,20 @@ export function startOptimizerStatSimulation() {
   const context = generateContext(form)
   transformWorkerContext(context)
 
-  const simulationResults = runStatSimulations(existingSimulations, form, context)
-  const optimizerDisplayData = simulationResults.map((x) => transformOptimizerDisplayData(x.x))
+  const optimizerDisplayData: OptimizerDisplayData[] = []
+
+  for (const simulation of existingSimulations) {
+    const simulationResults = runStatSimulations([simulation], form, context, { stabilize: true })
+    const transformedData = simulationResults.map((result) => transformOptimizerDisplayData(result.x, simulation.key))
+    optimizerDisplayData.push(transformedData[0])
+  }
 
   OptimizerTabController.setRows(optimizerDisplayData)
 
   calculateCurrentlyEquippedRow(form)
-  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  optimizerGridApi().updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
-  const sortOption = SortOption[form.resultSort]
+  const sortOption = SortOption[form.resultSort as keyof typeof SortOption]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
 

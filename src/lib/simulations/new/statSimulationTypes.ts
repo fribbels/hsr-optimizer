@@ -36,6 +36,7 @@ export type RunSimulationsParams = {
   mainStatMultiplier: number
   substatRollsModifier: (num: number, stat: string, sim: Simulation) => number
   simulationFlags: SimulationFlags
+  stabilize?: boolean
 }
 
 export type RunStatSimulationsResult = {
@@ -43,6 +44,7 @@ export type RunStatSimulationsResult = {
   xa: Float32Array
   ca: Float32Array
   simScore: number
+  key?: string
 }
 
 export type SimulationRelic = {

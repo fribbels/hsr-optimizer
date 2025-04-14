@@ -1,4 +1,3 @@
-// speedCalculator.ts
 import { Key } from 'lib/optimization/computedStatsArray'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { RunStatSimulationsResult } from 'lib/simulations/new/statSimulationTypes'

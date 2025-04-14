@@ -67,8 +67,6 @@ export function runStatSimulations(
     simulationResults.push(result)
   }
 
-  // console.log(simulationResults)
-
   return simulationResults
 }
 

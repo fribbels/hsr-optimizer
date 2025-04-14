@@ -559,7 +559,7 @@ function cloneComputedStatsArray(x: ComputedStatsArray) {
   return clone as ComputedStatsArray
 }
 
-function cloneSimResult(result: RunStatSimulationsResult) {
+export function cloneSimResult(result: RunStatSimulationsResult) {
   const x = cloneComputedStatsArray(result.x)
   result.x = x
   result.xa = x.a

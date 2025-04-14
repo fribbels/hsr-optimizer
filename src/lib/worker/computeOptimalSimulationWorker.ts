@@ -230,7 +230,12 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     sum -= 1
   }
 
-  currentSimulation.result = currentSimulationResult
+  // Rerun simulation to make result stable
+  currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
+    ...scoringParams,
+    substatRollsModifier: scoringParams.substatRollsModifier,
+    simulationFlags: simulationFlags,
+  })[0]
 
   console.log(
     'simulationRuns',
@@ -240,6 +245,7 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     partialSimulationWrapper.simulation.request.simLinkRope,
     partialSimulationWrapper.simulation.request.simPlanarSphere,
   )
+
   return currentSimulation
 }
 

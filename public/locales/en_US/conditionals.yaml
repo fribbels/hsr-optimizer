@@ -723,16 +723,11 @@ Characters:
       exposedNature:
         text: Qualitative Disclosure
         content: >-
-          While Anaxa is on the battlefield, inflicts the "Qualitative Disclosure" state to enemy targets with at least 5 different Weaknesses.
-          Anaxa deals {{DmgBuff}}% more DMG to targets in "Qualitative Disclosure" state.
+          While Anaxa is on the battlefield, inflicts the "Qualitative Disclosure" state to enemy targets with at least 5 different Weaknesses. Anaxa deals {{DmgBuff}}% more DMG to targets in "Qualitative Disclosure" state.
       eruditionTeammateBuffs:
         text: Erudition teammate buffs
         content: >-
-          Trigger any 1 effect in the current battle based on the number of characters on the Path of Erudition in the team:
-          ::BR::
-          1: Increases Anaxa's CRIT DMG by 140%.
-          ::BR::
-          At least 2: Increases DMG dealt by all allies by 50%.
+          Trigger any 1 effect in the current battle based on the number of characters on the Path of Erudition in the team: ::BR:: 1: Increases Anaxa's CRIT DMG by 140%. ::BR:: At least 2: Increases DMG dealt by all allies by 50%.
       enemyWeaknessTypes:
         text: Enemy weaknesses
         content: For every different Weakness Type an enemy target has, the DMG that Anaxa deals to that target ignores 4% of DEF, up to a max of 7 Weakness Types.
@@ -940,9 +935,7 @@ Characters:
       e6Buffs:
         text: E6 buffs
         content: >-
-          When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%.
-          ::BR::
-          Increases the Bounce count for Netherwing's Talent "Wings Sweep the Ruins" by 3 times.
+          When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%. ::BR:: Increases the Bounce count for Netherwing's Talent "Wings Sweep the Ruins" by 3 times.
   Clara:
     Content:
       ultBuff:
@@ -1623,7 +1616,7 @@ Characters:
       talentStacks:
         text: Talent DMG stacks
         content: >-
-          Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies.
+          Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {{talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies.
       quantumAlliesAtkBuff:
         text: Quantum allies ATK buff
         content: When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%.

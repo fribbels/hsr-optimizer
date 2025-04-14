@@ -566,6 +566,9 @@ ExpandedDataPanel:
       dotDmg: 지속 피해량
       memoDmg: 기억정령 피해
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "아니요"
+      BoolTrue: "예"
     Sources:
       Basic: 기본 공격
       Skill: 전투 스킬

@@ -1,5 +1,8 @@
 TryOut:
-  DocumentationTitle: Смотреть полное руководство
-  ButtonText: Попробуйте!
+  DocumentationTitle: Посмотреть полное руководство
+  ButtonText: Попробовать!
+  description: |-
+    Загрузить пример файла сохранения?
+    ⚠️Это заменит все ваши текущие данные!⚠️
   SuccessMessage: Данные успешно загружены
   Header: Попробуйте!

@@ -1,7 +1,7 @@
 ScreenshotMessages:
   ScreenshotSuccess: Скриншот скопирован в буфер обмена
   ScreenshotFailed: Не удается сохранить скриншот в буфер обмена, попробуйте нажать кнопку загрузки справа
-  DownloadSuccess: Скаченный скриншот
+  DownloadSuccess: Загружен скриншот
 CharacterMenu:
   ButtonText: Меню персонажей
   Character:
@@ -18,14 +18,14 @@ CharacterMenu:
       Save: Сохранить сборку
       View: Просмотр сохраненных сборок
   Scoring:
-    Label: Очки
+    Label: Оценка
     Options:
-      ScoringModal: Алгоритм подсчета очков
+      ScoringModal: Настройки расчета оценки
   Priority:
     Label: Приоритет
     Options:
-      SortByScore: Отсортируйте всех персонажей по количеству баллов
-      MoveToTop: Переместите персонажа на самый верх
+      SortByScore: Отсортировать персонажей по оценке сборки
+      MoveToTop: Переместить персонажа на самый верх
 SearchPlaceholder: Поиск
 GridHeaders:
   Icon: Иконка
@@ -80,8 +80,10 @@ CharacterPreview:
     SavedPortrait: Картинка успешно сохранён
     RevertedPortrait: Изображение успешно восстановлено
     NoSelectedCharacter: Нет выбранного персонажа
+    NoSelectedLightCone: Конус не выбран
   ScoreHeader:
     Title: Эффективность сборки
+    TitleBenchmark: "Эталонное SPD {{spd}}"
     Score: "Оценка урона {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Способ оценки:"
@@ -111,6 +113,9 @@ CharacterPreview:
     ScoringNote: >-
       В расчете оценивается только качество сборки, сравнивая урон персонажа в текущей сборке с уроном в эталонных сборках при одинаковых командах / конусах / эйдолонах. Оценки и Урон Комбо рассчитываются только для выбранной команды персонажа и не могут сравниваться с другими конфигурациями команд и персонажей.
     RelicRarityHeader: Оценка реликвий в сборке
+    RelicRarityNote: |-
+      Поля "Дней фарма" и "Кол-во энергии" показывают ожидаемые время фарма в днях и траты энергии Освоения, чтобы получить реликвию лучше текущей (в зависимости от важных персонажу статов).
+      Эта статистическая оценка качества служит для определения приоритета при фарме и не отражает реального влияния на Оценку урона и Урон Комбо.
     Header: Расчет оценки урона
     SimulationTeammates: Состав команды
     SimulatedBenchmarks: Конфигурация тестовых сборок при оценке
@@ -144,8 +149,8 @@ CharacterPreview:
         MEMO_TALENT: Урон талантаᴹ
         COMBO: СУММАРНЫЙ УРОН
     CombatBuffs:
-      Header: Усиления в бою
-      SubDpsHeader: Усиления в бою (Доп DPS)
+      Header: Баффы в бою
+      SubDpsHeader: Баффы в бою (Доп DPS)
   ScoringColumn:
     Character:
       Header: "Текущая сборка ({{score}}%)"

@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: Portrait enregistré avec succès
     RevertedPortrait: Portrait restauré avec succès
     NoSelectedCharacter: Aucun personnage sélectionné
+    NoSelectedLightCone: Aucun cône de lumière sélectionné
   ScoreHeader:
     Title: Sim de combat
     TitleBenchmark: "Référence à {{spd}} VIT"

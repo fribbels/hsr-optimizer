@@ -1,5 +1,6 @@
 CharacterSelector:
   Character: Персонаж
+  Lightcone: Световой конус
 OptimizerOptions:
   Priority:
     Header: Приоритет
@@ -23,6 +24,10 @@ Sidebar:
       CPU: Переключение вычислительных ресурсов на видеокарту 
       Stable: Переключение вычислительных ресурсов на видеокарту (стабильная версия)
       Experimental: Переключение вычислительных ресурсов на видеокарту (экспериментальная версия)
+TracesDrawer:
+  Title: Настройка следов персонажа
+  Header: Активные следы (по умолчанию включены все)
+  ButtonText: Сохранить изменения
 SetConditionals:
   SelectOptions:
     Wastelander:
@@ -81,6 +86,9 @@ ExpandedDataPanel:
       breakDmg: Урон пробития
       dotDmg: Периодический урон
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Нет"
+      BoolTrue: "Да"
     Stats:
       CompositeLabels:
         Prefix:

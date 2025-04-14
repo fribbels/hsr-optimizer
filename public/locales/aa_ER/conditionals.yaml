@@ -1616,7 +1616,7 @@ Characters:
       talentStacks:
         text: crwdns41532:0crwdne41532:0
         content: >-
-          crwdns44250:0{talentBaseStackBoost}crwdnd44250:0:BR:crwdnd44250:0:E2:crwdne44250:0
+          crwdns44250:0{{talentBaseStackBoost}}crwdnd44250:0:BR:crwdnd44250:0:E2:crwdne44250:0
       quantumAlliesAtkBuff:
         text: crwdns44788:0crwdne44788:0
         content: crwdns44790:0crwdne44790:0

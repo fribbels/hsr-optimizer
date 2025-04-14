@@ -48,7 +48,7 @@ export function StatSimulationDisplay() {
           <Radio.Group
             onChange={(e) => {
               const { target: { value } } = e
-              setStatSimulationDisplay(value)
+              setStatSimulationDisplay(value as StatSimTypes)
             }}
             optionType='button'
             buttonStyle='solid'
@@ -110,7 +110,7 @@ export function StatSimulationDisplay() {
             <Button
               type='primary'
               style={{ width: 35, height: 100, padding: 0 }}
-              onClick={saveStatSimulationBuildFromForm}
+              onClick={() => saveStatSimulationBuildFromForm()}
               disabled={isHidden()}
             >
               <DoubleLeftOutlined/>

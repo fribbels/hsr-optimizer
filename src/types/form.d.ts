@@ -79,7 +79,6 @@ export type Form = {
     key: string
     benchmarks: SimulationRequest
     substatRolls: SimulationRequest
-    substatTotals: SimulationRequest
     simulations: Simulation[]
   }
   optimizationId?: string

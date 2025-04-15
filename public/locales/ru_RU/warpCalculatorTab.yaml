@@ -10,21 +10,40 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: Нет
   REFUND_NONE_FULL: Нет
+  REFUND_LOW: "{{Percentage}}% возврат"
   REFUND_LOW_FULL: "Возврат {{Percentage}}% (Низкий)"
+  REFUND_AVG: "Возврат {{Percentage}}%"
+  REFUND_AVG_FULL: "Возврат {{Percentage}}% (Средний)"
+  REFUND_HIGH: "{{Percentage}}% возврат"
+  REFUND_HIGH_FULL: "Возврат {{Percentage}}% (Высокий)"
 EidolonLevels:
   NONE: Нет
+  E0: E0
+  E1: E1
+  E2: E2
+  E3: E3
+  E4: E4
+  E5: E5
+  E6: E6
 SuperimpositionLevels:
   NONE: Нет
+  S1: S1
+  S2: S2
+  S3: S3
+  S4: S4
+  S5: S5
 IncomeOptions:
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: Нет
     1: Ф2П
     2: Пропуск снабжения экспресса
     3: БП и Пропуск снабжения экспресса
 PityCounter:
-  PityCounter: Уже откручено
+  PityCounter: Круток уже сделано
+  CurrentEidolonSuperImp: Текущий
   Guaranteed: Гарант
-TotalAvailable: "Всего доступно круток:"
+TotalAvailable: "Итого круток:"
 SectionTitles:
   Planner: Планировщик круток
   Results: Результаты
@@ -34,8 +53,10 @@ SectionTitles:
   Passes: Билеты
   Jades: Нефрит
   Strategy: Цель
+  Starlight: Звездный свет
   Banner: Баннер персонажа
   New: Новый
+  Rerun: Повторный
   AdditionalResources: Дополнительные ресурсы
   Calculate: Рассчитать
 ColumnTitles:

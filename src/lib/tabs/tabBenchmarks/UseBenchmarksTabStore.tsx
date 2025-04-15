@@ -1,3 +1,4 @@
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/BenchmarkSimulationOrchestrator'
 import { Form } from 'types/form'
 import { create } from 'zustand'
 
@@ -30,11 +31,17 @@ type BenchmarksTabState = {
   teammate0: SimpleCharacter | undefined
   teammate1: SimpleCharacter | undefined
   teammate2: SimpleCharacter | undefined
+
+  benchmarkForm: BenchmarkForm | undefined
+  orchestrator: BenchmarkSimulationOrchestrator | undefined
+
+  updateTeammate: (index: number, data: SimpleCharacter) => void
   onCharacterModalOk: (character: Form) => void
+
   setCharacterModalOpen: (isOpen: boolean) => void
   setCharacterModalInitialCharacter: (character: SimpleCharacter | undefined) => void
   setSelectedTeammateIndex: (index: number | undefined) => void
-  updateTeammate: (index: number, data: SimpleCharacter) => void
+  setResults: (benchmarkForm: BenchmarkForm, orchestrator: BenchmarkSimulationOrchestrator) => void
 }
 
 export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
@@ -44,6 +51,9 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   teammate0: undefined,
   teammate1: undefined,
   teammate2: undefined,
+
+  benchmarkForm: undefined,
+  orchestrator: undefined,
 
   // Update a specific teammate with new data
   updateTeammate: (index, data: SimpleCharacter) => set((state) => {
@@ -78,4 +88,5 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   setCharacterModalOpen: (isOpen) => set({ isCharacterModalOpen: isOpen }),
   setCharacterModalInitialCharacter: (character?: SimpleCharacter) => set({ characterModalInitialCharacter: character }),
   setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
+  setResults: (benchmarkForm, orchestrator) => set({ benchmarkForm, orchestrator }),
 }))

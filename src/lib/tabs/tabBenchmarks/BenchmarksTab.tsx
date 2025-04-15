@@ -6,6 +6,7 @@ import { cloneWorkerResult } from 'lib/scoring/simScoringUtils'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/runCustomBenchmarkOrchestrator'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
+import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { CharacterEidolonFormRadio, RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
@@ -62,6 +63,7 @@ export default function BenchmarksTab(): ReactElement {
     setCharacterModalOpen,
     onCharacterModalOk,
     updateTeammate,
+    setResults,
   } = useBenchmarksTabStore()
 
   // Initialize teammates when component mounts
@@ -85,27 +87,32 @@ export default function BenchmarksTab(): ReactElement {
           <MiddlePanel/>
           <RightPanel/>
         </Flex>
-        <Button onClick={async () => {
+        <Button onClick={() => {
           const formValues = benchmarkForm.getFieldsValue()
           const { teammate0, teammate1, teammate2 } = useBenchmarksTabStore.getState()
 
           // Merge form and the teammate state management
-          const completeData: BenchmarkForm = {
+          const mergedBenchmarkForm: BenchmarkForm = {
             ...formValues,
             teammate0,
             teammate1,
             teammate2,
           }
 
-          console.log('Complete benchmark data:', completeData)
+          console.log('Complete benchmark data:', mergedBenchmarkForm)
 
-          const orchestrator = await runCustomBenchmarkOrchestrator(completeData)
-          console.log(orchestrator)
-          console.log(cloneWorkerResult(orchestrator.perfectionSimResult!))
+          runCustomBenchmarkOrchestrator(mergedBenchmarkForm).then((orchestrator) => {
+            console.log(orchestrator)
+            console.log(cloneWorkerResult(orchestrator.perfectionSimResult!))
+
+            setResults(mergedBenchmarkForm, orchestrator)
+          })
         }}
         >
           Generate benchmarks
         </Button>
+
+        <BenchmarkResults/>
       </Flex>
 
       <CharacterModal

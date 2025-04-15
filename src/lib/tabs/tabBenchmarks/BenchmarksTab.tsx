@@ -6,6 +6,7 @@ import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { CharacterEidolonFormRadio, RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
+import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -15,84 +16,41 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
-import { Form } from 'types/form'
-import { create } from 'zustand'
-
-type BenchmarkForm = {
-  characterId: string
-  lightConeId: string
-  percentage: number
-  basicSpd: number
-  teammates: SimpleCharacter[]
-}
-
-export type SimpleCharacter = {
-  characterId: string
-  lightConeId: string
-  characterEidolon: number
-  lightConeSuperimposition: number
-}
-
-type BenchmarksTabState = {
-  characterModalInitialCharacter: SimpleCharacter | undefined
-  isCharacterModalOpen: boolean
-  selectedTeammateIndex: number | undefined
-  teammate0: SimpleCharacter | undefined
-  teammate1: SimpleCharacter | undefined
-  teammate2: SimpleCharacter | undefined
-  onCharacterModalOk: (character: Form) => void
-  setCharacterModalOpen: (isOpen: boolean) => void
-  setCharacterModalInitialCharacter: (character: SimpleCharacter | undefined) => void
-  setSelectedTeammateIndex: (index: number | undefined) => void
-  updateTeammate: (index: number, data: SimpleCharacter) => void
-}
 
 const GAP = 8
 const HEADER_GAP = 5
-const PANEL_WIDTH = 250
+const MID_PANEL_WIDTH = 250
+const RIGHT_PANEL_WIDTH = 250
 
-const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
-  characterModalInitialCharacter: undefined,
-  isCharacterModalOpen: false,
-  selectedTeammateIndex: undefined,
-  teammate0: undefined,
-  teammate1: undefined,
-  teammate2: undefined,
-
-  // Update a specific teammate with new data
-  updateTeammate: (index, data: SimpleCharacter) => set((state) => {
-    return {
-      teammate0: index == 0 ? data : state.teammate0,
-      teammate1: index == 1 ? data : state.teammate1,
-      teammate2: index == 2 ? data : state.teammate2,
-    }
-  }),
-
-  // Handler for when a character is selected in the modal
-  onCharacterModalOk: (form: Form) => {
-    const character: SimpleCharacter = {
-      characterId: form.characterId,
-      characterEidolon: form.characterEidolon,
-      lightConeId: form.lightCone,
-      lightConeSuperimposition: form.lightConeSuperimposition,
-    }
-
-    const { selectedTeammateIndex, updateTeammate } = get()
-
-    if (selectedTeammateIndex != null && character) {
-      updateTeammate(selectedTeammateIndex, character)
-    }
-
-    set({
-      isCharacterModalOpen: false,
-      selectedTeammateIndex: undefined,
-    })
+const defaultForm = {
+  characterId: '1212',
+  characterEidolon: 0,
+  lightCone: '23014',
+  lightConeSuperimposition: 1,
+  percentage: 200,
+  simRelicSet1: 'Scholar Lost in Erudition',
+  simRelicSet2: 'Scholar Lost in Erudition',
+  simOrnamentSet: 'Rutilant Arena',
+  basicSpd: 100,
+  teammate0: {
+    characterId: '1101',
+    characterEidolon: 3,
+    lightCone: '23003',
+    lightConeSuperimposition: 1,
   },
-
-  setCharacterModalOpen: (isOpen) => set({ isCharacterModalOpen: isOpen }),
-  setCharacterModalInitialCharacter: (character?: SimpleCharacter) => set({ characterModalInitialCharacter: character }),
-  setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
-}))
+  teammate1: {
+    characterId: '1309',
+    characterEidolon: 0,
+    lightCone: '22002',
+    lightConeSuperimposition: 5,
+  },
+  teammate2: {
+    characterId: '1217',
+    characterEidolon: 1,
+    lightCone: '21000',
+    lightConeSuperimposition: 5,
+  },
+}
 
 export default function BenchmarksTab(): ReactElement {
   const [benchmarkForm] = AntDForm.useForm<BenchmarkForm>()
@@ -101,19 +59,21 @@ export default function BenchmarksTab(): ReactElement {
     characterModalInitialCharacter,
     setCharacterModalOpen,
     onCharacterModalOk,
+    updateTeammate,
   } = useBenchmarksTabStore()
 
   // Initialize teammates when component mounts
   useEffect(() => {
-    benchmarkForm.setFieldsValue({
-      percentage: 200,
-      basicSpd: 100,
-    })
+    benchmarkForm.setFieldsValue(defaultForm)
+    updateTeammate(0, defaultForm.teammate0)
+    updateTeammate(1, defaultForm.teammate1)
+    updateTeammate(2, defaultForm.teammate2)
   }, [benchmarkForm])
 
   return (
     <AntDForm
       form={benchmarkForm}
+      initialValues={defaultForm}
       preserve={false}
       layout='vertical'
     >
@@ -127,6 +87,7 @@ export default function BenchmarksTab(): ReactElement {
           const formValues = benchmarkForm.getFieldsValue()
           const { teammate0, teammate1, teammate2 } = useBenchmarksTabStore.getState()
 
+          // Merge form and the teammate state management
           const completeData = {
             ...formValues,
             teammate0,
@@ -154,9 +115,9 @@ export default function BenchmarksTab(): ReactElement {
 function LeftPanel() {
   const form = AntDForm.useFormInstance<BenchmarkForm>()
   const characterId = AntDForm.useWatch('characterId', form) ?? ''
-  const lightConeId = AntDForm.useWatch('lightConeId', form) ?? ''
+  const lightCone = AntDForm.useWatch('lightCone', form) ?? ''
 
-  const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
+  const lightConeMetadata = DB.getMetadata().lightCones[lightCone]
   const offset = lightConeMetadata?.imageCenter ?? undefined
 
   return (
@@ -170,7 +131,7 @@ function LeftPanel() {
         />
       </Flex>
       <CenteredImage
-        src={Assets.getLightConePortraitById(lightConeId)}
+        src={Assets.getLightConePortraitById(lightCone)}
         containerW={250}
         containerH={90}
         zoom={1.05}
@@ -186,7 +147,7 @@ function MiddlePanel() {
   const characterId = AntDForm.useWatch('characterId', form) ?? ''
 
   return (
-    <Flex vertical gap={GAP} style={{ width: PANEL_WIDTH }} justify='space-between'>
+    <Flex vertical gap={GAP} style={{ width: MID_PANEL_WIDTH }} justify='space-between'>
       <Flex vertical gap={GAP}>
         <HeaderText>Character</HeaderText>
         <AntDForm.Item name='characterId' noStyle>
@@ -197,7 +158,7 @@ function MiddlePanel() {
 
       <Flex vertical gap={GAP}>
         <HeaderText>Light Cone</HeaderText>
-        <AntDForm.Item name='lightConeId' noStyle>
+        <AntDForm.Item name='lightCone' noStyle>
           <LightConeSelect value='' characterId={characterId}/>
         </AntDForm.Item>
         <LightConeSuperimpositionFormRadio/>
@@ -213,7 +174,7 @@ function RightPanel() {
   const characterId = AntDForm.useWatch('characterId', form) ?? ''
 
   return (
-    <Flex vertical gap={GAP} style={{ width: PANEL_WIDTH }}>
+    <Flex vertical gap={GAP} style={{ width: RIGHT_PANEL_WIDTH }}>
       <HeaderText>Benchmark type</HeaderText>
       <Flex style={{ width: '100%' }}>
         <AntDForm.Item name='percentage' noStyle>
@@ -229,7 +190,7 @@ function RightPanel() {
 
       <HeaderText>Benchmark sets</HeaderText>
       <Flex vertical gap={HEADER_GAP}>
-        <SetsSection simType={StatSimTypes.SubstatRolls}/>
+        <SetsSection simType={StatSimTypes.Benchmarks}/>
       </Flex>
 
       <HeaderText>Benchmark basic SPD</HeaderText>
@@ -255,17 +216,7 @@ function TeammatesSection() {
 
 const iconSize = 64
 
-type TeammateProps = {
-  index: number
-}
-
-function getTeammate(index: number, teammate0?: SimpleCharacter, teammate1?: SimpleCharacter, teammate2?: SimpleCharacter) {
-  if (index == 0) return teammate0
-  if (index == 1) return teammate1
-  return teammate2
-}
-
-function Teammate({ index }: TeammateProps) {
+function Teammate({ index }: { index: number }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const {
     setCharacterModalOpen,
@@ -277,6 +228,10 @@ function Teammate({ index }: TeammateProps) {
   } = useBenchmarksTabStore()
 
   const teammate = getTeammate(index, teammate0, teammate1, teammate2)
+  const characterId = teammate?.characterId
+  const lightCone = teammate?.lightCone
+  const characterEidolon = teammate?.characterEidolon ?? 0
+  const lightConeSuperimposition = teammate?.lightConeSuperimposition ?? 1
 
   return (
     <Card.Grid
@@ -296,7 +251,7 @@ function Teammate({ index }: TeammateProps) {
     >
       <Flex vertical align='center' gap={0}>
         <img
-          src={Assets.getCharacterAvatarById(teammate?.characterId)}
+          src={Assets.getCharacterAvatarById(characterId)}
           style={{
             height: iconSize,
             width: iconSize,
@@ -305,21 +260,28 @@ function Teammate({ index }: TeammateProps) {
             border: showcaseOutline,
           }}
         />
+
         <OverlayText
-          text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon })}
+          text={t('common:EidolonNShort', { eidolon: characterEidolon })}
           top={-12}
         />
 
         <img
-          src={Assets.getLightConeIconById(teammate?.lightConeId)}
+          src={Assets.getLightConeIconById(lightCone)}
           style={{ height: iconSize, marginTop: -3 }}
         />
 
         <OverlayText
-          text={t('common:SuperimpositionNShort', { superimposition: teammate?.lightConeSuperimposition })}
+          text={t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}
           top={-18}
         />
       </Flex>
     </Card.Grid>
   )
+}
+
+function getTeammate(index: number, teammate0?: SimpleCharacter, teammate1?: SimpleCharacter, teammate2?: SimpleCharacter) {
+  if (index == 0) return teammate0
+  if (index == 1) return teammate1
+  return teammate2
 }

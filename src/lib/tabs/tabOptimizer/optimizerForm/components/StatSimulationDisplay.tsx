@@ -430,5 +430,7 @@ function StatInput(props: { label: string; name: string; simType: string; disabl
 }
 
 function formName(str1: string, str2?: string, str3?: string): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+  if (str1 == StatSimTypes.Benchmarks) return [str2, str3].filter((x) => x) as string[]
   return ['statSim', str1, str2, str3].filter((x) => x) as string[]
 }

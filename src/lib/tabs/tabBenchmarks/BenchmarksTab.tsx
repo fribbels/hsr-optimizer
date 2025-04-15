@@ -1,5 +1,6 @@
 import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
+import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
@@ -10,21 +11,128 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Ligh
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
+import { Form } from 'types/form'
+import { create } from 'zustand'
+
+// Define the type for a teammate
 
 type BenchmarkForm = {
   characterId: string
   lightConeId: string
+  percentage: number
+  basicSpd: number
+  teammates: SimpleCharacter[]
+}
+
+export type SimpleCharacter = {
+  characterId: string
+  lightConeId: string
+  characterEidolon: number
+  lightConeSuperimposition: number
+}
+
+type BenchmarksTabState = {
+  characterModalInitialCharacter: SimpleCharacter | undefined
+  isCharacterModalOpen: boolean
+  selectedTeammateIndex: number | undefined
+  teammates: SimpleCharacter[]
+  onCharacterModalOk: (character: Form) => void
+  setCharacterModalOpen: (isOpen: boolean) => void
+  setCharacterModalInitialCharacter: (character: SimpleCharacter) => void
+  setSelectedTeammateIndex: (index: number | undefined) => void
+  updateTeammate: (index: number, data: SimpleCharacter) => void
+  initializeTeammates: () => void
 }
 
 const GAP = 8
 const HEADER_GAP = 5
 const PANEL_WIDTH = 250
 
+// Default empty teammate
+const emptyTeammate: SimpleCharacter = {
+  characterId: '',
+  characterEidolon: 0,
+  lightConeId: '',
+  lightConeSuperimposition: 1,
+}
+
+// Create a Zustand store for managing the BenchmarksTab state
+const BenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
+  characterModalInitialCharacter: { characterId: '', characterEidolon: 0, lightConeId: '', lightConeSuperimposition: 1 },
+  isCharacterModalOpen: false,
+  selectedTeammateIndex: undefined,
+  teammates: [
+    { ...emptyTeammate },
+    { ...emptyTeammate },
+    { ...emptyTeammate },
+  ],
+
+  // Initialize teammates - can be called to reset to default if needed
+  initializeTeammates: () => set({
+    teammates: [
+      { ...emptyTeammate },
+      { ...emptyTeammate },
+      { ...emptyTeammate },
+    ],
+  }),
+
+  // Update a specific teammate with new data
+  updateTeammate: (index, data) => set((state) => {
+    const newTeammates = [...state.teammates]
+    newTeammates[index] = data
+    return { teammates: newTeammates }
+  }),
+
+  // Handler for when a character is selected in the modal
+  onCharacterModalOk: (form: Form) => {
+    const character: SimpleCharacter = {
+      characterId: form.characterId,
+      characterEidolon: form.characterEidolon,
+      lightConeId: form.lightCone,
+      lightConeSuperimposition: form.lightConeSuperimposition,
+    }
+
+    const { selectedTeammateIndex, updateTeammate } = get()
+
+    if (selectedTeammateIndex != null && character) {
+      updateTeammate(selectedTeammateIndex, character)
+    }
+
+    set({
+      isCharacterModalOpen: false,
+      selectedTeammateIndex: undefined,
+    })
+  },
+
+  setCharacterModalOpen: (isOpen) => set({ isCharacterModalOpen: isOpen }),
+  setCharacterModalInitialCharacter: (character: SimpleCharacter) => set({ characterModalInitialCharacter: character }),
+  setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
+}))
+
 export default function BenchmarksTab(): ReactElement {
   const [benchmarkForm] = AntDForm.useForm<BenchmarkForm>()
+  const {
+    isCharacterModalOpen,
+    characterModalInitialCharacter,
+    setCharacterModalOpen,
+    onCharacterModalOk,
+    initializeTeammates,
+  } = BenchmarksTabStore()
+
+  // Initialize teammates when component mounts
+  useEffect(() => {
+    initializeTeammates()
+    // Set default form values if needed
+    benchmarkForm.setFieldsValue({
+      percentage: 100,
+      basicSpd: 100,
+      teammates: [], // We manage teammates through the store, not the form
+    })
+  }, [benchmarkForm, initializeTeammates])
 
   return (
     <AntDForm
@@ -38,10 +146,30 @@ export default function BenchmarksTab(): ReactElement {
           <MiddlePanel/>
           <RightPanel/>
         </Flex>
-        <Button onClick={() => console.log(benchmarkForm.getFieldsValue())}>
+        <Button onClick={() => {
+          // Combine form values with teammates data
+          const formValues = benchmarkForm.getFieldsValue()
+          const { teammates } = BenchmarksTabStore.getState()
+
+          const completeData = {
+            ...formValues,
+            teammates,
+          }
+
+          console.log('Complete benchmark data:', completeData)
+          // Call your generation function here with completeData
+        }}
+        >
           Generate benchmarks
         </Button>
       </Flex>
+
+      <CharacterModal
+        onOk={onCharacterModalOk}
+        open={isCharacterModalOpen}
+        setOpen={setCharacterModalOpen}
+        initialCharacter={{ form: characterModalInitialCharacter } as unknown as Character}
+      />
     </AntDForm>
   )
 }
@@ -113,7 +241,6 @@ function RightPanel() {
       <Flex style={{ width: '100%' }}>
         <AntDForm.Item name='percentage' noStyle>
           <Radio.Group
-            defaultValue='a'
             buttonStyle='solid'
             style={{ width: '100%', display: 'flex' }}
           >
@@ -136,14 +263,14 @@ function RightPanel() {
   )
 }
 
-function TeammatesSection(props: { x?: string }) {
+function TeammatesSection() {
   return (
     <Flex vertical>
       <HeaderText>Teammates</HeaderText>
       <Flex justify='space-around'>
-        <Teammate/>
-        <Teammate/>
-        <Teammate/>
+        <Teammate index={0}/>
+        <Teammate index={1}/>
+        <Teammate index={2}/>
       </Flex>
     </Flex>
   )
@@ -151,15 +278,21 @@ function TeammatesSection(props: { x?: string }) {
 
 const iconSize = 64
 
-function Teammate(props: { x?: string }) {
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+type TeammateProps = {
+  index: number
+}
 
-  const teammate = {
-    characterId: '1212',
-    characterEidolon: 0,
-    lightCone: '23014',
-    lightConeSuperimposition: 1,
-  }
+function Teammate({ index }: TeammateProps) {
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const {
+    setCharacterModalOpen,
+    setCharacterModalInitialCharacter,
+    setSelectedTeammateIndex,
+    teammates,
+  } = BenchmarksTabStore()
+
+  const teammate = teammates[index] || emptyTeammate
+
   return (
     <Card.Grid
       style={{
@@ -167,20 +300,18 @@ function Teammate(props: { x?: string }) {
         textAlign: 'center',
         padding: 1,
         boxShadow: 'none',
-        // background: token.colorBgLayout,
       }}
       hoverable={true}
       onClick={() => {
-        // setCharacterModalInitialCharacter({ form: teammate } as Character)
-        // setCharacterModalOpen(true)
-        //
-        // setSelectedTeammateIndex(index)
+        setCharacterModalInitialCharacter(teammate)
+        setCharacterModalOpen(true)
+        setSelectedTeammateIndex(index)
       }}
       className='custom-grid'
     >
       <Flex vertical align='center' gap={0}>
         <img
-          src={Assets.getCharacterAvatarById('1212')}
+          src={Assets.getCharacterAvatarById(teammate.characterId)}
           style={{
             height: iconSize,
             width: iconSize,
@@ -189,9 +320,16 @@ function Teammate(props: { x?: string }) {
             border: showcaseOutline,
           }}
         />
-        <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>
-        {/* <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }}/> */}
-        <img src={Assets.getBlankLightCone()} style={{ height: iconSize, marginTop: -3 }}/>
+        <OverlayText
+          text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })}
+          top={-12}
+        />
+
+        <img
+          src={Assets.getLightConeIconById(teammate.lightConeId)}
+          style={{ height: iconSize, marginTop: -3 }}
+        />
+
         <OverlayText
           text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
           top={-18}

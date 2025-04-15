@@ -74,7 +74,7 @@ export const Assets = {
   },
 
   getLightConeIconById: (lightConeId: string) => {
-    if (!lightConeId) return Assets.getBlank()
+    if (!lightConeId) return Assets.getBlankLightCone()
     return getImageUrl(`/icon/light_cone/${lightConeId}.webp`)
   },
   getPath: (path: string) => {

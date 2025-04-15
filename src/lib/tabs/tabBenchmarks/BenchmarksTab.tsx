@@ -1,9 +1,9 @@
-import { Button, Card, Flex, Form as AntDForm } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
-import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
+import { CharacterEidolonFormRadio, RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
@@ -20,7 +20,7 @@ type BenchmarkForm = {
 }
 
 const GAP = 8
-const HEADER_GAP = 3
+const HEADER_GAP = 5
 const PANEL_WIDTH = 250
 
 export default function BenchmarksTab(): ReactElement {
@@ -38,7 +38,7 @@ export default function BenchmarksTab(): ReactElement {
           <MiddlePanel/>
           <RightPanel/>
         </Flex>
-        <Button>
+        <Button onClick={() => console.log(benchmarkForm.getFieldsValue())}>
           Generate benchmarks
         </Button>
       </Flex>
@@ -56,7 +56,7 @@ function LeftPanel() {
 
   return (
     <Flex vertical gap={GAP}>
-      <Flex vertical gap={HEADER_GAP}>
+      <Flex vertical gap={GAP}>
         <HeaderText>Benchmark</HeaderText>
         <CenteredImage
           src={Assets.getCharacterPreviewById(characterId)}
@@ -67,7 +67,7 @@ function LeftPanel() {
       <CenteredImage
         src={Assets.getLightConePortraitById(lightConeId)}
         containerW={250}
-        containerH={100}
+        containerH={90}
         zoom={1.05}
         centerY={offset}
         relativeHeight={585}
@@ -81,22 +81,22 @@ function MiddlePanel() {
   const characterId = AntDForm.useWatch('characterId', form) ?? ''
 
   return (
-    <Flex vertical gap={GAP} style={{ width: PANEL_WIDTH }}>
-      <Flex vertical gap={HEADER_GAP}>
+    <Flex vertical gap={GAP} style={{ width: PANEL_WIDTH }} justify='space-between'>
+      <Flex vertical gap={GAP}>
         <HeaderText>Character</HeaderText>
         <AntDForm.Item name='characterId' noStyle>
           <CharacterSelect value=''/>
         </AntDForm.Item>
+        <CharacterEidolonFormRadio/>
       </Flex>
-      <CharacterEidolonFormRadio/>
 
-      <Flex vertical gap={HEADER_GAP}>
+      <Flex vertical gap={GAP}>
         <HeaderText>Light Cone</HeaderText>
         <AntDForm.Item name='lightConeId' noStyle>
           <LightConeSelect value='' characterId={characterId}/>
         </AntDForm.Item>
+        <LightConeSuperimpositionFormRadio/>
       </Flex>
-      <LightConeSuperimpositionFormRadio/>
 
       <TeammatesSection/>
     </Flex>
@@ -109,7 +109,29 @@ function RightPanel() {
 
   return (
     <Flex vertical gap={GAP} style={{ width: PANEL_WIDTH }}>
-      <SetsSection simType={StatSimTypes.SubstatRolls}/>
+      <HeaderText>Benchmark type</HeaderText>
+      <Flex style={{ width: '100%' }}>
+        <AntDForm.Item name='percentage' noStyle>
+          <Radio.Group
+            defaultValue='a'
+            buttonStyle='solid'
+            style={{ width: '100%', display: 'flex' }}
+          >
+            <RadioButton value={100} text='100%'/>
+            <RadioButton value={200} text='200%'/>
+          </Radio.Group>
+        </AntDForm.Item>
+      </Flex>
+
+      <HeaderText>Benchmark sets</HeaderText>
+      <Flex vertical gap={HEADER_GAP}>
+        <SetsSection simType={StatSimTypes.SubstatRolls}/>
+      </Flex>
+
+      <HeaderText>Benchmark basic SPD</HeaderText>
+      <AntDForm.Item name='basicSpd' noStyle>
+        <InputNumber style={{ width: '100%' }}/>
+      </AntDForm.Item>
     </Flex>
   )
 }

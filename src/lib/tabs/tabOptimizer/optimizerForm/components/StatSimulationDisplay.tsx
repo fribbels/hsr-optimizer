@@ -179,6 +179,7 @@ function SimulationInputs() {
 
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+            <HeaderText>{t('SetSelection.Header')}</HeaderText>
             <SetsSection simType={StatSimTypes.SubstatRolls}/>
             <MainStatsSection simType={StatSimTypes.SubstatRolls}/>
 
@@ -196,6 +197,7 @@ function SimulationInputs() {
 
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.Benchmarks ? 'flex' : 'none' }}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+            <HeaderText>{t('SetSelection.Header')}</HeaderText>
             <SetsSection simType={StatSimTypes.Benchmarks}/>
             <MainStatsSection simType={StatSimTypes.Benchmarks}/>
 
@@ -243,7 +245,6 @@ export function SetsSection(props: { simType: string }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   return (
     <>
-      <HeaderText>{t('SetSelection.Header')}</HeaderText>
       <AntDForm.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
         <Select
           dropdownStyle={{

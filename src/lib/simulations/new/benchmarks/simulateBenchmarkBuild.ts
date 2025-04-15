@@ -1,4 +1,5 @@
 import { Parts, Stats } from 'lib/constants/constants'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/BenchmarkSimulationOrchestrator'
 import { Simulation, SimulationRequest, StatSimTypes, StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
@@ -31,7 +32,7 @@ export function generatePartialSimulations(
             simFeet: feet,
             simPlanarSphere: planarSphere,
             simLinkRope: linkRope,
-            stats: getSubstatZeroes(),
+            stats: StatCalculator.getZeroesSubstats(),
           }
           const simulation: Simulation = {
             simType: StatSimTypes.SubstatRolls,
@@ -48,21 +49,4 @@ export function generatePartialSimulations(
   }
 
   return results
-}
-
-function getSubstatZeroes(): StatSimulationTypes {
-  return {
-    [Stats.ATK]: 0,
-    [Stats.DEF]: 0,
-    [Stats.HP]: 0,
-    [Stats.ATK_P]: 0,
-    [Stats.DEF_P]: 0,
-    [Stats.HP_P]: 0,
-    [Stats.SPD]: 0,
-    [Stats.CR]: 0,
-    [Stats.CD]: 0,
-    [Stats.EHR]: 0,
-    [Stats.RES]: 0,
-    [Stats.BE]: 0,
-  }
 }

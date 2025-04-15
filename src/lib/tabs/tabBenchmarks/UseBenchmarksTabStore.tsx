@@ -11,9 +11,9 @@ export type BenchmarkForm = {
   simRelicSet1: string
   simRelicSet2: string
   simOrnamentSet: string
-  teammate0: SimpleCharacter
-  teammate1: SimpleCharacter
-  teammate2: SimpleCharacter
+  teammate0?: SimpleCharacter
+  teammate1?: SimpleCharacter
+  teammate2?: SimpleCharacter
 }
 
 export type SimpleCharacter = {

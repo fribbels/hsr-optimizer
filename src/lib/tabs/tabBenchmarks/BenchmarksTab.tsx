@@ -2,6 +2,8 @@ import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
+import { cloneWorkerResult } from 'lib/scoring/simScoringUtils'
+import { runCustomBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/runCustomBenchmarkOrchestrator'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { CharacterEidolonFormRadio, RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
@@ -83,12 +85,12 @@ export default function BenchmarksTab(): ReactElement {
           <MiddlePanel/>
           <RightPanel/>
         </Flex>
-        <Button onClick={() => {
+        <Button onClick={async () => {
           const formValues = benchmarkForm.getFieldsValue()
           const { teammate0, teammate1, teammate2 } = useBenchmarksTabStore.getState()
 
           // Merge form and the teammate state management
-          const completeData = {
+          const completeData: BenchmarkForm = {
             ...formValues,
             teammate0,
             teammate1,
@@ -96,6 +98,10 @@ export default function BenchmarksTab(): ReactElement {
           }
 
           console.log('Complete benchmark data:', completeData)
+
+          const orchestrator = await runCustomBenchmarkOrchestrator(completeData)
+          console.log(orchestrator)
+          console.log(cloneWorkerResult(orchestrator.perfectionSimResult!))
         }}
         >
           Generate benchmarks

@@ -66,4 +66,21 @@ export const StatCalculator = {
       [Stats.Imaginary_DMG]: 0,
     }
   },
+
+  getZeroesSubstats: () => {
+    return {
+      [Stats.ATK]: 0,
+      [Stats.DEF]: 0,
+      [Stats.HP]: 0,
+      [Stats.ATK_P]: 0,
+      [Stats.DEF_P]: 0,
+      [Stats.HP_P]: 0,
+      [Stats.SPD]: 0,
+      [Stats.CR]: 0,
+      [Stats.CD]: 0,
+      [Stats.EHR]: 0,
+      [Stats.RES]: 0,
+      [Stats.BE]: 0,
+    }
+  },
 }

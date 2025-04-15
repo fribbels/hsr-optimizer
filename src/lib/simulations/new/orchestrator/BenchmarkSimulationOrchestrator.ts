@@ -28,6 +28,7 @@ import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/ut
 import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
+import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ComputeOptimalSimulationRunnerInput, ComputeOptimalSimulationRunnerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { Form, OptimizerForm } from 'types/form'
@@ -166,7 +167,7 @@ export class BenchmarkSimulationOrchestrator {
     }
   }
 
-  public setOriginalSimRequest(relicsByPart: SingleRelicByPart) {
+  public setOriginalSimRequestWithRelics(relicsByPart: SingleRelicByPart) {
     const relics = TsUtils.clone(relicsByPart)
     const { relicSetNames, ornamentSetName } = calculateSetNames(relics)
     const scoringParams = benchmarkScoringParams
@@ -181,12 +182,16 @@ export class BenchmarkSimulationOrchestrator {
     ) as SimulationRequest
   }
 
+  public setOriginalSimRequest(request: SimulationRequest) {
+    this.originalSimRequest = request
+  }
+
   public setSimSets() {
     const simRequest = this.originalSimRequest!
     this.simSets = calculateSimSets(simRequest.simRelicSet1, simRequest.simRelicSet2, simRequest.simOrnamentSet, this.metadata)
   }
 
-  public setSimForm(form: OptimizerForm) {
+  public setSimForm(form: SimpleCharacter) {
     const metadata = this.metadata
     const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
 
@@ -494,4 +499,3 @@ export class BenchmarkSimulationOrchestrator {
     }
   }
 }
-

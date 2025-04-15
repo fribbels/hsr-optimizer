@@ -1,6 +1,6 @@
 import i18next from 'i18next'
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -37,7 +37,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const ultScaling = ult(e, 1.20, 1.296)
   const ultSecondaryScaling = ult(e, 0.40, 0.432)
 
-  const fuaScaling = talent(e, 4.00, 4.40)
+  const fuaScaling = talent(e, 2.50, 2.75)
 
   // TODO: Ashblazing
 
@@ -58,31 +58,38 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const defaults = {
-    defPen: true,
+    vulnerability: true,
     skillAtkBuff: true,
+    fuaCdBoost: true,
     spdBasedBuffs: true,
     e1Vulnerability: true,
-    e2CdBuff: true,
+    e2AtkBuff: true,
     e4AdditionalDmg: true,
     e6FuaDmg: true,
   }
 
   const teammateDefaults = {
-    defPen: true,
+    vulnerability: true,
     e1Vulnerability: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    defPen: {
-      id: 'defPen',
+    vulnerability: {
+      id: 'vulnerability',
       formItem: 'switch',
-      text: 'Team DEF PEN',
+      text: 'Team Vulnerability',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     skillAtkBuff: {
       id: 'skillAtkBuff',
       formItem: 'switch',
       text: 'Skill ATK buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    fuaCdBoost: {
+      id: 'fuaCdBoost',
+      formItem: 'switch',
+      text: 'Fua CD boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     spdBasedBuffs: {
@@ -98,10 +105,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
-    e2CdBuff: {
-      id: 'e2CdBuff',
+    e2AtkBuff: {
+      id: 'e2AtkBuff',
       formItem: 'switch',
-      text: 'E2 CD buff',
+      text: 'E2 ATK buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
@@ -122,9 +129,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    defPen: content.defPen,
+    vulnerability: content.vulnerability,
     e1Vulnerability: content.e1Vulnerability,
   }
+
+  const hitMulti = ASHBLAZING_ATK_STACK
+    * (1 * 0.20 + 2 * 0.10 + 3 * 0.10 + 4 * 0.60)
 
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
@@ -139,8 +149,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.ATK_P.buff((r.skillAtkBuff) ? skillAtkBuff : 0, SOURCE_SKILL)
+      x.FUA_DMG_BOOST.buff(1.00, SOURCE_TRACE)
 
-      x.CD.buff((e >= 2 && r.e2CdBuff) ? 0.80 : 0, SOURCE_E2)
+      x.ATK_P.buff((e >= 2 && r.e2AtkBuff) ? 1.00 : 0, SOURCE_E2)
       x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaDmg) ? 3.50 : 0, SOURCE_E6)
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
@@ -166,7 +177,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_PEN.buffTeam((m.defPen) ? 0.30 : 0, SOURCE_TRACE)
+      x.VULNERABILITY.buffTeam((m.vulnerability) ? 0.30 : 0, SOURCE_TRACE)
       x.VULNERABILITY.buffTeam((e >= 1 && m.e1Vulnerability) ? 0.25 : 0, SOURCE_E1)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -174,10 +185,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // TODO: Recorded value
 
+      boostAshblazingAtkP(x, action, context, hitMulti)
       standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardAdditionalDmgAtkFinalizer()
+      return gpuStandardAdditionalDmgAtkFinalizer() + gpuBoostAshblazingAtkP(hitMulti)
     },
     dynamicConditionals: [
       {
@@ -230,11 +242,11 @@ if (
           const r = action.characterConditionals as Conditionals<typeof content>
           return conditionalWgslWrapper(this, `
 if (
-  (*p_state).CipherSpdActivation140 == 0.0 &&
+  (*p_state).CipherSpdActivation170 == 0.0 &&
   x.SPD >= 170 &&
   ${wgslTrue(r.spdBasedBuffs)}
 ) {
-  (*p_state).CipherSpdActivation140 = 1.0;
+  (*p_state).CipherSpdActivation170 = 1.0;
   (*p_x).CR += 0.25;
 }
     `)

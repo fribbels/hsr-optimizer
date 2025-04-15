@@ -53,12 +53,12 @@ export const Assets = {
 
     return getImageUrl(`/image/character_portrait/${id}.webp`)
   },
-  getCharacterAvatarById: (id: string) => {
+  getCharacterAvatarById: (id?: string) => {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
   },
-  getCharacterPreviewById: (id: string) => {
+  getCharacterPreviewById: (id?: string) => {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/image/character_preview/${id}.webp`)
@@ -73,7 +73,7 @@ export const Assets = {
     return getImageUrl(`/image/light_cone_portrait/${lightConeId}.webp`)
   },
 
-  getLightConeIconById: (lightConeId: string) => {
+  getLightConeIconById: (lightConeId?: string) => {
     if (!lightConeId) return Assets.getBlankLightCone()
     return getImageUrl(`/icon/light_cone/${lightConeId}.webp`)
   },

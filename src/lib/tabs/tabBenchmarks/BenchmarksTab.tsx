@@ -1,33 +1,120 @@
-import { Button, Card, Flex, Typography } from 'antd'
+import { Button, Card, Flex, Form as AntDForm } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
-import { MainStatsSection, SetsSection, STAT_SIMULATION_OPTIONS_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import DB from 'lib/state/db'
+import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
+import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
+import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { CenteredImage } from 'lib/ui/CenteredImage'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
-const { Text } = Typography
+type BenchmarkForm = {
+  characterId: string
+  lightConeId: string
+}
+
+const GAP = 8
+const HEADER_GAP = 3
+const PANEL_WIDTH = 250
 
 export default function BenchmarksTab(): ReactElement {
+  const [benchmarkForm] = AntDForm.useForm<BenchmarkForm>()
+
   return (
-    <Flex vertical style={{ height: 1400, width: 950 }} align='center' gap={10}>
-      <Flex>
-        <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-          <SetsSection simType={StatSimTypes.SubstatRolls}/>
-          <MainStatsSection simType={StatSimTypes.SubstatRolls}/>
-          <TeammatesSection/>
+    <AntDForm
+      form={benchmarkForm}
+      preserve={false}
+      layout='vertical'
+    >
+      <Flex vertical style={{ height: 1400, width: 1200 }} align='center' gap={GAP}>
+        <Flex gap={GAP * 3}>
+          <LeftPanel/>
+          <MiddlePanel/>
+          <RightPanel/>
         </Flex>
+        <Button>
+          Generate benchmarks
+        </Button>
       </Flex>
-      <Button>
-        Generate benchmarks
-      </Button>
+    </AntDForm>
+  )
+}
+
+function LeftPanel() {
+  const form = AntDForm.useFormInstance<BenchmarkForm>()
+  const characterId = AntDForm.useWatch('characterId', form) ?? ''
+  const lightConeId = AntDForm.useWatch('lightConeId', form) ?? ''
+
+  const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
+  const offset = lightConeMetadata?.imageCenter ?? undefined
+
+  return (
+    <Flex vertical gap={GAP}>
+      <Flex vertical gap={HEADER_GAP}>
+        <HeaderText>Benchmark</HeaderText>
+        <CenteredImage
+          src={Assets.getCharacterPreviewById(characterId)}
+          containerW={250}
+          containerH={300}
+        />
+      </Flex>
+      <CenteredImage
+        src={Assets.getLightConePortraitById(lightConeId)}
+        containerW={250}
+        containerH={100}
+        zoom={1.05}
+        centerY={offset}
+        relativeHeight={585}
+      />
     </Flex>
   )
 }
 
-function TeammatesSection(props: {}) {
+function MiddlePanel() {
+  const form = AntDForm.useFormInstance<BenchmarkForm>()
+  const characterId = AntDForm.useWatch('characterId', form) ?? ''
+
+  return (
+    <Flex vertical gap={GAP} style={{ width: PANEL_WIDTH }}>
+      <Flex vertical gap={HEADER_GAP}>
+        <HeaderText>Character</HeaderText>
+        <AntDForm.Item name='characterId' noStyle>
+          <CharacterSelect value=''/>
+        </AntDForm.Item>
+      </Flex>
+      <CharacterEidolonFormRadio/>
+
+      <Flex vertical gap={HEADER_GAP}>
+        <HeaderText>Light Cone</HeaderText>
+        <AntDForm.Item name='lightConeId' noStyle>
+          <LightConeSelect value='' characterId={characterId}/>
+        </AntDForm.Item>
+      </Flex>
+      <LightConeSuperimpositionFormRadio/>
+
+      <TeammatesSection/>
+    </Flex>
+  )
+}
+
+function RightPanel() {
+  const form = AntDForm.useFormInstance<BenchmarkForm>()
+  const characterId = AntDForm.useWatch('characterId', form) ?? ''
+
+  return (
+    <Flex vertical gap={GAP} style={{ width: PANEL_WIDTH }}>
+      <SetsSection simType={StatSimTypes.SubstatRolls}/>
+    </Flex>
+  )
+}
+
+function TeammatesSection(props: { x?: string }) {
   return (
     <Flex vertical>
       <HeaderText>Teammates</HeaderText>
@@ -42,7 +129,7 @@ function TeammatesSection(props: {}) {
 
 const iconSize = 64
 
-function Teammate(props: {}) {
+function Teammate(props: { x?: string }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const teammate = {

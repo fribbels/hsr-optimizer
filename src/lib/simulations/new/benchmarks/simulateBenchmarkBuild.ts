@@ -1,12 +1,12 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
-import { DpsScoreBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/DpsScoreBenchmarkOrchestrator'
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/BenchmarkSimulationOrchestrator'
 import { Simulation, SimulationRequest, StatSimTypes, StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
 import { isErrRopeForced } from 'lib/simulations/new/utils/benchmarkUtils'
 
 // Generate all main stat possibilities
 export function generatePartialSimulations(
-  orchestrator: DpsScoreBenchmarkOrchestrator,
+  orchestrator: BenchmarkSimulationOrchestrator,
 ) {
   const metadata = orchestrator.metadata
   const form = orchestrator.form!

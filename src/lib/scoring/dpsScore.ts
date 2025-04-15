@@ -1,7 +1,7 @@
 import { Constants, Parts } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
-import { resolveDpsScoreSimulationMetadata, runOrchestrator } from 'lib/simulations/new/orchestrator/DpsScoreBenchmarkOrchestrator'
+import { resolveDpsScoreSimulationMetadata, runDpsScoreBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
@@ -38,7 +38,7 @@ export function getShowcaseSimScoringExecution(
       }
 
       const relics = displayRelics as SingleRelicByPart
-      const simulationOrchestrator = await runOrchestrator(character, simulationMetadata, relics, showcaseTemporaryOptions)
+      const simulationOrchestrator = await runDpsScoreBenchmarkOrchestrator(character, simulationMetadata, relics, showcaseTemporaryOptions)
       const simulationScore = simulationOrchestrator.simulationScore
       console.log('Orchestrator', simulationOrchestrator)
 

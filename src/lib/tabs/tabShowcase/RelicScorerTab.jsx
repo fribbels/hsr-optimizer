@@ -499,10 +499,10 @@ function CharacterPreviewSelection(props) {
 
         {props?.availableCharacters?.length > 0 && (
           <Alert
-            message={<>Note: Combo DMG is used to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!</>}
+            message={<>Note: Combo DMG is meant to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!</>}
             type='info'
             showIcon
-            style={{ marginBottom: 5, width: '100%' }}
+            style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327' }}
           />
         )}
 

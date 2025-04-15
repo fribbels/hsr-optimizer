@@ -209,8 +209,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.HP.buffTeam((m.clearSkies) ? ultHpBuffFlat : 0, SOURCE_ULT)
       x.HP_P.buffTeam((m.clearSkies) ? ultHpBuffPercent : 0, SOURCE_ULT)
-      x.HP.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffFlat * 0.50 : 0, SOURCE_E1)
-      x.HP_P.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffPercent * 0.50 : 0, SOURCE_E1)
+      // x.HP.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffFlat * 0.50 : 0, SOURCE_E1)
+      x.HP_P.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffPercent + 0.50 : 0, SOURCE_E1)
 
       x.SPD_P.buffTeam((m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
 

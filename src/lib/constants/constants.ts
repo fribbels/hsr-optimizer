@@ -3,13 +3,13 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v3.3.1'
-// Represents the beta data content version, used for display but not for update notifications
 
-export const CURRENT_DATA_VERSION = '3.3v1'
+// Represents the beta data content version, used for display but not for update notifications
+export const CURRENT_DATA_VERSION = '3.3v2'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  1406: generateMessage(`Talent's recorded True DMG is not included. Ashblazing stacks TBD. Defaults to Sub SPD mode.`), // Cipher
+  1406: generateMessage(`Ashblazing stacks added. Reduced EHR penalty. Talent's True DMG is not included.`), // Cipher
 }
 
 export const Stats = {

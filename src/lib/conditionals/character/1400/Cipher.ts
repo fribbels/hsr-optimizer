@@ -149,7 +149,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.ATK_P.buff((r.skillAtkBuff) ? skillAtkBuff : 0, SOURCE_SKILL)
-      x.FUA_DMG_BOOST.buff(1.00, SOURCE_TRACE)
+      x.FUA_CD_BOOST.buff(1.00, SOURCE_TRACE)
 
       x.ATK_P.buff((e >= 2 && r.e2AtkBuff) ? 1.00 : 0, SOURCE_E2)
       x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaDmg) ? 3.50 : 0, SOURCE_E6)

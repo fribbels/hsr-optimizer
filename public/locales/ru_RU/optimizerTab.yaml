@@ -89,6 +89,8 @@ ExpandedDataPanel:
     Values:
       BoolFalse: "Нет"
       BoolTrue: "Да"
+    Sources:
+      E1: E1
     Stats:
       CompositeLabels:
         Prefix:

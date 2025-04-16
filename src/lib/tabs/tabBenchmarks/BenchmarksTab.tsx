@@ -63,7 +63,6 @@ export default function BenchmarksTab(): ReactElement {
     setCharacterModalOpen,
     onCharacterModalOk,
     updateTeammate,
-    setResults,
   } = useBenchmarksTabStore()
 
   // Initialize teammates when component mounts
@@ -75,19 +74,51 @@ export default function BenchmarksTab(): ReactElement {
   }, [benchmarkForm])
 
   return (
-    <AntDForm
-      form={benchmarkForm}
-      initialValues={defaultForm}
-      preserve={false}
-      layout='vertical'
-    >
-      <Flex vertical style={{ height: 1400, width: 1200 }} align='center' gap={GAP}>
-        <Flex gap={GAP * 3}>
-          <LeftPanel/>
-          <MiddlePanel/>
-          <RightPanel/>
-        </Flex>
-        <Button onClick={() => {
+    <Flex vertical style={{ height: 1400, width: 1200 }} align='center'>
+      <Flex justify='space-around' style={{ margin: 15 }}>
+        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
+          Benchmark Generator
+        </pre>
+      </Flex>
+
+      <Card style={{ width: 900, marginBottom: 30 }}>
+        <AntDForm
+          form={benchmarkForm}
+          initialValues={defaultForm}
+          preserve={false}
+        >
+          <BenchmarkInputs/>
+        </AntDForm>
+      </Card>
+
+      <BenchmarkResults/>
+
+      <CharacterModal
+        onOk={onCharacterModalOk}
+        open={isCharacterModalOpen}
+        setOpen={setCharacterModalOpen}
+        initialCharacter={characterModalInitialCharacter ? { form: characterModalInitialCharacter } as unknown as Character : undefined}
+      />
+    </Flex>
+  )
+}
+
+function BenchmarkInputs() {
+  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
+  const {
+    setResults,
+  } = useBenchmarksTabStore()
+
+  return (
+    <Flex vertical align='center'>
+      <Flex gap={GAP * 3} style={{ width: '100%' }} justify='space-between'>
+        <LeftPanel/>
+        <MiddlePanel/>
+        <RightPanel/>
+      </Flex>
+
+      <Button
+        onClick={() => {
           const formValues = benchmarkForm.getFieldsValue()
           const { teammate0, teammate1, teammate2 } = useBenchmarksTabStore.getState()
 
@@ -108,20 +139,12 @@ export default function BenchmarksTab(): ReactElement {
             setResults(mergedBenchmarkForm, orchestrator)
           })
         }}
-        >
-          Generate benchmarks
-        </Button>
-
-        <BenchmarkResults/>
-      </Flex>
-
-      <CharacterModal
-        onOk={onCharacterModalOk}
-        open={isCharacterModalOpen}
-        setOpen={setCharacterModalOpen}
-        initialCharacter={characterModalInitialCharacter ? { form: characterModalInitialCharacter } as unknown as Character : undefined}
-      />
-    </AntDForm>
+        style={{ width: '100%', marginTop: 10, height: 45 }}
+        type='primary'
+      >
+        Generate benchmarks
+      </Button>
+    </Flex>
   )
 }
 

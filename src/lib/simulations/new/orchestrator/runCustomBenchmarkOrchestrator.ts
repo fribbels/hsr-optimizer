@@ -7,11 +7,10 @@ import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm) {
-  const simulationMetadata = TsUtils.clone(DB.getMetadata().characters[benchmarkForm.characterId].scoringMetadata.simulation!)
-
-  const orchestrator = new BenchmarkSimulationOrchestrator(simulationMetadata)
+  const simulationMetadata = generateSimulationMetadata(benchmarkForm)
   const simulationRequest = generateSimulationRequest(benchmarkForm)
   const simulationSets = generateSimulationSets(benchmarkForm)
+  const orchestrator = new BenchmarkSimulationOrchestrator(simulationMetadata)
 
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequest(simulationRequest)
@@ -29,6 +28,17 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   orchestrator.calculateResults()
 
   return orchestrator
+}
+
+function generateSimulationMetadata(benchmarkForm: BenchmarkForm) {
+  const metadata = TsUtils.clone(DB.getMetadata().characters[benchmarkForm.characterId].scoringMetadata.simulation!)
+  metadata.teammates = [
+    benchmarkForm.teammate0!,
+    benchmarkForm.teammate1!,
+    benchmarkForm.teammate2!,
+  ]
+
+  return metadata
 }
 
 function generateSimulationSets(benchmarkForm: BenchmarkForm) {

@@ -1,11 +1,17 @@
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { Flex, Table, TableProps } from 'antd'
+import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
+import { ElementToDamage } from 'lib/constants/constants'
+import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
+import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { Assets } from 'lib/rendering/assets'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
 import { Simulation } from 'lib/simulations/new/statSimulationTypes'
+import DB from 'lib/state/db'
 import { BenchmarkForm, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
+import { VerticalDivider } from 'lib/ui/Dividers'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
@@ -21,6 +27,9 @@ type BenchmarkRow = {
   simFeet: string
   simPlanarSphere: string
   simLinkRope: string
+
+  simulation: Simulation
+  benchmarkForm: BenchmarkForm
 }
 
 export function BenchmarkResults() {
@@ -97,7 +106,7 @@ export function BenchmarkResults() {
       style={benchmarkTableStyle}
       locale={{ emptyText: '' }}
       expandable={{
-        expandedRowRender: (record) => <div style={{ margin: 0, height: 300 }}>WIP analysis render</div>,
+        expandedRowRender: (row) => <ExpandedRow row={row}/>,
         expandIcon: ({ expanded, onExpand, record }) => {
           return expanded
             ? <CaretDownOutlined onClick={(e) => onExpand(record, e)}/>
@@ -109,6 +118,43 @@ export function BenchmarkResults() {
         style: { cursor: 'pointer' }, // Change cursor to pointer on hover
       })}
     />
+  )
+}
+
+function ExpandedRow({ row }: { row: BenchmarkRow }) {
+  const simulation = row.simulation
+  const result = simulation.result!
+  const benchmarkForm = row.benchmarkForm
+  const basicStats = toBasicStatsObject(result.ca)
+  const combatStats = toComputedStatsObject(result.xa)
+  const element = DB.getMetadata().characters[benchmarkForm.characterId].element
+
+  return (
+    <Flex style={{}}>
+      <div style={{ width: 300 }}>
+        <CharacterStatSummary
+          characterId={benchmarkForm.characterId}
+          finalStats={basicStats}
+          elementalDmgValue={ElementToDamage[element]}
+          simScore={result.simScore}
+          showAll={true}
+        />
+      </div>
+
+      <VerticalDivider/>
+
+      <div style={{ width: 300 }}>
+        <CharacterStatSummary
+          characterId={benchmarkForm.characterId}
+          finalStats={combatStats}
+          elementalDmgValue={ElementToDamage[element]}
+          simScore={result.simScore}
+          showAll={true}
+        />
+      </div>
+
+      <VerticalDivider/>
+    </Flex>
   )
 }
 
@@ -173,6 +219,8 @@ function generateBenchmarkRows(benchmarkForm: BenchmarkForm, orchestrator: Bench
       key: TsUtils.uuid(),
       comboDmg: comboDmg,
       deltaPercent: delta * 100,
+      simulation: simulation,
+      benchmarkForm: benchmarkForm,
     }
 
     return benchmarkRow

@@ -72,7 +72,7 @@ export default function BenchmarksTab(): ReactElement {
   }, [benchmarkForm])
 
   return (
-    <Flex vertical style={{ height: 1400, width: 1200 }} align='center'>
+    <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
       <Flex justify='space-around' style={{ margin: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           Benchmark Generator

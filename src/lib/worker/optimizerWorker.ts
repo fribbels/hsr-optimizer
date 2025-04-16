@@ -25,7 +25,6 @@ import { Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
-let isFirefox = false
 
 type OptimizerEventData = {
   relics: {

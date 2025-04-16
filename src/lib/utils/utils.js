@@ -79,43 +79,12 @@ export const Utils = {
     return new Promise((resolve) => setTimeout(resolve, ms))
   },
 
-  // Store a count of relic sets into an array indexed by the set index
-  relicsToSetArrays: (relics) => {
-    const relicSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 0)
-    const ornamentSets = Utils.arrayOfValue(Object.values(Constants.SetsOrnaments).length, 0)
-
-    for (const relic of relics) {
-      if (!relic) continue
-      if (relic.part == Constants.Parts.PlanarSphere || relic.part == Constants.Parts.LinkRope) {
-        const set = Constants.OrnamentSetToIndex[relic.set]
-        ornamentSets[set]++
-      } else {
-        const set = Constants.RelicSetToIndex[relic.set]
-        relicSets[set]++
-      }
-    }
-
-    return {
-      relicSets: relicSets,
-      ornamentSets: ornamentSets,
-    }
-  },
-
   // Flat stats HP/ATK/DEF/SPD
   isFlat: (stat) => {
     return stat == Constants.Stats.HP
       || stat == Constants.Stats.ATK
       || stat == Constants.Stats.DEF
       || stat == Constants.Stats.SPD
-  },
-
-  // Random element of an array
-  randomElement: (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)]
-  },
-
-  isMobile: () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
   },
 
   isMobileOrSafari: () => {
@@ -228,15 +197,6 @@ export const Utils = {
     })
   },
 
-  // Convert an array to an object keyed by id field
-  collectById: (arr) => {
-    const byId = {}
-    for (const x of arr) {
-      byId[x.id] = x
-    }
-    return byId
-  },
-
   // truncate10ths(16.1999999312682) == 16.1
   truncate10ths: (x) => {
     return Math.floor(x * 10) / 10
@@ -313,11 +273,6 @@ export const Utils = {
     return crypto.randomUUID()
   },
 
-  // hsr-optimizer// => hsr-optimizer
-  stripTrailingSlashes: (str) => {
-    return str.replace(/\/+$/, '')
-  },
-
   // 5, 4, 3
   sortRarityDesc: (a, b) => {
     return b.rarity - a.rarity
@@ -338,9 +293,5 @@ export const Utils = {
     const secondsS = (seconds < 10) ? `0${seconds}` : `${seconds}`
 
     return `${hoursS}${minutesS}:${secondsS}`
-  },
-
-  filterUnique: (arr) => {
-    return arr.filter((value, index, array) => array.indexOf(value) === index)
   },
 }

@@ -14,6 +14,7 @@ Import:
     ReliquaryDesc:
       Title: (Рекомендуется) IceDynamix Reliquary Archiver
       Link: Github
+      OnlineMsg: "Статус: Обновлен для патча {{version}}"
       OfflineMsg: "***** Статус: На обслуживании после патча {{version}} *****"
       l1: Точные данные десятичных значений скорости, мгновенное сканирование
       l2: Импорт полного инвентаря и персонажей

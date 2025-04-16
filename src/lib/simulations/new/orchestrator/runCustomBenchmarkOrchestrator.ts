@@ -11,10 +11,11 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
 
   const orchestrator = new BenchmarkSimulationOrchestrator(simulationMetadata)
   const simulationRequest = generateSimulationRequest(benchmarkForm)
+  const simulationSets = generateSimulationSets(benchmarkForm)
 
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequest(simulationRequest)
-  orchestrator.setSimSets()
+  orchestrator.setSimSets(simulationSets)
   orchestrator.setFlags()
   orchestrator.setSimForm(benchmarkForm)
   orchestrator.setBaselineBuild()
@@ -28,6 +29,14 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   orchestrator.calculateResults()
 
   return orchestrator
+}
+
+function generateSimulationSets(benchmarkForm: BenchmarkForm) {
+  return {
+    relicSet1: benchmarkForm.simRelicSet1,
+    relicSet2: benchmarkForm.simRelicSet2,
+    ornamentSet: benchmarkForm.simOrnamentSet,
+  }
 }
 
 function generateSimulationRequest(benchmarkForm: BenchmarkForm) {

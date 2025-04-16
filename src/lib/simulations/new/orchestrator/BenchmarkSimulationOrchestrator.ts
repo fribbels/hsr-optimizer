@@ -186,9 +186,13 @@ export class BenchmarkSimulationOrchestrator {
     this.originalSimRequest = request
   }
 
-  public setSimSets() {
+  public setSimSetsWithSimRequest() {
     const simRequest = this.originalSimRequest!
     this.simSets = calculateSimSets(simRequest.simRelicSet1, simRequest.simRelicSet2, simRequest.simOrnamentSet, this.metadata)
+  }
+
+  public setSimSets(simSets: SimulationSets) {
+    this.simSets = simSets
   }
 
   public setSimForm(form: SimpleCharacter) {

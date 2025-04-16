@@ -2,11 +2,10 @@ import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
-import { cloneWorkerResult } from 'lib/scoring/simScoringUtils'
-import { runCustomBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/runCustomBenchmarkOrchestrator'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
+import { handleBenchmarkFormSubmit } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio, RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
@@ -120,24 +119,7 @@ function BenchmarkInputs() {
       <Button
         onClick={() => {
           const formValues = benchmarkForm.getFieldsValue()
-          const { teammate0, teammate1, teammate2 } = useBenchmarksTabStore.getState()
-
-          // Merge form and the teammate state management
-          const mergedBenchmarkForm: BenchmarkForm = {
-            ...formValues,
-            teammate0,
-            teammate1,
-            teammate2,
-          }
-
-          console.log('Complete benchmark data:', mergedBenchmarkForm)
-
-          runCustomBenchmarkOrchestrator(mergedBenchmarkForm).then((orchestrator) => {
-            console.log(orchestrator)
-            console.log(cloneWorkerResult(orchestrator.perfectionSimResult!))
-
-            setResults(mergedBenchmarkForm, orchestrator)
-          })
+          handleBenchmarkFormSubmit(formValues)
         }}
         style={{ width: '100%', marginTop: 10, height: 45 }}
         type='primary'

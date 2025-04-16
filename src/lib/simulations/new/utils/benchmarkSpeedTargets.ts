@@ -17,7 +17,7 @@ export function calculateTargetSpeedNew(
       // We don't want to have the original character's combat stats penalized by poet if they're not on poet
       targetSpd = simulationFlags.forceBasicSpdValue
     } else {
-      targetSpd = originalSimResult.xa[Key.SPD]
+      targetSpd = forcedSpdSimResult.xa[Key.SPD]
     }
   }
 
@@ -29,6 +29,7 @@ export function applySpeedFlags(
   baselineSimResult: RunStatSimulationsResult,
   originalSpd: number,
   spdBenchmark?: number,
+  force?: boolean,
 ): void {
   // Special handling for poet - force the spd to certain thresholds when poet is active
 
@@ -42,7 +43,12 @@ export function applySpeedFlags(
       // No-op
     }
   } else {
-    // When the sim does not have poet, force the original spd and proceed as regular
-    simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
+    if (force) {
+      // For custom benchmarking, ignore restrictions and force the spd
+      simulationFlags.forceBasicSpdValue = spdBenchmark!
+    } else {
+      // When the sim does not have poet, force the original spd and proceed as regular
+      simulationFlags.forceBasicSpdValue = Math.min(spdBenchmark ?? originalSpd, originalSpd)
+    }
   }
 }

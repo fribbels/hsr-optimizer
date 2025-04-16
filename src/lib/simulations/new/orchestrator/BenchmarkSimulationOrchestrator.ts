@@ -257,7 +257,7 @@ export class BenchmarkSimulationOrchestrator {
     this.baselineSimResult = baselineSimResult
   }
 
-  public setOriginalBuild(inputSpdBenchmark?: number) {
+  public setOriginalBuild(inputSpdBenchmark?: number, force?: boolean) {
     const form = this.form!
     const context = this.context!
     const baselineSimResult = this.baselineSimResult!
@@ -281,7 +281,7 @@ export class BenchmarkSimulationOrchestrator {
       ? Math.max(baselineSimResult.ca[Key.SPD], inputSpdBenchmark)
       : undefined
 
-    applySpeedFlags(flags, baselineSimResult, originalSpd, this.spdBenchmark)
+    applySpeedFlags(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
 
     // Force SPD
     const forcedSpdSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])

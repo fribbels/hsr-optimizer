@@ -18,7 +18,9 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   orchestrator.setFlags()
   orchestrator.setSimForm(benchmarkForm)
   orchestrator.setBaselineBuild()
-  orchestrator.setOriginalBuild(benchmarkForm.basicSpd)
+  orchestrator.setOriginalBuild(benchmarkForm.basicSpd, true)
+
+  orchestrator.flags.forceBasicSpdValue = benchmarkForm.basicSpd
 
   await orchestrator.calculateBenchmark()
   await orchestrator.calculatePerfection()

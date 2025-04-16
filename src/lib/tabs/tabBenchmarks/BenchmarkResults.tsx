@@ -5,6 +5,7 @@ import { Assets } from 'lib/rendering/assets'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/BenchmarkSimulationOrchestrator'
 import { Simulation } from 'lib/simulations/new/statSimulationTypes'
 import { BenchmarkForm, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
@@ -96,7 +97,7 @@ export function BenchmarkResults() {
       style={benchmarkTableStyle}
       locale={{ emptyText: '' }}
       expandable={{
-        expandedRowRender: (record) => <div style={{ margin: 0 }}>WIP analysis render</div>,
+        expandedRowRender: (record) => <div style={{ margin: 0, height: 300 }}>WIP analysis render</div>,
         expandIcon: ({ expanded, onExpand, record }) => {
           return expanded
             ? <CaretDownOutlined onClick={(e) => onExpand(record, e)}/>
@@ -142,16 +143,25 @@ function renderComboDmg() {
 }
 
 function renderDeltaPercent() {
-  return (n: number) => (
-    <Flex align='center' justify='center' gap={5}>
-      {n == 0 ? '-' : `-${localeNumber_0(n)}%`}
-    </Flex>
-  )
+  return (n: number) => {
+    const increase = n <= 0
+    const icon = increase ? '⬤' : '▼'
+    const color = arrowColor(increase)
+
+    return (
+      <Flex align='center' justify='center' gap={5}>
+        <span style={{ fontSize: 10, lineHeight: '17px', color: color }}>
+          {icon}
+        </span>
+        {n == 0 ? '' : `-${localeNumber_0(n)}%`}
+      </Flex>
+    )
+  }
 }
 
 function generateBenchmarkRows(benchmarkForm: BenchmarkForm, orchestrator: BenchmarkSimulationOrchestrator) {
   const candidates = benchmarkForm.percentage == 200 ? orchestrator.perfectionSimCandidates! : orchestrator.benchmarkSimCandidates!
-  const top = orchestrator.perfectionSimResult!.simScore
+  const top = benchmarkForm.percentage == 200 ? orchestrator.perfectionSimResult!.simScore : orchestrator.benchmarkSimResult!.simScore
 
   const dataSource: BenchmarkRow[] = candidates.map((simulation: Simulation) => {
     const request = simulation.request

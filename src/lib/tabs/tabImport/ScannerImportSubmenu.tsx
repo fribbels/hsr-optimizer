@@ -1,5 +1,5 @@
-import { UploadOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
+import { RocketOutlined, UploadOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Switch, Typography, Upload } from 'antd'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
@@ -11,6 +11,7 @@ import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
+import { useScannerState } from './ScannerWebsocketClient'
 
 // FIXME MED
 
@@ -20,7 +21,6 @@ type ParsedCharacter = {
   characterId: string
   characterLevel: number
   lightConeLevel: number
-  characterId: string
 }
 
 enum Stages {
@@ -36,6 +36,7 @@ export function ScannerImportSubmenu() {
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
+  const { connected, ingest, setIngest } = useScannerState()
   const { t } = useTranslation(['importSaveTab', 'common'])
 
   function beforeUpload(file): Promise<any> {
@@ -237,6 +238,18 @@ export function ScannerImportSubmenu() {
                   }
                 }}
               />
+
+              {t('Import.Stage1.Or')}
+
+              <Flex gap={10} align='center'>
+                <Switch
+                  disabled={!connected}
+                  checked={connected && ingest}
+                  onChange={(checked) => setIngest(checked)}
+                />
+
+                <Text>Live Import</Text>
+              </Flex>
             </Flex>
           </Flex>
         </Flex>

@@ -2,6 +2,7 @@ import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { RelicFilters } from 'lib/relics/relicFilters'
+import { SimulationRelicByPart } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -35,7 +36,7 @@ export function getComputedStatsFromOptimizerBuild(build: Build): BuildData | nu
   request.trace = true
 
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  const x = calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const x = calculateBuild(request, relics as SimulationRelicByPart, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 
   return { x, request: cachedForm }
 }

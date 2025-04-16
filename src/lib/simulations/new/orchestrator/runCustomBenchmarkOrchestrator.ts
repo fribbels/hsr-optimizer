@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/BenchmarkSimulationOrchestrator'
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
 import { SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'

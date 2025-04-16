@@ -1,4 +1,4 @@
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/BenchmarkSimulationOrchestrator'
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
 import { Form } from 'types/form'
 import { create } from 'zustand'
 

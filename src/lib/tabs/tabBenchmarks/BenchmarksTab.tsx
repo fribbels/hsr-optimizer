@@ -64,7 +64,6 @@ export default function BenchmarksTab(): ReactElement {
     updateTeammate,
   } = useBenchmarksTabStore()
 
-  // Initialize teammates when component mounts
   useEffect(() => {
     benchmarkForm.setFieldsValue(defaultForm)
     updateTeammate(0, defaultForm.teammate0)
@@ -104,9 +103,6 @@ export default function BenchmarksTab(): ReactElement {
 
 function BenchmarkInputs() {
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
-  const {
-    setResults,
-  } = useBenchmarksTabStore()
 
   return (
     <Flex vertical align='center'>

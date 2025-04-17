@@ -45,19 +45,12 @@ export default function RelicsTab() {
   const [relicRows, setRelicRows] = useState(DB.getRelics())
   window.setRelicRows = setRelicRows
 
-  const [selectedRelic, setSelectedRelic] = useState()
-  const [selectedRelics, setselectedRelics] = useState([])
-  const refreshSelectedRelics = useReducer((state) => !state, false)
-  window.refreshSelectedRelics = refreshSelectedRelics
-  useEffect(() => {
-    if (selectedRelic) {
-      setSelectedRelic(DB.getRelicById(selectedRelic.id))
-    }
+  const [selectedRelicID, setSelectedRelicID] = useState()
+  const [selectedRelicIDs, setSelectedRelicIDs] = useState([])
 
-    if (selectedRelics.length > 0) {
-      setselectedRelics(selectedRelics.map((x) => DB.getRelicById(x.id)))
-    }
-  }, [refreshSelectedRelics])
+  // TODO: Can/should we memoize these?
+  const selectedRelic = DB.getRelicById(selectedRelicID)
+  const selectedRelics = DB.getRelics().filter((x) => selectedRelicIDs.includes(x.id))
 
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
@@ -564,12 +557,12 @@ export default function RelicsTab() {
       const node = gridRef.current.api.getRowNode(event.id)
       node.setSelected(true, true)
     }
-    setSelectedRelic(event.data)
+    setSelectedRelicID(event.data.id)
   }, [])
 
   const onRowDoubleClickedListener = useCallback((e) => {
     console.log('rowDblClicked', e)
-    setSelectedRelic(e.data)
+    setSelectedRelicID(e.data.id)
     setEditModalOpen(true)
   }, [])
 
@@ -590,7 +583,7 @@ export default function RelicsTab() {
     setRelicRows(DB.getRelics())
     SaveState.delayedSave()
 
-    setSelectedRelic(relic)
+    setSelectedRelicID(relic.id)
 
     Message.success(t('Messages.AddRelicSuccess')/* Successfully added relic */)
     console.log('onAddOk', relic)
@@ -599,12 +592,12 @@ export default function RelicsTab() {
   // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
-    setSelectedRelic(updatedRelic)
+    setSelectedRelicID(updatedRelic.id)
   }
 
   function editClicked() {
     console.log('edit clicked')
-    if (!selectedRelic) return Message.error(t('Messages.NoRelicSelected')/* No relic selected */)
+    if (!selectedRelicID) return Message.error(t('Messages.NoRelicSelected')/* No relic selected */)
     setEditModalOpen(true)
   }
 
@@ -881,7 +874,7 @@ export default function RelicsTab() {
         <Flex gap={10}>
           <RelicPreview
             relic={selectedRelic}
-            setSelectedRelic={setSelectedRelic}
+            setSelectedRelic={(r) => setSelectedRelicID(r.id)} // TODO: Don't know if this is the best way to do this
             setEditModalOpen={setEditModalOpen}
             score={score}
           />

@@ -64,7 +64,6 @@ declare global {
     forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
     forceCharacterTabUpdate: DispatchWithoutAction
     refreshRelicsScore: DispatchWithoutAction
-    refreshSelectedRelics: DispatchWithoutAction
 
     rescoreSingleRelic: (relic: Relic) => void
     showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>

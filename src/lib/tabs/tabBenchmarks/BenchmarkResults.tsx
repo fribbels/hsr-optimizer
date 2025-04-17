@@ -135,7 +135,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const element = DB.getMetadata().characters[benchmarkForm.characterId].element
 
   return (
-    <Flex style={{ margin: 8 }} gap={10} justify='space-between'>
+    <Flex style={{ margin: 8 }} gap={10} justify='space-around'>
       <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
         <HeaderText style={{ fontSize: 16 }}>Combat Stats</HeaderText>
 

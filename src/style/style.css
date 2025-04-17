@@ -765,3 +765,7 @@ a {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
+
+.ant-table-expanded-row {
+    background-color: #0e1835ba;
+}

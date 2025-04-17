@@ -12,7 +12,7 @@ type AbilityDamageSummaryProps = {
 export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
   return (
     <Flex gap={defaultGap} justify='space-around'>
-      <Flex vertical gap={10} style={{ width: 230 }}>
+      <Flex vertical gap={4} style={{ width: 230 }}>
         <ScoringNumber label={String(t('common:ShortDMGTypes.Basic')) + ':'} number={simResult.xa[Key.BASIC_DMG]} precision={1}/>
         <ScoringNumber label={String(t('common:ShortDMGTypes.Skill')) + ':'} number={simResult.xa[Key.SKILL_DMG]} precision={1}/>
         <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.xa[Key.ULT_DMG]} precision={1}/>

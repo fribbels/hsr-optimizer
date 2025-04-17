@@ -15,6 +15,7 @@ import DB from 'lib/state/db'
 import { BenchmarkForm, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
+import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -134,8 +135,10 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const element = DB.getMetadata().characters[benchmarkForm.characterId].element
 
   return (
-    <Flex style={{ margin: 10 }} gap={10} justify='space-between'>
-      <div style={{ width: 300 }}>
+    <Flex style={{ margin: 8 }} gap={10} justify='space-between'>
+      <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
+        <HeaderText style={{ fontSize: 16 }}>Combat Stats</HeaderText>
+
         <CharacterStatSummary
           characterId={benchmarkForm.characterId}
           finalStats={basicStats}
@@ -143,11 +146,13 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           simScore={result.simScore}
           showAll={true}
         />
-      </div>
+      </Flex>
 
       <VerticalDivider/>
 
-      <div style={{ width: 300 }}>
+      <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
+        <HeaderText style={{ fontSize: 16 }}>Combat Stats</HeaderText>
+
         <CharacterStatSummary
           characterId={benchmarkForm.characterId}
           finalStats={combatStats}
@@ -155,20 +160,32 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           simScore={result.simScore}
           showAll={true}
         />
-      </div>
+      </Flex>
 
       <VerticalDivider/>
 
-      <SubstatRollsSummary
-        simRequest={simulation.request}
-        precision={0}
-        columns={1}
-      />
+      <Flex vertical align='center' gap={5}>
+        <HeaderText style={{ fontSize: 16 }}>Substat Rolls</HeaderText>
+
+        <SubstatRollsSummary
+          simRequest={simulation.request}
+          precision={0}
+          columns={1}
+        />
+      </Flex>
+
       <VerticalDivider/>
 
       <Flex vertical align='center' justify='space-between'>
-        <ComboRotationSummary simMetadata={orchestrator.metadata}/>
-        <AbilityDamageSummary simResult={simulation.result!}/>
+        <Flex vertical align='center' gap={5}>
+          <HeaderText style={{ fontSize: 16 }}>Combo Rotation</HeaderText>
+          <ComboRotationSummary simMetadata={orchestrator.metadata}/>
+        </Flex>
+
+        <Flex vertical align='center' gap={5}>
+          <HeaderText style={{ fontSize: 16 }}>Ability Damage</HeaderText>
+          <AbilityDamageSummary simResult={simulation.result!}/>
+        </Flex>
       </Flex>
     </Flex>
   )

@@ -46,8 +46,8 @@ export const CharacterStatSummary = (props: {
   const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
   return (
-    <StatText>
-      <Flex vertical style={{ paddingLeft: 4, paddingRight: 6 }} gap={props.scoringType == NONE_SCORE ? 5 : 3}>
+    <StatText style={{ paddingLeft: 4, paddingRight: 6, width: '100%' }}>
+      <Flex vertical gap={props.scoringType == NONE_SCORE ? 5 : 3}>
         <StatRow finalStats={props.finalStats} stat={Stats.HP} edits={edits}/>
         <StatRow finalStats={props.finalStats} stat={Stats.ATK} edits={edits}/>
         <StatRow finalStats={props.finalStats} stat={Stats.DEF} edits={edits}/>
@@ -76,7 +76,6 @@ export const CharacterStatSummary = (props: {
             loading={!simScoringExecution?.done}
           />
         )}
-
       </Flex>
     </StatText>
   )

@@ -58,7 +58,7 @@ CharacterPreview:
       BenchmarkOptionsLabel: Варианты выбора SPD тестовых сборок
       CurrentSpdLabel: Текущая скорость - Эталоном будет SPD текущей сборки
       BaseSpdLabel: Базовая скорость - Эталоном будет минимальное SPD
-      CommonBreakpointsLabel: Пресеты контрольных точек для SPD (без учета SPD баффов)
+      CommonBreakpointsLabel: Шаблоны контрольных точек для SPD (без учета SPD баффов)
     BuffPriority:
       Header: Режим DPS
       High: Основной

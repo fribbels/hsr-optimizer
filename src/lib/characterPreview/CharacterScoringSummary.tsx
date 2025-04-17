@@ -27,8 +27,9 @@ import { filterUnique } from 'lib/utils/arrayUtils'
 import { localeNumber, localeNumber_0, localeNumber_000, numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { SubstatRollsSummary } from './summary/SubstatRollsSummary'
 
 // FIXME MED
 
@@ -89,29 +90,6 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
-  function ScoringNumberParens(props: {
-    label: string
-    number?: number
-    parens?: number
-    precision?: number
-  }) {
-    const precision = props.precision ?? 1
-    const value = props.number ?? 0
-    const parens = props.parens ?? 0
-    const show = value != 0
-    const showParens = parens != 0
-
-    return (
-      <Flex gap={5} justify='space-between'>
-        <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, textAlign: 'right' }}>
-          {show && numberToLocaleString(value, precision)}
-          {showParens && <span style={{ margin: 3 }}>-</span>}
-          {showParens && numberToLocaleString(parens, 1)}
-        </pre>
-      </Flex>
-    )
-  }
 
   function ScoringInteger(props: {
     label: string
@@ -221,7 +199,6 @@ export const CharacterScoringSummary = (props: {
       }
     }
 
-    const stats = simRequest.stats
     const precision = props.precision
 
     return (
@@ -269,85 +246,12 @@ export const CharacterScoringSummary = (props: {
             {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
           </pre>
           {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
-          <Flex justify='space-between'>
-            <Flex vertical gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.ATK_P}`) + ':'}
-                number={stats[Stats.ATK_P]}
-                parens={diminishingReturns[Stats.ATK_P]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.ATK}`) + ':'}
-                number={stats[Stats.ATK]}
-                parens={diminishingReturns[Stats.ATK]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.HP_P}`) + ':'}
-                number={stats[Stats.HP_P]}
-                parens={diminishingReturns[Stats.HP_P]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.HP}`) + ':'}
-                number={stats[Stats.HP]}
-                parens={diminishingReturns[Stats.HP]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.DEF_P}`) + ':'}
-                number={stats[Stats.DEF_P]}
-                parens={diminishingReturns[Stats.DEF_P]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.DEF}`) + ':'}
-                number={stats[Stats.DEF]}
-                parens={diminishingReturns[Stats.DEF]}
-                precision={precision}
-              />
-            </Flex>
-            <VerticalDivider/>
-            <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.SPD}`) + ':'}
-                number={stats[Stats.SPD]}
-                parens={diminishingReturns[Stats.SPD]}
-                precision={2}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.CR}`) + ':'}
-                number={stats[Stats.CR]}
-                parens={diminishingReturns[Stats.CR]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.CD}`) + ':'}
-                number={stats[Stats.CD]}
-                parens={diminishingReturns[Stats.CD]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.EHR}`) + ':'}
-                number={stats[Stats.EHR]}
-                parens={diminishingReturns[Stats.EHR]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.RES}`) + ':'}
-                number={stats[Stats.RES]}
-                parens={diminishingReturns[Stats.RES]}
-                precision={precision}
-              />
-              <ScoringNumberParens
-                label={t(`common:ShortStats.${Stats.BE}`) + ':'}
-                number={stats[Stats.BE]}
-                parens={diminishingReturns[Stats.BE]}
-                precision={precision}
-              />
-            </Flex>
-          </Flex>
+      
+          <SubstatRollsSummary
+            simRequest={simulation.request}
+            precision={precision}
+            columns={2}
+          />
         </Flex>
 
         <Flex vertical gap={defaultGap}>

@@ -2,6 +2,7 @@ import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { Flex, Table, TableProps } from 'antd'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
+import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import { ElementToDamage } from 'lib/constants/constants'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
@@ -130,7 +131,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const element = DB.getMetadata().characters[benchmarkForm.characterId].element
 
   return (
-    <Flex style={{}}>
+    <Flex style={{}} gap={20}>
       <div style={{ width: 300 }}>
         <CharacterStatSummary
           characterId={benchmarkForm.characterId}
@@ -153,6 +154,13 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         />
       </div>
 
+      <VerticalDivider/>
+      
+      <SubstatRollsSummary
+        simRequest={simulation.request}
+        precision={0}
+        columns={1}
+      />
       <VerticalDivider/>
     </Flex>
   )

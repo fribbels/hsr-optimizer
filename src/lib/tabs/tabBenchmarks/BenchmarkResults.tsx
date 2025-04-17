@@ -1,11 +1,12 @@
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { Flex, Table, TableProps } from 'antd'
+import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import { ElementToDamage } from 'lib/constants/constants'
+import { ElementToDamage, SubStats } from 'lib/constants/constants'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { Assets } from 'lib/rendering/assets'
@@ -46,20 +47,6 @@ export function BenchmarkResults() {
 
   const columns: TableProps<BenchmarkRow>['columns'] = [
     {
-      title: 'Combo DMG',
-      dataIndex: 'comboDmg',
-      align: 'center',
-      render: renderComboDmg(),
-      width: '12.5%',
-    },
-    {
-      title: 'Delta',
-      dataIndex: 'deltaPercent',
-      align: 'center',
-      render: renderDeltaPercent(),
-      width: '12.5%',
-    },
-    {
       title: 'Sets',
       dataIndex: 'simRelicSet1',
       align: 'center',
@@ -93,6 +80,18 @@ export function BenchmarkResults() {
       align: 'center',
       render: renderStat(),
       width: '15%',
+    },
+    {
+      title: 'Combo DMG',
+      dataIndex: 'comboDmg',
+      align: 'center',
+      render: renderComboDmg(),
+    },
+    {
+      title: 'Delta',
+      dataIndex: 'deltaPercent',
+      align: 'center',
+      render: renderDeltaPercent(),
     },
   ]
 
@@ -192,11 +191,13 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 }
 
 function renderStat() {
+  const t = i18next.getFixedT(null, 'common')
+
   return (stat: string) => (
     <Flex align='center' justify='center' gap={5}>
       <img src={Assets.getStatIcon(stat)} style={{ width: ICON_SIZE }}/>
       <span>
-        {stat}
+        {t(`ReadableStats.${stat as SubStats}`)}
       </span>
     </Flex>
   )

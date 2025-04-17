@@ -769,3 +769,7 @@ a {
 .ant-table-expanded-row {
     background-color: #0e1835ba;
 }
+
+.ant-table-row-expand-icon-cell {
+    padding-left: 8px !important;
+}

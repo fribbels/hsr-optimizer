@@ -1,3 +1,4 @@
+import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -5,6 +6,7 @@ import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
+import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import { handleBenchmarkFormSubmit } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio, RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
@@ -34,6 +36,7 @@ const defaultForm = {
   simRelicSet2: 'Scholar Lost in Erudition',
   simOrnamentSet: 'Rutilant Arena',
   basicSpd: 100,
+  errRope: false,
   teammate0: {
     characterId: '1101',
     characterEidolon: 3,
@@ -111,17 +114,6 @@ function BenchmarkInputs() {
         <MiddlePanel/>
         <RightPanel/>
       </Flex>
-
-      <Button
-        onClick={() => {
-          const formValues = benchmarkForm.getFieldsValue()
-          handleBenchmarkFormSubmit(formValues)
-        }}
-        style={{ width: '100%', marginTop: 10, height: 45 }}
-        type='primary'
-      >
-        Generate benchmarks
-      </Button>
     </Flex>
   )
 }
@@ -184,33 +176,67 @@ function MiddlePanel() {
 }
 
 function RightPanel() {
-  const form = AntDForm.useFormInstance<BenchmarkForm>()
-  const characterId = AntDForm.useWatch('characterId', form) ?? ''
+  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
+  const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
+  const width = 85
 
   return (
-    <Flex vertical gap={GAP} style={{ width: RIGHT_PANEL_WIDTH }}>
-      <HeaderText>Benchmark type</HeaderText>
-      <Flex style={{ width: '100%' }}>
-        <AntDForm.Item name='percentage' noStyle>
-          <Radio.Group
-            buttonStyle='solid'
-            style={{ width: '100%', display: 'flex' }}
-          >
-            <RadioButton value={100} text='100%'/>
-            <RadioButton value={200} text='200%'/>
+    <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
+      <Flex vertical gap={GAP}>
+        <HeaderText>Benchmark type</HeaderText>
+        <Flex style={{ width: '100%' }}>
+          <AntDForm.Item name='percentage' noStyle>
+            <Radio.Group
+              buttonStyle='solid'
+              style={{ width: '100%', display: 'flex' }}
+            >
+              <RadioButton value={100} text='100%'/>
+              <RadioButton value={200} text='200%'/>
+            </Radio.Group>
+          </AntDForm.Item>
+        </Flex>
+
+        <HeaderText>Benchmark sets</HeaderText>
+        <Flex vertical gap={HEADER_GAP}>
+          <SetsSection simType={StatSimTypes.Benchmarks}/>
+        </Flex>
+
+        <HeaderText>Settings</HeaderText>
+
+        <BenchmarkSetting label='Benchmark Basic SPD' itemName='basicSpd'>
+          <InputNumber style={{ width: width }} size='small'/>
+        </BenchmarkSetting>
+        <BenchmarkSetting label='Force ERR rope' itemName='errRope'>
+          <Radio.Group buttonStyle='solid' size='small' block style={{ width: width }}>
+            <Radio.Button value={true}><CheckOutlined/></Radio.Button>
+            <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
-        </AntDForm.Item>
+        </BenchmarkSetting>
       </Flex>
 
-      <HeaderText>Benchmark sets</HeaderText>
-      <Flex vertical gap={HEADER_GAP}>
-        <SetsSection simType={StatSimTypes.Benchmarks}/>
+      <Flex vertical gap={GAP}>
+        <Button
+          onClick={() => {
+            const formValues = benchmarkForm.getFieldsValue()
+            handleBenchmarkFormSubmit(formValues)
+          }}
+          icon={<ThunderboltFilled/>}
+          style={{ width: '100%', height: 40 }}
+          type='primary'
+        >
+          Generate benchmarks
+        </Button>
+        <Button
+          onClick={() => {
+            const formValues = benchmarkForm.getFieldsValue()
+            handleBenchmarkFormSubmit(formValues)
+          }}
+          style={{ width: '100%' }}
+          type='default'
+        >
+          Clear
+        </Button>
       </Flex>
-
-      <HeaderText>Benchmark basic SPD</HeaderText>
-      <AntDForm.Item name='basicSpd' noStyle>
-        <InputNumber style={{ width: '100%' }}/>
-      </AntDForm.Item>
     </Flex>
   )
 }

@@ -9,6 +9,7 @@ export type BenchmarkForm = {
   lightConeSuperimposition: number
   percentage: number
   basicSpd: number
+  errRope: boolean
   simRelicSet1: string
   simRelicSet2: string
   simOrnamentSet: string

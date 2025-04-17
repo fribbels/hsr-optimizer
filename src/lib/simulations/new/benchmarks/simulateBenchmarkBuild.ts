@@ -3,7 +3,6 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
 import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
-import { isErrRopeForced } from 'lib/simulations/new/utils/benchmarkUtils'
 
 // Generate all main stat possibilities
 export function generatePartialSimulations(
@@ -11,10 +10,9 @@ export function generatePartialSimulations(
 ) {
   const metadata = orchestrator.metadata
   const form = orchestrator.form!
-  const originalSim = orchestrator.originalSimRequest!
   const simulationSets = orchestrator.simSets!
 
-  const forceErrRope = isErrRopeForced(form, metadata, originalSim)
+  const forceErrRope = orchestrator.flags.forceErrRope
   const ropeParts: string[] = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
 
   const { relicSet1, relicSet2, ornamentSet } = simulationSets

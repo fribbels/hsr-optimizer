@@ -17,8 +17,8 @@ export async function runDpsScoreBenchmarkOrchestrator(
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequestWithRelics(singleRelicByPart)
   orchestrator.setSimSetsWithSimRequest()
-  orchestrator.setFlags()
   orchestrator.setSimForm(character.form)
+  orchestrator.setFlags()
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
 

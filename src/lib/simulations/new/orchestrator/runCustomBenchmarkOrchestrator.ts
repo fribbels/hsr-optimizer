@@ -15,12 +15,14 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequest(simulationRequest)
   orchestrator.setSimSets(simulationSets)
-  orchestrator.setFlags()
   orchestrator.setSimForm(benchmarkForm)
+  orchestrator.setFlags()
+
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(benchmarkForm.basicSpd, true)
 
   orchestrator.flags.forceBasicSpdValue = benchmarkForm.basicSpd
+  orchestrator.flags.forceErrRope = benchmarkForm.errRope
 
   await orchestrator.calculateBenchmark()
   await orchestrator.calculatePerfection()
@@ -60,7 +62,7 @@ function generateSimulationRequest(benchmarkForm: BenchmarkForm) {
     simBody: Stats.HP_P,
     simFeet: Stats.HP_P,
     simPlanarSphere: Stats.HP_P,
-    simLinkRope: Stats.HP_P,
+    simLinkRope: benchmarkForm.errRope ? Stats.ERR : Stats.HP_P,
     stats: StatCalculator.getZeroesSubstats(),
   }
 

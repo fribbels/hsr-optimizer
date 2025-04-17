@@ -203,10 +203,10 @@ function RightPanel() {
 
         <HeaderText>Settings</HeaderText>
 
-        <BenchmarkSetting label='Benchmark Basic SPD' itemName='basicSpd'>
+        <BenchmarkSetting label='Benchmark basic SPD' itemName='basicSpd'>
           <InputNumber style={{ width: width }} size='small'/>
         </BenchmarkSetting>
-        <BenchmarkSetting label='Force ERR rope' itemName='errRope'>
+        <BenchmarkSetting label='Energy regen rope' itemName='errRope'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: width }}>
             <Radio.Button value={true}><CheckOutlined/></Radio.Button>
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>

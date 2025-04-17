@@ -41,8 +41,9 @@ export function BenchmarkResults() {
   const {
     benchmarkForm,
     orchestrator,
+    benchmarkCache,
   } = useBenchmarksTabStore()
-  console.log(benchmarkForm, orchestrator)
+  console.log(benchmarkCache)
   if (!benchmarkForm || !orchestrator) return <></>
 
   const columns: TableProps<BenchmarkRow>['columns'] = [

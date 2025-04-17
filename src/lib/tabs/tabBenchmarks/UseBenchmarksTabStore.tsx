@@ -33,6 +33,9 @@ type BenchmarksTabState = {
   teammate1: SimpleCharacter | undefined
   teammate2: SimpleCharacter | undefined
 
+  currentPartialHash: string | undefined
+  benchmarkCache: Record<string, BenchmarkSimulationOrchestrator>
+
   benchmarkForm: BenchmarkForm | undefined
   orchestrator: BenchmarkSimulationOrchestrator | undefined
 
@@ -42,7 +45,8 @@ type BenchmarksTabState = {
   setCharacterModalOpen: (isOpen: boolean) => void
   setCharacterModalInitialCharacter: (character: SimpleCharacter | undefined) => void
   setSelectedTeammateIndex: (index: number | undefined) => void
-  setResults: (benchmarkForm: BenchmarkForm, orchestrator: BenchmarkSimulationOrchestrator) => void
+  setResults: (benchmarkForm: BenchmarkForm, orchestrator: BenchmarkSimulationOrchestrator, partialHash: string, fullHash: string) => void
+  resetCache: () => void
 }
 
 export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
@@ -52,6 +56,9 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   teammate0: undefined,
   teammate1: undefined,
   teammate2: undefined,
+
+  currentPartialHash: undefined,
+  benchmarkCache: {},
 
   benchmarkForm: undefined,
   orchestrator: undefined,
@@ -89,5 +96,18 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   setCharacterModalOpen: (isOpen) => set({ isCharacterModalOpen: isOpen }),
   setCharacterModalInitialCharacter: (character?: SimpleCharacter) => set({ characterModalInitialCharacter: character }),
   setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
-  setResults: (benchmarkForm, orchestrator) => set({ benchmarkForm, orchestrator }),
+  setResults: (benchmarkForm, orchestrator, partialHash, fullHash) => set((state) => ({
+    benchmarkForm,
+    orchestrator,
+    currentPartialHash: partialHash,
+    benchmarkCache: {
+      ...state.benchmarkCache,
+      [fullHash]: orchestrator,
+    },
+  })),
+
+  resetCache: () => set({
+    benchmarkCache: {},
+    currentPartialHash: undefined,
+  }),
 }))

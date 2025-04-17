@@ -232,6 +232,7 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
                 if (newRelic.verified || !oldRelic.verified) {
                     // Inherit the new verified speed stats
                     oldRelic.verified = newRelic.verified
+                    oldRelic.main = newRelic.main
                     oldRelic.substats = newRelic.substats
                     oldRelic.augmentedStats = newRelic.augmentedStats
                 }

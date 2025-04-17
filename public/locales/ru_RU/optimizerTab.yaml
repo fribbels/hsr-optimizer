@@ -1,9 +1,12 @@
 CharacterSelector:
   Character: Персонаж
   Lightcone: Световой конус
+ResultLimitN: "Найти {{limit}} лучших"
 OptimizerOptions:
   Priority:
     Header: Приоритет
+AdvancedOptions:
+  CustomTracesButtonText: Настройка следов
 Grid:
   Headers:
     Basic:
@@ -40,6 +43,8 @@ CombatBuffs:
   HP_P: HP %
   DEF: Защита
   DEF_P: ЗАЩ %
+  CR: Крит Шанс %
+  CD: Крит Урон %
   SPD: Скорость
   SPD_P: Скорость %
 WeightFilter:
@@ -68,6 +73,8 @@ MinMaxFilters:
   ULTLabel: Ультимейт
   FUALabel: Бонусная атака
   MEMOSKILLLabel: Навыкᴹ
+ComboDrawer:
+  Title: Руководство по редактору ротаций
 TeammateCard:
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
 StatSimulation:

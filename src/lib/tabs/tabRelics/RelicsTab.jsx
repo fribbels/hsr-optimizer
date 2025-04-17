@@ -1,6 +1,6 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
-import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Typography } from 'antd'
+import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Tooltip, Typography } from 'antd'
 import { Constants, Stats } from 'lib/constants/constants'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Hint } from 'lib/interactions/hint'
@@ -24,6 +24,7 @@ import Plotly from 'plotly.js/dist/plotly-basic'
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import createPlotlyComponent from 'react-plotly.js/factory'
+import { useScannerState } from '../tabImport/ScannerWebsocketClient'
 
 const Plot = createPlotlyComponent(Plotly)
 
@@ -58,6 +59,8 @@ export default function RelicsTab() {
   const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_CUSTOM)
   const [relicInsight, setRelicInsight] = useState('buckets')
   const [gridDestroyed, setGridDestroyed] = useState(false)
+
+  const isLiveImport = useScannerState((s) => s.ingest)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
 
@@ -753,13 +756,17 @@ export default function RelicsTab() {
             okText={t('common:Yes')/* yes */}
             cancelText={t('common:Cancel')/* cancel */}
           >
-            <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0}>
-              {t('Toolbar.DeleteRelic.ButtonText')/* Delete relic */}
-            </Button>
+            <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
+              <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0 || isLiveImport}>
+                {t('Toolbar.DeleteRelic.ButtonText')/* Delete relic */}
+              </Button>
+            </Tooltip>
           </Popconfirm>
-          <Button type='primary' onClick={addClicked} style={{ width: 170 }}>
-            {t('Toolbar.AddRelic')/* Add New Relic */}
-          </Button>
+          <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
+            <Button type='primary' onClick={addClicked} style={{ width: 170 }} disabled={isLiveImport}>
+              {t('Toolbar.AddRelic')/* Add New Relic */}
+            </Button>
+          </Tooltip>
 
           <Popover
             trigger='click'

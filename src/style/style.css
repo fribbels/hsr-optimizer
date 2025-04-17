@@ -767,9 +767,18 @@ a {
 }
 
 .ant-table-expanded-row {
-    background-color: #0e1835ba;
+    background-color: #0d152fba;
 }
 
 .ant-table-row-expand-icon-cell {
     padding-left: 8px !important;
+}
+
+.benchmark-tabs .ant-tabs-nav-list {
+    width: 100%;
+}
+
+.benchmark-tabs .ant-tabs-tab {
+    flex: 1;
+    justify-content: space-around;
 }

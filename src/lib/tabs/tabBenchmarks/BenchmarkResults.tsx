@@ -1,5 +1,5 @@
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { Flex, Radio, Table, TableProps, Tabs, TabsProps } from 'antd'
+import { Flex, Table, TableProps, Tabs, TabsProps } from 'antd'
 import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
@@ -13,7 +13,6 @@ import { Assets } from 'lib/rendering/assets'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
 import { Simulation } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
-import { RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -106,27 +105,36 @@ export function BenchmarkResults() {
 
 function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
   return (
-    <Table<BenchmarkRow>
-      className='remove-table-bottom-border'
-      columns={columns}
-      dataSource={dataSource}
-      pagination={false}
-      size='small'
-      style={benchmarkTableStyle}
-      locale={{ emptyText: '' }}
-      expandable={{
-        expandedRowRender: (row) => <ExpandedRow row={row}/>,
-        expandIcon: ({ expanded, onExpand, record }) => {
-          return expanded
-            ? <CaretDownOutlined onClick={(e) => onExpand(record, e)}/>
-            : <CaretRightOutlined onClick={(e) => onExpand(record, e)}/>
-        },
-        expandRowByClick: true,
+    <div
+      style={{
+        padding: 8,
+        backgroundColor: '#243356',
+        border: '1px solid #354b7d',
+        borderTop: 'none',
       }}
-      onRow={() => ({
-        style: { cursor: 'pointer' }, // Change cursor to pointer on hover
-      })}
-    />
+    >
+      <Table<BenchmarkRow>
+        className='remove-table-bottom-border'
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        size='small'
+        style={benchmarkTableStyle}
+        locale={{ emptyText: '' }}
+        expandable={{
+          expandedRowRender: (row) => <ExpandedRow row={row}/>,
+          expandIcon: ({ expanded, onExpand, record }) => {
+            return expanded
+              ? <CaretDownOutlined onClick={(e) => onExpand(record, e)}/>
+              : <CaretRightOutlined onClick={(e) => onExpand(record, e)}/>
+          },
+          expandRowByClick: true,
+        }}
+        onRow={() => ({
+          style: { cursor: 'pointer' },
+        })}
+      />
+    </div>
   )
 }
 
@@ -134,36 +142,26 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
   const items: TabsProps['items'] = [
     {
       key: '100',
-      label: '100%',
+      label: '100% Benchmark Builds',
       children: <BenchmarkTable dataSource={dataSource100}/>,
     },
     {
       key: '200',
-      label: '200%',
+      label: '200% Perfection Builds',
       children: <BenchmarkTable dataSource={dataSource200}/>,
     },
   ]
 
   return (
     <Tabs
+      className='benchmark-tabs'
+      animated
+      size='large'
       type='card'
+      tabBarGutter={5}
       items={items}
+      tabBarStyle={{ width: '100%', margin: 0 }}
     />
-  )
-}
-
-function PercentageSelector() {
-  return (
-
-    <Flex style={{ width: '100%' }}>
-      <Radio.Group
-        buttonStyle='solid'
-        style={{ width: '100%', display: 'flex' }}
-      >
-        <RadioButton value={100} text='100%'/>
-        <RadioButton value={200} text='200%'/>
-      </Radio.Group>
-    </Flex>
   )
 }
 

@@ -17,7 +17,6 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
   const partialHash = generatePartialHash(mergedBenchmarkForm)
   const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
   if (currentPartialHash && currentPartialHash != partialHash) {
-    console.debug('RESET CACHE')
     resetCache()
   }
 

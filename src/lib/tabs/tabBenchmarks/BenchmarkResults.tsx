@@ -1,6 +1,8 @@
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { Flex, Table, TableProps } from 'antd'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
+import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
+import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import { ElementToDamage } from 'lib/constants/constants'
@@ -15,7 +17,6 @@ import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
 
 type BenchmarkRow = {
   key: string
@@ -31,6 +32,7 @@ type BenchmarkRow = {
 
   simulation: Simulation
   benchmarkForm: BenchmarkForm
+  orchestrator: BenchmarkSimulationOrchestrator
 }
 
 export function BenchmarkResults() {
@@ -124,6 +126,7 @@ export function BenchmarkResults() {
 
 function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const simulation = row.simulation
+  const orchestrator = row.orchestrator
   const result = simulation.result!
   const benchmarkForm = row.benchmarkForm
   const basicStats = toBasicStatsObject(result.ca)
@@ -131,7 +134,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const element = DB.getMetadata().characters[benchmarkForm.characterId].element
 
   return (
-    <Flex style={{}} gap={20}>
+    <Flex style={{ margin: 10 }} gap={10} justify='space-between'>
       <div style={{ width: 300 }}>
         <CharacterStatSummary
           characterId={benchmarkForm.characterId}
@@ -155,13 +158,18 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
       </div>
 
       <VerticalDivider/>
-      
+
       <SubstatRollsSummary
         simRequest={simulation.request}
         precision={0}
         columns={1}
       />
       <VerticalDivider/>
+
+      <Flex vertical align='center' justify='space-between'>
+        <ComboRotationSummary simMetadata={orchestrator.metadata}/>
+        <AbilityDamageSummary simResult={simulation.result!}/>
+      </Flex>
     </Flex>
   )
 }
@@ -229,6 +237,7 @@ function generateBenchmarkRows(benchmarkForm: BenchmarkForm, orchestrator: Bench
       deltaPercent: delta * 100,
       simulation: simulation,
       benchmarkForm: benchmarkForm,
+      orchestrator: orchestrator,
     }
 
     return benchmarkRow

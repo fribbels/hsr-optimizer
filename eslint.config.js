@@ -164,7 +164,7 @@ function styleRules(level) {
     '@stylistic/no-mixed-spaces-and-tabs': level,
     '@stylistic/no-multi-spaces': level,
     '@stylistic/no-multiple-empty-lines': [
-      'off',
+      level,
       { max: 1, maxBOF: 0, maxEOF: 0 },
     ],
     '@stylistic/no-tabs': level,

@@ -5,6 +5,7 @@ import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewControlle
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
+import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
@@ -29,6 +30,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { AbilityDamageSummary } from './summary/AbilityDamageSummary'
 import { SubstatRollsSummary } from './summary/SubstatRollsSummary'
 
 // FIXME MED
@@ -90,7 +92,6 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
-
   function ScoringInteger(props: {
     label: string
     number?: number
@@ -114,22 +115,6 @@ export const CharacterScoringSummary = (props: {
       <Flex align='center' gap={1} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
         <pre style={{ margin: 0, textAlign: 'right' }}>{value}</pre>
-      </Flex>
-    )
-  }
-
-  function ScoringAbility(props: {
-    comboAbilities: string[]
-    index: number
-  }) {
-    const displayValue = i18n.exists(`charactersTab:CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}`)
-      ? t(`CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}` as never)
-      : null
-    if (displayValue == null) return <></>
-
-    return (
-      <Flex align='center' gap={15}>
-        <pre style={{ margin: 0 }}>{`#${props.index} - ${displayValue as string}`}</pre>
       </Flex>
     )
   }
@@ -246,7 +231,7 @@ export const CharacterScoringSummary = (props: {
             {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
           </pre>
           {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
-      
+
           <SubstatRollsSummary
             simRequest={simulation.request}
             precision={precision}
@@ -277,18 +262,9 @@ export const CharacterScoringSummary = (props: {
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
           </pre>
           {/* Character/100% benchmark/200% perfect ability damage */}
-          <Flex gap={defaultGap} justify='space-around'>
-            <Flex vertical gap={10} style={{ width: 230 }}>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Basic')) + ':'} number={simResult.xa[Key.BASIC_DMG]} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Skill')) + ':'} number={simResult.xa[Key.SKILL_DMG]} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Ult')) + ':'} number={simResult.xa[Key.ULT_DMG]} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Fua')) + ':'} number={simResult.xa[Key.FUA_DMG]} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Skill')) + ':'} number={simResult.xa[Key.MEMO_SKILL_DMG]} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Memo_Talent')) + ':'} number={simResult.xa[Key.MEMO_TALENT_DMG]} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Dot')) + ':'} number={simResult.xa[Key.DOT_DMG]} precision={1}/>
-              <ScoringNumber label={String(t('common:ShortDMGTypes.Break')) + ':'} number={simResult.xa[Key.BREAK_DMG]} precision={1}/>
-            </Flex>
-          </Flex>
+          <AbilityDamageSummary
+            simResult={simulation.result!}
+          />
         </Flex>
       </Flex>
     )
@@ -330,7 +306,6 @@ export const CharacterScoringSummary = (props: {
         </pre>
         <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
-
 
       <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
         <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
@@ -390,22 +365,9 @@ export const CharacterScoringSummary = (props: {
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.Rotation.Header')/* Combo damage rotation */}
           </pre>
-          <Flex gap={30}>
-            <Flex vertical gap={2}>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={1}/>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={2}/>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={3}/>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={4}/>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={5}/>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={6}/>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={7}/>
-              <ScoringAbility comboAbilities={result.simulationMetadata.comboAbilities} index={8}/>
-            </Flex>
-            <Flex vertical gap={2}>
-              <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={result.simulationMetadata.comboDot}/>
-              <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.BREAKS')} number={result.simulationMetadata.comboBreak}/>
-            </Flex>
-          </Flex>
+          <ComboRotationSummary
+            simMetadata={result.simulationMetadata}
+          />
         </Flex>
 
         <VerticalDivider/>

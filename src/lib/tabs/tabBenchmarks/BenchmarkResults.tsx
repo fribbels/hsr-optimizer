@@ -1,5 +1,5 @@
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { Flex, Table, TableProps } from 'antd'
+import { Flex, Radio, Table, TableProps, Tabs, TabsProps } from 'antd'
 import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
@@ -13,12 +13,14 @@ import { Assets } from 'lib/rendering/assets'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
 import { Simulation } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
+import { RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import React from 'react'
 
 type BenchmarkRow = {
   key: string
@@ -36,70 +38,73 @@ type BenchmarkRow = {
   orchestrator: BenchmarkSimulationOrchestrator
 }
 
+const columns: TableProps<BenchmarkRow>['columns'] = [
+  {
+    title: 'Sets',
+    dataIndex: 'simRelicSet1',
+    align: 'center',
+    render: renderSets(),
+    width: '15%',
+  },
+  {
+    title: 'Body',
+    dataIndex: 'simBody',
+    align: 'center',
+    render: renderStat(),
+    width: '15%',
+  },
+  {
+    title: 'Feet',
+    dataIndex: 'simFeet',
+    align: 'center',
+    render: renderStat(),
+    width: '15%',
+  },
+  {
+    title: 'Planar Sphere',
+    dataIndex: 'simPlanarSphere',
+    align: 'center',
+    render: renderStat(),
+    width: '15%',
+  },
+  {
+    title: 'Link Rope',
+    dataIndex: 'simLinkRope',
+    align: 'center',
+    render: renderStat(),
+    width: '15%',
+  },
+  {
+    title: 'Combo DMG',
+    dataIndex: 'comboDmg',
+    align: 'center',
+    render: renderComboDmg(),
+  },
+  {
+    title: 'Delta',
+    dataIndex: 'deltaPercent',
+    align: 'center',
+    render: renderDeltaPercent(),
+  },
+]
+
 export function BenchmarkResults() {
   const {
-    benchmarkForm,
-    orchestrator,
     benchmarkCache,
   } = useBenchmarksTabStore()
   console.log(benchmarkCache)
   if (!benchmarkCache) return <></>
 
-  const columns: TableProps<BenchmarkRow>['columns'] = [
-    {
-      title: 'Sets',
-      dataIndex: 'simRelicSet1',
-      align: 'center',
-      render: renderSets(),
-      width: '15%',
-    },
-    {
-      title: 'Body',
-      dataIndex: 'simBody',
-      align: 'center',
-      render: renderStat(),
-      width: '15%',
-    },
-    {
-      title: 'Feet',
-      dataIndex: 'simFeet',
-      align: 'center',
-      render: renderStat(),
-      width: '15%',
-    },
-    {
-      title: 'Planar Sphere',
-      dataIndex: 'simPlanarSphere',
-      align: 'center',
-      render: renderStat(),
-      width: '15%',
-    },
-    {
-      title: 'Link Rope',
-      dataIndex: 'simLinkRope',
-      align: 'center',
-      render: renderStat(),
-      width: '15%',
-    },
-    {
-      title: 'Combo DMG',
-      dataIndex: 'comboDmg',
-      align: 'center',
-      render: renderComboDmg(),
-    },
-    {
-      title: 'Delta',
-      dataIndex: 'deltaPercent',
-      align: 'center',
-      render: renderDeltaPercent(),
-    },
-  ]
-
   const { rows100, rows200 } = generateBenchmarkRows(benchmarkCache)
-  const dataSource = benchmarkForm?.percentage == 100 ? rows100 : rows200
 
-  console.log(dataSource)
+  return (
+    <Flex vertical>
+      <PercentageTabs dataSource100={rows100} dataSource200={rows200}/>
+    </Flex>
+  )
+}
 
+function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
   return (
     <Table<BenchmarkRow>
       className='remove-table-bottom-border'
@@ -122,6 +127,43 @@ export function BenchmarkResults() {
         style: { cursor: 'pointer' }, // Change cursor to pointer on hover
       })}
     />
+  )
+}
+
+function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[]; dataSource200: BenchmarkRow[] }) {
+  const items: TabsProps['items'] = [
+    {
+      key: '100',
+      label: '100%',
+      children: <BenchmarkTable dataSource={dataSource100}/>,
+    },
+    {
+      key: '200',
+      label: '200%',
+      children: <BenchmarkTable dataSource={dataSource200}/>,
+    },
+  ]
+
+  return (
+    <Tabs
+      type='card'
+      items={items}
+    />
+  )
+}
+
+function PercentageSelector() {
+  return (
+
+    <Flex style={{ width: '100%' }}>
+      <Radio.Group
+        buttonStyle='solid'
+        style={{ width: '100%', display: 'flex' }}
+      >
+        <RadioButton value={100} text='100%'/>
+        <RadioButton value={200} text='200%'/>
+      </Radio.Group>
+    </Flex>
   )
 }
 
@@ -270,8 +312,8 @@ function generateBenchmarkRows(benchmarkCache: Record<string, BenchmarkSimulatio
   let topPerfectionSimScore = 0
 
   for (const orchestrator of orchestrators) {
-    const benchmarkScore = orchestrator.benchmarkSimResult?.simScore || 0
-    const perfectionScore = orchestrator.perfectionSimResult?.simScore || 0
+    const benchmarkScore = orchestrator.benchmarkSimResult!.simScore
+    const perfectionScore = orchestrator.perfectionSimResult!.simScore
 
     topBenchmarkSimScore = Math.max(topBenchmarkSimScore, benchmarkScore)
     topPerfectionSimScore = Math.max(topPerfectionSimScore, perfectionScore)

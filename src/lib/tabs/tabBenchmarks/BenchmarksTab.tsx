@@ -8,7 +8,7 @@ import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import { handleBenchmarkFormSubmit } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
-import { CharacterEidolonFormRadio, RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
+import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
@@ -183,19 +183,6 @@ function RightPanel() {
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
       <Flex vertical gap={GAP}>
-        <HeaderText>Benchmark type</HeaderText>
-        <Flex style={{ width: '100%' }}>
-          <AntDForm.Item name='percentage' noStyle>
-            <Radio.Group
-              buttonStyle='solid'
-              style={{ width: '100%', display: 'flex' }}
-            >
-              <RadioButton value={100} text='100%'/>
-              <RadioButton value={200} text='200%'/>
-            </Radio.Group>
-          </AntDForm.Item>
-        </Flex>
-
         <HeaderText>Benchmark sets</HeaderText>
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>

@@ -620,12 +620,13 @@ export default function RelicsTab() {
   function deletePerform() {
     if (selectedRelics.length === 0) return Message.error(t('Messages.NoRelicSelected')/* No relic selected */)
 
-    selectedRelics.forEach((relic) => {
-      DB.deleteRelic(relic.id)
+    selectedRelicIDs.forEach((id) => {
+      DB.deleteRelic(id)
     })
 
     setRelicRows(DB.getRelics())
-    setSelectedRelic(undefined)
+    setSelectedRelicID(undefined)
+    setSelectedRelicIDs([])
     SaveState.delayedSave()
 
     Message.success(t('Messages.DeleteRelicSuccess')/* Successfully deleted relic */)

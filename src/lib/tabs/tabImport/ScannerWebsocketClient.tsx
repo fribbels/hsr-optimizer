@@ -273,10 +273,14 @@ function updateCharacter(state: Readonly<ScannerStore>, character: V4ParserChara
 }
 
 function deleteRelic(state: Readonly<ScannerStore>, relicId: string) {
+    const relic = state.relics[relicId]
     state.deleteRelic(relicId)
 
     if (state.ingest) {
-        DB.deleteRelic(relicId)
+        // Only 5* relics will exist in the DB as we drop everything else
+        if (relic.rarity === 5) {
+            DB.deleteRelic(relicId)
+        }
     }
 }
 

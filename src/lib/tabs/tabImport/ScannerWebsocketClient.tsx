@@ -15,6 +15,9 @@ type ScannerState = {
     // Whether to ingest data from the scanner websocket
     ingest: boolean
 
+    // Whether to ingest character data from the scanner websocket
+    ingestCharacters: boolean
+
     // Relics parsed from the scanner websocket
     // key: relic unique id
     relics: Record<string, V4ParserRelic>
@@ -31,6 +34,9 @@ type ScannerState = {
 type ScannerActions = {
     // Turn on/off ingestion of scanner data
     setIngest: (ingest: boolean) => void
+
+    // Turn on/off ingestion of character data from the scanner websocket
+    setIngestCharacters: (ingest: boolean) => void
 
     // Fetch the full scan data, refreshed with the latest data
     buildFullScanData: () => ScannerParserJson | null
@@ -69,6 +75,7 @@ type ScannerStore = ScannerState & ScannerActions & PrivateScannerState & Privat
 const usePrivateScannerState = create<ScannerStore>((set, get) => ({
     connected: false,
     ingest: false,
+    ingestCharacters: false,
 
     lastScanData: null,
 
@@ -80,9 +87,21 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
         set({ ingest })
 
         if (ingest) {
+            const state = get()
+            const fullScanData = state.buildFullScanData()
+            if (fullScanData) {
+                ingestFullScan(fullScanData, state.ingestCharacters)
+            }
+        }
+    },
+
+    setIngestCharacters: (ingestCharacters: boolean) => {
+        set({ ingestCharacters })
+
+        if (ingestCharacters) {
             const fullScanData = get().buildFullScanData()
             if (fullScanData) {
-                ingestFullScan(fullScanData)
+                ingestFullScan(fullScanData, ingestCharacters)
             }
         }
     },
@@ -92,6 +111,8 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 
         /* always reset state when connection status changes */ 
         ingest: false,
+        ingestCharacters: false,
+
         relics: {},
         lightCones: {},
         characters: {},
@@ -165,18 +186,20 @@ type ScannerEvent =
     | { event: "DeleteRelic", data: string } // data: unique id
     | { event: "DeleteLightCone", data: string } // data: unique id
 
-function ingestFullScan(data: ScannerParserJson) {
+function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
     const newScan = ReliquaryArchiverParser.parse(data)
     if (newScan) {
-        // TODO: Merge with input form
-        // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-        newScan.characters = newScan.characters.sort((a, b) => b.characterLevel - a.characterLevel)
-        newScan.characters.map((c) => {
-            c.characterLevel = 80
-            c.lightConeLevel = 80
-        })
+        if (updateCharacters) {
+            // TODO: Merge with input form
+            // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
+            newScan.characters = newScan.characters.sort((a, b) => b.characterLevel - a.characterLevel)
+            newScan.characters.map((c) => {
+                c.characterLevel = 80
+                c.lightConeLevel = 80
+            })
+        }
 
-        DB.mergeRelicsWithState(newScan.relics, newScan.characters)
+        DB.mergeRelicsWithState(newScan.relics, updateCharacters ? newScan.characters : [])
         console.info("Ingested initial scan")
     }
 }
@@ -185,7 +208,7 @@ function initialScan(state: Readonly<ScannerStore>, data: ScannerParserJson) {
     state.updateInitialScan(data)
 
     if (state.ingest) {
-        ingestFullScan(data)
+        ingestFullScan(data, state.ingestCharacters)
     }
 }
 
@@ -195,15 +218,15 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
     if (state.ingest) {
         let newRelic = ReliquaryArchiverParser.parseRelic(relic)
         if (newRelic) {
+            if (newRelic.grade !== 5) {
+                return // Ignore non-5* relics
+            }
+
             const oldRelic = DB.getRelicById(newRelic.id)
 
             // Only rescore if the relic stats have changed
-            if (!oldRelic || TsUtils.objectHash(oldRelic.augmentedStats) !== TsUtils.objectHash(newRelic.augmentedStats)) {
-                // Hack to prevent excessive resource usage, only rescore 5* relics on initial import
-                if (newRelic.grade === 5) {
-                    window.rescoreSingleRelic(newRelic)
-                }
-            } else if (oldRelic != null) {
+            const needsRescore = !oldRelic || TsUtils.objectHash(oldRelic.augmentedStats) !== TsUtils.objectHash(newRelic.augmentedStats)
+            if (oldRelic != null) {
                 // Copy over stats
                 // TODO: Deduplicate from DB.mergeRelicsWithState
                 if (newRelic.verified || !oldRelic.verified) {
@@ -213,10 +236,17 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
                     oldRelic.augmentedStats = newRelic.augmentedStats
                 }
           
-                // Update the owner of the existing relic with the newly imported owner
-                oldRelic.equippedBy = newRelic.equippedBy
+                // Only update the owner if we are ingesting characters
+                if (state.ingestCharacters) {
+                    // Update the owner of the existing relic with the newly imported owner
+                    oldRelic.equippedBy = newRelic.equippedBy
+                }
 
                 newRelic = oldRelic
+            }
+
+            if (needsRescore) {
+                window.rescoreSingleRelic(newRelic)
             }
 
             DB.setRelic(newRelic)
@@ -298,6 +328,7 @@ export function ScannerWebsocket() {
                 DB.refreshRelics()
 
                 window.relicsGrid?.current?.api.redrawRows()
+                window.optimizerGrid?.current?.api.redrawRows()
             })
             
             SaveState.delayedSave()        

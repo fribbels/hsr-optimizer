@@ -36,7 +36,7 @@ export function ScannerImportSubmenu() {
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
-  const { connected, ingest, setIngest } = useScannerState()
+  const { connected, ingest, setIngest, ingestCharacters, setIngestCharacters } = useScannerState()
   const { t } = useTranslation(['importSaveTab', 'common'])
 
   function beforeUpload(file): Promise<any> {
@@ -241,14 +241,25 @@ export function ScannerImportSubmenu() {
 
               {t('Import.Stage1.Or')}
 
-              <Flex gap={10} align='center'>
-                <Switch
-                  disabled={!connected}
-                  checked={connected && ingest}
-                  onChange={(checked) => setIngest(checked)}
-                />
+              <Flex gap={20} align='center'>
+                <Flex gap={10} align='center'>
+                  <Switch
+                    disabled={!connected}
+                    checked={connected && ingest}
+                    onChange={(checked) => setIngest(checked)}
+                  />
 
-                <Text>Live Import</Text>
+                  <Text>Live Import</Text>
+                </Flex>
+                <Flex gap={10} align='center'>
+                  <Switch
+                    disabled={!connected || !ingest}
+                    checked={connected && ingest && ingestCharacters}
+                    onChange={(checked) => setIngestCharacters(checked)}
+                  />
+
+                  <Text>Live Characters</Text>
+                </Flex>
               </Flex>
             </Flex>
           </Flex>

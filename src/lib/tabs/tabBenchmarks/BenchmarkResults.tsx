@@ -13,7 +13,7 @@ import { Assets } from 'lib/rendering/assets'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
 import { Simulation } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
-import { BenchmarkForm, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -33,7 +33,6 @@ type BenchmarkRow = {
   simLinkRope: string
 
   simulation: Simulation
-  benchmarkForm: BenchmarkForm
   orchestrator: BenchmarkSimulationOrchestrator
 }
 
@@ -44,7 +43,7 @@ export function BenchmarkResults() {
     benchmarkCache,
   } = useBenchmarksTabStore()
   console.log(benchmarkCache)
-  if (!benchmarkForm || !orchestrator) return <></>
+  if (!benchmarkCache) return <></>
 
   const columns: TableProps<BenchmarkRow>['columns'] = [
     {
@@ -96,7 +95,8 @@ export function BenchmarkResults() {
     },
   ]
 
-  const dataSource = generateBenchmarkRows(benchmarkForm, orchestrator)
+  const { rows100, rows200 } = generateBenchmarkRows(benchmarkCache)
+  const dataSource = benchmarkForm?.percentage == 100 ? rows100 : rows200
 
   console.log(dataSource)
 
@@ -129,10 +129,10 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const simulation = row.simulation
   const orchestrator = row.orchestrator
   const result = simulation.result!
-  const benchmarkForm = row.benchmarkForm
+  const characterId = orchestrator.form!.characterId
   const basicStats = toBasicStatsObject(result.ca)
   const combatStats = toComputedStatsObject(result.xa)
-  const element = DB.getMetadata().characters[benchmarkForm.characterId].element
+  const element = DB.getMetadata().characters[characterId].element
 
   return (
     <Flex style={{ margin: 8 }} gap={10} justify='space-around'>
@@ -140,7 +140,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         <HeaderText style={{ fontSize: 16 }}>Combat Stats</HeaderText>
 
         <CharacterStatSummary
-          characterId={benchmarkForm.characterId}
+          characterId={characterId}
           finalStats={basicStats}
           elementalDmgValue={ElementToDamage[element]}
           simScore={result.simScore}
@@ -154,7 +154,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         <HeaderText style={{ fontSize: 16 }}>Combat Stats</HeaderText>
 
         <CharacterStatSummary
-          characterId={benchmarkForm.characterId}
+          characterId={characterId}
           finalStats={combatStats}
           elementalDmgValue={ElementToDamage[element]}
           simScore={result.simScore}
@@ -240,10 +240,7 @@ function renderDeltaPercent() {
   }
 }
 
-function generateBenchmarkRows(benchmarkForm: BenchmarkForm, orchestrator: BenchmarkSimulationOrchestrator) {
-  const candidates = benchmarkForm.percentage == 200 ? orchestrator.perfectionSimCandidates! : orchestrator.benchmarkSimCandidates!
-  const top = benchmarkForm.percentage == 200 ? orchestrator.perfectionSimResult!.simScore : orchestrator.benchmarkSimResult!.simScore
-
+function aggregateCandidates(candidates: Simulation[], top: number, orchestrator: BenchmarkSimulationOrchestrator) {
   const dataSource: BenchmarkRow[] = candidates.map((simulation: Simulation) => {
     const request = simulation.request
     const comboDmg = simulation.result!.simScore
@@ -255,7 +252,6 @@ function generateBenchmarkRows(benchmarkForm: BenchmarkForm, orchestrator: Bench
       comboDmg: comboDmg,
       deltaPercent: delta * 100,
       simulation: simulation,
-      benchmarkForm: benchmarkForm,
       orchestrator: orchestrator,
     }
 
@@ -263,6 +259,36 @@ function generateBenchmarkRows(benchmarkForm: BenchmarkForm, orchestrator: Bench
   }).sort((a, b) => b.comboDmg - a.comboDmg)
 
   return dataSource
+}
+
+function generateBenchmarkRows(benchmarkCache: Record<string, BenchmarkSimulationOrchestrator>) {
+  let rows100: BenchmarkRow[] = []
+  let rows200: BenchmarkRow[] = []
+  const orchestrators = Object.values(benchmarkCache)
+
+  let topBenchmarkSimScore = 0
+  let topPerfectionSimScore = 0
+
+  for (const orchestrator of orchestrators) {
+    const benchmarkScore = orchestrator.benchmarkSimResult?.simScore || 0
+    const perfectionScore = orchestrator.perfectionSimResult?.simScore || 0
+
+    topBenchmarkSimScore = Math.max(topBenchmarkSimScore, benchmarkScore)
+    topPerfectionSimScore = Math.max(topPerfectionSimScore, perfectionScore)
+  }
+
+  for (const orchestrator of orchestrators) {
+    const dataSource100 = aggregateCandidates(orchestrator.benchmarkSimCandidates!, topBenchmarkSimScore, orchestrator)
+    const dataSource200 = aggregateCandidates(orchestrator.perfectionSimCandidates!, topPerfectionSimScore, orchestrator)
+
+    rows100 = rows100.concat(dataSource100)
+    rows200 = rows200.concat(dataSource200)
+  }
+
+  rows100.sort((a, b) => b.comboDmg - a.comboDmg)
+  rows200.sort((a, b) => b.comboDmg - a.comboDmg)
+
+  return { rows100, rows200 }
 }
 
 const benchmarkTableStyle = {

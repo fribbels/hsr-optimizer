@@ -28,7 +28,7 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
       console.log(orchestrator)
       console.log(cloneWorkerResult(orchestrator.perfectionSimResult!))
 
-      setResults(mergedBenchmarkForm, orchestrator, partialHash, fullHash)
+      setResults(orchestrator, partialHash, fullHash)
     })
 }
 

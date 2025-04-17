@@ -36,7 +36,6 @@ type BenchmarksTabState = {
   currentPartialHash: string | undefined
   benchmarkCache: Record<string, BenchmarkSimulationOrchestrator>
 
-  benchmarkForm: BenchmarkForm | undefined
   orchestrator: BenchmarkSimulationOrchestrator | undefined
 
   updateTeammate: (index: number, data: SimpleCharacter) => void
@@ -45,7 +44,7 @@ type BenchmarksTabState = {
   setCharacterModalOpen: (isOpen: boolean) => void
   setCharacterModalInitialCharacter: (character: SimpleCharacter | undefined) => void
   setSelectedTeammateIndex: (index: number | undefined) => void
-  setResults: (benchmarkForm: BenchmarkForm, orchestrator: BenchmarkSimulationOrchestrator, partialHash: string, fullHash: string) => void
+  setResults: (orchestrator: BenchmarkSimulationOrchestrator, partialHash: string, fullHash: string) => void
   resetCache: () => void
 }
 
@@ -96,8 +95,7 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   setCharacterModalOpen: (isOpen) => set({ isCharacterModalOpen: isOpen }),
   setCharacterModalInitialCharacter: (character?: SimpleCharacter) => set({ characterModalInitialCharacter: character }),
   setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
-  setResults: (benchmarkForm, orchestrator, partialHash, fullHash) => set((state) => ({
-    benchmarkForm,
+  setResults: (orchestrator, partialHash, fullHash) => set((state) => ({
     orchestrator,
     currentPartialHash: partialHash,
     benchmarkCache: {

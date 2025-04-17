@@ -264,7 +264,7 @@ function updateLightCone(state: Readonly<ScannerStore>, lightCone: V4ParserLight
 function updateCharacter(state: Readonly<ScannerStore>, character: V4ParserCharacter) {
     state.updateCharacter(character)
 
-    if (state.ingest) {
+    if (state.ingest && state.ingestCharacters) {
         const parsed = ReliquaryArchiverParser.parseCharacter(character, Object.values(state.lightCones))
         if (parsed) {
             DB.addFromForm(parsed, false)

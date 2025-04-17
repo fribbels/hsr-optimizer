@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { WebSocket } from "partysocket";
+import useWebSocket from "partysocket/use-ws";
 import { create, StoreApi, UseBoundStore } from "zustand";
 import { ScannerParserJson, V4ParserCharacter, V4ParserLightCone, V4ParserRelic } from "lib/importer/kelzFormatParser";
 import { ReliquaryArchiverParser } from "lib/importer/importConfig";
@@ -181,96 +181,88 @@ function ingestFullScan(data: ScannerParserJson) {
     }
 }
 
+function initialScan(state: Readonly<ScannerStore>, data: ScannerParserJson) {
+    state.updateInitialScan(data)
+
+    if (state.ingest) {
+        ingestFullScan(data)
+    }
+}
+
+function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
+    state.updateRelic(relic)
+
+    if (state.ingest) {
+        let newRelic = ReliquaryArchiverParser.parseRelic(relic)
+        if (newRelic) {
+            const oldRelic = DB.getRelicById(newRelic.id)
+
+            // Only rescore if the relic stats have changed
+            if (!oldRelic || TsUtils.objectHash(oldRelic.augmentedStats) !== TsUtils.objectHash(newRelic.augmentedStats)) {
+                // Hack to prevent excessive resource usage, only rescore 5* relics on initial import
+                if (newRelic.grade === 5) {
+                    window.rescoreSingleRelic(newRelic)
+                }
+            } else if (oldRelic != null) {
+                // Copy over stats
+                // TODO: Deduplicate from DB.mergeRelicsWithState
+                if (newRelic.verified || !oldRelic.verified) {
+                    // Inherit the new verified speed stats
+                    oldRelic.verified = newRelic.verified
+                    oldRelic.substats = newRelic.substats
+                    oldRelic.augmentedStats = newRelic.augmentedStats
+                }
+          
+                // Update the owner of the existing relic with the newly imported owner
+                oldRelic.equippedBy = newRelic.equippedBy
+
+                newRelic = oldRelic
+            }
+
+            DB.setRelic(newRelic)
+        }
+    }
+}
+
+function updateLightCone(state: Readonly<ScannerStore>, lightCone: V4ParserLightCone) {
+    state.updateLightCone(lightCone)
+
+    // Light Cones are not ingested
+    // Only used for determining equipment on characters
+}
+
+function updateCharacter(state: Readonly<ScannerStore>, character: V4ParserCharacter) {
+    state.updateCharacter(character)
+
+    if (state.ingest) {
+        const parsed = ReliquaryArchiverParser.parseCharacter(character, Object.values(state.lightCones))
+        if (parsed) {
+            DB.addFromForm(parsed, false)
+        }
+    }
+}
+
+function deleteRelic(state: Readonly<ScannerStore>, relicId: string) {
+    state.deleteRelic(relicId)
+
+    if (state.ingest) {
+        DB.deleteRelic(relicId)
+    }
+}
+
+function deleteLightCone(state: Readonly<ScannerStore>, lightConeId: string) {
+    state.deleteLightCone(lightConeId)
+}
+
 export function ScannerWebsocket() {
-    useEffect(() => {
-        const ws = new WebSocket('ws://localhost:53313/ws', undefined, {
-            maxReconnectionDelay: 1000,
-        })
-
-        ws.addEventListener("open", () => {
+    useWebSocket("ws://127.0.0.1:53313/ws", undefined, {
+        onOpen: () => {
             usePrivateScannerState.getState().setConnected(true)
-        })
-
-        ws.addEventListener("close", () => {
+        },
+        onClose: () => {
             usePrivateScannerState.getState().setConnected(false)
-        })
-
-        function initialScan(state: Readonly<ScannerStore>, data: ScannerParserJson) {
-            state.updateInitialScan(data)
-
-            if (state.ingest) {
-                ingestFullScan(data)
-            }
-        }
-
-        function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
-            state.updateRelic(relic)
-
-            if (state.ingest) {
-                let newRelic = ReliquaryArchiverParser.parseRelic(relic)
-                if (newRelic) {
-                    const oldRelic = DB.getRelicById(newRelic.id)
-
-                    // Only rescore if the relic stats have changed
-                    if (!oldRelic || TsUtils.objectHash(oldRelic.augmentedStats) !== TsUtils.objectHash(newRelic.augmentedStats)) {
-                        // Hack to prevent excessive resource usage, only rescore 5* relics on initial import
-                        if (newRelic.grade === 5) {
-                            window.rescoreSingleRelic(newRelic)
-                        }
-                    } else if (oldRelic != null) {
-                        // Copy over stats
-                        // TODO: Deduplicate from DB.mergeRelicsWithState
-                        if (newRelic.verified || !oldRelic.verified) {
-                            // Inherit the new verified speed stats
-                            oldRelic.verified = newRelic.verified
-                            oldRelic.substats = newRelic.substats
-                            oldRelic.augmentedStats = newRelic.augmentedStats
-                        }
-                  
-                        if (newRelic.equippedBy) {
-                            // Update the owner of the existing relic with the newly imported owner
-                            oldRelic.equippedBy = newRelic.equippedBy
-                        }
-
-                        newRelic = oldRelic
-                    }
-
-                    DB.setRelic(newRelic)
-                }
-            }
-        }
-
-        function updateLightCone(state: Readonly<ScannerStore>, lightCone: V4ParserLightCone) {
-            state.updateLightCone(lightCone)
-
-            // Light Cones are not ingested
-            // Only used for determining equipment on characters
-        }
-
-        function updateCharacter(state: Readonly<ScannerStore>, character: V4ParserCharacter) {
-            state.updateCharacter(character)
-
-            if (state.ingest) {
-                const parsed = ReliquaryArchiverParser.parseCharacter(character, Object.values(state.lightCones))
-                if (parsed) {
-                    DB.addFromForm(parsed, false)
-                }
-            }
-        }
-
-        function deleteRelic(state: Readonly<ScannerStore>, relicId: string) {
-            state.deleteRelic(relicId)
-
-            if (state.ingest) {
-                DB.deleteRelic(relicId)
-            }
-        }
-
-        function deleteLightCone(state: Readonly<ScannerStore>, lightConeId: string) {
-            state.deleteLightCone(lightConeId)
-        }
-
-        ws.addEventListener("message", (message) => {
+        },
+        onMessage: (message) => {
             const event: ScannerEvent = JSON.parse(message.data)
             const state = usePrivateScannerState.getState()
             switch (event.event) {
@@ -296,23 +288,21 @@ export function ScannerWebsocket() {
                     console.error(`Unknown event: ${JSON.stringify(event)}`)
                     break
             }
-
+        
             debounceEffect("scannerWebsocketForceUpdates", 100, () => {
                 const activeKey = window.store.getState().activeKey
                 if (activeKey === AppPages.CHARACTERS) {
                     window.forceCharacterTabUpdate()
                 }
-
+        
                 DB.refreshRelics()
+
+                window.relicsGrid?.current?.api.redrawRows()
             })
             
-            SaveState.delayedSave()
-        })
-
-        return () => {
-            ws.close()
+            SaveState.delayedSave()        
         }
-    }, [])
+    })
 
     return null
 }

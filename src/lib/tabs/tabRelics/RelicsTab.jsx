@@ -21,7 +21,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { currentLocale } from 'lib/utils/i18nUtils.js'
 import Plotly from 'plotly.js/dist/plotly-basic'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import createPlotlyComponent from 'react-plotly.js/factory'
 
@@ -47,6 +47,18 @@ export default function RelicsTab() {
 
   const [selectedRelic, setSelectedRelic] = useState()
   const [selectedRelics, setselectedRelics] = useState([])
+  const refreshSelectedRelics = useReducer((state) => !state, false)
+  window.refreshSelectedRelics = refreshSelectedRelics
+  useEffect(() => {
+    if (selectedRelic) {
+      setSelectedRelic(DB.getRelicById(selectedRelic.id))
+    }
+
+    if (selectedRelics.length > 0) {
+      setselectedRelics(selectedRelics.map((x) => DB.getRelicById(x.id)))
+    }
+  }, [refreshSelectedRelics])
+
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
@@ -666,7 +678,7 @@ export default function RelicsTab() {
       setScoreBuckets(sb)
     }
   }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters, t])
-
+    
   return (
     <Flex style={{ width: TAB_WIDTH, marginBottom: 100 }}>
       <RelicModal

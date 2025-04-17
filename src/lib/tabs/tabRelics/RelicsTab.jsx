@@ -548,7 +548,7 @@ export default function RelicsTab() {
 
   const onSelectionChanged = useCallback((event) => {
     console.log('selectionChanged', event)
-    setselectedRelics(event.api.getSelectedRows())
+    setSelectedRelicIDs(event.api.getSelectedRows().map((r) => r.id))
   }, [])
 
   const rowClickedListener = useCallback((event) => {

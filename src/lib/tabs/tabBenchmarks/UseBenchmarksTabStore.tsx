@@ -37,7 +37,7 @@ type BenchmarksTabState = {
 
   orchestrator: BenchmarkSimulationOrchestrator | undefined
 
-  updateTeammate: (index: number, data: SimpleCharacter) => void
+  updateTeammate: (index: number, data?: SimpleCharacter) => void
   onCharacterModalOk: (character: Form) => void
 
   setCharacterModalOpen: (isOpen: boolean) => void
@@ -62,7 +62,7 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   orchestrator: undefined,
 
   // Update a specific teammate with new data
-  updateTeammate: (index, data: SimpleCharacter) => set((state) => {
+  updateTeammate: (index, data?: SimpleCharacter) => set((state) => {
     return {
       teammate0: index == 0 ? data : state.teammate0,
       teammate1: index == 1 ? data : state.teammate1,

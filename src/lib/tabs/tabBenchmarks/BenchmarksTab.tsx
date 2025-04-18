@@ -26,35 +26,34 @@ const HEADER_GAP = 5
 const MID_PANEL_WIDTH = 250
 const RIGHT_PANEL_WIDTH = 250
 
-const defaultForm = {
-  characterId: '1212',
+const defaultForm: Partial<BenchmarkForm> = {
+  // characterId: '1212',
+  // lightCone: '23014',
+  // simRelicSet1: 'Scholar Lost in Erudition',
+  // simRelicSet2: 'Scholar Lost in Erudition',
+  // simOrnamentSet: 'Rutilant Arena',
+  // basicSpd: 100,
+  // teammate0: {
+  //   characterId: '1101',
+  //   characterEidolon: 3,
+  //   lightCone: '23003',
+  //   lightConeSuperimposition: 1,
+  // },
+  // teammate1: {
+  //   characterId: '1309',
+  //   characterEidolon: 0,
+  //   lightCone: '22002',
+  //   lightConeSuperimposition: 5,
+  // },
+  // teammate2: {
+  //   characterId: '1217',
+  //   characterEidolon: 1,
+  //   lightCone: '21000',
+  //   lightConeSuperimposition: 5,
+  // },
   characterEidolon: 0,
-  lightCone: '23014',
   lightConeSuperimposition: 1,
-  percentage: 200,
-  simRelicSet1: 'Scholar Lost in Erudition',
-  simRelicSet2: 'Scholar Lost in Erudition',
-  simOrnamentSet: 'Rutilant Arena',
-  basicSpd: 100,
   errRope: false,
-  teammate0: {
-    characterId: '1101',
-    characterEidolon: 3,
-    lightCone: '23003',
-    lightConeSuperimposition: 1,
-  },
-  teammate1: {
-    characterId: '1309',
-    characterEidolon: 0,
-    lightCone: '22002',
-    lightConeSuperimposition: 5,
-  },
-  teammate2: {
-    characterId: '1217',
-    characterEidolon: 1,
-    lightCone: '21000',
-    lightConeSuperimposition: 5,
-  },
 }
 
 export default function BenchmarksTab(): ReactElement {

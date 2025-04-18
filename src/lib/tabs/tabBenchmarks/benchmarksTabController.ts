@@ -3,7 +3,7 @@ import { Message } from 'lib/interactions/message'
 import { cloneWorkerResult } from 'lib/scoring/simScoringUtils'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/runCustomBenchmarkOrchestrator'
 import DB from 'lib/state/db'
-import { BenchmarkForm, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
@@ -16,6 +16,8 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
     teammate1,
     teammate2,
   }
+
+  if (invalidBenchmarkForm(mergedBenchmarkForm)) return
 
   const partialHash = generatePartialHash(mergedBenchmarkForm)
   const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
@@ -32,6 +34,32 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
 
       setResults(orchestrator, partialHash, fullHash)
     })
+}
+
+function invalidSimpleCharacter(simpleCharacter?: SimpleCharacter) {
+  return simpleCharacter == null
+    || simpleCharacter.characterId == null
+    || simpleCharacter.characterEidolon == null
+    || simpleCharacter.lightCone == null
+    || simpleCharacter.lightConeSuperimposition == null
+}
+
+function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
+  if (invalidSimpleCharacter(benchmarkForm)
+    || invalidSimpleCharacter(benchmarkForm.teammate0)
+    || invalidSimpleCharacter(benchmarkForm.teammate1)
+    || invalidSimpleCharacter(benchmarkForm.teammate2)
+  ) {
+    Message.error('Missing character/lightcone/teammates', 10)
+    return true
+  }
+
+  if (benchmarkForm.basicSpd == null) {
+    Message.error('Select the target benchmark basic SPD', 10)
+    return true
+  }
+
+  return false
 }
 
 // If these fields are different, then benchmarks can't be compared
@@ -52,6 +80,8 @@ function generatePartialHash(benchmarkForm: BenchmarkForm) {
 }
 
 export function handleCharacterSelectChange(id: string, form: FormInstance<BenchmarkForm>) {
+  if (!id) return
+
   const scoringMetadata = DB.getScoringMetadata(id)
   const simulationMetadata = scoringMetadata?.simulation
   if (!simulationMetadata) {
@@ -60,12 +90,15 @@ export function handleCharacterSelectChange(id: string, form: FormInstance<Bench
 
   const character = DB.getCharacterById(id)
   if (character) {
-    console.log(simulationMetadata)
-    console.log(simulationMetadata)
     form.setFieldsValue({
       lightCone: character.form.lightCone ?? undefined,
       characterEidolon: character.form.characterEidolon ?? 0,
       lightConeSuperimposition: character.form.lightConeSuperimposition ?? 1,
+    })
+  } else {
+    form.setFieldsValue({
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
     })
   }
 

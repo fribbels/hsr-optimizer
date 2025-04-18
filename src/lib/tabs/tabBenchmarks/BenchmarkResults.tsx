@@ -142,15 +142,17 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
 }
 
 function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[]; dataSource200: BenchmarkRow[] }) {
+  const spd = dataSource100[0]?.orchestrator.flags.forceBasicSpdValue
+  const suffix = `(${spd} SPD)`
   const items: TabsProps['items'] = [
     {
       key: '100',
-      label: '100% Benchmark Builds',
+      label: `100% Benchmark Builds ${suffix}`,
       children: <BenchmarkTable dataSource={dataSource100}/>,
     },
     {
       key: '200',
-      label: '200% Perfection Builds',
+      label: `200% Perfection Builds ${suffix}`,
       children: <BenchmarkTable dataSource={dataSource200}/>,
     },
   ]

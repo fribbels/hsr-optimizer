@@ -10,6 +10,7 @@ import {
   saveStatSimulationBuildFromForm,
   startOptimizerStatSimulation,
 } from 'lib/simulations/statSimulationController'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
@@ -230,6 +231,16 @@ function SimulationInputs() {
 
 export function SetsSection(props: { simType: string }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
+  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
+
+  // Save a click by assuming the first relic set is a 4p
+  const handleRelicSet1Change = (value: string) => {
+    const path2 = formName(props.simType, 'simRelicSet2')
+    benchmarkForm.setFieldsValue({
+      [path2.join('.')]: value,
+    })
+  }
+
   return (
     <>
       <AntDForm.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
@@ -241,6 +252,7 @@ export function SetsSection(props: { simType: string }) {
           allowClear
           options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
+          onChange={handleRelicSet1Change}
           placeholder={t('SetSelection.RelicPlaceholder')}// 'Relic set'
           maxTagCount='responsive'
           showSearch

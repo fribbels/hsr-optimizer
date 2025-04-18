@@ -226,28 +226,16 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
 
             // Only rescore if the relic stats have changed
             const needsRescore = !oldRelic || TsUtils.objectHash(oldRelic.augmentedStats) !== TsUtils.objectHash(newRelic.augmentedStats)
-            if (oldRelic != null) {
-                // Copy over stats
-                // TODO: Deduplicate from DB.mergeRelicsWithState
-                if (newRelic.verified || !oldRelic.verified) {
-                    // Inherit the new verified speed stats
-                    oldRelic.verified = newRelic.verified
-                    oldRelic.main = newRelic.main
-                    oldRelic.substats = newRelic.substats
-                    oldRelic.augmentedStats = newRelic.augmentedStats
-                }
-          
-                // Only update the owner if we are ingesting characters
-                if (state.ingestCharacters) {
-                    // Update the owner of the existing relic with the newly imported owner
-                    oldRelic.equippedBy = newRelic.equippedBy
-                }
-
-                newRelic = oldRelic
+            if (oldRelic != null && !state.ingestCharacters) {
+                // Keep the owner of relic as the existing owner when character ingestion is disabled
+                newRelic.equippedBy = oldRelic.equippedBy
             }
 
             if (needsRescore) {
                 window.rescoreSingleRelic(newRelic)
+            } else {
+                // Copy over weights from the existing relic
+                newRelic.weights = oldRelic?.weights
             }
 
             DB.setRelic(newRelic)

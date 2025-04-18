@@ -235,6 +235,7 @@ export const CharacterScoringSummary = (props: {
           <SubstatRollsSummary
             simRequest={simulation.request}
             precision={precision}
+            diminish={props.type == 'Benchmark'}
             columns={2}
           />
         </Flex>

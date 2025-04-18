@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import { Stats, StatsKeys, SubStats } from 'lib/constants/constants'
+import { Stats, SubStats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { diminishingReturnsFormula, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
 import { SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
@@ -11,27 +11,30 @@ import { useTranslation } from 'react-i18next'
 interface SubstatRollsSummaryProps {
   simRequest: SimulationRequest
   precision: number
+  diminish: boolean
   columns?: 1 | 2
 }
 
-export function SubstatRollsSummary({ simRequest, precision, columns = 2 }: SubstatRollsSummaryProps) {
+export function SubstatRollsSummary({ simRequest, precision, diminish, columns = 2 }: SubstatRollsSummaryProps) {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
   const stats = simRequest.stats
   const diminishingReturns: Record<string, number> = {}
-  for (const [stat, rolls] of Object.entries(simRequest.stats)) {
-    const mainsCount = [
-      simRequest.simBody,
-      simRequest.simFeet,
-      simRequest.simPlanarSphere,
-      simRequest.simLinkRope,
-      Stats.ATK,
-      Stats.HP,
-    ].filter((x) => x == stat).length
-    if (stat == Stats.SPD) {
-      diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
-    } else {
-      diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+  if (diminish) {
+    for (const [stat, rolls] of Object.entries(simRequest.stats)) {
+      const mainsCount = [
+        simRequest.simBody,
+        simRequest.simFeet,
+        simRequest.simPlanarSphere,
+        simRequest.simLinkRope,
+        Stats.ATK,
+        Stats.HP,
+      ].filter((x) => x == stat).length
+      if (stat == Stats.SPD) {
+        diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
+      } else {
+        diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+      }
     }
   }
 
@@ -47,7 +50,7 @@ export function SubstatRollsSummary({ simRequest, precision, columns = 2 }: Subs
 
   return (
     <Flex vertical gap={defaultGap}>
-      {columns === 2 
+      {columns === 2
         ? (
           <Flex justify='space-between'>
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
@@ -68,7 +71,7 @@ export function SubstatRollsSummary({ simRequest, precision, columns = 2 }: Subs
               {renderStatRow(Stats.BE)}
             </Flex>
           </Flex>
-        ) 
+        )
         : (
           <Flex vertical gap={defaultGap} style={{ width: 150 }}>
             {renderStatRow(Stats.ATK_P)}

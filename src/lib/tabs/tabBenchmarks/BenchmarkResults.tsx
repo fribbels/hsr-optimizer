@@ -33,6 +33,7 @@ type BenchmarkRow = {
   simPlanarSphere: string
   simLinkRope: string
 
+  percentage: number
   simulation: Simulation
   orchestrator: BenchmarkSimulationOrchestrator
 }
@@ -177,7 +178,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   return (
     <Flex style={{ margin: 8 }} gap={10} justify='space-around'>
       <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>Combat Stats</HeaderText>
+        <HeaderText style={{ fontSize: 16 }}>Basic Stats</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -210,6 +211,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         <SubstatRollsSummary
           simRequest={simulation.request}
           precision={0}
+          diminish={row.percentage == 100}
           columns={1}
         />
       </Flex>
@@ -280,7 +282,7 @@ function renderDeltaPercent() {
   }
 }
 
-function aggregateCandidates(candidates: Simulation[], top: number, orchestrator: BenchmarkSimulationOrchestrator) {
+function aggregateCandidates(candidates: Simulation[], top: number, orchestrator: BenchmarkSimulationOrchestrator, percentage: number) {
   const dataSource: BenchmarkRow[] = candidates.map((simulation: Simulation) => {
     const request = simulation.request
     const comboDmg = simulation.result!.simScore
@@ -291,6 +293,7 @@ function aggregateCandidates(candidates: Simulation[], top: number, orchestrator
       key: TsUtils.uuid(),
       comboDmg: comboDmg,
       deltaPercent: delta * 100,
+      percentage: percentage,
       simulation: simulation,
       orchestrator: orchestrator,
     }
@@ -318,8 +321,8 @@ function generateBenchmarkRows(benchmarkCache: Record<string, BenchmarkSimulatio
   }
 
   for (const orchestrator of orchestrators) {
-    const dataSource100 = aggregateCandidates(orchestrator.benchmarkSimCandidates!, topBenchmarkSimScore, orchestrator)
-    const dataSource200 = aggregateCandidates(orchestrator.perfectionSimCandidates!, topPerfectionSimScore, orchestrator)
+    const dataSource100 = aggregateCandidates(orchestrator.benchmarkSimCandidates!, topBenchmarkSimScore, orchestrator, 100)
+    const dataSource200 = aggregateCandidates(orchestrator.perfectionSimCandidates!, topPerfectionSimScore, orchestrator, 200)
 
     rows100 = rows100.concat(dataSource100)
     rows200 = rows200.concat(dataSource200)

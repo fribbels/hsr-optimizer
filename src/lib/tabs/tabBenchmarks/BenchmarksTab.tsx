@@ -176,6 +176,9 @@ function MiddlePanel() {
 }
 
 function RightPanel() {
+  const {
+    resetCache,
+  } = useBenchmarksTabStore()
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
   const width = 85
@@ -215,8 +218,7 @@ function RightPanel() {
         </Button>
         <Button
           onClick={() => {
-            const formValues = benchmarkForm.getFieldsValue()
-            handleBenchmarkFormSubmit(formValues)
+            resetCache()
           }}
           style={{ width: '100%' }}
           type='default'

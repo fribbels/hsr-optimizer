@@ -771,7 +771,8 @@ a {
 }
 
 .ant-table-row-expand-icon-cell {
-    padding-left: 8px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
 }
 
 .benchmark-tabs .ant-tabs-nav-list {

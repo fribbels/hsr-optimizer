@@ -1,5 +1,6 @@
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { Flex, Table, TableProps, Tabs, TabsProps } from 'antd'
+import { Flex, Table, TableProps, Tabs, TabsProps, Tag, Typography } from 'antd'
+import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
@@ -21,10 +22,13 @@ import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 
+const { Text } = Typography
+
 type BenchmarkRow = {
   key: string
   comboDmg: number
   deltaPercent: number
+  deltaBaselinePercent: number
   simRelicSet1: string
   simRelicSet2: string
   simOrnamentSet: string
@@ -40,51 +44,49 @@ type BenchmarkRow = {
 
 const columns: TableProps<BenchmarkRow>['columns'] = [
   {
-    title: 'Sets',
-    dataIndex: 'simRelicSet1',
-    align: 'center',
-    render: renderSets(),
-    width: '15%',
-  },
-  {
-    title: 'Body',
-    dataIndex: 'simBody',
-    align: 'center',
-    render: renderStat(),
-    width: '15%',
-  },
-  {
-    title: 'Feet',
-    dataIndex: 'simFeet',
-    align: 'center',
-    render: renderStat(),
-    width: '15%',
-  },
-  {
-    title: 'Planar Sphere',
-    dataIndex: 'simPlanarSphere',
-    align: 'center',
-    render: renderStat(),
-    width: '15%',
-  },
-  {
-    title: 'Link Rope',
-    dataIndex: 'simLinkRope',
-    align: 'center',
-    render: renderStat(),
-    width: '15%',
-  },
-  {
     title: 'Combo DMG',
     dataIndex: 'comboDmg',
     align: 'center',
     render: renderComboDmg(),
+    width: 200,
   },
   {
     title: 'Delta',
     dataIndex: 'deltaPercent',
     align: 'center',
     render: renderDeltaPercent(),
+    width: 100,
+  },
+  {
+    title: 'Body',
+    dataIndex: 'simBody',
+    align: 'center',
+    render: renderStat(),
+  },
+  {
+    title: 'Feet',
+    dataIndex: 'simFeet',
+    align: 'center',
+    render: renderStat(),
+  },
+  {
+    title: 'Planar Sphere',
+    dataIndex: 'simPlanarSphere',
+    align: 'center',
+    render: renderStat(),
+  },
+  {
+    title: 'Link Rope',
+    dataIndex: 'simLinkRope',
+    align: 'center',
+    render: renderStat(),
+  },
+  {
+    title: 'Sets',
+    dataIndex: 'simRelicSet1',
+    align: 'center',
+    render: renderSets(),
+    width: 150,
   },
 ]
 
@@ -258,9 +260,28 @@ function renderSets() {
 }
 
 function renderComboDmg() {
-  return (n: number) => (
-    <Flex align='center' justify='center' gap={5}>
-      {`${localeNumber_0(n / 1000)}K`}
+  return (n: number, row: BenchmarkRow) => (
+    <Flex style={{ height: '100%', width: '100%', position: 'absolute', top: 0, left: 0 }} align='center'>
+      <div
+        style={{
+          display: 'block',
+          width: `${(100 - row.deltaBaselinePercent)}%`,
+          borderTopRightRadius: 4,
+          borderBottomRightRadius: 4,
+          position: 'absolute',
+          height: '100%',
+          backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0.70, 0.90, 1])(1 - row.deltaBaselinePercent * 0.01).alpha(0.70).hex(),
+          zIndex: 1,
+        }}
+      />
+
+      <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
+        <Tag color='#000000aa' style={{ opacity: 1, border: 0, padding: '1px 12px 1px 12px' }}>
+          <Text style={{ margin: 0, alignItems: 'center' }}>
+            {`${localeNumber_0(n / 1000)}K`}
+          </Text>
+        </Tag>
+      </Flex>
     </Flex>
   )
 }
@@ -282,17 +303,21 @@ function renderDeltaPercent() {
   }
 }
 
-function aggregateCandidates(candidates: Simulation[], top: number, orchestrator: BenchmarkSimulationOrchestrator, percentage: number) {
+function aggregateCandidates(candidates: Simulation[], top: number, baseline: number, orchestrator: BenchmarkSimulationOrchestrator, percentage: number) {
   const dataSource: BenchmarkRow[] = candidates.map((simulation: Simulation) => {
     const request = simulation.request
     const comboDmg = simulation.result!.simScore
     const delta = (top - comboDmg) / top
+
+    // Compare the delta relative to the range from [top score to top baseline]
+    const deltaBaselinePercent = (top - comboDmg) / (top - baseline)
 
     const benchmarkRow: BenchmarkRow = {
       ...request,
       key: TsUtils.uuid(),
       comboDmg: comboDmg,
       deltaPercent: delta * 100,
+      deltaBaselinePercent: deltaBaselinePercent * 100,
       percentage: percentage,
       simulation: simulation,
       orchestrator: orchestrator,
@@ -311,18 +336,21 @@ function generateBenchmarkRows(benchmarkCache: Record<string, BenchmarkSimulatio
 
   let topBenchmarkSimScore = 0
   let topPerfectionSimScore = 0
+  let topBaselineScore = 0
 
   for (const orchestrator of orchestrators) {
     const benchmarkScore = orchestrator.benchmarkSimResult!.simScore
     const perfectionScore = orchestrator.perfectionSimResult!.simScore
+    const baselineScore = orchestrator.baselineSimResult!.simScore
 
     topBenchmarkSimScore = Math.max(topBenchmarkSimScore, benchmarkScore)
     topPerfectionSimScore = Math.max(topPerfectionSimScore, perfectionScore)
+    topBaselineScore = Math.max(topBaselineScore, baselineScore)
   }
 
   for (const orchestrator of orchestrators) {
-    const dataSource100 = aggregateCandidates(orchestrator.benchmarkSimCandidates!, topBenchmarkSimScore, orchestrator, 100)
-    const dataSource200 = aggregateCandidates(orchestrator.perfectionSimCandidates!, topPerfectionSimScore, orchestrator, 200)
+    const dataSource100 = aggregateCandidates(orchestrator.benchmarkSimCandidates!, topBenchmarkSimScore, topBaselineScore, orchestrator, 100)
+    const dataSource200 = aggregateCandidates(orchestrator.perfectionSimCandidates!, topPerfectionSimScore, topBaselineScore, orchestrator, 200)
 
     rows100 = rows100.concat(dataSource100)
     rows200 = rows200.concat(dataSource200)

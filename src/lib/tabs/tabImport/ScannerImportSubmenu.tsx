@@ -1,4 +1,4 @@
-import { RocketOutlined, UploadOutlined } from '@ant-design/icons'
+import { UploadOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Switch, Typography, Upload } from 'antd'
 import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'

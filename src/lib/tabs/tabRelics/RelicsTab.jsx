@@ -684,7 +684,7 @@ export default function RelicsTab() {
       setScoreBuckets(sb)
     }
   }, [plottedCharacterType, selectedRelic, excludedRelicPotentialCharacters, t])
-    
+
   return (
     <Flex style={{ width: TAB_WIDTH, marginBottom: 100 }}>
       <RelicModal

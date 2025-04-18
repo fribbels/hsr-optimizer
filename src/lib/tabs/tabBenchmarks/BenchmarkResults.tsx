@@ -239,7 +239,7 @@ function renderStat() {
   const t = i18next.getFixedT(null, 'common')
 
   return (stat: string) => (
-    <Flex align='center' justify='center' gap={5}>
+    <Flex align='center' justify='center' gap={2}>
       <img src={Assets.getStatIcon(stat)} style={{ width: ICON_SIZE }}/>
       <span>
         {t(`ReadableStats.${stat as SubStats}`)}

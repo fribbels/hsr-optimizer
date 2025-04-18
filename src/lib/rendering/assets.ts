@@ -1,6 +1,6 @@
 import { Constants, Parts, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, setToId, Stats } from 'lib/constants/constants'
-import { Languages } from 'lib/i18n/i18n'
 import { BASE_PATH } from 'lib/state/db'
+import { Languages } from 'lib/utils/i18nUtils'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 // const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
@@ -147,7 +147,7 @@ export const Assets = {
   },
 
   getSetImage: (set: string | number, part: string = Constants.Parts.PlanarSphere, actualIcon: boolean = false) => {
-    if (set == -1) {
+    if (set == -1 || !set) {
       return Assets.getBlank()
     }
 

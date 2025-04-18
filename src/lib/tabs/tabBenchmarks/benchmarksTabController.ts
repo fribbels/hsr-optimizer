@@ -1,5 +1,8 @@
+import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { Message } from 'lib/interactions/message'
 import { cloneWorkerResult } from 'lib/scoring/simScoringUtils'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/runCustomBenchmarkOrchestrator'
+import DB from 'lib/state/db'
 import { BenchmarkForm, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -46,4 +49,34 @@ function generatePartialHash(benchmarkForm: BenchmarkForm) {
   }
 
   return TsUtils.objectHash(hashObject)
+}
+
+export function handleCharacterSelectChange(id: string, form: FormInstance<BenchmarkForm>) {
+  const scoringMetadata = DB.getScoringMetadata(id)
+  const simulationMetadata = scoringMetadata?.simulation
+  if (!simulationMetadata) {
+    return Message.error('DPS benchmarks are not supported for this character', 10)
+  }
+
+  const character = DB.getCharacterById(id)
+  if (character) {
+    console.log(simulationMetadata)
+    console.log(simulationMetadata)
+    form.setFieldsValue({
+      lightCone: character.form.lightCone ?? undefined,
+      characterEidolon: character.form.characterEidolon ?? 0,
+      lightConeSuperimposition: character.form.lightConeSuperimposition ?? 1,
+    })
+  }
+
+  form.setFieldsValue({
+    simRelicSet1: simulationMetadata.relicSets[0]?.[0],
+    simRelicSet2: simulationMetadata.relicSets[0]?.[1],
+    simOrnamentSet: simulationMetadata.ornamentSets[0],
+  })
+
+  const state = useBenchmarksTabStore.getState()
+  state.updateTeammate(0, simulationMetadata.teammates[0])
+  state.updateTeammate(1, simulationMetadata.teammates[1])
+  state.updateTeammate(2, simulationMetadata.teammates[2])
 }

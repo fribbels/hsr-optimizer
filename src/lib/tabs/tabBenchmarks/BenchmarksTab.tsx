@@ -7,7 +7,7 @@ import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
-import { handleBenchmarkFormSubmit } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
+import { handleBenchmarkFormSubmit, handleCharacterSelectChange } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
@@ -78,7 +78,7 @@ export default function BenchmarksTab(): ReactElement {
     <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
       <Flex justify='space-around' style={{ margin: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          Benchmark Generator
+          Benchmark Generator (BETA)
         </pre>
       </Flex>
 
@@ -157,7 +157,10 @@ function MiddlePanel() {
       <Flex vertical gap={GAP}>
         <HeaderText>Character</HeaderText>
         <AntDForm.Item name='characterId' noStyle>
-          <CharacterSelect value=''/>
+          <CharacterSelect
+            value=''
+            onChange={(id: string) => handleCharacterSelectChange(id, form)}
+          />
         </AntDForm.Item>
         <CharacterEidolonFormRadio/>
       </Flex>

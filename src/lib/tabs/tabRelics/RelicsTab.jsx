@@ -48,13 +48,27 @@ export default function RelicsTab() {
 
   const [selectedRelicID, setSelectedRelicID] = useState()
   const [selectedRelicIDs, setSelectedRelicIDs] = useState([])
-  window.setSelectedRelicID = (id) => {
-    const rowNode = window.relicsGrid.current?.api.getRowNode(id)
-    if (rowNode && rowNode.displayed) {
-      setSelectedRelicID(id)
-      setSelectedRelicIDs([id])
-      rowNode.setSelected(true, /* remove other selections */ true)
-      window.relicsGrid.current.api.ensureNodeVisible(rowNode)
+  window.setSelectedRelicIDs = (ids) => {
+    setSelectedRelicID(ids[0])
+    setSelectedRelicIDs(ids)
+
+    // Ensure the grid is updated with the latest data
+    window.relicsGrid.current.api.updateGridOptions({ rowData: DB.getRelics() })
+
+    // Get the row nodes for the selected relics
+    const rowNodes = ids.map((id) => window.relicsGrid.current?.api.getRowNode(id)).filter((x) => x)
+
+    // Deselect all rows
+    window.relicsGrid.current.api.deselectAll()
+
+    // Select the new rows
+    window.relicsGrid.current.api.setNodesSelected({ nodes: rowNodes, newValue: true, source: "api" })
+
+    // Ensure the new rows are visible
+    window.relicsGrid.current.api.ensureNodeVisible(rowNodes[0])
+
+    if (rowNodes.length > 1) {
+      window.relicsGrid.current.api.ensureNodeVisible(rowNodes[rowNodes.length - 1])
     }
   }
 

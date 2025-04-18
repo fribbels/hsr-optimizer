@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useWebSocket from "partysocket/use-ws";
 import { create, StoreApi, UseBoundStore } from "zustand";
 import { ScannerParserJson, V4ParserCharacter, V4ParserLightCone, V4ParserRelic } from "lib/importer/kelzFormatParser";
@@ -278,6 +278,8 @@ function deleteLightCone(state: Readonly<ScannerStore>, lightConeId: string) {
 }
 
 export function ScannerWebsocket() {
+    const relicSelectionBuffer = useRef<string[]>([])
+
     useWebSocket("ws://127.0.0.1:53313/ws", undefined, {
         onOpen: () => {
             usePrivateScannerState.getState().setConnected(true)
@@ -294,6 +296,7 @@ export function ScannerWebsocket() {
                     break
                 case "UpdateRelic":
                     updateRelic(state, event.data)
+                    relicSelectionBuffer.current.push(event.data._uid)
                     break
                 case "UpdateLightCone":
                     updateLightCone(state, event.data)
@@ -314,15 +317,20 @@ export function ScannerWebsocket() {
         
             debounceEffect("scannerWebsocketForceUpdates", 100, () => {
                 DB.refreshRelics()
-                
+
                 const activeKey = window.store.getState().activeKey
                 switch (activeKey) {
                     case AppPages.CHARACTERS:
                         window.forceCharacterTabUpdate()
                         break
                     case AppPages.RELICS:
-                        if (event.event === "UpdateRelic") {
-                            window.setSelectedRelicID?.(event.data._uid)
+                        if (relicSelectionBuffer.current.length > 0) {
+                            const ids = Array.from(new Set(relicSelectionBuffer.current.filter(
+                                (id) => state.relics[id] // Ensure the relic still exists
+                            )))
+
+                            window.setSelectedRelicIDs?.(ids)
+                            relicSelectionBuffer.current = []
                         }
 
                         window.relicsGrid?.current?.api.redrawRows()                        

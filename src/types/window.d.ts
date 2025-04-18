@@ -53,7 +53,7 @@ declare global {
     setCharacterRows: (characters: Character[]) => void
     setRelicRows: (characters: Relic[]) => void
     setOptimizerBuild: (build?: Build) => void
-    setSelectedRelicID: (id: string) => void
+    setSelectedRelicIDs: (ids: string[]) => void
     setEditModalOpen: (open: boolean) => void
 
     // TODO see OptimizerForm

@@ -2,7 +2,6 @@ import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, Swap
 import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { generateCustomBenchmark } from 'lib/simulations/new/customBenchmark'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import {
   deleteAllStatSimulationBuilds,
@@ -66,18 +65,6 @@ export function StatSimulationDisplay() {
               value={StatSimTypes.SubstatRolls}
             >
               {t('ModeSelector.RollCount')/* Simulate custom substat rolls */}
-            </Radio>
-            {/* <Radio */}
-            {/*  style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} */}
-            {/*  value={StatSimTypes.SubstatTotals} */}
-            {/* > */}
-            {/*  {t('ModeSelector.Totals')/* Simulate custom substat totals *!/ */}
-            {/* </Radio> */}
-            <Radio
-              style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-              value={StatSimTypes.Benchmarks}
-            >
-              Benchmarks
             </Radio>
           </Radio.Group>
 
@@ -195,36 +182,36 @@ function SimulationInputs() {
           <SubstatsSection simType={StatSimTypes.SubstatRolls} title={t('RollsHeader')/* 'Substat max rolls' */} total={substatRollsTotal}/>
         </Flex>
 
-        <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.Benchmarks ? 'flex' : 'none' }}>
-          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-            <HeaderText>{t('SetSelection.Header')}</HeaderText>
-            <SetsSection simType={StatSimTypes.Benchmarks}/>
-            <MainStatsSection simType={StatSimTypes.Benchmarks}/>
+        {/* <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.Benchmarks ? 'flex' : 'none' }}> */}
+        {/*  <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}> */}
+        {/*    <HeaderText>{t('SetSelection.Header')}</HeaderText> */}
+        {/*    <SetsSection simType={StatSimTypes.Benchmarks}/> */}
+        {/*    <MainStatsSection simType={StatSimTypes.Benchmarks}/> */}
 
-            <HeaderText>{t('OptionsHeader')/* Options */}</HeaderText>
+        {/*    <HeaderText>{t('OptionsHeader')/* Options *!/</HeaderText> */}
 
-            <AntDForm.Item name={formName(StatSimTypes.Benchmarks, 'name')}>
-              <Input placeholder={t('SimulationNamePlaceholder')/* 'Simulation name (Optional)' */} autoComplete='off'/>
-            </AntDForm.Item>
-          </Flex>
+        {/*    <AntDForm.Item name={formName(StatSimTypes.Benchmarks, 'name')}> */}
+        {/*      <Input placeholder={t('SimulationNamePlaceholder')/* 'Simulation name (Optional)' *!/ autoComplete='off'/> */}
+        {/*    </AntDForm.Item> */}
+        {/*  </Flex> */}
 
-          <VerticalDivider/>
+        {/*  <VerticalDivider/> */}
 
-          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_STATS_WIDTH }}>
-            <HeaderText>Settings</HeaderText>
+        {/*  <Flex vertical gap={5} style={{ width: STAT_SIMULATION_STATS_WIDTH }}> */}
+        {/*    <HeaderText>Settings</HeaderText> */}
 
-            <AntDForm.Item name={formName(StatSimTypes.Benchmarks, 'benchmarkSpd')}>
-              <StatInput simType={StatSimTypes.Benchmarks} name={Stats.SPD} label='Min basic SPD'/>
-            </AntDForm.Item>
+        {/*    <AntDForm.Item name={formName(StatSimTypes.Benchmarks, 'benchmarkSpd')}> */}
+        {/*      <StatInput simType={StatSimTypes.Benchmarks} name={Stats.SPD} label='Min basic SPD'/> */}
+        {/*    </AntDForm.Item> */}
 
-            <Button onClick={generateCustomBenchmark}>
-              Generate 100% benchmark
-            </Button>
-            <Button>
-              Generate 200% benchmark
-            </Button>
-          </Flex>
-        </Flex>
+        {/*    <Button onClick={generateCustomBenchmark}> */}
+        {/*      Generate 100% benchmark */}
+        {/*    </Button> */}
+        {/*    <Button> */}
+        {/*      Generate 200% benchmark */}
+        {/*    </Button> */}
+        {/*  </Flex> */}
+        {/* </Flex> */}
 
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none' }}>
           <div style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}/>

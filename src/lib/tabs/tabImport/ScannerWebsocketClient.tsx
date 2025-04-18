@@ -313,15 +313,24 @@ export function ScannerWebsocket() {
             }
         
             debounceEffect("scannerWebsocketForceUpdates", 100, () => {
-                const activeKey = window.store.getState().activeKey
-                if (activeKey === AppPages.CHARACTERS) {
-                    window.forceCharacterTabUpdate()
-                }
-        
                 DB.refreshRelics()
+                
+                const activeKey = window.store.getState().activeKey
+                switch (activeKey) {
+                    case AppPages.CHARACTERS:
+                        window.forceCharacterTabUpdate()
+                        break
+                    case AppPages.RELICS:
+                        if (event.event === "UpdateRelic") {
+                            window.setSelectedRelicID?.(event.data._uid)
+                        }
 
-                window.relicsGrid?.current?.api.redrawRows()
-                window.optimizerGrid?.current?.api.redrawRows()
+                        window.relicsGrid?.current?.api.redrawRows()                        
+                        break
+                    case AppPages.OPTIMIZER:
+                        window.optimizerGrid?.current?.api.redrawRows()
+                        break
+                }
             })
             
             SaveState.delayedSave()        

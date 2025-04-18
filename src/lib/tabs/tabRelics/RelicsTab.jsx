@@ -48,6 +48,15 @@ export default function RelicsTab() {
 
   const [selectedRelicID, setSelectedRelicID] = useState()
   const [selectedRelicIDs, setSelectedRelicIDs] = useState([])
+  window.setSelectedRelicID = (id) => {
+    const rowNode = window.relicsGrid.current?.api.getRowNode(id)
+    if (rowNode && rowNode.displayed) {
+      setSelectedRelicID(id)
+      setSelectedRelicIDs([id])
+      rowNode.setSelected(true, /* remove other selections */ true)
+      window.relicsGrid.current.api.ensureNodeVisible(rowNode)
+    }
+  }
 
   // TODO: Can/should we memoize these?
   const selectedRelic = DB.getRelicById(selectedRelicID)

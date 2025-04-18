@@ -12,3 +12,7 @@ RelicPotentialLoadBehaviour:
   Label: 読み込み時に遺物のスコアを自動更新する
   OnStartup: "読み込み時に遺物を自動的にスコア計算する（デフォルト）"
   Manual: '「スコアを更新」をクリックした場合のみスコア計算する（ページの読み込みが速くなります）'
+ExpandedInfoPanelPosition:
+  Label: 最適化結果分析パネルの位置
+  Above: 遺物プレビューの上に表示する
+  Below: "遺物プレビューの下に表示する（デフォルト）"

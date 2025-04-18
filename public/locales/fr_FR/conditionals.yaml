@@ -1616,7 +1616,7 @@ Characters:
       talentStacks:
         text: Cumuls de bonus de DGT du talent
         content: >-
-          Chaque fois qu'un allié utilise 1 point de compétence, les DGT infligés par tous les alliés augmentent de {talentBaseStackBoost}%. Cet effet dure 2 tours et peut être cumulé jusqu'à 3 fois.::BR::E2: Chaque cumul de l'effet du talent permet aux alliés d'ignorer 8% de la DÉF de la cible lorsqu'ils infligent des DGT.
+          Chaque fois qu'un allié utilise 1 point de compétence, les DGT infligés par tous les alliés augmentent de {{talentBaseStackBoost}}%. Cet effet dure 2 tours et peut être cumulé jusqu'à 3 fois.::BR::E2: Chaque cumul de l'effet du talent permet aux alliés d'ignorer 8% de la DÉF de la cible lorsqu'ils infligent des DGT.
       quantumAlliesAtkBuff:
         text: Bonus d'ATQ pour alliés Quantiques
         content: Lorsqu'il y a 1/2/3 alliés de type quantique dans l'équipe, l'ATQ des alliés de type Quantique augmente de 5%/15%/30%.

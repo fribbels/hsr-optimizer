@@ -143,6 +143,8 @@ export const simulationWorkerPool = new WorkerPool()
 
 // Updated runner function to use the pool with debugging
 export async function runComputeOptimalSimulationWorker(input: any): Promise<any> {
+  // console.log(`[WorkerPool] Task input`, input)
+
   // Ensure workerType is set properly
   const enhancedInput = {
     ...input,

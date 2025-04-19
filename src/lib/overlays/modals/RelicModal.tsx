@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Image, Input, InputNumber, InputRef, Modal, Radio, Select, theme, Tooltip } from 'antd'
+import { Alert, Button, Flex, Form, Image, Input, InputNumber, InputRef, Modal, Radio, Select, theme, Tooltip } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
 import { Constants, MainStats, Parts, setToId, Stats, SubStats, UnreleasedSets } from 'lib/constants/constants'
@@ -8,6 +8,7 @@ import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } 
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -97,6 +98,8 @@ export default function RelicModal(props: {
   const [relicForm] = Form.useForm<RelicForm>()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
+
+  const isLiveImport = useScannerState((s) => s.ingest)
 
   useEffect(() => {
     if (props.open) {
@@ -336,6 +339,7 @@ export default function RelicModal(props: {
         width={560}
         centered
         destroyOnClose
+        closable={!isLiveImport} // Hide X button in live import mode as it overlaps with the alert
         open={props.open} //
         onCancel={() => props.setOpen(false)}
         footer={[
@@ -348,6 +352,8 @@ export default function RelicModal(props: {
         ]}
       >
         <Flex vertical gap={5}>
+
+          {isLiveImport && <Alert message='Live import mode is enabled, your changes might be overwritten.' type='warning' showIcon/>}
           <Flex gap={10}>
             <Flex vertical gap={5}>
 

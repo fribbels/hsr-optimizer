@@ -10,6 +10,7 @@ import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -202,6 +203,8 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const hSize = relics.Head.length
 
   const optimizerContext = gpuContext.context
+  transformWorkerContext(optimizerContext)
+
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: OptimizerDisplayData[] = []
   const basicStatsArrayCore = new BasicStatsArrayCore(false) as BasicStatsArray

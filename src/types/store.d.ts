@@ -5,9 +5,8 @@ import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { BuildData } from 'lib/simulations/expandedComputedStats'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { Simulation, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
@@ -187,7 +186,6 @@ export type SavedSession = {
   optimizerCharacterId: string | null
   relicScorerSidebarOpen: boolean
   scoringType: string
-  combatScoreDetails: string
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean

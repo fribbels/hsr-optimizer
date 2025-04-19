@@ -1,5 +1,3 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
@@ -52,8 +50,8 @@ function generateFiltersContext(request: Form, context: OptimizerContext) {
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {
-  context.characterConditionalController = CharacterConditionalsResolver.get(context)
-  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
+  // context.characterConditionalController = CharacterConditionalsResolver.get(context)
+  // context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
 
   transformComboState(request, context)
 }

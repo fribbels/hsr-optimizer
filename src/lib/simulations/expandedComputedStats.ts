@@ -2,7 +2,7 @@ import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
+import { SimulationRelicByPart } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -36,19 +36,7 @@ export function getComputedStatsFromOptimizerBuild(build: Build): BuildData | nu
   request.trace = true
 
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(nonNullRelics)
-  const x = calculateBuild(request, relics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const x = calculateBuild(request, relics as SimulationRelicByPart, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 
   return { x, request: cachedForm }
-}
-
-export function handleOptimizerExpandedRowData(build: Build) {
-  const buildData = getComputedStatsFromOptimizerBuild(build)
-
-  if (!buildData) return
-  const { x, request } = buildData
-  const buffGroups = aggregateCombatBuffs(x, request)
-
-  window.store.getState().setOptimizerExpandedPanelBuildData(buildData)
-  window.store.getState().setOptimizerBuffGroups(buffGroups)
-  console.log('buildData', buildData, 'buffGroups', buffGroups)
 }

@@ -60,6 +60,7 @@ export function StatRow(props: {
   value?: number
   edits?: Record<string, boolean>
   preciseSpd?: boolean
+  loading?: boolean
 }): JSX.Element {
   const { stat, finalStats, edits } = props
   const value = TsUtils.precisionRound(finalStats[stat])
@@ -79,11 +80,11 @@ export function StatRow(props: {
     return (<div></div>)
   }
   return (
-    <Flex justify='space-between' align='center' title={value1000thsPrecision}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+    <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ filter: props.loading ? 'blur(2px)' : 'none' }}>
+      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-      {`${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      {props.loading ? '...' : `${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}
     </Flex>
   )
 }

@@ -42,8 +42,6 @@ const baseCharacterStats = {
   ELEMENTAL_DMG: 0.00000001,
 }
 
-export type BasicCharacterStats = keyof typeof baseCharacterStats
-
 export function baseBasicStatsArray() {
   return Float32Array.from(Object.values(baseCharacterStats))
 }
@@ -138,10 +136,6 @@ export class BasicStatsArrayCore {
       this.m.buffs = []
       this.m.buffsMemo = []
     }
-  }
-
-  setWeight(weight: number) {
-    this.weight = weight
   }
 
   set(key: number, value: number, source?: BuffSource) {

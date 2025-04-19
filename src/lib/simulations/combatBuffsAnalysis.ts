@@ -17,7 +17,6 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
   const hasMemo = DB.getMetadata().characters[request.characterId].path == PathNames.Remembrance
 
   for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(hasMemo ? combatBuffs.buffsMemo : [])]) {
-    // for (const buff of [...combatBuffs.buffs, ...combatBuffs.buffsMemo]) {
     const id = buff.source.id
     const buffType = request.characterId == id ? BUFF_TYPE.PRIMARY : buff.source.buffType
 

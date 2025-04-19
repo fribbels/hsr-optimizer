@@ -187,7 +187,6 @@ function CardImage(props: { analysis: OptimizerResultAnalysis }) {
         overflow: 'hidden',
         boxShadow: cardShadow,
         borderRadius: 5,
-        minWidth: 233,
         height: '100%',
         background: '#243356',
       }}

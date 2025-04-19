@@ -1,4 +1,4 @@
-import { Parts, Sets, Stats, SubStats } from 'lib/constants/constants'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
@@ -13,7 +13,6 @@ import {
   invertDiminishingReturnsSpdFormula,
   maximumScoringParams,
   originalScoringParams,
-  PartialSimulationWrapper,
   simSorter,
   SimulationFlags,
   SimulationScore,
@@ -365,55 +364,42 @@ export class BenchmarkSimulationOrchestrator {
     const metadata = this.metadata
     const targetSpd = this.targetSpd!
     const baselineSimResult = this.baselineSimResult!
-    const benchmarkSimRequest = this.benchmarkSimRequest!
     const flags = this.flags
 
     const clonedContext = TsUtils.clone(context)
+    const clonedPerfectionScoringParams = TsUtils.clone(maximumScoringParams)
 
-    // Convert the benchmark spd rolls to max spd rolls
-    const spdDiff = targetSpd - baselineSimResult.xa[Key.SPD]
+    const partialSimulationWrappers = generatePartialSimulations(this)
+    const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
+      const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
-    // Spheres with DMG % are unique because they can alter a build due to DMG % not being a substat.
-    // Permute the sphere options to find the best
-    // @ts-ignore
-    const runnerPromises: Promise<ComputeOptimalSimulationRunnerOutput>[] = []
-    for (const feetMainStat of metadata.parts[Parts.Feet]) {
-      for (const sphereMainStat of metadata.parts[Parts.PlanarSphere]) {
-        const bestSimClone: Simulation = TsUtils.clone({ request: benchmarkSimRequest, simType: StatSimTypes.SubstatRolls })
-        bestSimClone.request.simPlanarSphere = sphereMainStat
-        bestSimClone.request.simFeet = feetMainStat
+      const finalSpeed = simulationResult.xa[Key.SPD]
+      const rolls = TsUtils.precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
-        const spdRolls = feetMainStat == Stats.SPD
-          ? Math.max(0, TsUtils.precisionRound((spdDiff - 25.032) / maximumScoringParams.speedRollValue))
-          : Math.max(0, TsUtils.precisionRound((spdDiff) / maximumScoringParams.speedRollValue))
-
-        if (spdRolls > 36 && feetMainStat != Stats.SPD) {
-          continue
-        }
-
-        const partialSimulationWrapper: PartialSimulationWrapper = {
-          simulation: bestSimClone,
-          speedRollsDeduction: Math.min(spdRolls, spdRollsCap(bestSimClone, maximumScoringParams)),
-        }
-
-        const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, maximumScoringParams, flags)
-        const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, maximumScoringParams, baselineSimResult, flags)
-        Object.values(SubStats).map((x) => partialSimulationWrapper.simulation.request.stats[x] = maxSubstatRollCounts[x])
-
-        const input: ComputeOptimalSimulationRunnerInput = {
-          partialSimulationWrapper: partialSimulationWrapper,
-          inputMinSubstatRollCounts: minSubstatRollCounts,
-          inputMaxSubstatRollCounts: maxSubstatRollCounts,
-          simulationForm: form,
-          context: clonedContext,
-          metadata: metadata,
-          scoringParams: TsUtils.clone(maximumScoringParams),
-          simulationFlags: flags,
-        }
-
-        runnerPromises.push(runComputeOptimalSimulationWorker(input) as Promise<ComputeOptimalSimulationRunnerOutput>)
+      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, clonedPerfectionScoringParams))
+      if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
+        console.log('Rejected candidate sim with non SPD boots')
+        return null
       }
-    }
+
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, clonedPerfectionScoringParams, baselineSimResult, flags)
+
+      partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
+
+      const input: ComputeOptimalSimulationRunnerInput = {
+        partialSimulationWrapper: partialSimulationWrapper,
+        inputMinSubstatRollCounts: minSubstatRollCounts,
+        inputMaxSubstatRollCounts: maxSubstatRollCounts,
+        simulationForm: form,
+        context: clonedContext,
+        metadata: metadata,
+        scoringParams: TsUtils.clone(maximumScoringParams),
+        simulationFlags: flags,
+      }
+
+      return runComputeOptimalSimulationWorker(input)
+    })
 
     const id = TsUtils.uuid()
     console.time('===== Perfection runner time ' + id)

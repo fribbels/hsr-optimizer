@@ -6698,9 +6698,75 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [
         PresetEffects.BANANA_SET,
       ],
-      sortOption: SortOption.HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
-      hiddenColumns: [SortOption.DOT],
+      sortOption: SortOption.MEMO_SKILL,
+      addedColumns: [SortOption.OHB, SortOption.HEAL, SortOption.MEMO_SKILL],
+      hiddenColumns: [SortOption.DOT, SortOption.FUA, SortOption.ULT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CD,
+            Stats.HP_P,
+            Stats.OHB,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.HP_P,
+          Stats.CR,
+          Stats.CD,
+          Stats.HP,
+        ],
+        comboAbilities: [NULL, MEMO_SKILL],
+        deprioritizeBuffs: true,
+        comboDot: 0,
+        comboBreak: 0,
+        errRopeEidolon: 0,
+        relicSets: [
+          // TODO
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          // TODO
+          Sets.InertSalsotto,
+          Sets.DuranDynastyOfRunningWolves,
+          Sets.FirmamentFrontlineGlamoth,
+          ...SPREAD_ORNAMENTS_2P_FUA,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+        ],
+        teammates: [
+          {
+            characterId: '1407', // Castorice
+            lightCone: '23040', // Farewell
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '8008', // RMC
+            lightCone: '21050', // Victory
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+        ],
+      },
     },
     1406: { // Cipher
       stats: {

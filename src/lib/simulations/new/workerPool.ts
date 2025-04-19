@@ -1,7 +1,6 @@
 import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
 import { WorkerType } from 'lib/worker/workerUtils'
 
-// Improved worker pool with debugging
 export class WorkerPool {
   private workers: Worker[] = []
   private available: number[] = []

@@ -43,7 +43,6 @@ type OptimizerEventData = {
   permutations: number
   WIDTH: number
   skip: number
-  isFirefox: boolean
 }
 
 export function optimizerWorker(e: MessageEvent) {
@@ -72,8 +71,6 @@ export function optimizerWorker(e: MessageEvent) {
   const memoDisplay = request.memoDisplay == 'memo'
   const summonerDisplay = !memoDisplay
   let passCount = 0
-
-  isFirefox = data.isFirefox
 
   const {
     failsBasicThresholdFilter,

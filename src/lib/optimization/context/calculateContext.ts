@@ -3,6 +3,7 @@ import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form, Teammate } from 'types/form'
@@ -19,6 +20,8 @@ export function generateContext(request: Form): OptimizerContext {
   generateFiltersContext(request, context)
 
   calculateConditionals(request, context)
+
+  transformWorkerContext(context)
 
   return context
 }

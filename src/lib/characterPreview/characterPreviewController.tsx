@@ -12,7 +12,6 @@ import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential
 import { Assets } from 'lib/rendering/assets'
 import { simulateBuild } from 'lib/simulations/new/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/new/statSimulationTypes'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { AppPages, DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -161,7 +160,6 @@ export function getShowcaseStats(
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
   const form = OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form))
   const context = generateContext(form)
-  transformWorkerContext(context)
   const x = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null, null)
   const basicStats = x.c.toBasicStatsObject()
   const finalStats: BasicStatsObject = {

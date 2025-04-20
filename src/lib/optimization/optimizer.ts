@@ -12,7 +12,6 @@ import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
@@ -26,7 +25,6 @@ import { Form, OptimizerForm } from 'types/form'
 // FIXME HIGH
 
 let CANCEL = false
-const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox')
 
 export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   let relics = DB.getRelics()
@@ -39,7 +37,6 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   Object.keys(relicsByPart).map((key) => relicsByPart[key] = relicsByPart[key][0])
 
   const context = generateContext(request)
-  transformWorkerContext(context)
   const x = calculateBuild(request, relicsByPart, context, null, null, undefined, undefined, undefined, undefined, true)
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
@@ -207,7 +204,6 @@ export const Optimizer = {
             permutations: permutations,
             relicSetSolutions: relicSetSolutions,
             ornamentSetSolutions: ornamentSetSolutions,
-            isFirefox: isFirefox,
             workerType: WorkerType.OPTIMIZER,
           },
           getMinFilter: () => {

@@ -20,7 +20,6 @@ type WorkerTask = {
   input: {
     WIDTH: number
     context: OptimizerContext
-    isFirefox: boolean
     ornamentSetSolutions: number[]
     permutations: number
     relicSetSolutions: number[]

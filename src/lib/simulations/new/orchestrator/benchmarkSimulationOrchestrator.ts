@@ -24,7 +24,6 @@ import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
 import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/new/utils/benchmarkSpeedTargets'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPool'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
@@ -188,7 +187,6 @@ export class BenchmarkSimulationOrchestrator {
 
     // Cache context for reuse
     const context = generateContext(simulationForm)
-    transformWorkerContext(context)
 
     this.form = simulationForm
     this.context = context

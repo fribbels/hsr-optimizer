@@ -5,7 +5,6 @@ import { generateContext } from 'lib/optimization/context/calculateContext'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { Metadata } from 'lib/state/metadata'
 import { test } from 'vitest'
 
@@ -45,10 +44,8 @@ test('statSim', () => {
   } as Simulation
 
   const context = generateContext(form)
-  transformWorkerContext(context)
   const results = runStatSimulations([simulation], form, context, {})
   const computedStatsObject = toComputedStatsObject(results[0].xa)
 
   expectWithinDelta(computedStatsObject.COMBO_DMG, 1258999, 1.0)
 })
-

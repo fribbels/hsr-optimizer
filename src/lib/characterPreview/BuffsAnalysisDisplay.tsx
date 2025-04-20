@@ -10,7 +10,6 @@ import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -78,7 +77,6 @@ function rerunSim(result?: SimulationScore) {
   if (!result) return null
   result.simulationForm.trace = true
   const context = generateContext(result.simulationForm)
-  transformWorkerContext(context)
   const rerun = runStatSimulations([result.originalSim], result.simulationForm, context, originalScoringParams)[0]
   const optimizerDisplayData = formatOptimizerDisplayData(rerun.x)
   const x = optimizerDisplayData.tracedX!

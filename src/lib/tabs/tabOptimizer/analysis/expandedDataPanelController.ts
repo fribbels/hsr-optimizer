@@ -12,7 +12,6 @@ import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import { convertRelicsToSimulation, ornamentSetIndexToName, relicSetIndexToNames } from 'lib/simulations/statSimulationController'
 import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
@@ -43,7 +42,6 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 
   const request = analysis.request
   const context = generateContext(request)
-  transformWorkerContext(context)
 
   const relicSets = relicSetIndexToNames(relicSetIndex)
   const ornamentSets = ornamentSetIndexToName(ornamentSetIndex)
@@ -67,8 +65,8 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 }
 
 export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
-  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form) as SingleRelicByPart)
-  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form) as SingleRelicByPart)
+  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form))
+  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form))
   const request = TsUtils.clone(form)
 
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)
@@ -77,9 +75,7 @@ export function generateAnalysisData(currentRowData: OptimizerDisplayData, selec
   request.trace = true
 
   const contextOld = generateContext(request)
-  transformWorkerContext(contextOld)
   const contextNew = generateContext(request)
-  transformWorkerContext(contextNew)
 
   const oldX = calculateBuild(request, oldRelics, contextOld, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
   const newX = calculateBuild(request, newRelics, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))

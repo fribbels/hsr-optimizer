@@ -12,7 +12,6 @@ import { Assets } from 'lib/rendering/assets'
 import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -273,7 +272,6 @@ export function startOptimizerStatSimulation() {
   console.log('Starting sims', existingSimulations)
 
   const context = generateContext(form)
-  transformWorkerContext(context)
 
   const optimizerDisplayData: OptimizerDisplayData[] = []
 

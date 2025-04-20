@@ -11,14 +11,14 @@ export function calculateTargetSpeedNew(
 
   if (simulationFlags.characterPoetActive) {
     // When the original character has poet, benchmark against the original character
-    targetSpd = forcedSpdSimResult.xa[Key.SPD]
+    return forcedSpdSimResult.xa[Key.SPD]
+  }
+
+  if (simulationFlags.simPoetActive) {
+    // We don't want to have the original character's combat stats penalized by poet if they're not on poet
+    targetSpd = simulationFlags.forceBasicSpdValue
   } else {
-    if (simulationFlags.simPoetActive) {
-      // We don't want to have the original character's combat stats penalized by poet if they're not on poet
-      targetSpd = simulationFlags.forceBasicSpdValue
-    } else {
-      targetSpd = forcedSpdSimResult.xa[Key.SPD]
-    }
+    targetSpd = forcedSpdSimResult.xa[Key.SPD]
   }
 
   return targetSpd

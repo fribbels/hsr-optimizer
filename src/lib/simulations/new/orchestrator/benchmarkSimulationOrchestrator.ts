@@ -230,13 +230,17 @@ export class BenchmarkSimulationOrchestrator {
 
   public setBaselineBuild() {
     const form = this.form!
+    const simSets = this.simSets!
     const context = this.context!
     const originalSimRequest = this.originalSimRequest!
 
     const baselineSimRequest = {
       ...originalSimRequest,
       stats: {},
-    }
+      simRelicSet1: simSets.relicSet1,
+      simRelicSet2: simSets.relicSet2,
+      simOrnamentSet: simSets.ornamentSet,
+    } as SimulationRequest
 
     const baselineSim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
@@ -290,7 +294,7 @@ export class BenchmarkSimulationOrchestrator {
     this.originalSimResult = forcedSpdSimResult
     this.originalSim = originalSim
     this.originalSpd = originalSpd
-    this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags)
+    this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags) // Combat spd
   }
 
   public async calculateBenchmark() {

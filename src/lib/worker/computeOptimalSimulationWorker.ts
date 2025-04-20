@@ -3,7 +3,7 @@ import { StatToKey } from 'lib/optimization/computedStatsArray'
 import { applyScoringFunction, SimulationResult, substatRollsModifier } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
-import { transformWorkerContext } from 'lib/simulations/new/workerContextTransform'
+import { initializeContextConditionals } from 'lib/simulations/new/workerContextTransform'
 import { sumArray } from 'lib/utils/mathUtils'
 import { Utils } from 'lib/utils/utils'
 import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
@@ -12,7 +12,7 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   const input = e.data
 
   const context = input.context
-  transformWorkerContext(context)
+  initializeContextConditionals(context)
   const optimalSimulation = computeOptimalSimulation(input)
 
   // @ts-ignore

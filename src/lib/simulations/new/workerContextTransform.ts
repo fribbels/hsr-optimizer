@@ -4,7 +4,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export function transformWorkerContext(context: OptimizerContext) {
+export function initializeContextConditionals(context: OptimizerContext) {
   context.characterConditionalController = CharacterConditionalsResolver.get(context)
   context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
 

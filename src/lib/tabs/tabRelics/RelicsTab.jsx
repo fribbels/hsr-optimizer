@@ -738,6 +738,7 @@ export default function RelicsTab() {
                   gridRef.current.api.ensureNodeVisible(node, 'middle')
                   setSelectedRelicID(id)
                 }}
+                excludedRelicPotentialCharacters={excludedRelicPotentialCharacters}
               />,
             },
           ]} 

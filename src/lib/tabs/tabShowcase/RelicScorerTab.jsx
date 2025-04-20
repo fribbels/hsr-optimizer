@@ -502,7 +502,7 @@ function CharacterPreviewSelection(props) {
             message={<>Note: Combo DMG is meant to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!</>}
             type='info'
             showIcon
-            style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327' }}
+            style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327', borderColor: '#c3561e' }}
           />
         )}
 

@@ -80,9 +80,7 @@ export function generateSimRelics(simulation: Simulation, params: RunSimulations
     [Parts.Body]: simulationRelic(request.simRelicSet2, request.simBody, StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier),
     [Parts.Feet]: simulationRelic(request.simRelicSet2, request.simFeet, StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier),
     [Parts.LinkRope]: simulationRelic(request.simOrnamentSet, request.simLinkRope, StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier),
-    [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet,
-      request.simPlanarSphere,
-      StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
+    [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet, request.simPlanarSphere, StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
   }
 
   addSubstats(simRelics, simulation, params)
@@ -138,4 +136,3 @@ const statToKey: Record<string, number> = {
   [Stats.Quantum_DMG]: 20,
   [Stats.Imaginary_DMG]: 21,
 } as const
-

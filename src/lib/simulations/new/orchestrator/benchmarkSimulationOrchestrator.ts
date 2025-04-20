@@ -34,34 +34,6 @@ import { Form, OptimizerForm } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
-/*
- TODO: Caching
-
- const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
- const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
-
- const cachedSims: {
- [key: string]: SimulationScore
- } = {}
-
- const cacheKey = TsUtils.objectHash({
- traces,
- characterId,
- characterEidolon,
- lightCone,
- lightConeSuperimposition,
- relicsByPart,
- metadata,
- customMetadata,
- showcaseTemporaryOptions,
- })
-
- if (cachedSims[cacheKey]) {
- return cachedSims[cacheKey]
- }
-
- */
-
 export class BenchmarkSimulationOrchestrator {
   public metadata: SimulationMetadata
   public flags: SimulationFlags
@@ -126,22 +98,16 @@ export class BenchmarkSimulationOrchestrator {
     if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
       metadata.parts[Parts.LinkRope].push(Stats.BE)
     }
-    if (addBreakEffect
-      && !metadata.relicSets.find((sets) =>
-        sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    if (addBreakEffect && !metadata.relicSets.find((sets) => sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
       metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
     }
-    if (addBreakEffect
-      && !metadata.relicSets.find((sets) =>
-        sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    if (addBreakEffect && !metadata.relicSets.find((sets) => sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
       metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
     }
-    if (addBreakEffect
-      && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
+    if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
       metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
     }
-    if (addBreakEffect
-      && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
+    if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
       metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
     }
   }

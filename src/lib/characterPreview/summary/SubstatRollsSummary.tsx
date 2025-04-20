@@ -8,7 +8,7 @@ import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface SubstatRollsSummaryProps {
+type SubstatRollsSummaryProps = {
   simRequest: SimulationRequest
   precision: number
   diminish: boolean
@@ -16,7 +16,7 @@ interface SubstatRollsSummaryProps {
 }
 
 export function SubstatRollsSummary({ simRequest, precision, diminish, columns = 2 }: SubstatRollsSummaryProps) {
-  const { t, i18n } = useTranslation(['charactersTab', 'common'])
+  const { t } = useTranslation(['charactersTab', 'common'])
 
   const stats = simRequest.stats
   const diminishingReturns: Record<string, number> = {}

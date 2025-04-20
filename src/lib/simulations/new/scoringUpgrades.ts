@@ -28,6 +28,7 @@ export function generateStatImprovements(
   benchmarkSimScore: number,
   maximumSimScore: number,
 ) {
+  // Upgrade substats
   const substatUpgradeResults: SimulationStatUpgrade[] = []
   for (const substatType of metadata.substats) {
     const stat: string = substatType
@@ -47,7 +48,7 @@ export function generateStatImprovements(
     })
   }
 
-  // Upgrade Set
+  // Upgrade set
   const setUpgradeResults: SimulationStatUpgrade[] = []
   const originalSimClone: Simulation = TsUtils.clone(originalSim)
   originalSimClone.request.simRelicSet1 = benchmarkRequest.simRelicSet1

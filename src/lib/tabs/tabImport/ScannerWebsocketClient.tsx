@@ -22,6 +22,9 @@ type ScannerState = {
     // key: relic unique id
     relics: Record<string, V4ParserRelic>
 
+    // List of recently updated relics by uid, most recent first
+    recentRelics: string[]
+
     // Light cones parsed from the scanner websocket
     // key: light cone unique id
     lightCones: Record<string, V4ParserLightCone>
@@ -79,6 +82,8 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 
     lastScanData: null,
 
+    recentRelics: [],
+
     relics: {},
     lightCones: {},
     characters: {},
@@ -113,6 +118,8 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
         ingest: false,
         ingestCharacters: false,
 
+        recentRelics: [],
+
         relics: {},
         lightCones: {},
         characters: {},
@@ -120,6 +127,8 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 
     updateInitialScan: (data: ScannerParserJson) => set({
         lastScanData: data,
+
+        recentRelics: data.relics.slice(-6).reverse().map((relic) => relic._uid),
 
         relics: Object.fromEntries(data.relics.map((relic) => [relic._uid, relic])),
         lightCones: Object.fromEntries(data.light_cones.map((lightCone) => [lightCone._uid, lightCone])),
@@ -146,7 +155,8 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
         relics: {
             ...usePrivateScannerState.getState().relics,
             [relic._uid]: relic
-        }
+        },
+        recentRelics: [relic._uid, ...get().recentRelics.filter((id) => id !== relic._uid)]
     }),
 
     updateLightCone: (lightCone: V4ParserLightCone) => set({
@@ -166,7 +176,8 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
     deleteRelic: (relicId: string) => set({
         relics: Object.fromEntries(
             Object.entries(usePrivateScannerState.getState().relics).filter(([key]) => key !== relicId)
-        )
+        ),
+        recentRelics: get().recentRelics.filter((id) => id !== relicId)
     }),
 
     deleteLightCone: (lightConeId: string) => set({

@@ -1,6 +1,6 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
-import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Tooltip, Typography } from 'antd'
+import { Button, Collapse, Flex, InputNumber, Popconfirm, Popover, Select, theme, Tooltip, Typography } from 'antd'
 import { Constants, Stats } from 'lib/constants/constants'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Hint } from 'lib/interactions/hint'
@@ -14,6 +14,7 @@ import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { RecentRelics } from 'lib/tabs/tabRelics/RecentRelics'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
@@ -715,12 +716,31 @@ export default function RelicsTab() {
         setOpen={setEditModalOpen}
         open={editModalOpen}
       />
-      <Flex vertical gap={10}>
+      <Flex vertical gap={10} style={{ width: '100%' }}>
 
         <RelicFilterBar
           setValueColumns={setValueColumns}
           valueColumns={valueColumns}
           valueColumnOptions={valueColumnOptions}
+        />
+
+        <Collapse 
+          size="small"
+          items={[
+            {
+              key: '1',
+              label: t('RelicGrid.RecentRelics', 'Recent Relics'),
+              children: <RecentRelics 
+                scoringCharacter={focusCharacter}
+                setSelectedRelicID={(id) => {
+                  const node = gridRef.current.api.getRowNode(id)
+                  node.setSelected(true, true)
+                  gridRef.current.api.ensureNodeVisible(node, 'middle')
+                  setSelectedRelicID(id)
+                }}
+              />,
+            },
+          ]} 
         />
 
         {!gridDestroyed && (

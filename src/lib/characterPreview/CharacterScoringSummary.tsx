@@ -1,34 +1,26 @@
 import { Alert, Divider, Flex } from 'antd'
-import { UpArrow } from 'icons/UpArrow'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
-import { damageStats } from 'lib/characterPreview/StatRow'
-import { StatTextSm } from 'lib/characterPreview/StatText'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { ElementToDamage, MainStats, Parts, SIMULATION_SCORE, Stats, StatsValues, SubStats } from 'lib/constants/constants'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { defaultGap, iconSize } from 'lib/constants/constantsUi'
+import { ElementToDamage, MainStats, Parts, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
-import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
 import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
 import { Simulation } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
-import { HeaderText } from 'lib/ui/HeaderText'
-import { filterUnique } from 'lib/utils/arrayUtils'
-import { localeNumber, localeNumber_0, localeNumber_000, numberToLocaleString } from 'lib/utils/i18nUtils'
+import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { ReactElement } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { AbilityDamageSummary } from './summary/AbilityDamageSummary'
 import { SubstatRollsSummary } from './summary/SubstatRollsSummary'
@@ -453,109 +445,6 @@ export function ScoringTeammate(props: {
       <pre style={{ margin: 0 }}>
         {t('SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
       </pre>
-    </Flex>
-  )
-}
-
-function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
-  const ability = sortOption.key
-
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  xa[Key.ELEMENTAL_DMG] += xa[Key[`${ability}_DMG_BOOST`]]
-  if (ability != SortOption.DOT.key) {
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unused-expressions
-    xa[Key[`${ability}_CR_BOOST`]] && (xa[Key.CR] += xa[Key[`${ability}_CR_BOOST`]])
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unused-expressions
-    xa[Key[`${ability}_CD_BOOST`]] && (xa[Key.CD] += xa[Key[`${ability}_CD_BOOST`]])
-  }
-}
-
-const percentFlatStats: Record<string, boolean> = {
-  [Stats.ATK_P]: true,
-  [Stats.DEF_P]: true,
-  [Stats.HP_P]: true,
-}
-
-export function CharacterCardCombatStats(props: {
-  result: SimulationScore
-}) {
-  const result = props.result
-  const characterMetadata = result.characterMetadata!
-  const xa = new Float32Array(result.originalSimResult.xa)
-  const sortOption = characterMetadata.scoringMetadata.sortOption
-  addOnHitStats(xa, sortOption)
-
-  const { t } = useTranslation('common')
-  const { t: tCharactersTab } = useTranslation('charactersTab')
-  const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
-
-  const originalSimulationMetadata = characterMetadata.scoringMetadata.simulation!
-  const elementalDmgValue = ElementToDamage[characterMetadata.element]
-  let substats = originalSimulationMetadata.substats as SubStats[]
-  substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
-  if (substats.length < 5) substats.push(Stats.SPD)
-  substats.sort((a, b) => SubStats.indexOf(a) - SubStats.indexOf(b))
-  const upgradeStats: StatsValues[] = [...substats, elementalDmgValue]
-
-  const rows: ReactElement[] = []
-
-  for (const stat of upgradeStats) {
-    if (percentFlatStats[stat]) continue
-
-    const value = damageStats[stat] ? xa[Key.ELEMENTAL_DMG] : xa[StatToKey[stat]]
-    const flat = Utils.isFlat(stat)
-    const upgraded = damageStats[stat]
-      ? Utils.precisionRound(xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(result.originalSimResult.ca[Key.ELEMENTAL_DMG], 2)
-      : Utils.precisionRound(xa[StatToKey[stat]], 2) != Utils.precisionRound(result.originalSimResult.ca[StatToKey[stat]], 2)
-
-    let display = localeNumber(Math.floor(value))
-    if (stat == Stats.SPD) {
-      display = preciseSpd
-        ? localeNumber_000(TsUtils.precisionRound(value, 4))
-        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value, 4)))
-    } else if (!flat) {
-      display = localeNumber_0(Utils.truncate10ths(value * 100))
-    }
-
-    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat}`)
-
-    // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
-    rows.push(
-      <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
-        <Flex gap={1} align='center'>
-          <StatTextSm>
-            {statName}
-          </StatTextSm>
-          {upgraded && <Arrow/>}
-        </Flex>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-        <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
-      </Flex>,
-    )
-  }
-
-  const titleRender = result.simulationForm.deprioritizeBuffs
-    ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
-    : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
-
-  return (
-    <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
-      <HeaderText style={{ fontSize: 16 }}>
-        {titleRender}
-      </HeaderText>
-      {rows}
-    </Flex>
-  )
-}
-
-function Arrow() {
-  return (
-    <Flex align='center'>
-      <UpArrow/>
     </Flex>
   )
 }

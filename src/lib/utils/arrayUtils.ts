@@ -31,3 +31,8 @@ export function filterUnique<T>(arr: T[]) {
 export function filterNonNull<T>(arr: T[]) {
   return arr.filter((value) => value != null)
 }
+
+// [1, 2], 2 => 1
+export function getIndexOf<T>(array: readonly T[], item: unknown): number {
+  return array.indexOf(item as T)
+}

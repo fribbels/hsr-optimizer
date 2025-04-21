@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: 成功保存角色图像
     RevertedPortrait: 成功还原角色图像
     NoSelectedCharacter: 未选择角色
+    NoSelectedLightCone: 无选定光锥
   ScoreHeader:
     Title: 战斗模拟
     TitleBenchmark: "{{spd}}速度基准"

@@ -5,13 +5,14 @@ import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
+import { simulateBuild } from 'lib/simulations/new/simulateBuild'
+import { SimulationRelicByPart } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
@@ -37,7 +38,7 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   Object.keys(relicsByPart).map((key) => relicsByPart[key] = relicsByPart[key][0])
 
   const context = generateContext(request)
-  const x = calculateBuild(request, relicsByPart, context, null, null, undefined, undefined, undefined, undefined, true)
+  const x = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null, null)
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
   window.store.getState().setOptimizerSelectedRowData(optimizerDisplayData)

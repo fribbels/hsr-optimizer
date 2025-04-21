@@ -239,13 +239,10 @@ export const CharacterScoringSummary = (props: {
           {/* Character main stats/100% benchmark main stats/200% perfect main stats */}
           <Flex gap={defaultGap} justify='space-around'>
             <Flex vertical gap={10}>
-              <ScoringStat stat={simRequest.simBody !== 'NONE' ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
-              <ScoringStat stat={simRequest.simFeet !== 'NONE' ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-              <ScoringStat
-                stat={simRequest.simPlanarSphere !== 'NONE' ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''}
-                part={Parts.PlanarSphere}
-              />
-              <ScoringStat stat={simRequest.simLinkRope !== 'NONE' ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
+              <ScoringStat stat={simRequest.simBody ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
+              <ScoringStat stat={simRequest.simFeet ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
+              <ScoringStat stat={simRequest.simPlanarSphere ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
+              <ScoringStat stat={simRequest.simLinkRope ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
             </Flex>
           </Flex>
         </Flex>

@@ -5,7 +5,6 @@ import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { BuildData } from 'lib/simulations/expandedComputedStats'
 import { Simulation, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
@@ -98,7 +97,6 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
-  optimizerExpandedPanelBuildData: BuildData | null
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
   optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
@@ -141,7 +139,6 @@ export type HsrOptimizerStore = {
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
   setOptimizerBuild: (x: Build) => void
-  setOptimizerExpandedPanelBuildData: (x: BuildData) => void
   setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void
   setOptimizerBuffGroups: (x: Record<BUFF_TYPE, Record<string, Buff[]>>) => void
   setSavedSession: (x: SavedSession) => void

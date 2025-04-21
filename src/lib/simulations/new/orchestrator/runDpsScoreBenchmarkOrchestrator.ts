@@ -12,14 +12,6 @@ export async function runDpsScoreBenchmarkOrchestrator(
   singleRelicByPart: SingleRelicByPart,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ) {
-  const { cacheKey, cachedOrchestrator } = retrieveBenchmarkCache(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
-  if (cachedOrchestrator) {
-    console.debug('CACHED')
-    return cachedOrchestrator
-  } else {
-    console.debug('NEW EXECUTION')
-  }
-
   const orchestrator = new BenchmarkSimulationOrchestrator(simulationMetadata)
 
   orchestrator.setMetadata()
@@ -37,14 +29,12 @@ export async function runDpsScoreBenchmarkOrchestrator(
   orchestrator.calculateUpgrades()
   orchestrator.calculateResults()
 
-  setBenchmarkCache(cacheKey, orchestrator)
-
   return orchestrator
 }
 
 const cache: Record<string, BenchmarkSimulationOrchestrator> = {}
 
-function retrieveBenchmarkCache(
+export function retrieveBenchmarkCache(
   character: Character,
   simulationMetadata: SimulationMetadata,
   singleRelicByPart: SingleRelicByPart,
@@ -65,7 +55,7 @@ function retrieveBenchmarkCache(
   }
 }
 
-function setBenchmarkCache(cacheKey: string, orchestator: BenchmarkSimulationOrchestrator) {
+export function setBenchmarkCache(cacheKey: string, orchestator: BenchmarkSimulationOrchestrator) {
   cache[cacheKey] = orchestator
 }
 

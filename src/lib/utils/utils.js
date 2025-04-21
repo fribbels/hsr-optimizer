@@ -6,27 +6,7 @@ import { Message } from 'lib/interactions/message.js'
 import { currentLocale } from 'lib/utils/i18nUtils.js'
 
 console.debug = (...args) => {
-  let messageConfig = '%c%s '
-
-  args.forEach((argument) => {
-    const type = typeof argument
-    switch (type) {
-      case 'bigint':
-      case 'number':
-      case 'boolean':
-        messageConfig += '%d '
-        break
-
-      case 'string':
-        messageConfig += '%s '
-        break
-
-      case 'object':
-      case 'undefined':
-      default:
-        messageConfig += '%o '
-    }
-  })
+  const messageConfig = '%c%s '
 
   console.log(messageConfig, 'color: orange', '[DEBUG]', ...args)
 }

@@ -64,6 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateDefaults = {
     clearSkies: true,
     e1HpBuff: true,
+    e2SpdBuff: true,
     e6ResPen: true,
   }
 
@@ -132,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e2SpdBuff: {
       id: 'e2SpdBuff',
       formItem: 'switch',
-      text: 'E1 SPD buff',
+      text: 'E2 SPD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
@@ -155,6 +156,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     clearSkies: content.clearSkies,
     e1HpBuff: content.e1HpBuff,
+    e2SpdBuff: content.e2SpdBuff,
     e6ResPen: content.e6ResPen,
   }
 
@@ -177,8 +179,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.CR.buffBaseDual(1.00, SOURCE_TRACE)
       x.OHB.buffBaseDual((r.healTargetHp50) ? 0.25 : 0, SOURCE_TRACE)
       x.RES.buff((r.resBuff) ? 0.50 : 0, SOURCE_TRACE)
-
-      x.SPD_P.buff((e >= 2 && r.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
 
       x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
@@ -212,6 +212,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // x.HP.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffFlat * 0.50 : 0, SOURCE_E1)
       x.HP_P.buffTeam((e >= 1 && m.clearSkies) ? 0.50 : 0, SOURCE_E1)
 
+      x.SPD_P.buffTeam((e >= 2 && m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

@@ -59,7 +59,7 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
     if (finishedLoading) {
       setTimeout(() => {
         setBlur(false)
-      }, 150)
+      }, 20)
 
       setStoredImg({
         src: pendingImage.src,
@@ -81,7 +81,7 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
       style={{
         ...storedImg.style,
         filter: blur ? 'blur(6px)' : 'none',
-        transition: blur ? '' : 'filter 0.5s cubic-bezier(.41,.65,.39,.99)',
+        transition: blur ? '' : 'filter 0.35s cubic-bezier(.41,.65,.39,.99)',
       }}
     />
   )

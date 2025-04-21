@@ -403,7 +403,7 @@ export function CharacterPreview(props: {
           token={token}
           asyncSimScoringExecution={asyncSimScoringExecution}
           showcaseMetadata={showcaseMetadata}
-          scoringType={scoringType}
+          scoringType={storedScoringType}
           displayRelics={displayRelics}
           setScoringType={setScoringType}
         />

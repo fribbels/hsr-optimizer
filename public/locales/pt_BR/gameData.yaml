@@ -240,11 +240,11 @@ RelicSets:
   "104":
     Name: Caçador da Floresta Glacial
     Description2pc: Aumenta o Dano de Gelo em 10%.
-    Description4pc: Após o usuário utilizar sua Perícia Suprema, aumenta em 25% o Dano CRIT por 2 rodada(s).
+    Description4pc: Após o usuário utilizar sua Perícia Suprema, aumenta em 25% o Dano CRIT por 2 rodadas.
   "105":
     Name: Campeã de Boxe de Rua
     Description2pc: Aumenta o Dano Físico em 10%.
-    Description4pc: Depois que o usuário ataca ou é atingido, aumenta em 5% seu ATQ durante todo o resto da batalha. Este efeito pode acumular até 5 vez(es).
+    Description4pc: Depois que o usuário ataca ou é atingido, aumenta em 5% seu ATQ durante todo o resto da batalha. Este efeito pode acumular até 5 vezes.
   "106":
     Name: Guarda da Neve Uivante
     Description2pc: Reduz o Dano recebido em 8%.
@@ -260,7 +260,7 @@ RelicSets:
   "109":
     Name: Banda Trovão Crepitante
     Description2pc: Aumenta o Dano de Raio em 10%.
-    Description4pc: Quando o usuário usa a Perícia, aumenta o ATQ em 20% por 1 rodada(s).
+    Description4pc: Quando o usuário usa a Perícia, aumenta o ATQ em 20% por 1 rodada.
   "110":
     Name: Águia da Linha do Crepúsculo
     Description2pc: Aumenta o Dano de Vento em 10%.
@@ -276,15 +276,15 @@ RelicSets:
   "113":
     Name: Discípula Longeva
     Description2pc: Aumenta os PV máximos em 12%.
-    Description4pc: Quando o usuário recebe um golpe ou tem seus PV consumidos por um aliado ou por si próprio, a Chance de CRIT dele aumenta em 8% por 2 rodada(s) e até 2 acúmulos.
+    Description4pc: Quando o usuário recebe um golpe ou tem seus PV consumidos por um aliado ou por si próprio, a Chance de CRIT dele aumenta em 8% por 2 rodadas e até 2 acúmulos.
   "114":
     Name: Mensageira Atravessando o Hackerspace
     Description2pc: Aumenta a VEL em 6%.
-    Description4pc: Quando o usuário usa a sua Perícia Suprema em um aliado, a VEL de todos os aliados aumenta em 12% por 1 rodada(s). Este efeito não pode acumular.
+    Description4pc: Quando o usuário usa a sua Perícia Suprema em um aliado, a VEL de todos os aliados aumenta em 12% por 1 rodada. Este efeito não pode acumular.
   "115":
     Name: Grão-Duque em Brasas
     Description2pc: Aumenta o Dano causado pelos Ataques Extras em 20%.
-    Description4pc: Quando o usuário usa um Ataque Extra, aumenta o ATQ do usuário em 6% a cada vez que o Ataque Extra causa Dano. Este efeito pode ser chegar até um máximo de 8 acúmulo(s) e dura por 3 rodada(s). Este efeito é removido na próxima vez que o usuário utilizar um Ataque Extra.
+    Description4pc: Quando o usuário usa um Ataque Extra, aumenta o ATQ do usuário em 6% a cada vez que o Ataque Extra causa Dano. Este efeito pode ser chegar até um máximo de 8 acúmulos e dura por 3 rodadas. Este efeito é removido na próxima vez que o usuário utilizar um Ataque Extra.
   "116":
     Name: Prisioneiro em Confinamento Profundo
     Description2pc: Aumenta em 12% o ATQ.
@@ -292,11 +292,11 @@ RelicSets:
   "117":
     Name: Mergulhadora Pioneira de Águas Mortas
     Description2pc: Aumenta em 12% o Dano causado a inimigos com penalidades.
-    Description4pc: Aumenta a Chance de CRIT em 4%. O usuário causa 8%/12% de Dano CRIT aumentado em inimigos com pelo menos 2/3 penalidades. Após o usuário infligir uma penalidade nos inimigos-alvo, os efeitos mencionados anteriormente aumentam em 100%, durando por 1 rodada(s).
+    Description4pc: Aumenta a Chance de CRIT em 4%. O usuário causa 8%/12% de Dano CRIT aumentado em inimigos com pelo menos 2/3 penalidades. Após o usuário infligir uma penalidade nos inimigos-alvo, os efeitos mencionados anteriormente aumentam em 100%, durando por 1 rodada.
   "118":
     Name: Relojoeiro, Mestre de Maquinações de Sonhos
     Description2pc: Aumenta o Efeito de Quebra em 16%.
-    Description4pc: Quando o usuário usa sua Perícia Suprema em um aliado, o Efeito de Quebra de todos os aliados aumenta em 30% por 2 rodada(s). Esse efeito não pode ser acumulado.
+    Description4pc: Quando o usuário usa sua Perícia Suprema em um aliado, o Efeito de Quebra de todos os aliados aumenta em 30% por 2 rodadas. Esse efeito não pode ser acumulado.
   "119":
     Name: Cavalaria de Ferro Contra a Praga
     Description2pc: Aumenta o Efeito de Quebra em 16%.
@@ -304,11 +304,11 @@ RelicSets:
   "120":
     Name: Coragem Como Vento e Nuvem
     Description2pc: Aumenta o ATQ em 12%.
-    Description4pc: Aumenta a Chance de CRIT do usuário em 6%. Depois que o usuário utiliza um Ataque Extra, aumenta o Dano causado pela Perícia Suprema em 36%, durando por 1 rodada(s).
+    Description4pc: Aumenta a Chance de CRIT do usuário em 6%. Depois que o usuário utiliza um Ataque Extra, aumenta o Dano causado pela Perícia Suprema em 36%, durando por 1 rodada.
   "121":
     Name: O Ordálio Revivido de Sacerdos
     Description2pc: Aumenta a VEL em 6%.
-    Description4pc: Ao usar uma Perícia ou Perícia Suprema em um aliado-alvo, aumenta o Dano CRIT do alvo em 18%, durando por 2 rodada(s). Esse efeito pode acumular até 2 vez(es).
+    Description4pc: Ao usar uma Perícia ou Perícia Suprema em um aliado-alvo, aumenta o Dano CRIT do alvo em 18%, durando por 2 rodadas. Esse efeito pode acumular até 2 vezes.
   "122":
     Name: Uma Erudita Perdida na Erudição
     Description2pc: Aumenta a Chance de CRIT em 8%.
@@ -316,19 +316,19 @@ RelicSets:
   "123":
     Name: Herói da Melodia Triunfante
     Description2pc: Aumenta o ATQ em 12%.
-    Description4pc: Enquanto o Memoespírito do usuário está em campo, aumenta a VEL do usuário em 6%. Quando o Memoespírito do usuário ataca, aumenta o Dano CRIT do usuário e do Memoespírito em 30% por 2 rodada(s).
+    Description4pc: Enquanto o Memoespírito do usuário está em campo, aumenta a VEL do usuário em 6%. Quando o Memoespírito do usuário ataca, aumenta o Dano CRIT do usuário e do Memoespírito em 30% por 2 rodadas.
   "124":
     Name: Poetisa do Colapso Enlutada
     Description2pc: Aumenta o Dano Quântico em 10%.
     Description4pc: Reduz a VEL do usuário em 8%. Antes de entrar em batalha, se a VEL do usuário estiver abaixo de 110/95, aumenta a Chance de CRIT do usuário em 20%/32%. Este efeito também se aplica no Memoespírito do usuário.
   "125":
-    Name: Warrior Goddess of Daythunder
+    Name: Warrior Goddess of Sun and Thunder
     Description2pc: Increases SPD by 6%.
-    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has "Gentle Rain", increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked.
+    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has "Gentle Rain," increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked.
   "126":
-    Name: Captain Over Cursed Waves
+    Name: Wavestrider Captain
     Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: When the wearer is the target of another ally target's ability, gains 1 stack of "Help." Stacks up to 3 times. When using Ultimate, consumes all "Help," each stack increasing the wearer's ATK by 16%, lasting until the end of the turn.
+    Description4pc: When the wearer is the target of another ally target's ability, gains 1 stack of "Help." Stacks up to 2 times. When using Ultimate, consumes all "Help," each stack increasing the wearer's ATK by 48%, lasting until the end of the turn.
   "301":
     Name: Estação de Vedação Espacial
     Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
@@ -367,16 +367,16 @@ RelicSets:
     Description2pc: Aumenta a Taxa de Regeneração de Energia do usuário em 5%. Aumenta em 10% o Dano para todos os outros aliados com o mesmo Tipo de Dano que o usuário.
   "313":
     Name: Sigonia, a Desolação Abandonada
-    Description2pc: Aumenta a Chance de CRIT do usuário em 4%. Quando um inimigo-alvo é derrotado, o Dano CRIT do usuário aumenta em 4%, acumulando até 10 vez(es).
+    Description2pc: Aumenta a Chance de CRIT do usuário em 4%. Quando um inimigo-alvo é derrotado, o Dano CRIT do usuário aumenta em 4%, acumulando até 10 vezes.
   "314":
     Name: Izumo Gensei e Reino Divino de Takama
     Description2pc: Aumenta o ATQ do usuário em 12%. Ao entrar em batalha, se ao menos um outro aliado seguir o mesmo Caminho que o usuário, a Chance de CRIT do usuário aumenta em 12%.
   "315":
     Name: Duran, Dinastia dos Lobos Errantes
-    Description2pc: Quando um aliado utiliza um Ataque Extra, o usuário recebe 1 acúmulo de Mérito, acumulando até 5 vez(es). Cada acúmulo de Mérito aumenta o Dano causado pelos Ataques Extras do usuário em 5%. Com 5 acúmulos, aumenta adicionalmente o Dano CRIT do usuário em 25%.
+    Description2pc: Quando um aliado utiliza um Ataque Extra, o usuário recebe 1 acúmulo de Mérito, acumulando até 5 vezes. Cada acúmulo de Mérito aumenta o Dano causado pelos Ataques Extras do usuário em 5%. Com 5 acúmulos, aumenta adicionalmente o Dano CRIT do usuário em 25%.
   "316":
     Name: Forja da Lanterna Kalpagni
-    Description2pc: Aumenta a VEL do usuário em 6%. Quando o usuário atinge um inimigo-alvo com Fraqueza contra Fogo, o Efeito de Quebra do usuário aumenta em 40%, durando por 1 rodada(s).
+    Description2pc: Aumenta a VEL do usuário em 6%. Quando o usuário atinge um inimigo-alvo com Fraqueza contra Fogo, o Efeito de Quebra do usuário aumenta em 40%, durando por 1 rodada.
   "317":
     Name: Lushaka, os Mares Submersos
     Description2pc: Aumenta a Taxa de Regeneração de Energia do usuário em 5%. Se o usuário não for o primeiro personagem na Formação de Equipe, então aumenta o ATQ do primeiro personagem na Formação de Equipe em 12%.
@@ -635,9 +635,9 @@ Lightcones:
   "23041":
     Name: A Vida Forjada em Chamas
   "23042":
-    Name: May Rainbows Remain in the Sky
+    Name: Long May Rainbows Adorn the Sky
   "23043":
-    Name: Lies, Aflutter in the Wind
+    Name: Lies Dance on the Breeze
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

@@ -6267,42 +6267,42 @@
       "element": "Quantum",
       "traces": {
         "Quantum DMG Boost": 0.144,
-        "HP%": 0.1,
+        "Effect Hit Rate": 0.1,
         "SPD": 14
       },
       "traceTree": [
         {
-          "id": "1406201_3.3v1",
+          "id": "1406201_3.3v3",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1406210_3.3v1",
+              "id": "1406210_3.3v3",
               "stat": "SPD",
               "value": 4,
-              "pre": "1406201_3.3v1",
+              "pre": "1406201_3.3v3",
               "children": []
             }
           ]
         },
         {
-          "id": "1406202_3.3v1",
+          "id": "1406202_3.3v3",
           "stat": "Quantum DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1406203_3.3v1",
+              "id": "1406203_3.3v3",
               "stat": "SPD",
               "value": 2,
-              "pre": "1406202_3.3v1",
+              "pre": "1406202_3.3v3",
               "children": [
                 {
-                  "id": "1406204_3.3v1",
-                  "stat": "HP%",
+                  "id": "1406204_3.3v3",
+                  "stat": "Effect Hit Rate",
                   "value": 0.04,
-                  "pre": "1406203_3.3v1",
+                  "pre": "1406203_3.3v3",
                   "children": []
                 }
               ]
@@ -6310,22 +6310,22 @@
           ]
         },
         {
-          "id": "1406205_3.3v1",
+          "id": "1406205_3.3v3",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1406206_3.3v1",
+              "id": "1406206_3.3v3",
               "stat": "Quantum DMG Boost",
               "value": 0.048,
-              "pre": "1406205_3.3v1",
+              "pre": "1406205_3.3v3",
               "children": [
                 {
-                  "id": "1406207_3.3v1",
+                  "id": "1406207_3.3v3",
                   "stat": "SPD",
                   "value": 3,
-                  "pre": "1406206_3.3v1",
+                  "pre": "1406206_3.3v3",
                   "children": []
                 }
               ]
@@ -6333,14 +6333,14 @@
           ]
         },
         {
-          "id": "1406208_3.3v1",
-          "stat": "HP%",
+          "id": "1406208_3.3v3",
+          "stat": "Effect Hit Rate",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1406209_3.3v1",
+          "id": "1406209_3.3v3",
           "stat": "Quantum DMG Boost",
           "value": 0.064,
           "pre": null,
@@ -6468,72 +6468,72 @@
       },
       "traceTree": [
         {
-          "id": "1409201_3.3v1",
+          "id": "1409201_3.3v3",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1409202_3.3v1",
+              "id": "1409202_3.3v3",
               "stat": "Effect RES",
               "value": 0.04,
-              "pre": "1409201_3.3v1",
+              "pre": "1409201_3.3v3",
               "children": []
             },
             {
-              "id": "1409203_3.3v1",
+              "id": "1409203_3.3v3",
               "stat": "SPD",
               "value": 2,
-              "pre": "1409201_3.3v1",
+              "pre": "1409201_3.3v3",
               "children": []
             }
           ]
         },
         {
-          "id": "1409204_3.3v1",
+          "id": "1409204_3.3v3",
           "stat": "HP%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409205_3.3v1",
+          "id": "1409205_3.3v3",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409206_3.3v1",
+          "id": "1409206_3.3v3",
           "stat": "Effect RES",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409207_3.3v1",
+          "id": "1409207_3.3v3",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409208_3.3v1",
+          "id": "1409208_3.3v3",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1409209_3.3v1",
+              "id": "1409209_3.3v3",
               "stat": "Effect RES",
               "value": 0.08,
-              "pre": "1409208_3.3v1",
+              "pre": "1409208_3.3v3",
               "children": [
                 {
-                  "id": "1409210_3.3v1",
+                  "id": "1409210_3.3v3",
                   "stat": "SPD",
                   "value": 4,
-                  "pre": "1409209_3.3v1",
+                  "pre": "1409209_3.3v3",
                   "children": []
                 }
               ]

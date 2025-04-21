@@ -10,7 +10,7 @@ import { ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
 export type AsyncSimScoringExecution = {
   done: boolean
   result: SimulationScore | null
-  promise: Promise<SimulationScore | null>
+  promise: Promise<SimulationScore | null> | null
 }
 
 export function getShowcaseSimScoringExecution(
@@ -21,22 +21,24 @@ export function getShowcaseSimScoringExecution(
 ): AsyncSimScoringExecution {
   console.log('Start async')
 
+  const characterMetadata = DB.getMetadata().characters[character.id]
+  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
+
   const asyncResult: AsyncSimScoringExecution = {
     done: false,
     result: null,
-    promise: null as any,
+    promise: null,
+  }
+
+  if (!simulationMetadata) {
+    asyncResult.done = true
+    return asyncResult
   }
 
   async function runSimulation() {
     console.log('Executing async operation')
 
     try {
-      const characterMetadata = DB.getMetadata().characters[character.id]
-      const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
-      if (!simulationMetadata) {
-        return null
-      }
-
       const relics = displayRelics as SingleRelicByPart
       const simulationOrchestrator = await runDpsScoreBenchmarkOrchestrator(character, simulationMetadata, relics, showcaseTemporaryOptions)
       const simulationScore = simulationOrchestrator.simulationScore

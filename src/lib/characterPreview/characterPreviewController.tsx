@@ -10,9 +10,11 @@ import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
+import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/new/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/new/statSimulationTypes'
-import { AppPages, DB } from 'lib/state/db'
+import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { filterNonNull } from 'lib/utils/arrayUtils'
@@ -98,9 +100,14 @@ function getRelic(relicsById: Record<string, Relic>, character: Character, part:
   return null
 }
 
-export function showcaseIsInactive(source: ShowcaseSource, activeKey: string) {
-  return source == ShowcaseSource.SHOWCASE_TAB && activeKey != AppPages.SHOWCASE
-    || source != ShowcaseSource.SHOWCASE_TAB && activeKey != AppPages.CHARACTERS
+export function resolveScoringType(storedScoringType: ScoringType, asyncSimScoringExecution: AsyncSimScoringExecution) {
+  if (storedScoringType == ScoringType.NONE || storedScoringType == ScoringType.SUBSTAT_SCORE) {
+    return storedScoringType
+  }
+  if (storedScoringType == ScoringType.COMBAT_SCORE && asyncSimScoringExecution.promise != null) {
+    return storedScoringType
+  }
+  return ScoringType.SUBSTAT_SCORE
 }
 
 export function getArtistName(character: Character) {

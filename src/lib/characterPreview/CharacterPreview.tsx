@@ -8,6 +8,7 @@ import {
   getShowcaseMetadata,
   getShowcaseStats,
   handleTeamSelection,
+  resolveScoringType,
   ShowcaseDisplayDimensions,
   showcaseOnAddOk,
   showcaseOnEditOk,
@@ -77,7 +78,7 @@ export function CharacterPreview(props: {
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | undefined>()
   const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
 
-  const [scoringType, setScoringType] = useState(ScoringType.COMBAT_SCORE)
+  const [storedScoringType, setScoringType] = useState(ScoringType.COMBAT_SCORE)
   const prevCharId = useRef<string | undefined>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
@@ -137,6 +138,7 @@ export function CharacterPreview(props: {
     currentSelection,
     showcaseTemporaryOptions,
   )
+  const scoringType = resolveScoringType(storedScoringType, asyncSimScoringExecution)
 
   // ===== Portrait =====
 

@@ -39,38 +39,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const fuaScaling = talent(e, 2.50, 2.75)
 
-  // TODO: Ashblazing
-
-  // const ultHitCountMulti = (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
-  // const ultBrokenHitCountMulti = (
-  //   1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9
-  //   + 3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9
-  //   + 5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9
-  //   + 7 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
-  //   + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
-  //   + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
-  //   + 8 * 0.2285)
-
-  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    const r = action.characterConditionals as Conditionals<typeof content>
-
-    return 1
-  }
-
   const defaults = {
     vulnerability: true,
     skillAtkBuff: true,
     fuaCdBoost: true,
     spdBasedBuffs: true,
-    e1Vulnerability: true,
-    e2AtkBuff: true,
+    e1AtkBuff: true,
+    e2Vulnerability: true,
     e4AdditionalDmg: true,
     e6FuaDmg: true,
   }
 
   const teammateDefaults = {
     vulnerability: true,
-    e1Vulnerability: true,
+    e2Vulnerability: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -98,17 +80,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'SPD based buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    e1Vulnerability: {
-      id: 'e1Vulnerability',
+    e1AtkBuff: {
+      id: 'e1AtkBuff',
       formItem: 'switch',
-      text: 'E1 vulnerability',
+      text: 'E1 ATK buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
-    e2AtkBuff: {
-      id: 'e2AtkBuff',
+    e2Vulnerability: {
+      id: 'e2Vulnerability',
       formItem: 'switch',
-      text: 'E2 ATK buff',
+      text: 'E2 vulnerability',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
@@ -130,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     vulnerability: content.vulnerability,
-    e1Vulnerability: content.e1Vulnerability,
+    e2Vulnerability: content.e2Vulnerability,
   }
 
   const hitMulti = ASHBLAZING_ATK_STACK
@@ -151,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((r.skillAtkBuff) ? skillAtkBuff : 0, SOURCE_SKILL)
       x.FUA_CD_BOOST.buff(1.00, SOURCE_TRACE)
 
-      x.ATK_P.buff((e >= 2 && r.e2AtkBuff) ? 1.00 : 0, SOURCE_E2)
+      x.ATK_P.buff((e >= 1 && r.e1AtkBuff) ? 0.80 : 0, SOURCE_E1)
       x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaDmg) ? 3.50 : 0, SOURCE_E6)
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
@@ -177,8 +159,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((m.vulnerability) ? 0.30 : 0, SOURCE_TRACE)
-      x.VULNERABILITY.buffTeam((e >= 1 && m.e1Vulnerability) ? 0.25 : 0, SOURCE_E1)
+      x.VULNERABILITY.buffTeam((m.vulnerability) ? 0.40 : 0, SOURCE_TRACE)
+      x.VULNERABILITY.buffTeam((e >= 2 && m.e2Vulnerability) ? 0.30 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

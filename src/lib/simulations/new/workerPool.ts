@@ -1,22 +1,34 @@
 import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
+import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
 
-export class WorkerPool {
+// Base interfaces for worker input and output
+export interface BaseWorkerInput {
+  workerType: WorkerType
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface BaseWorkerOutput {}
+
+interface QueuedTask<TInput extends BaseWorkerInput, TOutput extends BaseWorkerOutput> {
+  input: TInput
+  resolve: (value: TOutput) => void
+  reject: (reason?: ErrorEvent) => void
+}
+
+export class WorkerPool<TInput extends BaseWorkerInput, TOutput extends BaseWorkerOutput> {
   private workers: Worker[] = []
   private available: number[] = []
-  private queue: Array<{
-    input: any
-    resolve: (value: any) => void
-    reject: (reason?: any) => void
-  }> = []
+  private queue: Array<QueuedTask<TInput, TOutput>> = []
 
   constructor() {
-    const INITIAL_WORKER_COUNT = 1
-    const MAX_WORKER_COUNT = Math.min(1, Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency))
+    const INITIAL_WORKER_COUNT = 10
+    const MAX_WORKER_COUNT = Math.min(10, Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency))
+    // const MAX_WORKER_COUNT = Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency)
 
     console.log(`[WorkerPool] Initializing pool with ${INITIAL_WORKER_COUNT} workers`)
 
-    // Create initial once
+    // Create initial workers
     for (let i = 0; i < INITIAL_WORKER_COUNT; i++) {
       console.log(`[WorkerPool] Creating initial worker ${i}`)
       try {
@@ -29,6 +41,7 @@ export class WorkerPool {
       }
     }
 
+    // Additional delayed workers
     for (let i = INITIAL_WORKER_COUNT; i < MAX_WORKER_COUNT; i++) {
       setTimeout(() => {
         console.log(`[WorkerPool] Creating additional worker ${i}`)
@@ -38,28 +51,34 @@ export class WorkerPool {
           this.workers.push(worker)
           this.available.push(i)
 
-          // Log completion when all workers are created
           if (this.workers.length === MAX_WORKER_COUNT) {
             console.log(`[WorkerPool] Pool finalized with ${this.workers.length} workers`)
           }
         } catch (error) {
           console.error(`[WorkerPool] Error creating worker ${i}:`, error)
         }
-      }, i * 500) // 100ms delay between each additional worker
+      }, i * 500) // delay between each additional worker
     }
 
     console.log(`[WorkerPool] Pool initialized with ${this.workers.length} workers`)
   }
 
-  runTask(input: any): Promise<any> {
-    return new Promise((resolve, reject) => {
+  runTask(input: TInput): Promise<TOutput> {
+    const startTime = performance.now()
+
+    return new Promise<TOutput>((resolve, reject) => {
+      const timedResolve = (value: TOutput) => {
+        const endTime = performance.now()
+        console.log(`[WorkerPool] Task completed in ${endTime - startTime}ms`)
+        resolve(value)
+      }
+
       if (this.available.length > 0) {
         // Use an available worker
         const workerIndex = this.available.shift()!
-        this.runTaskOnWorker(input, resolve, reject, workerIndex)
+        this.runTaskOnWorker(input, timedResolve, reject, workerIndex)
       } else {
-        // Queue the task for later
-        this.queue.push({ input, resolve, reject })
+        this.queue.push({ input, resolve: timedResolve, reject })
       }
     })
   }
@@ -83,7 +102,6 @@ export class WorkerPool {
   }
 
   private setupWorker(worker: Worker, index: number): void {
-    // Add global error handler
     worker.onerror = (error) => {
       console.error(`[WorkerPool] Worker ${index} error:`, error)
     }
@@ -93,6 +111,7 @@ export class WorkerPool {
 
     // Setup one-time ping response listener
     const pingHandler = (e: MessageEvent) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (e.data?.type === 'PONG') {
         console.log(`[WorkerPool] Worker ${index} responded to ping`)
         worker.removeEventListener('message', pingHandler)
@@ -102,13 +121,18 @@ export class WorkerPool {
     worker.addEventListener('message', pingHandler)
   }
 
-  private runTaskOnWorker(input: any, resolve: (value: any) => void, reject: (reason?: any) => void, workerIndex: number): void {
+  private runTaskOnWorker(
+    input: TInput,
+    resolve: (value: TOutput) => void,
+    reject: (errorEvent?: ErrorEvent) => void,
+    workerIndex: number,
+  ): void {
     const worker = this.workers[workerIndex]
 
     const messageHandler = (e: MessageEvent) => {
       worker.removeEventListener('message', messageHandler)
       worker.removeEventListener('error', errorHandler)
-      resolve(e.data)
+      resolve(e.data as TOutput)
       this.workerDone(workerIndex)
     }
 
@@ -138,28 +162,20 @@ export class WorkerPool {
   }
 }
 
-export const simulationWorkerPool = new WorkerPool()
+export const baseWorkerPool = new WorkerPool<BaseWorkerInput, BaseWorkerOutput>()
 
-// Updated runner function to use the pool with debugging
-export async function runComputeOptimalSimulationWorker(input: any): Promise<any> {
-  // console.log(`[WorkerPool] Task input`, input)
-
-  // Ensure workerType is set properly
-  const enhancedInput = {
+export async function runComputeOptimalSimulationWorker(
+  input: ComputeOptimalSimulationWorkerInput,
+): Promise<ComputeOptimalSimulationWorkerOutput> {
+  const enhancedInput: ComputeOptimalSimulationWorkerInput = {
     ...input,
-    workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION, // This matches your WorkerType enum value
+    workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION,
   }
 
   try {
-    const startTime = performance.now()
-    const result = await simulationWorkerPool.runTask(enhancedInput)
-    const endTime = performance.now()
-
-    console.log(`[WorkerPool] Task completed in ${endTime - startTime}ms`)
-    return result
+    return baseWorkerPool.runTask(enhancedInput) as Promise<ComputeOptimalSimulationWorkerOutput>
   } catch (error) {
     console.error('[WorkerPool] Worker execution error:', error)
-    // Return a default error result
     return { simulation: null }
   }
 }

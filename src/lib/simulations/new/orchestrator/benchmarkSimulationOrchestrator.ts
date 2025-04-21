@@ -28,7 +28,8 @@ import { runComputeOptimalSimulationWorker } from 'lib/simulations/new/workerPoo
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { ComputeOptimalSimulationRunnerInput, ComputeOptimalSimulationRunnerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { WorkerType } from 'lib/worker/workerUtils'
 import { Form, OptimizerForm } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
@@ -296,7 +297,8 @@ export class BenchmarkSimulationOrchestrator {
       // Start the sim search at the max then iterate downwards
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 
-      const input: ComputeOptimalSimulationRunnerInput = {
+      const input: ComputeOptimalSimulationWorkerInput = {
+        workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION,
         partialSimulationWrapper: partialSimulationWrapper,
         inputMinSubstatRollCounts: minSubstatRollCounts,
         inputMaxSubstatRollCounts: maxSubstatRollCounts,
@@ -312,7 +314,7 @@ export class BenchmarkSimulationOrchestrator {
 
     const id = TsUtils.uuid()
     console.time('===== Benchmark runner time ' + id)
-    const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
+    const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationWorkerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('===== Benchmark runner time ' + id)
 
@@ -355,7 +357,8 @@ export class BenchmarkSimulationOrchestrator {
 
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 
-      const input: ComputeOptimalSimulationRunnerInput = {
+      const input: ComputeOptimalSimulationWorkerInput = {
+        workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION,
         partialSimulationWrapper: partialSimulationWrapper,
         inputMinSubstatRollCounts: minSubstatRollCounts,
         inputMaxSubstatRollCounts: maxSubstatRollCounts,
@@ -371,7 +374,7 @@ export class BenchmarkSimulationOrchestrator {
 
     const id = TsUtils.uuid()
     console.time('===== Perfection runner time ' + id)
-    const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationRunnerOutput[]
+    const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationWorkerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('===== Perfection runner time ' + id)
 

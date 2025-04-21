@@ -58,7 +58,6 @@ const columnsToAggregateMap = {
   // For custom rows remember to set the min/max in aggregate()
 
   ED: true,
-  WEIGHT: true,
   EHP: true,
 
   BASIC: true,

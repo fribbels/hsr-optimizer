@@ -237,8 +237,8 @@ let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
 
 (*p_state).LingshaConversionConditional = x.BE;
 
-let finalBuffAtk = buffValueAtk - select(0, stateBuffValueAtk, stateValue > 0);
-let finalBuffOhb = buffValueOhb - select(0, stateBuffValueOhb, stateValue > 0);
+let finalBuffAtk = buffValueAtk - select(0.0, stateBuffValueAtk, stateValue > 0.0);
+let finalBuffOhb = buffValueOhb - select(0.0, stateBuffValueOhb, stateValue > 0.0);
 
 (*p_x).ATK += finalBuffAtk;
 (*p_x).OHB += finalBuffOhb;

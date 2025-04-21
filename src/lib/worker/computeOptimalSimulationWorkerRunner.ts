@@ -1,6 +1,5 @@
 import { PartialSimulationWrapper, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { Simulation, StatSimulationTypes } from 'lib/simulations/new/statSimulationTypes'
-import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
 import { DEBUG } from 'lib/worker/computeOptimalSimulationWorker'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form } from 'types/form'
@@ -36,51 +35,6 @@ export type ComputeOptimalSimulationWorkerInput = {
 
 export type ComputeOptimalSimulationWorkerOutput = {
   simulation: Simulation | null
-}
-
-export async function runComputeOptimalSimulationWorker(
-  input: ComputeOptimalSimulationRunnerInput,
-  callback?: (output: ComputeOptimalSimulationRunnerOutput) => void,
-) {
-  const promise: Promise<ComputeOptimalSimulationWorkerOutput> = handleWork(input)
-
-  promise.then((workerOutput) => {
-    const runnerOutput: ComputeOptimalSimulationRunnerOutput = {
-      simulation: workerOutput.simulation,
-    }
-    if (callback) callback(runnerOutput)
-  }).catch((e) => console.error(e))
-
-  return promise
-}
-
-const errorResult = { simulation: null }
-
-function handleWork(runnerInput: ComputeOptimalSimulationRunnerInput): Promise<ComputeOptimalSimulationWorkerOutput> {
-  if (!runnerInput) return Promise.resolve(errorResult)
-
-  return new Promise((resolve, reject) => {
-    const worker = new ComputeOptimalSimulationWorker()
-
-    const input: ComputeOptimalSimulationWorkerInput = {
-      ...runnerInput,
-      workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION,
-    }
-
-    worker.onmessage = (e) => {
-      const result = e.data as ComputeOptimalSimulationWorkerOutput
-      worker.terminate()
-      resolve(result)
-    }
-
-    worker.onerror = (error) => {
-      console.error('Worker error:', error)
-      worker.terminate()
-      resolve(errorResult)
-    }
-
-    worker.postMessage(input)
-  })
 }
 
 DEBUG()

@@ -9,7 +9,7 @@ export const CURRENT_DATA_VERSION = '3.3v2'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  1406: generateMessage(`Ashblazing stacks added. Reduced EHR penalty. Talent's True DMG is not included.`), // Cipher
+  1406: generateMessage(`Combo rotation updated from 1x FUA to 3x FUA. EHR traces updated.`), // Cipher
 }
 
 export const Stats = {

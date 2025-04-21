@@ -133,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK_P.buff((r.skillAtkBuff) ? skillAtkBuff : 0, SOURCE_SKILL)
       x.FUA_CD_BOOST.buff(1.00, SOURCE_TRACE)
 
-      x.ATK_P.buff((e >= 1 && r.e1AtkBuff) ? 1.00 : 0, SOURCE_E1)
+      x.ATK_P.buff((e >= 1 && r.e1AtkBuff) ? 0.80 : 0, SOURCE_E1)
       x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaDmg) ? 3.50 : 0, SOURCE_E6)
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)

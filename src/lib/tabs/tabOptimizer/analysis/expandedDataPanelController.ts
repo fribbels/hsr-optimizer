@@ -1,13 +1,12 @@
 import { ElementToDamage, StatsValues, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { Buff, ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { Buff, ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { SimulationResult } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
-import { transformOptimizerDisplayData } from 'lib/simulations/new/optimizerDisplayDataTransform'
 import { simulateBuild } from 'lib/simulations/new/simulateBuild'
 import { runStatSimulations } from 'lib/simulations/new/statSimulation'
 import { Simulation, SimulationRelicByPart, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
@@ -33,7 +32,7 @@ export type OptimizerResultAnalysis = {
 type StatUpgrade = {
   stat: SubStats
   simRequest: SimulationRequest
-  simResult: SimulationResult
+  x: ComputedStatsArray
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
@@ -52,11 +51,10 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
     upgradeSim.stats[substat] = (upgradeSim.stats[substat] ?? 0) + 1.0
 
     const simResult = runStatSimulations([{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation], request, context)[0]
-    const optimizerDisplayData = transformOptimizerDisplayData(simResult.x)
     statUpgrades.push({
       stat: substat,
       simRequest: upgradeSim,
-      simResult: optimizerDisplayData,
+      x: simResult.x,
     })
   }
 
@@ -76,8 +74,8 @@ export function generateAnalysisData(currentRowData: OptimizerDisplayData, selec
   const contextOld = generateContext(request)
   const contextNew = generateContext(request)
 
-  const oldX = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
-  const newX = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, null, null)
+  const oldX = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const newX = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

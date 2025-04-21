@@ -51,7 +51,7 @@ export function DamageUpgrades(props: {
     }
     for (const statUpgrade of statUpgrades) {
       const baseValue = analysis.newX[metric].get()
-      const upgradeValue = statUpgrade.simResult.tracedX![metric].get()
+      const upgradeValue = statUpgrade.x[metric].get()
       const diff = upgradeValue - baseValue
       if (diff > 1) {
         const percent = diff / baseValue

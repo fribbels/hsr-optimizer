@@ -6771,7 +6771,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.EHR]: 0.19,
         },
-        comboAbilities: [NULL, ULT, FUA, SKILL, SKILL, BASIC],
+        comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA, BASIC, FUA],
         deprioritizeBuffs: true,
         comboDot: 0,
         comboBreak: 0,

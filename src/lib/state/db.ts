@@ -68,6 +68,7 @@ export const PageToRoute = {
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
   [AppPages.WARP]: BASE_PATH + '#warp',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
+  [AppPages.BENCHMARKS]: BASE_PATH + '#benchmarks',
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
@@ -79,6 +80,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.WARP]]: AppPages.WARP,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
+  [PageToRoute[AppPages.BENCHMARKS]]: AppPages.BENCHMARKS,
 
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,

@@ -1,16 +1,5 @@
 import i18next from 'i18next'
-import {
-  COMPUTE_ENGINE_GPU_STABLE,
-  ComputeEngine,
-  Constants,
-  CURRENT_OPTIMIZER_VERSION,
-  DEFAULT_MEMO_DISPLAY,
-  DEFAULT_STAT_DISPLAY,
-  Parts,
-  Sets,
-  SIMULATION_SCORE,
-  SubStats,
-} from 'lib/constants/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, Sets, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -19,6 +8,7 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -105,7 +95,7 @@ export const RouteToPage = {
 const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.optimizerCharacterId]: null,
   [SavedSessionKeys.relicScorerSidebarOpen]: true,
-  [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
+  [SavedSessionKeys.scoringType]: ScoringType.COMBAT_SCORE,
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,

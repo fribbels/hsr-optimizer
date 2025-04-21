@@ -686,13 +686,6 @@ export const DEFAULT_TEAM = 'Default'
 export const CUSTOM_TEAM = 'Custom'
 export const SETTINGS_TEAM = 'Settings'
 
-export const SIMULATION_SCORE = 'Combat Simulation Score'
-export const CHARACTER_SCORE = 'Character Score'
-export const NONE_SCORE = 'None'
-
-export const DAMAGE_UPGRADES = 'Damage Upgrades'
-export const COMBAT_STATS = 'Combat Stats'
-
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'
 export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'

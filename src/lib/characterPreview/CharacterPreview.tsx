@@ -30,7 +30,7 @@ import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSm
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
@@ -38,6 +38,7 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 
 import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
@@ -76,7 +77,7 @@ export function CharacterPreview(props: {
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | undefined>()
   const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
 
-  const [scoringType, setScoringType] = useState(SIMULATION_SCORE)
+  const [scoringType, setScoringType] = useState(ScoringType.COMBAT_SCORE)
   const prevCharId = useRef<string | undefined>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
@@ -192,7 +193,7 @@ export function CharacterPreview(props: {
 
   // ===== Display =====
 
-  const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, scoringType == SIMULATION_SCORE)
+  const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, scoringType == ScoringType.COMBAT_SCORE)
   const artistName = getArtistName(character)
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
@@ -282,7 +283,7 @@ export function CharacterPreview(props: {
                 onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
               />
 
-              {scoringType == SIMULATION_SCORE && (
+              {scoringType == ScoringType.COMBAT_SCORE && (
                 <ShowcaseLightConeSmall
                   source={source}
                   character={character}
@@ -329,7 +330,7 @@ export function CharacterPreview(props: {
                 asyncSimScoringExecution={asyncSimScoringExecution}
               />
 
-              {scoringType == SIMULATION_SCORE && (
+              {scoringType == ScoringType.COMBAT_SCORE && (
                 <>
                   <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics}/>
 
@@ -347,9 +348,9 @@ export function CharacterPreview(props: {
                 </>
               )}
 
-              {scoringType != SIMULATION_SCORE && (
+              {scoringType != ScoringType.COMBAT_SCORE && (
                 <>
-                  {scoringType != NONE_SCORE && (
+                  {scoringType != ScoringType.NONE && (
                     <ShowcaseStatScore
                       scoringResults={scoringResults}
                     />
@@ -362,7 +363,7 @@ export function CharacterPreview(props: {
               )}
             </Flex>
 
-            {scoringType != SIMULATION_SCORE && (
+            {scoringType != ScoringType.COMBAT_SCORE && (
               <>
                 <ShowcaseLightConeLarge
                   source={source}

@@ -7,13 +7,13 @@ import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRu
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { ElementToDamage, MainStats, Parts, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import { ElementToDamage, MainStats, Parts, Stats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { Assets } from 'lib/rendering/assets'
-import { diminishingReturnsFormula, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
+import { diminishingReturnsFormula, ScoringType, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
 import { Simulation } from 'lib/simulations/new/statSimulationTypes'
 import DB from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -317,7 +317,7 @@ export const CharacterScoringSummary = (props: {
         <EstimatedTbpRelicsDisplay
           displayRelics={props.displayRelics}
           showcaseMetadata={props.showcaseMetadata}
-          scoringType={SIMULATION_SCORE}
+          scoringType={ScoringType.COMBAT_SCORE}
         />
       </Flex>
 

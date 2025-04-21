@@ -4,6 +4,7 @@ import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { BuildData } from 'lib/simulations/expandedComputedStats'
 import { Simulation, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -126,7 +127,7 @@ export type HsrOptimizerStore = {
   setScoringModalOpen: (open: boolean) => void
   setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
-  setSavedSessionKey: (key: string, value: string | boolean) => void
+  setSavedSessionKey: (key: string, value: string | boolean | ScoringType) => void
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setStatTracesDrawerFocusCharacter: (id: CharacterId) => void
@@ -185,7 +186,7 @@ export type HsrOptimizerStore = {
 export type SavedSession = {
   optimizerCharacterId: string | null
   relicScorerSidebarOpen: boolean
-  scoringType: string
+  scoringType: ScoringType
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean

@@ -6,12 +6,12 @@ import { usePublish } from 'hooks/usePublish'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/CharacterStatSummary'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Assets } from 'lib/rendering/assets'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -37,7 +37,7 @@ export interface ShowcaseCustomizationSidebarProps {
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
   asyncSimScoringExecution: AsyncSimScoringExecution | null
-  scoringType: string
+  scoringType: ScoringType
   seedColor: string
   setSeedColor: (color: string) => void
   colorMode: ShowcaseColorMode
@@ -288,7 +288,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             onChange={onShowcasePreciseSpdChange}
           />
 
-          {scoringType != NONE_SCORE
+          {scoringType != ScoringType.NONE
           && (
             <>
               <HorizontalDivider/>
@@ -306,7 +306,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             </>
           )}
 
-          {scoringType == SIMULATION_SCORE
+          {scoringType == ScoringType.COMBAT_SCORE
           && (
             <>
               <HorizontalDivider/>
@@ -336,7 +336,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             </>
           )}
 
-          {scoringType == SIMULATION_SCORE
+          {scoringType == ScoringType.COMBAT_SCORE
           && (
             <>
               <HorizontalDivider/>

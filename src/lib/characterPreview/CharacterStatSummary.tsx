@@ -2,13 +2,13 @@ import { Flex } from 'antd'
 import { StatRow } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { NONE_SCORE, Stats } from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { SimulationResult } from 'lib/scoring/simScoringUtils'
+import { ScoringType, SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { useEffect, useState } from 'react'
@@ -37,7 +37,7 @@ export const CharacterStatSummary = (props: {
   finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
   elementalDmgValue: string
   asyncSimScoringExecution?: AsyncSimScoringExecution | null
-  scoringType?: string
+  scoringType?: ScoringType
   simScore?: number
   showAll?: boolean
 }) => {
@@ -47,7 +47,7 @@ export const CharacterStatSummary = (props: {
 
   return (
     <StatText style={{ paddingLeft: 4, paddingRight: 6, width: '100%' }}>
-      <Flex vertical gap={props.scoringType == NONE_SCORE ? 5 : 3}>
+      <Flex vertical gap={props.scoringType == ScoringType.NONE ? 5 : 3}>
         <StatRow finalStats={props.finalStats} stat={Stats.HP} edits={edits}/>
         <StatRow finalStats={props.finalStats} stat={Stats.ATK} edits={edits}/>
         <StatRow finalStats={props.finalStats} stat={Stats.DEF} edits={edits}/>

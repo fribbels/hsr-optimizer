@@ -3,6 +3,7 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { EstTbpRunnerOutput } from 'lib/worker/estTbpWorkerRunner'
 import { ScoringMetadata } from 'types/metadata'
@@ -113,7 +114,7 @@ export function flatReduction(stat: string) {
 }
 
 // Scoring type isnt strictly needed in the hash but it helps work around some rendering issues with switching score type
-export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: string, scoringType: string, weights: Record<string, number>) {
+export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: string, scoringType: ScoringType, weights: Record<string, number>) {
   return TsUtils.objectHash({
     weights,
     scoringType,

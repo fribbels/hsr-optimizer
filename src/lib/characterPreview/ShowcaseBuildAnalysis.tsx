@@ -5,12 +5,11 @@ import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewControlle
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/CharacterStatSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { CHARACTER_SCORE, NONE_SCORE, SIMULATION_SCORE } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, { useMemo } from 'react'
@@ -20,11 +19,11 @@ const { Text } = Typography
 
 interface ShowcaseBuildAnalysisProps {
   token: GlobalToken
-  scoringType: string
+  scoringType: ScoringType
   asyncSimScoringExecution: AsyncSimScoringExecution | null
   showcaseMetadata: ShowcaseMetadata
   displayRelics: SingleRelicByPart
-  setScoringType: (s: string) => void
+  setScoringType: (s: ScoringType) => void
 }
 
 export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
@@ -92,17 +91,17 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
                 label: characterMetadata.scoringMetadata.simulation == null
                   ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD')/* Combat Score (TBD) */
                   : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
-                value: SIMULATION_SCORE,
+                value: ScoringType.COMBAT_SCORE,
                 disabled: characterMetadata.scoringMetadata.simulation == null,
               },
               {
                 label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
-                value: CHARACTER_SCORE,
+                value: ScoringType.SUBSTAT_SCORE,
                 disabled: false,
               },
               {
                 label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
-                value: NONE_SCORE,
+                value: ScoringType.NONE,
                 disabled: false,
                 className: 'noneScoreLabel',
               },
@@ -110,7 +109,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           />
         </Flex>
       </Flex>
-      {scoringType == SIMULATION_SCORE && (
+      {scoringType == ScoringType.COMBAT_SCORE && (
         <MemoizedCharacterScoringSummary
           simScoringResult={result}
           displayRelics={props.displayRelics}
@@ -118,7 +117,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
         />
       )}
       <StatScoringSummary
-        scoringType={result ? props.scoringType : CHARACTER_SCORE}
+        scoringType={result ? props.scoringType : ScoringType.SUBSTAT_SCORE}
         displayRelics={props.displayRelics}
         showcaseMetadata={props.showcaseMetadata}
       />
@@ -127,13 +126,13 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
 }
 
 function StatScoringSummary(props: {
-  scoringType: string
+  scoringType: ScoringType
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
 
-  if (props.scoringType != CHARACTER_SCORE) {
+  if (props.scoringType != ScoringType.SUBSTAT_SCORE) {
     return <></>
   }
 

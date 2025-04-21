@@ -4,6 +4,7 @@ import { EnrichedRelics, enrichRelicAnalysis, flatReduction, hashEstTbpRun, Reli
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
@@ -19,7 +20,7 @@ const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
 export const EstimatedTbpRelicsDisplay = (props: {
-  scoringType: string
+  scoringType: ScoringType
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) => {

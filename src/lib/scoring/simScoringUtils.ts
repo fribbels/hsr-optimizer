@@ -10,6 +10,12 @@ import { Form } from 'types/form'
 import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
+export enum ScoringType {
+  COMBAT_SCORE,
+  SUBSTAT_SCORE,
+  NONE,
+}
+
 export type ScoringParams = {
   quality: number
   speedRollValue: number

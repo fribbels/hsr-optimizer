@@ -147,7 +147,7 @@ export const Assets = {
   },
 
   getSetImage: (set: string | number, part: string = Constants.Parts.PlanarSphere, actualIcon: boolean = false) => {
-    if (set == -1 || !set) {
+    if (!set) {
       return Assets.getBlank()
     }
 

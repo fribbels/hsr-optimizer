@@ -114,13 +114,11 @@ export function calculateSetNames(relicsByPart: RelicBuild) {
     relicsByPart[Parts.Hands].set,
     relicsByPart[Parts.Body].set,
     relicsByPart[Parts.Feet].set,
-    // @ts-ignore
-  ].filter((x) => x != -1)
+  ].filter((x) => x != null)
   const ornamentSets = [
     relicsByPart[Parts.PlanarSphere].set,
     relicsByPart[Parts.LinkRope].set,
-    // @ts-ignore
-  ].filter((x) => x != -1)
+  ].filter((x) => x != null)
   const relicSetNames = calculateRelicSets(relicSets, true)
   const ornamentSetName: string | undefined = calculateOrnamentSets(ornamentSets, true)
   relicSetNames.sort()
@@ -158,7 +156,7 @@ export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = tr
 
 function emptyRelicWithSetAndSubstats() {
   return {
-    set: -1,
+    set: null,
     substats: [],
   }
 }

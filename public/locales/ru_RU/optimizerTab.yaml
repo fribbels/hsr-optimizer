@@ -65,14 +65,14 @@ MinMaxFilters:
   SPDLabel: Скорость
   CRLabel: КШ
   CDLabel: КУ
-  EHRLabel: ШПЭ
-  RESLabel: СОП
-  BELabel: ЭП
-  ERRLabel: ВЭ
-  BASICLabel: Базовая атака
+  EHRLabel: ШансЭфф
+  RESLabel: Сопр
+  BELabel: Пробитие
+  ERRLabel: ВостЭн
+  BASICLabel: Баз. атака
   SKILLLabel: Навык
   ULTLabel: Ультимейт
-  FUALabel: Бонусная атака
+  FUALabel: Бонус атака
   MEMOSKILLLabel: Навыкᴹ
 ComboDrawer:
   Title: Руководство по редактору ротаций

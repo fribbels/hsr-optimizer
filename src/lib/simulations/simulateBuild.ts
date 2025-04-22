@@ -12,7 +12,7 @@ import {
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/new/statSimulationTypes'
+import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { OptimizerContext } from 'types/optimizer'
 
 // To use after combo state and context has been initialized

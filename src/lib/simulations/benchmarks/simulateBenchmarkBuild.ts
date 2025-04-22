@@ -1,8 +1,8 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
-import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 
 // Generate all main stat possibilities
 export function generatePartialSimulations(

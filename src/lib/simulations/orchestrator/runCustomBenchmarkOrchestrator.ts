@@ -1,7 +1,7 @@
 import { Stats } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/new/orchestrator/benchmarkSimulationOrchestrator'
-import { SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -68,4 +68,3 @@ function generateSimulationRequest(benchmarkForm: BenchmarkForm) {
 
   return request
 }
-

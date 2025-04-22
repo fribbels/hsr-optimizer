@@ -1,6 +1,6 @@
 import { SetsOrnaments } from 'lib/constants/constants'
-import { SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
 import { Simulation } from 'lib/simulations/statSimulationController'
+import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 

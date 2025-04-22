@@ -1,5 +1,5 @@
 import { Parts, Stats } from 'lib/constants/constants'
-import { SimulationRequest } from 'lib/simulations/new/statSimulationTypes'
+import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 

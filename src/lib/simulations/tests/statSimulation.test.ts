@@ -2,22 +2,14 @@ import { Sets, Stats } from 'lib/constants/constants'
 import { addE6S5Teammate } from 'lib/gpu/tests/webgpuTestGenerator'
 import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { runStatSimulations } from 'lib/simulations/new/statSimulation'
-import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
-import { generateFullDefaultForm } from 'lib/simulations/new/utils/benchmarkForm'
+import { runStatSimulations } from 'lib/simulations/statSimulation'
+import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import { expectWithinDelta } from 'lib/simulations/tests/statSimTestUtils'
+import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { Metadata } from 'lib/state/metadata'
 import { test } from 'vitest'
 
 Metadata.initialize()
-
-function expectWithinDelta(actual: number, expected: number, delta: number = 0.001): void {
-  const difference = Math.abs(actual - expected)
-  const pass = difference <= delta
-
-  if (!pass) {
-    throw new Error(`Expected ${actual} to be within ${delta} of ${expected} (difference: ${difference})`)
-  }
-}
 
 test('statSim', () => {
   const form = generateFullDefaultForm('1005', '23006', 6, 5)

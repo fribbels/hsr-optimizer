@@ -18,7 +18,7 @@ import {
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
-import { SimulationRelicArrayByPart } from 'lib/simulations/new/statSimulationTypes'
+import { SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'

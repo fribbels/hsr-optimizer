@@ -1,7 +1,7 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { Message } from 'lib/interactions/message'
 import { cloneWorkerResult } from 'lib/scoring/simScoringUtils'
-import { runCustomBenchmarkOrchestrator } from 'lib/simulations/new/orchestrator/runCustomBenchmarkOrchestrator'
+import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import DB from 'lib/state/db'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'

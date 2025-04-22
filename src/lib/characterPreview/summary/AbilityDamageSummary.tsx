@@ -2,7 +2,7 @@ import { Flex } from 'antd'
 import { t } from 'i18next'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { Key } from 'lib/optimization/computedStatsArray'
-import { RunStatSimulationsResult } from 'lib/simulations/new/statSimulationTypes'
+import { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 
 type AbilityDamageSummaryProps = {

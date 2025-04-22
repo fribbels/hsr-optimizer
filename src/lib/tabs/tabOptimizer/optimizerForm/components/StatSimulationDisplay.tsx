@@ -2,7 +2,6 @@ import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, Swap
 import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { StatSimTypes } from 'lib/simulations/new/statSimulationTypes'
 import {
   deleteAllStatSimulationBuilds,
   importOptimizerBuild,
@@ -10,6 +9,7 @@ import {
   saveStatSimulationBuildFromForm,
   startOptimizerStatSimulation,
 } from 'lib/simulations/statSimulationController'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'

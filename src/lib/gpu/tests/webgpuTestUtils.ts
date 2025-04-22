@@ -6,8 +6,8 @@ import { Key, KeyToStat } from 'lib/optimization/computedStatsArray'
 import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { simulateBuild } from 'lib/simulations/new/simulateBuild'
-import { SimulationRelicByPart } from 'lib/simulations/new/statSimulationTypes'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {

@@ -1,6 +1,6 @@
 import { Key } from 'lib/optimization/computedStatsArray'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
-import { RunStatSimulationsResult } from 'lib/simulations/new/statSimulationTypes'
+import { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 
 export function calculateTargetSpeedNew(
   originalSimResult: RunStatSimulationsResult,

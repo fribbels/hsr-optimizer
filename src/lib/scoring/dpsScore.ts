@@ -1,7 +1,7 @@
 import { Constants, Parts } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
-import { resolveDpsScoreSimulationMetadata, retrieveBenchmarkCache, runDpsScoreBenchmarkOrchestrator, setBenchmarkCache } from 'lib/simulations/new/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import { resolveDpsScoreSimulationMetadata, retrieveBenchmarkCache, runDpsScoreBenchmarkOrchestrator, setBenchmarkCache } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'

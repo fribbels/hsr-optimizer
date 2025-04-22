@@ -1399,14 +1399,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: '1313', // Sunday
+            lightCone: '23034', // Grounded Ascent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

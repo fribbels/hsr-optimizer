@@ -23,6 +23,7 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   }
 
   self.postMessage(workerOutput)
+  return workerOutput
 }
 
 export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {

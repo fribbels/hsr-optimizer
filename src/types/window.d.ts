@@ -97,4 +97,6 @@ declare global {
 
   // eslint-disable-next-line no-var
   var WEBGPU_DEBUG: boolean
+  // eslint-disable-next-line no-var
+  var SEQUENTIAL_BENCHMARKS: boolean
 }

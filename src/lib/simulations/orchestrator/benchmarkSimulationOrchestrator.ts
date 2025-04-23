@@ -28,6 +28,7 @@ import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/utils/
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
 import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form, OptimizerForm } from 'types/form'
@@ -276,6 +277,9 @@ export class BenchmarkSimulationOrchestrator {
 
     const partialSimulationWrappers = generatePartialSimulations(this)
 
+    const id = TsUtils.uuid()
+    console.time('===== Benchmark runner time ' + id)
+
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
@@ -308,12 +312,11 @@ export class BenchmarkSimulationOrchestrator {
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
       }
-
-      return runComputeOptimalSimulationWorker(input)
+      return globalThis.SEQUENTIAL_BENCHMARKS
+        ? computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>)
+        : runComputeOptimalSimulationWorker(input)
     })
 
-    const id = TsUtils.uuid()
-    console.time('===== Benchmark runner time ' + id)
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationWorkerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('===== Benchmark runner time ' + id)
@@ -340,6 +343,8 @@ export class BenchmarkSimulationOrchestrator {
     const clonedPerfectionScoringParams = TsUtils.clone(maximumScoringParams)
 
     const partialSimulationWrappers = generatePartialSimulations(this)
+    const id = TsUtils.uuid()
+    console.time('===== Perfection runner time ' + id)
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
@@ -369,11 +374,11 @@ export class BenchmarkSimulationOrchestrator {
         simulationFlags: flags,
       }
 
-      return runComputeOptimalSimulationWorker(input)
+      return globalThis.SEQUENTIAL_BENCHMARKS
+        ? computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>)
+        : runComputeOptimalSimulationWorker(input)
     })
 
-    const id = TsUtils.uuid()
-    console.time('===== Perfection runner time ' + id)
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationWorkerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('===== Perfection runner time ' + id)

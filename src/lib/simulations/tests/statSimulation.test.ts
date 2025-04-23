@@ -1,33 +1,132 @@
 import { Sets, Stats } from 'lib/constants/constants'
-import { collectResults, generateE6S5Test, TestCase, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/statSimTestUtils'
-import { BLACK_SWAN, HUOHUO, KAFKA, NIGHT_OF_FRIGHT, PAST_SELF_IN_MIRROR, PATIENCE_IS_ALL_YOU_NEED, REFORGED_REMEMBRANCE, RUAN_MEI } from 'lib/simulations/tests/testMetadataConstants'
+import { expectSimResultsToMatch, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/statSimTestUtils'
+import {
+  ACHERON,
+  ALONG_THE_PASSING_SHORE,
+  BLACK_SWAN,
+  EARTHLY_ESCAPADE,
+  FU_XUAN,
+  HUOHUO,
+  JIAOQIU,
+  KAFKA,
+  NIGHT_OF_FRIGHT,
+  PAST_SELF_IN_MIRROR,
+  PATIENCE_IS_ALL_YOU_NEED,
+  REFORGED_REMEMBRANCE,
+  RUAN_MEI,
+  SHE_ALREADY_SHUT_HER_EYES,
+  SPARKLE,
+  THOSE_MANY_SPRINGS,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { Metadata } from 'lib/state/metadata'
 import { test } from 'vitest'
 
 Metadata.initialize()
 
-test('testCalculateBuild2', () => {
-  const testCases: TestCase[] = []
+test('Kafka', () => {
+  expectSimResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    {
+      ATK: 4116.1958008,
+      DEF: 1671.838501,
+      HP: 4415.1518555,
+      SPD: 151.0319977,
+      CR: 0.374,
+      CD: 1.148,
+      EHR: 0.612,
+      RES: 0.432,
+      BE: 0.648,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 0.3888,
+    },
+    {
+      ATK: 4913.3120117,
+      DEF: 1671.838501,
+      HP: 4415.1518555,
+      SPD: 197.4320984,
+      CR: 0.374,
+      CD: 1.148,
+      EHR: 0.612,
+      RES: 0.432,
+      BE: 0.848,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 2.5808001,
+      EHP: 10833.7783203,
+      HEAL_VALUE: 0,
+      SHIELD_VALUE: 0,
+      BASIC_DMG: 25919.078125,
+      SKILL_DMG: 41470.5234375,
+      ULT_DMG: 20358.2578125,
+      FUA_DMG: 37606.2226563,
+      DOT_DMG: 131325.734375,
+      BREAK_DMG: 22832.9824219,
+      MEMO_SKILL_DMG: 0,
+      MEMO_TALENT_DMG: 0,
+      COMBO_DMG: 2279723.5,
+    },
+  )
+})
 
-  testCases.push(collectResults(generateE6S5Test({
-    character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
-    teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
-    teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-    teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-    sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
-    mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
-    stats: testStatSpread(),
-  })))
-
-  // testCases.push(collectResults(generateE6S5Test({
-  //   character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
-  //   teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
-  //   teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-  //   teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-  //   sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
-  //   mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
-  //   stats: testStatSpread(),
-  // })))
-
-  console.log(JSON.stringify(testCases, null, 2))
+test('Acheron', () => {
+  expectSimResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
+      teammate0: testCharacter(JIAOQIU, THOSE_MANY_SPRINGS),
+      teammate1: testCharacter(SPARKLE, EARTHLY_ESCAPADE),
+      teammate2: testCharacter(FU_XUAN, SHE_ALREADY_SHUT_HER_EYES),
+      sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
+      mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    {
+      ATK: 4159.8300781,
+      DEF: 1495.262085,
+      HP: 4256.2226563,
+      SPD: 127,
+      CR: 0.414,
+      CD: 2.6359999,
+      EHR: 0.432,
+      RES: 0.432,
+      BE: 0.648,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 0.4688,
+    },
+    {
+      ATK: 4893.3012695,
+      DEF: 1495.262085,
+      HP: 4784.2226563,
+      SPD: 127.0000992,
+      CR: 1.026,
+      CD: 5.632,
+      EHR: 0.432,
+      RES: 0.432,
+      BE: 0.648,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 2.9607999,
+      EHP: 39107.328125,
+      HEAL_VALUE: 0,
+      SHIELD_VALUE: 0,
+      BASIC_DMG: 454242.75,
+      SKILL_DMG: 726788.375,
+      ULT_DMG: 2278481.75,
+      FUA_DMG: 0,
+      DOT_DMG: 0,
+      BREAK_DMG: 26575.1464844,
+      MEMO_SKILL_DMG: 0,
+      MEMO_TALENT_DMG: 0,
+      COMBO_DMG: 3732058.5,
+    },
+  )
 })

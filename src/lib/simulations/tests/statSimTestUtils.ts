@@ -4,9 +4,11 @@ import { generateContext } from 'lib/optimization/context/calculateContext'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
+import DB from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
+import { expect } from 'vitest'
 
 export function expectWithinDelta(actual: number, expected: number, delta: number = 0.001): void {
   const difference = Math.abs(actual - expected)
@@ -206,12 +208,6 @@ export function collectResults(input: TestInput) {
   return testCase(input, nameBasicResults, nameCombatResults)
 }
 
-export type TestCase = {
-  input: TestInputBasic
-  outputBasic: TestResultByName
-  outputCombat: TestResultByName
-}
-
 export function testCase(input: TestInputBasic, outputBasic: TestResultByName, outputCombat: TestResultByName) {
   return { input, outputBasic, outputCombat }
 }
@@ -230,5 +226,31 @@ export function testStatSpread() {
     [Stats.EHR]: 10,
     [Stats.RES]: 10,
     [Stats.BE]: 10,
+  }
+}
+
+export function expectSimResultsToMatch(
+  input: TestInput,
+  expectedComboBasic: TestResultByName,
+  expectedComboCombat: TestResultByName,
+) {
+  const results = collectResults(input)
+  expectSingleResultsToMatch(results.outputBasic, expectedComboBasic, input, 'BASIC')
+  expectSingleResultsToMatch(results.outputCombat, expectedComboCombat, input, 'COMBAT')
+}
+
+function expectSingleResultsToMatch(actual: TestResultByName, expected: TestResultByName, input: TestInput, view: string) {
+  for (const [key, value] of Object.entries(expected)) {
+    try {
+      expect(actual[key]).toBeCloseTo(value)
+    } catch (error: unknown) {
+      // @ts-ignore
+      const message = error.message
+      throw new Error(`
+${DB.getMetadata().characters[input.character.characterId].displayName} ${key} ${view}
+${message}
+${JSON.stringify(input, null, 2)}
+      `)
+    }
   }
 }

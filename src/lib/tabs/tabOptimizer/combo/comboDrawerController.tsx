@@ -799,7 +799,7 @@ function change(changeConditional: {
   }
 }
 
-export function updateConditionalChange(changeEvent: Form) {
+export function updateConditionalChange(changeEvent: Form, allValues: Form) {
   console.log('updateConditionalChange', changeEvent)
 
   const comboState = window.store.getState().comboState
@@ -816,6 +816,8 @@ export function updateConditionalChange(changeEvent: Form) {
 
   if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals ?? {})
   if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals ?? {})
+
+  comboState.comboAbilities = allValues.comboAbilities
 
   window.store.getState().setComboState({ ...comboState })
   updateFormState(comboState)

@@ -256,7 +256,7 @@ export function calculatePenaltyMultiplier(
   return newPenaltyMultiplier
 }
 
-function cloneComputedStatsArray(x: ComputedStatsArray) {
+export function cloneComputedStatsArray(x: ComputedStatsArray) {
   const clone = new ComputedStatsArrayCore(false)
   clone.a.set(new Float32Array(x.a))
   clone.c.a.set(new Float32Array(x.c.a))

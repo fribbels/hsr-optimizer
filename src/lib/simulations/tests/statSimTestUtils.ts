@@ -1,6 +1,8 @@
-import { MainStats, Sets, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
+import { MainStats, Parts, Sets, SetsOrnaments, SetsRelics, Stats, SubStats } from 'lib/constants/constants'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatConfig, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
@@ -8,6 +10,7 @@ import DB from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
+import { Relic } from 'types/relic'
 import { expect } from 'vitest'
 
 export function expectWithinDelta(actual: number, expected: number, delta: number = 0.001): void {
@@ -129,15 +132,15 @@ export function runTest(input: TestInput) {
   return simulationResult.x
 }
 
-export function testCharacter(characterId: string, lightCone: string) {
+export function testCharacter(characterId: string, lightCone: string): TestCharacterBasic {
   return { characterId, lightCone }
 }
 
-export function testSets(simRelicSet1: SetsRelics, simRelicSet2: SetsRelics, simOrnamentSet: SetsOrnaments) {
+export function testSets(simRelicSet1: SetsRelics, simRelicSet2: SetsRelics, simOrnamentSet: SetsOrnaments): TestSets {
   return { simRelicSet1, simRelicSet2, simOrnamentSet }
 }
 
-export function testMains(simBody: MainStats, simFeet: MainStats, simPlanarSphere: MainStats, simLinkRope: MainStats) {
+export function testMains(simBody: MainStats, simFeet: MainStats, simPlanarSphere: MainStats, simLinkRope: MainStats): TestMains {
   return { simBody, simFeet, simPlanarSphere, simLinkRope }
 }
 
@@ -253,4 +256,39 @@ ${JSON.stringify(input, null, 2)}
       `)
     }
   }
+}
+
+export function generateTestSingleRelicsByPart(
+  sets: TestSets,
+  mains: TestMains,
+  stats: TestStats,
+): SingleRelicByPart {
+  const relicsByPart = {
+    [Parts.Head]: testRelic(sets.simRelicSet1, Stats.HP),
+    [Parts.Hands]: testRelic(sets.simRelicSet1, Stats.ATK),
+    [Parts.Body]: testRelic(sets.simRelicSet2, mains.simBody),
+    [Parts.Feet]: testRelic(sets.simRelicSet2, mains.simFeet),
+    [Parts.PlanarSphere]: testRelic(sets.simOrnamentSet, mains.simPlanarSphere),
+    [Parts.LinkRope]: testRelic(sets.simOrnamentSet, mains.simLinkRope),
+  }
+
+  for (const [stat, value] of Object.entries(stats)) {
+    const substat = stat as SubStats
+    relicsByPart[Parts.Head].substats.push({
+      stat: substat,
+      value: StatCalculator.getMaxedSubstatValue(substat) * value,
+    })
+  }
+
+  return relicsByPart
+}
+
+function testRelic(set: Sets, main: MainStats) {
+  return {
+    main: {
+      stat: main,
+    },
+    set: set,
+    substats: [],
+  } as unknown as Relic
 }

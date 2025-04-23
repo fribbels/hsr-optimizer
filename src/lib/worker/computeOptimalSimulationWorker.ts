@@ -22,8 +22,11 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
     simulation: optimalSimulation,
   }
 
+  if (globalThis.SEQUENTIAL_BENCHMARKS) {
+    return workerOutput
+  }
+
   self.postMessage(workerOutput)
-  return workerOutput
 }
 
 export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
@@ -62,6 +65,7 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
       ...scoringParams,
       substatRollsModifier: scoringParams.substatRollsModifier,
     })[0]
+    applyScoringFunction(currentSimulation.result, metadata)
     return currentSimulation
   }
 
@@ -237,6 +241,8 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     substatRollsModifier: scoringParams.substatRollsModifier,
     simulationFlags: simulationFlags,
   })[0]
+
+  applyScoringFunction(currentSimulation.result, metadata)
 
   console.log(
     'simulationRuns',

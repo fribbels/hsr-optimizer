@@ -50,7 +50,7 @@ export default function OptimizerForm() {
     const keys = Object.keys(changedValues)
 
     if (keys.length == 1 && (keys[0] == 'characterConditionals' || keys[0] == 'lightConeConditionals' || keys[0] == 'setConditionals' || keys[0].startsWith('teammate'))) {
-      updateConditionalChange(changedValues)
+      updateConditionalChange(changedValues, allValues)
     }
 
     if (bypass) {

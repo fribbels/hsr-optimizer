@@ -3464,8 +3464,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Ascent
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

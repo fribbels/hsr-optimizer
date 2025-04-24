@@ -5349,8 +5349,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: '1306', // Sparkle
             lightCone: '23003', // BTBIO
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1217', // Huohuo

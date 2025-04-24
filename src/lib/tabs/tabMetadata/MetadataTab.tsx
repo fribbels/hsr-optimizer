@@ -1,4 +1,3 @@
-import Icon from '@ant-design/icons'
 import { Collapse, Flex } from 'antd'
 import gameData from 'data/game_data.json'
 import { PathNames, Sets, Stats } from 'lib/constants/constants'

@@ -3632,8 +3632,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Ascent
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4166,8 +4166,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '8008', // Stelle (Remembrance)
-            lightCone: '24005', // Memory's curtain
+            characterId: '1202', // Tingyun
+            lightCone: '21004', // MOTP
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
@@ -6815,6 +6815,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
+            characterId: '1308', // Acheron
+            lightCone: '23024', // Shore
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1218', // Jiaoqiu
+            lightCone: '23029', // Springs
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          /* {
             characterId: '1220', // Feixiao
             lightCone: '23031', // Venture
             characterEidolon: 0,
@@ -6825,7 +6837,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          },
+          }, */
           {
             characterId: '1304', // Aventurine
             lightCone: '23023', // Unjust destiny

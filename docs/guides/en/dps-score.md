@@ -46,7 +46,7 @@ The resulting total damage, labeled "Combo DMG" is then used to compare builds.
 
 The scoring algorithm generates three benchmark builds to compare Combo DMG against:
 
-* Baseline (0%) - No substats, no optional main stats
+* Baseline (0%) - No substats, no optional main stats, using benchmark sets
 * Benchmark (100%) - A strong build, generated following certain rules with a realistic distribution of 48x min rolls
 * Perfection (200%) - The perfect build, generated with an ideal distribution of 54x max rolled substats
 

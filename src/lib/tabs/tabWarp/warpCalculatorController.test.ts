@@ -26,7 +26,7 @@ test('base options', () => {
   }
 })
 
-test('strategies', () => {
+test('strategies e0', () => {
   const e0Result = simulateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E0 })
 
   expect(Object.keys(e0Result.milestoneResults)).toEqual([
@@ -43,7 +43,9 @@ test('strategies', () => {
     'E6S4',
     'E6S5',
   ])
+})
 
+test('strategies s1', () => {
   const s1Result = simulateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.S1 })
   expect(Object.keys(s1Result.milestoneResults)).toEqual([
     'S1',
@@ -59,7 +61,9 @@ test('strategies', () => {
     'E6S4',
     'E6S5',
   ])
+})
 
+test('strategies e6', () => {
   const e6Result = simulateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E6 })
   expect(Object.keys(e6Result.milestoneResults)).toEqual([
     'E0S0',

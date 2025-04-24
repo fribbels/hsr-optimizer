@@ -4,6 +4,7 @@ import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPrev
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import { INTO_THE_UNREACHABLE_VEIL, THE_HERTA } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
@@ -27,8 +28,8 @@ const MID_PANEL_WIDTH = 250
 const RIGHT_PANEL_WIDTH = 250
 
 const defaultForm: Partial<BenchmarkForm> = {
-  characterId: '1212',
-  lightCone: '23014',
+  characterId: THE_HERTA,
+  lightCone: INTO_THE_UNREACHABLE_VEIL,
   simRelicSet1: 'Scholar Lost in Erudition',
   simRelicSet2: 'Scholar Lost in Erudition',
   simOrnamentSet: 'Rutilant Arena',

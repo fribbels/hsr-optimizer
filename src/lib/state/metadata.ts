@@ -1508,8 +1508,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1603,8 +1603,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // PSIM
+            characterId: '1218', // Jiaoqiu
+            lightCone: '23029', // Springs
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3836,8 +3836,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // BTBIO
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4045,9 +4045,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
-          {
+          /* {
             characterId: '1406', // Cipher
             lightCone: '23043', // Lies
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }, */
+          {
+            characterId: '1112', // Topaz
+            lightCone: '23016', // Worrisome Blissful
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4787,9 +4793,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
+          /* {
+            characterId: '1406', // Cipher
+            lightCone: '23043', // Lies
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }, */
           {
             characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            lightCone: '23016', // Worrisome Blissful
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4886,9 +4898,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
+          /* {
+            characterId: '1406', // Cipher
+            lightCone: '23043', // Lies
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          }, */
           {
             characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            lightCone: '23016', // Worrisome Blissful
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5116,12 +5134,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightCone: '23029', // Springs
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          },
+          }, /*
           {
             characterId: '1406', // Cipher
             lightCone: '23043', // Lies
             characterEidolon: 0,
             lightConeSuperimposition: 1,
+          }, */
+          {
+            characterId: '1106', // Pela
+            lightCone: '21015', // Pearls
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: '1304', // Aventurine

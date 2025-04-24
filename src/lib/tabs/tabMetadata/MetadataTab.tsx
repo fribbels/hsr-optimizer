@@ -296,7 +296,7 @@ function Icon(props: {
 
 function IconPair(props: { src1?: string; src2?: string }) {
   return (
-    <Flex style={{ width: 80, justifyContent: 'center' }}>
+    <Flex style={{ width: 80, justifyContent: 'center', marginLeft: 10, marginRight: 10 }}>
       <Icon src={props.src1 ?? Assets.getBlank()}/>
       {props.src2 && <Icon src={props.src2}/>}
     </Flex>

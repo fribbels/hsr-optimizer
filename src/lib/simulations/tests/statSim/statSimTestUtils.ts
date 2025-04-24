@@ -232,6 +232,12 @@ export function testStatSpread(count: number = 10) {
   }
 }
 
+export function testStatSpreadSpd(spdRolls: number, count: number = 10) {
+  const stats = testStatSpread(count)
+  stats[Stats.SPD] = spdRolls
+  return stats
+}
+
 export function expectSimResultsToMatch(
   input: TestInput,
   expectedComboBasic: TestResultByName,

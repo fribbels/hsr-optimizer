@@ -1,6 +1,7 @@
 import { runDpsScoreBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import { generateTestSingleRelicsByPart, TestInput, testStatSpread } from 'lib/simulations/tests/statSim/statSimTestUtils'
+import { generateTestSingleRelicsByPart, TestInput } from 'lib/simulations/tests/statSim/statSimTestUtils'
 import DB from 'lib/state/db'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
 import { expect } from 'vitest'
 
@@ -15,12 +16,13 @@ export async function expectBenchmarkResultsToMatch(
       ...input.character,
     },
   } as Character
-  const sets = input.sets
-  const mains = input.mains
 
-  const simulationMetadata = DB.getMetadata().characters[input.character.characterId].scoringMetadata.simulation!
+  const simulationMetadata = TsUtils.clone(DB.getMetadata().characters[input.character.characterId].scoringMetadata.simulation!)
   const showcaseTemporaryOptions = { spdBenchmark: undefined }
-  const singleRelicByPart = generateTestSingleRelicsByPart(sets, mains, testStatSpread())
+  const singleRelicByPart = generateTestSingleRelicsByPart(input.sets, input.mains, input.stats)
+  simulationMetadata.teammates[0] = input.teammate0
+  simulationMetadata.teammates[1] = input.teammate1
+  simulationMetadata.teammates[2] = input.teammate2
 
   const orchestrator = await runDpsScoreBenchmarkOrchestrator(
     character,

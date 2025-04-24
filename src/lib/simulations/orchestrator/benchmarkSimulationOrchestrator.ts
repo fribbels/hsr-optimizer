@@ -24,7 +24,7 @@ import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
 import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
-import { applySpeedFlags, calculateTargetSpeedNew } from 'lib/simulations/utils/benchmarkSpeedTargets'
+import { applySpeedFlags } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -255,12 +255,31 @@ export class BenchmarkSimulationOrchestrator {
     // Force SPD
     const forcedSpdSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
 
-    originalSim.result = forcedSpdSimResult
+    // TODO: Refactor this block
+    let targetSpd: number
+    if (flags.characterPoetActive) {
+      // When the original character has poet, benchmark against the original character
+      originalSim.result = originalSimResult
+      this.originalSimResult = originalSimResult
+      this.originalSim = originalSim
+      targetSpd = forcedSpdSimResult.xa[Key.SPD]
+    } else {
+      if (flags.simPoetActive) {
+        // We don't want to have the original character's combat stats penalized by poet if they're not on poet
+        originalSim.result = originalSimResult
+        this.originalSimResult = originalSimResult
+        this.originalSim = originalSim
+        targetSpd = flags.forceBasicSpdValue
+      } else {
+        originalSim.result = forcedSpdSimResult
+        this.originalSimResult = forcedSpdSimResult
+        this.originalSim = originalSim
+        targetSpd = originalSimResult.xa[Key.SPD]
+      }
+    }
 
-    this.originalSimResult = forcedSpdSimResult
-    this.originalSim = originalSim
     this.originalSpd = originalSpd
-    this.targetSpd = calculateTargetSpeedNew(originalSimResult, forcedSpdSimResult, flags) // Combat spd
+    this.targetSpd = targetSpd
   }
 
   public async calculateBenchmark() {

@@ -59,7 +59,7 @@ export class WorkerPool<TInput extends BaseWorkerInput, TOutput extends BaseWork
         } catch (error) {
           console.error(`[WorkerPool] Error creating worker ${i}:`, error)
         }
-      }, i * 500) // delay between each additional worker
+      }, i * 1000) // delay between each additional worker
     }
 
     console.log(`[WorkerPool] Pool initialized with ${this.workers.length} workers`)

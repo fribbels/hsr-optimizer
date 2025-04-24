@@ -321,7 +321,7 @@ export class BenchmarkSimulationOrchestrator {
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('===== Benchmark runner time ' + id)
 
-    console.log(candidates)
+    // console.log(candidates)
 
     candidates.sort(simSorter)
     const benchmarkSim = candidates[0]

@@ -1,5 +1,5 @@
 import { Sets, Stats } from 'lib/constants/constants'
-import { expectSimResultsToMatch, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/statSimTestUtils'
+import { expectSimResultsToMatch, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/statSim/statSimTestUtils'
 import {
   ACHERON,
   ALONG_THE_PASSING_SHORE,
@@ -23,7 +23,7 @@ import { test } from 'vitest'
 
 Metadata.initialize()
 
-test('Kafka', () => {
+test('Kafka sim', () => {
   expectSimResultsToMatch(
     generateE6S5Test({
       character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
@@ -77,7 +77,7 @@ test('Kafka', () => {
   )
 })
 
-test('Acheron', () => {
+test('Acheron sim', () => {
   expectSimResultsToMatch(
     generateE6S5Test({
       character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),

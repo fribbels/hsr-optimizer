@@ -57,6 +57,7 @@ export function getShowcaseSimScoringExecution(
       const simulationOrchestrator = await runDpsScoreBenchmarkOrchestrator(character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
       const simulationScore = simulationOrchestrator.simulationScore
       console.log('Orchestrator', simulationOrchestrator)
+      console.log('Percent', simulationScore?.percent)
 
       if (!simulationScore) return null
 

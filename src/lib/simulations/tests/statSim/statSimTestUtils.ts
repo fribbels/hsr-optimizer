@@ -215,20 +215,20 @@ export function testCase(input: TestInputBasic, outputBasic: TestResultByName, o
   return { input, outputBasic, outputCombat }
 }
 
-export function testStatSpread() {
+export function testStatSpread(count: number = 10) {
   return {
-    [Stats.ATK]: 10,
-    [Stats.ATK_P]: 10,
-    [Stats.DEF]: 10,
-    [Stats.DEF_P]: 10,
-    [Stats.HP]: 10,
-    [Stats.HP_P]: 10,
-    [Stats.SPD]: 10,
-    [Stats.CR]: 10,
-    [Stats.CD]: 10,
-    [Stats.EHR]: 10,
-    [Stats.RES]: 10,
-    [Stats.BE]: 10,
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: count,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: count,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: count,
+    [Stats.SPD]: count,
+    [Stats.CR]: count,
+    [Stats.CD]: count,
+    [Stats.EHR]: count,
+    [Stats.RES]: count,
+    [Stats.BE]: count,
   }
 }
 

@@ -1,6 +1,7 @@
+import Icon from '@ant-design/icons'
 import { Collapse, Flex } from 'antd'
 import gameData from 'data/game_data.json'
-import { Sets, Stats } from 'lib/constants/constants'
+import { PathNames, Sets, Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages, DB } from 'lib/state/db'
 import React, { useState } from 'react'
@@ -40,6 +41,11 @@ export default function MetadataTab(): React.JSX.Element {
             key: '3',
             label: 'Substat weight dashboard',
             children: <SubstatWeightDashboard/>,
+          },
+          {
+            key: '40',
+            label: 'Simulation teams',
+            children: <SimulationTeamDashboard/>,
           },
         ]}
       />
@@ -239,6 +245,45 @@ function generateEquivalentSetsGrid(characters: DBMetadataCharacter[], sets: (ty
   return assetByCharacterThenSet
 }
 
+// =========================================== SimulationTeamDashboard ===========================================
+
+function SimulationTeamDashboard() {
+  const characters = Object.values(DB.getMetadata().characters)
+  return (
+    <Flex vertical gap={10}>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Destruction))}/>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Hunt))}/>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Erudition))}/>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Nihility))}/>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Remembrance))}/>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Preservation))}/>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Harmony))}/>
+      <GridDisplay grid={generateTeamGrid(characters.filter((x) => x.path === PathNames.Abundance))}/>
+    </Flex>
+  )
+}
+
+function generateTeamGrid(characters: DBMetadataCharacter[]) {
+  const teamsByCharacter: ReactElement[][] = [[
+    <IconPair key={0} src1={Assets.getPath(characters[0].path)}/>,
+    <IconPair key={1}/>,
+    <IconPair key={2}/>,
+    <IconPair key={3}/>,
+  ]]
+
+  for (const character of characters) {
+    const simTeam = character.scoringMetadata.simulation?.teammates
+    if (!simTeam) continue
+    let i = 0
+    const row: ReactElement[] = [<Icon key={i++} src={Assets.getCharacterAvatarById(character.id)}/>]
+    for (const teammate of simTeam) {
+      row.push(<IconPair key={i++} src1={Assets.getCharacterAvatarById(teammate.characterId)} src2={Assets.getLightConeIconById(teammate.lightCone)}/>)
+    }
+    teamsByCharacter.push(row)
+  }
+  return teamsByCharacter
+}
+
 // =========================================== Utils ===========================================
 
 function Icon(props: {
@@ -246,6 +291,15 @@ function Icon(props: {
 }): ReactElement {
   return (
     <img src={props.src} style={{ width: 40 }}/>
+  )
+}
+
+function IconPair(props: { src1?: string; src2?: string }) {
+  return (
+    <Flex style={{ width: 80, justifyContent: 'center' }}>
+      <Icon src={props.src1 ?? Assets.getBlank()}/>
+      {props.src2 && <Icon src={props.src2}/>}
+    </Flex>
   )
 }
 

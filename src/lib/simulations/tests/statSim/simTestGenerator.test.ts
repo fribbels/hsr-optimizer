@@ -4,6 +4,9 @@ import { ACHERON, ALONG_THE_PASSING_SHORE, EARTHLY_ESCAPADE, FU_XUAN, JIAOQIU, S
 import { test } from 'vitest'
 
 test('generateTest', () => {
+  if (!process.env._JETBRAINS_VITEST_REPORTER_ABSOLUTE_PATH) {
+    return
+  }
   const input = generateE6S5Test({
     character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
     teammate0: testCharacter(JIAOQIU, THOSE_MANY_SPRINGS),

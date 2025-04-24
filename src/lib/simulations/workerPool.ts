@@ -22,6 +22,8 @@ export class WorkerPool<TInput extends BaseWorkerInput, TOutput extends BaseWork
   private queue: Array<QueuedTask<TInput, TOutput>> = []
 
   constructor() {
+    if (process) return
+
     const INITIAL_WORKER_COUNT = 1
     const MAX_WORKER_COUNT = Math.min(10, Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency))
     // const MAX_WORKER_COUNT = Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency)

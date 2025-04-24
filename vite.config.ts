@@ -35,7 +35,6 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    exclude: ['**/testGenerator/**'],
   },
   worker: {
     format: 'es',

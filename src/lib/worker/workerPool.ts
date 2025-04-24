@@ -8,7 +8,7 @@ import { OptimizerContext } from 'types/optimizer'
 const poolSize = 1
 // const poolSize = Math.min(10, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
-console.log('Using pool size ' + poolSize)
+// console.log('Using pool size ' + poolSize)
 
 type WorkerTaskWrapper = {
   task: WorkerTask

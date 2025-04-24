@@ -1,5 +1,6 @@
 import { Sets, Stats } from 'lib/constants/constants'
-import { expectSimResultsToMatch, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/statSim/statSimTestUtils'
+import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
+import { expectSimResultsToMatch } from 'lib/simulations/tests/statSim/statSimTestUtils'
 import {
   ACHERON,
   ALONG_THE_PASSING_SHORE,

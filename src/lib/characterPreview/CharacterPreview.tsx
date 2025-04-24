@@ -40,6 +40,7 @@ import { Assets } from 'lib/rendering/assets'
 
 import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
@@ -411,3 +412,5 @@ export function CharacterPreview(props: {
     </Flex>
   )
 }
+
+injectBenchmarkDebuggers()

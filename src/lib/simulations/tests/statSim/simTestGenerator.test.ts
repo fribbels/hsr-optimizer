@@ -1,5 +1,5 @@
 import { Sets, Stats } from 'lib/constants/constants'
-import { collectResults, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/statSim/statSimTestUtils'
+import { collectResults, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
 import { ACHERON, ALONG_THE_PASSING_SHORE, EARTHLY_ESCAPADE, FU_XUAN, JIAOQIU, SHE_ALREADY_SHUT_HER_EYES, SPARKLE, THOSE_MANY_SPRINGS } from 'lib/simulations/tests/testMetadataConstants'
 import { test } from 'vitest'
 

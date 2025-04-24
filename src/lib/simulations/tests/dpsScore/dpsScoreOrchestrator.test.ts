@@ -1,6 +1,6 @@
 import { Sets, Stats } from 'lib/constants/constants'
 import { expectBenchmarkResultsToMatch } from 'lib/simulations/tests/dpsScore/dpsScoreOrchestratorTestUtils'
-import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread, testStatSpreadSpd } from 'lib/simulations/tests/statSim/statSimTestUtils'
+import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread, testStatSpreadSpd } from 'lib/simulations/tests/simTestUtils'
 import {
   ACHERON,
   ALONG_THE_PASSING_SHORE,

@@ -5,9 +5,10 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
 import { expect } from 'vitest'
 
-export async function expectBenchmarkResultsToMatch(
+export async function expectDpsScoreResultsToMatch(
   input: TestInput,
   percent: number,
+  spdBenchmark?: number,
 ) {
   globalThis.SEQUENTIAL_BENCHMARKS = true
 
@@ -18,7 +19,7 @@ export async function expectBenchmarkResultsToMatch(
   } as Character
 
   const simulationMetadata = TsUtils.clone(DB.getMetadata().characters[input.character.characterId].scoringMetadata.simulation!)
-  const showcaseTemporaryOptions = { spdBenchmark: undefined }
+  const showcaseTemporaryOptions = { spdBenchmark: spdBenchmark }
   const singleRelicByPart = generateTestSingleRelicsByPart(input.sets, input.mains, input.stats)
   simulationMetadata.teammates[0] = input.teammate0
   simulationMetadata.teammates[1] = input.teammate1

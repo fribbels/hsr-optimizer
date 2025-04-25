@@ -174,15 +174,15 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
       console.log('Set spd benchmark to', spdBenchmark)
 
-      const showcaseTemporaryOptions = TsUtils.clone(window.store.getState().showcaseTemporaryOptions)
-      if (!showcaseTemporaryOptions[characterId]) showcaseTemporaryOptions[characterId] = {}
+      const showcaseTemporaryOptionsByCharacter = TsUtils.clone(window.store.getState().showcaseTemporaryOptionsByCharacter)
+      if (!showcaseTemporaryOptionsByCharacter[characterId]) showcaseTemporaryOptionsByCharacter[characterId] = {}
 
       // -1 is used as the "current" setting
       const actualValue = spdBenchmark == -1 ? undefined : spdBenchmark
 
-      showcaseTemporaryOptions[characterId].spdBenchmark = actualValue
+      showcaseTemporaryOptionsByCharacter[characterId].spdBenchmark = actualValue
 
-      window.store.getState().setShowcaseTemporaryOptions(showcaseTemporaryOptions)
+      window.store.getState().setShowcaseTemporaryOptionsByCharacter(showcaseTemporaryOptionsByCharacter)
     }
 
     function onTraceClick() {
@@ -319,7 +319,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                 size='small'
                 controls={false}
                 style={{ width: '100%' }}
-                value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
+                value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
                 addonAfter={(
                   <SelectSpdPresets
                     spdFilter={simScoringExecution?.result?.originalSpd}

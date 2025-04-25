@@ -1,5 +1,5 @@
 import { Sets, Stats } from 'lib/constants/constants'
-import { expectBenchmarkResultsToMatch } from 'lib/simulations/tests/dpsScore/dpsScoreOrchestratorTestUtils'
+import { expectDpsScoreResultsToMatch } from 'lib/simulations/tests/dpsScore/dpsScoreOrchestratorTestUtils'
 import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread, testStatSpreadSpd } from 'lib/simulations/tests/simTestUtils'
 import {
   ACHERON,
@@ -37,7 +37,7 @@ import { test } from 'vitest'
 Metadata.initialize()
 
 test('Kafka benchmark', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
       teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
@@ -51,8 +51,24 @@ test('Kafka benchmark', async () => {
   )
 })
 
+test('Kafka benchmarked 150 spd', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    0.9889414593738484,
+    150,
+  )
+})
+
 test('Acheron benchmark', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
       teammate0: testCharacter(PELA, RESOLUTION_SHINES_AS_PEARLS_OF_SWEAT),
@@ -69,7 +85,7 @@ test('Acheron benchmark', async () => {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 test('Castorice benchmark poet 113.4', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(CASTORICE, MAKE_FAREWELLS_MORE_BEAUTIFUL),
       teammate0: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
@@ -84,7 +100,7 @@ test('Castorice benchmark poet 113.4', async () => {
 })
 
 test('Castorice benchmark poet 100.4', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(CASTORICE, MAKE_FAREWELLS_MORE_BEAUTIFUL),
       teammate0: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
@@ -99,7 +115,7 @@ test('Castorice benchmark poet 100.4', async () => {
 })
 
 test('Castorice benchmark poet 87.4', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(CASTORICE, MAKE_FAREWELLS_MORE_BEAUTIFUL),
       teammate0: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
@@ -116,7 +132,7 @@ test('Castorice benchmark poet 87.4', async () => {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 test('Castorice benchmark longevous 121', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(CASTORICE, MAKE_FAREWELLS_MORE_BEAUTIFUL),
       teammate0: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
@@ -131,7 +147,7 @@ test('Castorice benchmark longevous 121', async () => {
 })
 
 test('Castorice benchmark longevous 108', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(CASTORICE, MAKE_FAREWELLS_MORE_BEAUTIFUL),
       teammate0: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
@@ -146,7 +162,7 @@ test('Castorice benchmark longevous 108', async () => {
 })
 
 test('Castorice benchmark longevous 95', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(CASTORICE, MAKE_FAREWELLS_MORE_BEAUTIFUL),
       teammate0: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
@@ -163,7 +179,7 @@ test('Castorice benchmark longevous 95', async () => {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 test('Tribbie benchmark poet 88.3', async () => {
-  await expectBenchmarkResultsToMatch(
+  await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
       teammate0: testCharacter(THE_HERTA, INTO_THE_UNREACHABLE_VEIL),

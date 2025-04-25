@@ -98,7 +98,7 @@ export function CharacterPreview(props: {
   const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD])
   const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
   const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs)
-  const showcaseTemporaryOptions = window.store((s) => s.showcaseTemporaryOptions)
+  const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
@@ -133,6 +133,7 @@ export function CharacterPreview(props: {
   // ===== Simulation =====
 
   const currentSelection = handleTeamSelection(character, prevCharId, teamSelectionByCharacter)
+  const showcaseTemporaryOptions = showcaseTemporaryOptionsByCharacter[character.id]
   const asyncSimScoringExecution = getShowcaseSimScoringExecution(
     character,
     displayRelics,

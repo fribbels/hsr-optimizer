@@ -22,8 +22,6 @@ export function applyBasicSpeedTargetFlag(
     } else if (baselineSimResult.ca[Key.SPD] < 110) {
       simulationFlags.benchmarkBasicSpdTarget = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
       return
-    } else {
-      // No-op
     }
   }
 

@@ -67,7 +67,7 @@ export type HsrOptimizerStore = {
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
-  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>
+  showcaseTemporaryOptionsByCharacter: Record<string, ShowcaseTemporaryOptions>
   warpRequest: WarpRequest
   warpResult: WarpResult
   statSimulationDisplay: StatSimTypes
@@ -150,7 +150,7 @@ export type HsrOptimizerStore = {
   setStatSimulationDisplay: (x: StatSimTypes) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
-  setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void
+  setShowcaseTemporaryOptionsByCharacter: (x: Record<string, ShowcaseTemporaryOptions>) => void
   setWarpRequest: (x: WarpRequest) => void
   setWarpResult: (x: WarpResult) => void
   setScorerId: (x: string) => void

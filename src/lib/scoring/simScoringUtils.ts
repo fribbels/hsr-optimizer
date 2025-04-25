@@ -86,7 +86,6 @@ export type SimulationFlags = {
   simPoetActive: boolean
   characterPoetActive: boolean
   forceErrRope: boolean
-  forceBasicSpd: boolean
   benchmarkBasicSpdTarget: number
 }
 

@@ -75,7 +75,6 @@ export class BenchmarkSimulationOrchestrator {
       simPoetActive: false,
       characterPoetActive: false,
       forceErrRope: false,
-      forceBasicSpd: true,
       benchmarkBasicSpdTarget: 0,
     }
   }

@@ -1,6 +1,7 @@
 CharacterSelector:
   Character: Персонаж
   Lightcone: Световой конус
+LightconePassives: Пассивные эффекты конуса
 ResultLimitN: "Найти {{limit}} лучших"
 OptimizerOptions:
   Priority:

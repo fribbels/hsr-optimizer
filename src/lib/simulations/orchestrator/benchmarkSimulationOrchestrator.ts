@@ -257,7 +257,7 @@ export class BenchmarkSimulationOrchestrator {
     // This will emulate the character's relics at the benchmark SPD
     const forcedSpdSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
 
-    // Set the combat SPD target to the outcome of
+    // Set the combat SPD target to the outcome of the forced result
     this.benchmarkCombatSpdTarget = forcedSpdSimResult.xa[Key.SPD]
 
     if (force) {

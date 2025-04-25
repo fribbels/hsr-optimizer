@@ -1,5 +1,6 @@
 import { SyncOutlined } from '@ant-design/icons'
 import { Button, Flex, Form as AntDForm, Select, Typography } from 'antd'
+import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
@@ -323,7 +324,14 @@ const TeammateCard = (props: {
             />
           </Flex>
           <Flex vertical gap={5}>
-            <div style={{ width: `${rightPanelWidth}px`, height: `${rightPanelWidth}px`, borderRadius: '10px' }}>
+            <div style={{
+              width: `${rightPanelWidth}px`,
+              height: `${rightPanelWidth}px`,
+              backgroundColor: 'rgb(255 255 255 / 2%)',
+              borderRadius: rightPanelWidth,
+              border: teammateCharacterId ? showcaseOutlineLight : undefined,
+            }}
+            >
               <img
                 width={rightPanelWidth}
                 height={rightPanelWidth}

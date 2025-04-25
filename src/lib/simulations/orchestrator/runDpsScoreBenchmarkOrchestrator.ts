@@ -85,8 +85,5 @@ export function resolveDpsScoreSimulationMetadata(
   metadata.teammates = teamSelection == CUSTOM_TEAM ? customScoringMetadata.simulation.teammates : defaultScoringMetadata.simulation.teammates
   metadata.deprioritizeBuffs = customScoringMetadata.simulation.deprioritizeBuffs ?? false
 
-  console.debug(customScoringMetadata)
-  console.debug(defaultScoringMetadata)
-
   return metadata
 }

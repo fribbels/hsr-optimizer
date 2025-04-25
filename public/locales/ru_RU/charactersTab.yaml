@@ -35,7 +35,7 @@ Messages:
   RemoveSuccess: Персонаж успешно удален
   UnequipSuccess: Реликвии персонажа успешно сняты
   NoSelectedCharacter: Нет выбранного персонажа
-  SwitchSuccess: "Реликвии успешно поменяны с $t(gameData:Characters.{{charId}}.Name)"
+  SwitchSuccess: "Успешная смена реликвий с $t(gameData:Characters.{{charId}}.Name)"
   SortByScoreWarning: Вы уверены, что хотите отсортировать персонажей?
   SaveSuccess: "Сборка {{name}} успешно сохранена"
   UnequipWarning: "Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?"

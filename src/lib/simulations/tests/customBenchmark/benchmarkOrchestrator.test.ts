@@ -7,7 +7,24 @@ import { test } from 'vitest'
 
 Metadata.initialize()
 
-test('Kafka benchmark', async () => {
+test('Kafka benchmark 0', async () => {
+  await expectBenchmarkResultsToMatch(
+    0,
+    generateE6S5Test({
+      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    2362779.75,
+    2724628.75,
+  )
+})
+
+test('Kafka benchmark 150', async () => {
   await expectBenchmarkResultsToMatch(
     150,
     generateE6S5Test({
@@ -19,8 +36,25 @@ test('Kafka benchmark', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    2171711.874,
+    2192571.75,
     2651803.75,
+  )
+})
+
+test('Kafka benchmark 200', async () => {
+  await expectBenchmarkResultsToMatch(
+    200,
+    generateE6S5Test({
+      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    1969118.75,
+    2194457.25,
   )
 })
 

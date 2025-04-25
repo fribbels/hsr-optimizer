@@ -100,6 +100,22 @@ test('Kafka benchmarked @ 150 spd', async () => {
   )
 })
 
+test('Kafka benchmarked @ 200 spd', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    1.0203937557056166,
+    200,
+  )
+})
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 test('Castorice benchmark poet 113.4', async () => {

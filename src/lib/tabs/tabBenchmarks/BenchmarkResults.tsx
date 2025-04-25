@@ -142,7 +142,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
 }
 
 function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[]; dataSource200: BenchmarkRow[] }) {
-  const spd = dataSource100[0]?.orchestrator.flags.forceBasicSpdValue
+  const spd = dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget
   const suffix = spd == null ? '' : `(${spd} SPD)`
   const items: TabsProps['items'] = [
     {

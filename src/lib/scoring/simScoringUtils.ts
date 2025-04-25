@@ -87,7 +87,7 @@ export type SimulationFlags = {
   characterPoetActive: boolean
   forceErrRope: boolean
   forceBasicSpd: boolean
-  forceBasicSpdValue: number
+  benchmarkBasicSpdTarget: number
 }
 
 export const benchmarkScoringParams: ScoringParams = {

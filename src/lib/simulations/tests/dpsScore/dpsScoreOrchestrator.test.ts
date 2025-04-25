@@ -126,7 +126,7 @@ test('Castorice benchmark longevous 121', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpread(),
     }),
-    0.6907504262482528,
+    0.7295679289358679,
   )
 })
 
@@ -141,7 +141,7 @@ test('Castorice benchmark longevous 108', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(5),
     }),
-    0.6907504262482528,
+    0.7295679289358679,
   )
 })
 
@@ -156,7 +156,7 @@ test('Castorice benchmark longevous 95', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(0),
     }),
-    0.6907504262482528,
+    0.7295679289358679,
   )
 })
 

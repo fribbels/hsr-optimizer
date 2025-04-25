@@ -24,7 +24,7 @@ import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
 import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
-import { applySpeedFlags } from 'lib/simulations/utils/benchmarkSpeedTargets'
+import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -42,7 +42,7 @@ export class BenchmarkSimulationOrchestrator {
   public form?: OptimizerForm
   public context?: OptimizerContext
   public spdBenchmark?: number
-  public targetSpd?: number
+  public benchmarkCombatSpdTarget?: number
   public originalSpd?: number
 
   public baselineSim?: Simulation
@@ -76,7 +76,7 @@ export class BenchmarkSimulationOrchestrator {
       characterPoetActive: false,
       forceErrRope: false,
       forceBasicSpd: true,
-      forceBasicSpdValue: 0,
+      benchmarkBasicSpdTarget: 0,
     }
   }
 
@@ -243,43 +243,33 @@ export class BenchmarkSimulationOrchestrator {
       simulationFlags: this.flags,
     }
 
-    const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
-    const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
-
     this.spdBenchmark = inputSpdBenchmark != null
       ? Math.max(baselineSimResult.ca[Key.SPD], inputSpdBenchmark)
       : undefined
 
-    applySpeedFlags(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
+    // Run the original character's sim to find the original basic SPD value
+    // This value is used to determine the benchmark's corresponding basic SPD in special set cases (poet)
+    const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
+    const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
 
-    // Force SPD
+    applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
+
+    // Run a second sim with basic SPD forced at benchmarkBasicSpdTarget
+    // This will emulate the character's relics at the benchmark SPD
     const forcedSpdSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
 
-    // TODO: Refactor this block
-    let targetSpd: number
-    if (flags.characterPoetActive) {
-      // When the original character has poet, benchmark against the original character
-      originalSim.result = originalSimResult
-      this.originalSimResult = originalSimResult
-      this.originalSim = originalSim
-      targetSpd = forcedSpdSimResult.xa[Key.SPD]
+    // Set the combat SPD target to the outcome of
+    this.benchmarkCombatSpdTarget = forcedSpdSimResult.xa[Key.SPD]
+
+    if (force) {
+      this.originalSimResult = forcedSpdSimResult
     } else {
-      if (flags.simPoetActive) {
-        // We don't want to have the original character's combat stats penalized by poet if they're not on poet
-        originalSim.result = originalSimResult
-        this.originalSimResult = originalSimResult
-        this.originalSim = originalSim
-        targetSpd = flags.forceBasicSpdValue
-      } else {
-        originalSim.result = forcedSpdSimResult
-        this.originalSimResult = forcedSpdSimResult
-        this.originalSim = originalSim
-        targetSpd = originalSimResult.xa[Key.SPD]
-      }
+      this.originalSimResult = originalSimResult
     }
 
+    this.originalSim = originalSim
     this.originalSpd = originalSpd
-    this.targetSpd = targetSpd
+    this.originalSim.result = this.originalSimResult
   }
 
   public async calculateBenchmark() {
@@ -287,7 +277,7 @@ export class BenchmarkSimulationOrchestrator {
     const context = this.context!
     const metadata = this.metadata
     const flags = this.flags
-    const targetSpd = this.targetSpd!
+    const targetSpd = this.benchmarkCombatSpdTarget!
     const baselineSimResult = this.baselineSimResult!
 
     // Clone to remove functions
@@ -354,7 +344,7 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
-    const targetSpd = this.targetSpd!
+    const targetSpd = this.benchmarkCombatSpdTarget!
     const baselineSimResult = this.baselineSimResult!
     const flags = this.flags
 

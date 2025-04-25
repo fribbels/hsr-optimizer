@@ -38,7 +38,7 @@ export function runStatSimulations(
   inputParams: Partial<RunSimulationsParams> = {},
 ): RunStatSimulationsResult[] {
   const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
-  const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
+  const forcedBasicSpd = params.simulationFlags.benchmarkBasicSpdTarget
   const simulationResults: RunStatSimulationsResult[] = []
   for (const action of context.actions) {
     action.conditionalState = {}

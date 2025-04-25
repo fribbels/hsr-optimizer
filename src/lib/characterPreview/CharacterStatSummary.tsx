@@ -1,6 +1,7 @@
 import { Flex } from 'antd'
 import { StatRow } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
+import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -11,32 +12,16 @@ import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType, SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { useEffect, useState } from 'react'
 
 // FIXME MED
 
 const epsilon = 0.001
 
-// Custom hook to track AsyncSimScoringExecution state
-export function useAsyncSimScoringExecution(asyncSimScoringExecution: AsyncSimScoringExecution | null) {
-  const [forceRender, setForceRender] = useState(0)
-
-  useEffect(() => {
-    if (asyncSimScoringExecution?.promise) {
-      asyncSimScoringExecution.promise.then(() => {
-        setForceRender((prev) => prev + 1)
-      })
-    }
-  }, [asyncSimScoringExecution?.promise])
-
-  return asyncSimScoringExecution
-}
-
 export const CharacterStatSummary = (props: {
   characterId: string
   finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
   elementalDmgValue: string
-  asyncSimScoringExecution?: AsyncSimScoringExecution | null
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
   scoringType?: ScoringType
   simScore?: number
   showAll?: boolean
@@ -58,7 +43,7 @@ export const CharacterStatSummary = (props: {
         <StatRow finalStats={props.finalStats} stat={Stats.RES} edits={edits}/>
         <StatRow finalStats={props.finalStats} stat={Stats.BE} edits={edits}/>
         {(!props.asyncSimScoringExecution && props.finalStats[Stats.OHB] > epsilon) && <StatRow finalStats={props.finalStats} stat={Stats.OHB} edits={edits}/>}
-        {(props.showAll || props.finalStats[Stats.ERR] > epsilon || props.asyncSimScoringExecution == null) && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits}/>}
+        {((props.showAll ?? props.finalStats[Stats.ERR] > epsilon) || props.asyncSimScoringExecution == null) && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits}/>}
         <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits}/>
 
         {props.asyncSimScoringExecution == null && (

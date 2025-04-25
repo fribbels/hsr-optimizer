@@ -330,7 +330,7 @@ export const DB = {
     characters.splice(index, 0, removed[0])
     DB.setCharacters(characters)
 
-    window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
+    window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
   },
   refreshCharacters: () => {
     if (window.setCharacterRows) {
@@ -422,6 +422,7 @@ export const DB = {
     // }
 
     for (const stat of SubStats) {
+      // eslint-disable-next-line
       if (returnScoringMetadata.stats[stat] == null) {
         returnScoringMetadata.stats[stat] = 0
       }

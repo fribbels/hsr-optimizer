@@ -1,7 +1,7 @@
 import { Sets, Stats } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { generateE6S5Test, generateTestSingleRelicsByPart, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
-import { BLACK_SWAN, HUOHUO, KAFKA, NIGHT_OF_FRIGHT, PAST_SELF_IN_MIRROR, PATIENCE_IS_ALL_YOU_NEED, REFORGED_REMEMBRANCE, RUAN_MEI } from 'lib/simulations/tests/testMetadataConstants'
+import { generateE6S5Test, generateTestSingleRelicsByPart, testCharacter, testMains, testSets, testStatSpreadSpd } from 'lib/simulations/tests/simTestUtils'
+import { IF_TIME_WERE_A_FLOWER, INTO_THE_UNREACHABLE_VEIL, LINGSHA, PASSKEY, SCENT_ALONE_STAYS_TRUE, SERVAL, THE_HERTA, TRIBBIE } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -11,15 +11,16 @@ export function injectBenchmarkDebuggers() {
 }
 
 function equipTestCharacter() {
-  const testInput = generateE6S5Test({
-    character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
-    teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
-    teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-    teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-    sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
-    mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
-    stats: testStatSpread(),
-  })
+  const testInput
+    = generateE6S5Test({
+      character: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
+      teammate0: testCharacter(THE_HERTA, INTO_THE_UNREACHABLE_VEIL),
+      teammate1: testCharacter(SERVAL, PASSKEY),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
+      mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
+      stats: testStatSpreadSpd(0),
+    })
 
   const simulationMetadata = DB.getMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 

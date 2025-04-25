@@ -95,7 +95,7 @@ export function CharacterPreview(props: {
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
   // Using these to trigger updates on changes
-  const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats[Stats.SPD])
+  const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats?.[Stats.SPD])
   const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
   const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs)
   const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)

@@ -36,6 +36,23 @@ import { test } from 'vitest'
 
 Metadata.initialize()
 
+test('Acheron benchmark', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
+      teammate0: testCharacter(PELA, RESOLUTION_SHINES_AS_PEARLS_OF_SWEAT),
+      teammate1: testCharacter(SILVER_WOLF, INCESSANT_RAIN),
+      teammate2: testCharacter(AVENTURINE, TREND_OF_THE_UNIVERSAL_MARKET),
+      sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
+      mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    1.2527343791677188,
+  )
+})
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 test('Kafka benchmark', async () => {
   await expectDpsScoreResultsToMatch(
     generateE6S5Test({
@@ -51,7 +68,23 @@ test('Kafka benchmark', async () => {
   )
 })
 
-test('Kafka benchmarked 150 spd', async () => {
+test('Kafka benchmarked @ 0 spd', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    0.8452150374144647,
+    0,
+  )
+})
+
+test('Kafka benchmarked @ 150 spd', async () => {
   await expectDpsScoreResultsToMatch(
     generateE6S5Test({
       character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
@@ -64,21 +97,6 @@ test('Kafka benchmarked 150 spd', async () => {
     }),
     0.9889414593738484,
     150,
-  )
-})
-
-test('Acheron benchmark', async () => {
-  await expectDpsScoreResultsToMatch(
-    generateE6S5Test({
-      character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
-      teammate0: testCharacter(PELA, RESOLUTION_SHINES_AS_PEARLS_OF_SWEAT),
-      teammate1: testCharacter(SILVER_WOLF, INCESSANT_RAIN),
-      teammate2: testCharacter(AVENTURINE, TREND_OF_THE_UNIVERSAL_MARKET),
-      sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
-      mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
-      stats: testStatSpread(),
-    }),
-    1.2527343791677188,
   )
 })
 
@@ -190,5 +208,85 @@ test('Tribbie benchmark poet 88.3', async () => {
       stats: testStatSpreadSpd(0),
     }),
     0.9012144701511204,
+  )
+})
+
+test('Tribbie benchmark poet 101.3', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
+      teammate0: testCharacter(THE_HERTA, INTO_THE_UNREACHABLE_VEIL),
+      teammate1: testCharacter(SERVAL, PASSKEY),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
+      mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
+      stats: testStatSpreadSpd(5),
+    }),
+    0.7594088297079464,
+  )
+})
+
+test('Tribbie benchmark poet 114.3', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
+      teammate0: testCharacter(THE_HERTA, INTO_THE_UNREACHABLE_VEIL),
+      teammate1: testCharacter(SERVAL, PASSKEY),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
+      mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
+      stats: testStatSpreadSpd(10),
+    }),
+    0.48696862468070123,
+  )
+})
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+test('Tribbie benchmark poet 88.3 @ 88.3', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
+      teammate0: testCharacter(THE_HERTA, INTO_THE_UNREACHABLE_VEIL),
+      teammate1: testCharacter(SERVAL, PASSKEY),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
+      mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
+      stats: testStatSpreadSpd(0),
+    }),
+    0.9012144701511204,
+    88.3,
+  )
+})
+
+test('Tribbie benchmark poet 101.3 @ 88.3', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
+      teammate0: testCharacter(THE_HERTA, INTO_THE_UNREACHABLE_VEIL),
+      teammate1: testCharacter(SERVAL, PASSKEY),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
+      mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
+      stats: testStatSpreadSpd(5),
+    }),
+    0.7415866588590724,
+    88.3,
+  )
+})
+
+test('Tribbie benchmark poet 114.3 @ 88.3', async () => {
+  await expectDpsScoreResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(TRIBBIE, IF_TIME_WERE_A_FLOWER),
+      teammate0: testCharacter(THE_HERTA, INTO_THE_UNREACHABLE_VEIL),
+      teammate1: testCharacter(SERVAL, PASSKEY),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
+      mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
+      stats: testStatSpreadSpd(10),
+    }),
+    0.4755402113049463,
+    88.3,
   )
 })

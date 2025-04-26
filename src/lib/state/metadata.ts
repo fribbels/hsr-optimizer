@@ -1968,10 +1968,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
-            lightCone: '21021', // QPQ
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -2093,9 +2093,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
+            characterId: '1203', // Luocha
             lightCone: '21021', // QPQ
-            characterEidolon: 6,
+            characterEidolon: 0,
             lightConeSuperimposition: 5,
           },
         ],
@@ -3105,9 +3105,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
+            characterId: '1203', // Luocha
             lightCone: '21021', // QPQ
-            characterEidolon: 6,
+            characterEidolon: 0,
             lightConeSuperimposition: 5,
           },
         ],

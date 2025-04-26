@@ -1,10 +1,11 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
+import { Sets } from 'lib/constants/constants'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { INTO_THE_UNREACHABLE_VEIL, THE_HERTA } from 'lib/simulations/tests/testMetadataConstants'
+import { INTO_THE_UNREACHABLE_VEIL, JADE, LINGSHA, SCENT_ALONE_STAYS_TRUE, STELLE_REMEMBRANCE, THE_HERTA, VICTORY_IN_A_BLINK, YET_HOPE_IS_PRICELESS } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
@@ -18,7 +19,7 @@ import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/Stat
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -31,29 +32,28 @@ const RIGHT_PANEL_WIDTH = 250
 const defaultForm: Partial<BenchmarkForm> = {
   characterId: THE_HERTA,
   lightCone: INTO_THE_UNREACHABLE_VEIL,
-  simRelicSet1: 'Scholar Lost in Erudition',
-  simRelicSet2: 'Scholar Lost in Erudition',
-  simOrnamentSet: 'Rutilant Arena',
-  basicSpd: 100,
+  simRelicSet1: Sets.ScholarLostInErudition,
+  simRelicSet2: Sets.ScholarLostInErudition,
+  simOrnamentSet: Sets.IzumoGenseiAndTakamaDivineRealm,
+  basicSpd: undefined,
   teammate0: {
-    characterId: '1101',
-    characterEidolon: 3,
-    lightCone: '23003',
+    characterId: JADE,
+    lightCone: YET_HOPE_IS_PRICELESS,
+    characterEidolon: 0,
     lightConeSuperimposition: 1,
   },
   teammate1: {
-    characterId: '1309',
-    characterEidolon: 0,
-    lightCone: '22002',
+    characterId: STELLE_REMEMBRANCE,
+    lightCone: VICTORY_IN_A_BLINK,
+    characterEidolon: 6,
     lightConeSuperimposition: 5,
   },
   teammate2: {
-    characterId: '1217',
-    characterEidolon: 1,
-    lightCone: '21000',
-    lightConeSuperimposition: 5,
+    characterId: LINGSHA,
+    lightCone: SCENT_ALONE_STAYS_TRUE,
+    characterEidolon: 0,
+    lightConeSuperimposition: 1,
   },
-
   characterEidolon: 0,
   lightConeSuperimposition: 1,
   errRope: false,
@@ -69,25 +69,29 @@ export default function BenchmarksTab(): ReactElement {
     updateTeammate,
   } = useBenchmarksTabStore()
 
+  const initialForm = useMemo(() => {
+    return defaultForm
+  }, [])
+
   useEffect(() => {
-    benchmarkForm.setFieldsValue(defaultForm)
-    updateTeammate(0, defaultForm.teammate0)
-    updateTeammate(1, defaultForm.teammate1)
-    updateTeammate(2, defaultForm.teammate2)
+    benchmarkForm.setFieldsValue(initialForm)
+    updateTeammate(0, initialForm.teammate0)
+    updateTeammate(1, initialForm.teammate1)
+    updateTeammate(2, initialForm.teammate2)
   }, [benchmarkForm])
 
   return (
     <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
       <Flex justify='space-around' style={{ margin: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          Benchmark Generator (BETA)
+          Benchmark Generator (WIP BETA)
         </pre>
       </Flex>
 
       <Card style={{ width: 900, marginBottom: 30 }}>
         <AntDForm
           form={benchmarkForm}
-          initialValues={defaultForm}
+          initialValues={initialForm}
           preserve={false}
         >
           <BenchmarkInputs/>

@@ -39,15 +39,14 @@ export function getShowcaseSimScoringExecution(
 
   const { cacheKey, cachedOrchestrator } = retrieveBenchmarkCache(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
   if (cachedOrchestrator) {
-    console.debug('CACHED')
-
+    // console.debug('CACHED')
     const simScore = cachedOrchestrator.simulationScore!
     asyncResult.done = true
     asyncResult.promise = Promise.resolve(simScore)
     asyncResult.result = simScore
     return asyncResult
   } else {
-    console.debug('NEW EXECUTION')
+    // console.debug('NEW EXECUTION')
   }
 
   async function runSimulation() {

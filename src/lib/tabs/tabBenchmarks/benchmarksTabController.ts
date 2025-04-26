@@ -63,7 +63,6 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
         const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
 
         if (customBenchmarkCache[fullHash]) {
-          console.debug('CACHED', customBenchmarkCache[fullHash])
           promiseWrappers[fullHash] = {
             fullHash,
             promise: Promise.resolve(customBenchmarkCache[fullHash]),

@@ -58,10 +58,8 @@ CharacterPreview:
       CombatScore: Punteggio in battaglia
       StatScore: Punteggio statistiche
   DetailsSlider:
-    Title: "Dettagli punteggio in battaglia"
     Labels:
       CombatStats: Statistiche in battaglia
-      DMGUpgrades: Miglioramento danno
   DMGUpgrades: Miglioramento danno
   SubstatUpgradeComparisons:
     Header: Confronto miglioramento statistiche secondarie

@@ -1,4 +1,4 @@
-import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined, DeleteOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -181,6 +181,7 @@ function MiddlePanel() {
 
 function RightPanel() {
   const {
+    loading,
     resetCache,
   } = useBenchmarksTabStore()
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
@@ -215,6 +216,7 @@ function RightPanel() {
             const formValues = benchmarkForm.getFieldsValue()
             handleBenchmarkFormSubmit(formValues)
           }}
+          loading={loading}
           icon={<ThunderboltFilled/>}
           style={{ width: '100%', height: 40 }}
           type='primary'
@@ -227,6 +229,7 @@ function RightPanel() {
           }}
           style={{ width: '100%' }}
           type='default'
+          icon={<DeleteOutlined/>}
         >
           Clear
         </Button>

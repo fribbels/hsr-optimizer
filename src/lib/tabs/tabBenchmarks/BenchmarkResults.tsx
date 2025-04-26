@@ -93,8 +93,6 @@ const columns: TableProps<BenchmarkRow>['columns'] = [
 export function BenchmarkResults() {
   const { orchestrators } = useBenchmarksTabStore()
 
-  if (!orchestrators.length) return <></>
-
   const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
 
   return (
@@ -120,7 +118,12 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         className='remove-table-bottom-border'
         columns={columns}
         dataSource={dataSource}
-        pagination={false}
+        pagination={{
+          position: ['bottomCenter'],
+          size: 'small',
+          pageSize: 25,
+          showSizeChanger: false,
+        }}
         size='small'
         style={benchmarkTableStyle}
         loading={loading}

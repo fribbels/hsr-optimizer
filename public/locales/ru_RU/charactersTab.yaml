@@ -93,11 +93,9 @@ CharacterPreview:
       StatScore: Статы персонажа
       NoneScore: Нет
   DetailsSlider:
-    Title: "Детали оценки:"
     Labels:
       CombatStats: Статы персонажа в бою
       SubDpsCombatStats: Статы в бою (Доп DPS)
-      DMGUpgrades: Повышение урона
   DMGUpgrades: Повышение урона
   SubstatUpgradeComparisons:
     Header: Сравнение статов для повышения урона

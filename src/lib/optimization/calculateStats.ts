@@ -17,8 +17,8 @@ import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { buffElementalDamageType, ComputedStatsArray, Key, StatToKey } from 'lib/optimization/computedStatsArray'
 import { OrnamentSetsConfig, RelicSetsConfig, SetKeys, SetKeyType } from 'lib/optimization/config/setsConfig'
+import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
-import { Relic } from 'types/relic'
 
 const SET_EFFECTS = new Map()
 
@@ -320,48 +320,33 @@ export function p4(key: SetKeyType, sets: SetCounts) {
   return sets[key] >> 2
 }
 
-export function calculateRelicStats(c: BasicStatsArray, head: Relic, hands: Relic, body: Relic, feet: Relic, planarSphere: Relic, linkRope: Relic, weights: boolean) {
+export function calculateRelicStats(
+  c: BasicStatsArray,
+  head: SimulationRelic,
+  hands: SimulationRelic,
+  body: SimulationRelic,
+  feet: SimulationRelic,
+  planarSphere: SimulationRelic,
+  linkRope: SimulationRelic,
+) {
   const a = c.a
-  if (head?.condensedStats) {
-    for (const condensedStat of head.condensedStats) {
-      a[condensedStat[0]] += condensedStat[1]
-    }
+  for (const condensedStat of head.condensedStats) {
+    a[condensedStat[0]] += condensedStat[1]
   }
-  if (hands?.condensedStats) {
-    for (const condensedStat of hands.condensedStats) {
-      a[condensedStat[0]] += condensedStat[1]
-    }
+  for (const condensedStat of hands.condensedStats) {
+    a[condensedStat[0]] += condensedStat[1]
   }
-  if (body?.condensedStats) {
-    for (const condensedStat of body.condensedStats) {
-      a[condensedStat[0]] += condensedStat[1]
-    }
+  for (const condensedStat of body.condensedStats) {
+    a[condensedStat[0]] += condensedStat[1]
   }
-  if (feet?.condensedStats) {
-    for (const condensedStat of feet.condensedStats) {
-      a[condensedStat[0]] += condensedStat[1]
-    }
+  for (const condensedStat of feet.condensedStats) {
+    a[condensedStat[0]] += condensedStat[1]
   }
-  if (planarSphere?.condensedStats) {
-    for (const condensedStat of planarSphere.condensedStats) {
-      a[condensedStat[0]] += condensedStat[1]
-    }
+  for (const condensedStat of planarSphere.condensedStats) {
+    a[condensedStat[0]] += condensedStat[1]
   }
-  if (linkRope?.condensedStats) {
-    for (const condensedStat of linkRope.condensedStats) {
-      a[condensedStat[0]] += condensedStat[1]
-    }
-  }
-
-  if (weights) {
-    c.setWeight(
-      head.weightScore
-      + hands.weightScore
-      + body.weightScore
-      + feet.weightScore
-      + planarSphere.weightScore
-      + linkRope.weightScore,
-    )
+  for (const condensedStat of linkRope.condensedStats) {
+    a[condensedStat[0]] += condensedStat[1]
   }
 }
 

@@ -4,10 +4,9 @@ import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
-import { BuildData } from 'lib/simulations/expandedComputedStats'
-import { Simulation } from 'lib/simulations/statSimulationController'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
@@ -68,7 +67,7 @@ export type HsrOptimizerStore = {
   scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
-  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>
+  showcaseTemporaryOptionsByCharacter: Record<string, ShowcaseTemporaryOptions>
   warpRequest: WarpRequest
   warpResult: WarpResult
   statSimulationDisplay: StatSimTypes
@@ -98,7 +97,6 @@ export type HsrOptimizerStore = {
   menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
-  optimizerExpandedPanelBuildData: BuildData | null
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
   optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
@@ -127,7 +125,7 @@ export type HsrOptimizerStore = {
   setScoringModalOpen: (open: boolean) => void
   setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
-  setSavedSessionKey: (key: string, value: string | boolean) => void
+  setSavedSessionKey: (key: string, value: string | boolean | ScoringType) => void
   setActiveKey: (key: string) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId) => void
   setStatTracesDrawerFocusCharacter: (id: CharacterId) => void
@@ -141,7 +139,6 @@ export type HsrOptimizerStore = {
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
   setOptimizerBuild: (x: Build) => void
-  setOptimizerExpandedPanelBuildData: (x: BuildData) => void
   setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void
   setOptimizerBuffGroups: (x: Record<BUFF_TYPE, Record<string, Buff[]>>) => void
   setSavedSession: (x: SavedSession) => void
@@ -153,7 +150,7 @@ export type HsrOptimizerStore = {
   setStatSimulationDisplay: (x: StatSimTypes) => void
   setScoringMetadataOverrides: (x: any) => void
   setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void
-  setShowcaseTemporaryOptions: (x: Record<string, ShowcaseTemporaryOptions>) => void
+  setShowcaseTemporaryOptionsByCharacter: (x: Record<string, ShowcaseTemporaryOptions>) => void
   setWarpRequest: (x: WarpRequest) => void
   setWarpResult: (x: WarpResult) => void
   setScorerId: (x: string) => void
@@ -186,8 +183,7 @@ export type HsrOptimizerStore = {
 export type SavedSession = {
   optimizerCharacterId: string | null
   relicScorerSidebarOpen: boolean
-  scoringType: string
-  combatScoreDetails: string
+  scoringType: ScoringType
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
   showcaseDarkMode: boolean

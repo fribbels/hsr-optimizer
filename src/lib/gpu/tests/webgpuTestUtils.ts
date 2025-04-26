@@ -2,11 +2,12 @@ import { COMPUTE_ENGINE_GPU_STABLE, SetsOrnaments, SetsRelics, Stats } from 'lib
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { Key, KeyToStat } from 'lib/optimization/computedStatsArray'
 import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
@@ -36,14 +37,16 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const array = new Float32Array(arrayBuffer)
 
   // @ts-ignore
-  const x = calculateBuild(request, {
+
+  const relicsByPart = {
     Head: relics.Head[0],
     Hands: relics.Hands[0],
     Body: relics.Body[0],
     Feet: relics.Feet[0],
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
-  })
+  }
+  const x = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null, null)
   const deltas = arrayDelta(x.a, array)
 
   gpuReadBuffer.unmap()

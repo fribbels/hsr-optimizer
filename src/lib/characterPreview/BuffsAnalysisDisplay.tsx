@@ -4,10 +4,12 @@ import { Sets, setToId } from 'lib/constants/constants'
 import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
-import { runSimulations } from 'lib/simulations/statSimulationController'
+import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -74,8 +76,10 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
 function rerunSim(result?: SimulationScore) {
   if (!result) return null
   result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim], originalScoringParams)[0]
-  const x = rerun.tracedX!
+  const context = generateContext(result.simulationForm)
+  const rerun = runStatSimulations([result.originalSim], result.simulationForm, context, originalScoringParams)[0]
+  const optimizerDisplayData = formatOptimizerDisplayData(rerun.x)
+  const x = optimizerDisplayData.tracedX!
   return aggregateCombatBuffs(x, result.simulationForm)
 }
 

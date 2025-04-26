@@ -2,7 +2,6 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { Source } from 'lib/optimization/buffSource'
@@ -19,13 +18,13 @@ import {
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
+import { SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
-let isFirefox = false
 
 type OptimizerEventData = {
   relics: {
@@ -44,7 +43,6 @@ type OptimizerEventData = {
   permutations: number
   WIDTH: number
   skip: number
-  isFirefox: boolean
 }
 
 export function optimizerWorker(e: MessageEvent) {
@@ -55,7 +53,7 @@ export function optimizerWorker(e: MessageEvent) {
   const request: Form = data.request
   const context: OptimizerContext = data.context
 
-  const relics: RelicsByPart = data.relics
+  const relics = data.relics as SimulationRelicArrayByPart
   const arr = new Float32Array(data.buffer)
 
   const lSize = relics.LinkRope.length
@@ -73,8 +71,6 @@ export function optimizerWorker(e: MessageEvent) {
   const memoDisplay = request.memoDisplay == 'memo'
   const summonerDisplay = !memoDisplay
   let passCount = 0
-
-  isFirefox = data.isFirefox
 
   const {
     failsBasicThresholdFilter,
@@ -163,7 +159,7 @@ export function optimizerWorker(e: MessageEvent) {
     c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
 
     calculateBasicSetEffects(c, context, setCounts, sets)
-    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
+    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 

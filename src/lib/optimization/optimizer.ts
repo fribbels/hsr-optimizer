@@ -5,13 +5,14 @@ import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
@@ -25,7 +26,6 @@ import { Form, OptimizerForm } from 'types/form'
 // FIXME HIGH
 
 let CANCEL = false
-const isFirefox = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
 export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   let relics = DB.getRelics()
@@ -37,7 +37,8 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
   Object.keys(relicsByPart).map((key) => relicsByPart[key] = relicsByPart[key][0])
 
-  const x = calculateBuild(request, relicsByPart, null, null, null, undefined, undefined, undefined, undefined, true)
+  const context = generateContext(request)
+  const x = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null, null)
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
   window.store.getState().setOptimizerSelectedRowData(optimizerDisplayData)
@@ -204,7 +205,6 @@ export const Optimizer = {
             permutations: permutations,
             relicSetSolutions: relicSetSolutions,
             ornamentSetSolutions: ornamentSetSolutions,
-            isFirefox: isFirefox,
             workerType: WorkerType.OPTIMIZER,
           },
           getMinFilter: () => {

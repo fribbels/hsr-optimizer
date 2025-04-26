@@ -1,8 +1,8 @@
 import { Stats, SubStats } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { PartialSimulationWrapper, ScoringParams, SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
-import { SimulationStats } from 'lib/simulations/statSimulationController'
+import { PartialSimulationWrapper, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
+import { RunStatSimulationsResult, StatSimulationTypes } from 'lib/simulations/statSimulationTypes'
 import { SimulationMetadata } from 'types/metadata'
 
 export function calculateMinSubstatRollCounts(
@@ -10,7 +10,7 @@ export function calculateMinSubstatRollCounts(
   scoringParams: ScoringParams,
   simulationFlags: SimulationFlags,
 ) {
-  const minCounts: SimulationStats = {
+  const minCounts: StatSimulationTypes = {
     [Stats.HP_P]: scoringParams.freeRolls,
     [Stats.ATK_P]: scoringParams.freeRolls,
     [Stats.DEF_P]: scoringParams.freeRolls,
@@ -32,9 +32,9 @@ export function calculateMaxSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,
   metadata: SimulationMetadata,
   scoringParams: ScoringParams,
-  baselineSimResult: SimulationResult,
+  baselineSimResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
-): SimulationStats {
+): StatSimulationTypes {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts: Record<string, number> = {
     [Stats.HP_P]: 0,

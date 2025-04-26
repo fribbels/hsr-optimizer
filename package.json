@@ -17,6 +17,7 @@
     "build": "vite build",
     "lint": "eslint ./src",
     "vitest": "vitest --dir src/lib --no-watch --pool=threads",
+    "vitest:silent": "vitest --dir src/lib --no-watch --pool=threads --silent",
     "vitest:watch": "vitest --dir src/lib --watch",
     "test": "npx playwright test --config tests/playwright.config.ts --trace on",
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",

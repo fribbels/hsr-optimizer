@@ -6,10 +6,12 @@ import { Message } from 'lib/interactions/message'
 import { webgpuCrashNotification } from 'lib/interactions/notifications'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -202,6 +204,8 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const hSize = relics.Head.length
 
   const optimizerContext = gpuContext.context
+  initializeContextConditionals(optimizerContext)
+
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: OptimizerDisplayData[] = []
   const basicStatsArrayCore = new BasicStatsArrayCore(false) as BasicStatsArray
@@ -217,25 +221,16 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
     const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
 
-    const x = calculateBuild(
-      gpuContext.request,
-      {
-        Head: relics.Head[h],
-        Hands: relics.Hands[g],
-        Body: relics.Body[b],
-        Feet: relics.Feet[f],
-        PlanarSphere: relics.PlanarSphere[p],
-        LinkRope: relics.LinkRope[l],
-      },
-      optimizerContext,
-      basicStatsArrayCore,
-      computedStatsArrayCore,
-      true,
-      true,
-      undefined,
-      undefined,
-      true,
-    )
+    const relicsByPart = {
+      Head: relics.Head[h],
+      Hands: relics.Hands[g],
+      Body: relics.Body[b],
+      Feet: relics.Feet[f],
+      PlanarSphere: relics.PlanarSphere[p],
+      LinkRope: relics.LinkRope[l],
+    }
+
+    const x = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, optimizerContext, basicStatsArrayCore, computedStatsArrayCore)
 
     const optimizerDisplayData = formatOptimizerDisplayData(x)
     optimizerDisplayData.id = index

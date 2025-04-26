@@ -58,7 +58,6 @@ const columnsToAggregateMap = {
   // For custom rows remember to set the min/max in aggregate()
 
   ED: true,
-  WEIGHT: true,
   EHP: true,
 
   BASIC: true,
@@ -316,9 +315,12 @@ export const OptimizerTabController = {
   calculateRelicsFromId: (id: number, form?: OptimizerForm) => {
     if (id === -1) { // special case for equipped build optimizer row
       const request = form ?? optimizerFormCache[window.store.getState().optimizationId!]
+      if (!request) {
+        return {} as SingleRelicByPart
+      }
 
       const build = DB.getCharacterById(request.characterId).equipped
-      const out = {} as Partial<SingleRelicByPart>
+      const out = {} as SingleRelicByPart
       for (const key of Object.keys(build)) {
         out[key as Parts] = DB.getRelicById(build[key as Parts]!)
       }

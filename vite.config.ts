@@ -35,6 +35,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    slowTestThreshold: 500,
   },
   worker: {
     format: 'es',

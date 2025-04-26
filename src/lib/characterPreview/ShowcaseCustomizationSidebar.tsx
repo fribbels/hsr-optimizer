@@ -1,14 +1,17 @@
 import { CameraOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
-import { Button, ColorPicker, Flex, InputNumber, Segmented, Select, ThemeConfig } from 'antd'
+import { Button, ColorPicker, Flex, InputNumber, Segmented, Select } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import { usePublish } from 'hooks/usePublish'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
-import { NONE_SCORE, ShowcaseColorMode, SIMULATION_SCORE, Stats } from 'lib/constants/constants'
+import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
+import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+
+import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
+import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -33,9 +36,8 @@ export interface ShowcaseCustomizationSidebarProps {
   characterId: string
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
-  simScoringResult: SimulationScore | null
-  scoringType: string
-  setOverrideTheme: (overrideTheme: ThemeConfig) => void
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
+  scoringType: ScoringType
   seedColor: string
   setSeedColor: (color: string) => void
   colorMode: ShowcaseColorMode
@@ -52,7 +54,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       id,
       source,
       characterId,
-      simScoringResult,
+      asyncSimScoringExecution,
       scoringType,
       seedColor,
       setSeedColor,
@@ -73,6 +75,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
     const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
     const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
+    const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: string) => {
@@ -171,15 +174,15 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
       console.log('Set spd benchmark to', spdBenchmark)
 
-      const showcaseTemporaryOptions = TsUtils.clone(window.store.getState().showcaseTemporaryOptions)
-      if (!showcaseTemporaryOptions[characterId]) showcaseTemporaryOptions[characterId] = {}
+      const showcaseTemporaryOptionsByCharacter = TsUtils.clone(window.store.getState().showcaseTemporaryOptionsByCharacter)
+      if (!showcaseTemporaryOptionsByCharacter[characterId]) showcaseTemporaryOptionsByCharacter[characterId] = {}
 
       // -1 is used as the "current" setting
       const actualValue = spdBenchmark == -1 ? undefined : spdBenchmark
 
-      showcaseTemporaryOptions[characterId].spdBenchmark = actualValue
+      showcaseTemporaryOptionsByCharacter[characterId].spdBenchmark = actualValue
 
-      window.store.getState().setShowcaseTemporaryOptions(showcaseTemporaryOptions)
+      window.store.getState().setShowcaseTemporaryOptionsByCharacter(showcaseTemporaryOptionsByCharacter)
     }
 
     function onTraceClick() {
@@ -285,7 +288,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             onChange={onShowcasePreciseSpdChange}
           />
 
-          {scoringType != NONE_SCORE
+          {scoringType != ScoringType.NONE
           && (
             <>
               <HorizontalDivider/>
@@ -303,7 +306,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             </>
           )}
 
-          {scoringType == SIMULATION_SCORE
+          {scoringType == ScoringType.COMBAT_SCORE
           && (
             <>
               <HorizontalDivider/>
@@ -316,13 +319,13 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                 size='small'
                 controls={false}
                 style={{ width: '100%' }}
-                value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptions[characterId]?.spdBenchmark)}
+                value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
                 addonAfter={(
                   <SelectSpdPresets
-                    spdFilter={simScoringResult?.originalSpd}
+                    spdFilter={simScoringExecution?.result?.originalSpd}
                     onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
                     characterId={characterId}
-                    simScoringResult={simScoringResult}
+                    simScoringResult={simScoringExecution?.result ?? null}
                   />
                 )}
                 placeholder='...'
@@ -333,7 +336,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             </>
           )}
 
-          {scoringType == SIMULATION_SCORE
+          {scoringType == ScoringType.COMBAT_SCORE
           && (
             <>
               <HorizontalDivider/>

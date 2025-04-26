@@ -16,6 +16,7 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { CenteredImage } from 'lib/ui/CenteredImage'
+import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -202,6 +203,8 @@ function RightPanel() {
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
+
+        <CustomHorizontalDivider height={8}/>
 
         <HeaderText>Benchmark sets</HeaderText>
 

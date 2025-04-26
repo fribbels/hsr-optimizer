@@ -120,7 +120,6 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         dataSource={dataSource}
         pagination={{
           position: ['bottomCenter'],
-          size: 'small',
           pageSize: 25,
           showSizeChanger: false,
         }}

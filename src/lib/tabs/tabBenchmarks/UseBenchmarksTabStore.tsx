@@ -9,9 +9,9 @@ export type BenchmarkForm = {
   lightConeSuperimposition: number
   basicSpd: number
   errRope: boolean
-  simRelicSet1: string
-  simRelicSet2: string
-  simOrnamentSet: string
+  simRelicSet1?: string
+  simRelicSet2?: string
+  simOrnamentSet?: string
   teammate0?: SimpleCharacter
   teammate1?: SimpleCharacter
   teammate2?: SimpleCharacter
@@ -24,6 +24,15 @@ export type SimpleCharacter = {
   lightConeSuperimposition: number
 }
 
+type RelicSetSelection = {
+  simRelicSet1?: string
+  simRelicSet2?: string
+}
+
+type OrnamentSetSelection = {
+  simOrnamentSet?: string
+}
+
 type BenchmarksTabState = {
   characterModalInitialCharacter: SimpleCharacter | undefined
   isCharacterModalOpen: boolean
@@ -34,8 +43,11 @@ type BenchmarksTabState = {
 
   currentPartialHash: string | undefined
   benchmarkCache: Record<string, BenchmarkSimulationOrchestrator>
+  storedRelics: RelicSetSelection[]
+  storedOrnaments: OrnamentSetSelection[]
 
   orchestrator: BenchmarkSimulationOrchestrator | undefined
+  orchestrators: BenchmarkSimulationOrchestrator[]
 
   updateTeammate: (index: number, data?: SimpleCharacter) => void
   onCharacterModalOk: (character: Form) => void
@@ -43,7 +55,7 @@ type BenchmarksTabState = {
   setCharacterModalOpen: (isOpen: boolean) => void
   setCharacterModalInitialCharacter: (character: SimpleCharacter | undefined) => void
   setSelectedTeammateIndex: (index: number | undefined) => void
-  setResults: (orchestrator: BenchmarkSimulationOrchestrator, partialHash: string, fullHash: string) => void
+  setResults: (orchestrators: BenchmarkSimulationOrchestrator[], mergedStoredRelics: RelicSetSelection[], mergedStoredOrnaments: OrnamentSetSelection[]) => void
   resetCache: () => void
 }
 
@@ -57,9 +69,12 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
 
   currentPartialHash: undefined,
   benchmarkCache: {},
+  storedRelics: [],
+  storedOrnaments: [],
 
   benchmarkForm: undefined,
   orchestrator: undefined,
+  orchestrators: [],
 
   // Update a specific teammate with new data
   updateTeammate: (index, data?: SimpleCharacter) => set((state) => {
@@ -94,17 +109,17 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   setCharacterModalOpen: (isOpen) => set({ isCharacterModalOpen: isOpen }),
   setCharacterModalInitialCharacter: (character?: SimpleCharacter) => set({ characterModalInitialCharacter: character }),
   setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
-  setResults: (orchestrator, partialHash, fullHash) => set((state) => ({
-    orchestrator,
-    currentPartialHash: partialHash,
-    benchmarkCache: {
-      ...state.benchmarkCache,
-      [fullHash]: orchestrator,
-    },
-  })),
+  setResults: (orchestrators, mergedStoredRelics, mergedStoredOrnaments) => set((state) => {
+    return {
+      orchestrators,
+      storedRelics: mergedStoredRelics,
+      storedOrnaments: mergedStoredOrnaments,
+    }
+  }),
 
   resetCache: () => set({
-    benchmarkCache: {},
-    currentPartialHash: undefined,
+    orchestrators: [],
+    storedRelics: [],
+    storedOrnaments: [],
   }),
 }))

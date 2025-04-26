@@ -190,11 +190,6 @@ function RightPanel() {
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
       <Flex vertical gap={GAP}>
-        <HeaderText>Benchmark sets</HeaderText>
-        <Flex vertical gap={HEADER_GAP}>
-          <SetsSection simType={StatSimTypes.Benchmarks}/>
-        </Flex>
-
         <HeaderText>Settings</HeaderText>
 
         <BenchmarkSetting label='Benchmark basic SPD' itemName='basicSpd'>
@@ -206,6 +201,12 @@ function RightPanel() {
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
+
+        <HeaderText>Benchmark sets</HeaderText>
+
+        <Flex vertical gap={HEADER_GAP}>
+          <SetsSection simType={StatSimTypes.Benchmarks}/>
+        </Flex>
       </Flex>
 
       <Flex vertical gap={GAP}>

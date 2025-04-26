@@ -93,11 +93,13 @@ const columns: TableProps<BenchmarkRow>['columns'] = [
 export function BenchmarkResults() {
   const {
     benchmarkCache,
+    orchestrators,
   } = useBenchmarksTabStore()
   console.log(benchmarkCache)
   if (!benchmarkCache) return <></>
+  if (!orchestrators.length) return <></>
 
-  const { rows100, rows200 } = generateBenchmarkRows(benchmarkCache)
+  const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
 
   return (
     <Flex vertical>
@@ -188,6 +190,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           characterId={characterId}
           finalStats={basicStats}
           elementalDmgValue={ElementToDamage[element]}
+          asyncSimScoringExecution={null}
           simScore={result.simScore}
           showAll={true}
         />
@@ -202,6 +205,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           characterId={characterId}
           finalStats={combatStats}
           elementalDmgValue={ElementToDamage[element]}
+          asyncSimScoringExecution={null}
           simScore={result.simScore}
           showAll={true}
         />
@@ -331,10 +335,9 @@ function aggregateCandidates(candidates: Simulation[], top: number, baseline: nu
   return dataSource
 }
 
-function generateBenchmarkRows(benchmarkCache: Record<string, BenchmarkSimulationOrchestrator>) {
+function generateBenchmarkRows(orchestrators: BenchmarkSimulationOrchestrator[]) {
   let rows100: BenchmarkRow[] = []
   let rows200: BenchmarkRow[] = []
-  const orchestrators = Object.values(benchmarkCache)
 
   let topBenchmarkSimScore = 0
   let topPerfectionSimScore = 0

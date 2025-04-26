@@ -1,38 +1,81 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { Message } from 'lib/interactions/message'
-import { cloneWorkerResult } from 'lib/scoring/simScoringUtils'
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import DB from 'lib/state/db'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+export type BenchmarkResultWrapper = {
+  fullHash: string
+  promise: Promise<BenchmarkSimulationOrchestrator>
+  orchestrator?: BenchmarkSimulationOrchestrator
+}
+
+const customBenchmarkCache: Record<string, BenchmarkSimulationOrchestrator> = {}
+
 export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
-  const { teammate0, teammate1, teammate2, setResults, currentPartialHash, resetCache } = useBenchmarksTabStore.getState()
+  const { teammate0, teammate1, teammate2, setResults, currentPartialHash, resetCache, storedRelics, storedOrnaments } = useBenchmarksTabStore.getState()
 
-  // Merge form and the teammate state management
-  const mergedBenchmarkForm: BenchmarkForm = {
-    ...benchmarkForm,
-    teammate0,
-    teammate1,
-    teammate2,
+  const mergedStoredRelics = filterUniqueStringify([
+    ...storedRelics,
+    {
+      simRelicSet1: benchmarkForm.simRelicSet1,
+      simRelicSet2: benchmarkForm.simRelicSet2,
+    },
+  ])
+
+  const mergedStoredOrnaments = filterUniqueStringify([
+    ...storedOrnaments,
+    {
+      simOrnamentSet: benchmarkForm.simOrnamentSet,
+    },
+  ])
+
+  const promiseWrappers: Record<string, BenchmarkResultWrapper> = {}
+
+  for (const relicsOption of mergedStoredRelics) {
+    for (const ornamentsOption of mergedStoredOrnaments) {
+      const mergedBenchmarkForm: BenchmarkForm = {
+        ...benchmarkForm,
+        simRelicSet1: relicsOption.simRelicSet1,
+        simRelicSet2: relicsOption.simRelicSet2,
+        simOrnamentSet: ornamentsOption.simOrnamentSet,
+        teammate0,
+        teammate1,
+        teammate2,
+      }
+
+      if (invalidBenchmarkForm(mergedBenchmarkForm)) return
+
+      const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
+
+      if (customBenchmarkCache[fullHash]) {
+        console.debug('CACHED', customBenchmarkCache[fullHash])
+        promiseWrappers[fullHash] = {
+          fullHash,
+          promise: Promise.resolve(customBenchmarkCache[fullHash]),
+        }
+        continue
+      }
+
+      const promise = runCustomBenchmarkOrchestrator(mergedBenchmarkForm)
+      promiseWrappers[fullHash] = {
+        fullHash,
+        promise,
+      }
+    }
   }
 
-  if (invalidBenchmarkForm(mergedBenchmarkForm)) return
+  const promises = Object.values(promiseWrappers).map((wrapper) => wrapper.promise)
+  void Promise.all(promises)
+    .then(async (results) => {
+      for (const wrapper of Object.values(promiseWrappers)) {
+        customBenchmarkCache[wrapper.fullHash] = await wrapper.promise
+      }
 
-  const partialHash = generatePartialHash(mergedBenchmarkForm)
-  const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
-  if (currentPartialHash && currentPartialHash != partialHash) {
-    resetCache()
-  }
-
-  console.log('Complete benchmark data:', mergedBenchmarkForm)
-
-  void runCustomBenchmarkOrchestrator(mergedBenchmarkForm)
-    .then((orchestrator) => {
-      console.log(orchestrator)
-      console.log(cloneWorkerResult(orchestrator.perfectionSimResult!))
-
-      setResults(orchestrator, partialHash, fullHash)
+      setResults(results, mergedStoredRelics, mergedStoredOrnaments)
     })
 }
 

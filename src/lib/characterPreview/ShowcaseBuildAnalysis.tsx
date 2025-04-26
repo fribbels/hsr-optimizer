@@ -159,7 +159,7 @@ function MemoizedCharacterScoringSummary(props: {
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) {
-  const delayedProps = useDelayedProps(props, 200)
+  const delayedProps = useDelayedProps(props, 250)
 
   const memoizedCharacterScoringSummary = useMemo(() => {
     return delayedProps

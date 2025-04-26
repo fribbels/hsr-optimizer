@@ -19,8 +19,6 @@ export function getShowcaseSimScoringExecution(
   teamSelection: string,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
 ): AsyncSimScoringExecution {
-  console.log('Start async')
-
   const characterMetadata = DB.getMetadata().characters[character.id]
   const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
   const singleRelicByPart = displayRelics as SingleRelicByPart
@@ -50,12 +48,9 @@ export function getShowcaseSimScoringExecution(
   }
 
   async function runSimulation() {
-    console.log('Executing async operation')
-
     try {
       const simulationOrchestrator = await runDpsScoreBenchmarkOrchestrator(character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
       const simulationScore = simulationOrchestrator.simulationScore
-      console.log('Orchestrator', simulationOrchestrator)
       console.log('Percent', simulationScore?.percent)
 
       if (!simulationScore) return null
@@ -76,7 +71,6 @@ export function getShowcaseSimScoringExecution(
 
   asyncResult.promise = runSimulation()
 
-  console.log('Return async')
   return asyncResult
 }
 

@@ -91,12 +91,8 @@ const columns: TableProps<BenchmarkRow>['columns'] = [
 ]
 
 export function BenchmarkResults() {
-  const {
-    benchmarkCache,
-    orchestrators,
-  } = useBenchmarksTabStore()
-  console.log(benchmarkCache)
-  if (!benchmarkCache) return <></>
+  const { orchestrators } = useBenchmarksTabStore()
+
   if (!orchestrators.length) return <></>
 
   const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
@@ -109,6 +105,8 @@ export function BenchmarkResults() {
 }
 
 function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
+  const { loading } = useBenchmarksTabStore()
+
   return (
     <div
       style={{
@@ -125,6 +123,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         pagination={false}
         size='small'
         style={benchmarkTableStyle}
+        loading={loading}
         locale={{ emptyText: '' }}
         expandable={{
           expandedRowRender: (row) => <ExpandedRow row={row}/>,

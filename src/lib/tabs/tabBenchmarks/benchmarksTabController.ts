@@ -16,7 +16,17 @@ export type BenchmarkResultWrapper = {
 const customBenchmarkCache: Record<string, BenchmarkSimulationOrchestrator> = {}
 
 export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
-  const { teammate0, teammate1, teammate2, setResults, currentPartialHash, resetCache, storedRelics, storedOrnaments } = useBenchmarksTabStore.getState()
+  const { teammate0, teammate1, teammate2, setResults, storedRelics, storedOrnaments, setLoading } = useBenchmarksTabStore.getState()
+
+  const validationForm: BenchmarkForm = {
+    ...benchmarkForm,
+    teammate0,
+    teammate1,
+    teammate2,
+  }
+  if (invalidBenchmarkForm(validationForm)) {
+    return
+  }
 
   const mergedStoredRelics = filterUniqueStringify([
     ...storedRelics,
@@ -33,50 +43,53 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
     },
   ])
 
-  const promiseWrappers: Record<string, BenchmarkResultWrapper> = {}
+  setLoading(true)
 
-  for (const relicsOption of mergedStoredRelics) {
-    for (const ornamentsOption of mergedStoredOrnaments) {
-      const mergedBenchmarkForm: BenchmarkForm = {
-        ...benchmarkForm,
-        simRelicSet1: relicsOption.simRelicSet1,
-        simRelicSet2: relicsOption.simRelicSet2,
-        simOrnamentSet: ornamentsOption.simOrnamentSet,
-        teammate0,
-        teammate1,
-        teammate2,
-      }
+  setTimeout(() => {
+    const promiseWrappers: Record<string, BenchmarkResultWrapper> = {}
 
-      if (invalidBenchmarkForm(mergedBenchmarkForm)) return
+    for (const relicsOption of mergedStoredRelics) {
+      for (const ornamentsOption of mergedStoredOrnaments) {
+        const mergedBenchmarkForm: BenchmarkForm = {
+          ...benchmarkForm,
+          simRelicSet1: relicsOption.simRelicSet1,
+          simRelicSet2: relicsOption.simRelicSet2,
+          simOrnamentSet: ornamentsOption.simOrnamentSet,
+          teammate0,
+          teammate1,
+          teammate2,
+        }
 
-      const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
+        const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
 
-      if (customBenchmarkCache[fullHash]) {
-        console.debug('CACHED', customBenchmarkCache[fullHash])
+        if (customBenchmarkCache[fullHash]) {
+          console.debug('CACHED', customBenchmarkCache[fullHash])
+          promiseWrappers[fullHash] = {
+            fullHash,
+            promise: Promise.resolve(customBenchmarkCache[fullHash]),
+          }
+          continue
+        }
+
+        const promise = runCustomBenchmarkOrchestrator(mergedBenchmarkForm)
         promiseWrappers[fullHash] = {
           fullHash,
-          promise: Promise.resolve(customBenchmarkCache[fullHash]),
+          promise,
         }
-        continue
-      }
-
-      const promise = runCustomBenchmarkOrchestrator(mergedBenchmarkForm)
-      promiseWrappers[fullHash] = {
-        fullHash,
-        promise,
       }
     }
-  }
 
-  const promises = Object.values(promiseWrappers).map((wrapper) => wrapper.promise)
-  void Promise.all(promises)
-    .then(async (results) => {
-      for (const wrapper of Object.values(promiseWrappers)) {
-        customBenchmarkCache[wrapper.fullHash] = await wrapper.promise
-      }
+    const promises = Object.values(promiseWrappers).map((wrapper) => wrapper.promise)
+    void Promise.all(promises)
+      .then(async (results) => {
+        for (const wrapper of Object.values(promiseWrappers)) {
+          customBenchmarkCache[wrapper.fullHash] = await wrapper.promise
+        }
 
-      setResults(results, mergedStoredRelics, mergedStoredOrnaments)
-    })
+        setResults(results, mergedStoredRelics, mergedStoredOrnaments)
+        setLoading(false)
+      })
+  }, 350)
 }
 
 function invalidSimpleCharacter(simpleCharacter?: SimpleCharacter) {

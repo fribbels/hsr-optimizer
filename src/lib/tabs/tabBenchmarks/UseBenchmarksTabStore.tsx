@@ -41,12 +41,10 @@ type BenchmarksTabState = {
   teammate1: SimpleCharacter | undefined
   teammate2: SimpleCharacter | undefined
 
-  currentPartialHash: string | undefined
-  benchmarkCache: Record<string, BenchmarkSimulationOrchestrator>
   storedRelics: RelicSetSelection[]
   storedOrnaments: OrnamentSetSelection[]
+  loading: boolean
 
-  orchestrator: BenchmarkSimulationOrchestrator | undefined
   orchestrators: BenchmarkSimulationOrchestrator[]
 
   updateTeammate: (index: number, data?: SimpleCharacter) => void
@@ -57,6 +55,7 @@ type BenchmarksTabState = {
   setSelectedTeammateIndex: (index: number | undefined) => void
   setResults: (orchestrators: BenchmarkSimulationOrchestrator[], mergedStoredRelics: RelicSetSelection[], mergedStoredOrnaments: OrnamentSetSelection[]) => void
   resetCache: () => void
+  setLoading: (loading: boolean) => void
 }
 
 export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
@@ -67,16 +66,13 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
   teammate1: undefined,
   teammate2: undefined,
 
-  currentPartialHash: undefined,
-  benchmarkCache: {},
   storedRelics: [],
   storedOrnaments: [],
+  loading: false,
 
   benchmarkForm: undefined,
-  orchestrator: undefined,
   orchestrators: [],
 
-  // Update a specific teammate with new data
   updateTeammate: (index, data?: SimpleCharacter) => set((state) => {
     return {
       teammate0: index == 0 ? data : state.teammate0,
@@ -85,7 +81,6 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
     }
   }),
 
-  // Handler for when a character is selected in the modal
   onCharacterModalOk: (form: Form) => {
     const character: SimpleCharacter = {
       characterId: form.characterId,
@@ -121,5 +116,9 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
     orchestrators: [],
     storedRelics: [],
     storedOrnaments: [],
+  }),
+
+  setLoading: (loading: boolean) => set({
+    loading,
   }),
 }))

@@ -44,14 +44,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     basicEnhanced: true,
     breakEffectToOhbBoost: true,
     e1ResBuff: true,
-    e2ResBuff: true,
+    e2ResBuff: false,
     e6BeBuff: true,
     targetBesotted: true,
   }
 
   const teammateDefaults = {
     targetBesotted: true,
-    e2ResBuff: true,
+    e2ResBuff: false,
   }
 
   const content: ContentDefinition<typeof defaults> = {

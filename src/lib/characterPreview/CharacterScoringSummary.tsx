@@ -247,7 +247,7 @@ export const CharacterScoringSummary = (props: {
           </Flex>
         </Flex>
 
-        <Flex vertical gap={20}>
+        <Flex vertical gap={20} style={{ lineHeight: '22px' }}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
           </pre>

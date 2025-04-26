@@ -98,7 +98,7 @@ function aggregateCombatStats(xa: Float32Array, ca: Float32Array, upgradeStats: 
         ? localeNumber_000(TsUtils.precisionRound(value, 4))
         : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value, 4)))
     } else if (!flat) {
-      display = localeNumber_0(Utils.truncate10ths(value * 100))
+      display = localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value * 100, 4)))
     }
 
     displayWrappers.push({

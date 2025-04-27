@@ -177,7 +177,8 @@ export function optimizerWorker(e: MessageEvent) {
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
-      const a = x.a
+      action.conditionalState = {}
+
       x.setPrecompute(action.precomputedX.a)
       if (x.a[Key.MEMOSPRITE]) {
         m.setPrecompute(action.precomputedM.a)
@@ -189,6 +190,7 @@ export function optimizerWorker(e: MessageEvent) {
 
       calculateDamage(x, action, context)
 
+      const a = x.a
       if (action.actionType === 'BASIC') {
         combo += a[Key.BASIC_DMG]
       } else if (action.actionType === 'SKILL') {

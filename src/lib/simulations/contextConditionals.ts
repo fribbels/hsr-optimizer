@@ -17,14 +17,6 @@ export function initializeContextConditionals(context: OptimizerContext) {
     // Reconstruct arrays after transfer
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
     action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
-
-    action.conditionalState = {}
-  }
-}
-
-export function resetConditionalState(context: OptimizerContext) {
-  for (const action of context.actions) {
-    action.conditionalState = {}
   }
 }
 

@@ -42,23 +42,25 @@ function generateSimulationMetadata(benchmarkForm: BenchmarkForm) {
     benchmarkForm.teammate2!,
   ]
 
+  metadata.deprioritizeBuffs = benchmarkForm.subDps
+
   return metadata
 }
 
 function generateSimulationSets(benchmarkForm: BenchmarkForm) {
   return {
-    relicSet1: benchmarkForm.simRelicSet1,
-    relicSet2: benchmarkForm.simRelicSet2,
-    ornamentSet: benchmarkForm.simOrnamentSet,
+    relicSet1: benchmarkForm.simRelicSet1!,
+    relicSet2: benchmarkForm.simRelicSet2!,
+    ornamentSet: benchmarkForm.simOrnamentSet!,
   }
 }
 
 function generateSimulationRequest(benchmarkForm: BenchmarkForm) {
   const request: SimulationRequest = {
     name: '',
-    simRelicSet1: benchmarkForm.simRelicSet1,
-    simRelicSet2: benchmarkForm.simRelicSet2,
-    simOrnamentSet: benchmarkForm.simOrnamentSet,
+    simRelicSet1: benchmarkForm.simRelicSet1!,
+    simRelicSet2: benchmarkForm.simRelicSet2!,
+    simOrnamentSet: benchmarkForm.simOrnamentSet!,
     simBody: Stats.HP_P,
     simFeet: Stats.HP_P,
     simPlanarSphere: Stats.HP_P,

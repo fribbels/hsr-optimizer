@@ -113,7 +113,7 @@ export function defaultEnemyOptions() {
     enemyLevel: 95,
     enemyCount: 1,
     enemyResistance: 0.2,
-    enemyEffectResistance: 0.2,
+    enemyEffectResistance: 0.3,
     enemyMaxToughness: 360,
     enemyElementalWeak: true,
     enemyWeaknessBroken: false,

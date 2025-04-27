@@ -167,6 +167,7 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
       size='large'
       type='card'
       tabBarGutter={5}
+      defaultActiveKey='200'
       items={items}
       tabBarStyle={{ width: '100%', margin: 0 }}
     />
@@ -295,7 +296,7 @@ function renderComboDmg() {
 
 function renderDeltaPercent() {
   return (n: number) => {
-    const increase = n <= 0
+    const increase = n <= 0.0001
     const icon = increase ? '⬤' : '▼'
     const color = arrowColor(increase)
 
@@ -304,7 +305,7 @@ function renderDeltaPercent() {
         <span style={{ fontSize: 10, lineHeight: '17px', color: color }}>
           {icon}
         </span>
-        {n == 0 ? '' : `-${localeNumber_0(n)}%`}
+        {increase ? '' : `-${localeNumber_0(n)}%`}
       </Flex>
     )
   }

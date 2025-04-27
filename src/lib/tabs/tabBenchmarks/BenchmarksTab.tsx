@@ -57,6 +57,7 @@ const defaultForm: Partial<BenchmarkForm> = {
   characterEidolon: 0,
   lightConeSuperimposition: 1,
   errRope: false,
+  subDps: false,
 }
 
 export default function BenchmarksTab(): ReactElement {
@@ -202,6 +203,12 @@ function RightPanel() {
           <InputNumber style={{ width: width }} size='small'/>
         </BenchmarkSetting>
         <BenchmarkSetting label='Energy regen rope' itemName='errRope'>
+          <Radio.Group buttonStyle='solid' size='small' block style={{ width: width }}>
+            <Radio.Button value={true}><CheckOutlined/></Radio.Button>
+            <Radio.Button value={false}><CloseOutlined/></Radio.Button>
+          </Radio.Group>
+        </BenchmarkSetting>
+        <BenchmarkSetting label='Sub DPS' itemName='subDps'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: width }}>
             <Radio.Button value={true}><CheckOutlined/></Radio.Button>
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>

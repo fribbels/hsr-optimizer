@@ -115,8 +115,12 @@ export default function ScoringModal() {
 
     const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
     const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+    const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+      stats: defaultScoringMetadata.stats,
+      parts: defaultScoringMetadata.parts,
+    }
 
-    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, defaultScoringMetadata)
+    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge as ScoringMetadata)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
   }
 
@@ -126,7 +130,11 @@ export default function ScoringModal() {
       const charactersById = window.store.getState().charactersById
       for (const character of Object.keys(charactersById)) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
-        DB.updateCharacterScoreOverrides(character, defaultScoringMetadata)
+        const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+          stats: defaultScoringMetadata.stats,
+          parts: defaultScoringMetadata.parts,
+        }
+        DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge as ScoringMetadata)
       }
 
       // Update values for current screen

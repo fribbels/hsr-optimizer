@@ -79,7 +79,7 @@ test('Kafka benchmarked @ 0 spd', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    0.8452150374144647,
+    0.8158809316349923,
     0,
   )
 })

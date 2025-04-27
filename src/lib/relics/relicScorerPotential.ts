@@ -635,7 +635,7 @@ export class RelicScorer {
 
       for (const substat of relic.substats) {
         const stat = substat.stat
-        const value = SubStatValues[stat][5].high * meta.stats[stat] * normalization[stat]
+        const value = SubStatValues[stat][5].mid * meta.stats[stat] * normalization[stat]
         if (stat == bestSub.stat) {
           rerollValue += value * (totalRolls + 1)
         } else {

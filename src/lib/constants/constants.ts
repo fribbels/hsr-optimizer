@@ -5,11 +5,11 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 export const CURRENT_OPTIMIZER_VERSION = 'v3.3.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.3v3'
+export const CURRENT_DATA_VERSION = '3.3v4'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  1406: generateMessage(`Combo rotation updated from 1x FUA to 3x FUA. EHR traces updated.`), // Cipher
+  1406: generateMessage(`V4 buffs updated.`), // Cipher
 }
 
 export const Stats = {

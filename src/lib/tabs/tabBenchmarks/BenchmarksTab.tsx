@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -15,10 +15,12 @@ import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightC
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
@@ -185,6 +187,8 @@ function MiddlePanel() {
   )
 }
 
+const INPUT_WIDTH = 85
+
 function RightPanel() {
   const {
     loading,
@@ -192,24 +196,21 @@ function RightPanel() {
   } = useBenchmarksTabStore()
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
-  const width = 85
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
       <Flex vertical gap={GAP}>
         <HeaderText>Settings</HeaderText>
 
-        <BenchmarkSetting label='Benchmark basic SPD' itemName='basicSpd'>
-          <InputNumber style={{ width: width }} size='small'/>
-        </BenchmarkSetting>
+        <SpdBenchmarkSetting/>
         <BenchmarkSetting label='Energy regen rope' itemName='errRope'>
-          <Radio.Group buttonStyle='solid' size='small' block style={{ width: width }}>
+          <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}><CheckOutlined/></Radio.Button>
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
         <BenchmarkSetting label='Sub DPS' itemName='subDps'>
-          <Radio.Group buttonStyle='solid' size='small' block style={{ width: width }}>
+          <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}><CheckOutlined/></Radio.Button>
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
@@ -249,6 +250,48 @@ function RightPanel() {
         </Button>
       </Flex>
     </Flex>
+  )
+}
+
+function SpdBenchmarkSetting() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
+  const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
+  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
+
+  const presetOptions = useMemo(() => {
+    // Optimizer has SPD0 as undefined for filters, we want to set it to 0
+    const presets = TsUtils.clone(generateSpdPresets(t))
+    presets['SPD0'].value = 0
+    return Object.values(presets)
+  }, [])
+
+  const options = [
+    {
+      label: <span>{tCharacterTab('CommonBreakpointsLabel')/* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
+      options: presetOptions,
+    },
+  ]
+
+  return (
+    <BenchmarkSetting label='Benchmark basic SPD' itemName='basicSpd'>
+      <InputNumber
+        size='small'
+        controls={false}
+        style={{ width: INPUT_WIDTH }}
+        addonAfter={(
+          <Select
+            style={{ width: 34 }}
+            labelRender={() => <></>}
+            dropdownStyle={{ width: 'fit-content' }}
+            options={options}
+            placement='bottomRight'
+            listHeight={800}
+            value={null}
+            onChange={(value: number) => benchmarkForm.setFieldValue('basicSpd', value)}
+          />
+        )}
+      />
+    </BenchmarkSetting>
   )
 }
 

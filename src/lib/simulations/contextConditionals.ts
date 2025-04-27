@@ -1,7 +1,7 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
+import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function initializeContextConditionals(context: OptimizerContext) {
@@ -18,13 +18,7 @@ export function initializeContextConditionals(context: OptimizerContext) {
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
     action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
 
-    action.conditionalState = {}
-  }
-}
-
-export function resetConditionalState(context: OptimizerContext) {
-  for (const action of context.actions) {
-    action.conditionalState = {}
+    calculateContextConditionalRegistry(action, context, context.characterConditionalController, context.lightConeConditionalController)
   }
 }
 

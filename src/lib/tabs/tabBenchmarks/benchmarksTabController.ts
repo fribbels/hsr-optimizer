@@ -144,6 +144,7 @@ export function handleCharacterSelectChange(id: string, form: FormInstance<Bench
     simRelicSet1: simulationMetadata.relicSets[0]?.[0],
     simRelicSet2: simulationMetadata.relicSets[0]?.[1],
     simOrnamentSet: simulationMetadata.ornamentSets[0],
+    subDps: simulationMetadata.deprioritizeBuffs,
   })
 
   const state = useBenchmarksTabStore.getState()

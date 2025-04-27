@@ -43,7 +43,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
     }
 
     cachedId = characterId
-    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringType, scoringMetadata.stats)
+    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringType, scoringMetadata)
     const cached = cachedRelics[cacheKey]
     if (cached) {
       // Deduplicate any requests against the static IN_PROGRESS object

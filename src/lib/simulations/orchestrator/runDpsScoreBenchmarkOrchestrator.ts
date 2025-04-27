@@ -19,6 +19,7 @@ export async function runDpsScoreBenchmarkOrchestrator(
   orchestrator.setSimSetsWithSimRequest()
   orchestrator.setSimForm(character.form)
   orchestrator.setFlags()
+
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
 

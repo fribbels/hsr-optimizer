@@ -117,23 +117,6 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
   return false
 }
 
-// If these fields are different, then benchmarks can't be compared
-function generatePartialHash(benchmarkForm: BenchmarkForm) {
-  const hashObject = {
-    characterId: benchmarkForm.characterId,
-    lightCone: benchmarkForm.lightCone,
-    characterEidolon: benchmarkForm.characterEidolon,
-    lightConeSuperimposition: benchmarkForm.lightConeSuperimposition,
-    basicSpd: benchmarkForm.basicSpd,
-    errRope: benchmarkForm.errRope,
-    teammate0: benchmarkForm.teammate0,
-    teammate1: benchmarkForm.teammate1,
-    teammate2: benchmarkForm.teammate2,
-  }
-
-  return TsUtils.objectHash(hashObject)
-}
-
 export function handleCharacterSelectChange(id: string, form: FormInstance<BenchmarkForm>) {
   if (!id) return
 

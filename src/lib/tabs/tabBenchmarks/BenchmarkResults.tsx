@@ -167,6 +167,7 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
       size='large'
       type='card'
       tabBarGutter={5}
+      defaultActiveKey='200'
       items={items}
       tabBarStyle={{ width: '100%', margin: 0 }}
     />

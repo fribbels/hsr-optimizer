@@ -28,6 +28,7 @@ export async function expectBenchmarkResultsToMatch(
     lightConeSuperimposition: character.lightConeSuperimposition,
     basicSpd: basicSpd,
     errRope: mains.simLinkRope == Stats.ERR,
+    subDps: false,
     simRelicSet1: sets.simRelicSet1,
     simRelicSet2: sets.simRelicSet2,
     simOrnamentSet: sets.simOrnamentSet,

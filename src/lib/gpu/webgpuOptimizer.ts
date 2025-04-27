@@ -9,7 +9,7 @@ import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
+import { initializeContextConditionals, resetConditionalState } from 'lib/simulations/contextConditionals'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -230,6 +230,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
       LinkRope: relics.LinkRope[l],
     }
 
+    resetConditionalState(optimizerContext)
     const x = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, optimizerContext, basicStatsArrayCore, computedStatsArrayCore)
 
     const optimizerDisplayData = formatOptimizerDisplayData(x)

@@ -22,6 +22,12 @@ export function initializeContextConditionals(context: OptimizerContext) {
   }
 }
 
+export function resetConditionalState(context: OptimizerContext) {
+  for (const action of context.actions) {
+    action.conditionalState = {}
+  }
+}
+
 // For Sunday E6 / etc
 function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
   if (teammateMetadata?.characterId) {

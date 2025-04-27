@@ -43,7 +43,7 @@ test('Kafka benchmark 0', async () => {
       stats: testStatSpread(),
     }),
     2362779.75,
-    2724628.75,
+    2704018,
   )
 })
 

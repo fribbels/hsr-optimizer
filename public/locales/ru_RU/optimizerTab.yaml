@@ -1,6 +1,8 @@
 CharacterSelector:
   Character: Персонаж
   Lightcone: Световой конус
+LightconePassives: Пассивки конуса
+CharacterPassives: Пассивки персонажа
 ResultLimitN: "Найти {{limit}} лучших"
 OptimizerOptions:
   Priority:
@@ -56,7 +58,7 @@ WeightFilter:
   CRFilterText: КШ
   CDFilterText: КУ
   EHRFilterText: ШПЭ
-  RESFilterText: СОП
+  RESFilterText: СОПР
   BEFilterText: ЭП
 MinMaxFilters:
   HPLabel: HP

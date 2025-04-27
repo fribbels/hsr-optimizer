@@ -93,11 +93,9 @@ CharacterPreview:
       StatScore: 属性评分
       NoneScore: 无
   DetailsSlider:
-    Title: "战斗评分详情:"
     Labels:
       CombatStats: 战斗属性
       SubDpsCombatStats: 战斗属性（副C）
-      DMGUpgrades: 伤害升级
   DMGUpgrades: 伤害升级
   SubstatUpgradeComparisons:
     Header: 副词条升级比较

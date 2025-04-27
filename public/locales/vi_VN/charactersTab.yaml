@@ -88,11 +88,9 @@ CharacterPreview:
       StatScore: Điểm chỉ số
       NoneScore: Không có
   DetailsSlider:
-    Title: "Chi tiết điểm combat:"
     Labels:
       CombatStats: Chỉ số trong combat
       SubDpsCombatStats: Chỉ số combat (Sub DPS)
-      DMGUpgrades: Tăng sát thương
   DMGUpgrades: Tăng sát thương
   SubstatUpgradeComparisons:
     Header: So sánh nâng cấp thuộc tính dị vật

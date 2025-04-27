@@ -66,10 +66,8 @@ CharacterPreview:
       CombatScore: 戰鬥評分
       StatScore: 屬性評分
   DetailsSlider:
-    Title: "戰鬥評分詳情:"
     Labels:
       CombatStats: 戰鬥屬性
-      DMGUpgrades: 傷害升級
   DMGUpgrades: 傷害升級
   SubstatUpgradeComparisons:
     Header: 副詞條升級比較

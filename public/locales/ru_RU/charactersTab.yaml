@@ -29,13 +29,13 @@ CharacterMenu:
 SearchPlaceholder: Поиск
 GridHeaders:
   Icon: Иконка
-  Priority: Приоритет
-  Character: Имя Персонажа
+  Priority: Приор.
+  Character: Персонаж
 Messages:
   RemoveSuccess: Персонаж успешно удален
   UnequipSuccess: Реликвии персонажа успешно сняты
   NoSelectedCharacter: Нет выбранного персонажа
-  SwitchSuccess: "Реликвии успешно поменяны с $t(gameData:Characters.{{charId}}.Name)"
+  SwitchSuccess: "Успешная смена реликвий с $t(gameData:Characters.{{charId}}.Name)"
   SortByScoreWarning: Вы уверены, что хотите отсортировать персонажей?
   SaveSuccess: "Сборка {{name}} успешно сохранена"
   UnequipWarning: "Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?"
@@ -46,23 +46,23 @@ CharacterPreview:
       Header: Статы
       ButtonText: Следы
     SpdPrecision:
-      Header: Точность SPD
+      Header: Точность СКР
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: Вес SPD
+      Header: Вес СКР
       Max: 100%
       Min: 0%
     BenchmarkSpd:
-      Header: Эталонное SPD
-      BenchmarkOptionsLabel: Варианты выбора SPD тестовых сборок
-      CurrentSpdLabel: Текущая скорость - Эталоном будет SPD текущей сборки
-      BaseSpdLabel: Базовая скорость - Эталоном будет минимальное SPD
-      CommonBreakpointsLabel: Шаблоны контрольных точек для SPD (без учета SPD баффов)
+      Header: Эталонная СКР
+      BenchmarkOptionsLabel: Варианты выбора СКР тестовых сборок
+      CurrentSpdLabel: Текущая скорость - Эталоном будет СКР текущей сборки
+      BaseSpdLabel: Базовая скорость - Эталоном будет минимальная СКР
+      CommonBreakpointsLabel: Шаблоны контрольных точек для СКР (без учета СКР баффов)
     BuffPriority:
-      Header: Режим DPS
-      High: Основной
-      Low: Доп
+      Header: Режим ДД
+      High: Мейн
+      Low: Саб
   CustomizationSidebar:
     Label: Внешний вид
     Modes:
@@ -83,7 +83,7 @@ CharacterPreview:
     NoSelectedLightCone: Конус не выбран
   ScoreHeader:
     Title: Эффективность сборки
-    TitleBenchmark: "Эталонное SPD {{spd}}"
+    TitleBenchmark: "Эталонная СКР {{spd}}"
     Score: "Оценка урона {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Способ оценки:"
@@ -93,11 +93,9 @@ CharacterPreview:
       StatScore: Статы персонажа
       NoneScore: Нет
   DetailsSlider:
-    Title: "Детали оценки:"
     Labels:
       CombatStats: Статы персонажа в бою
       SubDpsCombatStats: Статы в бою (Доп DPS)
-      DMGUpgrades: Повышение урона
   DMGUpgrades: Повышение урона
   SubstatUpgradeComparisons:
     Header: Сравнение статов для повышения урона

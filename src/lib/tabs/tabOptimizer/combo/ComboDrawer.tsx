@@ -888,8 +888,6 @@ function BooleanSwitch(props: {
 }) {
   const contentItem = props.contentItem
 
-  // console.debug(props.sourceKey)
-
   return (
     <Flex style={{ width: 275, marginRight: 10 }} align='center' gap={0}>
       <Flex style={{ width: 210 }} align='center'>

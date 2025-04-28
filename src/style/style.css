@@ -765,3 +765,21 @@ a {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
+
+.ant-table-expanded-row {
+    background-color: #0d152fba;
+}
+
+.ant-table-row-expand-icon-cell {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+.benchmark-tabs .ant-tabs-nav-list {
+    width: 100%;
+}
+
+.benchmark-tabs .ant-tabs-tab {
+    flex: 1;
+    justify-content: space-around;
+}

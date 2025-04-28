@@ -408,7 +408,7 @@ fn main(
         x.CR += 0.12;
       }
       if (p4(sets.PoetOfMourningCollapse) >= 1) {
-        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        let crValue = select(0.0, 0.20, c.SPD < 110) + select(0.0, 0.12, c.SPD < 95);
         x.CR += crValue;
         m.CR += crValue;
       }
@@ -562,7 +562,7 @@ fn main(
 
       if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
         buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
-        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0.0, 0.15, x.BE >= 2.50), 1);
       }
 
       // START ACTION CONDITIONALS
@@ -705,8 +705,8 @@ fn calculateDamage(
       (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
         1
         + x.OHB
-        + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
-        + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
+        + select(0.0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
+        + select(0.0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
       );
     }
 
@@ -755,7 +755,7 @@ fn calculateEhrMulti(
   let dotEhrMulti = select(
     (effectiveDotChance),
     (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + x.DOT_SPLIT * (x.DOT_STACKS - 1)),
-    x.DOT_SPLIT > 0
+    x.DOT_SPLIT > 0.0
   );
 
   return dotEhrMulti;
@@ -831,8 +831,8 @@ fn calculateAbilityDmg(
 
   var abilityAdditionalDmgOutput: f32 = 0;
   if (abilityAdditionalDmg > 0) {
-    let additionalDmgCr = select(min(1, x.CR), abilityAdditionalCrOverride, abilityAdditionalCrOverride > 0);
-    let additionalDmgCd = select(x.CD, abilityAdditionalCdOverride, abilityAdditionalCdOverride > 0);
+    let additionalDmgCr = select(min(1, x.CR), abilityAdditionalCrOverride, abilityAdditionalCrOverride > 0.0);
+    let additionalDmgCd = select(x.CD, abilityAdditionalCdOverride, abilityAdditionalCdOverride > 0.0);
     let abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr);
     abilityAdditionalDmgOutput = abilityAdditionalDmg
       * (baseUniversalMulti)

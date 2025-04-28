@@ -2,7 +2,7 @@ import { DownOutlined } from '@ant-design/icons'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Dropdown } from 'antd'
 import { TFunction } from 'i18next'
-import { Constants, ElementNames, PathNames, Sets } from 'lib/constants/constants'
+import { Constants, ElementNames, PathNames, Sets, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
 import DB from 'lib/state/db'
@@ -29,11 +29,11 @@ import { ScoringMetadata } from 'types/metadata'
  * 177.77 (8 actions in first four cycles)
  * 200.00 (3 actions in first cycle)
  */
-
 export type PresetDefinition = {
   name: string
+  set: SetsRelics | SetsOrnaments
   value: number | boolean
-  apply: (form: Form) => void
+  index?: number
 }
 
 export const PresetEffects = {
@@ -43,27 +43,21 @@ export const PresetEffects = {
     return {
       name: 'fnAshblazingSet',
       value: stacks,
-      apply: (form: Form) => {
-        form.setConditionals[Sets.TheAshblazingGrandDuke][1] = stacks
-      },
+      set: Sets.TheAshblazingGrandDuke,
     }
   },
   fnPioneerSet: (value: number): PresetDefinition => {
     return {
       name: 'fnPioneerSet',
       value: value,
-      apply: (form: Form) => {
-        form.setConditionals[Sets.PioneerDiverOfDeadWaters][1] = value
-      },
+      set: Sets.PioneerDiverOfDeadWaters,
     }
   },
   fnSacerdosSet: (value: number): PresetDefinition => {
     return {
       name: 'fnSacerdosSet',
       value: value,
-      apply: (form: Form) => {
-        form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = value
-      },
+      set: Sets.SacerdosRelivedOrdeal,
     }
   },
 
@@ -72,37 +66,27 @@ export const PresetEffects = {
   PRISONER_SET: {
     name: 'PRISONER_SET',
     value: 3,
-    apply: (form: Form) => {
-      form.setConditionals[Sets.PrisonerInDeepConfinement][1] = 3
-    },
+    set: Sets.PrisonerInDeepConfinement,
   } as PresetDefinition,
   WASTELANDER_SET: {
     name: 'WASTELANDER_SET',
     value: 2,
-    apply: (form: Form) => {
-      form.setConditionals[Sets.WastelanderOfBanditryDesert][1] = 2
-    },
+    set: Sets.WastelanderOfBanditryDesert,
   } as PresetDefinition,
   VALOROUS_SET: {
     name: 'VALOROUS_SET',
     value: true,
-    apply: (form: Form) => {
-      form.setConditionals[Sets.TheWindSoaringValorous][1] = true
-    },
+    set: Sets.TheWindSoaringValorous,
   } as PresetDefinition,
   BANANA_SET: {
     name: 'BANANA_SET',
     value: true,
-    apply: (form: Form) => {
-      form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
-    },
+    set: Sets.TheWondrousBananAmusementPark,
   } as PresetDefinition,
   GENIUS_SET: {
     name: 'GENIUS_SET',
     value: true,
-    apply: (form: Form) => {
-      form.setConditionals[Sets.GeniusOfBrilliantStars][1] = true
-    },
+    set: Sets.GeniusOfBrilliantStars,
   } as PresetDefinition,
 }
 
@@ -304,8 +288,12 @@ export function applyScoringMetadataPresets(form: Form) {
   const presets = character?.scoringMetadata?.presets ?? []
 
   for (const preset of presets) {
-    preset.apply(form)
+    applyPreset(form, preset)
   }
+}
+
+export function applyPreset(form: Form, preset: PresetDefinition) {
+  form.setConditionals[preset.set][preset.index ?? 1] = preset.value
 }
 
 export function applySetConditionalPresets(form: Form) {

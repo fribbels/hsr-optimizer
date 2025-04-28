@@ -1,17 +1,5 @@
 import i18next from 'i18next'
-import {
-  COMPUTE_ENGINE_GPU_STABLE,
-  ComputeEngine,
-  Constants,
-  CURRENT_OPTIMIZER_VERSION,
-  DAMAGE_UPGRADES,
-  DEFAULT_MEMO_DISPLAY,
-  DEFAULT_STAT_DISPLAY,
-  Parts,
-  Sets,
-  SIMULATION_SCORE,
-  SubStats,
-} from 'lib/constants/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, Sets, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -20,9 +8,10 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
@@ -63,6 +52,7 @@ export const AppPages = {
   RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
   WARP: 'WARP',
+  BENCHMARKS: 'BENCHMARKS',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
@@ -78,6 +68,7 @@ export const PageToRoute = {
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
   [AppPages.WARP]: BASE_PATH + '#warp',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
+  [AppPages.BENCHMARKS]: BASE_PATH + '#benchmarks',
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
@@ -89,6 +80,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.WARP]]: AppPages.WARP,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
+  [PageToRoute[AppPages.BENCHMARKS]]: AppPages.BENCHMARKS,
 
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
@@ -105,8 +97,7 @@ export const RouteToPage = {
 const savedSessionDefaults: SavedSession = {
   [SavedSessionKeys.optimizerCharacterId]: null,
   [SavedSessionKeys.relicScorerSidebarOpen]: true,
-  [SavedSessionKeys.scoringType]: SIMULATION_SCORE,
-  [SavedSessionKeys.combatScoreDetails]: DAMAGE_UPGRADES,
+  [SavedSessionKeys.scoringType]: ScoringType.COMBAT_SCORE,
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
@@ -156,7 +147,7 @@ window.store = create((set) => {
     scorerId: '',
     scoringMetadataOverrides: {},
     showcasePreferences: {},
-    showcaseTemporaryOptions: {},
+    showcaseTemporaryOptionsByCharacter: {},
     warpRequest: {} as WarpRequest,
     warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
@@ -227,7 +218,6 @@ window.store = create((set) => {
 
     settings: DefaultSettingOptions,
     optimizerBuild: null,
-    optimizerExpandedPanelBuildData: null,
     optimizerSelectedRowData: null,
     optimizerBuffGroups: undefined,
 
@@ -261,7 +251,7 @@ window.store = create((set) => {
     setScorerId: (x) => set(() => ({ scorerId: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
-    setShowcaseTemporaryOptions: (x) => set(() => ({ showcaseTemporaryOptions: x })),
+    setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
     setWarpRequest: (x) => set(() => ({ warpRequest: x })),
     setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
@@ -292,7 +282,6 @@ window.store = create((set) => {
     })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
-    setOptimizerExpandedPanelBuildData: (x) => set(() => ({ optimizerExpandedPanelBuildData: x })),
     setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
     setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
@@ -341,7 +330,7 @@ export const DB = {
     characters.splice(index, 0, removed[0])
     DB.setCharacters(characters)
 
-    window.onOptimizerFormValuesChange({}, OptimizerTabController.getForm())
+    window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
   },
   refreshCharacters: () => {
     if (window.setCharacterRows) {
@@ -433,6 +422,7 @@ export const DB = {
     // }
 
     for (const stat of SubStats) {
+      // eslint-disable-next-line
       if (returnScoringMetadata.stats[stat] == null) {
         returnScoringMetadata.stats[stat] = 0
       }

@@ -12,3 +12,7 @@ RelicPotentialLoadBehaviour:
   Label: Pontuação potencial das relíquias ao carregar
   OnStartup: "Padrão: Automaticamente pontuar relíquias ao carregar página"
   Manual: Somente pontuar relíquias quando "Reaplicar pontuação" é clicado (página carrega mais rápido)
+ExpandedInfoPanelPosition:
+  Label: Posição do painel de informações extendidas do Otimizador
+  Above: Mostrar informações expandidas acima da pré-visualização de relíquias
+  Below: "Padrão: Mostrar informações expandidas abaixo da pré-visualização de relíquias"

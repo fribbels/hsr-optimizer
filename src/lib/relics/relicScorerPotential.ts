@@ -509,7 +509,7 @@ export class RelicScorer {
     const remainingRolls = Math.ceil((maxEnhance(relic.grade as 2 | 3 | 4 | 5) - relic.enhance) / 3) - (4 - relic.substats.length)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const idealScore = this.getOptimalPartScore(relic.part, relic.main.stat, id)
-    const current = Math.max(0, (this.substatScore(relic, id).score + mainstatBonus) / idealScore * 100 * percentToScore + mainstatDeduction)
+    const current = Math.max(0, (this.substatScore(relic, id).score + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus)
 
     // evaluate the best possible outcome
     const bestSubstats: { stat: SubStats; value: number }[] = [{ stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }]
@@ -635,7 +635,7 @@ export class RelicScorer {
 
       for (const substat of relic.substats) {
         const stat = substat.stat
-        const value = SubStatValues[stat][5].high * meta.stats[stat] * normalization[stat]
+        const value = SubStatValues[stat][5].mid * meta.stats[stat] * normalization[stat]
         if (stat == bestSub.stat) {
           rerollValue += value * (totalRolls + 1)
         } else {

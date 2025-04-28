@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: Retrato salvo com sucesso
     RevertedPortrait: Retrato revertido com sucesso
     NoSelectedCharacter: Não há personagem selecionado
+    NoSelectedLightCone: Nenhum cone de luz selecionado
   ScoreHeader:
     Title: Simulação de combate
     TitleBenchmark: "{{spd}} VEL Benchmark"
@@ -92,11 +93,9 @@ CharacterPreview:
       StatScore: Pontuação de Atributo
       NoneScore: Nenhum
   DetailsSlider:
-    Title: "Detalhes da pontuação:"
     Labels:
       CombatStats: Atributos de combate
       SubDpsCombatStats: Atributos de Combate (Sub DPS)
-      DMGUpgrades: Melhorias para o dano
   DMGUpgrades: Melhorias para o dano
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos

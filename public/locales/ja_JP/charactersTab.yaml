@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: 画像を変更しました
     RevertedPortrait: 画像を復元しました
     NoSelectedCharacter: キャラクターが選択されていません
+    NoSelectedLightCone: 光円錐が選択されていません
   ScoreHeader:
     Title: 戦闘シミュレーション
     TitleBenchmark: "{{spd}} 基準速度"
@@ -92,11 +93,9 @@ CharacterPreview:
       StatScore: ステータススコア
       NoneScore: なし
   DetailsSlider:
-    Title: "戦闘スコアの詳細"
     Labels:
       CombatStats: 戦闘ステータス
       SubDpsCombatStats: 戦闘ステータス（サブ DPS）
-      DMGUpgrades: 与ダメージ強化
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
     Header: サブステータス強化比較

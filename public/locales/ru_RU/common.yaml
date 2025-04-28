@@ -11,23 +11,24 @@ DecimalSeparator: "."
 ThousandsSeparator: ","
 I18nNumber: "{{value, number}}"
 Cancel: Отмена
-Confirm: Подтвердить
+Confirm: Подтвердите
 Submit: Отправить
 Ok: Ок
 Yes: "Да"
 No: "Нет"
 Save: Сохранить
-Score: Очки
+Score: Оценка
 Reset: Сбросить
 EidolonNShort: "Е{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
-LevelShort: "{{level}}ур."
+LevelShort: "{{level}} ур."
 CharacterWithCount_one: "{{count}} персонаж"
 CharacterWithCount_other: "Персонажей: {{count}}"
 Character_one: персонаж
 Character_other: персонажи
 VerifiedRelicHoverText: Доп. статы реликвий одобренные оценщиком реликвий (десятичные доли скорости)
 CombatStats: Статы персонажа при учёте команды
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: Голова
   Hands: Руки
@@ -53,9 +54,9 @@ Stats:
   SPD: Скорость
   CRIT Rate: Крит. шанс
   CRIT DMG: Крит. урон
-  Effect Hit Rate: Шанс попадания эффектов
-  Effect RES: Сопротивление эффектам
-  Break Effect: Эффект пробития
+  Effect Hit Rate: Шанс  эффектов
+  Effect RES: Сопротивление
+  Break Effect: Пробитие
   Energy Regeneration Rate: Скорость восстановления энергии
   Outgoing Healing Boost: Бонус исцеления
   Physical DMG Boost: "Бонус $t(gameData:Elements.Physical) урона"
@@ -91,7 +92,7 @@ ShortStats:
 ShortSpacedStats:
   "HP%": HP %
   HP: HP
-  "ATK%": АТК %
+  "ATK%": Атака %
   ATK: Сила атаки
   "DEF%": ЗАЩ %
   DEF: Защита
@@ -115,30 +116,30 @@ DamagePercent: Урон %
 ReadableStats:
   "HP%": HP %
   HP: HP
-  "ATK%": АТК %
-  ATK: Сила атаки
+  "ATK%": Атака %
+  ATK: Атака
   "DEF%": ЗАЩ %
   DEF: Защита
   "SPD%": SPD %
-  SPD: SPD
+  SPD: Скорость
   CRIT Rate: Крит. шанс
   CRIT DMG: Крит. урон
-  Effect Hit Rate: Шанс попадания эффектов
-  Effect RES: Сопротивление эффектам
-  Break Effect: Эффект пробития
-  Energy Regeneration Rate: Скорость восстановление энергии
+  Effect Hit Rate: Шанс эффектов
+  Effect RES: Сопротивление
+  Break Effect: Пробитие
+  Energy Regeneration Rate: Восст. энергии
   Outgoing Healing Boost: Бонус исцеления
-  Physical DMG Boost: "Бонус $t(gameData:Elements.Physical) урона"
-  Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
-  Ice DMG Boost: "Бонус $t(gameData:Elements.Ice) урона"
-  Lightning DMG Boost: "Бонус $t(gameData:Elements.Thunder) урона"
-  Wind DMG Boost: "Бонус $t(gameData:Elements.Wind) урона"
-  Quantum DMG Boost: "Бонус $t(gameData:Elements.Quantum) урона"
-  Imaginary DMG Boost: "Бонус $t(gameData:Elements.Imaginary) урона"
+  Physical DMG Boost: "$t(gameData:Elements.Physical) урон"
+  Fire DMG Boost: "$t(gameData:Elements.Fire) урон"
+  Ice DMG Boost: "$t(gameData:Elements.Ice) урон"
+  Lightning DMG Boost: "$t(gameData:Elements.Thunder) урон"
+  Wind DMG Boost: "$t(gameData:Elements.Wind) урон"
+  Quantum DMG Boost: "$t(gameData:Elements.Quantum) урон"
+  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary) урон"
 ShortReadableStats:
   "HP%": HP %
   HP: HP
-  "ATK%": АТК %
+  "ATK%": Атака %
   ATK: Сила атаки
   "DEF%": ЗАЩ %
   DEF: Защита
@@ -167,7 +168,7 @@ Elements:
   Quantum: "$t(gameData:Elements.Quantum)"
   Imaginary: "$t(gameData:Elements.Imaginary)"
 DMGTypes:
-  simScore: Урон комбо
+  simScore: Урон Комбо
   BASIC: Урон базовой атаки
   SKILL: Урон навыка
   ULT: Урон сверхспособности
@@ -179,9 +180,11 @@ DMGTypes:
 ShortDMGTypes:
   Basic: Урон базовой атаки
   Skill: Урон навыка
-  Ult: Урон сверхспособности
+  Ult: Урон ультимейта
   Fua: Урон бонус-атаки
-  Memo_Skill: Урон Навыкаᴹ
+  Memo_Skill: Урон навыкаᴹ
+  Memo_Talent: Урон талантаᴹ
   Dot: Периодический урон
   Break: Урон пробития
   CV: КМ
+CurrentVersion: "Текущая версия: ({{Version}})"

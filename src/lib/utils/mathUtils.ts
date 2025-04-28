@@ -19,5 +19,16 @@ export function nanAsZero(n: number) {
 }
 
 export function sumArray(arr: number[]) {
-  return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+  let sum = 0
+  for (let i = 0; i < arr.length; i++) {
+    if (!isNaN(arr[i])) {
+      sum += arr[i]
+    }
+  }
+  return sum
+}
+
+export function precisionRound(number: number, precision: number = 5): number {
+  const factor = Math.pow(10, precision)
+  return Math.round(number * factor) / factor
 }

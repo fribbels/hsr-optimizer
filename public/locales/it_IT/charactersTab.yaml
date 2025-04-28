@@ -42,7 +42,7 @@ Messages:
 CharacterPreview:
   ArtBy: "Immagine di {{artistName}}"
   EditCharacter: Modifica personaggio
-  EditPortrait: Modifica portrait
+  EditPortrait: Modifica ritratto
   CharacterScore: "Punteggio personaggio: {{score}} {{grade}}"
   Messages:
     AddedRelic: Reliquia aggiunta con successo
@@ -58,10 +58,8 @@ CharacterPreview:
       CombatScore: Punteggio in battaglia
       StatScore: Punteggio statistiche
   DetailsSlider:
-    Title: "Dettagli punteggio in battaglia"
     Labels:
       CombatStats: Statistiche in battaglia
-      DMGUpgrades: Miglioramento danno
   DMGUpgrades: Miglioramento danno
   SubstatUpgradeComparisons:
     Header: Confronto miglioramento statistiche secondarie

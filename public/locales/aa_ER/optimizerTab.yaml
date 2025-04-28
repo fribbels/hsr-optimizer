@@ -546,6 +546,9 @@ ExpandedDataPanel:
       dotDmg: crwdns44742:0crwdne44742:0
       memoDmg: crwdns44744:0crwdne44744:0
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "crwdns45207:0crwdne45207:0"
+      BoolTrue: "crwdns45209:0crwdne45209:0"
     Sources:
       Basic: crwdns44658:0crwdne44658:0
       Skill: crwdns44660:0crwdne44660:0

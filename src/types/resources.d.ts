@@ -101,7 +101,8 @@ interface Resources {
         "AddedRelic": "Successfully added relic",
         "SavedPortrait": "Successfully saved portrait",
         "RevertedPortrait": "Successfully reverted portrait",
-        "NoSelectedCharacter": "No selected character"
+        "NoSelectedCharacter": "No selected character",
+        "NoSelectedLightCone": "No Selected light cone"
       },
       "ScoreHeader": {
         "Title": "Combat Sim",
@@ -445,8 +446,7 @@ interface Resources {
         "Skill": "Healing ability: Skill",
         "Ult": "Healing ability: Ult",
         "Talent": "Healing ability: Talent",
-        "Trace": "Healing ability: Trace",
-        "MemoTalent": "Healing ability: Talentᴹ"
+        "Trace": "Healing ability: Trace"
       },
       "ShieldAbility": {
         "Text": "Shielding ability",
@@ -5371,6 +5371,10 @@ interface Resources {
         }
       },
       "BuffsAnalysisDisplay": {
+        "Values": {
+          "BoolFalse": "No",
+          "BoolTrue": "Yes"
+        },
         "Sources": {
           "Basic": "Basic",
           "Skill": "Skill",
@@ -5670,6 +5674,11 @@ interface Resources {
       "Label": "Relic potential scoring on load",
       "OnStartup": "Default: Automatically score relics on page load",
       "Manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
+    },
+    "ExpandedInfoPanelPosition": {
+      "Label": "Optimizer Expanded info panel position",
+      "Above": "Show expanded info above relics preview",
+      "Below": "Default: Show expanded info below relics preview"
     }
   },
   "sidebar": {

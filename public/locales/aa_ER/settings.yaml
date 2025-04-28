@@ -12,3 +12,7 @@ RelicPotentialLoadBehaviour:
   Label: crwdns43622:0crwdne43622:0
   OnStartup: "crwdns43624:0crwdne43624:0"
   Manual: crwdns43626:0crwdne43626:0
+ExpandedInfoPanelPosition:
+  Label: crwdns45211:0crwdne45211:0
+  Above: crwdns45213:0crwdne45213:0
+  Below: "crwdns45215:0crwdne45215:0"

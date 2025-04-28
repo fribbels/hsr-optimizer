@@ -1,10 +1,9 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form, Teammate } from 'types/form'
@@ -21,6 +20,8 @@ export function generateContext(request: Form): OptimizerContext {
   generateFiltersContext(request, context)
 
   calculateConditionals(request, context)
+
+  initializeContextConditionals(context)
 
   return context
 }
@@ -52,9 +53,6 @@ function generateFiltersContext(request: Form, context: OptimizerContext) {
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {
-  context.characterConditionalController = CharacterConditionalsResolver.get(context)
-  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
-
   transformComboState(request, context)
 }
 

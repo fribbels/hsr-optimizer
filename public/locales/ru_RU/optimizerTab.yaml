@@ -1,8 +1,14 @@
 CharacterSelector:
   Character: Персонаж
+  Lightcone: Световой конус
+LightconePassives: Пассивки конуса
+CharacterPassives: Пассивки персонажа
+ResultLimitN: "Найти {{limit}} лучших"
 OptimizerOptions:
   Priority:
     Header: Приоритет
+AdvancedOptions:
+  CustomTracesButtonText: Настройка следов
 Grid:
   Headers:
     Basic:
@@ -20,9 +26,14 @@ Grid:
 Sidebar:
   GPUOptions:
     EngineSwitchSuccessMsg:
-      CPU: Переключение вычислительных ресурсов на видеокарту 
-      Stable: Переключение вычислительных ресурсов на видеокарту (стабильная версия)
-      Experimental: Переключение вычислительных ресурсов на видеокарту (экспериментальная версия)
+      CPU: Переключение вычислений на процессор
+      Stable: Переключение вычислений на видеокарту (стабильная версия)
+      Experimental: Переключение вычислений на видеокарту (экспериментальная версия)
+  Perms: Комбинаций
+TracesDrawer:
+  Title: Настройка следов персонажа
+  Header: Активные следы (по умолчанию включены все)
+  ButtonText: Сохранить изменения
 SetConditionals:
   SelectOptions:
     Wastelander:
@@ -35,6 +46,8 @@ CombatBuffs:
   HP_P: HP %
   DEF: Защита
   DEF_P: ЗАЩ %
+  CR: Крит Шанс %
+  CD: Крит Урон %
   SPD: Скорость
   SPD_P: Скорость %
 WeightFilter:
@@ -45,7 +58,7 @@ WeightFilter:
   CRFilterText: КШ
   CDFilterText: КУ
   EHRFilterText: ШПЭ
-  RESFilterText: СОП
+  RESFilterText: СОПР
   BEFilterText: ЭП
 MinMaxFilters:
   HPLabel: HP
@@ -54,14 +67,17 @@ MinMaxFilters:
   SPDLabel: Скорость
   CRLabel: КШ
   CDLabel: КУ
-  EHRLabel: ШПЭ
-  RESLabel: СОП
-  BELabel: ЭП
-  ERRLabel: ВЭ
-  BASICLabel: Базовая атака
+  EHRLabel: ШансЭфф
+  RESLabel: Сопр
+  BELabel: Пробитие
+  ERRLabel: ВостЭн
+  BASICLabel: Баз. атака
   SKILLLabel: Навык
   ULTLabel: Ультимейт
-  FUALabel: Бонусная атака
+  FUALabel: Бонус атака
+  MEMOSKILLLabel: Навыкᴹ
+ComboDrawer:
+  Title: Руководство по редактору ротаций
 TeammateCard:
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
 StatSimulation:
@@ -80,9 +96,14 @@ ExpandedDataPanel:
       breakDmg: Урон пробития
       dotDmg: Периодический урон
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Нет"
+      BoolTrue: "Да"
+    Sources:
+      E1: E1
     Stats:
       CompositeLabels:
         Prefix:
           Break: ЭП
       Misc:
-        Combo DMG: Урон комбо
+        Combo DMG: Урон Комбо

@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: Portrait enregistré avec succès
     RevertedPortrait: Portrait restauré avec succès
     NoSelectedCharacter: Aucun personnage sélectionné
+    NoSelectedLightCone: Aucun cône de lumière sélectionné
   ScoreHeader:
     Title: Sim de combat
     TitleBenchmark: "Référence à {{spd}} VIT"
@@ -92,11 +93,9 @@ CharacterPreview:
       StatScore: Note de Stat
       NoneScore: Aucun
   DetailsSlider:
-    Title: "Détails de combat:"
     Labels:
       CombatStats: Stats de Combat
       SubDpsCombatStats: Stats de Combat (sous-DPS)
-      DMGUpgrades: Améliorations Dégâts
   DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats

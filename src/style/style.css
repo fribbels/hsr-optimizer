@@ -169,17 +169,17 @@ body,
     min-height: 22px !important;
 }
 
-.ant-cascader-menu-item {
+.relic-sets-cascader .ant-cascader-menu-item {
     padding: 5px 8px;
 }
 
-.ant-cascader-menu-item-content {
+.relic-sets-cascader .ant-cascader-menu-item-content {
     overflow: hidden !important;
     width: 250px;
     text-overflow: ellipsis;
 }
 
-.ant-cascader-menus ul:first-child {
+.relic-sets-cascader .ant-cascader-menus ul:first-child {
     width: 170px;
 }
 

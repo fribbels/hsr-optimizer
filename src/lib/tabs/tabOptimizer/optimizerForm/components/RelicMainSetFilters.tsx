@@ -133,6 +133,7 @@ export default function RelicMainSetFilters() {
         >
           <Form.Item name='relicSets'>
             <Cascader
+              rootClassName='relic-sets-cascader'
               placeholder={t('RelicSetSelector.Placeholder')}
               options={useMemo(() => GenerateSetsOptions(), [t])}
               showCheckedStrategy={SHOW_CHILD}

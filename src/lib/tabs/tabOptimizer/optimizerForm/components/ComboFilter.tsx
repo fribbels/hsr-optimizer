@@ -3,6 +3,7 @@ import { Button, Flex, Form, Input, Popconfirm, Radio, Select } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
+import { AbilityCascader } from 'lib/tabs/tabOptimizer/optimizerForm/components/AbilityCascader'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -92,6 +93,7 @@ export const ComboFilters = () => {
             style={{ display: 'none' }}
           />
         </Form.Item>
+        <AbilityCascader/>
         <ComboDrawer/>
       </>
     </Flex>

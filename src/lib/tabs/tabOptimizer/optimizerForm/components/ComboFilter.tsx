@@ -1,5 +1,5 @@
 import { SettingOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Input, Popconfirm, Radio, Select } from 'antd'
+import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
@@ -93,7 +93,6 @@ export const ComboFilters = () => {
             style={{ display: 'none' }}
           />
         </Form.Item>
-        <AbilityCascader/>
         <ComboDrawer/>
       </>
     </Flex>
@@ -181,22 +180,12 @@ function ComboOptionRowSelect(props: { index: number; comboOptions: { value: str
       noStyle
     >
       {({ getFieldValue }) => {
-        const comboAbilities: string[] = getFieldValue('comboAbilities') ?? []
+        const comboAbilities: string[] = getFieldValue('comboTurnAbilities') ?? []
         const shouldRenderSegmented = comboAbilities[props.index] != null || props.index < 2
 
         return shouldRenderSegmented
           ? (
-            <Form.Item noStyle name={['comboAbilities', props.index]}>
-              <Select
-                size='small'
-                variant='borderless'
-                className='select-no-padding select-20'
-                options={props.comboOptions}
-                labelRender={(labelRender) =>
-                  // eslint-disable-next-line @typescript-eslint/no-base-to-string,@typescript-eslint/restrict-template-expressions
-                  `${props.index}. ${labelRender.label}`}
-              />
-            </Form.Item>
+            <AbilityCascader formName={['comboTurnAbilities', props.index]}/>
           )
           : null
       }}

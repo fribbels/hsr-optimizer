@@ -27,6 +27,8 @@ import {
 } from 'lib/optimization/rotation/abilityConfig'
 import React from 'react'
 
+const { SHOW_CHILD } = Cascader
+
 export enum AbilityTurnVariants {
   START_TURN,
   END_TURN,
@@ -34,7 +36,7 @@ export enum AbilityTurnVariants {
   NON_TURN,
 }
 
-export function AbilityCascader({ formName }: { formName: string }) {
+export function AbilityCascader({ formName }: { formName: (string | number)[] }) {
   const options = [
     {
       value: AbilityTurnVariants.START_TURN,
@@ -99,19 +101,29 @@ export function AbilityCascader({ formName }: { formName: string }) {
         },
       }}
     >
-      <Form.Item name={formName} style={{ height: 0 }}>
+      <Form.Item
+        name={formName}
+        noStyle
+        normalize={(value: (string | number)[]) => {
+          return value[value.length - 1]
+        }}
+      >
         <Cascader
           options={options}
           displayRender={([category, abilityType]) => abilityType}
           expandTrigger='hover'
           placeholder='Ability'
+          showCheckedStrategy={SHOW_CHILD}
           size='small'
           allowClear
           style={{
             width: '100%',
+            height: 22,
           }}
         />
       </Form.Item>
     </ConfigProvider>
   )
 }
+
+// select-no-padding select-20

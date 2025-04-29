@@ -8,7 +8,7 @@ export enum AbilityKind {
 }
 
 export enum TurnMarker {
-  NONE = '',
+  NONE = 'NORMAL',
   START = 'START',
   END = 'END',
   WHOLE = 'WHOLE',
@@ -41,12 +41,7 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker
       }
     },
     toString() {
-      switch (this.marker) {
-        case TurnMarker.NONE:
-          return `${this.kind}`
-        default:
-          return `${this.marker}_${this.kind}`
-      }
+      return `${this.marker}_${this.kind}`
     },
   }
 }
@@ -95,7 +90,7 @@ export function isWholeTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.WHOLE
 }
 
-export function isRegularAbility(ability: TurnAbility): boolean {
+export function isStandardAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.NONE
 }
 

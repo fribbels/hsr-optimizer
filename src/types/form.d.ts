@@ -92,6 +92,7 @@ export type Form = {
   // Combo
   comboStateJson: string
   comboAbilities: string[]
+  comboTurnAbilities: [string, string][]
   comboType: string
   comboDot: number
   comboBreak: number

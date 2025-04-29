@@ -19,6 +19,8 @@ export interface TurnAbility {
   kind: AbilityKind
   marker: TurnMarker
 
+  toVisual(): string
+
   toString(): string
 }
 
@@ -26,7 +28,7 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker
   return {
     kind,
     marker,
-    toString() {
+    toVisual() {
       switch (this.marker) {
         case TurnMarker.START:
           return `(${this.kind}`
@@ -36,6 +38,14 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker
           return `(${this.kind})`
         default:
           return this.kind
+      }
+    },
+    toString() {
+      switch (this.marker) {
+        case TurnMarker.NONE:
+          return `${this.kind}`
+        default:
+          return `${this.marker}_${this.kind}`
       }
     },
   }

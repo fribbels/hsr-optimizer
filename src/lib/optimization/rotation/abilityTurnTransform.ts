@@ -81,7 +81,7 @@ function annotateTurnBoundaries(state: TurnState): void {
  */
 function normalizeAbilities(state: TurnState): void {
   state.normalizedAbilities = state.originalAbilities.map((ability) =>
-    createAbility(ability.kind, TurnMarker.NONE),
+    createAbility(ability.kind, TurnMarker.STANDARD),
   )
 }
 
@@ -281,7 +281,7 @@ function generateFinalSequence(state: TurnState): TurnAbility[] {
     } else if (turnEnds[i]) {
       result.push(createAbility(kind, TurnMarker.END))
     } else {
-      result.push(createAbility(kind, TurnMarker.NONE))
+      result.push(createAbility(kind, TurnMarker.STANDARD))
     }
   }
 

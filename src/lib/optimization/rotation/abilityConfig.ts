@@ -12,7 +12,7 @@ export enum TurnMarker {
   NONE = '',
   START = 'START',
   END = 'END',
-  FULL = 'FULL',
+  WHOLE = 'WHOLE',
 }
 
 // Composite ability object
@@ -34,7 +34,7 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker
           return `(${this.kind}`
         case TurnMarker.END:
           return `${this.kind})`
-        case TurnMarker.FULL:
+        case TurnMarker.WHOLE:
           return `(${this.kind})`
         default:
           return this.kind
@@ -43,7 +43,7 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker
   }
 }
 
-// Export all ability constants
+// Normal abilities
 export const BASIC = createAbility(AbilityKind.BASIC)
 export const SKILL = createAbility(AbilityKind.SKILL)
 export const ULT = createAbility(AbilityKind.ULT)
@@ -52,28 +52,28 @@ export const MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL)
 export const MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT)
 
 // Start turn abilities
-export const START_TURN_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.START)
-export const START_TURN_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.START)
-export const START_TURN_ULT = createAbility(AbilityKind.ULT, TurnMarker.START)
-export const START_TURN_FUA = createAbility(AbilityKind.FUA, TurnMarker.START)
-export const START_TURN_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.START)
-export const START_TURN_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.START)
+export const START_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.START)
+export const START_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.START)
+export const START_ULT = createAbility(AbilityKind.ULT, TurnMarker.START)
+export const START_FUA = createAbility(AbilityKind.FUA, TurnMarker.START)
+export const START_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.START)
+export const START_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.START)
 
 // End turn abilities
-export const END_TURN_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.END)
-export const END_TURN_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.END)
-export const END_TURN_ULT = createAbility(AbilityKind.ULT, TurnMarker.END)
-export const END_TURN_FUA = createAbility(AbilityKind.FUA, TurnMarker.END)
-export const END_TURN_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.END)
-export const END_TURN_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.END)
+export const END_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.END)
+export const END_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.END)
+export const END_ULT = createAbility(AbilityKind.ULT, TurnMarker.END)
+export const END_FUA = createAbility(AbilityKind.FUA, TurnMarker.END)
+export const END_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.END)
+export const END_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.END)
 
-// Full turn abilities
-export const FULL_TURN_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.FULL)
-export const FULL_TURN_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.FULL)
-export const FULL_TURN_ULT = createAbility(AbilityKind.ULT, TurnMarker.FULL)
-export const FULL_TURN_FUA = createAbility(AbilityKind.FUA, TurnMarker.FULL)
-export const FULL_TURN_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.FULL)
-export const FULL_TURN_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.FULL)
+// Whole turn abilities
+export const WHOLE_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.WHOLE)
+export const WHOLE_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.WHOLE)
+export const WHOLE_ULT = createAbility(AbilityKind.ULT, TurnMarker.WHOLE)
+export const WHOLE_FUA = createAbility(AbilityKind.FUA, TurnMarker.WHOLE)
+export const WHOLE_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.WHOLE)
+export const WHOLE_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.WHOLE)
 
 // Type guards
 export function isStartTurnAbility(ability: TurnAbility): boolean {
@@ -84,8 +84,8 @@ export function isEndTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.END
 }
 
-export function isFullTurnAbility(ability: TurnAbility): boolean {
-  return ability.marker === TurnMarker.FULL
+export function isWholeTurnAbility(ability: TurnAbility): boolean {
+  return ability.marker === TurnMarker.WHOLE
 }
 
 export function isRegularAbility(ability: TurnAbility): boolean {

@@ -7,7 +7,6 @@ export enum AbilityKind {
   MEMO_TALENT = 'MEMO_TALENT',
 }
 
-// Turn marker enum
 export enum TurnMarker {
   NONE = '',
   START = 'START',
@@ -23,7 +22,6 @@ export interface TurnAbility {
   toString(): string
 }
 
-// Factory function for creating ability tokens
 export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker.NONE): TurnAbility {
   return {
     kind,
@@ -75,7 +73,6 @@ export const WHOLE_FUA = createAbility(AbilityKind.FUA, TurnMarker.WHOLE)
 export const WHOLE_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.WHOLE)
 export const WHOLE_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.WHOLE)
 
-// Type guards
 export function isStartTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.START
 }
@@ -96,7 +93,6 @@ export function getBaseAbility(ability: TurnAbility): AbilityKind {
   return ability.kind
 }
 
-// Helper for array-based iteration
 export const ALL_ABILITIES = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,

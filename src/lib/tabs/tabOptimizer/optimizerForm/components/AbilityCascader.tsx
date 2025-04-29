@@ -55,7 +55,7 @@ export function AbilityCascader() {
     },
     {
       value: AbilityTurnVariants.NON_TURN,
-      label: 'Out of turn',
+      label: 'Normal',
       children: [
         { value: BASIC, label: BASIC },
         { value: SKILL, label: SKILL },

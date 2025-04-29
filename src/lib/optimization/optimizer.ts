@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Stats } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
@@ -12,14 +12,14 @@ import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/opt
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { WorkerPool } from 'lib/worker/workerPool'
+import { WorkerPool, WorkerResult, WorkerTask } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form, OptimizerForm } from 'types/form'
 
@@ -33,12 +33,12 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   relics = TsUtils.clone(relics)
   RelicFilters.calculateWeightScore(request, relics)
   relics = RelicFilters.applyMainStatsFilter(request, relics)
-  const relicsByPart: RelicsByPart = RelicFilters.splitRelicsByPart(relics)
-  RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
-  Object.keys(relicsByPart).map((key) => relicsByPart[key] = relicsByPart[key][0])
+  const relicsByPart = RelicFilters.splitRelicsByPart(relics) as RelicsByPart | SimulationRelicByPart
+  RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart as RelicsByPart)
+  Object.keys(relicsByPart).map((key) => (relicsByPart as SimulationRelicByPart)[key as Parts] = (relicsByPart as RelicsByPart)[key as Parts][0] as SimulationRelic)
 
   const context = generateContext(request)
-  const x = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null, null)
+  const x = simulateBuild(relicsByPart as SimulationRelicByPart, context, null, null)
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
   window.store.getState().setOptimizerSelectedRowData(optimizerDisplayData)
@@ -82,7 +82,7 @@ export const Optimizer = {
     return [relicsByPart, preFilteredRelicsByPart]
   },
 
-  optimize: async function (request) {
+  optimize: async function (request: Form) {
     CANCEL = false
 
     const teammates = [
@@ -93,6 +93,7 @@ export const Optimizer = {
     for (let i = 0; i < teammates.length; i++) {
       const teammate = teammates[i]
       const teammateCharacterMetadata = DB.getMetadata().characters[teammate.characterId]
+      // TODO fix elemental dmg
       teammate.ELEMENTAL_DMG_TYPE = ElementToDamage[teammateCharacterMetadata.element]
     }
 
@@ -128,7 +129,7 @@ export const Optimizer = {
     }
 
     OptimizerTabController.scrollToGrid()
-    window.optimizerGrid.current.api.setGridOption('loading', true)
+    window.optimizerGrid.current!.api.setGridOption('loading', true)
 
     const context = generateContext(request)
 
@@ -141,12 +142,15 @@ export const Optimizer = {
     let resultsShown = false
     let results = []
 
-    const sortOption = SortOption[request.resultSort]
-    const gridSortColumn = request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
-    const resultsLimit = request.resultsLimit || 1024
-    const queueResults = new FixedSizePriorityQueue(resultsLimit, (a, b) => a[gridSortColumn] - b[gridSortColumn])
+    const sortOption = SortOption[request.resultSort!]
+    const gridSortColumn = (request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn) as keyof OptimizerDisplayData
+    const resultsLimit = request.resultsLimit ?? 1024
+    const queueResults = new FixedSizePriorityQueue<OptimizerDisplayData>(
+      resultsLimit,
+      (a, b) => (a[gridSortColumn] as number) - (b[gridSortColumn] as number),
+    )
 
-    // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesnt lag for 2 seconds on Start
+    // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesn't lag for 2 seconds on Start
     const increment = 20000
     let runSize = 0
     const maxSize = Constants.THREAD_BUFFER_LENGTH
@@ -156,15 +160,15 @@ export const Optimizer = {
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU) {
-      getWebgpuDevice().then((device) => {
+      void getWebgpuDevice().then((device) => {
         if (device == null) {
           Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
             15)
           window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           computeEngine = COMPUTE_ENGINE_CPU
         } else {
-          Utils.sleep(200).then(() => {
-            gpuOptimize({
+          void Utils.sleep(200).then(() => {
+            void gpuOptimize({
               device,
               context: context,
               request: request,
@@ -195,7 +199,7 @@ export const Optimizer = {
       window.store.getState().setOptimizerStartTime(Date.now())
       window.store.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
       for (const run of runs) {
-        const task = {
+        const task: WorkerTask = {
           input: {
             context: clonedContext,
             request: request,
@@ -206,13 +210,14 @@ export const Optimizer = {
             relicSetSolutions: relicSetSolutions,
             ornamentSetSolutions: ornamentSetSolutions,
             workerType: WorkerType.OPTIMIZER,
+            // TODO fix worker type
           },
-          getMinFilter: () => {
-            return queueResults.size() && queueResults.size() >= request.resultsLimit ? queueResults.top()[gridSortColumn] : 0
+          getMinFilter: (): number => {
+            return queueResults.size() && queueResults.size() >= request.resultsLimit! ? (queueResults.top()![gridSortColumn] as number) : 0
           },
         }
 
-        const callback = (result) => {
+        const callback = (result: WorkerResult) => {
           searched += run.runSize
           inProgress -= 1
 
@@ -237,7 +242,7 @@ export const Optimizer = {
             OptimizerTabController.setRows(results)
             setSortColumn(gridSortColumn)
 
-            window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+            window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
             console.log('Done', results.length)
             resultsShown = true
             if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)

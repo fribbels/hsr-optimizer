@@ -5,7 +5,7 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Ligh
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 
 export default function CharacterModal(props: {
@@ -19,9 +19,9 @@ export default function CharacterModal(props: {
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
   const { t: tCommon } = useTranslation('common')
 
-  const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
-  const [eidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
-  const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
+  const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId ?? '')
+  const [eidolon] = useState(props.initialCharacter?.form.characterEidolon ?? 0)
+  const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition ?? 1)
 
   useEffect(() => {
     if (!props.open) return
@@ -29,10 +29,10 @@ export default function CharacterModal(props: {
     const defaultValues = {
       characterId: props.initialCharacter?.form.characterId,
       characterLevel: 80,
-      characterEidolon: props.initialCharacter?.form.characterEidolon || 0,
+      characterEidolon: props.initialCharacter?.form.characterEidolon ?? 0,
       lightCone: props.initialCharacter?.form.lightCone,
       lightConeLevel: 80,
-      lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition || 1,
+      lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition ?? 1,
     }
 
     setCharacterId(props.initialCharacter?.form.characterId ?? '')
@@ -80,12 +80,12 @@ export default function CharacterModal(props: {
               <CharacterSelect
                 value=''
                 withIcon={true}
-                onChange={(characterId: string) => {
+                onChange={(characterId: CharacterId) => {
                   setCharacterId(characterId)
                   const dbCharacter = DB.getCharacterById(characterId)
-                  const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon || 0)
-                  const lightConePreselect = dbCharacter?.form?.lightCone || undefined
-                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition || 1
+                  const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
+                  const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
+                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1
                   characterForm.setFieldValue('characterEidolon', eidolonPreselect)
                   characterForm.setFieldValue('lightCone', lightConePreselect)
                   characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)

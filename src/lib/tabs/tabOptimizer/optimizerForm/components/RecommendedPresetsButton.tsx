@@ -90,7 +90,7 @@ export const PresetEffects = {
   } as PresetDefinition,
 }
 
-export function setSortColumn(columnId) {
+export function setSortColumn(columnId: string) {
   const columnState: ApplyColumnStateParams = {
     state: [
       {
@@ -252,19 +252,20 @@ export function applySpdPreset(spd: number, characterId: string | undefined) {
    * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
    */
 
-  // We dont use the clone here because serializing messes up the applyPreset functions
+  // We don't use the clone here because serializing messes up the applyPreset functions
   const sortOption = metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
 
   window.optimizerForm.setFieldsValue(form)
-  window.onOptimizerFormValuesChange({}, form)
+  window.onOptimizerFormValuesChange({} as Form, form)
 }
 
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
+  // @ts-ignore TODO getDefaultForm currently has handling for no character id but is set to be changed
   Utils.mergeUndefinedValues(form, getDefaultForm())
 
-  form.comboAbilities = scoringMetadata?.simulation?.comboAbilities || [null, 'BASIC']
+  form.comboAbilities = scoringMetadata?.simulation?.comboAbilities || [null as unknown as string, 'BASIC']
   form.comboDot = scoringMetadata?.simulation?.comboDot || 0
   form.comboBreak = scoringMetadata?.simulation?.comboBreak || 0
 

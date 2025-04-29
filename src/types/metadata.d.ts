@@ -1,6 +1,9 @@
-import { ElementName, PathName, ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
+import { ElementName, PathName, Sets, ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
+import { statConversion } from 'lib/importer/characterConverter'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { CharacterId } from 'types/character'
+import { LightCone } from 'types/lightCone'
 
 export type ShowcasePreferences = {
   color?: string
@@ -42,8 +45,8 @@ export type SimulationMetadata = {
   relicSets: string[][]
   ornamentSets: string[]
   teammates: {
-    characterId: string
-    lightCone: string
+    characterId: CharacterId
+    lightCone: LightCone['id']
     characterEidolon: number
     lightConeSuperimposition: number
   }[]
@@ -88,7 +91,7 @@ type TraceNode = {
 }
 
 export type DBMetadataCharacter = {
-  id: string
+  id: CharacterId
   name: string
   rarity: number
   path: PathName
@@ -104,9 +107,9 @@ export type DBMetadataCharacter = {
 }
 
 export type DBMetadataLightCone = {
-  id: string
+  id: LightCone['id']
   name: string
-  rarity: number
+  rarity: 5 | 4 | 3
   path: PathName
   stats: Record<string, number>
   unreleased: boolean
@@ -116,8 +119,8 @@ export type DBMetadataLightCone = {
 }
 
 export type DBMetadataSets = {
-  id: string
-  name: string
+  id: keyof typeof Sets
+  name: Sets
 }
 
 type DBMetadataStatAffixes = {
@@ -126,7 +129,7 @@ type DBMetadataStatAffixes = {
     affixes: {
       [key: number]: {
         affix_id: string
-        property: string
+        property: keyof typeof statConversion
         base: number
         step: number
         step_num: number

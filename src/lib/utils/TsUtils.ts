@@ -11,7 +11,7 @@ export const TsUtils = {
 
   objectHash<T>(obj: T): string {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    return stringify(obj)
+    return stringify(obj)!
   },
 
   // [1, 2, 3] => 6

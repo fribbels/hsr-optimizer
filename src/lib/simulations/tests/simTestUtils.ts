@@ -7,12 +7,14 @@ import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
+import { LightCone } from 'types/lightCone'
 import { Relic } from 'types/relic'
 
 export type SimTestUtils = {
-  characterId: string
-  lightCone: string
+  characterId: CharacterId
+  lightCone: LightCone['id']
   characterEidolon: number
   lightConeSuperimposition: number
 }

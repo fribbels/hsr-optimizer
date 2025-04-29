@@ -6,27 +6,7 @@ import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
-import {
-  ComboBooleanConditional,
-  ComboCharacter,
-  ComboConditionalCategory,
-  ComboConditionals,
-  ComboNumberConditional,
-  ComboSelectConditional,
-  ComboState,
-  ComboSubNumberConditional,
-  ComboTeammate,
-  initializeComboState,
-  locateActivations,
-  updateAbilityRotation,
-  updateActivation,
-  updateAddPartition,
-  updateDeletePartition,
-  updateFormState,
-  updateNumberDefaultSelection,
-  updatePartitionActivation,
-  updateSelectedSets,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -558,7 +538,7 @@ function ComboConditionalsGroupRow(props: {
       } else {
         return null
       }
-      src = Assets.getSetImage(setName, null, true)
+      src = Assets.getSetImage(setName, undefined, true)
       conditionals = comboCharacter.setConditionals
     } else if (props.originKey.includes('RelicSet')) {
       const keys = Object.keys(comboTeammate.relicSetConditionals)
@@ -574,7 +554,7 @@ function ComboConditionalsGroupRow(props: {
             content: setName,
           },
         ]
-        src = Assets.getSetImage(setName, null, true)
+        src = Assets.getSetImage(setName, undefined, true)
         conditionals = comboTeammate.relicSetConditionals
       } else {
         return null
@@ -593,7 +573,7 @@ function ComboConditionalsGroupRow(props: {
             content: setName,
           },
         ]
-        src = Assets.getSetImage(setName, null, true)
+        src = Assets.getSetImage(setName, undefined, true)
         conditionals = comboTeammate.ornamentSetConditionals
       } else {
         return null

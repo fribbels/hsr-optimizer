@@ -10,6 +10,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
 
 const { Text } = Typography
@@ -36,7 +37,7 @@ export default function ScoringModal() {
   const setScoringModalOpen = window.store((s) => s.setScoringModalOpen)
   const scoringModalOpen = window.store((s) => s.scoringModalOpen)
 
-  function characterSelectorChange(id: string) {
+  function characterSelectorChange(id: CharacterId) {
     setScoringAlgorithmFocusCharacter(id)
   }
 

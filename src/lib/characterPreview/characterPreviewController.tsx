@@ -21,13 +21,13 @@ import { filterNonNull } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
-  characterId: string
+  characterId: CharacterId
   characterMetadata: DBMetadataCharacter
   characterElement: string
   characterLevel: number
@@ -122,8 +122,8 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
   const newLcMargin = 8
   const newLcHeight = 128
 
-  // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
+  // @ts-ignore Some APIs return empty light cone as '0'
   const lcCenter = (character.form.lightCone && character.form.lightCone != '0')
     ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
     : 0

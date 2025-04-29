@@ -21,7 +21,7 @@ import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
 
 const GAP = 8
@@ -166,7 +166,7 @@ function MiddlePanel() {
         <AntDForm.Item name='characterId' noStyle>
           <CharacterSelect
             value=''
-            onChange={(id: string) => handleCharacterSelectChange(id, form)}
+            onChange={(id: CharacterId | null) => handleCharacterSelectChange(id, form)}
           />
         </AntDForm.Item>
         <CharacterEidolonFormRadio/>

@@ -1,7 +1,9 @@
 import { Sets } from 'lib/constants/constants'
+import { CharacterId } from 'types/character'
+import { LightCone } from 'types/lightCone'
 
 export enum BUFF_TYPE {
-  PRIMARY = 'PRIMARY', // Not to be used on buffs - only an organizational token
+  PRIMARY = 'PRIMARY', // Not to be used on buffs - only an organizational token - used to separate target character from teammates in buffs display
   CHARACTER = 'CHARACTER',
   LIGHTCONE = 'LIGHTCONE',
   SETS = 'SETS',
@@ -33,18 +35,41 @@ const setsSourceExpansion = Object.fromEntries(
     key,
     { id: key, label: name, buffType: BUFF_TYPE.SETS, ability: BUFF_ABILITY.SETS },
   ]),
-) as Record<keyof typeof Sets, BuffSource>
+) as Record<keyof typeof Sets, SetsBuffSource>
 
-export type BuffSource = {
-  id: string
-  label: string
-  ability: BUFF_ABILITY
-  buffType: BUFF_TYPE
+export type BuffSource = CharacterBuffSource | SetsBuffSource | LightConeBuffSource | NoneBuffSource
+
+type CharacterBuffSource = {
+  id: CharacterId
+  label: `${CharacterId}_${Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>}`
+  ability: Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>
+  buffType: BUFF_TYPE.CHARACTER
+}
+
+type SetsBuffSource = {
+  id: keyof typeof Sets
+  label: Sets
+  ability: BUFF_ABILITY.SETS
+  buffType: BUFF_TYPE.SETS
+}
+
+type LightConeBuffSource = {
+  id: LightCone['id']
+  label: `${LightCone['id']}_LC`
+  ability: BUFF_ABILITY.LC
+  buffType: BUFF_TYPE.LIGHTCONE
+}
+
+type NoneBuffSource = {
+  id: 'NONE'
+  label: 'NONE'
+  ability: BUFF_ABILITY.NONE
+  buffType: BUFF_TYPE.NONE
 }
 
 export const Source = {
-  character(id: string) {
-    function generateCharacterSource(ability: BUFF_ABILITY) {
+  character(id: CharacterId) {
+    function generateCharacterSource(ability: CharacterBuffSource['ability']): CharacterBuffSource {
       return {
         id: id,
         label: `${id}_${ability}`,
@@ -67,7 +92,7 @@ export const Source = {
       SOURCE_E6: generateCharacterSource(BUFF_ABILITY.E6),
     }
   },
-  lightCone(id: string) {
+  lightCone(id: LightCone['id']): { SOURCE_LC: LightConeBuffSource } {
     return {
       SOURCE_LC: {
         id: id,
@@ -77,6 +102,6 @@ export const Source = {
       },
     }
   },
-  NONE: { id: 'NONE', label: 'NONE', buffType: BUFF_TYPE.NONE, ability: BUFF_ABILITY.NONE },
+  NONE: { id: 'NONE', label: 'NONE', buffType: BUFF_TYPE.NONE, ability: BUFF_ABILITY.NONE } as NoneBuffSource,
   ...setsSourceExpansion,
 }

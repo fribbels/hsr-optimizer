@@ -411,7 +411,7 @@ function filterFixes(filter: string) {
     descriptionKey: `0Results.RootCauses.${filter}.Description`, // `The minimum/maximum {{field name}} may be too high/low`,
     buttonTextKey: `0Results.RootCauses.${filter}.ButtonText`, // `Reset min/max {{field name}} filter`,
     applyFix: () => {
-      window.optimizerForm.setFieldValue(formAddress, undefined)
+      window.optimizerForm.setFieldValue(formAddress as keyof Form, undefined)
     },
     successMessageKey: `0Results.RootCauses.${filter}.SuccessMessage`,
     // Message.success(`Reset min/max {{field name}} filter`, 2)

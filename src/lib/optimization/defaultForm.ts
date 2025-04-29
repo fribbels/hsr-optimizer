@@ -2,6 +2,7 @@ import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Set
 import DB from 'lib/state/db'
 import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { Form, Teammate } from 'types/form'
 
 // FIXME HIGH
@@ -35,13 +36,13 @@ export function getDefaultWeights(characterId?: string) {
   }
 }
 
-export function getDefaultForm(initialCharacter: { id: string }) {
+export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   // TODO: Clean this up
   const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
   const parts = scoringMetadata?.parts || {}
   const weights = scoringMetadata?.stats || getDefaultWeights()
 
-  const combatBuffs = {}
+  const combatBuffs = {} as Record<typeof CombatBuffs[keyof typeof CombatBuffs]['key'], number>
   Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
 
   const defaultForm: Partial<Form> = TsUtils.clone({

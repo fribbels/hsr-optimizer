@@ -17,7 +17,7 @@ import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/Optimize
 import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Build } from 'types/character'
+import { Build, CharacterId } from 'types/character'
 import { Form, OptimizerForm } from 'types/form'
 
 type PermutationSizes = {
@@ -319,7 +319,7 @@ export const OptimizerTabController = {
         return {} as SingleRelicByPart
       }
 
-      const build = DB.getCharacterById(request.characterId).equipped
+      const build = DB.getCharacterById(request.characterId)!.equipped
       const out = {} as SingleRelicByPart
       for (const key of Object.keys(build)) {
         out[key as Parts] = DB.getRelicById(build[key as Parts]!)
@@ -444,7 +444,7 @@ export const OptimizerTabController = {
   },
 
   // Manually set the selected character
-  setCharacter: (id: string) => {
+  setCharacter: (id: CharacterId) => {
     window.store.getState().setOptimizerTabFocusCharacter(id)
     window.optimizerForm.setFieldValue('characterId', id)
 
@@ -453,7 +453,7 @@ export const OptimizerTabController = {
   },
 
   // Update form values with the character
-  updateCharacter: (characterId: string) => {
+  updateCharacter: (characterId: CharacterId) => {
     console.log('@updateCharacter', characterId)
     if (!characterId) return
 

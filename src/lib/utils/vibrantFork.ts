@@ -295,16 +295,20 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
         LightMuted: palette.LightMuted!.hex,
       }
 
-      const colors = palette.colors.map((x) => chroma(x._rgb).hex()).filter((color: string) => {
-        return (
-          color != defaults.Vibrant
-          && color != defaults.DarkVibrant
-          && color != defaults.Muted
-          && color != defaults.DarkMuted
-          && color != defaults.LightVibrant
-          && color != defaults.LightMuted
-        )
-      })
+      console.log('PALETTE', palette)
+
+      // colors member from custom generator isn't added to type information
+      const colors = (palette.colors as unknown as { _hsl: number[]; _population: number; _rgb: number[] }[])
+        .map((x) => chroma(x._rgb).hex()).filter((color: string) => {
+          return (
+            color != defaults.Vibrant
+            && color != defaults.DarkVibrant
+            && color != defaults.Muted
+            && color != defaults.DarkMuted
+            && color != defaults.LightVibrant
+            && color != defaults.LightMuted
+          )
+        })
 
       const paletteResponse: PaletteResponse = {
         ...defaults,
@@ -317,4 +321,3 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
       console.error(e)
     })
 }
-

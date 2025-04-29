@@ -52,9 +52,7 @@ export type HsrOptimizerStore = {
   rowLimit: number
   activeKey: string
   characters: Character[]
-  charactersById: {
-    [key: string]: Character
-  }
+  charactersById: Partial<Record<CharacterId, Character>>
   comboDrawerOpen: boolean
   combatBuffsDrawerOpen: boolean
   statTracesDrawerOpen: boolean
@@ -135,7 +133,7 @@ export type HsrOptimizerStore = {
   setStatDisplay: (display: string) => void
   setMemoDisplay: (display: string) => void
   setCharacters: (characters: Character[]) => void
-  setCharactersById: (charactersById: Record<string, Character>) => void
+  setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => void
   setOptimizerFormSelectedLightConeSuperimposition: (x: any) => void
   setColorTheme: (x: any) => void
   setOptimizerBuild: (x: Build) => void
@@ -172,7 +170,7 @@ export type HsrOptimizerStore = {
     path: string[]
     rarity: number[]
   }
-  excludedRelicPotentialCharacters: string[]
+  excludedRelicPotentialCharacters: CharacterId[]
 
   optimizerMenuState: Record<string, boolean>
 
@@ -181,7 +179,7 @@ export type HsrOptimizerStore = {
 }
 
 export type SavedSession = {
-  optimizerCharacterId: string | null
+  optimizerCharacterId: CharacterId | null
   relicScorerSidebarOpen: boolean
   scoringType: ScoringType
   computeEngine: ComputeEngine
@@ -206,7 +204,7 @@ export type HsrOptimizerSaveFormat = {
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
   optimizerMenuState: Record<string, boolean>
-  excludedRelicPotentialCharacters: string[]
+  excludedRelicPotentialCharacters: CharacterId[]
   savedSession: SavedSession
   settings: UserSettings
   version: string

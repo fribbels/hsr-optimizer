@@ -111,7 +111,7 @@ export const Metadata = {
     }
 
     const relicSets = gameData.relics.reduce<Record<string, DBMetadataSets>>((acc, obj) => {
-      acc[obj.id] = obj
+      acc[obj.id] = obj as DBMetadataSets
       return acc
     }, {})
 

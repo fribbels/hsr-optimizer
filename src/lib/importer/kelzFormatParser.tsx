@@ -2,7 +2,7 @@ import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
-import { Constants } from 'lib/constants/constants'
+import { Constants, Parts, PathName, PathNames, Sets } from 'lib/constants/constants'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
@@ -10,7 +10,7 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
@@ -60,9 +60,9 @@ type V4ParserRelic = {
 }
 
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
-  map[relic.id] = relic
+  map[relic.id] = relic as { id: Relic['id']; name: Sets; skills: string }
   return map
-}, {} as Record<string, { id: string; name: string; skills: string }>)
+}, {} as Record<string, { id: Relic['id']; name: Sets; skills: string }>)
 
 export type ScannerParserJson = {
   source: string
@@ -70,8 +70,8 @@ export type ScannerParserJson = {
   version: number
   metadata: {
     uid: number
-    trailblazer: string
-    current_trailblazer_path?: string
+    trailblazer: 'Stelle' | 'Caelus'
+    current_trailblazer_path?: PathName
   }
   characters: V4ParserCharacter[]
   light_cones: V4ParserLightCone[]
@@ -92,8 +92,8 @@ export class KelzFormatParser { // TODO abstract class
     const tWarning = i18next.getFixedT(null, 'importSaveTab', 'Import.ParserWarning')
     const parsed = {
       metadata: {
-        trailblazer: 'Stelle',
-        current_trailblazer_path: 'Destruction',
+        trailblazer: 'Stelle' as ('Stelle' | 'Caelus'),
+        current_trailblazer_path: 'Destruction' as PathName,
       },
       characters: [] as Character['form'][],
       relics: [] as Relic[],
@@ -129,12 +129,12 @@ export class KelzFormatParser { // TODO abstract class
     }
 
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
-    parsed.metadata.current_trailblazer_path = json.metadata.current_trailblazer_path || 'Stelle'
+    parsed.metadata.current_trailblazer_path = json.metadata.current_trailblazer_path ?? PathNames.Destruction
 
     if (json.relics) {
       parsed.relics = json.relics
         .map((r) => readRelic(r, this))
-        .map((r) => RelicAugmenter.augment(r) as Relic | null)
+        .map((r) => RelicAugmenter.augment(r))
         .filter((r): r is NonNullable<typeof r> => {
           if (!r) {
             console.warn('Could not parse relic')
@@ -184,14 +184,14 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
     characterId: characterId,
     characterLevel: character.level || 80,
     characterEidolon: character.eidolon || 0,
-    lightCone: lightConeId || null,
-    lightConeLevel: lightCone?.level || 80,
-    lightConeSuperimposition: lightCone?.superimposition || 1,
+    lightCone: lightConeId ?? null,
+    lightConeLevel: lightCone?.level ?? 80,
+    lightConeSuperimposition: lightCone?.superimposition ?? 1,
   }
 }
 
-function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser) {
-  const part = relic.slot.replace(/\s+/g, '')
+function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
+  const part = relic.slot.replace(/\s+/g, '') as Parts
 
   const setId = relic.set_id
   const set = relicSetMapping[setId].name
@@ -201,11 +201,11 @@ function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser) {
 
   const { main, substats } = readRelicStats(relic, part, grade, enhance, scanner)
 
-  let equippedBy: string | undefined
+  let equippedBy: CharacterId | undefined
   if (relic.location !== '') {
     const lookup = characterList.find((x) => x.id == relic.location)?.id
     if (lookup) {
-      equippedBy = lookup
+      equippedBy = lookup as CharacterId
     }
   }
 
@@ -218,7 +218,7 @@ function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser) {
     substats,
     equippedBy,
     verified: scanner.config.speedVerified,
-  }
+  } as Relic
 }
 
 type MainData = {

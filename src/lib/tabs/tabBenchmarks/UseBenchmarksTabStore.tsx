@@ -1,10 +1,12 @@
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
+import { LightCone } from 'types/lightCone'
 import { create } from 'zustand'
 
 export type BenchmarkForm = {
-  characterId: string
-  lightCone: string
+  characterId: CharacterId
+  lightCone: LightCone['id']
   characterEidolon: number
   lightConeSuperimposition: number
   basicSpd: number
@@ -19,8 +21,8 @@ export type BenchmarkForm = {
 }
 
 export type SimpleCharacter = {
-  characterId: string
-  lightCone: string
+  characterId: CharacterId
+  lightCone: LightCone['id']
   characterEidolon: number
   lightConeSuperimposition: number
 }

@@ -1,4 +1,4 @@
-import { Constants, Parts, RelicSetFilterOptions, SubStatValues } from 'lib/constants/constants'
+import { Constants, Parts, RelicSetFilterOptions, SetsOrnaments, SetsRelics, SubStatValues } from 'lib/constants/constants'
 import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatToKey } from 'lib/optimization/computedStatsArray'
 import DB from 'lib/state/db'
@@ -178,7 +178,7 @@ export const RelicFilters = {
           || relic.part == Constants.Parts.Hands
           || relic.part == Constants.Parts.Body
           || relic.part == Constants.Parts.Feet) {
-          return allowedSets[Constants.RelicSetToIndex[relic.set]] == 1
+          return allowedSets[Constants.RelicSetToIndex[relic.set as SetsRelics]] == 1
         } else {
           return true
         }
@@ -200,7 +200,7 @@ export const RelicFilters = {
         if (
           relic.part == Constants.Parts.PlanarSphere
           || relic.part == Constants.Parts.LinkRope) {
-          return allowedSets[Constants.OrnamentSetToIndex[relic.set]] == 1
+          return allowedSets[Constants.OrnamentSetToIndex[relic.set as SetsOrnaments]] == 1
         } else {
           return true
         }
@@ -220,7 +220,7 @@ export const RelicFilters = {
 
     function matchingRelic(part: Parts) {
       const partition: Relic[] = relics[part]
-      if (!character.equipped[part]) {
+      if (!character?.equipped[part]) {
         return partition
       }
       const match = partition.find((x) => x.id == character.equipped[part])

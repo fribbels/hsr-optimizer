@@ -6,6 +6,7 @@ import DB from 'lib/state/db'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 
 export type BenchmarkResultWrapper = {
   fullHash: string
@@ -117,7 +118,7 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
   return false
 }
 
-export function handleCharacterSelectChange(id: string, form: FormInstance<BenchmarkForm>) {
+export function handleCharacterSelectChange(id: CharacterId | null, form: FormInstance<BenchmarkForm>) {
   if (!id) return
 
   const scoringMetadata = DB.getScoringMetadata(id)

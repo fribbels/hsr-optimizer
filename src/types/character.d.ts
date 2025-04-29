@@ -1,8 +1,9 @@
+import type data from 'data/game_data.json'
 import { Parts } from 'lib/constants/constants'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
 
-export type CharacterId = string
+export type CharacterId = keyof typeof data.characters
 
 export type Eidolon = number
 

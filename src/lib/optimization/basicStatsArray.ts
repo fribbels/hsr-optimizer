@@ -176,7 +176,6 @@ export function toBasicStatsObject(a: Float32Array, weight: number = 0, relicSet
     'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
     'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
     'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
-    'WEIGHT': weight,
     'relicSetIndex': relicSetIndex,
     'ornamentSetIndex': ornamentSetIndex,
   }

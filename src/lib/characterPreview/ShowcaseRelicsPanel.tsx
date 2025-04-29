@@ -7,6 +7,7 @@ import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { RelicPreview, ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import React from 'react'
+import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
 export function ShowcaseRelicsPanel(props: {
@@ -16,7 +17,7 @@ export function ShowcaseRelicsPanel(props: {
   displayRelics: SingleRelicByPart
   source: ShowcaseSource
   scoringType: ScoringType
-  characterId: string
+  characterId: CharacterId
   scoredRelics: RelicScoringResult[]
   showcaseColors?: ShowcaseTheme
 }) {

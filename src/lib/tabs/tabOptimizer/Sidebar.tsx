@@ -401,7 +401,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
-    Optimizer.cancel(window.store.getState().optimizationId)
+    Optimizer.cancel(window.store.getState().optimizationId!)
   }
 
   function startOptimizer() {

@@ -31,10 +31,8 @@ export const RelicFilters = {
     weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]
     weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
 
-    for (const weight of Object.keys(weights)) {
-      if (weights[weight] === undefined) {
-        weights[weight] = 0
-      }
+    for (const weight of Object.keys(weights) as Array<keyof typeof weights>) {
+      weights[weight] ??= 0
     }
 
     for (const relic of relics) {
@@ -54,12 +52,12 @@ export const RelicFilters = {
   applyTopFilter: (request: Form, relics: RelicsByPart) => {
     const weights = request.weights || {}
     const partMinRolls = {
-      [Parts.Head]: weights.headHands || 0,
-      [Parts.Hands]: weights.headHands || 0,
-      [Parts.Body]: weights.bodyFeet || 0,
-      [Parts.Feet]: weights.bodyFeet || 0,
-      [Parts.PlanarSphere]: weights.sphereRope || 0,
-      [Parts.LinkRope]: weights.sphereRope || 0,
+      [Parts.Head]: weights.headHands ?? 0,
+      [Parts.Hands]: weights.headHands ?? 0,
+      [Parts.Body]: weights.bodyFeet ?? 0,
+      [Parts.Feet]: weights.bodyFeet ?? 0,
+      [Parts.PlanarSphere]: weights.sphereRope ?? 0,
+      [Parts.LinkRope]: weights.sphereRope ?? 0,
     }
 
     for (const part of Object.values(Constants.Parts)) {

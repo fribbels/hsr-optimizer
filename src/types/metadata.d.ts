@@ -1,4 +1,4 @@
-import { ElementName, PathName, Sets, ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
+import { ElementName, MainStats, Parts, PathName, Sets, ShowcaseColorMode, StatsValues, SubStats } from 'lib/constants/constants'
 import { statConversion } from 'lib/importer/characterConverter'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -15,12 +15,8 @@ export type ShowcaseTemporaryOptions = {
 }
 
 export type ScoringMetadata = {
-  stats: {
-    [stat: string]: number
-  }
-  parts: {
-    [part: string]: string[]
-  }
+  stats: Record<SubStats, number> & Partial<Record<'headHands' | 'bodyFeet' | 'sphereRope', number>>
+  parts: Record<Exclude<Parts, Parts.Head, Parts.Hands>, MainStats[]>
   presets: PresetDefinition[]
   sortOption: SortOptionProperties
   hiddenColumns: SortOptionProperties[]

@@ -118,7 +118,7 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
   return false
 }
 
-export function handleCharacterSelectChange(id: CharacterId | null, form: FormInstance<BenchmarkForm>) {
+export function handleCharacterSelectChange(id: CharacterId | null | undefined, form: FormInstance<BenchmarkForm>) {
   if (!id) return
 
   const scoringMetadata = DB.getScoringMetadata(id)

@@ -101,7 +101,7 @@ export default function CharacterSelectorDisplay() {
       <Flex gap={optimizerTabDefaultGap}>
         <Form.Item name='characterId'>
           <CharacterSelect
-            value=''
+            value={null}
             selectStyle={{ width: 151 }}
             onChange={setOptimizerTabFocusCharacter}
             externalOpen={optimizerTabFocusCharacterSelectModalOpen}
@@ -128,9 +128,9 @@ export default function CharacterSelectorDisplay() {
         <Flex gap={optimizerTabDefaultGap}>
           <Form.Item name='lightCone'>
             <LightConeSelect
-              value=''
+              value={null}
               selectStyle={{ width: 151 }}
-              characterId={optimizerTabFocusCharacter!}
+              characterId={optimizerTabFocusCharacter}
               onChange={setOptimizerFormSelectedLightCone}
             />
           </Form.Item>

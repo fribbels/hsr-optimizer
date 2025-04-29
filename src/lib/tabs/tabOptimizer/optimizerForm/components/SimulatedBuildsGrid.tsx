@@ -3,7 +3,7 @@ import { IRowNode } from 'ag-grid-community'
 import { Empty, Flex, Table, TableColumnsType } from 'antd'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/simulations/statSimulationController'
-import { Simulation } from 'lib/simulations/statSimulationTypes'
+import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect } from 'react'
@@ -93,13 +93,13 @@ export function SimulatedBuildsGrid() {
     // Update the form with selected sim
     const cloneRequest = TsUtils.clone(statSim.request)
     zeroesToNull(cloneRequest.stats)
-    window.optimizerForm.setFieldValue(['statSim', statSim.simType], cloneRequest)
+    window.optimizerForm.setFieldValue(['statSim', statSim.simType as Exclude<StatSimTypes, StatSimTypes.Disabled>], cloneRequest)
     window.store.getState().setStatSimulationDisplay(statSim.simType)
   }
 
   useEffect(() => {
     if (selectedStatSimulations.length) {
-      updateSimulationForm(selectedStatSimulations[0])
+      updateSimulationForm(selectedStatSimulations[0]!)
     }
   }, [selectedStatSimulations])
 
@@ -108,7 +108,7 @@ export function SimulatedBuildsGrid() {
       showHeader={false}
       locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('NoStatSimulations')}/* 'No custom stat simulations selected' *//> }}
       rowSelection={{
-        selectedRowKeys: selectedStatSimulations,
+        selectedRowKeys: selectedStatSimulations as string[],
         type: 'radio',
         columnWidth: 0,
         renderCell: () => '', // Render nothing for the selection column

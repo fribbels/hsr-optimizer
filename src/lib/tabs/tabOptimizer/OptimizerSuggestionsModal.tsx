@@ -218,7 +218,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
   }
 
   // MINIMUM_ROLLS
-  if (request.weights.headHands > 0 || request.weights.bodyFeet > 0 || request.weights.sphereRope > 0) {
+  if (request.weights.headHands! > 0 || request.weights.bodyFeet! > 0 || request.weights.sphereRope! > 0) {
     rootCauses.push(ZeroPermRootCause.MINIMUM_ROLLS)
   }
 

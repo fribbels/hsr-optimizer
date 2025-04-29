@@ -46,8 +46,8 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       const relicsById = window.store.getState().relicsById
       const relics = Object.values(selectedCharacter.builds[selectedBuild].build).map((x) => relicsById[x])
 
-      const relicObject = {} as Record<Parts, Relic>
-      relics.filter((x) => !!x).forEach((relic) => relicObject[relic.part] = relic)
+      const relicObject = {} as Record<Parts, Relic['id']>
+      relics.filter((x) => !!x).forEach((relic) => relicObject[relic.part] = relic.id)
 
       const previewCharacter = TsUtils.clone(selectedCharacter)
       previewCharacter.equipped = relicObject
@@ -95,7 +95,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       const relicsById = window.store.getState().relicsById
       const relics = Object.values(b.build).map((x) => relicsById[x])
       const score = RelicScorer.scoreCharacterWithRelics(selectedCharacter!, relics)
-      b.score = { score: Math.round(score.totalScore ?? 0), rating: score.totalRating ?? 'N/A' }
+      b.score = { score: Math.round(score.totalScore ?? 0).toString(), rating: score.totalRating ?? 'N/A' }
     }
   }
 

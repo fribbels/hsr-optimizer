@@ -16,8 +16,8 @@ import { DBMetadataLightCone } from 'types/metadata'
 // FIXME HIGH
 
 interface LightConeSelectProps {
-  value: LightCone['id'] | null | ''
-  characterId: CharacterId
+  value: LightCone['id'] | null
+  characterId: CharacterId | null | undefined
   onChange?: (id: LightCone['id'] | null) => void
   selectStyle?: React.CSSProperties
   initialPath?: PathName

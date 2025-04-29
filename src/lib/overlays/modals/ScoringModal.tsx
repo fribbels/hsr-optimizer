@@ -37,7 +37,7 @@ export default function ScoringModal() {
   const setScoringModalOpen = window.store((s) => s.setScoringModalOpen)
   const scoringModalOpen = window.store((s) => s.scoringModalOpen)
 
-  function characterSelectorChange(id: CharacterId) {
+  function characterSelectorChange(id: CharacterId | null | undefined) {
     setScoringAlgorithmFocusCharacter(id)
   }
 
@@ -200,7 +200,7 @@ export default function ScoringModal() {
           <Flex vertical gap={5}>
             <Form.Item name='characterId'>
               <CharacterSelect
-                value=''
+                value={null}
                 selectStyle={{}}
                 onChange={characterSelectorChange}
               />

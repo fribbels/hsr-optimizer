@@ -549,7 +549,7 @@ export const DB = {
 
           let isOldScoring = true
           for (const stat of Object.values(Constants.Stats)) {
-            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
+            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat as SubStats]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
               isOldScoring = false
               break
             }
@@ -1221,7 +1221,7 @@ function setRelic(relic: Relic) {
   window.store.getState().setRelicsById(relicsById)
 }
 
-function deduplicateStringArray(arr: string[]): string[] {
+function deduplicateStringArray<T>(arr: T[]): T[] {
   if (arr == null) return arr
 
   return [...new Set(arr)]

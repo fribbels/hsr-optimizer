@@ -7,6 +7,7 @@ import { CharacterId, Eidolon } from 'types/character'
 
 import { ConditionalValueMap } from 'types/conditionals'
 import { LightCone, SuperImpositionLevel } from 'types/lightCone'
+import { ScoringMetadata } from 'types/metadata'
 import { RelicEnhance, RelicGrade } from 'types/relic'
 
 export type Teammate = {
@@ -67,9 +68,7 @@ export type Form = {
   statDisplay: string
   memoDisplay: string
 
-  weights: {
-    [key: string]: number
-  }
+  weights: ScoringMetadata['stats']
 
   combatBuffs: {
     [key: string]: number

@@ -19,7 +19,7 @@ export default function CharacterModal(props: {
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
   const { t: tCommon } = useTranslation('common')
 
-  const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId ?? '')
+  const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(props.initialCharacter?.form.characterId ?? null)
   const [eidolon] = useState(props.initialCharacter?.form.characterEidolon ?? 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition ?? 1)
 
@@ -35,7 +35,7 @@ export default function CharacterModal(props: {
       lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition ?? 1,
     }
 
-    setCharacterId(props.initialCharacter?.form.characterId ?? '')
+    setCharacterId(props.initialCharacter?.form.characterId ?? null)
 
     characterForm.setFieldsValue(defaultValues)
   }, [props.open])
@@ -78,11 +78,11 @@ export default function CharacterModal(props: {
             <HeaderText>{t('Character')}</HeaderText>
             <AntDForm.Item name='characterId'>
               <CharacterSelect
-                value=''
+                value={null}
                 withIcon={true}
-                onChange={(characterId: CharacterId) => {
+                onChange={(characterId: CharacterId | null | undefined) => {
                   setCharacterId(characterId)
-                  const dbCharacter = DB.getCharacterById(characterId)
+                  const dbCharacter = DB.getCharacterById(characterId!)
                   const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
                   const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
                   const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1

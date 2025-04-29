@@ -28,8 +28,8 @@ interface MultiCharacterSelectProps extends BaseCharacterSelectProps {
 
 interface SingleCharacterSelectProps extends BaseCharacterSelectProps {
   multipleSelect?: false
-  value: CharacterId | undefined
-  onChange: (x: CharacterId | null) => void
+  value: CharacterId | null | undefined
+  onChange: (x: CharacterId | null | undefined) => void
 }
 
 type CharacterSelectProps = SingleCharacterSelectProps | MultiCharacterSelectProps

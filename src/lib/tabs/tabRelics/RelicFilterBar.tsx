@@ -346,7 +346,7 @@ export default function RelicFilterBar(props: {
             <CharacterSelect
               value={currentlySelectedCharacterId}
               selectStyle={{ flex: 1 }}
-              onChange={(characterId: CharacterId | null) => {
+              onChange={(characterId: CharacterId | null | undefined) => {
                 // Wait until after modal closes to update
                 setTimeout(() => characterSelectorChange(characterId!), 20)
               }}

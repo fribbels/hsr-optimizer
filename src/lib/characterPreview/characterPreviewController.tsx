@@ -65,7 +65,8 @@ export type ScoringResults = {
 export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Record<string, Relic>) {
   let scoringResults: ScoringResults
   let displayRelics: SingleRelicByPart
-  if (source == ShowcaseSource.CHARACTER_TAB) {
+  // Showcase tab relics are stored in equipped as relics instead of ids
+  if (source !== ShowcaseSource.SHOWCASE_TAB) {
     scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
       Head: getRelic(relicsById, character, Parts.Head)!,
@@ -76,7 +77,6 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
       LinkRope: getRelic(relicsById, character, Parts.LinkRope)!,
     }
   } else {
-    // Showcase tab relics are stored in equipped as relics instead of ids
     const equipped = character.equipped as unknown as SingleRelicByPart
     const relicsArray = Object.values(equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults

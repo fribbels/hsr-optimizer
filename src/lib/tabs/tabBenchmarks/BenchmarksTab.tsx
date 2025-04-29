@@ -165,8 +165,8 @@ function MiddlePanel() {
         <HeaderText>Character</HeaderText>
         <AntDForm.Item name='characterId' noStyle>
           <CharacterSelect
-            value=''
-            onChange={(id: CharacterId | null) => handleCharacterSelectChange(id, form)}
+            value={null}
+            onChange={(id: CharacterId | null | undefined) => handleCharacterSelectChange(id, form)}
           />
         </AntDForm.Item>
         <CharacterEidolonFormRadio/>

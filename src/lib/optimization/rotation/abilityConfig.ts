@@ -8,7 +8,7 @@ export enum AbilityKind {
 }
 
 export enum TurnMarker {
-  STANDARD = 'STANDARD',
+  DEFAULT = 'DEFAULT',
   START = 'START',
   END = 'END',
   WHOLE = 'WHOLE',
@@ -24,7 +24,7 @@ export interface TurnAbility {
   toString(): string
 }
 
-export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker.STANDARD): TurnAbility {
+export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker.DEFAULT): TurnAbility {
   return {
     kind,
     marker,
@@ -90,8 +90,8 @@ export function isWholeTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.WHOLE
 }
 
-export function isStandardAbility(ability: TurnAbility): boolean {
-  return ability.marker === TurnMarker.STANDARD
+export function isDefaultAbility(ability: TurnAbility): boolean {
+  return ability.marker === TurnMarker.DEFAULT
 }
 
 export function getBaseAbility(ability: TurnAbility): AbilityKind {

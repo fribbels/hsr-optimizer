@@ -17,6 +17,7 @@ import {
   START_MEMO_TALENT,
   START_SKILL,
   START_ULT,
+  TurnMarker,
   ULT,
   WHOLE_BASIC,
   WHOLE_FUA,
@@ -29,17 +30,10 @@ import React from 'react'
 
 const { SHOW_CHILD } = Cascader
 
-export enum AbilityTurnVariants {
-  START_TURN,
-  END_TURN,
-  FULL_TURN,
-  NON_TURN,
-}
-
 export function AbilityCascader({ formName }: { formName: (string | number)[] }) {
   const options = [
     {
-      value: AbilityTurnVariants.START_TURN,
+      value: TurnMarker.START,
       label: 'Start turn',
       children: [
         { value: START_BASIC.toString(), label: START_BASIC.toVisual() },
@@ -51,7 +45,7 @@ export function AbilityCascader({ formName }: { formName: (string | number)[] })
       ],
     },
     {
-      value: AbilityTurnVariants.END_TURN,
+      value: TurnMarker.END,
       label: 'End turn',
       children: [
         { value: END_BASIC.toString(), label: END_BASIC.toVisual() },
@@ -63,8 +57,8 @@ export function AbilityCascader({ formName }: { formName: (string | number)[] })
       ],
     },
     {
-      value: AbilityTurnVariants.FULL_TURN,
-      label: 'Full turn',
+      value: TurnMarker.WHOLE,
+      label: 'Whole turn',
       children: [
         { value: WHOLE_BASIC.toString(), label: WHOLE_BASIC.toVisual() },
         { value: WHOLE_SKILL.toString(), label: WHOLE_SKILL.toVisual() },
@@ -75,7 +69,7 @@ export function AbilityCascader({ formName }: { formName: (string | number)[] })
       ],
     },
     {
-      value: AbilityTurnVariants.NON_TURN,
+      value: TurnMarker.DEFAULT,
       label: 'Normal',
       children: [
         { value: BASIC.toString(), label: BASIC.toVisual() },

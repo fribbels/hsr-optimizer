@@ -46,6 +46,8 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker
   }
 }
 
+export const NULL_TURN_ABILITY = null as unknown as TurnAbility
+
 // Normal abilities
 export const BASIC = createAbility(AbilityKind.BASIC)
 export const SKILL = createAbility(AbilityKind.SKILL)

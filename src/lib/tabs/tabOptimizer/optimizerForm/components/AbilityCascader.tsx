@@ -98,9 +98,6 @@ export function AbilityCascader({ formName }: { formName: (string | number)[] })
       <Form.Item
         name={formName}
         noStyle
-        normalize={(value: (string | number)[]) => {
-          return value[value.length - 1]
-        }}
       >
         <Cascader
           options={options}

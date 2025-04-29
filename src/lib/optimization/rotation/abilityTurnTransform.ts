@@ -18,7 +18,7 @@ type TurnState = {
 /**
  * Turn preprocessor to correct invalid turn definitions
  */
-export function preprocessAbilityTurns(input: TurnAbility[]): TurnAbility[] {
+export function preprocessAbilityTurnDefinitionCorrectness(input: TurnAbility[]): TurnAbility[] {
   if (input.length === 0) {
     return []
   }

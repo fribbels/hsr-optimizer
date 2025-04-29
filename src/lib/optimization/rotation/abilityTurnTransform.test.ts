@@ -19,11 +19,11 @@ import {
   WHOLE_MEMO_TALENT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/abilityConfig'
-import { preprocessAbilityTurns } from 'lib/optimization/rotation/abilityTurnTransform'
+import { preprocessAbilityTurnDefinitionCorrectness } from 'lib/optimization/rotation/abilityTurnTransform'
 import { expect, test } from 'vitest'
 
 test('Anaxa annotated', () => {
-  expect(preprocessAbilityTurns(
+  expect(preprocessAbilityTurnDefinitionCorrectness(
     [START_ULT, SKILL, END_SKILL, START_SKILL, END_SKILL],
   ).toString()).toEqual(
     [START_ULT, SKILL, END_SKILL, START_SKILL, END_SKILL].toString(),
@@ -31,7 +31,7 @@ test('Anaxa annotated', () => {
 })
 
 test('Anaxa unannotated', () => {
-  expect(preprocessAbilityTurns(
+  expect(preprocessAbilityTurnDefinitionCorrectness(
     [ULT, SKILL, SKILL, SKILL, SKILL],
   ).toString()).toEqual(
     [START_ULT, END_SKILL, WHOLE_SKILL, WHOLE_SKILL, WHOLE_SKILL].toString(),
@@ -39,7 +39,7 @@ test('Anaxa unannotated', () => {
 })
 
 test('Complex invalid rotation', () => {
-  expect(preprocessAbilityTurns(
+  expect(preprocessAbilityTurnDefinitionCorrectness(
     [
       FUA, END_SKILL, MEMO_SKILL, START_ULT, FUA, START_SKILL, MEMO_TALENT, ULT,
       END_BASIC, FUA, START_BASIC, SKILL, END_ULT, START_ULT, END_SKILL, WHOLE_MEMO_SKILL,
@@ -57,7 +57,7 @@ test('Complex invalid rotation', () => {
 })
 
 test('Complex invalid rotation 2', () => {
-  expect(preprocessAbilityTurns(
+  expect(preprocessAbilityTurnDefinitionCorrectness(
     [
       END_ULT, START_ULT, START_SKILL, ULT, END_BASIC, START_SKILL, MEMO_SKILL, END_ULT, WHOLE_FUA,
       WHOLE_MEMO_TALENT, ULT, ULT, BASIC, ULT, START_BASIC, END_SKILL, SKILL, START_ULT,

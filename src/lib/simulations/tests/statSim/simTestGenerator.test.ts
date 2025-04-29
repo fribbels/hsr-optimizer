@@ -1,19 +1,23 @@
 import { Sets, Stats } from 'lib/constants/constants'
 import { collectResults, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
-import { ACHERON, ALONG_THE_PASSING_SHORE, EARTHLY_ESCAPADE, FU_XUAN, JIAOQIU, SHE_ALREADY_SHUT_HER_EYES, SPARKLE, THOSE_MANY_SPRINGS } from 'lib/simulations/tests/testMetadataConstants'
+import { BRONYA, BUT_THE_BATTLE_ISNT_OVER, HUOHUO, I_SHALL_BE_MY_OWN_SWORD, JINGLIU, NIGHT_OF_FRIGHT, PAST_SELF_IN_MIRROR, RUAN_MEI } from 'lib/simulations/tests/testMetadataConstants'
+import { Metadata } from 'lib/state/metadata'
 import { test } from 'vitest'
 
 test('generateTest', () => {
   if (!process.env._JETBRAINS_VITEST_REPORTER_ABSOLUTE_PATH) {
     return
   }
+
+  Metadata.initialize()
+
   const input = generateE6S5Test({
-    character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
-    teammate0: testCharacter(JIAOQIU, THOSE_MANY_SPRINGS),
-    teammate1: testCharacter(SPARKLE, EARTHLY_ESCAPADE),
-    teammate2: testCharacter(FU_XUAN, SHE_ALREADY_SHUT_HER_EYES),
-    sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
-    mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
+    character: testCharacter(JINGLIU, I_SHALL_BE_MY_OWN_SWORD),
+    teammate0: testCharacter(BRONYA, BUT_THE_BATTLE_ISNT_OVER),
+    teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+    teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+    sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
+    mains: testMains(Stats.CD, Stats.ATK_P, Stats.Ice_DMG, Stats.ATK_P),
     stats: testStatSpread(),
   })
   const { outputBasic, outputCombat } = collectResults(input)

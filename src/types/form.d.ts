@@ -1,4 +1,5 @@
 import { SetsOrnaments } from 'lib/constants/constants'
+import { TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -92,7 +93,7 @@ export type Form = {
   // Combo
   comboStateJson: string
   comboAbilities: string[]
-  comboTurnAbilities: [string, string][]
+  comboTurnAbilityPath: [TurnMarker, TurnAbilityName][]
   comboType: string
   comboDot: number
   comboBreak: number

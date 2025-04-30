@@ -60,7 +60,7 @@ export function toVisual(ability: TurnAbility): string {
   }
 }
 
-export function turnAbilityFromName(name: TurnAbilityName): TurnAbility {
+export function toTurnAbility(name: TurnAbilityName): TurnAbility {
   if (name === NULL_TURN_ABILITY.name) return NULL_TURN_ABILITY
 
   const [markerStr, kindStr] = name.split('_')
@@ -155,3 +155,7 @@ export function compareAbilityArrays(array1: TurnAbility[], array2: TurnAbility[
   if (array1.length !== array2.length) return false
   return stringifyAbilityArray(array1) === stringifyAbilityArray(array2)
 }
+
+export const ALL_ABILITIES = abilityKinds
+
+export const AbilityNameToTurnAbility: Record<TurnAbilityName, TurnAbility> = abilities

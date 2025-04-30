@@ -6,7 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { NULL_TURN_ABILITY, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { NULL_TURN_ABILITY, toTurnAbility, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
@@ -288,12 +288,12 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
 }
 
 function getComboAbilities(form: OptimizerForm) {
-  const comboTurnAbilities = form.comboTurnAbilities ?? [] // TODO: This should go into default form
+  const comboTurnAbilityPaths = form.comboTurnAbilityPath ?? [] // TODO: This should go into default form
   const newComboAbilities: TurnAbility[] = [NULL_TURN_ABILITY]
 
   for (let i = 1; i <= 8; i++) {
-    if (comboTurnAbilities[i] == null) break
-    newComboAbilities.push(comboTurnAbilities[i][1] as unknown as TurnAbility)
+    if (comboTurnAbilityPaths[i] == null) break
+    newComboAbilities.push(toTurnAbility(comboTurnAbilityPaths[i][1]))
   }
   return newComboAbilities
 }

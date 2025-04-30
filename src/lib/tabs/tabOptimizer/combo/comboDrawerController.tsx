@@ -2,7 +2,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
-import { NULL_TURN_ABILITY, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { NULL_TURN_ABILITY, toTurnAbility, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import DB from 'lib/state/db'
@@ -89,8 +89,6 @@ export type SetConditionals = typeof defaultSetConditionals
 
 export function initializeComboState(request: Form, merge: boolean) {
   const dbMetadata = DB.getMetadata()
-  const dbLightCones = dbMetadata.lightCones
-  const dbCharacters = dbMetadata.characters
   const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
@@ -99,12 +97,12 @@ export function initializeComboState(request: Form, merge: boolean) {
   // @ts-ignore
   comboState.comboAbilities = [null]
   comboState.comboTurnAbilities = [NULL_TURN_ABILITY]
-  if (request.comboTurnAbilities) {
+  if (request.comboTurnAbilityNames) {
     for (let i = 1; i <= 9; i++) {
-      const action = request.comboTurnAbilities[i]
-      if (action == null) break
+      const turnAbilityName = request.comboTurnAbilityNames[i]
+      if (turnAbilityName == null) break
 
-      comboState.comboTurnAbilities.push(action[1] as unknown as TurnAbility)
+      comboState.comboTurnAbilities.push(toTurnAbility(turnAbilityName))
     }
   }
 

@@ -180,12 +180,12 @@ function ComboOptionRowSelect(props: { index: number; comboOptions: { value: str
       noStyle
     >
       {({ getFieldValue }) => {
-        const comboAbilities: string[] = getFieldValue('comboTurnAbilities') ?? []
+        const comboAbilities: string[] = getFieldValue('comboTurnAbilityPath') ?? []
         const shouldRenderSegmented = comboAbilities[props.index] != null || props.index < 2
 
         return shouldRenderSegmented
           ? (
-            <AbilityCascader formName={['comboTurnAbilities', props.index]}/>
+            <AbilityCascader formName={['comboTurnAbilityPath', props.index]}/>
           )
           : null
       }}

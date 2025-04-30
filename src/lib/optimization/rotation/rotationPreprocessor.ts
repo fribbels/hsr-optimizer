@@ -1,4 +1,5 @@
 import { Sets } from 'lib/constants/constants'
+import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
 
@@ -18,18 +19,19 @@ export function precomputeConditionalActivations(comboState: ComboState, request
     castoricePreprocessor(comboState, request),
   ].filter((x) => x.id == request.characterId)
 
-  for (let i = 1; i < comboState.comboAbilities.length; i++) {
-    const ability = comboState.comboAbilities[i]
+  for (let i = 1; i < comboState.comboTurnAbilities.length; i++) {
+    const turnAbility = comboState.comboTurnAbilities[i]
 
     for (const preprocessor of setPreprocessors) {
-      preprocessor.processAbility(ability, i)
+      preprocessor.processAbility(turnAbility, i)
     }
 
     for (const preprocessor of characterPreprocessors) {
-      preprocessor.processAbility(ability, i)
+      preprocessor.processAbility(turnAbility, i)
     }
   }
 
+  // Convert back to normal abilities once preprocessing is done
   for (let i = 1; i < comboState.comboTurnAbilities.length; i++) {
     const turnAbility = comboState.comboTurnAbilities[i]
     comboState.comboAbilities[i] = turnAbility.kind
@@ -39,7 +41,7 @@ export function precomputeConditionalActivations(comboState: ComboState, request
 type AbilityPreprocessor = {
   id: string
   state: Record<string, boolean | number>
-  processAbility: (ability: string, index: number) => void
+  processAbility: (turnAbility: TurnAbility, index: number) => void
 }
 
 function scholarLostInEruditionPreprocessor(comboState: ComboState, request: Form): AbilityPreprocessor {
@@ -48,12 +50,14 @@ function scholarLostInEruditionPreprocessor(comboState: ComboState, request: For
     state: {
       scholarActivated: false,
     },
-    processAbility: function (ability: string, index: number) {
-      if (ability == 'ULT') {
+    processAbility: function (turnAbility: TurnAbility, index: number) {
+      const { kind, marker } = turnAbility
+
+      if (kind == AbilityKind.ULT) {
         this.state.scholarActivated = true
       }
 
-      if (ability == 'SKILL' && this.state.scholarActivated) {
+      if (kind == AbilityKind.SKILL && this.state.scholarActivated) {
         this.state.scholarActivated = false
         setComboBooleanCategorySetActivation(comboState, Sets.ScholarLostInErudition, index, true)
       } else {
@@ -71,16 +75,17 @@ function castoricePreprocessor(comboState: ComboState, request: Form): AbilityPr
       memoDmgStacks: 0,
       e2Activated: false,
     },
-    processAbility: function (ability: string, index: number) {
+    processAbility: function (turnAbility: TurnAbility, index: number) {
+      const { kind, marker } = turnAbility
       // E1
 
       let memoDmgStacks = this.state.memoDmgStacks as number
-      if (ability == 'MEMO_SKILL') {
+      if (kind == AbilityKind.MEMO_SKILL) {
         const value = memoDmgStacks + 1
         setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, value)
         setComboNumberCategoryCharacterActivation(comboState, 'memoSkillEnhances', index, Math.min(3, value))
         memoDmgStacks = Math.min(6, memoDmgStacks + 1)
-      } else if (ability == 'MEMO_TALENT') {
+      } else if (kind == AbilityKind.MEMO_TALENT) {
         setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, memoDmgStacks)
         setComboNumberCategoryCharacterActivation(comboState, 'memoSkillEnhances', index, 1)
       } else {
@@ -92,11 +97,11 @@ function castoricePreprocessor(comboState: ComboState, request: Form): AbilityPr
 
       // E2
 
-      if (ability == 'ULT') {
+      if (kind == AbilityKind.ULT) {
         this.state.e2Activated = true
       }
 
-      if (ability == 'MEMO_SKILL' && this.state.e2Activated) {
+      if (kind == AbilityKind.MEMO_SKILL && this.state.e2Activated) {
         this.state.e2Activated = false
         setComboBooleanCategoryCharacterActivation(comboState, 'e2MemoSkillDmgBoost', index, true)
       } else {

@@ -2,7 +2,8 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
-import { NULL_TURN_ABILITY, toTurnAbility, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { getComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import DB from 'lib/state/db'
@@ -96,15 +97,7 @@ export function initializeComboState(request: Form, merge: boolean) {
   const actionCount = 9
   // @ts-ignore
   comboState.comboAbilities = [null]
-  comboState.comboTurnAbilities = [NULL_TURN_ABILITY]
-  if (request.comboTurnAbilityNames) {
-    for (let i = 1; i <= 9; i++) {
-      const turnAbilityName = request.comboTurnAbilityNames[i]
-      if (turnAbilityName == null) break
-
-      comboState.comboTurnAbilities.push(toTurnAbility(turnAbilityName))
-    }
-  }
+  comboState.comboTurnAbilities = getComboTurnAbilities(request)
 
   const metadata = generateConditionalResolverMetadata(request, dbMetadata)
 

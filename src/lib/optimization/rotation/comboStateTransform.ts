@@ -31,7 +31,7 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 }
 
 function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
-  const turnAbilities = getComboAbilities(request)
+  const turnAbilities = getComboTurnAbilities(request)
   const actions: OptimizerAction[] = []
   for (let i = 0; i < turnAbilities.length; i++) {
     actions.push(transformAction(i, comboState, turnAbilities, request, context))
@@ -287,7 +287,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
   }
 }
 
-function getComboAbilities(form: OptimizerForm) {
+export function getComboTurnAbilities(form: OptimizerForm) {
   const comboTurnAbilityPaths = form.comboTurnAbilityPath ?? [] // TODO: This should go into default form
   const newComboAbilities: TurnAbility[] = [NULL_TURN_ABILITY]
 

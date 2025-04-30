@@ -1,6 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { DEFAULT_BASIC, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import { AbilityCascader } from 'lib/tabs/tabOptimizer/optimizerForm/components/AbilityCascader'
@@ -103,8 +104,8 @@ function add(formInstance: FormInstance<OptimizerForm>) {
   const form = formInstance.getFieldsValue()
 
   for (let i = 1; i <= 10; i++) {
-    if (form.comboAbilities?.[i] == null) {
-      formInstance.setFieldValue(['comboAbilities', i], 'BASIC')
+    if (form.comboTurnAbilityPath?.[i] == null) {
+      formInstance.setFieldValue(['comboTurnAbilityPath', i], [TurnMarker.DEFAULT, DEFAULT_BASIC.name])
       break
     }
   }
@@ -114,13 +115,14 @@ function minus(formInstance: FormInstance<OptimizerForm>) {
   const form = formInstance.getFieldsValue()
 
   for (let i = 10; i > 1; i--) {
-    if (form.comboAbilities?.[i] != null) {
-      formInstance.setFieldValue(['comboAbilities', i], null)
+    if (form.comboTurnAbilityPath?.[i] != null) {
+      formInstance.setFieldValue(['comboTurnAbilityPath', i], null)
       break
     }
   }
 }
 
+// TODO: Refactor reset abilities
 function reset(formInstance: FormInstance<OptimizerForm>) {
   const characterId = window.store.getState().optimizerTabFocusCharacter!
   const characterMetadata = DB.getMetadata().characters[characterId]
@@ -176,12 +178,12 @@ function ComboOptionRowSelect(props: { index: number; comboOptions: { value: str
   return (
     <Form.Item
       shouldUpdate={(prevValues: OptimizerForm, currentValues: OptimizerForm) =>
-        prevValues.comboAbilities !== currentValues.comboAbilities}
+        prevValues.comboTurnAbilityPath !== currentValues.comboTurnAbilityPath}
       noStyle
     >
       {({ getFieldValue }) => {
-        const comboAbilities: string[] = getFieldValue('comboTurnAbilityPath') ?? []
-        const shouldRenderSegmented = comboAbilities[props.index] != null || props.index < 2
+        const comboTurnAbilityPaths: [TurnMarker, TurnAbilityName][] = getFieldValue('comboTurnAbilityPath') ?? []
+        const shouldRenderSegmented = comboTurnAbilityPaths[props.index] != null || props.index < 2
 
         return shouldRenderSegmented
           ? (

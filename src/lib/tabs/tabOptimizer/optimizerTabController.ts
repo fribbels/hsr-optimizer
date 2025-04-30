@@ -384,7 +384,7 @@ export const OptimizerTabController = {
       return false
     }
 
-    if (Object.values(Constants.Stats).map((stat) => form.weights[stat]).filter((x) => !!x).length == 0) {
+    if (Object.values(Constants.SubStats).map((stat) => form.weights[stat]).filter((x) => !!x).length == 0) {
       Message.error('All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.', 10)
       console.log('Top percent')
       return false

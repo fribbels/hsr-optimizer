@@ -7,7 +7,7 @@ import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFil
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
@@ -59,7 +59,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
   const labelledOptions = useMemo(() => {
-    const labelledOptions: { value: string; label: ReactElement }[] = []
+    const labelledOptions: { value: string; label: ReactNode }[] = []
     for (const option of lightConeOptions) {
       labelledOptions.push({
         value: option.value,

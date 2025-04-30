@@ -175,7 +175,7 @@ function MiddlePanel() {
       <Flex vertical gap={GAP}>
         <HeaderText>Light Cone</HeaderText>
         <AntDForm.Item name='lightCone' noStyle>
-          <LightConeSelect value='' characterId={characterId}/>
+          <LightConeSelect value={null} characterId={characterId}/>
         </AntDForm.Item>
         <LightConeSuperimpositionFormRadio/>
       </Flex>

@@ -6,7 +6,7 @@ import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFi
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { DBMetadataCharacter } from 'types/metadata'
@@ -23,13 +23,13 @@ interface BaseCharacterSelectProps {
 interface MultiCharacterSelectProps extends BaseCharacterSelectProps {
   multipleSelect: true
   value: CharacterId[]
-  onChange: (x: Map<CharacterId, boolean> | null) => void
+  onChange?: (x: Map<CharacterId, boolean> | null) => void
 }
 
 interface SingleCharacterSelectProps extends BaseCharacterSelectProps {
   multipleSelect?: false
   value: CharacterId | null | undefined
-  onChange: (x: CharacterId | null | undefined) => void
+  onChange?: (x: CharacterId | null | undefined) => void
 }
 
 type CharacterSelectProps = SingleCharacterSelectProps | MultiCharacterSelectProps
@@ -59,7 +59,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
-  const labelledOptions: { value: string; label: ReactElement }[] = []
+  const labelledOptions: { value: string; label: ReactNode }[] = []
   for (const option of characterOptions) {
     labelledOptions.push({
       value: option.value,

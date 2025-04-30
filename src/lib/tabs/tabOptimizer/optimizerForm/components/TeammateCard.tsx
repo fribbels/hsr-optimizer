@@ -288,7 +288,7 @@ const TeammateCard = (props: {
         <Flex gap={5}>
           <AntDForm.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <CharacterSelect
-              value=''
+              value={null}
               selectStyle={{}}
               externalOpen={teammateSelectModalOpen}
               setExternalOpen={setTeammateSelectModalOpen}
@@ -375,7 +375,7 @@ const TeammateCard = (props: {
         <Flex gap={5}>
           <AntDForm.Item name={[teammateProperty, `lightCone`]}>
             <LightConeSelect
-              value=''
+              value={null}
               selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
               externalOpen={teammateLightConeSelectOpen}

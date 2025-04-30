@@ -113,7 +113,7 @@ export default function CharacterModal(props: {
             <HeaderText>{t('Lightcone')}</HeaderText>
             <AntDForm.Item name='lightCone'>
               <LightConeSelect
-                value=''
+                value={null}
                 withIcon={true}
                 characterId={characterId}
                 onChange={() => {

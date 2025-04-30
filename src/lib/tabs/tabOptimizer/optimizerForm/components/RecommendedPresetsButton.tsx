@@ -11,6 +11,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
 import { Form } from 'types/form'
 import { ScoringMetadata } from 'types/metadata'
@@ -226,7 +227,7 @@ export const RecommendedPresetsButton = () => {
   )
 }
 
-export function applySpdPreset(spd: number, characterId: string | undefined) {
+export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
   if (!characterId) return
 
   const character = DB.getMetadata().characters[characterId]
@@ -265,9 +266,9 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   // @ts-ignore TODO getDefaultForm currently has handling for no character id but is set to be changed
   Utils.mergeUndefinedValues(form, getDefaultForm())
 
-  form.comboAbilities = scoringMetadata?.simulation?.comboAbilities || [null as unknown as string, 'BASIC']
-  form.comboDot = scoringMetadata?.simulation?.comboDot || 0
-  form.comboBreak = scoringMetadata?.simulation?.comboBreak || 0
+  form.comboAbilities = scoringMetadata?.simulation?.comboAbilities ?? [null as unknown as string, 'BASIC']
+  form.comboDot = scoringMetadata?.simulation?.comboDot ?? 0
+  form.comboBreak = scoringMetadata?.simulation?.comboBreak ?? 0
 
   // @ts-ignore
   form.maxSpd = undefined
@@ -276,9 +277,9 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   form.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
   form.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
   form.weights = { ...form.weights, ...scoringMetadata.stats }
-  form.weights.headHands = form.weights.headHands || 0
-  form.weights.bodyFeet = form.weights.bodyFeet || 0
-  form.weights.sphereRope = form.weights.sphereRope || 0
+  form.weights.headHands = form.weights.headHands ?? 0
+  form.weights.bodyFeet = form.weights.bodyFeet ?? 0
+  form.weights.sphereRope = form.weights.sphereRope ?? 0
 
   applySetConditionalPresets(form)
   applyScoringMetadataPresets(form)

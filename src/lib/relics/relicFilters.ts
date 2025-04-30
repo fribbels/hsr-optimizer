@@ -32,7 +32,7 @@ export const RelicFilters = {
     weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
 
     for (const weight of Object.keys(weights) as Array<keyof typeof weights>) {
-      weights[weight] ??= 0
+      if (!weights[weight]) weights[weight] = 0
     }
 
     for (const relic of relics) {

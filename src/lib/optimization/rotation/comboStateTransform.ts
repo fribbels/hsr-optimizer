@@ -6,7 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { getBaseAbilityFromString, NULL_TURN_ABILITY, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { getAbilityKind, NULL_TURN_ABILITY, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
@@ -67,7 +67,7 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
   } as OptimizerAction
   action.actorId = context.characterId
   action.actionIndex = actionIndex
-  action.actionType = getBaseAbilityFromString(turnAbilities[actionIndex])
+  action.actionType = getAbilityKind(turnAbilities[actionIndex])
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)

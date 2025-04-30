@@ -15,8 +15,9 @@ export enum TurnMarker {
   WHOLE = 'WHOLE',
 }
 
-// Composite ability object
-export interface TurnAbility {
+export type TurnAbility = string
+
+export interface TurnAbilityConfig {
   kind: AbilityKind
   marker: TurnMarker
 
@@ -25,7 +26,7 @@ export interface TurnAbility {
   toString(): string
 }
 
-export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker.DEFAULT): TurnAbility {
+function createAbilityConfig(kind: AbilityKind, marker: TurnMarker = TurnMarker.DEFAULT): TurnAbilityConfig {
   return {
     kind,
     marker,
@@ -47,101 +48,94 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker
   }
 }
 
-export const NULL_TURN_ABILITY = null as unknown as TurnAbility
+export const NULL_TURN_ABILITY = 'NULL_NULL' as TurnAbility
 
-// Normal abilities
-export const DEFAULT_BASIC = createAbility(AbilityKind.BASIC)
-export const DEFAULT_SKILL = createAbility(AbilityKind.SKILL)
-export const DEFAULT_ULT = createAbility(AbilityKind.ULT)
-export const DEFAULT_FUA = createAbility(AbilityKind.FUA)
-export const DEFAULT_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL)
-export const DEFAULT_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT)
+const abilityKinds = Object.values(AbilityKind)
+  .filter((kind) => kind !== AbilityKind.NULL) as readonly AbilityKind[]
 
-// Start turn abilities
-export const START_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.START)
-export const START_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.START)
-export const START_ULT = createAbility(AbilityKind.ULT, TurnMarker.START)
-export const START_FUA = createAbility(AbilityKind.FUA, TurnMarker.START)
-export const START_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.START)
-export const START_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.START)
+const markers = Object.values(TurnMarker) as readonly TurnMarker[]
 
-// End turn abilities
-export const END_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.END)
-export const END_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.END)
-export const END_ULT = createAbility(AbilityKind.ULT, TurnMarker.END)
-export const END_FUA = createAbility(AbilityKind.FUA, TurnMarker.END)
-export const END_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.END)
-export const END_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.END)
+const abilities: Record<string, TurnAbility> = {}
+const abilityConfigs: Record<string, TurnAbilityConfig> = {}
 
-// Whole turn abilities
-export const WHOLE_BASIC = createAbility(AbilityKind.BASIC, TurnMarker.WHOLE)
-export const WHOLE_SKILL = createAbility(AbilityKind.SKILL, TurnMarker.WHOLE)
-export const WHOLE_ULT = createAbility(AbilityKind.ULT, TurnMarker.WHOLE)
-export const WHOLE_FUA = createAbility(AbilityKind.FUA, TurnMarker.WHOLE)
-export const WHOLE_MEMO_SKILL = createAbility(AbilityKind.MEMO_SKILL, TurnMarker.WHOLE)
-export const WHOLE_MEMO_TALENT = createAbility(AbilityKind.MEMO_TALENT, TurnMarker.WHOLE)
-
-export const AbilityNameToTurnAbility: Record<string, TurnAbility> = {
-  DEFAULT_BASIC: DEFAULT_BASIC,
-  DEFAULT_SKILL: DEFAULT_SKILL,
-  DEFAULT_ULT: DEFAULT_ULT,
-  DEFAULT_FUA: DEFAULT_FUA,
-  DEFAULT_MEMO_SKILL: DEFAULT_MEMO_SKILL,
-  DEFAULT_MEMO_TALENT: DEFAULT_MEMO_TALENT,
-
-  START_BASIC: START_BASIC,
-  START_SKILL: START_SKILL,
-  START_ULT: START_ULT,
-  START_FUA: START_FUA,
-  START_MEMO_SKILL: START_MEMO_SKILL,
-  START_MEMO_TALENT: START_MEMO_TALENT,
-
-  END_BASIC: END_BASIC,
-  END_SKILL: END_SKILL,
-  END_ULT: END_ULT,
-  END_FUA: END_FUA,
-  END_MEMO_SKILL: END_MEMO_SKILL,
-  END_MEMO_TALENT: END_MEMO_TALENT,
-
-  WHOLE_BASIC: WHOLE_BASIC,
-  WHOLE_SKILL: WHOLE_SKILL,
-  WHOLE_ULT: WHOLE_ULT,
-  WHOLE_FUA: WHOLE_FUA,
-  WHOLE_MEMO_SKILL: WHOLE_MEMO_SKILL,
-  WHOLE_MEMO_TALENT: WHOLE_MEMO_TALENT,
+for (const marker of markers) {
+  for (const kind of abilityKinds) {
+    const config = createAbilityConfig(kind, marker)
+    const abilityName = config.toString()
+    abilities[abilityName] = abilityName
+    abilityConfigs[abilityName] = config
+  }
 }
 
+export const {
+  // Default abilities
+  DEFAULT_BASIC,
+  DEFAULT_SKILL,
+  DEFAULT_ULT,
+  DEFAULT_FUA,
+  DEFAULT_MEMO_SKILL,
+  DEFAULT_MEMO_TALENT,
+
+  // Start turn abilities
+  START_BASIC,
+  START_SKILL,
+  START_ULT,
+  START_FUA,
+  START_MEMO_SKILL,
+  START_MEMO_TALENT,
+
+  // End turn abilities
+  END_BASIC,
+  END_SKILL,
+  END_ULT,
+  END_FUA,
+  END_MEMO_SKILL,
+  END_MEMO_TALENT,
+
+  // Whole turn abilities
+  WHOLE_BASIC,
+  WHOLE_SKILL,
+  WHOLE_ULT,
+  WHOLE_FUA,
+  WHOLE_MEMO_SKILL,
+  WHOLE_MEMO_TALENT,
+} = abilities
+
+export const AbilityNameToConfig: Record<string, TurnAbilityConfig> = abilityConfigs
+
 export function isStartTurnAbility(ability: TurnAbility): boolean {
-  return ability.marker === TurnMarker.START
+  return ability.startsWith(`${TurnMarker.START}_`)
 }
 
 export function isEndTurnAbility(ability: TurnAbility): boolean {
-  return ability.marker === TurnMarker.END
+  return ability.startsWith(`${TurnMarker.END}_`)
 }
 
 export function isWholeTurnAbility(ability: TurnAbility): boolean {
-  return ability.marker === TurnMarker.WHOLE
+  return ability.startsWith(`${TurnMarker.WHOLE}_`)
 }
 
 export function isDefaultAbility(ability: TurnAbility): boolean {
-  return ability.marker === TurnMarker.DEFAULT
+  return ability.startsWith(`${TurnMarker.DEFAULT}_`)
 }
 
-export function getBaseAbility(ability: TurnAbility): AbilityKind {
+export function getAbilityKind(ability: TurnAbility): AbilityKind {
   if (!ability) return AbilityKind.NULL
-  return ability.kind
+  const config = AbilityNameToConfig[ability]
+  return config ? config.kind : AbilityKind.NULL
 }
 
-export function getBaseAbilityFromString(abilityString: string): AbilityKind {
-  if (!abilityString) return AbilityKind.NULL
-  return AbilityNameToTurnAbility[abilityString].kind
+export function getVisualTurn(ability: TurnAbility): string {
+  const config = AbilityNameToConfig[ability]
+  return config ? config.toVisual() : ability
 }
 
-export const ALL_ABILITIES = [
-  AbilityKind.BASIC,
-  AbilityKind.SKILL,
-  AbilityKind.ULT,
-  AbilityKind.FUA,
-  AbilityKind.MEMO_SKILL,
-  AbilityKind.MEMO_TALENT,
-] as const
+export const ALL_ABILITIES = abilityKinds
+
+export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker.DEFAULT): TurnAbility {
+  if (kind === AbilityKind.NULL) {
+    return NULL_TURN_ABILITY
+  }
+
+  return `${marker}_${kind}`
+}

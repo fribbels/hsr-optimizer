@@ -4,6 +4,7 @@ import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } 
 import {
   A_GROUNDED_ASCENT,
   BLACK_SWAN,
+  BOOTHILL,
   FIREFLY,
   FLOWING_NIGHTGLOW,
   HUOHUO,
@@ -17,6 +18,7 @@ import {
   REFORGED_REMEMBRANCE,
   ROBIN,
   RUAN_MEI,
+  SAILING_TOWARDS_A_SECOND_LIFE,
   SCENT_ALONE_STAYS_TRUE,
   STELLE_HARMONY,
   STELLE_REMEMBRANCE,
@@ -43,7 +45,7 @@ test('Kafka benchmark 0', async () => {
       stats: testStatSpread(),
     }),
     2362779.75,
-    2724628.75,
+    2704018,
   )
 })
 
@@ -133,5 +135,22 @@ test('The herta benchmark 100 err', async () => {
     }),
     2608734.5,
     3268191,
+  )
+})
+
+test('Boothill benchmark 0', async () => {
+  await expectBenchmarkResultsToMatch(
+    0,
+    generateE6S5Test({
+      character: testCharacter(BOOTHILL, SAILING_TOWARDS_A_SECOND_LIFE),
+      teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations, Sets.TaliaKingdomOfBanditry),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    5680565,
+    6718506,
   )
 })

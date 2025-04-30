@@ -66,6 +66,8 @@ export function simulateBuild(
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
+    action.conditionalState = {}
+
     x.setPrecompute(action.precomputedX.a)
     if (x.a[Key.MEMOSPRITE]) {
       m.setPrecompute(action.precomputedM.a)
@@ -76,14 +78,13 @@ export function simulateBuild(
       m.tracePrecompute(action.precomputedM)
     }
 
-    const a = x.a
-
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
     calculateDamage(x, action, context)
 
+    const a = x.a
     if (action.actionType === 'BASIC') {
       combo += a[Key.BASIC_DMG]
     } else if (action.actionType === 'SKILL') {

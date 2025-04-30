@@ -30,7 +30,7 @@ export function DamageUpgrades(props: {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
   const analysis = props.analysis
   // @ts-ignore
-  if (Object.values(analysis.newRelics).some((relic) => relic.set == -1)) {
+  if (Object.values(analysis.newRelics).some((relic) => relic.set == -1 || relic.set == '')) {
     return <></>
   }
 

@@ -260,7 +260,9 @@ export class BenchmarkSimulationOrchestrator {
     // Set the combat SPD target to the outcome of the forced result
     this.benchmarkCombatSpdTarget = forcedSpdSimResult.xa[Key.SPD]
 
-    if (force) {
+    if (this.flags.characterPoetActive) {
+      this.originalSimResult = originalSimResult
+    } else if (force || inputSpdBenchmark != null) {
       this.originalSimResult = forcedSpdSimResult
     } else {
       this.originalSimResult = originalSimResult

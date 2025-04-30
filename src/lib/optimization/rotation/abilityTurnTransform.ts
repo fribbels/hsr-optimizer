@@ -1,4 +1,4 @@
-import { AbilityKind, createAbility, getAbilityKind, isEndTurnAbility, isStartTurnAbility, isWholeTurnAbility, TurnAbility, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { AbilityKind, createAbility, isEndTurnAbility, isStartTurnAbility, isWholeTurnAbility, TurnAbility, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 type TurnState = {
@@ -48,7 +48,7 @@ export function preprocessAbilityTurnDefinitionCorrectness(input: TurnAbility[])
 
   const outputAbilities = generateFinalSequence(state)
 
-  // console.log(JSON.stringify(outputAbilities, null, 2))
+  // console.log(outputAbilities)
   return outputAbilities
 }
 
@@ -81,7 +81,7 @@ function annotateTurnBoundaries(state: TurnState): void {
  */
 function normalizeAbilities(state: TurnState): void {
   state.normalizedAbilities = state.originalAbilities.map((ability) =>
-    createAbility(getAbilityKind(ability), TurnMarker.DEFAULT),
+    createAbility(ability.kind, TurnMarker.DEFAULT),
   )
 }
 
@@ -197,7 +197,7 @@ function annotateOrphanedBasicSkill(state: TurnState): void {
   const { normalizedAbilities, turnStarts, turnEnds, inTurn } = state
 
   for (let i = 0; i < normalizedAbilities.length; i++) {
-    if (!inTurn[i] && (getAbilityKind(normalizedAbilities[i]) === AbilityKind.BASIC || getAbilityKind(normalizedAbilities[i]) === AbilityKind.SKILL)) {
+    if (!inTurn[i] && (normalizedAbilities[i].kind === AbilityKind.BASIC || normalizedAbilities[i].kind === AbilityKind.SKILL)) {
       turnStarts[i] = true
       turnEnds[i] = true
     }
@@ -216,7 +216,7 @@ function dissolveTurnsWithoutBasicOrSkill(state: TurnState): void {
 
     for (let i = range.start; i <= range.end; i++) {
       const ability = normalizedAbilities[i]
-      if (getAbilityKind(ability) === AbilityKind.BASIC || getAbilityKind(ability) === AbilityKind.SKILL) {
+      if (ability.kind === AbilityKind.BASIC || ability.kind === AbilityKind.SKILL) {
         hasBasicOrSkill = true
         break
       }
@@ -249,7 +249,7 @@ function extendTurnsForOrphanedUlts(state: TurnState): void {
       // Stop if we hit another turn's start
       if (turnStarts[i]) break
 
-      if (getAbilityKind(normalizedAbilities[i]) === AbilityKind.ULT) {
+      if (normalizedAbilities[i].kind === AbilityKind.ULT) {
         // Extend turn to include this ULT
         turnStarts[i] = true
         turnStarts[range.start] = false
@@ -272,7 +272,7 @@ function generateFinalSequence(state: TurnState): TurnAbility[] {
 
   for (let i = 0; i < normalizedAbilities.length; i++) {
     const ability = normalizedAbilities[i]
-    const kind = getAbilityKind(ability)
+    const kind = ability.kind
 
     if (turnStarts[i] && turnEnds[i]) {
       result.push(createAbility(kind, TurnMarker.WHOLE))

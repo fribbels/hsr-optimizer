@@ -6,7 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { NULL_TURN_ABILITY, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { getBaseAbilityFromString, NULL_TURN_ABILITY, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
@@ -31,10 +31,10 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 }
 
 function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
-  const comboAbilities = getComboAbilities(request)
+  const turnAbilities = getComboAbilities(request)
   const actions: OptimizerAction[] = []
-  for (let i = 0; i < comboAbilities.length; i++) {
-    actions.push(transformAction(i, comboState, comboAbilities, request, context))
+  for (let i = 0; i < turnAbilities.length; i++) {
+    actions.push(transformAction(i, comboState, turnAbilities, request, context))
   }
 
   const characterConditionalController = CharacterConditionalsResolver.get(context)
@@ -46,7 +46,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
-function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], request: OptimizerForm, context: OptimizerContext) {
+function transformAction(actionIndex: number, comboState: ComboState, turnAbilities: string[], request: OptimizerForm, context: OptimizerContext) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},
@@ -67,7 +67,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   } as OptimizerAction
   action.actorId = context.characterId
   action.actionIndex = actionIndex
-  action.actionType = comboAbilities[actionIndex]
+  action.actionType = getBaseAbilityFromString(turnAbilities[actionIndex])
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
@@ -288,7 +288,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
 }
 
 function getComboAbilities(form: OptimizerForm) {
-  const comboTurnAbilities = form.comboTurnAbilities
+  const comboTurnAbilities = form.comboTurnAbilities ?? [] // TODO: This should go into default form
   const newComboAbilities: TurnAbility[] = [NULL_TURN_ABILITY]
 
   for (let i = 1; i <= 8; i++) {

@@ -15,32 +15,36 @@ export enum TurnMarker {
   WHOLE = 'WHOLE',
 }
 
-// Define TurnAbilityName as a string literal type
+// Define TurnAbilityName as a single template literal type
 export type TurnAbilityName =
-  | `${TurnMarker.DEFAULT}_${Exclude<AbilityKind, AbilityKind.NULL>}`
-  | `${TurnMarker.START}_${Exclude<AbilityKind, AbilityKind.NULL>}`
-  | `${TurnMarker.END}_${Exclude<AbilityKind, AbilityKind.NULL>}`
-  | `${TurnMarker.WHOLE}_${Exclude<AbilityKind, AbilityKind.NULL>}`
+  | `${TurnMarker}_${Exclude<AbilityKind, AbilityKind.NULL>}`
   | 'NULL_NULL'
 
-// Simple TurnAbility interface - just data, no methods
+// Simple TurnAbility interface with a name field
 export interface TurnAbility {
   kind: AbilityKind
   marker: TurnMarker
+  name: TurnAbilityName
 }
 
 // Null ability placeholder
 export const NULL_TURN_ABILITY: TurnAbility = {
   kind: AbilityKind.NULL,
   marker: TurnMarker.DEFAULT,
+  name: 'NULL_NULL',
 }
 
 // Helper function to create an ability
-export function createAbility(kind: AbilityKind, marker: TurnMarker = TurnMarker.DEFAULT): TurnAbility {
-  return { kind, marker }
+export function createAbility(kind: AbilityKind, marker: TurnMarker): TurnAbility {
+  if (kind === AbilityKind.NULL) {
+    return NULL_TURN_ABILITY
+  }
+
+  const name = `${marker}_${kind}` as TurnAbilityName
+  return { kind, marker, name }
 }
 
-// Helper functions for visualization and conversion
+// Helper functions for visualization
 export function toVisual(ability: TurnAbility): string {
   if (!ability) return ''
 
@@ -56,13 +60,8 @@ export function toVisual(ability: TurnAbility): string {
   }
 }
 
-export function toString(ability: TurnAbility): TurnAbilityName {
-  if (!ability) return 'NULL_NULL' as TurnAbilityName
-  return `${ability.marker}_${ability.kind}` as TurnAbilityName
-}
-
-export function fromString(name: TurnAbilityName): TurnAbility {
-  if (name === 'NULL_NULL') return NULL_TURN_ABILITY
+export function turnAbilityFromName(name: TurnAbilityName): TurnAbility {
+  if (name === NULL_TURN_ABILITY.name) return NULL_TURN_ABILITY
 
   const [markerStr, kindStr] = name.split('_')
   return createAbility(kindStr as AbilityKind, markerStr as TurnMarker)
@@ -75,16 +74,13 @@ const abilityKinds = Object.values(AbilityKind)
 const markers = Object.values(TurnMarker) as readonly TurnMarker[]
 
 // Generate all abilities
-const abilities: Record<string, TurnAbility> = {}
-const abilityNames: Record<string, TurnAbilityName> = {}
+const abilities: Record<TurnAbilityName, TurnAbility> = {} as Record<TurnAbilityName, TurnAbility>
 
 // Map from ability name to corresponding ability object
 for (const marker of markers) {
   for (const kind of abilityKinds) {
     const ability = createAbility(kind, marker)
-    const name = toString(ability)
-    abilities[name] = ability
-    abilityNames[name] = name
+    abilities[ability.name] = ability
   }
 }
 
@@ -123,9 +119,6 @@ export const {
   WHOLE_MEMO_TALENT,
 } = abilities
 
-// Export all ability names
-export const ABILITY_NAMES = abilityNames
-
 // Helper functions
 export function isStartTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.START
@@ -143,28 +136,22 @@ export function isDefaultAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.DEFAULT
 }
 
-export function getBaseAbility(ability: TurnAbility): AbilityKind {
+export function getAbilityKind(ability: TurnAbility): AbilityKind {
   if (!ability) return AbilityKind.NULL
   return ability.kind
 }
 
-export function getBaseAbilityFromString(abilityString: TurnAbilityName): AbilityKind {
-  if (!abilityString) return AbilityKind.NULL
-  const ability = abilities[abilityString]
-  return ability ? ability.kind : AbilityKind.NULL
+export function getAbilityName(ability: TurnAbility): TurnAbilityName {
+  if (!ability) return 'NULL_NULL'
+  return ability.name
 }
 
+// Utility functions for array handling with abilities
 export function stringifyAbilityArray(abilityArray: TurnAbility[]): string {
-  return abilityArray.map((ability) => toString(ability)).join(',')
+  return abilityArray.map((ability) => ability.name).join(',')
 }
 
 export function compareAbilityArrays(array1: TurnAbility[], array2: TurnAbility[]): boolean {
   if (array1.length !== array2.length) return false
   return stringifyAbilityArray(array1) === stringifyAbilityArray(array2)
 }
-
-// Export all ability kinds
-export const ALL_ABILITIES = abilityKinds
-
-// Export the mapping for lookups
-export const AbilityNameToTurnAbility: Record<TurnAbilityName, TurnAbility> = abilities as Record<TurnAbilityName, TurnAbility>

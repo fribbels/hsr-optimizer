@@ -1,5 +1,4 @@
 import { Sets } from 'lib/constants/constants'
-import { getBaseAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
 
@@ -33,7 +32,7 @@ export function precomputeConditionalActivations(comboState: ComboState, request
 
   for (let i = 1; i < comboState.comboTurnAbilities.length; i++) {
     const turnAbility = comboState.comboTurnAbilities[i]
-    comboState.comboAbilities[i] = getBaseAbility(turnAbility)
+    comboState.comboAbilities[i] = turnAbility.kind
   }
 }
 

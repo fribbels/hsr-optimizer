@@ -15,26 +15,22 @@ export enum TurnMarker {
   WHOLE = 'WHOLE',
 }
 
-// Define TurnAbilityName as a single template literal type
 export type TurnAbilityName =
   | `${TurnMarker}_${Exclude<AbilityKind, AbilityKind.NULL>}`
   | 'NULL_NULL'
 
-// Simple TurnAbility interface with a name field
 export interface TurnAbility {
   kind: AbilityKind
   marker: TurnMarker
   name: TurnAbilityName
 }
 
-// Null ability placeholder
 export const NULL_TURN_ABILITY: TurnAbility = {
   kind: AbilityKind.NULL,
   marker: TurnMarker.DEFAULT,
   name: 'NULL_NULL',
 }
 
-// Helper function to create an ability
 export function createAbility(kind: AbilityKind, marker: TurnMarker): TurnAbility {
   if (kind === AbilityKind.NULL) {
     return NULL_TURN_ABILITY
@@ -44,17 +40,16 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker): TurnAbilit
   return { kind, marker, name }
 }
 
-// Helper functions for visualization
 export function toVisual(ability: TurnAbility): string {
   if (!ability) return ''
 
   switch (ability.marker) {
     case TurnMarker.START:
-      return `(${ability.kind}`
+      return `[ ${ability.kind}`
     case TurnMarker.END:
-      return `${ability.kind})`
+      return `${ability.kind} ]`
     case TurnMarker.WHOLE:
-      return `(${ability.kind})`
+      return `[ ${ability.kind} ]`
     default:
       return ability.kind
   }
@@ -67,16 +62,13 @@ export function toTurnAbility(name: TurnAbilityName): TurnAbility {
   return createAbility(kindStr as AbilityKind, markerStr as TurnMarker)
 }
 
-// Generate all ability combinations
 const abilityKinds = Object.values(AbilityKind)
   .filter((kind) => kind !== AbilityKind.NULL) as readonly AbilityKind[]
 
 const markers = Object.values(TurnMarker) as readonly TurnMarker[]
 
-// Generate all abilities
 const abilities: Record<TurnAbilityName, TurnAbility> = {} as Record<TurnAbilityName, TurnAbility>
 
-// Map from ability name to corresponding ability object
 for (const marker of markers) {
   for (const kind of abilityKinds) {
     const ability = createAbility(kind, marker)
@@ -84,7 +76,6 @@ for (const marker of markers) {
   }
 }
 
-// Export all individual abilities
 export const {
   // Default abilities
   DEFAULT_BASIC,
@@ -119,7 +110,6 @@ export const {
   WHOLE_MEMO_TALENT,
 } = abilities
 
-// Helper functions
 export function isStartTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.START
 }
@@ -146,7 +136,6 @@ export function getAbilityName(ability: TurnAbility): TurnAbilityName {
   return ability.name
 }
 
-// Utility functions for array handling with abilities
 export function stringifyAbilityArray(abilityArray: TurnAbility[]): string {
   return abilityArray.map((ability) => ability.name).join(',')
 }

@@ -116,7 +116,7 @@ export type HsrOptimizerStore = {
   setOptimizerRunningEngine: (s: ComputeEngine) => void
   setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
   optimizerFormCharacterEidolon: number
-  optimizerFormSelectedLightCone: string | undefined
+  optimizerFormSelectedLightCone: LightCone['id'] | null | undefined
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void

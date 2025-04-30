@@ -90,11 +90,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
     if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
-    if (!x.name.toLowerCase().includes(currentFilters.name)) {
-      return false
-    }
-
-    return true
+    return x.name.toLowerCase().includes(currentFilters.name)
   }
 
   const handleClick = (id: LightCone['id']) => {

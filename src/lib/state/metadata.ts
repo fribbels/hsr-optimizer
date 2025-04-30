@@ -3929,16 +3929,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0.25,
-        [Constants.Stats.BE]: 0, /*
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 1,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0, */
+        [Constants.Stats.BE]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -3972,16 +3963,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0, /*
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 1,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0, */
+        [Constants.Stats.BE]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4079,16 +4061,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0, /*
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 1,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0, */
+        [Constants.Stats.BE]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4187,16 +4160,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0.50,
-        [Constants.Stats.BE]: 1, /*
-        [Constants.Stats.ERR]: 1,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 1,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0, */
+        [Constants.Stats.BE]: 1,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4242,16 +4206,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0, /*
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 1,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0, */
+        [Constants.Stats.BE]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4353,16 +4308,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0, /*
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 1, */
+        [Constants.Stats.BE]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -5180,16 +5126,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 0,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 1, /*
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0, */
+        [Constants.Stats.BE]: 1,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -5403,16 +5340,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.CD]: 1,
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0, /*
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 1,
-        [Constants.Stats.Imaginary_DMG]: 0, */
+        [Constants.Stats.BE]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [

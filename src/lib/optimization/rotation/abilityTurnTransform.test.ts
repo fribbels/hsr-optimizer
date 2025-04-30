@@ -1,4 +1,5 @@
 import {
+  compareAbilityArrays,
   DEFAULT_BASIC,
   DEFAULT_FUA,
   DEFAULT_MEMO_SKILL,
@@ -23,53 +24,57 @@ import { preprocessAbilityTurnDefinitionCorrectness } from 'lib/optimization/rot
 import { expect, test } from 'vitest'
 
 test('Anaxa annotated', () => {
-  expect(preprocessAbilityTurnDefinitionCorrectness(
-    [START_ULT, DEFAULT_SKILL, END_SKILL, START_SKILL, END_SKILL],
-  ).toString()).toEqual(
-    [START_ULT, DEFAULT_SKILL, END_SKILL, START_SKILL, END_SKILL].toString(),
-  )
+  expect(compareAbilityArrays(
+    preprocessAbilityTurnDefinitionCorrectness([
+      START_ULT, DEFAULT_SKILL, END_SKILL, START_SKILL, END_SKILL,
+    ]),
+    [
+      START_ULT, DEFAULT_SKILL, END_SKILL, START_SKILL, END_SKILL,
+    ],
+  )).toBeTruthy()
 })
 
 test('Anaxa unannotated', () => {
-  expect(preprocessAbilityTurnDefinitionCorrectness(
-    [DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
-  ).toString()).toEqual(
-    [START_ULT, END_SKILL, WHOLE_SKILL, WHOLE_SKILL, WHOLE_SKILL].toString(),
-  )
+  expect(compareAbilityArrays(
+    preprocessAbilityTurnDefinitionCorrectness([
+      DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL,
+    ]),
+    [
+      START_ULT, END_SKILL, WHOLE_SKILL, WHOLE_SKILL, WHOLE_SKILL,
+    ],
+  )).toBeTruthy()
 })
 
 test('Complex invalid rotation', () => {
-  expect(preprocessAbilityTurnDefinitionCorrectness(
-    [
+  expect(compareAbilityArrays(
+    preprocessAbilityTurnDefinitionCorrectness([
       DEFAULT_FUA, END_SKILL, DEFAULT_MEMO_SKILL, START_ULT, DEFAULT_FUA, START_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_ULT,
       END_BASIC, DEFAULT_FUA, START_BASIC, DEFAULT_SKILL, END_ULT, START_ULT, END_SKILL, WHOLE_MEMO_SKILL,
       WHOLE_FUA, END_BASIC, DEFAULT_BASIC, START_SKILL, DEFAULT_ULT, DEFAULT_MEMO_SKILL, START_BASIC, DEFAULT_FUA, END_FUA,
       DEFAULT_SKILL, DEFAULT_SKILL, START_BASIC, DEFAULT_SKILL, END_BASIC, END_ULT, START_SKILL,
-    ],
-  ).toString()).toEqual(
+    ]),
     [
       START_FUA, END_SKILL, DEFAULT_MEMO_SKILL, START_ULT, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_ULT,
       END_BASIC, DEFAULT_FUA, START_BASIC, DEFAULT_SKILL, END_ULT, START_ULT, END_SKILL, DEFAULT_MEMO_SKILL,
       DEFAULT_FUA, WHOLE_BASIC, WHOLE_BASIC, WHOLE_SKILL, START_ULT, DEFAULT_MEMO_SKILL, DEFAULT_BASIC, DEFAULT_FUA, END_FUA,
       WHOLE_SKILL, WHOLE_SKILL, START_BASIC, DEFAULT_SKILL, END_BASIC, START_ULT, END_SKILL,
-    ].toString(),
-  )
+    ],
+  )).toBeTruthy()
 })
 
 test('Complex invalid rotation 2', () => {
-  expect(preprocessAbilityTurnDefinitionCorrectness(
-    [
+  expect(compareAbilityArrays(
+    preprocessAbilityTurnDefinitionCorrectness([
       END_ULT, START_ULT, START_SKILL, DEFAULT_ULT, END_BASIC, START_SKILL, DEFAULT_MEMO_SKILL, END_ULT, WHOLE_FUA,
       WHOLE_MEMO_TALENT, DEFAULT_ULT, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_ULT, START_BASIC, END_SKILL, DEFAULT_SKILL, START_ULT,
       DEFAULT_MEMO_TALENT, DEFAULT_MEMO_SKILL, END_BASIC, DEFAULT_ULT, START_SKILL, END_ULT, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_FUA,
       DEFAULT_BASIC, START_ULT, START_SKILL, DEFAULT_SKILL, END_ULT, END_BASIC, START_FUA,
-    ],
-  ).toString()).toEqual(
+    ]),
     [
       START_ULT, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_ULT, END_BASIC, START_SKILL, DEFAULT_MEMO_SKILL, END_ULT, DEFAULT_FUA, DEFAULT_MEMO_TALENT,
       START_ULT, DEFAULT_ULT, END_BASIC, START_ULT, DEFAULT_BASIC, END_SKILL, WHOLE_SKILL, START_ULT, DEFAULT_MEMO_TALENT,
       DEFAULT_MEMO_SKILL, END_BASIC, START_ULT, DEFAULT_SKILL, END_ULT, WHOLE_SKILL, START_ULT, DEFAULT_FUA, END_BASIC,
       START_ULT, DEFAULT_SKILL, DEFAULT_SKILL, END_ULT, WHOLE_BASIC, DEFAULT_FUA,
-    ].toString(),
-  )
+    ],
+  )).toBeTruthy()
 })

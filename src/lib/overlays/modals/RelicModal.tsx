@@ -520,9 +520,9 @@ function SubstatInput(props: {
   const inputRef = useRef<InputRef>(null)
   const [hovered, setHovered] = React.useState(false)
   /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
-  const statTypeField = `substatType${props.index}` as `substatType${0 | 1 | 2 | 3}`
+  const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
   /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
-  const statValueField = `substatValue${props.index}` as `substatValue${0 | 1 | 2 | 3}`
+  const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
 
   const handleFocus = () => {

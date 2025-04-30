@@ -476,7 +476,6 @@ export const DB = {
   setStore: (saveData: HsrOptimizerSaveFormat, autosave = true) => {
     const charactersById: Record<string, Character> = {}
     const dbCharacters = DB.getMetadata().characters
-    const dbLightCones = DB.getMetadata().lightCones
 
     // Remove invalid characters
     saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
@@ -755,8 +754,6 @@ export const DB = {
       console.log('Saved build', DB.getState())
     }
   },
-
-  overwriteCharacterBuild: (characterId: CharacterId, name: string) => {},
 
   deleteCharacterBuild: (characterId: CharacterId, name: string) => {
     const character = DB.getCharacterById(characterId)
@@ -1221,10 +1218,10 @@ function setRelic(relic: Relic) {
   window.store.getState().setRelicsById(relicsById)
 }
 
-function deduplicateStringArray<T>(arr: T[]): T[] {
+function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   if (arr == null) return arr
 
-  return [...new Set(arr)]
+  return [...new Set(arr)] as T
 }
 
 function indexRelics(arr: Relic[]) {

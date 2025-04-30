@@ -65,7 +65,7 @@ export function ScannerImportSubmenu() {
 
       if (json.data) {
         // Hoyolab import
-        const out = hoyolabParser(json as HoyolabData)
+        const out = hoyolabParser(json)
         const relics = out.relics as Relic[]
         let characters = out.characters
         // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural

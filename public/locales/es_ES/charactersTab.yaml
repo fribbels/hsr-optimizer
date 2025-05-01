@@ -1,22 +1,14 @@
 ScreenshotMessages:
   ScreenshotSuccess: Captura de pantalla copiada al portapapeles
-  ScreenshotFailed: No se puede copiar la captura de pantalla en el portapapeles, intenta descargando la imagen con el botón a la derecha
   DownloadSuccess: Captura de pantalla descargada
 CharacterMenu:
-  ButtonText: Menú del Personaje
   Character:
     Label: Personaje
     Options:
       Add: Añadir nuevo personaje
-      Edit: Editar personaje / Cono de luz
       Switch: Cambiar artefactos con
       Unequip: Desequipar personaje
       Delete: Eliminar personaje
-  Build:
-    Label: Builds
-    Options:
-      Save: Guardar build actual
-      View: Ver builds guardadas
   Scoring:
     Label: Puntuación
     Options:
@@ -28,18 +20,12 @@ CharacterMenu:
       MoveToTop: Mover al personaje al inicio
 SearchPlaceholder: Buscar
 GridHeaders:
-  Icon: Icono
   Priority: Prioridad
   Character: Personaje
 Messages:
   RemoveSuccess: Personaje eliminado con éxito
   UnequipSuccess: Personaje desequipado con éxito
-  NoSelectedCharacter: Ningún personaje seleccionado
   SwitchSuccess: "Artefactos cambiados con éxito con $t(gameData:Characters.{{charId}}.Name)"
-  SortByScoreWarning: '¿Estás seguro de que quieres ordenar todos los personajes? Perderás cualquier clasificación personalizada que hayas establecido.'
-  SaveSuccess: "Build guardada con éxito: {{name}}"
-  UnequipWarning: "¿Estás seguro de que quieres desequipar a $t(gameData:Characters.{{charId}}.Name)?"
-  DeleteWarning: "¿Estás seguro de que quieres eliminar a $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
   CustomizationSidebar:
     Label: Personalización
@@ -48,42 +34,22 @@ CharacterPreview:
       Custom: Personalizado
       Standard: Estándar
     PaletteLabel: Paleta de color del retrato
-  ArtBy: "Arte hecho por {{artistName}}"
   EditCharacter: Editar personaje
   EditPortrait: Editar imagen
   CharacterScore: "Puntuación del personaje: {{score}} {{grade}}"
   Messages:
     AddedRelic: Artefacto añadido con éxito
-    SavedPortrait: Imagen guardada con éxito
-    RevertedPortrait: Imagen revertida con éxito
-    NoSelectedCharacter: Ningún personaje seleccionado
   ScoreHeader:
     Title: Simulador de combate
-    Score: "Puntuación de DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Algoritmo de puntuación:"
     Labels:
       CombatScore: Puntuación de combate
-      StatScore: Puntuación de estadísticas
-  DetailsSlider:
-    Labels:
-      CombatStats: Estadísticas de combate
   DMGUpgrades: Mejoras de daño
-  SubstatUpgradeComparisons:
-    Header: Comparación de mejoras de sub estadísticas
   BuildAnalysis:
-    SimulationTeammates: Simulación de compañeros
-    SimulationSets: Simulación de sets
     Rotation:
-      Header: Daño por rotación
-      BASIC: ATQ básico
-      SKILL: Habilidad básica
-      ULT: Habilidad definitiva
-      FUA: Ataque adicional
-      DOTS: "DOTS:"
       BREAKS: "RUPTURAS:"
     CombatResults:
-      Header: Resultado del daño de combate
       Primary: "Habilidad principal:"
       Character: "Daño del personaje:"
       Benchmark: "Daño de Benchmark"

@@ -19,6 +19,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 import { Relic, Stat } from 'types/relic'
@@ -240,10 +241,10 @@ export function overwriteStatSimulationBuild() {
   }, 0)
 }
 
-export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {
+export function deleteStatSimulationBuild(record: { key: React.Key }) {
   console.log('Delete sim', record)
   const statSims = window.store.getState().statSimulations
-  const updatedSims: Simulation[] = Utils.clone(statSims.filter((x) => x.key != record.key))
+  const updatedSims = TsUtils.clone(statSims.filter((x) => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
@@ -286,7 +287,7 @@ export function startOptimizerStatSimulation() {
   calculateCurrentlyEquippedRow(form)
   optimizerGridApi().updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
-  const sortOption = SortOption[form.resultSort as keyof typeof SortOption]
+  const sortOption = SortOption[form.resultSort!]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
 

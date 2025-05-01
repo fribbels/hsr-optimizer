@@ -1,4 +1,4 @@
-import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
+import { Flex, Form as AntdForm, InputNumber, Slider, Typography } from 'antd'
 import { getItemName } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import WithPopover from 'lib/ui/WithPopover'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -44,11 +44,15 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
 
   // Update the min and max values of the slider if eidolons change their bounds.
   useEffect(() => {
+    // @ts-ignore fixing this would involve a large amount of typing across the entire combo pipeline
+    // e.g. replacing usage of string|number with a more explicit/restrained types TODO?
     const fieldValue = window.optimizerForm.getFieldValue(itemName)
     if (fieldValue >= props.max || fieldValue == maxRef.current) {
+      // @ts-ignore
       window.optimizerForm.setFieldValue(itemName, props.max)
     }
     if (fieldValue <= props.min || fieldValue == minRef.current) {
+      // @ts-ignore
       window.optimizerForm.setFieldValue(itemName, props.min)
     }
 
@@ -119,9 +123,9 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
             props.removeForm
               ? internalInputNumber
               : (
-                <Form.Item name={itemName}>
+                <AntdForm.Item name={itemName}>
                   {internalInputNumber}
-                </Form.Item>
+                </AntdForm.Item>
               )
           }
         </div>
@@ -135,9 +139,9 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
           props.removeForm
             ? internalSlider
             : (
-              <Form.Item name={itemName}>
+              <AntdForm.Item name={itemName}>
                 {internalSlider}
-              </Form.Item>
+              </AntdForm.Item>
             )
         }
         <Text

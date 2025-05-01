@@ -2,11 +2,12 @@ import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Set
 import DB from 'lib/state/db'
 import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { Form, Teammate } from 'types/form'
 
 // FIXME HIGH
 
-export function getDefaultWeights(characterId?: string) {
+export function getDefaultWeights(characterId?: string): Form['weights'] {
   if (characterId) {
     const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
     scoringMetadata.stats.headHands = 0
@@ -19,7 +20,6 @@ export function getDefaultWeights(characterId?: string) {
     [Constants.Stats.HP_P]: 1,
     [Constants.Stats.ATK_P]: 1,
     [Constants.Stats.DEF_P]: 1,
-    [Constants.Stats.SPD_P]: 1,
     [Constants.Stats.HP]: 1,
     [Constants.Stats.ATK]: 1,
     [Constants.Stats.DEF]: 1,
@@ -35,13 +35,13 @@ export function getDefaultWeights(characterId?: string) {
   }
 }
 
-export function getDefaultForm(initialCharacter: { id: string }) {
+export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   // TODO: Clean this up
   const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
   const parts = scoringMetadata?.parts || {}
   const weights = scoringMetadata?.stats || getDefaultWeights()
 
-  const combatBuffs = {}
+  const combatBuffs = {} as Record<typeof CombatBuffs[keyof typeof CombatBuffs]['key'], number>
   Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
 
   const defaultForm: Partial<Form> = TsUtils.clone({

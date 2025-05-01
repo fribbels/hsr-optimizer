@@ -11,7 +11,7 @@ export function generateCharacterOptions() {
 
   for (const value of Object.values(characterData)) {
     value.value = value.id
-    value.label = t(`${value.id}.LongName` as never)
+    value.label = t(`${value.id}.LongName`)
   }
 
   return Object.values(characterData)
@@ -31,7 +31,7 @@ export function generateLightConeOptions(characterId?: CharacterId) {
 
   for (const value of Object.values(lcData)) {
     value.value = value.id
-    value.label = t(`${value.id}.Name` as never)
+    value.label = t(`${value.id}.Name`)
   }
 
   return Object.values(lcData)

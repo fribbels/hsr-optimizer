@@ -20,11 +20,11 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { CSSProperties, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 
 export function ShowcaseDpsScorePanel(props: {
-  characterId: string
+  characterId: CharacterId
   token: GlobalToken
   asyncSimScoringExecution: AsyncSimScoringExecution
   teamSelection: string

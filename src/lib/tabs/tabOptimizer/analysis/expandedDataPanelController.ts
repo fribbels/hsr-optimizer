@@ -15,6 +15,7 @@ import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { OptimizerForm } from 'types/form'
 
 export type OptimizerResultAnalysis = {
@@ -100,7 +101,7 @@ export function getPinnedRowData() {
   return currentPinned && currentPinned.length ? currentPinned[0] : null
 }
 
-export function mismatchedCharacter(optimizerTabFocusCharacter?: string, form?: OptimizerForm) {
+export function mismatchedCharacter(optimizerTabFocusCharacter?: CharacterId | null, form?: OptimizerForm) {
   return form?.characterId != optimizerTabFocusCharacter
 }
 

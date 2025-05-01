@@ -6,27 +6,7 @@ import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
-import {
-  ComboBooleanConditional,
-  ComboCharacter,
-  ComboConditionalCategory,
-  ComboConditionals,
-  ComboNumberConditional,
-  ComboSelectConditional,
-  ComboState,
-  ComboSubNumberConditional,
-  ComboTeammate,
-  initializeComboState,
-  locateActivations,
-  updateAbilityRotation,
-  updateActivation,
-  updateAddPartition,
-  updateDeletePartition,
-  updateFormState,
-  updateNumberDefaultSelection,
-  updatePartitionActivation,
-  updateSelectedSets,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -527,9 +507,7 @@ function ComboConditionalsGroupRow(props: {
           formItem: 'switch',
           disabled: disabled,
           id: setName,
-          name: setName,
           text: t(`${setToId[setName]}.Name`),
-          title: '',
           content: t(`${setToId[setName]}.Name`),
         }]
       } else if (category.type == ConditionalDataType.NUMBER) {
@@ -537,9 +515,7 @@ function ComboConditionalsGroupRow(props: {
           formItem: 'slider',
           disabled: disabled,
           id: setName,
-          name: setName,
           text: t(`${setToId[setName]}.Name`),
-          title: '',
           content: t(`${setToId[setName]}.Name`),
           min: 0,
           max: 10,
@@ -549,16 +525,14 @@ function ComboConditionalsGroupRow(props: {
           formItem: 'select',
           disabled: disabled,
           id: setName,
-          name: setName,
           text: t(`${setToId[setName]}.Name`),
-          title: '',
           content: t(`${setToId[setName]}.Name`),
           options: setContent[setName],
         }]
       } else {
         return null
       }
-      src = Assets.getSetImage(setName, null, true)
+      src = Assets.getSetImage(setName, undefined, true)
       conditionals = comboCharacter.setConditionals
     } else if (props.originKey.includes('RelicSet')) {
       const keys = Object.keys(comboTeammate.relicSetConditionals)
@@ -568,13 +542,11 @@ function ComboConditionalsGroupRow(props: {
           {
             formItem: 'switch',
             id: setName,
-            name: setName,
             text: setName,
-            title: setName,
             content: setName,
           },
         ]
-        src = Assets.getSetImage(setName, null, true)
+        src = Assets.getSetImage(setName, undefined, true)
         conditionals = comboTeammate.relicSetConditionals
       } else {
         return null
@@ -587,13 +559,11 @@ function ComboConditionalsGroupRow(props: {
           {
             formItem: 'switch',
             id: setName,
-            name: setName,
             text: setName,
-            title: setName,
             content: setName,
           },
         ]
-        src = Assets.getSetImage(setName, null, true)
+        src = Assets.getSetImage(setName, undefined, true)
         conditionals = comboTeammate.ornamentSetConditionals
       } else {
         return null
@@ -895,7 +865,6 @@ function BooleanSwitch(props: {
           // @ts-ignore
           <FormSwitchWithPopover
             {...contentItem}
-            name={contentItem.id}
             title={contentItem.text}
             teammateIndex={getTeammateIndex(props.sourceKey)}
             content={ColorizeNumbers(contentItem.content)}
@@ -934,7 +903,6 @@ function NumberSlider(props: {
           <FormSliderWithPopover
             key={props.value + props.partitionIndex}
             {...contentItem}
-            name={contentItem.id}
             title={contentItem.text}
             content={ColorizeNumbers(contentItem.content)}
             teammateIndex={getTeammateIndex(props.sourceKey)}
@@ -975,7 +943,6 @@ function NumberSelect(props: {
     <Flex style={{ width: 275, marginRight: 10 }} align='center' gap={5}>
       <FormSelectWithPopover
         {...contentItem}
-        name={contentItem.id}
         title={contentItem.text}
         teammateIndex={getTeammateIndex(props.sourceKey)}
         content={ColorizeNumbers(contentItem.content)}

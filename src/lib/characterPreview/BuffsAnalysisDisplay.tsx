@@ -1,7 +1,7 @@
 import { Flex, Table } from 'antd'
 import i18next from 'i18next'
 import { Sets, setToId } from 'lib/constants/constants'
-import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
@@ -146,16 +146,16 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
     const bool = StatsConfig[stat].bool
     const statLabel = translatedLabel(stat, buff.memo)
 
-    let sourceLabel
+    let sourceLabel: string
     switch (buff.source.buffType) {
       case BUFF_TYPE.CHARACTER:
-        sourceLabel = tOptimizerTab(`Sources.${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
+        sourceLabel = tOptimizerTab(`Sources.${buff.source.ability}`)
         break
       case BUFF_TYPE.LIGHTCONE:
-        sourceLabel = tGameData(`Lightcones.${buff.source.id}.Name` as never)
+        sourceLabel = tGameData(`Lightcones.${buff.source.id}.Name`)
         break
       case BUFF_TYPE.SETS:
-        sourceLabel = tGameData(`RelicSets.${setToId[Sets[buff.source.id as keyof typeof Sets]]}.Name`)
+        sourceLabel = tGameData(`RelicSets.${setToId[Sets[buff.source.id]]}.Name`)
         break
       default:
         sourceLabel = buff.source.label

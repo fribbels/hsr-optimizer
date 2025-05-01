@@ -1,5 +1,5 @@
 import { SetsOrnaments, SetsRelics } from 'lib/constants/constants'
-import { TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
@@ -92,8 +92,8 @@ export type Form = {
 
   // Combo
   comboStateJson: string
-  comboAbilities: string[]
-  comboTurnAbilityPath: [TurnMarker, TurnAbilityName][]
+  comboAbilities: AbilityKind[]
+  comboTurnAbilities: TurnAbilityName[]
   comboType: string
   comboDot: number
   comboBreak: number

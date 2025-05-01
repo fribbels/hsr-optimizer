@@ -1,7 +1,7 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
-import { ALL_ABILITIES, createAbility, NULL_TURN_ABILITY, toTurnAbility, toVisual, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { ALL_ABILITIES, createAbility, NULL_TURN_ABILITY, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
 const { SHOW_CHILD } = Cascader
 
@@ -42,10 +42,17 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
   const options = useMemo(() => generateOptions(), [])
 
   return (
-    <Form.Item name={formName} noStyle>
+    <Form.Item
+      name={formName}
+      getValueFromEvent={(value: [TurnMarker, TurnAbilityName]) => value?.[1] || null}
+      getValueProps={(value: TurnAbilityName) => ({
+        value: value ? [findMarkerForAbility(value), value] : undefined,
+      })}
+      noStyle
+    >
       <Cascader
         options={options}
-        displayRender={([category, abilityType]) => abilityType}
+        displayRender={([, abilityType]) => abilityType}
         expandTrigger='hover'
         placeholder='Ability'
         showCheckedStrategy={SHOW_CHILD}
@@ -57,14 +64,26 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
   )
 }
 
-export function ControlledTurnAbilitySelector({ index, value }: { index: number; value: TurnAbility }) {
+// Helper function to find the marker for a given ability name
+function findMarkerForAbility(abilityName: TurnAbilityName): TurnMarker {
+  for (const marker of Object.values(TurnMarker)) {
+    const ability = ALL_ABILITIES.find((a) => {
+      const fullAbility = createAbility(a, marker)
+      return fullAbility.name === abilityName
+    })
+    if (ability) return marker
+  }
+  return TurnMarker.DEFAULT
+}
+
+export function ControlledTurnAbilitySelector({ index, value }: { index: number; value: TurnAbilityName }) {
   const options = useMemo(() => generateOptions(), [])
 
   return (
     <ConfigProvider theme={cascaderTheme}>
       <Cascader
         options={options}
-        displayRender={([category, abilityType]) => abilityType}
+        displayRender={([, abilityType]) => abilityType}
         expandTrigger='hover'
         placeholder='Ability'
         showCheckedStrategy={SHOW_CHILD}
@@ -72,14 +91,13 @@ export function ControlledTurnAbilitySelector({ index, value }: { index: number;
         allowClear
         style={{ width: '100%', height: 22 }}
         // @ts-ignore
-        value={value.name}
+        value={value}
         // @ts-ignore
         onChange={(value: [TurnMarker, TurnAbilityName]) => {
-          updateAbilityRotation(index, toTurnAbility(value[1]))
+        // @ts-ignore
+          updateAbilityRotation(index, value[1])
         }}
-        onClear={() => {
-          updateAbilityRotation(index, NULL_TURN_ABILITY)
-        }}
+        onClear={() => updateAbilityRotation(index, NULL_TURN_ABILITY.name)}
       />
     </ConfigProvider>
   )

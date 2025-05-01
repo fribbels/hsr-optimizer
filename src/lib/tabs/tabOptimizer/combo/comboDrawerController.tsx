@@ -2,7 +2,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
-import { TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
 import { getComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
@@ -82,7 +82,7 @@ export type ComboState = {
   comboTeammate0: ComboTeammate | null
   comboTeammate1: ComboTeammate | null
   comboTeammate2: ComboTeammate | null
-  comboTurnAbilities: TurnAbility[]
+  comboTurnAbilities: TurnAbilityName[]
 }
 
 export type SetConditionals = typeof defaultSetConditionals
@@ -167,7 +167,7 @@ export function initializeComboState(request: Form, merge: boolean) {
 function shiftDefaultConditionalToFirst(comboConditionals?: ComboConditionals) {
   if (!comboConditionals) return
 
-  for (const [key, conditionals] of Object.entries(comboConditionals)) {
+  for (const [, conditionals] of Object.entries(comboConditionals)) {
     if (conditionals.type == ConditionalDataType.NUMBER) {
       const numberCategory = conditionals
       for (let i = 0; i < numberCategory.partitions.length; i++) {
@@ -741,18 +741,18 @@ function setActivationIndexToDefault(obj: NestedObject, index: number): void {
 }
 
 // Index is 0 indexed, and only includes the interactable elements, not including the [0] default
-export function updateAbilityRotation(index: number, value: TurnAbility) {
+export function updateAbilityRotation(index: number, turnAbilityName: TurnAbilityName) {
   console.log('updateAbilityRotation')
   const comboState = window.store.getState().comboState
   const comboTurnAbilities = comboState.comboTurnAbilities
 
   if (index > comboTurnAbilities.length) return
-  if (value == null) {
+  if (turnAbilityName == null) {
     if (comboTurnAbilities.length <= 2) return
     comboTurnAbilities.splice(index, 1)
     shiftAllActivations(comboState, index)
   } else {
-    comboTurnAbilities[index] = value
+    comboTurnAbilities[index] = turnAbilityName
     setActivationIndexToDefault(comboState, index)
   }
 
@@ -791,7 +791,7 @@ function change(changeConditional: {
   }
 }
 
-export function updateConditionalChange(changeEvent: Form, allValues: Form) {
+export function updateConditionalChange(changeEvent: Form) {
   console.log('updateConditionalChange', changeEvent)
 
   const comboState = window.store.getState().comboState

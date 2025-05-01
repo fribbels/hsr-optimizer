@@ -1,7 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { DEFAULT_BASIC, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { DEFAULT_BASIC, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
@@ -104,8 +104,8 @@ function add(formInstance: FormInstance<OptimizerForm>) {
   const form = formInstance.getFieldsValue()
 
   for (let i = 1; i <= 10; i++) {
-    if (form.comboTurnAbilityPath?.[i] == null) {
-      formInstance.setFieldValue(['comboTurnAbilityPath', i], [TurnMarker.DEFAULT, DEFAULT_BASIC.name])
+    if (form.comboTurnAbilities?.[i] == null) {
+      formInstance.setFieldValue(['comboTurnAbilities', i], DEFAULT_BASIC.name)
       break
     }
   }
@@ -115,8 +115,8 @@ function minus(formInstance: FormInstance<OptimizerForm>) {
   const form = formInstance.getFieldsValue()
 
   for (let i = 10; i > 1; i--) {
-    if (form.comboTurnAbilityPath?.[i] != null) {
-      formInstance.setFieldValue(['comboTurnAbilityPath', i], null)
+    if (form.comboTurnAbilities?.[i] != null) {
+      formInstance.setFieldValue(['comboTurnAbilities', i], null)
       break
     }
   }
@@ -178,16 +178,16 @@ function ComboOptionRowSelect(props: { index: number; comboOptions: { value: str
   return (
     <Form.Item
       shouldUpdate={(prevValues: OptimizerForm, currentValues: OptimizerForm) =>
-        prevValues.comboTurnAbilityPath !== currentValues.comboTurnAbilityPath}
+        prevValues.comboTurnAbilities !== currentValues.comboTurnAbilities}
       noStyle
     >
       {({ getFieldValue }) => {
-        const comboTurnAbilityPaths: [TurnMarker, TurnAbilityName][] = getFieldValue('comboTurnAbilityPath') ?? []
-        const shouldRenderSegmented = comboTurnAbilityPaths[props.index] != null || props.index < 2
+        const comboTurnAbilities: TurnAbilityName[] = getFieldValue('comboTurnAbilities') ?? []
+        const shouldRenderSegmented = comboTurnAbilities[props.index] != null || props.index < 2
 
         return shouldRenderSegmented
           ? (
-            <TurnAbilitySelector formName={['comboTurnAbilityPath', props.index]}/>
+            <TurnAbilitySelector formName={['comboTurnAbilities', props.index]}/>
           )
           : null
       }}

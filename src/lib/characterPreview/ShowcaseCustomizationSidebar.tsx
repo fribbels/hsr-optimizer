@@ -23,17 +23,17 @@ import { Utils } from 'lib/utils/utils'
 import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
 
 export interface ShowcaseCustomizationSidebarRef {
-  onPortraitLoad: (src: string, characterId: string) => void
+  onPortraitLoad: (src: string, characterId: CharacterId) => void
 }
 
 export interface ShowcaseCustomizationSidebarProps {
   id: string
   source: ShowcaseSource
-  characterId: string
+  characterId: CharacterId
   token: GlobalToken
   showcasePreferences: ShowcasePreferences
   asyncSimScoringExecution: AsyncSimScoringExecution | null
@@ -78,7 +78,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
     useImperativeHandle(ref, () => ({
-      onPortraitLoad: (img: string, characterId: string) => {
+      onPortraitLoad: (img: string, characterId: CharacterId) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
             const primary = modifyCustomColor(selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]))
@@ -566,7 +566,7 @@ export function getOverrideColorMode(
   return savedColorMode
 }
 
-export function getDefaultColor(characterId: string, portraitUrl: string, colorMode: ShowcaseColorMode) {
+export function getDefaultColor(characterId: CharacterId, portraitUrl: string, colorMode: ShowcaseColorMode) {
   if (colorMode == ShowcaseColorMode.STANDARD) {
     return STANDARD_COLOR
   }
@@ -575,7 +575,7 @@ export function getDefaultColor(characterId: string, portraitUrl: string, colorM
     return urlToColorCache[portraitUrl]
   }
 
-  const defaults: Record<string, string[]> = {
+  const defaults: Record<CharacterId, string[]> = {
     1001: ['#718fe5'], // march7th
     1002: ['#7dd3ea'], // danheng
     1003: ['#d6b5c2'], // himeko

@@ -4,12 +4,14 @@ import { getDefaultForm } from 'lib/optimization/defaultForm'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Utils } from 'lib/utils/utils'
+import { CharacterId } from 'types/character'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { Form } from 'types/form'
+import { LightCone } from 'types/lightCone'
 
 export function generateFullDefaultForm(
-  characterId: string,
-  lightCone: string,
+  characterId: CharacterId,
+  lightCone: LightCone['id'],
   characterEidolon: number,
   lightConeSuperimposition: number,
   teammate = false,

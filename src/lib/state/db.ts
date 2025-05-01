@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, Sets, SubStats } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, SubStats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -9,7 +9,7 @@ import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
@@ -18,7 +18,7 @@ import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorControll
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
 import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
@@ -294,10 +294,10 @@ export const DB = {
   setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
 
   getCharacters: () => window.store.getState().characters,
-  getCharacterById: (id: string) => window.store.getState().charactersById[id],
+  getCharacterById: (id: CharacterId) => window.store.getState().charactersById[id],
 
   setCharacters: (characters: Character[]) => {
-    const charactersById: Record<string, Character> = {}
+    const charactersById: Partial<Record<CharacterId, Character>> = {}
     for (const character of characters) {
       charactersById[character.id] = character
     }
@@ -318,7 +318,7 @@ export const DB = {
     characters.push(character)
     DB.setCharacters(characters)
   },
-  insertCharacter: (id: string, index: number) => {
+  insertCharacter: (id: CharacterId, index: number) => {
     console.log('insert', id, index)
     const characters = DB.getCharacters()
     if (index < 0) {
@@ -476,7 +476,6 @@ export const DB = {
   setStore: (saveData: HsrOptimizerSaveFormat, autosave = true) => {
     const charactersById: Record<string, Character> = {}
     const dbCharacters = DB.getMetadata().characters
-    const dbLightCones = DB.getMetadata().lightCones
 
     // Remove invalid characters
     saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
@@ -487,7 +486,7 @@ export const DB = {
 
       // Previously sim requests didn't use the stats field
       if (character.form?.statSim?.simulations) {
-        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation) => simulation.request?.stats)
+        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
       }
 
       // Previously characters had customizable options, now we're defaulting to 80s
@@ -495,6 +494,7 @@ export const DB = {
       character.form.lightConeLevel = 80
 
       // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
+      // @ts-ignore
       if (character.form.resultSort === 'WEIGHT') {
         character.form.resultSort = 'SPD'
       }
@@ -504,16 +504,6 @@ export const DB = {
       character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
       character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
       character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
-
-      // In beta, Duran maxed out at 6
-      if (character.form.setConditionals?.[Sets.DuranDynastyOfRunningWolves]?.[1] ?? 0 > 5) {
-        character.form.setConditionals[Sets.DuranDynastyOfRunningWolves][1] = 5
-      }
-
-      // In beta, it was later discovered Sacerdos could apply to self buffs
-      if (typeof character.form.setConditionals?.[Sets.SacerdosRelivedOrdeal]?.[1] == 'boolean') {
-        character.form.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 0
-      }
     }
 
     for (const character of Object.values(dbCharacters)) {
@@ -558,7 +548,7 @@ export const DB = {
 
           let isOldScoring = true
           for (const stat of Object.values(Constants.Stats)) {
-            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
+            if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat as SubStats]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
               isOldScoring = false
               break
             }
@@ -697,11 +687,11 @@ export const DB = {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
       window.characterGrid.current.api.forEachNode((node: {
         data: {
-          id: string
+          id: CharacterId
         }
         setSelected: (b: boolean) => void
       }) => {
-        node.data.id == found.id ? node.setSelected(true) : 0
+        if (node.data.id == found.id) node.setSelected(true)
       })
       window.store.getState().setCharacterTabFocusCharacter(found.id)
     }
@@ -713,11 +703,11 @@ export const DB = {
     return found
   },
 
-  saveCharacterPortrait: (characterId: string, portrait: CustomImageConfig) => {
+  saveCharacterPortrait: (characterId: CharacterId, portrait: CustomImageConfig) => {
     let character = DB.getCharacterById(characterId)
     if (!character) {
       DB.addFromForm({ characterId: characterId } as Form)
-      character = DB.getCharacterById(characterId)
+      character = DB.getCharacterById(characterId)!
       console.log('Character did not previously exist, adding', character)
     }
     character.portrait = portrait
@@ -725,7 +715,7 @@ export const DB = {
     console.log('Saved portrait', DB.getState())
   },
 
-  deleteCharacterPortrait: (characterId: string) => {
+  deleteCharacterPortrait: (characterId: CharacterId) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -737,7 +727,7 @@ export const DB = {
   },
 
   saveCharacterBuild: (name: string,
-    characterId: string,
+    characterId: CharacterId,
     score: {
       rating: string
       score: string
@@ -765,7 +755,7 @@ export const DB = {
     }
   },
 
-  deleteCharacterBuild: (characterId: string, name: string) => {
+  deleteCharacterBuild: (characterId: CharacterId, name: string) => {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to delete build for')
 
@@ -773,7 +763,7 @@ export const DB = {
     DB.setCharacter(character)
   },
 
-  clearCharacterBuilds: (characterId: string) => {
+  clearCharacterBuilds: (characterId: CharacterId) => {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to clear builds for')
 
@@ -781,7 +771,7 @@ export const DB = {
     DB.setCharacter(character)
   },
 
-  unequipCharacter: (id: string) => {
+  unequipCharacter: (id: CharacterId) => {
     const character = DB.getCharacterById(id)
     if (!character) return console.warn('No character to unequip')
 
@@ -803,7 +793,7 @@ export const DB = {
     DB.setCharacter(character)
   },
 
-  removeCharacter: (characterId: string) => {
+  removeCharacter: (characterId: CharacterId) => {
     DB.unequipCharacter(characterId)
     let characters = DB.getCharacters()
     characters = characters.filter((x) => x.id != characterId)
@@ -833,14 +823,14 @@ export const DB = {
    *
    * If the character already has a relic equipped, the relics are swapped.
    */
-  equipRelic: (relic: Relic, characterId: string | undefined, forceSwap = false) => {
+  equipRelic: (relic: Relic, characterId: CharacterId | undefined, forceSwap = false) => {
     if (!relic?.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
     relic = DB.getRelicById(relic.id)
 
     const prevOwnerId = relic.equippedBy
     const prevCharacter = DB.getCharacterById(prevOwnerId!)
-    const character = DB.getCharacterById(characterId)
+    const character = DB.getCharacterById(characterId)!
     const prevRelic = DB.getRelicById(character.equipped[relic.part]!)
 
     if (prevRelic) {
@@ -869,7 +859,7 @@ export const DB = {
     debounceEffect('refreshRelics', 500, () => window.relicsGrid?.current?.api.refreshCells())
   },
 
-  equipRelicIdsToCharacter: (relicIds: string[], characterId: string, forceSwap = false) => {
+  equipRelicIdsToCharacter: (relicIds: string[], characterId: CharacterId, forceSwap = false) => {
     if (!characterId) return console.warn('No characterId to equip to')
     console.log('Equipping relics to character', relicIds, characterId)
 
@@ -878,12 +868,12 @@ export const DB = {
     }
   },
 
-  switchRelics: (fromCharacterId: string, toCharacterId: string) => {
+  switchRelics: (fromCharacterId: CharacterId, toCharacterId: CharacterId) => {
     if (!fromCharacterId) return console.warn('No characterId to equip from')
     if (!toCharacterId) return console.warn('No characterId to equip to')
     console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
 
-    const fromCharacter = DB.getCharacterById(fromCharacterId)
+    const fromCharacter = DB.getCharacterById(fromCharacterId)!
     DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
   },
 
@@ -904,8 +894,8 @@ export const DB = {
   // We overwrite any existing relics with imported ones.
   mergeRelicsWithState: (newRelics: Relic[], newCharacters: Form[]) => {
     const oldRelics = DB.getRelics()
-    newRelics = Utils.clone(newRelics) || []
-    newCharacters = Utils.clone(newCharacters) || []
+    newRelics = TsUtils.clone(newRelics) ?? []
+    newCharacters = TsUtils.clone(newCharacters) ?? []
 
     console.log('Merging relics', newRelics, newCharacters)
 
@@ -1041,7 +1031,7 @@ export const DB = {
     const addedNewRelics: Relic[] = []
     const equipUpdates: {
       relic: Relic
-      equippedBy: string | undefined
+      equippedBy: CharacterId | undefined
     }[] = []
 
     for (const newRelic of newRelics) {
@@ -1228,10 +1218,10 @@ function setRelic(relic: Relic) {
   window.store.getState().setRelicsById(relicsById)
 }
 
-function deduplicateStringArray(arr: string[]): string[] {
+function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   if (arr == null) return arr
 
-  return [...new Set(arr)]
+  return [...new Set(arr)] as T
 }
 
 function indexRelics(arr: Relic[]) {

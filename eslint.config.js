@@ -52,6 +52,9 @@ const config = tseslint.config(
         allowKeywords: true,
         allowPattern: '',
       }],
+      '@typescript-eslint/prefer-nullish-coalescing': ['error', {
+        ignoreIfStatements: true,
+      }],
     },
   },
   {

@@ -1,6 +1,6 @@
 import { Flex, theme, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
-import { ElementToDamage, PathNames } from 'lib/constants/constants'
+import { ElementName, ElementToDamage, PathName, PathNames } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -102,8 +102,8 @@ export function generateElementTags() {
 }
 
 type Filters = {
-  element: string[]
-  path: string[]
+  element: ElementName[]
+  path: PathName[]
   rarity: number[]
   name: string
 }

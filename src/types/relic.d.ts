@@ -2,6 +2,7 @@ import { MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/con
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
+import { CharacterId } from 'types/character'
 
 export type RelicId = string
 export type RelicGrade = number
@@ -18,7 +19,7 @@ export type Relic = {
   weightScore: number
 
   enhance: RelicEnhance
-  equippedBy: string | undefined
+  equippedBy: CharacterId | undefined
   grade: RelicGrade
   id: RelicId
   verified?: boolean

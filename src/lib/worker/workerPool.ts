@@ -15,7 +15,7 @@ type WorkerTaskWrapper = {
   callback: (result: WorkerResult) => void
 }
 
-type WorkerTask = {
+export type WorkerTask = {
   getMinFilter: () => number
   input: {
     WIDTH: number
@@ -32,7 +32,7 @@ type WorkerTask = {
   attempts: number
 }
 
-type WorkerResult = {
+export type WorkerResult = {
   buffer: ArrayBuffer
 }
 

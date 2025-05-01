@@ -21,7 +21,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
   const characterExcludeOptions = useMemo(() => generateCharacterList({
     currentCharacters: characters,
-    excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter!)],
+    excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter!)!],
     withNobodyOption: false,
     longNameLabel: true,
   }), [characters, optimizerTabFocusCharacter, i18n.resolvedLanguage])

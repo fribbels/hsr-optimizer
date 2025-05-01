@@ -1,23 +1,38 @@
 import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
+import { ElementName, PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
+import { DBMetadataCharacter } from 'types/metadata'
 
 // FIXME HIGH
 
-interface CharacterSelectProps {
-  value
-  onChange?: (id) => void
+interface BaseCharacterSelectProps {
   selectStyle?: React.CSSProperties
-  multipleSelect?: boolean
   withIcon?: boolean
   externalOpen?: boolean
   setExternalOpen?: (state: boolean) => void
 }
+
+interface MultiCharacterSelectProps extends BaseCharacterSelectProps {
+  multipleSelect: true
+  value: CharacterId[]
+  onChange?: (x: Map<CharacterId, boolean> | null) => void
+}
+
+interface SingleCharacterSelectProps extends BaseCharacterSelectProps {
+  multipleSelect?: false
+  value: CharacterId | null | undefined
+  onChange?: (x: CharacterId | null | undefined) => void
+}
+
+type CharacterSelectProps = SingleCharacterSelectProps | MultiCharacterSelectProps
 
 const parentW = 100
 const parentH = 150
@@ -28,9 +43,9 @@ const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 130px, #282B3
 const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 130px, #282B31 130px, #282B31 150px)'
 
 const defaultFilters = {
-  rarity: [],
-  path: [],
-  element: [],
+  rarity: [] as number[],
+  path: [] as PathName[],
+  element: [] as ElementName[],
   name: '',
 }
 
@@ -39,12 +54,12 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const inputRef = useRef<InputRef>(null)
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const [open, setOpen] = useState(false)
-  const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
+  const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
-  const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
+  const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
-  const labelledOptions: { value: string; label: ReactElement }[] = []
+  const labelledOptions: { value: string; label: ReactNode }[] = []
   for (const option of characterOptions) {
     labelledOptions.push({
       value: option.value,
@@ -65,13 +80,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       setTimeout(() => inputRef?.current?.focus(), 100)
 
       if (multipleSelect) {
-        const newSelected = new Map<string, boolean>(excludedRelicPotentialCharacters.map((characterId: string) => [characterId, true]))
+        const newSelected = new Map<CharacterId, boolean>(excludedRelicPotentialCharacters.map((characterId: CharacterId) => [characterId, true]))
         setSelected(newSelected)
       }
     }
   }, [open, externalOpen])
 
-  function applyFilters(x) {
+  function applyFilters(x: DBMetadataCharacter & { value: string; label: string; id: string }) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
       return false
     }
@@ -85,7 +100,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     return true
   }
 
-  const handleClick = (id) => {
+  const handleClick = (id: CharacterId) => {
     if (multipleSelect) {
       selected.set(id, !selected.get(id))
       setSelected(new Map(selected))
@@ -97,7 +112,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   }
 
   const excludeAll = () => {
-    const newSelected = new Map<string, boolean>(selected)
+    const newSelected = new Map<CharacterId, boolean>(selected)
     characterOptions
       .filter(applyFilters)
       .forEach((option) => newSelected.set(option.id, true))
@@ -105,7 +120,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   }
 
   const includeAll = () => {
-    const newSelected = new Map<string, boolean>(selected)
+    const newSelected = new Map<CharacterId, boolean>(selected)
     characterOptions
       .filter(applyFilters)
       .forEach((option) => newSelected.delete(option.id))
@@ -137,7 +152,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         onDropdownVisibleChange={(visible) => {
           if (visible) {
             setOpen(true)
-            setCurrentFilters(Utils.clone(defaultFilters))
+            setCurrentFilters(TsUtils.clone(defaultFilters))
           }
         }}
         dropdownStyle={{ display: 'none' }}
@@ -174,12 +189,12 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 placeholder={t('SearchPlaceholder')/* Search character name */}
                 ref={inputRef}
                 onChange={(e) => {
-                  const newFilters = Utils.clone(currentFilters)
+                  const newFilters = TsUtils.clone(currentFilters)
                   newFilters.name = e.target.value.toLowerCase()
                   setCurrentFilters(newFilters)
                 }}
                 onPressEnter={() => {
-                  const first = characterOptions.filter(applyFilters)[0]
+                  const first = characterOptions.find(applyFilters)
                   if (first) {
                     handleClick(first.id)
                   }
@@ -240,11 +255,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                         height: `${parentH}px`,
                       },
                       ...(selected.get(option.id)
-                          ? {
-                            opacity: 0.25,
-                            background: 'grey',
-                          }
-                          : {}
+                        ? {
+                          opacity: 0.25,
+                          background: 'grey',
+                        }
+                        : {}
                       ),
                     }}
                     styles={{ body: { padding: 1 } }}

@@ -6,6 +6,7 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { EstTbpRunnerOutput } from 'lib/worker/estTbpWorkerRunner'
+import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
@@ -33,7 +34,7 @@ export function enrichRelicAnalysis(
   relics: SingleRelicByPart,
   estTbpRunnerOutput: EstTbpRunnerOutput,
   scoringMetadata: ScoringMetadata,
-  characterId: string,
+  characterId: CharacterId,
 ): EnrichedRelics {
   return {
     LinkRope: enrichSingleRelicAnalysis(relics.LinkRope, estTbpRunnerOutput.LinkRope, scoringMetadata, characterId),
@@ -45,7 +46,7 @@ export function enrichRelicAnalysis(
   }
 }
 
-export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMetadata: ScoringMetadata, characterId: string) {
+export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMetadata: ScoringMetadata, characterId: CharacterId) {
   if (!relic) return undefined
   const potentials = RelicScorer.scoreRelicPotential(relic, characterId)
 
@@ -113,7 +114,7 @@ export function flatReduction(stat: string) {
   return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
 }
 
-// Scoring type isnt strictly needed in the hash but it helps work around some rendering issues with switching score type
+// Scoring type isn't strictly needed in the hash, but it helps work around some rendering issues with switching score type
 export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: string, scoringType: ScoringType, scoringMetadata: ScoringMetadata) {
   return TsUtils.objectHash({
     weights: scoringMetadata.stats,

@@ -16,9 +16,10 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
 import { TeammateProperty } from 'types/form'
+import { LightCone, SuperImpositionLevel } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
 
 const { Text } = Typography
@@ -144,11 +145,11 @@ const TeammateCard = (props: {
 }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
-  const teammateCharacterId: string = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
+  const teammateCharacterId: CharacterId = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
   const teammateEidolon: number = AntDForm.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
 
-  const teammateLightConeId: string = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
-  const teammateSuperimposition: number = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
+  const teammateLightConeId: LightCone['id'] = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
+  const teammateSuperimposition: SuperImpositionLevel = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
 
@@ -287,7 +288,7 @@ const TeammateCard = (props: {
         <Flex gap={5}>
           <AntDForm.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <CharacterSelect
-              value=''
+              value={null}
               selectStyle={{}}
               externalOpen={teammateSelectModalOpen}
               setExternalOpen={setTeammateSelectModalOpen}
@@ -374,7 +375,7 @@ const TeammateCard = (props: {
         <Flex gap={5}>
           <AntDForm.Item name={[teammateProperty, `lightCone`]}>
             <LightConeSelect
-              value=''
+              value={null}
               selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
               externalOpen={teammateLightConeSelectOpen}

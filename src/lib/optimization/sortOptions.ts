@@ -4,7 +4,7 @@
 import { Key } from 'lib/optimization/computedStatsArray'
 
 export type SortOptionProperties = {
-  key: string
+  key: keyof typeof SortOption
   gpuProperty: string
   basicProperty: string
   combatProperty: string

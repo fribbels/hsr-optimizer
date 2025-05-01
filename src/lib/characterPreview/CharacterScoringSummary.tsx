@@ -186,6 +186,7 @@ export const CharacterScoringSummary = (props: {
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
             showAll={true}
+            asyncSimScoringExecution={null}
           />
         </Flex>
 
@@ -201,6 +202,7 @@ export const CharacterScoringSummary = (props: {
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
             showAll={true}
+            asyncSimScoringExecution={null}
           />
         </Flex>
 

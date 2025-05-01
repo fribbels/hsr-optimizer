@@ -23,7 +23,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
 
 const GAP = 8
@@ -167,8 +167,8 @@ function MiddlePanel() {
         <HeaderText>Character</HeaderText>
         <AntDForm.Item name='characterId' noStyle>
           <CharacterSelect
-            value=''
-            onChange={(id: string) => handleCharacterSelectChange(id, form)}
+            value={null}
+            onChange={(id: CharacterId | null | undefined) => handleCharacterSelectChange(id, form)}
           />
         </AntDForm.Item>
         <CharacterEidolonFormRadio/>
@@ -177,7 +177,7 @@ function MiddlePanel() {
       <Flex vertical gap={GAP}>
         <HeaderText>Light Cone</HeaderText>
         <AntDForm.Item name='lightCone' noStyle>
-          <LightConeSelect value='' characterId={characterId}/>
+          <LightConeSelect value={null} characterId={characterId}/>
         </AntDForm.Item>
         <LightConeSuperimpositionFormRadio/>
       </Flex>

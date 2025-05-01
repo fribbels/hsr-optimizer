@@ -7,7 +7,9 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
+import { LightCone } from 'types/lightCone'
 import { DBMetadata, DBMetadataLightCone } from 'types/metadata'
 
 export type WebgpuTest = {
@@ -27,7 +29,7 @@ const cache: {
 }
 
 const basicLc = '23001' // In the Night
-const baseCharacterLightConeMappings = [
+const baseCharacterLightConeMappings: Array<{ characterId: CharacterId; lightConeId: LightCone['id'] }> = [
   { characterId: '1001', lightConeId: basicLc }, // March 7th
   { characterId: '1002', lightConeId: basicLc }, // Dan Heng
   { characterId: '1003', lightConeId: '23000' }, // Himeko
@@ -122,7 +124,7 @@ export async function generateAllTests() {
 
 export function generateSingleCharacterTest(
   device: GPUDevice,
-  pair: { characterId: string; lightConeId: string },
+  pair: { characterId: CharacterId; lightConeId: LightCone['id'] },
 ) {
   return [
     generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
@@ -193,7 +195,7 @@ export function generateRelicSetTests(device: GPUDevice) {
   return tests
 }
 
-export function generateE0S1CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
+export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId: LightCone['id'], device: GPUDevice) {
   const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
@@ -202,7 +204,7 @@ export function generateE0S1CharacterTest(characterId: string, lightConeId: stri
   return testWrapper(`E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
 }
 
-export function generateE6S5CharacterTest(characterId: string, lightConeId: string, device: GPUDevice) {
+export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId: LightCone['id'], device: GPUDevice) {
   const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
@@ -215,7 +217,7 @@ export function generateE6S5CharacterTest(characterId: string, lightConeId: stri
   return testWrapper(`E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
 }
 
-export function addE6S5Teammate(request: Form, index: number, characterId: string, lightConeId: string) {
+export function addE6S5Teammate(request: Form, index: number, characterId: CharacterId, lightConeId: LightCone['id']) {
   const teammate = generateFullDefaultForm(
     characterId,
     lightConeId,

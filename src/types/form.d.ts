@@ -1,18 +1,20 @@
-import { SetsOrnaments } from 'lib/constants/constants'
+import { SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Simulation } from 'lib/simulations/statSimulationController'
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 
 import { ConditionalValueMap } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
+import { LightCone, SuperImpositionLevel } from 'types/lightCone'
+import { ScoringMetadata } from 'types/metadata'
 import { RelicEnhance, RelicGrade } from 'types/relic'
 
 export type Teammate = {
-  characterId: string
+  characterId: CharacterId
   characterEidolon: number
-  lightCone: string
+  lightCone: LightCone['id']
   lightConeSuperimposition: number
   teamOrnamentSet?: string
   teamRelicSet?: string
@@ -25,11 +27,11 @@ export type OptimizerForm = Form
 export type Form = {
   // Core
   characterEidolon: Eidolon
-  characterId: string
+  characterId: CharacterId
   characterLevel: number
 
   // Light cone
-  lightCone: string
+  lightCone: LightCone['id']
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
 
@@ -63,13 +65,11 @@ export type Form = {
   ornamentSets: SetsOrnaments[]
   mainStatUpscaleLevel: number
   rankFilter: boolean
-  relicSets: ([pieces: string, set: string] | [pieces: string, set1: string, set2: string])[]
+  relicSets: ([pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics])[]
   statDisplay: string
   memoDisplay: string
 
-  weights: {
-    [key: string]: number
-  }
+  weights: ScoringMetadata['stats']
 
   combatBuffs: {
     [key: string]: number
@@ -84,7 +84,7 @@ export type Form = {
   }
   optimizationId?: string
   sortOption?: string
-  resultSort?: string
+  resultSort?: keyof typeof SortOption
   resultsLimit?: number
   deprioritizeBuffs?: boolean
   resultMinFilter: number
@@ -151,4 +151,4 @@ export type Form = {
   maxUlt: number
 }
 
-type TeammateProperty = 'teammate0' | 'teammate1' | 'teammate2'
+export type TeammateProperty = 'teammate0' | 'teammate1' | 'teammate2'

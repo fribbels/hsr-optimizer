@@ -84,7 +84,7 @@ export default function OptimizerForm() {
     }
 
     // If the rank changes, re-order the characters priority list
-    if (changedValues.rank != null && DB.getCharacterById(allValues.characterId).rank != allValues.rank) {
+    if (changedValues.rank != null && DB.getCharacterById(allValues.characterId)!.rank != allValues.rank) {
       DB.insertCharacter(allValues.characterId, allValues.rank)
       DB.refreshCharacters()
     }
@@ -156,7 +156,6 @@ export default function OptimizerForm() {
       >
         <FormSetConditionals/>
 
-
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
             <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
@@ -179,7 +178,6 @@ export default function OptimizerForm() {
               <OptimizerOptionsDisplay/>
             </FormCard>
           </FormRow>
-
 
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
@@ -205,13 +203,11 @@ export default function OptimizerForm() {
             </FormCard>
           </FormRow>
 
-
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
             <TeammateCard index={0} dbMetadata={dbMetadata}/>
             <TeammateCard index={1} dbMetadata={dbMetadata}/>
             <TeammateCard index={2} dbMetadata={dbMetadata}/>
           </TeammateFormRow>
-
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
             <StatSimulationDisplay/>

@@ -29,7 +29,7 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   self.postMessage(workerOutput)
 }
 
-export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
+function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
   const {
     partialSimulationWrapper,
     inputMinSubstatRollCounts,
@@ -52,7 +52,6 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
   const goal = scoringParams.substatGoal
   let sum = sumSubstatRolls(maxSubstatRollCounts)
   let currentSimulation: Simulation = partialSimulationWrapper.simulation
-  let currentSimulationResult: SimulationResult = undefined
 
   let breakpointsCap = true
   let speedCap = true
@@ -116,10 +115,10 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
   const excludedStats: Record<string, boolean> = {}
 
   while (sum > goal) {
-    let bestSim: Simulation = undefined
-    let bestSimStats: StatSimulationTypes = undefined
-    let bestSimResult: SimulationResult = undefined
-    let reducedStat: string = undefined
+    let bestSim: Simulation = undefined as unknown as Simulation
+    let bestSimStats: StatSimulationTypes = undefined as unknown as StatSimulationTypes
+    let bestSimResult: SimulationResult = undefined as unknown as SimulationResult
+    let reducedStat: string = undefined as unknown as string
 
     const remainingStats = Object.entries(currentSimulation.request.stats)
       .filter(([key, value]) => value > scoringParams.freeRolls)
@@ -164,6 +163,7 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
       if (!bestSim || newSimResult.simScore > bestSimResult.simScore) {
         bestSim = newSimulation
         bestSimStats = Object.assign({}, newSimulation.request.stats)
+        // @ts-ignore we only care if it exists, type matching isn't important
         bestSimResult = newSimResult
         reducedStat = stat
       }
@@ -230,7 +230,6 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     }
 
     currentSimulation = bestSim
-    currentSimulationResult = bestSimResult
     currentSimulation.request.stats = bestSimStats
     sum -= 1
   }

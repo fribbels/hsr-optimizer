@@ -52,39 +52,7 @@ CharacterPreview:
     CombatResults:
       Primary: "Habilidad principal:"
       Character: "Daño del personaje:"
-      Benchmark: "Daño de Benchmark"
-      Baseline: "Línea base de Daño:"
       Maximum: "Daño máximo:"
-      Score: "Puntuación DPS %:"
-      Abilities:
-        BASIC: Daño Basico
-        SKILL: Daño Habilidad
-        ULT: Daño Definitiva
-        FUA: Daño de Adicional
-        DOT: Daño de DOT
-        BREAK: Daño de Ruptura
-        COMBO: Combo de Daño
   ScoringColumn:
     Character:
-      Header: "Build del personaje ({{score}}%)"
-      BasicStats: Estadísticas básicas del personaje
-      CombatStats: Personaje  <1>Estadísticas de combate</1>
-      Substats: Subs del personaje (sub tiradas)
-      Mainstats: Estadísticas principales del personaje
       Abilities: Daño de habilidad del personaje
-    Benchmark:
-      Header: "Benchmark de Build ({{score}}%)"
-      BasicStats: 100% benchmark estadísticas básicas
-      CombatStats: 100% benchmark <1>Estadísticas de combate</1>
-      Substats: 100% benchmark subs (sub tiradas)
-      Mainstats: 100% benchmark estadísticas principales
-      Abilities: 100% benchmark daño de habilidad
-    Perfect:
-      Header: "Build perfecta ({{score}}%)"
-      BasicStats: 200% estadísticas básicas perfectas
-      CombatStats: 200% <1>Estadísticas de combate</1> perfecto
-      Substats: 200% subs perfectos (max tiradas)
-      Mainstats: 200% estadísticas básicas perfectas
-      Abilities: 200% daño de habilidad perfecta
-  ScoringDetails:
-    Header: '¿Cómo se calcula la puntuación DPS?'

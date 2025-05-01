@@ -4,12 +4,12 @@ import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { DEFAULT_BASIC, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
-import { AbilityCascader } from 'lib/tabs/tabOptimizer/optimizerForm/components/AbilityCascader'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
+import { TurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
 
@@ -187,7 +187,7 @@ function ComboOptionRowSelect(props: { index: number; comboOptions: { value: str
 
         return shouldRenderSegmented
           ? (
-            <AbilityCascader formName={['comboTurnAbilityPath', props.index]}/>
+            <TurnAbilitySelector formName={['comboTurnAbilityPath', props.index]}/>
           )
           : null
       }}

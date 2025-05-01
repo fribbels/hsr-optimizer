@@ -1,5 +1,4 @@
 import { Form as AntDForm, Radio } from 'antd'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function CharacterEidolonFormRadio() {

@@ -30,12 +30,6 @@ export function precomputeConditionalActivations(comboState: ComboState, request
       preprocessor.processAbility(turnAbility, i)
     }
   }
-
-  // Convert back to normal abilities once preprocessing is done
-  for (let i = 1; i < comboState.comboTurnAbilities.length; i++) {
-    const turnAbility = comboState.comboTurnAbilities[i]
-    comboState.comboAbilities[i] = turnAbility.kind
-  }
 }
 
 type AbilityPreprocessor = {
@@ -134,7 +128,7 @@ function setComboNumberCategoryCharacterActivation(comboState: ComboState, condi
       category.partitions.forEach((x) => x.activations[index] = false)
       const newPartition = {
         value: value,
-        activations: new Array(comboState.comboAbilities.length).fill(false),
+        activations: new Array(comboState.comboTurnAbilities.length).fill(false),
       }
       newPartition.activations[index] = true
       category.partitions.push(newPartition)

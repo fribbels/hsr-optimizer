@@ -82,7 +82,6 @@ export type ComboState = {
   comboTeammate0: ComboTeammate | null
   comboTeammate1: ComboTeammate | null
   comboTeammate2: ComboTeammate | null
-  comboAbilities: string[]
   comboTurnAbilities: TurnAbility[]
 }
 
@@ -95,8 +94,6 @@ export function initializeComboState(request: Form, merge: boolean) {
   if (!request.characterId) return comboState
 
   const actionCount = 9
-  // @ts-ignore
-  comboState.comboAbilities = [null]
   comboState.comboTurnAbilities = getComboTurnAbilities(request)
 
   const metadata = generateConditionalResolverMetadata(request, dbMetadata)
@@ -215,7 +212,7 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
     if (!comboSet) {
       modified.push(key)
     } else if (comboSet.type == ConditionalDataType.BOOLEAN) {
-      for (let i = 0; i < comboState.comboAbilities.length; i++) {
+      for (let i = 0; i < comboState.comboTurnAbilities.length; i++) {
         const activation = comboSet.activations[i]
         if (activation == null) break
         if (activation != defaultValue) {
@@ -744,18 +741,18 @@ function setActivationIndexToDefault(obj: NestedObject, index: number): void {
 }
 
 // Index is 0 indexed, and only includes the interactable elements, not including the [0] default
-export function updateAbilityRotation(index: number, value: string) {
+export function updateAbilityRotation(index: number, value: TurnAbility) {
   console.log('updateAbilityRotation')
   const comboState = window.store.getState().comboState
-  const comboAbilities = comboState.comboAbilities
+  const comboTurnAbilities = comboState.comboTurnAbilities
 
-  if (index > comboAbilities.length) return
+  if (index > comboTurnAbilities.length) return
   if (value == null) {
-    if (comboAbilities.length <= 2) return
-    comboAbilities.splice(index, 1)
+    if (comboTurnAbilities.length <= 2) return
+    comboTurnAbilities.splice(index, 1)
     shiftAllActivations(comboState, index)
   } else {
-    comboAbilities[index] = value
+    comboTurnAbilities[index] = value
     setActivationIndexToDefault(comboState, index)
   }
 
@@ -765,7 +762,7 @@ export function updateAbilityRotation(index: number, value: string) {
 export function updateFormState(comboState: ComboState) {
   console.log('updateFormState')
   window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState))
-  window.optimizerForm.setFieldValue('comboAbilities', comboState.comboAbilities)
+  window.optimizerForm.setFieldValue('comboTurnAbilities', comboState.comboTurnAbilities)
 
   const form = OptimizerTabController.getForm()
   DB.replaceCharacterForm(form)
@@ -812,7 +809,8 @@ export function updateConditionalChange(changeEvent: Form, allValues: Form) {
   if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals ?? {})
   if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals ?? {})
 
-  comboState.comboAbilities = allValues.comboAbilities
+  // TODO
+  // comboState.comboTurnAbilities = allValues.comboTurnAbilities
 
   window.store.getState().setComboState({ ...comboState })
   updateFormState(comboState)

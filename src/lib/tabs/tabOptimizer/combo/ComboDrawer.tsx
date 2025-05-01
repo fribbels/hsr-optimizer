@@ -3,6 +3,7 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
+import { TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
@@ -18,7 +19,6 @@ import {
   ComboTeammate,
   initializeComboState,
   locateActivations,
-  updateAbilityRotation,
   updateActivation,
   updateAddPartition,
   updateDeletePartition,
@@ -33,6 +33,7 @@ import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSw
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
+import { ControlledTurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
@@ -161,38 +162,37 @@ function ComboDrawerTitle() {
 }
 
 function AbilitySelector(props: {
-  comboAbilities: string[]
+  comboTurnAbilities: TurnAbility[]
   index: number
-  abilitySelectOptions: {
-    value: string
-    label: string
-    display: string
-  }[]
 }) {
   if (props.index == 0) return <></>
 
   return (
-    <Select
-      dropdownStyle={{ width: 'fit-content' }}
-      style={{ width: abilityWidth }}
-      listHeight={800}
-      optionLabelProp='display'
-      options={props.abilitySelectOptions}
-      placement='bottomLeft'
-      value={props.comboAbilities[props.index]}
-      allowClear={true}
-      onSelect={(value: string) => {
-        updateAbilityRotation(props.index, value)
-      }}
-      onDeselect={(value: string) => {
-
-      }}
-      onClear={() => {
-        // @ts-ignore
-        updateAbilityRotation(props.index, null)
-      }}
-    />
+    <ControlledTurnAbilitySelector index={props.index} value={props.comboTurnAbilities[props.index]}/>
   )
+
+  // return (
+  //   <Select
+  //     dropdownStyle={{ width: 'fit-content' }}
+  //     style={{ width: abilityWidth }}
+  //     listHeight={800}
+  //     optionLabelProp='display'
+  //     options={props.abilitySelectOptions}
+  //     placement='bottomLeft'
+  //     value={props.comboAbilities[props.index]}
+  //     allowClear={true}
+  //     onSelect={(value: TurnAbilityName) => {
+  //       updateAbilityRotation(props.index, toTurnAbility(value))
+  //     }}
+  //     onDeselect={(value: string) => {
+  //
+  //     }}
+  //     onClear={() => {
+  //       // @ts-ignore
+  //       updateAbilityRotation(props.index, null)
+  //     }}
+  //   />
+  // )
 }
 
 const abilityWidth = 70
@@ -229,30 +229,15 @@ function ComboHeader(props: {
   comboState: ComboState
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
-  const comboAbilities = props.comboState.comboAbilities
-  const selectOptions = useMemo(() => {
-    const selectOptions: {
-      value: string
-      label: string
-      display: string
-    }[] = []
-    for (const option of abilitySelectOptions) {
-      selectOptions.push(
-        {
-          value: option.value,
-          label: t(`${option.label}` as never),
-          display: t(`${option.label}` as never),
-        },
-      )
-    }
-    return selectOptions
-  }, [t])
+  const comboTurnAbilities = props.comboState.comboTurnAbilities
 
-  if (!comboAbilities) return <></>
+  if (!comboTurnAbilities) return <></>
 
-  const length = comboAbilities.length
+  console.debug(comboTurnAbilities)
+
+  const length = comboTurnAbilities.length
   const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
-    <AbilitySelector comboAbilities={comboAbilities} index={index} key={index} abilitySelectOptions={selectOptions}/>
+    <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>
   ))
 
   return (
@@ -302,7 +287,6 @@ function SetSelector(props: {
       placement='topRight'
       value={props.selected ?? []}
       onSelect={(value: string) => {
-        const selected = [...props.selected, value]
         props.submit([...props.selected, value])
       }}
       onDeselect={(value: string) => {
@@ -378,7 +362,7 @@ function StateDisplay(props: {
   const comboTeammate0 = props.comboState?.comboTeammate0
   const comboTeammate1 = props.comboState?.comboTeammate1
   const comboTeammate2 = props.comboState?.comboTeammate2
-  const actionCount = props.comboState?.comboAbilities?.length || 0
+  const actionCount = props.comboState?.comboTurnAbilities?.length || 0
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   return (

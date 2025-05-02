@@ -29,6 +29,7 @@ export function preprocessAbilityTurnDefinitionCorrectness(input: TurnAbility[])
   }
 
   const inputAbilities = TsUtils.clone(input)
+  inputAbilities.shift()
 
   const state: TurnState = {
     turnStarts: new Array(inputAbilities.length).fill(false),
@@ -54,7 +55,7 @@ export function preprocessAbilityTurnDefinitionCorrectness(input: TurnAbility[])
   const outputAbilities = generateFinalSequence(state)
 
   // console.log(outputAbilities)
-  return outputAbilities
+  return [NULL_TURN_ABILITY, ...outputAbilities]
 }
 
 /**

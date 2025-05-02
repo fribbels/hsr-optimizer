@@ -60,17 +60,21 @@ export function ComboDrawer() {
   const lastSelectedKeyState = useRef<string | undefined>(undefined)
 
   useEffect(() => {
+    if (!comboState || !comboState.comboTurnAbilities) return
+
     if (comboDrawerOpen) {
       lockScroll()
+
       const form = OptimizerTabController.getForm()
       if (!form?.characterId || !form.characterConditionals) return
 
       const comboState = initializeComboState(form, true)
       comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
-
       setComboState(comboState)
     } else {
       unlockScroll()
+
+      comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
       updateFormState(comboState)
     }
   }, [formValues, comboDrawerOpen])

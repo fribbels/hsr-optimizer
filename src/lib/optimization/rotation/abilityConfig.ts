@@ -17,7 +17,7 @@ export enum TurnMarker {
 
 export type TurnAbilityName =
   | `${TurnMarker}_${Exclude<AbilityKind, AbilityKind.NULL>}`
-  | 'NULL_NULL'
+  | 'NULL'
 
 export interface TurnAbility {
   kind: AbilityKind
@@ -28,7 +28,7 @@ export interface TurnAbility {
 export const NULL_TURN_ABILITY: TurnAbility = {
   kind: AbilityKind.NULL,
   marker: TurnMarker.DEFAULT,
-  name: 'NULL_NULL',
+  name: 'NULL',
 }
 
 export function createAbility(kind: AbilityKind, marker: TurnMarker): TurnAbility {
@@ -136,7 +136,7 @@ export function getAbilityKind(turnAbilityName: TurnAbilityName): AbilityKind {
 }
 
 export function getAbilityName(ability: TurnAbility): TurnAbilityName {
-  if (!ability) return 'NULL_NULL'
+  if (!ability) return NULL_TURN_ABILITY.name
   return ability.name
 }
 

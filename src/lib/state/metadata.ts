@@ -2,6 +2,7 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
+import { DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_ULT, NULL_TURN_ABILITY } from 'lib/optimization/rotation/abilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -1683,6 +1684,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Stats.EHR]: 0.282,
         },
         comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY.name, DEFAULT_ULT.name, DEFAULT_SKILL.name, DEFAULT_FUA.name, DEFAULT_SKILL.name, DEFAULT_FUA.name],
         comboDot: 16,
         comboBreak: 0,
         relicSets: [
@@ -4950,6 +4952,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Stats.EHR]: 1.20,
         },
         comboAbilities: [NULL, SKILL, ULT, BASIC, BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY.name, DEFAULT_SKILL.name, DEFAULT_ULT.name, DEFAULT_BASIC.name, DEFAULT_BASIC.name],
         comboDot: 16,
         comboBreak: 0,
         relicSets: [

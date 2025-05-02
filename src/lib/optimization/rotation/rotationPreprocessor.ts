@@ -2,6 +2,7 @@ import { Sets } from 'lib/constants/constants'
 import { AbilityKind, toTurnAbility, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
+import { preprocessAbilityTurnDefinitionCorrectness } from './abilityTurnTransform'
 
 /**
  * Some passives such as Scholar Lost In Erudition set only activate after abilities trigger them.
@@ -19,7 +20,7 @@ export function precomputeConditionalActivations(comboState: ComboState, request
     castoricePreprocessor(comboState, request),
   ].filter((x) => x.id == request.characterId)
 
-  const comboAbilities = comboState.comboTurnAbilities.map(toTurnAbility)
+  const comboAbilities = preprocessAbilityTurnDefinitionCorrectness(comboState.comboTurnAbilities.map(toTurnAbility))
   for (let i = 1; i < comboAbilities.length; i++) {
     const turnAbility = comboAbilities[i]
 

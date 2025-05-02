@@ -783,3 +783,7 @@ a {
     flex: 1;
     justify-content: space-around;
 }
+
+.ant-select-sm .ant-select-clear {
+    inset-inline-end: 7px !important;
+}

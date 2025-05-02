@@ -3,7 +3,8 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
-import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { preprocessAbilityTurnDefinitionCorrectness } from 'lib/optimization/rotation/abilityTurnTransform'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
@@ -78,15 +79,15 @@ export function ComboDrawer() {
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
-      width={1200}
+      width={1350}
       className='.comboDrawer'
       extra={(
-        <Flex style={{ width: 767 }} align='center'>
+        <Flex style={{ width: 917 }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
       )}
     >
-      <div style={{ width: 1075, height: '100%' }}>
+      <div style={{ width: 1225, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
         <Selecto
           className='selecto-selection'
@@ -179,7 +180,7 @@ function AbilitySelector(props: {
   )
 }
 
-const abilityWidth = 70
+const abilityWidth = 90 - 5
 const abilityGap = 6
 
 export const abilitySelectOptions = [
@@ -217,12 +218,13 @@ function ComboHeader(props: {
 
   if (!comboTurnAbilities) return <></>
 
+  const transformedTurnAbilities = preprocessAbilityTurnDefinitionCorrectness(comboTurnAbilities.map(toTurnAbility)).map((x) => x.name)
   console.debug(comboTurnAbilities)
 
   const length = comboTurnAbilities.length
   const render = Array(Math.min(9, length + 1))
     .fill(false)
-    .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>)
+    .map((value, index) => <AbilitySelector comboTurnAbilities={transformedTurnAbilities} index={index} key={index}/>)
 
   return (
     <Flex gap={abilityGap}>
@@ -1016,7 +1018,7 @@ const BoxComponent = React.memo(
       <div
         className={classnames}
         data-key={props.dataKey}
-        style={{ width: 75, marginLeft: -1, marginTop: -1 }}
+        style={{ width: 90, marginLeft: -1, marginTop: -1 }}
       >
       </div>
     )

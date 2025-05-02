@@ -40,16 +40,18 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker): TurnAbilit
   return { kind, marker, name }
 }
 
+const start = '['
+const end = ']'
 export function toVisual(ability: TurnAbility): string {
   if (!ability || ability == NULL_TURN_ABILITY) return ''
 
   switch (ability.marker) {
     case TurnMarker.START:
-      return `[ ${ability.kind}`
+      return `${start} ${ability.kind}`
     case TurnMarker.END:
-      return `${ability.kind} ]`
+      return `${ability.kind} ${end}`
     case TurnMarker.WHOLE:
-      return `[ ${ability.kind} ]`
+      return `${start} ${ability.kind} ${end}`
     default:
       return ability.kind
   }

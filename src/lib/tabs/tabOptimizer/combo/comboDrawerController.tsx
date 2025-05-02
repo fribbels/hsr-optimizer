@@ -142,6 +142,7 @@ export function initializeComboState(request: Form, merge: boolean) {
   comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount, dbMetadata)
 
   if (request.comboStateJson && merge) {
+    console.log(request.comboStateJson)
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
     comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
     comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
@@ -295,7 +296,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
             }
           } else {
             // Skip merging empty partitions
-            if (!partition.activations.some(activation => activation)) continue
+            if (!partition.activations.some((activation) => activation)) continue
 
             seen[partition.value] = partition
             newPartitions.push(partition)

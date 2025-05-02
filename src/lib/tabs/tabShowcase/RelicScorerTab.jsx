@@ -15,8 +15,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
-// NOTE: These strings are replaced by github actions for beta deployment, don't change
-// BETA: https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
 function presetCharacters() {
@@ -51,7 +49,6 @@ export default function RelicScorerTab() {
   const setScorerId = window.store((s) => s.setScorerId)
 
   const [scorerForm] = Form.useForm()
-  window.scorerForm = scorerForm
 
   const { t } = useTranslation(['relicScorerTab', 'common'])
 
@@ -496,7 +493,6 @@ function CharacterPreviewSelection(props) {
             </Button>
           </Flex>
         </Flex>
-
 
         {props?.availableCharacters?.length > 0 && (
           <Alert

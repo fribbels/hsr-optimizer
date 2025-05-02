@@ -1,27 +1,31 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB from 'lib/state/db'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
 let saveTimeout: NodeJS.Timeout | null
 
 export const SaveState = {
   save: () => {
-    const storedState = window.store.getState()
+    const showcaseTabState = useShowcaseTabStore.getState()
+    const globalState = window.store.getState()
     const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
-      scorerId: storedState.scorerId,
-      scoringMetadataOverrides: storedState.scoringMetadataOverrides,
-      showcasePreferences: storedState.showcasePreferences,
-      optimizerMenuState: storedState.optimizerMenuState,
-      excludedRelicPotentialCharacters: storedState.excludedRelicPotentialCharacters,
-      savedSession: storedState.savedSession,
-      settings: storedState.settings,
+      scoringMetadataOverrides: globalState.scoringMetadataOverrides,
+      showcasePreferences: globalState.showcasePreferences,
+      optimizerMenuState: globalState.optimizerMenuState,
+      excludedRelicPotentialCharacters: globalState.excludedRelicPotentialCharacters,
+      savedSession: {
+        showcaseTab: showcaseTabState.savedSession,
+        global: globalState.savedSession,
+      },
+      settings: globalState.settings,
       version: CURRENT_OPTIMIZER_VERSION,
-      warpRequest: storedState.warpRequest,
+      warpRequest: globalState.warpRequest,
       relicLocator: {
-        inventoryWidth: storedState.inventoryWidth,
-        rowLimit: storedState.rowLimit,
+        inventoryWidth: globalState.inventoryWidth,
+        rowLimit: globalState.rowLimit,
       },
     }
 

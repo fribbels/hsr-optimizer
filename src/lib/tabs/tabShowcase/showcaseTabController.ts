@@ -1,0 +1,267 @@
+import i18next from 'i18next'
+import { CharacterConverter, UnconvertedCharacter } from 'lib/importer/characterConverter'
+import { Message } from 'lib/interactions/message'
+import DB, { AppPage, AppPages, PageToRoute } from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { ShowcaseTabCharacter, ShowcaseTabCharacterForm, useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Utils } from 'lib/utils/utils'
+import { CharacterId } from 'types/character'
+import { Form } from 'types/form'
+import { LightCone } from 'types/lightCone'
+
+export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
+
+export type ShowcaseTabForm = {
+  scorerId: number | null
+}
+
+export type Preset = CharacterPreset | FillerPreset
+
+export type CharacterPreset = {
+  characterId: CharacterId | null
+  lightConeId: LightCone['id'] | null
+  rerun?: boolean
+  custom?: never
+}
+
+type FillerPreset = {
+  characterId?: never
+  lightConeId?: never
+  rerun?: never
+  custom: true
+}
+
+export function presetCharacters(): Preset[] {
+  const DBMetadata = DB.getMetadata()
+  const char = (id: CharacterId) => Object.values(DBMetadata.characters).some((x) => x.id === id) ? id : null
+  const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
+
+  return [
+    { characterId: char('1406'), lightConeId: lc('23043') },
+    { characterId: char('1409'), lightConeId: lc('23042') },
+    { characterId: char('1405'), lightConeId: lc('23041') },
+    { characterId: char('1407'), lightConeId: lc('23040') },
+
+    { characterId: char('1308'), lightConeId: lc('23024'), rerun: true },
+    { characterId: char('1225'), lightConeId: lc('23035'), rerun: true },
+    { characterId: char('1218'), lightConeId: lc('23029'), rerun: true },
+    { characterId: char('1305'), lightConeId: lc('23020'), rerun: true },
+
+    { custom: true },
+  ]
+}
+
+export function onCharacterModalOk(form: ShowcaseTabCharacterForm) {
+  const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
+  const state = useShowcaseTabStore.getState()
+  if (!form.characterId) {
+    return Message.error(t('NoCharacterSelected')/* No selected character */)
+  }
+  if (state.availableCharacters?.find((x) => x.id === form.characterId) && state.selectedCharacter?.id !== form.characterId) {
+    return Message.error(t('CharacterAlreadyExists')/* Selected character already exists */)
+  }
+
+  const selectedCharacter = TsUtils.clone(state.selectedCharacter)!
+  const availableCharacters = TsUtils.clone(state.availableCharacters)!
+  selectedCharacter.form = form
+  selectedCharacter.id = form.characterId
+  Object.values(selectedCharacter.equipped)
+    .filter((x) => !!x)
+    .forEach((x) => x.equippedBy = form.characterId!)
+  availableCharacters[selectedCharacter.index] = selectedCharacter
+
+  state.setSelectedCharacter(selectedCharacter)
+  state.setAvailableCharacters(availableCharacters)
+  console.log('Modified character', selectedCharacter)
+}
+
+export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharacter') {
+  const state = useShowcaseTabStore.getState()
+
+  let newCharacters: ShowcaseTabCharacter[] = []
+
+  if (mode === 'singleCharacter' && state.selectedCharacter?.form) {
+    DB.addFromForm(state.selectedCharacter.form as Form, false)
+    newCharacters = [state.selectedCharacter]
+  } else if (mode === 'multiCharacter' && state.availableCharacters) {
+    state.availableCharacters?.forEach((char) => {
+      DB.addFromForm(char.form as Form)
+    })
+    newCharacters = state.availableCharacters
+  }
+
+  const newRelics = state.availableCharacters
+    ?.flatMap((x) => Object.values(x.equipped))
+    .filter((x) => !!x)
+
+  console.log('import clicked! mode:', mode, 'relics:', newRelics)
+
+  DB.mergePartialRelicsWithState(newRelics, newCharacters)
+  SaveState.delayedSave()
+}
+
+export function initialiseShowcaseTab(activeKey: AppPage) {
+  const { savedSession, availableCharacters } = useShowcaseTabStore.getState()
+  const { scorerId } = savedSession
+  if (availableCharacters?.length && scorerId && activeKey === AppPages.SHOWCASE) {
+    window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.SHOWCASE] + `?id=${scorerId}`)
+  }
+  if (activeKey !== AppPages.SHOWCASE) return
+  const id: string | null = window.location.href.split('?')[1]?.split('id=')[1]?.split('&')[0] ?? null
+  submitForm({ scorerId: Number(id) })
+}
+
+const throttleSeconds = 10
+
+export function submitForm(form: ShowcaseTabForm) {
+  const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
+  const {
+    setSelectedCharacter,
+    setAvailableCharacters,
+    latestRefreshDate,
+    setLatestRefreshDate,
+    setLoading,
+    loading,
+    setScorerId,
+  } = useShowcaseTabStore.getState()
+
+  console.log('scorerId:', form.scorerId)
+  const id = form.scorerId?.toString()?.trim() ?? ''
+
+  if (id.length != 9) {
+    setLoading(false)
+    Message.error(t('InvalidIdWarning')/* Invalid ID */)
+    return
+  }
+
+  if (latestRefreshDate) {
+    const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
+    Message.warning(t('ThrottleWarning'/* Please wait {{seconds}} seconds before retrying */, {
+      seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date().getTime() - latestRefreshDate.getTime()) / 1000)),
+    }))
+    if (loading) {
+      setLoading(false)
+    }
+    return
+  } else {
+    setLoading(true)
+    setLatestRefreshDate(new Date())
+    setTimeout(() => {
+      setLatestRefreshDate(null)
+    }, throttleSeconds * 1000)
+  }
+
+  setScorerId(id)
+  SaveState.delayedSave()
+
+  window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.SHOWCASE] + `?id=${id}`)
+
+  void fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`)
+      return response.json() as Promise<APIResponse>
+    })
+    .then((data) => {
+      console.log(data)
+
+      let characters: UnconvertedCharacter[]
+      // backup 1
+      if (data.source === 'mana') {
+        characters = processManaData(data)
+      // backup 2
+      } else if (data.source === 'mihomo') {
+        characters = processMihomoData(data)
+      // enka
+      } else if (data.source === 'enka') {
+        characters = processEnkaData(data)
+      } else {
+        setLoading(false)
+        Message.error(t('IdLoadError')/* Error loading ID */)
+        return
+      }
+
+      console.log('characters', characters)
+
+      // Filter by unique id
+      const converted = characters.map((x) => CharacterConverter.convert(x)).filter((value, index, self) => self.map((x) => x.id).indexOf(value.id) == index)
+      for (let i = 0; i < converted.length; i++) {
+        converted[i].index = i
+      }
+      setAvailableCharacters(converted)
+      if (converted.length) {
+        setSelectedCharacter(converted[0])
+      }
+      setLoading(false)
+      Message.success(t('SuccessMsg')/* Successfully loaded profile */)
+      window.showcaseTabForm.setFieldValue('scorerId', id)
+    })
+    .catch((error) => {
+      setTimeout(() => {
+        Message.warning(t('LookupError')/* Error during lookup, please try again in a bit */)
+        console.error('Fetch error:', error)
+        setLoading(false)
+      }, 1000 * 5)
+    })
+}
+
+function processManaData(data: ManaApiResponse): UnconvertedCharacter[] {
+  data = Utils.recursiveToCamel(data)
+  return [
+    data.detailInfo.assistAvatars[0],
+    data.detailInfo.assistAvatars[1],
+    data.detailInfo.assistAvatars[2],
+    data.detailInfo.avatarDetailList[0],
+    data.detailInfo.avatarDetailList[1],
+    data.detailInfo.avatarDetailList[2],
+    data.detailInfo.avatarDetailList[3],
+    data.detailInfo.avatarDetailList[4],
+  ].filter((x) => !!x)
+}
+
+function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter[] {
+  const characters = data.characters.filter((x) => !!x)
+  for (const character of characters) {
+    character.relicList = character.relics || []
+    character.equipment = character.light_cone
+    character.avatarId = character.id
+
+    if (character.equipment) {
+      character.equipment.tid = character.equipment.id
+    }
+
+    for (const relic of character.relicList) {
+      relic.tid = relic.id
+      relic.subAffixList = relic.sub_affix
+    }
+  }
+  return characters
+}
+
+function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
+  return [...(data.detailInfo.assistAvatarList || []), ...(data.detailInfo.avatarDetailList || [])]
+    .filter((x) => !!x)
+    .sort((a, b) => {
+      if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
+      if (b._assist) return 1
+      if (a._assist) return -1
+      return 0
+    })
+    .filter((item, index, array) => {
+      return array.findIndex((i) => i.avatarId === item.avatarId) === index
+    })
+}
+
+type APIResponse = ManaApiResponse | MihomoApiResponse | EnkaApiResponse
+
+type ManaApiResponse = {
+  source: 'mana'
+}
+
+type MihomoApiResponse = {
+  source: 'mihomo'
+}
+
+type EnkaApiResponse = {
+  source: 'enka'
+}

@@ -14,6 +14,7 @@ import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -23,7 +24,7 @@ import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
 import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
-import { HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
+import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, UserSettings } from 'types/store'
 import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
@@ -49,7 +50,6 @@ export const AppPages = {
   IMPORT: 'IMPORT',
 
   CHANGELOG: 'CHANGELOG',
-  RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
   WARP: 'WARP',
   BENCHMARKS: 'BENCHMARKS',
@@ -57,14 +57,15 @@ export const AppPages = {
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
   HOME: 'HOME',
-}
+} as const
+
+export type AppPage = typeof AppPages[keyof typeof AppPages]
 
 export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
 
   [AppPages.OPTIMIZER]: BASE_PATH + '#main',
 
-  [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
   [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
   [AppPages.WARP]: BASE_PATH + '#warp',
   [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
@@ -72,11 +73,10 @@ export const PageToRoute = {
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
-}
+} as const
 
 export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
-  [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.WARP]]: AppPages.WARP,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
@@ -85,7 +85,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
   [PageToRoute[AppPages.HOME]]: AppPages.HOME,
-}
+} as const
 
 // React usage
 // let characterTabBlur = store(s => s.characterTabBlur);
@@ -94,9 +94,8 @@ export const RouteToPage = {
 // Nonreactive usage
 // store.getState().setRelicsById(relicsById)
 
-const savedSessionDefaults: SavedSession = {
+const savedSessionDefaults: GlobalSavedSession = {
   [SavedSessionKeys.optimizerCharacterId]: null,
-  [SavedSessionKeys.relicScorerSidebarOpen]: true,
   [SavedSessionKeys.scoringType]: ScoringType.COMBAT_SCORE,
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
@@ -144,7 +143,6 @@ window.store = create((set) => {
     permutationsResults: 0,
     permutationsSearched: 0,
     relicsById: {},
-    scorerId: '',
     scoringMetadataOverrides: {},
     showcasePreferences: {},
     showcaseTemporaryOptionsByCharacter: {},
@@ -248,7 +246,6 @@ window.store = create((set) => {
     setRelicsById: (x) => set(() => ({ relicsById: x })),
     setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
     setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
-    setScorerId: (x) => set(() => ({ scorerId: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
@@ -591,7 +588,6 @@ export const DB = {
       window.store.getState().setWarpRequest(saveData.warpRequest || {})
     }
 
-    window.store.getState().setScorerId(saveData.scorerId)
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
       for (const key of Object.values(OptimizerMenuIds)) {
@@ -604,16 +600,19 @@ export const DB = {
 
     if (saveData.savedSession) {
       // Don't load an invalid character
-      const optimizerCharacterId = saveData.savedSession.optimizerCharacterId
+      const optimizerCharacterId = saveData.savedSession.global?.optimizerCharacterId
       if (optimizerCharacterId && !dbCharacters[optimizerCharacterId]) {
         // @ts-ignore
         delete saveData.savedSession.optimizerCharacterId
+        // @ts-ignore
+        delete saveData.savedSession.global?.optimizerCharacterId
       }
 
       // When new session items are added, set user's save to the default
-      const overiddenSavedSessionDefaults = {
+      const overiddenSavedSessionDefaults: GlobalSavedSession = {
         ...savedSessionDefaults,
-        ...saveData.savedSession,
+        // TODO delete once people have migrated to new save format
+        ...(saveData.savedSession.global ?? saveData.savedSession),
       }
 
       window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
@@ -623,6 +622,13 @@ export const DB = {
       window.store.getState().setSettings(saveData.settings)
     }
 
+    // Set showcase tab state
+    // @ts-ignore TODO remove rhs of nullish once migration period is over
+    useShowcaseTabStore.getState().setScorerId(saveData.savedSession?.showcaseTab?.scorerId ?? saveData?.scorerId as string)
+    // @ts-ignore
+    useShowcaseTabStore.getState().setSidebarOpen(saveData.savedSession?.showcaseTab?.sidebarOpen ?? saveData.savedSession?.relicScorerSidebarOpen)
+
+    // Set relics tab state
     window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(saveData.version)
     window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
@@ -1022,9 +1028,9 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import.\
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one.
    */
-  mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
+  mergePartialRelicsWithState: (newRelics: Relic[] = [], sourceCharacters: { id: CharacterId }[] = []) => {
     const oldRelics = TsUtils.clone(DB.getRelics()) || []
-    newRelics = TsUtils.clone(newRelics) || []
+    newRelics = TsUtils.clone(newRelics)
 
     // Tracking these for debug / messaging
     const updatedOldRelics: Relic[] = []

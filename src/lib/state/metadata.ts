@@ -1,7 +1,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
+import { Constants, Parts, PartsMainStats, Sets, SetsRelics, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -18,6 +18,16 @@ const MEMO_TALENT = 'MEMO_TALENT'
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
 
+const MATCH_2P_WEIGHT = 0.75
+const T2_WEIGHT = 0.9
+
+function weights<K extends string>(sets: K[], weight: number = 1) {
+  return sets.reduce((acc, set) => {
+    acc[set] = weight
+    return acc
+  }, {} as Record<K, number>)
+}
+
 const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
   Sets.SacerdosRelivedOrdeal,
@@ -25,6 +35,29 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.WatchmakerMasterOfDreamMachinations,
   Sets.IronCavalryAgainstTheScourge,
 ]
+
+const SPREAD_RELICS_2P_SPEED_WEIGHTS = {
+  [Sets.MessengerTraversingHackerspace]: MATCH_2P_WEIGHT,
+  [Sets.SacerdosRelivedOrdeal]: MATCH_2P_WEIGHT,
+}
+
+const SPREAD_RELICS_2P_BREAK_WEIGHTS = {
+  [Sets.ThiefOfShootingMeteor]: MATCH_2P_WEIGHT,
+  [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
+  [Sets.IronCavalryAgainstTheScourge]: MATCH_2P_WEIGHT,
+}
+
+const SPREAD_RELICS_2P_ATK_WEIGHTS = {
+  [Sets.MusketeerOfWildWheat]: MATCH_2P_WEIGHT,
+  [Sets.PrisonerInDeepConfinement]: MATCH_2P_WEIGHT,
+  [Sets.TheWindSoaringValorous]: MATCH_2P_WEIGHT,
+  [Sets.HeroOfTriumphantSong]: MATCH_2P_WEIGHT,
+}
+
+const SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS = {
+  ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+  [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+}
 
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
@@ -38,6 +71,8 @@ const SPREAD_ORNAMENTS_2P_FUA = [
   Sets.InertSalsotto,
 ]
 
+const SPREAD_ORNAMENTS_2P_FUA_WEIGHTS = weights(SPREAD_ORNAMENTS_2P_FUA)
+
 const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
   Sets.SigoniaTheUnclaimedDesolation,
 ]
@@ -48,6 +83,8 @@ const SPREAD_ORNAMENTS_2P_ENERGY_REGEN = [
   Sets.LushakaTheSunkenSeas,
 ]
 
+const SPREAD_ORNAMENTS_2P_ENERGY_REGEN_WEIGHTS = weights(SPREAD_ORNAMENTS_2P_ENERGY_REGEN)
+
 const SPREAD_ORNAMENTS_2P_SUPPORT = [
   Sets.SprightlyVonwacq,
   Sets.BrokenKeel,
@@ -55,6 +92,8 @@ const SPREAD_ORNAMENTS_2P_SUPPORT = [
   Sets.FleetOfTheAgeless,
   Sets.LushakaTheSunkenSeas,
 ]
+
+const SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS = weights(SPREAD_ORNAMENTS_2P_SUPPORT)
 
 export const Metadata = {
   initialize: () => {
@@ -1317,6 +1356,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.KnightOfPurityPalace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.BelobogOfTheArchitects]: 1,
+      },
       presets: [
         PresetEffects.VALOROUS_SET,
       ],
@@ -1355,6 +1401,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -1450,6 +1508,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.FiresmithOfLavaForging]: T2_WEIGHT,
+
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
@@ -1550,6 +1617,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.InertSalsotto]: 1,
+      },
       presets: [
         PresetEffects.WASTELANDER_SET,
         PresetEffects.fnPioneerSet(4),
@@ -1647,6 +1725,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -1750,6 +1837,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+      },
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -1787,6 +1884,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+        [Sets.LongevousDisciple]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -1874,6 +1983,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        [Sets.EagleOfTwilightLine]: 1,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SPD,
       hiddenColumns: [SortOption.ULT, SortOption.FUA],
@@ -1909,6 +2027,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.RutilantArena]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
@@ -2003,6 +2133,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.DOT],
@@ -2038,6 +2176,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -2133,6 +2281,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -2235,6 +2394,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.KnightOfPurityPalace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.BelobogOfTheArchitects]: 1,
+      },
       presets: [],
       sortOption: SortOption.SHIELD,
       addedColumns: [SortOption.SHIELD],
@@ -2271,6 +2437,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
       },
       presets: [],
       sortOption: SortOption.HEAL,
@@ -2310,6 +2485,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -2347,6 +2528,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.TheAshblazingGrandDuke]: MATCH_2P_WEIGHT,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: 1,
+        [Sets.LongevousDisciple]: T2_WEIGHT,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
       },
       presets: [
         PresetEffects.fnAshblazingSet(2),
@@ -2446,6 +2636,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+        [Sets.PrisonerInDeepConfinement]: 1,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -2538,6 +2738,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.FiresmithOfLavaForging]: T2_WEIGHT,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -2635,6 +2845,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
@@ -2672,6 +2890,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.BE,
         ],
+      },
+      sets: {
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -2769,6 +2998,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
+
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(0),
@@ -2871,6 +3112,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+      },
       presets: [
         PresetEffects.VALOROUS_SET,
         PresetEffects.fnSacerdosSet(2),
@@ -2970,6 +3221,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+        
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SPD,
       hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -3007,6 +3267,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -3046,6 +3314,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+        
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
@@ -3144,6 +3421,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.HP_P,
         ],
+      },
+      sets: {
+        [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.MusketeerOfWildWheat]: T2_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -3244,6 +3532,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
+        [Sets.ChampionOfStreetwiseBoxing]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
       presets: [],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
@@ -3341,6 +3639,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [
         PresetEffects.WASTELANDER_SET,
         PresetEffects.fnSacerdosSet(1),
@@ -3383,6 +3687,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.EHP,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
@@ -3419,6 +3730,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: 1,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -3516,6 +3837,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PrisonerInDeepConfinement]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.FleetOfTheAgeless]: 1,
+      },
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -3552,6 +3884,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.SacerdosRelivedOrdeal]: MATCH_2P_WEIGHT,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
       },
       presets: [],
       sortOption: SortOption.HEAL,
@@ -3590,6 +3931,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -3683,6 +4036,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -3780,6 +4143,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+      },
       presets: [
         PresetEffects.fnAshblazingSet(3),
         PresetEffects.VALOROUS_SET,
@@ -3875,6 +4249,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SPD,
       hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -3911,6 +4292,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
@@ -3943,6 +4331,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: 1,
+        
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -3981,6 +4377,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.TheWindSoaringValorous]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(1),
@@ -4080,6 +4486,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ChampionOfStreetwiseBoxing]: MATCH_2P_WEIGHT,
+        [Sets.TheWindSoaringValorous]: 1,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -4184,6 +4599,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.PasserbyOfWanderingCloud]: MATCH_2P_WEIGHT,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+      },
       presets: [
         PresetEffects.BANANA_SET,
         PresetEffects.fnAshblazingSet(6),
@@ -4225,6 +4652,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.InertSalsotto]: T2_WEIGHT,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -4327,6 +4763,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.MusketeerOfWildWheat]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+      },
       presets: [
         PresetEffects.fnAshblazingSet(2),
         PresetEffects.VALOROUS_SET,
@@ -4418,6 +4864,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.SprightlyVonwacq]: 1,
+        [Sets.LushakaTheSunkenSeas]: 1,
       },
       presets: [],
       sortOption: SortOption.BASIC,
@@ -4517,6 +4974,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+      },
       presets: [],
       sortOption: SortOption.BE,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
@@ -4554,6 +5023,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
+        
+        [Sets.InertSalsotto]: 1,
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [],
       sortOption: SortOption.ULT,
@@ -4642,6 +5119,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.BE,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -4679,6 +5165,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.DEF_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+        [Sets.WastelanderOfBanditryDesert]: MATCH_2P_WEIGHT,
+        [Sets.KnightOfPurityPalace]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -4786,6 +5284,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+      },
       presets: [
         PresetEffects.fnAshblazingSet(1),
         PresetEffects.fnPioneerSet(4),
@@ -4880,6 +5387,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -4915,6 +5429,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.MusketeerOfWildWheat]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -5015,6 +5539,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+      },
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -5109,6 +5644,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.ATK,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -5142,6 +5684,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.BE,
         ],
+      },
+      sets: {
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
+
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -5233,6 +5782,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
+      },
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -5323,6 +5881,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -5358,6 +5923,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.TheWindSoaringValorous]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -5452,6 +6028,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+      },
       presets: [],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -5537,6 +6123,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.BE,
         ],
+      },
+      sets: {
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -5635,6 +6229,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
       presets: [],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
@@ -5730,6 +6335,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
       presets: [],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
@@ -5823,6 +6439,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
+        [Sets.KnightOfPurityPalace]: 1,
+        
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SHIELD,
       addedColumns: [SortOption.SHIELD],
@@ -5859,6 +6482,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
+        [Sets.KnightOfPurityPalace]: 1,
+        
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SHIELD,
       addedColumns: [SortOption.SHIELD],
@@ -5890,6 +6520,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+      },
       presets: [],
       sortOption: SortOption.BE,
       hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -5919,6 +6559,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
       },
       presets: [],
       sortOption: SortOption.BE,
@@ -5953,6 +6603,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.HeroOfTriumphantSong]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -5990,6 +6648,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.HeroOfTriumphantSong]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -6030,6 +6696,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+        
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -6125,6 +6801,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.BandOfSizzlingThunder]: MATCH_2P_WEIGHT,
+        [Sets.HeroOfTriumphantSong]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -6224,6 +6910,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.BoneCollectionsSereneDemesne]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -6328,6 +7026,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
         ],
       },
+      sets: {
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.LongevousDisciple]: T2_WEIGHT,
+        [Sets.WastelanderOfBanditryDesert]: MATCH_2P_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
+      },
       presets: [
         PresetEffects.WASTELANDER_SET,
       ],
@@ -6424,6 +7131,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.RutilantArena]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -6529,6 +7247,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
         ],
       },
+      sets: {
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.ScholarLostInErudition]: T2_WEIGHT,
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
+        [Sets.FleetOfTheAgeless]: T2_WEIGHT,
+        [Sets.RutilantArena]: T2_WEIGHT,
+        [Sets.InertSalsotto]: T2_WEIGHT,
+      },
       presets: [
         PresetEffects.BANANA_SET,
       ],
@@ -6624,6 +7354,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.HP_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        // [Sets.WarriorGoddessOfSunAndThunder]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: T2_WEIGHT,
+        
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
+      },
       presets: [
         PresetEffects.BANANA_SET,
       ],
@@ -6664,6 +7404,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.fnAshblazingSet(4),

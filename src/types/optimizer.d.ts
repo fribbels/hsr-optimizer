@@ -103,8 +103,6 @@ export type OptimizerContext = CharacterMetadata & {
   // Optimizer environment
   resultsLimit: number
   resultSort: string
-  minFilters: OptimizerMinFilters
-  maxFilters: OptimizerMaxFilters
   combatBuffs: OptimizerCombatBuffs
   deprioritizeBuffs: boolean
 
@@ -140,9 +138,6 @@ export type OptimizerContext = CharacterMetadata & {
   characterConditionalController: CharacterConditionalsController
   lightConeConditionalController: LightConeConditionalsController
 }
-
-export type OptimizerMinFilters = {}
-export type OptimizerMaxFilters = {}
 
 export type OptimizerCombatBuffs = {
   ATK: number

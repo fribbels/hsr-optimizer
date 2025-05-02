@@ -56,7 +56,7 @@ export function ComboDrawer() {
   const setComboState = window.store((s) => s.setComboState)
 
   const selectActivationState = useRef(true)
-  const lastSelectedKeyState = useRef(undefined)
+  const lastSelectedKeyState = useRef<string | undefined>(undefined)
 
   useEffect(() => {
     if (comboDrawerOpen) {
@@ -109,14 +109,16 @@ export function ComboDrawer() {
           // The rate at which the target overlaps the drag area to be selected. (default: 100)
           hitRate={0}
           onDrag={(e) => {
-            const selectedKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const selectedKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
             if (selectedKey != lastSelectedKeyState.current) {
               updatePartitionActivation(selectedKey, comboState)
               lastSelectedKeyState.current = selectedKey
             }
           }}
           onDragStart={(e) => {
-            const startKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const startKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
             const located = locateActivations(startKey, comboState)
 
             selectActivationState.current = !(located && located.value)
@@ -134,7 +136,8 @@ export function ComboDrawer() {
               updateActivation(elementToDataKey(el), selectActivationState.current, newState)
             })
 
-            const selectedKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const selectedKey: string = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
             if (selectedKey != lastSelectedKeyState.current) {
               updatePartitionActivation(selectedKey, comboState)
               lastSelectedKeyState.current = selectedKey
@@ -217,9 +220,9 @@ function ComboHeader(props: {
   console.debug(comboTurnAbilities)
 
   const length = comboTurnAbilities.length
-  const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
-    <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>
-  ))
+  const render = Array(Math.min(9, length + 1))
+    .fill(false)
+    .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>)
 
   return (
     <Flex gap={abilityGap}>

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useWebSocket from "partysocket/use-ws";
 import { create, StoreApi, UseBoundStore } from "zustand";
-import { ScannerParserJson, V4ParserCharacter, V4ParserLightCone, V4ParserRelic } from "lib/importer/kelzFormatParser";
+import { ScannerParserJson, V4ParserCharacter, V4ParserGachaFunds, V4ParserLightCone, V4ParserMaterial, V4ParserRelic } from "lib/importer/kelzFormatParser";
 import { ReliquaryArchiverParser } from "lib/importer/importConfig";
 import DB, { AppPages } from "lib/state/db";
 import { SaveState } from "lib/state/saveState";
@@ -209,15 +209,11 @@ type PityUpdate = {
     }
 )
 
-type GachaFunds = {
-    stellar_jade: number
-    oneric_shards: number
-}
-
 type ScannerEvent = 
     | { event: "InitialScan", data: ScannerParserJson }
     | { event: "GachaResult", data: GachaResult }
-    | { event: "UpdateGachaFunds", data: GachaFunds }
+    | { event: "UpdateGachaFunds", data: V4ParserGachaFunds }
+    | { event: "UpdateMaterials", data: V4ParserMaterial[] }
     | { event: "UpdateRelics", data: V4ParserRelic[] }
     | { event: "UpdateLightCones", data: V4ParserLightCone[] }
     | { event: "UpdateCharacters", data: V4ParserCharacter[] }

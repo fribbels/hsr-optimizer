@@ -59,6 +59,18 @@ export type V4ParserRelic = {
   _uid: string
 }
 
+export type V4ParserGachaFunds = {
+  stellar_jade: number
+  oneric_shards: number
+}
+
+export type V4ParserMaterial = {
+  id: string
+  name: string
+  count: number
+  expire_time?: number
+}
+
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
   map[relic.id] = relic
   return map

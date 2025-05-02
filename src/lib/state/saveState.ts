@@ -7,8 +7,11 @@ let saveTimeout: NodeJS.Timeout | null
 
 export const SaveState = {
   save: () => {
-    const showcaseTabState = useShowcaseTabStore.getState()
     const globalState = window.store.getState()
+    const showcaseTabSession = useShowcaseTabStore.getState().savedSession
+    const globalSession = globalState.savedSession
+    // @ts-ignore TODO remove once migration complete | added on 02/05/2025 (dd/mm/yyyy)
+    delete globalSession.relicScorerSidebarOpen
     const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
@@ -17,7 +20,7 @@ export const SaveState = {
       optimizerMenuState: globalState.optimizerMenuState,
       excludedRelicPotentialCharacters: globalState.excludedRelicPotentialCharacters,
       savedSession: {
-        showcaseTab: showcaseTabState.savedSession,
+        showcaseTab: showcaseTabSession,
         global: globalState.savedSession,
       },
       settings: globalState.settings,
@@ -29,7 +32,6 @@ export const SaveState = {
       },
     }
 
-    console.log('Saved state')
     const stateString = JSON.stringify(state)
     localStorage.state = stateString
     saveTimeout = null

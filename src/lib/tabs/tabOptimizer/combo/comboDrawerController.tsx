@@ -87,8 +87,6 @@ export type SetConditionals = typeof defaultSetConditionals
 
 export function initializeComboState(request: Form, merge: boolean) {
   const dbMetadata = DB.getMetadata()
-  const dbLightCones = dbMetadata.lightCones
-  const dbCharacters = dbMetadata.characters
   const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
@@ -142,7 +140,6 @@ export function initializeComboState(request: Form, merge: boolean) {
   comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount, dbMetadata)
 
   if (request.comboStateJson && merge) {
-    console.log(request.comboStateJson)
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
     comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
     comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []

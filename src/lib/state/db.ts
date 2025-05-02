@@ -390,7 +390,7 @@ export const DB = {
   // Mostly for debugging
   getState: () => window.store.getState(),
 
-  getScoringMetadata: (id: string) => {
+  getScoringMetadata: (id: CharacterId) => {
     const dbMetadata = DB.getMetadata()
     const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides
@@ -434,7 +434,7 @@ export const DB = {
 
     return returnScoringMetadata
   },
-  updateCharacterScoreOverrides: (id: string, updated: ScoringMetadata) => {
+  updateCharacterScoreOverrides: (id: CharacterId, updated: ScoringMetadata) => {
     const overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
       overrides[id] = updated
@@ -522,7 +522,7 @@ export const DB = {
     indexRelics(saveData.relics)
 
     if (saveData.scoringMetadataOverrides) {
-      for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides)) {
+      for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, unknown][]) {
         // Migration: previously the overrides were an array, invalidate the arrays
         // @ts-ignore
         if (value.length) {
@@ -600,9 +600,10 @@ export const DB = {
 
     if (saveData.savedSession) {
       // Don't load an invalid character
-      const optimizerCharacterId = saveData.savedSession.global?.optimizerCharacterId
+      // @ts-ignore TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
+      const optimizerCharacterId: CharacterId | null = saveData.savedSession.global?.optimizerCharacterId ?? saveData.savedSession.optimizerCharacterId
       if (optimizerCharacterId && !dbCharacters[optimizerCharacterId]) {
-        // @ts-ignore
+        // @ts-ignore TODO remove once migration complete | added on 02/05/2025 (dd/mm/yyyy)
         delete saveData.savedSession.optimizerCharacterId
         // @ts-ignore
         delete saveData.savedSession.global?.optimizerCharacterId
@@ -611,7 +612,7 @@ export const DB = {
       // When new session items are added, set user's save to the default
       const overiddenSavedSessionDefaults: GlobalSavedSession = {
         ...savedSessionDefaults,
-        // TODO delete once people have migrated to new save format
+        // TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
         ...(saveData.savedSession.global ?? saveData.savedSession),
       }
 
@@ -623,9 +624,9 @@ export const DB = {
     }
 
     // Set showcase tab state
-    // @ts-ignore TODO remove rhs of nullish once migration period is over
+    // @ts-ignore TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
     useShowcaseTabStore.getState().setScorerId(saveData.savedSession?.showcaseTab?.scorerId ?? saveData?.scorerId as string)
-    // @ts-ignore
+    // @ts-ignore TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
     useShowcaseTabStore.getState().setSidebarOpen(saveData.savedSession?.showcaseTab?.sidebarOpen ?? saveData.savedSession?.relicScorerSidebarOpen)
 
     // Set relics tab state

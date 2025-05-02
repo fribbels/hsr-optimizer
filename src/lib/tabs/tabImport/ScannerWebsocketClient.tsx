@@ -189,13 +189,40 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 
 export const useScannerState: UseBoundStore<StoreApi<ScannerState & ScannerActions>> = usePrivateScannerState
 
+type GachaResult = {
+    banner_id: number
+    banner_type: "Character" | "LightCone" | "Standard"
+    pity_4: PityUpdate
+    pity_5: PityUpdate
+    pull_results: string[] // character / light cone ids
+}
+
+type PityUpdate = {
+    amount: number
+} & (
+    | {
+        kind: "AddPity"
+    }
+    | {
+        kind: "ResetPity"
+        set_guarantee: boolean
+    }
+)
+
+type GachaFunds = {
+    stellar_jade: number
+    oneric_shards: number
+}
+
 type ScannerEvent = 
     | { event: "InitialScan", data: ScannerParserJson }
-    | { event: "UpdateRelic", data: V4ParserRelic }
-    | { event: "UpdateLightCone", data: V4ParserLightCone }
-    | { event: "UpdateCharacter", data: V4ParserCharacter }
-    | { event: "DeleteRelic", data: string } // data: unique id
-    | { event: "DeleteLightCone", data: string } // data: unique id
+    | { event: "GachaResult", data: GachaResult }
+    | { event: "UpdateGachaFunds", data: GachaFunds }
+    | { event: "UpdateRelics", data: V4ParserRelic[] }
+    | { event: "UpdateLightCones", data: V4ParserLightCone[] }
+    | { event: "UpdateCharacters", data: V4ParserCharacter[] }
+    | { event: "DeleteRelics", data: string[] } // data: unique ids
+    | { event: "DeleteLightCones", data: string[] } // data: unique ids
 
 function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
     const newScan = ReliquaryArchiverParser.parse(data)
@@ -301,25 +328,37 @@ export function ScannerWebsocket() {
         onMessage: (message) => {
             const event: ScannerEvent = JSON.parse(message.data)
             const state = usePrivateScannerState.getState()
+
+            // TODO: Optimize by batching updates to the db where possible
             switch (event.event) {
                 case "InitialScan":
                     initialScan(state, event.data)
                     break
-                case "UpdateRelic":
-                    updateRelic(state, event.data)
-                    relicSelectionBuffer.current.push(event.data._uid)
+                case "UpdateRelics":
+                    event.data.forEach((relic) => {
+                        updateRelic(state, relic)
+                        relicSelectionBuffer.current.push(relic._uid)
+                    })
                     break
-                case "UpdateLightCone":
-                    updateLightCone(state, event.data)
+                case "UpdateLightCones":
+                    event.data.forEach((lightCone) => {
+                        updateLightCone(state, lightCone)
+                    })
                     break
-                case "UpdateCharacter":
-                    updateCharacter(state, event.data)
+                case "UpdateCharacters":
+                    event.data.forEach((character) => {
+                        updateCharacter(state, character)
+                    })
                     break
-                case "DeleteRelic":
-                    deleteRelic(state, event.data)
+                case "DeleteRelics":
+                    event.data.forEach((relicId) => {
+                        deleteRelic(state, relicId)
+                    })
                     break
-                case "DeleteLightCone":
-                    deleteLightCone(state, event.data)
+                case "DeleteLightCones":
+                    event.data.forEach((lightConeId) => {
+                        deleteLightCone(state, lightConeId)
+                    })
                     break
                 default:
                     console.error(`Unknown event: ${JSON.stringify(event)}`)

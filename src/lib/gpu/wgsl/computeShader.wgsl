@@ -155,6 +155,9 @@ fn main(
     sets.ScholarLostInErudition              = i32((1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)));
     sets.HeroOfTriumphantSong                = i32((1 >> (setH ^ 22)) + (1 >> (setG ^ 22)) + (1 >> (setB ^ 22)) + (1 >> (setF ^ 22)));
     sets.PoetOfMourningCollapse              = i32((1 >> (setH ^ 23)) + (1 >> (setG ^ 23)) + (1 >> (setB ^ 23)) + (1 >> (setF ^ 23)));
+    sets.WarriorGoddessOfSunAndThunder       = i32((1 >> (setH ^ 24)) + (1 >> (setG ^ 24)) + (1 >> (setB ^ 24)) + (1 >> (setF ^ 24)));
+    sets.WavestriderCaptain                  = i32((1 >> (setH ^ 25)) + (1 >> (setG ^ 25)) + (1 >> (setB ^ 25)) + (1 >> (setF ^ 25)));
+
 
     // Calculate ornament set counts
 
@@ -238,7 +241,8 @@ fn main(
       0.06 * p4(sets.MusketeerOfWildWheat) +
       0.06 * p2(sets.SacerdosRelivedOrdeal) -
       0.08 * p4(sets.PoetOfMourningCollapse) +
-      0.06 * p2(sets.GiantTreeOfRaptBrooding)
+      0.06 * p2(sets.GiantTreeOfRaptBrooding) +
+      0.06 * p2(sets.WarriorGoddessOfSunAndThunder)
     );
 
     c.HP += (baseHP) * (
@@ -273,7 +277,8 @@ fn main(
 
     c.CD += (
       0.16 * p2(sets.CelestialDifferentiator) +
-      0.16 * p2(sets.TheWondrousBananAmusementPark)
+      0.16 * p2(sets.TheWondrousBananAmusementPark) +
+      0.16 * p2(sets.WavestriderCaptain)
     );
 
     c.EHR += (

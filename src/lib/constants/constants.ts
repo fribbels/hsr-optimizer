@@ -390,6 +390,8 @@ export const SetsRelics = {
   ScholarLostInErudition: 'Scholar Lost in Erudition',
   HeroOfTriumphantSong: 'Hero of Triumphant Song',
   PoetOfMourningCollapse: 'Poet of Mourning Collapse',
+  WarriorGoddessOfSunAndThunder: 'Warrior Goddess of Sun and Thunder',
+  WavestriderCaptain: 'Sets.Wavestrider Captain',
 } as const
 
 export const SetsOrnaments = {
@@ -657,6 +659,8 @@ export const setToId = {
   [Sets.ScholarLostInErudition]: '122',
   [Sets.HeroOfTriumphantSong]: '123',
   [Sets.PoetOfMourningCollapse]: '124',
+  [Sets.WarriorGoddessOfSunAndThunder]: '125',
+  [Sets.WavestriderCaptain]: '126',
 
   [Sets.SpaceSealingStation]: '301',
   [Sets.FleetOfTheAgeless]: '302',

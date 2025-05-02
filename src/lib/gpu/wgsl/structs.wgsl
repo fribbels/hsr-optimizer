@@ -74,6 +74,8 @@ struct Sets {
   ScholarLostInErudition: i32,
   HeroOfTriumphantSong: i32,
   PoetOfMourningCollapse: i32,
+  WarriorGoddessOfSunAndThunder: i32,
+  WavestriderCaptain: i32,
   SpaceSealingStation: i32,
   FleetOfTheAgeless: i32,
   PanCosmicCommercialEnterprise: i32,

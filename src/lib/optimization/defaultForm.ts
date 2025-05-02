@@ -145,6 +145,8 @@ export const defaultSetConditionals = {
   [Sets.ScholarLostInErudition]: [undefined, true],
   [Sets.HeroOfTriumphantSong]: [undefined, false],
   [Sets.PoetOfMourningCollapse]: [undefined, true],
+  [Sets.WarriorGoddessOfSunAndThunder]: [undefined, false],
+  [Sets.WavestriderCaptain]: [undefined, true],
 
   [Sets.SpaceSealingStation]: [undefined, true],
   [Sets.FleetOfTheAgeless]: [undefined, true],

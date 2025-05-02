@@ -54,6 +54,8 @@ export type SetConditional = {
   enabledTheWondrousBananAmusementPark: boolean
   enabledScholarLostInErudition: boolean
   enabledHeroOfTriumphantSong: boolean
+  enabledWarriorGoddessOfSunAndThunder: boolean
+  enabledWavestriderCaptain: boolean
   valueChampionOfStreetwiseBoxing: number
   valueWastelanderOfBanditryDesert: number
   valueLongevousDisciple: number

@@ -468,6 +468,26 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       x.CR.buffBaseDual((x.c.a[Key.SPD] < 110 ? 0.20 : 0) + (x.c.a[Key.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
     },
   },
+  WarriorGoddessOfSunAndThunder: {
+    key: 'WarriorGoddessOfSunAndThunder',
+    index: 24,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+    },
+  },
+  WavestriderCaptain: {
+    key: 'WavestriderCaptain',
+    index: 25,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CD.buff(0.16, Source.WavestriderCaptain)
+    },
+    p4c: (c: BasicStatsArray, context: OptimizerContext) => {
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+    },
+  },
 }
 
 export const SetsConfig = { ...RelicSetsConfig, ...OrnamentSetsConfig }

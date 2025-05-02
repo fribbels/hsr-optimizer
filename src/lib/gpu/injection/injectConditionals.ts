@@ -56,7 +56,7 @@ ${lightConeConditionalWgsl}
 
   conditionalsWgsl += `
   default: {
-  
+
   }
 }
 `
@@ -123,6 +123,8 @@ const action${i} = Action( // ${action.actionIndex}
     ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
     ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
     ${action.setConditionals.enabledHeroOfTriumphantSong},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
+    ${action.setConditionals.enabledWarriorGoddessOfSunAndThunder},${gpuParams.DEBUG ? ' // enabledWarriorGoddessOfSunAndThunder' : ''}
+    ${action.setConditionals.enabledWavestriderCaptain},${gpuParams.DEBUG ? ' // enabledWavestriderCaptain' : ''}
     ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
     ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
     ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}

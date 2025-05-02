@@ -169,7 +169,7 @@ body,
     min-height: 22px !important;
 }
 
-.relic-sets-cascader .ant-cascader-menu-item {
+/* .relic-sets-cascader .ant-cascader-menu-item {
     padding: 5px 8px;
 }
 
@@ -177,7 +177,7 @@ body,
     overflow: hidden !important;
     width: 250px;
     text-overflow: ellipsis;
-}
+} */
 
 .relic-sets-cascader .ant-cascader-menus ul:first-child {
     width: 170px;

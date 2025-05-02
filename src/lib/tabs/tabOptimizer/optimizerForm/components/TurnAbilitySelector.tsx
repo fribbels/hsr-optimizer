@@ -49,25 +49,27 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
   const options = useMemo(() => generateOptions(), [])
 
   return (
-    <Form.Item
-      name={formName}
-      getValueFromEvent={(value: [TurnMarker, TurnAbilityName]) => value?.[1] || null}
-      getValueProps={(value: TurnAbilityName) => ({
-        value: value ? [findMarkerForAbility(value), value] : undefined,
-      })}
-      noStyle
-    >
-      <Cascader<Option>
-        options={options}
-        displayRender={([, abilityType]) => abilityType}
-        expandTrigger='hover'
-        placeholder='Ability'
-        showCheckedStrategy={SHOW_CHILD}
-        size='small'
-        allowClear
-        style={{ width: '100%', height: 22 }}
-      />
-    </Form.Item>
+    <ConfigProvider theme={cascaderTheme}>
+      <Form.Item
+        name={formName}
+        getValueFromEvent={(value: [TurnMarker, TurnAbilityName]) => value?.[1] || null}
+        getValueProps={(value: TurnAbilityName) => ({
+          value: value ? [findMarkerForAbility(value), value] : undefined,
+        })}
+        noStyle
+      >
+        <Cascader<Option>
+          options={options}
+          displayRender={([, abilityType]) => abilityType}
+          expandTrigger='hover'
+          placeholder='Ability'
+          showCheckedStrategy={SHOW_CHILD}
+          size='small'
+          allowClear
+          style={{ width: '100%', height: 22 }}
+        />
+      </Form.Item>
+    </ConfigProvider>
   )
 }
 export function ControlledTurnAbilitySelector({

@@ -18,7 +18,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
@@ -113,6 +113,7 @@ function ComputeEngineSelect() {
           }
         },
       }}
+      placement='bottomRight'
       className='custom-dropdown-button'
       trigger={['click']}
     >

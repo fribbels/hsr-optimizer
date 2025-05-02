@@ -1,5 +1,5 @@
 import { Sets } from 'lib/constants/constants'
-import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { AbilityKind, toTurnAbility, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
 
@@ -19,8 +19,9 @@ export function precomputeConditionalActivations(comboState: ComboState, request
     castoricePreprocessor(comboState, request),
   ].filter((x) => x.id == request.characterId)
 
-  for (let i = 1; i < comboState.comboTurnAbilities.length; i++) {
-    const turnAbility = comboState.comboTurnAbilities[i]
+  const comboAbilities = comboState.comboTurnAbilities.map(toTurnAbility)
+  for (let i = 1; i < comboAbilities.length; i++) {
+    const turnAbility = comboAbilities[i]
 
     for (const preprocessor of setPreprocessors) {
       preprocessor.processAbility(turnAbility, i)

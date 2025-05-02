@@ -123,17 +123,17 @@ export default function RelicMainSetFilters() {
         <ConfigProvider theme={{
           components: {
             Cascader: {
-              dropdownHeight: 730,
-              controlItemWidth: 100,
-              controlWidth: 100,
-              optionPadding: '2px 12px',
+              dropdownHeight: 680,
+              controlItemWidth: 150,
+              controlWidth: 150,
+              optionPadding: '0px 12px',
             },
           },
         }}
         >
           <Form.Item name='relicSets'>
             <Cascader
-              rootClassName='relic-sets-cascader'
+              popupClassName='relic-sets-cascader'
               placeholder={t('RelicSetSelector.Placeholder')}
               options={useMemo(() => GenerateSetsOptions(), [t])}
               showCheckedStrategy={SHOW_CHILD}

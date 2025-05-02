@@ -1,8 +1,7 @@
 import { SetsOrnaments, SetsRelics } from 'lib/constants/constants'
-import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { AbilityKind, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { Simulation } from 'lib/simulations/statSimulationController'
-import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 

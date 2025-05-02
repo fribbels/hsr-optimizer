@@ -6,7 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { getAbilityKind, NULL_TURN_ABILITY, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { getAbilityKind, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
@@ -289,14 +289,14 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
 
 export function getComboTurnAbilities(form: OptimizerForm) {
   const comboTurnAbilities = form.comboTurnAbilities ?? [] // TODO: This should go into default form
-  // TODO: Is there a point to this conversion
-  const newComboAbilities: TurnAbilityName[] = [NULL_TURN_ABILITY.name]
+  const newComboTurnAbilities: TurnAbilityName[] = []
 
-  for (let i = 1; i <= 8; i++) {
-    if (comboTurnAbilities[i] == null) break
-    newComboAbilities.push(comboTurnAbilities[i])
+  // Validation of form abilities
+  for (const abilityName of comboTurnAbilities) {
+    newComboTurnAbilities.push(toTurnAbility(abilityName).name)
   }
-  return newComboAbilities
+
+  return newComboTurnAbilities
 }
 
 function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {

@@ -58,10 +58,8 @@ export function toVisual(ability: TurnAbility): string {
 }
 
 export function toTurnAbility(name: TurnAbilityName): TurnAbility {
-  if (!name || name === NULL_TURN_ABILITY.name) return NULL_TURN_ABILITY
-
-  const [markerStr, kindStr] = name.split('_')
-  return createAbility(kindStr as AbilityKind, markerStr as TurnMarker)
+  if (!name || name === NULL_TURN_ABILITY.name || !abilities[name]) return NULL_TURN_ABILITY
+  return abilities[name]
 }
 
 const abilityKinds = Object.values(AbilityKind)
@@ -126,6 +124,10 @@ export function isWholeTurnAbility(ability: TurnAbility): boolean {
 
 export function isDefaultAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.DEFAULT
+}
+
+export function isNullAbility(ability: TurnAbility): boolean {
+  return !ability || !ability.kind || ability.kind == AbilityKind.NULL
 }
 
 export function getAbilityKind(turnAbilityName: TurnAbilityName): AbilityKind {

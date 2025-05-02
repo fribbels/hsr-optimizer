@@ -1,4 +1,4 @@
-import { AbilityKind, createAbility, isEndTurnAbility, isStartTurnAbility, isWholeTurnAbility, TurnAbility, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { AbilityKind, createAbility, isEndTurnAbility, isNullAbility, isStartTurnAbility, isWholeTurnAbility, NULL_TURN_ABILITY, toTurnAbility, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 type TurnState = {
@@ -13,6 +13,11 @@ type TurnState = {
 
   inTurn: boolean[] // Tracks which abilities are inside turns
   hasBasicOrSkill: boolean[] // Tracks which turns have BASIC/SKILL
+}
+
+export function preprocessTurnAbilityNames(input: TurnAbilityName[]) {
+  const turnAbilities = input.map(toTurnAbility)
+  return preprocessAbilityTurnDefinitionCorrectness(turnAbilities).map((x) => x.name)
 }
 
 /**
@@ -61,6 +66,10 @@ function annotateTurnBoundaries(state: TurnState): void {
   for (let i = 0; i < originalAbilities.length; i++) {
     const ability = originalAbilities[i]
 
+    if (isNullAbility(ability)) {
+      continue
+    }
+
     if (isStartTurnAbility(ability)) {
       turnStarts[i] = true
     }
@@ -81,7 +90,9 @@ function annotateTurnBoundaries(state: TurnState): void {
  */
 function normalizeAbilities(state: TurnState): void {
   state.normalizedAbilities = state.originalAbilities.map((ability) =>
-    createAbility(ability.kind, TurnMarker.DEFAULT),
+    ability
+      ? createAbility(ability.kind, TurnMarker.DEFAULT)
+      : NULL_TURN_ABILITY,
   )
 }
 

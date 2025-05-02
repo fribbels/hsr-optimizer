@@ -45,7 +45,8 @@ function generateOptions(): Option[] {
     }))
 }
 
-export function TurnAbilitySelector({ formName }: { formName: (string | number)[] }) {
+export function TurnAbilitySelector(props: { formName: (string | number)[] }) {
+  const { formName } = props
   const options = useMemo(() => generateOptions(), [])
 
   return (

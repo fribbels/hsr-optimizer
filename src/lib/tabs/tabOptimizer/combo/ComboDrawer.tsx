@@ -3,8 +3,8 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
-import { toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
-import { preprocessAbilityTurnDefinitionCorrectness } from 'lib/optimization/rotation/abilityTurnTransform'
+import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/abilityTurnTransform'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
@@ -66,6 +66,8 @@ export function ComboDrawer() {
       if (!form?.characterId || !form.characterConditionals) return
 
       const comboState = initializeComboState(form, true)
+      comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
+
       setComboState(comboState)
     } else {
       unlockScroll()
@@ -218,13 +220,10 @@ function ComboHeader(props: {
 
   if (!comboTurnAbilities) return <></>
 
-  const transformedTurnAbilities = preprocessAbilityTurnDefinitionCorrectness(comboTurnAbilities.map(toTurnAbility)).map((x) => x.name)
-  console.debug(comboTurnAbilities)
-
   const length = comboTurnAbilities.length
   const render = Array(Math.min(9, length + 1))
     .fill(false)
-    .map((value, index) => <AbilitySelector comboTurnAbilities={transformedTurnAbilities} index={index} key={index}/>)
+    .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>)
 
   return (
     <Flex gap={abilityGap}>

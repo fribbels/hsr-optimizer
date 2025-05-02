@@ -3,7 +3,7 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
-import { TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
@@ -162,37 +162,18 @@ function ComboDrawerTitle() {
 }
 
 function AbilitySelector(props: {
-  comboTurnAbilities: TurnAbility[]
+  comboTurnAbilities: TurnAbilityName[]
   index: number
 }) {
   if (props.index == 0) return <></>
 
   return (
-    <ControlledTurnAbilitySelector index={props.index} value={props.comboTurnAbilities[props.index]}/>
+    <ControlledTurnAbilitySelector
+      index={props.index}
+      value={props.comboTurnAbilities[props.index]}
+      style={{ width: abilityWidth }}
+    />
   )
-
-  // return (
-  //   <Select
-  //     dropdownStyle={{ width: 'fit-content' }}
-  //     style={{ width: abilityWidth }}
-  //     listHeight={800}
-  //     optionLabelProp='display'
-  //     options={props.abilitySelectOptions}
-  //     placement='bottomLeft'
-  //     value={props.comboAbilities[props.index]}
-  //     allowClear={true}
-  //     onSelect={(value: TurnAbilityName) => {
-  //       updateAbilityRotation(props.index, toTurnAbility(value))
-  //     }}
-  //     onDeselect={(value: string) => {
-  //
-  //     }}
-  //     onClear={() => {
-  //       // @ts-ignore
-  //       updateAbilityRotation(props.index, null)
-  //     }}
-  //   />
-  // )
 }
 
 const abilityWidth = 70

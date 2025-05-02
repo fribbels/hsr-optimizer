@@ -1,5 +1,5 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
-import { ALL_ABILITIES, createAbility, NULL_TURN_ABILITY, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { ALL_ABILITIES, createAbility, NULL_TURN_ABILITY, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 
@@ -23,7 +23,13 @@ const cascaderTheme = {
   },
 }
 
-function generateOptions() {
+interface Option {
+  value: string
+  label: string
+  children: Option[]
+}
+
+function generateOptions(): Option[] {
   return Object.values(TurnMarker)
     .map((marker) => ({
       value: marker,
@@ -33,6 +39,7 @@ function generateOptions() {
         return {
           value: ability.name,
           label: toVisual(ability),
+          children: [],
         }
       }),
     }))
@@ -50,7 +57,7 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
       })}
       noStyle
     >
-      <Cascader
+      <Cascader<Option>
         options={options}
         displayRender={([, abilityType]) => abilityType}
         expandTrigger='hover'
@@ -61,6 +68,45 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
         style={{ width: '100%', height: 22 }}
       />
     </Form.Item>
+  )
+}
+export function ControlledTurnAbilitySelector({
+  index,
+  value,
+  style,
+}: {
+  index: number
+  value: TurnAbilityName
+  style?: React.CSSProperties
+}) {
+  const options = useMemo(() => generateOptions(), [])
+
+  return (
+    <ConfigProvider theme={cascaderTheme}>
+      <Cascader
+        style={style}
+        options={options}
+        displayRender={(labels: string[]) => {
+          const turnAbilityName = labels[0] as TurnAbilityName
+          const turnAbility = toTurnAbility(turnAbilityName)
+
+          return toVisual(turnAbility)
+        }}
+        expandTrigger='hover'
+        placeholder='Ability'
+        showCheckedStrategy={SHOW_CHILD}
+        size='small'
+        allowClear
+        value={[value]}
+        onChange={(value) => {
+          if (!value || !value.length) return
+          updateAbilityRotation(index, value[1] as TurnAbilityName)
+        }}
+        onClear={() => {
+          updateAbilityRotation(index, NULL_TURN_ABILITY.name)
+        }}
+      />
+    </ConfigProvider>
   )
 }
 
@@ -74,31 +120,4 @@ function findMarkerForAbility(abilityName: TurnAbilityName): TurnMarker {
     if (ability) return marker
   }
   return TurnMarker.DEFAULT
-}
-
-export function ControlledTurnAbilitySelector({ index, value }: { index: number; value: TurnAbilityName }) {
-  const options = useMemo(() => generateOptions(), [])
-
-  return (
-    <ConfigProvider theme={cascaderTheme}>
-      <Cascader
-        options={options}
-        displayRender={([, abilityType]) => abilityType}
-        expandTrigger='hover'
-        placeholder='Ability'
-        showCheckedStrategy={SHOW_CHILD}
-        size='small'
-        allowClear
-        style={{ width: '100%', height: 22 }}
-        // @ts-ignore
-        value={value}
-        // @ts-ignore
-        onChange={(value: [TurnMarker, TurnAbilityName]) => {
-        // @ts-ignore
-          updateAbilityRotation(index, value[1])
-        }}
-        onClear={() => updateAbilityRotation(index, NULL_TURN_ABILITY.name)}
-      />
-    </ConfigProvider>
-  )
 }

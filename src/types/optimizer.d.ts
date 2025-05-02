@@ -3,6 +3,7 @@ import { ElementName, PathName } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { AbilityKind } from 'lib/optimization/rotation/abilityConfig'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { ElementalDamageType, ElementalResPenType } from 'types/metadata'
 
@@ -22,7 +23,7 @@ export type OptimizerAction = {
   }
 
   actorId: string
-  actionType: string
+  actionType: AbilityKind
   actionIndex: number
 
   teammate0: TeammateAction

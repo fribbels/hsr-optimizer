@@ -6,7 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { NULL_TURN_ABILITY, TurnAbility, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { getAbilityKind, NULL_TURN_ABILITY, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
@@ -46,7 +46,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
-function transformAction(actionIndex: number, comboState: ComboState, turnAbilities: TurnAbility[], request: OptimizerForm, context: OptimizerContext) {
+function transformAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},
@@ -67,7 +67,7 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
   } as OptimizerAction
   action.actorId = context.characterId
   action.actionIndex = actionIndex
-  action.actionType = turnAbilities[actionIndex].kind
+  action.actionType = getAbilityKind(turnAbilityNames[actionIndex])
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)

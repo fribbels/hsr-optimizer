@@ -32,7 +32,7 @@ export const CharacterScoringSummary = (props: {
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) => {
-  const { t } = useTranslation(['charactersTab', 'common'])
+  const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
   if (!props.simScoringResult) return (
     <></>
@@ -80,6 +80,20 @@ export const CharacterScoringSummary = (props: {
       <Flex gap={15} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
         <pre style={{ margin: 0, textAlign: 'right' }}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
+      </Flex>
+    )
+  }
+
+  function ScoringInteger(props: {
+    label: string
+    number?: number
+    valueWidth?: number
+  }) {
+    const value = props.number ?? 0
+    return (
+      <Flex gap={9} justify='space-between'>
+        <pre style={{ margin: 0 }}>{props.label}</pre>
+        <pre style={{ margin: 0, width: props.valueWidth }}>{value}</pre>
       </Flex>
     )
   }

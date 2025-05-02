@@ -13,7 +13,7 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (e: Eidolon): CharacterConditionalsController => {
+export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cipher')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -21,7 +21,9 @@ export default (e: Eidolon): CharacterConditionalsController => {
     SOURCE_SKILL,
     SOURCE_ULT,
     SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
+    SOURCE_MEMO,
     SOURCE_E1,
     SOURCE_E2,
     SOURCE_E4,
@@ -122,9 +124,10 @@ export default (e: Eidolon): CharacterConditionalsController => {
     defaults: () => defaults,
     teammateContent: () => Object.values(teammateContent),
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (_x: ComputedStatsArray, _action: OptimizerAction) => {
+    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.ATK_P.buff((r.skillAtkBuff) ? skillAtkBuff : 0, SOURCE_SKILL)
@@ -153,19 +156,21 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.VULNERABILITY.buffTeam((m.vulnerability) ? 0.40 : 0, SOURCE_TRACE)
       x.VULNERABILITY.buffTeam((e >= 2 && m.e2Vulnerability) ? 0.30 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
       // TODO: Recorded value
 
       boostAshblazingAtkP(x, action, context, hitMulti)
       standardAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: () => {
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardAdditionalDmgAtkFinalizer() + gpuBoostAshblazingAtkP(hitMulti)
     },
     dynamicConditionals: [
@@ -175,7 +180,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.CR],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction) {
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.spdBasedBuffs && x.a[Key.SPD] >= 140
@@ -185,7 +190,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
           x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 140) ? 0.25 : 0, SOURCE_TRACE, action, context)
         },
-        gpu: function (action: OptimizerAction) {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return conditionalWgslWrapper(this, `
 if (
@@ -205,7 +210,7 @@ if (
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.CR],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction) {
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.spdBasedBuffs && x.a[Key.SPD] >= 170
@@ -215,7 +220,7 @@ if (
 
           x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 170) ? 0.25 : 0, SOURCE_TRACE, action, context)
         },
-        gpu: function (action: OptimizerAction) {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return conditionalWgslWrapper(this, `
 if (

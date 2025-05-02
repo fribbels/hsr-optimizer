@@ -6,6 +6,7 @@ import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants, RelicsByPart } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
+import { AbilityKind, getAbilityKind } from 'lib/optimization/rotation/abilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -95,7 +96,7 @@ if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[orn
 }
 
 function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
-  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
+  const sortOption = SortOption[request.resultSort!]
   const sortOptionGpu: string = sortOption.gpuProperty
   const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
@@ -145,7 +146,7 @@ ${format(basicFilters)}
 }
 
 function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
-  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
+  const sortOption = SortOption[request.resultSort!]
   const sortOptionGpu: string = sortOption.gpuProperty
   const filter = filterFn(request)
 
@@ -252,17 +253,17 @@ ${format(ratingFilters, 1)}
 }
 
 function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  const sortOption = SortOption[request.resultSort! as keyof typeof SortOption]
+  const sortOption = SortOption[request.resultSort!]
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
 
   let debugValues = ''
 
   if (gpuParams.DEBUG) {
     debugValues = `
-const DEBUG_BASIC_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'BASIC').length};
-const DEBUG_SKILL_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'SKILL').length};
-const DEBUG_ULT_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'ULT').length};
-const DEBUG_FUA_COMBO: f32 = ${request.comboAbilities.filter((x) => x == 'FUA').length};
+const DEBUG_BASIC_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.BASIC).length};
+const DEBUG_SKILL_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.SKILL).length};
+const DEBUG_ULT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.ULT).length};
+const DEBUG_FUA_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.FUA).length};
 `
   }
 

@@ -183,11 +183,16 @@ export function submitForm(form: ShowcaseTabForm) {
 
       console.log('characters', characters)
 
-      // Filter by unique id
-      const converted = characters.map((x) => CharacterConverter.convert(x)).filter((value, index, self) => self.map((x) => x.id).indexOf(value.id) == index)
-      for (let i = 0; i < converted.length; i++) {
-        converted[i].index = i
-      }
+      // Remove duplicate characters (the same character can be placed in both one of the first 3 slots and one of the latter 5)
+      const converted = characters
+        .map((x) => CharacterConverter.convert(x))
+        .filter((
+          value,
+          index,
+          self,
+        ) => self.map((x) => x.id).indexOf(value.id) == index)
+      converted.forEach((x, index) => x.index = index)
+
       setAvailableCharacters(converted)
       if (converted.length) {
         setSelectedCharacter(converted[0])

@@ -21,12 +21,12 @@ import {
   WHOLE_MEMO_TALENT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/abilityConfig'
-import { preprocessAbilityTurnDefinitionCorrectness } from 'lib/optimization/rotation/abilityTurnTransform'
+import { preprocessTurnAbilities } from './turnPreprocessor'
 import { expect, test } from 'vitest'
 
 test('Anaxa annotated', () => {
   expect(compareAbilityArrays(
-    preprocessAbilityTurnDefinitionCorrectness([
+    preprocessTurnAbilities([
       NULL_TURN_ABILITY, START_ULT, DEFAULT_SKILL, END_SKILL, START_SKILL, END_SKILL,
     ]),
     [
@@ -37,7 +37,7 @@ test('Anaxa annotated', () => {
 
 test('Anaxa unannotated', () => {
   expect(compareAbilityArrays(
-    preprocessAbilityTurnDefinitionCorrectness([
+    preprocessTurnAbilities([
       NULL_TURN_ABILITY, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL,
     ]),
     [
@@ -48,7 +48,7 @@ test('Anaxa unannotated', () => {
 
 test('Complex invalid rotation', () => {
   expect(compareAbilityArrays(
-    preprocessAbilityTurnDefinitionCorrectness([
+    preprocessTurnAbilities([
       NULL_TURN_ABILITY, DEFAULT_FUA, END_SKILL, DEFAULT_MEMO_SKILL, START_ULT, DEFAULT_FUA, START_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_ULT,
       END_BASIC, DEFAULT_FUA, START_BASIC, DEFAULT_SKILL, END_ULT, START_ULT, END_SKILL, WHOLE_MEMO_SKILL,
       WHOLE_FUA, END_BASIC, DEFAULT_BASIC, START_SKILL, DEFAULT_ULT, DEFAULT_MEMO_SKILL, START_BASIC, DEFAULT_FUA, END_FUA,
@@ -65,7 +65,7 @@ test('Complex invalid rotation', () => {
 
 test('Complex invalid rotation 2', () => {
   expect(compareAbilityArrays(
-    preprocessAbilityTurnDefinitionCorrectness([
+    preprocessTurnAbilities([
       NULL_TURN_ABILITY, END_ULT, START_ULT, START_SKILL, DEFAULT_ULT, END_BASIC, START_SKILL, DEFAULT_MEMO_SKILL, END_ULT, WHOLE_FUA,
       WHOLE_MEMO_TALENT, DEFAULT_ULT, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_ULT, START_BASIC, END_SKILL, DEFAULT_SKILL, START_ULT,
       DEFAULT_MEMO_TALENT, DEFAULT_MEMO_SKILL, END_BASIC, DEFAULT_ULT, START_SKILL, END_ULT, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_FUA,

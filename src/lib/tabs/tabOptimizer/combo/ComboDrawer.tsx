@@ -4,8 +4,8 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
 import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
-import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/abilityTurnTransform'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
+import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
 import {
@@ -839,7 +839,10 @@ function Partition(props: {
   return (
     <Flex key={props.partitionIndex} style={{ height: 45 }}>
       {render}
-      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys} partition={true}/>
+      <BoxArray
+        activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys}
+        partition={true}
+      />
     </Flex>
   )
 }

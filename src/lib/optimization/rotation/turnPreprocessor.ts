@@ -1,4 +1,16 @@
-import { AbilityKind, createAbility, isEndTurnAbility, isNullAbility, isStartTurnAbility, isWholeTurnAbility, NULL_TURN_ABILITY, toTurnAbility, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import {
+  AbilityKind,
+  createAbility,
+  isEndTurnAbility,
+  isNullAbility,
+  isStartTurnAbility,
+  isWholeTurnAbility,
+  NULL_TURN_ABILITY,
+  toTurnAbility,
+  TurnAbility,
+  TurnAbilityName,
+  TurnMarker,
+} from 'lib/optimization/rotation/abilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 type TurnState = {
@@ -17,13 +29,13 @@ type TurnState = {
 
 export function preprocessTurnAbilityNames(input: TurnAbilityName[]) {
   const turnAbilities = input.map(toTurnAbility)
-  return preprocessAbilityTurnDefinitionCorrectness(turnAbilities).map((x) => x.name)
+  return preprocessTurnAbilities(turnAbilities).map((x) => x.name)
 }
 
 /**
  * Turn preprocessor to correct invalid turn definitions
  */
-export function preprocessAbilityTurnDefinitionCorrectness(input: TurnAbility[]): TurnAbility[] {
+export function preprocessTurnAbilities(input: TurnAbility[]): TurnAbility[] {
   if (input.length === 0) {
     return []
   }

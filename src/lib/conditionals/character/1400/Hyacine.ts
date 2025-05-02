@@ -133,7 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e2SpdBuff: {
       id: 'e2SpdBuff',
       formItem: 'switch',
-      text: 'E1 SPD buff',
+      text: 'E2 SPD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
@@ -212,9 +212,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // x.HP.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffFlat * 0.50 : 0, SOURCE_E1)
       x.HP_P.buffTeam((e >= 1 && m.clearSkies) ? 0.50 : 0, SOURCE_E1)
 
-      x.SPD_P.buffTeam((m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
-
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.24 : 0, SOURCE_E6)
+      x.SPD_P.buffTeam((e >= 2 && m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

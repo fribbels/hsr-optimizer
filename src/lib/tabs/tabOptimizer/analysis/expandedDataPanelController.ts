@@ -3,18 +3,19 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
 import { Buff, ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { SimulationResult } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
-import { convertRelicsToSimulation, ornamentSetIndexToName, relicSetIndexToNames, runSimulations, Simulation, SimulationRequest } from 'lib/simulations/statSimulationController'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { runStatSimulations } from 'lib/simulations/statSimulation'
+import { convertRelicsToSimulation, ornamentSetIndexToName, relicSetIndexToNames } from 'lib/simulations/statSimulationController'
+import { Simulation, SimulationRelicByPart, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { OptimizerForm } from 'types/form'
 
 export type OptimizerResultAnalysis = {
@@ -32,7 +33,7 @@ export type OptimizerResultAnalysis = {
 type StatUpgrade = {
   stat: SubStats
   simRequest: SimulationRequest
-  simResult: SimulationResult
+  x: ComputedStatsArray
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
@@ -50,11 +51,11 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
     const upgradeSim = TsUtils.clone(simulationRequest)
     upgradeSim.stats[substat] = (upgradeSim.stats[substat] ?? 0) + 1.0
 
-    const simResult = runSimulations(request, context, [{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation])[0]
+    const simResult = runStatSimulations([{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation], request, context)[0]
     statUpgrades.push({
       stat: substat,
       simRequest: upgradeSim,
-      simResult: simResult,
+      x: simResult.x,
     })
   }
 
@@ -62,8 +63,8 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
 }
 
 export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
-  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form) as SingleRelicByPart)
-  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form) as SingleRelicByPart)
+  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form))
+  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form))
   const request = TsUtils.clone(form)
 
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)
@@ -71,8 +72,11 @@ export function generateAnalysisData(currentRowData: OptimizerDisplayData, selec
 
   request.trace = true
 
-  const oldX = calculateBuild(request, oldRelics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
-  const newX = calculateBuild(request, newRelics, null, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const contextOld = generateContext(request)
+  const contextNew = generateContext(request)
+
+  const oldX = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const newX = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 
@@ -97,7 +101,7 @@ export function getPinnedRowData() {
   return currentPinned && currentPinned.length ? currentPinned[0] : null
 }
 
-export function mismatchedCharacter(optimizerTabFocusCharacter?: string, form?: OptimizerForm) {
+export function mismatchedCharacter(optimizerTabFocusCharacter?: CharacterId | null, form?: OptimizerForm) {
   return form?.characterId != optimizerTabFocusCharacter
 }
 

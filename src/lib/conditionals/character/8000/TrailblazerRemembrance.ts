@@ -259,7 +259,7 @@ var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdB
 
 (*p_state).TrailblazerRemembranceCdConditional = (*p_m).CD;
 
-let finalBuffCd = max(0, buffCD - select(0, stateBuffCD, stateValue > 0));
+let finalBuffCd = max(0.0, buffCD - select(0.0, stateBuffCD, stateValue > 0.0));
 (*p_m).UNCONVERTIBLE_CD_BUFF += finalBuffCd;
 
 (*p_m).CD += finalBuffCd;

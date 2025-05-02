@@ -2,6 +2,8 @@ import { Constants, MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/co
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
+import { CharacterId } from 'types/character'
+import { LightCone } from 'types/lightCone'
 import { DBMetadataSets } from 'types/metadata'
 import { Relic } from 'types/relic'
 
@@ -75,7 +77,7 @@ type Avatar = {
   ornaments: HoyolabRelic[]
 }
 
-type HoyolabData = {
+export type HoyolabData = {
   data: {
     avatar_list: Avatar[]
   }
@@ -94,9 +96,9 @@ type HoyolabRelicOut = Pick<Relic, 'enhance' | 'equippedBy' | 'grade' | 'id' | '
 
 type HoyolabCharacter = {
   characterEidolon: number
-  characterId: string
+  characterId: CharacterId
   characterLevel: number
-  lightCone: string | null
+  lightCone: LightCone['id'] | null
   lightConeLevel: number
   lightConeSuperimposition: number
 }
@@ -115,14 +117,14 @@ export function hoyolabParser(json: HoyolabData) {
   for (const character of json.data.avatar_list) {
     const characterData: HoyolabCharacter = {
       characterEidolon: character.rank,
-      characterId: character.id.toString(),
+      characterId: character.id.toString() as CharacterId,
       characterLevel: character.level,
       lightCone: null,
       lightConeLevel: 80,
       lightConeSuperimposition: 1,
     }
     if (character.equip != null) {
-      characterData.lightCone = character.equip.id.toString()
+      characterData.lightCone = character.equip.id.toString() as LightCone['id']
       characterData.lightConeSuperimposition = character.equip.rank
     }
     output.characters.push(characterData)
@@ -141,7 +143,7 @@ export function hoyolabParser(json: HoyolabData) {
       }
       output.relics.push({
         enhance: relic.level,
-        equippedBy: (character.id).toString(),
+        equippedBy: String(character.id) as CharacterId,
         grade: relic.rarity,
         id: Utils.randomId(),
         part: getSlot(relic.pos),
@@ -229,10 +231,10 @@ function getSlot(id: number) {
 function getSet(id: number, relicData: Record<string, DBMetadataSets>) {
   const setId = id.toString().substring(1, 4)
   if (tidOverrides[id as keyof typeof tidOverrides]) {
-    return relicData[tidOverrides[id as keyof typeof tidOverrides].set].name as Sets
+    return relicData[tidOverrides[id as keyof typeof tidOverrides].set].name
   }
 
-  return relicData[setId].name as Sets
+  return relicData[setId].name
 }
 
 const tidOverrides = {

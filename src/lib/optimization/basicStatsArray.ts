@@ -42,8 +42,6 @@ const baseCharacterStats = {
   ELEMENTAL_DMG: 0.00000001,
 }
 
-export type BasicCharacterStats = keyof typeof baseCharacterStats
-
 export function baseBasicStatsArray() {
   return Float32Array.from(Object.values(baseCharacterStats))
 }
@@ -140,10 +138,6 @@ export class BasicStatsArrayCore {
     }
   }
 
-  setWeight(weight: number) {
-    this.weight = weight
-  }
-
   set(key: number, value: number, source?: BuffSource) {
     this.a[key] = value
   }
@@ -182,7 +176,6 @@ export function toBasicStatsObject(a: Float32Array, weight: number = 0, relicSet
     'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
     'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
     'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
-    'WEIGHT': weight,
     'relicSetIndex': relicSetIndex,
     'ornamentSetIndex': ornamentSetIndex,
   }

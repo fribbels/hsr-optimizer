@@ -8,19 +8,18 @@ import { OptimizerContext } from 'types/optimizer'
 // const poolSize = 1
 const poolSize = Math.min(10, Math.max(1, (navigator.hardwareConcurrency || 4) - 1))
 let initializedWorkers = 0
-console.log('Using pool size ' + poolSize)
+// console.log('Using pool size ' + poolSize)
 
 type WorkerTaskWrapper = {
   task: WorkerTask
   callback: (result: WorkerResult) => void
 }
 
-type WorkerTask = {
+export type WorkerTask = {
   getMinFilter: () => number
   input: {
     WIDTH: number
     context: OptimizerContext
-    isFirefox: boolean
     ornamentSetSolutions: number[]
     permutations: number
     relicSetSolutions: number[]
@@ -33,7 +32,7 @@ type WorkerTask = {
   attempts: number
 }
 
-type WorkerResult = {
+export type WorkerResult = {
   buffer: ArrayBuffer
 }
 

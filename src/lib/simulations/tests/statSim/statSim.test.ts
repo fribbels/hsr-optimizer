@@ -1,0 +1,133 @@
+import { Sets, Stats } from 'lib/constants/constants'
+import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
+import { expectSimResultsToMatch } from 'lib/simulations/tests/statSim/statSimTestUtils'
+import {
+  ACHERON,
+  ALONG_THE_PASSING_SHORE,
+  BLACK_SWAN,
+  EARTHLY_ESCAPADE,
+  FU_XUAN,
+  HUOHUO,
+  JIAOQIU,
+  KAFKA,
+  NIGHT_OF_FRIGHT,
+  PAST_SELF_IN_MIRROR,
+  PATIENCE_IS_ALL_YOU_NEED,
+  REFORGED_REMEMBRANCE,
+  RUAN_MEI,
+  SHE_ALREADY_SHUT_HER_EYES,
+  SPARKLE,
+  THOSE_MANY_SPRINGS,
+} from 'lib/simulations/tests/testMetadataConstants'
+import { Metadata } from 'lib/state/metadata'
+import { test } from 'vitest'
+
+Metadata.initialize()
+
+test('Kafka sim', () => {
+  expectSimResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    {
+      ATK: 3904.5080566,
+      DEF: 1460.151001,
+      HP: 3991.7768555,
+      SPD: 151.0319977,
+      CR: 0.374,
+      CD: 1.148,
+      EHR: 0.612,
+      RES: 0.432,
+      BE: 0.648,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 0.3888,
+    },
+    {
+      ATK: 4701.6245117,
+      DEF: 1460.151001,
+      HP: 3991.7768555,
+      SPD: 197.4320984,
+      CR: 0.374,
+      CD: 1.148,
+      EHR: 0.612,
+      RES: 0.432,
+      BE: 0.848,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 2.5808001,
+      EHP: 9060.1220703,
+      HEAL_VALUE: 0,
+      SHIELD_VALUE: 0,
+      BASIC_DMG: 24802.3671875,
+      SKILL_DMG: 39683.7851563,
+      ULT_DMG: 19481.1328125,
+      FUA_DMG: 35985.9804688,
+      DOT_DMG: 125667.6328125,
+      BREAK_DMG: 22832.9824219,
+      MEMO_SKILL_DMG: 0,
+      MEMO_TALENT_DMG: 0,
+      COMBO_DMG: 2181502.75,
+    },
+  )
+})
+
+test('Acheron sim', () => {
+  expectSimResultsToMatch(
+    generateE6S5Test({
+      character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
+      teammate0: testCharacter(JIAOQIU, THOSE_MANY_SPRINGS),
+      teammate1: testCharacter(SPARKLE, EARTHLY_ESCAPADE),
+      teammate2: testCharacter(FU_XUAN, SHE_ALREADY_SHUT_HER_EYES),
+      sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
+      mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    {
+      ATK: 3948.1425781,
+      DEF: 1283.574585,
+      HP: 3832.8474121,
+      SPD: 127,
+      CR: 0.414,
+      CD: 2.6359999,
+      EHR: 0.432,
+      RES: 0.432,
+      BE: 0.648,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 0.4688,
+    },
+    {
+      ATK: 4681.6137695,
+      DEF: 1283.574585,
+      HP: 4360.8476563,
+      SPD: 127.0000992,
+      CR: 1.026,
+      CD: 5.632,
+      EHR: 0.432,
+      RES: 0.432,
+      BE: 0.648,
+      OHB: 0,
+      ERR: 0,
+      ELEMENTAL_DMG: 2.9607999,
+      EHP: 32793.9453125,
+      HEAL_VALUE: 0,
+      SHIELD_VALUE: 0,
+      BASIC_DMG: 434591.90625,
+      SKILL_DMG: 695347.0625,
+      ULT_DMG: 2179913,
+      FUA_DMG: 0,
+      DOT_DMG: 0,
+      BREAK_DMG: 26575.1464844,
+      MEMO_SKILL_DMG: 0,
+      MEMO_TALENT_DMG: 0,
+      COMBO_DMG: 3570607,
+    },
+  )
+})

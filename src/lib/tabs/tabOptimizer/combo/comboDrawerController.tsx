@@ -6,6 +6,7 @@ import { precomputeConditionalActivations } from 'lib/optimization/rotation/rota
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
@@ -206,7 +207,7 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
   const defaultForm = getDefaultForm({ id: request.characterId })
   const presets = DB.getMetadata().characters[request.characterId].scoringMetadata.presets || []
   for (const preset of presets) {
-    preset.apply(defaultForm)
+    applyPreset(defaultForm, preset)
   }
 
   // comboState.comboCharacter.setConditionals
@@ -799,7 +800,7 @@ function change(changeConditional: {
   }
 }
 
-export function updateConditionalChange(changeEvent: Form) {
+export function updateConditionalChange(changeEvent: Form, allValues: Form) {
   console.log('updateConditionalChange', changeEvent)
 
   const comboState = window.store.getState().comboState
@@ -816,6 +817,8 @@ export function updateConditionalChange(changeEvent: Form) {
 
   if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals ?? {})
   if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals ?? {})
+
+  comboState.comboAbilities = allValues.comboAbilities
 
   window.store.getState().setComboState({ ...comboState })
   updateFormState(comboState)

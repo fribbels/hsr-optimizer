@@ -111,7 +111,7 @@ export const Metadata = {
     }
 
     const relicSets = gameData.relics.reduce<Record<string, DBMetadataSets>>((acc, obj) => {
-      acc[obj.id] = obj
+      acc[obj.id] = obj as DBMetadataSets
       return acc
     }, {})
 
@@ -3930,15 +3930,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 1,
         [Constants.Stats.RES]: 0.25,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 1,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -3973,15 +3964,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 1,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4080,15 +4062,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 1,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4188,15 +4161,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0.50,
         [Constants.Stats.BE]: 1,
-        [Constants.Stats.ERR]: 1,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 1,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4243,15 +4207,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 1,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -4354,15 +4309,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 1,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -5181,15 +5127,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 1,
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 0,
-        [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -5404,15 +5341,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Stats.EHR]: 0,
         [Constants.Stats.RES]: 0,
         [Constants.Stats.BE]: 0,
-        [Constants.Stats.ERR]: 0,
-        [Constants.Stats.OHB]: 0,
-        [Constants.Stats.Physical_DMG]: 0,
-        [Constants.Stats.Fire_DMG]: 0,
-        [Constants.Stats.Ice_DMG]: 0,
-        [Constants.Stats.Lightning_DMG]: 0,
-        [Constants.Stats.Wind_DMG]: 0,
-        [Constants.Stats.Quantum_DMG]: 1,
-        [Constants.Stats.Imaginary_DMG]: 0,
       },
       parts: {
         [Constants.Parts.Body]: [
@@ -5468,6 +5396,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+          [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -6771,7 +6700,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.EHR]: 0.19,
         },
-        comboAbilities: [NULL, ULT, FUA, SKILL, SKILL, BASIC],
+        comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA, BASIC, FUA],
         deprioritizeBuffs: true,
         comboDot: 0,
         comboBreak: 0,

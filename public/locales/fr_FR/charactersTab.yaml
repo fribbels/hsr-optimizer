@@ -93,11 +93,9 @@ CharacterPreview:
       StatScore: Note de Stat
       NoneScore: Aucun
   DetailsSlider:
-    Title: "Détails de combat:"
     Labels:
       CombatStats: Stats de Combat
       SubDpsCombatStats: Stats de Combat (sous-DPS)
-      DMGUpgrades: Améliorations Dégâts
   DMGUpgrades: Améliorations des Dégâts
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats

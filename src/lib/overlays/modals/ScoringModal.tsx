@@ -10,6 +10,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
 
 const { Text } = Typography
@@ -36,7 +37,7 @@ export default function ScoringModal() {
   const setScoringModalOpen = window.store((s) => s.setScoringModalOpen)
   const scoringModalOpen = window.store((s) => s.scoringModalOpen)
 
-  function characterSelectorChange(id: string) {
+  function characterSelectorChange(id: CharacterId | null | undefined) {
     setScoringAlgorithmFocusCharacter(id)
   }
 
@@ -115,8 +116,12 @@ export default function ScoringModal() {
 
     const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
     const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+    const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+      stats: defaultScoringMetadata.stats,
+      parts: defaultScoringMetadata.parts,
+    }
 
-    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, defaultScoringMetadata)
+    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge as ScoringMetadata)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
   }
 
@@ -126,7 +131,11 @@ export default function ScoringModal() {
       const charactersById = window.store.getState().charactersById
       for (const character of Object.keys(charactersById)) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
-        DB.updateCharacterScoreOverrides(character, defaultScoringMetadata)
+        const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+          stats: defaultScoringMetadata.stats,
+          parts: defaultScoringMetadata.parts,
+        }
+        DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge as ScoringMetadata)
       }
 
       // Update values for current screen
@@ -191,7 +200,7 @@ export default function ScoringModal() {
           <Flex vertical gap={5}>
             <Form.Item name='characterId'>
               <CharacterSelect
-                value=''
+                value={null}
                 selectStyle={{}}
                 onChange={characterSelectorChange}
               />

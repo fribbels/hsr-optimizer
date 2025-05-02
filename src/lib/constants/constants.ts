@@ -5,11 +5,11 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 export const CURRENT_OPTIMIZER_VERSION = 'v3.3.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.3v2'
+export const CURRENT_DATA_VERSION = '3.3v5'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  1406: generateMessage(`Ashblazing stacks added. Reduced EHR penalty. Talent's True DMG is not included.`), // Cipher
+  1406: generateMessage(`V5 changes updated.`), // Cipher
 }
 
 export const Stats = {
@@ -330,6 +330,14 @@ export const Parts = {
   LinkRope: 'LinkRope',
 } as const
 export type Parts = typeof Parts[keyof typeof Parts]
+export const PartsArray = [
+  Parts.Head,
+  Parts.Hands,
+  Parts.Body,
+  Parts.Feet,
+  Parts.PlanarSphere,
+  Parts.LinkRope,
+] as const
 
 export const MainStatParts = {
   Body: 'Body',
@@ -677,13 +685,6 @@ export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 export const DEFAULT_TEAM = 'Default'
 export const CUSTOM_TEAM = 'Custom'
 export const SETTINGS_TEAM = 'Settings'
-
-export const SIMULATION_SCORE = 'Combat Simulation Score'
-export const CHARACTER_SCORE = 'Character Score'
-export const NONE_SCORE = 'None'
-
-export const DAMAGE_UPGRADES = 'Damage Upgrades'
-export const COMBAT_STATS = 'Combat Stats'
 
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'

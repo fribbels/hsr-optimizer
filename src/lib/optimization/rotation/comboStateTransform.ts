@@ -36,10 +36,12 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
     actions.push(transformAction(i, comboState, comboAbilities, request, context))
   }
 
+  const characterConditionalController = CharacterConditionalsResolver.get(context)
+
   context.actions = actions
   context.comboDot = request.comboDot || 0
   context.comboBreak = request.comboBreak || 0
-  context.activeAbilities = context.characterConditionalController.activeAbilities ?? []
+  context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 

@@ -47,9 +47,13 @@ const config = tseslint.config(
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
       '@typescript-eslint/dot-notation': ['warn', {
         allowKeywords: true,
         allowPattern: '',
+      }],
+      '@typescript-eslint/prefer-nullish-coalescing': ['error', {
+        ignoreIfStatements: true,
       }],
     },
   },
@@ -163,7 +167,7 @@ function styleRules(level) {
     '@stylistic/no-mixed-spaces-and-tabs': level,
     '@stylistic/no-multi-spaces': level,
     '@stylistic/no-multiple-empty-lines': [
-      'off',
+      level,
       { max: 1, maxBOF: 0, maxEOF: 0 },
     ],
     '@stylistic/no-tabs': level,

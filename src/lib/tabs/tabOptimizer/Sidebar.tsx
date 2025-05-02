@@ -2,7 +2,7 @@ import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { IRowNode } from 'ag-grid-community'
 import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, PathNames } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Hint } from 'lib/interactions/hint'
@@ -401,7 +401,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
-    Optimizer.cancel(window.store.getState().optimizationId)
+    Optimizer.cancel(window.store.getState().optimizationId!)
   }
 
   function startOptimizer() {
@@ -479,13 +479,13 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       </Flex>
 
       {!props.isFullSize
-        && (
-          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-            <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
-            <ComputeEngineSelect/>
-            <ProgressDisplay/>
-          </Flex>
-        )}
+      && (
+        <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+          <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
+          <ComputeEngineSelect/>
+          <ProgressDisplay/>
+        </Flex>
+      )}
     </Flex>
   )
 }
@@ -555,7 +555,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
   )
 }
 
-export function isRemembrance(characterId?: string) {
+export function isRemembrance(characterId: string | null | undefined) {
   if (!characterId) return false
-  return DB.getMetadata().characters[characterId].path == 'Remembrance'
+  return DB.getMetadata().characters[characterId].path === PathNames.Remembrance
 }

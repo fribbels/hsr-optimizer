@@ -93,11 +93,9 @@ CharacterPreview:
       StatScore: Pontuação de Atributo
       NoneScore: Nenhum
   DetailsSlider:
-    Title: "Detalhes da pontuação:"
     Labels:
       CombatStats: Atributos de combate
       SubDpsCombatStats: Atributos de Combate (Sub DPS)
-      DMGUpgrades: Melhorias para o dano
   DMGUpgrades: Melhorias para o dano
   SubstatUpgradeComparisons:
     Header: Comparação de melhoria de subatributos

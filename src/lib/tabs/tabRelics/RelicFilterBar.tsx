@@ -17,6 +17,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
 import { Relic } from 'types/relic'
 import { RelicTabFilters } from 'types/store'
@@ -40,7 +41,7 @@ export default function RelicFilterBar(props: {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setRelicsTabFocusCharacter = window.store((s) => s.setRelicsTabFocusCharacter)
 
-  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState<string | undefined>()
+  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState<CharacterId | undefined>()
 
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
 
@@ -171,7 +172,7 @@ export default function RelicFilterBar(props: {
     }
   }, [])
 
-  function characterSelectorChange(characterId: string | undefined, singleRelic?: Relic) {
+  function characterSelectorChange(characterId: CharacterId | undefined, singleRelic?: Relic) {
     const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
     console.log('idChange', characterId)
 
@@ -345,9 +346,9 @@ export default function RelicFilterBar(props: {
             <CharacterSelect
               value={currentlySelectedCharacterId}
               selectStyle={{ flex: 1 }}
-              onChange={(characterId: string) => {
+              onChange={(characterId: CharacterId | null | undefined) => {
                 // Wait until after modal closes to update
-                setTimeout(() => characterSelectorChange(characterId), 20)
+                setTimeout(() => characterSelectorChange(characterId!), 20)
               }}
               withIcon={true}
             />
@@ -393,8 +394,8 @@ export default function RelicFilterBar(props: {
           <CharacterSelect
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
-            onChange={(excludedMap: Map<string, boolean>) => {
-              const excludedCharacterIds = Array.from(excludedMap || new Map<string, boolean>())
+            onChange={(excludedMap: Map<CharacterId, boolean> | null) => {
+              const excludedCharacterIds = Array.from(excludedMap ?? new Map<CharacterId, boolean>())
                 .filter((entry) => entry[1])
                 .map((entry) => entry[0])
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)

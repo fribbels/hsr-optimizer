@@ -1,5 +1,5 @@
 import { Typography } from 'antd'
-import { Languages } from 'lib/i18n/i18n'
+import { Languages } from 'lib/utils/i18nUtils'
 import styled from 'styled-components'
 
 const { Text } = Typography

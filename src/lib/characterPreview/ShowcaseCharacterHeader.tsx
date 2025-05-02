@@ -2,14 +2,14 @@ import { Flex } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import ShowcaseRarity from 'lib/characterPreview/ShowcaseRarity'
 import StatText from 'lib/characterPreview/StatText'
-import { NONE_SCORE } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function ShowcaseCharacterHeader(props: {
   showcaseMetadata: ShowcaseMetadata
-  scoringType?: string
+  scoringType?: ScoringType
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -22,7 +22,7 @@ export function ShowcaseCharacterHeader(props: {
     characterMetadata,
   } = props.showcaseMetadata
 
-  const MARGIN_VERTICAL = props.scoringType === NONE_SCORE ? 12 : 4
+  const MARGIN_VERTICAL = props.scoringType === ScoringType.NONE ? 12 : 4
 
   return (
     <Flex vertical>

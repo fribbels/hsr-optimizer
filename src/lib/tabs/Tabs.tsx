@@ -34,7 +34,6 @@ const Tabs = () => {
   const characterTab = React.useMemo(() => <CharacterTab/>, [])
   const relicsTab = React.useMemo(() => <RelicsTab/>, [])
   const importTab = React.useMemo(() => <ImportTab/>, [])
-  // const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
   const showcaseTab = React.useMemo(() => <ShowcaseTab/>, [])
   const warpCalculatorTab = React.useMemo(() => <WarpCalculatorTab/>, [])
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
@@ -43,7 +42,7 @@ const Tabs = () => {
   const benchmarksTab = React.useMemo(() => <BenchmarksTab/>, [])
 
   useEffect(() => {
-    let route = PageToRoute[activeKey as keyof typeof PageToRoute] ?? PageToRoute[AppPages.OPTIMIZER]
+    let route = PageToRoute[activeKey] ?? PageToRoute[AppPages.OPTIMIZER]!
     if (activeKey == AppPages.SHOWCASE) {
       const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
       if (id) {

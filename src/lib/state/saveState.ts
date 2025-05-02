@@ -21,7 +21,7 @@ export const SaveState = {
       excludedRelicPotentialCharacters: globalState.excludedRelicPotentialCharacters,
       savedSession: {
         showcaseTab: showcaseTabSession,
-        global: globalState.savedSession,
+        global: globalSession,
       },
       settings: globalState.settings,
       version: CURRENT_OPTIMIZER_VERSION,

@@ -61,7 +61,7 @@ export const AppPages = {
 
 export type AppPage = typeof AppPages[keyof typeof AppPages]
 
-export const PageToRoute = {
+export const PageToRoute: Partial<Record<AppPage, string>> = {
   [AppPages.HOME]: BASE_PATH,
 
   [AppPages.OPTIMIZER]: BASE_PATH + '#main',
@@ -73,19 +73,19 @@ export const PageToRoute = {
 
   [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
   [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
-} as const
+}
 
 export const RouteToPage = {
-  [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
-  [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
-  [PageToRoute[AppPages.WARP]]: AppPages.WARP,
-  [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
-  [PageToRoute[AppPages.BENCHMARKS]]: AppPages.BENCHMARKS,
+  [PageToRoute[AppPages.OPTIMIZER]!]: AppPages.OPTIMIZER,
+  [PageToRoute[AppPages.SHOWCASE]!]: AppPages.SHOWCASE,
+  [PageToRoute[AppPages.WARP]!]: AppPages.WARP,
+  [PageToRoute[AppPages.CHANGELOG]!]: AppPages.CHANGELOG,
+  [PageToRoute[AppPages.BENCHMARKS]!]: AppPages.BENCHMARKS,
 
-  [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
-  [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
-  [PageToRoute[AppPages.HOME]]: AppPages.HOME,
-} as const
+  [PageToRoute[AppPages.WEBGPU_TEST]!]: AppPages.WEBGPU_TEST,
+  [PageToRoute[AppPages.METADATA_TEST]!]: AppPages.METADATA_TEST,
+  [PageToRoute[AppPages.HOME]!]: AppPages.HOME,
+}
 
 // React usage
 // let characterTabBlur = store(s => s.characterTabBlur);

@@ -140,8 +140,6 @@ function CharacterPreviewSelection() {
     onCharacterModalOk({
       characterId: e.characterId,
       lightCone: e.lightConeId,
-      characterLevel: 80,
-      lightConeLevel: 80,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     })
@@ -261,11 +259,11 @@ function CharacterPreviewSelection() {
 
         <div id='previewWrapper' style={{ padding: '5px' }}>
           <CharacterPreview
-            character={selectedCharacter as unknown as Character}
+            character={selectedCharacter as Character | null}
             source={ShowcaseSource.SHOWCASE_TAB}
             id='relicScorerPreview'
             setOriginalCharacterModalOpen={setCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter as unknown as Dispatch<SetStateAction<Character>>}
+            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter as Dispatch<SetStateAction<Character | null>>}
             setCharacterModalAdd={() => {}} // not needed on showcase tab
           />
         </div>
@@ -274,7 +272,7 @@ function CharacterPreviewSelection() {
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
-          initialCharacter={characterModalInitialCharacter as unknown as Character}
+          initialCharacter={characterModalInitialCharacter as Character | null}
         />
       </Flex>
     </Flex>

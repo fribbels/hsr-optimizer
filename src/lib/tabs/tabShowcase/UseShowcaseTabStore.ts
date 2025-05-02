@@ -1,6 +1,7 @@
 import { Parts } from 'lib/constants/constants'
-import { Character, CharacterId, Eidolon } from 'types/character'
-import { LightCone, SuperImpositionLevel } from 'types/lightCone'
+import { Character, CharacterId } from 'types/character'
+import { LightCone } from 'types/lightCone'
+import { BasicForm } from 'types/optimizer'
 import { Relic } from 'types/relic'
 import { create } from 'zustand'
 
@@ -9,16 +10,7 @@ export type ShowcaseTabCharacter = Omit<Character, 'equipped' | 'rank' | 'builds
   index: number
   equipped: Record<Parts, Relic | null | undefined>
   key: string
-  form: ShowcaseTabCharacterForm
-}
-
-export type ShowcaseTabCharacterForm = {
-  characterLevel: number
-  characterId: CharacterId | null
-  characterEidolon: Eidolon
-  lightCone: LightCone['id'] | undefined | null
-  lightConeLevel: number
-  lightConeSuperimposition: SuperImpositionLevel
+  form: Omit<BasicForm, 'lightCone' | 'characterId'> & { lightCone: LightCone['id'] | null; characterId: CharacterId | null }
 }
 
 export type ShowcaseTabSavedSession = {

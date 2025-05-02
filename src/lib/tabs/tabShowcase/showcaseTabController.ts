@@ -4,7 +4,7 @@ import { Message } from 'lib/interactions/message'
 import DB, { AppPage, AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { APIResponse, processEnkaData, processManaData, processMihomoData } from 'lib/tabs/tabShowcase/dataProcessors'
-import { ShowcaseTabCharacter, ShowcaseTabCharacterForm, useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
+import { ShowcaseTabCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
@@ -52,7 +52,7 @@ export function presetCharacters(): Preset[] {
   ]
 }
 
-export function onCharacterModalOk(form: ShowcaseTabCharacterForm) {
+export function onCharacterModalOk(form: ShowcaseTabCharacter['form']) {
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
   const state = useShowcaseTabStore.getState()
   if (!form.characterId) {

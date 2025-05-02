@@ -94,7 +94,7 @@ export const CharacterConverter = {
     const preLightCone = character.equipment
     const characterEidolon = character.rank ?? 0
     const id = '' + character.avatarId as CharacterId
-    const lightConeId = preLightCone ? ('' + preLightCone.tid) as LightCone['id'] : undefined
+    const lightConeId = preLightCone ? ('' + preLightCone.tid) as LightCone['id'] : null
     const lightConeSuperimposition = preLightCone ? preLightCone.rank : 0
 
     const relics = preRelics
@@ -111,11 +111,9 @@ export const CharacterConverter = {
       key: Utils.randomId(),
       index: 0, // gets overwritten later
       form: {
-        characterLevel: 80,
         characterId: id,
         characterEidolon: characterEidolon,
         lightCone: lightConeId,
-        lightConeLevel: 80,
         lightConeSuperimposition: lightConeSuperimposition,
       },
       equipped: equipped,

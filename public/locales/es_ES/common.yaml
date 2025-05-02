@@ -1,8 +1,5 @@
 Relic_one: artefacto
 Relic_other: artefactos
-RelicWithCount_one: "{{count}} Artefactos"
-DecimalSeparator: "."
-ThousandsSeparator: ","
 I18nNumber: "{{value, number}}"
 Cancel: Cancelar
 Confirm: Confirmar

@@ -182,13 +182,13 @@ export default function RelicModal(props: {
         mainStatType: renderMainStat(relic).stat,
         mainStatValue: renderMainStat(relic).value,
         substatType0: renderSubstat(relic, 0).stat,
-        substatValue0: renderSubstat(relic, 0).value.toString(),
+        substatValue0: renderSubstat(relic, 0).value?.toString(),
         substatType1: renderSubstat(relic, 1).stat,
-        substatValue1: renderSubstat(relic, 1).value.toString(),
+        substatValue1: renderSubstat(relic, 1).value?.toString(),
         substatType2: renderSubstat(relic, 2).stat,
-        substatValue2: renderSubstat(relic, 2).value.toString(),
+        substatValue2: renderSubstat(relic, 2).value?.toString(),
         substatType3: renderSubstat(relic, 3).stat,
-        substatValue3: renderSubstat(relic, 3).value.toString(),
+        substatValue3: renderSubstat(relic, 3).value?.toString(),
       }
     }
     onValuesChange(defaultValues)

@@ -5,10 +5,11 @@ import { RelicScorer } from "lib/relics/relicScorerPotential"
 import { useTranslation } from "react-i18next"
 import { Assets } from "lib/rendering/assets"
 import { Relic } from "types/relic"
+import { CharacterId } from "types/character"
 
 interface RelicCardProps {
   relic?: Relic;
-  scoringCharacter?: string;
+  scoringCharacter?: CharacterId;
   setSelectedRelicID?: (relicID: string) => void;
   excludedRelicPotentialCharacters?: string[];
 }
@@ -37,16 +38,18 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
     scoringCharacter ? RelicScorer.scoreRelicPotential(relic, scoringCharacter, true) : undefined
   , [relic, scoringCharacter]);
 
+  const characterMetadata = window.DB.getMetadata();
+
   // Calculate top 3 characters for the relic
   const topCharacters = useMemo(() => {
     const chars = window.DB.getMetadata().characters;
-    
+
     return Object.keys(chars)
       .filter(id => !excludedRelicPotentialCharacters?.includes(id))
       .map((id) => ({
         id,
         name: t(`Characters.${id}.Name` as any),
-        score: RelicScorer.scoreRelicPotential(relic, id, false),
+        score: RelicScorer.scoreRelicPotential(relic, id as CharacterId, false),
         isSelected: id === scoringCharacter,
         icon: Assets.getCharacterAvatarById(id)
       }))

@@ -2,13 +2,14 @@ import { Flex } from "antd"
 import { useScannerState } from "../tabImport/ScannerWebsocketClient"
 import React from "react"
 import { RecentRelicCard } from "./RecentRelicCard"
+import { CharacterId } from "types/character"
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]
 }
 
 export const RecentRelics = React.memo((props: {
-  scoringCharacter?: string
+  scoringCharacter?: CharacterId
   setSelectedRelicID?: (relicID: string) => void
   excludedRelicPotentialCharacters?: string[]
 }): React.JSX.Element => {

@@ -89,6 +89,11 @@ export const PresetEffects = {
     value: true,
     set: Sets.GeniusOfBrilliantStars,
   } as PresetDefinition,
+  WARRIOR_SET: {
+    name: 'WARRIOR_SET',
+    value: true,
+    set: Sets.WarriorGoddessOfSunAndThunder,
+  } as PresetDefinition,
 }
 
 export function setSortColumn(columnId: string) {

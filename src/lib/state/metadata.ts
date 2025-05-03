@@ -1320,6 +1320,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.SHIELD,
       addedColumns: [SortOption.SHIELD],
@@ -2274,7 +2275,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WARRIOR_SET,
+      ],
       sortOption: SortOption.HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -2637,7 +2640,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WARRIOR_SET,
+      ],
       sortOption: SortOption.HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -3012,6 +3017,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.SPD,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
@@ -3385,7 +3391,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WARRIOR_SET,
+      ],
       sortOption: SortOption.EHP,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -3555,7 +3563,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WARRIOR_SET,
+      ],
       sortOption: SortOption.HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -3913,7 +3923,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WARRIOR_SET,
+      ],
       sortOption: SortOption.HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -4190,6 +4202,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.BANANA_SET,
         PresetEffects.fnAshblazingSet(6),
         PresetEffects.VALOROUS_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.BE,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
@@ -4519,7 +4532,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
-      presets: [],
+      presets: [
+        PresetEffects.WARRIOR_SET,
+      ],
       sortOption: SortOption.BE,
       addedColumns: [SortOption.OHB, SortOption.HEAL],
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -5959,6 +5974,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.BANANA_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -5996,6 +6012,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.BANANA_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -6131,6 +6148,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.BANANA_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -6534,6 +6552,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.BANANA_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.MEMO_SKILL,
       addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
@@ -6629,6 +6648,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.BANANA_SET,
+        PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL],

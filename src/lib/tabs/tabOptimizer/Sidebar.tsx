@@ -18,8 +18,9 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -55,7 +56,7 @@ function getGpuOptions(computeEngine: ComputeEngine) {
       ),
       key: COMPUTE_ENGINE_CPU,
     },
-  ]
+  ] satisfies Array<{label: ReactElement, key: ComputeEngine}>
 }
 
 function PermutationDisplay(props: { total?: number; right: number; left: string }) {
@@ -99,14 +100,15 @@ function ComputeEngineSelect() {
       menu={{
         items: getGpuOptions(computeEngine),
         onClick: (e) => {
-          if (e.key == COMPUTE_ENGINE_CPU) {
+          const key = e.key as ReturnType<typeof getGpuOptions>[number]['key']
+          if (key === COMPUTE_ENGINE_CPU) {
             window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
             Message.success(t('EngineSwitchSuccessMsg.CPU')/* Switched compute engine to CPU */)
           } else {
             verifyWebgpuSupport(true).then((device) => {
               if (device) {
-                window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
-                Message.success(e.key == COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
+                window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
+                Message.success(e.key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
                 // Switched compute engine to GPU  Experimental/Stable
               }
             })
@@ -555,7 +557,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
   )
 }
 
-export function isRemembrance(characterId: string | null | undefined) {
+export function isRemembrance(characterId: CharacterId | null | undefined) {
   if (!characterId) return false
   return DB.getMetadata().characters[characterId].path === PathNames.Remembrance
 }

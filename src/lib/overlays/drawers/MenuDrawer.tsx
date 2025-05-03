@@ -1,26 +1,10 @@
-import {
-  BarChartOutlined,
-  BarsOutlined,
-  BookOutlined,
-  HomeOutlined,
-  LineChartOutlined,
-  LinkOutlined,
-  ProjectOutlined,
-  RadarChartOutlined,
-  SettingOutlined,
-  SketchOutlined,
-  StarFilled,
-  SunOutlined,
-  UnorderedListOutlined,
-  UploadOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { BarChartOutlined, BarsOutlined, BookOutlined, HomeOutlined, LineChartOutlined, LinkOutlined, ProjectOutlined, RadarChartOutlined, SettingOutlined, SketchOutlined, StarFilled, SunOutlined, UnorderedListOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons'
 import { Flex, Menu, Typography } from 'antd'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { officialOnly } from 'lib/constants/constants'
-import { AppPages } from 'lib/state/db'
+import { AppPage, AppPages } from 'lib/state/db'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
@@ -202,7 +186,7 @@ const MenuDrawer = () => {
   }) => {
     if (e.key?.includes('link')) return
 
-    setActiveKey(e.key)
+    setActiveKey(e.key as AppPage)
   }
 
   return (

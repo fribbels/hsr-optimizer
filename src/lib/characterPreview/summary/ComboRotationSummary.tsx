@@ -9,17 +9,18 @@ type ComboRotationSummaryProps = {
 export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
+  // TODO: Combo turn abilities
   return (
     <Flex gap={30}>
       <Flex vertical gap={2}>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={1}/>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={2}/>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={3}/>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={4}/>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={5}/>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={6}/>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={7}/>
-        <ScoringAbility comboAbilities={simMetadata.comboAbilities} index={8}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={1}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={2}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={3}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={4}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={5}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={6}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={7}/>
+        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={8}/>
       </Flex>
       <Flex vertical gap={2}>
         <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={simMetadata.comboDot}/>

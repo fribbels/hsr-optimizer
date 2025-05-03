@@ -2,7 +2,7 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
-import { DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_ULT, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_SKILL, DEFAULT_ULT, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -1387,7 +1387,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -1484,7 +1484,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -1582,7 +1582,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -1684,7 +1684,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.EHR]: 0.282,
         },
-        comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 16,
         comboBreak: 0,
@@ -1818,7 +1817,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -1943,7 +1942,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2069,7 +2068,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2166,7 +2165,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -2383,7 +2382,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, FUA, FUA, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2480,7 +2479,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.CD,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 60,
         comboBreak: 0,
         relicSets: [
@@ -2573,7 +2572,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -2710,7 +2709,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.EHR,
           Stats.CR,
         ],
-        comboAbilities: [NULL, ULT, SKILL, BASIC, BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_BASIC, DEFAULT_BASIC],
         comboDot: 5,
         comboBreak: 1,
         relicSets: [
@@ -2810,7 +2809,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK,
         ],
         errRopeEidolon: 6,
-        comboAbilities: [NULL, ULT, SKILL, FUA, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         deprioritizeBuffs: true,
@@ -2908,7 +2907,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, BASIC, FUA, BASIC, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3086,7 +3085,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3184,7 +3183,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP,
           Stats.ATK_P,
         ],
-        comboAbilities: [NULL, ULT, BASIC, FUA, BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3280,7 +3279,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.BE,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -3459,7 +3458,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3630,7 +3629,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK,
         ],
         errRopeEidolon: 0,
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3725,7 +3724,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, BASIC, BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -3824,7 +3823,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, FUA, SKILL, FUA, SKILL, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -4026,7 +4025,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, FUA, FUA, ULT, SKILL, FUA, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4127,7 +4126,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK,
         ],
         errRopeEidolon: 0,
-        comboAbilities: [NULL, ULT, SKILL, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4272,7 +4271,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, SKILL, ULT, FUA, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         deprioritizeBuffs: true,
@@ -4372,7 +4371,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, BASIC, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         deprioritizeBuffs: true,
@@ -4467,7 +4466,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.EHR]: 0.67,
         },
-        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_BASIC],
         comboDot: 0,
         comboBreak: 3,
         deprioritizeBuffs: true,
@@ -4599,7 +4598,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -4732,7 +4731,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.DEF]: 4000,
         },
-        comboAbilities: [NULL, ULT, BASIC, FUA, BASIC, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         deprioritizeBuffs: true,
@@ -4835,7 +4834,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, FUA, FUA, SKILL, FUA, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -4966,7 +4965,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.EHR]: 1.20,
         },
-        comboAbilities: [NULL, SKILL, ULT, BASIC, BASIC],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC],
         comboDot: 16,
         comboBreak: 0,
@@ -5063,7 +5061,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5187,7 +5185,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.CD,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -5280,7 +5278,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5407,7 +5405,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, FUA, BASIC, FUA, BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -5497,7 +5495,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_BASIC],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -5587,7 +5585,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.ATK]: 3200,
         },
-        comboAbilities: [NULL, ULT, BASIC, BASIC, BASIC, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -5681,7 +5679,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -5776,7 +5774,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [
@@ -6078,7 +6076,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -6177,7 +6175,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, BASIC, MEMO_SKILL, MEMO_SKILL, BASIC, MEMO_SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_BASIC, DEFAULT_MEMO_SKILL],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -6277,7 +6275,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP,
           Stats.ATK_P,
         ],
-        comboAbilities: [NULL, ULT, FUA, BASIC, FUA, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -6378,7 +6376,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.HP,
         ],
-        comboAbilities: [NULL, SKILL, ULT, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -6477,7 +6475,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboAbilities: [NULL, ULT, SKILL, SKILL, SKILL, SKILL],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
         comboBreak: 0,
         errRopeEidolon: 0,
@@ -6582,7 +6580,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.HP,
         ],
-        comboAbilities: [NULL, SKILL, SKILL, ULT, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_TALENT],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [
@@ -6723,7 +6721,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.EHR]: 0.19,
         },
-        comboAbilities: [NULL, ULT, SKILL, FUA, SKILL, FUA, BASIC, FUA],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA],
         deprioritizeBuffs: true,
         comboDot: 0,
         comboBreak: 0,

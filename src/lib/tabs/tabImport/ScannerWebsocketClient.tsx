@@ -188,7 +188,7 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
             },
             // Only update recentRelics if needed
             ...(shouldUpdateRecentRelics ? {
-                recentRelics: [relic._uid, ...get().recentRelics.filter((id) => id !== relic._uid)]
+                recentRelics: [relic._uid, ...recentRelics.filter((id) => id !== relic._uid)]
             } : {})
         });
     },

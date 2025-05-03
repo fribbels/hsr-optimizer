@@ -403,7 +403,7 @@ fn main(
       if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
         x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
       }
-      if (p4(sets.WavestriderCaptain) >= 1 && setConditionals.enabledWavestriderCaptain == true) {
+      if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
         x.CD += 0.15;
         m.CD += 0.15;
       }

@@ -21,8 +21,10 @@ export function setComboBooleanCategoryCharacterActivation(comboState: ComboStat
 
 export function setComboNumberCategoryCharacterActivation(comboState: ComboState, conditional: string, index: number, value: number) {
   const category = comboState.comboCharacter.characterConditionals[conditional] as ComboNumberConditional
+
   if (category) {
     const partition = category.partitions.find((x) => x.value == value)
+
     if (partition) {
       category.partitions.forEach((x) => x.activations[index] = false)
       partition.activations[index] = true
@@ -35,6 +37,7 @@ export function setComboNumberCategoryCharacterActivation(comboState: ComboState
       newPartition.activations[index] = true
       category.partitions.push(newPartition)
     }
+
     category.partitions = category.partitions.sort((a, b) => a.value - b.value)
   }
 }

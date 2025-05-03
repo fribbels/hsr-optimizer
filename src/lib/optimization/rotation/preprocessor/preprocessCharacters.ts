@@ -1,7 +1,7 @@
 import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
 import { CASTORICE } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from './preprocessUtils'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
   id = CASTORICE
@@ -17,6 +17,7 @@ export class CastoricePreprocessor extends AbilityPreprocessorBase {
 
     // E1
     let memoDmgStacks = this.state.memoDmgStacks
+
     if (kind == AbilityKind.MEMO_SKILL) {
       const value = memoDmgStacks + 1
       setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, value)

@@ -12,13 +12,14 @@ import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType, SimulationResult } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 
 // FIXME MED
 
 const epsilon = 0.001
 
 export const CharacterStatSummary = (props: {
-  characterId: string
+  characterId: CharacterId
   finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
   elementalDmgValue: string
   asyncSimScoringExecution: AsyncSimScoringExecution | null
@@ -66,7 +67,7 @@ export const CharacterStatSummary = (props: {
   )
 }
 
-function calculateStatCustomizations(characterId: string) {
+function calculateStatCustomizations(characterId: CharacterId) {
   if (!characterId) return {}
 
   const meta = DB.getMetadata().characters[characterId]

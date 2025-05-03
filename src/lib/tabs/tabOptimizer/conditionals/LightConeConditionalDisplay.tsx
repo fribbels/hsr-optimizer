@@ -7,11 +7,12 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SuperImpositionLevel } from 'types/lightCone'
+import { CharacterId } from 'types/character'
+import { LightCone, SuperImpositionLevel } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
 
 export interface LightConeConditionalDisplayProps {
-  id?: string
+  id?: LightCone['id']
   superImposition: SuperImpositionLevel
   teammateIndex?: number
   dbMetadata: DBMetadata
@@ -23,7 +24,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
 
   const { id, superImposition, teammateIndex } = props
 
-  const wearerId: string = teammateIndex == undefined
+  const wearerId: CharacterId = teammateIndex == undefined
     ? window.optimizerForm.getFieldValue('characterId')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     : window.optimizerForm.getFieldValue(`teammate${teammateIndex as 0 | 1 | 2}`)?.characterId

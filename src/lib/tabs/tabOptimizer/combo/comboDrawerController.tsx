@@ -87,8 +87,6 @@ export type SetConditionals = typeof defaultSetConditionals
 
 export function initializeComboState(request: Form, merge: boolean) {
   const dbMetadata = DB.getMetadata()
-  const dbLightCones = dbMetadata.lightCones
-  const dbCharacters = dbMetadata.characters
   const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
@@ -295,7 +293,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
             }
           } else {
             // Skip merging empty partitions
-            if (!partition.activations.some(activation => activation)) continue
+            if (!partition.activations.some((activation) => activation)) continue
 
             seen[partition.value] = partition
             newPartitions.push(partition)

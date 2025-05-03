@@ -53,7 +53,7 @@ export const Assets = {
 
     return getImageUrl(`/image/character_portrait/${id}.webp`)
   },
-  getCharacterAvatarById: (id?: string) => {
+  getCharacterAvatarById: (id?: string | null) => {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/icon/avatar/${id}.webp`)

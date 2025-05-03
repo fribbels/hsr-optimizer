@@ -39,6 +39,8 @@ SetConditionals:
     Wastelander:
       Debuffed:
         Display: КШ
+    Longevous:
+      Label: "{{stackCount}} стаки (+{{buffValue}}% КШ)"
 CombatBuffs:
   ATK: Сила атаки
   ATK_P: АТК %

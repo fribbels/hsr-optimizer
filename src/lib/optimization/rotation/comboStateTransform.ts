@@ -224,6 +224,10 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
             x.CD.buffSingle(0.36, Source.SacerdosRelivedOrdeal)
           }
           break
+        case Sets.WarriorGoddessOfSunAndThunder:
+          if (teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder]) break
+          x.CD.buffTeam(0.15, Source.WarriorGoddessOfSunAndThunder)
+          break
         default:
       }
 

@@ -1,5 +1,5 @@
 import { SyncOutlined } from '@ant-design/icons'
-import { Button, Flex, Form as AntDForm, Select, Typography } from 'antd'
+import { Form as AntDForm, Button, Flex, Select, Typography } from 'antd'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
@@ -86,6 +86,7 @@ const teammateRelicSets = [
   Sets.MessengerTraversingHackerspace,
   Sets.WatchmakerMasterOfDreamMachinations,
   Sets.SacerdosRelivedOrdeal,
+  Sets.WarriorGoddessOfSunAndThunder,
 ]
 const teammateOrnamentSets = [
   Sets.BrokenKeel,
@@ -178,6 +179,11 @@ const TeammateCard = (props: {
         value: SACERDOS_RELIVED_ORDEAL_2_STACK,
         desc: t('TeammateSets.Sacerdos2Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
         label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos2Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
+      },
+      {
+        value: Sets.WarriorGoddessOfSunAndThunder,
+        desc: t('TeammateSets.Warrior.Desc'), // `4 Piece: ${Sets.WarriorGoddessOfSunAndThunder} (+15% CD)`,
+        label: labelRender(Sets.WarriorGoddessOfSunAndThunder, t('TeammateSets.Warrior.Text')), // labelRender(Sets.WarriorGoddessOfSunAndThunder, '15% CD'),
       },
     ]
   }, [t])

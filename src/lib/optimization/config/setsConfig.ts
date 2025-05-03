@@ -479,6 +479,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledWarriorGoddessOfSunAndThunder) {
         x.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
+        x.CD.buffTeam(0.15, Source.WarriorGoddessOfSunAndThunder)
       }
     },
   },
@@ -487,8 +488,6 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     index: 25,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CD.buff(0.16, Source.WavestriderCaptain)
-    },
-    p4c: (c: BasicStatsArray, context: OptimizerContext) => {
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledWavestriderCaptain) {

@@ -65,9 +65,19 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
     return "#95a5a6";
   };
 
+  const getDarkQualityColor = (percent: number) => {
+    if (percent >= 90) return "#b7922e";
+    if (percent >= 75) return "#7a5ebd";
+    if (percent >= 60) return "#0769b3";
+    if (percent >= 45) return "#00806a";
+    return "#6b7778";
+  };
+
   const avgPotential = Math.floor(potentialScore?.averagePct || 0);
   const maxPotential = Math.floor(potentialScore?.bestPct || 0);
-  const qualityColor = getQualityColor(maxPotential);
+  const avgQualityColor = getQualityColor(avgPotential);
+  const maxQualityColor = getQualityColor(maxPotential);
+  const darkMaxQualityColor = getDarkQualityColor(maxPotential);
 
   return (
     <Flex vertical style={{
@@ -105,20 +115,14 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
               }}>
                 POTENTIAL
               </Typography.Text>
-              <Typography.Text style={{ 
-                fontSize: '12px', 
-                fontWeight: 700,
-                color: qualityColor,
-              }}>
-                {maxPotential}%
-              </Typography.Text>
             </Flex>
             
             <Progress 
-              percent={maxPotential} 
+              percent={maxPotential}
+              success={{ percent: avgPotential, strokeColor: avgQualityColor }}
               size="small" 
               showInfo={false}
-              strokeColor={qualityColor}
+              strokeColor={darkMaxQualityColor}
               trailColor={token.colorBorderSecondary}
               style={{ 
                 lineHeight: 0,
@@ -130,13 +134,13 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                 fontSize: '12px',
                 color: token.colorTextSecondary,
               }}>
-                AVG: {avgPotential}%
+                AVG: <span style={{ color: avgQualityColor, fontWeight: 700 }}>{avgPotential}%</span>
               </Typography.Text>
               <Typography.Text style={{ 
                 fontSize: '12px',
                 color: token.colorTextSecondary,
               }}>
-                MAX: {maxPotential}%
+                MAX: <span style={{ color: maxQualityColor, fontWeight: 700 }}>{maxPotential}%</span>
               </Typography.Text>
             </Flex>
           </Flex>

@@ -153,18 +153,17 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
     },
 
     updateRelic: (relic: V4ParserRelic) => {
-        const currentRelics = usePrivateScannerState.getState().relics;
-        const existingRelic = currentRelics[relic._uid];
-        
+        const { relics, recentRelics } = get();
+
         // Check if we should update recentRelics
         let shouldUpdateRecentRelics = false;
         
         // Add to recentRelics if it's a new relic
-        if (!existingRelic) {
+        if (!recentRelics.slice(0, 6).includes(relic._uid)) {
             shouldUpdateRecentRelics = true;
         } else {
             // Compare properties excluding lock/discard status
-            const existingRelicCopy = { ...existingRelic };
+            const existingRelicCopy = { ...relics[relic._uid] };
             const newRelicCopy = { ...relic };
             
             // Create new objects without lock/discard properties for comparison
@@ -184,7 +183,7 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
         
         set({
             relics: {
-                ...currentRelics,
+                ...relics,
                 [relic._uid]: relic
             },
             // Only update recentRelics if needed

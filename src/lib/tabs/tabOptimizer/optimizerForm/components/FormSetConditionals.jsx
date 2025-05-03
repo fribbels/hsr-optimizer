@@ -299,12 +299,12 @@ export function FormSetConditionals() {
           <ConditionalSetOption
             set={Constants.Sets.ScholarLostInErudition}
             description={t('RelicDescription', { id: 122 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.Scholar')}
           />
           <ConditionalSetOption
             set={Constants.Sets.HeroOfTriumphantSong}
             description={t('RelicDescription', { id: 123 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.Hero')}
           />
           <ConditionalSetOption
             set={Constants.Sets.PoetOfMourningCollapse}

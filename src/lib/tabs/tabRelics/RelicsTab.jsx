@@ -732,6 +732,7 @@ export default function RelicsTab() {
               label: t('RelicGrid.RecentRelics', 'Recent Relics'),
               children: <RecentRelics 
                 scoringCharacter={focusCharacter}
+                selectedRelicID={selectedRelicID}
                 setSelectedRelicID={(id) => {
                   const node = gridRef.current.api.getRowNode(id)
                   node.setSelected(true, true)

@@ -12,10 +12,11 @@ interface RelicCardProps {
   scoringCharacter?: CharacterId;
   setSelectedRelicID?: (relicID: string) => void;
   excludedRelicPotentialCharacters?: string[];
+  isSelected?: boolean;
 }
 
 export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Element => {
-  const { relic, scoringCharacter, setSelectedRelicID, excludedRelicPotentialCharacters } = props;
+  const { relic, scoringCharacter, setSelectedRelicID, excludedRelicPotentialCharacters, isSelected } = props;
   const { token } = theme.useToken();
   const { t } = useTranslation(['gameData']);
 
@@ -58,7 +59,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   // Get quality color
   const getQualityColor = (percent: number) => {
     if (percent >= 90) return "#fdcb6e";
-    if (percent >= 75) return "#6c5ce7";
+    if (percent >= 75) return "#a580ff";
     if (percent >= 60) return "#0984e3";
     if (percent >= 45) return "#00b894";
     return "#95a5a6";
@@ -69,7 +70,12 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   const qualityColor = getQualityColor(maxPotential);
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{
+      border: isSelected ? `2px solid ${token.colorPrimary}` : '2px solid transparent',
+      borderRadius: '8px',
+      backgroundColor: isSelected ? `${token.colorPrimaryBg}` : 'transparent',
+      transition: 'all 0.2s ease',
+    }}>
       <RelicPreview 
         relic={relic}
         characterId={scoringCharacter}

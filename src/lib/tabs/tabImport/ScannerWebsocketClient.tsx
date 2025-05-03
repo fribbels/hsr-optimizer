@@ -7,6 +7,7 @@ import DB, { AppPages } from "lib/state/db";
 import { SaveState } from "lib/state/saveState";
 import { TsUtils } from "lib/utils/TsUtils";
 import { debounceEffect } from "lib/utils/debounceUtils";
+import stableStringify from "json-stable-stringify";
 
 type ScannerState = {
     // Whether we are connected to the scanner websocket
@@ -151,13 +152,47 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
         } satisfies ScannerParserJson
     },
 
-    updateRelic: (relic: V4ParserRelic) => set({
-        relics: {
-            ...usePrivateScannerState.getState().relics,
-            [relic._uid]: relic
-        },
-        recentRelics: [relic._uid, ...get().recentRelics.filter((id) => id !== relic._uid)]
-    }),
+    updateRelic: (relic: V4ParserRelic) => {
+        const currentRelics = usePrivateScannerState.getState().relics;
+        const existingRelic = currentRelics[relic._uid];
+        
+        // Check if we should update recentRelics
+        let shouldUpdateRecentRelics = false;
+        
+        // Add to recentRelics if it's a new relic
+        if (!existingRelic) {
+            shouldUpdateRecentRelics = true;
+        } else {
+            // Compare properties excluding lock/discard status
+            const existingRelicCopy = { ...existingRelic };
+            const newRelicCopy = { ...relic };
+            
+            // Create new objects without lock/discard properties for comparison
+            const existingForComparison = Object.entries(existingRelicCopy)
+                .filter(([key]) => key !== 'lock' && key !== 'discard')
+                .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+                
+            const newForComparison = Object.entries(newRelicCopy)
+                .filter(([key]) => key !== 'lock' && key !== 'discard')
+                .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+            
+            // Check if any other properties changed
+            if (stableStringify(existingForComparison) !== stableStringify(newForComparison)) {
+                shouldUpdateRecentRelics = true;
+            }
+        }
+        
+        set({
+            relics: {
+                ...currentRelics,
+                [relic._uid]: relic
+            },
+            // Only update recentRelics if needed
+            ...(shouldUpdateRecentRelics ? {
+                recentRelics: [relic._uid, ...get().recentRelics.filter((id) => id !== relic._uid)]
+            } : {})
+        });
+    },
 
     updateLightCone: (lightCone: V4ParserLightCone) => set({
         lightCones: {

@@ -11,6 +11,7 @@ function padArray<T>(array: T[], length: number, filler: T): T[] {
 export const RecentRelics = React.memo((props: {
   scoringCharacter?: CharacterId
   setSelectedRelicID?: (relicID: string) => void
+  selectedRelicID?: string
   excludedRelicPotentialCharacters?: string[]
 }): React.JSX.Element => {
     const recentRelicIDs = useScannerState((s) => s.recentRelics)
@@ -31,6 +32,7 @@ export const RecentRelics = React.memo((props: {
                   <RecentRelicCard
                     key={relic?.id ?? i}
                     relic={relic}
+                    isSelected={relic?.id === props.selectedRelicID}
                     scoringCharacter={props.scoringCharacter}
                     setSelectedRelicID={props.setSelectedRelicID}
                     excludedRelicPotentialCharacters={props.excludedRelicPotentialCharacters}

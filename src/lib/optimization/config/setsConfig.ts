@@ -459,7 +459,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     key: 'PoetOfMourningCollapse',
     index: 23,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      context.elementalDamageType == Stats.Quantum_DMG && c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
+      if (context.elementalDamageType == Stats.Quantum_DMG) {
+        c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
+      }
     },
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(-0.08, Source.PoetOfMourningCollapse)
@@ -475,6 +477,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledWarriorGoddessOfSunAndThunder) {
+        x.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
+      }
     },
   },
   WavestriderCaptain: {
@@ -486,6 +491,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledWavestriderCaptain) {
+        x.ATK_P.buff(0.48, Source.WavestriderCaptain)
+      }
     },
   },
 }

@@ -113,6 +113,8 @@ struct SetConditionals {
   enabledTheWondrousBananAmusementPark: bool,
   enabledScholarLostInErudition: bool,
   enabledHeroOfTriumphantSong: bool,
+  enabledWarriorGoddessOfSunAndThunder: bool,
+  enabledWavestriderCaptain: bool,
   valueChampionOfStreetwiseBoxing: i32,
   valueWastelanderOfBanditryDesert: i32,
   valueLongevousDisciple: i32,

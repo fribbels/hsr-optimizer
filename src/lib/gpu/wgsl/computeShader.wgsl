@@ -357,6 +357,9 @@ fn main(
         x.CD += 0.30;
         m.CD += 0.30;
       }
+      if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
+        x.SPD_P += 0.06;
+      }
 
       // ATK
 
@@ -368,6 +371,9 @@ fn main(
       }
       if (p4(sets.TheAshblazingGrandDuke) >= 1) {
         x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+      if (p4(sets.WavestriderCaptain) >= 1 && setConditionals.enabledWavestriderCaptain == true) {
+        x.ATK_P += 0.48;
       }
 
       // DEF

@@ -27,7 +27,9 @@ const { useBreakpoint } = Grid
 
 const { Text } = Typography
 
-function getGpuOptions(computeEngine: ComputeEngine) {
+type GpuOption = { label: ReactElement; key: ComputeEngine }
+
+function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
   return [
     {
       label: (
@@ -56,7 +58,7 @@ function getGpuOptions(computeEngine: ComputeEngine) {
       ),
       key: COMPUTE_ENGINE_CPU,
     },
-  ] satisfies Array<{label: ReactElement, key: ComputeEngine}>
+  ]
 }
 
 function PermutationDisplay(props: { total?: number; right: number; left: string }) {
@@ -100,7 +102,7 @@ function ComputeEngineSelect() {
       menu={{
         items: getGpuOptions(computeEngine),
         onClick: (e) => {
-          const key = e.key as ReturnType<typeof getGpuOptions>[number]['key']
+          const key = e.key as GpuOption['key']
           if (key === COMPUTE_ENGINE_CPU) {
             window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
             Message.success(t('EngineSwitchSuccessMsg.CPU')/* Switched compute engine to CPU */)

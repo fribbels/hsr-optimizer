@@ -25,10 +25,11 @@ export interface TurnAbility {
   name: TurnAbilityName
 }
 
+export const NULL_TURN_ABILITY_NAME: TurnAbilityName = 'NULL'
 export const NULL_TURN_ABILITY: TurnAbility = {
   kind: AbilityKind.NULL,
   marker: TurnMarker.DEFAULT,
-  name: 'NULL',
+  name: NULL_TURN_ABILITY_NAME,
 }
 
 export function createAbility(kind: AbilityKind, marker: TurnMarker): TurnAbility {
@@ -58,7 +59,7 @@ export function toVisual(ability: TurnAbility): string {
 }
 
 export function toTurnAbility(name: TurnAbilityName): TurnAbility {
-  if (!name || name === NULL_TURN_ABILITY.name || !abilities[name]) return NULL_TURN_ABILITY
+  if (!name || name === NULL_TURN_ABILITY_NAME || !abilities[name]) return NULL_TURN_ABILITY
   return abilities[name]
 }
 
@@ -68,11 +69,13 @@ const abilityKinds = Object.values(AbilityKind)
 const markers = Object.values(TurnMarker) as readonly TurnMarker[]
 
 const abilities: Record<TurnAbilityName, TurnAbility> = {} as Record<TurnAbilityName, TurnAbility>
+const abilityNames: Record<TurnAbilityName, TurnAbilityName> = {} as Record<TurnAbilityName, TurnAbilityName>
 
 for (const marker of markers) {
   for (const kind of abilityKinds) {
     const ability = createAbility(kind, marker)
     abilities[ability.name] = ability
+    abilityNames[ability.name] = ability.name
   }
 }
 
@@ -108,7 +111,7 @@ export const {
   WHOLE_FUA,
   WHOLE_MEMO_SKILL,
   WHOLE_MEMO_TALENT,
-} = abilities
+} = abilityNames
 
 export function isStartTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.START
@@ -131,20 +134,20 @@ export function isNullAbility(ability: TurnAbility): boolean {
 }
 
 export function getAbilityKind(turnAbilityName: TurnAbilityName): AbilityKind {
-  if (!turnAbilityName || turnAbilityName == NULL_TURN_ABILITY.name) return AbilityKind.NULL
+  if (!turnAbilityName || turnAbilityName == NULL_TURN_ABILITY_NAME) return AbilityKind.NULL
   return abilities[turnAbilityName].kind
 }
 
 export function getAbilityName(ability: TurnAbility): TurnAbilityName {
-  if (!ability) return NULL_TURN_ABILITY.name
+  if (!ability) return NULL_TURN_ABILITY_NAME
   return ability.name
 }
 
-export function stringifyAbilityArray(abilityArray: TurnAbility[]): string {
-  return abilityArray.map((ability) => ability.name).join(',')
+export function stringifyAbilityArray(abilityArray: TurnAbilityName[]): string {
+  return abilityArray.join(',')
 }
 
-export function compareAbilityArrays(array1: TurnAbility[], array2: TurnAbility[]): boolean {
+export function compareAbilityNameArrays(array1: TurnAbilityName[], array2: TurnAbilityName[]): boolean {
   if (array1.length !== array2.length) return false
   return stringifyAbilityArray(array1) === stringifyAbilityArray(array2)
 }

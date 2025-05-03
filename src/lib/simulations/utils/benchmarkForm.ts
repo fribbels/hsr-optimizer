@@ -1,7 +1,7 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Utils } from 'lib/utils/utils'
@@ -53,7 +53,7 @@ export function generateFullDefaultForm(
     simulationForm.comboBreak = simulationMetadata.comboBreak
   } else {
     // @ts-ignore
-    simulationForm.comboTurnAbilities = [NULL_TURN_ABILITY.name, DEFAULT_BASIC.name]
+    simulationForm.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
     simulationForm.comboDot = 0
     simulationForm.comboBreak = 0
   }

@@ -2,7 +2,7 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
-import { DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_ULT, NULL_TURN_ABILITY } from 'lib/optimization/rotation/abilityConfig'
+import { DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_ULT, NULL_TURN_ABILITY } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'

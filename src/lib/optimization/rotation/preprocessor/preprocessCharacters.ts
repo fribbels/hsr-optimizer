@@ -1,5 +1,5 @@
-import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/abilityConfig'
 import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
+import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CASTORICE } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 

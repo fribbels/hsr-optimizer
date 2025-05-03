@@ -1,5 +1,5 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
-import { ALL_ABILITIES, createAbility, NULL_TURN_ABILITY, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
+import { ALL_ABILITIES, createAbility, NULL_TURN_ABILITY, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 
@@ -45,8 +45,7 @@ function generateOptions(): Option[] {
     }))
 }
 
-export function TurnAbilitySelector(props: { formName: (string | number)[] }) {
-  const { formName } = props
+export function TurnAbilitySelector({ formName }: { formName: (string | number)[] }) {
   const options = useMemo(() => generateOptions(), [])
 
   return (
@@ -73,6 +72,7 @@ export function TurnAbilitySelector(props: { formName: (string | number)[] }) {
     </ConfigProvider>
   )
 }
+
 export function ControlledTurnAbilitySelector({
   index,
   value,

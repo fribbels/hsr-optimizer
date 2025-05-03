@@ -20,7 +20,7 @@ import {
   WHOLE_MEMO_SKILL,
   WHOLE_MEMO_TALENT,
   WHOLE_SKILL,
-} from 'lib/optimization/rotation/abilityConfig'
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { expect, test } from 'vitest'
 import { preprocessTurnAbilities } from './turnPreprocessor'
 

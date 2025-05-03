@@ -1,6 +1,6 @@
 import { Sets } from 'lib/constants/constants'
-import { AbilityKind, TurnAbility, TurnMarker } from 'lib/optimization/rotation/abilityConfig'
 import { AbilityPreprocessorBase, setComboBooleanCategorySetActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
+import { AbilityKind, TurnAbility, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class ScholarLostInEruditionPreprocessor extends AbilityPreprocessorBase {

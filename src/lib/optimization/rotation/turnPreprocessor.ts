@@ -10,7 +10,7 @@ import {
   TurnAbility,
   TurnAbilityName,
   TurnMarker,
-} from 'lib/optimization/rotation/abilityConfig'
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 type TurnState = {

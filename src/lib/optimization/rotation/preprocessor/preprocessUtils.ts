@@ -1,4 +1,4 @@
-import { TurnAbility } from 'lib/optimization/rotation/abilityConfig'
+import { TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export abstract class AbilityPreprocessorBase {

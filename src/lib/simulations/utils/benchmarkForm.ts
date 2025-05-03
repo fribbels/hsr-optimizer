@@ -1,7 +1,7 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY } from 'lib/optimization/rotation/abilityConfig'
+import { DEFAULT_BASIC, NULL_TURN_ABILITY } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Utils } from 'lib/utils/utils'

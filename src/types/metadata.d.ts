@@ -1,6 +1,6 @@
 import { ElementName, MainStats, Parts, PathName, Sets, ShowcaseColorMode, StatsValues, SubStats } from 'lib/constants/constants'
 import { statConversion } from 'lib/importer/characterConverter'
-import { TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { CharacterId } from 'types/character'

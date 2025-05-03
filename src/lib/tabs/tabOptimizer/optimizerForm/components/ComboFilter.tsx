@@ -1,7 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { DEFAULT_BASIC, TurnAbilityName } from 'lib/optimization/rotation/abilityConfig'
+import { DEFAULT_BASIC, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'

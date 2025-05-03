@@ -1,22 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
-// TODO this is very much not ideal but until the API responses can be properly typed it will have to do
-import { UnconvertedCharacter } from 'lib/importer/characterConverter'
-import { Utils } from 'lib/utils/utils'
-
-export function processManaData(data: ManaApiResponse): UnconvertedCharacter[] {
-  data = Utils.recursiveToCamel(data)
-  return [
-    data.detailInfo.assistAvatars[0],
-    data.detailInfo.assistAvatars[1],
-    data.detailInfo.assistAvatars[2],
-    data.detailInfo.avatarDetailList[0],
-    data.detailInfo.avatarDetailList[1],
-    data.detailInfo.avatarDetailList[2],
-    data.detailInfo.avatarDetailList[3],
-    data.detailInfo.avatarDetailList[4],
-  ].filter((x) => !!x)
-}
+// this is very much not ideal but unless the API response types can be properly downstreamed it will have to do
+import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 
 export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter[] {
   const characters = data.characters.filter((x) => !!x)
@@ -51,11 +36,7 @@ export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
     })
 }
 
-export type APIResponse = ManaApiResponse | MihomoApiResponse | EnkaApiResponse
-
-type ManaApiResponse = {
-  source: 'mana'
-}
+export type APIResponse = MihomoApiResponse | EnkaApiResponse
 
 type MihomoApiResponse = {
   source: 'mihomo'

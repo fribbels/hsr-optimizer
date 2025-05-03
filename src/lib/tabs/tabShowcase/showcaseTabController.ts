@@ -3,7 +3,7 @@ import { CharacterConverter, UnconvertedCharacter } from 'lib/importer/character
 import { Message } from 'lib/interactions/message'
 import DB, { AppPage, AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { APIResponse, processEnkaData, processManaData, processMihomoData } from 'lib/tabs/tabShowcase/dataProcessors'
+import { APIResponse, processEnkaData, processMihomoData } from 'lib/tabs/tabShowcase/dataProcessors'
 import { ShowcaseTabCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -13,7 +13,7 @@ import { LightCone } from 'types/lightCone'
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
 export type ShowcaseTabForm = {
-  scorerId: number | null
+  scorerId: string | null
 }
 
 export type Preset = CharacterPreset | FillerPreset
@@ -104,17 +104,25 @@ export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharact
 export function initialiseShowcaseTab(activeKey: AppPage) {
   const { savedSession, availableCharacters } = useShowcaseTabStore.getState()
   const { scorerId } = savedSession
+
+  if (activeKey !== AppPages.SHOWCASE) return
+
+  // load showcase if id present in url | only applies to initial website load
+  const id: string | null = window.location.href.split('?')[1]?.split('id=')[1]?.split('&')[0] ?? null
+  if (id) submitForm({ scorerId: id })
+
+  // add id to url when navigating if a showcase is already loaded
   if (availableCharacters?.length && scorerId && activeKey === AppPages.SHOWCASE) {
     window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.SHOWCASE] + `?id=${scorerId}`)
   }
-  if (activeKey !== AppPages.SHOWCASE) return
-  const id: string | null = window.location.href.split('?')[1]?.split('id=')[1]?.split('&')[0] ?? null
-  submitForm({ scorerId: Number(id) })
+  // load showcase when the user first visits the tab
+  if (!id && !availableCharacters?.length) submitForm({ scorerId })
 }
 
 const throttleSeconds = 10
 
 export function submitForm(form: ShowcaseTabForm) {
+  if (!form.scorerId) return
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
   const {
     setSelectedCharacter,
@@ -127,7 +135,7 @@ export function submitForm(form: ShowcaseTabForm) {
   } = useShowcaseTabStore.getState()
 
   console.log('scorerId:', form.scorerId)
-  const id = form.scorerId?.toString()?.trim() ?? ''
+  const id = form.scorerId?.trim() ?? ''
 
   if (id.length != 9) {
     setLoading(false)
@@ -166,11 +174,8 @@ export function submitForm(form: ShowcaseTabForm) {
       console.log(data)
 
       let characters: UnconvertedCharacter[]
-      // backup 1
-      if (data.source === 'mana') {
-        characters = processManaData(data)
-      // backup 2
-      } else if (data.source === 'mihomo') {
+      // backup
+      if (data.source === 'mihomo') {
         characters = processMihomoData(data)
       // enka
       } else if (data.source === 'enka') {

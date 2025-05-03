@@ -42,7 +42,7 @@ const Tabs = () => {
   const benchmarksTab = React.useMemo(() => <BenchmarksTab/>, [])
 
   useEffect(() => {
-    let route = PageToRoute[activeKey] ?? PageToRoute[AppPages.OPTIMIZER]!
+    let route = PageToRoute[activeKey]
     if (activeKey == AppPages.SHOWCASE) {
       const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
       if (id) {
@@ -87,8 +87,8 @@ const Tabs = () => {
 export default Tabs
 
 function TabRenderer(props: {
-  activeKey: string
-  tabKey: string
+  activeKey: AppPage
+  tabKey: AppPage
   content: ReactElement
 }) {
   return (

@@ -25,17 +25,17 @@ export default function ShowcaseTab() {
 
   const loading = useShowcaseTabStore((s) => s.loading)
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
+  const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
 
   const activeKey = window.store((s) => s.activeKey)
   const { t } = useTranslation(['relicScorerTab', 'common'])
 
   useEffect(() => initialiseShowcaseTab(activeKey), [activeKey])
 
-  let initialId = null
-  if (scorerId) {
-    const parsed = parseInt(scorerId)
-    initialId = isNaN(parsed) ? null : parsed
+  if (activeKey != AppPages.SHOWCASE && !availableCharacters?.length) {
+    return <></>
   }
+  console.log('======================================================================= RENDER RelicScorerTab')
 
   return (
     <div>
@@ -58,7 +58,7 @@ export default function ShowcaseTab() {
         <Form
           form={showcaseForm}
           onFinish={submitForm}
-          initialValues={{ scorerId: initialId }}
+          initialValues={{ scorerId: scorerId }}
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item name='scorerId'>

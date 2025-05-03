@@ -44,6 +44,8 @@ export enum BasePath {
 export const BASE_PATH: BasePath = BasePath.MAIN
 
 export const AppPages = {
+  HOME: 'HOME',
+
   OPTIMIZER: 'OPTIMIZER',
   CHARACTERS: 'CHARACTERS',
   RELICS: 'RELICS',
@@ -56,36 +58,42 @@ export const AppPages = {
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
-  HOME: 'HOME',
 } as const
 
 export type AppPage = typeof AppPages[keyof typeof AppPages]
 
-export const PageToRoute: Partial<Record<AppPage, string>> = {
+export type Route = `${typeof BASE_PATH}${RouteSuffix}`
+
+type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#webgpu' | '#metadata'
+
+export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
 
-  [AppPages.OPTIMIZER]: BASE_PATH + '#main',
+  [AppPages.OPTIMIZER]: `${BASE_PATH}#main`,
+  [AppPages.CHARACTERS]: `${BASE_PATH}#main`,
+  [AppPages.RELICS]: `${BASE_PATH}#main`,
+  [AppPages.IMPORT]: `${BASE_PATH}#main`,
 
-  [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
-  [AppPages.WARP]: BASE_PATH + '#warp',
-  [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
-  [AppPages.BENCHMARKS]: BASE_PATH + '#benchmarks',
+  [AppPages.SHOWCASE]: `${BASE_PATH}#showcase`,
+  [AppPages.CHANGELOG]: `${BASE_PATH}#changelog`,
+  [AppPages.WARP]: `${BASE_PATH}#warp`,
+  [AppPages.BENCHMARKS]: `${BASE_PATH}#benchmarks`,
 
-  [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
-  [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
-}
+  [AppPages.WEBGPU_TEST]: `${BASE_PATH}#webgpu`,
+  [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
+} as const satisfies Record<AppPage, Route>
 
 export const RouteToPage = {
-  [PageToRoute[AppPages.OPTIMIZER]!]: AppPages.OPTIMIZER,
-  [PageToRoute[AppPages.SHOWCASE]!]: AppPages.SHOWCASE,
-  [PageToRoute[AppPages.WARP]!]: AppPages.WARP,
-  [PageToRoute[AppPages.CHANGELOG]!]: AppPages.CHANGELOG,
-  [PageToRoute[AppPages.BENCHMARKS]!]: AppPages.BENCHMARKS,
+  [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
+  [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
+  [PageToRoute[AppPages.WARP]]: AppPages.WARP,
+  [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
+  [PageToRoute[AppPages.BENCHMARKS]]: AppPages.BENCHMARKS,
 
-  [PageToRoute[AppPages.WEBGPU_TEST]!]: AppPages.WEBGPU_TEST,
-  [PageToRoute[AppPages.METADATA_TEST]!]: AppPages.METADATA_TEST,
-  [PageToRoute[AppPages.HOME]!]: AppPages.HOME,
-}
+  [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
+  [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
+  [PageToRoute[AppPages.HOME]]: AppPages.HOME,
+} as const satisfies Record<Route, AppPage>
 
 // React usage
 // let characterTabBlur = store(s => s.characterTabBlur);
@@ -106,7 +114,7 @@ const savedSessionDefaults: GlobalSavedSession = {
 
 function getDefaultActiveKey() {
   const pathname = TsUtils.stripTrailingSlashes(window.location.pathname)
-  const page = RouteToPage[pathname + window.location.hash.split('?')[0]]
+  const page = RouteToPage[pathname + window.location.hash.split('?')[0] as Route]
   return page ?? AppPages.HOME
 }
 
@@ -599,35 +607,28 @@ export const DB = {
     }
 
     if (saveData.savedSession) {
-      // Don't load an invalid character
-      // @ts-ignore TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
-      const optimizerCharacterId: CharacterId | null = saveData.savedSession.global?.optimizerCharacterId ?? saveData.savedSession.optimizerCharacterId
-      if (optimizerCharacterId && !dbCharacters[optimizerCharacterId]) {
-        // @ts-ignore TODO remove once migration complete | added on 02/05/2025 (dd/mm/yyyy)
-        delete saveData.savedSession.optimizerCharacterId
-        // @ts-ignore
-        delete saveData.savedSession.global?.optimizerCharacterId
+      if (saveData.savedSession.global) {
+        const session = saveData.savedSession.global
+        const optimizerCharacterId = session.optimizerCharacterId
+        if (optimizerCharacterId && !dbCharacters[optimizerCharacterId]) {
+          session.optimizerCharacterId = null
+        }
+        // When new session items are added, set user's save to the default
+        const overiddenSavedSessionDefaults: GlobalSavedSession = { ...savedSessionDefaults, ...session }
+
+        window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
       }
 
-      // When new session items are added, set user's save to the default
-      const overiddenSavedSessionDefaults: GlobalSavedSession = {
-        ...savedSessionDefaults,
-        // TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
-        ...(saveData.savedSession.global ?? saveData.savedSession),
+      if (saveData.savedSession.showcaseTab) { // Set showcase tab state
+        useShowcaseTabStore.getState().setSavedSession(saveData.savedSession.showcaseTab)
       }
-
-      window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
     }
+    // @ts-expect-error TODO remove once migration period is over
+    if (saveData.scorerId) useShowcaseTabStore.getState().setScorerId(saveData.scorerId as string)
 
     if (saveData.settings) {
       window.store.getState().setSettings(saveData.settings)
     }
-
-    // Set showcase tab state
-    // @ts-ignore TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
-    useShowcaseTabStore.getState().setScorerId(saveData.savedSession?.showcaseTab?.scorerId ?? saveData?.scorerId as string)
-    // @ts-ignore TODO fix once migration complete | added on 02/05/2025 (dd/mm/yyyy)
-    useShowcaseTabStore.getState().setSidebarOpen(saveData.savedSession?.showcaseTab?.sidebarOpen ?? saveData.savedSession?.relicScorerSidebarOpen)
 
     // Set relics tab state
     window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])

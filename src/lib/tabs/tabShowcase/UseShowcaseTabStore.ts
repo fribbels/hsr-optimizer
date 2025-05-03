@@ -31,6 +31,7 @@ type ShowcaseTabState = {
   setSelectedCharacter: (selectedCharacter: ShowcaseTabCharacter | null) => void
   setScorerId: (scorerId: string | null) => void
   setSidebarOpen: (open: boolean) => void
+  setSavedSession: (session: ShowcaseTabSavedSession) => void
 
   onSelectionChanged: (selected: CharacterId) => void
 }
@@ -51,6 +52,7 @@ export const useShowcaseTabStore = create<ShowcaseTabState>()((set) => ({
   setSelectedCharacter: (selectedCharacter: ShowcaseTabCharacter | null) => set({ selectedCharacter }),
   setScorerId: (scorerId: string | null) => set((s) => ({ savedSession: { ...s.savedSession, scorerId } })),
   setSidebarOpen: (sidebarOpen: boolean) => set((s) => ({ savedSession: { ...s.savedSession, sidebarOpen } })),
+  setSavedSession: (savedSession: ShowcaseTabSavedSession) => set((s) => ({ savedSession: { ...s.savedSession, ...savedSession } })),
 
   onSelectionChanged: (selected: CharacterId) => set((s) => {
     console.log('selectionChange', selected)

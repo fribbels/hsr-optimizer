@@ -5,6 +5,7 @@ import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Languages } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -278,7 +279,7 @@ function Header() {
 }
 
 function SearchBar() {
-  const scorerId = window.store((s) => s.scorerId)
+  const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
   const inputRef = useRef<InputRef>(null)
 
@@ -329,7 +330,7 @@ function SearchBar() {
           }}
           allowClear
           size='large'
-          defaultValue={scorerId}
+          defaultValue={scorerId ?? ''}
           onPressEnter={handleSearchSubmit}
         />
       </Space.Compact>

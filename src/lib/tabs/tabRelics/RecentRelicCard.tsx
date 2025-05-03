@@ -200,32 +200,16 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                         </Typography.Text>
                       </Flex>
                       <Flex align="center" gap={4}>
-                        <Typography.Text style={{ 
-                          fontSize: '11px',
-                          color: token.colorTextSecondary,
-                        }}>
-                          a:
-                        </Typography.Text>
-                        <Typography.Text style={{ 
-                          fontSize: '12px',
-                          color: avgColor,
-                          fontWeight: 600,
-                        }}>
-                          {avgPct}%
-                        </Typography.Text>
-                        <Typography.Text style={{ 
-                          fontSize: '11px',
-                          color: token.colorTextSecondary,
-                        }}>
-                          m:
-                        </Typography.Text>
-                        <Typography.Text style={{ 
-                          fontSize: '12px',
-                          color: maxColor,
-                          fontWeight: 600,
-                        }}>
-                          {maxPct}%
-                        </Typography.Text>
+                        <Tooltip title="Average and maximum potential scores for this character">
+                          <Typography.Text style={{ 
+                            fontSize: '12px',
+                            fontWeight: 600,
+                          }}>
+                            <span style={{ color: avgColor }}>{avgPct}%</span>
+                            <span style={{ color: token.colorTextSecondary }}> / </span>
+                            <span style={{ color: maxColor }}>{maxPct}%</span>
+                          </Typography.Text>
+                        </Tooltip>
                       </Flex>
                     </Flex>
                   );

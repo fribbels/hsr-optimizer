@@ -15,7 +15,7 @@ const MARKER_LABELS: Record<TurnMarker, string> = {
 const cascaderTheme = {
   components: {
     Cascader: {
-      dropdownHeight: 170,
+      dropdownHeight: 190,
       controlWidth: 100,
       optionPadding: '2px 12px',
       controlItemWidth: 150,

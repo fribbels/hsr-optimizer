@@ -88,7 +88,7 @@ export function ComboDrawer() {
       width={1450}
       className='.comboDrawer'
       extra={(
-        <Flex style={{ width: '100%', marginRight: 22 }} align='center'>
+        <Flex style={{ width: 1017 }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
       )}

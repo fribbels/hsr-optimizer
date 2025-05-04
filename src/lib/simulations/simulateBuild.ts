@@ -12,6 +12,7 @@ import {
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -85,22 +86,24 @@ export function simulateBuild(
     calculateDamage(x, action, context)
 
     const a = x.a
-    if (action.actionType === 'BASIC') {
+    if (action.actionType === AbilityKind.BASIC) {
       combo += a[Key.BASIC_DMG]
-    } else if (action.actionType === 'SKILL') {
+    } else if (action.actionType === AbilityKind.SKILL) {
       combo += a[Key.SKILL_DMG]
-    } else if (action.actionType === 'ULT') {
+    } else if (action.actionType === AbilityKind.ULT) {
       combo += a[Key.ULT_DMG]
-    } else if (action.actionType === 'FUA') {
+    } else if (action.actionType === AbilityKind.FUA) {
       combo += a[Key.FUA_DMG]
-    } else if (action.actionType === 'MEMO_SKILL') {
+    } else if (action.actionType === AbilityKind.DOT) {
+      combo += a[Key.DOT_DMG]
+    } else if (action.actionType === AbilityKind.MEMO_SKILL) {
       combo += a[Key.MEMO_SKILL_DMG]
-    } else if (action.actionType === 'MEMO_TALENT') {
+    } else if (action.actionType === AbilityKind.MEMO_TALENT) {
       combo += a[Key.MEMO_TALENT_DMG]
     }
 
     if (i === 0) {
-      combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
+      combo += context.comboBreak * a[Key.BREAK_DMG]
       x.COMBO_DMG.set(combo, Source.NONE)
     }
   }

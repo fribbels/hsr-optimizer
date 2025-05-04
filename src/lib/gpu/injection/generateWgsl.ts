@@ -294,7 +294,7 @@ ${debugValues}
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
     wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
-x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+x.COMBO_DMG = combo + comboBreak * x.BREAK_DMG;
 results[index] = x; // DEBUG
 results[index + 1] = m; // DEBUG
     `, 4))

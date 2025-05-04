@@ -4,6 +4,7 @@ export enum AbilityKind {
   SKILL = 'SKILL',
   ULT = 'ULT',
   FUA = 'FUA',
+  DOT = 'DOT',
   MEMO_SKILL = 'MEMO_SKILL',
   MEMO_TALENT = 'MEMO_TALENT',
 }
@@ -43,6 +44,7 @@ export function createAbility(kind: AbilityKind, marker: TurnMarker): TurnAbilit
 
 const start = '['
 const end = ']'
+
 export function toVisual(ability: TurnAbility): string {
   if (!ability || ability == NULL_TURN_ABILITY) return ''
 
@@ -85,6 +87,7 @@ export const {
   DEFAULT_SKILL,
   DEFAULT_ULT,
   DEFAULT_FUA,
+  DEFAULT_DOT,
   DEFAULT_MEMO_SKILL,
   DEFAULT_MEMO_TALENT,
 
@@ -93,6 +96,7 @@ export const {
   START_SKILL,
   START_ULT,
   START_FUA,
+  START_DOT,
   START_MEMO_SKILL,
   START_MEMO_TALENT,
 
@@ -101,6 +105,7 @@ export const {
   END_SKILL,
   END_ULT,
   END_FUA,
+  END_DOT,
   END_MEMO_SKILL,
   END_MEMO_TALENT,
 
@@ -109,6 +114,7 @@ export const {
   WHOLE_SKILL,
   WHOLE_ULT,
   WHOLE_FUA,
+  WHOLE_DOT,
   WHOLE_MEMO_SKILL,
   WHOLE_MEMO_TALENT,
 } = abilityNames

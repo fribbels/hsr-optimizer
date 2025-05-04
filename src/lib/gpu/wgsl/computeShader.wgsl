@@ -606,14 +606,14 @@ fn main(
         } else if (action.abilityType == FUA_ABILITY_TYPE) {
           combo += x.FUA_DMG;
         } else if (action.abilityType == DOT_ABILITY_TYPE) {
-          combo += x.DOT_DMG;
+          combo += x.DOT_DMG * comboDot / max(1, dotAbilities);
         } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
           combo += x.MEMO_SKILL_DMG;
         } else if (action.abilityType == MEMO_TALENT_ABILITY_TYPE) {
           combo += x.MEMO_TALENT_DMG;
         }
       } else {
-        x.COMBO_DMG = combo + comboBreak * x.BREAK_DMG;
+        x.COMBO_DMG = combo + comboBreak * x.BREAK_DMG + x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
 
         // START COMBAT STAT FILTERS
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -709,7 +709,7 @@ fn calculateDamage(
       );
 
       if (initialDmg > 0) {
-        (*p_x).DOT_DMG = initialDmg * (comboDot / 1) // When no DOT abilities specified, use the default
+        (*p_x).DOT_DMG = initialDmg // When no DOT abilities specified, use the default
           * (baseUniversalMulti)
           * (dotDmgBoostMulti)
           * (dotDefMulti)

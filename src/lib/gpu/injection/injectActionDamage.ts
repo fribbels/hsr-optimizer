@@ -200,7 +200,7 @@ export function injectActionDamage(context: OptimizerContext) {
     );
 
     if (initialDmg > 0) {
-      (*p_x).DOT_DMG = initialDmg * (comboDot / max(1, dotAbilities))
+      (*p_x).DOT_DMG = initialDmg
         * (baseUniversalMulti)
         * (dotDmgBoostMulti)
         * (dotDefMulti)

@@ -93,7 +93,7 @@ export function initializeComboState(request: Form, merge: boolean) {
 
   if (!request.characterId) return comboState
 
-  const actionCount = 9
+  const actionCount = 11
   comboState.comboTurnAbilities = getComboTurnAbilities(request)
 
   const metadata = generateConditionalResolverMetadata(request, dbMetadata)
@@ -778,7 +778,7 @@ function change(changeConditional: {
     const comboCategory = originalConditional[key]
     if (!comboCategory) continue
     if (comboCategory.type == ConditionalDataType.BOOLEAN) {
-      for (let i = 0; i <= 8; i++) {
+      for (let i = 0; i <= 10; i++) {
         if (set) {
           // Set conditionals use legacy [undefined, value] format
           // eslint-disable-next-line

@@ -85,15 +85,15 @@ export function ComboDrawer() {
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
-      width={1350}
+      width={1450}
       className='.comboDrawer'
       extra={(
-        <Flex style={{ width: 917 }} align='center'>
+        <Flex style={{ width: '100%', marginRight: 22 }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
       )}
     >
-      <div style={{ width: 1225, height: '100%' }}>
+      <div style={{ width: 1400, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
         <Selecto
           className='selecto-selection'
@@ -225,7 +225,7 @@ function ComboHeader(props: {
   if (!comboTurnAbilities) return <></>
 
   const length = comboTurnAbilities.length
-  const render = Array(Math.min(9, length + 1))
+  const render = Array(Math.min(11, length + 1))
     .fill(false)
     .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>)
 

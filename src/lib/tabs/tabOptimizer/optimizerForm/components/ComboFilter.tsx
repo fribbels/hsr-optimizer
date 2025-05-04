@@ -79,7 +79,7 @@ export const ComboFilters = () => {
       <ComboBasicDefinition comboOptions={comboOptions}/>
 
       <>
-        <Flex vertical gap={8} style={{ marginTop: 5 }}>
+        <Flex vertical gap={8} style={{ marginTop: 2 }}>
           <Button
             onClick={() => setComboDrawerOpen(true)}
             icon={<SettingOutlined/>}
@@ -103,9 +103,9 @@ export const ComboFilters = () => {
 function add(formInstance: FormInstance<OptimizerForm>) {
   const form = formInstance.getFieldsValue()
 
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 12; i++) {
     if (form.comboTurnAbilities?.[i] == null) {
-      formInstance.setFieldValue(['comboTurnAbilities', i], DEFAULT_BASIC.name)
+      formInstance.setFieldValue(['comboTurnAbilities', i], DEFAULT_BASIC)
       break
     }
   }
@@ -114,7 +114,7 @@ function add(formInstance: FormInstance<OptimizerForm>) {
 function minus(formInstance: FormInstance<OptimizerForm>) {
   const form = formInstance.getFieldsValue()
 
-  for (let i = 10; i > 1; i--) {
+  for (let i = 12; i > 1; i--) {
     if (form.comboTurnAbilities?.[i] != null) {
       formInstance.setFieldValue(['comboTurnAbilities', i], null)
       break
@@ -133,7 +133,7 @@ function reset(formInstance: FormInstance<OptimizerForm>) {
   const defaultComboDot = characterMetadata.scoringMetadata?.simulation?.comboDot ?? 0
   const defaultComboBreak = characterMetadata.scoringMetadata?.simulation?.comboBreak ?? 0
 
-  for (let i = 0; i <= 10; i++) {
+  for (let i = 0; i <= 12; i++) {
     formInstance.setFieldValue(['comboAbilities', i], defaultComboAbilities[i] ?? null)
   }
   formInstance.setFieldValue(['comboDot'], defaultComboDot)
@@ -156,6 +156,8 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
         <ComboOptionRowSelect index={6} comboOptions={props.comboOptions}/>
         <ComboOptionRowSelect index={7} comboOptions={props.comboOptions}/>
         <ComboOptionRowSelect index={8} comboOptions={props.comboOptions}/>
+        <ComboOptionRowSelect index={9} comboOptions={props.comboOptions}/>
+        <ComboOptionRowSelect index={10} comboOptions={props.comboOptions}/>
       </Flex>
 
       <VerticalDivider width={10}/>

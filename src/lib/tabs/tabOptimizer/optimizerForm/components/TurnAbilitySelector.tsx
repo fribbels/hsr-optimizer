@@ -59,14 +59,18 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
         noStyle
       >
         <Cascader<Option>
+          className='turn-ability-cascader-filter'
           options={options}
-          displayRender={([, abilityType]) => abilityType}
+          displayRender={(labels: string[]) => {
+            return `${formName[1]}.  ${labels[1]}`
+          }}
           expandTrigger='hover'
           placeholder='Ability'
           showCheckedStrategy={SHOW_CHILD}
           size='small'
           allowClear
-          style={{ width: '100%', height: 22 }}
+          style={{ width: '100%', height: 20 }}
+          variant='borderless'
         />
       </Form.Item>
     </ConfigProvider>
@@ -88,6 +92,7 @@ export function ControlledTurnAbilitySelector({
     <ConfigProvider theme={cascaderTheme}>
       <Cascader
         style={style}
+        className='turn-ability-cascader-drawer'
         options={options}
         displayRender={(labels: string[]) => {
           const turnAbilityName = labels[0] as TurnAbilityName

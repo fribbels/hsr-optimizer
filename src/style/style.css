@@ -787,3 +787,20 @@ a {
 .ant-select-sm .ant-select-clear {
     inset-inline-end: 7px !important;
 }
+
+.turn-ability-cascader-filter .ant-select-selection-item {
+    font-size:  12px !important;
+}
+.turn-ability-cascader-filter .ant-select-selector {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.turn-ability-cascader-filter .ant-select-arrow,
+.turn-ability-cascader-filter .ant-select-clear {
+    inset-inline-end: 0px !important;
+}
+
+.turn-ability-cascader-drawer .ant-select-selection-item {
+    font-size:  12px !important;
+}

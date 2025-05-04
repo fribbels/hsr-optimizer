@@ -298,16 +298,18 @@ SetConditionals:
     Prisoner: crwdns43074:0crwdne43074:0
     Diver: crwdns43076:0crwdne43076:0
     Watchmaker: crwdns43078:0crwdne43078:0
-    Valorous: crwdns43080:0crwdne43080:0
+    Valorous: crwdns45216:0crwdne45216:0
+    Sacerdos: crwdns43096:0crwdne43096:0
+    Scholar: crwdns45218:0crwdne45218:0
+    Hero: crwdns45220:0crwdne45220:0
     Differentiator: crwdns43082:0crwdne43082:0
     Penacony: crwdns44792:0crwdne44792:0
     Sigonia: crwdns43084:0crwdne43084:0
     Izumo: crwdns44794:0crwdne44794:0
     Duran: crwdns43088:0crwdne43088:0
     Kalpagni: crwdns43090:0crwdne43090:0
-    Lushaka: crwdns43092:0crwdne43092:0
+    Lushaka: crwdns45222:0crwdne45222:0
     Banana: crwdns43094:0crwdne43094:0
-    Sacerdos: crwdns43096:0crwdne43096:0
 Presets:
   SpdValues:
     SPD0: crwdns43098:0crwdne43098:0

@@ -177,7 +177,7 @@ CharacterPreview:
     RollsCard:
       Perfection: 完美度
     MetricsCard:
-      Days: 天
+      Days: 天数
       Rolls: 加权重词条数
       TBP: 预计开拓力
       Potential: 重掷潜力

@@ -1,5 +1,5 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
-import { ALL_ABILITIES, createAbility, NULL_TURN_ABILITY_NAME, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, ALL_ABILITIES, createAbility, NULL_TURN_ABILITY_NAME, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 
@@ -30,19 +30,19 @@ interface Option {
 }
 
 function generateOptions(): Option[] {
-  return Object.values(TurnMarker)
-    .map((marker) => ({
-      value: marker,
-      label: MARKER_LABELS[marker],
-      children: ALL_ABILITIES.map((kind) => {
-        const ability = createAbility(kind, marker)
+  return ALL_ABILITIES.map((kind) => ({
+    value: `${kind}`,
+    label: `${kind}`,
+    children: Object.values(TurnMarker)
+      .map((marker) => {
+        const turnAbility = createAbility(kind, marker)
         return {
-          value: ability.name,
-          label: toVisual(ability),
+          value: turnAbility.name,
+          label: toVisual(turnAbility),
           children: [],
         }
       }),
-    }))
+  }))
 }
 
 export function TurnAbilitySelector({ formName }: { formName: (string | number)[] }) {
@@ -52,9 +52,9 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
     <ConfigProvider theme={cascaderTheme}>
       <Form.Item
         name={formName}
-        getValueFromEvent={(value: [TurnMarker, TurnAbilityName]) => value?.[1] || null}
+        getValueFromEvent={(value: [AbilityKind, TurnAbilityName]) => value?.[1] || null}
         getValueProps={(value: TurnAbilityName) => ({
-          value: value ? [findMarkerForAbility(value), value] : undefined,
+          value: value ? [toTurnAbility(value).kind, value] : undefined,
         })}
         noStyle
       >

@@ -129,7 +129,7 @@ export default function ScoringModal() {
     const resetAllCharacters = () => {
       console.log('Reset the scoring algorithm for all characters')
       const charactersById = window.store.getState().charactersById
-      for (const character of Object.keys(charactersById)) {
+      for (const character of Object.keys(charactersById) as CharacterId[]) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
         const scoringMetadataToMerge: Partial<ScoringMetadata> = {
           stats: defaultScoringMetadata.stats,

@@ -143,7 +143,7 @@ export type DBMetadataRelics = {
 }
 
 export type DBMetadata = {
-  characters: Record<string, DBMetadataCharacter>
-  lightCones: Record<string, DBMetadataLightCone>
+  characters: Record<CharacterId, DBMetadataCharacter>
+  lightCones: Record<LightCone['id'], DBMetadataLightCone>
   relics: DBMetadataRelics
 }

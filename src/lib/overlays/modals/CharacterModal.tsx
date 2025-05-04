@@ -12,7 +12,7 @@ export default function CharacterModal(props: {
   open: boolean
   onOk: (form: Form) => void
   setOpen: (open: boolean) => void
-  initialCharacter?: Character
+  initialCharacter?: Character | null
 }) {
   const [characterForm] = AntDForm.useForm()
 

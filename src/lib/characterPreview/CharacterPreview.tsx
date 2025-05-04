@@ -1,31 +1,12 @@
 import { ConfigProvider, Flex, theme } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
 import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import {
-  getArtistName,
-  getPreviewRelics,
-  getShowcaseDisplayDimensions,
-  getShowcaseMetadata,
-  getShowcaseStats,
-  handleTeamSelection,
-  resolveScoringType,
-  ShowcaseDisplayDimensions,
-  showcaseOnAddOk,
-  showcaseOnEditOk,
-  showcaseOnEditPortraitOk,
-} from 'lib/characterPreview/characterPreviewController'
+import { getArtistName, getPreviewRelics, getShowcaseDisplayDimensions, getShowcaseMetadata, getShowcaseStats, handleTeamSelection, resolveScoringType, ShowcaseDisplayDimensions, showcaseOnAddOk, showcaseOnEditOk, showcaseOnEditPortraitOk } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
-import ShowcaseCustomizationSidebar, {
-  defaultShowcasePreferences,
-  getDefaultColor,
-  getOverrideColorMode,
-  ShowcaseCustomizationSidebarRef,
-  standardShowcasePreferences,
-  urlToColorCache,
-} from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import ShowcaseCustomizationSidebar, { defaultShowcasePreferences, getDefaultColor, getOverrideColorMode, ShowcaseCustomizationSidebarRef, standardShowcasePreferences, urlToColorCache } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
 import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
@@ -58,7 +39,7 @@ window.Vibrant = Vibrant
 export function CharacterPreview(props: {
   id: string
   source: ShowcaseSource
-  character: Character
+  character: Character | null
   setOriginalCharacterModalOpen: (open: boolean) => void
   setOriginalCharacterModalInitialCharacter: (character: Character) => void
   setCharacterModalAdd: (add: boolean) => void
@@ -95,9 +76,9 @@ export function CharacterPreview(props: {
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
   // Using these to trigger updates on changes
-  const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.stats?.[Stats.SPD])
-  const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.traces)
-  const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id]?.simulation?.deprioritizeBuffs)
+  const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.stats?.[Stats.SPD])
+  const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.traces)
+  const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.simulation?.deprioritizeBuffs)
   const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {

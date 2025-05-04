@@ -4,7 +4,9 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterId } from 'types/character'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
+import { LightCone } from 'types/lightCone'
 import { ElementalDamageType, ElementalResPenType } from 'types/metadata'
 
 export type OptimizerAction = {
@@ -80,9 +82,9 @@ export type CharacterStatsBreakdown = {
 }
 
 export type BasicForm = {
-  characterId: string
+  characterId: CharacterId
   characterEidolon: number
-  lightCone: string
+  lightCone: LightCone['id']
   lightConeSuperimposition: number
 }
 

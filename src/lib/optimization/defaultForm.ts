@@ -7,7 +7,7 @@ import { Form, Teammate } from 'types/form'
 
 // FIXME HIGH
 
-export function getDefaultWeights(characterId?: string): Form['weights'] {
+export function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
   if (characterId) {
     const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
     scoringMetadata.stats.headHands = 0

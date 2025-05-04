@@ -2,7 +2,8 @@ import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { DEFAULT_BASIC, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, toTurnAbility, toVisual, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
@@ -208,3 +209,7 @@ function NumberXInput(props: { name: string }) {
     </Form.Item>
   )
 }
+
+window.toVisual = toVisual
+window.toTurnAbility = toTurnAbility
+window.preprocessTurnAbilityNames = preprocessTurnAbilityNames

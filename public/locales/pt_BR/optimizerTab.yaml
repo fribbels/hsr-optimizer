@@ -318,13 +318,17 @@ SetConditionals:
     Prisoner: O bônus de penetração de DEF% selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Diver: O efeito de 2 peças pode ser desativado selecionando a opção 0x. Para 4 peças, diferentes buffs CRIT são aplicados aos cálculos de estatísticas de combate, dependendo da opção selecionada.
     Watchmaker: Quando ativado, o bônus de Efeito de Quebra é aplicado aos cálculos de estatísticas de combate.
+    Valorous: Quando ativado, o buff de DMG% para o dano da Ultimate será aplicado aos cálculos de estatísticas de combate.
     Sacerdos: O buff selecionado é aplicado aos cálculos de dano. Os personagens que se buffam podem acionar esse efeito.
+    Scholar: Quando ativado, o buff de DMG% para o dano de Perícia será aprimorado de acordo com a sequência COMBO do personagem.
+    Hero: Quando ativado, os buffs de VEL% e Dano CRIT são aplicados aos cálculos de estatísticas de combate.
     Differentiator: Quando ativado, o bônus de Chance de Crítico é aplicado aos cálculos de estatísticas de combate.
     Penacony: Quando ativado, o buff de DMG% será aplicado ao memo do usuário.
     Sigonia: O bônus de Dano Crítico selecionado é aplicado aos cálculos de estatísticas de combate, presumindo que o personagem tenha derrotado esse número de inimigos.
     Izumo: Quando ativado, se tiver um aliado do mesmo caminho, aplica o buff de 12% de Taxa Crítica aos cálculos de atributos de combate.
     Duran: O buff selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Kalpagni: Quando ativado, aplica o bônus de Efeito de Quebra aos cálculos de estatísticas de combate.
+    Lushaka: Desativado por padrão - Este conjunto não pode afetar seu portador.
     Banana: O buff selecionado é aplicado aos cálculos de dano.
 Presets:
   SpdValues:

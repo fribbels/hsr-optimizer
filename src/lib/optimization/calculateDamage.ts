@@ -260,7 +260,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       (dotEhrMulti),
       (dotTrueDmgMulti),
     )
-    a[Key.DOT_DMG] = instanceDmg * (context.comboDot / context.dotAbilities)
+    a[Key.DOT_DMG] = instanceDmg
   }
 
   if ((action.actionType == AbilityKind.MEMO_SKILL || action.actionType == AbilityKind.NULL) && context.activeAbilityFlags & AbilityType.MEMO_SKILL) {

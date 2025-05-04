@@ -201,7 +201,7 @@ export function optimizerWorker(e: MessageEvent) {
       } else if (action.actionType === AbilityKind.FUA) {
         combo += a[Key.FUA_DMG]
       } else if (action.actionType === AbilityKind.DOT) {
-        combo += a[Key.DOT_DMG]
+        combo += a[Key.DOT_DMG] * context.comboDot / Math.max(1, context.dotAbilities)
       } else if (action.actionType === AbilityKind.MEMO_SKILL) {
         combo += a[Key.MEMO_SKILL_DMG]
       } else if (action.actionType === AbilityKind.MEMO_TALENT) {
@@ -209,7 +209,7 @@ export function optimizerWorker(e: MessageEvent) {
       }
 
       if (i === 0) {
-        combo += context.comboBreak * a[Key.BREAK_DMG]
+        combo += context.comboBreak * a[Key.BREAK_DMG] + a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot / Math.max(1, context.dotAbilities) : 0)
         x.COMBO_DMG.set(combo, Source.NONE)
       }
     }

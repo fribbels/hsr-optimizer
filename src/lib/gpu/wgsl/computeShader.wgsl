@@ -690,6 +690,36 @@ fn calculateDamage(
     * (0.10f);
 
   if (actionIndex == 0) {
+    if (actionIndex == 0 && dotAbilities == 0) {
+      // Duplicated in injectActionDamage.ts
+
+      let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
+      let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
+      let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
+      let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
+      let dotEhrMulti = calculateEhrMulti(p_x);
+      let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+      let initialDmg = calculateInitial(
+        p_x,
+        x.DOT_DMG,
+        x.DOT_HP_SCALING,
+        x.DOT_DEF_SCALING,
+        x.DOT_ATK_SCALING,
+        x.DOT_ATK_P_BOOST
+      );
+
+      if (initialDmg > 0) {
+        (*p_x).DOT_DMG = initialDmg * (comboDot / 1) // When no DOT abilities specified, use the default
+          * (baseUniversalMulti)
+          * (dotDmgBoostMulti)
+          * (dotDefMulti)
+          * (dotVulnerabilityMulti)
+          * (dotResMulti)
+          * (dotEhrMulti)
+          * (dotTrueDmgMulti);
+      }
+    }
+
     if (x.HEAL_VALUE > 0) {
       (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
         1

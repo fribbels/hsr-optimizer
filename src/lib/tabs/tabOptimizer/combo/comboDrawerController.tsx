@@ -1,6 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
+import { ABILITY_LIMIT, ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
 import { getComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/rotationPreprocessor'
@@ -93,7 +93,7 @@ export function initializeComboState(request: Form, merge: boolean) {
 
   if (!request.characterId) return comboState
 
-  const actionCount = 11
+  const actionCount = ABILITY_LIMIT + 1
   comboState.comboTurnAbilities = getComboTurnAbilities(request)
 
   const metadata = generateConditionalResolverMetadata(request, dbMetadata)
@@ -778,7 +778,7 @@ function change(changeConditional: {
     const comboCategory = originalConditional[key]
     if (!comboCategory) continue
     if (comboCategory.type == ConditionalDataType.BOOLEAN) {
-      for (let i = 0; i <= 10; i++) {
+      for (let i = 0; i <= ABILITY_LIMIT; i++) {
         if (set) {
           // Set conditionals use legacy [undefined, value] format
           // eslint-disable-next-line

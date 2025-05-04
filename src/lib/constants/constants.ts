@@ -684,6 +684,8 @@ export const setToId = {
   [Sets.GiantTreeOfRaptBrooding]: '320',
 } as const
 
+export const ABILITY_LIMIT = 12
+
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 
 export const DEFAULT_TEAM = 'Default'

@@ -2,7 +2,7 @@ import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
+import { ABILITY_LIMIT, ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
@@ -225,7 +225,7 @@ function ComboHeader(props: {
   if (!comboTurnAbilities) return <></>
 
   const length = comboTurnAbilities.length
-  const render = Array(Math.min(11, length + 1))
+  const render = Array(Math.min(ABILITY_LIMIT + 1, length + 1))
     .fill(false)
     .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>)
 

@@ -1,4 +1,5 @@
 import { Flex } from 'antd'
+import { ABILITY_LIMIT } from 'lib/constants/constants'
 import { useTranslation } from 'react-i18next'
 import { SimulationMetadata } from 'types/metadata'
 
@@ -13,14 +14,13 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
   return (
     <Flex gap={30}>
       <Flex vertical gap={2}>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={1}/>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={2}/>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={3}/>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={4}/>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={5}/>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={6}/>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={7}/>
-        <ScoringAbility comboAbilities={simMetadata.comboTurnAbilities} index={8}/>
+        {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
+          <ScoringAbility
+            key={i + 1}
+            comboAbilities={simMetadata.comboTurnAbilities}
+            index={i + 1}
+          />
+        ))}
       </Flex>
       <Flex vertical gap={2}>
         <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={simMetadata.comboDot}/>

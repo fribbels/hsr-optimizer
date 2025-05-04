@@ -247,7 +247,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.DOT_ATK_SCALING],
       a[Key.DOT_ATK_P_BOOST],
     )
-    a[Key.DOT_DMG] = calculateDotDmg(
+    const instanceDmg = calculateDotDmg(
       x,
       action,
       Key.DOT_DMG,
@@ -260,6 +260,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       (dotEhrMulti),
       (dotTrueDmgMulti),
     )
+    a[Key.DOT_DMG] = instanceDmg * (context.comboDot / context.dotAbilities)
   }
 
   if ((action.actionType == AbilityKind.MEMO_SKILL || action.actionType == AbilityKind.NULL) && context.activeAbilityFlags & AbilityType.MEMO_SKILL) {

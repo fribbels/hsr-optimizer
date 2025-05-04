@@ -181,7 +181,7 @@ export function injectActionDamage(context: OptimizerContext) {
     if (ability == AbilityType.DOT) {
       actionDamageWgsl += `
   /* START DOT CALC */
-  if (abilityType == 8 || actionIndex == 0) {
+  if (abilityType == 16 || actionIndex == 0) {
     /* START DOT CALC */
     let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
     let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
@@ -199,7 +199,7 @@ export function injectActionDamage(context: OptimizerContext) {
     );
 
     if (initialDmg > 0) {
-      (*p_x).DOT_DMG = initialDmg
+      (*p_x).DOT_DMG = initialDmg * (comboDot / dotAbilities)
         * (baseUniversalMulti)
         * (dotDmgBoostMulti)
         * (dotDefMulti)

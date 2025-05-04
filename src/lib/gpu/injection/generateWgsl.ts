@@ -264,6 +264,7 @@ const DEBUG_BASIC_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbi
 const DEBUG_SKILL_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.SKILL).length};
 const DEBUG_ULT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.ULT).length};
 const DEBUG_FUA_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.FUA).length};
+const DEBUG_DOT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.DOT).length};
 `
   }
 

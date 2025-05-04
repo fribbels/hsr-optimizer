@@ -85,10 +85,10 @@ export function ComboDrawer() {
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
-      width={1450}
+      width={1465}
       className='.comboDrawer'
       extra={(
-        <Flex style={{ width: 1017 }} align='center'>
+        <Flex style={{ width: 1032 }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
       )}

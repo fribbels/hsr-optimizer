@@ -6,7 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { getAbilityKind, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, getAbilityKind, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
@@ -40,6 +40,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   const characterConditionalController = CharacterConditionalsResolver.get(context)
 
   context.actions = actions
+  context.dotAbilities = countDotAbilities(actions)
   context.comboDot = request.comboDot || 0
   context.comboBreak = request.comboBreak || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
@@ -310,4 +311,8 @@ function overrideSetConditionals(setConditionals: SetConditional, context: Optim
     ...setConditionals,
     enabledIzumoGenseiAndTakamaDivineRealm: setConditionals.enabledIzumoGenseiAndTakamaDivineRealm && countTeamPath(context, context.path) >= 2,
   }
+}
+
+export function countDotAbilities(actions: OptimizerAction[]) {
+  return actions.filter((x) => x.actionType == AbilityKind.DOT).length
 }

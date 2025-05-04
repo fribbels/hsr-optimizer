@@ -1,5 +1,5 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
-import { AbilityKind, ALL_ABILITIES, createAbility, NULL_TURN_ABILITY_NAME, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, ALL_ABILITIES, createAbility, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 
@@ -111,7 +111,7 @@ export function ControlledTurnAbilitySelector({
           updateAbilityRotation(index, value[1] as TurnAbilityName)
         }}
         onClear={() => {
-          updateAbilityRotation(index, NULL_TURN_ABILITY_NAME)
+          updateAbilityRotation(index, null)
         }}
       />
     </ConfigProvider>

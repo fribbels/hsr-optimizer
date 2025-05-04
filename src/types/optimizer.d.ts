@@ -138,6 +138,7 @@ export type OptimizerContext = CharacterMetadata & {
   actions: OptimizerAction[]
   comboBreak: number
   comboDot: number
+  dotAbilities: number
 
   characterConditionalController: CharacterConditionalsController
   lightConeConditionalController: LightConeConditionalsController

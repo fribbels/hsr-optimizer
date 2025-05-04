@@ -1,5 +1,6 @@
 import {
   BASIC_ABILITY_TYPE,
+  DOT_ABILITY_TYPE,
   FUA_ABILITY_TYPE,
   MEMO_SKILL_ABILITY_TYPE,
   MEMO_TALENT_ABILITY_TYPE,
@@ -16,6 +17,7 @@ import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomput
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import { countDotAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StringToNumberMap } from 'types/common'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
@@ -99,6 +101,7 @@ ${lightConeConditionalWgsl}
   wgsl += generateDynamicConditionals(request, context)
 
   let actionsDefinition = `
+const dotAbilities: f32 = ${countDotAbilities(context.actions)};
 const comboDot: f32 = ${context.comboDot};
 const comboBreak: f32 = ${context.comboBreak};
 `
@@ -272,6 +275,7 @@ const actionTypeToWgslMapping: StringToNumberMap = {
   SKILL: SKILL_ABILITY_TYPE,
   ULT: ULT_ABILITY_TYPE,
   FUA: FUA_ABILITY_TYPE,
+  DOT: DOT_ABILITY_TYPE,
   MEMO_SKILL: MEMO_SKILL_ABILITY_TYPE,
   MEMO_TALENT: MEMO_TALENT_ABILITY_TYPE,
 }

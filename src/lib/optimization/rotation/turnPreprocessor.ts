@@ -61,8 +61,8 @@ export function preprocessTurnAbilities(input: TurnAbility[]): TurnAbility[] {
   annotateOrphanedBasicSkill(state)
   updateTurnRanges(state)
   dissolveTurnsWithoutBasicOrSkill(state)
-  updateTurnRanges(state)
-  extendTurnsForOrphanedUlts(state)
+  // updateTurnRanges(state)
+  // extendTurnsForOrphanedUlts(state)
 
   const outputAbilities = generateFinalSequence(state)
 
@@ -169,7 +169,7 @@ function closeHangingOpenBrackets(state: TurnState): void {
     }
 
     if (i == turnStarts.length - 1 && openCount) {
-      turnEnds[i] = true
+      turnEnds[openIndex] = true
     }
   }
 
@@ -205,7 +205,7 @@ function closeHangingCloseBrackets(state: TurnState): void {
     }
 
     if (i == 0 && closeCount > 0) {
-      turnStarts[i] = true
+      turnStarts[closeIndex] = true
     }
   }
 

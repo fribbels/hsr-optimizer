@@ -94,7 +94,6 @@ export type Form = {
   comboTurnAbilities: TurnAbilityName[]
   comboType: string
   comboDot: number
-  comboBreak: number
 
   teammate0: Teammate
   teammate1: Teammate

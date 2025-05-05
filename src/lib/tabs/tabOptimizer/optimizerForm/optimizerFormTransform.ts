@@ -303,7 +303,6 @@ export function formToDisplay(form: Form) {
     const simulation = metadata.scoringMetadata?.simulation
     newForm.comboTurnAbilities = simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
     newForm.comboDot = simulation?.comboDot ?? 0
-    newForm.comboBreak = simulation?.comboBreak ?? 0
   }
 
   if (!newForm.comboType) {

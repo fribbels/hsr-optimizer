@@ -42,7 +42,6 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.actions = actions
   context.dotAbilities = countDotAbilities(actions)
   context.comboDot = request.comboDot || 0
-  context.comboBreak = request.comboBreak || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }

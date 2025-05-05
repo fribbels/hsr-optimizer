@@ -112,13 +112,11 @@ function reset(formInstance: FormInstance<OptimizerForm>) {
 
   const defaultComboTurnAbilities = characterMetadata.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
   const defaultComboDot = characterMetadata.scoringMetadata?.simulation?.comboDot ?? 0
-  const defaultComboBreak = characterMetadata.scoringMetadata?.simulation?.comboBreak ?? 0
 
   for (let i = 0; i <= ABILITY_LIMIT + 2; i++) {
     formInstance.setFieldValue(['comboTurnAbilities', i], defaultComboTurnAbilities[i] ?? null)
   }
   formInstance.setFieldValue(['comboDot'], defaultComboDot)
-  formInstance.setFieldValue(['comboBreak'], defaultComboBreak)
   formInstance.setFieldValue(['comboStateJson'], '{}')
 }
 

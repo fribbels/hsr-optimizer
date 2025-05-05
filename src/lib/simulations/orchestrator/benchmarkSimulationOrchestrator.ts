@@ -2,6 +2,7 @@ import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { AbilityKind, toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
 import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
 import {
@@ -84,7 +85,7 @@ export class BenchmarkSimulationOrchestrator {
     const substats: string[] = metadata.substats
     let addBreakEffect = false
 
-    if (metadata.comboBreak > 0) {
+    if (metadata.comboTurnAbilities.filter((x) => toTurnAbility(x).kind == AbilityKind.BREAK).length > 0) {
       // Add break if the combo uses it
       addBreakEffect = true
     }

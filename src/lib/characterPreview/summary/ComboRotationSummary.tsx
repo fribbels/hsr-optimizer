@@ -11,7 +11,6 @@ type ComboRotationSummaryProps = {
 export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
-  // TODO: Combo turn abilities
   return (
     <Flex gap={30}>
       <Flex vertical gap={2}>
@@ -25,7 +24,6 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
       </Flex>
       <Flex vertical gap={2}>
         <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={simMetadata.comboDot}/>
-        <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.BREAKS')} number={simMetadata.comboBreak}/>
       </Flex>
     </Flex>
   )

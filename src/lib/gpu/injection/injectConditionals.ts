@@ -104,7 +104,6 @@ ${lightConeConditionalWgsl}
   let actionsDefinition = `
 const dotAbilities: f32 = ${countDotAbilities(context.actions)};
 const comboDot: f32 = ${context.comboDot};
-const comboBreak: f32 = ${context.comboBreak};
 `
   for (let i = 0; i < actionLength; i++) {
     const action = context.actions[i]

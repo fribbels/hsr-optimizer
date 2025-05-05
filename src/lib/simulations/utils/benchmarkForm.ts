@@ -50,12 +50,10 @@ export function generateFullDefaultForm(
   if (simulationMetadata) {
     simulationForm.comboTurnAbilities = [...simulationMetadata.comboTurnAbilities]
     simulationForm.comboDot = simulationMetadata.comboDot
-    simulationForm.comboBreak = simulationMetadata.comboBreak
   } else {
     // @ts-ignore
     simulationForm.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
     simulationForm.comboDot = 0
-    simulationForm.comboBreak = 0
   }
 
   return simulationForm

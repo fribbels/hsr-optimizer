@@ -38,7 +38,6 @@ export type SimulationMetadata = {
   deprioritizeBuffs?: boolean
   comboTurnAbilities: TurnAbilityName[]
   comboDot: number
-  comboBreak: number
   relicSets: string[][]
   ornamentSets: string[]
   teammates: {

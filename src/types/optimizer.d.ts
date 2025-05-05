@@ -136,7 +136,6 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilities: AbilityType[]
   activeAbilityFlags: number
   actions: OptimizerAction[]
-  comboBreak: number
   comboDot: number
   dotAbilities: number
 

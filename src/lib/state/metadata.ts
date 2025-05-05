@@ -1389,7 +1389,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -1486,7 +1485,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -1584,7 +1582,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -1693,7 +1690,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_FUA,
         ],
         comboDot: 16,
-        comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -1826,7 +1822,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -1951,7 +1946,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -2077,7 +2071,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -2174,7 +2167,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         deprioritizeBuffs: true,
         relicSets: [
@@ -2391,7 +2383,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -2488,7 +2479,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 60,
-        comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -2581,7 +2571,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -2718,7 +2707,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_BASIC, DEFAULT_BASIC],
         comboDot: 5,
-        comboBreak: 1,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -2818,7 +2806,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 6,
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
@@ -2916,7 +2903,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
@@ -3094,7 +3080,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -3192,7 +3177,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.LongevousDisciple, Sets.LongevousDisciple],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -3288,7 +3272,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
@@ -3467,7 +3450,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
@@ -3638,7 +3620,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
@@ -3733,7 +3714,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, START_SKILL, END_ULT, WHOLE_SKILL, WHOLE_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
@@ -3832,7 +3812,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 1,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
@@ -4034,7 +4013,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
@@ -4135,7 +4113,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -4280,7 +4257,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         deprioritizeBuffs: true,
         errRopeEidolon: 0,
         relicSets: [
@@ -4380,7 +4356,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
@@ -4475,7 +4450,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         },
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_BASIC],
         comboDot: 0,
-        comboBreak: 3,
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
@@ -4607,7 +4581,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -4740,7 +4713,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         },
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -4843,7 +4815,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -4983,7 +4954,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_DOT,
         ],
         comboDot: 16,
-        comboBreak: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -5079,7 +5049,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -5203,7 +5172,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 1,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -5296,7 +5264,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -5423,7 +5390,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_BASIC],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
@@ -5522,7 +5488,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           END_BREAK,
         ],
         comboDot: 0,
-        comboBreak: 1,
         relicSets: [
           [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
@@ -5612,7 +5577,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         },
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 1,
         relicSets: [
           [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
@@ -5706,7 +5670,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -5801,7 +5764,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 1,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -6103,7 +6065,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -6202,7 +6163,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_BASIC, DEFAULT_MEMO_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         relicSets: [
           [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
@@ -6302,7 +6262,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_FUA],
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         deprioritizeBuffs: true,
         relicSets: [
@@ -6403,7 +6362,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -6502,7 +6460,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_SKILL],
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         deprioritizeBuffs: false,
         relicSets: [
@@ -6607,7 +6564,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT],
         comboDot: 0,
-        comboBreak: 0,
         relicSets: [
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -6749,7 +6705,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_SKILL, DEFAULT_FUA, DEFAULT_BASIC, DEFAULT_FUA],
         deprioritizeBuffs: true,
         comboDot: 0,
-        comboBreak: 0,
         errRopeEidolon: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],

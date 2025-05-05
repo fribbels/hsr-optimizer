@@ -70,7 +70,7 @@ NIHILITY
 ----
 Welt - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
 
-Kafka - [ ULT, DOT, SKILL, DOT ], FUA, [ SKILL, DOT ], FUA, [ SKILL, DOT ]
+Kafka - [ ULT, DOT, SKILL, DOT ], FUA, [ SKILL, DOT ], FUA
 + 16 dots distributed
 
 Sampo - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
@@ -83,7 +83,7 @@ Luka - [ ULT, SKILL ], [ BASIC ], [ BASIC ]
 Fugue - [ ULT, BASIC ], [ BASIC ], [ BASIC ]
 + 3 breaks to stop her sim from building crit
 
-Black Swan - [ SKILL ], DOT, [ ULT, BASIC ], DOT, [ BASIC ], DOT
+Black Swan - [ ULT, SKILL ], DOT, [ BASIC ], DOT, [ BASIC ], DOT
 + 16 dots distributed
 
 Acheron - [ ULT, SKILL ], [ SKILL ]

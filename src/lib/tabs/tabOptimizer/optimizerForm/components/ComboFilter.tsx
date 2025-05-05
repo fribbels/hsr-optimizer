@@ -160,7 +160,6 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             title={tCommon('Confirm')}
             description={t('RowControls.ResetConfirm.Description')}
             onConfirm={() => reset(form)}
-            placement='bottom'
             okText={tCommon('Yes')}
             cancelText={tCommon('Cancel')}
             placement='bottomRight'

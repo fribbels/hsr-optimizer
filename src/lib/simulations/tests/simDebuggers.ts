@@ -13,12 +13,12 @@ export function injectBenchmarkDebuggers() {
 function equipTestCharacter() {
   const testInput
     = generateE6S5Test({
-      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
-      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      character: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate0: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
       teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
       teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
-      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      sets: testSets(Sets.WavestriderCaptain, Sets.WavestriderCaptain, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.ATK_P, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     })
 

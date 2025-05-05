@@ -2,7 +2,7 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
-import { DEFAULT_BASIC, DEFAULT_DOT, DEFAULT_FUA, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_SKILL, DEFAULT_ULT, END_DOT, END_ULT, NULL_TURN_ABILITY_NAME, START_SKILL, START_ULT, WHOLE_SKILL } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, DEFAULT_DOT, DEFAULT_FUA, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_SKILL, DEFAULT_ULT, END_BREAK, END_SKILL, END_ULT, NULL_TURN_ABILITY_NAME, START_BASIC, START_SKILL, START_ULT, WHOLE_BASIC, WHOLE_SKILL } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -1687,15 +1687,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
           START_ULT,
-          DEFAULT_DOT,
-          DEFAULT_SKILL,
-          END_DOT,
+          END_SKILL,
           DEFAULT_FUA,
-          START_SKILL,
-          END_DOT,
+          WHOLE_SKILL,
           DEFAULT_FUA,
-          START_SKILL,
-          END_DOT,
         ],
         comboDot: 16,
         comboBreak: 0,
@@ -4977,7 +4972,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         breakpoints: {
           [Stats.EHR]: 1.20,
         },
-        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_SKILL, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_SKILL,
+          DEFAULT_DOT,
+          WHOLE_BASIC,
+          DEFAULT_DOT,
+          WHOLE_BASIC,
+          DEFAULT_DOT,
+        ],
         comboDot: 16,
         comboBreak: 0,
         relicSets: [
@@ -5507,7 +5511,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_BASIC],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_SKILL,
+          DEFAULT_ULT,
+          DEFAULT_BASIC,
+          END_BREAK,
+          WHOLE_BASIC,
+          START_BASIC,
+          END_BREAK,
+        ],
         comboDot: 0,
         comboBreak: 1,
         relicSets: [

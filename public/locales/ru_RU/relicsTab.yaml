@@ -1,4 +1,13 @@
 RelicFilterBar:
+  Part: Часть
+  Enhance: Улучшение
+  Grade: Редкость
+  Verified: Подтверждённый
+  Equipped: Экипированный
+  Clear: Очистить
+  ClearButton: Очистить все фильтры
+  Set: Набор
+  Mainstat: Основные характеристики
   ScoringButton: Алгоритм подсчета очков
 Messages:
   AddRelicSuccess: Реликвия успешно добавлена
@@ -12,3 +21,12 @@ RelicGrid:
     ATK: Сила атаки
     DEF: Защита
     SPD: Скорость
+    CD: |-
+      Крит
+      Урон
+    EHR: |-
+      Шанс
+      попадания эффектов
+    RES: |-
+      Сопротивление
+      эффектам

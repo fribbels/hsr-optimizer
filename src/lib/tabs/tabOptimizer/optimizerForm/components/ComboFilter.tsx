@@ -25,7 +25,7 @@ const radioStyle = {
 export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tCommon } = useTranslation('common')
-  const form = Form.useFormInstance<OptimizerForm>() // Get the form instance
+  const form = Form.useFormInstance<OptimizerForm>()
   const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
   const comboType = Form.useWatch('comboType', form)
   const comboOptions = useMemo(() => [
@@ -57,31 +57,10 @@ export const ComboFilters = () => {
         </Radio.Group>
       </Form.Item>
 
-      <Flex style={{ width: '100%' }} gap={5}>
-        <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(form)}>
-          {t('RowControls.Add')}
-        </Button>
-        <Popconfirm
-          title={tCommon('Confirm')}
-          description={t('RowControls.ResetConfirm.Description')}
-          onConfirm={() => reset(form)}
-          placement='bottom'
-          okText={tCommon('Yes')}
-          cancelText={tCommon('Cancel')}
-        >
-          <Button size='small' variant='outlined' style={{ flex: 1 }}>
-            {tCommon('Reset')}
-          </Button>
-        </Popconfirm>
-        <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)}>
-          {t('RowControls.Remove')}
-        </Button>
-      </Flex>
-
       <ComboBasicDefinition comboOptions={comboOptions}/>
 
       <>
-        <Flex vertical gap={8} style={{ marginTop: 2 }}>
+        <Flex vertical gap={8} style={{ marginTop: 8 }}>
           <Button
             onClick={() => setComboDrawerOpen(true)}
             icon={<SettingOutlined/>}
@@ -145,11 +124,15 @@ function reset(formInstance: FormInstance<OptimizerForm>) {
 
 function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
+  const { t: tSidebar } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
+  const { t: tCommon } = useTranslation('common')
+  const form = Form.useFormInstance<OptimizerForm>()
 
   return (
     <Flex>
       <Flex vertical flex={1} style={{ marginLeft: 2 }} gap={3}>
         <HeaderText>{t('AbilityLabel')/* Abilities */}</HeaderText>
+
         {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
           <ComboOptionRowSelect
             key={i + 1}
@@ -161,14 +144,35 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
 
       <VerticalDivider width={10}/>
 
-      <Flex vertical gap={10} flex={1} align='flex-start'>
+      <Flex vertical gap={5} flex={1} align='flex-start'>
+        <HeaderText>{tSidebar('ControlsGroup.Header')/* Controls */}</HeaderText>
+
+        <Flex vertical style={{ width: '100%', marginBottom: 10 }} gap={5}>
+          <Flex gap={5}>
+            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(form)}>
+              {t('RowControls.Add')}
+            </Button>
+            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)}>
+              {t('RowControls.Remove')}
+            </Button>
+          </Flex>
+          <Popconfirm
+            title={tCommon('Confirm')}
+            description={t('RowControls.ResetConfirm.Description')}
+            onConfirm={() => reset(form)}
+            placement='bottom'
+            okText={tCommon('Yes')}
+            cancelText={tCommon('Cancel')}
+          >
+            <Button size='small' variant='outlined' style={{ }}>
+              {tCommon('Reset')}
+            </Button>
+          </Popconfirm>
+        </Flex>
+
         <Flex vertical>
           <HeaderText>{t('CounterLabels.Dot')}</HeaderText>
           <NumberXInput name='comboDot'/>
-        </Flex>
-        <Flex vertical>
-          <HeaderText>{t('CounterLabels.Break')}</HeaderText>
-          <NumberXInput name='comboBreak'/>
         </Flex>
       </Flex>
     </Flex>

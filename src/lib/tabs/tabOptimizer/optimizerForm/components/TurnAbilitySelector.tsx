@@ -69,7 +69,7 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
           showCheckedStrategy={SHOW_CHILD}
           size='small'
           allowClear
-          style={{ width: '100%', height: 20 }}
+          style={{ width: '100%', height: 18 }}
           variant='borderless'
         />
       </Form.Item>

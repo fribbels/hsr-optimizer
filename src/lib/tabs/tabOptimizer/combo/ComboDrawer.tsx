@@ -85,15 +85,15 @@ export function ComboDrawer() {
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
-      width={1465}
-      className='.comboDrawer'
+      width={1635}
+      className='comboDrawer'
       extra={(
-        <Flex style={{ width: 1032 }} align='center'>
+        <Flex style={{ width: '100%' }} align='center'>
           <ComboHeader comboState={comboState}/>
         </Flex>
       )}
     >
-      <div style={{ width: 1400, height: '100%' }}>
+      <div style={{ width: 1580, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
         <Selecto
           className='selecto-selection'

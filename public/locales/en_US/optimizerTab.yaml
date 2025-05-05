@@ -427,7 +427,6 @@ ComboFilter:
       Description: Reset all Simple / Advanced rotation settings to default?
   CounterLabels:
     Dot: Dots
-    Break: Breaks
   ComboOptions:
     Basic: Basic
     Skill: Skill

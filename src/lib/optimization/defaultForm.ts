@@ -89,8 +89,8 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   applySetConditionalPresets(defaultForm as Form)
   applyScoringMetadataPresets(defaultForm as Form)
 
-  if (scoringMetadata?.simulation?.comboAbilities) {
-    defaultForm.comboAbilities = scoringMetadata.simulation.comboAbilities
+  if (scoringMetadata?.simulation?.comboTurnAbilities) {
+    defaultForm.comboTurnAbilities = scoringMetadata.simulation.comboTurnAbilities
     defaultForm.comboDot = scoringMetadata.simulation.comboDot
     defaultForm.comboBreak = scoringMetadata.simulation.comboBreak
   }

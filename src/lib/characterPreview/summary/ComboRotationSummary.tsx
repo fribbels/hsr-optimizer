@@ -1,5 +1,6 @@
 import { Flex } from 'antd'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
+import { abilityNameToVisual, NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { useTranslation } from 'react-i18next'
 import { SimulationMetadata } from 'types/metadata'
 
@@ -17,7 +18,7 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
         {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
           <ScoringAbility
             key={i + 1}
-            comboAbilities={simMetadata.comboTurnAbilities}
+            comboTurnAbilities={simMetadata.comboTurnAbilities}
             index={i + 1}
           />
         ))}
@@ -31,19 +32,24 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
 }
 
 function ScoringAbility(props: {
-  comboAbilities: string[]
+  comboTurnAbilities: TurnAbilityName[]
   index: number
 }) {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
-  const displayValue = i18n.exists(`charactersTab:CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}`)
-    ? t(`CharacterPreview.BuildAnalysis.Rotation.${props.comboAbilities[props.index]}` as never)
-    : null
-  if (displayValue == null) return <></>
+  // TODO: Rotation i18n
+  // const displayValue = i18n.exists(`charactersTab:CharacterPreview.BuildAnalysis.Rotation.${props.comboTurnAbilities[props.index]}`)
+  //   ? t(`CharacterPreview.BuildAnalysis.Rotation.${props.comboTurnAbilities[props.index]}` as never)
+  //   : null
+
+  const abilityName = props.comboTurnAbilities[props.index]
+  if (!abilityName || abilityName == NULL_TURN_ABILITY_NAME) return <></>
+
+  const displayValue = abilityNameToVisual(abilityName)
 
   return (
     <Flex align='center' gap={15}>
-      <pre style={{ margin: 0 }}>{`#${props.index} - ${displayValue as string}`}</pre>
+      <pre style={{ margin: 0 }}>{`#${props.index} - ${displayValue}`}</pre>
     </Flex>
   )
 }

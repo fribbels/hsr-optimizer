@@ -5,6 +5,7 @@ import { TFunction } from 'i18next'
 import { Constants, ElementNames, PathNames, Sets, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
+import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -271,7 +272,7 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   // @ts-ignore TODO getDefaultForm currently has handling for no character id but is set to be changed
   Utils.mergeUndefinedValues(form, getDefaultForm())
 
-  form.comboAbilities = scoringMetadata?.simulation?.comboAbilities ?? [null as unknown as string, 'BASIC']
+  form.comboTurnAbilities = scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
   form.comboDot = scoringMetadata?.simulation?.comboDot ?? 0
   form.comboBreak = scoringMetadata?.simulation?.comboBreak ?? 0
 

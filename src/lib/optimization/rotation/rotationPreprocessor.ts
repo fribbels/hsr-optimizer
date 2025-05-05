@@ -26,10 +26,10 @@ export function precomputeConditionalActivations(comboState: ComboState, request
   for (const preprocessor of filteredSetPreprocessors) preprocessor.reset()
   for (const preprocessor of filteredCharacterPreprocessors) preprocessor.reset()
 
-  const comboAbilities = preprocessTurnAbilities(comboState.comboTurnAbilities.map(toTurnAbility))
+  const comboTurnAbilities = preprocessTurnAbilities(comboState.comboTurnAbilities.map(toTurnAbility))
 
-  for (let i = 1; i < comboAbilities.length; i++) {
-    const turnAbility = comboAbilities[i]
+  for (let i = 1; i < comboTurnAbilities.length; i++) {
+    const turnAbility = comboTurnAbilities[i]
 
     for (const preprocessor of filteredSetPreprocessors) {
       preprocessor.processAbility(turnAbility, i, comboState)

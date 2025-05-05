@@ -60,6 +60,9 @@ export function toVisual(ability: TurnAbility): string {
       return ability.kind
   }
 }
+export function abilityNameToVisual(name: TurnAbilityName): string {
+  return toVisual(toTurnAbility(name))
+}
 
 export function toTurnAbility(name: TurnAbilityName): TurnAbility {
   if (!name || name === NULL_TURN_ABILITY_NAME || !abilities[name]) return NULL_TURN_ABILITY

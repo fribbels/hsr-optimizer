@@ -299,7 +299,7 @@ export function formToDisplay(form: Form) {
     newForm.comboStateJson = '{}'
   }
 
-  if (!newForm.comboAbilities && metadata) {
+  if (!newForm.comboTurnAbilities && metadata) {
     const simulation = metadata.scoringMetadata?.simulation
     newForm.comboTurnAbilities = simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
     newForm.comboDot = simulation?.comboDot ?? 0

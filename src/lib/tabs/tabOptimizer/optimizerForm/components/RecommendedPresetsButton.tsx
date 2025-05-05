@@ -6,6 +6,7 @@ import { Constants, ElementNames, PathNames, Sets, SetsOrnaments, SetsRelics } f
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
 import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -253,14 +254,8 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
 
   applyMetadataPresetToForm(form, metadata)
 
-  /*
-   * Not sure if we want to support set recommendations yet
-   * form.ornamentSets = metadata.ornamentSets
-   * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
-   */
-
   // We don't use the clone here because serializing messes up the applyPreset functions
-  const sortOption = metadata.sortOption
+  const sortOption = metadata.simulation ? SortOption.COMBO : metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
 

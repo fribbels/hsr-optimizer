@@ -1,4 +1,5 @@
 import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -71,7 +72,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     teammate0: defaultTeammate() as Teammate,
     teammate1: defaultTeammate() as Teammate,
     teammate2: defaultTeammate() as Teammate,
-    resultSort: scoringMetadata?.sortOption.key,
+    resultSort: scoringMetadata?.simulation ? SortOption.COMBO.key : scoringMetadata?.sortOption.key,
     resultsLimit: 1024,
     combatBuffs: combatBuffs,
     combo: {

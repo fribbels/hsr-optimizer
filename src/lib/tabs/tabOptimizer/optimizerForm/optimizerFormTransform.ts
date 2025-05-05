@@ -4,6 +4,7 @@ import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFA
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { applyMetadataPresetToForm, applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -281,8 +282,10 @@ export function formToDisplay(form: Form) {
     newForm.weights = getDefaultWeights()
   }
 
-  if (!newForm.resultSort) {
-    if (metadata) {
+  if (!newForm.resultSort && metadata) {
+    if (metadata.scoringMetadata.simulation) {
+      newForm.resultSort = SortOption.COMBO.key
+    } else {
       newForm.resultSort = metadata.scoringMetadata.sortOption.key
     }
   }

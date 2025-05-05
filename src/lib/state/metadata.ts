@@ -2,7 +2,7 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
-import { DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_SKILL, DEFAULT_ULT, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, DEFAULT_FUA, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_SKILL, DEFAULT_ULT, END_ULT, NULL_TURN_ABILITY_NAME, START_SKILL, WHOLE_SKILL } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -3724,7 +3724,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ATK,
         ],
-        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_ULT, DEFAULT_BASIC, DEFAULT_BASIC],
+        comboTurnAbilities: [NULL_TURN_ABILITY_NAME, START_SKILL, END_ULT, WHOLE_SKILL, WHOLE_SKILL],
         comboDot: 0,
         comboBreak: 0,
         relicSets: [

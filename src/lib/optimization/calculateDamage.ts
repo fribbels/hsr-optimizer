@@ -263,6 +263,39 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     a[Key.DOT_DMG] = instanceDmg
   }
 
+  if ((action.actionType == AbilityKind.BREAK || action.actionType == AbilityKind.BREAK) && context.activeAbilityFlags & AbilityType.BREAK) {
+    // const dotDmgBoostMulti = baseDmgBoost + a[Key.DOT_DMG_BOOST]
+    // const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + a[Key.DOT_DEF_PEN])
+    // const dotVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + a[Key.DOT_VULNERABILITY]
+    // const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
+    // const dotEhrMulti = calculateEhrMulti(x, context)
+    // const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER] // (1 +) dropped intentionally for dmg tracing
+
+    // const initialDmg = calculateInitial(
+    //   a,
+    //   context,
+    //   a[Key.DOT_DMG],
+    //   a[Key.DOT_HP_SCALING],
+    //   a[Key.DOT_DEF_SCALING],
+    //   a[Key.DOT_ATK_SCALING],
+    //   a[Key.DOT_ATK_P_BOOST],
+    // )
+    // const instanceDmg = calculateDotDmg(
+    //   x,
+    //   action,
+    //   Key.DOT_DMG,
+    //   initialDmg,
+    //   (baseUniversalMulti),
+    //   (dotDmgBoostMulti),
+    //   (dotDefMulti),
+    //   (dotVulnerabilityMulti),
+    //   (dotResMulti),
+    //   (dotEhrMulti),
+    //   (dotTrueDmgMulti),
+    // )
+    // a[Key.DOT_DMG] = instanceDmg
+  }
+
   if ((action.actionType == AbilityKind.MEMO_SKILL || action.actionType == AbilityKind.NULL) && context.activeAbilityFlags & AbilityType.MEMO_SKILL) {
     if (x.a[Key.MEMOSPRITE]) {
       a[Key.MEMO_SKILL_DMG] += x.m.a[Key.MEMO_SKILL_DMG]

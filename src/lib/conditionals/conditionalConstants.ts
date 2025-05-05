@@ -45,6 +45,7 @@ export const SKILL_ABILITY_TYPE: number = AbilityType.SKILL
 export const ULT_ABILITY_TYPE: number = AbilityType.ULT
 export const FUA_ABILITY_TYPE: number = AbilityType.FUA
 export const DOT_ABILITY_TYPE: number = AbilityType.DOT
+export const BREAK_ABILITY_TYPE: number = AbilityType.BREAK
 export const MEMO_SKILL_ABILITY_TYPE: number = AbilityType.MEMO_SKILL
 export const MEMO_TALENT_ABILITY_TYPE: number = AbilityType.MEMO_TALENT
 

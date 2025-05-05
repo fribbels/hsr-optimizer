@@ -2,7 +2,7 @@ import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { DEFAULT_BASIC, toTurnAbility, toVisual, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, toTurnAbility, toVisual, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
@@ -131,12 +131,12 @@ function reset(formInstance: FormInstance<OptimizerForm>) {
 
   if (!characterMetadata) return
 
-  const defaultComboAbilities = characterMetadata.scoringMetadata?.simulation?.comboAbilities ?? [null, 'BASIC']
+  const defaultComboTurnAbilities = characterMetadata.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
   const defaultComboDot = characterMetadata.scoringMetadata?.simulation?.comboDot ?? 0
   const defaultComboBreak = characterMetadata.scoringMetadata?.simulation?.comboBreak ?? 0
 
   for (let i = 0; i <= ABILITY_LIMIT + 2; i++) {
-    formInstance.setFieldValue(['comboAbilities', i], defaultComboAbilities[i] ?? null)
+    formInstance.setFieldValue(['comboTurnAbilities', i], defaultComboTurnAbilities[i] ?? null)
   }
   formInstance.setFieldValue(['comboDot'], defaultComboDot)
   formInstance.setFieldValue(['comboBreak'], defaultComboBreak)

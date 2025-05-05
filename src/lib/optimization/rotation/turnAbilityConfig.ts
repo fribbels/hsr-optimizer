@@ -5,6 +5,7 @@ export enum AbilityKind {
   ULT = 'ULT',
   FUA = 'FUA',
   DOT = 'DOT',
+  BREAK = 'BREAK',
   MEMO_SKILL = 'MEMO_SKILL',
   MEMO_TALENT = 'MEMO_TALENT',
 }
@@ -88,6 +89,7 @@ export const {
   DEFAULT_ULT,
   DEFAULT_FUA,
   DEFAULT_DOT,
+  DEFAULT_BREAK,
   DEFAULT_MEMO_SKILL,
   DEFAULT_MEMO_TALENT,
 
@@ -97,6 +99,7 @@ export const {
   START_ULT,
   START_FUA,
   START_DOT,
+  START_BREAK,
   START_MEMO_SKILL,
   START_MEMO_TALENT,
 
@@ -106,6 +109,7 @@ export const {
   END_ULT,
   END_FUA,
   END_DOT,
+  END_BREAK,
   END_MEMO_SKILL,
   END_MEMO_TALENT,
 
@@ -115,6 +119,7 @@ export const {
   WHOLE_ULT,
   WHOLE_FUA,
   WHOLE_DOT,
+  WHOLE_BREAK,
   WHOLE_MEMO_SKILL,
   WHOLE_MEMO_TALENT,
 } = abilityNames

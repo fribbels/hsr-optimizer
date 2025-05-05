@@ -613,7 +613,7 @@ fn main(
           combo += x.MEMO_TALENT_DMG;
         }
       } else {
-        x.COMBO_DMG = combo + comboBreak * x.BREAK_DMG + x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
+        x.COMBO_DMG = x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
 
         // START COMBAT STAT FILTERS
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

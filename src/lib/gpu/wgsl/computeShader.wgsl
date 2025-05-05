@@ -607,13 +607,15 @@ fn main(
           combo += x.FUA_DMG;
         } else if (action.abilityType == DOT_ABILITY_TYPE) {
           combo += x.DOT_DMG * comboDot / max(1, dotAbilities);
+        } else if (action.abilityType == BREAK_ABILITY_TYPE) {
+          combo += x.BREAK_DMG;
         } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
           combo += x.MEMO_SKILL_DMG;
         } else if (action.abilityType == MEMO_TALENT_ABILITY_TYPE) {
           combo += x.MEMO_TALENT_DMG;
         }
       } else {
-        x.COMBO_DMG = x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
+        x.COMBO_DMG = combo + x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
 
         // START COMBAT STAT FILTERS
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -690,7 +692,7 @@ fn calculateDamage(
     * (0.10f);
 
   if (actionIndex == 0) {
-    if (actionIndex == 0 && dotAbilities == 0) {
+    if (dotAbilities == 0) {
       // Duplicated in injectActionDamage.ts
 
       let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;

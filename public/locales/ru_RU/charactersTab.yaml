@@ -50,7 +50,7 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: Вес СКР
+      Header: Приоритет СКР
       Max: 100%
       Min: 0%
     BenchmarkSpd:

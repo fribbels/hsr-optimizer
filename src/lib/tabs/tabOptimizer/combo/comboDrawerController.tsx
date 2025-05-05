@@ -83,7 +83,6 @@ export type ComboState = {
   comboTeammate1: ComboTeammate | null
   comboTeammate2: ComboTeammate | null
   comboTurnAbilities: TurnAbilityName[]
-  version?: number
 }
 
 export type SetConditionals = typeof defaultSetConditionals
@@ -135,13 +134,10 @@ export function initializeComboState(request: Form, merge: boolean) {
 
   if (request.comboStateJson && merge) {
     const savedComboState = JSON.parse(request.comboStateJson) as ComboState
+    comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
+    comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
 
-    if (savedComboState.version == CURRENT_COMBO_STATE_JSON_VERSION) {
-      comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
-      comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
-
-      mergeComboStates(comboState, savedComboState)
-    }
+    mergeComboStates(comboState, savedComboState)
   }
 
   precomputeConditionalActivations(comboState, request)
@@ -277,13 +273,12 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
       } else {
         const numberBaseConditional = conditional as ComboNumberConditional
         const numberUpdateConditional = updateConditional as ComboNumberConditional
-        const newPartitions: ComboSubNumberConditional[] = []
-        const length = Math.min(numberUpdateConditional.partitions.length, numberBaseConditional.partitions.length)
+        const newPartitions = []
 
         const seen: Record<number, ComboSubNumberConditional> = {}
 
         // Insert new conditionals
-        for (let i = 0; i < length; i++) {
+        for (let i = 0; i < numberUpdateConditional.partitions.length; i++) {
           const partition = numberUpdateConditional.partitions[i]
           if (seen[partition.value]) {
             for (let j = 0; j < seen[partition.value].activations.length; j++) {
@@ -299,7 +294,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         }
 
         // Insert base conditionals
-        for (let i = 0; i < length; i++) {
+        for (let i = 0; i < numberBaseConditional.partitions.length; i++) {
           const partition = numberBaseConditional.partitions[i]
           if (seen[partition.value]) {
             seen[partition.value].activations[0] = numberBaseConditional.partitions[i].activations[0]
@@ -313,7 +308,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         }
 
         // The only 0 index activation should be the base conditional
-        for (let i = 0; i < length; i++) {
+        for (let i = 0; i < newPartitions.length; i++) {
           if (newPartitions[i].value == numberBaseConditional.partitions[0].value) {
             newPartitions[i].activations[0] = true
           } else {
@@ -322,7 +317,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         }
 
         // Move the base conditional to the front
-        for (let i = 0; i < length; i++) {
+        for (let i = 0; i < newPartitions.length; i++) {
           if (newPartitions[i].value == numberBaseConditional.partitions[0].value) {
             const partition = newPartitions.splice(i, 1)[0]
             newPartitions.unshift(partition)
@@ -764,12 +759,8 @@ export function updateAbilityRotation(index: number, turnAbilityName: TurnAbilit
   window.store.getState().setComboState({ ...comboState })
 }
 
-// Updating this will prevent a combo state merge, overwriting any advanced combo definitions in the save file
-export const CURRENT_COMBO_STATE_JSON_VERSION = 1.1
-
 export function updateFormState(comboState: ComboState) {
   console.log('updateFormState')
-  comboState.version = CURRENT_COMBO_STATE_JSON_VERSION
   window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState))
   window.optimizerForm.setFieldValue('comboTurnAbilities', comboState.comboTurnAbilities)
 

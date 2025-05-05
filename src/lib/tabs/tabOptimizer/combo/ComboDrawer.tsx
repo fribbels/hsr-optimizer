@@ -87,11 +87,6 @@ export function ComboDrawer() {
       open={comboDrawerOpen}
       width={1635}
       className='comboDrawer'
-      extra={(
-        <Flex style={{ width: '100%' }} align='center'>
-          <ComboHeader comboState={comboState}/>
-        </Flex>
-      )}
     >
       <div style={{ width: 1580, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
@@ -186,8 +181,8 @@ function AbilitySelector(props: {
   )
 }
 
-const abilityWidth = 90 - 5
-const abilityGap = 6
+const abilityGap = 5
+const abilityWidth = 90 - abilityGap
 
 export const abilitySelectOptions = [
   {
@@ -356,6 +351,10 @@ function StateDisplay(props: {
 
   return (
     <Flex vertical gap={8}>
+      <Flex style={{ marginLeft: 385, marginBottom: 2 }} align='center'>
+        <ComboHeader comboState={props.comboState}/>
+      </Flex>
+
       <ComboConditionalsGroupRow
         comboOrigin={comboCharacter}
         actionCount={actionCount}
@@ -1024,7 +1023,7 @@ const BoxComponent = React.memo(
       <div
         className={classnames}
         data-key={props.dataKey}
-        style={{ width: 90, marginLeft: -1, marginTop: -1 }}
+        style={{ width: 90 - 1, marginLeft: -1, marginTop: -1 }}
       >
       </div>
     )

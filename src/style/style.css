@@ -804,7 +804,3 @@ a {
 .turn-ability-cascader-drawer .ant-select-selection-item {
     font-size:  12px !important;
 }
-
-.comboDrawer .ant-drawer-header-title {
-    max-width: 385px !important;
-}

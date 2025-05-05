@@ -463,6 +463,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
               onConfirm={resetClicked}
               okText={tCommon('Yes')}// 'Yes'
               cancelText={tCommon('No')}// 'No'
+              placement='bottomRight'
             >
               <Button style={{ flex: 1 }}>
                 {tCommon('Reset')/* Reset */}

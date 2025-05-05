@@ -163,6 +163,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             placement='bottom'
             okText={tCommon('Yes')}
             cancelText={tCommon('Cancel')}
+            placement='bottomRight'
           >
             <Button size='small' variant='outlined' style={{ }}>
               {tCommon('Reset')}

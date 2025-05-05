@@ -3,6 +3,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
+import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { applyMetadataPresetToForm, applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -300,7 +301,7 @@ export function formToDisplay(form: Form) {
 
   if (!newForm.comboAbilities && metadata) {
     const simulation = metadata.scoringMetadata?.simulation
-    newForm.comboAbilities = simulation?.comboAbilities ?? [null, 'BASIC'] as string[]
+    newForm.comboTurnAbilities = simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
     newForm.comboDot = simulation?.comboDot ?? 0
     newForm.comboBreak = simulation?.comboBreak ?? 0
   }

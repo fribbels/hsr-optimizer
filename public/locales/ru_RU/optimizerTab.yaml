@@ -107,5 +107,8 @@ ExpandedDataPanel:
       CompositeLabels:
         Prefix:
           Break: ЭП
+        Suffix:
+          DMG boost: Урон↑
+          Vulnerability: Слабость
       Misc:
         Combo DMG: Урон Комбо

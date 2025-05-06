@@ -4,15 +4,15 @@ RelicFilterBar:
   Grade: Редкость
   InitialRolls: Кол-во проков
   Verified: Подтверждённый
-  Equipped: Экипированный
+  Equipped: Экипировано
   Clear: Очистить
-  ClearButton: Очистить все фильтры
+  ClearButton: Очистить фильтры
   Set: Набор
   Mainstat: Основные характеристики
-  Substat: Доп. характеристики
+  Substat: Дополнительные характеристики
   ReapplyButton: Повторно рассчитать
   ScoringButton: Алгоритм подсчета очков
-  Rating: Доп. оценки реликвий
+  Rating: Доп. фильтры оценки реликвий
 Messages:
   AddRelicSuccess: Реликвия успешно добавлена
   NoRelicSelected: Реликвия не выбрана
@@ -35,8 +35,8 @@ RelicGrid:
     ATKP: АТК %
     DEFP: ЗАЩ %
     HP: HP
-    ATK: Сила атаки
-    DEF: Защита
+    ATK: ATK
+    DEF: ЗАЩ
     SPD: Скорость
     CR: |-
       Крит.
@@ -56,3 +56,8 @@ RelicGrid:
     CV: |-
       Крит.
       Масса
+  ValueColumns:
+    SelectedCharacter:
+      Label: По выбранному персонажу
+      ScoreCol:
+        Label: "Оценка по подходящим характеристикам"

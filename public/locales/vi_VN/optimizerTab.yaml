@@ -586,8 +586,11 @@ ExpandedDataPanel:
           Break: Kích Phá
         Suffix:
           DMG boost: Tăng Sát Thương
+          Vulnerability: Yếu điểm
+          DEF PEN: Xuyên Phòng Thủ
           Additional DMG: ST Kèm Theo
           DMG: ST
       Misc:
         Memosprite: Linh hồn ký ức
         Combo DMG: ST Combo
+        Effect RES PEN: Kháng Hiệu Ứng

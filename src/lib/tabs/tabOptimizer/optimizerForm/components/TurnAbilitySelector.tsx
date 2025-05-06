@@ -1,5 +1,6 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
-import { AbilityKind, ALL_ABILITIES, createAbility, toTurnAbility, toVisual, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
+import i18next from 'i18next'
+import { AbilityKind, ALL_ABILITIES, ComboOptionsLabelMapping, createAbility, NULL_TURN_ABILITY, toTurnAbility, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 
@@ -15,7 +16,7 @@ const MARKER_LABELS: Record<TurnMarker, string> = {
 const cascaderTheme = {
   components: {
     Cascader: {
-      dropdownHeight: 190,
+      dropdownHeight: 220,
       controlWidth: 100,
       optionPadding: '2px 12px',
       controlItemWidth: 150,
@@ -29,16 +30,37 @@ interface Option {
   children: Option[]
 }
 
+const start = '['
+const end = ']'
+
+export function toI18NVisual(ability: TurnAbility): string {
+  if (!ability || ability == NULL_TURN_ABILITY) return ''
+  const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
+  const abilityKindVisual: string = t(`ComboOptions.${ComboOptionsLabelMapping[ability.kind]}` as never)
+
+  switch (ability.marker) {
+    case TurnMarker.START:
+      return `${start} ${abilityKindVisual}`
+    case TurnMarker.END:
+      return `${abilityKindVisual} ${end}`
+    case TurnMarker.WHOLE:
+      return `${start} ${abilityKindVisual} ${end}`
+    default:
+      return abilityKindVisual
+  }
+}
+
 function generateOptions(): Option[] {
+  const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
   return ALL_ABILITIES.map((kind) => ({
     value: `${kind}`,
-    label: `${kind}`,
+    label: t(`ComboOptions.${ComboOptionsLabelMapping[kind]}` as never),
     children: Object.values(TurnMarker)
       .map((marker) => {
         const turnAbility = createAbility(kind, marker)
         return {
           value: turnAbility.name,
-          label: toVisual(turnAbility),
+          label: toI18NVisual(turnAbility),
           children: [],
         }
       }),
@@ -98,7 +120,7 @@ export function ControlledTurnAbilitySelector({
           const turnAbilityName = labels[0] as TurnAbilityName
           const turnAbility = toTurnAbility(turnAbilityName)
 
-          return toVisual(turnAbility)
+          return toI18NVisual(turnAbility)
         }}
         expandTrigger='hover'
         placeholder='Ability'

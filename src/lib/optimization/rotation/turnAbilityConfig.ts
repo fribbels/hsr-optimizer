@@ -17,6 +17,18 @@ export enum TurnMarker {
   WHOLE = 'WHOLE',
 }
 
+export const ComboOptionsLabelMapping: Record<AbilityKind, string> = {
+  [AbilityKind.NULL]: 'None',
+  [AbilityKind.BASIC]: 'Basic',
+  [AbilityKind.SKILL]: 'Skill',
+  [AbilityKind.ULT]: 'Ult',
+  [AbilityKind.FUA]: 'Fua',
+  [AbilityKind.DOT]: 'Dot',
+  [AbilityKind.BREAK]: 'Break',
+  [AbilityKind.MEMO_SKILL]: 'MemoSkill',
+  [AbilityKind.MEMO_TALENT]: 'MemoTalent',
+}
+
 export type TurnAbilityName =
   | `${TurnMarker}_${Exclude<AbilityKind, AbilityKind.NULL>}`
   | 'NULL'
@@ -60,6 +72,7 @@ export function toVisual(ability: TurnAbility): string {
       return ability.kind
   }
 }
+
 export function abilityNameToVisual(name: TurnAbilityName): string {
   return toVisual(toTurnAbility(name))
 }

@@ -428,10 +428,13 @@ ComboFilter:
   CounterLabels:
     Dot: Dots
   ComboOptions:
+    None: 'None'
     Basic: Basic
     Skill: Skill
     Ult: Ult
     Fua: Fua
+    Dot: Dot
+    Break: Break
     MemoSkill: Skillᴹ
     MemoTalent: Talentᴹ
   RotationButton: Advanced rotation

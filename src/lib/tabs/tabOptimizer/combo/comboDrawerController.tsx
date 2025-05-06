@@ -280,6 +280,9 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         // Insert new conditionals
         for (let i = 0; i < numberUpdateConditional.partitions.length; i++) {
           const partition = numberUpdateConditional.partitions[i]
+          for (let j = partition.activations.length; j < 13; j++) {
+            partition.activations[j] = false
+          }
           if (seen[partition.value]) {
             for (let j = 0; j < seen[partition.value].activations.length; j++) {
               seen[partition.value].activations[j] = seen[partition.value].activations[j] || numberUpdateConditional.partitions[i].activations[j]
@@ -296,6 +299,9 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         // Insert base conditionals
         for (let i = 0; i < numberBaseConditional.partitions.length; i++) {
           const partition = numberBaseConditional.partitions[i]
+          for (let j = partition.activations.length; j < 13; j++) {
+            partition.activations[j] = false
+          }
           if (seen[partition.value]) {
             seen[partition.value].activations[0] = numberBaseConditional.partitions[i].activations[0]
           } else {

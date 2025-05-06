@@ -12,6 +12,7 @@ RelicFilterBar:
   Substat: Дополнительные характеристики
   ReapplyButton: Повторно рассчитать
   ScoringButton: Алгоритм подсчета очков
+  RecommendationHeader: Персонаж для оценки реликвий
   Rating: Доп. фильтры оценки реликвий
 Messages:
   AddRelicSuccess: Реликвия успешно добавлена
@@ -60,4 +61,8 @@ RelicGrid:
     SelectedCharacter:
       Label: По выбранному персонажу
       ScoreCol:
-        Label: "Оценка по подходящим характеристикам"
+        Label: "Оценка по эффективности характеристик"
+        Header: |-
+          Оценка эффек.
+          Характеристик
+

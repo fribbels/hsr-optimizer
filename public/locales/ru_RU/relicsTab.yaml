@@ -1,14 +1,63 @@
 RelicFilterBar:
+  Part: Часть
+  Enhance: Улучшение
+  Grade: Редкость
+  InitialRolls: Кол-во проков
+  Verified: Подтверждённый
+  Equipped: Экипировано
+  Clear: Очистить
+  ClearButton: Очистить фильтры
+  Set: Набор
+  Mainstat: Основные характеристики
+  Substat: Дополнительные характеристики
+  ReapplyButton: Повторно рассчитать
   ScoringButton: Алгоритм подсчета очков
+  Rating: Доп. фильтры оценки реликвий
 Messages:
   AddRelicSuccess: Реликвия успешно добавлена
+  NoRelicSelected: Реликвия не выбрана
   DeleteRelicSuccess: Реликвия успешно удалена
 RelicGrid:
+  To: по
+  Of: из
   Headers:
+    EquippedBy: Одето
+    Set: Набор
+    Part: Слот
+    MainStat: |-
+      Основная
+      хар-ка
+    MainValue: |-
+      Значение
+      Хар-тики
+
     HPP: HP %
     ATKP: АТК %
     DEFP: ЗАЩ %
     HP: HP
-    ATK: Сила атаки
-    DEF: Защита
+    ATK: ATK
+    DEF: ЗАЩ
     SPD: Скорость
+    CR: |-
+      Крит.
+      Шанс
+    CD: |-
+      Крит.
+      Урон
+    EHR: |-
+      Шанс поп.
+      Эффектов
+    RES: |-
+      Сопрот.
+      Эффектам
+    BE: |-
+      Эффект
+      Пробития
+    CV: |-
+      Крит.
+      Масса
+  ValueColumns:
+    SelectedCharacter:
+      Label: По выбранному персонажу
+      ScoreCol:
+        Label: "Оценка по подходящим характеристикам"

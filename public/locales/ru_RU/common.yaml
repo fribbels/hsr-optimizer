@@ -120,9 +120,9 @@ ReadableStats:
   ATK: Атака
   "DEF%": ЗАЩ %
   DEF: Защита
-  "SPD%": SPD %
+  "SPD%": СКР %
   SPD: Скорость
-  CRIT Rate: Крит. шанс
+  CRIT Rate: КритШанс
   CRIT DMG: Крит. урон
   Effect Hit Rate: Шанс эффектов
   Effect RES: Сопротивление

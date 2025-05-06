@@ -10,6 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: Không có
   REFUND_NONE_FULL: Không có
+  REFUND_LOW: "{{Percentage}}% hoàn lại"
+  REFUND_LOW_FULL: "{{Percentage}}%  hoàn lại (Thấp)"
+  REFUND_AVG: "{{Percentage}}% hoàn lại"
+  REFUND_AVG_FULL: "{{Percentage}}% hoàn lại (Trung bình)"
+  REFUND_HIGH: "{{Percentage}}% hoàn lại"
+  REFUND_HIGH_FULL: "{{Percentage}}% hoàn lại (Cao)"
 EidolonLevels:
   NONE: Không có
   E0: E0
@@ -47,6 +53,7 @@ SectionTitles:
   Passes: Vé Hiện Có
   Jades: Số Ngọc Ánh Sao
   Strategy: Mục Tiêu
+  Starlight: Ánh Sao Bất Diệt
   Banner: Banner
   New: Mới
   Rerun: Rerun

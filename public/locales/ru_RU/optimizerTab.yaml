@@ -1,8 +1,12 @@
 CharacterSelector:
   Character: Персонаж
   Lightcone: Световой конус
+  Presets: Шаблоны
+  Target: Цель оптимизации
 LightconePassives: Пассивки конуса
 CharacterPassives: Пассивки персонажа
+NoConditionals: Нет пассивок с условием.
+NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: "Найти {{limit}} лучших"
 OptimizerOptions:
   Priority:
@@ -72,13 +76,19 @@ MinMaxFilters:
   EHRLabel: ШансЭфф
   RESLabel: Сопр
   BELabel: Пробитие
-  ERRLabel: ВостЭн
-  BASICLabel: Баз. атака
+  ERRLabel: ВосстЭн
+  EHPLabel: эHP
+  BASICLabel: Баз Атака
   SKILLLabel: Навык
   ULTLabel: Ультимейт
-  FUALabel: Бонус атака
+  FUALabel: Бонус-Атака
   MEMOSKILLLabel: Навыкᴹ
+  DOTLabel: Доты
+  BREAKLabel: Пробитие
+  HEALLabel: Исцеление
+  SHIELDLabel: Щит
 ComboDrawer:
+  NoConditionals: Нет пассивок с условием.
   Title: Руководство по редактору ротаций
 TeammateCard:
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно

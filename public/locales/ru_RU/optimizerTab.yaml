@@ -28,6 +28,9 @@ Grid:
       BE: ЭП
       OHB: ИСЦ
       ERR: ВЭ
+      EHP: эHP
+    Combat:
+      EHP: эHP
 Sidebar:
   GPUOptions:
     EngineSwitchSuccessMsg:

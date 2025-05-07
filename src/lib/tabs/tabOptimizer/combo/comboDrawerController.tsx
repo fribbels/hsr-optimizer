@@ -276,11 +276,13 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         const newPartitions = []
 
         const seen: Record<number, ComboSubNumberConditional> = {}
+        const activeUpdateValue = numberUpdateConditional.partitions.find((p) => p.activations[0])?.value ?? null
+        const activeBaseValue = numberBaseConditional.partitions.find((p) => p.activations[0])?.value ?? null
 
         // Insert new conditionals
         for (let i = 0; i < numberUpdateConditional.partitions.length; i++) {
           const partition = numberUpdateConditional.partitions[i]
-          for (let j = partition.activations.length; j < 13; j++) {
+          for (let j = partition.activations.length; j <= ABILITY_LIMIT; j++) {
             partition.activations[j] = false
           }
           if (seen[partition.value]) {
@@ -299,7 +301,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         // Insert base conditionals
         for (let i = 0; i < numberBaseConditional.partitions.length; i++) {
           const partition = numberBaseConditional.partitions[i]
-          for (let j = partition.activations.length; j < 13; j++) {
+          for (let j = partition.activations.length; j <= ABILITY_LIMIT; j++) {
             partition.activations[j] = false
           }
           if (seen[partition.value]) {
@@ -310,6 +312,19 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
           }
           for (let j = 1; j < partition.activations.length; j++) {
             partition.activations[j] = false
+          }
+        }
+
+        const newUpdateIndex = newPartitions.findIndex((p) => p.value == activeUpdateValue)
+        const newBaseIndex = newPartitions.findIndex((p) => p.value == activeBaseValue)
+
+        // Inherit the previous active conditional's activations
+        if (newUpdateIndex != newBaseIndex && newUpdateIndex >= 0 && newBaseIndex >= 0) {
+          for (let i = 0; i < ABILITY_LIMIT; i++) {
+            newPartitions[newBaseIndex].activations[i] = newPartitions[newUpdateIndex].activations[i] || newPartitions[newBaseIndex].activations[i]
+          }
+          for (let i = 0; i < ABILITY_LIMIT; i++) {
+            newPartitions[newUpdateIndex].activations[i] = false
           }
         }
 

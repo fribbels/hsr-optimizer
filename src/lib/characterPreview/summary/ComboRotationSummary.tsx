@@ -35,11 +35,6 @@ function ScoringAbility(props: {
 }) {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
-  // TODO: Rotation i18n
-  // const displayValue = i18n.exists(`charactersTab:CharacterPreview.BuildAnalysis.Rotation.${props.comboTurnAbilities[props.index]}`)
-  //   ? t(`CharacterPreview.BuildAnalysis.Rotation.${props.comboTurnAbilities[props.index]}` as never)
-  //   : null
-
   const abilityName = props.comboTurnAbilities[props.index]
   if (!abilityName || abilityName == NULL_TURN_ABILITY_NAME) return <></>
 

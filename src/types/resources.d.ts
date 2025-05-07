@@ -119,11 +119,9 @@ interface Resources {
         }
       },
       "DetailsSlider": {
-        "Title": "Combat score details:",
         "Labels": {
           "CombatStats": "Combat Stats",
-          "SubDpsCombatStats": "Combat Stats (Sub DPS)",
-          "DMGUpgrades": "Damage Upgrades"
+          "SubDpsCombatStats": "Combat Stats (Sub DPS)"
         }
       },
       "DMGUpgrades": "Damage Upgrades",
@@ -247,6 +245,7 @@ interface Resources {
     "Save": "Save",
     "Score": "Score",
     "Reset": "Reset",
+    "Auto": "Auto",
     "EidolonNShort": "E{{eidolon}}",
     "SuperimpositionNShort": "S{{superimposition}}",
     "LevelShort": "Lv{{level}}",
@@ -2663,7 +2662,7 @@ interface Resources {
           },
           "talentStacks": {
             "text": "Talent DMG stacks",
-            "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
+            "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {{talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
           },
           "quantumAlliesAtkBuff": {
             "text": "Quantum allies ATK buff",
@@ -3397,12 +3396,12 @@ interface Resources {
       "104": {
         "Name": "Hunter of Glacial Forest",
         "Description2pc": "Increases Ice DMG by 10%.",
-        "Description4pc": "After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turn(s)."
+        "Description4pc": "After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turns."
       },
       "105": {
         "Name": "Champion of Streetwise Boxing",
         "Description2pc": "Increases Physical DMG by 10%.",
-        "Description4pc": "After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 time(s)."
+        "Description4pc": "After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 times."
       },
       "106": {
         "Name": "Guard of Wuthering Snow",
@@ -3422,7 +3421,7 @@ interface Resources {
       "109": {
         "Name": "Band of Sizzling Thunder",
         "Description2pc": "Increases Lightning DMG by 10%.",
-        "Description4pc": "When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn(s)."
+        "Description4pc": "When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn."
       },
       "110": {
         "Name": "Eagle of Twilight Line",
@@ -3442,17 +3441,17 @@ interface Resources {
       "113": {
         "Name": "Longevous Disciple",
         "Description2pc": "Increases Max HP by 12%.",
-        "Description4pc": "When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turn(s) and up to 2 stacks."
+        "Description4pc": "When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turns and up to 2 stacks."
       },
       "114": {
         "Name": "Messenger Traversing Hackerspace",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn(s). This effect cannot be stacked."
+        "Description4pc": "When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn. This effect cannot be stacked."
       },
       "115": {
         "Name": "The Ashblazing Grand Duke",
         "Description2pc": "Increases the DMG dealt by Follow-up ATK by 20%.",
-        "Description4pc": "When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a Follow-up ATK."
+        "Description4pc": "When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 times and lasts for 3 turns. This effect is removed the next time the wearer uses a Follow-up ATK."
       },
       "116": {
         "Name": "Prisoner in Deep Confinement",
@@ -3462,12 +3461,12 @@ interface Resources {
       "117": {
         "Name": "Pioneer Diver of Dead Waters",
         "Description2pc": "Increases DMG dealt to enemies with debuffs by 12%.",
-        "Description4pc": "Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
+        "Description4pc": "Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn."
       },
       "118": {
         "Name": "Watchmaker, Master of Dream Machinations",
         "Description2pc": "Increases Break Effect by 16%.",
-        "Description4pc": "When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turn(s). This effect cannot be stacked."
+        "Description4pc": "When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turns. This effect cannot be stacked."
       },
       "119": {
         "Name": "Iron Cavalry Against the Scourge",
@@ -3477,12 +3476,12 @@ interface Resources {
       "120": {
         "Name": "The Wind-Soaring Valorous",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s)."
+        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn."
       },
       "121": {
         "Name": "Sacerdos' Relived Ordeal",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for 2 turn(s). This effect can stack up to 2 time(s)."
+        "Description4pc": "When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for 2 turns. This effect can stack up to 2 times."
       },
       "122": {
         "Name": "Scholar Lost in Erudition",
@@ -3492,7 +3491,7 @@ interface Resources {
       "123": {
         "Name": "Hero of Triumphant Song",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for 2 turn(s)."
+        "Description4pc": "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for 2 turns."
       },
       "124": {
         "Name": "Poet of Mourning Collapse",
@@ -3500,14 +3499,14 @@ interface Resources {
         "Description4pc": "Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is lower than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect applies to the wearer's memosprite at the same time."
       },
       "125": {
-        "Name": "Warrior Goddess of Daythunder",
+        "Name": "Warrior Goddess of Sun and Thunder",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has \"Gentle Rain\", increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked."
+        "Description4pc": "When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has \"Gentle Rain,\" increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked."
       },
       "126": {
-        "Name": "Captain Over Cursed Waves",
+        "Name": "Wavestrider Captain",
         "Description2pc": "Increases CRIT DMG by 16%.",
-        "Description4pc": "When the wearer is the target of another ally target's ability, gains 1 stack of \"Help.\" Stacks up to 3 times. When using Ultimate, consumes all \"Help,\" each stack increasing the wearer's ATK by 16%, lasting until the end of the turn."
+        "Description4pc": "When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to 2 times. If there are 2 stacks of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by 48% for 1 turn."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -3559,7 +3558,7 @@ interface Resources {
       },
       "313": {
         "Name": "Sigonia, the Unclaimed Desolation",
-        "Description2pc": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 time(s)."
+        "Description2pc": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 times."
       },
       "314": {
         "Name": "Izumo Gensei and Takama Divine Realm",
@@ -3567,11 +3566,11 @@ interface Resources {
       },
       "315": {
         "Name": "Duran, Dynasty of Running Wolves",
-        "Description2pc": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
+        "Description2pc": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 times. Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
       },
       "316": {
         "Name": "Forge of the Kalpagni Lantern",
-        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn(s)."
+        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn."
       },
       "317": {
         "Name": "Lushaka, the Sunken Seas",
@@ -3958,10 +3957,10 @@ interface Resources {
         "Name": "Life Should Be Cast to Flames"
       },
       "23042": {
-        "Name": "May Rainbows Remain in the Sky"
+        "Name": "Long May Rainbows Adorn the Sky"
       },
       "23043": {
-        "Name": "Lies, Aflutter in the Wind"
+        "Name": "Lies Dance on the Breeze"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -5204,14 +5203,16 @@ interface Resources {
         }
       },
       "CounterLabels": {
-        "Dot": "Dots",
-        "Break": "Breaks"
+        "Dot": "Dots"
       },
       "ComboOptions": {
+        "None": "None",
         "Basic": "Basic",
         "Skill": "Skill",
         "Ult": "Ult",
         "Fua": "Fua",
+        "Dot": "Dot",
+        "Break": "Break",
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ"
       },
@@ -5259,6 +5260,11 @@ interface Resources {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)",
           "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "36% CD"
+        },
+        "Warrior": {
+          "Desc": "$t(gameData:RelicSets.125.Name) (+15% CD)",
+          "Set": "$t(gameData:RelicSets.125.Name)",
+          "Text": "15% CD"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",

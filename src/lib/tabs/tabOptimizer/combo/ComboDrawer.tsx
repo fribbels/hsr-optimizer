@@ -215,21 +215,38 @@ function ComboHeader(props: {
   comboState: ComboState
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
+  const { t: tCommon } = useTranslation('common')
   const comboTurnAbilities = props.comboState.comboTurnAbilities
 
   if (!comboTurnAbilities) return <></>
 
   const length = comboTurnAbilities.length
-  const render = Array(Math.min(ABILITY_LIMIT + 1, length + 1))
-    .fill(false)
-    .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>)
+  const render: ReactElement[] = [
+    <div key='controls' style={{ width: 380 }}>
+      <Button
+        variant='dashed'
+        style={{ width: '100%' }}
+        onClick={() => autoClicked(props.comboState)}
+      >
+        Apply rotation heuristics
+        {/* {tCommon('Auto')} */}
+      </Button>
+    </div>,
+    <div key='base' style={{ width: abilityWidth }}/>,
+    ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
+      .fill(false)
+      .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>),
+  ]
 
   return (
-    <Flex gap={abilityGap}>
-      <div style={{ width: abilityWidth }}/>
+    <Flex gap={abilityGap} align='center'>
       {render}
     </Flex>
   )
+}
+
+export function autoClicked(comboState: ComboState) {
+
 }
 
 export function elementToDataKey(element: HTMLElement | SVGElement) {
@@ -351,7 +368,7 @@ function StateDisplay(props: {
 
   return (
     <Flex vertical gap={8}>
-      <Flex style={{ marginLeft: 385, marginBottom: 2 }} align='center'>
+      <Flex style={{ marginBottom: 2 }} align='center'>
         <ComboHeader comboState={props.comboState}/>
       </Flex>
 

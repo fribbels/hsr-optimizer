@@ -269,7 +269,11 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
         const booleanBaseConditional = conditional
         const booleanUpdateConditional = updateConditional as ComboBooleanConditional
         booleanUpdateConditional.activations[0] = booleanBaseConditional.activations[0]
-        baseConditionals[key] = updateConditional
+
+        for (let i = 0; i <= ABILITY_LIMIT; i++) {
+          booleanUpdateConditional.activations[i] = booleanUpdateConditional.activations[i] ?? false
+        }
+        baseConditionals[key] = booleanUpdateConditional
       } else {
         const numberBaseConditional = conditional as ComboNumberConditional
         const numberUpdateConditional = updateConditional as ComboNumberConditional
@@ -286,7 +290,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
             partition.activations[j] = false
           }
           if (seen[partition.value]) {
-            for (let j = 0; j < seen[partition.value].activations.length; j++) {
+            for (let j = 0; j < ABILITY_LIMIT; j++) {
               seen[partition.value].activations[j] = seen[partition.value].activations[j] || numberUpdateConditional.partitions[i].activations[j]
             }
           } else {
@@ -310,7 +314,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
             seen[partition.value] = partition
             newPartitions.push(partition)
           }
-          for (let j = 1; j < partition.activations.length; j++) {
+          for (let j = 1; j < ABILITY_LIMIT; j++) {
             partition.activations[j] = false
           }
         }

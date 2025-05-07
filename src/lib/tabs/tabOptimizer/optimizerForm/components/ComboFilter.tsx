@@ -103,8 +103,7 @@ function minus(formInstance: FormInstance<OptimizerForm>) {
   }
 }
 
-// TODO: Refactor reset abilities
-function reset(formInstance: FormInstance<OptimizerForm>) {
+function resetClicked(formInstance: FormInstance<OptimizerForm>) {
   const characterId = window.store.getState().optimizerTabFocusCharacter!
   const characterMetadata = DB.getMetadata().characters[characterId]
 
@@ -118,6 +117,21 @@ function reset(formInstance: FormInstance<OptimizerForm>) {
   }
   formInstance.setFieldValue(['comboDot'], defaultComboDot)
   formInstance.setFieldValue(['comboStateJson'], '{}')
+}
+
+// TODO: Refactor reset abilities
+function autoClicked(formInstance: FormInstance<OptimizerForm>) {
+  const characterId = window.store.getState().optimizerTabFocusCharacter!
+  const characterMetadata = DB.getMetadata().characters[characterId]
+
+  if (!characterMetadata) return
+
+  const form = formInstance.getFieldsValue()
+  const comboTurnAbilities = form.comboTurnAbilities
+
+  const generatedComboTurnAbilities = preprocessTurnAbilityNames(comboTurnAbilities)
+
+  formInstance.setFieldValue(['comboTurnAbilities'], generatedComboTurnAbilities)
 }
 
 function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {
@@ -154,10 +168,13 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
               {t('RowControls.Remove')}
             </Button>
           </Flex>
+          <Button size='small' variant='outlined' style={{ }} onClick={() => autoClicked(form)}>
+            {tCommon('Auto')}
+          </Button>
           <Popconfirm
             title={tCommon('Confirm')}
             description={t('RowControls.ResetConfirm.Description')}
-            onConfirm={() => reset(form)}
+            onConfirm={() => resetClicked(form)}
             okText={tCommon('Yes')}
             cancelText={tCommon('Cancel')}
             placement='bottomRight'

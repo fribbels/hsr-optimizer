@@ -5,7 +5,7 @@ import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/default
 import { getComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
-import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -775,7 +775,7 @@ export function updateAbilityRotation(index: number, turnAbilityName: TurnAbilit
   const comboTurnAbilities = comboState.comboTurnAbilities
 
   if (index > comboTurnAbilities.length) return
-  if (turnAbilityName == null) {
+  if (turnAbilityName == NULL_TURN_ABILITY_NAME) {
     if (comboTurnAbilities.length <= 2) return
     comboTurnAbilities.splice(index, 1)
     shiftAllActivations(comboState, index)

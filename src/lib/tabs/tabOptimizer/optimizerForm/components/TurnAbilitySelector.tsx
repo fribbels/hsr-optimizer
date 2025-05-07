@@ -92,13 +92,13 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
           placeholder='Ability'
           showCheckedStrategy={SHOW_CHILD}
           size='small'
-          allowClear
           style={{ width: '100%', height: 18 }}
           variant='borderless'
+          allowClear={false}
           changeOnSelect={true}
           disabled={disabled}
           onChange={(value: string[]) => {
-            if (value.length == 1) {
+            if (value && value.length == 1) {
               form.setFieldValue(
                 // @ts-ignore Using formName as path
                 formName,

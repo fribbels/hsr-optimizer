@@ -84,6 +84,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
       BREAK: 0,
     },
     comboStateJson: '{}',
+    comboPreprocessor: true,
     ...defaultEnemyOptions(),
   })
 

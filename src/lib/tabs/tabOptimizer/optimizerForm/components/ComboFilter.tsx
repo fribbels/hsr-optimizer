@@ -1,8 +1,8 @@
-import { SettingOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, toTurnAbility, toVisual, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
@@ -139,38 +139,30 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   const { t: tSidebar } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
   const form = Form.useFormInstance<OptimizerForm>()
+  const comboType = Form.useWatch('comboType', form)
+
+  const disabled = comboType == 'simple'
 
   return (
-    <Flex>
+    <Flex style={{ height: 275 }}>
       <Flex vertical flex={1} style={{ marginLeft: 2 }} gap={3}>
-        <HeaderText>{t('AbilityLabel')/* Abilities */}</HeaderText>
+        <HeaderText>{t('AbilityLabel')/* Abilities */} </HeaderText>
 
         {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
           <ComboOptionRowSelect
             key={i + 1}
             index={i + 1}
             comboOptions={props.comboOptions}
+            disabled={disabled}
           />
         ))}
       </Flex>
 
       <VerticalDivider width={10}/>
 
-      <Flex vertical gap={5} flex={1} align='flex-start'>
-        <HeaderText>{tSidebar('ControlsGroup.Header')/* Controls */}</HeaderText>
-
-        <Flex vertical style={{ width: '100%', marginBottom: 10 }} gap={5}>
-          <Flex gap={5}>
-            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(form)}>
-              {t('RowControls.Add')}
-            </Button>
-            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)}>
-              {t('RowControls.Remove')}
-            </Button>
-          </Flex>
-          <Button size='small' variant='outlined' style={{ }} onClick={() => autoClicked(form)}>
-            {tCommon('Auto')}
-          </Button>
+      <Flex vertical gap={20} flex={1} align='flex-start'>
+        <Flex vertical style={{ width: '100%' }} gap={5}>
+          <HeaderText>{tSidebar('ControlsGroup.Header')/* Controls */}</HeaderText>
           <Popconfirm
             title={tCommon('Confirm')}
             description={t('RowControls.ResetConfirm.Description')}
@@ -183,18 +175,36 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
               {tCommon('Reset')}
             </Button>
           </Popconfirm>
+          <Flex gap={5}>
+            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(form)} disabled={disabled}>
+              {t('RowControls.Add')}
+            </Button>
+            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)} disabled={disabled}>
+              {t('RowControls.Remove')}
+            </Button>
+          </Flex>
         </Flex>
 
-        <Flex vertical>
+        <Flex vertical style={{ width: '100%' }} gap={5}>
+          <HeaderText>Presets</HeaderText>
+          <Form.Item name='comboPreprocessor'>
+            <Radio.Group buttonStyle='solid' block size='small' disabled={disabled}>
+              <Radio.Button value={true}><CheckOutlined/></Radio.Button>
+              <Radio.Button value={false}><CloseOutlined/></Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+        </Flex>
+
+        <Flex vertical gap={5}>
           <HeaderText>{t('CounterLabels.Dot')}</HeaderText>
-          <NumberXInput name='comboDot'/>
+          <NumberXInput name='comboDot' disabled={disabled}/>
         </Flex>
       </Flex>
     </Flex>
   )
 }
 
-function ComboOptionRowSelect(props: { index: number; comboOptions: { value: string; label: string }[] }) {
+function ComboOptionRowSelect(props: { index: number; disabled: boolean; comboOptions: { value: string; label: string }[] }) {
   return (
     <Form.Item
       shouldUpdate={(prevValues: OptimizerForm, currentValues: OptimizerForm) =>
@@ -207,7 +217,7 @@ function ComboOptionRowSelect(props: { index: number; comboOptions: { value: str
 
         return shouldRenderSegmented
           ? (
-            <TurnAbilitySelector formName={['comboTurnAbilities', props.index]}/>
+            <TurnAbilitySelector formName={['comboTurnAbilities', props.index]} disabled={props.disabled}/>
           )
           : null
       }}
@@ -215,13 +225,14 @@ function ComboOptionRowSelect(props: { index: number; comboOptions: { value: str
   )
 }
 
-function NumberXInput(props: { name: string }) {
+function NumberXInput(props: { name: string; disabled: boolean }) {
   return (
     <Form.Item name={props.name}>
       <InputNumberStyled
         addonBefore='⨯'
         size='small'
         controls={true}
+        disabled={props.disabled}
         style={{ width: '100%' }}
         rootClassName='comboInputNumber'
       />
@@ -229,6 +240,6 @@ function NumberXInput(props: { name: string }) {
   )
 }
 
-window.toVisual = toVisual
-window.toTurnAbility = toTurnAbility
-window.preprocessTurnAbilityNames = preprocessTurnAbilityNames
+// window.toVisual = toVisual
+// window.toTurnAbility = toTurnAbility
+// window.preprocessTurnAbilityNames = preprocessTurnAbilityNames

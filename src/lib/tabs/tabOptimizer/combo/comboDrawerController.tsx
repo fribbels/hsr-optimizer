@@ -140,7 +140,10 @@ export function initializeComboState(request: Form, merge: boolean) {
     mergeComboStates(comboState, savedComboState)
   }
 
-  precomputeConditionalActivations(comboState, request)
+  if (request.comboPreprocessor) {
+    precomputeConditionalActivations(comboState, request)
+  }
+
   shiftDefaultConditionalToFirst(comboState.comboCharacter.characterConditionals)
   shiftDefaultConditionalToFirst(comboState.comboCharacter.lightConeConditionals)
   shiftDefaultConditionalToFirst(comboState.comboCharacter.setConditionals)

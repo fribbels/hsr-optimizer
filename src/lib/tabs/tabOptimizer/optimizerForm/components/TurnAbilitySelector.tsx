@@ -68,7 +68,7 @@ function generateOptions(): Option[] {
   }))
 }
 
-export function TurnAbilitySelector({ formName }: { formName: (string | number)[] }) {
+export function TurnAbilitySelector({ formName, disabled }: { formName: (string | number)[]; disabled: boolean }) {
   const form = Form.useFormInstance<OptimizerForm>()
   const options = useMemo(() => generateOptions(), [])
 
@@ -96,6 +96,7 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
           style={{ width: '100%', height: 18 }}
           variant='borderless'
           changeOnSelect={true}
+          disabled={disabled}
           onChange={(value: string[]) => {
             if (value.length == 1) {
               form.setFieldValue(

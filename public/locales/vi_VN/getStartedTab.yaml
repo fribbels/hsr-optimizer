@@ -1,5 +1,8 @@
 TryOut:
   DocumentationTitle: Xem hướng dẫn chi tiết
   ButtonText: Thử dùng ngay!
+  description: |-
+    Thử nghiệp với tệp mẫu?
+    ⚠️Làm điều này sẽ thay thế mọi data đã được lưu từ trước!⚠️
   SuccessMessage: Đã tải dữ liệu thành công
   Header: Thử dùng ngay!

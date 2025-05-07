@@ -1,10 +1,15 @@
 CharacterSelector:
   Character: Персонаж
   Lightcone: Световой конус
+  Presets: Шаблоны
+  Target: Цель оптимизации
 LightconePassives: Пассивки конуса
 CharacterPassives: Пассивки персонажа
+NoConditionals: Нет пассивок с условием.
+NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: "Найти {{limit}} лучших"
 OptimizerOptions:
+  Header: Параметры оптимизатора
   Priority:
     Header: Приоритет
 AdvancedOptions:
@@ -23,13 +28,23 @@ Grid:
       BE: ЭП
       OHB: ИСЦ
       ERR: ВЭ
+      EHP: эHP
+    Combat:
+      EHP: эHP
 Sidebar:
   GPUOptions:
     EngineSwitchSuccessMsg:
       CPU: Переключение вычислений на процессор
       Stable: Переключение вычислений на видеокарту (стабильная версия)
       Experimental: Переключение вычислений на видеокарту (экспериментальная версия)
+  Permutations: Комбинации
   Perms: Комбинаций
+  Searched: Проверено
+  Results: Результаты
+  ProgressText:
+    Progress: Прогресс
+  ResultsGroup:
+    Header: Результаты
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)
@@ -72,15 +87,22 @@ MinMaxFilters:
   EHRLabel: ШансЭфф
   RESLabel: Сопр
   BELabel: Пробитие
-  ERRLabel: ВостЭн
-  BASICLabel: Баз. атака
+  ERRLabel: ВосстЭн
+  EHPLabel: эHP
+  BASICLabel: Баз Атака
   SKILLLabel: Навык
   ULTLabel: Ультимейт
-  FUALabel: Бонус атака
+  FUALabel: Бонус-Атака
   MEMOSKILLLabel: Навыкᴹ
+  DOTLabel: Доты
+  BREAKLabel: Пробитие
+  HEALLabel: Исцеление
+  SHIELDLabel: Щит
 ComboDrawer:
+  NoConditionals: Нет пассивок с условием.
   Title: Руководство по редактору ротаций
 TeammateCard:
+  RelicsPlaceholder: Реликвии
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
 StatSimulation:
   MainStatsSelection:
@@ -110,5 +132,6 @@ ExpandedDataPanel:
         Suffix:
           DMG boost: Урон↑
           Vulnerability: Слабость
+          DEF PEN: Игнор Защиты
       Misc:
         Combo DMG: Урон Комбо

@@ -74,13 +74,13 @@ ShortStats:
   "DEF%": ЗАЩ%
   DEF: ЗАЩ
   "SPD%": SPD%
-  SPD: SPD
+  SPD: СКР
   CRIT Rate: КШ
   CRIT DMG: КУ
   Effect Hit Rate: ШПЭ
   Effect RES: СОП
   Break Effect: ЭП
-  Energy Regeneration Rate: ВЭ
+  Energy Regeneration Rate: ВосстЭн
   Outgoing Healing Boost: ИСЦ
   Physical DMG Boost: "$t(gameData:Elements.Physical)"
   Fire DMG Boost: "$t(gameData:Elements.Fire)"
@@ -122,8 +122,8 @@ ReadableStats:
   DEF: Защита
   "SPD%": СКР %
   SPD: Скорость
-  CRIT Rate: КритШанс
-  CRIT DMG: Крит. урон
+  CRIT Rate: Крит Шанс
+  CRIT DMG: Крит Урон
   Effect Hit Rate: Шанс эффектов
   Effect RES: Сопротивление
   Break Effect: Пробитие

@@ -28,6 +28,7 @@ Character_one: Nhân vật
 Character_other: Nhân vật
 VerifiedRelicHoverText: Chỉ số dị vật được xác nhận bởi relic scorer (có số thập phân cho tốc độ)
 CombatStats: Chỉ số trong combat
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: Đầu
   Hands: Tay
@@ -188,3 +189,4 @@ ShortDMGTypes:
   Dot: ST Duy Trì
   Break: ST Kích Phá
   CV: CV
+CurrentVersion: "Phiên bản hiện tại: ({{Version}})"

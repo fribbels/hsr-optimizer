@@ -1,8 +1,9 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
 import i18next from 'i18next'
-import { AbilityKind, ALL_ABILITIES, ComboOptionsLabelMapping, createAbility, NULL_TURN_ABILITY, toTurnAbility, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, ALL_ABILITIES, ComboOptionsLabelMapping, createAbility, NULL_TURN_ABILITY, NULL_TURN_ABILITY_NAME, toTurnAbility, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
+import { OptimizerForm } from 'types/form'
 
 const { SHOW_CHILD } = Cascader
 
@@ -68,6 +69,7 @@ function generateOptions(): Option[] {
 }
 
 export function TurnAbilitySelector({ formName }: { formName: (string | number)[] }) {
+  const form = Form.useFormInstance<OptimizerForm>()
   const options = useMemo(() => generateOptions(), [])
 
   return (
@@ -93,6 +95,16 @@ export function TurnAbilitySelector({ formName }: { formName: (string | number)[
           allowClear
           style={{ width: '100%', height: 18 }}
           variant='borderless'
+          changeOnSelect={true}
+          onChange={(value: string[]) => {
+            if (value.length == 1) {
+              form.setFieldValue(
+                // @ts-ignore Using formName as path
+                formName,
+                createAbility(value[0] as AbilityKind, TurnMarker.DEFAULT).name,
+              )
+            }
+          }}
         />
       </Form.Item>
     </ConfigProvider>
@@ -128,12 +140,18 @@ export function ControlledTurnAbilitySelector({
         size='small'
         allowClear
         value={[value]}
+        changeOnSelect={true}
         onChange={(value) => {
           if (!value || !value.length) return
+          if (value.length == 1) {
+            updateAbilityRotation(index, createAbility(value[0] as AbilityKind, TurnMarker.DEFAULT).name)
+            return
+          }
+
           updateAbilityRotation(index, value[1] as TurnAbilityName)
         }}
         onClear={() => {
-          updateAbilityRotation(index, null)
+          updateAbilityRotation(index, NULL_TURN_ABILITY_NAME)
         }}
       />
     </ConfigProvider>

@@ -110,3 +110,48 @@ RelicGrid:
         Header: |-
           ПР: Ср. Пот.
           Переброса
+    AllCharacters:
+      Label: Расчёт для всех персонажей (ВСЕ)
+      AvgPotCol:
+        Label: "ВСЕ: Средний потенциал"
+        Header: |-
+          ВСЕ: Ср.
+          Потенциал
+      MaxPotCol:
+        Label: "ВСЕ: Максимальный потенциал"
+        Header: |-
+          ВСЕ: Макс.
+          Потенциал
+      RerollAvg:
+        Label: "ВСЕ: Средний потенциал переброса характеристик"
+        Header: |-
+          ВСЕ: Ср. Пот.
+          Переброса
+    ComingSoon:
+      Label: В разработке
+      SetsPotential:
+        Label: Потенциал наборов реликвий / планарок
+        Header: |-
+          ВСЕ: Макс. 
+          Потенциал + Наборы
+Toolbar:
+  RelicLocator:
+    Width: Ширина инвентаря (столбцы)
+    Filter: Автофильтр строк
+    NoneSelected: Выберите реликвию для поиска
+    Location: "Позиция: Строка {{rowIndex}} / столбец {{columnIndex}}"
+  InsightOptions:
+    Buckets: "Анализ реликвии: Распределение"
+    Top10: "Анализ реликвии: Топ-10"
+  PlotOptions:
+    PlotAll: Показать всех персонажей
+    PlotCustom: Персонажи для расчёта потенциала
+  EditRelic: Изменить реликвию
+  DeleteRelic:
+    ButtonText: Удалить реликвию
+    Warning_one: Удалить выбранную реликвию?
+    Warning_other: "Удалить {{count}} выбранных реликвий?"
+  AddRelic: Добавить реликвию
+RelicInsights:
+  NewStats: "Новые хар-ки: "
+  UpgradedStats: "Улучшаемые хар-тики: "

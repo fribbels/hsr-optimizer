@@ -9,6 +9,7 @@ NoConditionals: Нет пассивок с условием.
 NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: "Найти {{limit}} лучших"
 OptimizerOptions:
+  Header: Параметры оптимизатора
   Priority:
     Header: Приоритет
 AdvancedOptions:
@@ -33,7 +34,14 @@ Sidebar:
       CPU: Переключение вычислений на процессор
       Stable: Переключение вычислений на видеокарту (стабильная версия)
       Experimental: Переключение вычислений на видеокарту (экспериментальная версия)
+  Permutations: Комбинации
   Perms: Комбинаций
+  Searched: Проверено
+  Results: Результаты
+  ProgressText:
+    Progress: Прогресс
+  ResultsGroup:
+    Header: Результаты
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)
@@ -91,6 +99,7 @@ ComboDrawer:
   NoConditionals: Нет пассивок с условием.
   Title: Руководство по редактору ротаций
 TeammateCard:
+  RelicsPlaceholder: Реликвии
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
 StatSimulation:
   MainStatsSelection:

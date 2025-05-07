@@ -1,4 +1,4 @@
-Relic_one: Реликвии
+Relic_one: реликвия
 Relic_other: реликвии
 RelicWithCount_one: "{{count}} реликвия"
 RelicWithCount_other: "{{count}} реликвии"
@@ -18,7 +18,7 @@ Yes: "Да"
 No: "Нет"
 Save: Сохранить
 Score: Оценка
-Reset: Сбросить
+Reset: Сброс
 EidolonNShort: "Е{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
 LevelShort: "{{level}} ур."
@@ -35,7 +35,7 @@ Parts:
   Body: Тело
   Feet: Ноги
   PlanarSphere: Планарная сфера
-  LinkRope: Соединительная верёвка
+  LinkRope: Соединительная вязь
 ReadableParts:
   Head: Голова
   Hands: Руки

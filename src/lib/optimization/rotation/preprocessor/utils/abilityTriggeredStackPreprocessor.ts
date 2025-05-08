@@ -9,9 +9,9 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   private consumeKind: AbilityKind
   private stacksToAdd: number
   private maxStacks: number
-  private activationFn: ((comboState: ComboState, categoryId: string, index: number, value: boolean | number) => void)
-  private categoryId: string
-  private isBooleanActivation: boolean
+  private activationFn: ((comboState: ComboState, key: string, index: number, value: boolean | number) => void)
+  private key: string
+  private isBoolean: boolean
   private defaultActivationValue: boolean | number
 
   defaultState = { stacks: 0 }
@@ -20,26 +20,27 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   constructor(
     id: string,
     options: {
+      key: string
+      isBoolean: boolean
       triggerKind: AbilityKind
       consumeKind: AbilityKind
       stacksToAdd?: number
       maxStacks?: number
-      activationFn: ((comboState: ComboState, id: string, index: number, value: boolean) => void) | ((comboState: ComboState, id: string, index: number, value: number) => void)
-      categoryId: string
-      isBooleanActivation: boolean
       defaultActivationValue?: boolean | number
+      activationFn: ((comboState: ComboState, key: string, index: number, value: boolean) => void) | ((comboState: ComboState, key: string, index: number, value: number) => void)
     },
   ) {
     super()
     this.id = id
+
+    this.key = options.key
+    this.isBoolean = options.isBoolean
     this.triggerKind = options.triggerKind
     this.consumeKind = options.consumeKind
     this.stacksToAdd = options.stacksToAdd ?? 1
     this.maxStacks = options.maxStacks ?? 1
-    this.activationFn = options.activationFn as (comboState: ComboState, categoryId: string, index: number, value: boolean | number) => void
-    this.categoryId = options.categoryId
-    this.isBooleanActivation = options.isBooleanActivation
-    this.defaultActivationValue = options.defaultActivationValue ?? (this.isBooleanActivation ? false : 0)
+    this.defaultActivationValue = options.defaultActivationValue ?? (this.isBoolean ? false : 0)
+    this.activationFn = options.activationFn as (comboState: ComboState, key: string, index: number, value: boolean | number) => void
   }
 
   reset() {
@@ -58,17 +59,17 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     if (kind === this.consumeKind) {
       const hasStacks = this.state.stacks > 0
 
-      const activationValue = this.isBooleanActivation
+      const activationValue = this.isBoolean
         ? hasStacks
         : (hasStacks ? this.state.stacks : this.defaultActivationValue)
 
       // Use activation value
-      this.activationFn(comboState, this.categoryId, index, activationValue)
+      this.activationFn(comboState, this.key, index, activationValue)
 
       if (hasStacks) this.state.stacks -= 1
     } else {
       // Use default value
-      this.activationFn(comboState, this.categoryId, index, this.defaultActivationValue)
+      this.activationFn(comboState, this.key, index, this.defaultActivationValue)
     }
   }
 }

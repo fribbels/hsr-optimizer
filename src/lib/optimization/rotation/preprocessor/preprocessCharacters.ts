@@ -1,6 +1,7 @@
+import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CASTORICE, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
+import { CASTORICE, HOOK, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
@@ -84,30 +85,32 @@ export class TheHertaPreprocessor extends AbilityPreprocessorBase {
   }
 }
 
-export class YunliPreprocessor extends AbilityPreprocessorBase {
-  id = YUNLI
-  defaultState = { blockActive: false }
-  state = { ...this.defaultState }
-
-  reset() {
-    this.state = { ...this.defaultState }
+export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      YUNLI,
+      {
+        triggerKind: AbilityKind.ULT,
+        consumeKind: AbilityKind.FUA,
+        activationFn: setComboBooleanCategoryCharacterActivation,
+        key: 'blockActive',
+        isBoolean: true,
+      },
+    )
   }
+}
 
-  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
-    const { kind } = turnAbility
-    const e = comboState.comboCharacter.metadata.characterEidolon
-
-    if (kind == AbilityKind.ULT) {
-      this.state.blockActive = true
-    }
-
-    if (kind == AbilityKind.FUA) {
-      if (this.state.blockActive == true) {
-        this.state.blockActive = false
-        setComboBooleanCategoryCharacterActivation(comboState, 'blockActive', index, true)
-      } else {
-        setComboBooleanCategoryCharacterActivation(comboState, 'blockActive', index, false)
-      }
-    }
+export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      HOOK,
+      {
+        triggerKind: AbilityKind.ULT,
+        consumeKind: AbilityKind.SKILL,
+        activationFn: setComboBooleanCategoryCharacterActivation,
+        key: 'enhancedSkill',
+        isBoolean: true,
+      },
+    )
   }
 }

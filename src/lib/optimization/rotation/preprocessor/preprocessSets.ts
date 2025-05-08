@@ -12,8 +12,8 @@ export class ScholarLostInEruditionPreprocessor extends AbilityTriggeredStackPre
         triggerKind: AbilityKind.ULT,
         consumeKind: AbilityKind.SKILL,
         activationFn: setComboBooleanCategorySetActivation,
-        categoryId: Sets.ScholarLostInErudition,
-        isBooleanActivation: true,
+        key: Sets.ScholarLostInErudition,
+        isBoolean: true,
       },
     )
   }

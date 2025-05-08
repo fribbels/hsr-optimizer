@@ -39,8 +39,8 @@ test('Boolean activation - trigger then consume', () => {
       triggerKind: AbilityKind.ULT,
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanCharacterActivation,
-      categoryId: 'enhancedAbility',
-      isBooleanActivation: true,
+      key: 'enhancedAbility',
+      isBoolean: true,
     },
   )
 
@@ -71,8 +71,8 @@ test('Numeric activation with stacks', () => {
       stacksToAdd: 3,
       maxStacks: 5,
       activationFn: mockNumberActivation,
-      categoryId: 'stacks',
-      isBooleanActivation: false,
+      key: 'stacks',
+      isBoolean: false,
       defaultActivationValue: 21,
     },
   )
@@ -111,8 +111,8 @@ test('Stack limit enforcement', () => {
       consumeKind: AbilityKind.SKILL,
       maxStacks: 2,
       activationFn: mockBooleanCharacterActivation,
-      categoryId: 'enhancedAbility',
-      isBooleanActivation: true,
+      key: 'enhancedAbility',
+      isBoolean: true,
     },
   )
 
@@ -143,8 +143,8 @@ test('Reset functionality', () => {
       triggerKind: AbilityKind.ULT,
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanCharacterActivation,
-      categoryId: 'enhancedAbility',
-      isBooleanActivation: true,
+      key: 'enhancedAbility',
+      isBoolean: true,
     },
   )
 
@@ -168,8 +168,8 @@ test('Set activation ScholarLostInErudition', () => {
       triggerKind: AbilityKind.ULT,
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanSetActivation,
-      categoryId: TEST_SET_ID,
-      isBooleanActivation: true,
+      key: TEST_SET_ID,
+      isBoolean: true,
     },
   )
 
@@ -194,8 +194,8 @@ test('Different Turn Markers should trigger the same behavior', () => {
       triggerKind: AbilityKind.ULT,
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanCharacterActivation,
-      categoryId: 'enhancedAbility',
-      isBooleanActivation: true,
+      key: 'enhancedAbility',
+      isBoolean: true,
     },
   )
 
@@ -222,8 +222,8 @@ test('Different ability types should be properly handled', () => {
       triggerKind: AbilityKind.ULT,
       consumeKind: AbilityKind.FUA,
       activationFn: mockBooleanCharacterActivation,
-      categoryId: 'enhancedAbility',
-      isBooleanActivation: true,
+      key: 'enhancedAbility',
+      isBoolean: true,
     },
   )
 
@@ -250,8 +250,8 @@ test('Multiple stack triggers', () => {
       stacksToAdd: 2,
       maxStacks: 6,
       activationFn: mockNumberActivation,
-      categoryId: 'stacks',
-      isBooleanActivation: false,
+      key: 'stacks',
+      isBoolean: false,
       defaultActivationValue: 10,
     },
   )

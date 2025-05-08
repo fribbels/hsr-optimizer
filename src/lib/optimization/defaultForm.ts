@@ -1,4 +1,5 @@
 import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -75,6 +76,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     resultSort: scoringMetadata?.simulation ? SortOption.COMBO.key : scoringMetadata?.sortOption.key,
     resultsLimit: 1024,
     combatBuffs: combatBuffs,
+    comboType: ComboType.SIMPLE,
     combo: {
       BASIC: 0,
       SKILL: 0,

@@ -65,49 +65,6 @@ Stelle / Caelus (Destruction) - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
 + break?
 
 
-
-NIHILITY
-----
-Welt - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
-
-Kafka - [ ULT, DOT, SKILL, DOT ], FUA, [ SKILL, DOT ], FUA
-+ 16 dots distributed
-
-Sampo - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
-+ 60 dots distributed
-
-Luka - [ ULT, SKILL ], [ BASIC ], [ BASIC ]
-+ 5 dots distributed
-+ 1 break
-
-Fugue - [ ULT, BASIC ], [ BASIC ], [ BASIC ]
-+ 3 breaks to stop her sim from building crit
-
-Black Swan - [ ULT, SKILL ], DOT, [ BASIC ], DOT, [ BASIC ], DOT
-+ 16 dots distributed
-
-Acheron - [ ULT, SKILL ], [ SKILL ]
-
-Cipher - [ ULT, SKILL ], FUA, [ SKILL ], FUA, [ BASIC ], FUA
-
-
-
-HARMONY
-----
-Tribbie - [ ULT, FUA, BASIC ], FUA, FUA
-+ skill?
-
-
-PRESERVATION
-----
-Aventurine - [ ULT, BASIC ], FUA, [ BASIC ], FUA
-+ skill?
-
-
-REMEMBRANCE
-----
-Aglaea - [ ULT, BASIC ], MEMO_SKILL, MEMO_SKILL, [ BASIC ], MEMO_SKILL
-
 Castorice - [ SKILL ], [ SKILL ], ULT, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_SKILL, MEMO_TALENT
 + already has rotation preprocessor for e1 and e2, adjacent memoskills are considered connected
 
@@ -168,3 +125,81 @@ The Herta - [ SKILL, ULT ], [ SKILL ]
 Anaxa - [ SKILL, SKILL, ULT ], [ SKILL, SKILL ]
 
 
+
+
+HARMONY
+----
+Tribbie - [ SKILL, ULT ] FUA, FUA, [ BASIC ], FUA, ULT, FUA, [ BASIC ], FUA, FUA
+
+
+PRESERVATION
+----
+Aventurine - [ ULT, FUA , BASIC ], FUA, [ BASIC ], FUA, [ BASIC ], FUA
+
+
+REMEMBRANCE
+----
+Aglaea - [ ULT, BASIC ], MEMO_SKILL, MEMO_SKILL, [ BASIC ], MEMO_SKILL, [ BASIC ], MEMO_SKILL, MEMO_SKILL, [ BASIC ], MEMO_SKILL
+
+
+
+NIHILITY
+----
+Welt - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
+
+Kafka - [ ULT, DOT, SKILL, DOT ], FUA, [ SKILL, DOT ], FUA, [ SKILL, DOT ], FUA
++ 16 dots distributed
+
+Sampo - [ ULT, SKILL ], DOT, [ SKILL ], DOT, [ SKILL ], DOT
++ 60 dots distributed
+
+Luka - [ ULT, SKILL, BREAK ], DOT, [ BASIC , DOT ], DOT, [ BASIC, DOT ], DOT,
++ 5 dots distributed + 2 from EBA retriggers // evil cursed preprocessor??
++ 1 break
+
+Fugue - [ ULT, BASIC, BREAK ], [ BASIC, BREAK ], [ BASIC, BREAK ]
++ 3 breaks to stop her sim from building crit
+
+Black Swan - [ ULT, SKILL ], DOT, [ BASIC ], DOT, [ SKILL ], DOT, [ BASIC ], DOT,
++ 16 dots distributed
+
+Acheron - [ ULT, SKILL ], [ SKILL ]
+
+Cipher - ULT, [ SKILL ], FUA, [ SKILL ], FUA, [ BASIC ], FUA
+generally ult out of turn just before cycle transition I think
+
+
+----
+Arlan - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
+
+Clara - [ ULT, SKILL ], FUA, FUA, [ SKILL ], FUA, FUA // added 1 skill and 1 fua
+
+Hook - [ ULT, SKILL ], [ SKILL ], [ SKILL ], [ SKILL ] // added 1 skill
++ preprocessor? //Y
+
+Blade - [ ULT, SKILL, BASIC ], FUA, [ BASIC ], [ BASIC ], FUA, [ BASIC ]
+// added skill and some basics
+
+Jingliu - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
++ preprocessor?
+
+Imbibitor Lunae - [ SKILL, ULT ], [ SKILL ], [ SKILL ]
++ assumes everything is full stacked
+
+Xueyi - [ ULT, FUA, SKILL ], FUA, [ SKILL ], FUA, [ SKILL ] // added 1 skill
++ 1 break
+
+Yunli - [ ULT, SKILL ], FUA,  FUA
++ preprocessor?
+
+Firefly - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
++ preprocessor
++ BREAK
+
+Misha - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
+
+Mydei - [ SKILL ], [ ULT, SKILL ]
++ preprocessor?
+
+Stelle / Caelus (Destruction) - [ ULT, SKILL ], [ SKILL ], [ SKILL ]
++ break?

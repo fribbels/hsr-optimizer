@@ -1,4 +1,4 @@
-import { CastoricePreprocessor, TheHertaPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessCharacters'
+import { CastoricePreprocessor, TheHertaPreprocessor, YunliPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessCharacters'
 import { ScholarLostInEruditionPreprocessor, WavestriderCaptainPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessSets'
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -9,6 +9,7 @@ import { Form } from 'types/form'
 export const characterPreprocessors: AbilityPreprocessorBase[] = [
   new CastoricePreprocessor(),
   new TheHertaPreprocessor(),
+  new YunliPreprocessor(),
 ]
 
 export const setPreprocessors: AbilityPreprocessorBase[] = [

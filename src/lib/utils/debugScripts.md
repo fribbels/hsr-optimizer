@@ -29,7 +29,6 @@ Guidelines:
 
 ```
 
-The Herta - [ SKILL, ULT ], [ SKILL ]
 
 Hook - [ ULT, SKILL ], [ SKILL ], [ SKILL ], [ SKILL ] // added 1 skill
 + preprocessor? //Y

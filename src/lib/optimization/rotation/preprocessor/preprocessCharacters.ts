@@ -1,6 +1,6 @@
 import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
 import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CASTORICE, THE_HERTA } from 'lib/simulations/tests/testMetadataConstants'
+import { CASTORICE, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
@@ -79,6 +79,34 @@ export class TheHertaPreprocessor extends AbilityPreprocessorBase {
         this.state.postUltEnhancement = false
       } else {
         setComboNumberCategoryCharacterActivation(comboState, 'interpretationStacks', index, e >= 1 ? 35 : 21)
+      }
+    }
+  }
+}
+
+export class YunliPreprocessor extends AbilityPreprocessorBase {
+  id = YUNLI
+  defaultState = { blockActive: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind } = turnAbility
+    const e = comboState.comboCharacter.metadata.characterEidolon
+
+    if (kind == AbilityKind.ULT) {
+      this.state.blockActive = true
+    }
+
+    if (kind == AbilityKind.FUA) {
+      if (this.state.blockActive == true) {
+        this.state.blockActive = false
+        setComboBooleanCategoryCharacterActivation(comboState, 'blockActive', index, true)
+      } else {
+        setComboBooleanCategoryCharacterActivation(comboState, 'blockActive', index, false)
       }
     }
   }

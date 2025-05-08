@@ -1,4 +1,4 @@
-import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
+import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CASTORICE, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'

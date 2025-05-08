@@ -112,6 +112,37 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
   )
 }
 
+export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName; index: number }) {
+  const options = useMemo(() => generateOptions(), [])
+
+  if (value == null) {
+    return <></>
+  }
+
+  return (
+    <ConfigProvider theme={cascaderTheme}>
+      <Cascader<Option>
+        className='turn-ability-cascader-filter'
+        options={options}
+        // @ts-ignore
+        value={value}
+        displayRender={(labels: string[]) => {
+          const turnAbility = toTurnAbility(value)
+
+          return `${index}. ${toI18NVisual(turnAbility)}`
+        }}
+        expandTrigger='hover'
+        placeholder='Ability'
+        showCheckedStrategy={SHOW_CHILD}
+        size='small'
+        style={{ width: '100%', height: 18 }}
+        variant='borderless'
+        disabled={true}
+      />
+    </ConfigProvider>
+  )
+}
+
 export function ControlledTurnAbilitySelector({
   index,
   value,

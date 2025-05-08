@@ -7,7 +7,7 @@ import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPrepro
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
-import { TurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
+import { TurnAbilitySelector, TurnAbilitySelectorSimple } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -138,8 +138,10 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tSidebar } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
-  const form = Form.useFormInstance<OptimizerForm>()
-  const comboType = Form.useWatch('comboType', form)
+  const formInstance = Form.useFormInstance<OptimizerForm>()
+  const comboType = Form.useWatch('comboType', formInstance)
+  const characterId = Form.useWatch('characterId', formInstance)
+  const comboTurnAbilities = DB.getMetadata().characters[characterId]?.scoringMetadata?.simulation?.comboTurnAbilities ?? []
 
   const disabled = comboType == 'simple'
 
@@ -149,12 +151,16 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
         <HeaderText>{t('AbilityLabel')/* Abilities */} </HeaderText>
 
         {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
-          <ComboOptionRowSelect
-            key={i + 1}
-            index={i + 1}
-            comboOptions={props.comboOptions}
-            disabled={disabled}
-          />
+          comboType == 'simple'
+            ? <TurnAbilitySelectorSimple key={i + 1} value={comboTurnAbilities[i + 1]} index={i + 1}/>
+            : (
+              <ComboOptionRowSelect
+                key={i + 1}
+                index={i + 1}
+                comboOptions={props.comboOptions}
+                disabled={disabled}
+              />
+            )
         ))}
       </Flex>
 
@@ -166,7 +172,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
           <Popconfirm
             title={tCommon('Confirm')}
             description={t('RowControls.ResetConfirm.Description')}
-            onConfirm={() => resetClicked(form)}
+            onConfirm={() => resetClicked(formInstance)}
             okText={tCommon('Yes')}
             cancelText={tCommon('Cancel')}
             placement='bottomRight'
@@ -176,10 +182,10 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             </Button>
           </Popconfirm>
           <Flex gap={5}>
-            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(form)} disabled={disabled}>
+            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add(formInstance)} disabled={disabled}>
               {t('RowControls.Add')}
             </Button>
-            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(form)} disabled={disabled}>
+            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus(formInstance)} disabled={disabled}>
               {t('RowControls.Remove')}
             </Button>
           </Flex>

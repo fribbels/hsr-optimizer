@@ -1,6 +1,6 @@
 import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
 import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CASTORICE } from 'lib/simulations/tests/testMetadataConstants'
+import { CASTORICE, THE_HERTA } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
@@ -44,6 +44,42 @@ export class CastoricePreprocessor extends AbilityPreprocessorBase {
       setComboBooleanCategoryCharacterActivation(comboState, 'e2MemoSkillDmgBoost', index, true)
     } else {
       setComboBooleanCategoryCharacterActivation(comboState, 'e2MemoSkillDmgBoost', index, false)
+    }
+  }
+}
+
+export class TheHertaPreprocessor extends AbilityPreprocessorBase {
+  id = THE_HERTA
+  defaultState = { enhancedSkillCount: 0, postUltEnhancement: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind } = turnAbility
+    const e = comboState.comboCharacter.metadata.characterEidolon
+
+    if (kind == AbilityKind.ULT) {
+      this.state.enhancedSkillCount += e >= 2 ? 2 : 1
+      this.state.postUltEnhancement = true
+    }
+
+    if (kind == AbilityKind.SKILL) {
+      if (this.state.enhancedSkillCount > 0) {
+        this.state.enhancedSkillCount -= 1
+        setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, true)
+      } else {
+        setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, false)
+      }
+
+      if (this.state.postUltEnhancement == true) {
+        setComboNumberCategoryCharacterActivation(comboState, 'interpretationStacks', index, 42)
+        this.state.postUltEnhancement = false
+      } else {
+        setComboNumberCategoryCharacterActivation(comboState, 'interpretationStacks', index, e >= 1 ? 35 : 21)
+      }
     }
   }
 }

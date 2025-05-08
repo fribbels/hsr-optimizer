@@ -271,3 +271,69 @@ test('Multiple stack triggers', () => {
   preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_SKILL] }, 5, comboState)
   expect(mockNumberActivation).toHaveBeenCalledWith(comboState, 'stacks', 5, 4)
 })
+
+test('Self-trigger and consume order - ULT affects next ability, not itself', () => {
+  // Create preprocessor where ULT both triggers and consumes
+  const preprocessor = new AbilityTriggeredStackPreprocessor(
+    TEST_CHARACTER_ID,
+    {
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.ULT, AbilityKind.SKILL], // ULT is both trigger and consumer
+      activationFn: mockBooleanCharacterActivation,
+      key: 'enhancedAbility',
+    },
+  )
+
+  const comboState = createMockComboState()
+
+  // First ULT - should NOT be buffed (no stacks yet)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_ULT] }, 0, comboState)
+  expect(mockBooleanCharacterActivation).toHaveBeenCalledWith(comboState, 'enhancedAbility', 0, false)
+
+  // Second ULT - SHOULD be buffed (consumes stack from first ULT)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_ULT] }, 1, comboState)
+  expect(mockBooleanCharacterActivation).toHaveBeenCalledWith(comboState, 'enhancedAbility', 1, true)
+
+  // SKILL - SHOULD be buffed (consumes stack from second ULT)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_SKILL] }, 2, comboState)
+  expect(mockBooleanCharacterActivation).toHaveBeenCalledWith(comboState, 'enhancedAbility', 2, true)
+
+  // Another SKILL - should NOT be buffed (no stacks left)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_SKILL] }, 3, comboState)
+  expect(mockBooleanCharacterActivation).toHaveBeenCalledWith(comboState, 'enhancedAbility', 3, false)
+})
+
+test('FiresmithOfLavaForging behavior - ULT affects all subsequent abilities', () => {
+  // Similar to the FiresmithOfLavaForging example where ULT triggers and all abilities consume
+  const preprocessor = new AbilityTriggeredStackPreprocessor(
+    'FiresmithTest',
+    {
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA],
+      activationFn: mockBooleanSetActivation,
+      key: 'FiresmithTest',
+    },
+  )
+
+  const comboState = createMockComboState()
+
+  // First ULT - should NOT be buffed (no stacks yet)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_ULT] }, 0, comboState)
+  expect(mockBooleanSetActivation).toHaveBeenCalledWith(comboState, 'FiresmithTest', 0, false)
+
+  // BASIC - SHOULD be buffed (consumes stack from ULT)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_BASIC] }, 1, comboState)
+  expect(mockBooleanSetActivation).toHaveBeenCalledWith(comboState, 'FiresmithTest', 1, true)
+
+  // SKILL - should NOT be buffed (previous stack was consumed)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_SKILL] }, 2, comboState)
+  expect(mockBooleanSetActivation).toHaveBeenCalledWith(comboState, 'FiresmithTest', 2, false)
+
+  // Second ULT - should NOT be buffed initially, but adds a new stack
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_ULT] }, 3, comboState)
+  expect(mockBooleanSetActivation).toHaveBeenCalledWith(comboState, 'FiresmithTest', 3, false)
+
+  // FUA - SHOULD be buffed (consumes stack from second ULT)
+  preprocessor.processAbility({ ...AbilityNameToTurnAbility[DEFAULT_FUA] }, 4, comboState)
+  expect(mockBooleanSetActivation).toHaveBeenCalledWith(comboState, 'FiresmithTest', 4, true)
+})

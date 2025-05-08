@@ -50,11 +50,6 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
     const { kind } = turnAbility
 
-    // Handle trigger ability
-    if (this.triggerKinds.includes(kind)) {
-      this.state.stacks = Math.min(this.maxStacks, this.state.stacks + this.stacksToAdd)
-    }
-
     // Handle consume ability
     if (this.consumeKinds.includes(kind)) {
       const hasStacks = this.state.stacks > 0
@@ -70,6 +65,11 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     } else {
       // Use default value
       this.activationFn(comboState, this.key, index, this.defaultActivationValue)
+    }
+
+    // Handle trigger ability
+    if (this.triggerKinds.includes(kind)) {
+      this.state.stacks = Math.min(this.maxStacks, this.state.stacks + this.stacksToAdd)
     }
   }
 }

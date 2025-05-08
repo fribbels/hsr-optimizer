@@ -9,10 +9,24 @@ export class ScholarLostInEruditionPreprocessor extends AbilityTriggeredStackPre
     super(
       Sets.ScholarLostInErudition,
       {
-        triggerKinds: AbilityKind.ULT,
-        consumeKinds: AbilityKind.SKILL,
+        triggerKinds: [AbilityKind.ULT],
+        consumeKinds: [AbilityKind.SKILL],
         activationFn: setComboBooleanCategorySetActivation,
         key: Sets.ScholarLostInErudition,
+      },
+    )
+  }
+}
+
+export class FiresmithOfLavaForging extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      Sets.FiresmithOfLavaForging,
+      {
+        triggerKinds: [AbilityKind.ULT],
+        consumeKinds: [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA],
+        activationFn: setComboBooleanCategorySetActivation,
+        key: Sets.FiresmithOfLavaForging,
       },
     )
   }

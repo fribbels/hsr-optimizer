@@ -183,7 +183,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             cancelText={tCommon('Cancel')}
             placement='bottomRight'
           >
-            <Button size='small' variant='outlined' style={{ }}>
+            <Button size='small' variant='outlined' disabled={disabled}>
               {tCommon('Reset')}
             </Button>
           </Popconfirm>
@@ -264,7 +264,3 @@ function NumberXInput(props: {
     </Form.Item>
   )
 }
-
-// window.toVisual = toVisual
-// window.toTurnAbility = toTurnAbility
-// window.preprocessTurnAbilityNames = preprocessTurnAbilityNames

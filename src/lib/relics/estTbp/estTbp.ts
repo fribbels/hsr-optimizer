@@ -1,7 +1,7 @@
 import { MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
+import { getRollQualityDistribution, thresholdProbability } from 'lib/relics/estTbp/convolution'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic } from 'types/relic'
-import { getRollQualityDistribution, thresholdProbability } from './convolution'
 
 export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
   // Round away the floating point errors from weight products

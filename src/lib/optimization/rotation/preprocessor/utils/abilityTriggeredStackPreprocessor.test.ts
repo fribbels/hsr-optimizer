@@ -1,4 +1,5 @@
 import { Sets } from 'lib/constants/constants'
+import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import {
   AbilityKind,
   AbilityNameToTurnAbility,
@@ -10,7 +11,6 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { beforeEach, expect, test, vi } from 'vitest'
-import { AbilityTriggeredStackPreprocessor } from './abilityTriggeredStackPreprocessor'
 
 const TEST_CHARACTER_ID = 'test-character'
 const TEST_SET_ID = 'test-set'

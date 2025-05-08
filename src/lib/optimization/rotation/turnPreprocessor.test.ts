@@ -21,8 +21,8 @@ import {
   WHOLE_MEMO_TALENT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import { expect, test } from 'vitest'
-import { preprocessTurnAbilityNames } from './turnPreprocessor'
 
 test('Anaxa annotated', () => {
   expect(compareAbilityNameArrays(

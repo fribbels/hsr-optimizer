@@ -1,8 +1,8 @@
 import { Sets } from 'lib/constants/constants'
+import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import { AbilityPreprocessorBase, setComboBooleanCategorySetActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { AbilityKind, TurnAbility, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { AbilityTriggeredStackPreprocessor } from './utils/abilityTriggeredStackPreprocessor'
 
 export class ScholarLostInEruditionPreprocessor extends AbilityTriggeredStackPreprocessor {
   constructor() {

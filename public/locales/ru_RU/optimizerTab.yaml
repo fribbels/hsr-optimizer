@@ -12,7 +12,31 @@ OptimizerOptions:
   Header: Параметры оптимизатора
   Priority:
     Header: Приоритет
+    Name: "# {{rank}}"
+  Exclude: Исключить
+  MinEnhance:
+    Header: Мин. усиление
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+  MinRarity:
+    Header: Мин. редкость
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4 ★ +
+    Label5: 5 ★
+  BoostMain:
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
 AdvancedOptions:
+  Header: Расширенные параметры
   CustomTracesButtonText: Настройка следов
 Grid:
   Headers:
@@ -43,6 +67,8 @@ Sidebar:
   Results: Результаты
   ProgressText:
     Progress: Прогресс
+  ControlsGroup:
+    Header: Управление
   ResultsGroup:
     Header: Результаты
 TracesDrawer:
@@ -56,6 +82,8 @@ SetConditionals:
         Display: КШ
     Longevous:
       Label: "{{stackCount}} стаки (+{{buffValue}}% КШ)"
+Presets:
+  RecommendedPresets: Рекомендуемые шаблоны
 CombatBuffs:
   ATK: Сила атаки
   ATK_P: АТК %

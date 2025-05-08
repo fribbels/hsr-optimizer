@@ -33,8 +33,6 @@ Guidelines:
 Hook - [ ULT, SKILL ], [ SKILL ], [ SKILL ], [ SKILL ] // added 1 skill
 + preprocessor? //Y
 
-Yunli - [ ULT, SKILL ], FUA,  FUA
-+ preprocessor?
 
 
 Glacial

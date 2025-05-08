@@ -3,7 +3,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { ABILITY_LIMIT, ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
 import { getComboTypeAbilities } from 'lib/optimization/rotation/comboStateTransform'
-import { precomputeConditionalActivations } from 'lib/optimization/rotation/rotationPreprocessor'
+import { precomputeConditionalActivations } from 'lib/optimization/rotation/preprocessor/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import { NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'

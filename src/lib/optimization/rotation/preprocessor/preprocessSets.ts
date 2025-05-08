@@ -1,30 +1,20 @@
 import { Sets } from 'lib/constants/constants'
-import { AbilityPreprocessorBase, setComboBooleanCategorySetActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
+import { AbilityPreprocessorBase, AbilityTriggeredStackPreprocessor, setComboBooleanCategorySetActivation } from 'lib/optimization/rotation/preprocessor/preprocessUtils'
 import { AbilityKind, TurnAbility, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
-export class ScholarLostInEruditionPreprocessor extends AbilityPreprocessorBase {
-  id = Sets.ScholarLostInErudition
-  defaultState = { scholarActivated: false }
-  state = { ...this.defaultState }
-
-  reset() {
-    this.state = { ...this.defaultState }
-  }
-
-  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
-    const { kind } = turnAbility
-
-    if (kind == AbilityKind.ULT) {
-      this.state.scholarActivated = true
-    }
-
-    if (kind == AbilityKind.SKILL && this.state.scholarActivated) {
-      this.state.scholarActivated = false
-      setComboBooleanCategorySetActivation(comboState, Sets.ScholarLostInErudition, index, true)
-    } else {
-      setComboBooleanCategorySetActivation(comboState, Sets.ScholarLostInErudition, index, false)
-    }
+export class ScholarLostInEruditionPreprocessor extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      Sets.ScholarLostInErudition,
+      {
+        triggerKind: AbilityKind.ULT,
+        consumeKind: AbilityKind.SKILL,
+        activationFn: setComboBooleanCategorySetActivation,
+        categoryId: Sets.ScholarLostInErudition,
+        isBooleanActivation: true,
+      },
+    )
   }
 }
 

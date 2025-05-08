@@ -52,10 +52,6 @@ MinMaxFilters:
   RESLabel: RES
   BELabel: EdR
   ERRLabel: RdE
-  BASICLabel: ATQ básico
-  SKILLLabel: Habilidad básica
-  ULTLabel: Habilidad definitiva
-  FUALabel: Ataque adicional
 StatSimulation:
   MainStatsSelection:
     BodyPlaceholder: Torso

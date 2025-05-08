@@ -476,8 +476,8 @@ interface Resources {
       },
       "AnInstantBeforeAGaze": {
         "Content": {
-          "maxEnergyUltDmgStacks": {
-            "text": "Max energy",
+          "maxEnergyDmgBoost": {
+            "text": "Max energy DMG boost",
             "content": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to 180 points of Energy."
           }
         }

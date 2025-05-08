@@ -20,7 +20,7 @@ const { Text } = Typography
 
 const characterList = Object.values(gameData.characters)
 
-type V4ParserLightCone = {
+export type V4ParserLightCone = {
   id: string
   name: string
   level: number
@@ -31,7 +31,7 @@ type V4ParserLightCone = {
   _uid: string
 }
 
-type V4ParserCharacter = {
+export type V4ParserCharacter = {
   id: string
   name: string
   path: string
@@ -40,7 +40,7 @@ type V4ParserCharacter = {
   eidolon: number
 }
 
-type V4ParserRelic = {
+export type V4ParserRelic = {
   set_id: string
   name: string
   slot: string
@@ -57,6 +57,18 @@ type V4ParserRelic = {
   lock: boolean
   discard: boolean
   _uid: string
+}
+
+export type V4ParserGachaFunds = {
+  stellar_jade: number
+  oneric_shards: number
+}
+
+export type V4ParserMaterial = {
+  id: string
+  name: string
+  count: number
+  expire_time?: number
 }
 
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
@@ -131,10 +143,12 @@ export class KelzFormatParser { // TODO abstract class
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
     parsed.metadata.current_trailblazer_path = json.metadata.current_trailblazer_path ?? PathNames.Destruction
 
+    // Reset bad roll info
+    this.badRollInfo = false
+
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => readRelic(r, this))
-        .map((r) => RelicAugmenter.augment(r))
+        .map((r) => this.parseRelic(r))
         .filter((r): r is NonNullable<typeof r> => {
           if (!r) {
             console.warn('Could not parse relic')
@@ -146,7 +160,6 @@ export class KelzFormatParser { // TODO abstract class
     // "Scanner file is outdated / may contain invalid information. Please update your scanner."
     if (this.badRollInfo) {
       Message.warning(tWarning('BadRollInfo'), 10)
-      this.badRollInfo = false // parser isn't necessarily re-instantiated in between parsings
     }
 
     if (json.characters) {
@@ -162,6 +175,15 @@ export class KelzFormatParser { // TODO abstract class
     }
 
     return parsed
+  }
+
+  parseRelic(relic: V4ParserRelic) {
+    const parsed = readRelic(relic, this)
+    return RelicAugmenter.augment(parsed) as Relic | null
+  }
+
+  parseCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
+    return readCharacter(character, lightCones) as Form | null
   }
 }
 
@@ -218,6 +240,8 @@ function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
     substats,
     equippedBy,
     verified: scanner.config.speedVerified,
+    id: relic._uid,
+    ageIndex: -relic._uid,
   } as Relic
 }
 

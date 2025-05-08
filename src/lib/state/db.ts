@@ -371,7 +371,12 @@ export const DB = {
     const addRelic = !oldRelic
 
     if (addRelic) {
-      relic.ageIndex = DB.getRelics().length
+      relic.ageIndex ??= 1 + Math.max(
+        ...DB.getRelics()
+          .map((r) => r.ageIndex)
+          .filter((x) => x != null)
+      )
+
       setRelic(relic)
       if (relic.equippedBy) {
         DB.equipRelic(relic, relic.equippedBy)
@@ -666,7 +671,7 @@ export const DB = {
     }
   },
 
-  addFromForm: (form: Form, autosave = true) => {
+  addFromForm: (form: Form, autosave = true, select = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -693,15 +698,18 @@ export const DB = {
      */
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      window.characterGrid.current.api.forEachNode((node: {
-        data: {
-          id: CharacterId
-        }
-        setSelected: (b: boolean) => void
-      }) => {
-        if (node.data.id == found.id) node.setSelected(true)
-      })
-      window.store.getState().setCharacterTabFocusCharacter(found.id)
+      const oldFocusCharacter = window.store.getState().characterTabFocusCharacter
+      if (select || !oldFocusCharacter) {
+        window.characterGrid.current.api.forEachNode((node: {
+          data: {
+            id: CharacterId
+          }
+          setSelected: (b: boolean) => void
+        }) => {
+          if (node.data.id == found.id) node.setSelected(true)
+        })
+        window.store.getState().setCharacterTabFocusCharacter(found.id)
+      }
     }
 
     if (autosave) {
@@ -910,7 +918,7 @@ export const DB = {
     // Add new characters
     if (newCharacters) {
       for (const character of newCharacters) {
-        DB.addFromForm(character, false)
+        DB.addFromForm(character, false, false)
       }
     }
 
@@ -1235,6 +1243,6 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 function indexRelics(arr: Relic[]) {
   const length = arr.length
   for (let i = 0; i < length; i++) {
-    arr[i].ageIndex = length - i - 1
+    arr[i].ageIndex ??= length - i - 1
   }
 }

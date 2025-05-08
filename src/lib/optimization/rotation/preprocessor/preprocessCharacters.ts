@@ -94,7 +94,6 @@ export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
         consumeKind: AbilityKind.FUA,
         activationFn: setComboBooleanCategoryCharacterActivation,
         key: 'blockActive',
-        isBoolean: true,
       },
     )
   }
@@ -109,7 +108,6 @@ export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
         consumeKind: AbilityKind.SKILL,
         activationFn: setComboBooleanCategoryCharacterActivation,
         key: 'enhancedSkill',
-        isBoolean: true,
       },
     )
   }

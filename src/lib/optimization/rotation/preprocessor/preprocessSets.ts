@@ -13,7 +13,6 @@ export class ScholarLostInEruditionPreprocessor extends AbilityTriggeredStackPre
         consumeKind: AbilityKind.SKILL,
         activationFn: setComboBooleanCategorySetActivation,
         key: Sets.ScholarLostInErudition,
-        isBoolean: true,
       },
     )
   }

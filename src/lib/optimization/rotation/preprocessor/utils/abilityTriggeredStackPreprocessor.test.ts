@@ -40,7 +40,6 @@ test('Boolean activation - trigger then consume', () => {
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
-      isBoolean: true,
     },
   )
 
@@ -72,7 +71,7 @@ test('Numeric activation with stacks', () => {
       maxStacks: 5,
       activationFn: mockNumberActivation,
       key: 'stacks',
-      isBoolean: false,
+      isNumber: true,
       defaultActivationValue: 21,
     },
   )
@@ -112,7 +111,6 @@ test('Stack limit enforcement', () => {
       maxStacks: 2,
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
-      isBoolean: true,
     },
   )
 
@@ -144,7 +142,6 @@ test('Reset functionality', () => {
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
-      isBoolean: true,
     },
   )
 
@@ -169,7 +166,6 @@ test('Set activation ScholarLostInErudition', () => {
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanSetActivation,
       key: TEST_SET_ID,
-      isBoolean: true,
     },
   )
 
@@ -195,7 +191,6 @@ test('Different Turn Markers should trigger the same behavior', () => {
       consumeKind: AbilityKind.SKILL,
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
-      isBoolean: true,
     },
   )
 
@@ -223,7 +218,6 @@ test('Different ability types should be properly handled', () => {
       consumeKind: AbilityKind.FUA,
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
-      isBoolean: true,
     },
   )
 
@@ -251,7 +245,7 @@ test('Multiple stack triggers', () => {
       maxStacks: 6,
       activationFn: mockNumberActivation,
       key: 'stacks',
-      isBoolean: false,
+      isNumber: true,
       defaultActivationValue: 10,
     },
   )

@@ -11,7 +11,7 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   private maxStacks: number
   private activationFn: ((comboState: ComboState, key: string, index: number, value: boolean | number) => void)
   private key: string
-  private isBoolean: boolean
+  private isNumber: boolean
   private defaultActivationValue: boolean | number
 
   defaultState = { stacks: 0 }
@@ -21,9 +21,9 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     id: string,
     options: {
       key: string
-      isBoolean: boolean
       triggerKind: AbilityKind
       consumeKind: AbilityKind
+      isNumber?: boolean
       stacksToAdd?: number
       maxStacks?: number
       defaultActivationValue?: boolean | number
@@ -34,12 +34,12 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     this.id = id
 
     this.key = options.key
-    this.isBoolean = options.isBoolean
     this.triggerKind = options.triggerKind
     this.consumeKind = options.consumeKind
+    this.isNumber = options.isNumber ?? false
     this.stacksToAdd = options.stacksToAdd ?? 1
     this.maxStacks = options.maxStacks ?? 1
-    this.defaultActivationValue = options.defaultActivationValue ?? (this.isBoolean ? false : 0)
+    this.defaultActivationValue = options.defaultActivationValue ?? (this.isNumber ? 0 : false)
     this.activationFn = options.activationFn as (comboState: ComboState, key: string, index: number, value: boolean | number) => void
   }
 
@@ -59,9 +59,9 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     if (kind === this.consumeKind) {
       const hasStacks = this.state.stacks > 0
 
-      const activationValue = this.isBoolean
-        ? hasStacks
-        : (hasStacks ? this.state.stacks : this.defaultActivationValue)
+      const activationValue = this.isNumber
+        ? (hasStacks ? this.state.stacks : this.defaultActivationValue)
+        : hasStacks
 
       // Use activation value
       this.activationFn(comboState, this.key, index, activationValue)

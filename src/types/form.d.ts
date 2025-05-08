@@ -1,4 +1,5 @@
 import { SetsOrnaments, SetsRelics } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationTypes'
@@ -93,7 +94,7 @@ export type Form = {
   comboStateJson: string
   comboTurnAbilities: TurnAbilityName[]
   comboPreprocessor: boolean
-  comboType: string
+  comboType: ComboType
   comboDot: number
 
   teammate0: Teammate

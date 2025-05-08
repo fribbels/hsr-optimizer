@@ -6,8 +6,10 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { AbilityKind, getAbilityKind, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, DEFAULT_BASIC, getAbilityKind, NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import DB from 'lib/state/db'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { CharacterId } from 'types/character'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
@@ -18,10 +20,10 @@ export function transformComboState(request: Form, context: OptimizerContext) {
   // console.log('transformComboState')
 
   if (!request.comboStateJson || request.comboStateJson == '{}') {
-    request.comboType = 'simple'
+    request.comboType = ComboType.SIMPLE
   }
 
-  if (request.comboType == 'advanced') {
+  if (request.comboType == ComboType.ADVANCED) {
     const comboState = initializeComboState(request, true)
     transformStateActions(comboState, request, context)
   } else {
@@ -293,16 +295,20 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
   }
 }
 
+export enum ComboType {
+  SIMPLE = 'simple',
+  ADVANCED = 'advanced',
+}
+
+export function getDefaultComboTurnAbilities(characterId: CharacterId) {
+  return DB.getMetadata().characters[characterId]?.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
+}
+
 export function getComboTurnAbilities(form: OptimizerForm) {
-  const comboTurnAbilities = form.comboTurnAbilities ?? [] // TODO: This should go into default form
-  const newComboTurnAbilities: TurnAbilityName[] = []
+  const comboTurnAbilities = getDefaultComboTurnAbilities(form.characterId)
+  form.comboTurnAbilities = comboTurnAbilities
 
-  // Validation of form abilities
-  for (const abilityName of comboTurnAbilities) {
-    newComboTurnAbilities.push(toTurnAbility(abilityName).name)
-  }
-
-  return newComboTurnAbilities
+  return comboTurnAbilities
 }
 
 function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {

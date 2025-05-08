@@ -2,6 +2,7 @@ import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
+import { ComboType, getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import DB from 'lib/state/db'
@@ -47,10 +48,10 @@ export const ComboFilters = () => {
           style={{ width: '100%' }}
         >
           <Flex align='center'>
-            <Radio.Button style={radioStyle} value='simple'>
+            <Radio.Button style={radioStyle} value={ComboType.SIMPLE}>
               {t('ModeSelector.Simple')}
             </Radio.Button>
-            <Radio.Button style={radioStyle} value='advanced'>
+            <Radio.Button style={radioStyle} value={ComboType.ADVANCED}>
               {t('ModeSelector.Advanced')}
             </Radio.Button>
           </Flex>
@@ -64,7 +65,7 @@ export const ComboFilters = () => {
           <Button
             onClick={() => setComboDrawerOpen(true)}
             icon={<SettingOutlined/>}
-            disabled={comboType == 'simple'}
+            disabled={comboType == ComboType.SIMPLE}
           >
             {t('RotationButton')}
           </Button>
@@ -141,9 +142,9 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   const formInstance = Form.useFormInstance<OptimizerForm>()
   const comboType = Form.useWatch('comboType', formInstance)
   const characterId = Form.useWatch('characterId', formInstance)
-  const comboTurnAbilities = DB.getMetadata().characters[characterId]?.scoringMetadata?.simulation?.comboTurnAbilities ?? []
+  const comboTurnAbilities = getDefaultComboTurnAbilities(characterId)
 
-  const disabled = comboType == 'simple'
+  const disabled = comboType == ComboType.SIMPLE
 
   return (
     <Flex style={{ height: 275 }}>
@@ -151,7 +152,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
         <HeaderText>{t('AbilityLabel')/* Abilities */} </HeaderText>
 
         {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
-          comboType == 'simple'
+          comboType == ComboType.SIMPLE
             ? <TurnAbilitySelectorSimple key={i + 1} value={comboTurnAbilities[i + 1]} index={i + 1}/>
             : (
               <ComboOptionRowSelect

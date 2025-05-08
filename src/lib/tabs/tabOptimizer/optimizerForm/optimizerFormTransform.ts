@@ -2,6 +2,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -313,7 +314,7 @@ export function formToDisplay(form: Form) {
   }
 
   if (!newForm.comboType) {
-    newForm.comboType = 'simple'
+    newForm.comboType = ComboType.SIMPLE
   }
 
   for (const [key, value] of Object.entries(newForm.setConditionals)) {

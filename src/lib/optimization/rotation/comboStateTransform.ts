@@ -33,17 +33,18 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 }
 
 function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
-  const turnAbilities = getComboTurnAbilities(request)
+  const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
+
   const actions: OptimizerAction[] = []
-  for (let i = 0; i < turnAbilities.length; i++) {
-    actions.push(transformAction(i, comboState, turnAbilities, request, context))
+  for (let i = 0; i < comboTurnAbilities.length; i++) {
+    actions.push(transformAction(i, comboState, comboTurnAbilities, request, context))
   }
 
   const characterConditionalController = CharacterConditionalsResolver.get(context)
 
   context.actions = actions
   context.dotAbilities = countDotAbilities(actions)
-  context.comboDot = request.comboDot || 0
+  context.comboDot = comboDot || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
@@ -300,15 +301,23 @@ export enum ComboType {
   ADVANCED = 'advanced',
 }
 
-export function getDefaultComboTurnAbilities(characterId: CharacterId) {
-  return DB.getMetadata().characters[characterId]?.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
+export function getDefaultComboTurnAbilities(characterId: CharacterId, characterEidolon: number) {
+  const simulation = DB.getMetadata().characters[characterId]?.scoringMetadata?.simulation
+  return {
+    comboTurnAbilities: simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
+    comboDot: simulation?.comboDot ?? 0,
+  }
 }
 
-export function getComboTurnAbilities(form: OptimizerForm) {
-  const comboTurnAbilities = getDefaultComboTurnAbilities(form.characterId)
-  form.comboTurnAbilities = comboTurnAbilities
+export function getComboTypeAbilities(form: OptimizerForm) {
+  if (form.comboType == ComboType.SIMPLE) {
+    return getDefaultComboTurnAbilities(form.characterId, form.characterEidolon)
+  }
 
-  return comboTurnAbilities
+  return {
+    comboTurnAbilities: form.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
+    comboDot: form.comboDot ?? 0,
+  }
 }
 
 function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {

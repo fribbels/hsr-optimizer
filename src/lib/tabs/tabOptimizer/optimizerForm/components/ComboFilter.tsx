@@ -142,7 +142,12 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   const formInstance = Form.useFormInstance<OptimizerForm>()
   const comboType = Form.useWatch('comboType', formInstance)
   const characterId = Form.useWatch('characterId', formInstance)
-  const comboTurnAbilities = getDefaultComboTurnAbilities(characterId)
+  const characterEidolon = Form.useWatch('characterEidolon', formInstance)
+
+  const {
+    comboTurnAbilities,
+    comboDot,
+  } = getDefaultComboTurnAbilities(characterId, characterEidolon)
 
   const disabled = comboType == ComboType.SIMPLE
 
@@ -204,7 +209,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
 
         <Flex vertical gap={5}>
           <HeaderText>{t('CounterLabels.Dot')}</HeaderText>
-          <NumberXInput name='comboDot' disabled={disabled}/>
+          <NumberXInput name='comboDot' disabled={disabled} value={comboDot}/>
         </Flex>
       </Flex>
     </Flex>
@@ -232,17 +237,30 @@ function ComboOptionRowSelect(props: { index: number; disabled: boolean; comboOp
   )
 }
 
-function NumberXInput(props: { name: string; disabled: boolean }) {
+function NumberXInput(props: {
+  name: string
+  disabled: boolean
+  value?: number
+}) {
+  const input = (
+    <InputNumberStyled
+      addonBefore='⨯'
+      size='small'
+      controls={true}
+      disabled={props.disabled}
+      value={props.disabled ? props.value : undefined}
+      style={{ width: '100%' }}
+      rootClassName='comboInputNumber'
+    />
+  )
+
+  if (props.disabled) {
+    return input
+  }
+
   return (
     <Form.Item name={props.name}>
-      <InputNumberStyled
-        addonBefore='⨯'
-        size='small'
-        controls={true}
-        disabled={props.disabled}
-        style={{ width: '100%' }}
-        rootClassName='comboInputNumber'
-      />
+      {input}
     </Form.Item>
   )
 }

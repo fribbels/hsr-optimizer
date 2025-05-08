@@ -37,7 +37,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentCrStackValue = talent(e, 0.025, 0.028)
 
   const defaults = {
-    ultEnhanced: true,
+    ultEnhanced: false,
     talentStacks: talentMaxStacks,
     ultEnhancedExtraHits: 6,
     e2UltAtkBuff: true,

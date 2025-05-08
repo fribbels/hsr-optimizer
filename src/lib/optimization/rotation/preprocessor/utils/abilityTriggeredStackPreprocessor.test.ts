@@ -36,8 +36,8 @@ test('Boolean activation - trigger then consume', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     TEST_CHARACTER_ID,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.SKILL,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.SKILL],
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
     },
@@ -65,8 +65,8 @@ test('Numeric activation with stacks', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     TEST_CHARACTER_ID,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.SKILL,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.SKILL],
       stacksToAdd: 3,
       maxStacks: 5,
       activationFn: mockNumberActivation,
@@ -106,8 +106,8 @@ test('Stack limit enforcement', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     TEST_CHARACTER_ID,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.SKILL,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.SKILL],
       maxStacks: 2,
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
@@ -138,8 +138,8 @@ test('Reset functionality', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     TEST_CHARACTER_ID,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.SKILL,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.SKILL],
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
     },
@@ -162,8 +162,8 @@ test('Set activation ScholarLostInErudition', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     Sets.ScholarLostInErudition,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.SKILL,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.SKILL],
       activationFn: mockBooleanSetActivation,
       key: TEST_SET_ID,
     },
@@ -187,8 +187,8 @@ test('Different Turn Markers should trigger the same behavior', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     TEST_CHARACTER_ID,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.SKILL,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.SKILL],
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
     },
@@ -214,8 +214,8 @@ test('Different ability types should be properly handled', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     TEST_CHARACTER_ID,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.FUA,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.FUA],
       activationFn: mockBooleanCharacterActivation,
       key: 'enhancedAbility',
     },
@@ -239,8 +239,8 @@ test('Multiple stack triggers', () => {
   const preprocessor = new AbilityTriggeredStackPreprocessor(
     TEST_CHARACTER_ID,
     {
-      triggerKind: AbilityKind.ULT,
-      consumeKind: AbilityKind.SKILL,
+      triggerKinds: [AbilityKind.ULT],
+      consumeKinds: [AbilityKind.SKILL],
       stacksToAdd: 2,
       maxStacks: 6,
       activationFn: mockNumberActivation,

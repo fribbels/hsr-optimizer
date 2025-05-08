@@ -30,16 +30,8 @@ Guidelines:
 ```
 
 
-Hook - [ ULT, SKILL ], [ SKILL ], [ SKILL ], [ SKILL ] // added 1 skill
-+ preprocessor? //Y
-
-
-
 Glacial
 4-Pc: After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turn(s).
-
-Firesmith
-4-Pc: Increases DMG by the wearer's Skill by 12%. After unleashing Ultimate, increases the wearer's Fire DMG by 12% for the next attack.
 
 Thunder
 4-Pc: When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn(s).
@@ -55,3 +47,6 @@ Valorous
 
 Captain
 4-Pc: When the wearer becomes the target of another ally target's ability, gains 1 stack of "Help," stacking up to 2 time(s). If there are 2 stack(s) of "Help" when the wearer uses their Ultimate, consumes all "Help" to increase the wearer's ATK by 48% for 1 turn(s).
+
+Firesmith
+4-Pc: Increases DMG by the wearer's Skill by 12%. After unleashing Ultimate, increases the wearer's Fire DMG by 12% for the next attack.

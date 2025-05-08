@@ -90,8 +90,8 @@ export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
     super(
       YUNLI,
       {
-        triggerKind: AbilityKind.ULT,
-        consumeKind: AbilityKind.FUA,
+        triggerKinds: AbilityKind.ULT,
+        consumeKinds: AbilityKind.FUA,
         activationFn: setComboBooleanCategoryCharacterActivation,
         key: 'blockActive',
       },
@@ -104,8 +104,8 @@ export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
     super(
       HOOK,
       {
-        triggerKind: AbilityKind.ULT,
-        consumeKind: AbilityKind.SKILL,
+        triggerKinds: AbilityKind.ULT,
+        consumeKinds: AbilityKind.SKILL,
         activationFn: setComboBooleanCategoryCharacterActivation,
         key: 'enhancedSkill',
       },

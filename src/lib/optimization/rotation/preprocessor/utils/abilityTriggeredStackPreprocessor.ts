@@ -5,8 +5,8 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   id: string
 
-  private triggerKind: AbilityKind
-  private consumeKind: AbilityKind
+  private triggerKinds: AbilityKind[]
+  private consumeKinds: AbilityKind[]
   private stacksToAdd: number
   private maxStacks: number
   private activationFn: ((comboState: ComboState, key: string, index: number, value: boolean | number) => void)
@@ -21,8 +21,8 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     id: string,
     options: {
       key: string
-      triggerKind: AbilityKind
-      consumeKind: AbilityKind
+      triggerKinds: AbilityKind[]
+      consumeKinds: AbilityKind[]
       isNumber?: boolean
       stacksToAdd?: number
       maxStacks?: number
@@ -34,8 +34,8 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     this.id = id
 
     this.key = options.key
-    this.triggerKind = options.triggerKind
-    this.consumeKind = options.consumeKind
+    this.triggerKinds = options.triggerKinds
+    this.consumeKinds = options.consumeKinds
     this.isNumber = options.isNumber ?? false
     this.stacksToAdd = options.stacksToAdd ?? 1
     this.maxStacks = options.maxStacks ?? 1
@@ -51,12 +51,12 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     const { kind } = turnAbility
 
     // Handle trigger ability
-    if (kind === this.triggerKind) {
+    if (this.triggerKinds.includes(kind)) {
       this.state.stacks = Math.min(this.maxStacks, this.state.stacks + this.stacksToAdd)
     }
 
     // Handle consume ability
-    if (kind === this.consumeKind) {
+    if (this.consumeKinds.includes(kind)) {
       const hasStacks = this.state.stacks > 0
 
       const activationValue = this.isNumber

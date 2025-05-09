@@ -110,6 +110,13 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
     return true
   }
 
+  const scoringMetadata = DB.getScoringMetadata(benchmarkForm.characterId)
+  const simulationMetadata = scoringMetadata?.simulation
+  if (!simulationMetadata) {
+    Message.error('DPS benchmarks are not supported for this character', 10)
+    return true
+  }
+
   if (benchmarkForm.basicSpd == null) {
     Message.error('Select the target benchmark basic SPD', 10)
     return true

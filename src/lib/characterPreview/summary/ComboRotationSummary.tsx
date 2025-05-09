@@ -1,6 +1,7 @@
 import { Flex } from 'antd'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { abilityNameToVisual, NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { NULL_TURN_ABILITY_NAME, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { useTranslation } from 'react-i18next'
 import { SimulationMetadata } from 'types/metadata'
 
@@ -38,7 +39,7 @@ function ScoringAbility(props: {
   const abilityName = props.comboTurnAbilities[props.index]
   if (!abilityName || abilityName == NULL_TURN_ABILITY_NAME) return <></>
 
-  const displayValue = abilityNameToVisual(abilityName)
+  const displayValue = toI18NVisual(toTurnAbility(abilityName))
 
   return (
     <Flex align='center' gap={15}>

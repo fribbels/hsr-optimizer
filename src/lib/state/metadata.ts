@@ -1945,6 +1945,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -1987,6 +1988,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_FUA,
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -2000,7 +2002,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // Therta
+            characterId: '1401', // The Herta
             lightCone: '23037', // Unreachable Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -2237,7 +2239,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // Therta
+            characterId: '1401', // The Herta
             lightCone: '23037', // Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -4819,7 +4821,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // Therta
+            characterId: '1401', // The Herta
             lightCone: '23037', // Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -5682,7 +5684,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // Therta
+            characterId: '1401', // The Herta
             lightCone: '23037', // Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,

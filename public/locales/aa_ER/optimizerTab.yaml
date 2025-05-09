@@ -408,12 +408,14 @@ ComboFilter:
       Description: crwdns43264:0crwdne43264:0
   CounterLabels:
     Dot: crwdns43266:0crwdne43266:0
-    Break: crwdns43268:0crwdne43268:0
   ComboOptions:
+    None: 'crwdns45228:0crwdne45228:0'
     Basic: crwdns43270:0crwdne43270:0
     Skill: crwdns43272:0crwdne43272:0
     Ult: crwdns43274:0crwdne43274:0
     Fua: crwdns43276:0crwdne43276:0
+    Dot: crwdns45230:0crwdne45230:0
+    Break: crwdns45232:0crwdne45232:0
     MemoSkill: crwdns43278:0crwdne43278:0
     MemoTalent: crwdns44764:0crwdne44764:0
   RotationButton: crwdns43280:0crwdne43280:0
@@ -455,6 +457,10 @@ TeammateCard:
       Desc: "crwdns43330:0$t(gameData:RelicSets.121.Name)crwdne43330:0"
       Set: "crwdns43332:0$t(gameData:RelicSets.121.Name)crwdne43332:0"
       Text: crwdns43334:0crwdne43334:0
+    Warrior:
+      Desc: "crwdns45234:0$t(gameData:RelicSets.125.Name)crwdne45234:0"
+      Set: "crwdns45236:0$t(gameData:RelicSets.125.Name)crwdne45236:0"
+      Text: crwdns45238:0crwdne45238:0
     Keel:
       Desc: "crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0"
       Set: "crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0"

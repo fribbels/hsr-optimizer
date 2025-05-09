@@ -245,6 +245,7 @@ interface Resources {
     "Save": "Save",
     "Score": "Score",
     "Reset": "Reset",
+    "Auto": "Auto",
     "EidolonNShort": "E{{eidolon}}",
     "SuperimpositionNShort": "S{{superimposition}}",
     "LevelShort": "Lv{{level}}",
@@ -475,8 +476,8 @@ interface Resources {
       },
       "AnInstantBeforeAGaze": {
         "Content": {
-          "maxEnergyUltDmgStacks": {
-            "text": "Max energy",
+          "maxEnergyDmgBoost": {
+            "text": "Max energy DMG boost",
             "content": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to 180 points of Energy."
           }
         }
@@ -5204,14 +5205,16 @@ interface Resources {
         }
       },
       "CounterLabels": {
-        "Dot": "Dots",
-        "Break": "Breaks"
+        "Dot": "Dots"
       },
       "ComboOptions": {
+        "None": "None",
         "Basic": "Basic",
         "Skill": "Skill",
         "Ult": "Ult",
         "Fua": "Fua",
+        "Dot": "Dot",
+        "Break": "Break",
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ"
       },
@@ -5259,6 +5262,11 @@ interface Resources {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)",
           "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "36% CD"
+        },
+        "Warrior": {
+          "Desc": "$t(gameData:RelicSets.125.Name) (+15% CD)",
+          "Set": "$t(gameData:RelicSets.125.Name)",
+          "Text": "15% CD"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",

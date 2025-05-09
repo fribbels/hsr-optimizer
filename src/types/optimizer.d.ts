@@ -3,6 +3,7 @@ import { ElementName, PathName } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterId } from 'types/character'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { LightCone } from 'types/lightCone'
@@ -24,7 +25,7 @@ export type OptimizerAction = {
   }
 
   actorId: string
-  actionType: string
+  actionType: AbilityKind
   actionIndex: number
 
   teammate0: TeammateAction
@@ -55,6 +56,8 @@ export type SetConditional = {
   enabledTheWondrousBananAmusementPark: boolean
   enabledScholarLostInErudition: boolean
   enabledHeroOfTriumphantSong: boolean
+  enabledWarriorGoddessOfSunAndThunder: boolean
+  enabledWavestriderCaptain: boolean
   valueChampionOfStreetwiseBoxing: number
   valueWastelanderOfBanditryDesert: number
   valueLongevousDisciple: number
@@ -104,8 +107,6 @@ export type OptimizerContext = CharacterMetadata & {
   // Optimizer environment
   resultsLimit: number
   resultSort: string
-  minFilters: OptimizerMinFilters
-  maxFilters: OptimizerMaxFilters
   combatBuffs: OptimizerCombatBuffs
   deprioritizeBuffs: boolean
 
@@ -135,15 +136,12 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilities: AbilityType[]
   activeAbilityFlags: number
   actions: OptimizerAction[]
-  comboBreak: number
   comboDot: number
+  dotAbilities: number
 
   characterConditionalController: CharacterConditionalsController
   lightConeConditionalController: LightConeConditionalsController
 }
-
-export type OptimizerMinFilters = {}
-export type OptimizerMaxFilters = {}
 
 export type OptimizerCombatBuffs = {
   ATK: number

@@ -20,8 +20,8 @@ const config = tseslint.config(
   {
     files: ['{src,tests-webgpu}/**/*.{ts,tsx}'],
     extends: [
-      ...tseslint.configs.recommendedTypeCheckedOnly,
-      ...tseslint.configs.stylisticTypeCheckedOnly,
+      // ...tseslint.configs.recommendedTypeCheckedOnly,
+      // ...tseslint.configs.stylisticTypeCheckedOnly,
 
     ],
   },
@@ -34,7 +34,8 @@ const config = tseslint.config(
     files: ['{src,tests-webgpu}/**/*.{js,ts,jsx,tsx}'],
     languageOptions: {
       parserOptions: {
-        project: true,
+        projectService: true,
+        // project: true,
       },
       globals: {
         ...globals.browser,

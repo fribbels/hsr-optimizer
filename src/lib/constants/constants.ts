@@ -390,6 +390,8 @@ export const SetsRelics = {
   ScholarLostInErudition: 'Scholar Lost in Erudition',
   HeroOfTriumphantSong: 'Hero of Triumphant Song',
   PoetOfMourningCollapse: 'Poet of Mourning Collapse',
+  WarriorGoddessOfSunAndThunder: 'Warrior Goddess of Sun and Thunder',
+  WavestriderCaptain: 'Wavestrider Captain',
 } as const
 
 export const SetsOrnaments = {
@@ -657,6 +659,8 @@ export const setToId = {
   [Sets.ScholarLostInErudition]: '122',
   [Sets.HeroOfTriumphantSong]: '123',
   [Sets.PoetOfMourningCollapse]: '124',
+  [Sets.WarriorGoddessOfSunAndThunder]: '125',
+  [Sets.WavestriderCaptain]: '126',
 
   [Sets.SpaceSealingStation]: '301',
   [Sets.FleetOfTheAgeless]: '302',
@@ -679,6 +683,8 @@ export const setToId = {
   [Sets.BoneCollectionsSereneDemesne]: '319',
   [Sets.GiantTreeOfRaptBrooding]: '320',
 } as const
+
+export const ABILITY_LIMIT = 12
 
 export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
 

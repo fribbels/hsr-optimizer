@@ -429,12 +429,14 @@ ComboFilter:
       Description: Reset all Simple / Advanced rotation settings to default?
   CounterLabels:
     Dot: Dots
-    Break: Breaks
   ComboOptions:
+    None: 'None'
     Basic: Basic
     Skill: Skill
     Ult: Ult
     Fua: Fua
+    Dot: Dot
+    Break: Break
     MemoSkill: Skillᴹ
     MemoTalent: Talentᴹ
   RotationButton: Advanced rotation
@@ -476,6 +478,10 @@ TeammateCard:
       Desc: "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)"
       Set: "$t(gameData:RelicSets.121.Name)"
       Text: 36% CD
+    Warrior:
+      Desc: "$t(gameData:RelicSets.125.Name) (+15% CD)"
+      Set: "$t(gameData:RelicSets.125.Name)"
+      Text: 15% CD
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) (+10% CD)"
       Set: "$t(gameData:RelicSets.310.Name)"

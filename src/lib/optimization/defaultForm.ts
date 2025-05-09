@@ -1,4 +1,6 @@
 import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -71,9 +73,10 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     teammate0: defaultTeammate() as Teammate,
     teammate1: defaultTeammate() as Teammate,
     teammate2: defaultTeammate() as Teammate,
-    resultSort: scoringMetadata?.sortOption.key,
+    resultSort: scoringMetadata?.simulation ? SortOption.COMBO.key : scoringMetadata?.sortOption.key,
     resultsLimit: 1024,
     combatBuffs: combatBuffs,
+    comboType: ComboType.SIMPLE,
     combo: {
       BASIC: 0,
       SKILL: 0,
@@ -83,16 +86,16 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
       BREAK: 0,
     },
     comboStateJson: '{}',
+    comboPreprocessor: true,
     ...defaultEnemyOptions(),
   })
 
   applySetConditionalPresets(defaultForm as Form)
   applyScoringMetadataPresets(defaultForm as Form)
 
-  if (scoringMetadata?.simulation?.comboAbilities) {
-    defaultForm.comboAbilities = scoringMetadata.simulation.comboAbilities
+  if (scoringMetadata?.simulation?.comboTurnAbilities) {
+    defaultForm.comboTurnAbilities = scoringMetadata.simulation.comboTurnAbilities
     defaultForm.comboDot = scoringMetadata.simulation.comboDot
-    defaultForm.comboBreak = scoringMetadata.simulation.comboBreak
   }
 
   return defaultForm as Form
@@ -145,6 +148,8 @@ export const defaultSetConditionals = {
   [Sets.ScholarLostInErudition]: [undefined, true],
   [Sets.HeroOfTriumphantSong]: [undefined, false],
   [Sets.PoetOfMourningCollapse]: [undefined, true],
+  [Sets.WarriorGoddessOfSunAndThunder]: [undefined, false],
+  [Sets.WavestriderCaptain]: [undefined, true],
 
   [Sets.SpaceSealingStation]: [undefined, true],
   [Sets.FleetOfTheAgeless]: [undefined, true],

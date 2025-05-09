@@ -3,6 +3,7 @@ import { expectBenchmarkResultsToMatch } from 'lib/simulations/tests/customBench
 import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
 import {
   A_GROUNDED_ASCENT,
+  ANAXA,
   BLACK_SWAN,
   BOOTHILL,
   FIREFLY,
@@ -10,6 +11,7 @@ import {
   HUOHUO,
   INTO_THE_UNREACHABLE_VEIL,
   KAFKA,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES,
   LINGSHA,
   MEMORIES_OF_THE_PAST,
   NIGHT_OF_FRIGHT,
@@ -32,54 +34,71 @@ import { test } from 'vitest'
 
 Metadata.initialize()
 
-test('Kafka benchmark 0', async () => {
+test('Anaxa benchmark 0', async () => {
   await expectBenchmarkResultsToMatch(
     0,
     generateE6S5Test({
-      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
-      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
-      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      character: testCharacter(ANAXA, LIFE_SHOULD_BE_CAST_TO_FLAMES),
+      teammate0: testCharacter(SUNDAY, A_GROUNDED_ASCENT),
+      teammate1: testCharacter(ROBIN, FLOWING_NIGHTGLOW),
       teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
-      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
+      mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    2362779.75,
-    2704018,
+    6395631,
+    7780659.5,
   )
 })
 
-test('Kafka benchmark 150', async () => {
+test('Anaxa benchmark 133.333', async () => {
   await expectBenchmarkResultsToMatch(
-    150,
+    133.333,
     generateE6S5Test({
-      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
-      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
-      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      character: testCharacter(ANAXA, LIFE_SHOULD_BE_CAST_TO_FLAMES),
+      teammate0: testCharacter(SUNDAY, A_GROUNDED_ASCENT),
+      teammate1: testCharacter(ROBIN, FLOWING_NIGHTGLOW),
       teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
-      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
+      mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    2192571.75,
-    2651803.75,
+    5640659,
+    7208698.5,
   )
 })
 
-test('Kafka benchmark 200', async () => {
+test('Anaxa benchmark 200 captain', async () => {
   await expectBenchmarkResultsToMatch(
     200,
     generateE6S5Test({
-      character: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
-      teammate0: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
-      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      character: testCharacter(ANAXA, LIFE_SHOULD_BE_CAST_TO_FLAMES),
+      teammate0: testCharacter(SUNDAY, A_GROUNDED_ASCENT),
+      teammate1: testCharacter(ROBIN, FLOWING_NIGHTGLOW),
       teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-      sets: testSets(Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement, Sets.FirmamentFrontlineGlamoth),
-      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
+      mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1969118.75,
-    2194457.25,
+    4676874,
+    5579553.5,
+  )
+})
+
+test('Black Swan benchmark 0 captain', async () => {
+  await expectBenchmarkResultsToMatch(
+    0,
+    generateE6S5Test({
+      character: testCharacter(BLACK_SWAN, REFORGED_REMEMBRANCE),
+      teammate0: testCharacter(KAFKA, PATIENCE_IS_ALL_YOU_NEED),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      sets: testSets(Sets.WavestriderCaptain, Sets.WavestriderCaptain, Sets.FirmamentFrontlineGlamoth),
+      mains: testMains(Stats.ATK_P, Stats.ATK_P, Stats.Wind_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    2903651.344964308,
+    3281611.25,
   )
 })
 
@@ -97,8 +116,8 @@ test('Firefly benchmark 160', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    3765406,
-    4595097.5,
+    4879910.5,
+    5954549.5,
   )
 })
 
@@ -116,8 +135,8 @@ test('The herta benchmark 100', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    2837405,
-    3546020.5,
+    4624902,
+    5779927.5,
   )
 })
 
@@ -133,8 +152,8 @@ test('The herta benchmark 100 err', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ERR),
       stats: testStatSpread(),
     }),
-    2608734.5,
-    3268191,
+    4252174,
+    5327072.5,
   )
 })
 
@@ -150,7 +169,7 @@ test('Boothill benchmark 0', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    5680565,
-    6718506,
+    6097738,
+    7207996,
   )
 })

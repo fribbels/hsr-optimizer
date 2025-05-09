@@ -127,6 +127,14 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     type: ConditionalDataType.BOOLEAN,
     modifiable: false,
   },
+  [Sets.WarriorGoddessOfSunAndThunder]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
+  [Sets.WavestriderCaptain]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
 
   // Ornaments
 

@@ -312,9 +312,20 @@ export function FormSetConditionals() {
             conditional={t('Conditionals.DefaultMessage')}
             p4Checked
           />
+          <ConditionalSetOption
+            set={Constants.Sets.WarriorGoddessOfSunAndThunder}
+            description={t('RelicDescription', { id: 125 })}
+            conditional={t('Conditionals.DefaultMessage')}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.WavestriderCaptain}
+            description={t('RelicDescription', { id: 126 })}
+            conditional={t('Conditionals.DefaultMessage')}
+            p4Checked
+          />
         </Flex>
 
-        <VerticalDivider/>
+        <VerticalDivider />
 
         <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
           <Flex gap={defaultGap} align='center' justify='flex-start'>
@@ -464,7 +475,7 @@ function ConditionalSetOption(props) {
 
   if (Constants.SetsRelicsNames.includes(props.set)) {
     // Relics
-    let inputType = (<Switch disabled={props.p4Checked}/>)
+    let inputType = (<Switch disabled={props.p4Checked} />)
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -517,7 +528,7 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
-    let inputType = (<Switch disabled={props.p2Checked}/>)
+    let inputType = (<Switch disabled={props.p2Checked} />)
     if (props.selectOptions) {
       inputType = (
         <Select

@@ -2,17 +2,39 @@ import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
+import { ABILITY_LIMIT, ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
+import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import { Assets } from 'lib/rendering/assets'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
-import { ComboBooleanConditional, ComboCharacter, ComboConditionalCategory, ComboConditionals, ComboNumberConditional, ComboSelectConditional, ComboState, ComboSubNumberConditional, ComboTeammate, initializeComboState, locateActivations, updateAbilityRotation, updateActivation, updateAddPartition, updateDeletePartition, updateFormState, updateNumberDefaultSelection, updatePartitionActivation, updateSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  ComboBooleanConditional,
+  ComboCharacter,
+  ComboConditionalCategory,
+  ComboConditionals,
+  ComboNumberConditional,
+  ComboSelectConditional,
+  ComboState,
+  ComboSubNumberConditional,
+  ComboTeammate,
+  initializeComboState,
+  locateActivations,
+  updateActivation,
+  updateAddPartition,
+  updateDeletePartition,
+  updateFormState,
+  updateNumberDefaultSelection,
+  updatePartitionActivation,
+  updateSelectedSets,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
+import { ControlledTurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
@@ -35,18 +57,24 @@ export function ComboDrawer() {
   const setComboState = window.store((s) => s.setComboState)
 
   const selectActivationState = useRef(true)
-  const lastSelectedKeyState = useRef(undefined)
+  const lastSelectedKeyState = useRef<string | undefined>(undefined)
 
   useEffect(() => {
+    if (!comboState || !comboState.comboTurnAbilities) return
+
     if (comboDrawerOpen) {
       lockScroll()
+
       const form = OptimizerTabController.getForm()
       if (!form?.characterId || !form.characterConditionals) return
 
       const comboState = initializeComboState(form, true)
+      comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
       setComboState(comboState)
     } else {
       unlockScroll()
+
+      comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
       updateFormState(comboState)
     }
   }, [formValues, comboDrawerOpen])
@@ -57,15 +85,10 @@ export function ComboDrawer() {
       placement='right'
       onClose={() => setComboDrawerOpen(false)}
       open={comboDrawerOpen}
-      width={1200}
-      className='.comboDrawer'
-      extra={(
-        <Flex style={{ width: 767 }} align='center'>
-          <ComboHeader comboState={comboState}/>
-        </Flex>
-      )}
+      width={1625}
+      className='comboDrawer'
     >
-      <div style={{ width: 1075, height: '100%' }}>
+      <div style={{ width: 1560, height: '100%' }}>
         <StateDisplay comboState={comboState}/>
         <Selecto
           className='selecto-selection'
@@ -88,14 +111,16 @@ export function ComboDrawer() {
           // The rate at which the target overlaps the drag area to be selected. (default: 100)
           hitRate={0}
           onDrag={(e) => {
-            const selectedKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const selectedKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
             if (selectedKey != lastSelectedKeyState.current) {
               updatePartitionActivation(selectedKey, comboState)
               lastSelectedKeyState.current = selectedKey
             }
           }}
           onDragStart={(e) => {
-            const startKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const startKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
             const located = locateActivations(startKey, comboState)
 
             selectActivationState.current = !(located && located.value)
@@ -113,7 +138,8 @@ export function ComboDrawer() {
               updateActivation(elementToDataKey(el), selectActivationState.current, newState)
             })
 
-            const selectedKey = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const selectedKey: string = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
             if (selectedKey != lastSelectedKeyState.current) {
               updatePartitionActivation(selectedKey, comboState)
               lastSelectedKeyState.current = selectedKey
@@ -141,42 +167,22 @@ function ComboDrawerTitle() {
 }
 
 function AbilitySelector(props: {
-  comboAbilities: string[]
+  comboTurnAbilities: TurnAbilityName[]
   index: number
-  abilitySelectOptions: {
-    value: string
-    label: string
-    display: string
-  }[]
 }) {
   if (props.index == 0) return <></>
 
   return (
-    <Select
-      dropdownStyle={{ width: 'fit-content' }}
+    <ControlledTurnAbilitySelector
+      index={props.index}
+      value={props.comboTurnAbilities[props.index]}
       style={{ width: abilityWidth }}
-      listHeight={800}
-      optionLabelProp='display'
-      options={props.abilitySelectOptions}
-      placement='bottomLeft'
-      value={props.comboAbilities[props.index]}
-      allowClear={true}
-      onSelect={(value: string) => {
-        updateAbilityRotation(props.index, value)
-      }}
-      onDeselect={(value: string) => {
-
-      }}
-      onClear={() => {
-        // @ts-ignore
-        updateAbilityRotation(props.index, null)
-      }}
     />
   )
 }
 
-const abilityWidth = 70
-const abilityGap = 6
+const abilityGap = 5
+const abilityWidth = 90 - abilityGap
 
 export const abilitySelectOptions = [
   {
@@ -209,35 +215,23 @@ function ComboHeader(props: {
   comboState: ComboState
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
-  const comboAbilities = props.comboState.comboAbilities
-  const selectOptions = useMemo(() => {
-    const selectOptions: {
-      value: string
-      label: string
-      display: string
-    }[] = []
-    for (const option of abilitySelectOptions) {
-      selectOptions.push(
-        {
-          value: option.value,
-          label: t(`${option.label}` as never),
-          display: t(`${option.label}` as never),
-        },
-      )
-    }
-    return selectOptions
-  }, [t])
+  const { t: tCommon } = useTranslation('common')
+  const comboTurnAbilities = props.comboState.comboTurnAbilities
 
-  if (!comboAbilities) return <></>
+  if (!comboTurnAbilities) return <></>
 
-  const length = comboAbilities.length
-  const render = Array(Math.min(9, length + 1)).fill(false).map((value, index) => (
-    <AbilitySelector comboAbilities={comboAbilities} index={index} key={index} abilitySelectOptions={selectOptions}/>
-  ))
+  const length = comboTurnAbilities.length
+  const render: ReactElement[] = [
+    <div key='controls' style={{ width: 380 }}>
+    </div>,
+    <div key='base' style={{ width: abilityWidth }}/>,
+    ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
+      .fill(false)
+      .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index}/>),
+  ]
 
   return (
-    <Flex gap={abilityGap}>
-      <div style={{ width: abilityWidth }}/>
+    <Flex gap={abilityGap} align='center'>
       {render}
     </Flex>
   )
@@ -282,7 +276,6 @@ function SetSelector(props: {
       placement='topRight'
       value={props.selected ?? []}
       onSelect={(value: string) => {
-        const selected = [...props.selected, value]
         props.submit([...props.selected, value])
       }}
       onDeselect={(value: string) => {
@@ -358,11 +351,25 @@ function StateDisplay(props: {
   const comboTeammate0 = props.comboState?.comboTeammate0
   const comboTeammate1 = props.comboState?.comboTeammate1
   const comboTeammate2 = props.comboState?.comboTeammate2
-  const actionCount = props.comboState?.comboAbilities?.length || 0
+  const actionCount = props.comboState?.comboTurnAbilities?.length || 0
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   return (
     <Flex vertical gap={8}>
+      <Flex
+        style={{
+          position: 'sticky',
+          backgroundColor: '#2A3C64',
+          top: 0,
+          zIndex: 10,
+          paddingTop: 6,
+          paddingBottom: 6,
+        }}
+        align='center'
+      >
+        <ComboHeader comboState={props.comboState}/>
+      </Flex>
+
       <ComboConditionalsGroupRow
         comboOrigin={comboCharacter}
         actionCount={actionCount}
@@ -846,7 +853,10 @@ function Partition(props: {
   return (
     <Flex key={props.partitionIndex} style={{ height: 45 }}>
       {render}
-      <BoxArray activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys} partition={true}/>
+      <BoxArray
+        activations={props.activations} actionCount={props.actionCount} dataKeys={dataKeys}
+        partition={true}
+      />
     </Flex>
   )
 }
@@ -1028,7 +1038,7 @@ const BoxComponent = React.memo(
       <div
         className={classnames}
         data-key={props.dataKey}
-        style={{ width: 75, marginLeft: -1, marginTop: -1 }}
+        style={{ width: 90 - 1, marginLeft: -1, marginTop: -1 }}
       >
       </div>
     )

@@ -156,18 +156,22 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
       <Flex vertical flex={1} style={{ marginLeft: 2 }} gap={3}>
         <HeaderText>{t('AbilityLabel')/* Abilities */} </HeaderText>
 
-        {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
-          comboType == ComboType.SIMPLE
-            ? <TurnAbilitySelectorSimple key={i + 1} value={comboTurnAbilities[i + 1]} index={i + 1}/>
-            : (
-              <ComboOptionRowSelect
-                key={i + 1}
-                index={i + 1}
-                comboOptions={props.comboOptions}
-                disabled={disabled}
-              />
-            )
-        ))}
+        <Flex vertical flex={1} style={{ marginLeft: 2, display: comboType == ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
+          {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
+            <ComboOptionRowSelect
+              key={i + 1}
+              index={i + 1}
+              comboOptions={props.comboOptions}
+              disabled={disabled}
+            />
+          ))}
+        </Flex>
+
+        <Flex vertical flex={1} style={{ marginLeft: 2, display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
+          {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
+            <TurnAbilitySelectorSimple key={i + 1} value={comboTurnAbilities[i + 1]} index={i + 1}/>
+          ))}
+        </Flex>
       </Flex>
 
       <VerticalDivider width={10}/>

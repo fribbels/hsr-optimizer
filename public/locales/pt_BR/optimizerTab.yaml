@@ -428,12 +428,14 @@ ComboFilter:
       Description: Redefinir todas as configurações de rotação simples/avançadas para o padrão?
   CounterLabels:
     Dot: DOTs
-    Break: Quebras
   ComboOptions:
+    None: 'Nenhum'
     Basic: Basic
     Skill: Skill
     Ult: Ult
     Fua: FuA
+    Dot: Dot
+    Break: Quebra
     MemoSkill: Períciaᴹ
     MemoTalent: Talentoᴹ
   RotationButton: Rotação avançada

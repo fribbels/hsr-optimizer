@@ -428,12 +428,14 @@ ComboFilter:
       Description: Réinitialiser tous les paramètres de rotation Simple / Avancé?
   CounterLabels:
     Dot: Dsd
-    Break: Ruptures
   ComboOptions:
+    None: 'Aucun'
     Basic: Norm
     Skill: Comp
     Ult: Ult
     Fua: Ads
+    Dot: DsD
+    Break: Rupture
     MemoSkill: Compᴹ
     MemoTalent: Talentᴹ
   RotationButton: Rotation avancée

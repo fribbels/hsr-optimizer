@@ -245,7 +245,6 @@ interface Resources {
     "Save": "Save",
     "Score": "Score",
     "Reset": "Reset",
-    "Auto": "Auto",
     "EidolonNShort": "E{{eidolon}}",
     "SuperimpositionNShort": "S{{superimposition}}",
     "LevelShort": "Lv{{level}}",
@@ -670,6 +669,20 @@ interface Resources {
           }
         }
       },
+      "LiesAflutterInTheWind": {
+        "Content": {
+          "defPen": {
+            "text": "DEF PEN",
+            "content": "After the wearer uses an attack, there is a 120% base chance to inflict the \"Bamboozle\" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the \"Theft\" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns."
+          }
+        },
+        "TeammateContent": {
+          "additionalDefPen": {
+            "text": "SPD > 170",
+            "content": "After the wearer uses an attack, there is a 120% base chance to inflict the \"Bamboozle\" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the \"Theft\" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns."
+          }
+        }
+      },
       "LifeShouldBeCastToFlames": {
         "Content": {
           "dmgBoost": {
@@ -695,6 +708,14 @@ interface Resources {
           "deathFlower": {
             "text": "Death Flower DEF PEN",
             "content": "When the wearer or their memosprite loses HP during their own turn, the wearer gains \"Death Flower,\" which allows the wearer and their memosprite to ignore {{DefIgnore}}% of the target's DEF when dealing DMG, lasting for 2 turns."
+          }
+        }
+      },
+      "MayRainbowsRemainInTheSky": {
+        "Content": {
+          "vulnerability": {
+            "text": "Vulnerability",
+            "content": "When the wearer's memosprite uses Memosprite Skill, increases the DMG taken by all enemies by {{Vulnerability}}% for 2 turns. The same types of effects cannot stack."
           }
         }
       },
@@ -1756,6 +1777,42 @@ interface Resources {
           }
         }
       },
+      "Cipher": {
+        "Content": {
+          "vulnerability": {
+            "text": null,
+            "content": null
+          },
+          "skillAtkBuff": {
+            "text": null,
+            "content": null
+          },
+          "fuaCdBoost": {
+            "text": null,
+            "content": null
+          },
+          "spdBasedBuffs": {
+            "text": null,
+            "content": null
+          },
+          "e1AtkBuff": {
+            "text": null,
+            "content": null
+          },
+          "e2Vulnerability": {
+            "text": null,
+            "content": null
+          },
+          "e4AdditionalDmg": {
+            "text": null,
+            "content": null
+          },
+          "e6FuaDmg": {
+            "text": null,
+            "content": null
+          }
+        }
+      },
       "Clara": {
         "Content": {
           "ultBuff": {
@@ -2099,6 +2156,46 @@ interface Resources {
           "e6DmgBuff": {
             "text": "E6 DMG buff",
             "content": "When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
+          }
+        }
+      },
+      "Hyacine": {
+        "Content": {
+          "healTargetHp50": {
+            "text": null,
+            "content": null
+          },
+          "resBuff": {
+            "text": null,
+            "content": null
+          },
+          "spd200HpBuff": {
+            "text": null,
+            "content": null
+          },
+          "clearSkies": {
+            "text": null,
+            "content": null
+          },
+          "healingDmgStacks": {
+            "text": null,
+            "content": null
+          },
+          "e1HpBuff": {
+            "text": null,
+            "content": null
+          },
+          "e2SpdBuff": {
+            "text": null,
+            "content": null
+          },
+          "e4CdBuff": {
+            "text": null,
+            "content": null
+          },
+          "e6ResPen": {
+            "text": null,
+            "content": null
           }
         }
       },
@@ -5086,10 +5183,10 @@ interface Resources {
         "Prisoner": "The selected DEF% pen buff is applied to damage calculations based on the number of stacks.",
         "Diver": "The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.",
         "Watchmaker": "When enabled, the Break Effect buff is applied to Combat stat calculations.",
-        "Valorous": "The CRIT Rate buff is always on by default. When enabled, the DMG% buff for Ultimate damage is applied to Combat stat calculations.",
+        "Valorous": "When enabled, the DMG% buff for Ultimate damage is applied to Combat stat calculations.",
         "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.",
-        "Scholar": "The CRIT Rate buff is always on by default. When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
-        "Hero": "The ATK% buff is always on by default. When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
+        "Scholar": "When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
+        "Hero": "When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",

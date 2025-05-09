@@ -173,6 +173,15 @@ Lightcones:
         text: Luminflux stacks
         content: >-
           When the wearer launches a follow-up attack, gains 1 stack of Luminflux, stacking up to 2 times. Each stack of Luminflux enables the Ultimate DMG dealt by the wearer to ignore {{DefIgnore}}% of the target's DEF. When the wearer's turn ends, removes 1 stack of Luminflux.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: DEF PEN
+        content: After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
+    TeammateContent:
+      additionalDefPen:
+        text: "SPD > 170"
+        content: After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +201,11 @@ Lightcones:
       deathFlower:
         text: Death Flower DEF PEN
         content: When the wearer or their memosprite loses HP during their own turn, the wearer gains "Death Flower," which allows the wearer and their memosprite to ignore {{DefIgnore}}% of the target's DEF when dealing DMG, lasting for 2 turns.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnerability
+        content: When the wearer's memosprite uses Memosprite Skill, increases the DMG taken by all enemies by {{Vulnerability}}% for 2 turns. The same types of effects cannot stack.
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -936,6 +950,32 @@ Characters:
         text: E6 buffs
         content: >-
           When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%. ::BR:: Increases the Bounce count for Netherwing's Talent "Wings Sweep the Ruins" by 3 times.
+  Cipher: #TODO
+    Content:
+      vulnerability:
+        text:
+        content:
+      skillAtkBuff:
+        text:
+        content:
+      fuaCdBoost:
+        text:
+        content:
+      spdBasedBuffs:
+        text:
+        content:
+      e1AtkBuff:
+        text:
+        content:
+      e2Vulnerability:
+        text:
+        content:
+      e4AdditionalDmg:
+        text:
+        content:
+      e6FuaDmg:
+        text:
+        content:
   Clara:
     Content:
       ultBuff:
@@ -1193,6 +1233,35 @@ Characters:
       e6DmgBuff:
         text: E6 DMG buff
         content: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.
+  Hyacine: #TODO
+    Content:
+      healTargetHp50:
+        text:
+        content:
+      resBuff:
+        text:
+        content:
+      spd200HpBuff:
+        text:
+        content:
+      clearSkies:
+        text:
+        content:
+      healingDmgStacks:
+        text:
+        content:
+      e1HpBuff:
+        text:
+        content:
+      e2SpdBuff:
+        text:
+        content:
+      e4CdBuff:
+        text:
+        content:
+      e6ResPen:
+        text:
+        content:
   ImbibitorLunae:
     Content:
       basicEnhanced:

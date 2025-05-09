@@ -15,7 +15,7 @@ import { Trans, useTranslation } from 'react-i18next'
 const headerHeight = 900
 const headerWidth = 1600
 
-export default function HomeTab(): React.JSX.Element {
+export default function HomeTab() {
   const activeKey = window.store((s) => s.activeKey)
 
   if (activeKey != AppPages.HOME) {

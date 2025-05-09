@@ -368,7 +368,17 @@ function StateDisplay(props: {
 
   return (
     <Flex vertical gap={8}>
-      <Flex style={{ marginBottom: 2 }} align='center'>
+      <Flex
+        style={{
+          position: 'sticky',
+          backgroundColor: '#2A3C64',
+          top: 0,
+          zIndex: 10,
+          paddingTop: 4,
+          paddingBottom: 4,
+        }}
+        align='center'
+      >
         <ComboHeader comboState={props.comboState}/>
       </Flex>
 

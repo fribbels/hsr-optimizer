@@ -36,9 +36,8 @@ Lightcones:
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 最大EP
-        content: 装備キャラが必殺技を発動する時、装備キャラの最大EPに応じて装備キャラの必殺技によるダメージをアップする、1EPにつき+{{DmgStep}}%、最大で180までカウントされる。
+      maxEnergyDmgBoost:
+        text: EP最大時のダメバフ
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

@@ -205,6 +205,7 @@ export function SetsSection(props: { simType: string }) {
   // Save a click by assuming the first relic set is a 4p
   const handleRelicSet1Change = (value: string) => {
     const path2 = formName(props.simType, 'simRelicSet2')
+    // @ts-ignore
     benchmarkForm.setFieldValue(path2, value)
   }
 

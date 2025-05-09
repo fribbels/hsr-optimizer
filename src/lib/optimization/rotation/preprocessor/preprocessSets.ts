@@ -45,3 +45,31 @@ export class WavestriderCaptainPreprocessor extends TurnTriggeredStackPreprocess
     )
   }
 }
+
+export class HunterOfGlacialForestPreprocessor extends TurnTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      Sets.HunterOfGlacialForest,
+      {
+        key: Sets.HunterOfGlacialForest,
+        triggerKinds: [AbilityKind.ULT],
+        activeTurns: 2,
+        activationFn: setComboBooleanCategorySetActivation,
+      },
+    )
+  }
+}
+
+export class BandOfSizzlingThunderPreprocessor extends TurnTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      Sets.BandOfSizzlingThunder,
+      {
+        key: Sets.BandOfSizzlingThunder,
+        triggerKinds: [AbilityKind.SKILL],
+        activeTurns: 1,
+        activationFn: setComboBooleanCategorySetActivation,
+      },
+    )
+  }
+}

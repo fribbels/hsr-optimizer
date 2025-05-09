@@ -83,7 +83,10 @@ export type ComboState = {
   comboTeammate1: ComboTeammate | null
   comboTeammate2: ComboTeammate | null
   comboTurnAbilities: TurnAbilityName[]
+  version?: string
 }
+
+export const COMBO_STATE_JSON_VERSION = '1.1'
 
 export type SetConditionals = typeof defaultSetConditionals
 
@@ -139,7 +142,9 @@ export function initializeComboState(request: Form, merge: boolean) {
     comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
     comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
 
-    mergeComboStates(comboState, savedComboState)
+    if (savedComboState.version == COMBO_STATE_JSON_VERSION) {
+      mergeComboStates(comboState, savedComboState)
+    }
   }
 
   if (request.comboPreprocessor) {
@@ -791,6 +796,7 @@ export function updateAbilityRotation(index: number, turnAbilityName: TurnAbilit
 
 export function updateFormState(comboState: ComboState) {
   console.log('updateFormState')
+  comboState.version = COMBO_STATE_JSON_VERSION
   window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState))
   window.optimizerForm.setFieldValue('comboTurnAbilities', comboState.comboTurnAbilities)
 

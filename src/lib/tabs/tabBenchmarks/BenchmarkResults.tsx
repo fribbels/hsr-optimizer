@@ -20,7 +20,6 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
 
 const { Text } = Typography
 
@@ -145,7 +144,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
 }
 
 function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[]; dataSource200: BenchmarkRow[] }) {
-  const spd = dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget
+  const spd = TsUtils.precisionRound(dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget)
   const suffix = spd == null ? '' : `(${spd} SPD)`
   const items: TabsProps['items'] = [
     {

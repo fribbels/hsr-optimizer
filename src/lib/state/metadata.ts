@@ -1945,6 +1945,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -1987,6 +1988,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_FUA,
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],

@@ -412,12 +412,14 @@ ComboFilter:
       Description: すべてのシンプル・高度なスキル回しの設定をデフォルトに戻しますか？
   CounterLabels:
     Dot: 持続
-    Break: 撃破
   ComboOptions:
+    None: 'なし'
     Basic: 基礎
     Skill: スキル
     Ult: 必殺
     Fua: 追加
+    Dot: 持続
+    Break: 撃破
     MemoSkill: 精霊スキル
     MemoTalent: 精霊天賦
   RotationButton: 高度なスキル回しの設定

@@ -428,12 +428,14 @@ ComboFilter:
       Description: 重置所有简易 / 高级循环设置为默认值？
   CounterLabels:
     Dot: 持续伤害数量
-    Break: 击破伤害数量
   ComboOptions:
+    None: '无'
     Basic: 普攻
     Skill: 战技
     Ult: 终结技
     Fua: 追加攻击
+    Dot: 持续
+    Break: 击破
     MemoSkill: 忆灵技
     MemoTalent: 忆灵天赋
   RotationButton: 高级技能循环

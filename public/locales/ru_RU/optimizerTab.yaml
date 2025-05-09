@@ -126,6 +126,10 @@ MinMaxFilters:
   BREAKLabel: Пробитие
   HEALLabel: Исцеление
   SHIELDLabel: Щит
+ComboFilter:
+  ComboOptions:
+    None: 'Нет'
+    Break: ЭП
 ComboDrawer:
   NoConditionals: Нет пассивок с условием.
   Title: Руководство по редактору ротаций

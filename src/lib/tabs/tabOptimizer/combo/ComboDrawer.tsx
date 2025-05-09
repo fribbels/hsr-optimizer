@@ -223,14 +223,13 @@ function ComboHeader(props: {
   const length = comboTurnAbilities.length
   const render: ReactElement[] = [
     <div key='controls' style={{ width: 380 }}>
-      <Button
+      {/* <Button
         variant='dashed'
         style={{ width: '100%' }}
         onClick={() => autoClicked(props.comboState)}
       >
         Apply rotation heuristics
-        {/* {tCommon('Auto')} */}
-      </Button>
+      </Button> */}
     </div>,
     <div key='base' style={{ width: abilityWidth }}/>,
     ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
@@ -374,8 +373,8 @@ function StateDisplay(props: {
           backgroundColor: '#2A3C64',
           top: 0,
           zIndex: 10,
-          paddingTop: 4,
-          paddingBottom: 4,
+          paddingTop: 6,
+          paddingBottom: 6,
         }}
         align='center'
       >

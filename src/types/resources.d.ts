@@ -5086,16 +5086,18 @@ interface Resources {
         "Prisoner": "The selected DEF% pen buff is applied to damage calculations based on the number of stacks.",
         "Diver": "The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.",
         "Watchmaker": "When enabled, the Break Effect buff is applied to Combat stat calculations.",
-        "Valorous": "The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks.",
+        "Valorous": "The CRIT Rate buff is always on by default. When enabled, the DMG% buff for Ultimate damage is applied to Combat stat calculations.",
+        "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.",
+        "Scholar": "The CRIT Rate buff is always on by default. When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
+        "Hero": "The ATK% buff is always on by default. When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
         "Izumo": "When enabled, if there is an ally with the same path, applies the 12% CRIT Rate buff to Combat stat calculations.",
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
-        "Lushaka": "The selected buff is applied to damage calculations.",
-        "Banana": "The selected buff is applied to damage calculations.",
-        "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect."
+        "Lushaka": "Disabled by default - This set is unable to affect its wearer.",
+        "Banana": "The selected buff is applied to damage calculations."
       }
     },
     "Presets": {

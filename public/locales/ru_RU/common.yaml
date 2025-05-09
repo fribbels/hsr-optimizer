@@ -1,4 +1,4 @@
-Relic_one: Реликвии
+Relic_one: реликвия
 Relic_other: реликвии
 RelicWithCount_one: "{{count}} реликвия"
 RelicWithCount_other: "{{count}} реликвии"
@@ -18,7 +18,7 @@ Yes: "Да"
 No: "Нет"
 Save: Сохранить
 Score: Оценка
-Reset: Сбросить
+Reset: Сброс
 EidolonNShort: "Е{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
 LevelShort: "{{level}} ур."
@@ -35,7 +35,7 @@ Parts:
   Body: Тело
   Feet: Ноги
   PlanarSphere: Планарная сфера
-  LinkRope: Соединительная верёвка
+  LinkRope: Соединительная вязь
 ReadableParts:
   Head: Голова
   Hands: Руки
@@ -74,13 +74,13 @@ ShortStats:
   "DEF%": ЗАЩ%
   DEF: ЗАЩ
   "SPD%": SPD%
-  SPD: SPD
+  SPD: СКР
   CRIT Rate: КШ
   CRIT DMG: КУ
   Effect Hit Rate: ШПЭ
   Effect RES: СОП
   Break Effect: ЭП
-  Energy Regeneration Rate: ВЭ
+  Energy Regeneration Rate: ВосстЭн
   Outgoing Healing Boost: ИСЦ
   Physical DMG Boost: "$t(gameData:Elements.Physical)"
   Fire DMG Boost: "$t(gameData:Elements.Fire)"
@@ -120,10 +120,10 @@ ReadableStats:
   ATK: Атака
   "DEF%": ЗАЩ %
   DEF: Защита
-  "SPD%": SPD %
+  "SPD%": СКР %
   SPD: Скорость
-  CRIT Rate: Крит. шанс
-  CRIT DMG: Крит. урон
+  CRIT Rate: Крит Шанс
+  CRIT DMG: Крит Урон
   Effect Hit Rate: Шанс эффектов
   Effect RES: Сопротивление
   Break Effect: Пробитие

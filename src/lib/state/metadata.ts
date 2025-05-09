@@ -1407,13 +1407,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            lightCone: '23003', // BTBIO
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1511,8 +1511,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1523,8 +1523,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1623,14 +1623,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1106', // Pela
-            lightCone: '21015', // Pearls
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1218', // Jiaoqiu
+            lightCone: '23029', // Springs
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1865,20 +1865,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // If time were a flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1409', // Hyacine
+            lightCone: '23042', // Long may Rainbows adorn the sky
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2000,20 +2000,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1003', // Himeko
-            lightCone: '23000', // Milky way
+            characterId: '1401', // Therta
+            lightCone: '23037', // Unreachable Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // If Time Were a Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2130,8 +2130,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1006', // SW
-            lightCone: '23007', // Rain
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2142,10 +2142,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1203', // Luocha
+            lightCone: '21021', // QPQ
             characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            lightConeSuperimposition: 5,
           },
         ],
       },
@@ -2237,20 +2237,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1005', // Kafka
-            lightCone: '23006', // Patience
+            characterId: '1401', // Therta
+            lightCone: '23037', // Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2455,22 +2455,22 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
             characterId: '1304', // Aventurine
-            lightCone: '21016', // Trend
+            lightCone: '23023', // Inherently Unjust Destiny
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -2660,20 +2660,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
+            characterId: '1306', // Sparkle
             lightCone: '23003', // But the battle
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // If Time Were a Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent alone stays true
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2807,8 +2807,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1005', // Kafka
-            lightCone: '23006', // Patience
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2819,8 +2819,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent alone stays true
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2920,8 +2920,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1305', // Ratio
-            lightCone: '23020', // Baptism
+            characterId: '1220', // Feixiao
+            lightCone: '23031', // Venture Forth
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3026,8 +3026,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1006', // SW
-            lightCone: '23007', // Rain
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3215,14 +3215,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: '1313', // Sunday
+            lightCone: '23034', // Grounded Ascent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3322,22 +3322,22 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1212', // Jingliu
-            lightCone: '23014', // I shall
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: '1407', // Castorice
+            lightCone: '23040', // Farewells
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1203', // Luocha
-            lightCone: '20015', // Multi
+            characterId: '1409', // Hyacine
+            lightCone: '23042', // Rainbows
             characterEidolon: 0,
-            lightConeSuperimposition: 5,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -3427,10 +3427,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '8006', // Stelle
-            lightCone: '21004', // Memories
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -3439,10 +3439,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
-            lightCone: '20015', // Multi
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -3612,20 +3612,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1106', // Pela
-            lightCone: '21015', // Pearls
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust Destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3889,22 +3889,22 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: '1313', // Sunday
+            lightCone: '23034', // Ascent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1202', // Tingyun
-            lightCone: '21018', // Dance
-            characterEidolon: 6,
+            characterId: '1309', // Robin
+            lightCone: '23026', // Nightglow
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1203', // Luocha
+            lightCone: '21021', // QPQ
+            characterEidolon: 0,
             lightConeSuperimposition: 5,
-          },
-          {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -4001,22 +4001,22 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '8006', // Stelle
-            lightCone: '21004', // Memories
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
-          },
-          {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
-            lightCone: '20015', // Multi
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -4211,7 +4211,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            lightCone: '23016', // Worrisome Blissful
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4321,7 +4321,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: '1202', // Tingyun
-            lightCone: '21018', // Dance
+            lightCone: '21004', // MOTP
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
@@ -4469,8 +4469,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            characterId: '1220', // Feixiao
+            lightCone: '23031', // Venture Forth
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4576,8 +4576,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            characterId: '1220', // Feixiao
+            lightCone: '23031', // Venture Forth
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4819,20 +4819,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: '1401', // Therta
+            lightCone: '23037', // Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1202', // Tingyun
-            lightCone: '21018', // Dance
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4965,7 +4965,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            lightCone: '23016', // Worrisome Blissful
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4976,8 +4976,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1305', // Ratio
-            lightCone: '23020', // Baptism
+            characterId: '1220', // Feixiao
+            lightCone: '23031', // Venture Forth
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5074,7 +5074,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            lightCone: '23016', // Worrisome Blissful
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5312,22 +5312,22 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
+            characterId: '1218', // Jiaoqiu
+            lightCone: '23029', // Springs
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
             characterId: '1106', // Pela
             lightCone: '21015', // Pearls
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1006', // SW
-            lightCone: '23007', // Rain
+            characterId: '1304', // Aventurine
+            lightCone: '23023', // Unjust Destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
-          },
-          {
-            characterId: '1304', // Aventurine
-            lightCone: '21016', // Trend
-            characterEidolon: 0,
-            lightConeSuperimposition: 5,
           },
         ],
       },
@@ -5442,10 +5442,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '8006', // Stelle
-            lightCone: '21004', // Memories
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -5454,10 +5454,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
-            lightCone: '20015', // Multi
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -5550,10 +5550,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1106', // Pela
-            lightCone: '21015', // Pearls
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1306', // Sparkle
+            lightCone: '23003', // BTBIO
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1217', // Huohuo
@@ -5682,20 +5682,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome
+            characterId: '1401', // Therta
+            lightCone: '23037', // Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent alone stays true
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5776,10 +5776,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '8006', // Stelle
-            lightCone: '21004', // Memories
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -5788,10 +5788,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1301', // Gallagher
-            lightCone: '20015', // Multi
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1222', // Lingsha
+            lightCone: '23032', // Scent alone stays true
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
         ],
       },
@@ -5872,10 +5872,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '8006', // Stelle
-            lightCone: '21004', // Memories
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: '1225', // Fugue
+            lightCone: '23035', // Long Road
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1303', // Ruan Mei
@@ -5885,7 +5885,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            lightCone: '23032', // Scent alone stays true
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6386,8 +6386,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6607,20 +6607,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: '1407', // Castorice
+            lightCone: '23040', // Farewells
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1103', // Serval
-            lightCone: '20013', // Passkey
+            characterId: '8008', // Stelle (Remembrance)
+            lightCone: '24005', // Memory's Curtain
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: '1409', // Hyacine
+            lightCone: '23042', // Rainbows
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6719,8 +6719,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1203', // Luocha
-            lightCone: '23008', // Coffin
+            characterId: '1409', // Hyacine
+            lightCone: '23042', // Rainbows
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6819,8 +6819,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded
+            characterId: '1101', // Bronya
+            lightCone: '23003', // BTBIO
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6932,13 +6932,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: '8008', // RMC
-            lightCone: '21050', // Victory
+            lightCone: '24005', // Memory's Curtain
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: '1409', // Hyacine
+            lightCone: '23042', // Rainbows
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

@@ -1780,36 +1780,36 @@ interface Resources {
       "Cipher": {
         "Content": {
           "vulnerability": {
-            "text": null,
-            "content": null
+            "text": "Team Vulnerability",
+            "content": "When Cipher is on the battlefield, DMG received by all enemy targets increases by 40%."
           },
           "skillAtkBuff": {
-            "text": null,
-            "content": null
+            "text": "Skill ATK buff",
+            "content": "When using skill, there is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turns."
           },
           "fuaCdBoost": {
-            "text": null,
-            "content": null
+            "text": "Fua CD boost",
+            "content": "Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%."
           },
           "spdBasedBuffs": {
-            "text": null,
-            "content": null
+            "text": "SPD based buffs",
+            "content": "When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%."
           },
           "e1AtkBuff": {
-            "text": null,
-            "content": null
+            "text": "E1 ATK buff",
+            "content": "When using a Follow-up ATK caused by her Talent, increases Cipher's ATK by 80% for 2 turns."
           },
           "e2Vulnerability": {
-            "text": null,
-            "content": null
+            "text": "E2 vulnerability",
+            "content": "When Cipher hits an enemy target, there is a 120% base chance of causing them to receive 30% more DMG, lasting 2 turns."
           },
           "e4AdditionalDmg": {
-            "text": null,
-            "content": null
+            "text": "E4 Additional DMG",
+            "content": "After \"Patron\" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it."
           },
           "e6FuaDmg": {
-            "text": null,
-            "content": null
+            "text": "E6 Fua DMG",
+            "content": "Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%."
           }
         }
       },

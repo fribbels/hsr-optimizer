@@ -17,10 +17,10 @@ export class TurnTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   private activeTurns: number
 
   defaultState = {
-    buffActive: false, // Is the buff currently active?
-    turnCounter: 0, // Current turn counter (incremented at each START)
-    activationTurn: -1, // The turn when the buff was activated
-    inTurn: false, // Are we currently in a turn?
+    buffActive: false,
+    turnCounter: 0,
+    activationTurn: -1,
+    inTurn: false,
   }
 
   state = { ...this.defaultState }
@@ -68,20 +68,20 @@ export class TurnTriggeredStackPreprocessor extends AbilityPreprocessorBase {
       this.state.activationTurn = this.state.turnCounter
     }
 
-    // Check if the buff should expire
-    if (this.state.buffActive) {
-      const turnsPassed = this.state.turnCounter - this.state.activationTurn
-      if (turnsPassed > this.activeTurns) {
-        this.state.buffActive = false
-      }
-    }
-
     this.activationFn(
       comboState,
       this.key,
       index,
       this.state.buffActive ? this.activationValue : this.defaultActivationValue,
     )
+
+    // Check if the buff should expire after applying it to the current ability
+    if (this.state.buffActive && (marker === TurnMarker.END || marker === TurnMarker.WHOLE)) {
+      const turnsPassed = this.state.turnCounter - this.state.activationTurn
+      if (turnsPassed >= this.activeTurns) {
+        this.state.buffActive = false
+      }
+    }
 
     // Handle turn end
     if (marker === TurnMarker.END || marker === TurnMarker.WHOLE) {

@@ -8,6 +8,7 @@ import { TurnTriggeredStackPreprocessor } from 'lib/optimization/rotation/prepro
 import {
   AbilityKind,
   AbilityNameToTurnAbility,
+  DEFAULT_DOT,
   DEFAULT_SKILL,
   DEFAULT_ULT,
   END_BASIC,
@@ -195,6 +196,56 @@ test('Re-triggering resets duration, multiple trigger types', () => {
   ]
   const expected = [
     true, true, true, true, true, false,
+  ]
+
+  const result = processSequence(preprocessor, sequence)
+  const activations = getBooleanActivations(result, key, true)
+
+  expect(activations.slice(1, expected.length + 1)).toEqual(expected)
+})
+
+test('Buff active for entire WHOLE marker before expiring', () => {
+  const key = Sets.WavestriderCaptain
+  const preprocessor = new TurnTriggeredStackPreprocessor(
+    'test',
+    {
+      key: key,
+      triggerKinds: [AbilityKind.ULT],
+      activeTurns: 1,
+      activationFn: setComboBooleanCategorySetActivation,
+    },
+  )
+
+  const sequence = [
+    START_ULT, END_SKILL, DEFAULT_DOT, WHOLE_BASIC, DEFAULT_DOT,
+  ]
+  const expected = [
+    true, true, true, true, false,
+  ]
+
+  const result = processSequence(preprocessor, sequence)
+  const activations = getBooleanActivations(result, key, true)
+
+  expect(activations.slice(1, expected.length + 1)).toEqual(expected)
+})
+
+test('Trigger at the end of a turn', () => {
+  const key = Sets.WavestriderCaptain
+  const preprocessor = new TurnTriggeredStackPreprocessor(
+    'test',
+    {
+      key: key,
+      triggerKinds: [AbilityKind.ULT],
+      activeTurns: 1,
+      activationFn: setComboBooleanCategorySetActivation,
+    },
+  )
+
+  const sequence = [
+    START_BASIC, DEFAULT_SKILL, END_ULT, WHOLE_BASIC, WHOLE_BASIC,
+  ]
+  const expected = [
+    false, false, true, true, false,
   ]
 
   const result = processSequence(preprocessor, sequence)

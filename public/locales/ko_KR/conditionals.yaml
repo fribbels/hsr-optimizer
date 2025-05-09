@@ -36,9 +36,8 @@ Lightcones:
           장착한 캐릭터가 적 명중 시 적을 [포영] 상태에 빠트린다. 지속 시간: 1턴. 장착한 캐릭터가 공격할 때마다 적 1기당 1회만 발동한다. 장착한 캐릭터가 [포영] 상태에 빠진 적에게 가하는 피해가 {{DmgBoost}}% 증가하고, 필살기로 가하는 피해가 추가로 {{DmgBoost}}% 증가한다
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 최대 에너지
-        content: 장착한 캐릭터가 필살기 발동 시 자신의 에너지 최대치에 따라 자신이 필살기로 가하는 피해가 증가한다. (에너지 1pt당 {{DmgStep}}% 증가, 최대 180pt까지 계산)
+      maxEnergyDmgBoost:
+        text: 최대 에너지일 때 버프
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

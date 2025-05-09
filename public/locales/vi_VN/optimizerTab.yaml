@@ -420,12 +420,14 @@ ComboFilter:
       Description: Đặt lại tất cả thứ tự đơn giản / nâng cao thành mặc định?
   CounterLabels:
     Dot: Dots
-    Break: Kích Phá
   ComboOptions:
+    None: 'Không có'
     Basic: Tấn công thường
     Skill: Chiến kỹ
     Ult: Tuyệt Kỹ
     Fua: Đòn theo sau
+    Dot: Dot
+    Break: Kích Phá
     MemoSkill: Linh Hồn Ký Ức
     MemoTalent: THIÊN PHÚ LHKY
   RotationButton: Thứ tự kỹ năng nâng cao

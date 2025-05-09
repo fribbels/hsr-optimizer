@@ -6,6 +6,7 @@ import {
   ANAXA,
   BLACK_SWAN,
   BOOTHILL,
+  FIREFLY,
   FLOWING_NIGHTGLOW,
   HUOHUO,
   INTO_THE_UNREACHABLE_VEIL,
@@ -26,6 +27,7 @@ import {
   SUNDAY,
   SWEAT_NOW_CRY_LESS,
   THE_HERTA,
+  WHEREABOUTS_SHOULD_DREAMS_REST,
 } from 'lib/simulations/tests/testMetadataConstants'
 import { Metadata } from 'lib/state/metadata'
 import { test } from 'vitest'
@@ -102,22 +104,22 @@ test('Black Swan benchmark 0 captain', async () => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// test('Firefly benchmark 160', async () => {
-//   await expectBenchmarkResultsToMatch(
-//     160,
-//     generateE6S5Test({
-//       character: testCharacter(FIREFLY, WHEREABOUTS_SHOULD_DREAMS_REST),
-//       teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
-//       teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-//       teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
-//       sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
-//       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
-//       stats: testStatSpread(),
-//     }),
-//     3765406,
-//     4595097.5,
-//   )
-// })
+test('Firefly benchmark 160', async () => {
+  await expectBenchmarkResultsToMatch(
+    160,
+    generateE6S5Test({
+      character: testCharacter(FIREFLY, WHEREABOUTS_SHOULD_DREAMS_REST),
+      teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    }),
+    4879910.5,
+    5954549.5,
+  )
+})
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

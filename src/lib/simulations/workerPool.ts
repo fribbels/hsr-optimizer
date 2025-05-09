@@ -25,7 +25,7 @@ export class WorkerPool<TInput extends BaseWorkerInput, TOutput extends BaseWork
     if (typeof process !== 'undefined') return
 
     const INITIAL_WORKER_COUNT = 1
-    const MAX_WORKER_COUNT = 1 // Math.min(10, Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency))
+    const MAX_WORKER_COUNT = Math.min(10, Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency))
     // const MAX_WORKER_COUNT = Math.max(INITIAL_WORKER_COUNT, navigator.hardwareConcurrency)
 
     console.log(`[WorkerPool] Initializing pool with ${INITIAL_WORKER_COUNT} workers`)

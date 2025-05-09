@@ -845,9 +845,6 @@ export function updateConditionalChange(changeEvent: Form) {
   if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals ?? {})
   if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals ?? {})
 
-  // TODO
-  // comboState.comboTurnAbilities = allValues.comboTurnAbilities
-
   window.store.getState().setComboState({ ...comboState })
   updateFormState(comboState)
 }

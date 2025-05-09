@@ -4,7 +4,6 @@ import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import { ComboType, getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
-import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
@@ -118,21 +117,6 @@ function resetClicked(formInstance: FormInstance<OptimizerForm>) {
   }
   formInstance.setFieldValue(['comboDot'], defaultComboDot)
   formInstance.setFieldValue(['comboStateJson'], '{}')
-}
-
-// TODO: Refactor reset abilities
-function autoClicked(formInstance: FormInstance<OptimizerForm>) {
-  const characterId = window.store.getState().optimizerTabFocusCharacter!
-  const characterMetadata = DB.getMetadata().characters[characterId]
-
-  if (!characterMetadata) return
-
-  const form = formInstance.getFieldsValue()
-  const comboTurnAbilities = form.comboTurnAbilities
-
-  const generatedComboTurnAbilities = preprocessTurnAbilityNames(comboTurnAbilities)
-
-  formInstance.setFieldValue(['comboTurnAbilities'], generatedComboTurnAbilities)
 }
 
 function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {

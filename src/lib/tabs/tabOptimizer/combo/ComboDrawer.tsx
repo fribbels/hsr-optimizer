@@ -223,13 +223,6 @@ function ComboHeader(props: {
   const length = comboTurnAbilities.length
   const render: ReactElement[] = [
     <div key='controls' style={{ width: 380 }}>
-      {/* <Button
-        variant='dashed'
-        style={{ width: '100%' }}
-        onClick={() => autoClicked(props.comboState)}
-      >
-        Apply rotation heuristics
-      </Button> */}
     </div>,
     <div key='base' style={{ width: abilityWidth }}/>,
     ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
@@ -242,10 +235,6 @@ function ComboHeader(props: {
       {render}
     </Flex>
   )
-}
-
-export function autoClicked(comboState: ComboState) {
-
 }
 
 export function elementToDataKey(element: HTMLElement | SVGElement) {

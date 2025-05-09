@@ -38,6 +38,7 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: Bonus de DGT énergie max
+        content: Lorsque le porteur lance son ultime, augmente les DGT d'Ultime du porteur en fonction de son énergie max. Chaque point d'énergie augmente les DGT d'Ultime de {{DmgStep}}%, jusqu'à un maximum de 180 points d'énergie.
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

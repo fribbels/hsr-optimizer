@@ -391,7 +391,7 @@ export const SetsRelics = {
   HeroOfTriumphantSong: 'Hero of Triumphant Song',
   PoetOfMourningCollapse: 'Poet of Mourning Collapse',
   WarriorGoddessOfSunAndThunder: 'Warrior Goddess of Sun and Thunder',
-  WavestriderCaptain: 'Sets.Wavestrider Captain',
+  WavestriderCaptain: 'Wavestrider Captain',
 } as const
 
 export const SetsOrnaments = {

@@ -4,10 +4,6 @@ Lightcones:
     Content:
       emptyBubblesDebuff:
         text: Estado negativo de Ilusión vacía
-  AnInstantBeforeAGaze:
-    Content:
-      maxEnergyUltDmgStacks:
-        text: Energía máxima
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

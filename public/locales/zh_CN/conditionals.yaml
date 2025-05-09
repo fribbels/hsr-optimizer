@@ -36,9 +36,8 @@ Lightcones:
           当装备者击中敌方目标时，使敌方陷入【泡影】状态，持续1回合。装备者每次攻击时，对每个目标只可触发1次。装备者对陷入【泡影】状态的目标造成的伤害提高{{DmgBoost}}%，终结技造成的伤害额外提高{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 最大能量
-        content: 当装备者施放终结技时，根据装备者的能量上限，提高装备者终结技造成的伤害：每点能量提高{{DmgStep}}%，最多计入180点。
+      maxEnergyDmgBoost:
+        text: 满能量伤害提高
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

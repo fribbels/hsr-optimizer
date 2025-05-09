@@ -36,9 +36,8 @@ Lightcones:
           Khi người trang bị đánh trúng kẻ địch, sẽ khiến kẻ địch rơi vào trạng thái Bóng Hư Ảo, duy trì 1 hiệp. Mỗi lần người trang bị tấn công, đối với mỗi mục tiêu chỉ có thể được kích hoạt 1 lần. Sát Thương mà người trang bị gây ra cho mục tiêu đang ở trạng thái Bóng Hư Ảo tăng {{DmgBoost}}%, sát thương do Tuyệt Kỹ gây ra tăng thêm {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: Năng lượng tối đa
-        content: 'Khi người trang bị thi triển Tuyệt Kỹ, sẽ tăng sát thương Tuyệt Kỹ mà người trang bị gây ra theo giới hạn năng lượng của người trang bị: mỗi điểm năng lượng tăng {{DmgStep}}%, tối đa 180 điểm năng lượng.'
+      maxEnergyDmgBoost:
+        text: Năng Lượng Tối Đa Tăng Sát Thương
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

@@ -36,9 +36,8 @@ Lightcones:
           Quando o portador atinge um alvo inimigo, aplica Miragem Fracassada ao inimigo, durando 1 turno. Cada vez que o portador ataca, esse efeito só pode ser ativado 1 vez em cada alvo. O portador causa um aumento de {{DmgBoost}}% de DANO aos alvos afetados por Mirage Fizzle, e o DANO causado pela Ultimate do portador aumenta adicionalmente em {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: Energia máxima
-        content: Quando o portador utiliza a Ultimate, aumenta o DANO da Ultimate do portador com base na sua Energia Máxima. Cada ponto de Energia aumenta o DANO da Ultimate em {{DmgStep}}%, até um máximo de 180 pontos de Energia.
+      maxEnergyDmgBoost:
+        text: Buff de DMG por energia máxima
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

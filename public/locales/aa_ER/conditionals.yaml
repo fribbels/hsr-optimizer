@@ -36,9 +36,9 @@ Lightcones:
           crwdns40172:0{{DmgBoost}}crwdnd40172:0{{UltDmgBoost}}crwdne40172:0
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: crwdns40174:0crwdne40174:0
-        content: crwdns40176:0{{DmgStep}}crwdne40176:0
+      maxEnergyDmgBoost:
+        text: crwdns45224:0crwdne45224:0
+        content: crwdns45226:0{{DmgStep}}crwdne45226:0
   BaptismOfPureThought:
     Content:
       debuffCdStacks:

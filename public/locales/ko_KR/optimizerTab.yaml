@@ -424,12 +424,14 @@ ComboFilter:
       Description: 모든 심플 / 고급 사이클 셋팅을 기본 값으로 변경할까요?
   CounterLabels:
     Dot: 지속 피해
-    Break: 격파 피해
   ComboOptions:
+    None: '없음'
     Basic: 기본 공격
     Skill: 전투 스킬
     Ult: 필살기
     Fua: 추가 공격
+    Dot: 지속피해
+    Break: 격파
     MemoSkill: 소환물 데미지
     MemoTalent: 기억정령 특성
   RotationButton: 고급 사이클

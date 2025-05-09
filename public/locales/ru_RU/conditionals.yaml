@@ -6,11 +6,6 @@ Common:
     Skill: "Наложение щита: Навык"
     Trace: "Наложение щита: След"
 Lightcones:
-  AnInstantBeforeAGaze:
-    Content:
-      maxEnergyUltDmgStacks:
-        text: Максимальная энергия
-        content: Когда владелец использует сверхспособность, наносимый ею урон повышается на {{DmgStep}}% за каждую единицу от макс. энергии владельца. Этот эффект может складываться до макс. 180 ед. энергии.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

@@ -324,7 +324,6 @@ export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean
             set={Constants.Sets.WavestriderCaptain}
             description={t('RelicDescription', { id: 126 })}
             conditional={t('Conditionals.DefaultMessage')}
-            p4Checked
           />
         </Flex>
 

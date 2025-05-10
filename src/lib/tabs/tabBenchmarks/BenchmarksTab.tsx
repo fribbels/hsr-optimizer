@@ -145,7 +145,7 @@ function LeftPanel() {
         <CenteredImage
           src={Assets.getCharacterPreviewById(characterId)}
           containerW={250}
-          containerH={300}
+          containerH={325}
         />
       </Flex>
       <CenteredImage
@@ -227,13 +227,14 @@ function RightPanel() {
 
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>
-
           <Button
             onClick={() => open()}
             icon={<SettingOutlined/>}
+            type='dashed'
           >
             {tCommon('SetConditionals.Title')/* Conditional set effects */}
           </Button>
+
         </Flex>
 
         <FormSetConditionals drawerId={SetConditionalDrawers.BENCHMARKS}/>

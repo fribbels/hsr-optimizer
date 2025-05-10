@@ -6,28 +6,29 @@ export enum SetConditionalDrawers {
 }
 
 interface FormSetConditionalsState {
-  drawers: Record<SetConditionalDrawers, boolean>
-  setDrawerOpen: (id: SetConditionalDrawers, drawerOpen: boolean) => void
+  drawerStatus: Record<SetConditionalDrawers, boolean>
+  setOpen: (id: SetConditionalDrawers, drawerOpen: boolean) => void
 }
 
 export const formSetConditionalsStore = create<FormSetConditionalsState>((set) => ({
-  drawers: {} as Record<SetConditionalDrawers, boolean>,
-  setDrawerOpen: (id: SetConditionalDrawers, drawerOpen: boolean) => set((state) => ({
-    drawers: {
-      ...state.drawers,
+  drawerStatus: {} as Record<SetConditionalDrawers, boolean>,
+  setOpen: (id: SetConditionalDrawers, drawerOpen: boolean) => set((state) => ({
+    drawerStatus: {
+      ...state.drawerStatus,
       [id]: drawerOpen,
     },
   })),
 }))
 
-// Custom hook
+// Usage
+// const { open, close, isOpen } = useFormSetConditionalsDrawer(drawerId)
 export function useFormSetConditionalsDrawer(id: SetConditionalDrawers) {
-  const isOpen = formSetConditionalsStore((state) => state.drawers[id] ?? false)
-  const setDrawerOpen = formSetConditionalsStore((state) => state.setDrawerOpen)
+  const isOpen = formSetConditionalsStore((state) => state.drawerStatus[id] ?? false)
+  const setOpen = formSetConditionalsStore((state) => state.setOpen)
 
   return {
     isOpen,
-    open: () => setDrawerOpen(id, true),
-    close: () => setDrawerOpen(id, false),
+    open: () => setOpen(id, true),
+    close: () => setOpen(id, false),
   }
 }

@@ -23,6 +23,7 @@ import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/Teammat
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import { SetConditionalDrawers } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import { useEffect, useMemo } from 'react'
@@ -33,8 +34,8 @@ export const optimizerFormCache: Record<string, Form> = {}
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
-  // const conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
-  // const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
+  const conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
+  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
   const [optimizerForm] = AntDForm.useForm<Form>()
   window.optimizerForm = optimizerForm
 
@@ -156,7 +157,7 @@ export default function OptimizerForm() {
         layout='vertical'
         onValuesChange={onValuesChange}
       >
-        <FormSetConditionals/>
+        <FormSetConditionals drawerId={SetConditionalDrawers.OPTIMIZER}/>
 
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>

@@ -1,4 +1,4 @@
-import { CheckOutlined, CloseOutlined, DeleteOutlined, ThunderboltFilled } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
@@ -18,6 +18,7 @@ import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { SetConditionalDrawers, useFormSetConditionalsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -82,7 +83,8 @@ export default function BenchmarksTab(): ReactElement {
     updateTeammate(0, initialForm.teammate0)
     updateTeammate(1, initialForm.teammate1)
     updateTeammate(2, initialForm.teammate2)
-  }, [benchmarkForm])
+    handleCharacterSelectChange(initialForm.characterId, benchmarkForm)
+  }, [])
 
   return (
     <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
@@ -196,7 +198,9 @@ function RightPanel() {
     resetCache,
   } = useBenchmarksTabStore()
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
+  const { t: tCommon } = useTranslation(['optimizerTab', 'common'])
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
+  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.BENCHMARKS)
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
@@ -223,9 +227,16 @@ function RightPanel() {
 
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>
+
+          <Button
+            onClick={() => open()}
+            icon={<SettingOutlined/>}
+          >
+            {tCommon('SetConditionals.Title')/* Conditional set effects */}
+          </Button>
         </Flex>
 
-        <FormSetConditionals/>
+        <FormSetConditionals drawerId={SetConditionalDrawers.BENCHMARKS}/>
       </Flex>
 
       <Flex vertical gap={GAP}>

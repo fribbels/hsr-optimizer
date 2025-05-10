@@ -6,6 +6,7 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useFormSetConditionalsDrawer } from '../state/UseFormSetConditionalsDrawer'
 
 const { Text } = Typography
 
@@ -14,10 +15,12 @@ const setConditionalsNameWidth = 200
 const setConditionalsWidth = 80
 const defaultGap = 5
 
-export function FormSetConditionals() {
+export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean) => void } */) {
+  // eslint-disable-next-line react/prop-types
+  const drawerId = props.drawerId
+
+  const { open, close, isOpen } = useFormSetConditionalsDrawer(drawerId)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
-  const conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
     const options = []
@@ -165,8 +168,8 @@ export function FormSetConditionals() {
     <Drawer
       title={t('Title')}// 'Conditional set effects'
       placement='right'
-      onClose={() => setConditionalSetEffectsDrawerOpen(false)}
-      open={conditionalSetEffectsDrawerOpen}
+      onClose={() => close()}
+      open={isOpen}
       width={750}
       forceRender
     >

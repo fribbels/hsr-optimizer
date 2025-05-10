@@ -70,7 +70,6 @@ export type HsrOptimizerStore = {
   optimizationInProgress: boolean
   optimizationId: string | null
   teammateCount: number
-  scoringModalOpen: boolean
   relicScorerSidebarOpen: boolean
   optimizerRunningEngine: ComputeEngine
   optimizerStartTime: number | null
@@ -105,7 +104,6 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
-  setScoringModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void
   setActiveKey: (key: AppPage) => void

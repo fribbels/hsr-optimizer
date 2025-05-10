@@ -12,6 +12,7 @@ export enum OpenCloseIDs {
   ZERO_RESULTS_MODAL = 'ZERO_RESULTS_MODAL',
   ZERO_PERMS_MODAL = 'ZERO_PERMS_MODAL',
   MENU_SIDEBAR = 'MENU_SIDEBAR',
+  SCORING_MODAL = 'SCORING_MODAL',
 }
 
 interface OpenCloseStates {
@@ -33,7 +34,7 @@ export const openCloseStore = create<OpenCloseStates>((set) => ({
 
 // Hook for toggling interactive open/close states locally without parent rerender or using the main global store
 // Usage:
-// const { open: openMenuSidebar, close: closeMenuSidebar, toggle: toggleMenuSidebar, isOpen: isOpenMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
+// const { open: openScoringModal, close: closeScoringModal, toggle: toggleScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
 export function useOpenClose(id: OpenCloseIDs) {
   const isOpen = openCloseStore((state) => state.state[id] ?? false)
   const setIsOpen = openCloseStore((state) => state.setIsOpen)

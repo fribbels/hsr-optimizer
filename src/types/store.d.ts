@@ -70,8 +70,6 @@ export type HsrOptimizerStore = {
   optimizationInProgress: boolean
   optimizationId: string | null
   teammateCount: number
-  zeroPermutationModalOpen: boolean
-  zeroResultModalOpen: boolean
   scoringModalOpen: boolean
   relicScorerSidebarOpen: boolean
   optimizerRunningEngine: ComputeEngine

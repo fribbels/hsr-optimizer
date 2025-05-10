@@ -157,8 +157,6 @@ window.store = create((set) => {
     optimizationInProgress: false,
     optimizationId: null,
     teammateCount: 0,
-    zeroPermutationModalOpen: false,
-    zeroResultModalOpen: false,
     scoringModalOpen: false,
     menuSidebarOpen: true,
     relicScorerSidebarOpen: true,

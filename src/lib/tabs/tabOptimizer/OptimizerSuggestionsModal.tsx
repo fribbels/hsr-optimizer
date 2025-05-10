@@ -469,7 +469,6 @@ export function activateZeroResultSuggestionsModal(request: Form) {
 }
 
 export function ZeroResultSuggestionModal() {
-  const zeroResultModalOpen = window.store((s) => s.zeroResultModalOpen)
   const { open: openZeroResultsModal, close: closeZeroResultsModal, isOpen: isOpenZeroResultsModal } = useOpenClose(OpenCloseIDs.ZERO_RESULTS_MODAL)
 
   const { t } = useTranslation('modals')

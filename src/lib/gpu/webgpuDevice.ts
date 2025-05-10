@@ -2,26 +2,28 @@ import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { webgpuNotSupportedNotification } from 'lib/interactions/notifications'
 
-export async function getWebgpuDevice(warn?: boolean) {
-  const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
+export async function getWebgpuDevice(notify?: boolean) {
+  try {
+    const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
 
-  if (adapter == null) {
-    console.log('Webgpu not supported')
-
-    if (warn) {
-      webgpuNotSupportedNotification()
+    if (adapter == null) {
+      throw new Error()
     }
 
-    return null
+    return await adapter.requestDevice({
+      requiredLimits: {
+        // Investigate limits for high-end experimental channel
+        // maxComputeInvocationsPerWorkgroup: 512,
+        // maxComputeWorkgroupSizeX: 512,
+        // maxStorageBufferBindingSize: 268435456,
+      },
+    })
+  } catch (e) {
+    if (notify) {
+      console.error('Webgpu not supported', e)
+      webgpuNotSupportedNotification()
+    }
   }
-  return await adapter.requestDevice({
-    requiredLimits: {
-      // Investigate limits for high-end experimental channel
-      // maxComputeInvocationsPerWorkgroup: 512,
-      // maxComputeWorkgroupSizeX: 512,
-      // maxStorageBufferBindingSize: 268435456,
-    },
-  })
 }
 
 export async function verifyWebgpuSupport(warn: boolean) {

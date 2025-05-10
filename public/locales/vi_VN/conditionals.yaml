@@ -165,6 +165,10 @@ Lightcones:
         text: Tầng Lưu Quang
         content: >-
           Khi người trang bị thi triển Đòn Đánh Theo Sau sẽ nhận 1 tầng Lưu Quang, tối đa cộng dồn 2 tầng. Mỗi tầng Lưu Quang khiến sát thương Tuyệt Kỹ mà người trang bị gây ra bỏ qua {{DefIgnore}}% phòng thủ của mục tiêu. Khi hiệp của người trang bị kết thúc sẽ xóa bỏ 1 tầng Lưu Quang.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: Xuyên Phòng Thủ
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -177,6 +181,10 @@ Lightcones:
         text: Sát Thương Kích Phá phải chịu tăng
         content: >-
           Khi điểm yếu của mục tiêu phe địch bị phá vỡ sẽ có 100% xác suất cơ bản khiến kẻ đó rơi vào trạng thái Lửa Đốt, Sát Thương Phá Vỡ phải chịu tăng {{breakVulnerability}}%, duy trì 2 hiệp, hiệu ứng này có thể cộng dồn 2 tầng.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Yếu điểm
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -877,6 +885,10 @@ Characters:
         text: Tăng Sát Thương Đội
       e6Buffs:
         text: E6 Tăng Gì Đó
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: Chiến Kỹ Tăng Tấn Công
   Clara:
     Content:
       ultBuff:

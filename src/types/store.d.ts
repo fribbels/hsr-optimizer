@@ -84,7 +84,6 @@ export type HsrOptimizerStore = {
   inventoryWidth: number
   setInventoryWidth: (width: number) => void
   setRowLimit: (rowLimit: number) => void
-  conditionalSetEffectsDrawerOpen: boolean
   relicsById: Record<string, Relic>
   statDisplay: string
   memoDisplay: string
@@ -110,15 +109,12 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
-  setZeroPermutationsModalOpen: (open: boolean) => void
   setScoringModalOpen: (open: boolean) => void
-  setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void
   setActiveKey: (key: AppPage) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void
-  setConditionalSetEffectsDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: string) => void
   setMemoDisplay: (display: string) => void

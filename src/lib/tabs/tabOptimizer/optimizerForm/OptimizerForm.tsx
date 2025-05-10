@@ -1,6 +1,7 @@
 import { Form as AntDForm, Flex } from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -23,7 +24,6 @@ import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/Teammat
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
-import { SetConditionalDrawers } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import { useEffect, useMemo } from 'react'
@@ -155,7 +155,7 @@ export default function OptimizerForm() {
         layout='vertical'
         onValuesChange={onValuesChange}
       >
-        <FormSetConditionals drawerId={SetConditionalDrawers.OPTIMIZER}/>
+        <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER}/>
 
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>

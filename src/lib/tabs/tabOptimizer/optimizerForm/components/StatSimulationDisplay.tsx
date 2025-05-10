@@ -1,6 +1,7 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, SwapOutlined, UpOutlined } from '@ant-design/icons'
 import { Form as AntDForm, Button, Flex, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   deleteAllStatSimulationBuilds,
@@ -16,7 +17,6 @@ import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/compon
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/SimulatedBuildsGrid'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { SetConditionalDrawers, useFormSetConditionalsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
@@ -36,7 +36,7 @@ export function StatSimulationDisplay() {
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
-  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.OPTIMIZER)
+  const { open, close } = useOpenClose(OpenCloseIDs.OPTIMIZER)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay

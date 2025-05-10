@@ -8,6 +8,7 @@ import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/compon
 import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
 import GenerateSetsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { SetConditionalDrawers, useFormSetConditionalsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
@@ -17,7 +18,7 @@ const { SHOW_CHILD } = Cascader
 
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
+  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.OPTIMIZER)
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
@@ -165,7 +166,7 @@ export default function RelicMainSetFilters() {
           </Select>
         </Form.Item>
         <Button
-          onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+          onClick={() => open()}
           icon={<SettingOutlined/>}
         >
           {t('SetConditionals.Title')/* Conditional set effects */}

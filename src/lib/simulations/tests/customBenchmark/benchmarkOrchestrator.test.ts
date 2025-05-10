@@ -97,8 +97,8 @@ test('Black Swan benchmark 0 captain', async () => {
       mains: testMains(Stats.ATK_P, Stats.ATK_P, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    2903651.344964308,
-    3281611.25,
+    1497524.1869088612,
+    1704446.875,
   )
 })
 

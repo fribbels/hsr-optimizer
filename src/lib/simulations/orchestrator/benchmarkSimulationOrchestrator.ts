@@ -187,10 +187,13 @@ export class BenchmarkSimulationOrchestrator {
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
 
-    // Cache context for reuse
-    const context = generateContext(simulationForm)
-
     this.form = simulationForm
+  }
+
+  public setSimContext() {
+    const form = this.form!
+    // Cache context for reuse
+    const context = generateContext(form)
     this.context = context
   }
 

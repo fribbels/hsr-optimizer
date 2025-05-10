@@ -9,7 +9,7 @@ test('Switch relics between characters in Characters tab', async ({ page }) => {
   await expect(page.getByRole('img', { name: 'Space Sealing Station' })).toHaveCount(0)
 
   await page.getByRole('button', { name: 'user Character menu down' }).click()
-  await page.getByText('Switch relics with').click()
+  await page.getByRole('menuitem', { name: 'Switch relics with' }).click();
   await page.getByRole('dialog').locator('#selectedCharacter').click()
   await page.locator('.ant-select-dropdown').getByText('Kafka').click()
   await expect(page.getByRole('dialog')).toContainText('Kafka')

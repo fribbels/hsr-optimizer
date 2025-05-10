@@ -160,7 +160,7 @@ export const Optimizer = {
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU) {
-      void getWebgpuDevice().then((device) => {
+      void getWebgpuDevice(true).then((device) => {
         if (device == null) {
           Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
             15)

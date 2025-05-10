@@ -36,7 +36,7 @@ export function StatSimulationDisplay() {
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
-  const { open, close } = useOpenClose(OpenCloseIDs.OPTIMIZER)
+  const { open: openSetsDrawer } = useOpenClose(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
@@ -86,7 +86,7 @@ export function StatSimulationDisplay() {
             </Button>
             <Button
               style={{ width: 200 }} disabled={isHidden()}
-              onClick={() => open}
+              onClick={openSetsDrawer}
               icon={<SettingOutlined/>}
             >
               {t('FooterLabels.Conditionals')/* Conditional set effects */}

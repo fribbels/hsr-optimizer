@@ -166,7 +166,7 @@ export default function RelicMainSetFilters() {
           </Select>
         </Form.Item>
         <Button
-          onClick={() => openSetsDrawer()}
+          onClick={openSetsDrawer}
           icon={<SettingOutlined/>}
         >
           {t('SetConditionals.Title')/* Conditional set effects */}

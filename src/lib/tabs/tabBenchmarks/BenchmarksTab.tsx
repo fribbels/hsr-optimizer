@@ -228,7 +228,7 @@ function RightPanel() {
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>
           <Button
-            onClick={() => openSetsDrawer()}
+            onClick={openSetsDrawer}
             icon={<SettingOutlined/>}
             type='dashed'
           >

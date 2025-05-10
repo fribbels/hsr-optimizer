@@ -63,7 +63,7 @@ export const ComboFilters = () => {
       <>
         <Flex vertical gap={8} style={{ marginTop: 8 }}>
           <Button
-            onClick={() => openComboDrawer()}
+            onClick={openComboDrawer}
             icon={<SettingOutlined/>}
             disabled={comboType == ComboType.SIMPLE}
           >

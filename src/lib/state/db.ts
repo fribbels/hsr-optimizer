@@ -158,7 +158,6 @@ window.store = create((set) => {
     optimizationId: null,
     teammateCount: 0,
     scoringModalOpen: false,
-    menuSidebarOpen: true,
     relicScorerSidebarOpen: true,
     optimizerRunningEngine: COMPUTE_ENGINE_GPU_STABLE,
     optimizerStartTime: null,
@@ -261,7 +260,6 @@ window.store = create((set) => {
     setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
     setScoringModalOpen: (x) => set(() => ({ scoringModalOpen: x })),
     setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
-    setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
     setSettings: (x: UserSettings) => set(() => ({ settings: x })),
     setSavedSession: (x) => set(() => ({ savedSession: x })),
     setSavedSessionKey: (key, x) => set((state) => ({

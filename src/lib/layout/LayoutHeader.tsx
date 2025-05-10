@@ -1,5 +1,6 @@
 import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button, Flex, Layout, theme, Typography } from 'antd'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/state/db'
@@ -8,8 +9,7 @@ const { useToken } = theme
 const { Header } = Layout
 
 export function LayoutHeader() {
-  const menuSidebarOpen = window.store((s) => s.menuSidebarOpen)
-  const setMenuSidebarOpen = window.store((s) => s.setMenuSidebarOpen)
+  const { isOpen: isOpenMenuSidebar, toggle: toggleMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
   const { token } = useToken()
 
   return (
@@ -29,8 +29,8 @@ export function LayoutHeader() {
         <Flex>
           <Button
             type='text'
-            icon={menuSidebarOpen ? <CloseOutlined/> : <MenuOutlined/>}
-            onClick={() => setMenuSidebarOpen(!menuSidebarOpen)}
+            icon={isOpenMenuSidebar ? <CloseOutlined/> : <MenuOutlined/>}
+            onClick={toggleMenuSidebar}
             style={{
               fontSize: '16px',
               position: 'relative',

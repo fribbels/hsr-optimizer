@@ -11,6 +11,7 @@ export enum OpenCloseIDs {
   ENEMY_DRAWER = 'ENEMY_DRAWER',
   ZERO_RESULTS_MODAL = 'ZERO_RESULTS_MODAL',
   ZERO_PERMS_MODAL = 'ZERO_PERMS_MODAL',
+  MENU_SIDEBAR = 'MENU_SIDEBAR',
 }
 
 interface OpenCloseStates {
@@ -19,7 +20,9 @@ interface OpenCloseStates {
 }
 
 export const openCloseStore = create<OpenCloseStates>((set) => ({
-  state: {} as Record<OpenCloseIDs, boolean>,
+  state: {
+    [OpenCloseIDs.MENU_SIDEBAR]: true,
+  } as Record<OpenCloseIDs, boolean>,
   setIsOpen: (id: OpenCloseIDs, isOpen: boolean) => set((state) => ({
     state: {
       ...state.state,
@@ -30,7 +33,7 @@ export const openCloseStore = create<OpenCloseStates>((set) => ({
 
 // Hook for toggling interactive open/close states locally without parent rerender or using the main global store
 // Usage:
-// const { open: openSetsDrawer, close: closeSetsDrawer } = useOpenClose(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)
+// const { open: openMenuSidebar, close: closeMenuSidebar, toggle: toggleMenuSidebar, isOpen: isOpenMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
 export function useOpenClose(id: OpenCloseIDs) {
   const isOpen = openCloseStore((state) => state.state[id] ?? false)
   const setIsOpen = openCloseStore((state) => state.setIsOpen)
@@ -39,5 +42,6 @@ export function useOpenClose(id: OpenCloseIDs) {
     isOpen,
     open: () => setIsOpen(id, true),
     close: () => setIsOpen(id, false),
+    toggle: () => setIsOpen(id, !isOpen),
   }
 }

@@ -70,6 +70,17 @@ Characters:
     Content:
       e2EnemyHp50DmgBoost:
         content: Урон, наносимый противникам, НР которых ниже или равно 50%, повышается на 15%.
+  Sampo:
+    Content:
+      targetDotTakenDebuff:
+        text: '↑Урон ДоТ''ов у цели ульты'
+        content: Ослабление от сверхспособности Сампо повышает получаемый целью периодический урон на {{dotVulnerabilityValue}}% на 2 хода.
+      skillExtraHits:
+        text: Доп. ударов навыка
+        content: Количество дополнительных отскоков от навыка. [1-й эйдолон повышает кол-во отскоков с 4 до 5]
+      targetWindShear:
+        text: На враге Выветривание
+        content: Наносимый Сампо противниками со статусом Выветривание урон понижается на 15%.
   Seele:
     Content:
       buffedState:

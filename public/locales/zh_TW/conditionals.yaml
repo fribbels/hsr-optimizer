@@ -679,6 +679,10 @@ Characters:
         text: 速度增益
       e6Buffs:
         text: 6魂增益
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: 戰技攻擊力增益
   Clara:
     Content:
       ultBuff:

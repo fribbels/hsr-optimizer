@@ -1,4 +1,5 @@
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { LightCone } from 'types/lightCone'
@@ -18,6 +19,7 @@ export type BenchmarkForm = {
   teammate0?: SimpleCharacter
   teammate1?: SimpleCharacter
   teammate2?: SimpleCharacter
+  setConditionals: SetConditionals
 }
 
 export type SimpleCharacter = {

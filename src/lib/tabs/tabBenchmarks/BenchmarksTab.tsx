@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio, Select } from 'antd'
+import { Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
@@ -14,6 +14,7 @@ import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidol
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
@@ -21,7 +22,7 @@ import { CenteredImage } from 'lib/ui/CenteredImage'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character, CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -223,12 +224,15 @@ function RightPanel() {
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>
         </Flex>
+
+        <FormSetConditionals/>
       </Flex>
 
       <Flex vertical gap={GAP}>
         <Button
           onClick={() => {
             const formValues = benchmarkForm.getFieldsValue()
+            console.log(formValues)
             handleBenchmarkFormSubmit(formValues)
           }}
           loading={loading}
@@ -261,7 +265,7 @@ function SpdBenchmarkSetting() {
   const presetOptions = useMemo(() => {
     // Optimizer has SPD0 as undefined for filters, we want to set it to 0
     const presets = TsUtils.clone(generateSpdPresets(t))
-    presets['SPD0'].value = 0
+    presets.SPD0.value = 0
     return Object.values(presets)
   }, [])
 

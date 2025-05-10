@@ -8,6 +8,7 @@ import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/default
 import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -285,7 +286,7 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   applyScoringMetadataPresets(form)
 }
 
-export function applyScoringMetadataPresets(form: Form) {
+export function applyScoringMetadataPresets(form: Form | BenchmarkForm) {
   const character = DB.getMetadata().characters[form.characterId]
   const presets = character?.scoringMetadata?.presets ?? []
 
@@ -294,11 +295,11 @@ export function applyScoringMetadataPresets(form: Form) {
   }
 }
 
-export function applyPreset(form: Form, preset: PresetDefinition) {
+export function applyPreset(form: Form | BenchmarkForm, preset: PresetDefinition) {
   form.setConditionals[preset.set][preset.index ?? 1] = preset.value
 }
 
-export function applySetConditionalPresets(form: Form) {
+export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   const characterMetadata = DB.getMetadata().characters[form.characterId]
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 

@@ -5203,7 +5203,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           WHOLE_BASIC,
           DEFAULT_DOT,
         ],
-        comboDot: 16,
+        comboDot: 8,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

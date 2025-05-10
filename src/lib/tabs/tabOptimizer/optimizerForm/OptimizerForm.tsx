@@ -1,4 +1,4 @@
-import { Flex, Form as AntDForm } from 'antd'
+import { Form as AntDForm, Flex } from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Optimizer } from 'lib/optimization/optimizer'
@@ -25,7 +25,7 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Form } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 
@@ -33,6 +33,8 @@ export const optimizerFormCache: Record<string, Form> = {}
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
+  // const conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
+  // const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
   const [optimizerForm] = AntDForm.useForm<Form>()
   window.optimizerForm = optimizerForm
 

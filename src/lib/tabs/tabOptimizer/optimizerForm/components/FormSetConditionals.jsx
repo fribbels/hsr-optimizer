@@ -19,7 +19,7 @@ export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean
   // eslint-disable-next-line react/prop-types
   const drawerId = props.drawerId
 
-  const { open, close, isOpen } = useFormSetConditionalsDrawer(drawerId)
+  const { openConditionalDrawer: open, closeConditionalDrawer: close, isOpen } = useFormSetConditionalsDrawer(drawerId)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {

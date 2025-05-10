@@ -200,7 +200,7 @@ function RightPanel() {
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const { t: tCommon } = useTranslation(['optimizerTab', 'common'])
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
-  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.BENCHMARKS)
+  const { openConditionalDrawer: open, closeConditionalDrawer: close } = useFormSetConditionalsDrawer(SetConditionalDrawers.BENCHMARKS)
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>

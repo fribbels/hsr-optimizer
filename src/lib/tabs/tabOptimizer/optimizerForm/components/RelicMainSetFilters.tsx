@@ -18,7 +18,7 @@ const { SHOW_CHILD } = Cascader
 
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.OPTIMIZER)
+  const { openConditionalDrawer: open, closeConditionalDrawer: close } = useFormSetConditionalsDrawer(SetConditionalDrawers.OPTIMIZER)
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>

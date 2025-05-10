@@ -34,8 +34,6 @@ export const optimizerFormCache: Record<string, Form> = {}
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
-  const conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
   const [optimizerForm] = AntDForm.useForm<Form>()
   window.optimizerForm = optimizerForm
 

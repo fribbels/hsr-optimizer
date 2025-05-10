@@ -16,6 +16,7 @@ import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/compon
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/SimulatedBuildsGrid'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { SetConditionalDrawers, useFormSetConditionalsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
@@ -35,7 +36,7 @@ export function StatSimulationDisplay() {
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
+  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.OPTIMIZER)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
@@ -85,7 +86,7 @@ export function StatSimulationDisplay() {
             </Button>
             <Button
               style={{ width: 200 }} disabled={isHidden()}
-              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              onClick={() => open}
               icon={<SettingOutlined/>}
             >
               {t('FooterLabels.Conditionals')/* Conditional set effects */}

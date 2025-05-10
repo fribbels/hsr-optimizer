@@ -8,6 +8,7 @@ import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPr
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
@@ -76,6 +77,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
     const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
     const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
+    const { open: openTracesDrawer, close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: CharacterId) => {
@@ -187,7 +189,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
     function onTraceClick() {
       window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
-      window.store.getState().setStatTracesDrawerOpen(true)
+      openTracesDrawer()
     }
 
     function onShowcaseDeprioritizeBuffsChange(deprioritizeBuffs: boolean) {

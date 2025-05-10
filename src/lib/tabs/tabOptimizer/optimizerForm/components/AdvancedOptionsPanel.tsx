@@ -9,9 +9,10 @@ import { OptimizerForm } from 'types/form'
 
 export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
+  const { open: openEnemyDrawer, close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
   const { open: openBuffsDrawer, close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
-  const setEnemyConfigurationsDrawerOpen = window.store((s) => s.setEnemyConfigurationsDrawerOpen)
-  const setStatTracesDrawerOpen = window.store((s) => s.setStatTracesDrawerOpen)
+  const { open: openTracesDrawer, close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
+
   const setStatTracesDrawerFocusCharacter = window.store((s) => s.setStatTracesDrawerFocusCharacter)
 
   // Count the # of active buffs to display
@@ -28,7 +29,7 @@ export const AdvancedOptionsPanel = () => {
 
       <Button
         onClick={() => {
-          setStatTracesDrawerOpen(true)
+          openTracesDrawer()
           setStatTracesDrawerFocusCharacter(window.store.getState().optimizerTabFocusCharacter!)
         }}
         icon={<SettingOutlined/>}
@@ -47,7 +48,7 @@ export const AdvancedOptionsPanel = () => {
       </Button>
 
       <Button
-        onClick={() => setEnemyConfigurationsDrawerOpen(true)}
+        onClick={openEnemyDrawer}
         icon={<SettingOutlined/>}
       >
         {t('EnemyConfigButtonText')/* Enemy configurations */}

@@ -56,8 +56,6 @@ export type HsrOptimizerStore = {
   activeKey: AppPage
   characters: Character[]
   charactersById: Partial<Record<CharacterId, Character>>
-  statTracesDrawerOpen: boolean
-  enemyConfigurationsDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
@@ -99,8 +97,6 @@ export type HsrOptimizerStore = {
   setOptimizationId: (id: string) => void
   setComboState: (state: ComboState) => void
   setFormValues: (form: Form) => void
-  setEnemyConfigurationsDrawerOpen: (open: boolean) => void
-  setStatTracesDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId | null | undefined) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void

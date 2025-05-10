@@ -144,8 +144,8 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
 }
 
 function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[]; dataSource200: BenchmarkRow[] }) {
-  const spd = TsUtils.precisionRound(dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget)
-  const suffix = spd == null ? '' : `(${spd} SPD)`
+  const spd = dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget
+  const suffix = spd == null ? '' : `(${TsUtils.precisionRound(spd)} SPD)`
   const items: TabsProps['items'] = [
     {
       key: '100',

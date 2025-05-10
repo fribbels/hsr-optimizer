@@ -461,6 +461,10 @@ TeammateCard:
       Desc: "4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+36%）"
       Set: "$t(gameData:RelicSets.121.Name)"
       Text: 会心ダメ36%
+    Warrior:
+      Desc: "$t(gameData:RelicSets.125.Name) （会心ダメージ+15%）"
+      Set: "$t(gameData:RelicSets.125.Name)"
+      Text: 会心ダメ15%
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) （会心ダメージ+10%）"
       Set: "$t(gameData:RelicSets.310.Name)"

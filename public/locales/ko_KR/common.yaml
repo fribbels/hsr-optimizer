@@ -27,7 +27,9 @@ CharacterWithCount_other: "{{count}} 명"
 Character_one: 캐릭터
 Character_other: 캐릭터
 VerifiedRelicHoverText: 유물 계산기가 검사한 유물 부옵 (소수점 속도)
+Verified4LinerHoverText: 유물 부옵 및 초기 횟수는 유물 점수에 의해 검증됨(정확한 속도 소수점 + 4줄 시작 부옵)
 CombatStats: 전투 스탯
+MemospriteLabel: "{{label}}ᴹ"
 Parts:
   Head: 머리
   Hands: 팔

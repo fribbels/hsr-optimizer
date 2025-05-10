@@ -172,6 +172,10 @@ Lightcones:
         text: Acúmulos de Luminflux
         content: >-
           Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: DEF PEN
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -191,6 +195,10 @@ Lightcones:
       deathFlower:
         text: DEF PEN Flor da Morte
         content: Quando o usuário ou seu memosprite perdem HP durante seu próprio turno, o usuário ganha "Flor da Morte", que permite que o usuário e seu memosprite ignorem {{DefIgnore}}% da DEF do alvo ao realizar dano, durando de 2 rodadas.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnerabilidade
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -948,6 +956,10 @@ Characters:
         content: >-
           Quando Castorice ou "Dragão Abissal" causam Dano, aumenta a PEN de RES a Quântico em 20% e, adicionalmente, aumenta o número de Rebotes para o Talento do "Dragão Abissal", "Asas Sobre as Ruínas", em 3 vez(es).
 
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: Aumento de ATK da Habilidade
   Clara:
     Content:
       ultBuff:
@@ -1205,6 +1217,10 @@ Characters:
       e6DmgBuff:
         text: Buff de DMG E6
         content: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos.
+  Hyacine:
+    Content:
+      e4CdBuff:
+        text: E4 Buff CD
   ImbibitorLunae:
     Content:
       basicEnhanced:

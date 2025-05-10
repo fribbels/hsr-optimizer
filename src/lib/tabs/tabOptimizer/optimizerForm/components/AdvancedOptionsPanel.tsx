@@ -1,14 +1,15 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form } from 'antd'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
 
 export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
-  const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
+  const { open: openBuffsDrawer, close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
   const setEnemyConfigurationsDrawerOpen = window.store((s) => s.setEnemyConfigurationsDrawerOpen)
   const setStatTracesDrawerOpen = window.store((s) => s.setStatTracesDrawerOpen)
   const setStatTracesDrawerFocusCharacter = window.store((s) => s.setStatTracesDrawerFocusCharacter)
@@ -36,7 +37,7 @@ export const AdvancedOptionsPanel = () => {
       </Button>
 
       <Button
-        onClick={() => setCombatBuffsDrawerOpen(true)}
+        onClick={openBuffsDrawer}
         icon={<SettingOutlined/>}
       >
         {

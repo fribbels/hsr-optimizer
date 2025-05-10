@@ -21,7 +21,8 @@ export const openCloseStore = create<OpenCloseStates>((set) => ({
   })),
 }))
 
-// Usage
+// Hook for toggling interactive open/close states locally without parent rerender or using the main global store
+// Usage:
 // const { open: openSetsDrawer, close: closeSetsDrawer } = useOpenClose(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)
 export function useOpenClose(id: OpenCloseIDs) {
   const isOpen = openCloseStore((state) => state.state[id] ?? false)

@@ -1,8 +1,7 @@
-import i18next from 'i18next'
 import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -14,7 +13,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.ULT_BASIC_MEMO_SKILL_3_SKILL_TALENT_MEMO_TALENT_5
@@ -94,61 +93,66 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     healTargetHp50: {
       id: 'healTargetHp50',
       formItem: 'switch',
-      text: 'Heal target ≤ 50% HP',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('healTargetHp50.text'),
+      content: t('healTargetHp50.content'),
     },
     resBuff: {
       id: 'resBuff',
       formItem: 'switch',
-      text: 'Effect RES buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('resBuff.text'),
+      content: t('resBuff.content'),
     },
     spd200HpBuff: {
       id: 'spd200HpBuff',
       formItem: 'switch',
-      text: 'SPD ≥ 200 HP buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('spd200HpBuff.text'),
+      content: t('spd200HpBuff.content'),
     },
     clearSkies: {
       id: 'clearSkies',
       formItem: 'switch',
-      text: 'Clear Skies state',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('clearSkies.text'),
+      content: t('clearSkies.content', {
+        UltHpBuffScaling: TsUtils.precisionRound(100 * ultHpBuffPercent),
+        UltHpBuffFlat: TsUtils.precisionRound(ultHpBuffFlat),
+      }),
     },
     healingDmgStacks: {
       id: 'healingDmgStacks',
       formItem: 'slider',
-      text: 'Healing DMG stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('healingDmgStacks.text'),
+      content: t('healingDmgStacks.content', {
+        TalentDmgBuff: TsUtils.precisionRound(100 * talentHealingDmgStackValue),
+      }),
       min: 0,
       max: 3,
     },
     e1HpBuff: {
       id: 'e1HpBuff',
       formItem: 'switch',
-      text: 'E1 HP buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1HpBuff.text'),
+      content: t('e1HpBuff.content'),
       disabled: e < 1,
     },
     e2SpdBuff: {
       id: 'e2SpdBuff',
       formItem: 'switch',
-      text: 'E2 SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2SpdBuff.text'),
+      content: t('e2SpdBuff.content'),
       disabled: e < 2,
     },
     e4CdBuff: {
       id: 'e4CdBuff',
       formItem: 'switch',
-      text: 'E4 CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4CdBuff.text'),
+      content: t('e4CdBuff.content'),
       disabled: e < 6,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E6 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6ResPen.text'),
+      content: t('e6ResPen.content'),
       disabled: e < 6,
     },
   }

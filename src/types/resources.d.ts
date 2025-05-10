@@ -245,7 +245,6 @@ interface Resources {
     "Save": "Save",
     "Score": "Score",
     "Reset": "Reset",
-    "Auto": "Auto",
     "EidolonNShort": "E{{eidolon}}",
     "SuperimpositionNShort": "S{{superimposition}}",
     "LevelShort": "Lv{{level}}",
@@ -670,6 +669,20 @@ interface Resources {
           }
         }
       },
+      "LiesAflutterInTheWind": {
+        "Content": {
+          "defPen": {
+            "text": "DEF PEN",
+            "content": "After the wearer uses an attack, there is a 120% base chance to inflict the \"Bamboozle\" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the \"Theft\" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns."
+          }
+        },
+        "TeammateContent": {
+          "additionalDefPen": {
+            "text": "SPD > 170",
+            "content": "After the wearer uses an attack, there is a 120% base chance to inflict the \"Bamboozle\" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the \"Theft\" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns."
+          }
+        }
+      },
       "LifeShouldBeCastToFlames": {
         "Content": {
           "dmgBoost": {
@@ -695,6 +708,14 @@ interface Resources {
           "deathFlower": {
             "text": "Death Flower DEF PEN",
             "content": "When the wearer or their memosprite loses HP during their own turn, the wearer gains \"Death Flower,\" which allows the wearer and their memosprite to ignore {{DefIgnore}}% of the target's DEF when dealing DMG, lasting for 2 turns."
+          }
+        }
+      },
+      "MayRainbowsRemainInTheSky": {
+        "Content": {
+          "vulnerability": {
+            "text": "Vulnerability",
+            "content": "When the wearer's memosprite uses Memosprite Skill, increases the DMG taken by all enemies by {{Vulnerability}}% for 2 turns. The same types of effects cannot stack."
           }
         }
       },
@@ -1756,6 +1777,42 @@ interface Resources {
           }
         }
       },
+      "Cipher": {
+        "Content": {
+          "vulnerability": {
+            "text": "Team Vulnerability",
+            "content": "When Cipher is on the battlefield, DMG received by all enemy targets increases by 40%."
+          },
+          "skillAtkBuff": {
+            "text": "Skill ATK buff",
+            "content": "When using skill, there is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turns."
+          },
+          "fuaCdBoost": {
+            "text": "Fua CD boost",
+            "content": "Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%."
+          },
+          "spdBasedBuffs": {
+            "text": "SPD based buffs",
+            "content": "When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%."
+          },
+          "e1AtkBuff": {
+            "text": "E1 ATK buff",
+            "content": "When using a Follow-up ATK caused by her Talent, increases Cipher's ATK by 80% for 2 turns."
+          },
+          "e2Vulnerability": {
+            "text": "E2 vulnerability",
+            "content": "When Cipher hits an enemy target, there is a 120% base chance of causing them to receive 30% more DMG, lasting 2 turns."
+          },
+          "e4AdditionalDmg": {
+            "text": "E4 Additional DMG",
+            "content": "After \"Patron\" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it."
+          },
+          "e6FuaDmg": {
+            "text": "E6 Fua DMG",
+            "content": "Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%."
+          }
+        }
+      },
       "Clara": {
         "Content": {
           "ultBuff": {
@@ -2099,6 +2156,46 @@ interface Resources {
           "e6DmgBuff": {
             "text": "E6 DMG buff",
             "content": "When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
+          }
+        }
+      },
+      "Hyacine": {
+        "Content": {
+          "healTargetHp50": {
+            "text": "Heal target ≤ 50% HP",
+            "content": "When providing healing to an ally target with less than or equal to 50% this unit's Max HP, increases Hyacine and Little Ica's Outgoing Healing by 25%."
+          },
+          "resBuff": {
+            "text": "Effect RES buff",
+            "content": "Increases Hyacine's Effect RES by 50%."
+          },
+          "spd200HpBuff": {
+            "text": "SPD ≥ 200 HP buff",
+            "content": "When Hyacine's SPD exceeds 200, increases her and Little Ica's Max HP by 20%. Then, for every 1 excess SPD, increases Hyacine's and Little Ica's Outgoing Healing by 1%. Up to a max of 200 excess SPD can be taken into account for this effect."
+          },
+          "clearSkies": {
+            "text": "After Rain state",
+            "content": "After using her ultimate, Hyacine enters the \"After Rain\" state for 3 turns. Reduces the state's duration by 1 turn each time Hyacine's turn begins. When in \"After Rain\" state, increases Max HP for all allies by {{UltHpBuffScaling}}% plus {{UltHpBuffFlat}}."
+          },
+          "healingDmgStacks": {
+            "text": "Healing DMG stacks",
+            "content": "When Hyacine or Little Ica provides healing, increases Little Ica's DMG dealt by {{TalentDmgBuff}}% for 2 turns. Stacks up to 3 times."
+          },
+          "e1HpBuff": {
+            "text": "E1 HP buff",
+            "content": "When Hyacine is in the \"After Rain\" state, additionally increases the Max HP of all ally targets by 50%."
+          },
+          "e2SpdBuff": {
+            "text": "E2 SPD buff",
+            "content": "When any ally target's HP decreases, this unit's SPD increases by 30% for 2 turns."
+          },
+          "e4CdBuff": {
+            "text": "E4 CD buff",
+            "content": "The \"Tempestuous Halt\" Trace is enhanced. For every 1 of SPD exceeded, additionally increases Hyacine and Little Ica's CRIT DMG by 2%."
+          },
+          "e6ResPen": {
+            "text": "E6 RES PEN",
+            "content": "When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%."
           }
         }
       },
@@ -5086,10 +5183,10 @@ interface Resources {
         "Prisoner": "The selected DEF% pen buff is applied to damage calculations based on the number of stacks.",
         "Diver": "The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.",
         "Watchmaker": "When enabled, the Break Effect buff is applied to Combat stat calculations.",
-        "Valorous": "The CRIT Rate buff is always on by default. When enabled, the DMG% buff for Ultimate damage is applied to Combat stat calculations.",
+        "Valorous": "When enabled, the DMG% buff for Ultimate damage is applied to Combat stat calculations.",
         "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.",
-        "Scholar": "The CRIT Rate buff is always on by default. When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
-        "Hero": "The ATK% buff is always on by default. When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
+        "Scholar": "When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
+        "Hero": "When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",

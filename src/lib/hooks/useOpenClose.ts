@@ -3,6 +3,7 @@ import { create } from 'zustand'
 export enum OpenCloseIDs {
   OPTIMIZER_SETS_DRAWER = 'OPTIMIZER_SETS_DRAWER',
   BENCHMARKS_SETS_DRAWER = 'BENCHMARKS_SETS_DRAWER',
+  COMBO_DRAWER = 'COMBO_DRAWER',
 }
 
 interface OpenCloseStates {

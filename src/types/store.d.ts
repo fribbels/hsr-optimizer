@@ -56,7 +56,6 @@ export type HsrOptimizerStore = {
   activeKey: AppPage
   characters: Character[]
   charactersById: Partial<Record<CharacterId, Character>>
-  comboDrawerOpen: boolean
   combatBuffsDrawerOpen: boolean
   statTracesDrawerOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
@@ -130,7 +129,6 @@ export type HsrOptimizerStore = {
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void
   setConditionalSetEffectsDrawerOpen: (b: boolean) => void
-  setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: string) => void
   setMemoDisplay: (display: string) => void

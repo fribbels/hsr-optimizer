@@ -58,8 +58,6 @@ export type HsrOptimizerStore = {
   charactersById: Partial<Record<CharacterId, Character>>
   statTracesDrawerOpen: boolean
   enemyConfigurationsDrawerOpen: boolean
-  settingsDrawerOpen: boolean
-  gettingStartedDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
@@ -99,8 +97,6 @@ export type HsrOptimizerStore = {
   optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
-  setSettingsDrawerOpen: (open: boolean) => void
-  setGettingStartedDrawerOpen: (open: boolean) => void
   setComboState: (state: ComboState) => void
   setFormValues: (form: Form) => void
   setEnemyConfigurationsDrawerOpen: (open: boolean) => void

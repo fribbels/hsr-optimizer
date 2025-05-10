@@ -4,8 +4,9 @@ import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { officialOnly } from 'lib/constants/constants'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { AppPage, AppPages } from 'lib/state/db'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
@@ -29,6 +30,8 @@ const MenuDrawer = () => {
   const { t } = useTranslation('sidebar')
   const activeKey = window.store((s) => s.activeKey)
   const setActiveKey = window.store((s) => s.setActiveKey)
+  const { open: openSettingsDrawer, close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
+  const { open: openBeginnerDrawer, close: closeBeginnerDrawer, isOpen: isOpenBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)
 
   const items = useMemo(() => [
     getItem(t('Tools.Title')/* Tools */, 'subTools', <SunOutlined/>, [
@@ -99,7 +102,7 @@ const MenuDrawer = () => {
         AppPages.IMPORT),
       getItem(
         (
-          <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)} style={{ width: '100%' }}>
+          <Flex onClick={openSettingsDrawer} style={{ width: '100%' }}>
             <SettingOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Settings')/* Settings */}
@@ -109,7 +112,7 @@ const MenuDrawer = () => {
       ),
       getItem(
         (
-          <Flex onClick={() => window.store.getState().setGettingStartedDrawerOpen(true)} style={{ width: '100%' }}>
+          <Flex onClick={openBeginnerDrawer} style={{ width: '100%' }}>
             <BookOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Start')/* Get Started */}

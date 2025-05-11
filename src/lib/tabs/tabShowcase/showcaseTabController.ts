@@ -1,6 +1,7 @@
 import i18next from 'i18next'
 import { CharacterConverter, UnconvertedCharacter } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
+import { MISHA, NATASHA, NIGHT_ON_THE_MILKY_WAY, ON_THE_FALL_OF_AN_AEON, QINGQUE, SERVAL, SUSHANG, SWORDPLAY, TIME_WAITS_FOR_NO_ONE, XUEYI } from 'lib/simulations/tests/testMetadataConstants'
 import DB, { AppPage, AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { APIResponse, processEnkaData, processMihomoData } from 'lib/tabs/tabShowcase/dataProcessors'
@@ -43,10 +44,12 @@ export function presetCharacters(): Preset[] {
     { characterId: char('1405'), lightConeId: lc('23041') },
     { characterId: char('1407'), lightConeId: lc('23040') },
 
-    { characterId: char('1308'), lightConeId: lc('23024'), rerun: true },
-    { characterId: char('1225'), lightConeId: lc('23035'), rerun: true },
-    { characterId: char('1218'), lightConeId: lc('23029'), rerun: true },
-    { characterId: char('1305'), lightConeId: lc('23020'), rerun: true },
+    { characterId: char(MISHA), lightConeId: lc(ON_THE_FALL_OF_AN_AEON), rerun: true },
+    { characterId: char(SERVAL), lightConeId: lc(NIGHT_ON_THE_MILKY_WAY), rerun: true },
+    { characterId: char(NATASHA), lightConeId: lc(TIME_WAITS_FOR_NO_ONE), rerun: true },
+    { characterId: char(QINGQUE), lightConeId: lc(NIGHT_ON_THE_MILKY_WAY), rerun: true },
+    { characterId: char(XUEYI), lightConeId: lc(ON_THE_FALL_OF_AN_AEON), rerun: true },
+    { characterId: char(SUSHANG), lightConeId: lc(SWORDPLAY), rerun: true },
 
     { custom: true },
   ]

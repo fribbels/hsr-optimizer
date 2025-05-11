@@ -1,7 +1,7 @@
 import { Button, Flex, Modal, Typography } from 'antd'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
-import { OpenCloseIDs, openCloseStore, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, openCloseStore, setClose, setOpen, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
@@ -43,7 +43,7 @@ const ZeroPermRootCauseFixes: {
     buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText', // Navigate to Importer tab
     applyFix: () => {
       window.store.getState().setActiveKey(AppPages.IMPORT)
-      openCloseStore.getState().setIsOpen(OpenCloseIDs.ZERO_PERMS_MODAL, false)
+      setClose(OpenCloseIDs.ZERO_PERMS_MODAL)
     },
     successMessageKey: '0Perms.RootCauses.IMPORT.SuccessMessage',
     // Message.success('Choose an import method and import your relics and characters', 2)
@@ -166,7 +166,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
   // Zero relics overrides everything else
   if (allRelics.length == 0) {
     rootCauses.push(ZeroPermRootCause.IMPORT)
-    openCloseStore.getState().setIsOpen(OpenCloseIDs.ZERO_PERMS_MODAL, true)
+    setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
     return
   }
 
@@ -228,7 +228,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
     rootCauses.push(ZeroPermRootCause.IMPORT)
   }
 
-  openCloseStore.getState().setIsOpen(OpenCloseIDs.ZERO_PERMS_MODAL, true)
+  setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
 }
 
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
@@ -465,7 +465,7 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.minShield) rootCauses.push(ZeroResultRootCause.MIN_SHIELD)
   if (request.maxShield < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_SHIELD)
 
-  openCloseStore.getState().setIsOpen(OpenCloseIDs.ZERO_RESULTS_MODAL, true)
+  setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
 }
 
 export function ZeroResultSuggestionModal() {

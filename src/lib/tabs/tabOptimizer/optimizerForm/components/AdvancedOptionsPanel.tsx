@@ -1,6 +1,6 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form } from 'antd'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
@@ -9,9 +9,9 @@ import { OptimizerForm } from 'types/form'
 
 export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
-  const { open: openEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
-  const { open: openBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
-  const { open: openTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
+  const { open: openEnemyDrawer } = useOpenCloseActions(OpenCloseIDs.ENEMY_DRAWER)
+  const { open: openBuffsDrawer } = useOpenCloseActions(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
+  const { open: openTracesDrawer } = useOpenCloseActions(OpenCloseIDs.TRACES_DRAWER)
 
   const setStatTracesDrawerFocusCharacter = window.store((s) => s.setStatTracesDrawerFocusCharacter)
 

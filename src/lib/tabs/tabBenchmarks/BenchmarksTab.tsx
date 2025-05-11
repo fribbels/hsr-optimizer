@@ -2,7 +2,7 @@ import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, Thunderb
 import { Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
@@ -200,7 +200,7 @@ function RightPanel() {
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const { t: tCommon } = useTranslation(['optimizerTab', 'common'])
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
-  const { open: openSetsDrawer } = useOpenClose(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)
+  const { open: openSetsDrawer } = useOpenCloseActions(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>

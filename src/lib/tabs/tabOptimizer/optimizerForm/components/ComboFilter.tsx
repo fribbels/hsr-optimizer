@@ -2,7 +2,7 @@ import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons
 import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import { ComboType, getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
@@ -27,7 +27,7 @@ export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tCommon } = useTranslation('common')
   const form = Form.useFormInstance<OptimizerForm>()
-  const { open: openComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
+  const { open: openComboDrawer } = useOpenCloseActions(OpenCloseIDs.COMBO_DRAWER)
   const comboType = Form.useWatch('comboType', form)
   const comboOptions = useMemo(() => [
     { label: t('ComboOptions.Basic')/* Basic */, value: 'BASIC' },

@@ -4,7 +4,7 @@ import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { officialOnly } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import { AppPage, AppPages } from 'lib/state/db'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -30,8 +30,8 @@ const MenuDrawer = () => {
   const { t } = useTranslation('sidebar')
   const activeKey = window.store((s) => s.activeKey)
   const setActiveKey = window.store((s) => s.setActiveKey)
-  const { open: openSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
-  const { open: openBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)
+  const { open: openSettingsDrawer } = useOpenCloseActions(OpenCloseIDs.SETTINGS_DRAWER)
+  const { open: openBeginnerDrawer } = useOpenCloseActions(OpenCloseIDs.GETTING_STARTED_DRAWER)
 
   const items = useMemo(() => [
     getItem(t('Tools.Title')/* Tools */, 'subTools', <SunOutlined/>, [

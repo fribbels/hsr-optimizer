@@ -1,7 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Cascader, ConfigProvider, Flex, Form, Select } from 'antd'
 import { Constants, Parts } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
@@ -18,7 +18,7 @@ const { SHOW_CHILD } = Cascader
 
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const { open: openSetsDrawer } = useOpenClose(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)
+  const { open: openSetsDrawer } = useOpenCloseActions(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>

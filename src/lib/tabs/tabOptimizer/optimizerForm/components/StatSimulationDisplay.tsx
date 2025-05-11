@@ -1,7 +1,7 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, SwapOutlined, UpOutlined } from '@ant-design/icons'
 import { Form as AntDForm, Button, Flex, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   deleteAllStatSimulationBuilds,
@@ -36,7 +36,7 @@ export function StatSimulationDisplay() {
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
-  const { open: openSetsDrawer } = useOpenClose(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)
+  const { open: openSetsDrawer } = useOpenCloseActions(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay

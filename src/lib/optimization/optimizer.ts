@@ -115,7 +115,6 @@ export const Optimizer = {
     if (sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize > 2147483647) {
       Message.warning(`Too many permutations, please apply stricter filters or set minimum enhance to at least +3.`, 15)
       return
-      // hands*body*feet*sphere*rope
     }
 
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize

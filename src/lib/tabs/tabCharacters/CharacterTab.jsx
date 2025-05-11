@@ -5,7 +5,7 @@ import 'ag-grid-community/styles/ag-theme-balham.css'
 import { Button, Dropdown, Flex, Input, Modal, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import BuildsModal from 'lib/overlays/modals/BuildsModal'
@@ -59,7 +59,6 @@ export default function CharacterTab() {
   const setCharacterTabFocusCharacter = window.store((s) => s.setCharacterTabFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
   const selectedCharacter = window.store.getState().charactersById[characterTabFocusCharacter]
-  const { open: openScoringModal } = useOpenCloseActions(OpenCloseIDs.SCORING_MODAL)
 
   const [, forceUpdate] = React.useReducer((o) => !o)
   window.forceCharacterTabUpdate = () => {
@@ -279,7 +278,7 @@ export default function CharacterTab() {
 
   function scoringAlgorithmClicked() {
     if (characterTabFocusCharacter) setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
-    openScoringModal()
+    setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 
   function moveToTopClicked() {

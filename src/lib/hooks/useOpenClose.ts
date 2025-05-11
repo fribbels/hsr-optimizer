@@ -21,18 +21,6 @@ interface OpenCloseStates {
   setIsOpen: (id: OpenCloseIDs, isOpen: boolean) => void
 }
 
-export const openCloseStore = create<OpenCloseStates>((set) => ({
-  state: {
-    [OpenCloseIDs.MENU_SIDEBAR]: true,
-  } as Record<OpenCloseIDs, boolean>,
-  setIsOpen: (id: OpenCloseIDs, isOpen: boolean) => set((state) => ({
-    state: {
-      ...state.state,
-      [id]: isOpen,
-    },
-  })),
-}))
-
 // Hook for toggling interactive open/close states locally without parent rerender or using the main global store
 // Don't use a subscription if only actions are needed
 
@@ -66,3 +54,29 @@ export function useOpenClose(id: OpenCloseIDs) {
     isOpen,
   }
 }
+
+// Simple helper functions for nonreactive setters
+export function setOpen(id: OpenCloseIDs) {
+  openCloseStore.getState().setIsOpen(id, true)
+}
+
+export function setClose(id: OpenCloseIDs) {
+  openCloseStore.getState().setIsOpen(id, false)
+}
+
+export function toggleOpen(id: OpenCloseIDs) {
+  const currentState = openCloseStore.getState().state[id] ?? false
+  openCloseStore.getState().setIsOpen(id, !currentState)
+}
+
+export const openCloseStore = create<OpenCloseStates>((set) => ({
+  state: {
+    [OpenCloseIDs.MENU_SIDEBAR]: true,
+  } as Record<OpenCloseIDs, boolean>,
+  setIsOpen: (id: OpenCloseIDs, isOpen: boolean) => set((state) => ({
+    state: {
+      ...state.state,
+      [id]: isOpen,
+    },
+  })),
+}))

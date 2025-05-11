@@ -3,7 +3,7 @@ import { Alert, Button, Dropdown, Flex, Form, Input, Segmented, Typography } fro
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
@@ -27,8 +27,6 @@ export default function ShowcaseTab() {
   const loading = useShowcaseTabStore((s) => s.loading)
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
-
-  const { open: openScoringModal } = useOpenCloseActions(OpenCloseIDs.SCORING_MODAL)
 
   const activeKey = window.store((s) => s.activeKey)
   const { t } = useTranslation(['relicScorerTab', 'common'])
@@ -77,7 +75,7 @@ export default function ShowcaseTab() {
             </Button>
             <Button
               style={{ width: 'fit-content', minWidth: 175 }}
-              onClick={openScoringModal}
+              onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
               icon={<SettingOutlined/>}
             >
               {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}

@@ -1,7 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Cascader, ConfigProvider, Flex, Form, Select } from 'antd'
 import { Constants, Parts } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
@@ -18,7 +18,6 @@ const { SHOW_CHILD } = Cascader
 
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const { open: openSetsDrawer } = useOpenCloseActions(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
@@ -166,7 +165,7 @@ export default function RelicMainSetFilters() {
           </Select>
         </Form.Item>
         <Button
-          onClick={openSetsDrawer}
+          onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
           icon={<SettingOutlined/>}
         >
           {t('SetConditionals.Title')/* Conditional set effects */}

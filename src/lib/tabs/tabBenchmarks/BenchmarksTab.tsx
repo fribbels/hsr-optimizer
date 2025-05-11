@@ -2,7 +2,7 @@ import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, Thunderb
 import { Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
@@ -200,7 +200,6 @@ function RightPanel() {
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const { t: tCommon } = useTranslation(['optimizerTab', 'common'])
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
-  const { open: openSetsDrawer } = useOpenCloseActions(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
@@ -228,7 +227,7 @@ function RightPanel() {
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>
           <Button
-            onClick={openSetsDrawer}
+            onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
             icon={<SettingOutlined/>}
             type='dashed'
           >

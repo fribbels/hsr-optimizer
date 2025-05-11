@@ -1,6 +1,6 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Flex, Form } from 'antd'
-import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
@@ -9,10 +9,6 @@ import { OptimizerForm } from 'types/form'
 
 export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
-  const { open: openEnemyDrawer } = useOpenCloseActions(OpenCloseIDs.ENEMY_DRAWER)
-  const { open: openBuffsDrawer } = useOpenCloseActions(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
-  const { open: openTracesDrawer } = useOpenCloseActions(OpenCloseIDs.TRACES_DRAWER)
-
   const setStatTracesDrawerFocusCharacter = window.store((s) => s.setStatTracesDrawerFocusCharacter)
 
   // Count the # of active buffs to display
@@ -29,7 +25,7 @@ export const AdvancedOptionsPanel = () => {
 
       <Button
         onClick={() => {
-          openTracesDrawer()
+          setOpen(OpenCloseIDs.TRACES_DRAWER)
           setStatTracesDrawerFocusCharacter(window.store.getState().optimizerTabFocusCharacter!)
         }}
         icon={<SettingOutlined/>}
@@ -38,7 +34,7 @@ export const AdvancedOptionsPanel = () => {
       </Button>
 
       <Button
-        onClick={openBuffsDrawer}
+        onClick={() => setOpen(OpenCloseIDs.COMBAT_BUFFS_DRAWER)}
         icon={<SettingOutlined/>}
       >
         {
@@ -48,7 +44,7 @@ export const AdvancedOptionsPanel = () => {
       </Button>
 
       <Button
-        onClick={openEnemyDrawer}
+        onClick={() => setOpen(OpenCloseIDs.ENEMY_DRAWER)}
         icon={<SettingOutlined/>}
       >
         {t('EnemyConfigButtonText')/* Enemy configurations */}

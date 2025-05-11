@@ -16,7 +16,7 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 
-import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -56,7 +56,6 @@ export default function RelicsTab() {
   const [gridDestroyed, setGridDestroyed] = useState(false)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
-  const { open: openScoringModal } = useOpenCloseActions(OpenCloseIDs.SCORING_MODAL)
 
   const inventoryWidth = window.store((s) => s.inventoryWidth)
   const setInventoryWidth = window.store((s) => s.setInventoryWidth)
@@ -885,7 +884,7 @@ export default function RelicsTab() {
                 <Plot
                   onClick={(e) => {
                     store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid)
-                    openScoringModal()
+                    setOpen(OpenCloseIDs.SCORING_MODAL)
                   }}
                   data={
                     scores.map((s) => ({
@@ -976,7 +975,7 @@ export default function RelicsTab() {
                                     style={{ height: '19px' }}
                                     onClick={(e) => {
                                       store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
-                                      openScoringModal()
+                                      setOpen(OpenCloseIDs.SCORING_MODAL)
                                     }}
                                   />
                                 </a>
@@ -999,7 +998,7 @@ export default function RelicsTab() {
               <Plot
                 onClick={(e) => {
                   store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid[e.points[0].pointIndex])
-                  openScoringModal()
+                  setOpen(OpenCloseIDs.SCORING_MODAL)
                 }}
                 data={[
                   // Add fake data in each category to make sure we don't elide any categories - that would

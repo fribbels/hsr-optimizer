@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { create } from 'zustand'
 
 export enum OpenCloseIDs {
@@ -33,16 +34,35 @@ export const openCloseStore = create<OpenCloseStates>((set) => ({
 }))
 
 // Hook for toggling interactive open/close states locally without parent rerender or using the main global store
-// Usage:
-// const { open: openScoringModal, close: closeScoringModal, toggle: toggleScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
+// Don't use a subscription if only actions are needed
+
+// No rerenders
+// const { open: openScoringModal } = useOpenCloseActions(OpenCloseIDs.SCORING_MODAL)
+export function useOpenCloseActions(id: OpenCloseIDs) {
+  return useMemo(() => ({
+    open: () => openCloseStore.getState().setIsOpen(id, true),
+    close: () => openCloseStore.getState().setIsOpen(id, false),
+    toggle: () => {
+      const currentState = openCloseStore.getState().state[id] ?? false
+      openCloseStore.getState().setIsOpen(id, !currentState)
+    },
+  }), [id])
+}
+
+// Subscribes and rerenders
+// const { isOpen: isOpenScoringModal } = useIsOpen(OpenCloseIDs.SCORING_MODAL)
+export function useIsOpen(id: OpenCloseIDs) {
+  return openCloseStore((state) => state.state[id] ?? false)
+}
+
+// Subscribes and rerenders
+// const { close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
 export function useOpenClose(id: OpenCloseIDs) {
-  const isOpen = openCloseStore((state) => state.state[id] ?? false)
-  const setIsOpen = openCloseStore((state) => state.setIsOpen)
+  const actions = useOpenCloseActions(id)
+  const isOpen = useIsOpen(id)
 
   return {
+    ...actions,
     isOpen,
-    open: () => setIsOpen(id, true),
-    close: () => setIsOpen(id, false),
-    toggle: () => setIsOpen(id, !isOpen),
   }
 }

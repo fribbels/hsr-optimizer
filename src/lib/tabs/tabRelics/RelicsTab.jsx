@@ -16,7 +16,7 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -56,7 +56,7 @@ export default function RelicsTab() {
   const [gridDestroyed, setGridDestroyed] = useState(false)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
-  const { open: openScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
+  const { open: openScoringModal } = useOpenCloseActions(OpenCloseIDs.SCORING_MODAL)
 
   const inventoryWidth = window.store((s) => s.inventoryWidth)
   const setInventoryWidth = window.store((s) => s.setInventoryWidth)

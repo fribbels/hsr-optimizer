@@ -3,7 +3,7 @@ import { Alert, Button, Dropdown, Flex, Form, Input, Segmented, Typography } fro
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, useOpenCloseActions } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
@@ -27,7 +27,8 @@ export default function ShowcaseTab() {
   const loading = useShowcaseTabStore((s) => s.loading)
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
-  const { open: openScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
+
+  const { open: openScoringModal } = useOpenCloseActions(OpenCloseIDs.SCORING_MODAL)
 
   const activeKey = window.store((s) => s.activeKey)
   const { t } = useTranslation(['relicScorerTab', 'common'])

@@ -30,8 +30,8 @@ const MenuDrawer = () => {
   const { t } = useTranslation('sidebar')
   const activeKey = window.store((s) => s.activeKey)
   const setActiveKey = window.store((s) => s.setActiveKey)
-  const { open: openSettingsDrawer, close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
-  const { open: openBeginnerDrawer, close: closeBeginnerDrawer, isOpen: isOpenBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)
+  const { open: openSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
+  const { open: openBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)
 
   const items = useMemo(() => [
     getItem(t('Tools.Title')/* Tools */, 'subTools', <SunOutlined/>, [

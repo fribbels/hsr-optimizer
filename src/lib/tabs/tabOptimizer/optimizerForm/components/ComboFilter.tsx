@@ -27,7 +27,7 @@ export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tCommon } = useTranslation('common')
   const form = Form.useFormInstance<OptimizerForm>()
-  const { open: openComboDrawer, close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
+  const { open: openComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
   const comboType = Form.useWatch('comboType', form)
   const comboOptions = useMemo(() => [
     { label: t('ComboOptions.Basic')/* Basic */, value: 'BASIC' },

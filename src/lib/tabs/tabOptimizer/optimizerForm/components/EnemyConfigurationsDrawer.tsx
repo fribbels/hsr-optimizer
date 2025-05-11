@@ -13,7 +13,7 @@ const { Text } = Typography
 export const EnemyConfigurationsDrawer = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'EnemyConfiguration' })
 
-  const { open: openEnemyDrawer, close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
+  const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
 
   const enemyLevelOptions = useMemo(() => {
     const options: { value: number; label: string }[] = []

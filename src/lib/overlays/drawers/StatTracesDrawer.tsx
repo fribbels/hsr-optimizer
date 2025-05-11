@@ -16,7 +16,7 @@ const { Text } = Typography
 export const StatTracesDrawer = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'Stats' })
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
-  const { open: openTracesDrawer, close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
+  const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
   const statTraceDrawerFocusCharacter = window.store.getState().statTracesDrawerFocusCharacter
 

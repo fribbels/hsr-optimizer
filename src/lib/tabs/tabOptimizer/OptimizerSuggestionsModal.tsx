@@ -260,7 +260,7 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
 
 export function ZeroPermutationsSuggestionsModal() {
   const { t } = useTranslation('modals')
-  const { open: openZeroPermsModal, close: closeZeroPermsModal, isOpen: isOpenZeroPermsModal } = useOpenClose(OpenCloseIDs.ZERO_PERMS_MODAL)
+  const { close: closeZeroPermsModal, isOpen: isOpenZeroPermsModal } = useOpenClose(OpenCloseIDs.ZERO_PERMS_MODAL)
 
   // console.log('Suggestions root causes', rootCauses)
 
@@ -469,7 +469,7 @@ export function activateZeroResultSuggestionsModal(request: Form) {
 }
 
 export function ZeroResultSuggestionModal() {
-  const { open: openZeroResultsModal, close: closeZeroResultsModal, isOpen: isOpenZeroResultsModal } = useOpenClose(OpenCloseIDs.ZERO_RESULTS_MODAL)
+  const { close: closeZeroResultsModal, isOpen: isOpenZeroResultsModal } = useOpenClose(OpenCloseIDs.ZERO_RESULTS_MODAL)
 
   const { t } = useTranslation('modals')
 

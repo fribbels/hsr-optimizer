@@ -12,7 +12,7 @@ import { HsrOptimizerSaveFormat } from 'types/store'
 export const GettingStartedDrawer = () => {
   const { t } = useTranslation(['getStartedTab', 'common'])
 
-  const { open: openBeginnerDrawer, close: closeBeginnerDrawer, isOpen: isOpenBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)
+  const { close: closeBeginnerDrawer, isOpen: isOpenBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)
 
   function tryItOutClicked() {
     // Manually save for test files

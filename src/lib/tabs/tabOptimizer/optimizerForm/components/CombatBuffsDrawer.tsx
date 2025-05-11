@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 const { Text } = Typography
 
 export const CombatBuffsDrawer = () => {
-  const { open: openBuffsDrawer, close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
+  const { close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
 
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
 

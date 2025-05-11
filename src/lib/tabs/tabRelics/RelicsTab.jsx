@@ -56,7 +56,7 @@ export default function RelicsTab() {
   const [gridDestroyed, setGridDestroyed] = useState(false)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
-  const { open: openScoringModal, close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
+  const { open: openScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
 
   const inventoryWidth = window.store((s) => s.inventoryWidth)
   const setInventoryWidth = window.store((s) => s.setInventoryWidth)

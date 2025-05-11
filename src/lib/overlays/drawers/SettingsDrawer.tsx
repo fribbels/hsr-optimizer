@@ -49,7 +49,7 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
 
 export const SettingsDrawer = () => {
   const [settingsForm] = Form.useForm()
-  const { open: openSettingsDrawer, close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
+  const { close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
 
   const settings = window.store((s) => s.settings)
   const setSettings = window.store((s) => s.setSettings)

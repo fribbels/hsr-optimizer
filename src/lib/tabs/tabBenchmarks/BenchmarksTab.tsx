@@ -200,7 +200,7 @@ function RightPanel() {
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const { t: tCommon } = useTranslation(['optimizerTab', 'common'])
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
-  const { open: openSetsDrawer, close: closeSetsDrawer } = useOpenClose(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)
+  const { open: openSetsDrawer } = useOpenClose(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>

@@ -50,7 +50,7 @@ const buttonStyle = {
 }
 
 export function ComboDrawer() {
-  const { open: openComboDrawer, close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
+  const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
 
   const formValues = window.store((s) => s.formValues)
 

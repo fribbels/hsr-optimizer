@@ -77,7 +77,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
     const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
     const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
-    const { open: openTracesDrawer, close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
+    const { open: openTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: CharacterId) => {

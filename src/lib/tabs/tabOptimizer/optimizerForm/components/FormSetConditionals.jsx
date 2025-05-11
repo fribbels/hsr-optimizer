@@ -19,7 +19,7 @@ export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean
   // eslint-disable-next-line react/prop-types
   const id = props.id
 
-  const { open, close, isOpen } = useOpenClose(id)
+  const { close, isOpen } = useOpenClose(id)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {

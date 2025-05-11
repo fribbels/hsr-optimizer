@@ -20,6 +20,7 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Ligh
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { CenteredImage } from 'lib/ui/CenteredImage'
+import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -88,11 +89,10 @@ export default function BenchmarksTab(): ReactElement {
 
   return (
     <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
-      <Flex justify='space-around' style={{ margin: 15 }}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          Benchmark Generator (WIP BETA)
-        </pre>
-      </Flex>
+      <ColorizedTitleWithInfo
+        text='Benchmarks'
+        url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
+      />
 
       <Card style={{ width: 900, marginBottom: 30 }}>
         <AntDForm

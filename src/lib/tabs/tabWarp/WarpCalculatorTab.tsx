@@ -1,9 +1,10 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Form as AntDForm, Button, Card, Flex, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeDefinition, WarpIncomeOptions, WarpIncomeType, WarpMilestoneResult, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
@@ -18,11 +19,10 @@ export default function WarpCalculatorTab(): React.JSX.Element {
 
   return (
     <Flex vertical style={{ height: 1400, width: 950 }} align='center'>
-      <Flex justify='space-around' style={{ margin: 15 }}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {t('SectionTitles.Planner')/* Warp Planner */}
-        </pre>
-      </Flex>
+      <ColorizedTitleWithInfo
+        text={t('SectionTitles.Planner')/* Warp Planner */}
+        url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
+      />
 
       <Inputs/>
 
@@ -63,13 +63,6 @@ function Inputs() {
             <Title>
               <Flex justify='center' gap={10}>
                 {t('Settings')/* Settings */}
-                <a
-                  href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
-                  target='_blank'
-                  style={{ display: 'inline-flex', alignItems: 'center' }} rel='noreferrer'
-                >
-                  <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
-                </a>
               </Flex>
             </Title>
 
@@ -89,7 +82,6 @@ function Inputs() {
                     </Form.Item>
                   </Flex>
                 </Flex>
-
 
                 <Flex vertical flex={1}>
                   <HeaderText>{t('Banner')/* Banner */}</HeaderText>
@@ -117,7 +109,6 @@ function Inputs() {
                     </Form.Item>
                   </Flex>
                 </Flex>
-
 
                 <Flex vertical flex={1}>
                   <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
@@ -354,7 +345,7 @@ function Results() {
           dataSource={warpTableData}
           pagination={false}
           rowClassName={(record) => `
-            warp-table-row 
+            warp-table-row
             ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}
           `}
         />

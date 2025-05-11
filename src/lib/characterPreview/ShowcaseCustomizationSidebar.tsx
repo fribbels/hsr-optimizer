@@ -8,6 +8,7 @@ import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPr
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
@@ -187,7 +188,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
     function onTraceClick() {
       window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
-      window.store.getState().setStatTracesDrawerOpen(true)
+      setOpen(OpenCloseIDs.TRACES_DRAWER)
     }
 
     function onShowcaseDeprioritizeBuffsChange(deprioritizeBuffs: boolean) {

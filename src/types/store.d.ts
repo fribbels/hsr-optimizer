@@ -56,12 +56,6 @@ export type HsrOptimizerStore = {
   activeKey: AppPage
   characters: Character[]
   charactersById: Partial<Record<CharacterId, Character>>
-  comboDrawerOpen: boolean
-  combatBuffsDrawerOpen: boolean
-  statTracesDrawerOpen: boolean
-  enemyConfigurationsDrawerOpen: boolean
-  settingsDrawerOpen: boolean
-  gettingStartedDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
@@ -76,9 +70,6 @@ export type HsrOptimizerStore = {
   optimizationInProgress: boolean
   optimizationId: string | null
   teammateCount: number
-  zeroPermutationModalOpen: boolean
-  zeroResultModalOpen: boolean
-  scoringModalOpen: boolean
   relicScorerSidebarOpen: boolean
   optimizerRunningEngine: ComputeEngine
   optimizerStartTime: number | null
@@ -90,29 +81,21 @@ export type HsrOptimizerStore = {
   inventoryWidth: number
   setInventoryWidth: (width: number) => void
   setRowLimit: (rowLimit: number) => void
-  conditionalSetEffectsDrawerOpen: boolean
   relicsById: Record<string, Relic>
   statDisplay: string
   memoDisplay: string
-  menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
   optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
-  setSettingsDrawerOpen: (open: boolean) => void
-  setGettingStartedDrawerOpen: (open: boolean) => void
   setComboState: (state: ComboState) => void
   setFormValues: (form: Form) => void
-  setCombatBuffsDrawerOpen: (open: boolean) => void
-  setEnemyConfigurationsDrawerOpen: (open: boolean) => void
-  setStatTracesDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId | null | undefined) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void
   setOptimizerEndTime: (open: number) => void
-  setMenuSidebarOpen: (open: boolean) => void
   setRelicTabFilters: (filters: RelicTabFilters) => void
   setOptimizerRunningEngine: (s: ComputeEngine) => void
   setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
@@ -121,16 +104,11 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
-  setZeroPermutationsModalOpen: (open: boolean) => void
-  setScoringModalOpen: (open: boolean) => void
-  setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
   setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void
   setActiveKey: (key: AppPage) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void
-  setConditionalSetEffectsDrawerOpen: (b: boolean) => void
-  setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: string) => void
   setMemoDisplay: (display: string) => void

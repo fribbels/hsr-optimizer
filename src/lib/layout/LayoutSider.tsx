@@ -1,4 +1,5 @@
 import { Layout, theme } from 'antd'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import MenuDrawer from 'lib/overlays/drawers/MenuDrawer'
 
 const { useToken } = theme
@@ -7,7 +8,7 @@ const { Sider } = Layout
 export function LayoutSider() {
   const { token } = useToken()
 
-  const menuSidebarOpen = window.store((s) => s.menuSidebarOpen)
+  const { isOpen: isOpenMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
 
   return (
     <Sider
@@ -17,7 +18,7 @@ export function LayoutSider() {
       }}
       collapsible
       collapsedWidth={48}
-      collapsed={!menuSidebarOpen}
+      collapsed={!isOpenMenuSidebar}
       trigger={null}
     >
       <div

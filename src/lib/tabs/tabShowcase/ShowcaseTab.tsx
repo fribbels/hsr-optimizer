@@ -3,6 +3,7 @@ import { Alert, Button, Dropdown, Flex, Form, Input, Segmented, Typography } fro
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
@@ -10,7 +11,7 @@ import { SaveState } from 'lib/state/saveState'
 import { CharacterPreset, importClicked, initialiseShowcaseTab, onCharacterModalOk, Preset, presetCharacters, ShowcaseTabForm, submitForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
-import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 
@@ -74,7 +75,7 @@ export default function ShowcaseTab() {
             </Button>
             <Button
               style={{ width: 'fit-content', minWidth: 175 }}
-              onClick={() => window.store.getState().setScoringModalOpen(true)}
+              onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
               icon={<SettingOutlined/>}
             >
               {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}

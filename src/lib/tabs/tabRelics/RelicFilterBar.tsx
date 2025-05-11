@@ -3,6 +3,7 @@ import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { useSubscribe } from 'hooks/useSubscribe'
 import { Constants, Sets, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -15,7 +16,7 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -276,7 +277,7 @@ export default function RelicFilterBar(props: {
   function scoringClicked() {
     const relicsTabFocusCharacter = window.store.getState().relicsTabFocusCharacter
     if (relicsTabFocusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(relicsTabFocusCharacter)
-    window.store.getState().setScoringModalOpen(true)
+    setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 
   function rescoreClicked() {

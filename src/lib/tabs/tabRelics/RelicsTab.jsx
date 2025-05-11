@@ -16,12 +16,13 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 
+import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { currentLocale } from 'lib/utils/i18nUtils.js'
 import Plotly from 'plotly.js/dist/plotly-basic'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import createPlotlyComponent from 'react-plotly.js/factory'
 
@@ -726,7 +727,7 @@ export default function RelicsTab() {
           </div>
         )}
         {gridDestroyed && (
-          <div style={{ width: TAB_WIDTH, height: 500 }}/>
+          <div style={{ width: TAB_WIDTH, height: 500 }} />
         )}
         <Flex gap={10} justify='space-between'>
           <Button
@@ -781,7 +782,7 @@ export default function RelicsTab() {
                 <Flex vertical>
                   <Flex justify='space-between' align='center' gap={10}>
                     <HeaderText>{t('Toolbar.RelicLocator.Filter')/* Auto filter rows */}</HeaderText>
-                    <TooltipImage type={Hint.locatorParams()}/>
+                    <TooltipImage type={Hint.locatorParams()} />
                   </Flex>
                   <InputNumber
                     defaultValue={window.store.getState().rowLimit}
@@ -815,9 +816,9 @@ export default function RelicsTab() {
                 selectedRelic && (
                   <Flex align='center' justify='space-between' style={{ width: '100%' }}>
                     <Flex gap={5} style={{ minWidth: 10 }} justify='flex-start'>
-                      {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ height: 25 }}/>}
+                      {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ height: 25 }} />}
                       {locatorFilters.set
-                      && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }}/>}
+                        && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }} />}
                       {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
                     </Flex>
                     <Typography>
@@ -829,7 +830,7 @@ export default function RelicsTab() {
                           rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
                         })}
                     </Typography>
-                    <SettingOutlined/>
+                    <SettingOutlined />
                   </Flex>
 
                 )
@@ -840,7 +841,7 @@ export default function RelicsTab() {
                     <div style={{ width: 10 }}></div>
                     {/* Select a relic to locate */}
                     <div>{t('Toolbar.RelicLocator.NoneSelected')}</div>
-                    <SettingOutlined/>
+                    <SettingOutlined />
                   </Flex>
                 )
               }
@@ -848,7 +849,7 @@ export default function RelicsTab() {
           </Popover>
 
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicLocation()}/>
+            <TooltipImage type={Hint.relicLocation()} />
           </Flex>
           <Select
             value={relicInsight}
@@ -857,7 +858,7 @@ export default function RelicsTab() {
             style={{ width: 275 }}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicInsight()}/>
+            <TooltipImage type={Hint.relicInsight()} />
           </Flex>
           <Select
             value={plottedCharacterType}
@@ -874,7 +875,7 @@ export default function RelicsTab() {
             score={score}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relics()}/>
+            <TooltipImage type={Hint.relics()} />
           </Flex>
 
           {relicInsight === 'top10' && scores && (
@@ -883,7 +884,7 @@ export default function RelicsTab() {
                 <Plot
                   onClick={(e) => {
                     store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid)
-                    window.store.getState().setScoringModalOpen(true)
+                    setOpen(OpenCloseIDs.SCORING_MODAL)
                   }}
                   data={
                     scores.map((s) => ({
@@ -974,7 +975,7 @@ export default function RelicsTab() {
                                     style={{ height: '19px' }}
                                     onClick={(e) => {
                                       store.getState().setScoringAlgorithmFocusCharacter(e.target.attributes.src.nodeValue.split('avatar/')[1].split('.webp')[0])
-                                      window.store.getState().setScoringModalOpen(true)
+                                      setOpen(OpenCloseIDs.SCORING_MODAL)
                                     }}
                                   />
                                 </a>
@@ -997,7 +998,7 @@ export default function RelicsTab() {
               <Plot
                 onClick={(e) => {
                   store.getState().setScoringAlgorithmFocusCharacter(e.points[0].data.cid[e.points[0].pointIndex])
-                  window.store.getState().setScoringModalOpen(true)
+                  setOpen(OpenCloseIDs.SCORING_MODAL)
                 }}
                 data={[
                   // Add fake data in each category to make sure we don't elide any categories - that would

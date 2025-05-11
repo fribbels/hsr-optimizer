@@ -1,6 +1,7 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, SwapOutlined, UpOutlined } from '@ant-design/icons'
 import { Form as AntDForm, Button, Flex, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   deleteAllStatSimulationBuilds,
@@ -35,7 +36,6 @@ export function StatSimulationDisplay() {
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
@@ -85,7 +85,7 @@ export function StatSimulationDisplay() {
             </Button>
             <Button
               style={{ width: 200 }} disabled={isHidden()}
-              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
               icon={<SettingOutlined/>}
             >
               {t('FooterLabels.Conditionals')/* Conditional set effects */}

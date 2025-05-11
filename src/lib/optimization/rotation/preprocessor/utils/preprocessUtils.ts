@@ -1,3 +1,4 @@
+import { ABILITY_LIMIT } from 'lib/constants/constants'
 import { TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
@@ -32,7 +33,7 @@ export function setComboNumberCategoryCharacterActivation(comboState: ComboState
       category.partitions.forEach((x) => x.activations[index] = false)
       const newPartition = {
         value: value,
-        activations: new Array(comboState.comboTurnAbilities.length).fill(false),
+        activations: new Array(ABILITY_LIMIT + 1).fill(false),
       }
       newPartition.activations[index] = true
       category.partitions.push(newPartition)

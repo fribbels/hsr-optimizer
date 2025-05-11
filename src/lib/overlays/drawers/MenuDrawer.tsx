@@ -4,8 +4,9 @@ import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { officialOnly } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { AppPage, AppPages } from 'lib/state/db'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
@@ -99,7 +100,7 @@ const MenuDrawer = () => {
         AppPages.IMPORT),
       getItem(
         (
-          <Flex onClick={() => window.store.getState().setSettingsDrawerOpen(true)} style={{ width: '100%' }}>
+          <Flex onClick={() => setOpen(OpenCloseIDs.SETTINGS_DRAWER)} style={{ width: '100%' }}>
             <SettingOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Settings')/* Settings */}
@@ -109,7 +110,7 @@ const MenuDrawer = () => {
       ),
       getItem(
         (
-          <Flex onClick={() => window.store.getState().setGettingStartedDrawerOpen(true)} style={{ width: '100%' }}>
+          <Flex onClick={() => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)} style={{ width: '100%' }}>
             <BookOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             {t('Optimization.Start')/* Get Started */}

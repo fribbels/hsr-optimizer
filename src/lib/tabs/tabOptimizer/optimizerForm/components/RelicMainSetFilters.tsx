@@ -1,6 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Cascader, ConfigProvider, Flex, Form, Select } from 'antd'
 import { Constants, Parts } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
@@ -8,7 +9,6 @@ import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/compon
 import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
 import GenerateSetsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { SetConditionalDrawers, useFormSetConditionalsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
@@ -18,7 +18,6 @@ const { SHOW_CHILD } = Cascader
 
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.OPTIMIZER)
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
@@ -166,7 +165,7 @@ export default function RelicMainSetFilters() {
           </Select>
         </Form.Item>
         <Button
-          onClick={() => open()}
+          onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
           icon={<SettingOutlined/>}
         >
           {t('SetConditionals.Title')/* Conditional set effects */}

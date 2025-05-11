@@ -3,6 +3,7 @@ import { Button, Divider, Drawer, Flex, Select } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ABILITY_LIMIT, ConditionalDataType, Sets, setToId } from 'lib/constants/constants'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { ConditionalSetMetadata, generateSetConditionalContent } from 'lib/optimization/rotation/setConditionalContent'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
@@ -49,8 +50,8 @@ const buttonStyle = {
 }
 
 export function ComboDrawer() {
-  const comboDrawerOpen = window.store((s) => s.comboDrawerOpen)
-  const setComboDrawerOpen = window.store((s) => s.setComboDrawerOpen)
+  const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
+
   const formValues = window.store((s) => s.formValues)
 
   const comboState = window.store((s) => s.comboState)
@@ -62,7 +63,7 @@ export function ComboDrawer() {
   useEffect(() => {
     if (!comboState || !comboState.comboTurnAbilities) return
 
-    if (comboDrawerOpen) {
+    if (isOpenComboDrawer) {
       lockScroll()
 
       const form = OptimizerTabController.getForm()
@@ -77,14 +78,14 @@ export function ComboDrawer() {
       comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
       updateFormState(comboState)
     }
-  }, [formValues, comboDrawerOpen])
+  }, [formValues, isOpenComboDrawer])
 
   return (
     <Drawer
       title={<ComboDrawerTitle/>}
       placement='right'
-      onClose={() => setComboDrawerOpen(false)}
-      open={comboDrawerOpen}
+      onClose={() => closeComboDrawer()}
+      open={isOpenComboDrawer}
       width={1625}
       className='comboDrawer'
     >

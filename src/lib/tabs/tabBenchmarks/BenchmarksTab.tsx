@@ -2,6 +2,7 @@ import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, Thunderb
 import { Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
@@ -18,7 +19,6 @@ import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
-import { SetConditionalDrawers, useFormSetConditionalsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/state/UseFormSetConditionalsDrawer'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -200,7 +200,6 @@ function RightPanel() {
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const { t: tCommon } = useTranslation(['optimizerTab', 'common'])
   const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
-  const { open, close } = useFormSetConditionalsDrawer(SetConditionalDrawers.BENCHMARKS)
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
@@ -228,7 +227,7 @@ function RightPanel() {
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>
           <Button
-            onClick={() => open()}
+            onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
             icon={<SettingOutlined/>}
             type='dashed'
           >
@@ -237,7 +236,7 @@ function RightPanel() {
 
         </Flex>
 
-        <FormSetConditionals drawerId={SetConditionalDrawers.BENCHMARKS}/>
+        <FormSetConditionals id={OpenCloseIDs.BENCHMARKS_SETS_DRAWER}/>
       </Flex>
 
       <Flex vertical gap={GAP}>

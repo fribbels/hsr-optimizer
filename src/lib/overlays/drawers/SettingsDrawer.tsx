@@ -1,8 +1,9 @@
 import { Drawer, Flex, Form, Select, Typography } from 'antd'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { UserSettings } from 'types/store'
@@ -48,9 +49,7 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
 
 export const SettingsDrawer = () => {
   const [settingsForm] = Form.useForm()
-
-  const settingsDrawerOpen = window.store((s) => s.settingsDrawerOpen)
-  const setSettingsDrawerOpen = window.store((s) => s.setSettingsDrawerOpen)
+  const { close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
 
   const settings = window.store((s) => s.settings)
   const setSettings = window.store((s) => s.setSettings)
@@ -126,8 +125,8 @@ export const SettingsDrawer = () => {
       <Drawer
         title={t('Title')}/* 'Settings' */
         placement='right'
-        onClose={() => setSettingsDrawerOpen(false)}
-        open={settingsDrawerOpen}
+        onClose={closeSettingsDrawer}
+        open={isOpenSettingsDrawer}
         width={900}
         forceRender
       >

@@ -111,6 +111,12 @@ export const Optimizer = {
       pSize: relics.PlanarSphere.length,
       lSize: relics.LinkRope.length,
     }
+
+    if (sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize > 2147483647) {
+      Message.warning(`Too many permutations, please apply stricter filters or set minimum enhance to at least +3.`, 15)
+      return
+    }
+
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
 

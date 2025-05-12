@@ -137,6 +137,8 @@ function getChangelogContent() {
         `Balance: Gallagher's skill is now disabled on himself by default`,
         `Balance: Updated the default DPS Score teams for all characters`,
         `teams.webp`,
+        `Balance: Updated DPS Score default combo rotations for all characters`,
+        `rotation.webp`,
       ],
     },
     {

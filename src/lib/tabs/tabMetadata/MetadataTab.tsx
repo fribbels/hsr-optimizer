@@ -2,8 +2,10 @@ import { Collapse, Flex } from 'antd'
 import gameData from 'data/game_data.json'
 import { TFunction } from 'i18next'
 import { PathName, PathNames, Sets, Stats } from 'lib/constants/constants'
+import { NULL_TURN_ABILITY_NAME, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages, DB } from 'lib/state/db'
+import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StringToNumberMap } from 'types/common'
@@ -163,7 +165,7 @@ function SimulationComboDashboard() {
   const characters = Object.values(DB.getMetadata().characters)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
   return (
-    <Flex vertical gap={10}>
+    <Flex vertical gap={40}>
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Destruction), t)}/>
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Hunt), t)}/>
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Erudition), t)}/>
@@ -177,43 +179,33 @@ function SimulationComboDashboard() {
 }
 
 function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'optimizerTab', 'ComboFilter.ComboOptions'>) {
-  const longestCombo = Math.max(...characters
-    .filter((x) => x.scoringMetadata.simulation)
-    .map((x) => x.scoringMetadata.simulation!.comboAbilities.length), 1)
   let i = 0
   const comboByCharacter = [
-    Array<ReactElement>(longestCombo)
+    Array<ReactElement>(2)
       .fill(<></>)
       .map((_x, idx) => idx !== 0
-        ? <Flex key={i++} style={{ justifyContent: 'center' }}>{i}</Flex>
+        ? <></>
         : <Icon key={i++} src={Assets.getPath(characters[0].path)}/>,
       ),
   ]
 
   for (const character of characters) {
-    const combo = character.scoringMetadata.simulation?.comboAbilities?.filter((x) => typeof x === 'string')
+    const combo = character.scoringMetadata.simulation?.comboTurnAbilities?.filter((x) => typeof x === 'string')
     if (!combo) continue
 
     i = 0
-    const row: ReactElement[] = Array(longestCombo).fill(<Icon key={i++} src={Assets.getBlank()}/>)
+    const row: ReactElement[] = Array(2).fill(<Icon key={i++} src={Assets.getBlank()}/>)
     row[0] = <Icon key={0} src={Assets.getCharacterAvatarById(character.id)}/>
-    i = 1
-    for (const action of combo) {
-      row[i++] = <Flex style={{ whiteSpace: 'nowrap', justifyContent: 'center', marginRight: 10, marginLeft: 10, width: 40 }}>{t(formatComboAction(action) as never)}</Flex>
-    }
+    const text = combo.filter((x) => x != NULL_TURN_ABILITY_NAME).map(formatComboAction).join(' - ')
+
+    row[1] = <Flex style={{ whiteSpace: 'nowrap', justifyContent: 'flex-start', marginRight: 10, marginLeft: 10, width: 600 }}>{text}</Flex>
     comboByCharacter.push(row)
   }
   return comboByCharacter
 }
 
-function formatComboAction(action: string) {
-  const parts = action.split('_')
-  let ret = ''
-  parts.forEach((part) => {
-    ret += part.at(0)
-    ret += part.slice(1).toLowerCase()
-  })
-  return ret
+function formatComboAction(action: TurnAbilityName) {
+  return toI18NVisual(toTurnAbility(action))
 }
 
 // =========================================== ConditionalSetsPresetsDashboard ===========================================

@@ -18,7 +18,7 @@ import { Assets } from 'lib/rendering/assets'
 import { diminishingReturnsFormula, ScoringType, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
 import { Simulation } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
-import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -264,11 +264,10 @@ export const CharacterScoringSummary = (props: {
 
   return (
     <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
-      <Flex align='center' style={{ marginTop: 15 }} vertical gap={15}>
+      <Flex align='center' vertical gap={15}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          <ColorizedLinkWithIcon
+          <ColorizedTitleWithInfo
             text={t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
-            linkIcon={true}
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
           />
         </pre>
@@ -299,14 +298,11 @@ export const CharacterScoringSummary = (props: {
         <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
 
-      <Flex gap={defaultGap} vertical style={{ width: '100%' }} align='center'>
-        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
-          <ColorizedLinkWithIcon
-            text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
-            linkIcon={true}
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
-          />
-        </pre>
+      <Flex gap={defaultGap} vertical style={{ width: '100%', marginTop: 10 }} align='center'>
+        <ColorizedTitleWithInfo
+          text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
+          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
+        />
         <Alert
           message={t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
           type='info'

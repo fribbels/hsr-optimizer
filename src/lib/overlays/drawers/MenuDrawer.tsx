@@ -45,21 +45,21 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <SketchOutlined style={{ marginRight: 5, width: 16 }}/>
-            {' '}
-            {t('Tools.WarpPlanner')/* Warp Planner */}
-          </Flex>
-        ),
-        AppPages.WARP),
-      getItem(
-        (
-          <Flex>
             <ProjectOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
             Benchmarks
           </Flex>
         ),
         AppPages.BENCHMARKS),
+      getItem(
+        (
+          <Flex>
+            <SketchOutlined style={{ marginRight: 5, width: 16 }}/>
+            {' '}
+            {t('Tools.WarpPlanner')/* Warp Planner */}
+          </Flex>
+        ),
+        AppPages.WARP),
     ]),
     getItem(t('Optimization.Title')/* Optimization */, 'subOptimizer', <LineChartOutlined/>, [
       getItem(

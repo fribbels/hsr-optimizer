@@ -5,6 +5,7 @@ import 'ag-grid-community/styles/ag-theme-balham.css'
 import { Button, Dropdown, Flex, Input, Modal, theme, Typography } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import BuildsModal from 'lib/overlays/modals/BuildsModal'
@@ -277,7 +278,7 @@ export default function CharacterTab() {
 
   function scoringAlgorithmClicked() {
     if (characterTabFocusCharacter) setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
-    window.store.getState().setScoringModalOpen(true)
+    setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 
   function moveToTopClicked() {
@@ -291,7 +292,7 @@ export default function CharacterTab() {
       <>
         {/* Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set. */}
         <Trans t={t} i18nKey='Messages.SortByScoreWarning'>
-          <br/>
+          <br />
         </Trans>
       </>,
     )) {
@@ -404,7 +405,7 @@ export default function CharacterTab() {
   async function confirm(content) {
     return confirmationModal.confirm({
       title: t('common:Confirm'), // 'Confirm',
-      icon: <ExclamationCircleOutlined/>,
+      icon: <ExclamationCircleOutlined />,
       content: content,
       okText: t('common:Confirm'), // 'Confirm',
       cancelText: t('common:Cancel'), // 'Cancel',
@@ -432,11 +433,11 @@ export default function CharacterTab() {
         >
           <Button
             style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
-            icon={<UserOutlined/>}
+            icon={<UserOutlined />}
             type='default'
           >
             {t('CharacterMenu.ButtonText')/* Character menu */}
-            <DownOutlined/>
+            <DownOutlined />
           </Button>
         </Dropdown>
         <Flex vertical gap={8} style={{ minWidth: 240 }}>
@@ -521,7 +522,7 @@ export default function CharacterTab() {
         setOpen={setSwitchRelicsModalOpen}
         currentCharacter={selectedCharacter}
       />
-      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild}/>
+      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
       <BuildsModal
         open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter}
         imgRenderer={cellImageRenderer}

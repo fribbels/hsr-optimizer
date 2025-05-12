@@ -1,6 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { Button, Cascader, ConfigProvider, Flex, Form, Select } from 'antd'
 import { Constants, Parts } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
@@ -17,7 +18,6 @@ const { SHOW_CHILD } = Cascader
 
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
@@ -123,16 +123,17 @@ export default function RelicMainSetFilters() {
         <ConfigProvider theme={{
           components: {
             Cascader: {
-              dropdownHeight: 730,
-              controlItemWidth: 100,
-              controlWidth: 100,
-              optionPadding: '2px 12px',
+              dropdownHeight: 700,
+              controlItemWidth: 150,
+              controlWidth: 150,
+              optionPadding: '0px 12px',
             },
           },
         }}
         >
           <Form.Item name='relicSets'>
             <Cascader
+              popupClassName='relic-sets-cascader'
               placeholder={t('RelicSetSelector.Placeholder')}
               options={useMemo(() => GenerateSetsOptions(), [t])}
               showCheckedStrategy={SHOW_CHILD}
@@ -164,7 +165,7 @@ export default function RelicMainSetFilters() {
           </Select>
         </Form.Item>
         <Button
-          onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+          onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
           icon={<SettingOutlined/>}
         >
           {t('SetConditionals.Title')/* Conditional set effects */}

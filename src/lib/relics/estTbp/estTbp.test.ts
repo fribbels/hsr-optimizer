@@ -1,7 +1,7 @@
 import { Parts, Sets } from 'lib/constants/constants'
+import { binomialCoefficient, combinations, combinationsWithReplacement, factorial, permutations, probabilityOfCorrectInitialSubs, substatGenerator, substatGeneratorFromRelic } from 'lib/relics/estTbp/estTbp'
 import { Relic } from 'types/relic'
 import { expect, test } from 'vitest'
-import { binomialCoefficient, combinations, combinationsWithReplacement, factorial, permutations, probabilityOfCorrectInitialSubs, substatGenerator, substatGeneratorFromRelic } from './estTbp'
 
 test('Array generators work correctly', () => {
   expect(collectGenerator(permutations([0, 1, 2])))

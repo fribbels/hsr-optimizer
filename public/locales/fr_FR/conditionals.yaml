@@ -36,9 +36,9 @@ Lightcones:
           Lorsque le porteur touche une cible ennemie, applique l'effet Bulle du vide pendant 1 tour à l'ennemi. Cet effet peut être déclenché 1 fois sur chaque cible pour chaque attaque lancée par le porteur. Le porteur inflige {{DmgBoost}}% de DGT supplémentaires aux cibles affectées par Bulle du vide et ses DGT d'ultime augmentent de {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: Énergie maximale
-        content: Lorsque le porteur lance son ultime, augmente les DGT de l'ultime du porteur en fonction de son énergie max. Chaque point d'énergie augmente les DGT de l'ultime de {{DmgStep}}%, jusqu'à un maximum de 180 points d'énergie.
+      maxEnergyDmgBoost:
+        text: Bonus de DGT énergie max
+        content: Lorsque le porteur lance son ultime, augmente les DGT d'Ultime du porteur en fonction de son énergie max. Chaque point d'énergie augmente les DGT d'Ultime de {{DmgStep}}%, jusqu'à un maximum de 180 points d'énergie.
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
@@ -173,6 +173,10 @@ Lightcones:
         text: Cumuls de Lumière vive
         content: >-
           Lorsque le porteur lance une attaque de suivi, il gagne 1 cumul de Lumière vive jusqu'à un maximum de 2 fois. Chaque cumul de Lumière vive permet aux DGT d'ultime infligés par le porteur d'ignorer {{DefIgnore}}% de la DÉF de la cible. Lorsque le tour du porteur se termine, supprime 1 cumul de Lumière vive.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: PÉN de DÉF
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +196,10 @@ Lightcones:
       deathFlower:
         text: "PÉN de DÉF \nFleur du néant"
         content: Lorsque le porteur ou son mnémesprit perd des PV au cours de son tour, le porteur obtient Fleur du néant, ce qui permet au porteur et à son mnémesprit d'ignorer {{DefIgnore}}% de la DÉF de la cible lorsqu'ils infligent des DGT, pendant 2 tours.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnérabilité
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -936,6 +944,10 @@ Characters:
         text: 'E6: Divers bonus'
         content: >-
           Lorsque Castorice ou Aile du néant infligent des DGT, la PÉN de RÉS quantique augmente de 20%.::BR::Le nombre de rebonds de son talent Ailes ravageuses de ruines augmente de 3.
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: Bonus d'ATQ de la Compétence
   Clara:
     Content:
       ultBuff:
@@ -1193,6 +1205,10 @@ Characters:
       e6DmgBuff:
         text: 'E6: Bonus de DGT'
         content: Lorsque Huohuo soigne une cible alliée, les DGT de la cible alliée augmentent de 50% pendant 2 tours.
+  Hyacine:
+    Content:
+      e4CdBuff:
+        text: 'E4: Bonus de DC'
   ImbibitorLunae:
     Content:
       basicEnhanced:

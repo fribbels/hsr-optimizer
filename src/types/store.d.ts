@@ -6,7 +6,9 @@ import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import { AppPage } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId, Eidolon } from 'types/character'
 import { Form } from 'types/form'
@@ -51,19 +53,12 @@ export type HsrOptimizerStore = {
   statTracesDrawerFocusCharacter?: CharacterId | null
   relicsTabFocusCharacter?: CharacterId | null
   rowLimit: number
-  activeKey: string
+  activeKey: AppPage
   characters: Character[]
   charactersById: Partial<Record<CharacterId, Character>>
-  comboDrawerOpen: boolean
-  combatBuffsDrawerOpen: boolean
-  statTracesDrawerOpen: boolean
-  enemyConfigurationsDrawerOpen: boolean
-  settingsDrawerOpen: boolean
-  gettingStartedDrawerOpen: boolean
   permutations: number
   permutationsResults: number
   permutationsSearched: number
-  scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
   showcaseTemporaryOptionsByCharacter: Record<string, ShowcaseTemporaryOptions>
@@ -75,9 +70,6 @@ export type HsrOptimizerStore = {
   optimizationInProgress: boolean
   optimizationId: string | null
   teammateCount: number
-  zeroPermutationModalOpen: boolean
-  zeroResultModalOpen: boolean
-  scoringModalOpen: boolean
   relicScorerSidebarOpen: boolean
   optimizerRunningEngine: ComputeEngine
   optimizerStartTime: number | null
@@ -89,29 +81,21 @@ export type HsrOptimizerStore = {
   inventoryWidth: number
   setInventoryWidth: (width: number) => void
   setRowLimit: (rowLimit: number) => void
-  conditionalSetEffectsDrawerOpen: boolean
   relicsById: Record<string, Relic>
   statDisplay: string
   memoDisplay: string
-  menuSidebarOpen: boolean
   settings: UserSettings
   optimizerBuild: Build | null
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
   optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined
   setSettings: (settings: UserSettings) => void
   setOptimizationId: (id: string) => void
-  setSettingsDrawerOpen: (open: boolean) => void
-  setGettingStartedDrawerOpen: (open: boolean) => void
   setComboState: (state: ComboState) => void
   setFormValues: (form: Form) => void
-  setCombatBuffsDrawerOpen: (open: boolean) => void
-  setEnemyConfigurationsDrawerOpen: (open: boolean) => void
-  setStatTracesDrawerOpen: (open: boolean) => void
   setOptimizerTabFocusCharacter: (CharacterId: CharacterId | null | undefined) => void
   setOptimizationInProgress: (open: boolean) => void
   setOptimizerStartTime: (open: number) => void
   setOptimizerEndTime: (open: number) => void
-  setMenuSidebarOpen: (open: boolean) => void
   setRelicTabFilters: (filters: RelicTabFilters) => void
   setOptimizerRunningEngine: (s: ComputeEngine) => void
   setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void
@@ -120,16 +104,11 @@ export type HsrOptimizerStore = {
   optimizerFormSelectedLightConeSuperimposition: number
   setPermutationsResults: (n: number) => void
   setPermutationsSearched: (n: number) => void
-  setZeroPermutationsModalOpen: (open: boolean) => void
-  setScoringModalOpen: (open: boolean) => void
-  setZeroResultModalOpen: (open: boolean) => void
   setRelicsById: (relicsById: Record<number, Relic>) => void
-  setSavedSessionKey: (key: string, value: string | boolean | ScoringType) => void
-  setActiveKey: (key: string) => void
+  setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void
+  setActiveKey: (key: AppPage) => void
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void
-  setConditionalSetEffectsDrawerOpen: (b: boolean) => void
-  setComboDrawerOpen: (b: boolean) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
   setStatDisplay: (display: string) => void
   setMemoDisplay: (display: string) => void
@@ -140,7 +119,7 @@ export type HsrOptimizerStore = {
   setOptimizerBuild: (x: Build) => void
   setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void
   setOptimizerBuffGroups: (x: Record<BUFF_TYPE, Record<string, Buff[]>>) => void
-  setSavedSession: (x: SavedSession) => void
+  setSavedSession: (x: GlobalSavedSession) => void
   setOptimizerFormSelectedLightCone: (x: LightCone['id'] | null) => void
   setOptimizerFormCharacterEidolon: (x: Eidolon) => void
   setTeammateCount: (x: number) => void
@@ -152,7 +131,6 @@ export type HsrOptimizerStore = {
   setShowcaseTemporaryOptionsByCharacter: (x: Record<string, ShowcaseTemporaryOptions>) => void
   setWarpRequest: (x: WarpRequest) => void
   setWarpResult: (x: WarpResult) => void
-  setScorerId: (x: string) => void
   setCharacterTabFilters: (x: CharacterTabFilters) => void
   setPermutations: (x: number) => void
   setPermutationDetails: (x: PermutationDetails) => void
@@ -170,7 +148,7 @@ export type HsrOptimizerStore = {
 
   optimizerMenuState: OptimizerMenuState
 
-  savedSession: SavedSession
+  savedSession: GlobalSavedSession
   globalThemeConfig: ThemeConfig
 }
 
@@ -184,9 +162,8 @@ export type CharacterTabFilters = {
   rarity: number[]
 }
 
-export type SavedSession = {
+export type GlobalSavedSession = {
   optimizerCharacterId: CharacterId | null
-  relicScorerSidebarOpen: boolean
   scoringType: ScoringType
   computeEngine: ComputeEngine
   showcaseStandardMode: boolean
@@ -206,12 +183,14 @@ export type UserSettings = {
 export type HsrOptimizerSaveFormat = {
   relics: Relic[]
   characters: Character[]
-  scorerId: string
   scoringMetadataOverrides: Record<string, ScoringMetadata>
   showcasePreferences: Record<string, ShowcasePreferences>
   optimizerMenuState: OptimizerMenuState
   excludedRelicPotentialCharacters: CharacterId[]
-  savedSession: SavedSession
+  savedSession: {
+    showcaseTab: ShowcaseTabSavedSession
+    global: GlobalSavedSession
+  }
   settings: UserSettings
   version: string
   warpRequest: WarpRequest

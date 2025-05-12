@@ -1,7 +1,6 @@
 import { Form as AntDForm, Radio } from 'antd'
-import React from 'react'
+import { RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { useTranslation } from 'react-i18next'
-import { RadioButton } from './CharacterEidolonFormRadio'
 
 export function LightConeSuperimpositionFormRadio() {
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })

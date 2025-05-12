@@ -14,6 +14,7 @@ import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -23,7 +24,7 @@ import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
 import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
-import { HsrOptimizerSaveFormat, HsrOptimizerStore, SavedSession, UserSettings } from 'types/store'
+import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, UserSettings } from 'types/store'
 import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
@@ -43,40 +44,47 @@ export enum BasePath {
 export const BASE_PATH: BasePath = BasePath.MAIN
 
 export const AppPages = {
+  HOME: 'HOME',
+
   OPTIMIZER: 'OPTIMIZER',
   CHARACTERS: 'CHARACTERS',
   RELICS: 'RELICS',
   IMPORT: 'IMPORT',
 
   CHANGELOG: 'CHANGELOG',
-  RELIC_SCORER: 'RELIC_SCORER', // Deprecated - reroute to showcase
   SHOWCASE: 'SHOWCASE',
   WARP: 'WARP',
   BENCHMARKS: 'BENCHMARKS',
 
   WEBGPU_TEST: 'WEBGPU_TEST',
   METADATA_TEST: 'METADATA_TEST',
-  HOME: 'HOME',
-}
+} as const
+
+export type AppPage = typeof AppPages[keyof typeof AppPages]
+
+export type Route = `${typeof BASE_PATH}${RouteSuffix}`
+
+type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#webgpu' | '#metadata'
 
 export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
 
-  [AppPages.OPTIMIZER]: BASE_PATH + '#main',
+  [AppPages.OPTIMIZER]: `${BASE_PATH}#main`,
+  [AppPages.CHARACTERS]: `${BASE_PATH}#main`,
+  [AppPages.RELICS]: `${BASE_PATH}#main`,
+  [AppPages.IMPORT]: `${BASE_PATH}#main`,
 
-  [AppPages.RELIC_SCORER]: BASE_PATH + '#scorer', // Deprecated - reroute to showcase
-  [AppPages.SHOWCASE]: BASE_PATH + '#showcase',
-  [AppPages.WARP]: BASE_PATH + '#warp',
-  [AppPages.CHANGELOG]: BASE_PATH + '#changelog',
-  [AppPages.BENCHMARKS]: BASE_PATH + '#benchmarks',
+  [AppPages.SHOWCASE]: `${BASE_PATH}#showcase`,
+  [AppPages.CHANGELOG]: `${BASE_PATH}#changelog`,
+  [AppPages.WARP]: `${BASE_PATH}#warp`,
+  [AppPages.BENCHMARKS]: `${BASE_PATH}#benchmarks`,
 
-  [AppPages.WEBGPU_TEST]: BASE_PATH + '#webgpu',
-  [AppPages.METADATA_TEST]: BASE_PATH + '#metadata',
-}
+  [AppPages.WEBGPU_TEST]: `${BASE_PATH}#webgpu`,
+  [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
+} as const satisfies Record<AppPage, Route>
 
 export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
-  [PageToRoute[AppPages.RELIC_SCORER]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
   [PageToRoute[AppPages.WARP]]: AppPages.WARP,
   [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
@@ -85,7 +93,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
   [PageToRoute[AppPages.HOME]]: AppPages.HOME,
-}
+} as const satisfies Record<Route, AppPage>
 
 // React usage
 // let characterTabBlur = store(s => s.characterTabBlur);
@@ -94,9 +102,8 @@ export const RouteToPage = {
 // Nonreactive usage
 // store.getState().setRelicsById(relicsById)
 
-const savedSessionDefaults: SavedSession = {
+const savedSessionDefaults: GlobalSavedSession = {
   [SavedSessionKeys.optimizerCharacterId]: null,
-  [SavedSessionKeys.relicScorerSidebarOpen]: true,
   [SavedSessionKeys.scoringType]: ScoringType.COMBAT_SCORE,
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
@@ -107,7 +114,7 @@ const savedSessionDefaults: SavedSession = {
 
 function getDefaultActiveKey() {
   const pathname = TsUtils.stripTrailingSlashes(window.location.pathname)
-  const page = RouteToPage[pathname + window.location.hash.split('?')[0]]
+  const page = RouteToPage[pathname + window.location.hash.split('?')[0] as Route]
   return page ?? AppPages.HOME
 }
 
@@ -133,18 +140,10 @@ window.store = create((set) => {
     activeKey: getDefaultActiveKey(),
     characters: [],
     charactersById: {},
-    conditionalSetEffectsDrawerOpen: false,
-    comboDrawerOpen: false,
-    combatBuffsDrawerOpen: false,
-    statTracesDrawerOpen: false,
-    enemyConfigurationsDrawerOpen: false,
-    settingsDrawerOpen: false,
-    gettingStartedDrawerOpen: false,
     permutations: 0,
     permutationsResults: 0,
     permutationsSearched: 0,
     relicsById: {},
-    scorerId: '',
     scoringMetadataOverrides: {},
     showcasePreferences: {},
     showcaseTemporaryOptionsByCharacter: {},
@@ -158,10 +157,6 @@ window.store = create((set) => {
     optimizationInProgress: false,
     optimizationId: null,
     teammateCount: 0,
-    zeroPermutationModalOpen: false,
-    zeroResultModalOpen: false,
-    scoringModalOpen: false,
-    menuSidebarOpen: true,
     relicScorerSidebarOpen: true,
     optimizerRunningEngine: COMPUTE_ENGINE_GPU_STABLE,
     optimizerStartTime: null,
@@ -229,13 +224,6 @@ window.store = create((set) => {
     setCharactersById: (x) => set(() => ({ charactersById: x })),
     setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
     setRowLimit: (x) => set(() => ({ rowLimit: x })),
-    setConditionalSetEffectsDrawerOpen: (x) => set(() => ({ conditionalSetEffectsDrawerOpen: x })),
-    setComboDrawerOpen: (x) => set(() => ({ comboDrawerOpen: x })),
-    setCombatBuffsDrawerOpen: (x) => set(() => ({ combatBuffsDrawerOpen: x })),
-    setStatTracesDrawerOpen: (x) => set(() => ({ statTracesDrawerOpen: x })),
-    setEnemyConfigurationsDrawerOpen: (x) => set(() => ({ enemyConfigurationsDrawerOpen: x })),
-    setSettingsDrawerOpen: (x) => set(() => ({ settingsDrawerOpen: x })),
-    setGettingStartedDrawerOpen: (x) => set(() => ({ gettingStartedDrawerOpen: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
     setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -248,7 +236,6 @@ window.store = create((set) => {
     setRelicsById: (x) => set(() => ({ relicsById: x })),
     setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
     setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
-    setScorerId: (x) => set(() => ({ scorerId: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
@@ -270,11 +257,7 @@ window.store = create((set) => {
     setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
     setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
     setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
-    setZeroPermutationsModalOpen: (x) => set(() => ({ zeroPermutationModalOpen: x })),
-    setZeroResultModalOpen: (x) => set(() => ({ zeroResultModalOpen: x })),
-    setScoringModalOpen: (x) => set(() => ({ scoringModalOpen: x })),
     setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
-    setMenuSidebarOpen: (x) => set(() => ({ menuSidebarOpen: x })),
     setSettings: (x: UserSettings) => set(() => ({ settings: x })),
     setSavedSession: (x) => set(() => ({ savedSession: x })),
     setSavedSessionKey: (key, x) => set((state) => ({
@@ -398,7 +381,7 @@ export const DB = {
   // Mostly for debugging
   getState: () => window.store.getState(),
 
-  getScoringMetadata: (id: string) => {
+  getScoringMetadata: (id: CharacterId) => {
     const dbMetadata = DB.getMetadata()
     const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
     const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides
@@ -442,7 +425,7 @@ export const DB = {
 
     return returnScoringMetadata
   },
-  updateCharacterScoreOverrides: (id: string, updated: ScoringMetadata) => {
+  updateCharacterScoreOverrides: (id: CharacterId, updated: ScoringMetadata) => {
     const overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
       overrides[id] = updated
@@ -530,7 +513,7 @@ export const DB = {
     indexRelics(saveData.relics)
 
     if (saveData.scoringMetadataOverrides) {
-      for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides)) {
+      for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, unknown][]) {
         // Migration: previously the overrides were an array, invalidate the arrays
         // @ts-ignore
         if (value.length) {
@@ -596,7 +579,6 @@ export const DB = {
       window.store.getState().setWarpRequest(saveData.warpRequest || {})
     }
 
-    window.store.getState().setScorerId(saveData.scorerId)
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
       for (const key of Object.values(OptimizerMenuIds)) {
@@ -608,26 +590,30 @@ export const DB = {
     }
 
     if (saveData.savedSession) {
-      // Don't load an invalid character
-      const optimizerCharacterId = saveData.savedSession.optimizerCharacterId
-      if (optimizerCharacterId && !dbCharacters[optimizerCharacterId]) {
-        // @ts-ignore
-        delete saveData.savedSession.optimizerCharacterId
+      if (saveData.savedSession.global) {
+        const session = saveData.savedSession.global
+        const optimizerCharacterId = session.optimizerCharacterId
+        if (optimizerCharacterId && !dbCharacters[optimizerCharacterId]) {
+          session.optimizerCharacterId = null
+        }
+        // When new session items are added, set user's save to the default
+        const overiddenSavedSessionDefaults: GlobalSavedSession = { ...savedSessionDefaults, ...session }
+
+        window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
       }
 
-      // When new session items are added, set user's save to the default
-      const overiddenSavedSessionDefaults = {
-        ...savedSessionDefaults,
-        ...saveData.savedSession,
+      if (saveData.savedSession.showcaseTab) { // Set showcase tab state
+        useShowcaseTabStore.getState().setSavedSession(saveData.savedSession.showcaseTab)
       }
-
-      window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
     }
+    // @ts-expect-error TODO remove once migration period is over
+    if (saveData.scorerId) useShowcaseTabStore.getState().setScorerId(saveData.scorerId as string)
 
     if (saveData.settings) {
       window.store.getState().setSettings(saveData.settings)
     }
 
+    // Set relics tab state
     window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(saveData.version)
     window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
@@ -1030,9 +1016,9 @@ export const DB = {
    * These relics have accurate speed values from relic scorer import.\
    * We keep the existing set of relics and only overwrite ones that match the ones that match an imported one.
    */
-  mergePartialRelicsWithState: (newRelics: Relic[], sourceCharacters: Character[] = []) => {
+  mergePartialRelicsWithState: (newRelics: Relic[] = [], sourceCharacters: { id: CharacterId }[] = []) => {
     const oldRelics = TsUtils.clone(DB.getRelics()) || []
-    newRelics = TsUtils.clone(newRelics) || []
+    newRelics = TsUtils.clone(newRelics)
 
     // Tracking these for debug / messaging
     const updatedOldRelics: Relic[] = []

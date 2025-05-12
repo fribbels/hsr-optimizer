@@ -1,5 +1,6 @@
 import { ElementName, MainStats, Parts, PathName, Sets, ShowcaseColorMode, StatsValues, SubStats } from 'lib/constants/constants'
 import { statConversion } from 'lib/importer/characterConverter'
+import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { CharacterId } from 'types/character'
@@ -36,9 +37,8 @@ export type SimulationMetadata = {
   substats: string[]
   errRopeEidolon?: number
   deprioritizeBuffs?: boolean
-  comboAbilities: string[]
+  comboTurnAbilities: TurnAbilityName[]
   comboDot: number
-  comboBreak: number
   relicSets: string[][]
   ornamentSets: string[]
   teammates: {
@@ -142,7 +142,7 @@ export type DBMetadataRelics = {
 }
 
 export type DBMetadata = {
-  characters: Record<string, DBMetadataCharacter>
-  lightCones: Record<string, DBMetadataLightCone>
+  characters: Record<CharacterId, DBMetadataCharacter>
+  lightCones: Record<LightCone['id'], DBMetadataLightCone>
   relics: DBMetadataRelics
 }

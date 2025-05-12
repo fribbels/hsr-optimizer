@@ -36,9 +36,8 @@ Lightcones:
           当装备者击中敌方目标时，使敌方陷入【泡影】状态，持续1回合。装备者每次攻击时，对每个目标只可触发1次。装备者对陷入【泡影】状态的目标造成的伤害提高{{DmgBoost}}%，终结技造成的伤害额外提高{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 最大能量
-        content: 当装备者施放终结技时，根据装备者的能量上限，提高装备者终结技造成的伤害：每点能量提高{{DmgStep}}%，最多计入180点。
+      maxEnergyDmgBoost:
+        text: 满能量伤害提高
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
@@ -173,6 +172,10 @@ Lightcones:
         text: 流光层数
         content: >-
           装备者施放追加攻击时，获得1层【流光】，最多叠加2层。每层【流光】使装备者造成的终结技伤害无视目标{{DefIgnore}}%的防御力。装备者回合结束时，移除1层【流光】。
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: 防御穿透
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +195,10 @@ Lightcones:
       deathFlower:
         text: 冥花防御穿透
         content: 装备者或装备者的忆灵在自身回合内损失生命值时，装备者获得【冥花】，【冥花】可以使装备者和装备者的忆灵造成伤害时，无视目标{{DefIgnore}}%的防御力，持续2回合。
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: 易伤
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -936,6 +943,10 @@ Characters:
         text: 6魂增益
         content: >-
           遐蝶与死龙造成伤害时，量子属性抗性穿透提高20%。:BR:触发天赋【灼掠幽墟的晦翼】的弹射次数额外增加3次。
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: 战技攻击力增益
   Clara:
     Content:
       ultBuff:
@@ -1193,6 +1204,10 @@ Characters:
       e6DmgBuff:
         text: 6魂伤害增益
         content: 为我方目标提供治疗时，使目标造成的伤害提高50%，持续2回合。
+  Hyacine:
+    Content:
+      e4CdBuff:
+        text: 4魂爆伤增益
   ImbibitorLunae:
     Content:
       basicEnhanced:

@@ -36,9 +36,8 @@ Lightcones:
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 最大EP
-        content: 装備キャラが必殺技を発動する時、装備キャラの最大EPに応じて装備キャラの必殺技によるダメージをアップする、1EPにつき+{{DmgStep}}%、最大で180までカウントされる。
+      maxEnergyDmgBoost:
+        text: EP最大時のダメバフ
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
@@ -173,6 +172,10 @@ Lightcones:
         text: '「流光」層数'
         content: >-
           装備キャラが追加攻撃を行う時、「流光」を1層獲得する。「流光」は最大で2層累積できる。「流光」が1層あるごとに、装備キャラの与える必殺技ダメージが敵の防御力を{{DefIgnore}}%無視する。装備キャラのターン終了時、「流光」が1層解除される。
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: 防御力ダウン
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +195,10 @@ Lightcones:
       deathFlower:
         text: '「冥花」防御力無視'
         content: 装備キャラまたは装備キャラの記憶の精霊が自身のターンでHPを失った時、装備キャラは「冥花」を獲得する。「冥花」を持つ場合、装備キャラおよびその記憶の精霊によるダメージは、ターゲットの防御力を{{DefIgnore}}%無視する。2ターン継続。
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: 敵被ダメージ増加
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -937,6 +944,10 @@ Characters:
         text: 6凸 バフ
         content: >-
           キャストリスと死竜がダメージを与えた時、量子属性耐性貫通+20%。::BR:: 天賦「幽墟奪略の晦翼」のバウンド回数+3。
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: スキル時の攻撃力バフ
   Clara:
     Content:
       ultBuff:
@@ -1195,6 +1206,10 @@ Characters:
       e6DmgBuff:
         text: 6凸 治癒時のダメバフ
         content: 味方に治癒を行った時、その味方の与ダメージ+50%、2ターン継続。
+  Hyacine:
+    Content:
+      e4CdBuff:
+        text: 4凸 会心ダメバフ
   ImbibitorLunae:
     Content:
       basicEnhanced:

@@ -6,6 +6,7 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useOpenClose } from '../../../../hooks/useOpenClose'
 
 const { Text } = Typography
 
@@ -14,10 +15,12 @@ const setConditionalsNameWidth = 200
 const setConditionalsWidth = 80
 const defaultGap = 5
 
-export function FormSetConditionals() {
+export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean) => void } */) {
+  // eslint-disable-next-line react/prop-types
+  const id = props.id
+
+  const { close, isOpen } = useOpenClose(id)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
-  const conditionalSetEffectsDrawerOpen = window.store((s) => s.conditionalSetEffectsDrawerOpen)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
     const options = []
@@ -165,8 +168,8 @@ export function FormSetConditionals() {
     <Drawer
       title={t('Title')}// 'Conditional set effects'
       placement='right'
-      onClose={() => setConditionalSetEffectsDrawerOpen(false)}
-      open={conditionalSetEffectsDrawerOpen}
+      onClose={() => close()}
+      open={isOpen}
       width={750}
       forceRender
     >
@@ -299,12 +302,12 @@ export function FormSetConditionals() {
           <ConditionalSetOption
             set={Constants.Sets.ScholarLostInErudition}
             description={t('RelicDescription', { id: 122 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.Scholar')}
           />
           <ConditionalSetOption
             set={Constants.Sets.HeroOfTriumphantSong}
             description={t('RelicDescription', { id: 123 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.Hero')}
           />
           <ConditionalSetOption
             set={Constants.Sets.PoetOfMourningCollapse}
@@ -312,9 +315,19 @@ export function FormSetConditionals() {
             conditional={t('Conditionals.DefaultMessage')}
             p4Checked
           />
+          <ConditionalSetOption
+            set={Constants.Sets.WarriorGoddessOfSunAndThunder}
+            description={t('RelicDescription', { id: 125 })}
+            conditional={t('Conditionals.DefaultMessage')}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.WavestriderCaptain}
+            description={t('RelicDescription', { id: 126 })}
+            conditional={t('Conditionals.DefaultMessage')}
+          />
         </Flex>
 
-        <VerticalDivider/>
+        <VerticalDivider />
 
         <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
           <Flex gap={defaultGap} align='center' justify='flex-start'>
@@ -464,7 +477,7 @@ function ConditionalSetOption(props) {
 
   if (Constants.SetsRelicsNames.includes(props.set)) {
     // Relics
-    let inputType = (<Switch disabled={props.p4Checked}/>)
+    let inputType = (<Switch disabled={props.p4Checked} />)
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -517,7 +530,7 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
-    let inputType = (<Switch disabled={props.p2Checked}/>)
+    let inputType = (<Switch disabled={props.p2Checked} />)
     if (props.selectOptions) {
       inputType = (
         <Select

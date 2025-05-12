@@ -1,12 +1,12 @@
-import i18next from 'i18next'
 import { AbilityType, ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, gpuStandardAdditionalDmgAtkFinalizer, standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
@@ -14,7 +14,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cipher')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cipher.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -59,53 +59,53 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     vulnerability: {
       id: 'vulnerability',
       formItem: 'switch',
-      text: 'Team Vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('vulnerability.text'),
+      content: t('vulnerability.content'),
     },
     skillAtkBuff: {
       id: 'skillAtkBuff',
       formItem: 'switch',
-      text: 'Skill ATK buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('skillAtkBuff.text'),
+      content: t('skillAtkBuff.content'),
     },
     fuaCdBoost: {
       id: 'fuaCdBoost',
       formItem: 'switch',
-      text: 'Fua CD boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('fuaCdBoost.text'),
+      content: t('fuaCdBoost.content'),
     },
     spdBasedBuffs: {
       id: 'spdBasedBuffs',
       formItem: 'switch',
-      text: 'SPD based buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('spdBasedBuffs.text'),
+      content: t('spdBasedBuffs.content'),
     },
     e1AtkBuff: {
       id: 'e1AtkBuff',
       formItem: 'switch',
-      text: 'E1 ATK buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1AtkBuff.text'),
+      content: t('e1AtkBuff.content'),
       disabled: e < 1,
     },
     e2Vulnerability: {
       id: 'e2Vulnerability',
       formItem: 'switch',
-      text: 'E2 vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2Vulnerability.text'),
+      content: t('e2Vulnerability.content'),
       disabled: e < 2,
     },
     e4AdditionalDmg: {
       id: 'e4AdditionalDmg',
       formItem: 'switch',
-      text: 'E4 Additional DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4AdditionalDmg.text'),
+      content: t('e4AdditionalDmg.content'),
       disabled: e < 4,
     },
     e6FuaDmg: {
       id: 'e6FuaDmg',
       formItem: 'switch',
-      text: 'E6 Fua DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6FuaDmg.text'),
+      content: t('e6FuaDmg.content'),
       disabled: e < 6,
     },
   }

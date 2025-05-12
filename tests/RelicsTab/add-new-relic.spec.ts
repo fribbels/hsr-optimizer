@@ -18,7 +18,7 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await page.getByRole('dialog').getByText('Passerby of Wandering Cloud').click()
 
   // add "Musketeer of Wild Wheat"
-  await page.getByText('Musketeer of Wild Wheat').nth(2).click()
+  await page.getByText('Musketeer of Wild Wheat').nth(3).click();
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
 
   // set to +12

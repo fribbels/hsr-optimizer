@@ -149,10 +149,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buff((t.masterBuff) ? skillSpdScaling : 0, SOURCE_SKILL)
+      x.SPD_P.buffSingle((t.masterBuff) ? skillSpdScaling : 0, SOURCE_SKILL)
 
-      x.CD.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, SOURCE_TRACE)
-      x.BE.buff((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, SOURCE_TRACE)
+      x.CD.buffSingle((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, SOURCE_TRACE)
+      x.BE.buffSingle((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       boostAshblazingAtkP(x, action, context, fuaHitCountMulti)

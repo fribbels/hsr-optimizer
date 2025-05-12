@@ -23,6 +23,7 @@ import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
 import { DispatchWithoutAction, RefObject } from 'react'
@@ -55,6 +56,8 @@ declare global {
     setOptimizerBuild: (build?: Build) => void
     setSelectedRelicIDs: (ids: string[]) => void
     setEditModalOpen: (open: boolean) => void
+
+    showcaseTabForm: FormInstance<ShowcaseTabForm>
 
     // TODO see OptimizerForm
     onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => unknown

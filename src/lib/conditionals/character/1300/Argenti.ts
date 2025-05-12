@@ -37,7 +37,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentCrStackValue = talent(e, 0.025, 0.028)
 
   const defaults = {
-    ultEnhanced: true,
+    ultEnhanced: false,
     talentStacks: talentMaxStacks,
     ultEnhancedExtraHits: 6,
     e2UltAtkBuff: true,
@@ -65,7 +65,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'slider',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', {
-        talentMaxStacks: TsUtils.precisionRound(100 * talentMaxStacks),
+        talentMaxStacks: TsUtils.precisionRound(talentMaxStacks),
         talentCrStackValue: TsUtils.precisionRound(100 * talentCrStackValue),
       }),
       min: 0,
@@ -108,7 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
       x.ULT_ATK_SCALING.buff((r.ultEnhanced) ? ultEnhancedScaling : ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff((r.ultEnhancedExtraHits) * ultEnhancedExtraHitScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff((r.ultEnhanced) ? r.ultEnhancedExtraHits * ultEnhancedExtraHitScaling : 0, SOURCE_ULT)
 
       // BOOST
       x.ELEMENTAL_DMG.buff((r.enemyHp50) ? 0.15 : 0, SOURCE_TRACE)

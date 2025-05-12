@@ -1,6 +1,7 @@
 import { Constants, MainStats, Parts, SubStats } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
+import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
@@ -46,7 +47,7 @@ export const statConversion = {
   ImaginaryAddedRatio: Constants.Stats.Imaginary_DMG,
 }
 
-type UnconvertedCharacter = {
+export type UnconvertedCharacter = {
   relicList?: PreRelic[]
   equipment?: PreLightCone
   rank?: number
@@ -88,13 +89,12 @@ type PreLightCone = {
 }
 
 export const CharacterConverter = {
-  convert: (character: UnconvertedCharacter) => {
+  convert: (character: UnconvertedCharacter): ShowcaseTabCharacter => {
     const preRelics = character.relicList ?? []
     const preLightCone = character.equipment
     const characterEidolon = character.rank ?? 0
     const id = '' + character.avatarId as CharacterId
-    const lightConeId = preLightCone ? '' + preLightCone.tid : undefined
-    const lightConeLevel = preLightCone ? preLightCone.level : 0
+    const lightConeId = preLightCone ? ('' + preLightCone.tid) as LightCone['id'] : null
     const lightConeSuperimposition = preLightCone ? preLightCone.rank : 0
 
     const relics = preRelics
@@ -109,12 +109,11 @@ export const CharacterConverter = {
     return {
       id: id,
       key: Utils.randomId(),
+      index: 0, // gets overwritten later
       form: {
-        characterLevel: 80,
         characterId: id,
         characterEidolon: characterEidolon,
         lightCone: lightConeId,
-        lightConeLevel: lightConeLevel,
         lightConeSuperimposition: lightConeSuperimposition,
       },
       equipped: equipped,

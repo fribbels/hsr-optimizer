@@ -5,11 +5,14 @@ import { TFunction } from 'i18next'
 import { Constants, ElementNames, PathNames, Sets, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
+import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -88,6 +91,11 @@ export const PresetEffects = {
     name: 'GENIUS_SET',
     value: true,
     set: Sets.GeniusOfBrilliantStars,
+  } as PresetDefinition,
+  WARRIOR_SET: {
+    name: 'WARRIOR_SET',
+    value: true,
+    set: Sets.WarriorGoddessOfSunAndThunder,
   } as PresetDefinition,
 }
 
@@ -247,14 +255,8 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
 
   applyMetadataPresetToForm(form, metadata)
 
-  /*
-   * Not sure if we want to support set recommendations yet
-   * form.ornamentSets = metadata.ornamentSets
-   * form.relicSets = metadata.relicSets.map(x => [RelicSetFilterOptions.relic2PlusAny, x])
-   */
-
   // We don't use the clone here because serializing messes up the applyPreset functions
-  const sortOption = metadata.sortOption
+  const sortOption = metadata.simulation ? SortOption.COMBO : metadata.sortOption
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
 
@@ -266,9 +268,8 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   // @ts-ignore TODO getDefaultForm currently has handling for no character id but is set to be changed
   Utils.mergeUndefinedValues(form, getDefaultForm())
 
-  form.comboAbilities = scoringMetadata?.simulation?.comboAbilities ?? [null as unknown as string, 'BASIC']
+  form.comboTurnAbilities = scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
   form.comboDot = scoringMetadata?.simulation?.comboDot ?? 0
-  form.comboBreak = scoringMetadata?.simulation?.comboBreak ?? 0
 
   // @ts-ignore
   form.maxSpd = undefined
@@ -285,7 +286,7 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   applyScoringMetadataPresets(form)
 }
 
-export function applyScoringMetadataPresets(form: Form) {
+export function applyScoringMetadataPresets(form: Form | BenchmarkForm) {
   const character = DB.getMetadata().characters[form.characterId]
   const presets = character?.scoringMetadata?.presets ?? []
 
@@ -294,11 +295,11 @@ export function applyScoringMetadataPresets(form: Form) {
   }
 }
 
-export function applyPreset(form: Form, preset: PresetDefinition) {
+export function applyPreset(form: Form | BenchmarkForm, preset: PresetDefinition) {
   form.setConditionals[preset.set][preset.index ?? 1] = preset.value
 }
 
-export function applySetConditionalPresets(form: Form) {
+export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   const characterMetadata = DB.getMetadata().characters[form.characterId]
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
@@ -309,4 +310,5 @@ export function applySetConditionalPresets(form: Form) {
 
   const path = characterMetadata?.path
   form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
+  form.setConditionals[Sets.WarriorGoddessOfSunAndThunder][1] = path == PathNames.Remembrance
 }

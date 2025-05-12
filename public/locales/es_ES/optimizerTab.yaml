@@ -52,10 +52,9 @@ MinMaxFilters:
   RESLabel: RES
   BELabel: EdR
   ERRLabel: RdE
-  BASICLabel: ATQ básico
-  SKILLLabel: Habilidad básica
-  ULTLabel: Habilidad definitiva
-  FUALabel: Ataque adicional
+ComboFilter:
+  ComboOptions:
+    Break: Ruptura
 StatSimulation:
   MainStatsSelection:
     BodyPlaceholder: Torso
@@ -73,5 +72,3 @@ ExpandedDataPanel:
       CompositeLabels:
         Prefix:
           Break: Ruptura
-      Misc:
-        Combo DMG: Combo de Daño

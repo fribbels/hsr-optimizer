@@ -1,6 +1,7 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, SwapOutlined, UpOutlined } from '@ant-design/icons'
-import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
+import { Form as AntDForm, Button, Flex, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   deleteAllStatSimulationBuilds,
@@ -21,7 +22,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form } from 'types/form'
+import { Form, OptimizerForm } from 'types/form'
 
 const { Text } = Typography
 
@@ -35,7 +36,6 @@ export function StatSimulationDisplay() {
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
@@ -85,7 +85,7 @@ export function StatSimulationDisplay() {
             </Button>
             <Button
               style={{ width: 200 }} disabled={isHidden()}
-              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
               icon={<SettingOutlined/>}
             >
               {t('FooterLabels.Conditionals')/* Conditional set effects */}
@@ -200,14 +200,13 @@ function SimulationInputs() {
 
 export function SetsSection(props: { simType: string }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
+  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm | OptimizerForm>()
 
   // Save a click by assuming the first relic set is a 4p
   const handleRelicSet1Change = (value: string) => {
     const path2 = formName(props.simType, 'simRelicSet2')
-    benchmarkForm.setFieldsValue({
-      [path2.join('.')]: value,
-    })
+    // @ts-ignore
+    benchmarkForm.setFieldValue(path2, value)
   }
 
   return (

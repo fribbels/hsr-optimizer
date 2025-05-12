@@ -1,19 +1,24 @@
 import { Sets, Stats } from 'lib/constants/constants'
 import { collectResults, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
-import { ACHERON, ALONG_THE_PASSING_SHORE, EARTHLY_ESCAPADE, FU_XUAN, JIAOQIU, SHE_ALREADY_SHUT_HER_EYES, SPARKLE, THOSE_MANY_SPRINGS } from 'lib/simulations/tests/testMetadataConstants'
+import { A_GROUNDED_ASCENT, ANAXA, FLOWING_NIGHTGLOW, HUOHUO, LIFE_SHOULD_BE_CAST_TO_FLAMES, NIGHT_OF_FRIGHT, ROBIN, SUNDAY } from 'lib/simulations/tests/testMetadataConstants'
+import { Metadata } from 'lib/state/metadata'
 import { test } from 'vitest'
 
 test('generateTest', () => {
-  if (!process.env._JETBRAINS_VITEST_REPORTER_ABSOLUTE_PATH) {
+  const run = false
+  if (!run) {
     return
   }
+
+  Metadata.initialize()
+
   const input = generateE6S5Test({
-    character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
-    teammate0: testCharacter(JIAOQIU, THOSE_MANY_SPRINGS),
-    teammate1: testCharacter(SPARKLE, EARTHLY_ESCAPADE),
-    teammate2: testCharacter(FU_XUAN, SHE_ALREADY_SHUT_HER_EYES),
-    sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
-    mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
+    character: testCharacter(ANAXA, LIFE_SHOULD_BE_CAST_TO_FLAMES),
+    teammate0: testCharacter(SUNDAY, A_GROUNDED_ASCENT),
+    teammate1: testCharacter(ROBIN, FLOWING_NIGHTGLOW),
+    teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+    sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
+    mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
     stats: testStatSpread(),
   })
   const { outputBasic, outputCombat } = collectResults(input)

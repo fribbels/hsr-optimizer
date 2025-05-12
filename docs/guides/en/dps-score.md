@@ -122,7 +122,7 @@ The resulting formula is:
 * If DMG ≥ 100% benchmark
     * `DMG Score = 1 + (character dmg - 100% benchmark dmg) / (200% perfect dmg - 100% benchmark dmg)`
 
-## What are the grade thresholds?
+## Tier thresholds
 
 Grading is based on the benchmark as 100% and perfection as 200%.
 
@@ -149,6 +149,18 @@ Grading is based on the benchmark as 100% and perfection as 200%.
 ```
 
 Only real relics imported by the Reliquary Archiver or the Showcase tab are considered verified.
+
+## Upgrades
+
+![image](https://github.com/user-attachments/assets/b148617b-4ce4-4a84-99c0-a1092460e75d)
+
+This section shows the potential damage and score improvements from upgrading relics.
+
+* Substat upgrade comparisons
+  * Comparisons for adding 1 additional max roll of each substat
+* Main stat upgrade comparisons
+  * The sets upgrade will show a comparison against the character's predefined BIS set, if the current set is not in the matched sets list.
+  * The main stats upgrade will show the increase or decrease in damage from directly swapping current main stat to another. This does not include any substat changes, so if the main stat is already a substat, the assumption would be that the rest of the build would get reshuffled to fit the substat. This does not include comparisons against SPD boots or ERR ropes, since those stats cannot be compared under this framework.
 
 ## FAQs
 

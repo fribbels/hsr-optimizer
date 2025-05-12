@@ -250,7 +250,7 @@ function formatSpd(n: number) {
 }
 
 function ShowcaseTeamSelectPanel(props: {
-  characterId: string
+  characterId: CharacterId
   teamSelection: string
   selectedTeammateIndex: number
   characterModalInitialCharacter: Character | undefined

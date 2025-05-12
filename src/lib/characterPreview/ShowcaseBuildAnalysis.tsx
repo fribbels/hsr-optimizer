@@ -12,7 +12,7 @@ import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography

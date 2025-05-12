@@ -50,7 +50,7 @@ CharacterPreview:
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: Вес СКР
+      Header: Приоритет СКР
       Max: 100%
       Min: 0%
     BenchmarkSpd:
@@ -143,7 +143,7 @@ CharacterPreview:
         FUA: УРОН ДАЗОВОЙ АТАКИ
         DOT: ДОТ УРОН
         BREAK: УРОН ПРОБИТИЕМ
-        MEMO_SKILL: Урона навыкаᴹ
+        MEMO_SKILL: Урон Навыкаᴹ
         MEMO_TALENT: Урон талантаᴹ
         COMBO: СУММАРНЫЙ УРОН
     CombatBuffs:

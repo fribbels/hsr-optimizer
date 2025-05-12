@@ -36,8 +36,8 @@ Lightcones:
           Quando o portador atinge um alvo inimigo, aplica Miragem Fracassada ao inimigo, durando 1 turno. Cada vez que o portador ataca, esse efeito só pode ser ativado 1 vez em cada alvo. O portador causa um aumento de {{DmgBoost}}% de DANO aos alvos afetados por Mirage Fizzle, e o DANO causado pela Ultimate do portador aumenta adicionalmente em {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: Energia máxima
+      maxEnergyDmgBoost:
+        text: Buff de DMG por energia máxima
         content: Quando o portador utiliza a Ultimate, aumenta o DANO da Ultimate do portador com base na sua Energia Máxima. Cada ponto de Energia aumenta o DANO da Ultimate em {{DmgStep}}%, até um máximo de 180 pontos de Energia.
   BaptismOfPureThought:
     Content:
@@ -173,6 +173,17 @@ Lightcones:
         text: Acúmulos de Luminflux
         content: >-
           Quando o portador realiza um ataque de seguimento, ganha 1 acúmulo de Luminflux, acumulando até 2 vez(es). Cada pilha de Luminflux permite que o DMG da Ultimate do portador ignore {{DefIgnore}}% da DEF do alvo. Quando o turno do portador termina, remove 1 pilha de Luminflux.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: DEF PEN
+        content: >-
+          Após o usuário realizar um ataque, há uma chance-base de 120% de infligir o estado de "Engano" em cada inimigo-alvo. Enquanto estiver no estado de "Engano", a DEF do inimigo-alvo diminui em {{DefShred}}% por 2 rodada(s). Se a VEL do usuário for maior ou igual a 170, há uma chance-base de 120% de infligir o estado de "Roubo" em todos os inimigos-alvo. Enquanto estiver sob o estado de "Roubo", a DEF do inimigo-alvo diminui em {{AdditionalDefShred}}% por 2 rodada(s).
+    TeammateContent:
+      additionalDefPen:
+        text: "VEL > 170"
+        content: >-
+          Após o usuário realizar um ataque, há uma chance-base de 120% de infligir o estado de "Engano" em cada inimigo-alvo. Enquanto estiver no estado de "Engano", a DEF do inimigo-alvo diminui em {{DefShred}}% por 2 rodada(s). Se a VEL do usuário for maior ou igual a 170, há uma chance-base de 120% de infligir o estado de "Roubo" em todos os inimigos-alvo. Enquanto estiver sob o estado de "Roubo", a DEF do inimigo-alvo diminui em {{AdditionalDefShred}}% por 2 rodada(s).
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +203,11 @@ Lightcones:
       deathFlower:
         text: DEF PEN Flor da Morte
         content: Quando o usuário ou seu memosprite perdem HP durante seu próprio turno, o usuário ganha "Flor da Morte", que permite que o usuário e seu memosprite ignorem {{DefIgnore}}% da DEF do alvo ao realizar dano, durando de 2 rodadas.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnerabilidade
+        content: Quando o Memoespírito do usuário usa a Perícia do Memoespírito, aumenta o Dano recebido por todos os inimigos em {{Vulnerability}}% por 2 rodada(s). Os mesmos tipos de efeito não podem acumular.
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -949,6 +965,32 @@ Characters:
         content: >-
           Quando Castorice ou "Dragão Abissal" causam Dano, aumenta a PEN de RES a Quântico em 20% e, adicionalmente, aumenta o número de Rebotes para o Talento do "Dragão Abissal", "Asas Sobre as Ruínas", em 3 vez(es).
 
+  Cipher:
+    Content:
+      vulnerability:
+        text: Vulnerabilidade da Equipe
+        content: Enquanto Cipher estiver no campo de batalha, o Dano recebido por todos os inimigos-alvo aumenta em 40%.
+      skillAtkBuff:
+        text: Aumento de ATK da Habilidade
+        content: Ao usar perícia, há uma chance-base de 120% de infligir "Enfraquecimento" a um inimigo designado e alvos adjacentes, diminuindo seu Dano causado em 10%, além de aumentar o ATQ de Cipher em 30%, durando por 2 rodada(s).
+      fuaCdBoost:
+        text: Aumento de CD FUA
+        content: Aumenta em 100% o Dano CRIT causado pelo Ataque Extra do Talento.
+      spdBasedBuffs:
+        text: Buffs baseados em VEL
+        content: Quando a VEL de Cipher for maior ou igual a 140/170, aumenta a Chance de CRIT em 25%/50.
+      e1AtkBuff:
+        text: E1 ATQ buff
+        content: Ao usar um Ataque Extra causado por seu Talento, aumenta o ATQ de Cipher em 80% por 2 rodada(s).
+      e2Vulnerability:
+        text: E2 vulnerabilidade
+        content: Quando Cipher atinge um inimigo-alvo, há uma chance-base de 120% de fazer com que ele receba 30% a mais de Dano, com duração de 2 rodadas.
+      e4AdditionalDmg:
+        text: E4 Dano Adicional
+        content: Após o "Patrono" ser atacado por um aliado-alvo, Cipher causa Dano Quântico Adicional igual a 50% do ATQ de Cipher a ele.
+      e6FuaDmg:
+        text: E6 FUA DMG
+        content: Aumenta o Dano causado pelos Ataques Extras causados pelo Talento de Cipher em 350%.
   Clara:
     Content:
       ultBuff:
@@ -1206,6 +1248,35 @@ Characters:
       e6DmgBuff:
         text: Buff de DMG E6
         content: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos.
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: Curar alvo ≤ 50% PV
+        content: Ao fornecer cura a um aliado-alvo com PV menores ou iguais a 50% dos PV máximos desta unidade, aumenta a Cura Realizada de Hyacine e Ikinha em 25%.
+      resBuff:
+        text: Buff de RES a Efeito
+        content: Aumenta a RES a Efeito de Hyacine em 50%.
+      spd200HpBuff:
+        text: VEL ≥ 200 PV buff
+        content: Quando a VEL de Hyacine exceder 200, aumenta os PV máximos de Hyacine e Ikinha em 20%. Então, para cada 1 de VEL excedente, aumenta a Cura Realizada de Hyacine e Ikinha em 1%. Até um máximo de 200 de VEL excedente pode ser considerado para este efeito.
+      clearSkies:
+        text: estado "Depois da Chuva"
+        content: Após usar sua ultimate, Hyacine entra no estado de "Depois da Chuva" por 3 rodada(s). A duração do estado é reduzida em 1 rodada cada vez que a rodada de Hyacine começa. Quando no estado de "Depois da Chuva", aumenta os PV máximos de todos os aliados em{{UltHpBuffScaling}}% mais {{UltHpBuffFlat}}.
+      healingDmgStacks:
+        text: Acúmulos de Dano de Cura
+        content: Quando Hyacine ou Ikinha fornecem cura, aumenta o Dano causado por Ikinha em 100% por 2 rodada(s), acumulando até 3 vez(es).
+      e1HpBuff:
+        text: E1 PV buff
+        content: Quando Hyacine está no estado de "Após a Chuva", aumenta adicionalmente os PV máximos de todos os aliados-alvo em 50%.
+      e2SpdBuff:
+        text: E2 VEL buff
+        content: Quando os PV de qualquer aliado-alvo diminuem, a VEL desta unidade aumenta em 30% por 2 rodada(s).
+      e4CdBuff:
+        text: E4 Buff CD
+        content: O Rastro "Parada Tempestuosa" é aprimorada. Para cada 1 de VEL excedido, aumenta adicionalmente o Dano CRIT de Hyacine e Ikinha em 2%.
+      e6ResPen:
+        text: E6 RES PEN
+        content: Quando Ikinha está em campo, aumenta a PES de RES a Todos os Tipos de todos os aliados-alvo em 20%.
   ImbibitorLunae:
     Content:
       basicEnhanced:

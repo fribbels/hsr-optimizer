@@ -111,6 +111,12 @@ export const Optimizer = {
       pSize: relics.PlanarSphere.length,
       lSize: relics.LinkRope.length,
     }
+
+    if (sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize > 2147483647) {
+      Message.warning(`Too many permutations, please apply stricter filters or set minimum enhance to at least +3.`, 15)
+      return
+    }
+
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
 
@@ -160,7 +166,7 @@ export const Optimizer = {
     let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU) {
-      void getWebgpuDevice().then((device) => {
+      void getWebgpuDevice(true).then((device) => {
         if (device == null) {
           Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
             15)

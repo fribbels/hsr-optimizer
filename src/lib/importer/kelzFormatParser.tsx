@@ -40,6 +40,13 @@ export type V4ParserCharacter = {
   eidolon: number
 }
 
+export type V4ParserSubstat = {
+  key: string
+  value: number
+  count?: number // only present on reliquary scans
+  step?: number // only present on reliquary scans
+}
+
 export type V4ParserRelic = {
   set_id: string
   name: string
@@ -47,12 +54,8 @@ export type V4ParserRelic = {
   rarity: number
   level: number
   mainstat: string
-  substats: {
-    key: string
-    value: number
-    count?: number // only present on reliquary scans
-    step?: number // only present on reliquary scans
-  }[]
+  substats: V4ParserSubstat[]
+  reroll_substats?: V4ParserSubstat[]
   location: string
   lock: boolean
   discard: boolean
@@ -177,8 +180,8 @@ export class KelzFormatParser { // TODO abstract class
     return parsed
   }
 
-  parseRelic(relic: V4ParserRelic) {
-    const parsed = readRelic(relic, this)
+  parseRelic(relic: V4ParserRelic, substatListOverride?: V4ParserSubstat[]) {
+    const parsed = readRelic(relic, substatListOverride ?? relic.substats, this)
     return RelicAugmenter.augment(parsed) as Relic | null
   }
 
@@ -212,7 +215,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
   }
 }
 
-function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
+function readRelic(relic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): Relic {
   const part = relic.slot.replace(/\s+/g, '') as Parts
 
   const setId = relic.set_id
@@ -221,7 +224,7 @@ function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
   const enhance = Math.min(Math.max(relic.level, 0), 15)
   const grade = Math.min(Math.max(relic.rarity, 2), 5)
 
-  const { main, substats } = readRelicStats(relic, part, grade, enhance, scanner)
+  const { main, substats } = readRelicStats(relic, substatList, part, grade, enhance, scanner)
 
   let equippedBy: CharacterId | undefined
   if (relic.location !== '') {
@@ -268,7 +271,7 @@ function parseMainStat(relic: V4ParserRelic, part: string) {
   }
 }
 
-function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
+function readRelicStats(relic: V4ParserRelic, substatList: V4ParserSubstat[], part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
   const mainStat = parseMainStat(relic, part)
   if (!mainStat) {
     throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
@@ -284,7 +287,7 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
   const mainData: MainData = affixes.find((x) => x.property === mainId)!
   const mainValue = mainData.base + mainData.step * enhance
 
-  const substats = relic.substats
+  const substats = substatList
     .map((s) => {
       if (!scanner.config.speedVerified) {
         return {

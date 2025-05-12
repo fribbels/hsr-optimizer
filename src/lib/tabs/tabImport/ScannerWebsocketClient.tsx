@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWebSocket from "partysocket/use-ws";
 import { create, StoreApi, UseBoundStore } from "zustand";
 import { ScannerParserJson, V4ParserCharacter, V4ParserGachaFunds, V4ParserLightCone, V4ParserMaterial, V4ParserRelic } from "lib/importer/kelzFormatParser";
@@ -8,6 +8,7 @@ import { SaveState } from "lib/state/saveState";
 import { TsUtils } from "lib/utils/TsUtils";
 import { debounceEffect } from "lib/utils/debounceUtils";
 import stableStringify from "json-stable-stringify";
+import RelicRerollModal from "lib/overlays/modals/RelicRerollModal";
 
 type ScannerState = {
     // Whether we are connected to the scanner websocket
@@ -345,8 +346,35 @@ function deleteLightCone(state: Readonly<ScannerStore>, lightConeId: string) {
     state.deleteLightCone(lightConeId)
 }
 
+// Add a state for the reroll modal
+type RerollModalState = {
+    isOpen: boolean;
+    relic: V4ParserRelic | null;
+}
+
 export function ScannerWebsocket() {
     const relicSelectionBuffer = useRef<string[]>([])
+    // Add state for the reroll modal
+    const [rerollModal, setRerollModal] = useState<RerollModalState>({
+        isOpen: false,
+        relic: null
+    });
+
+    // Function to handle displaying the reroll modal
+    const showRerollModal = (relic: V4ParserRelic) => {
+        setRerollModal({
+            isOpen: true,
+            relic
+        });
+    };
+
+    // Function to close the reroll modal
+    const closeRerollModal = () => {
+        setRerollModal({
+            isOpen: false,
+            relic: null
+        });
+    };
 
     useWebSocket("ws://127.0.0.1:53313/ws", undefined, {
         onOpen: () => {
@@ -366,6 +394,12 @@ export function ScannerWebsocket() {
                     break
                 case "UpdateRelics":
                     event.data.forEach((relic) => {
+                        // Check if relic has reroll_substats before updating
+                        if (relic.reroll_substats && relic.reroll_substats.length > 0) {
+                            // Show reroll modal with the relic data
+                            showRerollModal(relic);
+                        }
+                        
                         updateRelic(state, relic)
                         relicSelectionBuffer.current.push(relic._uid)
                     })
@@ -425,5 +459,14 @@ export function ScannerWebsocket() {
         }
     })
 
-    return null
+    return (
+        <>
+            {/* Render the reroll modal */}
+            <RelicRerollModal 
+                open={rerollModal.isOpen} 
+                onClose={closeRerollModal} 
+                relic={rerollModal.relic!} 
+            />
+        </>
+    )
 }

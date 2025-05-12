@@ -363,3 +363,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Light cone
   Title: Select a light cone
+RelicReroll:
+  Title: Relic Reroll Detected
+  OriginalSubstats: Original Substats
+  RerolledSubstats: Rerolled Substats

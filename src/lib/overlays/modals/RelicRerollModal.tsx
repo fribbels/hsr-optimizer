@@ -29,7 +29,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
 
   return (
     <Modal
-      title={t('modals:RelicReroll.Title')}
+      title={t('modals:RelicReroll.Title')/* Relic Reroll Detected */}
       open={open}
       onOk={onClose}
       cancelButtonProps={{ style: { display: 'none' } }}
@@ -44,7 +44,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
               score={originalRelic.equippedBy ? RelicScorer.scoreCurrentRelic(originalRelic, originalRelic.equippedBy) : undefined}
               unhoverable 
             />
-            <Text strong>{t('modals:RelicReroll.OriginalSubstats')}</Text>
+            <Text strong>{t('modals:RelicReroll.OriginalSubstats')/* Original Substats */}</Text>
           </Flex>
 
           <DoubleRightOutlined style={{ fontSize: "24px" }}/>
@@ -55,7 +55,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
               score={rerolledRelic.equippedBy ? RelicScorer.scoreCurrentRelic(rerolledRelic, rerolledRelic.equippedBy) : undefined}
               unhoverable 
             />
-            <Text strong>{t('modals:RelicReroll.RerolledSubstats')}</Text>
+            <Text strong>{t('modals:RelicReroll.RerolledSubstats')/* Rerolled Substats */}</Text>
           </Flex>
         </Flex>
       </Flex>

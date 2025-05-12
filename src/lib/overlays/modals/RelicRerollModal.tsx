@@ -4,7 +4,7 @@ import { V4ParserRelic } from 'lib/importer/kelzFormatParser';
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig';
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview';
 import { RelicScorer } from 'lib/relics/relicScorerPotential';
-import { RightIcon } from 'icons/RightIcon';
+import { DoubleRightOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
@@ -39,23 +39,23 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
       <Flex vertical gap={16}>
         <Flex gap={16} justify="space-between">
           <Flex vertical align="center" gap={4}>
-            <Text strong>{t('modals:RelicReroll.OriginalSubstats')}</Text>
             <RelicPreview 
               relic={originalRelic} 
               score={originalRelic.equippedBy ? RelicScorer.scoreCurrentRelic(originalRelic, originalRelic.equippedBy) : undefined}
               unhoverable 
             />
+            <Text strong>{t('modals:RelicReroll.OriginalSubstats')}</Text>
           </Flex>
 
-          <RightIcon style={{ fontSize: "240px" }}/>
+          <DoubleRightOutlined style={{ fontSize: "24px" }}/>
           
           <Flex vertical align="center" gap={4}>
-            <Text strong>{t('modals:RelicReroll.RerolledSubstats')}</Text>
             <RelicPreview 
               relic={rerolledRelic} 
               score={rerolledRelic.equippedBy ? RelicScorer.scoreCurrentRelic(rerolledRelic, rerolledRelic.equippedBy) : undefined}
               unhoverable 
             />
+            <Text strong>{t('modals:RelicReroll.RerolledSubstats')}</Text>
           </Flex>
         </Flex>
       </Flex>

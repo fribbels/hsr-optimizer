@@ -123,7 +123,7 @@ function generateEquivalentSetsGrid(characters: DBMetadataCharacter[], sets: (ty
 function SimulationTeamDashboard() {
   const characters = Object.values(DB.getMetadata().characters)
   return (
-    <Flex vertical gap={10}>
+    <Flex vertical gap={40}>
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Destruction))}/>
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Hunt))}/>
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Erudition))}/>

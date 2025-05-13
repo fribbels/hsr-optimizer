@@ -90,7 +90,7 @@ export default function BenchmarksTab(): ReactElement {
   return (
     <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
       <ColorizedTitleWithInfo
-        text='Benchmarks'
+        text='Benchmark Generator'
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 

@@ -1,7 +1,8 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
-import { hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
+import { HoyolabData, hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
+import { ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -10,6 +11,8 @@ import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
+import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
 // FIXME MED
@@ -17,10 +20,9 @@ import { Relic } from 'types/relic'
 const { Text } = Typography
 
 type ParsedCharacter = {
-  characterId: string
+  characterId: CharacterId
   characterLevel: number
   lightConeLevel: number
-  characterId: string
 }
 
 enum Stages {
@@ -38,21 +40,21 @@ export function ScannerImportSubmenu() {
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
   const { t } = useTranslation(['importSaveTab', 'common'])
 
-  function beforeUpload(file): Promise<any> {
+  function beforeUpload(file: Blob): Promise<any> {
     return new Promise(() => {
       const reader = new FileReader()
       reader.readAsText(file)
       reader.onload = () => {
         const fileUploadText = String(reader.result)
-        uploadedText(fileUploadText)
+        void uploadedText(fileUploadText)
       }
       return false
     })
   }
 
-  function uploadedText(text): Promise<any> {
+  function uploadedText(text: string) {
     try {
-      const json = JSON.parse(text)
+      const json = JSON.parse(text) as (ScannerParserJson & { data: never }) | (HoyolabData & { source: never })
       console.log('JSON', json)
 
       setLoading1(true)
@@ -64,7 +66,7 @@ export function ScannerImportSubmenu() {
       if (json.data) {
         // Hoyolab import
         const out = hoyolabParser(json)
-        const relics: Relic[] = out.relics
+        const relics = out.relics as Relic[]
         let characters = out.characters
         // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
         characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
@@ -87,7 +89,7 @@ export function ScannerImportSubmenu() {
       }
 
       const parser = ScannerSourceToParser[json.source]
-      const output = parser.parse(json)
+      const output = parser.parse(json as ScannerParserJson)
       let characters: ParsedCharacter[] = output.characters
       const relics: Relic[] = output.relics
 
@@ -124,7 +126,7 @@ export function ScannerImportSubmenu() {
   function mergeRelicsConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.mergeRelicsWithState(currentRelics)
+      DB.mergeRelicsWithState(currentRelics ?? [], [])
       SaveState.delayedSave()
 
       setTimeout(() => {
@@ -141,7 +143,7 @@ export function ScannerImportSubmenu() {
         ? currentCharacters?.filter((char) => DB.getCharacterById(char.characterId))
         : currentCharacters
 
-      DB.mergeRelicsWithState(currentRelics, charactersToImport)
+      DB.mergeRelicsWithState(currentRelics ?? [], (charactersToImport ?? []) as Form[])
       SaveState.delayedSave()
 
       setTimeout(() => {
@@ -288,7 +290,7 @@ export function ScannerImportSubmenu() {
 
           <Checkbox
             checked={onlyImportExisting}
-            disabled={loading2}
+            disabled={loading2 || !DB.getCharacters().length}
             onChange={(e) => setOnlyImportExisting(e.target.checked)}
           >
             {t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}

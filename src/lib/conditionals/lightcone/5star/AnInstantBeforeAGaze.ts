@@ -15,18 +15,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const sValues = [0.0036, 0.0042, 0.0048, 0.0054, 0.006]
 
   const defaults = {
-    maxEnergyUltDmgStacks: 180,
+    maxEnergyDmgBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    maxEnergyUltDmgStacks: {
+    maxEnergyDmgBoost: {
       lc: true,
-      id: 'maxEnergyUltDmgStacks',
-      formItem: 'slider',
-      text: t('Content.maxEnergyUltDmgStacks.text'),
-      content: t('Content.maxEnergyUltDmgStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
-      min: 0,
-      max: 180,
+      id: 'maxEnergyDmgBoost',
+      formItem: 'switch',
+      text: t('Content.maxEnergyDmgBoost.text'),
+      content: t('Content.maxEnergyDmgBoost.content', { DmgStep: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   }
 
@@ -36,7 +34,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, ULT_DMG_TYPE, r.maxEnergyUltDmgStacks * sValues[s], SOURCE_LC)
+      if (r.maxEnergyDmgBoost) {
+        buffAbilityDmg(x, ULT_DMG_TYPE, Math.min(180, context.baseEnergy) * sValues[s], SOURCE_LC)
+      }
     },
     finalizeCalculations: () => {
     },

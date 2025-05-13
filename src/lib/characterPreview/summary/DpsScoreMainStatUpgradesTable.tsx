@@ -3,8 +3,9 @@ import { TFunction } from 'i18next'
 import { MainStats, Parts } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationStatUpgrade } from 'lib/scoring/characterScorer'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { arrowColor, arrowDirection } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
@@ -14,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 type MainStatUpgradeItem = {
   stat: MainStats
   part: Parts
+  setUpgradeRequest?: SimulationRequest
   scorePercentUpgrade: number
   scoreValueUpgrade: number
   damagePercentUpgrade: number
@@ -40,6 +42,15 @@ export function DpsScoreMainStatUpgradesTable(props: {
     }
   }).sort((a, b) => b.scorePercentUpgrade - a.scorePercentUpgrade)
 
+  const setUpgrade = simScore.setUpgrades[0]
+  if ((setUpgrade.percent ?? 0) - simScore.percent > 0.001) {
+    dataSource.unshift({
+      key: 'setUpgrade',
+      setUpgradeRequest: setUpgrade.simulation.request,
+      ...sharedSimResultComparator(simScore, setUpgrade),
+    } as unknown as MainStatUpgradeItem)
+  }
+
   const columns: TableProps<MainStatUpgradeItem>['columns'] = [
     {
       title: t('MainStatUpgrade'), // Main Stat Upgrade
@@ -48,12 +59,23 @@ export function DpsScoreMainStatUpgradesTable(props: {
       width: 200,
       rowScope: 'row',
       render: (stat: MainStats, upgrade: MainStatUpgradeItem) => (
-        <Flex align='center' gap={5}>
-          <img src={Assets.getPart(upgrade.part)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
-          <span>➔</span>
-          <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize }}/>
-          <span>{`${tCommon(`ShortReadableStats.${stat}`)}`}</span>
-        </Flex>
+        upgrade.setUpgradeRequest
+          ? (
+            <Flex align='center' gap={3}>
+              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet1)} style={{ width: iconSize, height: iconSize }}/>
+              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet2)} style={{ width: iconSize, height: iconSize }}/>
+              <span> </span>
+              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginLeft: 3 }}/>
+            </Flex>
+          )
+          : (
+            <Flex align='center' gap={5}>
+              <img src={Assets.getPart(upgrade.part)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
+              <span>➔</span>
+              <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize }}/>
+              <span>{`${tCommon(`ShortReadableStats.${stat}`)}`}</span>
+            </Flex>
+          )
       ),
     },
     // @ts-ignore

@@ -1,15 +1,17 @@
 import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import { usePublish } from 'hooks/usePublish'
 import { Parts, Stats } from 'lib/constants/constants'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
+import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
 
 const { Text } = Typography
@@ -33,10 +35,9 @@ export default function ScoringModal() {
   const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
 
-  const setScoringModalOpen = window.store((s) => s.setScoringModalOpen)
-  const scoringModalOpen = window.store((s) => s.scoringModalOpen)
+  const { close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
 
-  function characterSelectorChange(id: string) {
+  function characterSelectorChange(id: CharacterId | null | undefined) {
     setScoringAlgorithmFocusCharacter(id)
   }
 
@@ -61,7 +62,7 @@ export default function ScoringModal() {
 
       // console.log('Scoring modal opening set as:', scoringMetadata)
     }
-  }, [scoringAlgorithmFocusCharacter, scoringModalOpen, scoringAlgorithmForm])
+  }, [scoringAlgorithmFocusCharacter, isOpenScoringModal, scoringAlgorithmForm])
 
   const panelWidth = 220
   const defaultGap = 5
@@ -90,7 +91,7 @@ export default function ScoringModal() {
     console.log('onModalOk OK')
     const values = scoringAlgorithmForm.getFieldsValue() as ScoringMetadata
     onFinish(values)
-    setScoringModalOpen(false)
+    closeScoringModal()
     pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
 
@@ -115,8 +116,12 @@ export default function ScoringModal() {
 
     const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
     const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
+    const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+      stats: defaultScoringMetadata.stats,
+      parts: defaultScoringMetadata.parts,
+    }
 
-    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, defaultScoringMetadata)
+    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge as ScoringMetadata)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
   }
 
@@ -124,9 +129,13 @@ export default function ScoringModal() {
     const resetAllCharacters = () => {
       console.log('Reset the scoring algorithm for all characters')
       const charactersById = window.store.getState().charactersById
-      for (const character of Object.keys(charactersById)) {
+      for (const character of Object.keys(charactersById) as CharacterId[]) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
-        DB.updateCharacterScoreOverrides(character, defaultScoringMetadata)
+        const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+          stats: defaultScoringMetadata.stats,
+          parts: defaultScoringMetadata.parts,
+        }
+        DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge as ScoringMetadata)
       }
 
       // Update values for current screen
@@ -150,23 +159,19 @@ export default function ScoringModal() {
     )
   }
 
-  const handleCancel = () => {
-    setScoringModalOpen(false)
-  }
-
   const previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
   return (
     <Modal
-      open={scoringModalOpen}
+      open={isOpenScoringModal}
       width={900}
       destroyOnClose
       centered
       forceRender
       onOk={onModalOk}
-      onCancel={handleCancel}
+      onCancel={closeScoringModal}
       footer={[
-        <Button key='back' onClick={handleCancel}>
+        <Button key='back' onClick={closeScoringModal}>
           {t('common:Cancel')/* Cancel */}
         </Button>,
         <Button key='default' onClick={handleResetDefault}>
@@ -191,7 +196,7 @@ export default function ScoringModal() {
           <Flex vertical gap={5}>
             <Form.Item name='characterId'>
               <CharacterSelect
-                value=''
+                value={null}
                 selectStyle={{}}
                 onChange={characterSelectorChange}
               />

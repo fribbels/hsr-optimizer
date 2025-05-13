@@ -5,19 +5,19 @@ import { Generator } from 'node-vibrant/lib/typing'
 import { hslToRgb } from 'node-vibrant/lib/util'
 
 interface DefaultGeneratorOptions {
-  targetDarkLuma: number,
-  maxDarkLuma: number,
-  minLightLuma: number,
-  targetLightLuma: number,
-  minNormalLuma: number,
-  targetNormalLuma: number,
-  maxNormalLuma: number,
-  targetMutesSaturation: number,
-  maxMutesSaturation: number,
-  targetVibrantSaturation: number,
-  minVibrantSaturation: number,
-  weightSaturation: number,
-  weightLuma: number,
+  targetDarkLuma: number
+  maxDarkLuma: number
+  minLightLuma: number
+  targetLightLuma: number
+  minNormalLuma: number
+  targetNormalLuma: number
+  maxNormalLuma: number
+  targetMutesSaturation: number
+  maxMutesSaturation: number
+  targetVibrantSaturation: number
+  minVibrantSaturation: number
+  weightSaturation: number
+  weightLuma: number
   weightPopulation: number
 }
 
@@ -49,12 +49,12 @@ function _findMaxPopulation(swatches: Array<Swatch>): number {
 }
 
 function _isAlreadySelected(palette: Palette, s: Swatch): boolean {
-  return palette.Vibrant === s ||
-    palette.DarkVibrant === s ||
-    palette.LightVibrant === s ||
-    palette.Muted === s ||
-    palette.DarkMuted === s ||
-    palette.LightMuted === s
+  return palette.Vibrant === s
+    || palette.DarkVibrant === s
+    || palette.LightVibrant === s
+    || palette.Muted === s
+    || palette.DarkMuted === s
+    || palette.LightMuted === s
 }
 
 function _findColorVariation(palette: Palette, swatches: Array<Swatch>, maxPopulation: number,
@@ -69,13 +69,13 @@ function _findColorVariation(palette: Palette, swatches: Array<Swatch>, maxPopul
   let maxValue = 0
 
   swatches.forEach((swatch) => {
-    let [, s, l] = swatch.getHsl()
+    const [, s, l] = swatch.getHsl()
 
-    if (s >= minSaturation && s <= maxSaturation &&
-      l >= minLuma && l <= maxLuma &&
-      !_isAlreadySelected(palette, swatch)
+    if (s >= minSaturation && s <= maxSaturation
+      && l >= minLuma && l <= maxLuma
+      && !_isAlreadySelected(palette, swatch)
     ) {
-      let value = _createComparisonValue(s, targetSaturation, l, targetLuma, swatch.getPopulation(), maxPopulation, opts)
+      const value = _createComparisonValue(s, targetSaturation, l, targetLuma, swatch.getPopulation(), maxPopulation, opts)
 
       if (max === null || value > maxValue) {
         max = swatch
@@ -95,8 +95,8 @@ function _createComparisonValue(
     let sum = 0
     let weightSum = 0
     for (let i = 0; i < values.length; i += 2) {
-      let value = values[i]
-      let weight = values[i + 1]
+      const value = values[i]
+      const weight = values[i + 1]
       sum += value * weight
       weightSum += weight
     }
@@ -116,7 +116,7 @@ function _createComparisonValue(
 }
 
 function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number, opts: DefaultGeneratorOptions): Palette {
-  let palette: Palette = {}
+  const palette: Palette = {}
   // mVibrantSwatch = findColor(TARGET_NORMAL_LUMA, MIN_NORMAL_LUMA, MAX_NORMAL_LUMA,
   //     TARGET_VIBRANT_SATURATION, MIN_VIBRANT_SATURATION, 1f);
   palette.Vibrant = _findColorVariation(palette, swatches, maxPopulation,
@@ -188,47 +188,56 @@ function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number
 
 function _generateEmptySwatches(palette: Palette, maxPopulation: number, opts: DefaultGeneratorOptions): void {
   if (palette.Vibrant === null && palette.DarkVibrant === null && palette.LightVibrant === null) {
-    if (palette.DarkVibrant === null && palette.DarkMuted !== null) {
+    if (palette.DarkMuted !== null) {
+      // eslint-disable-next-line prefer-const
       let [h, s, l] = palette.DarkMuted!.getHsl()
       l = opts.targetDarkLuma
       palette.DarkVibrant = new Swatch(hslToRgb(h, s, l), 0)
     }
     if (palette.LightVibrant === null && palette.LightMuted !== null) {
+      // eslint-disable-next-line prefer-const
       let [h, s, l] = palette.LightMuted!.getHsl()
       l = opts.targetDarkLuma
       palette.DarkVibrant = new Swatch(hslToRgb(h, s, l), 0)
     }
   }
   if (palette.Vibrant === null && palette.DarkVibrant !== null) {
+    // eslint-disable-next-line prefer-const
     let [h, s, l] = palette.DarkVibrant!.getHsl()
     l = opts.targetNormalLuma
     palette.Vibrant = new Swatch(hslToRgb(h, s, l), 0)
   } else if (palette.Vibrant === null && palette.LightVibrant !== null) {
+    // eslint-disable-next-line prefer-const
     let [h, s, l] = palette.LightVibrant!.getHsl()
     l = opts.targetNormalLuma
     palette.Vibrant = new Swatch(hslToRgb(h, s, l), 0)
   }
   if (palette.DarkVibrant === null && palette.Vibrant !== null) {
+    // eslint-disable-next-line prefer-const
     let [h, s, l] = palette.Vibrant!.getHsl()
     l = opts.targetDarkLuma
     palette.DarkVibrant = new Swatch(hslToRgb(h, s, l), 0)
   }
   if (palette.LightVibrant === null && palette.Vibrant !== null) {
+    // eslint-disable-next-line prefer-const
     let [h, s, l] = palette.Vibrant!.getHsl()
     l = opts.targetLightLuma
     palette.LightVibrant = new Swatch(hslToRgb(h, s, l), 0)
   }
   if (palette.Muted === null && palette.Vibrant !== null) {
+    // eslint-disable-next-line prefer-const
     let [h, s, l] = palette.Vibrant!.getHsl()
     l = opts.targetMutesSaturation
     palette.Muted = new Swatch(hslToRgb(h, s, l), 0)
   }
   if (palette.DarkMuted === null && palette.DarkVibrant !== null) {
+    // eslint-disable-next-line prefer-const
     let [h, s, l] = palette.DarkVibrant!.getHsl()
     l = opts.targetMutesSaturation
     palette.DarkMuted = new Swatch(hslToRgb(h, s, l), 0)
   }
   if (palette.LightMuted === null && palette.LightVibrant !== null) {
+    // eslint-disable-next-line prefer-const
     let [h, s, l] = palette.LightVibrant!.getHsl()
     l = opts.targetMutesSaturation
     palette.LightMuted = new Swatch(hslToRgb(h, s, l), 0)
@@ -236,15 +245,15 @@ function _generateEmptySwatches(palette: Palette, maxPopulation: number, opts: D
 }
 
 // Forked from Vibrant.Generator.Default
-export const CustomGenerator: Generator = (swatches: Array<Swatch>, opts?: Object): Palette => {
+export const CustomGenerator: Generator = (swatches: Array<Swatch>, opts?: object): Palette => {
   const options = {
     ...DefaultOpts,
     ...opts,
   } as DefaultGeneratorOptions
 
-  let maxPopulation = _findMaxPopulation(swatches)
+  const maxPopulation = _findMaxPopulation(swatches)
 
-  let palette = _generateVariationColors(swatches, maxPopulation, options)
+  const palette = _generateVariationColors(swatches, maxPopulation, options)
   _generateEmptySwatches(palette, maxPopulation, options)
 
   // @ts-ignore
@@ -255,12 +264,12 @@ export const CustomGenerator: Generator = (swatches: Array<Swatch>, opts?: Objec
 }
 
 export type PaletteResponse = {
-  Vibrant: string,
-  Muted: string,
-  DarkVibrant: string,
-  DarkMuted: string,
-  LightVibrant: string,
-  LightMuted: string,
+  Vibrant: string
+  Muted: string
+  DarkVibrant: string
+  DarkMuted: string
+  LightVibrant: string
+  LightMuted: string
 
   colors: string[]
 }
@@ -278,25 +287,28 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
     .getPalette()
     .then((palette) => {
       const defaults = {
-        Vibrant: palette!.Vibrant!.hex,
-        DarkVibrant: palette!.DarkVibrant!.hex,
-        Muted: palette!.Muted!.hex,
-        DarkMuted: palette!.DarkMuted!.hex,
-        LightVibrant: palette!.LightVibrant!.hex,
-        LightMuted: palette!.LightMuted!.hex,
+        Vibrant: palette.Vibrant!.hex,
+        DarkVibrant: palette.DarkVibrant!.hex,
+        Muted: palette.Muted!.hex,
+        DarkMuted: palette.DarkMuted!.hex,
+        LightVibrant: palette.LightVibrant!.hex,
+        LightMuted: palette.LightMuted!.hex,
       }
 
-      // @ts-ignore
-      const colors = palette.colors.map(x => chroma(x._rgb).hex()).filter((color: string) => {
-        return (
-          color != defaults.Vibrant &&
-          color != defaults.DarkVibrant &&
-          color != defaults.Muted &&
-          color != defaults.DarkMuted &&
-          color != defaults.LightVibrant &&
-          color != defaults.LightMuted
-        )
-      })
+      // console.log('PALETTE', palette)
+
+      // colors member from custom generator isn't added to type information
+      const colors = (palette.colors as unknown as { _hsl: number[]; _population: number; _rgb: number[] }[])
+        .map((x) => chroma(x._rgb).hex()).filter((color: string) => {
+          return (
+            color != defaults.Vibrant
+            && color != defaults.DarkVibrant
+            && color != defaults.Muted
+            && color != defaults.DarkMuted
+            && color != defaults.LightVibrant
+            && color != defaults.LightMuted
+          )
+        })
 
       const paletteResponse: PaletteResponse = {
         ...defaults,

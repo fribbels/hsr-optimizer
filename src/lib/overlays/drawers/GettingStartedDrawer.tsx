@@ -1,19 +1,18 @@
 import { ImportOutlined } from '@ant-design/icons'
 import { Button, Drawer, Flex, Popconfirm } from 'antd'
 import sampleSave from 'data/sample-save.json'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
 export const GettingStartedDrawer = () => {
   const { t } = useTranslation(['getStartedTab', 'common'])
 
-  const gettingStartedDrawerOpen = window.store((s) => s.gettingStartedDrawerOpen)
-  const setGettingStartedDrawerOpen = window.store((s) => s.setGettingStartedDrawerOpen)
+  const { close: closeBeginnerDrawer, isOpen: isOpenBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)
 
   function tryItOutClicked() {
     // Manually save for test files
@@ -26,8 +25,8 @@ export const GettingStartedDrawer = () => {
     <Drawer
       title={t('TryOut.Header')}/* 'Try it out!' */
       placement='right'
-      onClose={() => setGettingStartedDrawerOpen(false)}
-      open={gettingStartedDrawerOpen}
+      onClose={closeBeginnerDrawer}
+      open={isOpenBeginnerDrawer}
       width={250}
     >
       <Flex vertical gap={20}>

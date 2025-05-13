@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: Successfully saved portrait
     RevertedPortrait: Successfully reverted portrait
     NoSelectedCharacter: No selected character
+    NoSelectedLightCone: No Selected light cone
   ScoreHeader:
     Title: Combat Sim
     TitleBenchmark: "{{spd}} SPD Benchmark"
@@ -92,11 +93,9 @@ CharacterPreview:
       StatScore: Stat Score
       NoneScore: None
   DetailsSlider:
-    Title: "Combat score details:"
     Labels:
       CombatStats: Combat Stats
       SubDpsCombatStats: Combat Stats (Sub DPS)
-      DMGUpgrades: Damage Upgrades
   DMGUpgrades: Damage Upgrades
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons

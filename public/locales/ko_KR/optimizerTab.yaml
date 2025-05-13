@@ -318,16 +318,18 @@ SetConditionals:
     Prisoner: 선택된 방어력 무시 버프는 스택 수를 기준으로 데미지에 적용됩니다.
     Diver: 2세트 효과는 0x 옵션을 선택하여 비활성화할 수 있습니다. 4세트의 경우 선택한 옵션에 따라 전투 스탯에 다른 치명타 버프가 적용됩니다.
     Watchmaker: 활성화되면 전투 스텟에 격파 특수효과 버프가 적용됩니다.
-    Valorous: 치명타 확률 버프는 기본적으로 항상 켜져 있습니다. 선택한 버프는 스택 수에 따른 데미지 계산에 적용됩니다.
+    Valorous: 이 옵션이 활성화된 경우 계산에 필살기 가하는 피해 버프가 적용됩니다.
+    Sacerdos: 선택한 버프가 피해 계산에 적용됩니다. 스스로 버프하는 캐릭터는 이 효과를 발동할 수 있습니다.
+    Scholar: 이 옵션이 활성화된 경우 전투 스킬 가하는 피해 버프가 캐릭터의 콤보 순서에 따라 계산에 적용됩니다.
+    Hero: 이 옵션이 활성화된 경우 계산에 치명타 피해 버프와 속도 버프가 적용됩니다.
     Differentiator: 활성화되면 전투 스텟에 치명타 확률 버프가 적용됩니다.
     Penacony: 이 옵션이 활성화된 경우, 데미지 버프가 착용자가 소환한 정령에 대해 적용됩니다.
     Sigonia: 선택된 치명타 데미지 버프는 캐릭터가 적을 물리쳤다고 가정하여 전투 스텟에 적용됩니다
     Izumo: 이 옵션이 활성화된 경우 같은 운명을 따르는 아군이 있을 때 12%의 치명타 확률 버프가 계산에 적용됩니다.
     Duran: 선택된 버프는 스택 수에 따른 피해 계산에 적용됩니다.
     Kalpagni: 활성화되면 격파 특수효과 버프를 적용하여 전투 스텟에 적용됩니다.
-    Lushaka: 선택한 버프가 피해 계산에 적용됩니다.
+    Lushaka: 기본적으로 비활성화 - 이 세트는 장비 캐릭터에 영향을 주지 않습니다.
     Banana: 선택한 버프가 피해 계산에 적용됩니다.
-    Sacerdos: 선택한 버프가 피해 계산에 적용됩니다. 스스로 버프하는 캐릭터는 이 효과를 발동할 수 있습니다.
 Presets:
   SpdValues:
     SPD0: 최소 속도 없음
@@ -426,12 +428,14 @@ ComboFilter:
       Description: 모든 심플 / 고급 사이클 셋팅을 기본 값으로 변경할까요?
   CounterLabels:
     Dot: 지속 피해
-    Break: 격파 피해
   ComboOptions:
+    None: '없음'
     Basic: 기본 공격
     Skill: 전투 스킬
     Ult: 필살기
     Fua: 추가 공격
+    Dot: 지속피해
+    Break: 격파
     MemoSkill: 소환물 데미지
     MemoTalent: 기억정령 특성
   RotationButton: 고급 사이클
@@ -473,6 +477,10 @@ TeammateCard:
       Desc: "4 세트 : $t(gameData:RelicSets.121.Name) (+36% 치피)"
       Set: "$t(gameData:RelicSets.121.Name)"
       Text: 치피 36%
+    Warrior:
+      Desc: "$t(gameData:RelicSets.125.Name) (+15% 치피)"
+      Set: "$t(gameData:RelicSets.125.Name)"
+      Text: 치피 15%
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) (+10% 치피)"
       Set: "$t(gameData:RelicSets.310.Name)"
@@ -566,6 +574,9 @@ ExpandedDataPanel:
       dotDmg: 지속 피해량
       memoDmg: 기억정령 피해
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "아니요"
+      BoolTrue: "예"
     Sources:
       Basic: 기본 공격
       Skill: 전투 스킬
@@ -580,6 +591,7 @@ ExpandedDataPanel:
       E6: 6돌
     Stats:
       CompositeLabels:
+        Label: "{{prefix}}{{suffix}}"
         Prefix:
           Basic: 기본 공격
           Skill: 전투 스킬
@@ -587,11 +599,82 @@ ExpandedDataPanel:
           Fua: 추가 공격
           Dot: 지속피해
           Break: 격파
+          Memo Skill: 기억정령 스킬
+          Memo Talent: 기억정령 특성
         Suffix:
+          ATK scaling: 공격력 배율
+          DEF scaling: 방어력 배율
+          HP scaling: HP 배율
+          Special scaling: 특수 배율
+          "ATK % boost": 공격력 % 증가
+          Crit Rate boost: 치명타 확률 증가
+          Crit DMG boost: 치명타 데미지 증가
           DMG boost: 데미지 버프
+          Vulnerability: 취약
+          RES PEN: 속성 저항 관통
           DEF PEN: 방어력 무시
+          Break DEF PEN: 격파 방어력 무시
+          Toughness DMG: 강인도 데미지
+          Super Break multiplier: 슈퍼 격파 배율
+          Break Efficiency boost: 약점 격파 효율 증가
+          True DMG multiplier: 확정피해 배율
+          Final DMG multiplier: 총 피해량 배율
+          Break DMG multiplier: 격파 피해 배율
+          Additional DMG scaling: 추가 피해 배율
           Additional DMG: 추가 피해
           DMG: 데미지
       Misc:
+        Base HP: 기초 HP
+        Base ATK: 기초 공격력
+        Base DEF: 기초 방어력
+        Base SPD: 기초 속도
+        Memosprite base HP scaling: 기억 정령 기반 HP 배율
+        Memosprite base DEF scaling: 기억 정령 기반 방어력 배율
+        Memosprite base ATK scaling: 기억 정령 기반 공격력 배율
+        Memosprite base SPD scaling: 기억 정령 기반 속도 배율
+        Memosprite base HP flat: 기억 정령 기초 HP 값
+        Memosprite base DEF flat: 기억 정령 기초 방어력 값
+        Memosprite base ATK flat: 기억 정령 기초 공격력 값
+        Memosprite base SPD flat: 기억 정령 기초 속도 값
+        Elemental DMG: 속성 피해
+        DMG reduction: 피해 감소
+        Effective HP: EHP
+        Summons: 소환수
         Memosprite: 기억 정령
+        Enemy weakness broken: 적 격파 상태
+        Prioritize memosprite buffs: 기억 정령에게 버프 우선
+        Deprioritize buffs: 버프 우선도 하락
         Combo DMG: 사이클 총 피해량
+        Dot base chance: 지속딜 부여 기초 확률
+        Effect RES PEN: 속성 저항 감소
+        Dot DMG split: 지속딜 디버프 분산
+        Dot stacks: 지속딜 스택
+        Heal ability type: 치유 능력 종류
+        Heal flat: 치유량 값
+        Heal scaling: 치유량 베율
+        Heal value: 치유량
+        Shield flat: 실드량 값
+        Shield scaling: 실드량 배율
+        Shield value: 실드 값
+        Shield boost: 실드량 증갸
+        Skill Outgoing Healing Boost: 전투스킬 치유량 증가
+        Ult Outgoing Healing Boost: 필살기 치유량 증가
+        Super Break DEF PEN: 슈퍼 격파 방어력 관통
+        Super Break DMG Boost: 슈퍼 격파 데미지 버프
+        Super Break Vulnerability: 슈퍼 격파 시 피해 증가
+        Additional DMG boost: 추가 피해 버프
+        Ult Additional DMG CR override: 필살기 추가 피해(치명타 확률 무시)
+        Ult Additional DMG CD override: 필살기 추가 피해(치명타 피해 무시)
+      DmgTypes:
+        Basic: 기초 데미지 타입
+        Skill: 전투 스킬 데미지 타입
+        Ult: 필살기 데미지 타입
+        Fua: 추가공격 데미지 타입
+        Dot: 지속 데미지 타입
+        Break: 격파 데미지 타입
+        MemoSkill: 기억정령 스킬 데미지 타입
+        MemoTalent: 기억정령 특성 데미지 타입
+        Additional: 추가 피해 타입
+        SuperBreak: 슈퍼 격파 데미지 타입
+      ResPen: "$t(common:Elements.{{element}}) 저항 관통"
+      Unconvertible: "변환 불가능한 $t(common:Stats.{{stat}})"

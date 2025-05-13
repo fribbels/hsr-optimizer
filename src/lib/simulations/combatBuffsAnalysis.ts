@@ -17,7 +17,6 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
   const hasMemo = DB.getMetadata().characters[request.characterId].path == PathNames.Remembrance
 
   for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(hasMemo ? combatBuffs.buffsMemo : [])]) {
-    // for (const buff of [...combatBuffs.buffs, ...combatBuffs.buffsMemo]) {
     const id = buff.source.id
     const buffType = request.characterId == id ? BUFF_TYPE.PRIMARY : buff.source.buffType
 
@@ -33,7 +32,7 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
   return buffGroups
 }
 
-export function extractCombatBuffs(x: ComputedStatsArray) {
+function extractCombatBuffs(x: ComputedStatsArray) {
   const buffs = x.buffs
   const buffsBasic = x.c.buffs
   const buffsMemo = x.m
@@ -55,18 +54,4 @@ type CombatBuffs = {
   buffs: Buff[]
   buffsMemo: Buff[]
   buffsBasic: Buff[]
-}
-
-const sourceToLabelMapping: Record<string, string> = {
-  BASIC: 'Basic',
-  SKILL: 'Skill',
-  ULT: 'Ult',
-  TALENT: 'Talent',
-  TECHNIQUE: 'Technique',
-  TRACE: 'Trace',
-  MEMO: 'Memosprite',
-  E1: 'E1',
-  E2: 'E2',
-  E4: 'E4',
-  E6: 'E6',
 }

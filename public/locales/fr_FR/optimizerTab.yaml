@@ -318,16 +318,18 @@ SetConditionals:
     Prisoner: Le buff de pénétration de def% sera appliqué au calcul de dégâts en fonction du nombre de cumuls.
     Diver: L'effet 2 pièces peut être désactivé en sélectionnant l'option 0x. Pour l'effet 4 pièces, divers buffs de crit sont appliqués en fonction de l'option sélectionnée.
     Watchmaker: Lorsque cette option est sélectionnée, le buff d'effet Rupture sera appliqué au calcul des stats de combat.
-    Valorous: Le buff de Taux de CRIT est toujours activée par défaut. Le buff sélectionné est appliqué au calcul de dégâts en fonction du nombre de cumuls.
+    Valorous: Lorsque cette option est sélectionnée, le buff de DGT% d'Ultime sera appliqué au calcul des stats de combat.
+    Sacerdos: Le buff sélectionné est appliqué au calcul des stats de combat. Les personnages qui se buffent peuvent activer cet effet.
+    Scholar: Lorsqu'il est activé, le buff de DGT% de compétence sera amélioré conformément à la séquence COMBO du personnage.
+    Hero: Lorsque cette option est sélectionnée, les buff de DGT CRIT et de VIT% seront appliqués au calcul des stats de combat.
     Differentiator: Lorsque cette option est sélectionnée, le buff de Taux de CRIT sera appliqué au calcul des stats de combat.
     Penacony: Lorsque cette option est sélectionnée, le bonus DGT% s'appliquera au mnémesprit du porteur.
     Sigonia: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat, en supposant que le personnage ait vaincu ce nombre d'ennemis.
     Izumo: Lorsque cette option est sélectionnée, s'il existe un allié du même chemin dans l'équipe, applique un buff de Taux de Crit de 12% lors du calcul des stats de combat.
     Duran: Le buff sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
     Kalpagni: Lorsque cette option est activée, applique le buff d'Effet de Rupture au calcul des stats de combat.
-    Lushaka: Le buff sélectionné est appliqué au calcul des stats de combat.
+    Lushaka: Désactivé par défaut - Ce set ne peut pas affecter son porteur.
     Banana: Le buff sélectionné est appliqué au calcul des stats de combat.
-    Sacerdos: Le buff sélectionné est appliqué au calcul des stats de combat. Les personnages qui se buffent peuvent activer cet effet.
 Presets:
   SpdValues:
     SPD0: Pas de vitesse minimale
@@ -426,12 +428,14 @@ ComboFilter:
       Description: Réinitialiser tous les paramètres de rotation Simple / Avancé?
   CounterLabels:
     Dot: Dsd
-    Break: Ruptures
   ComboOptions:
+    None: 'Aucun'
     Basic: Norm
     Skill: Comp
     Ult: Ult
     Fua: Ads
+    Dot: DsD
+    Break: Rupture
     MemoSkill: Compᴹ
     MemoTalent: Talentᴹ
   RotationButton: Rotation avancée
@@ -473,6 +477,10 @@ TeammateCard:
       Desc: "4 Pièces: $t(gameData:RelicSets.121.Name) (+36% DC)"
       Set: "$t(gameData:RelicSets.121.Name)"
       Text: 36% DC
+    Warrior:
+      Desc: "$t(gameData:RelicSets.125.Name) (+15% DC)"
+      Set: "$t(gameData:RelicSets.125.Name)"
+      Text: 15% DC
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) (+10% DC)"
       Set: "$t(gameData:RelicSets.310.Name)"
@@ -566,6 +574,9 @@ ExpandedDataPanel:
       dotDmg: DGT Dsd
       memoDmg: DGT Mnémesprit
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Non"
+      BoolTrue: "Oui"
     Sources:
       Basic: Normale
       Skill: Compétence

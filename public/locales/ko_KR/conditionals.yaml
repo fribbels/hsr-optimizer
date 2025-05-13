@@ -36,8 +36,8 @@ Lightcones:
           장착한 캐릭터가 적 명중 시 적을 [포영] 상태에 빠트린다. 지속 시간: 1턴. 장착한 캐릭터가 공격할 때마다 적 1기당 1회만 발동한다. 장착한 캐릭터가 [포영] 상태에 빠진 적에게 가하는 피해가 {{DmgBoost}}% 증가하고, 필살기로 가하는 피해가 추가로 {{DmgBoost}}% 증가한다
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 최대 에너지
+      maxEnergyDmgBoost:
+        text: 최대 에너지일 때 버프
         content: 장착한 캐릭터가 필살기 발동 시 자신의 에너지 최대치에 따라 자신이 필살기로 가하는 피해가 증가한다. (에너지 1pt당 {{DmgStep}}% 증가, 최대 180pt까지 계산)
   BaptismOfPureThought:
     Content:
@@ -173,6 +173,17 @@ Lightcones:
         text: '[유광] 스택'
         content: >-
           장착한 캐릭터가 추가 공격 발동 시 [유광]을 1스택 획득한다, 최대 중첩수: 2스택. [유광] 1스택마다 장착한 캐릭터가 가하는 필살기 피해가 목표의 방어력을 {{DefIgnore}}% 무시한다. 장착한 캐릭터의 턴 종료 시 [유광]이 1스택 해제된다.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: 방어력 무시
+        content: >-
+          장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
+    TeammateContent:
+      additionalDefPen:
+        text: "속도 > 170"
+        content: >-
+          장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +203,11 @@ Lightcones:
       deathFlower:
         text: '[저승의 꽃]'
         content: '장착한 캐릭터 또는 장착한 캐릭터의 기억 정령이 자신의 턴 동안 HP를 잃을 시, 장착한 캐릭터가 [저승의 꽃]을 획득한다. [저승의 꽃]은 장착한 캐릭터와 장착한 캐릭터의 기억 정령이 피해를 가할 시 목표의 방어력을 {{DefIgnore}}% 무시하게 한다, 지속 시간: 2턴'
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: 취약
+        content: '장착한 캐릭터의 기억 정령이 기억 정령 스킬 발동 시, 모든 적이 받는 피해가 {{Vulnerability}}% 증가한다, 지속 시간: 2턴. 같은 유형의 효과는 중첩되지 않는다'
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -938,6 +954,32 @@ Characters:
         text: 6돌 버프
         content: >-
           카스토리스와 죽음의 용이 피해를 가할 시 양자 속성 저항 관통이 20% 증가한다. 죽음의 용은 공격 중에 약점 속성을 무시하고 적의 강인성을 감소시킬 수 있으며, 약점 격파 시 양자 속성의 약점 격파 효과를 발동하고, 특성 [묘지를 불사르는 어둠의 날개]의 바운스 발동 횟수가 추가로 3회 증가한다
+  Cipher:
+    Content:
+      vulnerability:
+        text: 팀 받피증
+        content: 사이퍼가 필드에 있을 시 모든 적이 받는 피해가 40% 증가한다.
+      skillAtkBuff:
+        text: 전투 스킬 버프
+        content: '사이퍼가 적 명중 시 120%의 기본 확률로 대상이 받는 피해가 30% 증가한다, 지속 시간: 2턴'
+      fuaCdBoost:
+        text: 추공 치피 버프
+        content: 추가 공격이 가하는 치명타 피해가 100% 증가한다.
+      spdBasedBuffs:
+        text: 기초 속도 버프
+        content: ' 사이퍼의 속도가 140/170 이상일 시 치명타 확률이 25%/50% 증가한다.'
+      e1AtkBuff:
+        text: 1돌 공경력 버프
+        content: '특성의 추가 공격 발동 시 사이퍼의 공격력이 80% 증가한다, 지속 시간: 2'
+      e2Vulnerability:
+        text: 2돌 받피증
+        content: '사이퍼가 적 명중 시 120%의 기본 확률로 대상이 받는 피해가 30% 증가한다, 지속 시간: 2턴'
+      e4AdditionalDmg:
+        text: 4돌 추가피해
+        content: '[단골손님]이 아군의 공격을 받은 후, 사이퍼는 대상에게 사이퍼 공격력의 50%만큼 양자 속성 추가 피해를 가한다.'
+      e6FuaDmg:
+        text: 6돌 추공 가피증
+        content: 사이퍼 특성의 추가 공격이 가하는 피해가 350% 증가한다.
   Clara:
     Content:
       ultBuff:
@@ -1196,6 +1238,35 @@ Characters:
       e6DmgBuff:
         text: 6돌 데미지 버프
         content: '아군에게 치유 제공 시, 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴'
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: 아군 HP ≤ 50%
+        content: 현재 HP가 자신의 HP 최대치의 50% 이하인 아군에게 치유 제공 시, 히아킨과 이카의 치유량이 25% 증가한다.
+      resBuff:
+        text: 효과 저항 버프
+        content: 히아킨의 효과 저항이 50% 증가한다.
+      spd200HpBuff:
+        text: 속도  ≥ 200 HP 증가
+        content: 히아킨의 속도가 200보다 높을 시 히아킨과 이카의 HP 최대치가 20% 증가하고, 이후 속도가 1pt 초과할 때마다 히아킨과 이카가 제공하는 치유량이 1% 증가한다. 초과한 속도는 최대 200pt까지 계산된다.
+      clearSkies:
+        text: '[비 온 뒤 맑음] 상태'
+        content: '히아킨이 [비 온 뒤 맑음] 상태에 진입한다, 지속 시간: 3턴. 히아킨의 턴이 시작될 때마다 지속 턴 수가 1 감소한다. [비 온 뒤 맑음] 상태일 시 모든 아군의 HP 최대치가 {{UltHpBuffScaling}}%+{{UltHpBuffFlat}}pt 증가한다'
+      healingDmgStacks:
+        text: 가하는 피해 증가 중첩
+        content: '히아킨 또는 이카가 치유 제공 시 이카가 가하는 피해가 80% 증가한다, 지속 시간: 2턴, 최대 중첩수: 3스택'
+      e1HpBuff:
+        text: 1돌 HP 버프
+        content: 히아킨이 [비 온 뒤 맑음] 상태일 시 모든 아군의 HP 최대치가 추가로 50% 증가한다.
+      e2SpdBuff:
+        text: 2돌 속도 버프
+        content: '아군의 HP가 감소하면 속도가 30% 증가한다, 지속 시간: 2턴'
+      e4CdBuff:
+        text: 4돌 치피 버프
+        content: 행적 [잔잔해진 폭풍]이 강화된다. 속도가 1pt를 초과할 때마다 히아킨과 이카의 치명타 피해가 추가로 2% 증가한다.
+      e6ResPen:
+        text: 6돌 속성 저항 관통
+        content: 이카가 필드에 있을 시 모든 아군의 모든 속성 저항 관통이 20% 증가한다.
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1621,7 +1692,7 @@ Characters:
       talentStacks:
         text: 특성 스택
         content: >-
-          아군이 전투 스킬 포인트를 1pt 소모할 때마다 모든 아군이 가하는 피해가 {talentBaseStackBoost}% 증가한다, 해당 효과 지속 시간: 2턴, 최대 중첩수: 3스택::BR::E2: 특성의 각 스택 효과는 추가로 아군이 피해를 가할 시 목표의 방어력을 8% 무시하게 한다.
+          아군이 전투 스킬 포인트를 1pt 소모할 때마다 모든 아군이 가하는 피해가 {{talentBaseStackBoost}}% 증가한다, 해당 효과 지속 시간: 2턴, 최대 중첩수: 3스택::BR::E2: 특성의 각 스택 효과는 추가로 아군이 피해를 가할 시 목표의 방어력을 8% 무시하게 한다.
       quantumAlliesAtkBuff:
         text: 양자 속성 공격력 버프
         content: 모든 아군의 공격력이 15% 증가한다. 아군 파티 중 양자 속성 캐릭터가 1명/2명/3명 존재 시 아군 양자 속성 캐릭터의 공격력이 추가로 5%/15%/30% 증가한다.

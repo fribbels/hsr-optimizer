@@ -7,7 +7,6 @@ import { Utils } from 'lib/utils/utils'
 
 export const DIGITS_3 = 46
 export const DIGITS_4 = 50
-export const DIGITS_4_WEIGHT = 52
 export const DIGITS_5 = 56
 export const DIGITS_6 = 62
 
@@ -170,13 +169,6 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       minWidth: DIGITS_3,
       flex: 10,
       headerName: t('Grid.Headers.Basic.SHIELD'), // 'SHIELD',
-    },
-    {
-      field: 'WEIGHT',
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4_WEIGHT,
-      flex: 10,
-      headerName: t('Grid.Headers.Basic.WEIGHT'), // 'STAT\nWEIGHT',
     },
 
     {
@@ -375,13 +367,6 @@ export function getMemoBasicColumnDefs(t: TFunction<'optimizerTab', undefined>) 
       flex: 10,
       headerName: t('Grid.Headers.Basic.SHIELD'), // 'SHIELD',
     },
-    {
-      field: 'WEIGHT',
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4_WEIGHT,
-      flex: 10,
-      headerName: t('Grid.Headers.Basic.WEIGHT'), // 'STAT\nWEIGHT',
-    },
 
     {
       field: 'BASIC',
@@ -578,13 +563,6 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', undefined>) {
       flex: 10,
       headerName: t('Grid.Headers.Combat.SHIELD'), // 'SHIELD',
     },
-    {
-      field: 'WEIGHT',
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4_WEIGHT,
-      flex: 10,
-      headerName: t('Grid.Headers.Combat.WEIGHT'), // 'STAT\nWEIGHT',
-    },
 
     {
       field: 'BASIC',
@@ -780,13 +758,6 @@ export function getMemoCombatColumnDefs(t: TFunction<'optimizerTab', undefined>)
       minWidth: DIGITS_3,
       flex: 10,
       headerName: t('Grid.Headers.Combat.SHIELD'), // 'SHIELD',
-    },
-    {
-      field: 'WEIGHT',
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4_WEIGHT,
-      flex: 10,
-      headerName: t('Grid.Headers.Combat.WEIGHT'), // 'STAT\nWEIGHT',
     },
 
     {

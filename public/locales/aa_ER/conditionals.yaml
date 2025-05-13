@@ -36,9 +36,9 @@ Lightcones:
           crwdns40172:0{{DmgBoost}}crwdnd40172:0{{UltDmgBoost}}crwdne40172:0
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: crwdns40174:0crwdne40174:0
-        content: crwdns40176:0{{DmgStep}}crwdne40176:0
+      maxEnergyDmgBoost:
+        text: crwdns45224:0crwdne45224:0
+        content: crwdns45226:0{{DmgStep}}crwdne45226:0
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
@@ -173,6 +173,17 @@ Lightcones:
         text: crwdns40270:0crwdne40270:0
         content: >-
           crwdns43980:0{{DefIgnore}}crwdne43980:0
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: crwdns45240:0crwdne45240:0
+        content: >-
+          crwdns45242:0{{DefShred}}crwdnd45242:0:BR:crwdnd45242:0{{AdditionalDefShred}}crwdne45242:0
+    TeammateContent:
+      additionalDefPen:
+        text: "crwdns45244:0crwdne45244:0"
+        content: >-
+          crwdns45246:0{{DefShred}}crwdnd45246:0:BR:crwdnd45246:0{{AdditionalDefShred}}crwdne45246:0
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +203,11 @@ Lightcones:
       deathFlower:
         text: crwdns44941:0crwdne44941:0
         content: crwdns44943:0{{DefIgnore}}crwdne44943:0
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: crwdns45248:0crwdne45248:0
+        content: crwdns45250:0{{Vulnerability}}crwdne45250:0
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -936,6 +952,32 @@ Characters:
         text: crwdns45013:0crwdne45013:0
         content: >-
           crwdns45015:0:BR:crwdne45015:0
+  Cipher:
+    Content:
+      vulnerability:
+        text: crwdns45252:0crwdne45252:0
+        content: crwdns45254:0crwdne45254:0
+      skillAtkBuff:
+        text: crwdns45256:0crwdne45256:0
+        content: crwdns45258:0crwdne45258:0
+      fuaCdBoost:
+        text: crwdns45260:0crwdne45260:0
+        content: crwdns45262:0crwdne45262:0
+      spdBasedBuffs:
+        text: crwdns45264:0crwdne45264:0
+        content: crwdns45266:0crwdne45266:0
+      e1AtkBuff:
+        text: crwdns45268:0crwdne45268:0
+        content: crwdns45270:0crwdne45270:0
+      e2Vulnerability:
+        text: crwdns45272:0crwdne45272:0
+        content: crwdns45274:0crwdne45274:0
+      e4AdditionalDmg:
+        text: crwdns45276:0crwdne45276:0
+        content: crwdns45278:0crwdne45278:0
+      e6FuaDmg:
+        text: crwdns45280:0crwdne45280:0
+        content: crwdns45282:0crwdne45282:0
   Clara:
     Content:
       ultBuff:
@@ -1193,6 +1235,35 @@ Characters:
       e6DmgBuff:
         text: crwdns41098:0crwdne41098:0
         content: crwdns44352:0crwdne44352:0
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: crwdns45284:0crwdne45284:0
+        content: crwdns45286:0crwdne45286:0
+      resBuff:
+        text: crwdns45288:0crwdne45288:0
+        content: crwdns45290:0crwdne45290:0
+      spd200HpBuff:
+        text: crwdns45292:0crwdne45292:0
+        content: crwdns45294:0crwdne45294:0
+      clearSkies:
+        text: crwdns45296:0crwdne45296:0
+        content: crwdns45298:0{{UltHpBuffScaling}}crwdnd45298:0{{UltHpBuffFlat}}crwdne45298:0
+      healingDmgStacks:
+        text: crwdns45300:0crwdne45300:0
+        content: crwdns45302:0{{TalentDmgBuff}}crwdne45302:0
+      e1HpBuff:
+        text: crwdns45304:0crwdne45304:0
+        content: crwdns45306:0crwdne45306:0
+      e2SpdBuff:
+        text: crwdns45308:0crwdne45308:0
+        content: crwdns45310:0crwdne45310:0
+      e4CdBuff:
+        text: crwdns45312:0crwdne45312:0
+        content: crwdns45314:0crwdne45314:0
+      e6ResPen:
+        text: crwdns45316:0crwdne45316:0
+        content: crwdns45318:0crwdne45318:0
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1616,7 +1687,7 @@ Characters:
       talentStacks:
         text: crwdns41532:0crwdne41532:0
         content: >-
-          crwdns44250:0{talentBaseStackBoost}crwdnd44250:0:BR:crwdnd44250:0:E2:crwdne44250:0
+          crwdns44250:0{{talentBaseStackBoost}}crwdnd44250:0:BR:crwdnd44250:0:E2:crwdne44250:0
       quantumAlliesAtkBuff:
         text: crwdns44788:0crwdne44788:0
         content: crwdns44790:0crwdne44790:0

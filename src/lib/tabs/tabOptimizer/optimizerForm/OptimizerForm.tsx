@@ -1,6 +1,7 @@
-import { Flex, Form as AntDForm } from 'antd'
+import { Form as AntDForm, Flex } from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -25,7 +26,7 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Form } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 
@@ -84,7 +85,7 @@ export default function OptimizerForm() {
     }
 
     // If the rank changes, re-order the characters priority list
-    if (changedValues.rank != null && DB.getCharacterById(allValues.characterId).rank != allValues.rank) {
+    if (changedValues.rank != null && DB.getCharacterById(allValues.characterId)!.rank != allValues.rank) {
       DB.insertCharacter(allValues.characterId, allValues.rank)
       DB.refreshCharacters()
     }
@@ -154,8 +155,7 @@ export default function OptimizerForm() {
         layout='vertical'
         onValuesChange={onValuesChange}
       >
-        <FormSetConditionals/>
-
+        <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER}/>
 
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
@@ -179,7 +179,6 @@ export default function OptimizerForm() {
               <OptimizerOptionsDisplay/>
             </FormCard>
           </FormRow>
-
 
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
@@ -205,13 +204,11 @@ export default function OptimizerForm() {
             </FormCard>
           </FormRow>
 
-
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
             <TeammateCard index={0} dbMetadata={dbMetadata}/>
             <TeammateCard index={1} dbMetadata={dbMetadata}/>
             <TeammateCard index={2} dbMetadata={dbMetadata}/>
           </TeammateFormRow>
-
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
             <StatSimulationDisplay/>

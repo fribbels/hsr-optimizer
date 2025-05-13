@@ -6,7 +6,7 @@ import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreview
 import { parentH, parentW } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +23,6 @@ export function ShowcasePortrait(props: {
   editPortraitModalOpen: boolean
   setEditPortraitModalOpen: (b: boolean) => void
   onEditPortraitOk: (p: CustomImagePayload) => void
-  simScoringResult: SimulationScore
   artistName: string | undefined
   setOriginalCharacterModalInitialCharacter: (c: Character) => void
   setOriginalCharacterModalOpen: (b: boolean) => void
@@ -33,7 +32,7 @@ export function ShowcasePortrait(props: {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
   const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
-  const uid = window.store((s) => s.scorerId)
+  const uid = useShowcaseTabStore((s) => s.savedSession.scorerId)
 
   const showUid = props.source == ShowcaseSource.SHOWCASE_TAB && showcaseUID
 
@@ -45,7 +44,6 @@ export function ShowcasePortrait(props: {
     editPortraitModalOpen,
     setEditPortraitModalOpen,
     onEditPortraitOk,
-    simScoringResult,
     artistName,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,

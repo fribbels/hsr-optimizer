@@ -4,6 +4,7 @@ import { EnrichedRelics, enrichRelicAnalysis, flatReduction, hashEstTbpRun, Reli
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
@@ -19,7 +20,7 @@ const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
 export const EstimatedTbpRelicsDisplay = (props: {
-  scoringType: string
+  scoringType: ScoringType
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) => {
@@ -42,7 +43,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
     }
 
     cachedId = characterId
-    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringType, scoringMetadata.stats)
+    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringType, scoringMetadata)
     const cached = cachedRelics[cacheKey]
     if (cached) {
       // Deduplicate any requests against the static IN_PROGRESS object

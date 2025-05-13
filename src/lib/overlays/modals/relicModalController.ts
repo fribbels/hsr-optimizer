@@ -10,7 +10,7 @@ import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { partIsOrnament, partIsRelic } from 'lib/utils/relicUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Relic, RelicEnhance, RelicGrade, Stat } from 'types/relic'
+import { Relic, RelicEnhance, RelicGrade } from 'types/relic'
 
 export type RelicUpgradeValues = {
   low: number | undefined
@@ -168,7 +168,7 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     },
   } as Relic
 
-  const substats: Stat[] = []
+  const substats: { value: number; stat: SubStats }[] = []
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
     substats.push({
       stat: relicForm.substatType0,
@@ -248,5 +248,5 @@ function renderFlatStat(value: number) {
 }
 
 function renderPercentStat(value: number) {
-  return Utils.truncate10ths(TsUtils.precisionRound(value)).toFixed(1)
+  return Utils.truncate10ths(TsUtils.precisionRound(value))
 }

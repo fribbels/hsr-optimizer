@@ -324,11 +324,11 @@ RelicSets:
   "125":
     Name: Warrior Goddess of Sun and Thunder
     Description2pc: Increases SPD by 6%.
-    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has "Gentle Rain," increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked.
+    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has "Gentle Rain," increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked.
   "126":
     Name: Wavestrider Captain
     Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: When the wearer is the target of another ally target's ability, gains 1 stack of "Help." Stacks up to 2 times. When using Ultimate, consumes all "Help," each stack increasing the wearer's ATK by 48%, lasting until the end of the turn.
+    Description4pc: When the wearer becomes the target of another ally target's ability, gains 1 stack of "Help," stacking up to 2 times. If there are 2 stacks of "Help" when the wearer uses their Ultimate, consumes all "Help" to increase the wearer's ATK by 48% for 1 turn.
   "301":
     Name: Space Sealing Station
     Description2pc: Meningkatkan 12% ATK pengguna. Meningkatkan 12% ATK tambahan ketika SPD pengguna lebih dari atau sama dengan 120.

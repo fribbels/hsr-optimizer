@@ -1,13 +1,15 @@
 import { Flex, Table } from 'antd'
 import i18next from 'i18next'
 import { Sets, setToId } from 'lib/constants/constants'
-import { BUFF_ABILITY, BUFF_TYPE } from 'lib/optimization/buffSource'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
-import { runSimulations } from 'lib/simulations/statSimulationController'
+import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -74,8 +76,10 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
 function rerunSim(result?: SimulationScore) {
   if (!result) return null
   result.simulationForm.trace = true
-  const rerun = runSimulations(result.simulationForm, null, [result.originalSim], originalScoringParams)[0]
-  const x = rerun.tracedX!
+  const context = generateContext(result.simulationForm)
+  const rerun = runStatSimulations([result.originalSim], result.simulationForm, context, originalScoringParams)[0]
+  const optimizerDisplayData = formatOptimizerDisplayData(rerun.x)
+  const x = optimizerDisplayData.tracedX!
   return aggregateCombatBuffs(x, result.simulationForm)
 }
 
@@ -108,7 +112,7 @@ type BuffTableItem = {
 
 function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
   const { buffs } = props
-  const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay.Sources' })
+  const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const { t: tGameData } = useTranslation('gameData')
   const size = props.size ?? BuffDisplaySize.SMALL
 
@@ -142,25 +146,25 @@ function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
     const bool = StatsConfig[stat].bool
     const statLabel = translatedLabel(stat, buff.memo)
 
-    let sourceLabel
+    let sourceLabel: string
     switch (buff.source.buffType) {
       case BUFF_TYPE.CHARACTER:
-        sourceLabel = tOptimizerTab(`${buff.source.ability as Exclude<BUFF_ABILITY, 'NONE' | 'SETS' | 'LC'>}`)
+        sourceLabel = tOptimizerTab(`Sources.${buff.source.ability}`)
         break
       case BUFF_TYPE.LIGHTCONE:
-        sourceLabel = tGameData(`Lightcones.${buff.source.id}.Name` as never)
+        sourceLabel = tGameData(`Lightcones.${buff.source.id}.Name`)
         break
       case BUFF_TYPE.SETS:
-        sourceLabel = tGameData(`RelicSets.${setToId[Sets[buff.source.id as keyof typeof Sets]]}.Name`)
+        sourceLabel = tGameData(`RelicSets.${setToId[Sets[buff.source.id]]}.Name`)
         break
       default:
         sourceLabel = buff.source.label
     }
     let value
     if (bool) {
-      value = buff.value ? 'True' : 'False'
+      value = tOptimizerTab(`Values.${buff.value ? 'BoolTrue' : 'BoolFalse'}`)
     } else if (percent) {
-      value = `${TsUtils.precisionRound(buff.value * 100, 2).toLocaleString(currentLocale())} %`
+      value = TsUtils.precisionRound(buff.value * 100, 2).toLocaleString(currentLocale()) + ' %'
     } else {
       value = TsUtils.precisionRound(buff.value, 0).toLocaleString(currentLocale())
     }

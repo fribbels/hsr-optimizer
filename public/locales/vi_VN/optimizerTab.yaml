@@ -314,16 +314,14 @@ SetConditionals:
     Prisoner: Buff XUYÊN GIÁP% (DEF% pen) được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff
     Diver: Hiệu ứng 2 món có thể bị vô hiệu hóa bằng cách chọn tùy chọn "Ox". Với 4 món, các buff CHÍ MẠNG (CRIT) khác nhau sẽ được áp dụng vào các phép tính chỉ số Chiến đấu tùy thuộc vào tùy chọn được chọn
     Watchmaker: Khi bật, buff HIỆU ỨNG KÍCH PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu.
-    Valorous: Buff TỶ LỆ CHÍ MẠNG (CRIT Rate) luôn mặc định được bật. Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff.
+    Sacerdos: Buff được chọn sẽ áp dụng vào các phép tính sát thương. Các nhân vật tự buff cho chính mình có thể kích hoạt hiệu ứng này
     Differentiator: Khi bật, buff TỶ LỆ CHÍ MẠNG (CRIT Rate) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu.
     Penacony: Khi bật, buff DMG% sẽ được áp dụng cho linh hồn ký ức của người trang bị.
     Sigonia: Buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) được chọn sẽ áp dụng vào các phép tính chỉ số Chiến đấu, giả định nhân vật đã đánh bại số lượng kẻ địch tương ứng.
     Izumo: Khi bật, giả định có một đồng minh khác cùng vận mệnh và áp dụng buff 12% TỶ LỆ CHÍ MẠNG (CRIT Rate) vào các phép tính chỉ số Chiến đấu.
     Duran: Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff
     Kalpagni: Khi bật, buff HIỆU ỨNG PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu
-    Lushaka: Buff được chọn sẽ áp dụng vào các phép tính sát thương
     Banana: Buff được chọn sẽ áp dụng vào các phép tính sát thương
-    Sacerdos: Buff được chọn sẽ áp dụng vào các phép tính sát thương. Các nhân vật tự buff cho chính mình có thể kích hoạt hiệu ứng này
 Presets:
   SpdValues:
     SPD0: Không tốc độ tối thiểu
@@ -422,12 +420,14 @@ ComboFilter:
       Description: Đặt lại tất cả thứ tự đơn giản / nâng cao thành mặc định?
   CounterLabels:
     Dot: Dots
-    Break: Kích Phá
   ComboOptions:
+    None: 'Không có'
     Basic: Tấn công thường
     Skill: Chiến kỹ
     Ult: Tuyệt Kỹ
     Fua: Đòn theo sau
+    Dot: Dot
+    Break: Kích Phá
     MemoSkill: Linh Hồn Ký Ức
     MemoTalent: THIÊN PHÚ LHKY
   RotationButton: Thứ tự kỹ năng nâng cao
@@ -562,6 +562,9 @@ ExpandedDataPanel:
       dotDmg: ST Duy Trì
       memoDmg: ST Linh Hồn KÝ Ức
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Không"
+      BoolTrue: "Có"
     Sources:
       Basic: Tấn công thường
       Skill: Chiến kỹ
@@ -585,8 +588,11 @@ ExpandedDataPanel:
           Break: Kích Phá
         Suffix:
           DMG boost: Tăng Sát Thương
+          Vulnerability: Yếu điểm
+          DEF PEN: Xuyên Phòng Thủ
           Additional DMG: ST Kèm Theo
           DMG: ST
       Misc:
         Memosprite: Linh hồn ký ức
         Combo DMG: ST Combo
+        Effect RES PEN: Kháng Hiệu Ứng

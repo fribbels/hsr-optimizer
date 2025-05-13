@@ -36,9 +36,9 @@ Lightcones:
           Lorsque le porteur touche une cible ennemie, applique l'effet Bulle du vide pendant 1 tour à l'ennemi. Cet effet peut être déclenché 1 fois sur chaque cible pour chaque attaque lancée par le porteur. Le porteur inflige {{DmgBoost}}% de DGT supplémentaires aux cibles affectées par Bulle du vide et ses DGT d'ultime augmentent de {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: Énergie maximale
-        content: Lorsque le porteur lance son ultime, augmente les DGT de l'ultime du porteur en fonction de son énergie max. Chaque point d'énergie augmente les DGT de l'ultime de {{DmgStep}}%, jusqu'à un maximum de 180 points d'énergie.
+      maxEnergyDmgBoost:
+        text: Bonus de DGT énergie max
+        content: Lorsque le porteur lance son ultime, augmente les DGT d'Ultime du porteur en fonction de son énergie max. Chaque point d'énergie augmente les DGT d'Ultime de {{DmgStep}}%, jusqu'à un maximum de 180 points d'énergie.
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
@@ -173,18 +173,33 @@ Lightcones:
         text: Cumuls de Lumière vive
         content: >-
           Lorsque le porteur lance une attaque de suivi, il gagne 1 cumul de Lumière vive jusqu'à un maximum de 2 fois. Chaque cumul de Lumière vive permet aux DGT d'ultime infligés par le porteur d'ignorer {{DefIgnore}}% de la DÉF de la cible. Lorsque le tour du porteur se termine, supprime 1 cumul de Lumière vive.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: PÉN de DÉF
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
         text: Bonus de DGT
+        content: Augmente de {{DmgBuff}}% les DGT infligés par le porteur aux cibles ennemies avec une Faiblesse appliquée par le porteur.
       defPen:
         text: PÉN de DÉF
+        content: Lorsqu'une cible ennemie subit une attaque du porteur, sa DÉF est réduite de {{DefShred}}% pendant 2 tours.
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: Cumuls de vulnérabilité de rupture
         content: >-
           Lorsqu'une cible ennemie subit une Rupture de faiblesse, il y a 100% de chances de base de lui infliger l'état Incinération, ce qui augmente les DGT de rupture qu'elle subit de {{breakVulnerability}}%. Dure 2 tours. Cet effet peut être cumulé jusqu'à 2 fois.
+  MakeFarewellsMoreBeautiful:
+    Content:
+      deathFlower:
+        text: "PÉN de DÉF \nFleur du néant"
+        content: Lorsque le porteur ou son mnémesprit perd des PV au cours de son tour, le porteur obtient Fleur du néant, ce qui permet au porteur et à son mnémesprit d'ignorer {{DefIgnore}}% de la DÉF de la cible lorsqu'ils infligent des DGT, pendant 2 tours.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnérabilité
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -520,6 +535,11 @@ Lightcones:
       cdBuffActive:
         text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
         content: Lorsque le porteur utilise une attaque et touche au moins 2 ennemis qui ont la Faiblesse correspondante, ses DGT critiques augmentent de {{CritBuff}}% pendant 2 tours.
+  TheGreatCosmicEnterprise:
+    Content:
+      weaknessTypes:
+        text: Faiblesses Élémentaires
+        content: Augmente de {{DmgBuff}}% les DGT infligés par le porteur à une cible ennemie pour chacun de ses différents types de faiblesse. Un maximum de 7 faiblesses sont comptabilisées pour cet effet.
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -705,10 +725,32 @@ Characters:
           Augmente la PÉN de RÉS à la foudre d'Aglaé et de la Costumière de 20% lorsque Aglaé est dans l'état Posture de suprématie. Lorsque la VIT d'Aglaé ou de la Costumière est supérieure à 160/240/320, les DGT infligés par l'ATQ conjointe augmentent de 10%/30%/60%
   Anaxa:
     Content:
+      skillHits:
+        text: Coups supplémentaires de Compétence
+        content: Nombre de fois que la compétence atteint la cible principale
+      exposedNature:
+        text: Révélation intrinsèque
+        content: >-
+          Lorsqu'Anaxa est sur le champ de bataille, il applique l'état Révélation intrinsèque aux cibles ennemies qui ont au moins 5 types de faiblesses différents. Anaxa inflige {{DmgBuff}}% de DGT supplémentaires aux cibles dans l'état Révélation intrinsèque.
+      eruditionTeammateBuffs:
+        text: Buffs de coéquipiers de l'Erudition
+        content: >-
+          Déclenche l'un des effets suivants pour le combat en fonction du nombre de personnages de la Voie de l'Érudition dans l'équipe::BR::1 personnage: augmente les DGT critiques d'Anaxa de 140%.::BR::2 personnages ou plus: augmente les DGT infligés par tous les alliés de 50%.
+      enemyWeaknessTypes:
+        text: Faiblesses Élémentaires
+        content: Les DGT infligés par Anaxa ignorent 4% de la DÉF d'une cible ennemie pour chaque type de faiblesse qu'elle possède. Un maximum de 7 faiblesses sont comptabilisées pour cet effet.
       e1DefPen:
         text: 'E1: PÉN de DÉF'
+        content: Lorsque la compétence touche une cible ennemie, réduit la DÉF de la cible de 16% pendant 2 tours.
+      e2ResPen:
+        text: 'E2: PÉN de RÉS'
+        content: Lorsqu'une cible ennemie entre sur le champ de bataille, déclenche l'effet du talent Implant de Faiblesse 1 fois, et réduit toutes les RÉS de type de cette cible de 20%.
+      e4AtkBuffStacks:
+        text: 'E4: Cumuls de bonus d''ATQ'
+        content: Augmente l'ATQ de 30% pendant 2 tours lors de l'utilisation de la compétence. Cet effet peut être cumulé jusqu'à 2 fois.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: Les DGT infligés par Anaxa sont équivalents à 130% des DGT initiaux. Les 2 effets de la Trace Vide nécessaire se déclenchent immédiatement et ne dépendent plus du nombre de personnages de l'Érudition présents dans l'équipe.
   Argenti:
     Content:
       ultEnhanced:
@@ -874,14 +916,38 @@ Characters:
         content: Augmente l'ATQ de tous les alliés de {{ultAtkBoostValue}}% et augmente leurs DGT critiques d'un montant équivalent à {{ultCdBoostValue}}% des DGT critiques de Bronya + {{ultCdBoostBaseValue}}% pendant 2 tours.
   Castorice:
     Content:
+      memospriteActive:
+        text: Mnémesprit actif
+        content: Lorsqu'Aile du néant est sur le champ de bataille, le territoire "Royaume du néant" sera déployé, réduisant toutes les RÉS de type de tous les ennemis de {{ResDown}}%.
       spdBuff:
         text: Bonus de VIT
+        content: Lorsque les PV actuels de Castorice sont supérieurs ou égaux à 50% de ses PV max, sa VIT augmente de 40%.
       talentDmgStacks:
         text: Cumuls de bonus de DGT du talent
+        content: Lorsqu'un allié perd des PV, les DGT infligés par Castorice et Aile du néant augmentent de {{DmgBuff}}%. Cet effet peut être cumulé jusqu'à 3 fois et dure 3 tours.
+      memoSkillEnhances:
+        text: Améliorations Compᴹ
+        content: Souffle des ombres peut être utilisé plusieurs fois lors d'une même attaque, auquel cas le multiplicateur de DGT augmente progressivement jusqu'à {{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%. Une fois atteint {{Multiplier2Enhance}}%, il n'augmente plus. L'effet d'augmentation du multiplicateur de DGT ne diminue pas avant qu'Aile du néant disparaisse.
+      memoTalentHits:
+        text: Coups de talentᴹ
+        content: À la disparition d'Aile du néant, inflige {{BounceCount}} instances de DGT, chaque instance infligeant des DGT quantiques équivalents à {{Scaling}} des PV max de Castorice à une unité ennemie aléatoire.
       teamDmgBoost:
         text: Bonus d'équipe de DGT
+        content: Augmente les DGT infligés par tous les alliés de 10% pendant 3 tours lorsqu'Aile du néant est invoqué.
+      memoDmgStacks:
+        text: Cumuls de DGT mnémo
+        content: Chaque fois qu'Aile du néant utilise Souffle des ombres, les DGT qu'il inflige augmentent de 30%. Cumulable jusqu'à 6 fois et dure jusqu'à la fin de ce tour.
+      e1EnemyHp50:
+        text: 'E1: PV Ennemi ≤ 50%'
+        content: Lorsque les PV actuels de la cible ennemie sont inférieurs ou égaux à 50% des PV max de cette unité, les DGT infligés par Étreinte du dragon funeste, Griffe lacérante de ténèbres, Souffle des ombres et Ailes ravageuses de ruines sont équivalents à 140% des DGT initiaux.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: >-
+          Lorsque Castorice ou Aile du néant infligent des DGT, la PÉN de RÉS quantique augmente de 20%.::BR::Le nombre de rebonds de son talent Ailes ravageuses de ruines augmente de 3.
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: Bonus d'ATQ de la Compétence
   Clara:
     Content:
       ultBuff:
@@ -1139,6 +1205,10 @@ Characters:
       e6DmgBuff:
         text: 'E6: Bonus de DGT'
         content: Lorsque Huohuo soigne une cible alliée, les DGT de la cible alliée augmentent de 50% pendant 2 tours.
+  Hyacine:
+    Content:
+      e4CdBuff:
+        text: 'E4: Bonus de DC'
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1562,7 +1632,7 @@ Characters:
       talentStacks:
         text: Cumuls de bonus de DGT du talent
         content: >-
-          Chaque fois qu'un allié utilise 1 point de compétence, les DGT infligés par tous les alliés augmentent de {talentBaseStackBoost}%. Cet effet dure 2 tours et peut être cumulé jusqu'à 3 fois.::BR::E2: Chaque cumul de l'effet du talent permet aux alliés d'ignorer 8% de la DÉF de la cible lorsqu'ils infligent des DGT.
+          Chaque fois qu'un allié utilise 1 point de compétence, les DGT infligés par tous les alliés augmentent de {{talentBaseStackBoost}}%. Cet effet dure 2 tours et peut être cumulé jusqu'à 3 fois.::BR::E2: Chaque cumul de l'effet du talent permet aux alliés d'ignorer 8% de la DÉF de la cible lorsqu'ils infligent des DGT.
       quantumAlliesAtkBuff:
         text: Bonus d'ATQ pour alliés Quantiques
         content: Lorsqu'il y a 1/2/3 alliés de type quantique dans l'équipe, l'ATQ des alliés de type Quantique augmente de 5%/15%/30%.

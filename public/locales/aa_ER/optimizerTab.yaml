@@ -298,16 +298,18 @@ SetConditionals:
     Prisoner: crwdns43074:0crwdne43074:0
     Diver: crwdns43076:0crwdne43076:0
     Watchmaker: crwdns43078:0crwdne43078:0
-    Valorous: crwdns43080:0crwdne43080:0
+    Valorous: crwdns45216:0crwdne45216:0
+    Sacerdos: crwdns43096:0crwdne43096:0
+    Scholar: crwdns45218:0crwdne45218:0
+    Hero: crwdns45220:0crwdne45220:0
     Differentiator: crwdns43082:0crwdne43082:0
     Penacony: crwdns44792:0crwdne44792:0
     Sigonia: crwdns43084:0crwdne43084:0
     Izumo: crwdns44794:0crwdne44794:0
     Duran: crwdns43088:0crwdne43088:0
     Kalpagni: crwdns43090:0crwdne43090:0
-    Lushaka: crwdns43092:0crwdne43092:0
+    Lushaka: crwdns45222:0crwdne45222:0
     Banana: crwdns43094:0crwdne43094:0
-    Sacerdos: crwdns43096:0crwdne43096:0
 Presets:
   SpdValues:
     SPD0: crwdns43098:0crwdne43098:0
@@ -406,12 +408,14 @@ ComboFilter:
       Description: crwdns43264:0crwdne43264:0
   CounterLabels:
     Dot: crwdns43266:0crwdne43266:0
-    Break: crwdns43268:0crwdne43268:0
   ComboOptions:
+    None: 'crwdns45228:0crwdne45228:0'
     Basic: crwdns43270:0crwdne43270:0
     Skill: crwdns43272:0crwdne43272:0
     Ult: crwdns43274:0crwdne43274:0
     Fua: crwdns43276:0crwdne43276:0
+    Dot: crwdns45230:0crwdne45230:0
+    Break: crwdns45232:0crwdne45232:0
     MemoSkill: crwdns43278:0crwdne43278:0
     MemoTalent: crwdns44764:0crwdne44764:0
   RotationButton: crwdns43280:0crwdne43280:0
@@ -453,6 +457,10 @@ TeammateCard:
       Desc: "crwdns43330:0$t(gameData:RelicSets.121.Name)crwdne43330:0"
       Set: "crwdns43332:0$t(gameData:RelicSets.121.Name)crwdne43332:0"
       Text: crwdns43334:0crwdne43334:0
+    Warrior:
+      Desc: "crwdns45234:0$t(gameData:RelicSets.125.Name)crwdne45234:0"
+      Set: "crwdns45236:0$t(gameData:RelicSets.125.Name)crwdne45236:0"
+      Text: crwdns45238:0crwdne45238:0
     Keel:
       Desc: "crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0"
       Set: "crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0"
@@ -546,6 +554,9 @@ ExpandedDataPanel:
       dotDmg: crwdns44742:0crwdne44742:0
       memoDmg: crwdns44744:0crwdne44744:0
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "crwdns45207:0crwdne45207:0"
+      BoolTrue: "crwdns45209:0crwdne45209:0"
     Sources:
       Basic: crwdns44658:0crwdne44658:0
       Skill: crwdns44660:0crwdne44660:0

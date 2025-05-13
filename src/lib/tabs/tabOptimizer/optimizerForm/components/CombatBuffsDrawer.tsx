@@ -1,6 +1,7 @@
 import { Drawer, Flex, Form, Typography } from 'antd'
 import { CombatBuffs } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useMemo } from 'react'
@@ -9,9 +10,9 @@ import { useTranslation } from 'react-i18next'
 const { Text } = Typography
 
 export const CombatBuffsDrawer = () => {
+  const { close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
+
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
-  const combatBuffsDrawerOpen = window.store((s) => s.combatBuffsDrawerOpen)
-  const setCombatBuffsDrawerOpen = window.store((s) => s.setCombatBuffsDrawerOpen)
 
   const combatBuffsList = useMemo(() => {
     return Object.values(CombatBuffs).map((x) => (
@@ -24,8 +25,8 @@ export const CombatBuffsDrawer = () => {
     <Drawer
       title={t('Title')}// 'Extra combat buffs'
       placement='right'
-      onClose={() => setCombatBuffsDrawerOpen(false)}
-      open={combatBuffsDrawerOpen}
+      onClose={closeBuffsDrawer}
+      open={isOpenBuffsDrawer}
       width={300}
       forceRender
     >

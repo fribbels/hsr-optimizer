@@ -2,7 +2,7 @@ import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { IRowNode } from 'ag-grid-community'
 import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, PathNames } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Hint } from 'lib/interactions/hint'
@@ -18,15 +18,18 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
 
 const { Text } = Typography
 
-function getGpuOptions(computeEngine: ComputeEngine) {
+type GpuOption = { label: ReactElement; key: ComputeEngine }
+
+function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
   return [
     {
       label: (
@@ -99,20 +102,22 @@ function ComputeEngineSelect() {
       menu={{
         items: getGpuOptions(computeEngine),
         onClick: (e) => {
-          if (e.key == COMPUTE_ENGINE_CPU) {
+          const key = e.key as GpuOption['key']
+          if (key === COMPUTE_ENGINE_CPU) {
             window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
             Message.success(t('EngineSwitchSuccessMsg.CPU')/* Switched compute engine to CPU */)
           } else {
             verifyWebgpuSupport(true).then((device) => {
               if (device) {
-                window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, e.key)
-                Message.success(e.key == COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
+                window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
+                Message.success(e.key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
                 // Switched compute engine to GPU  Experimental/Stable
               }
             })
           }
         },
       }}
+      placement='bottomRight'
       className='custom-dropdown-button'
       trigger={['click']}
     >
@@ -401,7 +406,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   function cancelClicked() {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
-    Optimizer.cancel(window.store.getState().optimizationId)
+    Optimizer.cancel(window.store.getState().optimizationId!)
   }
 
   function startOptimizer() {
@@ -458,6 +463,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
               onConfirm={resetClicked}
               okText={tCommon('Yes')}// 'Yes'
               cancelText={tCommon('No')}// 'No'
+              placement='bottomRight'
             >
               <Button style={{ flex: 1 }}>
                 {tCommon('Reset')/* Reset */}
@@ -479,13 +485,13 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       </Flex>
 
       {!props.isFullSize
-        && (
-          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-            <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
-            <ComputeEngineSelect/>
-            <ProgressDisplay/>
-          </Flex>
-        )}
+      && (
+        <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+          <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
+          <ComputeEngineSelect/>
+          <ProgressDisplay/>
+        </Flex>
+      )}
     </Flex>
   )
 }
@@ -555,7 +561,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
   )
 }
 
-export function isRemembrance(characterId?: string) {
+export function isRemembrance(characterId: CharacterId | null | undefined) {
   if (!characterId) return false
-  return DB.getMetadata().characters[characterId].path == 'Remembrance'
+  return DB.getMetadata().characters[characterId].path === PathNames.Remembrance
 }

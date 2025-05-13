@@ -1,6 +1,7 @@
 import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, SwapOutlined, UpOutlined } from '@ant-design/icons'
-import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
+import { Form as AntDForm, Button, Flex, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   deleteAllStatSimulationBuilds,
@@ -9,6 +10,8 @@ import {
   saveStatSimulationBuildFromForm,
   startOptimizerStatSimulation,
 } from 'lib/simulations/statSimulationController'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
@@ -19,15 +22,9 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form } from 'types/form'
+import { Form, OptimizerForm } from 'types/form'
 
 const { Text } = Typography
-
-export enum StatSimTypes {
-  Disabled = 'disabled',
-  SubstatTotals = 'substatTotals',
-  SubstatRolls = 'substatRolls',
-}
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 680
@@ -39,7 +36,6 @@ export function StatSimulationDisplay() {
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
   const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
-  const setConditionalSetEffectsDrawerOpen = window.store((s) => s.setConditionalSetEffectsDrawerOpen)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
@@ -52,7 +48,7 @@ export function StatSimulationDisplay() {
           <Radio.Group
             onChange={(e) => {
               const { target: { value } } = e
-              setStatSimulationDisplay(value)
+              setStatSimulationDisplay(value as StatSimTypes)
             }}
             optionType='button'
             buttonStyle='solid'
@@ -62,17 +58,14 @@ export function StatSimulationDisplay() {
             <Radio
               style={{ display: 'flex', flex: 0.3, justifyContent: 'center', paddingInline: 0 }}
               value={StatSimTypes.Disabled}
-            >{t('ModeSelector.Off')/* Off */}
+            >
+              {t('ModeSelector.Off')/* Off */}
             </Radio>
             <Radio
               style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
               value={StatSimTypes.SubstatRolls}
-            >{t('ModeSelector.RollCount')/* Simulate custom substat rolls */}
-            </Radio>
-            <Radio
-              style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-              value={StatSimTypes.SubstatTotals}
-            >{t('ModeSelector.Totals')/* Simulate custom substat totals */}
+            >
+              {t('ModeSelector.RollCount')/* Simulate custom substat rolls */}
             </Radio>
           </Radio.Group>
 
@@ -92,7 +85,7 @@ export function StatSimulationDisplay() {
             </Button>
             <Button
               style={{ width: 200 }} disabled={isHidden()}
-              onClick={() => setConditionalSetEffectsDrawerOpen(true)}
+              onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
               icon={<SettingOutlined/>}
             >
               {t('FooterLabels.Conditionals')/* Conditional set effects */}
@@ -105,7 +98,7 @@ export function StatSimulationDisplay() {
             <Button
               type='primary'
               style={{ width: 35, height: 100, padding: 0 }}
-              onClick={saveStatSimulationBuildFromForm}
+              onClick={() => saveStatSimulationBuildFromForm()}
               disabled={isHidden()}
             >
               <DoubleLeftOutlined/>
@@ -172,25 +165,9 @@ function SimulationInputs() {
           />
         </AntDForm.Item>
 
-        <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatTotals ? 'flex' : 'none' }}>
-          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-            <SetsSection simType={StatSimTypes.SubstatTotals}/>
-            <MainStatsSection simType={StatSimTypes.SubstatTotals}/>
-
-            <HeaderText>{t('OptionsHeader')/* Options */}</HeaderText>
-
-            <AntDForm.Item name={formName(StatSimTypes.SubstatTotals, 'name')}>
-              <Input placeholder={t('SimulationNamePlaceholder')/* 'Simulation name (Optional)' */} autoComplete='off'/>
-            </AntDForm.Item>
-          </Flex>
-
-          <VerticalDivider/>
-
-          <SubstatsSection simType={StatSimTypes.SubstatTotals} title={t('TotalsHeader')/* 'Substat value totals' */}/>
-        </Flex>
-
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+            <HeaderText>{t('SetSelection.Header')}</HeaderText>
             <SetsSection simType={StatSimTypes.SubstatRolls}/>
             <MainStatsSection simType={StatSimTypes.SubstatRolls}/>
 
@@ -221,11 +198,19 @@ function SimulationInputs() {
   )
 }
 
-function SetsSection(props: { simType: string }) {
+export function SetsSection(props: { simType: string }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
+  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm | OptimizerForm>()
+
+  // Save a click by assuming the first relic set is a 4p
+  const handleRelicSet1Change = (value: string) => {
+    const path2 = formName(props.simType, 'simRelicSet2')
+    // @ts-ignore
+    benchmarkForm.setFieldValue(path2, value)
+  }
+
   return (
     <>
-      <HeaderText>{t('SetSelection.Header')}</HeaderText>
       <AntDForm.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
         <Select
           dropdownStyle={{
@@ -235,6 +220,7 @@ function SetsSection(props: { simType: string }) {
           allowClear
           options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
+          onChange={handleRelicSet1Change}
           placeholder={t('SetSelection.RelicPlaceholder')}// 'Relic set'
           maxTagCount='responsive'
           showSearch
@@ -276,7 +262,7 @@ function SetsSection(props: { simType: string }) {
   )
 }
 
-function MainStatsSection(props: { simType: string }) {
+export function MainStatsSection(props: { simType: string }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation.MainStatsSelection' })
   const BodyStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.EHR, Stats.OHB]
@@ -411,5 +397,7 @@ function StatInput(props: { label: string; name: string; simType: string; disabl
 }
 
 function formName(str1: string, str2?: string, str3?: string): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+  if (str1 == StatSimTypes.Benchmarks) return [str2, str3].filter((x) => x) as string[]
   return ['statSim', str1, str2, str3].filter((x) => x) as string[]
 }

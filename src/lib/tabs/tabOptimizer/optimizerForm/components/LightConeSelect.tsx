@@ -1,21 +1,26 @@
 import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
+import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions } from 'lib/rendering/optionGenerator'
 import DB from 'lib/state/db'
 import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
+import { LightCone } from 'types/lightCone'
+import { DBMetadataLightCone } from 'types/metadata'
 
 // FIXME HIGH
 
 interface LightConeSelectProps {
-  value
-  characterId: string
-  onChange?: (id) => void
+  value: LightCone['id'] | null
+  characterId: CharacterId | null | undefined
+  onChange?: (id: LightCone['id'] | null) => void
   selectStyle?: React.CSSProperties
-  initialPath?: string
+  initialPath?: PathName
   withIcon?: boolean
   externalOpen?: boolean
   setExternalOpen?: (state: boolean) => void
@@ -43,18 +48,18 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
   const defaultFilters = useMemo(() => {
     return {
-      rarity: [],
-      path: initialPath ?? (characterId ? [metadata.characters[characterId].path] : []),
+      rarity: [] as number[],
+      path: initialPath ? [initialPath] : (characterId ? [metadata.characters[characterId].path] : []),
       name: '',
     }
   }, [characterId, initialPath])
 
   const inputRef = useRef<InputRef>(null)
-  const [currentFilters, setCurrentFilters] = useState(Utils.clone(defaultFilters))
+  const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
   const labelledOptions = useMemo(() => {
-    const labelledOptions: { value: string; label: ReactElement }[] = []
+    const labelledOptions: { value: string; label: ReactNode }[] = []
     for (const option of lightConeOptions) {
       labelledOptions.push({
         value: option.value,
@@ -78,21 +83,17 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
     }
   }, [open, externalOpen])
 
-  function applyFilters(x) {
+  function applyFilters(x: DBMetadataLightCone & { value: string; label: string; id: string }) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
       return false
     }
     if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
-    if (!x.name.toLowerCase().includes(currentFilters.name)) {
-      return false
-    }
-
-    return true
+    return x.name.toLowerCase().includes(currentFilters.name)
   }
 
-  const handleClick = (id) => {
+  const handleClick = (id: LightCone['id']) => {
     setOpen(false)
     if (setExternalOpen) setExternalOpen(false)
     if (onChange) onChange(id)
@@ -112,7 +113,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         onDropdownVisibleChange={(visible) => {
           if (visible) {
             setOpen(true)
-            setCurrentFilters(Utils.clone(defaultFilters))
+            setCurrentFilters(TsUtils.clone(defaultFilters))
           }
         }}
         dropdownStyle={{ display: 'none' }}
@@ -141,12 +142,12 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                 placeholder={t('Placeholder')/* Select a lightcone */}
                 ref={inputRef}
                 onChange={(e) => {
-                  const newFilters = Utils.clone(currentFilters)
+                  const newFilters = TsUtils.clone(currentFilters)
                   newFilters.name = e.target.value.toLowerCase()
                   setCurrentFilters(newFilters)
                 }}
                 onPressEnter={() => {
-                  const first = lightConeOptions.filter(applyFilters)[0]
+                  const first = lightConeOptions.find(applyFilters)
                   if (first) {
                     handleClick(first.id)
                   }
@@ -159,6 +160,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                   name='path'
                   tags={generatePathTags()}
                   flexBasis='12.5%'
+                  // @ts-ignore element filters not needed for lcs
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />
@@ -168,6 +170,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
                   name='rarity'
                   tags={generateRarityTags()}
                   flexBasis='14.2%'
+                  // @ts-ignore element filters not needed for lcs
                   currentFilters={currentFilters}
                   setCurrentFilters={setCurrentFilters}
                 />

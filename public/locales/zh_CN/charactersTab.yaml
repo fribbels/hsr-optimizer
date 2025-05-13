@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: 成功保存角色图像
     RevertedPortrait: 成功还原角色图像
     NoSelectedCharacter: 未选择角色
+    NoSelectedLightCone: 无选定光锥
   ScoreHeader:
     Title: 战斗模拟
     TitleBenchmark: "{{spd}}速度基准"
@@ -92,11 +93,9 @@ CharacterPreview:
       StatScore: 属性评分
       NoneScore: 无
   DetailsSlider:
-    Title: "战斗评分详情:"
     Labels:
       CombatStats: 战斗属性
       SubDpsCombatStats: 战斗属性（副C）
-      DMGUpgrades: 伤害升级
   DMGUpgrades: 伤害升级
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
@@ -178,7 +177,7 @@ CharacterPreview:
     RollsCard:
       Perfection: 完美度
     MetricsCard:
-      Days: 天
+      Days: 天数
       Rolls: 加权重词条数
       TBP: 预计开拓力
       Potential: 重掷潜力

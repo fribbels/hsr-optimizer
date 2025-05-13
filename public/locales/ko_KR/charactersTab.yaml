@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: 일러스트를 저장했습니다.
     RevertedPortrait: 일러스트를 초기화했습니다.
     NoSelectedCharacter: 선택된 캐릭터가 없습니다.
+    NoSelectedLightCone: 광추 선택되지 않음
   ScoreHeader:
     Title: 전투 시뮬레이션
     TitleBenchmark: "{{spd}} 속도 벤치마크"
@@ -92,11 +93,9 @@ CharacterPreview:
       StatScore: 스탯 점수
       NoneScore: 없음
   DetailsSlider:
-    Title: "전투 점수 상세:"
     Labels:
       CombatStats: 전투 스탯
       SubDpsCombatStats: 전투 스텟 (보조 DPS)
-      DMGUpgrades: 대미지 강화
   DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교

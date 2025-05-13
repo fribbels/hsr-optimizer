@@ -1,5 +1,4 @@
-import { Constants, OrnamentSetCount, OrnamentSetToIndex, Parts, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { OrnamentSetCount, OrnamentSetToIndex, Parts, PartsArray, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
@@ -13,49 +12,24 @@ import {
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { generateContext } from 'lib/optimization/context/calculateContext'
-import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
-import { RelicFilters } from 'lib/relics/relicFilters'
-import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/form'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { OptimizerContext } from 'types/optimizer'
 
-export function calculateBuild(
-  request: Form,
-  relics: SingleRelicByPart,
-  cachedContext: OptimizerContext | null,
+// To use after combo state and context has been initialized
+export function simulateBuild(
+  relics: SimulationRelicByPart,
+  context: OptimizerContext,
   cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
-  reuseRequest: boolean = false,
-  reuseComboState: boolean = false,
-  internal: boolean = false,
   forcedBasicSpd: number = 0,
-  weightScore: boolean = false) {
-  if (!reuseRequest) {
-    request = Utils.clone(request)
-  }
-
-  const context = cachedContext ?? generateContext(request)
-  if (reuseComboState) {
-    // Clean combo state
-    for (const action of context.actions) {
-      action.conditionalState = {}
-    }
-  } else {
-    transformComboState(request, context)
-  }
-
+) {
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
 
-  if (weightScore) {
-    RelicFilters.calculateWeightScore(request, [Head, Hands, Body, Feet, PlanarSphere, LinkRope])
-  }
-
   // When the relic is empty / has no set, we have to use an unused set index to simulate a broken set
-  const unusedSets = generateUnusedSets(relics)
   let unusedSetCounter = 0
-
+  const unusedSets = generateUnusedSets(relics)
   const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
   const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
   const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
@@ -75,7 +49,7 @@ export function calculateBuild(
   c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, -1)
 
   calculateBasicSetEffects(c, context, setCounts, sets)
-  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope, weightScore)
+  calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
 
@@ -93,7 +67,8 @@ export function calculateBuild(
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
-    const a = x.a
+    action.conditionalState = {}
+
     x.setPrecompute(action.precomputedX.a)
     if (x.a[Key.MEMOSPRITE]) {
       m.setPrecompute(action.precomputedM.a)
@@ -110,22 +85,27 @@ export function calculateBuild(
 
     calculateDamage(x, action, context)
 
-    if (action.actionType === 'BASIC') {
+    const a = x.a
+    if (action.actionType === AbilityKind.BASIC) {
       combo += a[Key.BASIC_DMG]
-    } else if (action.actionType === 'SKILL') {
+    } else if (action.actionType === AbilityKind.SKILL) {
       combo += a[Key.SKILL_DMG]
-    } else if (action.actionType === 'ULT') {
+    } else if (action.actionType === AbilityKind.ULT) {
       combo += a[Key.ULT_DMG]
-    } else if (action.actionType === 'FUA') {
+    } else if (action.actionType === AbilityKind.FUA) {
       combo += a[Key.FUA_DMG]
-    } else if (action.actionType === 'MEMO_SKILL') {
+    } else if (action.actionType === AbilityKind.DOT) {
+      combo += a[Key.DOT_DMG] * context.comboDot / Math.max(1, context.dotAbilities)
+    } else if (action.actionType === AbilityKind.BREAK) {
+      combo += a[Key.BREAK_DMG]
+    } else if (action.actionType === AbilityKind.MEMO_SKILL) {
       combo += a[Key.MEMO_SKILL_DMG]
-    } else if (action.actionType === 'MEMO_TALENT') {
+    } else if (action.actionType === AbilityKind.MEMO_TALENT) {
       combo += a[Key.MEMO_TALENT_DMG]
     }
 
     if (i === 0) {
-      combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
+      combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot / Math.max(1, context.dotAbilities) : 0)
       x.COMBO_DMG.set(combo, Source.NONE)
     }
   }
@@ -133,7 +113,7 @@ export function calculateBuild(
   return x
 }
 
-function generateUnusedSets(relics: SingleRelicByPart) {
+function generateUnusedSets(relics: SimulationRelicByPart) {
   const usedSets = new Set([
     RelicSetToIndex[relics.Head.set as SetsRelics],
     RelicSetToIndex[relics.Hands.set as SetsRelics],
@@ -145,16 +125,18 @@ function generateUnusedSets(relics: SingleRelicByPart) {
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
 }
 
-function extractRelics(relics: SingleRelicByPart) {
-  for (const part of Object.keys(Constants.Parts)) {
-    relics[part as Parts] = relics[part as Parts] || emptyRelicWithSetAndSubstats()
+function extractRelics(relics: SimulationRelicByPart) {
+  for (const part of PartsArray) {
+    if (!relics[part]) {
+      relics[part as Parts] = emptyRelicWithSetAndSubstats()
+    }
   }
   return relics
 }
 
-export function emptyRelicWithSetAndSubstats() {
+export function emptyRelicWithSetAndSubstats(): SimulationRelic {
   return {
-    set: -1,
-    substats: [],
+    set: '',
+    condensedStats: [],
   }
 }

@@ -1,3 +1,4 @@
+import { CellClickedEvent, CellDoubleClickedEvent, CellPosition, IRowNode, IsExternalFilterPresentParams, NavigateToNextCellParams, RowDragEvent } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, Typography } from 'antd'
 import i18next from 'i18next'
@@ -5,20 +6,21 @@ import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import React, { MutableRefObject, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Character } from 'types/character'
 
 const { Text } = Typography
 
 // FIXME HIGH
 
 export function CharacterGrid(props: {
-  characterGrid: MutableRefObject<any>
-  cellClickedListener: any,
-  cellDoubleClickedListener: any,
-  onRowDragEnd: any,
-  onRowDragLeave: any,
-  navigateToNextCell: any,
-  isExternalFilterPresent: any,
-  doesExternalFilterPass: any,
+  characterGrid: MutableRefObject<AgGridReact<Character>>
+  cellClickedListener: (x: CellClickedEvent<Character>) => void
+  cellDoubleClickedListener: (x: CellDoubleClickedEvent<Character>) => void
+  onRowDragEnd: (e: RowDragEvent<Character>) => void
+  onRowDragLeave: (e: RowDragEvent<Character>) => void
+  navigateToNextCell: (x: NavigateToNextCellParams<Character>) => CellPosition | null
+  isExternalFilterPresent: (x: IsExternalFilterPresentParams<Character>) => boolean
+  doesExternalFilterPass: (x: IRowNode<Character>) => boolean
 }) {
   const { t } = useTranslation(['charactersTab', 'common', 'gameData'])
   const [characterRows, setCharacterRows] = React.useState(DB.getCharacters())
@@ -55,9 +57,9 @@ export function CharacterGrid(props: {
 
       rowData={characterRows}
       gridOptions={gridOptions}
-      getRowNodeId={(data) => data.id}
+      getRowNodeId={(data: IRowNode<Character>) => data.id}
 
-      columnDefs={columnDefs}
+      columnDefs={columnDefs} // TODO what's going on here
       defaultColDef={defaultColDef}
       deltaRowDataMode={true}
 
@@ -75,9 +77,9 @@ export function CharacterGrid(props: {
   )
 }
 
-function cellRankRenderer(params) {
-  const data = params.data
-  const character = DB.getCharacters().find((x) => x.id == data.id)
+function cellRankRenderer(params: IRowNode<Character>) {
+  const data = params.data!
+  const character = DB.getCharacters().find((x) => x.id == data.id)!
 
   return (
     <Text style={{ height: '100%' }}>
@@ -86,9 +88,9 @@ function cellRankRenderer(params) {
   )
 }
 
-function cellNameRenderer(params) {
+function cellNameRenderer(params: IRowNode<Character>) {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
-  const data = params.data
+  const data = params.data!
   const characterNameString = t(`${data.id}.LongName`)
 
   // Separate the path parens for multipath characters or handle dots so they render on separate lines if overflow
@@ -126,15 +128,13 @@ function cellNameRenderer(params) {
       >
         {nameSectionRender}
       </Text>
-      <Flex style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}>
-
-      </Flex>
+      <div style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}/>
     </Flex>
   )
 }
 
-export function cellImageRenderer(params) {
-  const data = params.data
+export function cellImageRenderer(params: IRowNode<Character>) {
+  const data = params.data!
   const characterIconSrc = Assets.getCharacterAvatarById(data.id)
 
   return (

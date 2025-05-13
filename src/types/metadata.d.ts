@@ -1,6 +1,10 @@
-import { ElementName, PathName, ShowcaseColorMode, StatsValues } from 'lib/constants/constants'
+import { ElementName, MainStats, Parts, PathName, Sets, ShowcaseColorMode, StatsValues, SubStats } from 'lib/constants/constants'
+import { statConversion } from 'lib/importer/characterConverter'
+import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { CharacterId } from 'types/character'
+import { LightCone } from 'types/lightCone'
 
 export type ShowcasePreferences = {
   color?: string
@@ -12,12 +16,8 @@ export type ShowcaseTemporaryOptions = {
 }
 
 export type ScoringMetadata = {
-  stats: {
-    [stat: string]: number
-  }
-  parts: {
-    [part: string]: string[]
-  }
+  stats: Record<SubStats, number> & Partial<Record<'headHands' | 'bodyFeet' | 'sphereRope', number>>
+  parts: Record<Exclude<Parts, Parts.Head, Parts.Hands>, MainStats[]>
   presets: PresetDefinition[]
   sortOption: SortOptionProperties
   hiddenColumns: SortOptionProperties[]
@@ -36,14 +36,13 @@ export type SimulationMetadata = {
   substats: string[]
   errRopeEidolon?: number
   deprioritizeBuffs?: boolean
-  comboAbilities: string[]
+  comboTurnAbilities: TurnAbilityName[]
   comboDot: number
-  comboBreak: number
   relicSets: string[][]
   ornamentSets: string[]
   teammates: {
-    characterId: string
-    lightCone: string
+    characterId: CharacterId
+    lightCone: LightCone['id']
     characterEidolon: number
     lightConeSuperimposition: number
   }[]
@@ -88,7 +87,7 @@ type TraceNode = {
 }
 
 export type DBMetadataCharacter = {
-  id: string
+  id: CharacterId
   name: string
   rarity: number
   path: PathName
@@ -104,9 +103,9 @@ export type DBMetadataCharacter = {
 }
 
 export type DBMetadataLightCone = {
-  id: string
+  id: LightCone['id']
   name: string
-  rarity: number
+  rarity: 5 | 4 | 3
   path: PathName
   stats: Record<string, number>
   unreleased: boolean
@@ -116,8 +115,8 @@ export type DBMetadataLightCone = {
 }
 
 export type DBMetadataSets = {
-  id: string
-  name: string
+  id: keyof typeof Sets
+  name: Sets
 }
 
 type DBMetadataStatAffixes = {
@@ -126,7 +125,7 @@ type DBMetadataStatAffixes = {
     affixes: {
       [key: number]: {
         affix_id: string
-        property: string
+        property: keyof typeof statConversion
         base: number
         step: number
         step_num: number
@@ -142,7 +141,7 @@ export type DBMetadataRelics = {
 }
 
 export type DBMetadata = {
-  characters: Record<string, DBMetadataCharacter>
-  lightCones: Record<string, DBMetadataLightCone>
+  characters: Record<CharacterId, DBMetadataCharacter>
+  lightCones: Record<LightCone['id'], DBMetadataLightCone>
   relics: DBMetadataRelics
 }

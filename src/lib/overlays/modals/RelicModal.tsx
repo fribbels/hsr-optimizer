@@ -43,14 +43,14 @@ function renderMainStat(relic: Relic): { stat: MainStats; value: number } | Empt
   return renderStat(mainStat, mainValue)
 }
 
-function renderSubstat(relic: Relic, index: number): { stat: SubStats; value: string } | EmptyObject {
+function renderSubstat(relic: Relic, index: number) {
   const substat = relic.substats[index]
-  if (!substat?.stat) return {}
+  if (!substat?.stat) return {} as EmptyObject
 
   const stat = substat.stat
   const value = substat.value
 
-  return renderStat(stat, value, relic)
+  return renderStat(stat, value, relic) as { stat: SubStats; value: number }
 }
 
 function renderStat<S extends SubStats | MainStats>(stat: S, value: number, relic?: Relic): { stat: S; value: number } {
@@ -58,12 +58,12 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
     if (relic?.verified) {
       return {
         stat: stat,
-        value: value.toFixed(1),
+        value: Utils.truncate10ths(value),
       }
     } else {
       return {
         stat: stat,
-        value: value % 1 !== 0 ? value.toFixed(1) : Math.floor(value),
+        value: value % 1 !== 0 ? Utils.truncate10ths(value.toFixed(1)) : Math.floor(value),
       }
     }
   } else if (Utils.isFlat(stat)) {
@@ -74,7 +74,7 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
   } else {
     return {
       stat: stat,
-      value: Utils.precisionRound(Math.floor(value * 10) / 10).toFixed(1),
+      value: Utils.truncate10ths(Utils.precisionRound(Math.floor(value * 10) / 10)),
     }
   }
 }
@@ -179,13 +179,13 @@ export default function RelicModal(props: {
         mainStatType: renderMainStat(relic).stat,
         mainStatValue: renderMainStat(relic).value,
         substatType0: renderSubstat(relic, 0).stat,
-        substatValue0: renderSubstat(relic, 0).value,
+        substatValue0: renderSubstat(relic, 0).value?.toString(),
         substatType1: renderSubstat(relic, 1).stat,
-        substatValue1: renderSubstat(relic, 1).value,
+        substatValue1: renderSubstat(relic, 1).value?.toString(),
         substatType2: renderSubstat(relic, 2).stat,
-        substatValue2: renderSubstat(relic, 2).value,
+        substatValue2: renderSubstat(relic, 2).value?.toString(),
         substatType3: renderSubstat(relic, 3).stat,
-        substatValue3: renderSubstat(relic, 3).value,
+        substatValue3: renderSubstat(relic, 3).value?.toString(),
       }
     }
     onValuesChange(defaultValues)
@@ -286,7 +286,7 @@ export default function RelicModal(props: {
       } else if (floorStats.includes(mainStatType)) {
         mainStatValue = Math.floor(mainStatValue)
       } else {
-        mainStatValue = mainStatValue.toFixed(1)
+        mainStatValue = Utils.truncate10ths(mainStatValue)
       }
       relicForm.setFieldValue('mainStatValue', mainStatValue)
     }
@@ -513,14 +513,16 @@ export default function RelicModal(props: {
 function SubstatInput(props: {
   index: 0 | 1 | 2 | 3
   upgrades: RelicUpgradeValues[]
-  relicForm: FormInstance
+  relicForm: FormInstance<RelicForm>
   resetUpgradeValues: () => void
   plusThree: () => void
 }) {
   const inputRef = useRef<InputRef>(null)
   const [hovered, setHovered] = React.useState(false)
-  const statTypeField = `substatType${props.index}`
-  const statValueField = `substatValue${props.index}`
+  /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
+  const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
+  /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
+  const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
 
   const handleFocus = () => {
@@ -586,7 +588,7 @@ function SubstatInput(props: {
     )
   }
 
-  const stat = props.relicForm.getFieldValue(statTypeField)
+  const stat = props.relicForm.getFieldValue(statTypeField) as RelicForm[typeof statTypeField]
 
   return (
     <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
@@ -603,9 +605,11 @@ function SubstatInput(props: {
             options={substatOptionsMemoized}
             listHeight={750}
             onChange={() => {
-              props.relicForm.getFieldValue(statTypeField)
-                ? props.relicForm.setFieldValue(statValueField, 0)
-                : props.relicForm.setFieldValue(statValueField, undefined)
+              if (props.relicForm.getFieldValue(statTypeField)) {
+                props.relicForm.setFieldValue(statValueField, 0)
+              } else {
+                props.relicForm.setFieldValue(statValueField, undefined)
+              }
               props.resetUpgradeValues()
             }}
             tabIndex={0}

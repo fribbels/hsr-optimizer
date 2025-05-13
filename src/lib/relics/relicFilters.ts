@@ -1,4 +1,4 @@
-import { Constants, Parts, RelicSetFilterOptions, SubStatValues } from 'lib/constants/constants'
+import { Constants, Parts, RelicSetFilterOptions, SetsOrnaments, SetsRelics, SubStatValues } from 'lib/constants/constants'
 import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatToKey } from 'lib/optimization/computedStatsArray'
 import DB from 'lib/state/db'
@@ -31,10 +31,8 @@ export const RelicFilters = {
     weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]
     weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
 
-    for (const weight of Object.keys(weights)) {
-      if (weights[weight] === undefined) {
-        weights[weight] = 0
-      }
+    for (const weight of Object.keys(weights) as Array<keyof typeof weights>) {
+      if (!weights[weight]) weights[weight] = 0
     }
 
     for (const relic of relics) {
@@ -54,12 +52,12 @@ export const RelicFilters = {
   applyTopFilter: (request: Form, relics: RelicsByPart) => {
     const weights = request.weights || {}
     const partMinRolls = {
-      [Parts.Head]: weights.headHands || 0,
-      [Parts.Hands]: weights.headHands || 0,
-      [Parts.Body]: weights.bodyFeet || 0,
-      [Parts.Feet]: weights.bodyFeet || 0,
-      [Parts.PlanarSphere]: weights.sphereRope || 0,
-      [Parts.LinkRope]: weights.sphereRope || 0,
+      [Parts.Head]: weights.headHands ?? 0,
+      [Parts.Hands]: weights.headHands ?? 0,
+      [Parts.Body]: weights.bodyFeet ?? 0,
+      [Parts.Feet]: weights.bodyFeet ?? 0,
+      [Parts.PlanarSphere]: weights.sphereRope ?? 0,
+      [Parts.LinkRope]: weights.sphereRope ?? 0,
     }
 
     for (const part of Object.values(Constants.Parts)) {
@@ -178,7 +176,7 @@ export const RelicFilters = {
           || relic.part == Constants.Parts.Hands
           || relic.part == Constants.Parts.Body
           || relic.part == Constants.Parts.Feet) {
-          return allowedSets[Constants.RelicSetToIndex[relic.set]] == 1
+          return allowedSets[Constants.RelicSetToIndex[relic.set as SetsRelics]] == 1
         } else {
           return true
         }
@@ -200,7 +198,7 @@ export const RelicFilters = {
         if (
           relic.part == Constants.Parts.PlanarSphere
           || relic.part == Constants.Parts.LinkRope) {
-          return allowedSets[Constants.OrnamentSetToIndex[relic.set]] == 1
+          return allowedSets[Constants.OrnamentSetToIndex[relic.set as SetsOrnaments]] == 1
         } else {
           return true
         }
@@ -220,7 +218,7 @@ export const RelicFilters = {
 
     function matchingRelic(part: Parts) {
       const partition: Relic[] = relics[part]
-      if (!character.equipped[part]) {
+      if (!character?.equipped[part]) {
         return partition
       }
       const match = partition.find((x) => x.id == character.equipped[part])

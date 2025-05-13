@@ -1,5 +1,6 @@
 import { SyncOutlined } from '@ant-design/icons'
-import { Button, Flex, Form as AntDForm, Select, Typography } from 'antd'
+import { Form as AntDForm, Button, Flex, Select, Typography } from 'antd'
+import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
@@ -15,9 +16,10 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
 import { TeammateProperty } from 'types/form'
+import { LightCone, SuperImpositionLevel } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
 
 const { Text } = Typography
@@ -84,6 +86,7 @@ const teammateRelicSets = [
   Sets.MessengerTraversingHackerspace,
   Sets.WatchmakerMasterOfDreamMachinations,
   Sets.SacerdosRelivedOrdeal,
+  Sets.WarriorGoddessOfSunAndThunder,
 ]
 const teammateOrnamentSets = [
   Sets.BrokenKeel,
@@ -143,11 +146,11 @@ const TeammateCard = (props: {
 }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
-  const teammateCharacterId: string = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
+  const teammateCharacterId: CharacterId = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
   const teammateEidolon: number = AntDForm.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
 
-  const teammateLightConeId: string = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
-  const teammateSuperimposition: number = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
+  const teammateLightConeId: LightCone['id'] = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
+  const teammateSuperimposition: SuperImpositionLevel = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
 
@@ -176,6 +179,11 @@ const TeammateCard = (props: {
         value: SACERDOS_RELIVED_ORDEAL_2_STACK,
         desc: t('TeammateSets.Sacerdos2Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
         label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos2Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
+      },
+      {
+        value: Sets.WarriorGoddessOfSunAndThunder,
+        desc: t('TeammateSets.Warrior.Desc'), // `4 Piece: ${Sets.WarriorGoddessOfSunAndThunder} (+15% CD)`,
+        label: labelRender(Sets.WarriorGoddessOfSunAndThunder, t('TeammateSets.Warrior.Text')), // labelRender(Sets.WarriorGoddessOfSunAndThunder, '15% CD'),
       },
     ]
   }, [t])
@@ -286,7 +294,7 @@ const TeammateCard = (props: {
         <Flex gap={5}>
           <AntDForm.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
             <CharacterSelect
-              value=''
+              value={null}
               selectStyle={{}}
               externalOpen={teammateSelectModalOpen}
               setExternalOpen={setTeammateSelectModalOpen}
@@ -323,7 +331,14 @@ const TeammateCard = (props: {
             />
           </Flex>
           <Flex vertical gap={5}>
-            <div style={{ width: `${rightPanelWidth}px`, height: `${rightPanelWidth}px`, borderRadius: '10px' }}>
+            <div style={{
+              width: `${rightPanelWidth}px`,
+              height: `${rightPanelWidth}px`,
+              backgroundColor: 'rgb(255 255 255 / 2%)',
+              borderRadius: rightPanelWidth,
+              border: teammateCharacterId ? showcaseOutlineLight : undefined,
+            }}
+            >
               <img
                 width={rightPanelWidth}
                 height={rightPanelWidth}
@@ -366,7 +381,7 @@ const TeammateCard = (props: {
         <Flex gap={5}>
           <AntDForm.Item name={[teammateProperty, `lightCone`]}>
             <LightConeSelect
-              value=''
+              value={null}
               selectStyle={{ width: 258 }}
               characterId={teammateCharacterId}
               externalOpen={teammateLightConeSelectOpen}

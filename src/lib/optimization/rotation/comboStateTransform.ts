@@ -6,7 +6,10 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
+import { AbilityKind, DEFAULT_BASIC, getAbilityKind, NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import DB from 'lib/state/db'
 import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { CharacterId } from 'types/character'
 import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
 import { Form, OptimizerForm } from 'types/form'
 import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
@@ -17,10 +20,10 @@ export function transformComboState(request: Form, context: OptimizerContext) {
   // console.log('transformComboState')
 
   if (!request.comboStateJson || request.comboStateJson == '{}') {
-    request.comboType = 'simple'
+    request.comboType = ComboType.SIMPLE
   }
 
-  if (request.comboType == 'advanced') {
+  if (request.comboType == ComboType.ADVANCED) {
     const comboState = initializeComboState(request, true)
     transformStateActions(comboState, request, context)
   } else {
@@ -30,20 +33,23 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 }
 
 function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
-  const comboAbilities = getComboAbilities(request.comboAbilities)
+  const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
+
   const actions: OptimizerAction[] = []
-  for (let i = 0; i < comboAbilities.length; i++) {
-    actions.push(transformAction(i, comboState, comboAbilities, request, context))
+  for (let i = 0; i < comboTurnAbilities.length; i++) {
+    actions.push(transformAction(i, comboState, comboTurnAbilities, request, context))
   }
 
+  const characterConditionalController = CharacterConditionalsResolver.get(context)
+
   context.actions = actions
-  context.comboDot = request.comboDot || 0
-  context.comboBreak = request.comboBreak || 0
-  context.activeAbilities = context.characterConditionalController.activeAbilities ?? []
+  context.dotAbilities = countDotAbilities(actions)
+  context.comboDot = comboDot || 0
+  context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
-function transformAction(actionIndex: number, comboState: ComboState, comboAbilities: string[], request: OptimizerForm, context: OptimizerContext) {
+function transformAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},
@@ -64,7 +70,7 @@ function transformAction(actionIndex: number, comboState: ComboState, comboAbili
   } as OptimizerAction
   action.actorId = context.characterId
   action.actionIndex = actionIndex
-  action.actionType = comboAbilities[actionIndex]
+  action.actionType = getAbilityKind(turnAbilityNames[actionIndex])
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
@@ -221,6 +227,10 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
             x.CD.buffSingle(0.36, Source.SacerdosRelivedOrdeal)
           }
           break
+        case Sets.WarriorGoddessOfSunAndThunder:
+          if (teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder]) break
+          x.CD.buffTeam(0.15, Source.WarriorGoddessOfSunAndThunder)
+          break
         default:
       }
 
@@ -272,6 +282,8 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     enabledTheWondrousBananAmusementPark: transformConditional(conditionals[Sets.TheWondrousBananAmusementPark], actionIndex),
     enabledScholarLostInErudition: transformConditional(conditionals[Sets.ScholarLostInErudition], actionIndex),
     enabledHeroOfTriumphantSong: transformConditional(conditionals[Sets.HeroOfTriumphantSong], actionIndex),
+    enabledWarriorGoddessOfSunAndThunder: transformConditional(conditionals[Sets.WarriorGoddessOfSunAndThunder], actionIndex),
+    enabledWavestriderCaptain: transformConditional(conditionals[Sets.WavestriderCaptain], actionIndex),
     valueChampionOfStreetwiseBoxing: transformConditional(conditionals[Sets.ChampionOfStreetwiseBoxing], actionIndex),
     valueWastelanderOfBanditryDesert: transformConditional(conditionals[Sets.WastelanderOfBanditryDesert], actionIndex),
     valueLongevousDisciple: transformConditional(conditionals[Sets.LongevousDisciple], actionIndex),
@@ -284,13 +296,28 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
   }
 }
 
-function getComboAbilities(comboAbilities: string[]) {
-  const newComboAbilities = ['DEFAULT']
-  for (let i = 1; i <= 8; i++) {
-    if (comboAbilities[i] == null) break
-    newComboAbilities.push(comboAbilities[i])
+export enum ComboType {
+  SIMPLE = 'simple',
+  ADVANCED = 'advanced',
+}
+
+export function getDefaultComboTurnAbilities(characterId: CharacterId, characterEidolon: number) {
+  const simulation = DB.getMetadata().characters[characterId]?.scoringMetadata?.simulation
+  return {
+    comboTurnAbilities: simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
+    comboDot: simulation?.comboDot ?? 0,
   }
-  return newComboAbilities
+}
+
+export function getComboTypeAbilities(form: OptimizerForm) {
+  if (form.comboType == ComboType.SIMPLE) {
+    return getDefaultComboTurnAbilities(form.characterId, form.characterEidolon)
+  }
+
+  return {
+    comboTurnAbilities: form.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
+    comboDot: form.comboDot ?? 0,
+  }
 }
 
 function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {
@@ -298,4 +325,8 @@ function overrideSetConditionals(setConditionals: SetConditional, context: Optim
     ...setConditionals,
     enabledIzumoGenseiAndTakamaDivineRealm: setConditionals.enabledIzumoGenseiAndTakamaDivineRealm && countTeamPath(context, context.path) >= 2,
   }
+}
+
+export function countDotAbilities(actions: OptimizerAction[]) {
+  return actions.filter((x) => x.actionType == AbilityKind.DOT).length
 }

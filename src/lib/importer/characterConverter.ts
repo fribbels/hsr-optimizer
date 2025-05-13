@@ -1,7 +1,10 @@
-import { Constants } from 'lib/constants/constants'
+import { Constants, MainStats, Parts, SubStats } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
+import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
+import { CharacterId } from 'types/character'
+import { LightCone } from 'types/lightCone'
 import { Relic } from 'types/relic'
 
 // FIXME MED
@@ -20,7 +23,7 @@ const gradeConversion = {
   4: 3,
   3: 2,
 }
-const statConversion = {
+export const statConversion = {
   HPAddedRatio: Constants.Stats.HP_P,
   AttackAddedRatio: Constants.Stats.ATK_P,
   DefenceAddedRatio: Constants.Stats.DEF_P,
@@ -44,18 +47,60 @@ const statConversion = {
   ImaginaryAddedRatio: Constants.Stats.Imaginary_DMG,
 }
 
+export type UnconvertedCharacter = {
+  relicList?: PreRelic[]
+  equipment?: PreLightCone
+  rank?: number
+  avatarId: CharacterId
+}
+
+type PreRelic = {
+  tid: string
+  level: number
+  mainAffixId: number
+  main_affix: {
+    type: keyof typeof statConversion
+  }
+  subAffixList: SubAffix[]
+}
+
+interface SubAffixBase {
+  affixId: number
+  type: keyof typeof statConversion
+  step: number
+}
+
+interface SubAffixCnt extends SubAffixBase {
+  cnt: number
+  count?: never
+}
+
+interface SubAffixCount extends SubAffixBase {
+  cnt?: never
+  count: number
+}
+
+type SubAffix = SubAffixCnt | SubAffixCount
+
+type PreLightCone = {
+  tid: LightCone['id']
+  level: number
+  rank: number
+}
+
 export const CharacterConverter = {
-  convert: (character) => {
-    const preRelics = character.relicList || []
+  convert: (character: UnconvertedCharacter): ShowcaseTabCharacter => {
+    const preRelics = character.relicList ?? []
     const preLightCone = character.equipment
-    const characterEidolon = character.rank || 0
-    const id = '' + character.avatarId
-    const lightConeId = preLightCone ? '' + preLightCone.tid : undefined
-    const lightConeLevel = preLightCone ? preLightCone.level : 0
+    const characterEidolon = character.rank ?? 0
+    const id = '' + character.avatarId as CharacterId
+    const lightConeId = preLightCone ? ('' + preLightCone.tid) as LightCone['id'] : null
     const lightConeSuperimposition = preLightCone ? preLightCone.rank : 0
 
-    const relics = preRelics.map((x) => convertRelic(x)).filter((x) => !!x)
-    const equipped = {}
+    const relics = preRelics
+      .map((x) => convertRelic(x))
+      .filter((x): x is NonNullable<typeof x> => !!x)
+    const equipped = {} as Record<Parts, Relic>
     for (const relic of relics) {
       relic.equippedBy = id
       equipped[relic.part] = relic
@@ -64,12 +109,11 @@ export const CharacterConverter = {
     return {
       id: id,
       key: Utils.randomId(),
+      index: 0, // gets overwritten later
       form: {
-        characterLevel: 80,
         characterId: id,
         characterEidolon: characterEidolon,
         lightCone: lightConeId,
-        lightConeLevel: lightConeLevel,
         lightConeSuperimposition: lightConeSuperimposition,
       },
       equipped: equipped,
@@ -95,7 +139,7 @@ const tidOverrides = {
   55006: { set: '105', part: '3', main: '434' },
 }
 
-function convertRelic(preRelic) {
+function convertRelic(preRelic: PreRelic) {
   try {
     const metadata = DB.getMetadata().relics
     const tid = '' + preRelic.tid
@@ -103,30 +147,42 @@ function convertRelic(preRelic) {
     const enhance: Relic['enhance'] = preRelic.level || 0
 
     let setId = tid.substring(1, 4)
+    // @ts-ignore
     if (tidOverrides[tid]) {
+      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       setId = tidOverrides[tid].set
     }
-    const setName: Relic['set'] = metadata.relicSets[setId].name
+    const setName = metadata.relicSets[setId].name
 
-    let partId = tid.substring(4, 5)
+    let partId = tid.substring(4, 5) as '1' | '2' | '3' | '4' | '5' | '6'
+    // @ts-ignore
     if (tidOverrides[tid]) {
+      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       partId = tidOverrides[tid].part
     }
     const partName: Relic['part'] = partConversion[partId]
 
-    const gradeId = tid.substring(0, 1)
+    const gradeId = tid.substring(0, 1) as '3' | '4' | '5' | '6'
     const grade: Relic['grade'] = gradeConversion[gradeId]
 
     let mainId = preRelic.mainAffixId
     if (!mainId) {
-      mainId = Object.values(metadata.relicMainAffixes[`${grade}${partId}`].affixes).find((x) => x.property == preRelic.main_affix.type).affix_id
+      mainId = Number(
+        Object.values(metadata.relicMainAffixes[`${grade}${partId}`].affixes)
+          .find((x) => x.property == preRelic.main_affix.type)!.affix_id,
+      )
     }
     let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
+    // @ts-ignore
     if (tidOverrides[tid]) {
+      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       mainData = metadata.relicMainAffixes[tidOverrides[tid].main].affixes[mainId]
     }
 
-    const mainStat = statConversion[mainData.property]
+    const mainStat = statConversion[mainData.property] as MainStats
     const mainBase = mainData.base
     const mainStep = mainData.step
     const mainValue = mainBase + mainStep * enhance
@@ -140,13 +196,16 @@ function convertRelic(preRelic) {
     for (const sub of preRelic.subAffixList) {
       let subId = sub.affixId
       if (!subId) {
-        subId = Object.values(metadata.relicSubAffixes[`${grade}`].affixes).find((x) => x.property == sub.type).affix_id
+        subId = Number(
+          Object.values(metadata.relicSubAffixes[`${grade}`].affixes)
+            .find((x) => x.property == sub.type)!.affix_id,
+        )
       }
       const count: number = sub.cnt ?? sub.count
       const step: number = sub.step || 0
 
       const subData = metadata.relicSubAffixes[grade].affixes[subId]
-      const subStat = statConversion[subData.property]
+      const subStat = statConversion[subData.property] as SubStats
       const subBase = subData.base
       const subStep = subData.step
 

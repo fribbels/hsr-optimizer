@@ -1,12 +1,15 @@
 import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { Form, Teammate } from 'types/form'
 
 // FIXME HIGH
 
-export function getDefaultWeights(characterId?: string) {
+export function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
   if (characterId) {
     const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
     scoringMetadata.stats.headHands = 0
@@ -19,7 +22,6 @@ export function getDefaultWeights(characterId?: string) {
     [Constants.Stats.HP_P]: 1,
     [Constants.Stats.ATK_P]: 1,
     [Constants.Stats.DEF_P]: 1,
-    [Constants.Stats.SPD_P]: 1,
     [Constants.Stats.HP]: 1,
     [Constants.Stats.ATK]: 1,
     [Constants.Stats.DEF]: 1,
@@ -35,13 +37,13 @@ export function getDefaultWeights(characterId?: string) {
   }
 }
 
-export function getDefaultForm(initialCharacter: { id: string }) {
+export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   // TODO: Clean this up
   const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
   const parts = scoringMetadata?.parts || {}
   const weights = scoringMetadata?.stats || getDefaultWeights()
 
-  const combatBuffs = {}
+  const combatBuffs = {} as Record<typeof CombatBuffs[keyof typeof CombatBuffs]['key'], number>
   Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
 
   const defaultForm: Partial<Form> = TsUtils.clone({
@@ -71,9 +73,10 @@ export function getDefaultForm(initialCharacter: { id: string }) {
     teammate0: defaultTeammate() as Teammate,
     teammate1: defaultTeammate() as Teammate,
     teammate2: defaultTeammate() as Teammate,
-    resultSort: scoringMetadata?.sortOption.key,
+    resultSort: scoringMetadata?.simulation ? SortOption.COMBO.key : scoringMetadata?.sortOption.key,
     resultsLimit: 1024,
     combatBuffs: combatBuffs,
+    comboType: ComboType.SIMPLE,
     combo: {
       BASIC: 0,
       SKILL: 0,
@@ -83,16 +86,16 @@ export function getDefaultForm(initialCharacter: { id: string }) {
       BREAK: 0,
     },
     comboStateJson: '{}',
+    comboPreprocessor: true,
     ...defaultEnemyOptions(),
   })
 
   applySetConditionalPresets(defaultForm as Form)
   applyScoringMetadataPresets(defaultForm as Form)
 
-  if (scoringMetadata?.simulation?.comboAbilities) {
-    defaultForm.comboAbilities = scoringMetadata.simulation.comboAbilities
+  if (scoringMetadata?.simulation?.comboTurnAbilities) {
+    defaultForm.comboTurnAbilities = scoringMetadata.simulation.comboTurnAbilities
     defaultForm.comboDot = scoringMetadata.simulation.comboDot
-    defaultForm.comboBreak = scoringMetadata.simulation.comboBreak
   }
 
   return defaultForm as Form
@@ -113,7 +116,7 @@ export function defaultEnemyOptions() {
     enemyLevel: 95,
     enemyCount: 1,
     enemyResistance: 0.2,
-    enemyEffectResistance: 0.2,
+    enemyEffectResistance: 0.3,
     enemyMaxToughness: 360,
     enemyElementalWeak: true,
     enemyWeaknessBroken: false,
@@ -145,6 +148,8 @@ export const defaultSetConditionals = {
   [Sets.ScholarLostInErudition]: [undefined, true],
   [Sets.HeroOfTriumphantSong]: [undefined, false],
   [Sets.PoetOfMourningCollapse]: [undefined, true],
+  [Sets.WarriorGoddessOfSunAndThunder]: [undefined, false],
+  [Sets.WavestriderCaptain]: [undefined, true],
 
   [Sets.SpaceSealingStation]: [undefined, true],
   [Sets.FleetOfTheAgeless]: [undefined, true],

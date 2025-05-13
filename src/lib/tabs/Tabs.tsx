@@ -1,15 +1,15 @@
 import { Flex, Typography } from 'antd'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
-import { AppPages, PageToRoute } from 'lib/state/db'
+import { AppPage, AppPages, PageToRoute } from 'lib/state/db'
+import BenchmarksTab from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
 import CharacterTab from 'lib/tabs/tabCharacters/CharacterTab'
 import HomeTab from 'lib/tabs/tabHome/HomeTab'
 import ImportTab from 'lib/tabs/tabImport/ImportTab'
 import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
-
 import OptimizerTab from 'lib/tabs/tabOptimizer/OptimizerTab'
 import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
-import RelicScorerTab from 'lib/tabs/tabShowcase/RelicScorerTab'
+import ShowcaseTab from 'lib/tabs/tabShowcase/ShowcaseTab'
 import WarpCalculatorTab from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
@@ -27,21 +27,22 @@ const defaultErrorRender = ({ error: { message } }: {
 let optimizerInitialized = false
 
 const Tabs = () => {
-  const activeKey = window.store((s) => s.activeKey).split('?')[0]
+  const activeKey = window.store((s) => s.activeKey).split('?')[0] as AppPage
 
   const homeTab = React.useMemo(() => <HomeTab/>, [])
   const optimizerTab = React.useMemo(() => <OptimizerTab/>, [])
   const characterTab = React.useMemo(() => <CharacterTab/>, [])
   const relicsTab = React.useMemo(() => <RelicsTab/>, [])
   const importTab = React.useMemo(() => <ImportTab/>, [])
-  const relicScorerTab = React.useMemo(() => <RelicScorerTab/>, [])
+  const showcaseTab = React.useMemo(() => <ShowcaseTab/>, [])
   const warpCalculatorTab = React.useMemo(() => <WarpCalculatorTab/>, [])
   const changelogTab = React.useMemo(() => <ChangelogTab/>, [])
   const webgpuTab = React.useMemo(() => <WebgpuTab/>, [])
   const metadataTab = React.useMemo(() => <MetadataTab/>, [])
+  const benchmarksTab = React.useMemo(() => <BenchmarksTab/>, [])
 
   useEffect(() => {
-    let route = PageToRoute[activeKey] || PageToRoute[AppPages.OPTIMIZER]
+    let route = PageToRoute[activeKey]
     if (activeKey == AppPages.SHOWCASE) {
       const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
       if (id) {
@@ -69,8 +70,9 @@ const Tabs = () => {
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab}/>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={relicScorerTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={showcaseTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WARP} content={warpCalculatorTab}/>
+      <TabRenderer activeKey={activeKey} tabKey={AppPages.BENCHMARKS} content={benchmarksTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab}/>
       <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab}/>
@@ -85,8 +87,8 @@ const Tabs = () => {
 export default Tabs
 
 function TabRenderer(props: {
-  activeKey: string
-  tabKey: string
+  activeKey: AppPage
+  tabKey: AppPage
   content: ReactElement
 }) {
   return (

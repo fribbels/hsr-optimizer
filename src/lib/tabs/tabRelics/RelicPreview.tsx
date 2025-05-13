@@ -1,20 +1,20 @@
 import { Card, Divider, Flex } from 'antd'
 import i18next from 'i18next'
 import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { NONE_SCORE } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { Languages } from 'lib/i18n/i18n'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
 import { ScoreCategory } from 'lib/scoring/scoreComparison'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
-import { localeNumberComma_0 } from 'lib/utils/i18nUtils'
+import { Languages, localeNumberComma_0 } from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
 export type ShowcaseTheme = {
@@ -25,9 +25,9 @@ export type ShowcaseTheme = {
 export function RelicPreview(props: {
   relic?: Relic
   source?: ShowcaseSource
-  characterId?: string
+  characterId?: CharacterId
   score?: RelicScoringResult
-  scoringType?: string
+  scoringType?: ScoringType
   setEditModalOpen?: (open: boolean) => void
   setAddModalOpen?: (open: boolean) => void
   setSelectedRelic: (relic: Relic) => void
@@ -78,9 +78,9 @@ export function RelicPreview(props: {
     }
   }
 
-  const STAT_GAP = scoringType == NONE_SCORE ? 6 : 0
-  const ICON_SIZE = scoringType == NONE_SCORE ? 54 : 50
-  const JUSTIFY = scoringType == NONE_SCORE ? 'space-around' : 'space-between'
+  const STAT_GAP = scoringType == ScoringType.NONE ? 6 : 0
+  const ICON_SIZE = scoringType == ScoringType.NONE ? 54 : 50
+  const JUSTIFY = scoringType == ScoringType.NONE ? 'space-around' : 'space-between'
 
   return (
     <Card
@@ -144,7 +144,7 @@ export function RelicPreview(props: {
             {GenerateStat(relic.substats[3], false, relic)}
           </Flex>
 
-          {scoringType != NONE_SCORE && <ScoreFooter score={score}/>}
+          {scoringType != ScoringType.NONE && <ScoreFooter score={score}/>}
         </Flex>
       </RelicStatText>
     </Card>

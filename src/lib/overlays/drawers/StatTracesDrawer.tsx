@@ -1,5 +1,6 @@
 import { CaretDownOutlined } from '@ant-design/icons'
 import { Button, Drawer, Flex, Tree, TreeProps, Typography } from 'antd'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -15,8 +16,7 @@ const { Text } = Typography
 export const StatTracesDrawer = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'Stats' })
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
-  const statTracesDrawerOpen = window.store((s) => s.statTracesDrawerOpen)
-  const setStatTracesDrawerOpen = window.store((s) => s.setStatTracesDrawerOpen)
+  const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
   const statTraceDrawerFocusCharacter = window.store.getState().statTracesDrawerFocusCharacter
 
@@ -103,8 +103,8 @@ export const StatTracesDrawer = () => {
     <Drawer
       title={t('Title')} // 'Custom stat traces'
       placement='right'
-      onClose={() => setStatTracesDrawerOpen(false)}
-      open={statTracesDrawerOpen}
+      onClose={closeTracesDrawer}
+      open={isOpenTracesDrawer}
       width={400}
       forceRender
     >
@@ -166,7 +166,7 @@ export const StatTracesDrawer = () => {
               Message.success('Saved')
               setLoading(false)
               SaveState.delayedSave()
-              setStatTracesDrawerOpen(false)
+              closeTracesDrawer()
             }, 500)
           }}
         >

@@ -36,9 +36,8 @@ Lightcones:
           Khi người trang bị đánh trúng kẻ địch, sẽ khiến kẻ địch rơi vào trạng thái Bóng Hư Ảo, duy trì 1 hiệp. Mỗi lần người trang bị tấn công, đối với mỗi mục tiêu chỉ có thể được kích hoạt 1 lần. Sát Thương mà người trang bị gây ra cho mục tiêu đang ở trạng thái Bóng Hư Ảo tăng {{DmgBoost}}%, sát thương do Tuyệt Kỹ gây ra tăng thêm {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: Năng lượng tối đa
-        content: 'Khi người trang bị thi triển Tuyệt Kỹ, sẽ tăng sát thương Tuyệt Kỹ mà người trang bị gây ra theo giới hạn năng lượng của người trang bị: mỗi điểm năng lượng tăng {{DmgStep}}%, tối đa 180 điểm năng lượng.'
+      maxEnergyDmgBoost:
+        text: Năng Lượng Tối Đa Tăng Sát Thương
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
@@ -103,6 +102,8 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Tăng sát thương chiến kỹ / tuyệt kỹ
+      bonusBoost:
+        text: Tăng Sát Thương
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -164,16 +165,26 @@ Lightcones:
         text: Tầng Lưu Quang
         content: >-
           Khi người trang bị thi triển Đòn Đánh Theo Sau sẽ nhận 1 tầng Lưu Quang, tối đa cộng dồn 2 tầng. Mỗi tầng Lưu Quang khiến sát thương Tuyệt Kỹ mà người trang bị gây ra bỏ qua {{DefIgnore}}% phòng thủ của mục tiêu. Khi hiệp của người trang bị kết thúc sẽ xóa bỏ 1 tầng Lưu Quang.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: Xuyên Phòng Thủ
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
         text: Tăng Sát Thương
+      defPen:
+        text: Xuyên Phòng Thủ
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
         text: Sát Thương Kích Phá phải chịu tăng
         content: >-
           Khi điểm yếu của mục tiêu phe địch bị phá vỡ sẽ có 100% xác suất cơ bản khiến kẻ đó rơi vào trạng thái Lửa Đốt, Sát Thương Phá Vỡ phải chịu tăng {{breakVulnerability}}%, duy trì 2 hiệp, hiệu ứng này có thể cộng dồn 2 tầng.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Yếu điểm
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -692,8 +703,12 @@ Characters:
           Khi Aglaea ở trạng thái Tư Thế Tối Cao, Xuyên Kháng Lôi của bản thân và Thợ May tăng 20%. Khi Aglaea và [sic] Thợ May có tốc độ cao hơn 160/240/320 điểm, sát thương gây ra bởi Tấn Công Phối Hợp sẽ tăng 10%/30%/60%.
   Anaxa:
     Content:
+      eruditionTeammateBuffs:
+        text: Đồng Đội Tri Thức buff
       e1DefPen:
         text: E1 Xuyên Phòng Thủ
+      e2ResPen:
+        text: E2 Xuyên Kháng ST Nguyên Tố
       e6Buffs:
         text: E6 Tăng Gì Đó
   Argenti:
@@ -870,6 +885,10 @@ Characters:
         text: Tăng Sát Thương Đội
       e6Buffs:
         text: E6 Tăng Gì Đó
+  Cipher:
+    Content:
+      skillAtkBuff:
+        text: Chiến Kỹ Tăng Tấn Công
   Clara:
     Content:
       ultBuff:

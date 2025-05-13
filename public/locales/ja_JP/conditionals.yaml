@@ -36,8 +36,8 @@ Lightcones:
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 最大EP
+      maxEnergyDmgBoost:
+        text: EP最大時のダメバフ
         content: 装備キャラが必殺技を発動する時、装備キャラの最大EPに応じて装備キャラの必殺技によるダメージをアップする、1EPにつき+{{DmgStep}}%、最大で180までカウントされる。
   BaptismOfPureThought:
     Content:
@@ -165,7 +165,7 @@ Lightcones:
         content: >-
           自身以外の味方が攻撃を受ける、またはHPを消費した後、装備キャラは「月蝕」を1層獲得する。この効果は最大で3層累積できる。「月蝕」1層につき、装備キャラの次の攻撃の与ダメージ+{{DmgBuff}}%。
       maxStackDefPen:
-        text: '「月蝕」3層時の防御力デバフ'
+        text: '「月蝕」3層時の防御力無視'
         content: '「月蝕」が上限の3層に累積した時、その回の攻撃は敵の防御力を{{DefIgnore}}%無視する。この効果は装備キャラが攻撃を行った後に解除される。'
   IVentureForthToHunt:
     Content:
@@ -173,6 +173,17 @@ Lightcones:
         text: '「流光」層数'
         content: >-
           装備キャラが追加攻撃を行う時、「流光」を1層獲得する。「流光」は最大で2層累積できる。「流光」が1層あるごとに、装備キャラの与える必殺技ダメージが敵の防御力を{{DefIgnore}}%無視する。装備キャラのターン終了時、「流光」が1層解除される。
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: 防御力ダウン
+        content: >-
+          装備キャラが攻撃を行った後、120%の基礎確率で敵単体それぞれを「茫然」状態にする。「茫然」状態の敵の防御力-{{DefShred}}%、2ターン継続。::BR::装備キャラの速度が170以上の場合、120%の基礎確率で敵単体それぞれを「盗難」状態にする。「盗難」状態の敵の防御力-{{AdditionalDefShred}}%、2ターン継続。
+    TeammateContent:
+      additionalDefPen:
+        text: "速度 > 170"
+        content: >-
+          装備キャラが攻撃を行った後、120%の基礎確率で敵単体それぞれを「茫然」状態にする。「茫然」状態の敵の防御力-{{DefShred}}%、2ターン継続。::BR::装備キャラの速度が170以上の場合、120%の基礎確率で敵単体それぞれを「盗難」状態にする。「盗難」状態の敵の防御力-{{AdditionalDefShred}}%、2ターン継続。
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +203,11 @@ Lightcones:
       deathFlower:
         text: '「冥花」防御力無視'
         content: 装備キャラまたは装備キャラの記憶の精霊が自身のターンでHPを失った時、装備キャラは「冥花」を獲得する。「冥花」を持つ場合、装備キャラおよびその記憶の精霊によるダメージは、ターゲットの防御力を{{DefIgnore}}%無視する。2ターン継続。
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: 敵被ダメージ増加
+        content: 装備キャラの記憶の精霊が精霊スキルを発動した時、敵全体の被ダメージ+{{Vulnerability}}%、2ターン継続する。
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -259,7 +275,7 @@ Lightcones:
           装備キャラが必殺技を発動して敵を攻撃した後、その敵を「忘憂」状態にする、2ターン継続。「忘憂」状態の敵が受けるダメージ+{{Vulnerability}}%。装備キャラの撃破特効が150%以上の場合、敵の受けるダメージアップ効果がさらに+{{AdditionalVulnerability}}%。
     TeammateContent:
       additionalVulnerability:
-        text: 追加のダメージアップ
+        text: 追加の敵被ダメージ増加
         content: >-
           装備キャラが必殺技を発動して敵を攻撃した後、その敵を「忘憂」状態にする、2ターン継続。「忘憂」状態の敵が受けるダメージ+{{Vulnerability}}%。装備キャラの撃破特効が150%以上の場合、敵の受けるダメージアップ効果がさらに+{{AdditionalVulnerability}}%。
   SheAlreadyShutHerEyes:
@@ -684,7 +700,7 @@ Characters:
         text: 1凸 会心率バフ
         content: デバフ状態の敵にダメージを与える時、会心率+18%。
       e4UltVulnerability:
-        text: 4凸 必殺技被ダメアップ
+        text: 4凸 必殺技敵被ダメ増加
         content: 戦闘に入った敵は、必殺技被ダメージアップ状態になり、受ける必殺技ダメージ+8%。
       e6UltBuffs:
         text: 6凸 必殺技バフ
@@ -735,7 +751,7 @@ Characters:
         text: 1凸 敵防御力無視
         content: 戦闘スキルが敵に命中する時、敵の防御力-16%、2ターン継続。
       e2ResPen:
-        text: 2凸 全属性耐性ダウン
+        text: 2凸 全属性耐性貫通
         content: 敵が戦闘に入る時、天賦の弱点付与効果を1回発動し、その敵の全属性耐性を20%ダウンさせる。
       e4AtkBuffStacks:
         text: 4凸 攻撃力バフ総数
@@ -876,7 +892,7 @@ Characters:
         content: >-
           「九死の決闘」状態で「ポケットアドバンテージ」を獲得する時、SPを1回復する。同時に撃破特効+30%、2ターン継続。この効果はターンが回ってくるたびに1回まで発動でき、獲得する「ポケットアドバンテージ」が上限を超える時にも触発される。
       e4TargetStandoffVulnerability:
-        text: 4凸 敵被ダメージアップ
+        text: 4凸 敵被ダメージ増加
         content: >-
           「九死の決闘」状態の敵がブートヒルの攻撃を受ける時、被ダメージアップ効果さらに+12%。ブートヒルが「九死の決闘」状態の敵の攻撃を受ける時、被ダメージアップ効果-12%。
       e6AdditionalBreakDmg:
@@ -937,6 +953,32 @@ Characters:
         text: 6凸 バフ
         content: >-
           キャストリスと死竜がダメージを与えた時、量子属性耐性貫通+20%。::BR:: 天賦「幽墟奪略の晦翼」のバウンド回数+3。
+  Cipher:
+    Content:
+      vulnerability:
+        text: 敵被ダメージ増加
+        content: サフェルがフィールド上にいる場合、敵全体の被ダメージ+40%。
+      skillAtkBuff:
+        text: スキル時の攻撃力バフ
+        content: 120%の基礎確率で敵単体および隣接する敵を虚弱状態にし、与ダメージ-10%、サフェルの攻撃力+30%、2ターン継続。
+      fuaCdBoost:
+        text: 追加攻撃の会心ダメバフ
+        content: 天賦による追加攻撃の会心ダメージ+100%。
+      spdBasedBuffs:
+        text: 速度によるバフ
+        content: サフェルの速度が140/170以上の時、会心率+25%/50%。
+      e1AtkBuff:
+        text: 1凸 攻撃力バフ
+        content: 天賦による追加攻撃を発動する時、サフェルの攻撃力+80%、2ターン継続。
+      e2Vulnerability:
+        text: 2凸 敵被ダメージ増加
+        content: サフェルの攻撃が敵に命中する時、120%の基礎確率で敵の被ダメージ+30%、2ターン継続。
+      e4AdditionalDmg:
+        text: 4凸 付加ダメージ
+        content: '「常連さん」が味方の攻撃を受けた後、サフェルはその敵にサフェルの攻撃力50%分の量子属性付加ダメージを与える。'
+      e6FuaDmg:
+        text: 6凸 追加攻撃ダメージ
+        content: サフェルの天賦による追加攻撃の与ダメージ+350%。
   Clara:
     Content:
       ultBuff:
@@ -1195,6 +1237,35 @@ Characters:
       e6DmgBuff:
         text: 6凸 治癒時のダメバフ
         content: 味方に治癒を行った時、その味方の与ダメージ+50%、2ターン継続。
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: 治癒対象HP ≤ 50%
+        content: 残りHPが最大HP50%以下の味方に治癒を行う時、ヒアンシーとイカルンの治癒量+25%。
+      resBuff:
+        text: 効果抵抗バフ
+        content: ヒアンシーの効果抵抗+50%。
+      spd200HpBuff:
+        text: 速度 ≥ 200時のHPバフ
+        content: ヒアンシーの速度が200を超える時、ヒアンシーと「イカルン」の最大HP+20%。超過した速度1につき、ヒアンシーとイカルンの治癒量+1%、超過した速度は最大200までカウントされる。
+      clearSkies:
+        text: '「雨上がり」状態'
+        content: 必殺技を発動した時、ヒアンシーは「雨上がり」状態になる、3ターン継続。ヒアンシーのターンが回ってくるたびに継続時間-1ターン。ヒアンシーが「雨上がり」状態の時、味方それぞれの最大HP+{{UltHpBuffScaling}}%+{{UltHpBuffFlat}}。
+      healingDmgStacks:
+        text: 治癒時のダメージ増加数
+        content: ヒアンシーまたはイカルンが治癒を行う時、イカルンの与ダメージ+{{TalentDmgBuff}}%、2ターン継続。最大で3層累積できる。
+      e1HpBuff:
+        text: 1凸 HPバフ
+        content: ヒアンシーが「雨上がり」状態の時、味方それぞれの最大HPアップ効果がさらに50%アップする。
+      e2SpdBuff:
+        text: 2凸 速度バフ
+        content: 味方のHPが減った時、速度+30%、2ターン継続。
+      e4CdBuff:
+        text: 4凸 会心ダメバフ
+        content: 軌跡「凪いだ暴風」が強化される。超過した速度1につき、ヒアンシーと「イカルン」の会心ダメージ+2%。
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
+        content: '「イカルン」がフィールド上にいる時、味方全体の全属性耐性貫通+20%。'
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1295,7 +1366,7 @@ Characters:
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
-        text: 1凸 敵持続ダメアップ
+        text: 1凸 敵持続ダメ増加
         content: 天賦効果により追加攻撃を行った時、100%の基礎確率でターゲットの受ける持続ダメージ+30%、2ターン継続。
       e2TeamDotBoost:
         text: 2凸 味方の持続ダメバフ
@@ -1619,7 +1690,7 @@ Characters:
       talentStacks:
         text: 天賦の層数
         content: >-
-          味方がSPを1消費するたびに、味方全体の与ダメージ+{{talentBaseStackBoost}}%、2ターン継続、最大で3層累積できる。:BR::必殺技がさらにSPを1回復する。天賦の最大SPアップ効果がさらに1アップする。
+          味方がSPを1消費するたびに、味方全体の与ダメージ+{{talentBaseStackBoost}}%、2ターン継続、最大で3層累積できる。::BR::2凸：天賦の効果1層につき、味方がダメージを与える時、さらに敵の防御力を8%無視する。
       quantumAlliesAtkBuff:
         text: 量子属性の味方バフ
         content: パーティに量子属性キャラが1名/2名/3名いる時、さらに味方量子属性キャラの攻撃力+5%/15%/30%。

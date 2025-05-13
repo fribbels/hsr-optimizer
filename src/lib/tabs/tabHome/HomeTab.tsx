@@ -2,11 +2,12 @@ import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
 import { Button, Card, Collapse, Divider, Flex, Input, InputRef, Space } from 'antd'
 import i18next from 'i18next'
-import { Languages } from 'lib/i18n/i18n'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db.js'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { Languages } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -14,7 +15,7 @@ import { Trans, useTranslation } from 'react-i18next'
 const headerHeight = 900
 const headerWidth = 1600
 
-export default function HomeTab(): React.JSX.Element {
+export default function HomeTab() {
   const activeKey = window.store((s) => s.activeKey)
 
   if (activeKey != AppPages.HOME) {
@@ -278,7 +279,7 @@ function Header() {
 }
 
 function SearchBar() {
-  const scorerId = window.store((s) => s.scorerId)
+  const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
   const inputRef = useRef<InputRef>(null)
 
@@ -329,7 +330,7 @@ function SearchBar() {
           }}
           allowClear
           size='large'
-          defaultValue={scorerId}
+          defaultValue={scorerId ?? ''}
           onPressEnter={handleSearchSubmit}
         />
       </Space.Compact>

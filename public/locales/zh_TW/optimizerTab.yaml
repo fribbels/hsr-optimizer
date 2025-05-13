@@ -63,6 +63,9 @@ MinMaxFilters:
   ULTLabel: 終結技
   FUALabel: 追加攻擊
   MEMOSKILLLabel: 憶靈戰技
+ComboFilter:
+  ComboOptions:
+    Break: 擊破
 TeammateCard:
   TeammateSyncSuccessMessage: 已同步隊友信息
 StatSimulation:
@@ -81,6 +84,9 @@ ExpandedDataPanel:
       breakDmg: 擊破傷害
       dotDmg: 持續傷害
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "否"
+      BoolTrue: "是"
     Stats:
       CompositeLabels:
         Prefix:

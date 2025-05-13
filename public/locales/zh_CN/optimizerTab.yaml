@@ -318,16 +318,18 @@ SetConditionals:
     Prisoner: 所选的防御穿透%增益将根据叠加层数应用于伤害计算。
     Diver: 选择0层选项可以禁用二件套效果。对于四件套，根据所选选项应用不同的暴击增益于战斗属性计算。
     Watchmaker: 启用后，击破特攻增益将应用于战斗属性计算。
-    Valorous: 暴击率增益默认始终处于开启状态。所选增益将根据叠加层数应用于伤害计算。
+    Valorous: 启用后，终结技伤害的增伤%增益将应用于战斗属性计算。
+    Sacerdos: 所选的增益将应用于伤害计算。能够自我增益的角色可以触发此效果。
+    Scholar: 启用后，战技伤害的增伤%增益将根据角色的连招顺序增强。
+    Hero: 启用后，速度%和暴击伤害增益将应用于战斗属性计算。
     Differentiator: 启用后，暴击率增益将应用于战斗属性计算。
     Penacony: 启用后，伤害%增益将应用于佩戴者的忆灵。
     Sigonia: 假设角色已击败该数量的敌人，所选的暴击伤害增益将应用于战斗属性计算。
     Izumo: 启用后，若队伍中有相同命途的队友，将在战斗属性计算中应用12%暴击率增益。
     Duran: 所选的增益将根据叠加层数应用于伤害计算。
     Kalpagni: 启用后，将击破特攻增益应用于战斗属性计算。
-    Lushaka: 所选的增益将应用于伤害计算。
+    Lushaka: 默认禁用 - 该套装无法影响佩戴者。
     Banana: 所选的增益将应用于伤害计算。
-    Sacerdos: 所选的增益将应用于伤害计算。能够自我增益的角色可以触发此效果。
 Presets:
   SpdValues:
     SPD0: 无最低速度
@@ -426,12 +428,14 @@ ComboFilter:
       Description: 重置所有简易 / 高级循环设置为默认值？
   CounterLabels:
     Dot: 持续伤害数量
-    Break: 击破伤害数量
   ComboOptions:
+    None: '无'
     Basic: 普攻
     Skill: 战技
     Ult: 终结技
     Fua: 追加攻击
+    Dot: 持续
+    Break: 击破
     MemoSkill: 忆灵技
     MemoTalent: 忆灵天赋
   RotationButton: 高级技能循环
@@ -473,6 +477,10 @@ TeammateCard:
       Desc: "四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)"
       Set: "$t(gameData:RelicSets.121.Name)"
       Text: 36%暴伤
+    Warrior:
+      Desc: "$t(gameData:RelicSets.125.Name) (+15%暴击伤害)"
+      Set: "$t(gameData:RelicSets.125.Name)"
+      Text: 15% 爆伤
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) (+10%暴击伤害)"
       Set: "$t(gameData:RelicSets.310.Name)"
@@ -566,6 +574,9 @@ ExpandedDataPanel:
       dotDmg: 持续攻击伤害
       memoDmg: 忆灵伤害
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "否"
+      BoolTrue: "是"
     Sources:
       Basic: 普攻
       Skill: 战技

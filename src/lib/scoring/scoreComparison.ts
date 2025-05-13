@@ -8,7 +8,9 @@ export enum ScoreCategory {
   MODIFIED,
 }
 
-export function getScoreCategory(defaultMeta: ScoringMetadata, customMeta: ScoringMetadata) {
+type Metadata = Pick<ScoringMetadata, 'stats' | 'modified'>
+
+export function getScoreCategory(defaultMeta: Metadata, customMeta: Metadata) {
   let difference = false
   let nonSpdMatches = true
   let spdDiff = false
@@ -31,7 +33,7 @@ export function getScoreCategory(defaultMeta: ScoringMetadata, customMeta: Scori
   return ScoreCategory.DEFAULT
 }
 
-export function setModifiedScoringMetadata(defaultMeta: ScoringMetadata, customMeta: ScoringMetadata) {
+export function setModifiedScoringMetadata(defaultMeta: Metadata, customMeta: Metadata) {
   customMeta.modified = false
   for (const stat of SubStats) {
     if (nullUndefinedToZero(customMeta.stats[stat]) != nullUndefinedToZero(defaultMeta.stats[stat])) {

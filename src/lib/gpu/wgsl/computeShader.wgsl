@@ -155,6 +155,9 @@ fn main(
     sets.ScholarLostInErudition              = i32((1 >> (setH ^ 21)) + (1 >> (setG ^ 21)) + (1 >> (setB ^ 21)) + (1 >> (setF ^ 21)));
     sets.HeroOfTriumphantSong                = i32((1 >> (setH ^ 22)) + (1 >> (setG ^ 22)) + (1 >> (setB ^ 22)) + (1 >> (setF ^ 22)));
     sets.PoetOfMourningCollapse              = i32((1 >> (setH ^ 23)) + (1 >> (setG ^ 23)) + (1 >> (setB ^ 23)) + (1 >> (setF ^ 23)));
+    sets.WarriorGoddessOfSunAndThunder       = i32((1 >> (setH ^ 24)) + (1 >> (setG ^ 24)) + (1 >> (setB ^ 24)) + (1 >> (setF ^ 24)));
+    sets.WavestriderCaptain                  = i32((1 >> (setH ^ 25)) + (1 >> (setG ^ 25)) + (1 >> (setB ^ 25)) + (1 >> (setF ^ 25)));
+
 
     // Calculate ornament set counts
 
@@ -238,7 +241,8 @@ fn main(
       0.06 * p4(sets.MusketeerOfWildWheat) +
       0.06 * p2(sets.SacerdosRelivedOrdeal) -
       0.08 * p4(sets.PoetOfMourningCollapse) +
-      0.06 * p2(sets.GiantTreeOfRaptBrooding)
+      0.06 * p2(sets.GiantTreeOfRaptBrooding) +
+      0.06 * p2(sets.WarriorGoddessOfSunAndThunder)
     );
 
     c.HP += (baseHP) * (
@@ -273,7 +277,8 @@ fn main(
 
     c.CD += (
       0.16 * p2(sets.CelestialDifferentiator) +
-      0.16 * p2(sets.TheWondrousBananAmusementPark)
+      0.16 * p2(sets.TheWondrousBananAmusementPark) +
+      0.16 * p2(sets.WavestriderCaptain)
     );
 
     c.EHR += (
@@ -352,6 +357,9 @@ fn main(
         x.CD += 0.30;
         m.CD += 0.30;
       }
+      if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
+        x.SPD_P += 0.06;
+      }
 
       // ATK
 
@@ -363,6 +371,9 @@ fn main(
       }
       if (p4(sets.TheAshblazingGrandDuke) >= 1) {
         x.ATK_P += 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
+      }
+      if (p4(sets.WavestriderCaptain) >= 1 && setConditionals.enabledWavestriderCaptain == true) {
+        x.ATK_P += 0.48;
       }
 
       // DEF
@@ -392,6 +403,10 @@ fn main(
       if (p4(sets.SacerdosRelivedOrdeal) >= 1) {
         x.CD += 0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal);
       }
+      if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
+        x.CD += 0.15;
+        m.CD += 0.15;
+      }
 
       // CR
 
@@ -408,7 +423,7 @@ fn main(
         x.CR += 0.12;
       }
       if (p4(sets.PoetOfMourningCollapse) >= 1) {
-        let crValue = select(0, 0.20, c.SPD < 110) + select(0, 0.12, c.SPD < 95);
+        let crValue = select(0.0, 0.20, c.SPD < 110) + select(0.0, 0.12, c.SPD < 95);
         x.CR += crValue;
         m.CR += crValue;
       }
@@ -562,7 +577,7 @@ fn main(
 
       if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
         buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
-        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0, 0.15, x.BE >= 2.50), 1);
+        buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0.0, 0.15, x.BE >= 2.50), 1);
       }
 
       // START ACTION CONDITIONALS
@@ -590,13 +605,17 @@ fn main(
           combo += x.ULT_DMG;
         } else if (action.abilityType == FUA_ABILITY_TYPE) {
           combo += x.FUA_DMG;
+        } else if (action.abilityType == DOT_ABILITY_TYPE) {
+          combo += x.DOT_DMG * comboDot / max(1, dotAbilities);
+        } else if (action.abilityType == BREAK_ABILITY_TYPE) {
+          combo += x.BREAK_DMG;
         } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
           combo += x.MEMO_SKILL_DMG;
         } else if (action.abilityType == MEMO_TALENT_ABILITY_TYPE) {
           combo += x.MEMO_TALENT_DMG;
         }
       } else {
-        x.COMBO_DMG = combo + comboDot * x.DOT_DMG + comboBreak * x.BREAK_DMG;
+        x.COMBO_DMG = combo + x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
 
         // START COMBAT STAT FILTERS
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -673,40 +692,42 @@ fn calculateDamage(
     * (0.10f);
 
   if (actionIndex == 0) {
-    /* START DOT CALC */
-    let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
-    let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
-    let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
-    let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
-    let dotEhrMulti = calculateEhrMulti(p_x);
-    let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
-    let initialDmg = calculateInitial(
-      p_x,
-      x.DOT_DMG,
-      x.DOT_HP_SCALING,
-      x.DOT_DEF_SCALING,
-      x.DOT_ATK_SCALING,
-      x.DOT_ATK_P_BOOST
-    );
+    if (dotAbilities == 0) {
+      // Duplicated in injectActionDamage.ts
 
-    if (initialDmg > 0) {
-      (*p_x).DOT_DMG = initialDmg
-        * (baseUniversalMulti)
-        * (dotDmgBoostMulti)
-        * (dotDefMulti)
-        * (dotVulnerabilityMulti)
-        * (dotResMulti)
-        * (dotEhrMulti)
-        * (dotTrueDmgMulti);
+      let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
+      let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
+      let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
+      let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
+      let dotEhrMulti = calculateEhrMulti(p_x);
+      let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+      let initialDmg = calculateInitial(
+        p_x,
+        x.DOT_DMG,
+        x.DOT_HP_SCALING,
+        x.DOT_DEF_SCALING,
+        x.DOT_ATK_SCALING,
+        x.DOT_ATK_P_BOOST
+      );
+
+      if (initialDmg > 0) {
+        (*p_x).DOT_DMG = initialDmg // When no DOT abilities specified, use the default
+          * (baseUniversalMulti)
+          * (dotDmgBoostMulti)
+          * (dotDefMulti)
+          * (dotVulnerabilityMulti)
+          * (dotResMulti)
+          * (dotEhrMulti)
+          * (dotTrueDmgMulti);
+      }
     }
-    /* END DOT CALC */
 
     if (x.HEAL_VALUE > 0) {
       (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
         1
         + x.OHB
-        + select(0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
-        + select(0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
+        + select(0.0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
+        + select(0.0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
       );
     }
 
@@ -755,7 +776,7 @@ fn calculateEhrMulti(
   let dotEhrMulti = select(
     (effectiveDotChance),
     (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + x.DOT_SPLIT * (x.DOT_STACKS - 1)),
-    x.DOT_SPLIT > 0
+    x.DOT_SPLIT > 0.0
   );
 
   return dotEhrMulti;
@@ -831,8 +852,8 @@ fn calculateAbilityDmg(
 
   var abilityAdditionalDmgOutput: f32 = 0;
   if (abilityAdditionalDmg > 0) {
-    let additionalDmgCr = select(min(1, x.CR), abilityAdditionalCrOverride, abilityAdditionalCrOverride > 0);
-    let additionalDmgCd = select(x.CD, abilityAdditionalCdOverride, abilityAdditionalCdOverride > 0);
+    let additionalDmgCr = select(min(1, x.CR), abilityAdditionalCrOverride, abilityAdditionalCrOverride > 0.0);
+    let additionalDmgCd = select(x.CD, abilityAdditionalCdOverride, abilityAdditionalCdOverride > 0.0);
     let abilityAdditionalCritMulti = additionalDmgCr * (1 + additionalDmgCd) + (1 - additionalDmgCr);
     abilityAdditionalDmgOutput = abilityAdditionalDmg
       * (baseUniversalMulti)

@@ -2,10 +2,13 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
 import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
+import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { applyMetadataPresetToForm } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { applyMetadataPresetToForm, applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ConditionalValueMap } from 'types/conditionals'
@@ -225,7 +228,7 @@ export function formToDisplay(form: Form) {
     // Apply any presets to new characters
     if (metadata && scoringMetadata) {
       for (const preset of scoringMetadata.presets || []) {
-        preset.apply(newForm as Form)
+        applyPreset(newForm as Form, preset)
       }
 
       newForm.mainBody = scoringMetadata.parts[Constants.Parts.Body]
@@ -280,8 +283,10 @@ export function formToDisplay(form: Form) {
     newForm.weights = getDefaultWeights()
   }
 
-  if (!newForm.resultSort) {
-    if (metadata) {
+  if (!newForm.resultSort && metadata) {
+    if (metadata.scoringMetadata.simulation) {
+      newForm.resultSort = SortOption.COMBO.key
+    } else {
       newForm.resultSort = metadata.scoringMetadata.sortOption.key
     }
   }
@@ -298,15 +303,18 @@ export function formToDisplay(form: Form) {
     newForm.comboStateJson = '{}'
   }
 
-  if (!newForm.comboAbilities && metadata) {
+  if (!newForm.comboPreprocessor) {
+    newForm.comboPreprocessor = true
+  }
+
+  if (!newForm.comboTurnAbilities && metadata) {
     const simulation = metadata.scoringMetadata?.simulation
-    newForm.comboAbilities = simulation?.comboAbilities ?? [null, 'BASIC'] as string[]
+    newForm.comboTurnAbilities = simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
     newForm.comboDot = simulation?.comboDot ?? 0
-    newForm.comboBreak = simulation?.comboBreak ?? 0
   }
 
   if (!newForm.comboType) {
-    newForm.comboType = 'simple'
+    newForm.comboType = ComboType.SIMPLE
   }
 
   for (const [key, value] of Object.entries(newForm.setConditionals)) {

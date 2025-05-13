@@ -1,6 +1,6 @@
 import { Constants, Parts, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, setToId, Stats } from 'lib/constants/constants'
-import { Languages } from 'lib/i18n/i18n'
 import { BASE_PATH } from 'lib/state/db'
+import { Languages } from 'lib/utils/i18nUtils'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 // const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
@@ -53,12 +53,12 @@ export const Assets = {
 
     return getImageUrl(`/image/character_portrait/${id}.webp`)
   },
-  getCharacterAvatarById: (id: string) => {
+  getCharacterAvatarById: (id?: string | null) => {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/icon/avatar/${id}.webp`)
   },
-  getCharacterPreviewById: (id: string) => {
+  getCharacterPreviewById: (id?: string) => {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/image/character_preview/${id}.webp`)
@@ -73,8 +73,8 @@ export const Assets = {
     return getImageUrl(`/image/light_cone_portrait/${lightConeId}.webp`)
   },
 
-  getLightConeIconById: (lightConeId: string) => {
-    if (!lightConeId) return Assets.getBlank()
+  getLightConeIconById: (lightConeId?: string) => {
+    if (!lightConeId) return Assets.getBlankLightCone()
     return getImageUrl(`/icon/light_cone/${lightConeId}.webp`)
   },
   getPath: (path: string) => {
@@ -126,6 +126,9 @@ export const Assets = {
   getScoreNoSpeed: () => {
     return getImageUrl('/misc/noSpdScore.webp')
   },
+  getBlankLightCone: () => {
+    return getImageUrl('/misc/blankLightCone.webp')
+  },
   getPart: (part: string) => {
     const mapping: Record<Parts, string> = {
       [Parts.Head]: 'partHead',
@@ -144,7 +147,7 @@ export const Assets = {
   },
 
   getSetImage: (set: string | number, part: string = Constants.Parts.PlanarSphere, actualIcon: boolean = false) => {
-    if (set == -1) {
+    if (!set) {
       return Assets.getBlank()
     }
 

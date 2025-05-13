@@ -302,16 +302,18 @@ SetConditionals:
     Prisoner: 選択した防御力無視バフは、層数に基づいて計算に適用されます。
     Diver: 2セットバフは0層のオプションを選択することで無効化できます。4セットの場合、選択したオプションに応じて、計算に異なる会心バフが適用されます。
     Watchmaker: このオプションが有効になった場合、計算に撃破特効バフが適用されます。
-    Valorous: 会心率バフは常に有効です。選択したバフは層数に応じて計算に適用されます。
+    Valorous: このオプションが有効になった場合、計算に必殺技ダメージバフが適用されます。
+    Sacerdos: 選択されたバフは計算に適用されます。自身をバフするキャラクターはこの効果を発揮できます。
+    Scholar: このオプションが有効になった場合、戦闘スキルダメージバフがキャラクターのコンボの順序に応じて計算に適用されます。
+    Hero: このオプションが有効になった場合、計算に会心ダメージバフと速度バフが適用されます。
     Differentiator: このオプションが有効になった場合、計算に会心率バフが適用されます。
     Penacony: このオプションが有効になった場合、与ダメージバフが装備者の召喚した精霊に対し適用されます。
     Sigonia: 選択した会心ダメージバフは既に指定された数の敵を倒したと想定して計算に適用されます。
     Izumo: このオプションが有効になった場合、同じ運命をたどる味方がいるとき、12%の会心率バフが計算に適用されます。
     Duran: 選択したバフは、層数に基づいて計算に適用されます。
     Kalpagni: このオプションが有効になった場合、計算に撃破特効バフが適用されます。
-    Lushaka: 選択したバフは計算に適用されます。
+    Lushaka: デフォルトで無効 - このセットは装備キャラに影響を与えません。
     Banana: 選択したバフは計算に適用されます。
-    Sacerdos: 選択されたバフは計算に適用されます。自身をバフするキャラクターはこの効果を発揮できます。
 Presets:
   SpdValues:
     SPD0: 速度の指定なし
@@ -410,12 +412,14 @@ ComboFilter:
       Description: すべてのシンプル・高度なスキル回しの設定をデフォルトに戻しますか？
   CounterLabels:
     Dot: 持続
-    Break: 撃破
   ComboOptions:
+    None: 'なし'
     Basic: 基礎
     Skill: スキル
     Ult: 必殺
     Fua: 追加
+    Dot: 持続
+    Break: 撃破
     MemoSkill: 精霊スキル
     MemoTalent: 精霊天賦
   RotationButton: 高度なスキル回しの設定
@@ -457,6 +461,10 @@ TeammateCard:
       Desc: "4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+36%）"
       Set: "$t(gameData:RelicSets.121.Name)"
       Text: 会心ダメ36%
+    Warrior:
+      Desc: "$t(gameData:RelicSets.125.Name) （会心ダメージ+15%）"
+      Set: "$t(gameData:RelicSets.125.Name)"
+      Text: 会心ダメ15%
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) （会心ダメージ+10%）"
       Set: "$t(gameData:RelicSets.310.Name)"
@@ -550,6 +558,9 @@ ExpandedDataPanel:
       dotDmg: 持続ダメージ
       memoDmg: 精霊ダメージ
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "いいえ"
+      BoolTrue: "はい"
     Sources:
       Basic: 通常
       Skill: スキル
@@ -564,18 +575,90 @@ ExpandedDataPanel:
       E6: 6凸
     Stats:
       CompositeLabels:
+        Label: "{{prefix}}　{{suffix}}"
         Prefix:
-          Basic: 基礎
-          Skill: スキル
-          Ult: 必殺
-          Fua: 追加
-          Dot: 持続
-          Break: 撃破
+          Basic: 通常攻撃　
+          Skill: 戦闘スキル
+          Ult: 必殺技攻撃
+          Fua: 追加攻撃　
+          Dot: 持続攻撃　
+          Break: 撃破攻撃　
+          Memo Skill: 精霊スキル
+          Memo Talent: 精霊天賦　
         Suffix:
-          DMG boost: ダメバフ
-          DEF PEN: 防御力ダウン
+          ATK scaling: 攻撃力倍率
+          DEF scaling: 防御力倍率
+          HP scaling: HP倍率
+          Special scaling: 特殊倍率
+          "ATK % boost": 攻撃力割合増加
+          Crit Rate boost: 会心率増加
+          Crit DMG boost: 会心ダメージ増加
+          DMG boost: ダメージバフ
+          Vulnerability: 敵被ダメージ増加
+          RES PEN: 耐性貫通
+          DEF PEN: 防御力無視
+          Break DEF PEN: 撃破後防御力無視
+          Toughness DMG: 削靭値
+          Super Break multiplier: 超撃破倍率
+          Break Efficiency boost: 弱点撃破効率増加
+          True DMG multiplier: 確定ダメージ倍率
+          Final DMG multiplier: 最終ダメージ倍率
+          Break DMG multiplier: 撃破ダメージ倍率
+          Additional DMG scaling: 付加ダメージ倍率
           Additional DMG: 付加ダメージ
           DMG: ダメージ
       Misc:
+        Base HP: 基礎 HP
+        Base ATK: 基礎攻撃力
+        Base DEF: 基礎防御力
+        Base SPD: 基礎速度
+        Memosprite base HP scaling: 精霊基礎 HP 倍率
+        Memosprite base DEF scaling: 精霊基礎防御力倍率
+        Memosprite base ATK scaling: 精霊基礎攻撃力倍率
+        Memosprite base SPD scaling: 精霊基礎速度倍率
+        Memosprite base HP flat: 精霊基礎 HP 値
+        Memosprite base DEF flat: 精霊基礎防御力値
+        Memosprite base ATK flat: 精霊基礎攻撃力値
+        Memosprite base SPD flat: 精霊基礎速度値
+        Elemental DMG: 属性ダメージ
+        DMG reduction: ダメージ軽減
+        Effective HP: EHP
+        Summons: 召喚数
         Memosprite: 記憶の精霊
+        Enemy weakness broken: 敵弱点撃破状態
+        Prioritize memosprite buffs: 精霊へバフを優先
+        Deprioritize buffs: バフの優先度を下げる
         Combo DMG: コンボダメージ
+        Dot base chance: 持続デバフ付与基礎確率
+        Effect RES PEN: 属性耐性貫通
+        Dot DMG split: 持続デバフ分散
+        Dot stacks: 持続デバフ層数
+        Heal ability type: 治癒アビリティの種類
+        Heal flat: 治癒量値
+        Heal scaling: 治癒量倍率
+        Heal value: 治癒量
+        Shield flat: シールド量値
+        Shield scaling: シールド量倍率
+        Shield value: シールド量
+        Shield boost: シールド量増加
+        Skill Outgoing Healing Boost: スキル治癒量増加
+        Ult Outgoing Healing Boost: 必殺技治癒量増加
+        Super Break DEF PEN: 超撃破時の防御力無視
+        Super Break DMG Boost: 超撃破時のダメージ増加
+        Super Break Vulnerability: 超撃破時の敵被ダメージ増加
+        Additional DMG boost: 付加ダメージ増加
+        Ult Additional DMG CR override: 必殺技付加ダメージ（会心率無視）
+        Ult Additional DMG CD override: 必殺技付加ダメージ（会心ダメージ無視）
+      DmgTypes:
+        Basic: 通常攻撃ダメージの種類
+        Skill: スキルダメージの種類
+        Ult: 必殺技ダメージの種類
+        Fua: 追加攻撃の種類
+        Dot: 持続ダメージの種類
+        Break: 撃破特効の種類
+        MemoSkill: 精霊スキルダメージの種類
+        MemoTalent: 精霊天賦ダメージの種類
+        Additional: 付加ダメージの種類
+        SuperBreak: 超撃破ダメージの種類
+      ResPen: "$t(common:Elements.{{element}})耐性貫通"
+      Unconvertible: "変換不能な$t(common:Stats.{{stat}})"

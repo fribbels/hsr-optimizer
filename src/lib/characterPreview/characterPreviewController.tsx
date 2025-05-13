@@ -1,30 +1,33 @@
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts, SIMULATION_SCORE } from 'lib/constants/constants'
+import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts } from 'lib/constants/constants'
 import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
-import { scoreCharacterSimulation } from 'lib/scoring/characterScorer'
-import { AppPages, DB } from 'lib/state/db'
+import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { filterNonNull } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
-import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter, ShowcaseTemporaryOptions } from 'types/metadata'
+import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
-  characterId: string
+  characterId: CharacterId
   characterMetadata: DBMetadataCharacter
   characterElement: string
   characterLevel: number
@@ -62,7 +65,8 @@ export type ScoringResults = {
 export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Record<string, Relic>) {
   let scoringResults: ScoringResults
   let displayRelics: SingleRelicByPart
-  if (source == ShowcaseSource.CHARACTER_TAB) {
+  // Showcase tab relics are stored in equipped as relics instead of ids
+  if (source !== ShowcaseSource.SHOWCASE_TAB) {
     scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
       Head: getRelic(relicsById, character, Parts.Head)!,
@@ -73,7 +77,6 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
       LinkRope: getRelic(relicsById, character, Parts.LinkRope)!,
     }
   } else {
-    // Showcase tab relics are stored in equipped as relics instead of ids
     const equipped = character.equipped as unknown as SingleRelicByPart
     const relicsArray = Object.values(equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
@@ -97,9 +100,14 @@ function getRelic(relicsById: Record<string, Relic>, character: Character, part:
   return null
 }
 
-export function showcaseIsInactive(source: ShowcaseSource, activeKey: string) {
-  return source == ShowcaseSource.SHOWCASE_TAB && activeKey != AppPages.SHOWCASE
-    || source != ShowcaseSource.SHOWCASE_TAB && activeKey != AppPages.CHARACTERS
+export function resolveScoringType(storedScoringType: ScoringType, asyncSimScoringExecution: AsyncSimScoringExecution) {
+  if (storedScoringType == ScoringType.NONE || storedScoringType == ScoringType.SUBSTAT_SCORE) {
+    return storedScoringType
+  }
+  if (storedScoringType == ScoringType.COMBAT_SCORE && asyncSimScoringExecution.promise != null) {
+    return storedScoringType
+  }
+  return ScoringType.SUBSTAT_SCORE
 }
 
 export function getArtistName(character: Character) {
@@ -114,8 +122,8 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
   const newLcMargin = 8
   const newLcHeight = 128
 
-  // Some APIs return empty light cone as '0'
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
+  // @ts-ignore Some APIs return empty light cone as '0'
   const lcCenter = (character.form.lightCone && character.form.lightCone != '0')
     ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
     : 0
@@ -157,7 +165,9 @@ export function getShowcaseStats(
 ) {
   const statCalculationRelics = TsUtils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
-  const x = calculateBuild(OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form)), statCalculationRelics, null, null, null)
+  const form = OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form))
+  const context = generateContext(form)
+  const x = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null, null)
   const basicStats = x.c.toBasicStatsObject()
   const finalStats: BasicStatsObject = {
     ...basicStats,
@@ -166,31 +176,6 @@ export function getShowcaseStats(
   finalStats[showcaseMetadata.elementalDmgType] = finalStats.ELEMENTAL_DMG
 
   return finalStats
-}
-
-export function getShowcaseSimScoringResult(
-  character: Character,
-  displayRelics: SingleRelicByPart,
-  scoringType: string,
-  teamSelection: string,
-  showcaseMetadata: ShowcaseMetadata,
-  showcaseTemporaryOptions: Record<string, ShowcaseTemporaryOptions>,
-) {
-  if (scoringType != SIMULATION_SCORE) {
-    return null
-  }
-
-  const characterShowcaseTemporaryOptions = showcaseTemporaryOptions[character.id] ?? {}
-  let simScoringResult = scoreCharacterSimulation(character, displayRelics, teamSelection, characterShowcaseTemporaryOptions)
-
-  if (!simScoringResult?.originalSim) {
-    simScoringResult = null
-  } else {
-    // Fix elemental damage
-    simScoringResult.originalSimResult[showcaseMetadata.elementalDmgType] = simScoringResult.originalSimResult.ELEMENTAL_DMG
-  }
-
-  return simScoringResult
 }
 
 export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic | undefined, setSelectedRelic: (r: Relic) => void) {

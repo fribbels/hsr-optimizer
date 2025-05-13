@@ -1,32 +1,33 @@
 import { SettingOutlined, SwapOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Card, ConfigProvider, Flex, Segmented } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
+import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardCombatStats'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
-import { CharacterCardCombatStats, CharacterCardScoringStatUpgrades } from 'lib/characterPreview/CharacterScoringSummary'
 import StatText from 'lib/characterPreview/StatText'
-import { COMBAT_STATS, CUSTOM_TEAM, DAMAGE_UPGRADES, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
+import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
+import { CUSTOM_TEAM, DEFAULT_TEAM, SETTINGS_TEAM } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
-import { getSimScoreGrade } from 'lib/scoring/characterScorer'
+import { AsyncSimScoringExecution, getSimScoreGrade } from 'lib/scoring/dpsScore'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { CSSProperties, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 
 export function ShowcaseDpsScorePanel(props: {
-  characterId: string
+  characterId: CharacterId
   token: GlobalToken
-  simScoringResult: SimulationScore
+  asyncSimScoringExecution: AsyncSimScoringExecution
   teamSelection: string
-  combatScoreDetails: string
   displayRelics: SingleRelicByPart
   setTeamSelectionByCharacter: (t: Record<string, string>) => void
   setRedrawTeammates: (n: number) => void
@@ -34,9 +35,8 @@ export function ShowcaseDpsScorePanel(props: {
   const {
     characterId,
     token,
-    simScoringResult,
+    asyncSimScoringExecution,
     teamSelection,
-    combatScoreDetails,
     displayRelics,
     setTeamSelectionByCharacter,
     setRedrawTeammates,
@@ -45,6 +45,21 @@ export function ShowcaseDpsScorePanel(props: {
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
+  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+
+  if (!simScoringExecution?.done) {
+    return (
+      <span
+        style={{
+          filter: 'blur(20px)',
+          minHeight: 157,
+        }}
+      >
+      </span>
+    )
+  }
+
+  const result = simScoringExecution?.result!
 
   return (
     <Flex
@@ -53,7 +68,7 @@ export function ShowcaseDpsScorePanel(props: {
       <Flex justify='space-around' style={{ padding: '0 5px' }}>
         <CharacterPreviewScoringTeammate
           index={0}
-          result={simScoringResult}
+          result={result}
           token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -61,7 +76,7 @@ export function ShowcaseDpsScorePanel(props: {
         />
         <CharacterPreviewScoringTeammate
           index={1}
-          result={simScoringResult}
+          result={result}
           token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -69,7 +84,7 @@ export function ShowcaseDpsScorePanel(props: {
         />
         <CharacterPreviewScoringTeammate
           index={2}
-          result={simScoringResult}
+          result={result}
           token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -92,34 +107,32 @@ export function ShowcaseDpsScorePanel(props: {
 }
 
 export function ShowcaseCombatScoreDetailsFooter(props: {
-  combatScoreDetails: string
-  simScoringResult: SimulationScore
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
 }) {
   const {
-    combatScoreDetails,
-    simScoringResult,
+    asyncSimScoringExecution,
   } = props
 
-  return (
-    <>
-      {
-        combatScoreDetails == DAMAGE_UPGRADES
-        && (
-          <Flex vertical gap={defaultGap}>
-            <CharacterCardScoringStatUpgrades result={simScoringResult}/>
-          </Flex>
-        )
-      }
+  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
-      {
-        combatScoreDetails == COMBAT_STATS
-        && (
-          <Flex vertical gap={defaultGap}>
-            <CharacterCardCombatStats result={simScoringResult}/>
-          </Flex>
-        )
-      }
-    </>
+  if (!simScoringExecution?.done) {
+    return (
+      <span
+        style={{
+          filter: 'blur(2px)',
+          minHeight: 182,
+        }}
+      >
+      </span>
+    )
+  }
+
+  const result = simScoringExecution.result!
+
+  return (
+    <Flex vertical gap={defaultGap}>
+      <CharacterCardCombatStats result={result}/>
+    </Flex>
   )
 }
 
@@ -179,13 +192,14 @@ function CharacterPreviewScoringTeammate(props: {
 
 export function ShowcaseDpsScoreHeader(props: {
   relics: SingleRelicByPart
-  result: SimulationScore
+  asyncSimScoringExecution: AsyncSimScoringExecution
 }) {
+  const { relics, asyncSimScoringExecution } = props
   const { t } = useTranslation(['charactersTab'])
+  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
-  const result = props.result
-  const verified = Object.values(props.relics).filter((x) => x?.verified).length == 6
-  const numRelics = Object.values(props.relics).filter((x) => !!x).length
+  const verified = Object.values(relics).filter((x) => x?.verified).length == 6
+  const numRelics = Object.values(relics).filter((x) => !!x).length
 
   const textStyle: CSSProperties = {
     fontSize: 17,
@@ -196,11 +210,11 @@ export function ShowcaseDpsScoreHeader(props: {
     whiteSpace: 'nowrap',
   }
 
-  const lightCone = !!result.simulationForm.lightCone
+  const lightCone = !!simScoringExecution?.result?.simulationForm.lightCone
 
-  const titleRender = result.spdBenchmark == null
+  const titleRender = simScoringExecution?.result?.spdBenchmark == null
     ? t('CharacterPreview.ScoreHeader.Title') // Combat Sim
-    : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(result.spdBenchmark) }) // Benchmark vs {{spd}} SPD
+    : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(simScoringExecution?.result?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
 
   const textDisplay = (
     <Flex align='center' vertical style={{ marginBottom: 6, paddingTop: 3, paddingBottom: 3 }}>
@@ -209,13 +223,15 @@ export function ShowcaseDpsScoreHeader(props: {
       </StatText>
       <StatText style={textStyle}>
         {
-          t(
-            'CharacterPreview.ScoreHeader.Score',
-            {
-              score: localeNumber_0(Utils.truncate10ths(Math.max(0, result.percent * 100))),
-              grade: getSimScoreGrade(result.percent, verified, numRelics, lightCone),
-            },
-          )
+          !simScoringExecution?.done
+            ? 'DPS Score Loading...'
+            : t(
+              'CharacterPreview.ScoreHeader.Score',
+              {
+                score: localeNumber_0(Utils.truncate10ths(Math.max(0, (simScoringExecution?.result?.percent ?? 0) * 100))),
+                grade: getSimScoreGrade(simScoringExecution?.result?.percent ?? 0, verified, numRelics, lightCone),
+              },
+            )
           /* DPS Score {{score}}% {{grade}} */
         }
       </StatText>
@@ -223,7 +239,7 @@ export function ShowcaseDpsScoreHeader(props: {
   )
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ filter: !simScoringExecution?.done ? 'blur(2px)' : 'none' }}>
       {textDisplay}
     </Flex>
   )
@@ -234,7 +250,7 @@ function formatSpd(n: number) {
 }
 
 function ShowcaseTeamSelectPanel(props: {
-  characterId: string
+  characterId: CharacterId
   teamSelection: string
   selectedTeammateIndex: number
   characterModalInitialCharacter: Character | undefined
@@ -263,11 +279,11 @@ function ShowcaseTeamSelectPanel(props: {
       return Message.error(t('CharacterPreview.Messages.NoSelectedCharacter')/* No selected character */)
     }
     if (!form.lightCone) {
-      return Message.error(t('CharacterPreview.Messages.NoSelectedCharacter')/* No selected character */)
+      return Message.error(t('CharacterPreview.Messages.NoSelectedLightCone')/* No Selected light cone */)
     }
 
-    const scoringMetadata = Utils.clone(DB.getScoringMetadata(characterId))
-    const simulation = scoringMetadata.simulation
+    const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+    const simulation = scoringMetadata.simulation!
 
     simulation.teammates[selectedTeammateIndex] = form
 
@@ -293,8 +309,8 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     icon={<SyncOutlined/>}
                     onClick={() => {
-                      const characterMetadata = Utils.clone(DB.getMetadata().characters[characterId])
-                      const simulation = characterMetadata.scoringMetadata.simulation
+                      const characterMetadata = TsUtils.clone(DB.getMetadata().characters[characterId])
+                      const simulation = characterMetadata.scoringMetadata.simulation!
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
 
@@ -309,8 +325,8 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     icon={<SwapOutlined/>}
                     onClick={() => {
-                      const characterMetadata = Utils.clone(DB.getScoringMetadata(characterId))
-                      const simulation = characterMetadata.simulation
+                      const characterMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+                      const simulation = characterMetadata.simulation!
 
                       for (const teammate of simulation.teammates) {
                         const form = DB.getCharacterById(teammate.characterId)?.form

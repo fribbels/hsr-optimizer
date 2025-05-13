@@ -101,7 +101,8 @@ interface Resources {
         "AddedRelic": "Successfully added relic",
         "SavedPortrait": "Successfully saved portrait",
         "RevertedPortrait": "Successfully reverted portrait",
-        "NoSelectedCharacter": "No selected character"
+        "NoSelectedCharacter": "No selected character",
+        "NoSelectedLightCone": "No Selected light cone"
       },
       "ScoreHeader": {
         "Title": "Combat Sim",
@@ -118,11 +119,9 @@ interface Resources {
         }
       },
       "DetailsSlider": {
-        "Title": "Combat score details:",
         "Labels": {
           "CombatStats": "Combat Stats",
-          "SubDpsCombatStats": "Combat Stats (Sub DPS)",
-          "DMGUpgrades": "Damage Upgrades"
+          "SubDpsCombatStats": "Combat Stats (Sub DPS)"
         }
       },
       "DMGUpgrades": "Damage Upgrades",
@@ -445,8 +444,7 @@ interface Resources {
         "Skill": "Healing ability: Skill",
         "Ult": "Healing ability: Ult",
         "Talent": "Healing ability: Talent",
-        "Trace": "Healing ability: Trace",
-        "MemoTalent": "Healing ability: Talentᴹ"
+        "Trace": "Healing ability: Trace"
       },
       "ShieldAbility": {
         "Text": "Shielding ability",
@@ -477,8 +475,8 @@ interface Resources {
       },
       "AnInstantBeforeAGaze": {
         "Content": {
-          "maxEnergyUltDmgStacks": {
-            "text": "Max energy",
+          "maxEnergyDmgBoost": {
+            "text": "Max energy DMG boost",
             "content": "When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to 180 points of Energy."
           }
         }
@@ -671,6 +669,20 @@ interface Resources {
           }
         }
       },
+      "LiesAflutterInTheWind": {
+        "Content": {
+          "defPen": {
+            "text": "DEF PEN",
+            "content": "After the wearer uses an attack, there is a 120% base chance to inflict the \"Bamboozle\" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the \"Theft\" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns."
+          }
+        },
+        "TeammateContent": {
+          "additionalDefPen": {
+            "text": "SPD > 170",
+            "content": "After the wearer uses an attack, there is a 120% base chance to inflict the \"Bamboozle\" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the \"Theft\" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns."
+          }
+        }
+      },
       "LifeShouldBeCastToFlames": {
         "Content": {
           "dmgBoost": {
@@ -696,6 +708,14 @@ interface Resources {
           "deathFlower": {
             "text": "Death Flower DEF PEN",
             "content": "When the wearer or their memosprite loses HP during their own turn, the wearer gains \"Death Flower,\" which allows the wearer and their memosprite to ignore {{DefIgnore}}% of the target's DEF when dealing DMG, lasting for 2 turns."
+          }
+        }
+      },
+      "MayRainbowsRemainInTheSky": {
+        "Content": {
+          "vulnerability": {
+            "text": "Vulnerability",
+            "content": "When the wearer's memosprite uses Memosprite Skill, increases the DMG taken by all enemies by {{Vulnerability}}% for 2 turns. The same types of effects cannot stack."
           }
         }
       },
@@ -1757,6 +1777,42 @@ interface Resources {
           }
         }
       },
+      "Cipher": {
+        "Content": {
+          "vulnerability": {
+            "text": "Team Vulnerability",
+            "content": "When Cipher is on the battlefield, DMG received by all enemy targets increases by 40%."
+          },
+          "skillAtkBuff": {
+            "text": "Skill ATK buff",
+            "content": "When using skill, there is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turns."
+          },
+          "fuaCdBoost": {
+            "text": "Fua CD boost",
+            "content": "Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%."
+          },
+          "spdBasedBuffs": {
+            "text": "SPD based buffs",
+            "content": "When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%."
+          },
+          "e1AtkBuff": {
+            "text": "E1 ATK buff",
+            "content": "When using a Follow-up ATK caused by her Talent, increases Cipher's ATK by 80% for 2 turns."
+          },
+          "e2Vulnerability": {
+            "text": "E2 vulnerability",
+            "content": "When Cipher hits an enemy target, there is a 120% base chance of causing them to receive 30% more DMG, lasting 2 turns."
+          },
+          "e4AdditionalDmg": {
+            "text": "E4 Additional DMG",
+            "content": "After \"Patron\" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it."
+          },
+          "e6FuaDmg": {
+            "text": "E6 Fua DMG",
+            "content": "Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%."
+          }
+        }
+      },
       "Clara": {
         "Content": {
           "ultBuff": {
@@ -2100,6 +2156,46 @@ interface Resources {
           "e6DmgBuff": {
             "text": "E6 DMG buff",
             "content": "When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns."
+          }
+        }
+      },
+      "Hyacine": {
+        "Content": {
+          "healTargetHp50": {
+            "text": "Heal target ≤ 50% HP",
+            "content": "When providing healing to an ally target with less than or equal to 50% this unit's Max HP, increases Hyacine and Little Ica's Outgoing Healing by 25%."
+          },
+          "resBuff": {
+            "text": "Effect RES buff",
+            "content": "Increases Hyacine's Effect RES by 50%."
+          },
+          "spd200HpBuff": {
+            "text": "SPD ≥ 200 HP buff",
+            "content": "When Hyacine's SPD exceeds 200, increases her and Little Ica's Max HP by 20%. Then, for every 1 excess SPD, increases Hyacine's and Little Ica's Outgoing Healing by 1%. Up to a max of 200 excess SPD can be taken into account for this effect."
+          },
+          "clearSkies": {
+            "text": "After Rain state",
+            "content": "After using her ultimate, Hyacine enters the \"After Rain\" state for 3 turns. Reduces the state's duration by 1 turn each time Hyacine's turn begins. When in \"After Rain\" state, increases Max HP for all allies by {{UltHpBuffScaling}}% plus {{UltHpBuffFlat}}."
+          },
+          "healingDmgStacks": {
+            "text": "Healing DMG stacks",
+            "content": "When Hyacine or Little Ica provides healing, increases Little Ica's DMG dealt by {{TalentDmgBuff}}% for 2 turns. Stacks up to 3 times."
+          },
+          "e1HpBuff": {
+            "text": "E1 HP buff",
+            "content": "When Hyacine is in the \"After Rain\" state, additionally increases the Max HP of all ally targets by 50%."
+          },
+          "e2SpdBuff": {
+            "text": "E2 SPD buff",
+            "content": "When any ally target's HP decreases, this unit's SPD increases by 30% for 2 turns."
+          },
+          "e4CdBuff": {
+            "text": "E4 CD buff",
+            "content": "The \"Tempestuous Halt\" Trace is enhanced. For every 1 of SPD exceeded, additionally increases Hyacine and Little Ica's CRIT DMG by 2%."
+          },
+          "e6ResPen": {
+            "text": "E6 RES PEN",
+            "content": "When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%."
           }
         }
       },
@@ -2663,7 +2759,7 @@ interface Resources {
           },
           "talentStacks": {
             "text": "Talent DMG stacks",
-            "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
+            "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {{talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
           },
           "quantumAlliesAtkBuff": {
             "text": "Quantum allies ATK buff",
@@ -3397,12 +3493,12 @@ interface Resources {
       "104": {
         "Name": "Hunter of Glacial Forest",
         "Description2pc": "Increases Ice DMG by 10%.",
-        "Description4pc": "After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turn(s)."
+        "Description4pc": "After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turns."
       },
       "105": {
         "Name": "Champion of Streetwise Boxing",
         "Description2pc": "Increases Physical DMG by 10%.",
-        "Description4pc": "After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 time(s)."
+        "Description4pc": "After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 times."
       },
       "106": {
         "Name": "Guard of Wuthering Snow",
@@ -3422,7 +3518,7 @@ interface Resources {
       "109": {
         "Name": "Band of Sizzling Thunder",
         "Description2pc": "Increases Lightning DMG by 10%.",
-        "Description4pc": "When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn(s)."
+        "Description4pc": "When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn."
       },
       "110": {
         "Name": "Eagle of Twilight Line",
@@ -3442,17 +3538,17 @@ interface Resources {
       "113": {
         "Name": "Longevous Disciple",
         "Description2pc": "Increases Max HP by 12%.",
-        "Description4pc": "When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turn(s) and up to 2 stacks."
+        "Description4pc": "When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turns and up to 2 stacks."
       },
       "114": {
         "Name": "Messenger Traversing Hackerspace",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn(s). This effect cannot be stacked."
+        "Description4pc": "When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn. This effect cannot be stacked."
       },
       "115": {
         "Name": "The Ashblazing Grand Duke",
         "Description2pc": "Increases the DMG dealt by Follow-up ATK by 20%.",
-        "Description4pc": "When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 time(s) and lasts for 3 turn(s). This effect is removed the next time the wearer uses a Follow-up ATK."
+        "Description4pc": "When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 times and lasts for 3 turns. This effect is removed the next time the wearer uses a Follow-up ATK."
       },
       "116": {
         "Name": "Prisoner in Deep Confinement",
@@ -3462,12 +3558,12 @@ interface Resources {
       "117": {
         "Name": "Pioneer Diver of Dead Waters",
         "Description2pc": "Increases DMG dealt to enemies with debuffs by 12%.",
-        "Description4pc": "Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn(s)."
+        "Description4pc": "Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn."
       },
       "118": {
         "Name": "Watchmaker, Master of Dream Machinations",
         "Description2pc": "Increases Break Effect by 16%.",
-        "Description4pc": "When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turn(s). This effect cannot be stacked."
+        "Description4pc": "When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turns. This effect cannot be stacked."
       },
       "119": {
         "Name": "Iron Cavalry Against the Scourge",
@@ -3477,12 +3573,12 @@ interface Resources {
       "120": {
         "Name": "The Wind-Soaring Valorous",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn(s)."
+        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn."
       },
       "121": {
         "Name": "Sacerdos' Relived Ordeal",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for 2 turn(s). This effect can stack up to 2 time(s)."
+        "Description4pc": "When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for 2 turns. This effect can stack up to 2 times."
       },
       "122": {
         "Name": "Scholar Lost in Erudition",
@@ -3492,7 +3588,7 @@ interface Resources {
       "123": {
         "Name": "Hero of Triumphant Song",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for 2 turn(s)."
+        "Description4pc": "While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for 2 turns."
       },
       "124": {
         "Name": "Poet of Mourning Collapse",
@@ -3500,14 +3596,14 @@ interface Resources {
         "Description4pc": "Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is lower than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect applies to the wearer's memosprite at the same time."
       },
       "125": {
-        "Name": "Warrior Goddess of Daythunder",
+        "Name": "Warrior Goddess of Sun and Thunder",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for 2 turns. When the wearer has \"Gentle Rain\", increases SPD by 6%, and increases all allies' CRIT DMG by 15%. This effect cannot be stacked."
+        "Description4pc": "When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has \"Gentle Rain,\" increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked."
       },
       "126": {
-        "Name": "Captain Over Cursed Waves",
+        "Name": "Wavestrider Captain",
         "Description2pc": "Increases CRIT DMG by 16%.",
-        "Description4pc": "When the wearer is the target of another ally target's ability, gains 1 stack of \"Help.\" Stacks up to 3 times. When using Ultimate, consumes all \"Help,\" each stack increasing the wearer's ATK by 16%, lasting until the end of the turn."
+        "Description4pc": "When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to 2 times. If there are 2 stacks of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by 48% for 1 turn."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -3559,7 +3655,7 @@ interface Resources {
       },
       "313": {
         "Name": "Sigonia, the Unclaimed Desolation",
-        "Description2pc": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 time(s)."
+        "Description2pc": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 times."
       },
       "314": {
         "Name": "Izumo Gensei and Takama Divine Realm",
@@ -3567,11 +3663,11 @@ interface Resources {
       },
       "315": {
         "Name": "Duran, Dynasty of Running Wolves",
-        "Description2pc": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
+        "Description2pc": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 times. Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
       },
       "316": {
         "Name": "Forge of the Kalpagni Lantern",
-        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn(s)."
+        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn."
       },
       "317": {
         "Name": "Lushaka, the Sunken Seas",
@@ -3958,10 +4054,10 @@ interface Resources {
         "Name": "Life Should Be Cast to Flames"
       },
       "23042": {
-        "Name": "May Rainbows Remain in the Sky"
+        "Name": "Long May Rainbows Adorn the Sky"
       },
       "23043": {
-        "Name": "Lies, Aflutter in the Wind"
+        "Name": "Lies Dance on the Breeze"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -5087,16 +5183,18 @@ interface Resources {
         "Prisoner": "The selected DEF% pen buff is applied to damage calculations based on the number of stacks.",
         "Diver": "The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.",
         "Watchmaker": "When enabled, the Break Effect buff is applied to Combat stat calculations.",
-        "Valorous": "The CRIT Rate buff is always on by default. The selected buff is applied to damage calculations based on the number of stacks.",
+        "Valorous": "When enabled, the DMG% buff for Ultimate damage is applied to Combat stat calculations.",
+        "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.",
+        "Scholar": "When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
+        "Hero": "When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
         "Izumo": "When enabled, if there is an ally with the same path, applies the 12% CRIT Rate buff to Combat stat calculations.",
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
-        "Lushaka": "The selected buff is applied to damage calculations.",
-        "Banana": "The selected buff is applied to damage calculations.",
-        "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect."
+        "Lushaka": "Disabled by default - This set is unable to affect its wearer.",
+        "Banana": "The selected buff is applied to damage calculations."
       }
     },
     "Presets": {
@@ -5204,14 +5302,16 @@ interface Resources {
         }
       },
       "CounterLabels": {
-        "Dot": "Dots",
-        "Break": "Breaks"
+        "Dot": "Dots"
       },
       "ComboOptions": {
+        "None": "None",
         "Basic": "Basic",
         "Skill": "Skill",
         "Ult": "Ult",
         "Fua": "Fua",
+        "Dot": "Dot",
+        "Break": "Break",
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ"
       },
@@ -5259,6 +5359,11 @@ interface Resources {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)",
           "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "36% CD"
+        },
+        "Warrior": {
+          "Desc": "$t(gameData:RelicSets.125.Name) (+15% CD)",
+          "Set": "$t(gameData:RelicSets.125.Name)",
+          "Text": "15% CD"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
@@ -5371,6 +5476,10 @@ interface Resources {
         }
       },
       "BuffsAnalysisDisplay": {
+        "Values": {
+          "BoolFalse": "No",
+          "BoolTrue": "Yes"
+        },
         "Sources": {
           "Basic": "Basic",
           "Skill": "Skill",
@@ -5670,6 +5779,11 @@ interface Resources {
       "Label": "Relic potential scoring on load",
       "OnStartup": "Default: Automatically score relics on page load",
       "Manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
+    },
+    "ExpandedInfoPanelPosition": {
+      "Label": "Optimizer Expanded info panel position",
+      "Above": "Show expanded info above relics preview",
+      "Below": "Default: Show expanded info below relics preview"
     }
   },
   "sidebar": {

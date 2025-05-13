@@ -1,21 +1,21 @@
 Tools:
   Title: Инструменты
-  Showcase: Витрина
-  WarpPlanner: Планировщик круток
+  Showcase: Топ профиля
+  WarpPlanner: Планы круток
 Optimization:
   Title: Оптимизация
   Optimizer: Оптимизатор
   Relics: Реликвии
   Characters: Персонажи
-  Import: Импорт / Сохранить
+  Import: Импорт данных
   Settings: Настройки
-  Start: Начать
+  Start: Попробовать
 Links:
   Home: Главная
   Title: Ссылки
-  Changelog: История изменений
+  Changelog: Что нового
   Discord: Discord
   Github: GitHub
   Kofi: Ko-fi
-  Unleak: Без утечек
+  Unleak: Без бета инфы
   Leaks: Бета контент

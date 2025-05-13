@@ -20,9 +20,9 @@ enum relicPotentialCases {
 }
 
 // Define the fields we care about, until Db+dataParser are typed and can be inferred in this file
-type ScoringMetadata = {
-  parts: { [K in Parts]: StatsValues[] }
-  stats: { [K in StatsValues]: number }
+export type ScoringMetadata = {
+  parts: Record<Parts, StatsValues[]>
+  stats: Record<StatsValues, number>
   sortedSubstats: [SubStats, number][]
   // Bucketed substats
   groupedSubstats: Map<number, SubStats[]>
@@ -32,7 +32,7 @@ type ScoringMetadata = {
   category: ScoreCategory
 }
 
-type subStat = {
+type SubStat = {
   stat: SubStats
   value: number
 }
@@ -277,6 +277,7 @@ export class RelicScorer {
         score: '0',
         rating: '',
         mainStatScore: 0,
+        scoreNumber: 0,
       }
     }
     const metaHash = this.getRelicScoreMeta(id).hash
@@ -354,7 +355,7 @@ export class RelicScorer {
       case relicPotentialCases.ATK:
       // falls through
       case relicPotentialCases.DEF: { // same assumption as SINGLE_STAT but needs special handling as there are technically 2 weighted stats here
-        let substats: subStat[] = []
+        let substats: SubStat[] = []
         const stat1 = meta.sortedSubstats[0][0]
         const stat2 = meta.sortedSubstats[1][0]
         if (part == Constants.Parts.Head && handlingCase == relicPotentialCases.HP
@@ -509,7 +510,7 @@ export class RelicScorer {
     const remainingRolls = Math.ceil((maxEnhance(relic.grade as 2 | 3 | 4 | 5) - relic.enhance) / 3) - (4 - relic.substats.length)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const idealScore = this.getOptimalPartScore(relic.part, relic.main.stat, id)
-    const current = Math.max(0, (this.substatScore(relic, id).score + mainstatBonus) / idealScore * 100 * percentToScore + mainstatDeduction)
+    const current = Math.max(0, (this.substatScore(relic, id).score + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus)
 
     // evaluate the best possible outcome
     const bestSubstats: { stat: SubStats; value: number }[] = [{ stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }, { stat: 'HP', value: 0 }]
@@ -635,7 +636,7 @@ export class RelicScorer {
 
       for (const substat of relic.substats) {
         const stat = substat.stat
-        const value = SubStatValues[stat][5].high * meta.stats[stat] * normalization[stat]
+        const value = SubStatValues[stat][5].mid * meta.stats[stat] * normalization[stat]
         if (stat == bestSub.stat) {
           rerollValue += value * (totalRolls + 1)
         } else {
@@ -813,7 +814,7 @@ export function mainStatBonus(part: Parts, mainStat: MainStats, scoringMetadata:
  * @param mainstat relic primary stat
  * @param substats array of substats, recommended to obtain via generateSubStats()
  */
-function fakeRelic(grade: RelicGrade, enhance: RelicEnhance, part: string, mainstat: string, substats: subStat[]): Relic {
+function fakeRelic(grade: RelicGrade, enhance: RelicEnhance, part: string, mainstat: string, substats: SubStat[]): Relic {
   return {
     enhance: enhance,
     grade: grade,
@@ -835,7 +836,7 @@ function fakeRelic(grade: RelicGrade, enhance: RelicEnhance, part: string, mains
  * @param sub4 substat line 4
  * @returns array of substats for a relic
  */
-function generateSubStats(grade: RelicGrade, sub1: subStat, sub2?: subStat, sub3?: subStat, sub4?: subStat): subStat[] {
+function generateSubStats(grade: RelicGrade, sub1: SubStat, sub2?: SubStat, sub3?: SubStat, sub4?: SubStat): SubStat[] {
   const substats = [{
     stat: sub1.stat,
     value: sub1.value,
@@ -902,7 +903,7 @@ function getHandlingCase(scoringMetadata: ScoringMetadata) {
  * @param scoringMetadata character scoring metadata
  * @returns lowest index in the substats array of highest weight substat
  */
-function findHighestWeight(substats: subStat[] | Stat[], scoringMetadata: ScoringMetadata) {
+function findHighestWeight(substats: SubStat[] | Stat[], scoringMetadata: ScoringMetadata) {
   let index = 0
   let weight = 0
   let stat = '' as SubStats
@@ -926,16 +927,16 @@ function findHighestWeight(substats: subStat[] | Stat[], scoringMetadata: Scorin
  * @param scoringMetadata character scoring metadata
  * @returns lowest index in the substats array of lowest weight substat
  */
-function findLowestWeight(substats: subStat[] | Stat[], scoringMetadata: ScoringMetadata) {
+function findLowestWeight(substats: SubStat[], scoringMetadata: ScoringMetadata) {
   let index = 0
-  let weight = 1
-  let stat = '' as SubStats
-  for (let i = 0; i < substats.length; i++) {
+  let weight = scoringMetadata.stats[substats[0].stat]
+  let stat = substats[0].stat
+  for (let i = 1; i < substats.length; i++) {
     const newWeight = scoringMetadata.stats[substats[i].stat]
-    if (newWeight < weight || i == 0) {
+    if (newWeight < weight) {
       weight = newWeight
       index = i
-      stat = substats[i].stat as SubStats
+      stat = substats[i].stat
     }
   }
   return {

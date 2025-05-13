@@ -6,9 +6,14 @@ import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
 import { CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export function calculateContextConditionalRegistry(action: OptimizerAction, context: OptimizerContext) {
-  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
-  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
+export function calculateContextConditionalRegistry(
+  action: OptimizerAction,
+  context: OptimizerContext,
+  characterConditionalController?: CharacterConditionalsController,
+  lightConeConditionalController?: LightConeConditionalsController,
+) {
+  const characterConditionals: CharacterConditionalsController = characterConditionalController ?? CharacterConditionalsResolver.get(context)
+  const lightConeConditionals: LightConeConditionalsController = lightConeConditionalController ?? LightConeConditionalsResolver.get(context)
 
   const conditionalRegistry: ConditionalRegistry = emptyRegistry()
 
@@ -22,12 +27,6 @@ export function calculateContextConditionalRegistry(action: OptimizerAction, con
 
   action.conditionalRegistry = conditionalRegistry
   action.conditionalState = {}
-}
-
-export function fillConditionalState(action: OptimizerAction) {
-  Object.values(action.conditionalRegistry)
-    .flatMap((conditionals) => conditionals)
-    .forEach((conditional) => action.conditionalState[conditional.id] = 0)
 }
 
 export function registerTeammateConditionals(

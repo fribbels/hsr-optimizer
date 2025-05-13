@@ -318,16 +318,18 @@ SetConditionals:
     Prisoner: O bônus de penetração de DEF% selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Diver: O efeito de 2 peças pode ser desativado selecionando a opção 0x. Para 4 peças, diferentes buffs CRIT são aplicados aos cálculos de estatísticas de combate, dependendo da opção selecionada.
     Watchmaker: Quando ativado, o bônus de Efeito de Quebra é aplicado aos cálculos de estatísticas de combate.
-    Valorous: O bônus de Chance de Crítico está sempre ativado por padrão. O bônus selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
+    Valorous: Quando ativado, o buff de DMG% para o dano da Ultimate será aplicado aos cálculos de estatísticas de combate.
+    Sacerdos: O buff selecionado é aplicado aos cálculos de dano. Os personagens que se buffam podem acionar esse efeito.
+    Scholar: Quando ativado, o buff de DMG% para o dano de Perícia será aprimorado de acordo com a sequência COMBO do personagem.
+    Hero: Quando ativado, os buffs de VEL% e Dano CRIT são aplicados aos cálculos de estatísticas de combate.
     Differentiator: Quando ativado, o bônus de Chance de Crítico é aplicado aos cálculos de estatísticas de combate.
     Penacony: Quando ativado, o buff de DMG% será aplicado ao memo do usuário.
     Sigonia: O bônus de Dano Crítico selecionado é aplicado aos cálculos de estatísticas de combate, presumindo que o personagem tenha derrotado esse número de inimigos.
     Izumo: Quando ativado, se tiver um aliado do mesmo caminho, aplica o buff de 12% de Taxa Crítica aos cálculos de atributos de combate.
     Duran: O buff selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Kalpagni: Quando ativado, aplica o bônus de Efeito de Quebra aos cálculos de estatísticas de combate.
-    Lushaka: O buff selecionado é aplicado aos cálculos de dano.
+    Lushaka: Desativado por padrão - Este conjunto não pode afetar seu portador.
     Banana: O buff selecionado é aplicado aos cálculos de dano.
-    Sacerdos: O buff selecionado é aplicado aos cálculos de dano. Os personagens que se buffam podem acionar esse efeito.
 Presets:
   SpdValues:
     SPD0: Sem velocidade mínima
@@ -426,12 +428,14 @@ ComboFilter:
       Description: Redefinir todas as configurações de rotação simples/avançadas para o padrão?
   CounterLabels:
     Dot: DOTs
-    Break: Quebras
   ComboOptions:
+    None: 'Nenhum'
     Basic: Basic
     Skill: Skill
     Ult: Ult
     Fua: FuA
+    Dot: Dot
+    Break: Quebra
     MemoSkill: Períciaᴹ
     MemoTalent: Talentoᴹ
   RotationButton: Rotação avançada
@@ -473,6 +477,10 @@ TeammateCard:
       Desc: "4 Peças: $t(gameData:RelicSets.121.Name) (+36% CD)"
       Set: "$t(gameData:RelicSets.121.Name)"
       Text: 36% CD
+    Warrior:
+      Desc: "$t(gameData:RelicSets.125.Name) (+15% CD)"
+      Set: "$t(gameData:RelicSets.125.Name)"
+      Text: 15% CD
     Keel:
       Desc: "$t(gameData:RelicSets.310.Name) (+10% CD)"
       Set: "$t(gameData:RelicSets.310.Name)"
@@ -566,6 +574,9 @@ ExpandedDataPanel:
       dotDmg: Dano DoT
       memoDmg: Dano Memo
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "Não"
+      BoolTrue: "Sim"
     Sources:
       Basic: Basic
       Skill: Skill

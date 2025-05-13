@@ -36,8 +36,8 @@ Lightcones:
           When the wearer hits an enemy target, inflicts Mirage Fizzle on the enemy, lasting for 1 turn. Each time the wearer attacks, this effect can only trigger 1 time on each target. The wearer deals {{DmgBoost}}% increased DMG to targets afflicted with Mirage Fizzle, and the DMG dealt by the wearer's Ultimate additionally increases by {{UltDmgBoost}}%.
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: Max energy
+      maxEnergyDmgBoost:
+        text: Max energy DMG boost
         content: When the wearer uses Ultimate, increases the wearer's Ultimate DMG based on their Max Energy. Each point of Energy increases the Ultimate DMG by {{DmgStep}}%, up to 180 points of Energy.
   BaptismOfPureThought:
     Content:
@@ -173,6 +173,17 @@ Lightcones:
         text: Luminflux stacks
         content: >-
           When the wearer launches a follow-up attack, gains 1 stack of Luminflux, stacking up to 2 times. Each stack of Luminflux enables the Ultimate DMG dealt by the wearer to ignore {{DefIgnore}}% of the target's DEF. When the wearer's turn ends, removes 1 stack of Luminflux.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: DEF PEN
+        content: >-
+          After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
+    TeammateContent:
+      additionalDefPen:
+        text: "SPD > 170"
+        content: >-
+          After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +203,11 @@ Lightcones:
       deathFlower:
         text: Death Flower DEF PEN
         content: When the wearer or their memosprite loses HP during their own turn, the wearer gains "Death Flower," which allows the wearer and their memosprite to ignore {{DefIgnore}}% of the target's DEF when dealing DMG, lasting for 2 turns.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnerability
+        content: When the wearer's memosprite uses Memosprite Skill, increases the DMG taken by all enemies by {{Vulnerability}}% for 2 turns. The same types of effects cannot stack.
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -723,16 +739,11 @@ Characters:
       exposedNature:
         text: Qualitative Disclosure
         content: >-
-          While Anaxa is on the battlefield, inflicts the "Qualitative Disclosure" state to enemy targets with at least 5 different Weaknesses.
-          Anaxa deals {{DmgBuff}}% more DMG to targets in "Qualitative Disclosure" state.
+          While Anaxa is on the battlefield, inflicts the "Qualitative Disclosure" state to enemy targets with at least 5 different Weaknesses. Anaxa deals {{DmgBuff}}% more DMG to targets in "Qualitative Disclosure" state.
       eruditionTeammateBuffs:
         text: Erudition teammate buffs
         content: >-
-          Trigger any 1 effect in the current battle based on the number of characters on the Path of Erudition in the team:
-          ::BR::
-          1: Increases Anaxa's CRIT DMG by 140%.
-          ::BR::
-          At least 2: Increases DMG dealt by all allies by 50%.
+          Trigger any 1 effect in the current battle based on the number of characters on the Path of Erudition in the team: ::BR:: 1: Increases Anaxa's CRIT DMG by 140%. ::BR:: At least 2: Increases DMG dealt by all allies by 50%.
       enemyWeaknessTypes:
         text: Enemy weaknesses
         content: For every different Weakness Type an enemy target has, the DMG that Anaxa deals to that target ignores 4% of DEF, up to a max of 7 Weakness Types.
@@ -940,9 +951,33 @@ Characters:
       e6Buffs:
         text: E6 buffs
         content: >-
-          When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%.
-          ::BR::
-          Increases the Bounce count for Netherwing's Talent "Wings Sweep the Ruins" by 3 times.
+          When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%. ::BR:: Increases the Bounce count for Netherwing's Talent "Wings Sweep the Ruins" by 3 times.
+  Cipher:
+    Content:
+      vulnerability:
+        text: Team Vulnerability
+        content: When Cipher is on the battlefield, DMG received by all enemy targets increases by 40%.
+      skillAtkBuff:
+        text: Skill ATK buff
+        content: When using skill, there is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turns.
+      fuaCdBoost:
+        text: Fua CD boost
+        content: Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%.
+      spdBasedBuffs:
+        text: SPD based buffs
+        content: When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%.
+      e1AtkBuff:
+        text: E1 ATK buff
+        content: When using a Follow-up ATK caused by her Talent, increases Cipher's ATK by 80% for 2 turns.
+      e2Vulnerability:
+        text: E2 vulnerability
+        content: When Cipher hits an enemy target, there is a 120% base chance of causing them to receive 30% more DMG, lasting 2 turns.
+      e4AdditionalDmg:
+        text: E4 Additional DMG
+        content: After "Patron" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it.
+      e6FuaDmg:
+        text: E6 Fua DMG
+        content: Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%.
   Clara:
     Content:
       ultBuff:
@@ -1200,6 +1235,35 @@ Characters:
       e6DmgBuff:
         text: E6 DMG buff
         content: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: Heal target ≤ 50% HP
+        content: When providing healing to an ally target with less than or equal to 50% this unit's Max HP, increases Hyacine and Little Ica's Outgoing Healing by 25%.
+      resBuff:
+        text: Effect RES buff
+        content: Increases Hyacine's Effect RES by 50%.
+      spd200HpBuff:
+        text: SPD ≥ 200 HP buff
+        content: When Hyacine's SPD exceeds 200, increases her and Little Ica's Max HP by 20%. Then, for every 1 excess SPD, increases Hyacine's and Little Ica's Outgoing Healing by 1%. Up to a max of 200 excess SPD can be taken into account for this effect.
+      clearSkies:
+        text: After Rain state
+        content: After using her ultimate, Hyacine enters the "After Rain" state for 3 turns. Reduces the state's duration by 1 turn each time Hyacine's turn begins. When in "After Rain" state, increases Max HP for all allies by {{UltHpBuffScaling}}% plus {{UltHpBuffFlat}}.
+      healingDmgStacks:
+        text: Healing DMG stacks
+        content: When Hyacine or Little Ica provides healing, increases Little Ica's DMG dealt by {{TalentDmgBuff}}% for 2 turns. Stacks up to 3 times.
+      e1HpBuff:
+        text: E1 HP buff
+        content: When Hyacine is in the "After Rain" state, additionally increases the Max HP of all ally targets by 50%.
+      e2SpdBuff:
+        text: E2 SPD buff
+        content: When any ally target's HP decreases, this unit's SPD increases by 30% for 2 turns.
+      e4CdBuff:
+        text: E4 CD buff
+        content: The "Tempestuous Halt" Trace is enhanced. For every 1 of SPD exceeded, additionally increases Hyacine and Little Ica's CRIT DMG by 2%.
+      e6ResPen:
+        text: E6 RES PEN
+        content: When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%.
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1623,7 +1687,7 @@ Characters:
       talentStacks:
         text: Talent DMG stacks
         content: >-
-          Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies.
+          Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {{talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies.
       quantumAlliesAtkBuff:
         text: Quantum allies ATK buff
         content: When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%.

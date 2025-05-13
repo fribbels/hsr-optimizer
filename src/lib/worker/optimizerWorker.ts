@@ -2,7 +2,6 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { Source } from 'lib/optimization/buffSource'
@@ -18,14 +17,15 @@ import {
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
+import { SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
 import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
-let isFirefox = false
 
 type OptimizerEventData = {
   relics: {
@@ -44,7 +44,6 @@ type OptimizerEventData = {
   permutations: number
   WIDTH: number
   skip: number
-  isFirefox: boolean
 }
 
 export function optimizerWorker(e: MessageEvent) {
@@ -55,7 +54,7 @@ export function optimizerWorker(e: MessageEvent) {
   const request: Form = data.request
   const context: OptimizerContext = data.context
 
-  const relics: RelicsByPart = data.relics
+  const relics = data.relics as SimulationRelicArrayByPart
   const arr = new Float32Array(data.buffer)
 
   const lSize = relics.LinkRope.length
@@ -73,8 +72,6 @@ export function optimizerWorker(e: MessageEvent) {
   const memoDisplay = request.memoDisplay == 'memo'
   const summonerDisplay = !memoDisplay
   let passCount = 0
-
-  isFirefox = data.isFirefox
 
   const {
     failsBasicThresholdFilter,
@@ -163,7 +160,7 @@ export function optimizerWorker(e: MessageEvent) {
     c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
 
     calculateBasicSetEffects(c, context, setCounts, sets)
-    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope, true)
+    calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)
 
@@ -181,7 +178,8 @@ export function optimizerWorker(e: MessageEvent) {
     let combo = 0
     for (let i = context.actions.length - 1; i >= 0; i--) {
       const action = setupAction(c, i, context)
-      const a = x.a
+      action.conditionalState = {}
+
       x.setPrecompute(action.precomputedX.a)
       if (x.a[Key.MEMOSPRITE]) {
         m.setPrecompute(action.precomputedM.a)
@@ -193,22 +191,27 @@ export function optimizerWorker(e: MessageEvent) {
 
       calculateDamage(x, action, context)
 
-      if (action.actionType === 'BASIC') {
+      const a = x.a
+      if (action.actionType === AbilityKind.BASIC) {
         combo += a[Key.BASIC_DMG]
-      } else if (action.actionType === 'SKILL') {
+      } else if (action.actionType === AbilityKind.SKILL) {
         combo += a[Key.SKILL_DMG]
-      } else if (action.actionType === 'ULT') {
+      } else if (action.actionType === AbilityKind.ULT) {
         combo += a[Key.ULT_DMG]
-      } else if (action.actionType === 'FUA') {
+      } else if (action.actionType === AbilityKind.FUA) {
         combo += a[Key.FUA_DMG]
-      } else if (action.actionType === 'MEMO_SKILL') {
+      } else if (action.actionType === AbilityKind.DOT) {
+        combo += a[Key.DOT_DMG] * context.comboDot / Math.max(1, context.dotAbilities)
+      } else if (action.actionType === AbilityKind.BREAK) {
+        combo += a[Key.BREAK_DMG]
+      } else if (action.actionType === AbilityKind.MEMO_SKILL) {
         combo += a[Key.MEMO_SKILL_DMG]
-      } else if (action.actionType === 'MEMO_TALENT') {
+      } else if (action.actionType === AbilityKind.MEMO_TALENT) {
         combo += a[Key.MEMO_TALENT_DMG]
       }
 
       if (i === 0) {
-        combo += context.comboDot * a[Key.DOT_DMG] + context.comboBreak * a[Key.BREAK_DMG]
+        combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot : 0)
         x.COMBO_DMG.set(combo, Source.NONE)
       }
     }

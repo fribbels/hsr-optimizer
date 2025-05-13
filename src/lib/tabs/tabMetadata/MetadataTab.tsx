@@ -1,9 +1,13 @@
 import { Collapse, Flex } from 'antd'
 import gameData from 'data/game_data.json'
-import { Sets, Stats } from 'lib/constants/constants'
+import { TFunction } from 'i18next'
+import { PathName, PathNames, Sets, Stats } from 'lib/constants/constants'
+import { NULL_TURN_ABILITY_NAME, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages, DB } from 'lib/state/db'
+import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StringToNumberMap } from 'types/common'
 import { ReactElement } from 'types/components'
 import { DBMetadataCharacter } from 'types/metadata'
@@ -20,7 +24,7 @@ export default function MetadataTab(): React.JSX.Element {
   }
 
   return (
-    <Flex vertical style={{ width: 3000, height: 'fit-content' }}>
+    <Flex vertical style={{ width: '100%', height: 'fit-content' }}>
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
@@ -33,11 +37,21 @@ export default function MetadataTab(): React.JSX.Element {
           },
           {
             key: '2',
+            label: 'Simulation teams',
+            children: <SimulationTeamDashboard/>,
+          },
+          {
+            key: '3',
+            label: 'Simulation combo',
+            children: <SimulationComboDashboard/>,
+          },
+          {
+            key: '4',
             label: 'Conditional sets presets',
             children: <ConditionalSetsPresetsDashboard/>,
           },
           {
-            key: '3',
+            key: '5',
             label: 'Substat weight dashboard',
             children: <SubstatWeightDashboard/>,
           },
@@ -45,6 +59,209 @@ export default function MetadataTab(): React.JSX.Element {
       />
     </Flex>
   )
+}
+
+// =========================================== SimulationEquivalentSetsDashboard ===========================================
+
+function SimulationEquivalentSetsDashboard() {
+  const sets = gameData.relics.slice().reverse()
+  const characters = Object.values(DB.getMetadata().characters)
+
+  for (let i = 0; i < sets.length; i++) {
+    setToIndex[sets[i].name] = i
+  }
+
+  return (
+    <Flex vertical gap={50}>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Destruction), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Hunt), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Erudition), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Nihility), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Remembrance), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Preservation), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Harmony), sets)}/>
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Abundance), sets)}/>
+    </Flex>
+  )
+}
+
+function generateEquivalentSetsGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
+  const assetByCharacterThenSet: ReactElement[][] = [setsTopRow(sets, characters[0].path)]
+
+  characters = characters.filter((x) => x.scoringMetadata.simulation)
+
+  for (let i = 0; i < characters.length; i++) {
+    const character = characters[i]
+    const rowAssets: ReactElement[] = Array(sets.length + 1).fill(<Icon src={Assets.getBlank()}/>)
+    rowAssets[0] = <Icon src={Assets.getCharacterAvatarById(character.id)}/>
+
+    for (const allowedSets of character.scoringMetadata.simulation!.relicSets) {
+      if (allowedSets.length == 2) {
+        // 4p
+        const setIndex = setToIndex[allowedSets[0]]
+        rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(allowedSets[0])}/>
+      } else {
+        // 2p2p
+        for (const p2 of allowedSets) {
+          const setIndex = setToIndex[p2]
+          rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(p2)}/>
+        }
+      }
+    }
+
+    for (const p2 of character.scoringMetadata.simulation!.ornamentSets) {
+      const setIndex = setToIndex[p2]
+      rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(p2)}/>
+    }
+
+    assetByCharacterThenSet.push(rowAssets)
+  }
+
+  return assetByCharacterThenSet
+}
+
+// =========================================== SimulationTeamDashboard ===========================================
+
+function SimulationTeamDashboard() {
+  const characters = Object.values(DB.getMetadata().characters)
+  return (
+    <Flex vertical gap={40}>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Destruction))}/>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Hunt))}/>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Erudition))}/>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Nihility))}/>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Remembrance))}/>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Preservation))}/>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Harmony))}/>
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Abundance))}/>
+    </Flex>
+  )
+}
+
+function generateTeamGrid(characters: DBMetadataCharacter[]) {
+  const teamsByCharacter: ReactElement[][] = [[
+    <IconPair key={0} src1={Assets.getPath(characters[0].path)}/>,
+    <IconPair key={1}/>,
+    <IconPair key={2}/>,
+    <IconPair key={3}/>,
+  ]]
+
+  for (const character of characters) {
+    const simTeam = character.scoringMetadata.simulation?.teammates
+    if (!simTeam) continue
+    let i = 0
+    const row: ReactElement[] = [<Icon key={i++} src={Assets.getCharacterAvatarById(character.id)}/>]
+    for (const teammate of simTeam) {
+      row.push(<IconPair key={i++} src1={Assets.getCharacterAvatarById(teammate.characterId)} src2={Assets.getLightConeIconById(teammate.lightCone)}/>)
+    }
+    teamsByCharacter.push(row)
+  }
+  return teamsByCharacter
+}
+
+// =========================================== SimulationComboDashboard ===========================================
+
+function SimulationComboDashboard() {
+  const characters = Object.values(DB.getMetadata().characters)
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
+  return (
+    <Flex vertical gap={40}>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Destruction), t)}/>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Hunt), t)}/>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Erudition), t)}/>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Nihility), t)}/>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Remembrance), t)}/>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Preservation), t)}/>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Harmony), t)}/>
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Abundance), t)}/>
+    </Flex>
+  )
+}
+
+function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'optimizerTab', 'ComboFilter.ComboOptions'>) {
+  let i = 0
+  const comboByCharacter = [
+    Array<ReactElement>(2)
+      .fill(<></>)
+      .map((_x, idx) => idx !== 0
+        ? <></>
+        : <Icon key={i++} src={Assets.getPath(characters[0].path)}/>,
+      ),
+  ]
+
+  for (const character of characters) {
+    const combo = character.scoringMetadata.simulation?.comboTurnAbilities?.filter((x) => typeof x === 'string')
+    if (!combo) continue
+
+    i = 0
+    const row: ReactElement[] = Array(2).fill(<Icon key={i++} src={Assets.getBlank()}/>)
+    row[0] = <Icon key={0} src={Assets.getCharacterAvatarById(character.id)}/>
+    const text = combo.filter((x) => x != NULL_TURN_ABILITY_NAME).map(formatComboAction).join(' - ')
+
+    row[1] = <Flex style={{ whiteSpace: 'nowrap', justifyContent: 'flex-start', marginRight: 10, marginLeft: 10, width: 600 }}>{text}</Flex>
+    comboByCharacter.push(row)
+  }
+  return comboByCharacter
+}
+
+function formatComboAction(action: TurnAbilityName) {
+  return toI18NVisual(toTurnAbility(action))
+}
+
+// =========================================== ConditionalSetsPresetsDashboard ===========================================
+
+const presetToSetMapping: Record<string, string> = {
+  fnAshblazingSet: Sets.TheAshblazingGrandDuke,
+  fnPioneerSet: Sets.PioneerDiverOfDeadWaters,
+  fnSacerdosSet: Sets.SacerdosRelivedOrdeal,
+  PRISONER_SET: Sets.PrisonerInDeepConfinement,
+  WASTELANDER_SET: Sets.WastelanderOfBanditryDesert,
+  VALOROUS_SET: Sets.TheWindSoaringValorous,
+  BANANA_SET: Sets.TheWondrousBananAmusementPark,
+}
+
+function ConditionalSetsPresetsDashboard() {
+  // @ts-ignore
+  const sets = gameData.relics.slice().reverse()
+  const characters = Object.values(DB.getMetadata().characters)
+
+  for (let i = 0; i < sets.length; i++) {
+    setToIndex[sets[i].name] = i
+  }
+
+  return (
+    <Flex vertical gap={10}>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Destruction), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Hunt), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Erudition), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Nihility), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Remembrance), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Preservation), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Harmony), sets)}/>
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Abundance), sets)}/>
+    </Flex>
+  )
+}
+
+function generateConditionalSetsGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
+  const assetByCharacterThenSet: ReactElement[][] = [setsTopRow(sets, characters[0].path)]
+
+  for (let i = 0; i < characters.length; i++) {
+    const character = characters[i]
+    const rowAssets: ReactElement[] = Array(sets.length + 1).fill(<Icon src={Assets.getBlank()}/>)
+    rowAssets[0] = <Icon src={Assets.getCharacterAvatarById(character.id)}/>
+
+    for (const preset of character.scoringMetadata.presets) {
+      const set = presetToSetMapping[preset.name]
+      const setIndex = setToIndex[set]
+
+      rowAssets[setIndex + 1] = <div>{preset.value === true ? '⚪' : preset.value}</div>
+    }
+
+    assetByCharacterThenSet.push(rowAssets)
+  }
+
+  return assetByCharacterThenSet
 }
 
 // =========================================== SubstatWeightDashboard ===========================================
@@ -60,19 +277,19 @@ function SubstatWeightDashboard() {
 
   return (
     <Flex vertical gap={10}>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Destruction'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Hunt'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Erudition'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Nihility'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Remembrance'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Preservation'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Harmony'), sets)}/>
-      <GridDisplay grid={generateSubstatWeightGrid(characters.filter((x) => x.path == 'Abundance'), sets)}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Destruction))}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Hunt))}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Erudition))}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Nihility))}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Remembrance))}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Preservation))}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Harmony))}/>
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Abundance))}/>
     </Flex>
   )
 }
 
-function generateSubstatWeightGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
+function generateSubstatWeightGrid(characters: DBMetadataCharacter[]) {
   const weightedStats = [
     Stats.ATK_P,
     Stats.DEF_P,
@@ -110,135 +327,6 @@ function generateSubstatWeightGrid(characters: DBMetadataCharacter[], sets: (typ
   return assetByCharacterThenStat
 }
 
-// =========================================== ConditionalSetsPresetsDashboard ===========================================
-
-const presetToSetMapping: Record<string, string> = {
-  fnAshblazingSet: Sets.TheAshblazingGrandDuke,
-  fnPioneerSet: Sets.PioneerDiverOfDeadWaters,
-  fnSacerdosSet: Sets.SacerdosRelivedOrdeal,
-  PRISONER_SET: Sets.PrisonerInDeepConfinement,
-  WASTELANDER_SET: Sets.WastelanderOfBanditryDesert,
-  VALOROUS_SET: Sets.TheWindSoaringValorous,
-  BANANA_SET: Sets.TheWondrousBananAmusementPark,
-}
-
-function ConditionalSetsPresetsDashboard() {
-  // @ts-ignore
-  const sets = gameData.relics.slice().reverse()
-  const characters = Object.values(DB.getMetadata().characters)
-
-  for (let i = 0; i < sets.length; i++) {
-    setToIndex[sets[i].name] = i
-  }
-
-  return (
-    <Flex vertical gap={10}>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Destruction'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Hunt'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Erudition'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Nihility'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Remembrance'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Preservation'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Harmony'), sets)}/>
-      <GridDisplay grid={generateConditionalSetsGrid(characters.filter((x) => x.path == 'Abundance'), sets)}/>
-    </Flex>
-  )
-}
-
-function generateConditionalSetsGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
-  const relicAssets = sets.map((x) => Assets.getSetImage(x.name))
-  relicAssets.unshift(Assets.getBlank())
-
-  const assetByCharacterThenSet: ReactElement[][] = [[]]
-
-  for (let j = 0; j < sets.length + 1; j++) {
-    assetByCharacterThenSet[0][j] = <Icon src={relicAssets[j]}/>
-  }
-
-  for (let i = 0; i < characters.length; i++) {
-    const character = characters[i]
-    const rowAssets: ReactElement[] = []
-    rowAssets.push(<Icon src={Assets.getCharacterAvatarById(character.id)}/>)
-
-    for (const preset of character.scoringMetadata.presets) {
-      const set = presetToSetMapping[preset.name]
-      const setIndex = setToIndex[set]
-
-      rowAssets[setIndex + 1] = <div>{preset.value === true ? '⚪' : preset.value}</div>
-    }
-
-    assetByCharacterThenSet.push(rowAssets)
-  }
-
-  return assetByCharacterThenSet
-}
-
-// =========================================== SimulationEquivalentSetsDashboard ===========================================
-
-function SimulationEquivalentSetsDashboard() {
-  // @ts-ignore
-  const sets = gameData.relics.slice().reverse()
-  const characters = Object.values(DB.getMetadata().characters)
-  const simulationCharacters = characters.filter((x) => x.scoringMetadata.simulation)
-
-  for (let i = 0; i < sets.length; i++) {
-    setToIndex[sets[i].name] = i
-  }
-
-  return (
-    <Flex vertical gap={50}>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Destruction'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Hunt'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Erudition'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Nihility'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Remembrance'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Preservation'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Harmony'), sets)}/>
-      <GridDisplay grid={generateEquivalentSetsGrid(simulationCharacters.filter((x) => x.path == 'Abundance'), sets)}/>
-    </Flex>
-  )
-}
-
-function generateEquivalentSetsGrid(characters: DBMetadataCharacter[], sets: (typeof gameData.relics)) {
-  const relicAssets = sets.map((x) => Assets.getSetImage(x.name))
-  relicAssets.unshift(Assets.getBlank())
-
-  const assetByCharacterThenSet: ReactElement[][] = [[]]
-
-  for (let j = 0; j < sets.length + 1; j++) {
-    assetByCharacterThenSet[0][j] = <Icon src={relicAssets[j]}/>
-  }
-
-  for (let i = 0; i < characters.length; i++) {
-    const character = characters[i]
-    const rowAssets: ReactElement[] = []
-    rowAssets.push(<Icon src={Assets.getCharacterAvatarById(character.id)}/>)
-
-    for (const allowedSets of character.scoringMetadata.simulation!.relicSets) {
-      if (allowedSets.length == 2) {
-        // 4p
-        const setIndex = setToIndex[allowedSets[0]]
-        rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(allowedSets[0])}/>
-      } else {
-        // 2p2p
-        for (const p2 of allowedSets) {
-          const setIndex = setToIndex[p2]
-          rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(p2)}/>
-        }
-      }
-    }
-
-    for (const p2 of character.scoringMetadata.simulation!.ornamentSets) {
-      const setIndex = setToIndex[p2]
-      rowAssets[setIndex + 1] = <Icon src={Assets.getSetImage(p2)}/>
-    }
-
-    assetByCharacterThenSet.push(rowAssets)
-  }
-
-  return assetByCharacterThenSet
-}
-
 // =========================================== Utils ===========================================
 
 function Icon(props: {
@@ -249,19 +337,31 @@ function Icon(props: {
   )
 }
 
+function IconPair(props: { src1?: string; src2?: string }) {
+  return (
+    <Flex style={{ width: 80, justifyContent: 'center', marginLeft: 10, marginRight: 10 }}>
+      <Icon src={props.src1 ?? Assets.getBlank()}/>
+      {props.src2 && <Icon src={props.src2}/>}
+    </Flex>
+  )
+}
+
+function setsTopRow(sets: typeof gameData.relics, path: PathName) {
+  let i = 0
+  const out = sets
+    .map((x) => <Icon key={i++} src={Assets.getSetImage(x.name)}/>)
+  out.unshift(<Icon key={i++} src={Assets.getPath(path)}/>)
+  return out
+}
+
+function filterByPath<T extends { path: PathName }>(characters: T[], path: PathName) {
+  return characters.filter((x) => x.path === path)
+}
+
 function GridDisplay(props: {
   grid: (ReactElement | string)[][]
 }) {
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null)
-
-  for (const row of props.grid) {
-    for (let i = 0; i < Object.values(setToIndex).length + 1; i++) {
-      if (!row[i]) {
-        // @ts-ignore
-        row[i] = null
-      }
-    }
-  }
 
   return (
     <table style={{ borderCollapse: 'collapse', width: 'fit-content', lineHeight: '0px' }}>

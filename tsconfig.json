@@ -10,7 +10,6 @@
       "dom"
     ],
     "module": "ESNext",
-    "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
     "allowJs": true,

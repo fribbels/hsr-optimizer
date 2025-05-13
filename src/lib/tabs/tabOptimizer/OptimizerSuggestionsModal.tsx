@@ -1,6 +1,7 @@
 import { Button, Flex, Modal, Typography } from 'antd'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
+import { OpenCloseIDs, openCloseStore, setClose, setOpen, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
@@ -42,7 +43,7 @@ const ZeroPermRootCauseFixes: {
     buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText', // Navigate to Importer tab
     applyFix: () => {
       window.store.getState().setActiveKey(AppPages.IMPORT)
-      window.store.getState().setZeroPermutationsModalOpen(false)
+      setClose(OpenCloseIDs.ZERO_PERMS_MODAL)
     },
     successMessageKey: '0Perms.RootCauses.IMPORT.SuccessMessage',
     // Message.success('Choose an import method and import your relics and characters', 2)
@@ -165,7 +166,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
   // Zero relics overrides everything else
   if (allRelics.length == 0) {
     rootCauses.push(ZeroPermRootCause.IMPORT)
-    window.store.getState().setZeroPermutationsModalOpen(true)
+    setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
     return
   }
 
@@ -218,7 +219,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
   }
 
   // MINIMUM_ROLLS
-  if (request.weights.headHands > 0 || request.weights.bodyFeet > 0 || request.weights.sphereRope > 0) {
+  if (request.weights.headHands! > 0 || request.weights.bodyFeet! > 0 || request.weights.sphereRope! > 0) {
     rootCauses.push(ZeroPermRootCause.MINIMUM_ROLLS)
   }
 
@@ -227,7 +228,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
     rootCauses.push(ZeroPermRootCause.IMPORT)
   }
 
-  window.store.getState().setZeroPermutationsModalOpen(true)
+  setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
 }
 
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
@@ -259,8 +260,7 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
 
 export function ZeroPermutationsSuggestionsModal() {
   const { t } = useTranslation('modals')
-  const zeroPermutationModalOpen = window.store((s) => s.zeroPermutationModalOpen)
-  const setZeroPermutationsModalOpen = window.store((s) => s.setZeroPermutationsModalOpen)
+  const { close: closeZeroPermsModal, isOpen: isOpenZeroPermsModal } = useOpenClose(OpenCloseIDs.ZERO_PERMS_MODAL)
 
   // console.log('Suggestions root causes', rootCauses)
 
@@ -272,12 +272,12 @@ export function ZeroPermutationsSuggestionsModal() {
   return (
     <Modal
       title={t('0Perms.Title')/* Search generated 0 permutations */}
-      open={zeroPermutationModalOpen}
+      open={isOpenZeroPermsModal}
       width={900}
       destroyOnClose
       centered
-      onOk={() => setZeroPermutationsModalOpen(false)}
-      onCancel={() => setZeroPermutationsModalOpen(false)}
+      onOk={closeZeroPermsModal}
+      onCancel={closeZeroPermsModal}
       footer={null}
     >
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
@@ -411,7 +411,7 @@ function filterFixes(filter: string) {
     descriptionKey: `0Results.RootCauses.${filter}.Description`, // `The minimum/maximum {{field name}} may be too high/low`,
     buttonTextKey: `0Results.RootCauses.${filter}.ButtonText`, // `Reset min/max {{field name}} filter`,
     applyFix: () => {
-      window.optimizerForm.setFieldValue(formAddress, undefined)
+      window.optimizerForm.setFieldValue(formAddress as keyof Form, undefined)
     },
     successMessageKey: `0Results.RootCauses.${filter}.SuccessMessage`,
     // Message.success(`Reset min/max {{field name}} filter`, 2)
@@ -465,12 +465,11 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.minShield) rootCauses.push(ZeroResultRootCause.MIN_SHIELD)
   if (request.maxShield < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_SHIELD)
 
-  window.store.getState().setZeroResultModalOpen(true)
+  setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
 }
 
 export function ZeroResultSuggestionModal() {
-  const zeroResultModalOpen = window.store((s) => s.zeroResultModalOpen)
-  const setZeroResultModalOpen = window.store((s) => s.setZeroResultModalOpen)
+  const { close: closeZeroResultsModal, isOpen: isOpenZeroResultsModal } = useOpenClose(OpenCloseIDs.ZERO_RESULTS_MODAL)
 
   const { t } = useTranslation('modals')
 
@@ -489,12 +488,12 @@ export function ZeroResultSuggestionModal() {
   return (
     <Modal
       title={t('0Results.Title')/* Search generated 0 results */}
-      open={zeroResultModalOpen}
+      open={isOpenZeroResultsModal}
       width={900}
       destroyOnClose
       centered
-      onOk={() => setZeroResultModalOpen(false)}
-      onCancel={() => setZeroResultModalOpen(false)}
+      onOk={closeZeroResultsModal}
+      onCancel={closeZeroResultsModal}
       footer={null}
     >
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
@@ -511,7 +510,7 @@ export function ZeroResultSuggestionModal() {
               const setStatDisplay = window.store.getState().setStatDisplay
               setStatDisplay('combat')
               Message.success(t('0Results.ResetAll.SuccessMessage'))/* Cleared all filters */
-              setZeroResultModalOpen(false)
+              closeZeroResultsModal()
             }}
             style={{ width: 250 }}
             type='primary'

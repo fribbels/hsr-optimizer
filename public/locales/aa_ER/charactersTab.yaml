@@ -80,6 +80,7 @@ CharacterPreview:
     SavedPortrait: crwdns39676:0crwdne39676:0
     RevertedPortrait: crwdns39678:0crwdne39678:0
     NoSelectedCharacter: crwdns39680:0crwdne39680:0
+    NoSelectedLightCone: crwdns45205:0crwdne45205:0
   ScoreHeader:
     Title: crwdns39682:0crwdne39682:0
     TitleBenchmark: "crwdns44466:0{{spd}}crwdne44466:0"
@@ -92,11 +93,9 @@ CharacterPreview:
       StatScore: crwdns39692:0crwdne39692:0
       NoneScore: crwdns43672:0crwdne43672:0
   DetailsSlider:
-    Title: "crwdns39694:0crwdne39694:0"
     Labels:
       CombatStats: crwdns39696:0crwdne39696:0
       SubDpsCombatStats: crwdns44468:0crwdne44468:0
-      DMGUpgrades: crwdns39698:0crwdne39698:0
   DMGUpgrades: crwdns39700:0crwdne39700:0
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0

@@ -5,23 +5,23 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Ligh
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 
 export default function CharacterModal(props: {
   open: boolean
   onOk: (form: Form) => void
   setOpen: (open: boolean) => void
-  initialCharacter?: Character
+  initialCharacter?: Character | null
 }) {
   const [characterForm] = AntDForm.useForm()
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
   const { t: tCommon } = useTranslation('common')
 
-  const [characterId, setCharacterId] = useState(props.initialCharacter?.form.characterId || '')
-  const [eidolon] = useState(props.initialCharacter?.form.characterEidolon || 0)
-  const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition || 1)
+  const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(props.initialCharacter?.form.characterId ?? null)
+  const [eidolon] = useState(props.initialCharacter?.form.characterEidolon ?? 0)
+  const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition ?? 1)
 
   useEffect(() => {
     if (!props.open) return
@@ -29,13 +29,13 @@ export default function CharacterModal(props: {
     const defaultValues = {
       characterId: props.initialCharacter?.form.characterId,
       characterLevel: 80,
-      characterEidolon: props.initialCharacter?.form.characterEidolon || 0,
+      characterEidolon: props.initialCharacter?.form.characterEidolon ?? 0,
       lightCone: props.initialCharacter?.form.lightCone,
       lightConeLevel: 80,
-      lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition || 1,
+      lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition ?? 1,
     }
 
-    setCharacterId(props.initialCharacter?.form.characterId ?? '')
+    setCharacterId(props.initialCharacter?.form.characterId ?? null)
 
     characterForm.setFieldsValue(defaultValues)
   }, [props.open])
@@ -78,14 +78,14 @@ export default function CharacterModal(props: {
             <HeaderText>{t('Character')}</HeaderText>
             <AntDForm.Item name='characterId'>
               <CharacterSelect
-                value=''
+                value={null}
                 withIcon={true}
-                onChange={(characterId: string) => {
+                onChange={(characterId: CharacterId | null | undefined) => {
                   setCharacterId(characterId)
-                  const dbCharacter = DB.getCharacterById(characterId)
-                  const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon || 0)
-                  const lightConePreselect = dbCharacter?.form?.lightCone || undefined
-                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition || 1
+                  const dbCharacter = DB.getCharacterById(characterId!)
+                  const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
+                  const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
+                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1
                   characterForm.setFieldValue('characterEidolon', eidolonPreselect)
                   characterForm.setFieldValue('lightCone', lightConePreselect)
                   characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)
@@ -113,7 +113,7 @@ export default function CharacterModal(props: {
             <HeaderText>{t('Lightcone')}</HeaderText>
             <AntDForm.Item name='lightCone'>
               <LightConeSelect
-                value=''
+                value={null}
                 withIcon={true}
                 characterId={characterId}
                 onChange={() => {

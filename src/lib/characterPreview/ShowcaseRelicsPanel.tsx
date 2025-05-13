@@ -4,8 +4,10 @@ import { Constants } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { RelicPreview, ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import React from 'react'
+import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
 export function ShowcaseRelicsPanel(props: {
@@ -14,8 +16,8 @@ export function ShowcaseRelicsPanel(props: {
   setAddModalOpen: (b: boolean) => void
   displayRelics: SingleRelicByPart
   source: ShowcaseSource
-  scoringType: string
-  characterId: string
+  scoringType: ScoringType
+  characterId: CharacterId
   scoredRelics: RelicScoringResult[]
   showcaseColors?: ShowcaseTheme
 }) {

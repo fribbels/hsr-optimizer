@@ -12,3 +12,7 @@ RelicPotentialLoadBehaviour:
   Label: 로드 때 마다 유물 점수 갱신
   OnStartup: "기본값 : 페이지 로드 시 유물 점수 자동으로 매기기"
   Manual: '"점수 갱신"을 눌렀을 때만 유물 점수를 갱신하기 (페이지 로드 속도 증가)'
+ExpandedInfoPanelPosition:
+  Label: 옵티마이저 확장 정보 패널 위치
+  Above: 유물 미리보기 위에 표시하기
+  Below: "유물 미리보기 아래 표시하기(기본값)"

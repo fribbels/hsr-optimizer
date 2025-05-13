@@ -1,57 +1,32 @@
 import { Flex, Tag } from 'antd'
 import i18next from 'i18next'
-import { Constants, MainStats, Parts, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames, Stats, SubStats } from 'lib/constants/constants'
+import { Constants, Parts, Stats, SubStats } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
-import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { calculateBuild } from 'lib/optimization/calculateBuild'
-import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
-import { calculateCurrentlyEquippedRow, formatOptimizerDisplayData } from 'lib/optimization/optimizer'
-import { emptyRelic } from 'lib/optimization/optimizerUtils'
+import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { RelicFilters } from 'lib/relics/relicFilters'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationFlags, SimulationResult } from 'lib/scoring/simScoringUtils'
+import { transformOptimizerDisplayData } from 'lib/simulations/optimizerDisplayDataTransform'
+import { runStatSimulations } from 'lib/simulations/statSimulation'
+import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { StatSimTypes } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { optimizerGridApi } from 'lib/utils/gridUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
 import { Relic, Stat } from 'types/relic'
 
 // FIXME HIGH
 
-export type Simulation = {
-  name?: string
-  key: string
-  simType: StatSimTypes
-  request: SimulationRequest
-  result: SimulationResult
-  penaltyMultiplier: number
-}
-
-export type SimulationRequest = {
-  name?: string // This name is optionally provided from the sim form, then the parent either autogens or inherits
-  simRelicSet1: string
-  simRelicSet2: string
-  simOrnamentSet: string
-  simBody: string
-  simFeet: string
-  simPlanarSphere: string
-  simLinkRope: string
-  stats: SimulationStats
-}
-
-export type SimulationStats = {
-  [key: string]: number
-}
-
-export function saveStatSimulationBuildFromForm() {
+export function saveStatSimulationBuildFromForm(startSim = true) {
   const form: Form = window.optimizerForm.getFieldsValue()
   console.log('Save statSim', form.statSim)
 
@@ -70,13 +45,13 @@ export function saveStatSimulationBuildFromForm() {
     return null
   }
 
-  return saveStatSimulationRequest(simRequest, simType, true)
+  return saveStatSimulationRequest(simRequest, simType, startSim)
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
   const existingSimulations = (window.store.getState().statSimulations || [])
-  const key = Utils.randomId()
-  const name = simRequest.name || undefined
+  const key = TsUtils.uuid()
+  const name = simRequest.name ?? undefined
   const simulation = {
     name: name,
     key: key,
@@ -117,7 +92,7 @@ function hashSim(sim: Simulation) {
     }
   }
 
-  return Utils.objectHash({
+  return TsUtils.objectHash({
     simType: sim.simType,
     request: cleanedRequest,
   })
@@ -244,7 +219,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 }
 
 export function overwriteStatSimulationBuild() {
-  if (saveStatSimulationBuildFromForm() === null) return
+  if (saveStatSimulationBuildFromForm(false) === null) return
 
   const selectedSim = window.store.getState().selectedStatSimulations
   const statSims: Simulation[] = window.store.getState().statSimulations
@@ -261,13 +236,15 @@ export function overwriteStatSimulationBuild() {
   setFormStatSimulations(updatedSims)
   window.store.getState().setSelectedStatSimulations([newSim.key])
 
-  autosave()
+  setTimeout(() => {
+    startOptimizerStatSimulation()
+  }, 0)
 }
 
-export function deleteStatSimulationBuild(record: { key: React.Key; name: string }) {
+export function deleteStatSimulationBuild(record: { key: React.Key }) {
   console.log('Delete sim', record)
   const statSims = window.store.getState().statSimulations
-  const updatedSims: Simulation[] = Utils.clone(statSims.filter((x) => x.key != record.key))
+  const updatedSims = TsUtils.clone(statSims.filter((x) => x.key != record.key))
 
   window.store.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
@@ -286,155 +263,8 @@ export function setFormStatSimulations(simulations: Simulation[]) {
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
-export type RunSimulationsParams = {
-  quality: number
-  speedRollValue: number
-  mainStatMultiplier: number
-  substatRollsModifier: (num: number, stat: string, relics: Record<Parts, Relic>) => number
-  simulationFlags: SimulationFlags
-}
-
-const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
-const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
-
-export const defaultSimulationParams: RunSimulationsParams = {
-  quality: 1,
-  speedRollValue: 2.6,
-  mainStatMultiplier: 1,
-  substatRollsModifier: (num: number) => num,
-  simulationFlags: {} as SimulationFlags,
-}
-
-export function runSimulations(
-  form: Form,
-  context: OptimizerContext | null,
-  simulations: Simulation[],
-  inputParams: Partial<RunSimulationsParams> = {},
-  weight: boolean = false,
-): SimulationResult[] {
-  const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
-  const forcedBasicSpd = params.simulationFlags.forceBasicSpd ? params.simulationFlags.forceBasicSpdValue : undefined
-
-  const simulationResults: SimulationResult[] = []
-  for (const sim of simulations) {
-    const request = sim.request
-
-    const head: Relic = emptyRelic()
-    const hands: Relic = emptyRelic()
-    const body: Relic = emptyRelic()
-    const feet: Relic = emptyRelic()
-    const linkRope: Relic = emptyRelic()
-    const planarSphere: Relic = emptyRelic()
-
-    head.augmentedStats!.mainStat = Constants.Stats.HP
-    hands.augmentedStats!.mainStat = Constants.Stats.ATK
-    body.augmentedStats!.mainStat = request.simBody
-    feet.augmentedStats!.mainStat = request.simFeet
-    linkRope.augmentedStats!.mainStat = request.simLinkRope
-    planarSphere.augmentedStats!.mainStat = request.simPlanarSphere
-
-    head.augmentedStats!.mainValue = 705.600// * params.mainStatMultiplier
-    hands.augmentedStats!.mainValue = 352.800// * params.mainStatMultiplier
-    body.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier
-    feet.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier
-    linkRope.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier
-    planarSphere.augmentedStats!.mainValue = StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier
-
-    // Generate relic sets
-    // Since the optimizer uses index based relic set identification, it can't handle an empty set
-    // We have to fake rainbow sets by forcing a 2+1+1 or a 1+1+1+1 combination
-    // For planar sets we can't the index be negative or NaN, so we just use two unmatched sets
-    const unusedRelicSets = SetsRelicsNames.filter((x) => x != request.simRelicSet1 && x != request.simRelicSet2)
-
-    head.set = request.simRelicSet1 as SetsRelics || unusedRelicSets[0]
-    hands.set = request.simRelicSet1 as SetsRelics || unusedRelicSets[1]
-    body.set = request.simRelicSet2 as SetsRelics || unusedRelicSets[2]
-    feet.set = request.simRelicSet2 as SetsRelics || unusedRelicSets[3]
-    linkRope.set = request.simOrnamentSet as SetsOrnaments || SetsOrnamentsNames[0]
-    planarSphere.set = request.simOrnamentSet as SetsOrnaments || SetsOrnamentsNames[1]
-
-    head.part = Parts.Head
-    hands.part = Parts.Hands
-    body.part = Parts.Body
-    feet.part = Parts.Feet
-    linkRope.part = Parts.LinkRope
-    planarSphere.part = Parts.PlanarSphere
-
-    const relicsByPart = {
-      [Parts.Head]: [head],
-      [Parts.Hands]: [hands],
-      [Parts.Body]: [body],
-      [Parts.Feet]: [feet],
-      [Parts.LinkRope]: [linkRope],
-      [Parts.PlanarSphere]: [planarSphere],
-    }
-    const relics: Record<Parts, Relic> = {
-      [Parts.Head]: head,
-      [Parts.Hands]: hands,
-      [Parts.Body]: body,
-      [Parts.Feet]: feet,
-      [Parts.LinkRope]: linkRope,
-      [Parts.PlanarSphere]: planarSphere,
-    }
-
-    // Convert substat rolls to value totals
-    const substatValues: { stat: SubStats; value: number }[] = []
-
-    // Convert value totals to substat objects
-    for (const substat of SubStats) {
-      let value = sim.request.stats[substat]
-
-      if (sim.simType == StatSimTypes.SubstatRolls) {
-        const substatValue = substat == Stats.SPD
-          ? params.speedRollValue
-          : StatCalculator.getMaxedSubstatValue(substat, params.quality)
-
-        let substatCount = Utils.precisionRound((sim.request.stats[substat] || 0))
-        substatCount = params.substatRollsModifier(substatCount, substat, relics)
-
-        value = substatCount * substatValue
-      }
-
-      if (value) {
-        substatValues.push({
-          stat: substat,
-          value: value,
-        })
-      }
-    }
-
-    head.substats = substatValues
-
-    RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart)
-
-    const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
-    const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
-
-    const x = calculateBuild(
-      form,
-      relics,
-      context,
-      basicStatsArray,
-      computedStatsArray,
-      true,
-      true,
-      false,
-      forcedBasicSpd,
-      weight,
-    )
-    const optimizerDisplayData = formatOptimizerDisplayData(x)
-    // For optimizer grid syncing with sim table
-    optimizerDisplayData.statSim = {
-      key: sim.key,
-    }
-    simulationResults.push(optimizerDisplayData)
-  }
-
-  return simulationResults
-}
-
 export function startOptimizerStatSimulation() {
-  const form: Form = OptimizerTabController.getForm()
+  const form = OptimizerTabController.getForm()
   const existingSimulations = (window.store.getState().statSimulations || [])
 
   if (existingSimulations.length == 0) return
@@ -442,15 +272,22 @@ export function startOptimizerStatSimulation() {
 
   console.log('Starting sims', existingSimulations)
 
-  const simulationResults = runSimulations(form, null, existingSimulations, undefined, true)
-  simulationResults.forEach((x) => x.id = x.statSim.key)
+  const context = generateContext(form)
 
-  OptimizerTabController.setRows(simulationResults)
+  const optimizerDisplayData: OptimizerDisplayData[] = []
+
+  for (const simulation of existingSimulations) {
+    const simulationResults = runStatSimulations([simulation], form, context, { stabilize: true })
+    const transformedData = simulationResults.map((result) => transformOptimizerDisplayData(result.x, simulation.key))
+    optimizerDisplayData.push(transformedData[0])
+  }
+
+  OptimizerTabController.setRows(optimizerDisplayData)
 
   calculateCurrentlyEquippedRow(form)
-  window.optimizerGrid.current.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  optimizerGridApi().updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
-  const sortOption = SortOption[form.resultSort]
+  const sortOption = SortOption[form.resultSort!]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
 
@@ -464,7 +301,7 @@ function autosave() {
 }
 
 export function importOptimizerBuild() {
-  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0]
+  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0] as OptimizerDisplayData
 
   if (!selectedRow) {
     Message.warning(i18next.t('optimizerTab:StatSimulation.NothingToImport'))// 'Run the optimizer first, then select a row from the optimizer results to import'
@@ -487,7 +324,7 @@ export function importOptimizerBuild() {
   const ornamentSetIndex: number = selectedRow.ornamentSetIndex
   const ornamentSetName: string | undefined = ornamentSetIndexToName(ornamentSetIndex)
 
-  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1)
+  const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1) as SimulationRequest
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
 }
 
@@ -522,8 +359,10 @@ export function convertRelicsToSimulation(
 
   // Sum up substat rolls
   for (const relic of relics) {
-    for (const substat of relic.substats) {
-      accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+    if (relic && relic.substats) {
+      for (const substat of relic.substats) {
+        accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+      }
     }
   }
 
@@ -536,10 +375,10 @@ export function convertRelicsToSimulation(
     simRelicSet1: relicSet1,
     simRelicSet2: relicSet2,
     simOrnamentSet: ornamentSet,
-    simBody: relicsByPart[Parts.Body].main.stat,
-    simFeet: relicsByPart[Parts.Feet].main.stat,
-    simPlanarSphere: relicsByPart[Parts.PlanarSphere].main.stat,
-    simLinkRope: relicsByPart[Parts.LinkRope].main.stat,
+    simBody: relicsByPart[Parts.Body]?.main?.stat || null,
+    simFeet: relicsByPart[Parts.Feet]?.main?.stat || null,
+    simPlanarSphere: relicsByPart[Parts.PlanarSphere]?.main?.stat || null,
+    simLinkRope: relicsByPart[Parts.LinkRope]?.main?.stat || null,
     stats: {
       [Stats.HP]: accumulatedSubstatRolls[Stats.HP] || null,
       [Stats.ATK]: accumulatedSubstatRolls[Stats.ATK] || null,

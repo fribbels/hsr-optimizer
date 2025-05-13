@@ -1,14 +1,157 @@
 RelicFilterBar:
+  Part: Часть
+  Enhance: Улучшение
+  Grade: Редкость
+  InitialRolls: Кол-во проков
+  Verified: Подтверждённый
+  Equipped: Экипировано
+  Clear: Очистить
+  ClearButton: Очистить фильтры
+  Set: Набор
+  Mainstat: Основные характеристики
+  Substat: Дополнительные характеристики
+  ReapplyButton: Повторно рассчитать
   ScoringButton: Алгоритм подсчета очков
+  RecommendationHeader: Персонаж для оценки реликвий
+  Rating: Доп. фильтры оценки реликвий
+  CustomCharsHeader: Персонажи для расчёта потенциала
 Messages:
   AddRelicSuccess: Реликвия успешно добавлена
+  NoRelicSelected: Реликвия не выбрана
   DeleteRelicSuccess: Реликвия успешно удалена
 RelicGrid:
+  To: по
+  Of: из
   Headers:
+    EquippedBy: Одето
+    Set: Набор
+    Part: Слот
+    MainStat: |-
+      Основная
+      хар-ка
+    MainValue: |-
+      Значение
+      Хар-тики
+
     HPP: HP %
     ATKP: АТК %
     DEFP: ЗАЩ %
     HP: HP
-    ATK: Сила атаки
-    DEF: Защита
+    ATK: ATK
+    DEF: ЗАЩ
     SPD: Скорость
+    CR: |-
+      Крит.
+      Шанс
+    CD: |-
+      Крит.
+      Урон
+    EHR: |-
+      Шанс попад.
+      Эффектов
+    RES: |-
+      Сопрот.
+      Эффек.
+    BE: |-
+      Эффект
+      Пробития
+    CV: |-
+      Крит.
+      Масса
+  ValueColumns:
+    SelectedCharacter:
+      Label: По персонажу для оценки реликвий (ПО)
+      ScoreCol:
+        Label: "ПО: Оценка эффективности характеристик"
+        Header: |-
+          ПО: Эфф.
+          Хар-тик
+
+      AvgPotCol:
+        Label: "ПО: Средний потенциал"
+        Header: |-
+          ПО: Средний
+          Потенциал
+      MaxPotCol:
+        Label: "ПО: Максимальный потенциал"
+        Header: |-
+          ПО: Макс.
+          Потенциал
+      RerollAvg:
+        Label: "ПО: Средний потенциал переброса характеристик"
+        Header: |-
+          ПО: Ср. Пот.
+          Переброса
+      RerollAvgDelta:
+        Label: "ПО: Средний прирост(Δ) характеристик при перебросе"
+        Header: |-
+          ПО: Ср. Δ при
+          Перебросе
+      RerollAvgEquippedDelta:
+        Label: "ПО: Средний прирост(Δ) характеристик при перебросе vs текущих"
+        Header: |-
+          ПО: Ср. Δ при
+          Перебросе
+          vs текущих
+    CustomCharacters:
+      Label: По персонажу для расчёта потенциала (ПР)
+      AvgPotCol:
+        Label: "ПР: Средний потенциал"
+        Header: |-
+          ПР: Средний
+          Потенциал
+      MaxPotCol:
+        Label: "ПР: Максимальный потенциал"
+        Header: |-
+          ПР: Макс.
+          Потенциал
+      RerollAvg:
+        Label: "ПР: Средний потенциал переброса характеристик"
+        Header: |-
+          ПР: Ср. Пот.
+          Переброса
+    AllCharacters:
+      Label: Расчёт для всех персонажей (ВСЕ)
+      AvgPotCol:
+        Label: "ВСЕ: Средний потенциал"
+        Header: |-
+          ВСЕ: Ср.
+          Потенциал
+      MaxPotCol:
+        Label: "ВСЕ: Максимальный потенциал"
+        Header: |-
+          ВСЕ: Макс.
+          Потенциал
+      RerollAvg:
+        Label: "ВСЕ: Средний потенциал переброса характеристик"
+        Header: |-
+          ВСЕ: Ср. Пот.
+          Переброса
+    ComingSoon:
+      Label: В разработке
+      SetsPotential:
+        Label: Потенциал наборов реликвий / планарок
+        Header: |-
+          ВСЕ: Макс. 
+          Потенциал + Наборы
+Toolbar:
+  RelicLocator:
+    Width: Ширина инвентаря (столбцы)
+    Filter: Автофильтр строк
+    NoneSelected: Выберите реликвию для поиска
+    Location: "Позиция: Строка {{rowIndex}} / столбец {{columnIndex}}"
+  InsightOptions:
+    Buckets: "Анализ реликвии: Распределение"
+    Top10: "Анализ реликвии: Топ-10"
+  PlotOptions:
+    PlotAll: Показать всех персонажей
+    PlotCustom: Персонажи для расчёта потенциала
+  EditRelic: Изменить реликвию
+  DeleteRelic:
+    ButtonText: Удалить реликвию
+    Warning_one: Удалить выбранную реликвию?
+    Warning_other: "Удалить {{count}} выбранных реликвий?"
+  AddRelic: Добавить реликвию
+RelicInsights:
+  NewStats: "Новые хар-ки: "
+  UpgradedStats: "Улучшаемые хар-тики: "

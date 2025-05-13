@@ -36,8 +36,8 @@ Lightcones:
           当装备者击中敌方目标时，使敌方陷入【泡影】状态，持续1回合。装备者每次攻击时，对每个目标只可触发1次。装备者对陷入【泡影】状态的目标造成的伤害提高{{DmgBoost}}%，终结技造成的伤害额外提高{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
     Content:
-      maxEnergyUltDmgStacks:
-        text: 最大能量
+      maxEnergyDmgBoost:
+        text: 满能量伤害提高
         content: 当装备者施放终结技时，根据装备者的能量上限，提高装备者终结技造成的伤害：每点能量提高{{DmgStep}}%，最多计入180点。
   BaptismOfPureThought:
     Content:
@@ -173,6 +173,17 @@ Lightcones:
         text: 流光层数
         content: >-
           装备者施放追加攻击时，获得1层【流光】，最多叠加2层。每层【流光】使装备者造成的终结技伤害无视目标{{DefIgnore}}%的防御力。装备者回合结束时，移除1层【流光】。
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: 防御穿透
+        content: >-
+          装备者施放攻击后，有120%的基础概率使敌方每个单体目标陷入【茫然】状态，【茫然】状态下的敌方目标防御力降低{{DefShred}}%，持续2回合。::BR::若装备者的速度大于等于170，有120%的基础概率使敌方每个单体目标陷入【失窃】状态，【失窃】状态下的敌方目标防御力降低{{AdditionalDefShred}}%，持续2回合。【茫然】或【失窃】被重复施加时，仅最新施加的生效。
+    TeammateContent:
+      additionalDefPen:
+        text: "速度 > 170"
+        content: >-
+          装备者施放攻击后，有120%的基础概率使敌方每个单体目标陷入【茫然】状态，【茫然】状态下的敌方目标防御力降低{{DefShred}}%，持续2回合。::BR::若装备者的速度大于等于170，有120%的基础概率使敌方每个单体目标陷入【失窃】状态，【失窃】状态下的敌方目标防御力降低{{AdditionalDefShred}}%，持续2回合。【茫然】或【失窃】被重复施加时，仅最新施加的生效。
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -192,6 +203,11 @@ Lightcones:
       deathFlower:
         text: 冥花防御穿透
         content: 装备者或装备者的忆灵在自身回合内损失生命值时，装备者获得【冥花】，【冥花】可以使装备者和装备者的忆灵造成伤害时，无视目标{{DefIgnore}}%的防御力，持续2回合。
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: 易伤
+        content: 装备者的忆灵施放忆灵技时，使敌方全体受到的伤害提高{{Vulnerability}}%，持续2回合。同类效果无法叠加。
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -936,6 +952,32 @@ Characters:
         text: 6魂增益
         content: >-
           遐蝶与死龙造成伤害时，量子属性抗性穿透提高20%。:BR:触发天赋【灼掠幽墟的晦翼】的弹射次数额外增加3次。
+  Cipher:
+    Content:
+      vulnerability:
+        text: 团队易伤
+        content: 赛飞儿在场时，敌方全体目标受到的伤害提高40%。
+      skillAtkBuff:
+        text: 战技攻击力增益
+        content: 使用战技后，有120%的基础概率使指定敌方单体及其相邻目标陷入虚弱状态，造成的伤害降低10%，使赛飞儿的攻击力提高30%，持续2回合
+      fuaCdBoost:
+        text: 追加攻击暴伤提升
+        content: 天赋的追加攻击造成的暴击伤害提高100%。
+      spdBasedBuffs:
+        text: 基于速度的增益
+        content: 赛飞儿的速度大于等于140/170时，暴击率提高25%/50%，获得的记录值提高50%/100%。
+      e1AtkBuff:
+        text: 1魂攻击力增益
+        content: 施放天赋的追加攻击时，赛飞儿的攻击力提高80%，持续2回合。
+      e2Vulnerability:
+        text: 2魂易伤
+        content: 赛飞儿击中敌方目标时，有120%的基础概率使其受到的伤害提高30%，持续2回合。
+      e4AdditionalDmg:
+        text: 4魂附加伤害
+        content: '【老主顾】受到我方目标攻击后，赛飞儿对其造成等同于赛飞儿50%攻击力的量子属性附加伤害。'
+      e6FuaDmg:
+        text: 6魂追加攻击伤害
+        content: 赛飞儿天赋的追加攻击造成的伤害提高350%。
   Clara:
     Content:
       ultBuff:
@@ -1193,6 +1235,35 @@ Characters:
       e6DmgBuff:
         text: 6魂伤害增益
         content: 为我方目标提供治疗时，使目标造成的伤害提高50%，持续2回合。
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: 治疗目标≤50%生命值
+        content: 为当前生命值小于等于自身生命上限的50%的我方目标提供治疗时，风堇和小伊卡的治疗量提高25%。
+      resBuff:
+        text: 效果抵抗增益
+        content: 风堇的效果抵抗提高50%。
+      spd200HpBuff:
+        text: 速度≥200时生命值增益
+        content: 风堇的速度大于200时，她与小伊卡的生命上限提高20%，之后每超出1点速度，风堇与小伊卡提供的治疗量提高1%，最多计入200点超出的速度。
+      clearSkies:
+        text: 雨过天晴状态
+        content: 使用终结技后，风堇进入【雨过天晴】状态，持续3回合，风堇每回合开始时持续回合数减1。处于【雨过天晴】状态时，我方全体目标生命上限提高{{UltHpBuffScaling}}% +{{UltHpBuffFlat}}点。
+      healingDmgStacks:
+        text: 治疗增伤层数
+        content: 风堇或小伊卡提供治疗时，小伊卡造成的伤害提高80%，持续2回合，最多可叠加3层。
+      e1HpBuff:
+        text: 1魂生命值增益
+        content: 风堇处于【雨过天晴】状态时，我方全体目标生命上限额外提高50%。
+      e2SpdBuff:
+        text: 2魂速度增益
+        content: 我方目标生命值降低时，速度提高30%，持续2回合。
+      e4CdBuff:
+        text: 4魂爆伤增益
+        content: 行迹【暴风停歇】获得强化，每超过1点速度，风堇和小伊卡的暴击伤害额外提高2%。
+      e6ResPen:
+        text: 6魂属性抗性穿透
+        content: 小伊卡在场时，我方全体目标的全属性抗性穿透提高20%。
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1616,7 +1687,7 @@ Characters:
       talentStacks:
         text: 天赋增伤层数
         content: >-
-          当我方目标每消耗1点战技点，则使我方全体造成的伤害提高{talentBaseStackBoost}}%，该效果持续2回合，最多可叠加3层。::BR::2魂：天赋每层效果额外使我方目标造成伤害时无视目标8%的防御力。
+          当我方目标每消耗1点战技点，则使我方全体造成的伤害提高{{talentBaseStackBoost}}%，该效果持续2回合，最多可叠加3层。::BR::2魂：天赋每层效果额外使我方目标造成伤害时无视目标8%的防御力。
       quantumAlliesAtkBuff:
         text: 量子队友攻击力增益
         content: 当我方队伍中存在1名/2名/3名量子属性的角色时，我方量子属性的角色的攻击力额外提高5%/15%/30%。

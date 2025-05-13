@@ -7,11 +7,11 @@ import { DBMetadataCharacter, DBMetadataLightCone } from 'types/metadata'
 
 export function generateCharacterOptions() {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
-  const characterData = TsUtils.clone(DB.getMetadata().characters) as CharacterOptions
+  const characterData = TsUtils.clone(DB.getMetadata().characters) as unknown as CharacterOptions
 
   for (const value of Object.values(characterData)) {
     value.value = value.id
-    value.label = t(`${value.id}.LongName` as never)
+    value.label = t(`${value.id}.LongName`)
   }
 
   return Object.values(characterData)
@@ -21,7 +21,7 @@ export function generateCharacterOptions() {
 // Light cone selector options from current db metadata
 export function generateLightConeOptions(characterId?: CharacterId) {
   const t = i18next.getFixedT(null, 'gameData', 'Lightcones')
-  const lcData = TsUtils.clone(DB.getMetadata().lightCones) as LcOptions
+  const lcData = TsUtils.clone(DB.getMetadata().lightCones) as unknown as LcOptions
 
   let pathFilter = null
   if (characterId) {
@@ -31,7 +31,7 @@ export function generateLightConeOptions(characterId?: CharacterId) {
 
   for (const value of Object.values(lcData)) {
     value.value = value.id
-    value.label = t(`${value.id}.Name` as never)
+    value.label = t(`${value.id}.Name`)
   }
 
   return Object.values(lcData)
@@ -39,5 +39,5 @@ export function generateLightConeOptions(characterId?: CharacterId) {
     .sort((a, b) => a.label.localeCompare(b.label, currentLocale()))
 }
 
-type LcOptions = Record<string, DBMetadataLightCone & { value: string; label: string; id: string }>
-type CharacterOptions = Record<string, DBMetadataCharacter & { value: string; label: string; id: string }>
+type LcOptions = Record<string, DBMetadataLightCone & { value: DBMetadataLightCone['id']; label: string }>
+type CharacterOptions = Record<string, DBMetadataCharacter & { value: DBMetadataCharacter['id']; label: string }>

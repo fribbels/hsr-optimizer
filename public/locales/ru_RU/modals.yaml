@@ -1,3 +1,14 @@
+Scoring:
+  StatWeightsHeader: Вес статов
+  WeightMethodology:
+    Header: Как рассчитывается оценка статов?
+  Footer:
+    Reset: Восстановить значения по умолчанию
+    ResetAll: Сбросить для всех персонажей 
+    Save: Сохранить изменения
+  ResetAllConfirm:
+    Title: Сбросить настройки расчета оценки для всех персонажей?
+    Description: Вы потеряете все пользовательские настройки, которые вы установили на персонажах.
 0Perms:
   RootCauses:
     IMPORT:
@@ -149,7 +160,12 @@
       SuccessMessage: "Сброшен фильтр минимального урона Комбо"
       ButtonText: "Сброшен фильтр минимального урона Комбо"
 EditCharacter:
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Персонаж
+  Lightcone: Световой конус
 Relic:
   Messages:
     SubmitFail: Отправка не удалась!
@@ -181,10 +197,16 @@ Builds:
     SuccessMessageAll: "Все сборки для {{characterName}} успешно удалены"
     SuccessMessageSingle: "Сборка: {{name}} успешно удалена"
 ScoreFooter:
+  ModalTitle: Настройки оценки "В бою"
+  ResetButtonText: Восстановить команду по умолчанию
   ResetSuccessMsg: Восстановить команды по умолчанию
+  SyncButtonText: Синхронизировать эйдолоны / конусы
   SyncSuccessMsg: Союзники синхронизированы
   TeamOptions:
-    Custom: Пользовательский
+    Default: Стандартный
+    Custom: Вручную
 CharacterSelect:
   SingleSelect:
     Placeholder: Персонаж
+LightconeSelect:
+  Placeholder: Световой конус

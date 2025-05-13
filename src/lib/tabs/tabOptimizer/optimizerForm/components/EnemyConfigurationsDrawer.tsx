@@ -1,5 +1,6 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Drawer, Flex, Form, Select, Switch, Typography } from 'antd'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -11,8 +12,8 @@ const { Text } = Typography
 
 export const EnemyConfigurationsDrawer = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'EnemyConfiguration' })
-  const enemyConfigurationsDrawerOpen = window.store((s) => s.enemyConfigurationsDrawerOpen)
-  const setEnemyConfigurationsDrawerOpen = window.store((s) => s.setEnemyConfigurationsDrawerOpen)
+
+  const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
 
   const enemyLevelOptions = useMemo(() => {
     const options: { value: number; label: string }[] = []
@@ -78,8 +79,8 @@ export const EnemyConfigurationsDrawer = () => {
     <Drawer
       title={t('Title')}// 'Enemy configurations'
       placement='right'
-      onClose={() => setEnemyConfigurationsDrawerOpen(false)}
-      open={enemyConfigurationsDrawerOpen}
+      onClose={closeEnemyDrawer}
+      open={isOpenEnemyDrawer}
       width={300}
       forceRender
     >

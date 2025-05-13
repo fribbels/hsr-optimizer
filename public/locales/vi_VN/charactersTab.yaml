@@ -59,6 +59,10 @@ CharacterPreview:
       CurrentSpdLabel: Tốc độ hiện tại (SPD) - Mốc chuẩn sẽ khớp với tốc độ cơ bản
       BaseSpdLabel: Tốc độ cơ bản (Base SPD) - Mốc chuẩn sẽ nhắm đến một xây dựng SPD tối thiểu
       CommonBreakpointsLabel: Các mốc SPD phổ biến được thiết lập sẵn (các buff SPD được xem xét riêng biệt)
+    BuffPriority:
+      Header: Chế độ DPS
+      High: Chính
+      Low: Phụ
   CustomizationSidebar:
     Label: Thay đổi nền
     Modes:
@@ -76,6 +80,7 @@ CharacterPreview:
     SavedPortrait: Thêm ảnh mới thành công
     RevertedPortrait: Đưa ảnh về ban đầu thành công
     NoSelectedCharacter: Không nhân vật nào được chọn
+    NoSelectedLightCone: Không nón ánh sáng nào được chọn
   ScoreHeader:
     Title: Giả lập combat
     TitleBenchmark: "{{spd}} Mốc chuẩn SPD"
@@ -88,15 +93,14 @@ CharacterPreview:
       StatScore: Điểm chỉ số
       NoneScore: Không có
   DetailsSlider:
-    Title: "Chi tiết điểm combat:"
     Labels:
       CombatStats: Chỉ số trong combat
       SubDpsCombatStats: Chỉ số combat (Sub DPS)
-      DMGUpgrades: Tăng sát thương
   DMGUpgrades: Tăng sát thương
   SubstatUpgradeComparisons:
     Header: So sánh nâng cấp thuộc tính dị vật
     MainStatHeader: So sánh nâng cấp chính di vật
+    AddedRoll: "+1x roll {{stat}}"
     MainStatUpgrade: Nâng Cấp Dòng Chính
     SubStatUpgrade: Nâng cấp thuộc tính phụ
     DpsScorePercentUpgrade: Điểm DPS Δ %

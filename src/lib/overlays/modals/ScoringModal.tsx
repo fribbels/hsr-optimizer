@@ -30,24 +30,35 @@ type ScoringMetadataWithSetsList = ScoringMetadata & {
   ornamentsList: [Sets, number][]
 }
 
-function RelicSetAutoComplete(props: {
+function SetPicker(props: {
   placeholder: string
   names: string[]
-  onSelect: (value: string) => void
+  selectedValues: string[]
+  add: (value: string) => void
+  remove: (value: string) => void
 }) {
-  const [autocompleteValue, setAutocompleteValue] = useState('')
-
   return (
-    <AutoComplete
+    <Select
+      mode="multiple"
       style={{width: "100%"}}
       placeholder={props.placeholder}
-      value={autocompleteValue}
-      onChange={value => setAutocompleteValue(value)}
-      onSelect={(value) => {
-        setAutocompleteValue('')
-        props.onSelect(value)
+      onChange={(values) => {
+        // Find values that were added
+        const newValues = values.filter(v => !props.selectedValues.includes(v));
+        // Find values that were removed
+        const removedValues = props.selectedValues.filter(v => !values.includes(v));
+        
+        // Add new values
+        if (newValues.length > 0) {
+          props.add(newValues[0]);
+        }
+        
+        // Remove deleted values
+        if (removedValues.length > 0) {
+          props.remove(removedValues[0]);
+        }
       }}
-      defaultActiveFirstOption
+      maxTagCount="responsive"
       options={
         props.names.map((set) => ({
           value: set,
@@ -55,12 +66,12 @@ function RelicSetAutoComplete(props: {
             <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 24, height: 24 }}></img>
             {set}
           </Flex>,
-
         })).reverse()
       }
       filterOption={(input, option) =>
         (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
       }
+      value={props.selectedValues}
     />
   )
 }
@@ -406,11 +417,26 @@ export default function ScoringModal() {
               name="relicsList"
             >
               {(fields, { add, remove }) => <>
-                <RelicSetAutoComplete 
-                  names={SetsRelicsNames} 
-                  onSelect={(v) => add([v, 1])} 
-                  placeholder={t('Scoring.SetWeights.AddRelicSetPlaceholder'/* Add relic set */)} 
-                />
+                <Form.Item
+                  noStyle
+                  shouldUpdate
+                >
+                  {x => {
+                    const selectedValues = x.getFieldsValue()['relicsList'].map((field: [string, number]) => field[0])
+                    return <SetPicker 
+                      names={SetsRelicsNames} 
+                      add={(v) => add([v, 1])} 
+                      remove={(v) => {
+                        const index = selectedValues.indexOf(v)
+                        if (index !== -1) {
+                          remove(index)
+                        }
+                      }}
+                      placeholder={t('Scoring.SetWeights.AddRelicSetPlaceholder'/* Add relic set */)} 
+                      selectedValues={selectedValues}
+                    />
+                  }}
+                </Form.Item>
 
                 <Flex wrap gap={20}>
                   {fields.map((field) => (
@@ -444,11 +470,26 @@ export default function ScoringModal() {
               name="ornamentsList"
             >
               {(fields, { add, remove }) => <>
-                <RelicSetAutoComplete 
-                  names={SetsOrnamentsNames} 
-                  onSelect={(v) => add([v, 1])} 
-                  placeholder={t('Scoring.SetWeights.AddOrnamentSetPlaceholder'/* Add ornament set */)} 
-                />
+                <Form.Item
+                  noStyle
+                  shouldUpdate
+                >
+                  {x => {
+                    const selectedValues = x.getFieldsValue()['ornamentsList'].map((field: [string, number]) => field[0])
+                    return <SetPicker 
+                      names={SetsOrnamentsNames} 
+                      add={(v) => add([v, 1])} 
+                      remove={(v) => {
+                        const index = selectedValues.indexOf(v)
+                        if (index !== -1) {
+                          remove(index)
+                        }
+                      }}
+                      placeholder={t('Scoring.SetWeights.AddOrnamentSetPlaceholder'/* Add ornament set */)} 
+                      selectedValues={selectedValues}
+                    />
+                  }}
+                </Form.Item>
 
                 <Flex wrap gap={20}>
                   {fields.map((field) => (

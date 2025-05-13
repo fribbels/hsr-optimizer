@@ -11,7 +11,7 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
-import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -138,13 +138,10 @@ function StatScoringSummary(props: {
 
   return (
     <Flex vertical align='center'>
-      <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0, textDecoration: 'underline', marginTop: 15, marginBottom: 20 }}>
-        <ColorizedLinkWithIcon
-          text={t('Header')/* Stat Score Analysis */}
-          linkIcon={true}
-          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
-        />
-      </pre>
+      <ColorizedTitleWithInfo
+        text={t('Header')/* Stat Score Analysis */}
+        url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+      />
       <EstimatedTbpRelicsDisplay
         scoringType={props.scoringType}
         displayRelics={props.displayRelics}

@@ -129,6 +129,7 @@ function getChangelogContent() {
         `Added relic / ornament set upgrades to the main stats upgrades section. Removed upgrades from the showcase card`,
         `upgrades.webp`,
         `Removed the WEIGHT column from the optimizer`,
+        `Updated v3.3 warp planner income options`,
         `Fix: Substat rolls counts from verified relics should now accurately count 4/5 max/min rolled stats`,
         `Fix: Advanced combo rotation settings should now correctly reflect external conditional toggle/slider changes`,
         `Fix: Advanced combo rotation now correctly updates default values upon eidolon/superimposition changes`,

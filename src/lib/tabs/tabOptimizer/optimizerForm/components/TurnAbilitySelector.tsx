@@ -1,8 +1,9 @@
 import { Cascader, ConfigProvider, Form } from 'antd'
-import i18next from 'i18next'
+import { TFunction } from 'i18next'
 import { AbilityKind, ALL_ABILITIES, ComboOptionsLabelMapping, createAbility, NULL_TURN_ABILITY, NULL_TURN_ABILITY_NAME, toTurnAbility, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
 
 const { SHOW_CHILD } = Cascader
@@ -34,10 +35,9 @@ interface Option {
 const start = '['
 const end = ']'
 
-export function toI18NVisual(ability: TurnAbility): string {
+export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 'ComboFilter'>): string {
   if (!ability || ability == NULL_TURN_ABILITY) return ''
-  const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
-  const abilityKindVisual: string = t(`ComboOptions.${ComboOptionsLabelMapping[ability.kind]}` as never)
+  const abilityKindVisual: string = t(`ComboOptions.${ComboOptionsLabelMapping[ability.kind]}`)
 
   switch (ability.marker) {
     case TurnMarker.START:
@@ -51,17 +51,17 @@ export function toI18NVisual(ability: TurnAbility): string {
   }
 }
 
-function generateOptions(): Option[] {
-  const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
+function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>): Option[] {
+  // const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
   return ALL_ABILITIES.map((kind) => ({
     value: `${kind}`,
-    label: t(`ComboOptions.${ComboOptionsLabelMapping[kind]}` as never),
+    label: t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`),
     children: Object.values(TurnMarker)
       .map((marker) => {
         const turnAbility = createAbility(kind, marker)
         return {
           value: turnAbility.name,
-          label: toI18NVisual(turnAbility),
+          label: toI18NVisual(turnAbility, t),
           children: [],
         }
       }),
@@ -69,8 +69,9 @@ function generateOptions(): Option[] {
 }
 
 export function TurnAbilitySelector({ formName, disabled }: { formName: (string | number)[]; disabled: boolean }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const form = Form.useFormInstance<OptimizerForm>()
-  const options = useMemo(() => generateOptions(), [])
+  const options = useMemo(() => generateOptions(t), [t])
 
   return (
     <ConfigProvider theme={cascaderTheme}>
@@ -113,7 +114,8 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
 }
 
 export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName; index: number }) {
-  const options = useMemo(() => generateOptions(), [])
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
+  const options = useMemo(() => generateOptions(t), [t])
 
   if (value == null) {
     return <></>
@@ -129,7 +131,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
         displayRender={(labels: string[]) => {
           const turnAbility = toTurnAbility(value)
 
-          return `${index}. ${toI18NVisual(turnAbility)}`
+          return `${index}. ${toI18NVisual(turnAbility, t)}`
         }}
         expandTrigger='hover'
         placeholder='Ability'
@@ -152,7 +154,8 @@ export function ControlledTurnAbilitySelector({
   value: TurnAbilityName
   style?: React.CSSProperties
 }) {
-  const options = useMemo(() => generateOptions(), [])
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
+  const options = useMemo(() => generateOptions(t), [t])
 
   return (
     <ConfigProvider theme={cascaderTheme}>
@@ -164,7 +167,7 @@ export function ControlledTurnAbilitySelector({
           const turnAbilityName = labels[0] as TurnAbilityName
           const turnAbility = toTurnAbility(turnAbilityName)
 
-          return toI18NVisual(turnAbility)
+          return toI18NVisual(turnAbility, t)
         }}
         expandTrigger='hover'
         placeholder='Ability'

@@ -1,4 +1,50 @@
 interface Resources {
+  "benchmarksTab": {
+    "Title": "Benchmark Generator",
+    "LeftPanel": {
+      "Header": "Benchmark"
+    },
+    "MiddlePanel": {
+      "CharacterHeader": "Character",
+      "LCHeader": "Light Cone",
+      "TeammatesHeader": "Teammates"
+    },
+    "RightPanel": {
+      "Settings": {
+        "Header": "Settings",
+        "SPD": "Benchmark basic SPD",
+        "ERR": "Energy regen rope",
+        "SubDPS": "Sub DPS"
+      },
+      "SetsHeader": "Benchmark sets",
+      "ButtonText": {
+        "Generate": "Generate benchmarks",
+        "Clear": "Clear"
+      }
+    },
+    "ResultsTabs": {
+      "WithSpeed": {
+        "100": "100% Benchmark Builds ({{Speed}} SPD)",
+        "200": "200% Benchmark Builds ({{Speed}} SPD)"
+      },
+      "WithoutSpeed": {
+        "100": "100% Benchmark Builds",
+        "200": "200% Benchmark Builds"
+      }
+    },
+    "ResultsGrid": {
+      "Combo": "Combo DMG",
+      "Delta": "Delta",
+      "Sets": "Sets"
+    },
+    "ResultsPanel": {
+      "BasicStats": "Basic Stats",
+      "CombatStats": "Combat Stats",
+      "Rolls": "Substat Rolls",
+      "Combo": "Combo Rotation",
+      "Damage": "Ability Damage"
+    }
+  },
   "charactersTab": {
     "ScreenshotMessages": {
       "ScreenshotSuccess": "Copied screenshot to clipboard",

@@ -23,7 +23,8 @@ interface EditImageModalProps {
 }
 
 const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
-const CLIENT_ID = 'b6ed18a250f2835'
+// https://api.imgur.com/oauth2/addclient
+const CLIENT_ID = 'ab10eb1e9600924'
 
 const DEFAULT_IMAGE_DIMENSIONS = { width: 0, height: 0 }
 const DEFAULT_CROP = { x: 0, y: 0 }
@@ -229,11 +230,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
    This is because Imgur API hates localhost for some reason.
    https://stackoverflow.com/questions/66195106/imgur-api-responding-with-code-403-with-server-error-429
    WORKAROUND:
-   1) start vite using `HOST=0.0.0.0 npm run start` instead of `npm run start`
-   2) Use http://127.0.0.1:3000/hsr-optimizer instead of http://localhost:3000/hsr-optimizer
-   WORKAROUND #2:
+   In vite.config.ts:
+   server: {
+     open: true,
+     host: '127.0.0.1',
+     port: 3000,
+     allowedHosts: ['testlocalhost.com'],
+   },
    Add `127.0.0.1 testlocalhost.com` to windows hosts file, then use testlocalhost.com:3000
-   HOWEVER:
    You will not be able to access i.imgur.com/... links using 127.0.0.1,
    So the immediate next step of cropping will not work as expected.
    https://stackoverflow.com/questions/43895390/imgur-images-returning-403

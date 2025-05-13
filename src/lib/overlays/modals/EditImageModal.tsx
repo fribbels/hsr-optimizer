@@ -59,7 +59,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   const [zoom, setZoom] = React.useState(existingConfig ? existingConfig.cropper.zoom : DEFAULT_ZOOM)
   const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(existingConfig ? existingConfig.customImageParams : DEFAULT_CUSTOM_IMAGE_PARAMS)
 
-  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('upload')
+  const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
 
   const resetConfig = React.useCallback(() => {
     customImageForm.resetFields()
@@ -80,7 +80,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       resetConfig()
     } else if (existingConfig) {
       customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl, artistName: existingConfig.artistName })
-      setRadio('upload')
+      setRadio('url')
       setCurrent(1)
       setVerifiedImageUrl(existingConfig.imageUrl)
       setOriginalDimensions(existingConfig.originalDimensions)

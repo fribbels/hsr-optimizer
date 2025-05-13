@@ -1,6 +1,10 @@
 Scoring:
   StatWeightsHeader: Stat weights
+  SetWeightsHeader: Set weights
   MainstatsHeader: Optimal mainstats
+  SetWeights:
+    AddRelicSetPlaceholder: Add relic set
+    AddOrnamentSetPlaceholder: Add ornament set
   WeightMethodology:
     Header: How is Stat Score calculated?
   Footer:

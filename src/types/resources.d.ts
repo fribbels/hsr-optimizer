@@ -4381,7 +4381,12 @@ interface Resources {
   "modals": {
     "Scoring": {
       "StatWeightsHeader": "Stat weights",
+      "SetWeightsHeader": "Set weights",
       "MainstatsHeader": "Optimal mainstats",
+      "SetWeights": {
+        "AddRelicSetPlaceholder": "Add relic set",
+        "AddOrnamentSetPlaceholder": "Add ornament set"
+      },
       "WeightMethodology": {
         "Header": "How is Stat Score calculated?"
       },
@@ -4830,6 +4835,11 @@ interface Resources {
     "LightconeSelect": {
       "Placeholder": "Light cone",
       "Title": "Select a light cone"
+    },
+    "RelicReroll": {
+      "Title": "Relic Reroll Detected",
+      "OriginalSubstats": "Original Substats",
+      "RerolledSubstats": "Rerolled Substats"
     }
   },
   "notifications": {

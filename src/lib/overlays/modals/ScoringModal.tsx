@@ -1,6 +1,6 @@
-import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
+import { AutoComplete, AutoCompleteProps, Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
 import { usePublish } from 'hooks/usePublish'
-import { Parts, Stats } from 'lib/constants/constants'
+import { Constants, Parts, Sets, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames, Stats } from 'lib/constants/constants'
 import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -8,7 +8,7 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CharacterId } from 'types/character'
@@ -25,6 +25,46 @@ const InputNumberStyled = styled(InputNumber)`
     width: 62px
 `
 
+type ScoringMetadataWithSetsList = ScoringMetadata & {
+  relicsList: [Sets, number][]
+  ornamentsList: [Sets, number][]
+}
+
+function RelicSetAutoComplete(props: {
+  placeholder: string
+  names: string[]
+  onSelect: (value: string) => void
+}) {
+  const [autocompleteValue, setAutocompleteValue] = useState('')
+
+  return (
+    <AutoComplete
+      style={{width: "100%"}}
+      placeholder={props.placeholder}
+      value={autocompleteValue}
+      onChange={value => setAutocompleteValue(value)}
+      onSelect={(value) => {
+        setAutocompleteValue('')
+        props.onSelect(value)
+      }}
+      defaultActiveFirstOption
+      options={
+        props.names.map((set) => ({
+          value: set,
+          label: <Flex gap={5}>
+            <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 24, height: 24 }}></img>
+            {set}
+          </Flex>,
+
+        })).reverse()
+      }
+      filterOption={(input, option) =>
+        (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
+      }
+    />
+  )
+}
+
 export default function ScoringModal() {
   const { t } = useTranslation(['modals', 'common'])
 
@@ -37,18 +77,45 @@ export default function ScoringModal() {
 
   const { close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
 
+  // const [additionalRelicSets, setAdditionalRelicSets] = useState<string[]>([])
+  // useEffect(() => {
+  //   // Reset the additional relic sets when the modal is opened or the focus character changes
+  //   setAdditionalRelicSets([])
+  // }, [isOpenScoringModal, scoringAlgorithmFocusCharacter])
+
+  // const editingRelicSets = scoringAlgorithmFocusCharacter 
+  //   ? Object.keys((scoringAlgorithmForm.getFieldsValue() as ScoringMetadata).sets ?? {})
+  //   : []
+
+  // console.log(scoringAlgorithmForm.getFieldsValue())
+
   function characterSelectorChange(id: CharacterId | null | undefined) {
     setScoringAlgorithmFocusCharacter(id)
   }
 
   // Cleans up 0's to not show up on the form
   function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata) {
-    for (const x of Object.entries(scoringMetadata.stats)) {
+    const sets = Object.entries(scoringMetadata.sets ?? {}) as [Sets, number][]
+
+    const scoringMetadataWithSetsList: ScoringMetadataWithSetsList = {
+      ...scoringMetadata,
+      relicsList: sets.filter(set => SetsRelicsNames.includes(set[0] as SetsRelics)),
+      ornamentsList: sets.filter(set => SetsOrnamentsNames.includes(set[0] as SetsOrnaments)),
+    }
+
+    for (const x of Object.entries(scoringMetadataWithSetsList.stats)) {
       if (x[1] == 0) {
         // @ts-ignore
-        scoringMetadata.stats[x[0]] = null
+        scoringMetadataWithSetsList.stats[x[0]] = null
       }
     }
+
+    return scoringMetadataWithSetsList
+  }
+
+  function getScoringValuesForOverrides(scoringMetadata: ScoringMetadataWithSetsList) {
+    // Merge the setsList into the sets object
+    scoringMetadata.sets = Object.fromEntries(scoringMetadata.relicsList.concat(scoringMetadata.ornamentsList))
 
     return scoringMetadata
   }
@@ -58,6 +125,7 @@ export default function ScoringModal() {
     if (id) {
       let scoringMetadata = TsUtils.clone(DB.getScoringMetadata(id))
       scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
+      console.log(scoringMetadata)
       scoringAlgorithmForm.setFieldsValue(scoringMetadata)
 
       // console.log('Scoring modal opening set as:', scoringMetadata)
@@ -89,8 +157,8 @@ export default function ScoringModal() {
 
   function onModalOk() {
     console.log('onModalOk OK')
-    const values = scoringAlgorithmForm.getFieldsValue() as ScoringMetadata
-    onFinish(values)
+    const values = scoringAlgorithmForm.getFieldsValue() as ScoringMetadataWithSetsList
+    onFinish(getScoringValuesForOverrides(values))
     closeScoringModal()
     pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
@@ -119,6 +187,7 @@ export default function ScoringModal() {
     const scoringMetadataToMerge: Partial<ScoringMetadata> = {
       stats: defaultScoringMetadata.stats,
       parts: defaultScoringMetadata.parts,
+      sets: defaultScoringMetadata.sets,
     }
 
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge as ScoringMetadata)
@@ -134,6 +203,7 @@ export default function ScoringModal() {
         const scoringMetadataToMerge: Partial<ScoringMetadata> = {
           stats: defaultScoringMetadata.stats,
           parts: defaultScoringMetadata.parts,
+          sets: defaultScoringMetadata.sets,
         }
         DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge as ScoringMetadata)
       }
@@ -190,7 +260,7 @@ export default function ScoringModal() {
         onFinish={onFinish}
       >
 
-        <TitleDivider>{t('Scoring.StatWeightsHeader')/* Stat weights */}</TitleDivider>
+        <TitleDivider>{t('Scoring.StatWeightsHeader')/* Set weights */}</TitleDivider>
 
         <Flex gap={20}>
           <Flex vertical gap={5}>
@@ -328,6 +398,84 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
+        <TitleDivider>{t('Scoring.SetWeightsHeader')/* Set weights */}</TitleDivider>
+        
+        <Flex gap={20}>
+          <Flex vertical gap={20} flex={1}>
+            <Form.List
+              name="relicsList"
+            >
+              {(fields, { add, remove }) => <>
+                <RelicSetAutoComplete 
+                  names={SetsRelicsNames} 
+                  onSelect={(v) => add([v, 1])} 
+                  placeholder={t('Scoring.SetWeights.AddRelicSetPlaceholder'/* Add relic set */)} 
+                />
+
+                <Flex wrap gap={20}>
+                  {fields.map((field) => (
+                    <Form.Item
+                      key={field.key}
+                      noStyle
+                      shouldUpdate
+                    >
+                      {x => {
+                        const set = x.getFieldsValue()['relicsList'][field.name][0]
+                        return <Flex vertical gap={5} align='center'>
+                          <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 48, height: 48 }}></img>
+                          <Form.Item
+                            name={[field.name, 1]}
+                          >
+                            <InputNumberStyled controls={false} size='small' min={0} max={1}/>
+                          </Form.Item>
+                        </Flex>
+                      }}
+                    </Form.Item>
+                  ))}
+                </Flex>
+              </>}
+            </Form.List>
+          </Flex>
+
+          <VerticalDivider/>
+
+          <Flex vertical gap={20} flex={1}>
+            <Form.List
+              name="ornamentsList"
+            >
+              {(fields, { add, remove }) => <>
+                <RelicSetAutoComplete 
+                  names={SetsOrnamentsNames} 
+                  onSelect={(v) => add([v, 1])} 
+                  placeholder={t('Scoring.SetWeights.AddOrnamentSetPlaceholder'/* Add ornament set */)} 
+                />
+
+                <Flex wrap gap={20}>
+                  {fields.map((field) => (
+                    <Form.Item
+                      key={field.key}
+                      noStyle
+                      shouldUpdate
+                    >
+                      {x => {
+                        const set = x.getFieldsValue()['ornamentsList'][field.name][0]
+                        return <Flex vertical gap={5} align='center'>
+                          <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 48, height: 48 }}></img>
+                          <Form.Item
+                            name={[field.name, 1]}
+                          >
+                            <InputNumberStyled controls={false} size='small' min={0} max={1}/>
+                          </Form.Item>
+                        </Flex>
+                      }}
+                    </Form.Item>
+                  ))}
+                </Flex>
+              </>}
+            </Form.List>
+          </Flex>
+        </Flex>
+
         <Divider style={{ marginTop: 10, marginBottom: 40 }}>
           <ColorizedLinkWithIcon
             text={t('Scoring.WeightMethodology.Header')}
@@ -338,9 +486,4 @@ export default function ScoringModal() {
       </Form>
     </Modal>
   )
-}
-
-export function nullUndefinedToZero(x: number | null) {
-  if (x == null) return 0
-  return x
 }

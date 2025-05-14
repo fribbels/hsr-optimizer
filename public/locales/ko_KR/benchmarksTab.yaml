@@ -1,0 +1,14 @@
+MiddlePanel:
+  CharacterHeader: 캐릭터
+  LCHeader: 광추
+  TeammatesHeader: 팀
+RightPanel:
+  Settings:
+    Header: 설정
+  ButtonText:
+    Clear: 삭제
+ResultsGrid:
+  Combo: 사이클 총 피해량
+  Sets: 세트
+ResultsPanel:
+  CombatStats: 전투 스탯

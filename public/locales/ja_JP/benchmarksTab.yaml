@@ -1,0 +1,14 @@
+MiddlePanel:
+  CharacterHeader: キャラクター
+  LCHeader: 光円錐
+  TeammatesHeader: チームメイト
+RightPanel:
+  Settings:
+    Header: 設定
+  ButtonText:
+    Clear: クリア
+ResultsGrid:
+  Combo: コンボダメージ
+  Sets: セット
+ResultsPanel:
+  CombatStats: 戦闘ステータス

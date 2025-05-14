@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: #TODO
+about: Request a feature to improve the optimizer
 title: '[Feature]'
 labels: '' #auto assign label e.g. 'bug'
 assignees: '' #github usernames in comma seperated string to auto assign issue e.g. 'FI00ds,fribbels' will automatically assign the issue to both FI00ds and fribbels

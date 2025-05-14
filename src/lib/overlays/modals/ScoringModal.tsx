@@ -88,18 +88,6 @@ export default function ScoringModal() {
 
   const { close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
 
-  // const [additionalRelicSets, setAdditionalRelicSets] = useState<string[]>([])
-  // useEffect(() => {
-  //   // Reset the additional relic sets when the modal is opened or the focus character changes
-  //   setAdditionalRelicSets([])
-  // }, [isOpenScoringModal, scoringAlgorithmFocusCharacter])
-
-  // const editingRelicSets = scoringAlgorithmFocusCharacter 
-  //   ? Object.keys((scoringAlgorithmForm.getFieldsValue() as ScoringMetadata).sets ?? {})
-  //   : []
-
-  // console.log(scoringAlgorithmForm.getFieldsValue())
-
   function characterSelectorChange(id: CharacterId | null | undefined) {
     setScoringAlgorithmFocusCharacter(id)
   }

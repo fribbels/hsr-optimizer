@@ -59,11 +59,9 @@ function Inputs() {
 
       case "UpdateMaterials":
         const state = useScannerState.getState()
-        console.log(state)
         const specialPasses = state.materials["102"] ?? { count: 0 }
         const undyingStarlight = state.materials["252"] ?? { count: 0 }
 
-        // TODO: Either split the passes into two fields or add a toggle for whether to include undying starlight
         form.setFieldValue("passes", specialPasses.count + Math.floor(undyingStarlight.count / 20))
         break
       

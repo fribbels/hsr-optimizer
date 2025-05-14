@@ -136,7 +136,6 @@ export default function ScoringModal() {
     if (id) {
       let scoringMetadata = TsUtils.clone(DB.getScoringMetadata(id))
       scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
-      console.log(scoringMetadata)
       scoringAlgorithmForm.setFieldsValue(scoringMetadata)
 
       // console.log('Scoring modal opening set as:', scoringMetadata)
@@ -422,7 +421,7 @@ export default function ScoringModal() {
                   shouldUpdate
                 >
                   {x => {
-                    const selectedValues = x.getFieldsValue()['relicsList'].map((field: [string, number]) => field[0])
+                    const selectedValues = x.getFieldsValue()['relicsList']?.map((field: [string, number]) => field[0])
                     return <SetPicker 
                       names={SetsRelicsNames} 
                       add={(v) => add([v, 1])} 
@@ -475,7 +474,7 @@ export default function ScoringModal() {
                   shouldUpdate
                 >
                   {x => {
-                    const selectedValues = x.getFieldsValue()['ornamentsList'].map((field: [string, number]) => field[0])
+                    const selectedValues = x.getFieldsValue()['ornamentsList']?.map((field: [string, number]) => field[0])
                     return <SetPicker 
                       names={SetsOrnamentsNames} 
                       add={(v) => add([v, 1])} 

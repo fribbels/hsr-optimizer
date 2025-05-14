@@ -1,0 +1,14 @@
+MiddlePanel:
+  CharacterHeader: 角色
+  LCHeader: 光锥
+  TeammatesHeader: 队友
+RightPanel:
+  Settings:
+    Header: 设置
+  ButtonText:
+    Clear: 清除
+ResultsGrid:
+  Combo: 连招伤害
+  Sets: 套装
+ResultsPanel:
+  CombatStats: 战斗属性

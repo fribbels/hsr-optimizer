@@ -88,6 +88,8 @@ export type ScannerParserJson = {
     trailblazer: 'Stelle' | 'Caelus'
     current_trailblazer_path?: PathName
   }
+  gacha: V4ParserGachaFunds
+  materials: V4ParserMaterial[]
   characters: V4ParserCharacter[]
   light_cones: V4ParserLightCone[]
   relics: V4ParserRelic[]

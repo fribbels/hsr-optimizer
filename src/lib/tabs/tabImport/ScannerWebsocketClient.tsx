@@ -9,6 +9,7 @@ import { TsUtils } from "lib/utils/TsUtils";
 import { debounceEffect } from "lib/utils/debounceUtils";
 import stableStringify from "json-stable-stringify";
 import RelicRerollModal from "lib/overlays/modals/RelicRerollModal";
+import { EventEmitter } from "lib/utils/events";
 
 type ScannerState = {
     // Whether we are connected to the scanner websocket
@@ -20,6 +21,9 @@ type ScannerState = {
     // Whether to ingest character data from the scanner websocket
     ingestCharacters: boolean
 
+    // Gacha funds parsed from the scanner websocket
+    gachaFunds: V4ParserGachaFunds | null
+
     // Relics parsed from the scanner websocket
     // key: relic unique id
     relics: Record<string, V4ParserRelic>
@@ -30,6 +34,10 @@ type ScannerState = {
     // Light cones parsed from the scanner websocket
     // key: light cone unique id
     lightCones: Record<string, V4ParserLightCone>
+
+    // Materials parsed from the scanner websocket
+    // key: material unique id
+    materials: Record<string, V4ParserMaterial>
 
     // Characters parsed from the scanner websocket
     // key: character avatar id
@@ -59,11 +67,17 @@ type PrivateScannerActions = {
     // Update the state with a new initial scan
     updateInitialScan: (data: ScannerParserJson) => void
 
+    // Update the state with a new gacha funds
+    updateGachaFunds: (data: V4ParserGachaFunds) => void
+
     // Update the state with a new relic
     updateRelic: (relic: V4ParserRelic) => void
 
     // Update the state with a new light cone
     updateLightCone: (lightCone: V4ParserLightCone) => void
+
+    // Update the state with a new material
+    updateMaterial: (material: V4ParserMaterial) => void
 
     // Update the state with a new character
     updateCharacter: (character: V4ParserCharacter) => void
@@ -86,8 +100,11 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 
     recentRelics: [],
 
+    gachaFunds: null,
+
     relics: {},
     lightCones: {},
+    materials: {},
     characters: {},
 
     setIngest: (ingest: boolean) => {
@@ -132,8 +149,11 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 
         recentRelics: data.relics.slice(-6).reverse().map((relic) => relic._uid),
 
+        gachaFunds: data.gacha,
+
         relics: Object.fromEntries(data.relics.map((relic) => [relic._uid, relic])),
         lightCones: Object.fromEntries(data.light_cones.map((lightCone) => [lightCone._uid, lightCone])),
+        materials: Object.fromEntries(data.materials.map((material) => [material.id, material])),
         characters: Object.fromEntries(data.characters.map((character) => [character.id, character])),
     }),
 
@@ -152,6 +172,10 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
             relics: Object.values(relics),
         } satisfies ScannerParserJson
     },
+
+    updateGachaFunds: (data: V4ParserGachaFunds) => set({
+        gachaFunds: data
+    }),
 
     updateRelic: (relic: V4ParserRelic) => {
         const { relics, recentRelics } = get();
@@ -201,6 +225,13 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
         }
     }),
 
+    updateMaterial: (material: V4ParserMaterial) => set({
+        materials: {
+            ...usePrivateScannerState.getState().materials,
+            [material.id]: material
+        }
+    }),
+
     updateCharacter: (character: V4ParserCharacter) => set({
         characters: {
             ...usePrivateScannerState.getState().characters,
@@ -223,6 +254,7 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 }))
 
 export const useScannerState: UseBoundStore<StoreApi<ScannerState & ScannerActions>> = usePrivateScannerState
+export const scannerChannel = new EventEmitter<ScannerEvent>()
 
 type GachaResult = {
     banner_id: number
@@ -270,6 +302,32 @@ function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
 
         DB.mergeRelicsWithState(newScan.relics, updateCharacters ? newScan.characters : [])
         console.info("Ingested initial scan")
+
+        // Emit consumer events
+        scannerChannel.send({
+            event: "UpdateGachaFunds",
+            data: data.gacha
+        })
+
+        scannerChannel.send({
+            event: "UpdateMaterials",
+            data: data.materials
+        })
+
+        scannerChannel.send({
+            event: "UpdateRelics",
+            data: data.relics
+        })
+
+        scannerChannel.send({
+            event: "UpdateLightCones",
+            data: data.light_cones
+        })
+        
+        scannerChannel.send({
+            event: "UpdateCharacters",
+            data: data.characters
+        })
     }
 }
 
@@ -315,8 +373,14 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
 function updateLightCone(state: Readonly<ScannerStore>, lightCone: V4ParserLightCone) {
     state.updateLightCone(lightCone)
 
-    // Light Cones are not ingested
+    // Light Cones don't have any ingestion side-effects
     // Only used for determining equipment on characters
+}
+
+function updateMaterial(state: Readonly<ScannerStore>, material: V4ParserMaterial) {
+    state.updateMaterial(material)
+
+    // Materials don't have any ingestion side-effects
 }
 
 function updateCharacter(state: Readonly<ScannerStore>, character: V4ParserCharacter) {
@@ -392,6 +456,13 @@ export function ScannerWebsocket() {
                 case "InitialScan":
                     initialScan(state, event.data)
                     break
+                case "GachaResult":
+                    // We don't store any state for gacha results
+                    // Since they are only relative currently
+                    break
+                case "UpdateGachaFunds":
+                    state.updateGachaFunds(event.data)
+                    break
                 case "UpdateRelics":
                     event.data.forEach((relic) => {
                         // Check if relic has reroll_substats before updating
@@ -402,6 +473,11 @@ export function ScannerWebsocket() {
                         
                         updateRelic(state, relic)
                         relicSelectionBuffer.current.push(relic._uid)
+                    })
+                    break
+                case "UpdateMaterials":
+                    event.data.forEach((material) => {
+                        updateMaterial(state, material)
                     })
                     break
                 case "UpdateLightCones":
@@ -427,6 +503,12 @@ export function ScannerWebsocket() {
                 default:
                     console.error(`Unknown event: ${JSON.stringify(event)}`)
                     break
+            }
+
+            // Broadcast the event
+            if (state.ingest) {
+                // TODO: Should we always broadcast (ignore ingest flag?)
+                scannerChannel.send(event)
             }
         
             debounceEffect("scannerWebsocketForceUpdates", 100, () => {

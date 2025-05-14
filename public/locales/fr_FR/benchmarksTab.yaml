@@ -1,0 +1,14 @@
+MiddlePanel:
+  CharacterHeader: Personnage
+  LCHeader: Cône de Lumière
+  TeammatesHeader: Coéquipiers
+RightPanel:
+  Settings:
+    Header: Paramètres
+  ButtonText:
+    Clear: Effacer
+ResultsGrid:
+  Combo: DGT Combo
+  Sets: Sets
+ResultsPanel:
+  CombatStats: Stats de Combat

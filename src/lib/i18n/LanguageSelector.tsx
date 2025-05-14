@@ -39,7 +39,11 @@ export function LanguageSelector() {
           .then(() => {
             // !!do not replace this check with isBeta!!
             if (BASE_PATH === BasePath.BETA) {
-              e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
+              if (e === 'aa_ER') {
+                window.jipt.start()
+              } else {
+                window.jipt.stop()
+              }
             }
             console.log('setting language to:', i18n.resolvedLanguage)
           })

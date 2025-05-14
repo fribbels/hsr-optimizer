@@ -34,12 +34,12 @@ function ScoringAbility(props: {
   comboTurnAbilities: TurnAbilityName[]
   index: number
 }) {
-  const { t, i18n } = useTranslation(['charactersTab', 'common'])
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
 
   const abilityName = props.comboTurnAbilities[props.index]
   if (!abilityName || abilityName == NULL_TURN_ABILITY_NAME) return <></>
 
-  const displayValue = toI18NVisual(toTurnAbility(abilityName))
+  const displayValue = toI18NVisual(toTurnAbility(abilityName), t)
 
   return (
     <Flex align='center' gap={15}>

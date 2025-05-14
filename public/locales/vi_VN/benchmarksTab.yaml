@@ -1,0 +1,14 @@
+MiddlePanel:
+  CharacterHeader: Nhân vật
+  LCHeader: Nón Ánh Sáng
+  TeammatesHeader: Đồng đội
+RightPanel:
+  Settings:
+    Header: Cài đặt
+  ButtonText:
+    Clear: Xóa
+ResultsGrid:
+  Combo: ST Combo
+  Sets: Bộ
+ResultsPanel:
+  CombatStats: Chỉ số trong combat

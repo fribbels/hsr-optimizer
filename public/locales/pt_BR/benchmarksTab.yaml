@@ -1,0 +1,14 @@
+MiddlePanel:
+  CharacterHeader: Personagem 
+  LCHeader: Cone de Luz
+  TeammatesHeader: Membros de equipe
+RightPanel:
+  Settings:
+    Header: Configurações
+  ButtonText:
+    Clear: Limpar
+ResultsGrid:
+  Combo: Dano de Combo
+  Sets: Conjuntos
+ResultsPanel:
+  CombatStats: Atributos de combate

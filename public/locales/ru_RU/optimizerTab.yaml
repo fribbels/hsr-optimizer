@@ -8,6 +8,18 @@ CharacterPassives: Пассивки персонажа
 NoConditionals: Нет пассивок с условием.
 NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: "Найти {{limit}} лучших"
+SortOptions:
+  COMBO: По Урону Комбо
+  BASIC: По Урону Баз Атаки
+  SKILL: По Урону Навыка
+  ULT: По Урону Ультимейта
+  FUA: По Урону Бонус-Атаки
+  MEMO_SKILL: По Урону Навыкаᴹ
+  MEMO_TALENT: По Урону Талантаᴹ
+  DOT: По Урону ДоТ'ов
+  BREAK: По Урону Пробития
+  HEAL: По Исцелению
+  SHIELD: По Щиту
 OptimizerOptions:
   Header: Параметры оптимизатора
   Priority:
@@ -100,18 +112,18 @@ WeightFilter:
   ATKFilterText: Сила атаки
   DEFFilterText: Защита
   SPDFilterText: Скорость
-  CRFilterText: КШ
-  CDFilterText: КУ
-  EHRFilterText: ШПЭ
-  RESFilterText: СОПР
-  BEFilterText: ЭП
+  CRFilterText: Крит Шанс
+  CDFilterText: Крит Урон
+  EHRFilterText: Шанс эффектов
+  RESFilterText: Сопротивление
+  BEFilterText: Пробитие
 MinMaxFilters:
   HPLabel: HP
   ATKLabel: Сила атаки
   DEFLabel: Защита
   SPDLabel: Скорость
-  CRLabel: КШ
-  CDLabel: КУ
+  CRLabel: Крит Шанс
+  CDLabel: Крит Урон
   EHRLabel: ШансЭфф
   RESLabel: Сопр
   BELabel: Пробитие
@@ -122,7 +134,7 @@ MinMaxFilters:
   ULTLabel: Ультимейт
   FUALabel: Бонус-Атака
   MEMOSKILLLabel: Навыкᴹ
-  DOTLabel: Доты
+  DOTLabel: ДоТ'ы
   BREAKLabel: Пробитие
   HEALLabel: Исцеление
   SHIELDLabel: Щит

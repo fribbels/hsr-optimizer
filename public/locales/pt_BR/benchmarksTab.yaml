@@ -1,0 +1,34 @@
+Title: Gerador Benchmark
+LeftPanel:
+  Header: Benchmark
+MiddlePanel:
+  CharacterHeader: Personagem 
+  LCHeader: Cone de Luz
+  TeammatesHeader: Membros de equipe
+RightPanel:
+  Settings:
+    Header: Configurações
+    SPD: Benchmark Vel básica
+    ERR: Corda de Energy Regen
+    SubDPS: Sub DPS
+  SetsHeader: Conjuntos Benchmark
+  ButtonText:
+    Generate: Gerar benchmarks
+    Clear: Limpar
+ResultsGrid:
+  Combo: Dano de Combo
+  Delta: Delta
+  Sets: Conjuntos
+ResultsTabs:
+  WithSpeed:
+    100: 100% Benchmark Builds ({{Speed}} VEL)
+    200: 200% Benchmark Builds ({{Speed}} VEL)
+  WithoutSpeed:
+    100: 100% Benchmark Builds
+    200: 200% Benchmark Builds
+ResultsPanel:
+  BasicStats: Atributos Básicos
+  CombatStats: Atributos de combate
+  Rolls: Rolls Subatributos
+  Combo: Combo Rotação
+  Damage: Dano de Habilidade

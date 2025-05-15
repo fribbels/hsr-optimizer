@@ -97,14 +97,14 @@ Scoring:
       SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.Energy Regeneration Rate)"
       ButtonText: "Сброшен фильтр максимальной $t(common:Stats.Energy Regeneration Rate)"
     MIN_ERR:
-      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.Energy Regeneration Rate)"
-      ButtonText: "Сброшен фильтр минимального $t(common:Stats.Energy Regeneration Rate)"
+      SuccessMessage: "Сброшен фильтр минимальной $t(common:Stats.Energy Regeneration Rate)"
+      ButtonText: "Сброшен фильтр минимальной $t(common:Stats.Energy Regeneration Rate)"
     MAX_EHP:
-      SuccessMessage: "Сброшен фильтр максимального Эффективного ХП"
-      ButtonText: "Сброшен фильтр максимального Эффективного ХП"
+      SuccessMessage: "Сброшен фильтр максимального Эффективного HP"
+      ButtonText: "Сброшен фильтр максимального Эффективного HP"
     MIN_EHP:
-      SuccessMessage: "Сброшен фильтр минимального Эффективного ХП"
-      ButtonText: "Сброшен фильтр минимального Эффективного ХП"
+      SuccessMessage: "Сброшен фильтр минимального Эффективного HP"
+      ButtonText: "Сброшен фильтр минимального Эффективного HP"
     MAX_BASIC:
       SuccessMessage: "Сброшен фильтр максимального урона Базовой атаки"
       ButtonText: "Сброшен фильтр максимального урона Базовой атаки"
@@ -113,7 +113,7 @@ Scoring:
       ButtonText: "Сброшен фильтр минимального урона Базовой атаки"
     MAX_SKILL:
       SuccessMessage: "Сброшен фильтр максимального урона Навыка"
-      ButtonText: "Сброшен фильтр максимального урона Навыка"
+      ButtonText: "Сбросить фильтр максимального урона Навыка"
     MIN_SKILL:
       SuccessMessage: "Сброшен фильтр минимального урона Навыка"
       ButtonText: "Сброшен фильтр минимального урона Навыка"
@@ -133,8 +133,8 @@ Scoring:
       SuccessMessage: "Сброшен фильтр максимального урона ДоТ'ов"
       ButtonText: "Сброшен фильтр максимального урона ДоТ'ов"
     MIN_DOT:
-      SuccessMessage: "Сброшен фильтр минимального Периодического урона"
-      ButtonText: "Сброшен фильтр минимального Периодического урона"
+      SuccessMessage: "Сброшен фильтр минимального урона ДоТ'ов"
+      ButtonText: "Сброшен фильтр минимального урона ДоТ'ов"
     MAX_BREAK:
       SuccessMessage: "Сброшен фильтр максимального урона Пробития"
       ButtonText: "Сброшен фильтр максимального урона Пробития"

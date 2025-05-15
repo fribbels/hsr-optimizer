@@ -14,19 +14,19 @@ Scoring:
     IMPORT:
       SuccessMessage: Выберите метод импорта и импортируйте ваши реликвии и персонажей
     Body_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.Body) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.Body) "
     Feet_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.Feet) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.Feet) "
     PlanarSphere_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.PlanarSphere) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.PlanarSphere) "
     LinkRope_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.LinkRope) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.LinkRope) "
     RELIC_SETS:
       SuccessMessage: Очищены фильтры набора реликвий
     ORNAMENT_SETS:
-      SuccessMessage: Очищены фильтры набора планарных украшений
+      SuccessMessage: Очищены фильтры набора Планарных украшений
     KEEP_CURRENT:
-      SuccessMessage: Отключено "Оставлять текущие реликвии"
+      SuccessMessage: Опция "Сохранить текущие реликвии" отключена
     PRIORITY:
       SuccessMessage: "Персонаж перемещен на приоритет #1"
     EXCLUDE_ENABLED:

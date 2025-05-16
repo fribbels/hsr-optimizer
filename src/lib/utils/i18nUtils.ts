@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import Resources from 'types/resources'
 
 export const languages = {
   de_DE: {
@@ -124,3 +125,13 @@ export const localeNumber_000 = (n: number) => n.toLocaleString(currentLocale(),
 export function currentLocale() {
   return languageToLocale[i18next.resolvedLanguage as Languages]
 }
+
+type Safety<TValue, Prefix extends string> = TValue extends object ? `${Prefix}.${UnwrappedResources<TValue>}` : never
+
+export type UnwrappedResources<Obj extends object = Resources> = {
+  [Key in keyof Obj & (string | number)]: Obj[Key] extends ((...args: unknown[]) => unknown) | undefined
+    ? never
+    : Obj[Key] extends Array<unknown>
+      ? (Obj[Key] extends unknown ? `${Key}` : never) | `${Key}.${number}`
+      : (Obj[Key] extends unknown ? `${Key}` : never) | Safety<Obj[Key], `${Key}`>
+}[keyof Obj & (string | number)]

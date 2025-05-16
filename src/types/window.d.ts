@@ -34,13 +34,15 @@ import { HsrOptimizerStore } from 'types/store'
 import { StoreApi, UseBoundStore } from 'zustand'
 
 type Jipt = {
-  start()
-  stop()
+  start(): void
+  stop(): void
 }
 
 declare global {
   interface Window {
-    jipt: Jipt
+    // only exists on dreary-quibbles\
+    // added by github CI
+    jipt?: Jipt
     notificationApi: NotificationInstance
     messageApi: MessageInstance
     modalApi: HookAPI

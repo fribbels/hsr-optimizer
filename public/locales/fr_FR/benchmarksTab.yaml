@@ -8,7 +8,7 @@ MiddlePanel:
 RightPanel:
   Settings:
     Header: Paramètres
-    SPD: Vitesse basique de référence
+    SPD: VIT basique de référence
     ERR: Corde TRE
     SubDPS: DPS secondaire
   SetsHeader: Sets de référence

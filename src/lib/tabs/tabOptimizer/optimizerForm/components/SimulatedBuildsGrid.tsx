@@ -113,7 +113,7 @@ export function SimulatedBuildsGrid() {
         columnWidth: 0,
         renderCell: () => '', // Render nothing for the selection column
       }}
-      columns={columns}
+      columns={columns} // FIXME DataType and Simulation are incompatible types
       dataSource={statSimulations}
       onRow={(record) => ({
         onClick: () => {

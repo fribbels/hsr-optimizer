@@ -16,4 +16,4 @@ jobs:
           reporter: 'github-check'
           level: 'warning'
           filter_mode: 'nofilter'
-          tsc_flags: 'noEmit'
+          tsc_flags: '--noEmit'

@@ -78,7 +78,7 @@ export type ImageCenter = {
   z: number
 }
 
-type TraceNode = {
+export type TraceNode = {
   id: string
   stat: StatsValues
   value: number

@@ -1,4 +1,4 @@
-import { COMPUTE_ENGINE_CPU, Constants, ElementToDamage, Parts, Stats } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_CPU, Constants, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
@@ -19,7 +19,7 @@ import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestions
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { WorkerPool, WorkerResult, WorkerTask } from 'lib/worker/workerPool'
+import { PreWorkerTask, WorkerPool, WorkerResult } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form, OptimizerForm } from 'types/form'
 
@@ -84,18 +84,6 @@ export const Optimizer = {
 
   optimize: async function (request: Form) {
     CANCEL = false
-
-    const teammates = [
-      request.teammate0,
-      request.teammate1,
-      request.teammate2,
-    ].filter((x) => !!x.characterId)
-    for (let i = 0; i < teammates.length; i++) {
-      const teammate = teammates[i]
-      const teammateCharacterMetadata = DB.getMetadata().characters[teammate.characterId]
-      // TODO fix elemental dmg
-      teammate.ELEMENTAL_DMG_TYPE = ElementToDamage[teammateCharacterMetadata.element]
-    }
 
     const [relics] = this.getFilteredRelics(request)
     RelicFilters.condenseRelicSubstatsForOptimizer(relics)
@@ -205,7 +193,7 @@ export const Optimizer = {
       window.store.getState().setOptimizerStartTime(Date.now())
       window.store.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
       for (const run of runs) {
-        const task: WorkerTask = {
+        const task: PreWorkerTask = {
           input: {
             context: clonedContext,
             request: request,
@@ -216,7 +204,6 @@ export const Optimizer = {
             relicSetSolutions: relicSetSolutions,
             ornamentSetSolutions: ornamentSetSolutions,
             workerType: WorkerType.OPTIMIZER,
-            // TODO fix worker type
           },
           getMinFilter: (): number => {
             return queueResults.size() && queueResults.size() >= request.resultsLimit! ? (queueResults.top()![gridSortColumn] as number) : 0

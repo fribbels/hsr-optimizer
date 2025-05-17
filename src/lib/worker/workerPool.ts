@@ -1,7 +1,9 @@
 import { Constants } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
+import { PartialByKey } from 'lib/utils/TsUtils'
 import OptimizerWorker from 'lib/worker/baseOptimizerWorker.ts?worker&inline'
+import { WorkerType } from 'lib/worker/workerUtils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -11,30 +13,35 @@ let initializedWorkers = 0
 // console.log('Using pool size ' + poolSize)
 
 type WorkerTaskWrapper = {
-  task: WorkerTask
+  task: PreWorkerTask
   callback: (result: WorkerResult) => void
 }
 
 export type WorkerTask = {
   getMinFilter: () => number
-  input: {
-    WIDTH: number
-    context: OptimizerContext
-    ornamentSetSolutions: number[]
-    permutations: number
-    relicSetSolutions: number[]
-    relics: RelicsByPart
-    request: Form
-    skip: number
-    buffer: ArrayBuffer
-    workerType: WorkerType
-  }
+  input: WorkerTaskInput
   attempts: number
+}
+
+type WorkerTaskInput = {
+  WIDTH: number
+  context: OptimizerContext
+  ornamentSetSolutions: number[]
+  permutations: number
+  relicSetSolutions: number[]
+  relics: RelicsByPart
+  request: Form
+  skip: number
+  buffer: ArrayBuffer
+  workerType: WorkerType
 }
 
 export type WorkerResult = {
   buffer: ArrayBuffer
 }
+
+// make attempts and input.buffer optional fields
+export type PreWorkerTask = PartialByKey<Omit<WorkerTask, 'input'>, 'attempts'> & { input: PartialByKey<WorkerTaskInput, 'buffer'> }
 
 // Reuse workers and buffers
 const workers: Worker[] = []
@@ -66,13 +73,13 @@ export const WorkerPool = {
     WorkerPool.execute(task, callback)
   },
 
-  execute: (task: WorkerTask, callback: (result: WorkerResult) => void) => {
+  execute: (preTask: PreWorkerTask, callback: (result: WorkerResult) => void) => {
     // if (taskStatus[id] == undefined) taskStatus[id] = true
     // if (taskStatus[id] == false) return
 
     // Don't keep looping if a task keeps failing
-    if (task.attempts == undefined) task.attempts = 0
-    if (task.attempts > 10) return console.log('Too many failures, abandoning task')
+    if (preTask.attempts == undefined) preTask.attempts = 0
+    if (preTask.attempts > 10) return console.log('Too many failures, abandoning task')
 
     WorkerPool.initializeWorker()
 
@@ -87,7 +94,8 @@ export const WorkerPool = {
         buffer = BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH)
       }
 
-      task.input.buffer = buffer
+      // preTask is potentially missing input.buffer and attempts, both have been assigned by now -> update the type
+      const task: WorkerTask = { ...{ input: { ...preTask.input, buffer }, attempts: preTask.attempts, getMinFilter: preTask.getMinFilter } }
 
       worker.onmessage = (message: { data: WorkerResult }) => {
         // Queue up task before operating on the callback
@@ -107,7 +115,7 @@ export const WorkerPool = {
         task.attempts++
 
         // We don't try to reuse this worker - kill it and start a new one and requeue the task
-        taskQueue.push({ task, callback })
+        taskQueue.push({ task: task, callback })
         worker.terminate()
         setTimeout(() => {
           WorkerPool.initializeWorker()
@@ -119,7 +127,7 @@ export const WorkerPool = {
       task.input.request.resultMinFilter = task.getMinFilter()
       worker.postMessage(task.input, [task.input.buffer])
     } else {
-      taskQueue.push({ task, callback })
+      taskQueue.push({ task: preTask, callback })
     }
   },
 

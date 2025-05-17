@@ -31,7 +31,7 @@ type PermutationDetails = {
   LinkRopeTotal: number
 }
 
-type RelicTabFilters = {
+export type RelicTabFilters = {
   set: (string | number)[]
   part: (string | number)[]
   enhance: (string | number)[]

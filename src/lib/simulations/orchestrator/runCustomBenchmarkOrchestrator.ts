@@ -4,9 +4,9 @@ import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/be
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { PartialByKey, TsUtils } from 'lib/utils/TsUtils'
 
-export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm) {
+export async function runCustomBenchmarkOrchestrator(benchmarkForm: PartialByKey<BenchmarkForm, 'setConditionals'>) {
   const simulationMetadata = generateSimulationMetadata(benchmarkForm)
   const simulationRequest = generateSimulationRequest(benchmarkForm)
   const simulationSets = generateSimulationSets(benchmarkForm)
@@ -39,7 +39,7 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   return orchestrator
 }
 
-function generateSimulationMetadata(benchmarkForm: BenchmarkForm) {
+function generateSimulationMetadata(benchmarkForm: Pick<BenchmarkForm, 'characterId' | 'teammate0' | 'teammate1' | 'teammate2' | 'subDps'>) {
   const metadata = TsUtils.clone(DB.getMetadata().characters[benchmarkForm.characterId].scoringMetadata.simulation!)
   metadata.teammates = [
     benchmarkForm.teammate0!,
@@ -52,7 +52,7 @@ function generateSimulationMetadata(benchmarkForm: BenchmarkForm) {
   return metadata
 }
 
-function generateSimulationSets(benchmarkForm: BenchmarkForm) {
+function generateSimulationSets(benchmarkForm: Pick<BenchmarkForm, 'simRelicSet1' | 'simRelicSet2' | 'simOrnamentSet'>) {
   return {
     relicSet1: benchmarkForm.simRelicSet1!,
     relicSet2: benchmarkForm.simRelicSet2!,
@@ -60,7 +60,7 @@ function generateSimulationSets(benchmarkForm: BenchmarkForm) {
   }
 }
 
-function generateSimulationRequest(benchmarkForm: BenchmarkForm) {
+function generateSimulationRequest(benchmarkForm: Pick<BenchmarkForm, 'simRelicSet1' | 'simRelicSet2' | 'simOrnamentSet' | 'errRope'>) {
   const request: SimulationRequest = {
     name: '',
     simRelicSet1: benchmarkForm.simRelicSet1!,

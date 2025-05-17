@@ -22,6 +22,11 @@ interface Resources {
         "Clear": "Clear"
       }
     },
+    "ResultsGrid": {
+      "Combo": "Combo DMG",
+      "Delta": "Delta",
+      "Sets": "Sets"
+    },
     "ResultsTabs": {
       "WithSpeed": {
         "100": "100% Benchmark Builds ({{Speed}} SPD)",
@@ -31,11 +36,6 @@ interface Resources {
         "100": "100% Benchmark Builds",
         "200": "200% Benchmark Builds"
       }
-    },
-    "ResultsGrid": {
-      "Combo": "Combo DMG",
-      "Delta": "Delta",
-      "Sets": "Sets"
     },
     "ResultsPanel": {
       "BasicStats": "Basic Stats",
@@ -4164,6 +4164,10 @@ interface Resources {
     "CombatBuffs": {
       "Title": "Combat buffs",
       "p1": "Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations."
+    },
+    "ComboFilters": {
+      "Title": "Combo rotation",
+      "p1": "Define the ability rotation to measure Combo DMG. Rotations are defined with [ as the start of a turn, and ] as the end of a turn. See the Advanced Rotation menu and user guide for more details."
     },
     "StatFilters": {
       "Title": "Stat filters",

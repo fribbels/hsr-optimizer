@@ -28,6 +28,7 @@ Scoring:
     KEEP_CURRENT:
       SuccessMessage: Опция "Сохранить текущие реликвии" отключена
     PRIORITY:
+      ButtonText: "Переместить на приоритет #1"
       SuccessMessage: "Персонаж перемещен на приоритет #1"
     EXCLUDE_ENABLED:
       SuccessMessage: Очищены исключенные персонажи

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 // FIXME MED
 
 interface DataType {
-  key: React.Key
+  key: string
   name: string
   simType: string
   request: object
@@ -113,8 +113,8 @@ export function SimulatedBuildsGrid() {
         columnWidth: 0,
         renderCell: () => '', // Render nothing for the selection column
       }}
-      columns={columns} // FIXME DataType and Simulation are incompatible types
-      dataSource={statSimulations}
+      columns={columns}
+      dataSource={statSimulations as DataType[]}
       onRow={(record) => ({
         onClick: () => {
           setSelectedStatSimulations(record.key != null ? [record.key] : [])

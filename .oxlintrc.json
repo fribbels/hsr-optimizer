@@ -125,7 +125,8 @@
     "numeric-separators-style": "off",
     "no-zero-fractions": "off",
     "no-magic-numbers": "off",
-    "explicit-function-return-type": "off"
+    "explicit-function-return-type": "off",
+    "no-non-null-asserted-optional-chain": "off"
   },
   "settings": {
     "jsx-a11y": {

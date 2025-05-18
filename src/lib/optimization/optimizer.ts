@@ -19,7 +19,7 @@ import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestions
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { PreWorkerTask, WorkerPool, WorkerResult } from 'lib/worker/workerPool'
+import { WorkerPool, WorkerResult, WorkerTask } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form, OptimizerForm } from 'types/form'
 
@@ -193,7 +193,8 @@ export const Optimizer = {
       window.store.getState().setOptimizerStartTime(Date.now())
       window.store.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
       for (const run of runs) {
-        const task: PreWorkerTask = {
+        const task: WorkerTask = {
+          attempts: 0,
           input: {
             context: clonedContext,
             request: request,

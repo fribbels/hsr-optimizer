@@ -1,6 +1,6 @@
 {
   "typescript": {
-    "lineWidth": 120,
+    "lineWidth": 160,
     "indentWidth": 2,
     "useTabs": false,
     "semiColons": "asi",
@@ -15,6 +15,7 @@
     "trailingCommas": "onlyMultiLine",
     "operatorPosition": "nextLine",
     "preferHanging": false,
+    "binaryExpression.operatorPosition": "nextLine",
     "preferSingleLine": false,
     "arrowFunction.useParentheses": "force",
     "binaryExpression.linePerExpression": false,

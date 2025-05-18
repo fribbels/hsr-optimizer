@@ -52,7 +52,6 @@ export type HsrOptimizerStore = {
   scoringAlgorithmFocusCharacter?: CharacterId | null
   statTracesDrawerFocusCharacter?: CharacterId | null
   relicsTabFocusCharacter?: CharacterId | null
-  rowLimit: number
   activeKey: AppPage
   characters: Character[]
   charactersById: Partial<Record<CharacterId, Character>>
@@ -78,9 +77,6 @@ export type HsrOptimizerStore = {
 
   comboState: ComboState
   formValues: Form | undefined
-  inventoryWidth: number
-  setInventoryWidth: (width: number) => void
-  setRowLimit: (rowLimit: number) => void
   relicsById: Record<string, Relic>
   statDisplay: string
   memoDisplay: string

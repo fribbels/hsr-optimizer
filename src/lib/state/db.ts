@@ -14,6 +14,7 @@ import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { debounceEffect } from 'lib/utils/debounceUtils'
@@ -134,8 +135,6 @@ window.store = create((set) => {
     scoringAlgorithmFocusCharacter: undefined,
     statTracesDrawerFocusCharacter: undefined,
     relicsTabFocusCharacter: undefined,
-    inventoryWidth: 9,
-    rowLimit: 10,
 
     activeKey: getDefaultActiveKey(),
     characters: [],
@@ -222,8 +221,6 @@ window.store = create((set) => {
     setFormValues: (x) => set(() => ({ formValues: x })),
     setCharacters: (x) => set(() => ({ characters: x })),
     setCharactersById: (x) => set(() => ({ charactersById: x })),
-    setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
-    setRowLimit: (x) => set(() => ({ rowLimit: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
     setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -612,8 +609,8 @@ export const DB = {
     // Set relics tab state
     window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(saveData.version)
-    window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
-    window.store.getState().setRowLimit(saveData.relicLocator?.rowLimit ?? 10)
+    useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
+    useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
 
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)

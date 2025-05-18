@@ -8,6 +8,7 @@ import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } 
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { lockScroll, unlockScroll } from 'lib/rendering/scrollController'
+import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -338,14 +339,17 @@ export default function RelicModal(props: {
         destroyOnClose
         open={props.open} //
         onCancel={() => props.setOpen(false)}
-        footer={[
-          <Button key='back' onClick={handleCancel}>
-            {t('common:Cancel')}
-          </Button>,
-          <Button key='submit' type='primary' onClick={handleOk}>
-            {t('common:Submit')}
-          </Button>,
-        ]}
+        footer={(
+          <Flex key='footer' justify='end' gap={10}>
+            {props.selectedRelic && <RelicLocator relic={props.selectedRelic}/>}
+            <Button onClick={handleCancel}>
+              {t('common:Cancel')}
+            </Button>
+            <Button type='primary' onClick={handleOk}>
+              {t('common:Submit')}
+            </Button>
+          </Flex>
+        )}
       >
         <Flex vertical gap={5}>
           <Flex gap={10}>
@@ -504,6 +508,7 @@ export default function RelicModal(props: {
               />
             </Flex>
           </Flex>
+          {/* props.selectedRelic && <RelicLocator relic={props.selectedRelic}/> */}
         </Flex>
       </Modal>
     </Form>

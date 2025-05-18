@@ -48,6 +48,7 @@
     "ag-grid-react": "32.1.0",
     "antd": "5.22.7",
     "chroma-js": "^3.1.2",
+    "dprint": "^0.49.1",
     "fast-sort": "^3.4.0",
     "html-to-image": "^1.11.13",
     "i18next": "^23.14.0",

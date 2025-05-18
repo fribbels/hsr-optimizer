@@ -1,3 +1,5 @@
+// JSON Comments are OK in this file even if the IDE complains
+
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": [
@@ -7,12 +9,13 @@
     "oxc"
   ],
   "categories": {
-    "correctness": "error",
-    "suspicious": "warn",
-    "pedantic": "warn",
-    "perf": "warn",
-    "style": "warn",
-    "restriction": "warn"
+    // Disabled for now, to enable slowly and fix
+    //    "correctness": "error"
+    //    "suspicious": "warn",
+    //    "pedantic": "warn",
+    //    "perf": "warn",
+    //    "style": "warn",
+    //    "restriction": "warn"
   },
   "rules": {
     // Defaults
@@ -57,7 +60,7 @@
     "no-unsafe-optional-chaining": "warn",
     "no-unused-labels": "warn",
     "no-unused-private-class-members": "warn",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "no-useless-backreference": "warn",
     "no-useless-catch": "warn",
     "no-useless-escape": "warn",
@@ -121,7 +124,8 @@
     "sort-keys": "off",
     "numeric-separators-style": "off",
     "no-zero-fractions": "off",
-    "no-magic-numbers": "off"
+    "no-magic-numbers": "off",
+    "explicit-function-return-type": "off"
   },
   "settings": {
     "jsx-a11y": {

@@ -4,9 +4,9 @@ import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/be
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
-import { PartialByKey, TsUtils } from 'lib/utils/TsUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
-export async function runCustomBenchmarkOrchestrator(benchmarkForm: PartialByKey<BenchmarkForm, 'setConditionals'>) {
+export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm) {
   const simulationMetadata = generateSimulationMetadata(benchmarkForm)
   const simulationRequest = generateSimulationRequest(benchmarkForm)
   const simulationSets = generateSimulationSets(benchmarkForm)
@@ -39,7 +39,7 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: PartialByKey
   return orchestrator
 }
 
-function generateSimulationMetadata(benchmarkForm: Pick<BenchmarkForm, 'characterId' | 'teammate0' | 'teammate1' | 'teammate2' | 'subDps'>) {
+function generateSimulationMetadata(benchmarkForm: BenchmarkForm) {
   const metadata = TsUtils.clone(DB.getMetadata().characters[benchmarkForm.characterId].scoringMetadata.simulation!)
   metadata.teammates = [
     benchmarkForm.teammate0!,
@@ -52,7 +52,7 @@ function generateSimulationMetadata(benchmarkForm: Pick<BenchmarkForm, 'characte
   return metadata
 }
 
-function generateSimulationSets(benchmarkForm: Pick<BenchmarkForm, 'simRelicSet1' | 'simRelicSet2' | 'simOrnamentSet'>) {
+function generateSimulationSets(benchmarkForm: BenchmarkForm) {
   return {
     relicSet1: benchmarkForm.simRelicSet1!,
     relicSet2: benchmarkForm.simRelicSet2!,
@@ -60,7 +60,7 @@ function generateSimulationSets(benchmarkForm: Pick<BenchmarkForm, 'simRelicSet1
   }
 }
 
-function generateSimulationRequest(benchmarkForm: Pick<BenchmarkForm, 'simRelicSet1' | 'simRelicSet2' | 'simOrnamentSet' | 'errRope'>) {
+function generateSimulationRequest(benchmarkForm: BenchmarkForm) {
   const request: SimulationRequest = {
     name: '',
     simRelicSet1: benchmarkForm.simRelicSet1!,

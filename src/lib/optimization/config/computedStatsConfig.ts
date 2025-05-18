@@ -52,7 +52,7 @@ type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDis
 const createI18nKey = <K>(ns: SimpleLabel['ns'], path: string, argName?: string) =>
   (value: K): SimpleLabel => argName
     ? { ns, key: path, args: { [argName]: String(value) } }
-    : { ns, key: `${path}.${String(value)}` }
+    : { ns, key: `${path}.${value}` }
 
 const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')
 const commonStat = createI18nKey<keyof Resources['common']['Stats']>('common', 'Stats')

@@ -6,8 +6,16 @@
     "typescript",
     "oxc"
   ],
-  "categories": {},
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "pedantic": "warn",
+    "perf": "warn",
+    "style": "warn",
+    "restriction": "warn"
+  },
   "rules": {
+    // Defaults
     "for-direction": "warn",
     "no-async-promise-executor": "warn",
     "no-caller": "warn",
@@ -108,7 +116,12 @@
     "unicorn/no-useless-length-check": "warn",
     "unicorn/no-useless-spread": "warn",
     "unicorn/prefer-set-size": "warn",
-    "unicorn/prefer-string-starts-ends-with": "warn"
+    "unicorn/prefer-string-starts-ends-with": "warn",
+    // Custom
+    "sort-keys": "off",
+    "numeric-separators-style": "off",
+    "no-zero-fractions": "off",
+    "no-magic-numbers": "off"
   },
   "settings": {
     "jsx-a11y": {

@@ -12,8 +12,6 @@ const { Text } = Typography
 
 // FIXME HIGH
 
-type Test = NestedFieldPaths
-
 export function CharacterGrid(props: {
   characterGrid: MutableRefObject<AgGridReact<Character>>
   cellClickedListener: (x: CellClickedEvent<Character>) => void

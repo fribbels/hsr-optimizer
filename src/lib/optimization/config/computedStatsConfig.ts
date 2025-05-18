@@ -1,15 +1,4 @@
-import {
-  AbilityType,
-  ADDITIONAL_DMG_TYPE,
-  BASIC_DMG_TYPE,
-  BREAK_DMG_TYPE,
-  DOT_DMG_TYPE,
-  FUA_DMG_TYPE,
-  MEMO_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  SUPER_BREAK_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType, ADDITIONAL_DMG_TYPE, BASIC_DMG_TYPE, BREAK_DMG_TYPE, DOT_DMG_TYPE, FUA_DMG_TYPE, MEMO_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Namespaces } from 'lib/i18n/i18n'
 import Resources from 'types/resources'
 
@@ -49,9 +38,9 @@ type Label = CompositeLabel | SimpleLabel
 const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
 type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
 
-const createI18nKey = <K>(ns: SimpleLabel['ns'], path: string, argName?: string) =>
+const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) =>
   (value: K): SimpleLabel => argName
-    ? { ns, key: path, args: { [argName]: String(value) } }
+    ? { ns, key: path, args: { [argName]: value } }
     : { ns, key: `${path}.${value}` }
 
 const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')

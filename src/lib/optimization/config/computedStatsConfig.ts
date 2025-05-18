@@ -1,6 +1,16 @@
-import { AbilityType, ADDITIONAL_DMG_TYPE, BASIC_DMG_TYPE, BREAK_DMG_TYPE, DOT_DMG_TYPE, FUA_DMG_TYPE, MEMO_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  ADDITIONAL_DMG_TYPE,
+  BASIC_DMG_TYPE,
+  BREAK_DMG_TYPE,
+  DOT_DMG_TYPE,
+  FUA_DMG_TYPE,
+  MEMO_DMG_TYPE,
+  SKILL_DMG_TYPE,
+  SUPER_BREAK_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { Namespaces } from 'lib/i18n/i18n'
-import { UnwrappedResources } from 'lib/utils/i18nUtils'
 import Resources from 'types/resources'
 
 enum StatCategory {
@@ -27,6 +37,7 @@ interface tInput {
 interface SimpleLabel extends tInput {
   composite?: false
 }
+
 interface CompositeLabel {
   composite: true
   prefix: tInput
@@ -38,14 +49,19 @@ type Label = CompositeLabel | SimpleLabel
 const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
 type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
 
-const commonReadableStat = (stat: UnwrappedResources<Resources['common']['ReadableStats']>): SimpleLabel => ({ ns: 'common', key: `ReadableStats.${stat}` })
-const commonStat = (stat: UnwrappedResources<Resources['common']['Stats']>): SimpleLabel => ({ ns: 'common', key: `Stats.${stat}` })
-const optimizerTabMisc = (stat: UnwrappedResources<Prefixed['Misc']>): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.Misc.${stat}` })
-const optimizerTabUnconvertible = (stat: UnwrappedResources<Resources['common']['Stats']>): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.Unconvertible`, args: { stat } })
-const optimizerTabResPen = (element: UnwrappedResources<Resources['common']['Elements']>): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.ResPen`, args: { element } })
-const optimizerTabDmgTypes = (ability: UnwrappedResources<Prefixed['DmgTypes']>): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.DmgTypes.${ability}` })
-const optimizerTabCompositeSuffix = (stat: UnwrappedResources<Prefixed['CompositeLabels']['Suffix']>): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.CompositeLabels.Suffix.${stat}` })
-const optimizerTabCompositePrefix = (stat: UnwrappedResources<Prefixed['CompositeLabels']['Prefix']>): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.CompositeLabels.Prefix.${stat}` })
+const createI18nKey = <K>(ns: SimpleLabel['ns'], path: string, argName?: string) =>
+  (value: K): SimpleLabel => argName
+    ? { ns, key: path, args: { [argName]: String(value) } }
+    : { ns, key: `${path}.${String(value)}` }
+
+const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')
+const commonStat = createI18nKey<keyof Resources['common']['Stats']>('common', 'Stats')
+const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `${keyPrefix}.Misc`)
+const optimizerTabDmgTypes = createI18nKey<keyof Prefixed['DmgTypes']>('optimizerTab', `${keyPrefix}.DmgTypes`)
+const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
+const optimizerTabCompositePrefix = createI18nKey<keyof Prefixed['CompositeLabels']['Prefix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Prefix`)
+const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
+const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
 
 export const newBaseComputedStatsCorePropertiesConfig = {
   // Core stats

@@ -4,6 +4,7 @@ import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
 import { Constants, MainStats, Parts, setToId, Stats, SubStats, UnreleasedSets } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
+import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { calculateUpgradeValues, RelicForm, RelicUpgradeValues, validateRelic } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
@@ -98,6 +99,7 @@ export default function RelicModal(props: {
   const [relicForm] = Form.useForm<RelicForm>()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters: Character[] = window.store((s) => s.characters)
+  const showLocator = window.store((s) => s.settings.ShowLocatorInRelicsModal)
 
   useEffect(() => {
     if (props.open) {
@@ -341,7 +343,7 @@ export default function RelicModal(props: {
         onCancel={() => props.setOpen(false)}
         footer={(
           <Flex key='footer' justify='end' gap={10}>
-            {props.selectedRelic && <RelicLocator relic={props.selectedRelic}/>}
+            {props.selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={props.selectedRelic}/>}
             <Button onClick={handleCancel}>
               {t('common:Cancel')}
             </Button>

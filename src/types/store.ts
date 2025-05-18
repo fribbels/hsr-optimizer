@@ -173,6 +173,7 @@ export type UserSettings = {
   PermutationsSidebarBehavior: string
   RelicPotentialLoadBehavior: string
   ExpandedInfoPanelPosition: string
+  ShowLocatorInRelicsModal: string
 }
 
 // The JSON format we save to localstorage / save file

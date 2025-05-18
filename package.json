@@ -95,6 +95,7 @@
     "gh-pages": "^6.1.0",
     "globals": "^15.0.0",
     "jsdom": "^24.0.0",
+    "oxlint": "^0.16.11",
     "terser": "^5.27.0",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.31.1",

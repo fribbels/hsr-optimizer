@@ -1,4 +1,4 @@
-import { CellClickedEvent, CellDoubleClickedEvent, CellPosition, ColDef, GetRowIdParams, IRowNode, IsExternalFilterPresentParams, NavigateToNextCellParams, NestedFieldPaths, RowDragEvent } from 'ag-grid-community'
+import { CellClickedEvent, CellDoubleClickedEvent, CellPosition, ColDef, GetRowIdParams, IRowNode, IsExternalFilterPresentParams, NavigateToNextCellParams, RowDragEvent } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, Typography } from 'antd'
 import i18next from 'i18next'

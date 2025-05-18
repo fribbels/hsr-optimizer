@@ -508,7 +508,6 @@ export default function RelicModal(props: {
               />
             </Flex>
           </Flex>
-          {/* props.selectedRelic && <RelicLocator relic={props.selectedRelic}/> */}
         </Flex>
       </Modal>
     </Form>

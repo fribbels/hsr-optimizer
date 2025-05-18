@@ -1,10 +1,10 @@
-import { CellClickedEvent, CellDoubleClickedEvent, CellPosition, IRowNode, IsExternalFilterPresentParams, NavigateToNextCellParams, RowDragEvent } from 'ag-grid-community'
+import { CellClickedEvent, CellDoubleClickedEvent, CellPosition, ColDef, GetRowIdParams, IRowNode, IsExternalFilterPresentParams, NavigateToNextCellParams, RowDragEvent } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, Typography } from 'antd'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
-import React, { MutableRefObject, useMemo } from 'react'
+import { MutableRefObject, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 
@@ -23,7 +23,7 @@ export function CharacterGrid(props: {
   doesExternalFilterPass: (x: IRowNode<Character>) => boolean
 }) {
   const { t } = useTranslation(['charactersTab', 'common', 'gameData'])
-  const [characterRows, setCharacterRows] = React.useState(DB.getCharacters())
+  const [characterRows, setCharacterRows] = useState(DB.getCharacters())
   window.setCharacterRows = setCharacterRows
 
   const gridOptions = useMemo(() => ({
@@ -34,16 +34,17 @@ export function CharacterGrid(props: {
     suppressScrollOnNewData: true,
   }), [])
 
-  const columnDefs = useMemo(() => [
-    { field: '', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
+  const columnDefs: ColDef<Character>[] = useMemo(() => [
+    // set field to 'id' to satisfy type constraint
+    { field: 'id', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
     {
-      field: '',
+      field: 'id',
       headerName: t('GridHeaders.Priority')/* Priority */,
       cellRenderer: cellRankRenderer,
       width: 60,
       rowDrag: true,
     },
-    { field: '', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
+    { field: 'id', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
   ], [t])
 
   const defaultColDef = useMemo(() => ({
@@ -57,11 +58,10 @@ export function CharacterGrid(props: {
 
       rowData={characterRows}
       gridOptions={gridOptions}
-      getRowNodeId={(data: IRowNode<Character>) => data.id}
+      getRowId={(params: GetRowIdParams<Character>) => params.data.id}
 
-      columnDefs={columnDefs} // TODO what's going on here
+      columnDefs={columnDefs}
       defaultColDef={defaultColDef}
-      deltaRowDataMode={true}
 
       headerHeight={24}
 

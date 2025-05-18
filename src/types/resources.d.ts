@@ -22,6 +22,11 @@ interface Resources {
         "Clear": "Clear"
       }
     },
+    "ResultsGrid": {
+      "Combo": "Combo DMG",
+      "Delta": "Delta",
+      "Sets": "Sets"
+    },
     "ResultsTabs": {
       "WithSpeed": {
         "100": "100% Benchmark Builds ({{Speed}} SPD)",
@@ -31,11 +36,6 @@ interface Resources {
         "100": "100% Benchmark Builds",
         "200": "200% Benchmark Builds"
       }
-    },
-    "ResultsGrid": {
-      "Combo": "Combo DMG",
-      "Delta": "Delta",
-      "Sets": "Sets"
     },
     "ResultsPanel": {
       "BasicStats": "Basic Stats",

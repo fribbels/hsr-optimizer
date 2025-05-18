@@ -133,3 +133,5 @@ const getEmptyT = <
     return ''
   }) as TFunction<ActualNs, TKPrefix>
 }
+
+export type PartialByKey<Obj extends object, Key extends keyof Obj> = Omit<Obj, Key> & Partial<Record<Key, Obj[Key]>>

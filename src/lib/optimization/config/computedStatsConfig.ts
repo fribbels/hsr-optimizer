@@ -1,5 +1,6 @@
 import { AbilityType, ADDITIONAL_DMG_TYPE, BASIC_DMG_TYPE, BREAK_DMG_TYPE, DOT_DMG_TYPE, FUA_DMG_TYPE, MEMO_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Namespaces } from 'lib/i18n/i18n'
+import Resources from 'types/resources'
 
 enum StatCategory {
   CD,
@@ -18,12 +19,14 @@ export type ComputedStatsConfigBaseType = {
 
 interface tInput {
   ns: Namespaces
-  key: string// TODO: if I could get proper typing working here (via Resources probably) that would be nice
+  key: string
   args?: Record<string, string>
 }
+
 interface SimpleLabel extends tInput {
   composite?: false
 }
+
 interface CompositeLabel {
   composite: true
   prefix: tInput
@@ -33,14 +36,21 @@ interface CompositeLabel {
 type Label = CompositeLabel | SimpleLabel
 
 const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
-const commonReadableStat = (stat: string): SimpleLabel => ({ ns: 'common', key: `ReadableStats.${stat}` })
-const commonStat = (stat: string): SimpleLabel => ({ ns: 'common', key: `Stats.${stat}` })
-const optimizerTabMisc = (stat: string): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.Misc.${stat}` })
-const optimizerTabUnconvertible = (stat: string): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.Unconvertible`, args: { stat } })
-const optimizerTabResPen = (element: string): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.ResPen`, args: { element } })
-const optimizerDmgTypes = (ability: string): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.DmgTypes.${ability}` })
-const optimizerTabCompositeSuffix = (stat: string): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.CompositeLabels.Suffix.${stat}` })
-const optimizerTabCompositePrefix = (stat: string): SimpleLabel => ({ ns: 'optimizerTab', key: `${keyPrefix}.CompositeLabels.Prefix.${stat}` })
+type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
+
+const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) =>
+  (value: K): SimpleLabel => argName
+    ? { ns, key: path, args: { [argName]: value } }
+    : { ns, key: `${path}.${value}` }
+
+const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')
+const commonStat = createI18nKey<keyof Resources['common']['Stats']>('common', 'Stats')
+const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `${keyPrefix}.Misc`)
+const optimizerTabDmgTypes = createI18nKey<keyof Prefixed['DmgTypes']>('optimizerTab', `${keyPrefix}.DmgTypes`)
+const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
+const optimizerTabCompositePrefix = createI18nKey<keyof Prefixed['CompositeLabels']['Prefix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Prefix`)
+const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
+const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
 
 export const newBaseComputedStatsCorePropertiesConfig = {
   // Core stats
@@ -139,7 +149,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   QUANTUM_RES_PEN: { label: optimizerTabResPen('Quantum') },
   IMAGINARY_RES_PEN: { label: optimizerTabResPen('Imaginary') },
 
-  // Misc variables that dont need to be split into abilities yet
+  // Misc variables that don't need to be split into abilities yet
   SUPER_BREAK_DEF_PEN: { label: optimizerTabMisc('Super Break DEF PEN') },
   SUPER_BREAK_DMG_BOOST: { label: optimizerTabMisc('Super Break DMG Boost') },
   SUPER_BREAK_VULNERABILITY: { label: optimizerTabMisc('Super Break Vulnerability') },
@@ -148,16 +158,16 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: { label: optimizerTabMisc('Ult Additional DMG CD override') },
 
   // Abilities to damage type mapping
-  BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE, label: optimizerDmgTypes('Basic') },
-  SKILL_DMG_TYPE: { flat: true, default: SKILL_DMG_TYPE, label: optimizerDmgTypes('Skill') },
-  ULT_DMG_TYPE: { flat: true, default: ULT_DMG_TYPE, label: optimizerDmgTypes('Ult') },
-  FUA_DMG_TYPE: { flat: true, default: FUA_DMG_TYPE, label: optimizerDmgTypes('Fua') },
-  DOT_DMG_TYPE: { flat: true, default: DOT_DMG_TYPE, label: optimizerDmgTypes('Dot') },
-  BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE, label: optimizerDmgTypes('Break') },
-  MEMO_SKILL_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE, label: optimizerDmgTypes('MemoSkill') },
-  MEMO_TALENT_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE, label: optimizerDmgTypes('MemoTalent') },
-  ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE, label: optimizerDmgTypes('Additional') },
-  SUPER_BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE | SUPER_BREAK_DMG_TYPE, label: optimizerDmgTypes('SuperBreak') },
+  BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE, label: optimizerTabDmgTypes('Basic') },
+  SKILL_DMG_TYPE: { flat: true, default: SKILL_DMG_TYPE, label: optimizerTabDmgTypes('Skill') },
+  ULT_DMG_TYPE: { flat: true, default: ULT_DMG_TYPE, label: optimizerTabDmgTypes('Ult') },
+  FUA_DMG_TYPE: { flat: true, default: FUA_DMG_TYPE, label: optimizerTabDmgTypes('Fua') },
+  DOT_DMG_TYPE: { flat: true, default: DOT_DMG_TYPE, label: optimizerTabDmgTypes('Dot') },
+  BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE, label: optimizerTabDmgTypes('Break') },
+  MEMO_SKILL_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE, label: optimizerTabDmgTypes('MemoSkill') },
+  MEMO_TALENT_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE, label: optimizerTabDmgTypes('MemoTalent') },
+  ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE, label: optimizerTabDmgTypes('Additional') },
+  SUPER_BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE | SUPER_BREAK_DMG_TYPE, label: optimizerTabDmgTypes('SuperBreak') },
 } as const
 
 export const newBaseComputedStatsAbilityPropertiesConfig = {

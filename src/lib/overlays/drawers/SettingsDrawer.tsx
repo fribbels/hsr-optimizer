@@ -113,11 +113,11 @@ export const SettingsDrawer = () => {
   const optionsShowLocatorInRelicsModal = [
     {
       value: SettingOptions.ShowLocatorInRelicsModal.No,
-      label: <span>{t('ShowLocatorInRelicsModal.No')/* Default: do not show the relic locator in the relic modal */}</span>,
+      label: <span>{t('ShowLocatorInRelicsModal.No')/* Default: Do not show the relic locator in the relic editor */}</span>,
     },
     {
       value: SettingOptions.ShowLocatorInRelicsModal.Yes,
-      label: <span>{t('ShowLocatorInRelicsModal.Yes')/* Show the relic locator in the relic modal */}</span>,
+      label: <span>{t('ShowLocatorInRelicsModal.Yes')/* Show the relic locator in the relic editor */}</span>,
     },
   ]
 

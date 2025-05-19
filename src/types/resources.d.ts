@@ -5836,9 +5836,9 @@ interface Resources {
       "Below": "Default: Show expanded info below relics preview"
     },
     "ShowLocatorInRelicsModal": {
-      "Label": "Relic locator in relic modal",
-      "Yes": "Show the relic locator in the relic modal",
-      "No": "Default: do not show the relic locator in the relic modal"
+      "Label": "Relic locator in relic editor",
+      "Yes": "Show the relic locator in the relic editor",
+      "No": "Default: Do not show the relic locator in the relic editor"
     }
   },
   "sidebar": {

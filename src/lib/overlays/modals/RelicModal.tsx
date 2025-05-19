@@ -342,14 +342,18 @@ export default function RelicModal(props: {
         open={props.open} //
         onCancel={() => props.setOpen(false)}
         footer={(
-          <Flex key='footer' justify='end' gap={10}>
-            {props.selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={props.selectedRelic}/>}
-            <Button onClick={handleCancel}>
-              {t('common:Cancel')}
-            </Button>
-            <Button type='primary' onClick={handleOk}>
-              {t('common:Submit')}
-            </Button>
+          <Flex key='footer' justify='space-between'>
+            <Flex style={{width: 298, paddingLeft: 1}}>
+              {props.selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={props.selectedRelic}/>}
+            </Flex>
+            <Flex gap={10} style={{width: 180}}>
+              <Button onClick={handleCancel} style={{flex: 1}}>
+                {t('common:Cancel')}
+              </Button>
+              <Button type='primary' onClick={handleOk} style={{flex: 1}}>
+                {t('common:Submit')}
+              </Button>
+            </Flex>
           </Flex>
         )}
       >

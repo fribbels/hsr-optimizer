@@ -26,7 +26,7 @@ type RelicLocatorStateValues = typeof defaultStateValues
 type RelicLocatorState = RelicLocatorStateValues & RelicLocatorStateActions
 
 // use a store to allow access when loading/creating a savefile
-export const useRelicLocatorStore = create<RelicLocatorState>()((set) => ({
+export const useRelicLocatorStore = create<RelicLocatorState>((set) => ({
   ...defaultStateValues,
 
   setInventoryWidth: (width: number | null) => set({ inventoryWidth: width ?? defaultStateValues.inventoryWidth }),

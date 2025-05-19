@@ -178,6 +178,12 @@ Characters:
     Content:
       talentDmgStacks:
         text: Стаков таланта
+  Cipher:
+    Content:
+      fuaCdBoost:
+        text: '↑Крит урон Бонус-атакам'
+      e6FuaDmg:
+        text: E6 Урон Бонус-атаки
   Clara:
     Content:
       e2UltAtkBuff:

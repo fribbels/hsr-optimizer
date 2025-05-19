@@ -948,6 +948,10 @@ Characters:
     Content:
       skillAtkBuff:
         text: Bonus d'ATQ de la Compétence
+      fuaCdBoost:
+        text: Bonus de DC d'ADS
+      e6FuaDmg:
+        text: 'E6: Dégâts d''ADS'
   Clara:
     Content:
       ultBuff:

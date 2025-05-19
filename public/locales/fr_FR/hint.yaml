@@ -9,6 +9,9 @@ RatingFilter:
 CombatBuffs:
   Title: Buffs de combat
   p1: Buff supplémentaires à appliquer aux calculs. À noter que les buffs venant des personnages, cônes de lumière, effets passifs, ainsi que les traces sont déjà inclus dans les calculs
+ComboFilters:
+  Title: Rotation COMBO
+  p1: Définissez la rotation de capacités à mesurer pour les dégâts combo. Les rotations sont définies avec [ pour indiquer le début de tour et ] pour indiquer la fin du tour. Consultez le menu de rotation expert ainsi que le guide d'utilisation pour plus de détails.
 StatFilters:
   Title: Filtres de stats
   p1: Filtres min (à gauche) / max (à droite) pour les stats du personnage, inclusifs. L'optimiseur ne montrera que les résultats satisfaisant ces filtres

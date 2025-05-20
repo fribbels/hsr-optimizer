@@ -1,3 +1,6 @@
 MiddlePanel:
   CharacterHeader: Personaje
   LCHeader: Cono de luz
+RightPanel:
+  Settings:
+    Header: Ajustes

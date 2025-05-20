@@ -889,6 +889,8 @@ Characters:
     Content:
       skillAtkBuff:
         text: Chiến Kỹ Tăng Tấn Công
+      fuaCdBoost:
+        text: Tăng Sát Thương BK Đòn Sau
   Clara:
     Content:
       ultBuff:

@@ -12,3 +12,7 @@ RelicPotentialLoadBehaviour:
   Label: Puntuar potencial de artefactos al cargar
   OnStartup: "Por defecto: Puntuar automáticamente los artefactos al cargar la página"
   Manual: Solo puntuar artefactos al presionar "Reaplicar puntuaciones" (carga de página más rápida)
+ExpandedInfoPanelPosition:
+  Label: Posición del panel de información ampliada del optimizador
+  Above: Mostrar información ampliada sobre la vista previa de artefactos
+  Below: "Por defecto: Mostrar información ampliada bajo la vista previa de artefactos"

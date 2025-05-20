@@ -62,4 +62,5 @@ SectionTitles:
 ColumnTitles:
   Goal: Meta
   Chance: "Porcentaje de éxito con {{ticketCount}} <1/>"
+  Average: "# promedio de <1/> necesarios"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

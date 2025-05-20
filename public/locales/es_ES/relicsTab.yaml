@@ -1,9 +1,37 @@
 RelicFilterBar:
+  Part: Ranura
+  Enhance: Nivel
+  Grade: Rareza
+  InitialRolls: Mejoras iniciales
+  Verified: Verificado
+  Equipped: Equipado
+  Clear: Restablecer
+  ClearButton: Restablecer todos los filtros
+  Set: Conjunto
+  Mainstat: Atributos principales
+  Substat: Atributos secundarios
+  ReapplyButton: Reaplicar puntuaciones
   ScoringButton: Algoritmo de puntuación
+  RecommendationHeader: Personaje a recomendar artefacto
+  Rating: Puntuaciones de artefacto
+  CustomCharsHeader: Personajes potenciales personalizados
 Messages:
   AddRelicSuccess: Artefacto añadido con éxito
+  NoRelicSelected: Ningún artefacto seleccionado
+  DeleteRelicSuccess: Artefacto borrado con éxito
 RelicGrid:
+  To: a
+  Of: de
   Headers:
+    EquippedBy: Dueño
+    Set: Conj.
+    Part: Ranura
+    MainStat: |-
+      Atributo
+      principal
+    MainValue: |-
+      Valor
+      principal
     HPP: PV %
     ATKP: ATQ %
     DEFP: DEF %
@@ -11,3 +39,127 @@ RelicGrid:
     ATK: ATQ
     DEF: DEF
     SPD: VEL
+    CR: |-
+      Prob.
+      Crit
+
+    CD: |-
+      Daño
+      Crit
+    EHR: |-
+      Acierto
+      de efecto
+    RES: |-
+      RES a
+      efecto
+    BE: |-
+      Efecto de
+      Ruptura
+    CV: |-
+      Valor
+      Crit
+  ValueColumns:
+    SelectedCharacter:
+      Label: Personaje seleccionado
+      ScoreCol:
+        Label: "Personaje seleccionado: Puntaje"
+        Header: |-
+          Pj selec.
+          Puntaje
+      AvgPotCol:
+        Label: "Personaje seleccionado: Potencial promedio"
+        Header: |-
+          Pj selec.
+          Potencial
+          promedio
+      MaxPotCol:
+        Label: "Personaje seleccionado: Potencial máximo"
+        Header: |-
+          Pj selec.
+          Potencial
+          máx.
+      RerollAvg:
+        Label: "Personaje seleccionado: Potencial promedio de reasignación"
+        Header: |-
+          Pj selec.
+          Promedio
+          de reasig.
+      RerollAvgDelta:
+        Label: "Personaje seleccionado: Delta de potencial promedio de reasignación"
+        Header: |-
+          Pj selec.
+          Δ Promedio
+          de reasig.
+      RerollAvgEquippedDelta:
+        Label: "Personaje seleccionado: Delta de potencial de reasignación promedio vs equipado"
+        Header: |-
+          Pj selec. Δ
+          Promedio de
+          reasig. vs equip.
+    CustomCharacters:
+      Label: Personajes personalizados
+      AvgPotCol:
+        Label: "Personajes personalizados: Potencial promedio"
+        Header: |-
+          Pj pers.
+          Potencial
+          promedio
+      MaxPotCol:
+        Label: "Personajes personalizados: Potencial máximo"
+        Header: |-
+          Pj pers.
+          Potencial
+          máximo
+      RerollAvg:
+        Label: "Personajes personalizados: Potencial promedio de reasignación"
+        Header: |-
+          Pj pers.
+          Promedio
+          de reasig.
+    AllCharacters:
+      Label: Todos los personajes
+      AvgPotCol:
+        Label: "Todos los personajes: Potencial promedio"
+        Header: |-
+          Todos los pj
+          Potencial
+          promedio
+      MaxPotCol:
+        Label: "Todos los personajes: Potencial máximo"
+        Header: |-
+          Todos los pj
+          Potencial máx.
+      RerollAvg:
+        Label: "Todos los personajes: Potencial promedio de reasignación"
+        Header: |-
+          Todos los pj
+          Promedio de reasig.
+    ComingSoon:
+      Label: Próximamente
+      SetsPotential:
+        Label: Potencial de conjunto de artefactos / ornamentos
+        Header: |-
+          Todos los pj
+          Potencial máx
+          + conjuntos
+Toolbar:
+  RelicLocator:
+    Width: Ancho de inventario
+    Filter: Filtrar filas automáticamente
+    NoneSelected: Selecciona un artefacto para encontrar
+    Location: "Ubicación - Fila {{rowIndex}} / Col. {{columnIndex}}"
+  InsightOptions:
+    Buckets: "Análisis de artefacto: Rangos"
+    Top10: "Análisis de artefacto: Top 10"
+  PlotOptions:
+    PlotAll: Mostrar todos los personajes
+    PlotCustom: Mostrar personajes personalizados
+  EditRelic: Editar artefacto
+  DeleteRelic:
+    ButtonText: Borrar artefacto
+    Warning_one: '¿Borrar el artefacto seleccionado?'
+    Warning_other: "¿Borrar los {{count}} artefactos seleccionados?"
+  AddRelic: Añadir nuevo artefacto
+RelicInsights:
+  NewStats: "Atributos nuevos: "
+  UpgradedStats: "Atributos mejorados: "

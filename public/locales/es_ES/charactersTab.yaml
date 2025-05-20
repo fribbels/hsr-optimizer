@@ -45,6 +45,7 @@ CharacterPreview:
     Title: "Alg. de puntuación:"
     Labels:
       CombatScore: Puntaje de combate
+      NoneScore: Ninguno
   DMGUpgrades: Mejoras de daño
   BuildAnalysis:
     Rotation:

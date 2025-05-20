@@ -17,6 +17,10 @@ Grid:
       BE: EdR
       OHB: BCR
       ERR: RdE
+Sidebar:
+  Results: Resultados
+  ResultsGroup:
+    Header: Resultados
 SetConditionals:
   SelectOptions:
     Wastelander:
@@ -54,6 +58,7 @@ MinMaxFilters:
   ERRLabel: RdE
 ComboFilter:
   ComboOptions:
+    None: 'Ninguno'
     Break: Ruptura
 StatSimulation:
   MainStatsSelection:
@@ -68,6 +73,11 @@ ExpandedDataPanel:
     YAxisLabel:
       BREAK_DMG: Ruptura
   BuffsAnalysisDisplay:
+    Sources:
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
     Stats:
       CompositeLabels:
         Prefix:

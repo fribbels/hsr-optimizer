@@ -2,6 +2,7 @@ import { Constants } from 'lib/constants/constants'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
 import OptimizerWorker from 'lib/worker/baseOptimizerWorker.ts?worker&inline'
+import { WorkerType } from 'lib/worker/workerUtils'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -17,19 +18,22 @@ type WorkerTaskWrapper = {
 
 export type WorkerTask = {
   getMinFilter: () => number
-  input: {
-    WIDTH: number
-    context: OptimizerContext
-    ornamentSetSolutions: number[]
-    permutations: number
-    relicSetSolutions: number[]
-    relics: RelicsByPart
-    request: Form
-    skip: number
-    buffer: ArrayBuffer
-    workerType: WorkerType
-  }
+  input: WorkerTaskInput
   attempts: number
+}
+
+type WorkerTaskInput = {
+  WIDTH: number
+  context: OptimizerContext
+  ornamentSetSolutions: number[]
+  permutations: number
+  relicSetSolutions: number[]
+  relics: RelicsByPart
+  request: Form
+  skip: number
+  workerType: WorkerType
+
+  buffer?: ArrayBuffer
 }
 
 export type WorkerResult = {
@@ -67,11 +71,7 @@ export const WorkerPool = {
   },
 
   execute: (task: WorkerTask, callback: (result: WorkerResult) => void) => {
-    // if (taskStatus[id] == undefined) taskStatus[id] = true
-    // if (taskStatus[id] == false) return
-
     // Don't keep looping if a task keeps failing
-    if (task.attempts == undefined) task.attempts = 0
     if (task.attempts > 10) return console.log('Too many failures, abandoning task')
 
     WorkerPool.initializeWorker()
@@ -117,7 +117,7 @@ export const WorkerPool = {
 
       // Recalculate the min filter before starting the worker
       task.input.request.resultMinFilter = task.getMinFilter()
-      worker.postMessage(task.input, [task.input.buffer])
+      worker.postMessage(task.input, [task.input.buffer!])
     } else {
       taskQueue.push({ task, callback })
     }

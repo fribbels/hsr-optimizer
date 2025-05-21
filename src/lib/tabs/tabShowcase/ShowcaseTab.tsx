@@ -243,7 +243,7 @@ function CharacterPreviewSelection() {
 
         { (availableCharacters?.length != undefined && availableCharacters.length > 0) && (
           <Alert
-            message={<>Note: Combo DMG is meant to compare different relics within the context of the selected team, and should <u>NOT</u> be used to compare different teams!</>}
+            message={<>Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / eidolons!</>}
             type='info'
             showIcon
             style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327', borderColor: '#c3561e' }}

@@ -295,7 +295,7 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
         LightMuted: palette.LightMuted!.hex,
       }
 
-      console.log('PALETTE', palette)
+      // console.log('PALETTE', palette)
 
       // colors member from custom generator isn't added to type information
       const colors = (palette.colors as unknown as { _hsl: number[]; _population: number; _rgb: number[] }[])

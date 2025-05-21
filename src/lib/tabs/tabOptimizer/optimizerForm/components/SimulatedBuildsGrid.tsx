@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 // FIXME MED
 
 interface DataType {
-  key: React.Key
+  key: string
   name: string
   simType: string
   request: object
@@ -114,7 +114,7 @@ export function SimulatedBuildsGrid() {
         renderCell: () => '', // Render nothing for the selection column
       }}
       columns={columns}
-      dataSource={statSimulations}
+      dataSource={statSimulations as DataType[]}
       onRow={(record) => ({
         onClick: () => {
           setSelectedStatSimulations(record.key != null ? [record.key] : [])

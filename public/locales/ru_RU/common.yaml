@@ -27,6 +27,7 @@ CharacterWithCount_other: "Персонажей: {{count}}"
 Character_one: персонаж
 Character_other: персонажи
 VerifiedRelicHoverText: Доп. статы реликвий одобренные оценщиком реликвий (десятичные доли скорости)
+Verified4LinerHoverText: Статы реликвии и их количество, подтвержденные оценщиком реликвий (дробная часть значения скорости + 4 начальных стата)
 CombatStats: Статы персонажа при учёте команды
 MemospriteLabel: "{{label}}ᴹ"
 Parts:
@@ -52,8 +53,8 @@ Stats:
   DEF: Защита
   "SPD%": Скорость %
   SPD: Скорость
-  CRIT Rate: Крит. шанс
-  CRIT DMG: Крит. урон
+  CRIT Rate: Крит Шанс
+  CRIT DMG: Крит Урон
   Effect Hit Rate: Шанс  эффектов
   Effect RES: Сопротивление
   Break Effect: Пробитие
@@ -146,8 +147,8 @@ ShortReadableStats:
   DEF: Защита
   "SPD%": SPD %
   SPD: SPD
-  CRIT Rate: Крит. шанс
-  CRIT DMG: Крит. урон
+  CRIT Rate: Крит Шанс
+  CRIT DMG: Крит Урон
   Effect Hit Rate: ШПЭ
   Effect RES: СОП
   Break Effect: ЭП
@@ -175,6 +176,7 @@ DMGTypes:
   ULT: Урон сверхспособности
   FUA: Урон бонус-атаки
   MEMO_SKILL: Урон навыка Мемо
+  MEMO_TALENT: Урон Талантаᴹ
   DOT: Периодический урон
   BREAK: Урон пробития
   CV: КМ

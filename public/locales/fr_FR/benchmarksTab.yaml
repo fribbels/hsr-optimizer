@@ -1,0 +1,34 @@
+Title: Générateur de build de référence
+LeftPanel:
+  Header: Référence
+MiddlePanel:
+  CharacterHeader: Personnage
+  LCHeader: Cône de Lumière
+  TeammatesHeader: Coéquipiers
+RightPanel:
+  Settings:
+    Header: Paramètres
+    SPD: VIT basique de référence
+    ERR: Corde TRE
+    SubDPS: DPS secondaire
+  SetsHeader: Sets de référence
+  ButtonText:
+    Generate: Générer les builds
+    Clear: Effacer
+ResultsGrid:
+  Combo: DGT Combo
+  Delta: Delta
+  Sets: Sets
+ResultsTabs:
+  WithSpeed:
+    100: Builds de référence 100% ({{Speed}} VIT)
+    200: Builds de référence 200% ({{Speed}} VIT)
+  WithoutSpeed:
+    100: Builds de référence 100%
+    200: Builds parfaites 200%
+ResultsPanel:
+  BasicStats: Stats Basiques
+  CombatStats: Stats de Combat
+  Rolls: Rolls de Substats
+  Combo: Rotation COMBO
+  Damage: Dégâts de capacité

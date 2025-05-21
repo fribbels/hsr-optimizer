@@ -8,6 +8,19 @@ CharacterPassives: Пассивки персонажа
 NoConditionals: Нет пассивок с условием.
 NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: "Найти {{limit}} лучших"
+Sets: Наборы
+SortOptions:
+  COMBO: По Урону Комбо
+  BASIC: По Урону Баз Атаки
+  SKILL: По Урону Навыка
+  ULT: По Урону Ультимейта
+  FUA: По Урону Бонус-Атаки
+  MEMO_SKILL: По Урону Навыкаᴹ
+  MEMO_TALENT: По Урону Талантаᴹ
+  DOT: По Урону ДоТ'ов
+  BREAK: По Урону Пробития
+  HEAL: По Исцелению
+  SHIELD: По Щиту
 OptimizerOptions:
   Header: Параметры оптимизатора
   Priority:
@@ -54,6 +67,18 @@ Grid:
       ERR: ВЭ
       EHP: эHP
     Combat:
+      Set: Набор
+      ATK: Σ Атака
+      DEF: Σ Защита
+      HP: Σ HP
+      SPD: Σ Скорость
+      CR: Σ КШ
+      CD: Σ КУ
+      EHR: Σ эHP
+      RES: Σ Сопр
+      BE: Σ Пробитие
+      ERR: Σ ВосстЭн
+      DMG: Σ УРОН
       EHP: эHP
 Sidebar:
   GPUOptions:
@@ -100,18 +125,18 @@ WeightFilter:
   ATKFilterText: Сила атаки
   DEFFilterText: Защита
   SPDFilterText: Скорость
-  CRFilterText: КШ
-  CDFilterText: КУ
-  EHRFilterText: ШПЭ
-  RESFilterText: СОПР
-  BEFilterText: ЭП
+  CRFilterText: Крит Шанс
+  CDFilterText: Крит Урон
+  EHRFilterText: Шанс эффектов
+  RESFilterText: Сопротивление
+  BEFilterText: Пробитие
 MinMaxFilters:
   HPLabel: HP
   ATKLabel: Сила атаки
   DEFLabel: Защита
   SPDLabel: Скорость
-  CRLabel: КШ
-  CDLabel: КУ
+  CRLabel: Крит Шанс
+  CDLabel: Крит Урон
   EHRLabel: ШансЭфф
   RESLabel: Сопр
   BELabel: Пробитие
@@ -122,13 +147,16 @@ MinMaxFilters:
   ULTLabel: Ультимейт
   FUALabel: Бонус-Атака
   MEMOSKILLLabel: Навыкᴹ
-  DOTLabel: Доты
+  DOTLabel: ДоТ'ы
   BREAKLabel: Пробитие
   HEALLabel: Исцеление
   SHIELDLabel: Щит
 ComboFilter:
   ComboOptions:
     None: 'Нет'
+    Basic: БазАтака
+    Skill: Навык
+    Ult: Ульта
     Break: ЭП
 ComboDrawer:
   NoConditionals: Нет пассивок с условием.
@@ -147,6 +175,9 @@ ExpandedDataPanel:
     Legend:
       breakDmg: ЭП
     YAxisLabel:
+      BASIC_DMG: БазАтака
+      SKILL_DMG: Навык
+      ULT_DMG: Ульта
       BREAK_DMG: ЭП
     TooltipText:
       breakDmg: Урон пробития
@@ -156,10 +187,17 @@ ExpandedDataPanel:
       BoolFalse: "Нет"
       BoolTrue: "Да"
     Sources:
+      Basic: БазАтака
+      Skill: Навык
+      Ult: Ульта
+      Trace: Следы
       E1: E1
     Stats:
       CompositeLabels:
         Prefix:
+          Basic: БазАтака
+          Skill: Навык
+          Ult: Ульта
           Break: ЭП
         Suffix:
           DMG boost: Урон↑

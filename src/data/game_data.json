@@ -6347,7 +6347,7 @@
           "children": []
         }
       ],
-      "max_sp": 100,
+      "max_sp": 130,
       "stats": {
         "HP": 931.392,
         "ATK": 640.332,
@@ -6541,7 +6541,7 @@
           ]
         }
       ],
-      "max_sp": 150,
+      "max_sp": 140,
       "stats": {
         "HP": 1086.624,
         "ATK": 388.08,
@@ -8286,7 +8286,7 @@
     },
     "22004": {
       "id": "22004",
-      "name": "",
+      "name": "The Great Cosmic Enterprise",
       "rarity": 4,
       "path": "Erudition",
       "stats": {
@@ -8778,7 +8778,7 @@
     },
     "23040": {
       "id": "23040",
-      "name": "",
+      "name": "Make Farewells More Beautiful",
       "rarity": 5,
       "path": "Remembrance",
       "stats": {
@@ -8790,7 +8790,7 @@
     },
     "23041": {
       "id": "23041",
-      "name": "",
+      "name": "Life Should Be Cast to Flames",
       "rarity": 5,
       "path": "Erudition",
       "stats": {
@@ -8802,7 +8802,7 @@
     },
     "23042": {
       "id": "23042",
-      "name": "May Rainbows Remain in the Sky",
+      "name": "Long May Rainbows Adorn the Sky",
       "rarity": 5,
       "path": "Remembrance",
       "stats": {
@@ -8814,7 +8814,7 @@
     },
     "23043": {
       "id": "23043",
-      "name": "Lies, Aflutter in the Wind",
+      "name": "Lies Dance on the Breeze",
       "rarity": 5,
       "path": "Nihility",
       "stats": {
@@ -9000,13 +9000,13 @@
     },
     {
       "id": "126",
-      "name": "Captain Over Cursed Waves",
-      "skills": "Increases CRIT DMG by <b>16%</b>. When the wearer is the target of another ally target's ability, gains 1 stack of \"Help.\" Stacks up to <b>3</b> times. When using Ultimate, consumes all \"Help,\" each stack increasing the wearer's ATK by <b>16%</b>, lasting until the end of the turn."
+      "name": "Wavestrider Captain",
+      "skills": "Increases CRIT DMG by <b>16%</b>. When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to <b>2</b> time(s). If there are <b>2</b> stack(s) of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by <b>48%</b> for <b>1</b> turn(s)."
     },
     {
       "id": "125",
-      "name": "Warrior Goddess of Daythunder",
-      "skills": "Increases SPD by <b>6%</b>. When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for <b>2</b> turn(s). When the wearer has \"Gentle Rain\", increases SPD by <b>6%</b>, and increases all allies' CRIT DMG by <b>15%</b>. This effect cannot be stacked."
+      "name": "Warrior Goddess of Sun and Thunder",
+      "skills": "Increases SPD by <b>6%</b>. When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for <b>2</b> turn(s). While the wearer has \"Gentle Rain,\" increases their SPD by <b>6%</b> and all allies' CRIT DMG by <b>15%</b>. This effect cannot be stacked."
     },
     {
       "id": "124",

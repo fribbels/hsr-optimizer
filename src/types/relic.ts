@@ -45,7 +45,7 @@ export type RelicSubstatMetadata = {
   addedRolls?: number
 }
 
-type StatRolls = {
+export type StatRolls = {
   high: number
   mid: number
   low: number

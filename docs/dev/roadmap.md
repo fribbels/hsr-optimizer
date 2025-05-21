@@ -31,11 +31,11 @@ Features planned & rough date estimates:
 ## MAY 12 - 3.3v6
 
 - [x] On-demand benchmark generator tool
-- [ ] Turn based ability rotation buffs
+- [x] Turn based ability rotation buffs
 
 ## MAY 19 - 3.4v1
 
-- [ ] Content update
+- [x] Content update
 
 ## JUN 02 - 3.4v3
 

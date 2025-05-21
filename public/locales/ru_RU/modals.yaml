@@ -14,20 +14,21 @@ Scoring:
     IMPORT:
       SuccessMessage: Выберите метод импорта и импортируйте ваши реликвии и персонажей
     Body_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.Body) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.Body) "
     Feet_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.Feet) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.Feet) "
     PlanarSphere_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.PlanarSphere) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.PlanarSphere) "
     LinkRope_MAIN:
-      SuccessMessage: "Очищены $t(common:Parts.LinkRope) фильтры основных характеристик"
+      SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.LinkRope) "
     RELIC_SETS:
       SuccessMessage: Очищены фильтры набора реликвий
     ORNAMENT_SETS:
-      SuccessMessage: Очищены фильтры набора планарных украшений
+      SuccessMessage: Очищены фильтры набора Планарных украшений
     KEEP_CURRENT:
-      SuccessMessage: Отключено "Оставлять текущие реликвии"
+      SuccessMessage: Опция "Сохранить текущие реликвии" отключена
     PRIORITY:
+      ButtonText: "Переместить на приоритет #1"
       SuccessMessage: "Персонаж перемещен на приоритет #1"
     EXCLUDE_ENABLED:
       SuccessMessage: Очищены исключенные персонажи
@@ -35,31 +36,31 @@ Scoring:
       SuccessMessage: Включено "Включать экипированные реликвии"
 0Results:
   ResetAll:
-    SuccessMessage: Очищены все фильтры
+    SuccessMessage: Все фильтры очищены
   RootCauses:
     StatView:
       SuccessMessage: "Переключено на характеристики в бою"
     MAX_HP:
       SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.HP)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.HP)"
+      ButtonText: "Сбросить фильтр максимального $t(common:Stats.HP)"
     MIN_HP:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.HP)"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.HP)"
     MAX_ATK:
-      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.ATK)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.ATK)"
+      SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.ATK)"
+      ButtonText: "Сбросить фильтр максимальной $t(common:Stats.ATK)"
     MIN_ATK:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.ATK)"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.ATK)"
     MAX_DEF:
-      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.DEF)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.DEF)"
+      SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.DEF)"
+      ButtonText: "Сброшен фильтр максимальной $t(common:Stats.DEF)"
     MIN_DEF:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.DEF)"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.DEF)"
     MAX_SPD:
-      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.SPD)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.SPD)"
+      SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.SPD)"
+      ButtonText: "Сброшен фильтр максимальной $t(common:Stats.SPD)"
     MIN_SPD:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.SPD)"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.SPD)"
@@ -94,17 +95,17 @@ Scoring:
       SuccessMessage: "Сброшен фильтр минимального$t(common:Stats.Break Effect)"
       ButtonText: "Сброшен фильтр минимального$t(common:Stats.Break Effect)"
     MAX_ERR:
-      SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Energy Regeneration Rate)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Energy Regeneration Rate)"
+      SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.Energy Regeneration Rate)"
+      ButtonText: "Сброшен фильтр максимальной $t(common:Stats.Energy Regeneration Rate)"
     MIN_ERR:
-      SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.Energy Regeneration Rate)"
-      ButtonText: "Сброшен фильтр минимального $t(common:Stats.Energy Regeneration Rate)"
+      SuccessMessage: "Сброшен фильтр минимальной $t(common:Stats.Energy Regeneration Rate)"
+      ButtonText: "Сброшен фильтр минимальной $t(common:Stats.Energy Regeneration Rate)"
     MAX_EHP:
-      SuccessMessage: "Сброшен фильтр максимального Эффективного ХП"
-      ButtonText: "Сброшен фильтр максимального Эффективного ХП"
+      SuccessMessage: "Сброшен фильтр максимального Эффективного HP"
+      ButtonText: "Сброшен фильтр максимального Эффективного HP"
     MIN_EHP:
-      SuccessMessage: "Сброшен фильтр минимального Эффективного ХП"
-      ButtonText: "Сброшен фильтр минимального Эффективного ХП"
+      SuccessMessage: "Сброшен фильтр минимального Эффективного HP"
+      ButtonText: "Сброшен фильтр минимального Эффективного HP"
     MAX_BASIC:
       SuccessMessage: "Сброшен фильтр максимального урона Базовой атаки"
       ButtonText: "Сброшен фильтр максимального урона Базовой атаки"
@@ -113,7 +114,7 @@ Scoring:
       ButtonText: "Сброшен фильтр минимального урона Базовой атаки"
     MAX_SKILL:
       SuccessMessage: "Сброшен фильтр максимального урона Навыка"
-      ButtonText: "Сброшен фильтр максимального урона Навыка"
+      ButtonText: "Сбросить фильтр максимального урона Навыка"
     MIN_SKILL:
       SuccessMessage: "Сброшен фильтр минимального урона Навыка"
       ButtonText: "Сброшен фильтр минимального урона Навыка"
@@ -130,11 +131,11 @@ Scoring:
       SuccessMessage: "Сброшен фильтр минимального урона Бонус-атаки"
       ButtonText: "Сброшен фильтр минимального урона Бонус-атаки"
     MAX_DOT:
-      SuccessMessage: "Сброшен фильтр максимального Периодического урона"
-      ButtonText: "Сброшен фильтр максимального Периодического урона"
+      SuccessMessage: "Сброшен фильтр максимального урона ДоТ'ов"
+      ButtonText: "Сброшен фильтр максимального урона ДоТ'ов"
     MIN_DOT:
-      SuccessMessage: "Сброшен фильтр минимального Периодического урона"
-      ButtonText: "Сброшен фильтр минимального Периодического урона"
+      SuccessMessage: "Сброшен фильтр минимального урона ДоТ'ов"
+      ButtonText: "Сброшен фильтр минимального урона ДоТ'ов"
     MAX_BREAK:
       SuccessMessage: "Сброшен фильтр максимального урона Пробития"
       ButtonText: "Сброшен фильтр максимального урона Пробития"

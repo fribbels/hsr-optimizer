@@ -2,14 +2,13 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.3.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.3.6'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.3v5'
+export const CURRENT_DATA_VERSION = '3.3v6'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  1406: generateMessage(`V5 changes updated.`), // Cipher
 }
 
 export const Stats = {

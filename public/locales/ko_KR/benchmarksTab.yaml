@@ -1,0 +1,34 @@
+Title: 벤치마크 생성기
+LeftPanel:
+  Header: 벤치마크
+MiddlePanel:
+  CharacterHeader: 캐릭터
+  LCHeader: 광추
+  TeammatesHeader: 팀
+RightPanel:
+  Settings:
+    Header: 설정
+    SPD: 벤치마크 기본 속도
+    ERR: 에너지 충전 매듭
+    SubDPS: 보조 DPS
+  SetsHeader: 벤치마크 세트
+  ButtonText:
+    Generate: 벤치마크 생성
+    Clear: 삭제
+ResultsGrid:
+  Combo: 사이클 총 피해량
+  Delta: 변화값
+  Sets: 세트
+ResultsTabs:
+  WithSpeed:
+    100: 100% 기준 빌드 ({{Speed}} 속도)
+    200: 200% 기준 빌드 ({{Speed}} 속도)
+  WithoutSpeed:
+    100: 100% 기준 빌드
+    200: 200% 기준 빌드
+ResultsPanel:
+  BasicStats: 기본 상태
+  CombatStats: 전투 스탯
+  Rolls: 부옵 수
+  Combo: 콤보 순서
+  Damage: 종류별 피해량

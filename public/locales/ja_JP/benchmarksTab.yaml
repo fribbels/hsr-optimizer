@@ -1,0 +1,34 @@
+Title: ベンチマーク生成
+LeftPanel:
+  Header: ベンチマーク
+MiddlePanel:
+  CharacterHeader: キャラクター
+  LCHeader: 光円錐
+  TeammatesHeader: チームメイト
+RightPanel:
+  Settings:
+    Header: 設定
+    SPD: 基礎速度
+    ERR: EP回復縄を装備
+    SubDPS: サブ DPS
+  SetsHeader: 使用する装備
+  ButtonText:
+    Generate: ベンチマークを生成
+    Clear: クリア
+ResultsGrid:
+  Combo: コンボダメージ
+  Delta: 変化率
+  Sets: セット
+ResultsTabs:
+  WithSpeed:
+    100: 100% 基準ビルド ({{Speed}} 速度)
+    200: 200% 基準ビルド ({{Speed}} 速度)
+  WithoutSpeed:
+    100: 100% 基準ビルド
+    200: 200% 基準ビルド
+ResultsPanel:
+  BasicStats: 基礎ステータス
+  CombatStats: 戦闘ステータス
+  Rolls: サブステータス出現数
+  Combo: スキル回し
+  Damage: 与ダメージ

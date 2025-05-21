@@ -1,0 +1,10 @@
+MiddlePanel:
+  CharacterHeader: Персонаж
+  LCHeader: Световой конус
+RightPanel:
+  Settings:
+    Header: Настройки
+ResultsGrid:
+  Combo: Урон Комбо
+ResultsPanel:
+  CombatStats: Статы персонажа в бою

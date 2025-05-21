@@ -14,32 +14,103 @@ Lightcones:
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
-        text: Aflicción Ilusión vacía
+        text: Afección Ilusión vacía
         content: >-
           Cuando el portador golpea a un enemigo, lo afecta con Ilusión vacía durante 1 turno. Solo se puede activar 1 vez por objetivo en cada ataque del portador. El daño que el portador inflige a los objetivos afectados por Ilusión vacía aumenta en un {{DmgBoost}}% y el daño que inflige la habilidad definitiva aumenta en un {{UltDmgBoost}}% adicional.
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyDmgBoost:
+        text: Mejora de daño por energía máxima
+        content: 'Cuando el portador usa la habilidad definitiva, el daño que inflige su habilidad definitiva aumenta según su energía máxima: por cada punto de energía, el daño aumenta en un {{DmgStep}}%. Se cuentan un máximo de 180 pts. de energía.'
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
-        text: Acumulaciones DC por aflicciones
+        text: Acumulaciones DC por afecciones
         content: Por cada estado negativo que tenga el objetivo, el Daño CRIT que le inflige el portador aumenta en un {{DmgStep}}%. Se puede acumular hasta 3 veces.
       postUltBuff:
         text: Mejoras Disputa
+        content: >-
+          Al atacar a un objetivo con la habilidad definitiva, el portador obtiene el efecto Disputa, el daño que inflige aumenta en un {{DmgStep}}% y sus ataques adicionales ignoran un {{DefIgnore}}% de la DEF del objetivo. Este efecto dura 2 turnos.
   BeforeDawn:
     Content:
       fuaDmgBoost:
-        text: Aumento de daño adicional
+        text: Aumento de daño de ataque adicional
+        content: >-
+          Cuando el portador utiliza la habilidad básica o la habilidad definitiva, obtiene Somnus corpus. Al lanzar un ataque adicional, se consume Somnus corpus y el daño que inflige el ataque adicional aumenta en un {{DmgBuff}}%.
   BrighterThanTheSun:
     Content:
       dragonsCallStacks:
-        text: Acumulación de Canto del dragón
+        text: Acumulaciones de Canto del dragón
+        content: >-
+          Cuando el portador usa el ATQ básico, obtiene 1 acumulación de Canto del dragón durante 2 turnos. Cada acumulación de Canto del dragón aumenta el ATQ del portador en un {{AtkBuff}}% y la recuperación de energía en un {{RegenBuff}}%. Canto del dragón se puede acumular hasta 2 veces.
   ButTheBattleIsntOver:
     Content:
       postSkillDmgBuff:
-        text: Aumento de daño después de la habilidad elemental
+        text: Mejora de daño post-Habilidad
+        content: Cuando el portador utiliza su habilidad básica, el daño que inflige el siguiente aliado que actúe (que no sea el portador) aumenta en un {{DmgBuff}}% durante 1 turno.
+  CruisingInTheStellarSea:
+    Content:
+      enemyHp50CrBoost:
+        text: Mejora de PC por PV enemigo ≤ 50%
+        content: La Prob. CRIT del portador aumenta contra enemigos que tengan un porcentaje de PV igual o inferior al 50% aumenta en un {{CritBuff}}% adicional.
+      enemyDefeatedAtkBuff:
+        text: Mejora de ATQ por enemigo derrotado
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: Acumulaciones de daño de ataque adicional
+  EarthlyEscapade:
+    Content:
+      maskActive:
+        text: Máscara activada
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: Mejora de VEL post-Definitiva
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+        content: Tras lanzar un ataque, el ATQ aumenta en un {{AtkBuff}}% adicional por cada enemigo golpeado. Este efecto se puede acumular hasta 5 veces y dura hasta el siguiente ataque.
+      spdBuff:
+        text: Mejora de VEL por golpear 3 objetivos
+  FlowingNightglow:
+    Content:
+      cadenzaActive:
+        text: Cadenza activa
+      cantillationStacks:
+        text: Acumulaciones de Tonada
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: Mejora de PC por ≥ 3 enemigos afligidos
+        content: Cuando el portador inflige daño a un enemigo que tenga 3 o más estados negativos, su Prob. CRIT aumenta en un {{CritBuff}}%.
+      targetCodeDebuff:
+        text: Afección Código de éter en objetivo
+  InherentlyUnjustDestiny:
+    Content:
+      shieldCdBuff:
+        text: Mejora DC por escudo
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: Acumulaciones mejora de ATQ
   PastAndFuture:
     Content:
       postSkillDmgBuff:
         text: Aumento de daño después de la habilidad elemental
+  SubscribeForMore:
+    Content:
+      maxEnergyDmgBoost:
+        text: Mejora de daño por energía máxima
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

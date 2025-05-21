@@ -55,18 +55,25 @@ Lightcones:
         content: La Prob. CRIT del portador aumenta contra enemigos que tengan un porcentaje de PV igual o inferior al 50% aumenta en un {{CritBuff}}% adicional.
       enemyDefeatedAtkBuff:
         text: Mejora de ATQ por enemigo derrotado
+        content: Cuando el portador derrota a un enemigo, su ATQ aumenta en un {{AtkBuff}}% durante 2 turnos.
   DanceAtSunset:
     Content:
       fuaDmgStacks:
         text: Acumulaciones de daño de ataque adicional
+        content: >-
+          Después de que el portador use la habilidad definitiva, obtiene 1 acumulación de Danza ígnea durante 2 turnos. Se puede acumular hasta 2 veces. Cada acumulación de Danza ígnea aumenta el daño que infligen los ataques adicionales del portador en un {{DmgBoost}}%.
   EarthlyEscapade:
     Content:
       maskActive:
-        text: Máscara activada
+        text: Máscara activa
+        content: >-
+          Al comienzo de la batalla, el portador obtiene Máscara durante 3 turnos. Mientras el portador tiene Máscara, la Prob. CRIT de los aliados del portador aumenta en un {{CritRateBuff}}% y el Daño CRIT aumenta en un {{CritDmgBuff}}%. Cada vez que el portador recupera 1 pt. de habilidad básica (incluyendo los pts. que exceden el límite), obtiene 1 acumulación de Llama radiante. Cuando tiene 4 acumulaciones de Llama radiante, se eliminan todas y obtiene Máscara durante 4 turnos.
   EchoesOfTheCoffin:
     Content:
       postUltSpdBuff:
         text: Mejora de VEL post-Definitiva
+        content: >-
+          Después de que el portador lance un ataque, por cada enemigo distinto golpeado, recupera {{EnergyRecovered}} pts. de energía. Cada ataque puede recuperar energía de esta manera hasta 3 veces. Después de que el portador use la habilidad definitiva, la VEL de todos los aliados aumenta en {{SpdBuff}} pts. durante 1 turno.
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -74,6 +81,15 @@ Lightcones:
         content: Tras lanzar un ataque, el ATQ aumenta en un {{AtkBuff}}% adicional por cada enemigo golpeado. Este efecto se puede acumular hasta 5 veces y dura hasta el siguiente ataque.
       spdBuff:
         text: Mejora de VEL por golpear 3 objetivos
+        content: Si se golpean a 3 o más enemigos, la VEL del portador aumenta en un {{SpdBuff}}% durante 1 turno.
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de daño de Habilidad / Definitiva
+        content: Al lanzar la habilidad básica o la habilidad definitiva, aumenta el daño que inflige ese ataque en un {{DmgBoost}}%.
+      bonusBoost:
+        text: Aumento de daño adicional
+        content: Al lanzar la habilidad básica o la habilidad definitiva, consume un {{HpConsumption}}% de sus PV máx. Si el efecto consume más de 500 PV, el daño aumenta en un {{BonusDmgBoost}}% adicional.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -91,6 +107,10 @@ Lightcones:
     Content:
       shieldCdBuff:
         text: Mejora DC por escudo
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de daño de Habilidad / Definitiva
   NightOfFright:
     Content:
       atkBuffStacks:

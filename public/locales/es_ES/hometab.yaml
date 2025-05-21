@@ -1,2 +1,30 @@
+CollapseLabels:
+  Explore: Explora las funciones
+  Join: Únete a la comunidad
+CommunityCollapse: >-
+  <0> ¡Un gran agradecimiento a todos nuestros colaboradores, traductores, usuarios, y a todos los que han hecho sugerencias, por apoyar este proyecto y ayudar a construirlo juntos! </0> <1> ¡Ven a formar parte de nuestra comunidad de Star Rail! Únete al servidor de <1 text='Discord'/> para pasar el rato o echa un vistazo al repositorio de <3 text='GitHub'/> si quieres contribuir. </1>
+FeatureCards:
+  LearnMore: Saber más
+  Showcase:
+    Title: Exhibidor de personajes
+    Content: >-
+      Muestra los atributos de tu personaje o prepara futuros personajes. Simula su daño de combate con el Puntaje DPS y compáralo con las evaluaciones.
+  Optimizer:
+    Title: Optimizador de artefactos
+    Content: >-
+      Optimiza tus personajes buscando la mejor combinación de artefactos para alcanzar sus umbrales y maximizar sus atributos.
+  Calculator:
+    Title: Calculadora de daño
+    Content: >-
+      Calcula precisamente el daño con ajustes de equipo totalmente personalizables, mejoras condicionales, y rotación de habilidades para maximizar el daño.
+  Organizer:
+    Title: Organizador de artefactos
+    Content: >-
+      Organiza tus artefactos puntuando y ordenándolos de acuerdo a su potencial, y encuentra los mejores artefactos a potenciar para cada personaje.
+Welcome: Bienvenido al<1/>Optimizador Star Rail de Fribbels
 SearchBar:
+  Placeholder: UID 
+  Label: "Ingresa tu UID para ver tus personajes exhibidos"
+  Api: "Utiliza Enka.Network"
+  Message: Entrada inválida - Este debe ser su UUID de 9 dígitos
   Search: Buscar

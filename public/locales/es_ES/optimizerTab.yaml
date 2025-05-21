@@ -1,5 +1,6 @@
 CharacterSelector:
   Character: Personaje
+Sets: Conjuntos
 OptimizerOptions:
   Priority:
     Header: Prioridad
@@ -22,6 +23,8 @@ Sidebar:
   Results: Resultados
   ResultsGroup:
     Header: Resultados
+FormRowLabels:
+  Teammates: Aliados
 SetConditionals:
   SelectOptions:
     Wastelander:
@@ -62,6 +65,8 @@ ComboFilter:
     None: 'Ninguno'
     Break: Ruptura
 StatSimulation:
+  SetSelection:
+    Header: Conjuntos
   MainStatsSelection:
     BodyPlaceholder: Torso
     FeetPlaceholder: Piernas
@@ -83,3 +88,5 @@ ExpandedDataPanel:
       CompositeLabels:
         Prefix:
           Break: Ruptura
+      Misc:
+        Combo DMG: Daño de combo

@@ -10,6 +10,179 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Trilateral Wiltcross
+
+Basic ATK+1
+
+Deals Lightning DMG equal to 100% of Acheron's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Octobolt Flash
+
+Skill-1
+
+Gains 1 point(s) of Slashed Dream. Inflicts 1 stack(s) of Crimson Knot on a single target enemy, dealing Lightning DMG equal to 160% of Acheron's ATK to this target, as well as Lightning DMG equal to 60% of Acheron's ATK to adjacent targets.
+
+ Single 20 | Other 10
+
+Lv10
+
+Slashed Dream Cries in Red
+
+Ultimate9
+
+Sequentially unleash Rainblade 3 times and Stygian Resurge 1 time, dealing Lightning DMG up to 372% of Acheron's ATK to a single target enemy, as well as Lightning DMG up to 300% of Acheron's ATK to other targets.
+
+Rainblade: Deals Lightning DMG equal to 24% of Acheron's ATK to a single target enemy and removes up to 3 stacks of Crimson Knot from the target. When Crimson Knot is removed, immediately deals Lightning DMG equal to 15% of Acheron's ATK to all enemies. For every stack of Crimson Knot removed, this DMG Multiplier is additionally increased, up to a maximum of 60%.
+
+Stygian Resurge: Deals Lightning DMG equal to 120% of Acheron's ATK to all enemies and remove all Crimson Knots.
+
+Crimson Knot cannot be applied to enemies during the Ultimate.
+Hidden Stat: 9
+
+Lv10
+
+Atop Rainleaf Hangs Oneness
+
+Talent
+
+When Slashed Dream reaches 9 point(s), the Ultimate can be activated. During the Ultimate, reduces enemies' Toughness regardless of Weakness Types and reduces all enemies' All-Type RES by 20%, lasting until the end of the Ultimate.
+When any unit inflicts debuffs on an enemy target while using their ability, Acheron gains 1 point of Slashed Dream and inflicts 1 stack of Crimson Knot on a target. If debuffs are inflicted on multiple targets, then the 1 stack of Crimson Knot will be inflicted on the enemy target with the most Crimson Knot stacks. This effect can only trigger once for every ability use.
+After an enemy target exits the field or gets defeated by any unit while Acheron is on the field, their Crimson Knot stacks will be transferred to the enemy target with the most Crimson Knot stacks on the whole field.
+
+Lv10
+
+Rainblade
+
+Ultimate
+
+
+Hidden Stat: 0.24
+Hidden Stat: 0.15
+Hidden Stat: 1.2
+
+ Single 5 | All 5
+
+Lv10
+
+Rainblade
+
+Ultimate
+
+
+Hidden Stat: 0.24
+Hidden Stat: 0.15
+Hidden Stat: 1.2
+
+ Single 5 | All 5
+
+Lv10
+
+Rainblade
+
+Ultimate
+
+
+Hidden Stat: 0.24
+Hidden Stat: 0.15
+Hidden Stat: 1.2
+
+ Single 5 | All 5
+
+Lv10
+
+Stygian Resurge
+
+Ultimate
+
+
+Hidden Stat: 1.2
+
+ All 5
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Quadrivalent Ascendance
+
+Technique
+
+Immediately attacks the enemy. At the start of each wave, gains Quadrivalent Ascendance, dealing Lightning DMG equal to 200% of Acheron's ATK to all enemies and reducing Toughness of all enemies irrespective of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect.
+Quadrivalent Ascendance: After using the Ultimate, Acheron gains 1 point(s) of Slashed Dream and inflicts 1 stack(s) of Crimson Knot on a single random enemy.
+If attacking a normal enemy, immediately defeats them without entering combat. When not hitting enemies, no Technique Points are consumed.
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +24.0% CRIT DMG
+ +8.0% Lightning DMG Boost
+
+Red Oni
+
+When battle starts, immediately gains 5 point(s) of Slashed Dream and applies 5 stack(s) of Crimson Knot to a random enemy. When Slashed Dream reaches its upper limit, for every point of Slashed Dream that exceeds the limit, gains 1 stack of Quadrivalent Ascendance. Enables Quadrivalent Ascendance to stack up to 3 time(s).
+
+
+The Abyss
+
+When there are 1 or 2 Nihility characters other than Acheron in the team, the DMG dealt by Acheron's Basic ATK, Skill, and Ultimate increases to 115% or 160% of the original DMG respectively.
+
+
+Thunder Core
+
+When the Ultimate's Rainblade hits enemy targets that have Crimson Knot, the DMG dealt by Acheron increases by 30%, stacking up to 3 time(s) and lasting for 3 turn(s). And when Stygian Resurge triggers, additionally deals DMG for 6 times. Each time deals Lightning DMG equal to 25% of Acheron's ATK to a single random enemy and is considered as Ultimate DMG.
+
+
+
+1 Silenced Sky Spake Sooth
+
+When dealing DMG to debuffed enemies, increases CRIT Rate by 18%.
+
+
+
+2 Mute Thunder in Still Tempest
+
+The number of Nihility characters required for the Trace "The Abyss" to achieve its highest possible effect is reduced by 1. When this unit's turn starts, gains 1 point of Slashed Dream and inflicts 1 stack of Crimson Knot on the enemy with the most Crimson Knot stacks.
+
+
+
+3 Frost Bites in Death
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Shrined Fire for Mirrored Soul
+
+When enemy targets enter combat, inflicts them with the Ultimate DMG Vulnerability, increasing the amount of Ultimate DMG they take by 8%.
+
+
+
+5 Strewn Souls on Erased Earths
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Apocalypse, the Emancipator
+
+Increases the All-Type RES PEN for the Ultimate DMG dealt by Acheron by 20%. The DMG dealt by Basic ATK and Skill will also be considered as Ultimate DMG and can Reduce enemy Toughness regardless of Weakness Types. When breaking Weaknesses, triggers the Lightning Weakness Break effect.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Acheron')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

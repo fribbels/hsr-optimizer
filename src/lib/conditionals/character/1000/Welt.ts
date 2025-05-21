@@ -10,6 +10,126 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Gravity Suppression
+
+Basic ATK+1+20
+
+Deals Imaginary DMG equal to 100% of Welt's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Edge of the Void
+
+Skill-1+10
+
+Deals Imaginary DMG equal to 72% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to 72% of Welt's ATK to a random enemy. On hit, there is a 75% base chance to reduce the enemy's SPD by 10% for 2 turn(s).
+
+ Single 10
+
+Lv10
+
+Synthetic Black Hole
+
+Ultimate120+5
+
+Deals Imaginary DMG equal to 150% of Welt's ATK to all enemies, with a 100% base chance for enemies hit by this ability to be Imprisoned for 1 turn.
+Imprisoned enemies have their actions delayed by 40% and SPD reduced by 10%.
+
+ All 20
+
+Lv10
+
+Time Distortion
+
+Talent
+
+When hitting an enemy that is already Slowed, Welt deals Imaginary Additional DMG equal to 60% of his ATK to the enemy.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Gravitational Imprisonment
+
+Technique
+
+After using Welt's Technique, create a Special Dimension that lasts for 15 second(s). Enemies in this Special Dimension have their movement speed reduced by 50%. After entering battle with enemies in the Special Dimension, there is a 100% base chance to Imprison the enemies for 1 turn.
+Imprisoned enemies have their actions delayed by 20% and SPD reduced by 10%. Only 1 Dimension Effect created by allies can exist at the same time.
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +14.4% Imaginary DMG Boost
+ +10.0% Effect RES
+
+Retribution
+
+When using Ultimate, there is a 100% base chance to increase the DMG taken by the targets by 12% for 2 turn(s).
+
+
+Judgment
+
+Using Ultimate additionally regenerates 10 Energy.
+
+
+Punishment
+
+Deals 20% more DMG to enemies inflicted with Weakness Break.
+
+
+
+1 Legacy of Honor
+
+After using Ultimate, Welt gets enhanced. Then, the next 2 time(s) he uses Basic ATK or Skill, deals 1 extra instance of Additional DMG to the enemy target. The Additional DMG dealt when using Basic ATK is equal to 50% of Basic ATK DMG multiplier. The Additional DMG dealt when using Skill is equal to 80% of Skill DMG multiplier.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+
+2 Conflux of Stars
+
+When his Talent is triggered, Welt regenerates 3 Energy.
+
+
+
+3 Prayer of Peace
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Appellation of Justice
+
+When using Skill, increases the base chance of reducing the attacked enemy target's SPD by 35%.
+
+
+
+5 Power of Kindness
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Prospect of Glory
+
+When using Skill, deals DMG for 1 extra time to a random enemy.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Welt')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

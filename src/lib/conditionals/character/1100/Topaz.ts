@@ -10,6 +10,125 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Deficit...
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of Topaz's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Difficulty Paying?
+
+Skill-1+30
+
+Inflicts a single target enemy with a Proof of Debt status, increasing the Follow-up ATK DMG it receives by 50%. Proof of Debt only takes effect on the most recent target it is applied to. If there are no enemies inflicted with Proof of Debt on the field when an ally's turn starts or when an ally takes action, Topaz will inflict a random enemy with Proof of Debt.
+Numby deals Fire DMG equal to 150% of Topaz's ATK to this target. Using this Skill to deal DMG is considered as launching a Follow-up ATK.
+
+ Single 20
+
+Lv10
+
+Turn a Profit!
+
+Ultimate130+5
+
+Numby enters the Windfall Bonanza! state and its DMG multiplier increases by 150% and CRIT DMG increases by 25%. Also, when enemies with Proof of Debt are hit by an ally's Basic ATK, Skill, or Ultimate, Numby's action is Advanced Forward by 50%. Numby exits the Windfall Bonanza! state after using 2 attacks.
+
+Lv10
+
+Trotter Market!?
+
+Talent
+
+Summons Numby at the start of battle. Numby has 80 SPD by default. When taking action, Numby launches Follow-up ATKs on a single enemy target afflicted with Proof of Debt, dealing Fire DMG equal to 150% of Topaz's ATK.
+When enemies afflicted with Proof of Debt receive an ally's Follow-up ATKs, Numby's action is Advanced Forward by 50%. The action Advance Forward effect cannot be triggered during Numby's own turn.
+When Topaz is downed, Numby disappears.
+
+ Single 20
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Explicit Subsidy
+
+Technique
+
+Summons Numby when Topaz enters the overworld. Numby will automatically search for Basic Treasures and Trotters within a set radius.
+Using her Technique will regenerate 60 Energy for Topaz after Numby's first attack in the next battle.
+If Topaz is still in the team after using her Technique and defeating overworld enemies, a small bonus amount of credits will be added to the earned credits. A maximum of 10000 bonus credits can be received per calendar day.
+After using her Technique and defeating enemies in Simulated Universe or Divergent Universe, additionally receive a small amount of Cosmic Fragments with a small chance to obtain 1 random Curio.
+
+
+Stat Boosts
+
+ +22.4% Fire DMG Boost
+ +12.0% CRIT Rate
+ +10.0% HP
+
+Overdraft
+
+When Topaz uses Basic ATK to deal DMG, it is considered as a Follow-up ATK.
+
+
+Financial Turmoil
+
+Increases Topaz & Numby's DMG dealt to enemy targets with Fire Weakness by 15%.
+
+
+Stonks Market
+
+After Numby uses an attack while in the Windfall Bonanza! state, Topaz additionally regenerates 10 Energy.
+
+
+
+1 Future Market
+
+When enemies afflicted with "Proof of Debt" receive Follow-up ATKs, they will enter the "Debtor" state. This can take effect only once within a single attack.
+The "Debtor" state increases the CRIT DMG of Follow-up ATKs inflicted on the target enemies by 25%, stacking up to 2 time(s). When "Proof of Debt" is removed, the "Debtor" state is also removed.
+
+
+
+2 Bona Fide Acquisition
+
+After Numby takes action and launches an attack, Topaz regenerates 5 Energy.
+
+
+
+3 Seize the Big and Free the Small
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Agile Operation
+
+After Numby's turn begins, Topaz's action advances by 20%.
+
+
+
+5 Inflationary Demand
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Incentive Mechanism
+
+Numby's attack count during the "Windfall Bonanza!" state increases by 1, and its Fire RES PEN increases by 10% when it attacks.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Topaz')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

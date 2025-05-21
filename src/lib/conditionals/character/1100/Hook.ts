@@ -11,6 +11,140 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Hehe! Don't Get Burned!
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of Hook's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Hey! Remember Hook?
+
+Skill-1+30
+
+Deals Fire DMG equal to 240% of Hook's ATK to a single enemy. In addition, there is a 100% base chance to inflict Burn for 2 turn(s).
+When afflicted with Burn, enemies will take Fire DoT equal to 65% of Hook's ATK at the beginning of each turn.
+
+ Single 20
+
+Lv10
+
+Boom! Here Comes the Fire!
+
+Ultimate120+5
+
+Deals Fire DMG equal to 400% of Hook's ATK to a single enemy.
+After using Ultimate, the next Skill to be used is Enhanced, which deals DMG to a single enemy and enemies adjacent to it.
+
+ Single 30
+
+Lv10
+
+Ha! Oil to the Flames!
+
+Talent
+
+When attacking a target afflicted with Burn, deals Fire Additional DMG equal to 100% of Hook's ATK and regenerates 5 extra Energy.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Ack! Look at This Mess!
+
+Technique
+
+Immediately attacks the enemy. Upon entering battle, Hook deals Fire DMG equal to 50% of her ATK to a random enemy. In addition, there is a 100% base chance to inflict Burn on every enemy for 3 turn(s).
+When afflicted with Burn, enemies will take Fire DoT equal to 50% of Hook's ATK at the beginning of each turn.
+
+ Single 20
+
+
+Hey! Remember Hook?
+
+Skill-1+30
+
+Deals Fire DMG equal to 280% of Hook's ATK to a single enemy, with a 100% base chance to Burn them for 2 turn(s). Additionally, deals Fire DMG equal to 80% of Hook's ATK to enemies adjacent to it.
+When afflicted with Burn, enemies will take Fire DoT equal to 65% of Hook's ATK at the beginning of each turn.
+
+ Single 20 | Other 10
+
+Lv10
+
+Stat Boosts
+
+ +28.0% ATK
+ +18.0% HP
+ +13.3% CRIT DMG
+
+Innocence
+
+Hook restores HP equal to 5% of her Max HP whenever her Talent is triggered.
+
+
+Naivete
+
+Increases the chance to resist Crowd Control debuffs by 35%.
+
+Crowd Control debuff
+Freeze, Entanglement, Imprisonment, Dominated, Outrage, Strong Reverberation, Alien Dream, Snarelock, Terrified.
+
+
+Playing With Fire
+
+After using her Ultimate, Hook has her action advanced by 20% and additionally regenerates 5 Energy.
+
+
+
+1 Early to Bed, Early to Rise
+
+Enhanced Skill deals 20% increased DMG.
+
+
+
+2 Happy Tummy, Happy Body
+
+Extends the duration of Burn caused by Skill by 1 turn(s).
+
+
+
+3 Don't Be Picky, Nothing's Icky
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 It's Okay to Not Know
+
+When Talent is triggered, there is a 100% base chance to Burn enemies adjacent to the designated enemy target, equivalent to that of Skill.
+
+
+
+5 Let the Moles' Deeds Be Known
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Always Ready to Punch and Kick
+
+Hook deals 20% more DMG to enemies afflicted with Burn.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hook')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

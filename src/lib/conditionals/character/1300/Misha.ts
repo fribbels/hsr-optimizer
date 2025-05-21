@@ -9,6 +9,123 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+E—Excuse Me, Please!
+
+Basic ATK+1+20
+
+Deals Ice DMG equal to 100% of Misha's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+R—Room Service!
+
+Skill-1+30
+
+Increases the Hits Per Action for Misha's next Ultimate by 1 hit(s). Deals Ice DMG equal to 200% of Misha's ATK to a single target enemy, and Ice DMG equal to 80% of Misha's ATK to adjacent targets.
+
+ Single 20 | Other 10
+
+Lv10
+
+G—Gonna Be Late!
+
+Ultimate100+5
+
+Has 3 Hits Per Action by default. First, uses 1 hit to deal Ice DMG equal to 60% of Misha's ATK to a single target enemy. Then, the rest of the hits each deals Ice DMG equal to 60% of Misha's ATK to a single random enemy. Just before each hit lands, there is a 20% base chance to Freeze the target, lasting for 1 turn.
+While Frozen, enemy targets cannot take any actions, and at the start of their turn, they receive Ice Additional DMG equal to 30% of Misha's ATK.
+This Ultimate can possess up to 10 Hits Per Action. After the Ultimate is used, its Hits Per Action will be reset to the default level.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+ Single 10
+
+Lv10
+
+Horological Escapement
+
+Talent
+
+For every 1 Skill Point allies consume, Misha's next Ultimate delivers 1 more Hit(s) Per Action, and Misha regenerates 2 Energy.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Wait, You Are So Beautiful!
+
+Technique
+
+After using the Technique, creates a Special Dimension that lasts for 15 seconds. Enemies caught in the Special Dimension are inflicted with Dream Prison and stop all their actions. Upon entering battle against enemies afflicted with Dream Prison, increases the Hits Per Action for Misha's next Ultimate by 2 hit(s). Only 1 Dimension Effect created by allies can exist at the same time.
+
+
+Stat Boosts
+
+ +22.4% Ice DMG Boost
+ +22.5% DEF
+ +6.7% CRIT Rate
+
+Release
+
+Before the Ultimate's first hit, increases the base chance of Freezing the target by 80%.
+
+
+Interlock
+
+When using the Ultimate, increases the Effect Hit Rate by 60%, lasting until the end of the current Ultimate's action.
+
+
+Transmission
+
+When dealing DMG to Frozen enemies, increases CRIT DMG by 30%.
+
+
+
+1 Whimsicality of Fancy
+
+When using the Ultimate, for every enemy on the field, additionally increases the Hits Per Action for the current Ultimate by 1 hit(s), up to a maximum increase of 5 hit(s).
+
+
+
+2 Yearning of Youth
+
+Before each hit of the Ultimate lands, there is a 24% base chance of reducing the target's DEF by 16% for 3 turn(s).
+
+
+
+3 Vestige of Happiness
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Visage of Kinship
+
+Increases the DMG multiplier for each hit of the Ultimate by 6%.
+
+
+
+5 Genesis of First Love
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Estrangement of Dream
+
+When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn. In addition, the next time the Skill is used, recovers 1 Skill Point(s) for the team.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Misha')
   const { basic, skill, ult } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

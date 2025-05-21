@@ -13,6 +13,133 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Oops, a Missed Catch
+
+Basic ATK+1+20
+
+Deals Quantum DMG equal to 100% of Cipher's ATK to one designated enemy.
+
+ Single 10
+
+Lv6
+
+Hey, Jackpot for the Taking
+
+Skill-1+30
+
+There is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turn(s). At the same time, deals Quantum DMG equal to 200% of Cipher's ATK to one designated enemy, and Quantum DMG equal to 100% of Cipher's ATK to its adjacent targets.
+
+ Single 20 | Other 10
+
+Lv10
+
+Yours Truly, Kitty Phantom Thief!
+
+Ultimate130+5
+
+Deals Quantum DMG equal to 120% of Cipher's ATK to one designated enemy. Then, deals True DMG equal to 25% of the currently recorded Talent value to one designated enemy, Quantum DMG equal to 40% of Cipher's ATK to one designated enemy and its adjacent targets, and True DMG equal to 75% of the current Talent's recorded value. This True DMG is Distributed to all Skill targets.
+
+True DMG
+Non-Type DMG that is not affected by any effects. This DMG is not considered as using 1 attack.
+
+ Single 30 | Other 20
+
+Lv10
+
+The Hospitable Dolosian
+
+Talent+5
+
+When there are no enemy targets in "Patron" state on the battlefield, Cipher immediately causes one enemy target with the highest Max HP on the battlefield to become the "Patron." When using Skill and Ultimate, the primary target becomes the "Patron." The "Patron" state only takes effect on the latest target.
+After the "Patron" is attacked by other ally targets, Cipher immediately launches a Follow-up ATK against the "Patron," dealing Quantum DMG equal to 150% of Cipher's ATK. This effect can be triggered up to 1 time(s) each turn, and it resets at the start of Cipher's turn.
+Cipher will record 12% of the non-True DMG ally targets dealt to "Patron," but the Overflow DMG will not be recorded. The recorded value is cleared after using Ultimate.
+Hidden Stat: 5
+
+ Single 20
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Puss in Boots
+
+Technique
+
+Obtains "Zagreus's Blessing" for 15 second(s). During this time, Cipher will be undetectable by enemies and her movement speed increases by 50%. When approaching an enemy in the overworld/Simulated Universe/Divergent Universe, there is a chance of immediately obtaining a random Consumable. You can obtain Consumables up to 50 time(s) in each Earth day.
+When entering battle with "Zagreus's Blessing" active, deals Quantum DMG equal to 100% of Cipher's ATK to all enemies. Increases the recorded DMG Cipher obtains from this instance of DMG by 200%.
+
+
+Stat Boosts
+
+ +14.0 SPD
+ +14.4% Quantum DMG Boost
+ +10.0% Effect Hit Rate
+
+Empyrean Strides
+
+When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%, and recorded value by 50%/100%.
+
+
+300 Rogues
+
+Cipher will record 8% of the non-True DMG ally targets dealt to the enemy targets aside from the "Patron." Overflow DMG is not recorded.
+
+True DMG
+Non-Type DMG that is not affected by any effects. This DMG is not considered as using 1 attack.
+
+
+Sleight of Sky
+
+Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%. When Cipher is on the battlefield, DMG received by all enemy targets increases by 40%.
+
+
+
+1 Read the Room, Seek the Glee
+
+Cipher's recorded DMG is 150% of the original recorded DMG value. When using a Follow-up ATK caused by her Talent, increases Cipher's ATK by 80% for 2 turn(s).
+
+
+
+2 In the Fray, Nab On a Spree
+
+When Cipher hits an enemy target, there is a 120% base chance of causing them to receive 30% more DMG, lasting 2 turn(s).
+
+
+
+3 From Thin Air, Hard to Foresee
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 The Jig Is Up, Quick to Flee
+
+After "Patron" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+
+5 Safe in Numbers, Light as a Bee
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 The Thief's Game, Unsung and Free
+
+Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%. Records an additional 16% of non-Overflow DMG dealt by this ATK. After resetting the record upon using her Ultimate, returns 20% of the reset record.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cipher.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

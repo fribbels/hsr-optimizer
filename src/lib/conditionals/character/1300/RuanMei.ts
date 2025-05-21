@@ -8,6 +8,126 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Threading Fragrance
+
+Basic ATK+1+20
+
+Deals Ice DMG equal to 100% of Ruan Mei's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+String Sings Slow Swirls
+
+Skill-1+30
+
+After using her Skill, Ruan Mei gains Overtone, lasting for 3 turn(s). This duration decreases by 1 at the start of Ruan Mei's every turn. When Ruan Mei has Overtone, all allies' DMG increases by 32% and Weakness Break Efficiency increases by 50%.
+
+Lv10
+
+Petals to Stream, Repose in Dream
+
+Ultimate130+5
+
+Ruan Mei deploys a Zone that lasts for 2 turns. The Zone's duration decreases by 1 at the start of her turn.
+While inside the Zone, all allies' All-Type RES PEN increases by 25% and their attacks apply Thanatoplum Rebloom to the enemies hit.
+When these enemies attempt to recover from Weakness Break, Thanatoplum Rebloom is triggered, extending the duration of their Weakness Break, delaying their action by an amount equal to 20% of Ruan Mei's Break Effect plus 10%, and dealing Break DMG equal to 50% of Ruan Mei's Ice Break DMG.
+Enemy targets cannot have Thanatoplum Rebloom re-applied to them until they recover from Weakness Break.
+
+Break DMG
+Break DMG increases with higher Break Effect, higher target max Toughness, and higher character levels.
+Break DMG cannot CRIT Hit and is not affected by DMG Boost effects.
+
+Lv10
+
+Somatotypical Helix
+
+Talent
+
+Increases SPD by 10% for all teammates (i.e., excluding this unit). When allies Break an enemy target's Weakness, Ruan Mei deals to this enemy target Break DMG equal to 120% of her Ice Break DMG.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Silken Serenade
+
+Technique
+
+After using the Technique, gains Silken Serenade. At the start of the next battle, automatically triggers the Skill for 1 time(s) without consuming Skill Points.
+In Simulated Universe or Divergent Universe, when Ruan Mei has Silken Serenade, the team actively attacking enemies will always be regarded as attacking their Weakness to enter battle, and this attack can reduce all enemies' Toughness regardless of Weakness types. When breaking Weakness, triggers Weakness Break Effect corresponding to the attacker's Type. For every Blessing in possession (up to a max of 20 Blessings will be taken into account), additionally increases the Toughness Reduction of this attack by 100%. After breaking an enemy target's Weakness, additionally deals to the enemy target Break DMG equal to 100% of Ruan Mei's Ice Break DMG.
+
+
+Stat Boosts
+
+ +37.3% Break Effect
+ +22.5% DEF
+ +5.0 SPD
+
+Inert Respiration
+
+Increases Break Effect by 20% for all allies.
+
+
+Days Wane, Thoughts Wax
+
+Ruan Mei regenerates 5 Energy at the start of her turn.
+
+
+Candle Lights on Still Waters
+
+In battle, for every 10% of Ruan Mei's Break Effect that exceeds 120%, her Skill additionally increases allies' DMG by 6%, up to a maximum of 36%.
+
+
+
+1 Neuronic Embroidery
+
+While the Ultimate's Zone is deployed, the DMG dealt by all allies ignores 20% of the target's DEF.
+
+
+
+2 Reedside Promenade
+
+While Ruan Mei is on the field, all allies increase their ATK by 40% when dealing DMG to enemies that are Weakness Broken.
+
+
+
+3 Viridescent Pirouette
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Chatoyant Éclat
+
+When an enemy target's Weakness is Broken, Ruan Mei's Break Effect increases by 100% for 3 turn(s).
+
+
+
+5 Languid Barrette
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Sash Cascade
+
+Extends the duration of the Ultimate's Zone by 1 turn(s). The Talent's Break DMG multiplier additionally increases by 200%.
+
+Break DMG
+Break DMG increases with higher Break Effect, higher target max Toughness, and higher character levels.
+Break DMG cannot CRIT Hit and is not affected by DMG Boost effects.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RuanMei')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5

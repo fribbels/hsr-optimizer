@@ -10,6 +10,129 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Fleeting Fragrance
+
+Basic ATK+1+20
+
+Deals Physical DMG equal to 100% of Argenti's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Justice, Hereby Blooms
+
+Skill-1+30
+
+Deals Physical DMG equal to 120% of Argenti's ATK to all enemies.
+
+ All 10
+
+Lv10
+
+For In This Garden, Supreme Beauty Bestows
+
+Ultimate90+5
+
+Consumes 90 Energy and deals Physical DMG equal to 160% of Argenti's ATK to all enemies.
+
+ All 20
+
+Lv10
+
+Sublime Object
+
+Talent
+
+For every enemy hit when Argenti uses his Basic Attack, Skill, or Ultimate, regenerates Argenti's Energy by 3, and grants him a stack of Apotheosis, increasing his CRIT Rate by 2.5%. This effect can stack up to 10 time(s).
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Manifesto of Purest Virtue
+
+Technique
+
+After using the Technique, enemies in a set area are inflicted with Daze for 10 second(s). Dazed enemies will not actively attack the team.
+When attacking a Dazed enemy to enter combat, deals Physical DMG to all enemies equal to 80% of Argenti's ATK and regenerates his Energy by 15.
+
+Merit Bestowed in "My" Garden
+
+
+Ultimate180+5
+
+Consumes 180 Energy and deals Physical DMG equal to 280% of Argenti's ATK to all enemies. And further deals DMG for 6 extra time(s), with each time dealing Physical DMG equal to 95% of Argenti's ATK to a random enemy.
+
+ Single 5 | All 20
+
+Lv10
+
+Stat Boosts
+
+ +28.0% ATK
+ +14.4% Physical DMG Boost
+ +10.0% HP
+
+Piety
+
+At the start of a turn, immediately gains 1 stack(s) of Apotheosis.
+
+
+Generosity
+
+When enemy targets enter battle, immediately regenerates 2 Energy for self.
+
+
+Courage
+
+Deals 15% more DMG to enemies whose HP percentage is 50% or less.
+
+
+
+1 A Lacuna in Kingdom of Aesthetics
+
+Each stack of Apotheosis additionally increases CRIT DMG by 4%.
+
+
+
+2 Agate's Humility
+
+If the number of enemies on the field equals to 3 or more when the Ultimate is used, ATK increases by 40% for 1 turn(s).
+
+
+
+3 Thorny Road's Glory
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Trumpet's Dedication
+
+At the start of battle, gains 2 stack(s) of Apotheosis and increases the maximum stack limit of the Talent's effect by 2.
+
+
+
+5 Snow, From Somewhere in Cosmos
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 "Your" Resplendence
+
+When using Ultimate, ignores 30% of enemy targets' DEF.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Argenti')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5

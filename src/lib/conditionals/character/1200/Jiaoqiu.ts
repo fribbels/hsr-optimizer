@@ -13,6 +13,123 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Heart Afire
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of Jiaoqiu's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Scorch Onslaught
+
+Skill-1+30
+
+Deals Fire DMG equal to 150% of Jiaoqiu's ATK to a single target enemy and Fire DMG equal to 90% of Jiaoqiu's ATK to adjacent targets, with a 100% base chance to inflict 1 stack of Ashen Roast on the primary target.
+
+ Single 20 | Other 10
+
+Lv10
+
+Pyrograph Arcanum
+
+Ultimate100+5
+
+Sets the number of "Ashen Roast" stacks on enemy targets to the highest number of "Ashen Roast" stacks present on the battlefield. Then, activates a Zone and deals Fire DMG equal to 100% of Jiaoqiu's ATK to all enemies.
+While inside the Zone, enemy targets receive 15% increased Ultimate DMG, with a 60% base chance of being inflicted with 1 stack of Ashen Roast when taking action. While the Zone exists, this effect can trigger up to 6 time(s). And for each enemy target, it can only trigger once per turn. This trigger count resets every time Jiaoqiu uses Ultimate.
+The Zone lasts for 3 turn(s), and its duration decreases by 1 at the start of this unit's every turn. If Jiaoqiu gets knocked down, the Zone will also be dispelled.
+
+ All 20
+
+Lv10
+
+Quartet Finesse, Octave Finery
+
+Talent
+
+When Jiaoqiu hits an enemy with Basic ATK, Skill or Ultimate, there is a 100% base chance to inflict 1 stack of Ashen Roast on them. At 1 stack, increases DMG received by the enemy by 15%. Then, each subsequent stack increases this by 5%.
+Ashen Roast is capped at 5 stack(s) and lasts for 2 turn(s).
+When an enemy target is afflicted with Ashen Roast, they are also considered as being Burned at the same time, taking Fire DoT equal to 180% of Jiaoqiu's ATK at the start of each turn.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Fiery Queller
+
+Technique
+
+After using Technique, creates a Special Dimension that lasts for 15 second(s). After entering combat with enemies in this Special Dimension, deals Fire DMG equal to 100% of Jiaoqiu's ATK to all enemies, with a 100% base chance of applying 1 "Ashen Roast" stack. Only 1 dimension created by allies can exist at the same time.
+
+
+Stat Boosts
+
+ +28.0% Effect Hit Rate
+ +14.4% Fire DMG Boost
+ +5.0 SPD
+
+Pyre Cleanse
+
+When battle starts, immediately regenerates 15 Energy.
+
+
+Hearth Kindle
+
+For every 15% of Jiaoqiu's Effect Hit Rate that exceeds 80%, additionally increases ATK by 60%, up to 240%.
+
+
+Seared Scent
+
+While the Zone exists, enemies entering combat will be inflicted with Ashen Roast. The number of stacks applied will match the highest number of "Ashen Roast" stacks possessed by any unit while the Zone is active, with a minimum of 1 stack(s).
+
+
+
+1 Pentapathic Transference
+
+Allies deal 40% increased DMG to enemy targets afflicted with Ashen Roast. Whenever inflicting Ashen Roast on an enemy target via triggering the Talent's effect, additionally increases the number of "Ashen Roast" stacks applied this time by 1.
+
+
+
+2 From Savor Comes Suffer
+
+When an enemy target is afflicted with Ashen Roast, increases the multiplier for the Fire DoT dealt by Ashen Roast to this target by 300%.
+
+
+
+3 Flavored Euphony Reigns Supreme
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Leisure In, Luster Out
+
+When the Zone exists, reduces enemy target's ATK by 15%.
+
+
+
+5 Duel in Dawn, Dash in Dusk
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Nonamorphic Pyrobind
+
+When an enemy target gets defeated, their accumulated "Ashen Roast" stacks will transfer to the enemy with the lowest number of "Ashen Roast" stacks on the battlefield. The maximum stack limit of Ashen Roast increases to 9, and each "Ashen Roast" stack reduces the target's All-Type RES by 3%.
+Hidden Stat: 1.0
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jiaoqiu')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

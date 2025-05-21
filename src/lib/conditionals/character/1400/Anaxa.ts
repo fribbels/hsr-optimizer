@@ -8,6 +8,124 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Pain, Brews Truth
+
+Basic ATK+1+20
+
+Deals Wind DMG equal to 100% of Anaxa's ATK to one designated enemy.
+
+ Single 10
+
+Lv6
+
+Fractal, Exiles Fallacy
+
+Skill-1+6
+
+Deals Wind DMG equal to 70% of Anaxa's ATK to one designated enemy and additionally deals 4 instance(s) of DMG. Each instance of DMG deals Wind DMG equal to 70% of Anaxa's ATK to one random enemy, prioritizing Bouncing to enemy targets that have not been hit by this instance of Skill.
+When used, for each attackable enemy on the field, this Skill has its DMG dealt increased by 20%.
+
+ Single 10
+
+Lv10
+
+Sprouting Life Sculpts Earth
+
+Ultimate140+5
+
+Inflicts the "Sublimation" state on all enemies, then deals Wind DMG equal to 160% of Anaxa's ATK to all enemies.
+In the "Sublimation" state, the targets will be simultaneously inflicted with Physical, Fire, Ice, Lightning, Wind, Quantum, and Imaginary Weaknesses, lasting until the start of the targets' turn. If the targets do not have Control RES, they are unable to take action in the "Sublimation" state.
+
+ All 20
+
+Lv10
+
+Tetrad Wisdom Reigns Thrice
+
+Talent
+
+Each time Anaxa lands 1 hit on enemy targets, inflicts 1 Weakness of a random Type to the targets, lasting for 3 turn(s), with priority to the Weakness Type that the target doesn't already possess.
+While Anaxa is on the field, inflicts the "Qualitative Disclosure" state on enemy targets that have at least 5 different Types of Weaknesses. Anaxa deals 30% increased DMG to targets afflicted with the "Qualitative Disclosure" state. In addition, after using Basic ATK or Skill on them, unleashes 1 additional instance of Skill on the targets. This additional Skill does not consume any Skill Points and cannot trigger this effect again. If the target has been defeated before the additional Skill is used, it will be cast on one random enemy instead.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Prism of the Pupil
+
+Technique
+
+After using Technique, inflicts the Terrified state on enemies in a set area. Terrified enemies will flee in a direction away from Anaxa for 10 second(s). When allies enter battle via actively attacking a Terrified enemy, it will always be considered as entering battle via attacking a Weakness. After entering battle, Anaxa applies 1 Weakness of the attacker's Type to every enemy target, lasting for 3 turn(s).
+
+
+Stat Boosts
+
+ +22.4% Wind DMG Boost
+ +12.0% CRIT Rate
+ +10.0% HP
+
+Roaming Signifier
+
+When using Basic ATK, additionally regenerates 10 Energy.
+At the start of the turn, if there are no enemy targets in the "Qualitative Disclosure" state, immediately regenerates 30 Energy.
+
+
+Imperative Hiatus
+
+Based on the number of "Erudition" characters in the team, one of the following effects will be triggered in the current battle:
+1 character: Increases Anaxa's CRIT DMG by 140%.
+At least 2 characters: Increases DMG dealt by all allies by 50%.
+
+
+Qualitative Shift
+
+For every 1 different Weakness Type an enemy target has, the DMG that Anaxa deals to that target ignores 4% of their DEF. Up to a max of 7 Weakness Types can be taken into account for this effect.
+
+
+
+1 Magician, Isolated by Stars
+
+After using Skill for the first time, recovers 1 Skill Point(s). When using Skill to hit enemy targets, decreases the targets' DEF by 16%, lasting for 2 turn(s).
+
+
+
+2 Soul, True to History
+
+When enemy targets enter the battlefield, triggers 1 instance of the Talent's Weakness Implant effect, and reduces their All-Type RES by 20%.
+
+
+
+3 Pupil, Etched into Cosmos
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Blaze, Plunged to Canyon
+
+When using Skill, increases ATK by 30%, lasting for 2 turn(s). This effect can stack up to 2 time(s).
+
+
+
+5 Embryo, Set Beyond Vortex
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Everything Is in Everything
+
+The DMG dealt by Anaxa is 130% of the original DMG. The 2 effects in the Trace "Imperative Hiatus" will be triggered directly and will no longer depend on the number of "Erudition" characters in the team.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Anaxa.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

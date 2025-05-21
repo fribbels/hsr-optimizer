@@ -9,6 +9,125 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Swing Dance Etiquette
+
+Basic ATK+1+20
+
+Deals Imaginary DMG equal to 100% of the Trailblazer's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Halftime to Make It Rain
+
+Skill-1+6
+
+Deals Imaginary DMG equal to 50% of the Trailblazer's ATK to a single enemy and deals DMG for 4 extra times, dealing Imaginary DMG equal to 50% of the Trailblazer's ATK to a random enemy each time.
+Hidden Stat: 2
+
+ Single 10 | Other 10
+
+Lv10
+
+All-Out Footlight Parade
+
+Ultimate140+5
+
+Applies the Backup Dancer effect to all allies, lasting for 3 turn(s). Decreases its duration by 1 turn at the start of Trailblazer's every turn. Allies with Backup Dancer increase their Break Effect by 30%. When they attack enemy targets that are in the Weakness Broken state, they will convert the Toughness-Reducing DMG of this attack to Super Break DMG 1 time.
+Hidden Stat: 1
+
+Weakness Break State
+When enemy targets' Toughness is reduced to 0, they will enter the Weakness Break State, which delays their actions.
+
+Super Break DMG
+Super Break DMG increases with higher Break Effect, higher Toughness-Reducing DMG from this attack, and higher character levels.
+Super Break DMG cannot CRIT Hit and is not affected by DMG Boost effects.
+
+ All 10
+
+Lv10
+
+Full-on Aerial Dance
+
+Talent
+
+The Trailblazer immediately regenerates 10 Energy when an enemy target's Weakness is Broken.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Now! I'm the Band!
+
+Technique
+
+After using the Technique, at the start of the next battle, all allies' Break Effect increases by 30%, lasting for 2 turn(s).
+
+
+Stat Boosts
+
+ +37.3% Break Effect
+ +14.4% Imaginary DMG Boost
+ +10.0% Effect RES
+
+Dance With the One
+
+When there are 5 or more/4/3/2/1 enemy target(s) currently on the field, the Super Break DMG triggered by the Backup Dancer effect increases by 20.0%/30.0%/40.0%/50.0%/60.0%.
+
+
+Shuffle Along
+
+When using Skill, increase the first Toughness-Reducing DMG inflicted in a battle by 100.0%.
+
+
+Hat of the Theater
+
+Additionally delays the enemy target's action by 30.0% when teammates Break enemy Weaknesses.
+
+
+
+1 Best Seat in the House
+
+Recovers 1.0 Skill Point(s) after using the Skill for the first time in a battle.
+
+
+
+2 Jailbreaking Rainbowwalk
+
+At the start of the battle, the Trailblazer's Energy Regeneration Rate increases by 25.0%, lasting for 3.0 turn(s).
+
+
+
+3 Sanatorium for Rest Notes
+
+Skill Lv. +2, up to a maximum of Lv. 15. Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Dove in Tophat
+
+While the Trailblazer is on the field, increase the Break Effect of all allies except the Trailblazer. The increase is equal to 15.0% of the Trailblazer's Break Effect.
+
+
+
+5 Poem Favors Rhythms of Old
+
+Ultimate Lv. +2, up to a maximum of Lv. 15. Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Tomorrow, Rest in Spotlight
+
+Increases the Skill's additional DMG by 2.0 hit(s).
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerHarmony')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5

@@ -11,6 +11,124 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Mind is Might
+
+Basic ATK+1+20
+
+Deals Imaginary DMG equal to 100% of Dr. Ratio's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Intellectual Midwifery
+
+Skill-1+30
+
+Deals Imaginary DMG equal to 150% of Dr. Ratio's ATK to a single target enemy.
+
+ Single 20
+
+Lv10
+
+Syllogistic Paradox
+
+Ultimate140+5
+
+Deals Imaginary DMG equal to 240% of Dr. Ratio's ATK to a single target enemy and applies Wiseman's Folly. When Dr. Ratio's teammates attack a target afflicted with Wiseman's Folly, Dr. Ratio launches 1 instance of his Talent's Follow-up ATK against this target.
+Wiseman's Folly can be triggered for up to 2 times and only affects the most recent target of Dr. Ratio's Ultimate. This trigger count resets after Dr. Ratio's Ultimate is used.
+
+ Single 30
+
+Lv10
+
+Cogito, Ergo Sum
+
+Talent+5
+
+When using his Skill, Dr. Ratio has a 40% fixed chance of launching a Follow-up ATK against his target for 1 time, dealing Imaginary DMG equal to 270% of Dr. Ratio's ATK. For each debuff the target enemy has, the fixed chance of launching Follow-up ATK increases by 20%. If the target enemy is defeated before the Follow-up ATK triggers, the Follow-up ATK will be directed at a single random enemy instead.
+
+ Single 10
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Mold of Idolatry
+
+Technique
+
+After using Technique, creates a Special Dimension that Taunts nearby enemies, lasting for 10 second(s). After entering battle with enemies in this Special Dimension, there is a 100% base chance to reduce each single enemy target's SPD by 15% for 2 turn(s). Only 1 Dimension Effect created by allies can exist at the same time.
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +12.0% CRIT Rate
+ +12.5% DEF
+
+Summation
+
+When Dr. Ratio uses his Skill, for every debuff on the target, his CRIT Rate increases by 2.5% and CRIT DMG by 5%. This effect can stack up to 6 time(s).
+
+
+Inference
+
+When Skill is used to attack an enemy target, there is a 100% base chance to reduce the attacked enemy target's Effect RES by 10% for 2 turn(s).
+
+
+Deduction
+
+When dealing DMG to a target that has 3 or more debuff(s), for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.
+
+
+
+1 Pride Comes Before a Fall
+
+The maximum stackable count for the Trace "Summation" increases by 4. When a battle begins, immediately obtains 4 stacks of Summation. Needs to unlock Summation first.
+
+
+
+2 The Divine Is in the Details
+
+When his Talent's Follow-up ATK hits a target, for every debuff the target has, deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 time(s) during each Follow-up ATK.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+
+3 Know Thyself
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Ignorance Is Blight
+
+When triggering the Talent, additionally regenerates 15 Energy for Dr. Ratio.
+
+
+
+5 Sic Itur Ad Astra
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Vincit Omnia Veritas
+
+Additionally increases the trigger count for "Wiseman's Folly" by 1. The DMG dealt by the Talent's Follow-up ATK increases by 50%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

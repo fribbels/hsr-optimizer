@@ -11,6 +11,127 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Glistening Light
+
+Basic ATK+1+20
+
+Jing Yuan deals Lightning DMG equal to 100% of his ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Rifting Zenith
+
+Skill-1+30
+
+Deals Lightning DMG equal to 100% of Jing Yuan's ATK to all enemies and increases Lightning-Lord's Hits Per Action by 2 for the next turn.
+
+ All 10
+
+Lv10
+
+Lightbringer
+
+Ultimate130+5
+
+Deals Lightning DMG equal to 200% of Jing Yuan's ATK to all enemies and increases Lightning-Lord's Hits Per Action by 3 for the next turn.
+
+ All 20
+
+Lv10
+
+Prana Extirpated
+
+Talent
+
+Summons Lightning-Lord at the start of the battle. Lightning-Lord has 60 base SPD and 3 base Hits Per Action. When the Lightning-Lord takes action, its hits are considered as Follow-up ATKs, with each hit dealing Lightning DMG equal to 66% of Jing Yuan's ATK to a random single enemy, and enemies adjacent to it also receive Lightning DMG equal to 25% of the DMG dealt to the primary target enemy.
+The Lightning-Lord's Hits Per Action can reach a max of 10. Every time Lightning-Lord's Hits Per Action increases by 1, its SPD increases by 10. After the Lightning-Lord's action ends, its SPD and Hits Per Action return to their base values.
+When Jing Yuan is knocked down, the Lightning-Lord will disappear.
+When Jing Yuan is affected by Crowd Control debuff, the Lightning-Lord is unable to take action.
+
+Crowd Control debuff
+Freeze, Entanglement, Imprisonment, Dominated, Outrage, Strong Reverberation, Alien Dream, Snarelock, Terrified.
+
+ Single 5
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Spiritus Invocation
+
+Technique
+
+After the Technique is used, the Lightning-Lord's Hits Per Action in the first turn increases by 3 at the start of the next battle.
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +12.0% CRIT Rate
+ +12.5% DEF
+
+Battalia Crush
+
+If the Lightning-Lord's Hits Per Action is greater or equal to 6 in the next turn, its CRIT DMG increases by 25% for the next turn.
+
+
+Savant Providence
+
+At the start of the battle, immediately regenerates 15 Energy.
+
+
+War Marshal
+
+After the Skill is used, the CRIT Rate increases by 10% for 2 turn(s).
+
+
+
+1 Slash, Seas Split
+
+When Lightning-Lord attacks, the DMG multiplier on enemies adjacent to the target enemy increases by an extra amount equal to 25% of the DMG multiplier against the primary target enemy.
+
+
+
+2 Swing, Skies Squashed
+
+After Lightning-Lord takes action, DMG dealt by Jing Yuan's Basic ATK, Skill, and Ultimate increases by 20%, lasting for 2 turn(s).
+
+
+
+3 Strike, Suns Subdued
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Spin, Stars Sieged
+
+For each hit performed by the Lightning-Lord when it takes action, Jing Yuan regenerates 2 Energy.
+
+
+
+5 Stride, Spoils Seized
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Sweep, Souls Slain
+
+Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable.
+While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 time(s).
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingYuan')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

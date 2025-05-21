@@ -12,6 +12,116 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Monodrama
+
+Basic ATK+1+20
+
+Deals Quantum DMG equal to 100% of Sparkle's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Dreamdiver
+
+Skill-1+30
+
+Increases the CRIT DMG of a single target ally by 24% of Sparkle's CRIT DMG plus 45%, lasting for 1 turn(s). And at the same time, Advances Forward this ally's action by 50%.
+When Sparkle uses this ability on herself, the Action Advance effect will not trigger.
+
+Lv10
+
+The Hero with a Thousand Faces
+
+Ultimate110+5
+
+Recovers 4 Skill Points for the team and grants all allies Cipher. For allies with Cipher, each stack of the DMG Boost effect provided by Sparkle's Talent additionally increases by 10%, lasting for 2 turns.
+Hidden Stat: 2
+
+Lv10
+
+Red Herring
+
+Talent
+
+While Sparkle is on the battlefield, additionally increases the max number of Skill Points by 2. Whenever an ally consumes 1 Skill Point, all allies' DMG dealt increases by 6%. This effect lasts for 2 turn(s) and can stack up to 3 time(s).
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Unreliable Narrator
+
+Technique
+
+Using the Technique grants all allies Misdirect for 20 seconds. Characters with Misdirect will not be detected by enemies, and entering battle in the Misdirect state recovers 3 Skill Point(s) for the team.
+
+
+Stat Boosts
+
+ +28.0% HP
+ +24.0% CRIT DMG
+ +10.0% Effect RES
+
+Almanac
+
+When using Basic ATK, additionally regenerates 10 Energy.
+
+
+Artificial Flower
+
+The CRIT DMG Boost effect provided by the Skill will be extended until the start of the target's next turn.
+
+
+Nocturne
+
+Increases all allies' ATK by 15%. When there are 1/2/3 Quantum-Type allies in the team, additionally increases Quantum-Type allies' ATK by 5%/15%/30%.
+
+
+
+1 Suspension of Disbelief
+
+The Cipher effect granted by the Ultimate lasts for 1 extra turn. All allies with Cipher have their ATK increased by 40%.
+
+
+
+2 Purely Fictitious
+
+Every stack of the Talent's effect allows allies to additionally ignore 8% of the target's DEF when dealing DMG.
+
+
+
+3 Pipedream
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Life Is a Gamble
+
+The Ultimate recovers 1 more Skill Point. The Talent additionally increases the Max Skill Points by 1.
+
+
+
+5 Parallax Truth
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Narrative Polysemy
+
+The CRIT DMG Boost effect provided by the Skill additionally increases by an amount equal to 30% of Sparkle's CRIT DMG. When Sparkle uses Skill, her Skill's CRIT DMG Boost effect will apply to all teammates with Cipher. When Sparkle uses her Ultimate, any single ally who benefits from her Skill's CRIT DMG Boost will spread that effect to teammates with Cipher.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparkle')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

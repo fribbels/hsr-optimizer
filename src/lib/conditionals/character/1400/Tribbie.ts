@@ -17,6 +17,129 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Hundred Rockets
+
+Basic ATK+1+20
+
+Deals Quantum DMG equal to 30% of Tribbie's Max HP to one designated enemy. Deals Quantum DMG equal to 15% of Tribbie's Max HP to adjacent targets.
+
+ Single 10 | Other 5
+
+Lv6
+
+Where'd the Gifts Go
+
+Skill-1+30
+
+Gains "Numinosity," lasting for 3 turn(s). This duration decreases by 1 at the start of this unit's every turn. While Tribbie has "Numinosity," increases all ally targets' All-Type RES PEN by 24%.
+
+Lv10
+
+Guess Who Lives Here
+
+Ultimate120+5
+
+Activates a Zone and deals Quantum DMG equal to 30% of Tribbie's Max HP to all enemies.
+While the Zone lasts, increases enemy targets' DMG taken by 30%. After an ally target attacks, for every 1 target hit, deals 1 instance of Quantum Additional DMG equal to 12% of Tribbie's Max HP to the target that has the highest HP among the hit targets.
+The Zone lasts for 2 turn(s). This duration decreases by 1 at the start of this unit's every turn.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+ All 20
+
+Lv10
+
+Busy as Tribbie
+
+Talent+5
+
+After other ally characters use Ultimate, Tribbie launches Follow-up ATK, dealing Quantum DMG equal to 18% of Tribbie's Max HP to all enemies. This effect triggers up to 1 time per character. When Tribbie uses Ultimate, resets the trigger count for other ally characters. If the target was defeated before the Follow-up ATK is launched, then launches the Follow-up ATK against new enemy targets entering the battlefield.
+
+ All 5
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+If You're Happy and You Know It
+
+Technique
+
+After using Technique and upon entering battle, obtains "Numinosity," lasting for 3 turn(s).
+
+
+Stat Boosts
+
+ +37.3% CRIT DMG
+ +12.0% CRIT Rate
+ +10.0% HP
+
+Lamb Outside the Wall...
+
+After using Talent's Follow-up ATK, increases the DMG dealt by Tribbie by 72%. This effect can stack up to 3 time(s), lasting for 3 turn(s).
+
+
+Glass Ball with Wings!
+
+While the Zone lasts, Tribbie's Max HP increases by an amount equal to 9% of the sum of all ally characters' Max HP.
+
+
+Pebble at Crossroads?
+
+At the start of battle, Tribbie regenerates 30 Energy. After other ally targets attack, Tribbie regenerates 1.5 Energy for each target hit.
+
+
+
+1 Rite of Sugar Scoop
+
+While the Zone lasts and after ally targets attack enemies, additionally deals True DMG equal to 24% of the total DMG of this attack to targets that have been dealt Additional DMG by the Zone.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+True DMG
+Non-Type DMG that is not affected by any effects. This DMG is not considered as using 1 attack.
+
+
+
+2 Guide of Dream Tour
+
+The Additional DMG dealt by the Zone increases to 120% of the original DMG. When the Zone deals Additional DMG, further deals 1 instance(s) of Additional DMG.
+
+
+
+3 Trove of Morning Glow
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Peace of Empathy Bond
+
+While "Numinosity" lasts, the DMG dealt by all allies ignores 18% of the target's DEF.
+
+
+
+5 Clock of Wonder Origin
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Morrow of Star Shine
+
+After Tribbie uses Ultimate, launches her Talent's Follow-up ATK against all enemies. The DMG dealt by Talent's Follow-up ATK increases by 729%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

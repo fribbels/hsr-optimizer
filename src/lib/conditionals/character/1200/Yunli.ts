@@ -11,6 +11,140 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Galespin Summersault
+
+Basic ATK+1+20
+
+Deals Physical DMG equal to 100% of Yunli's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Bladeborne Quake
+
+Skill-1+30
+
+Restores HP equal to 30% of Yunli's ATK plus 200. Deals Physical DMG equal to 120% of Yunli's ATK to a single target enemy and Physical DMG equal to 60% of Yunli's ATK to adjacent targets.
+
+ Single 20 | Other 10
+
+Lv10
+
+Earthbind, Etherbreak
+
+Ultimate120+5
+
+Consumes 120 Energy. Yunli gains Parry and Taunts all enemies, lasting until the end of the next ally's or enemy's turn. Increases the CRIT DMG dealt by Yunli's next Counter by 100%. When triggering the Counter effect from Talent, launches the Counter "Intuit: Cull" instead and removes the Parry effect. If no Counter is triggered while Parry is active, Yunli will immediately launch the Counter "Intuit: Slash" on a random enemy target.
+
+"Intuit: Slash": Deals Physical DMG equal to 220% of Yunli's ATK to the target, and deals Physical DMG equal to 110% of Yunli's ATK to adjacent targets.
+"Intuit: Cull": Deals Physical DMG equal to 220% of Yunli's ATK to the target, and deals Physical DMG equal to 110% of Yunli's ATK to adjacent targets. Then, additionally deals 6 instances of DMG, each dealing Physical DMG equal to 72% of Yunli's ATK to a random single enemy.
+
+When Yunli deals DMG via this ability, it's considered as dealing Ultimate DMG.
+Each instance of Intuit: Cull's bounce DMG deals 25% of the Toughness reduction DMG of this skill's central target DMG.
+
+Counter
+An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.
+Counter is also considered a Follow-up ATK.
+
+ Single 10 | Other 10
+
+Lv10
+
+Flashforge
+
+Talent+10
+
+When Yunli gets attacked by an enemy target, additionally regenerates 15 Energy and immediately launches a Counter on the attacker, dealing Physical DMG equal to 120% of Yunli's ATK to the attacker and Physical DMG equal to 60% of Yunli's ATK to adjacent targets.
+If there is no immediate target to Counter, then Counters a random enemy target instead.
+Ordinary counters only regenerate 50% of this ability's energy.
+
+ Single 10 | Other 10
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Posterior Precedence
+
+Technique
+
+This unit gains the Ward effect, lasting for 20 seconds. During this time, upon entering combat by either attacking enemies or receiving an attack, immediately casts "Intuit: Cull" on a random enemy, and increases the DMG dealt by this attack by 80%.
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +18.0% HP
+ +6.7% CRIT Rate
+
+Fiery Wheel
+
+After each use of "Intuit: Slash," the next "Intuit: Slash" will be replaced by "Intuit: Cull."
+
+
+Demon Quell
+
+While in the "Parry" state, resists Crowd Control debuffs received and reduces DMG received by 20%.
+
+
+True Sunder
+
+When using a Counter, increases Yunli's ATK by 30%, lasting for 1 turn.
+
+Counter
+An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.
+Counter is also considered a Follow-up ATK.
+
+
+
+1 Weathered Blade Does Not Sully
+
+Increases DMG dealt by "Intuit: Slash" and "Intuit: Cull" by 20%. Increases the number of additional DMG instances for "Intuit: Cull" by 3.
+
+
+
+2 First Luster Breaks Dawn
+
+When dealing DMG via Counter, ignores 20% of the target's DEF.
+
+Counter
+An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.
+Counter is also considered a Follow-up ATK.
+
+
+
+3 Mastlength Twirls Mountweight
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Artisan's Ironsong
+
+After launching "Intuit: Slash" or "Intuit: Cull," increases this unit's Effect RES by 50%, lasting for 1 turn(s).
+
+
+
+5 Blade of Old Outlasts All
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Walk in Blade, Talk in Zither
+
+While "Parry" is active, if an enemy actively uses their abilities, regardless of whether it attacks Yunli or not, it will trigger "Intuit: Cull" and remove the "Parry" effect. When dealing DMG via "Intuit: Slash" or "Intuit: Cull," increases CRIT Rate by 15% and Physical RES PEN by 20%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

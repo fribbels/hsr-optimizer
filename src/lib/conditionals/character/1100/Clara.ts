@@ -11,6 +11,140 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+I Want to Help
+
+Basic ATK+1+20
+
+Deals Physical DMG equal to 100% of Clara's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Svarog Watches Over You
+
+Skill-1+30
+
+Deals Physical DMG equal to 120% of Clara's ATK to all enemies, and additionally deals Physical DMG equal to 120% of Clara's ATK to enemies marked by Svarog with a Mark of Counter.
+All Marks of Counter will be removed after this Skill is used.
+
+ All 10
+
+Lv10
+
+Promise, Not Command
+
+Ultimate110+5
+
+After Clara uses Ultimate, DMG dealt to her is reduced by an extra 25%, and she has greatly increased chances of being attacked by enemies for 2 turn(s).
+In addition, Svarog's Counter is enhanced. When an ally is attacked, Svarog immediately launches a Counter, and its DMG multiplier against the enemy increases by 160%. Enemies adjacent to it take 50% of the DMG dealt to the primary target enemy. Enhanced Counter(s) can take effect 2 time(s).
+Hidden Stat: 5
+
+Counter
+An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.
+Counter is also considered a Follow-up ATK.
+
+Lv10
+
+Because We're Family
+
+Talent+5
+
+Under the protection of Svarog, DMG taken by Clara when hit by enemy attacks is reduced by 10%. Svarog will mark enemies who attack Clara with his Mark of Counter and retaliate with a Counter, dealing Physical DMG equal to 160% of Clara's ATK.
+Hidden Stat: 1
+
+ Single 10 | Other 10
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+A Small Price for Victory
+
+Technique
+
+Immediately attacks the enemy. Upon entering battle, the chance Clara will be attacked by enemies increases for 2 turn(s).
+Hidden Stat: 5
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +14.4% Physical DMG Boost
+ +10.0% HP
+
+Kinship
+
+When attacked, this unit has a 35% fixed chance to dispel 1 debuff placed on them.
+
+
+Under Protection
+
+Increases the chance to resist Crowd Control debuffs by 35%.
+
+Crowd Control debuff
+Freeze, Entanglement, Imprisonment, Dominated, Outrage, Strong Reverberation, Alien Dream, Snarelock, Terrified.
+
+
+Revenge
+
+Increases DMG dealt by Svarog's Counter by 30%.
+
+Counter
+An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.
+Counter is also considered a Follow-up ATK.
+
+
+
+1 A Tall Figure
+
+Using Skill will not remove Marks of Counter on the enemy.
+
+
+
+2 A Tight Embrace
+
+After using the Ultimate, ATK increases by 30% for 2 turn(s).
+
+
+
+3 Cold Steel Armor
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Family's Warmth
+
+After Clara is hit, the DMG taken by Clara is reduced by 30%. This effect lasts until the start of her next turn.
+
+
+
+5 A Small Promise
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Long Company
+
+After other allies are attacked, Svarog also has a 50% fixed chance to trigger a Counter on the attacker and mark them with a "Mark of Counter." When using Ultimate, the number of Enhanced Counters increases by 1.
+
+Counter
+An effect that automatically triggers when the target is attacked, which unleashes an extra attack on the attacker.
+Counter is also considered a Follow-up ATK.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Clara')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

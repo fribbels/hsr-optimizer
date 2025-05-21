@@ -13,6 +13,122 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Dislodged
+
+Basic ATK+1+20
+
+Tingyun deals Lightning DMG equal to 100% of her ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Soothing Melody
+
+Skill-1+30
+
+Grants a single ally with Benediction to increase their ATK by 50%, up to 25% of Tingyun's current ATK.
+When the ally with Benediction attacks, they will deal Lightning Additional DMG equal to 40% of that ally's ATK for 1 time.
+Benediction lasts for 3 turn(s) and is only effective on the most recent receiver of Tingyun's Skill.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+Lv10
+
+Amidst the Rejoicing Clouds
+
+Ultimate130+5
+
+Regenerates 50 Energy for a single ally and increases the target's DMG by 50% for 2 turn(s).
+
+Lv10
+
+Violet Sparknado
+
+Talent
+
+When an enemy is attacked by Tingyun, the ally with Benediction immediately deals Lightning Additional DMG equal to 60% of that ally's ATK to the same enemy.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Gentle Breeze
+
+Technique
+
+Tingyun immediately regenerates 50 Energy upon using her Technique.
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +22.5% DEF
+ +8.0% Lightning DMG Boost
+
+Nourished Joviality
+
+Tingyun's SPD increases by 20% for 1 turn after using Skill.
+
+
+Knell Subdual
+
+DMG dealt by Basic ATK increases by 40%.
+
+
+Jubilant Passage
+
+Tingyun immediately regenerates 5 Energy at the start of her turn.
+
+
+
+1 Windfall of Lucky Springs
+
+After using their Ultimate, the ally with Benediction gains a 20% increase in SPD for 1 turn.
+
+
+
+2 Gainfully Gives, Givingly Gains
+
+The ally with Benediction regenerates 5 Energy after defeating an enemy. This effect can only be triggered once per turn.
+
+
+
+3 Halcyon Bequest
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Jovial Versatility
+
+The DMG multiplier provided by Benediction increases by 20%.
+
+
+
+5 Sauntering Coquette
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Peace Brings Wealth to All
+
+Ultimate regenerates 10 more Energy for the target ally.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tingyun')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

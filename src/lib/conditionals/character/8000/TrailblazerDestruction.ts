@@ -9,6 +9,139 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Farewell Hit
+
+Basic ATK+1+20
+
+Deals Physical DMG equal to 100% of the Trailblazer's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+RIP Home Run
+
+Skill-1+30
+
+Deals Physical DMG equal to 125% of the Trailblazer's ATK to a single enemy and enemies adjacent to it.
+
+ Single 20 | Other 10
+
+Lv10
+
+Stardust Ace
+
+Ultimate120+5
+
+Choose between two attack modes to deliver a full strike.
+Blowout: Farewell Hit deals Physical DMG equal to 450% of the Trailblazer's ATK to a single enemy.
+Blowout: RIP Home Run deals Physical DMG equal to 270% of the Trailblazer's ATK to a single enemy, and Physical DMG equal to 162% of the Trailblazer's ATK to enemies adjacent to it.
+
+Lv10
+
+Perfect Pickoff
+
+Talent
+
+Each time after this character inflicts Weakness Break on an enemy, ATK increases by 20%. This effect stacks up to 2 time(s).
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Immortal Third Strike
+
+Technique
+
+Immediately heals all allies for 15% of their respective Max HP after using this Technique.
+
+Blowout: Farewell Hit
+
+
+Ultimate120+5
+
+Deals Physical DMG equal to 450% of the Trailblazer's ATK to a single enemy.
+
+ Single 30
+
+Lv10
+Blowout: RIP Home Run
+
+
+Ultimate120+5
+
+Deals Physical DMG equal to 270% of Trailblazer's ATK to a single enemy and Physical DMG equal to 162% of Trailblazer's ATK to enemies adjacent to it.
+
+ Single 20 | Other 20
+
+Lv10
+
+Stat Boosts
+
+ +28.0% ATK
+ +18.0% HP
+ +12.5% DEF
+
+Ready for Battle
+
+At the start of the battle, immediately regenerates 15 Energy.
+
+
+Tenacity
+
+Each Talent stack increases the Trailblazer's DEF by 10%.
+
+
+Fighting Will
+
+When using Skill or Ultimate "Blowout: RIP Home Run," DMG dealt to the target enemy is increased by 25%.
+
+
+
+1 A Falling Star
+
+When enemies are defeated due to the Trailblazer's Ultimate, the Trailblazer regenerates 10 extra Energy. This effect can only be triggered once per attack.
+
+
+
+2 An Unwilling Host
+
+Attacking enemies with Physical Weakness restores the Trailblazer's HP equal to 5% of the Trailblazer's ATK.
+
+
+
+3 A Leading Whisper
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 A Destructing Glance
+
+When attacking an enemy that is Weakness Broken, increases CRIT Rate by 25%.
+
+
+
+5 A Surviving Hope
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 A Trailblazing Will
+
+The Trailblazer's Talent is also triggered when they defeat an enemy.
+Hidden Stat: 1.0
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5

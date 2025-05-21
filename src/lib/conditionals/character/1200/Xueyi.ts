@@ -12,6 +12,126 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Mara-Sunder Awl
+
+Basic ATK+1+20
+
+Deals 100% of Xueyi's ATK as Quantum DMG to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Iniquity Obliteration
+
+Skill-1+30
+
+Deals Quantum DMG equal to 140% of Xueyi's ATK to a single enemy, and Quantum DMG equal to 70% of Xueyi's ATK to any adjacent enemies.
+
+ Single 20 | Other 10
+
+Lv10
+
+Divine Castigation
+
+Ultimate120+5
+
+Deals Quantum DMG equal to 250% of Xueyi's ATK to a single target enemy. This attack ignores Weakness Types and reduces the enemy's Toughness. When the enemy's Weakness is Broken, the Quantum Weakness Break effect is triggered.
+In this attack, the more Toughness is reduced, the higher the DMG will be dealt, up to a max of 60% increase.
+Hidden Stat: 0.15
+
+ Single 40
+
+Lv10
+
+Karmic Perpetuation
+
+Talent+2
+
+When Xueyi reduces enemy Toughness with attacks, Karma will be stacked. The more Toughness is reduced, the more stacks of Karma are added, up to 8 stacks.
+When Xueyi's teammates reduce enemy Toughness with attacks, Xueyi gains 1 stack(s) of Karma.
+When Karma reaches the max number of stacks, consumes all current Karma stacks and immediately launches Follow-up ATK against an enemy target, dealing DMG for 3 times, with each time dealing Quantum DMG equal to 90% of Xueyi's ATK to a single random enemy. This Follow-up ATK will not add Karma stacks.
+
+ Single 5
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Summary Execution
+
+Technique
+
+Immediately attacks the enemy. After entering combat, deals 80% of Xueyi's ATK as Quantum DMG to all enemies.
+
+ Single 20
+
+
+Stat Boosts
+
+ +37.3% Break Effect
+ +18.0% HP
+ +8.0% Quantum DMG Boost
+
+Clairvoyant Loom
+
+Increases DMG dealt by this unit by an amount equal to 100% of Break Effect, up to a maximum DMG increase of 240%.
+
+
+Intrepid Rollerbearings
+
+If the enemy target's Toughness is equal to or higher than 50% of their Max Toughness, deals 10% more DMG when using Ultimate.
+
+
+Perspicacious Mainframe
+
+Xueyi will keep a tally of the number of Karma stacks that exceed the max stack limit, up to 6 stacks in the tally. After Xueyi's Talent is triggered, she will gain a corresponding number of tallied Karma stacks.
+
+
+
+1 Dvesha, Inhibited
+
+Increases the DMG dealt by the Talent's Follow-up ATK by 40%.
+
+
+
+2 Klesha, Breached
+
+Talent's Follow-up ATK Reduces enemy Toughness regardless of Weakness types. At the same time, restores Xueyi's HP by an amount equal to 5% of her Max HP. When breaking Weakness, triggers the Quantum Break Effect.
+
+
+
+3 Duḥkha, Ceased
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Karma, Severed
+
+When using Ultimate, increases Break Effect by 40% for 2 turn(s).
+
+
+
+5 Deva, Enthralled
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Saṃsāra, Mastered
+
+The max stack limit for Karma decreases to 6.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Xueyi')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

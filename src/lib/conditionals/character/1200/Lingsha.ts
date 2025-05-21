@@ -14,6 +14,128 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Votive Incense
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of Lingsha's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Smoke and Splendor
+
+Skill-1+30
+
+Deals Fire DMG equal to 80% of Lingsha's ATK to all enemies and at the same time, restores HP equal to 14% of Lingsha's ATK plus 420 for all allies. Fuyuan's action advances by 20%.
+
+ All 10
+
+Lv10
+
+Dripping Mistscape
+
+Ultimate110+5
+
+Inflicts "Befog" on all enemies. While in "Befog," targets receive 25% increased Break DMG, lasting for 2 turn(s).
+Deals Fire DMG equal to 150% of Lingsha's ATK to all enemies, and at the same time restores HP equal to 12% of Lingsha's ATK plus 360 for all allies. Fuyuan's action advances by 100%.
+
+Break DMG
+Break DMG increases with higher Break Effect, higher target max Toughness, and higher character levels.
+Break DMG cannot CRIT Hit and is not affected by DMG Boost effects.
+
+ All 20
+
+Lv10
+
+Mistdance Manifest
+
+Talent
+
+When using Skill, summons Fuyuan, with an initial SPD of 90 and an initial action count of 3.
+When taking action, Fuyuan launches Follow-up ATK, dealing Fire DMG equal to 75% of Lingsha's ATK to all enemies. Additionally deals Fire DMG equal to 75% of Lingsha's ATK to a single random enemy, and this DMG prioritizes targets that have both Toughness greater than 0 and Fire Weakness. Dispels 1 debuff(s) from all allies and restores HP equal to 12% of Lingsha's ATK plus 360.
+Fuyuan's action count can accumulate up to 5. When the action count reaches 0 or when Lingsha is knocked down, Fuyuan disappears.
+While Fuyuan is on the field, using Skill can increase Fuyuan's action count by 3.
+
+ All 10
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Wisps of Aurora
+
+Technique
+
+After using Technique, immediately summons Fuyuan at the start of the next battle and inflicts "Befog" on all enemies, lasting for 2 turn(s).
+
+
+Stat Boosts
+
+ +37.3% Break Effect
+ +18.0% HP
+ +10.0% ATK
+
+Vermilion Waft
+
+Increases this unit's ATK or Outgoing Healing by an amount equal to 25%/10% of Break Effect, up to a maximum increase of 50%/20% respectively.
+
+
+Sylvan Smoke
+
+When using Basic ATK, additionally regenerates 10 Energy.
+
+
+Ember's Echo
+
+While "Fuyuan" is on the field and any ally character takes DMG or consumes HP, if a character in the team has their current HP percentage lower than or equal to 60%, "Fuyuan" will immediately launch the Talent's Follow-up ATK against enemies. This does not consume Fuyuan's action count. This effect can trigger again after 2 turn(s).
+
+
+
+1 Bloom on Vileward Bouquet
+
+Lingsha's Weakness Break Efficiency increases by 50%. When an enemy unit's Weakness is Broken, reduces their DEF by 20%.
+
+
+
+2 Leisure in Carmine Smokeveil
+
+When using Ultimate, increases all allies' Break Effect by 40%, lasting for 3 turn(s).
+
+
+
+3 Shine of Floral Wick
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Redolence from Canopied Banquet
+
+When Fuyuan takes action, restores HP equal to 40% of Lingsha's ATK for the ally target whose current HP is the lowest.
+
+
+
+5 Poise Atop Twists and Turns
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Arcadia Under Deep Seclusion
+
+While "Fuyuan" is on the field, reduces all enemies' All-Type RES by 20%. When "Fuyuan" attacks, additionally deals 4 instance(s) of DMG, with each instance dealing Fire DMG equal to 50% of Lingsha's ATK and 5 Toughness Reduction to one random enemy. This prioritizes targets with both Toughness greater than 0 and Fire Weakness.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')

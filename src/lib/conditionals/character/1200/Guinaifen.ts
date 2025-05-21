@@ -9,6 +9,122 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Standing Ovation
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of Guinaifen's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Blazing Welcome
+
+Skill-1+30
+
+Deals Fire DMG equal to 120% of Guinaifen's ATK to a single enemy and Fire DMG equal to 40% of Guinaifen's ATK to any adjacent enemies, with a 100% base chance to Burn the target and adjacent targets. When Burned, enemies will take a Fire DoT equal to 218.208% of Guinaifen's ATK at the beginning of each turn, lasting for 2 turn(s).
+
+ Single 20 | Other 10
+
+Lv10
+
+Watch This Showstopper
+
+Ultimate120+5
+
+Deals Fire DMG equal to 120% of Guinaifen's ATK to all enemies. If the target enemy is currently inflicted with Burn, then their Burn status immediately produces DMG equal to 92% of their original DMG.
+
+ All 20
+
+Lv10
+
+PatrAeon Benefits
+
+Talent
+
+When Guinaifen is on the field, there is a 100% base chance to apply Firekiss to an enemy after their Burn status causes DMG. While inflicted with Firekiss, the enemy receives 7% increased DMG, which lasts for 3 turn(s) and can stack up to 3 time(s).
+Hidden Stat: 0
+Hidden Stat: 0
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Skill Showcase
+
+Technique
+
+Immediately attacks the enemy. After entering battle, deals DMG for 4 time(s), dealing Fire DMG equal to 50% of Guinaifen's ATK to a random single enemy target each time, with a 100% base chance of inflicting Firekiss on them.
+
+ Single 20
+
+
+Stat Boosts
+
+ +22.4% Fire DMG Boost
+ +24.0% Break Effect
+ +10.0% Effect Hit Rate
+
+High Poles
+
+Basic ATK has a 80% base chance of inflicting an enemy with a Burn equivalent to that of Skill.
+
+
+Bladed Hoop
+
+When the battle begins, Guinaifen's action advances by 25%.
+
+
+Walking on Knives
+
+Deals 20% more DMG to Burned enemies.
+
+
+
+1 Slurping Noodles During Handstand
+
+When Skill is used, there is a 100% base chance to reduce the attacked target enemy's Effect RES by 10% for 2 turn(s).
+
+
+
+2 Brushing Teeth While Whistling
+
+When an enemy target is being Burned, the DMG multiplier of the Burn status applied by her Basic ATK or Skill increases by 40%.
+
+
+
+3 Smashing Boulder on Chest
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Blocking Pike with Neck
+
+Every time the Burn status inflicted by Guinaifen causes DMG, Guinaifen regenerates 2 Energy.
+
+
+
+5 Swallowing Sword to Stomach
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Catching Bullet with Hands
+
+Increases the stackable Firekiss count by 1.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Guinaifen')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

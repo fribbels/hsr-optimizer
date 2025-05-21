@@ -10,6 +10,127 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Roaring Thunderclap
+
+Basic ATK+1+20
+
+Deals Lightning DMG equal to 100% of Serval's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Lightning Flash
+
+Skill-1+30
+
+Deals Lightning DMG equal to 140% of Serval's ATK to a single enemy and Lightning DMG equal to 60% of Serval's ATK to enemies adjacent to it, with a 80% base chance for enemies hit to become Shocked for 2 turn(s).
+While Shocked, enemies take Lightning DoT equal to 104% of Serval's ATK at the beginning of each turn.
+
+ Single 20 | Other 10
+
+Lv10
+
+Here Comes the Mechanical Fever
+
+Ultimate100+5
+
+Deals Lightning DMG equal to 180% of Serval's ATK to all enemies. Enemies already Shocked will extend the duration of their Shock state by 2 turn(s).
+
+ All 20
+
+Lv10
+Galvanic Chords
+
+Talent
+
+After Serval attacks, deals Lightning Additional DMG equal to 72% of Serval's ATK to all Shocked enemies.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Good Night, Belobog
+
+Technique
+
+Immediately attacks the enemy. After entering battle, deals Lightning DMG equal to 50% of Serval's ATK to a random enemy, with a 100% base chance for all enemies to become Shocked for 3 turn(s).
+While Shocked, enemies will take Lightning DoT equal to 50% of Serval's ATK at the beginning of each turn.
+
+ Single 20
+
+
+Stat Boosts
+
+ +18.7% CRIT Rate
+ +18.0% Effect Hit Rate
+ +10.0% Effect RES
+
+Rock 'n' Roll
+
+When using skill, increases the base chance for the attacked enemy target to become Shocked by 20%.
+
+
+String Vibration
+
+At the start of the battle, immediately regenerates 15 Energy.
+
+
+Mania
+
+Upon defeating an enemy, ATK is increased by 20% for 2 turn(s).
+
+
+
+1 Echo Chamber
+
+Basic ATK deals Lightning DMG equal to 60% of Basic ATK DMG to a random target adjacent to the target enemy.
+
+
+
+2 Encore!
+
+Every time Serval's Talent is triggered to deal Additional DMG, she regenerates 4 Energy.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+
+3 Listen, the Heartbeat of the Gears
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Make Some Noise!
+
+Ultimate has a 100% base chance to apply Shock to any enemies not currently Shocked. This Shock has the same effects as the one applied by Skill.
+
+
+
+5 Belobog's Loudest Roar!
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 This Song Rocks to Heaven!
+
+Serval deals 30% more DMG to Shocked enemies.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Serval')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

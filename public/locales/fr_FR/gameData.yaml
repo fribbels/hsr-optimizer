@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: Kafka (Vieux)
-    LongName: Kafka (Vieux)
+    Name: (Vieux) Kafka
+    LongName: (Vieux) Kafka
   "1006":
-    Name: "Louve\_d'argent (Vieux)"
-    LongName: "Louve\_d'argent (Vieux)"
+    Name: "(Vieux) Louve\_d'argent"
+    LongName: "(Vieux) Louve\_d'argent"
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -81,8 +81,8 @@ Characters:
     Name: "Jing\_Yuan"
     LongName: "Jing\_Yuan"
   "1205":
-    Name: Blade (Vieux)
-    LongName: Blade (Vieux)
+    Name: (Vieux) Blade
+    LongName: (Vieux) Blade
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -102,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: Jingliu (Vieux)
-    LongName: Jingliu (Vieux)
+    Name: (Vieux) Jingliu
+    LongName: (Vieux) Jingliu
   "1213":
     Name: Imbibitor Lunae
     LongName: Dan Heng • Imbibitor Lunae
@@ -234,17 +234,17 @@ Characters:
     Name: Stelle
     LongName: Stelle (Le Souvenir)
   "1212_1":
-    Name: Jingliu (Neuf)
-    LongName: Jingliu (Neuf)
+    Name: (Neuf) Jingliu
+    LongName: (Neuf) Jingliu
   "1205_1":
-    Name: Blade (Neuf)
-    LongName: Blade (Neuf)
+    Name: (Neuf) Blade
+    LongName: (Neuf) Blade
   "1005_1":
-    Name: Kafka (Neuf)
-    LongName: Kafka (Neuf)
+    Name: (Neuf) Kafka
+    LongName: (Neuf) Kafka
   "1006_1":
-    Name: "Louve\_d'argent (Neuf)"
-    LongName: "Louve\_d'argent (Neuf)"
+    Name: "(Neuf) Louve\_d'argent"
+    LongName: "(Neuf) Louve\_d'argent"
 RelicSets:
   "101":
     Name: Vagabond foulenuage

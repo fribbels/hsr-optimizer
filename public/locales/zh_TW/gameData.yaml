@@ -12,11 +12,11 @@ Characters:
     Name: 瓦爾特
     LongName: 瓦爾特
   "1005":
-    Name: 卡芙卡 (Old)
-    LongName: 卡芙卡 (Old)
+    Name: (Old) 卡芙卡
+    LongName: (Old) 卡芙卡
   "1006":
-    Name: 銀狼 (Old)
-    LongName: 銀狼 (Old)
+    Name: (Old) 銀狼
+    LongName: (Old) 銀狼
   "1008":
     Name: 阿蘭
     LongName: 阿蘭
@@ -81,8 +81,8 @@ Characters:
     Name: 景元
     LongName: 景元
   "1205":
-    Name: 刃 (Old)
-    LongName: 刃 (Old)
+    Name: (Old) 刃
+    LongName: (Old) 刃
   "1206":
     Name: 素裳
     LongName: 素裳
@@ -102,8 +102,8 @@ Characters:
     Name: 白露
     LongName: 白露
   "1212":
-    Name: 鏡流 (Old)
-    LongName: 鏡流 (Old)
+    Name: (Old) 鏡流
+    LongName: (Old) 鏡流
   "1213":
     Name: 丹恆•飲月
     LongName: 丹恆•飲月
@@ -234,17 +234,17 @@ Characters:
     Name: 星
     LongName: 星 (記憶)
   "1212_1":
-    Name: 鏡流 (New)
-    LongName: 鏡流 (New)
+    Name: (New) 鏡流
+    LongName: (New) 鏡流
   "1205_1":
-    Name: 刃 (New)
-    LongName: 刃 (New)
+    Name: (New) 刃
+    LongName: (New) 刃
   "1005_1":
-    Name: 卡芙卡 (New)
-    LongName: 卡芙卡 (New)
+    Name: (New) 卡芙卡
+    LongName: (New) 卡芙卡
   "1006_1":
-    Name: 銀狼 (New)
-    LongName: 銀狼 (New)
+    Name: (New) 銀狼
+    LongName: (New) 銀狼
 RelicSets:
   "101":
     Name: 雲無留跡的過客

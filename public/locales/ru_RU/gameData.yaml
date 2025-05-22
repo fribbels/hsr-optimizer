@@ -12,11 +12,11 @@ Characters:
     Name: Вельт
     LongName: Вельт
   "1005":
-    Name: Кафка (Old)
-    LongName: Кафка (Old)
+    Name: (Old) Кафка
+    LongName: (Old) Кафка
   "1006":
-    Name: Серебряный Волк (Old)
-    LongName: Серебряный Волк (Old)
+    Name: (Old) Серебряный Волк
+    LongName: (Old) Серебряный Волк
   "1008":
     Name: Арлан
     LongName: Арлан
@@ -81,8 +81,8 @@ Characters:
     Name: Цзин Юань
     LongName: Цзин Юань
   "1205":
-    Name: Блэйд (Old)
-    LongName: Блэйд (Old)
+    Name: (Old) Блэйд
+    LongName: (Old) Блэйд
   "1206":
     Name: Сушан
     LongName: Сушан
@@ -102,8 +102,8 @@ Characters:
     Name: Байлу
     LongName: Байлу
   "1212":
-    Name: Цзинлю (Old)
-    LongName: Цзинлю (Old)
+    Name: (Old) Цзинлю
+    LongName: (Old) Цзинлю
   "1213":
     Name: "Дань Хэн: Пожиратель Луны"
     LongName: "Дань Хэн: Пожиратель Луны"
@@ -234,17 +234,17 @@ Characters:
     Name: Стелла
     LongName: Стелла (Память)
   "1212_1":
-    Name: Цзинлю (New)
-    LongName: Цзинлю (New)
+    Name: (New) Цзинлю
+    LongName: (New) Цзинлю
   "1205_1":
-    Name: Блэйд (New)
-    LongName: Блэйд (New)
+    Name: (New) Блэйд
+    LongName: (New) Блэйд
   "1005_1":
-    Name: Кафка (New)
-    LongName: Кафка (New)
+    Name: (New) Кафка
+    LongName: (New) Кафка
   "1006_1":
-    Name: Серебряный Волк (New)
-    LongName: Серебряный Волк (New)
+    Name: (New) Серебряный Волк
+    LongName: (New) Серебряный Волк
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака

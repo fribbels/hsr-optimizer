@@ -12,11 +12,11 @@ Characters:
     Name: 웰트
     LongName: 웰트
   "1005":
-    Name: 카프카 (Old)
-    LongName: 카프카 (Old)
+    Name: (Old) 카프카
+    LongName: (Old) 카프카
   "1006":
-    Name: 은랑 (Old)
-    LongName: 은랑 (Old)
+    Name: (Old) 은랑
+    LongName: (Old) 은랑
   "1008":
     Name: 아를란
     LongName: 아를란
@@ -81,8 +81,8 @@ Characters:
     Name: 경원
     LongName: 경원
   "1205":
-    Name: 블레이드 (Old)
-    LongName: 블레이드 (Old)
+    Name: (Old) 블레이드
+    LongName: (Old) 블레이드
   "1206":
     Name: 소상
     LongName: 소상
@@ -102,8 +102,8 @@ Characters:
     Name: 백로
     LongName: 백로
   "1212":
-    Name: 경류 (Old)
-    LongName: 경류 (Old)
+    Name: (Old) 경류
+    LongName: (Old) 경류
   "1213":
     Name: 단항•음월
     LongName: 단항•음월
@@ -234,17 +234,17 @@ Characters:
     Name: 스텔레
     LongName: 스텔레 (기억)
   "1212_1":
-    Name: 경류 (New)
-    LongName: 경류 (New)
+    Name: (New) 경류
+    LongName: (New) 경류
   "1205_1":
-    Name: 블레이드 (New)
-    LongName: 블레이드 (New)
+    Name: (New) 블레이드
+    LongName: (New) 블레이드
   "1005_1":
-    Name: 카프카 (New)
-    LongName: 카프카 (New)
+    Name: (New) 카프카
+    LongName: (New) 카프카
   "1006_1":
-    Name: 은랑 (New)
-    LongName: 은랑 (New)
+    Name: (New) 은랑
+    LongName: (New) 은랑
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"

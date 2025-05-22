@@ -1336,7 +1336,7 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.05,
     },
     1408: { // Phainon
-      x: 950,
+      x: 935,
       y: 975,
       z: 1.05,
     },
@@ -7237,11 +7237,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           NULL_TURN_ABILITY_NAME,
           START_ULT,
           DEFAULT_SKILL,
+          DEFAULT_BASIC,
           DEFAULT_SKILL,
+          DEFAULT_BASIC,
           DEFAULT_SKILL,
-          DEFAULT_SKILL,
-          DEFAULT_SKILL,
-          DEFAULT_SKILL,
+          DEFAULT_BASIC,
           DEFAULT_SKILL,
           END_ULT,
         ],
@@ -7524,6 +7524,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         parts: {
           [Parts.Body]: [
             Stats.ATK_P,
+            Stats.EHR,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -7545,7 +7546,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
         ],
         breakpoints: {
-          [Stats.EHR]: 0.282,
+          [Stats.EHR]: 0.67,
         },
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -7742,12 +7743,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     '1212_1': { // Jingliu
       stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
-        [Stats.HP]: 0,
-        [Stats.HP_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
         [Stats.SPD]: 1,
         [Stats.CR]: 1,
         [Stats.CD]: 1,
@@ -7759,17 +7760,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.HP_P,
         ],
         [Parts.Feet]: [
-          Stats.ATK_P,
+          Stats.HP_P,
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.ATK_P,
+          Stats.HP_P,
           Stats.Ice_DMG,
         ],
         [Parts.LinkRope]: [
-          Stats.ATK_P,
+          Stats.HP_P,
           Stats.ERR,
         ],
       },
@@ -7780,29 +7782,31 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         parts: {
           [Parts.Body]: [
             Stats.CD,
+            Stats.HP_P,
           ],
           [Parts.Feet]: [
-            Stats.ATK_P,
+            Stats.HP_P,
             Stats.SPD,
           ],
           [Parts.PlanarSphere]: [
-            Stats.ATK_P,
+            Stats.HP_P,
             Stats.Ice_DMG,
           ],
           [Parts.LinkRope]: [
-            Stats.ATK_P,
+            Stats.HP_P,
           ],
         },
         substats: [
           Stats.CD,
           Stats.CR,
-          Stats.ATK_P,
-          Stats.ATK,
+          Stats.HP_P,
+          Stats.HP,
         ],
         errRopeEidolon: 0,
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
           DEFAULT_ULT,
+          WHOLE_SKILL,
           WHOLE_SKILL,
           WHOLE_SKILL,
           START_SKILL,

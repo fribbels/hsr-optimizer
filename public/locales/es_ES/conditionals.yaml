@@ -361,11 +361,89 @@ Lightcones:
         content: >-
           Cuando comienza la batalla y al empezar cada turno del portador, se activa uno de los siguientes efectos al azar (el nuevo efecto será distinto del anterior y lo sustituirá):::BR:: el ATQ de todos los aliados aumenta en un {{AtkBuff}}%.::BR::El Daño CRIT de todos los aliados aumenta en un {{CritBuff}}%.::BR::La recuperación de energía de todos los aliados aumenta en un {{RegenBuff}}%.::BR::Estos efectos no se pueden acumular con otros del mismo tipo y se disipan cuando el portador es derrotado.
       cdBuffActive:
+        text: Mejora de DC activada
         content: >-
           Cuando comienza la batalla y al empezar cada turno del portador, se activa uno de los siguientes efectos al azar (el nuevo efecto será distinto del anterior y lo sustituirá):::BR:: el ATQ de todos los aliados aumenta en un {{AtkBuff}}%.::BR::El Daño CRIT de todos los aliados aumenta en un {{CritBuff}}%.::BR::La recuperación de energía de todos los aliados aumenta en un {{RegenBuff}}%.::BR::Estos efectos no se pueden acumular con otros del mismo tipo y se disipan cuando el portador es derrotado.
       errBuffActive:
+        text: Mejora de RdE activada
         content: >-
           Cuando comienza la batalla y al empezar cada turno del portador, se activa uno de los siguientes efectos al azar (el nuevo efecto será distinto del anterior y lo sustituirá):::BR:: el ATQ de todos los aliados aumenta en un {{AtkBuff}}%.::BR::El Daño CRIT de todos los aliados aumenta en un {{CritBuff}}%.::BR::La recuperación de energía de todos los aliados aumenta en un {{RegenBuff}}%.::BR::Estos efectos no se pueden acumular con otros del mismo tipo y se disipan cuando el portador es derrotado.
+  ConcertForTwo:
+    Content:
+      teammateShieldStacks:
+        text: Acumulaciones de daño por escudo en aliados
+        content: Por cada personaje con escudo que haya en el campo de batalla, el daño que inflige el portador aumenta en un {{DmgBuff}}%.
+  DayOneOfMyNewLife:
+    Content:
+      dmgResBuff:
+        text: Mejora de RES al daño
+        content: Tras entrar en combate, aumenta la RES a todos los tipos de todos los aliados en un {{ResBuff}}%. Los efectos del mismo tipo no se pueden activar varias veces.
+  DreamvilleAdventure:
+    Content:
+      ultDmgBuff:
+        content: >-
+          Cuando el portador usa un ATQ básico, una habilidad básica o una habilidad definitiva, todos los aliados obtienen Inocencia infantil, que aumenta el daño que inflige el ATQ básico, la habilidad básica o la habilidad definitiva (según lo que haya usado el portador) en un {{DmgBuff}}%. Inocencia infantil solo tiene efecto con el último tipo de habilidad que haya usado el portador y no se puede acumular.
+      skillDmgBuff:
+        text: Aumento de daño de Habilidad
+        content: >-
+          Cuando el portador usa un ATQ básico, una habilidad básica o una habilidad definitiva, todos los aliados obtienen Inocencia infantil, que aumenta el daño que inflige el ATQ básico, la habilidad básica o la habilidad definitiva (según lo que haya usado el portador) en un {{DmgBuff}}%. Inocencia infantil solo tiene efecto con el último tipo de habilidad que haya usado el portador y no se puede acumular.
+      basicDmgBuff:
+        text: Aumento de daño de Básico
+        content: >-
+          Cuando el portador usa un ATQ básico, una habilidad básica o una habilidad definitiva, todos los aliados obtienen Inocencia infantil, que aumenta el daño que inflige el ATQ básico, la habilidad básica o la habilidad definitiva (según lo que haya usado el portador) en un {{DmgBuff}}%. Inocencia infantil solo tiene efecto con el último tipo de habilidad que haya usado el portador y no se puede acumular.
+  Fermata:
+    Content:
+      enemyShockWindShear:
+        text: Enemigo electrocutado / a la intemperie
+        content: Aumenta el daño que el portador inflige a los enemigos afectados por Electrocución o Intemperie en un {{DmgBuff}}%. Este efecto también es válido para el Daño con el tiempo.
+  FinalVictor:
+    Content:
+      goodFortuneStacks:
+        text: Acumulaciones de Fortuna
+        content: >-
+          Cuando el portador inflige Golpe CRIT a un enemigo, obtiene una acumulación de Fortuna. Este efecto se puede acumular hasta 4 veces. Cada acumulación de Fortuna aumenta el Daño CRIT del portador en un {{CritBuff}}%. Fortuna se disipa cuando termina el turno del portador.
+  FlamesAfar:
+    Content:
+      dmgBuff:
+        text: Mejora de daño
+        content: >-
+          Cuando los PV que pierde el portador durante un único ataque superan el 25% de sus PV máx., o si los PV que consume de una sola vez superan el 25% de sus PV máx., el portador regenera inmediatamente un 15% de sus PV máx. y el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos. Este efecto solo se puede activar una vez cada 3 turnos.
+  ForTomorrowsJourney:
+    Content:
+      ultDmgBuff:
+        text: Mejora de daño por uso de Definitiva
+        content: Cuando el portador usa su habilidad definitiva, el daño infligido aumenta en un {{DmgBuff}}% durante 1 turno.
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: Aumento de daño de Básico
+        content: Después de que el portador lance su habilidad definitiva, el daño de ATQ básico que infligen el portador y el mnemoduende aumenta en un {{DmgBuff}}%.
+  GeniusesRepose:
+    Content:
+      defeatedEnemyCdBuff:
+        text: Mejora de DC por enemigo derrotado
+        content: Cuando el portador derrota a un enemigo, su Daño CRIT aumenta en un {{DmgBuff}}% durante 3 turnos.
+  GoodNightAndSleepWell:
+    Content:
+      debuffStacksDmgIncrease:
+        text: Aumento de daño por acumulación de afecciones
+        content: Por cada estado negativo que tenga el enemigo, el daño infligido por el portador aumenta en un {{DmgBuff}}%. Se puede acumular hasta 3 veces. Este efecto también es válido para el Daño con el tiempo.
+  HeyOverHere:
+    Content:
+      postSkillHealBuff:
+        text: Mejora de curación post-Habilidad
+        content: Cuando el portador utiliza la habilidad básica, la curación realizada aumenta en un {{HealingBoost}}% durante 2 turnos.
+  IndeliblePromise:
+    Content:
+      crBuff:
+        text: Mejora de PC de Definitiva
+        content: Cuando el portador lanza la habilidad definitiva, la Prob. CRIT aumenta en un {{CritBuff}}% durante 2 turnos.
+  ItsShowtime:
+    Content:
+      trickStacks:
+        text: Acumulaciones de Truco de magia
+        content: >-
+          Cuando el portador inflige un estado negativo a un enemigo, obtiene una acumulación de Truco de magia. Cada acumulación de Truco de magia aumenta el daño que inflige el portador en un {{DmgBuff}}%. Se puede acumular hasta 3 veces y dura 1 turno. Cuando el acierto de efecto del portador es igual o superior al 80%, el ATQ aumenta en un {{AtkBuff}}%.
   PastAndFuture:
     Content:
       postSkillDmgBuff:
@@ -397,6 +475,10 @@ Characters:
     Content:
       spdBuff:
         text: Mejora de VEL
+  Herta:
+    Content:
+      enemyHpGte50:
+        text: Aumento de daño de Habilidad
   Yanqing:
     Content:
       critSpdBuff:

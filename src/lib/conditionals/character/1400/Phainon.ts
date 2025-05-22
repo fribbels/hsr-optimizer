@@ -2,6 +2,7 @@ import i18next from "i18next"
 import { AbilityType, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import { wgslTrue } from "lib/gpu/injection/wgslUtils"
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
@@ -197,6 +198,14 @@ export default (e: Eidolon): CharacterConditionalsController => {
         // TODO: Same for gpu
       }
     },
-    gpuFinalizeCalculations: () => '',
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      return `
+if (${wgslTrue(r.transformedState)}) {
+  x.SPD = ${(e >= 1 && r.e1Buffs) ? 0.72 * context.baseSPD : 0.60 * context.baseSPD};
+}
+`
+    },
   }
 }

@@ -6848,402 +6848,6 @@
       },
       "unreleased": false
     },
-    "2005": {
-      "id": "2005",
-      "name": "Kafka",
-      "rarity": 5,
-      "path": "Nihility",
-      "element": "Lightning",
-      "traces": {
-        "Effect Hit Rate": 0.18,
-        "HP%": 0.1,
-        "ATK%": 0.28
-      },
-      "traceTree": [
-        {
-          "id": "11005201",
-          "stat": "ATK%",
-          "value": 0.04,
-          "pre": null,
-          "children": [
-            {
-              "id": "11005210",
-              "stat": "ATK%",
-              "value": 0.08,
-              "pre": "11005201",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "11005202",
-          "stat": "Effect Hit Rate",
-          "value": 0.04,
-          "pre": null,
-          "children": [
-            {
-              "id": "11005203",
-              "stat": "ATK%",
-              "value": 0.04,
-              "pre": "11005202",
-              "children": [
-                {
-                  "id": "11005204",
-                  "stat": "HP%",
-                  "value": 0.04,
-                  "pre": "11005203",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11005205",
-          "stat": "ATK%",
-          "value": 0.06,
-          "pre": null,
-          "children": [
-            {
-              "id": "11005206",
-              "stat": "Effect Hit Rate",
-              "value": 0.06,
-              "pre": "11005205",
-              "children": [
-                {
-                  "id": "11005207",
-                  "stat": "ATK%",
-                  "value": 0.06,
-                  "pre": "11005206",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11005208",
-          "stat": "HP%",
-          "value": 0.06,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "11005209",
-          "stat": "Effect Hit Rate",
-          "value": 0.08,
-          "pre": null,
-          "children": []
-        }
-      ],
-      "max_sp": 120,
-      "stats": {
-        "HP": 1086.624,
-        "ATK": 679.14,
-        "DEF": 485.1,
-        "SPD": 100,
-        "CRIT Rate": 0.05,
-        "CRIT DMG": 0.5
-      },
-      "unreleased": false
-    },
-    "2006": {
-      "id": "2006",
-      "name": "Silver Wolf",
-      "rarity": 5,
-      "path": "Nihility",
-      "element": "Quantum",
-      "traces": {
-        "Effect Hit Rate": 0.18,
-        "Quantum DMG Boost": 0.08,
-        "ATK%": 0.28
-      },
-      "traceTree": [
-        {
-          "id": "11006201",
-          "stat": "ATK%",
-          "value": 0.04,
-          "pre": null,
-          "children": [
-            {
-              "id": "11006210",
-              "stat": "ATK%",
-              "value": 0.08,
-              "pre": "11006201",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "11006202",
-          "stat": "Effect Hit Rate",
-          "value": 0.04,
-          "pre": null,
-          "children": [
-            {
-              "id": "11006203",
-              "stat": "ATK%",
-              "value": 0.04,
-              "pre": "11006202",
-              "children": [
-                {
-                  "id": "11006204",
-                  "stat": "Quantum DMG Boost",
-                  "value": 0.032,
-                  "pre": "11006203",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11006205",
-          "stat": "ATK%",
-          "value": 0.06,
-          "pre": null,
-          "children": [
-            {
-              "id": "11006206",
-              "stat": "Effect Hit Rate",
-              "value": 0.06,
-              "pre": "11006205",
-              "children": [
-                {
-                  "id": "11006207",
-                  "stat": "ATK%",
-                  "value": 0.06,
-                  "pre": "11006206",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11006208",
-          "stat": "Quantum DMG Boost",
-          "value": 0.048,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "11006209",
-          "stat": "Effect Hit Rate",
-          "value": 0.08,
-          "pre": null,
-          "children": []
-        }
-      ],
-      "max_sp": 110,
-      "stats": {
-        "HP": 1047.816,
-        "ATK": 640.332,
-        "DEF": 460.845,
-        "SPD": 107,
-        "CRIT Rate": 0.05,
-        "CRIT DMG": 0.5
-      },
-      "unreleased": false
-    },
-    "2205": {
-      "id": "2205",
-      "name": "Blade",
-      "rarity": 5,
-      "path": "Destruction",
-      "element": "Wind",
-      "traces": {
-        "Effect RES": 0.1,
-        "HP%": 0.28,
-        "CRIT Rate": 0.12
-      },
-      "traceTree": [
-        {
-          "id": "11205201",
-          "stat": "HP%",
-          "value": 0.04,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "11205202",
-          "stat": "CRIT Rate",
-          "value": 0.027,
-          "pre": null,
-          "children": [
-            {
-              "id": "11205203",
-              "stat": "HP%",
-              "value": 0.04,
-              "pre": "11205202",
-              "children": [
-                {
-                  "id": "11205204",
-                  "stat": "Effect RES",
-                  "value": 0.04,
-                  "pre": "11205203",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11205205",
-          "stat": "HP%",
-          "value": 0.06,
-          "pre": null,
-          "children": [
-            {
-              "id": "11205206",
-              "stat": "CRIT Rate",
-              "value": 0.04,
-              "pre": "11205205",
-              "children": [
-                {
-                  "id": "11205207",
-                  "stat": "HP%",
-                  "value": 0.06,
-                  "pre": "11205206",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11205208",
-          "stat": "Effect RES",
-          "value": 0.06,
-          "pre": null,
-          "children": [
-            {
-              "id": "11205209",
-              "stat": "CRIT Rate",
-              "value": 0.053,
-              "pre": "11205208",
-              "children": []
-            },
-            {
-              "id": "11205210",
-              "stat": "HP%",
-              "value": 0.08,
-              "pre": "11205208",
-              "children": []
-            }
-          ]
-        }
-      ],
-      "max_sp": 130,
-      "stats": {
-        "HP": 1358.28,
-        "ATK": 543.312,
-        "DEF": 485.1,
-        "SPD": 97,
-        "CRIT Rate": 0.05,
-        "CRIT DMG": 0.5
-      },
-      "unreleased": false
-    },
-    "2212": {
-      "id": "2212",
-      "name": "Jingliu",
-      "rarity": 5,
-      "path": "Destruction",
-      "element": "Ice",
-      "traces": {
-        "HP%": 0.1,
-        "CRIT DMG": 0.373,
-        "SPD": 9
-      },
-      "traceTree": [
-        {
-          "id": "11212201",
-          "stat": "CRIT DMG",
-          "value": 0.053,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "11212202",
-          "stat": "SPD",
-          "value": 2,
-          "pre": null,
-          "children": [
-            {
-              "id": "11212203",
-              "stat": "CRIT DMG",
-              "value": 0.053,
-              "pre": "11212202",
-              "children": [
-                {
-                  "id": "11212204",
-                  "stat": "HP%",
-                  "value": 0.04,
-                  "pre": "11212203",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11212205",
-          "stat": "CRIT DMG",
-          "value": 0.08,
-          "pre": null,
-          "children": [
-            {
-              "id": "11212206",
-              "stat": "SPD",
-              "value": 3,
-              "pre": "11212205",
-              "children": [
-                {
-                  "id": "11212207",
-                  "stat": "CRIT DMG",
-                  "value": 0.08,
-                  "pre": "11212206",
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "11212208",
-          "stat": "HP%",
-          "value": 0.06,
-          "pre": null,
-          "children": [
-            {
-              "id": "11212209",
-              "stat": "SPD",
-              "value": 4,
-              "pre": "11212208",
-              "children": []
-            },
-            {
-              "id": "11212210",
-              "stat": "CRIT DMG",
-              "value": 0.107,
-              "pre": "11212208",
-              "children": []
-            }
-          ]
-        }
-      ],
-      "max_sp": 140,
-      "stats": {
-        "HP": 1435.896,
-        "ATK": 679.14,
-        "DEF": 485.1,
-        "SPD": 96,
-        "CRIT Rate": 0.05,
-        "CRIT DMG": 0.5
-      },
-      "unreleased": false
-    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -8021,6 +7625,402 @@
         "ATK": 543.312,
         "DEF": 630.63,
         "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1212_1": {
+      "id": "1212_1",
+      "name": "Jingliu",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Ice",
+      "traces": {
+        "HP%": 0.1,
+        "CRIT DMG": 0.373,
+        "SPD": 9
+      },
+      "traceTree": [
+        {
+          "id": "11212201",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11212202",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "11212203",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "11212202",
+              "children": [
+                {
+                  "id": "11212204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "11212203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11212205",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "11212206",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "11212205",
+              "children": [
+                {
+                  "id": "11212207",
+                  "stat": "CRIT DMG",
+                  "value": 0.08,
+                  "pre": "11212206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11212208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11212209",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "11212208",
+              "children": []
+            },
+            {
+              "id": "11212210",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "11212208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1435.896,
+        "ATK": 679.14,
+        "DEF": 485.1,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1205_1": {
+      "id": "1205_1",
+      "name": "Blade",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Wind",
+      "traces": {
+        "Effect RES": 0.1,
+        "HP%": 0.28,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "11205201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11205202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "11205203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "11205202",
+              "children": [
+                {
+                  "id": "11205204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "11205203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11205205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11205206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "11205205",
+              "children": [
+                {
+                  "id": "11205207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "11205206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11205208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11205209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "11205208",
+              "children": []
+            },
+            {
+              "id": "11205210",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "11205208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 130,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 543.312,
+        "DEF": 485.1,
+        "SPD": 97,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1005_1": {
+      "id": "1005_1",
+      "name": "Kafka",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Lightning",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "HP%": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "11005201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11005210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "11005201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11005202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11005203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "11005202",
+              "children": [
+                {
+                  "id": "11005204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "11005203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11005205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11005206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "11005205",
+              "children": [
+                {
+                  "id": "11005207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "11005206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11005208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11005209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 120,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 679.14,
+        "DEF": 485.1,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1006_1": {
+      "id": "1006_1",
+      "name": "Silver Wolf",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Quantum",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "Quantum DMG Boost": 0.08,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "11006201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11006210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "11006201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11006202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11006203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "11006202",
+              "children": [
+                {
+                  "id": "11006204",
+                  "stat": "Quantum DMG Boost",
+                  "value": 0.032,
+                  "pre": "11006203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11006205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11006206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "11006205",
+              "children": [
+                {
+                  "id": "11006207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "11006206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11006208",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11006209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 110,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 640.332,
+        "DEF": 460.845,
+        "SPD": 107,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },

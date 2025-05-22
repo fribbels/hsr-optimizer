@@ -72,6 +72,9 @@ import trailblazerRemembrance from 'lib/conditionals/character/8000/TrailblazerR
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import saber from '../character/1000/Saber'
+import archer from '../character/1000/Archer'
+import phainon from '../character/1400/Phainon'
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 
@@ -152,6 +155,10 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   1407: castorice,
   1406: cipher,
   1409: hyacine,
+
+  1014: saber,
+  1015: archer,
+  1408: phainon,
 }
 
 /**

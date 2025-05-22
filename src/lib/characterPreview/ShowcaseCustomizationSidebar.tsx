@@ -2,8 +2,6 @@ import { CameraOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, MoonOut
 import { Button, ColorPicker, Flex, InputNumber, Segmented, Select } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
-import { usePublish } from 'hooks/usePublish'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
@@ -26,6 +24,7 @@ import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react
 import { useTranslation } from 'react-i18next'
 import { Character, CharacterId } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
+import { ShowcaseSource } from './CharacterPreviewComponents'
 
 export interface ShowcaseCustomizationSidebarRef {
   onPortraitLoad: (src: string, characterId: CharacterId) => void
@@ -45,9 +44,6 @@ export interface ShowcaseCustomizationSidebarProps {
   setColorMode: (colorMode: ShowcaseColorMode) => void
 }
 
-const debugColors: { defaults: string[] } = {
-  defaults: [],
-}
 
 const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
   (props, ref) => {
@@ -65,7 +61,6 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
     const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
     const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
-    const pubRefreshRelicsScore = usePublish()
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
@@ -516,7 +511,7 @@ function SelectSpdPresets(props: {
   )
 }
 
-function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, color: string) {
+function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, _color: string) {
   setLoading(true)
   setTimeout(() => {
     Utils.screenshotElementById(elementId, action).finally(() => {
@@ -656,6 +651,10 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
 
     1406: ['#5962ff'], // cipher
     1409: ['#a8ffde'], // hyacine
+
+    1408: ['#97c2fa'], // phainon
+    1014: ['#798fdc'], // saber
+    1015: ['#ff999a'], // archer
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

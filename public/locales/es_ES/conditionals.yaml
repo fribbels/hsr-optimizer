@@ -732,8 +732,113 @@ Characters:
         content: Por cada Debilidad de un tipo distinto que tenga un enemigo, el daño que inflige Anaxa a ese objetivo ignora un 4% de su DEF. Se cuentan como máximo 7 tipos de Debilidad.
       e1DefPen:
         text: E1 PEN DEF
+        content: Cuando golpea a un enemigo con la habilidad básica, reduce la DEF del objetivo en un 16% durante 2 turnos.
+      e2ResPen:
+        text: E2 PEN RES
+        content: Cuando un enemigo entra en la batalla, se activa 1 vez el efecto de implantación de Debilidad del talento y la RES a todos los tipos de ese enemigo se reduce en un 20%.
+      e4AtkBuffStacks:
+        text: E4 Acumulaciones de mejora de ATQ
+        content: Al lanzar la habilidad básica, el ATQ aumenta en un 30% durante 2 turnos. Este efecto se puede acumular hasta 2 veces.
       e6Buffs:
         text: E6 Mejoras
+        content: El daño que inflige Anaxa es el 130% del daño original. Los dos efectos del Rastro "Vacío necesario" se activan directamente y ya no dependen de la cantidad de personajes de la Vía de la Erudición que haya en el equipo aliado.
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: Definitiva potenciada
+        content: >-
+          Consume 180 pts. de energía e inflige un {{ultEnhancedScaling}}% del ATQ de Argenti como Daño Físico a todos los enemigos. Además, inflige daño 6 veces más, y cada vez inflige un Daño Físico equivalente al {{ultEnhancedExtraHitScaling}}% del ATQ de Argenti a un enemigo al azar.
+      enemyHp50:
+        text: "Aumento de daño\nPV del enemigo ≤ 50%"
+        content: Cuando el objetivo tiene un porcentaje de PV igual o inferior al 50%, recibe un 15% más de daño.
+      talentStacks:
+        text: Acumulaciones de Elevación
+        content: Aumenta su Prob. CRIT en un {{talentCrStackValue}}% por acumulación. Este efecto se puede acumular hasta {{talentMaxStacks}} veces.
+      ultEnhancedExtraHits:
+        text: Golpes extra en el objetivo de Definitiva potenciada
+        content: La Definitiva potenciada golpea a un enemigo al azar por {{ultEnhancedExtraHitScaling}}% ATQ por golpe.
+      e2UltAtkBuff:
+        text: E2 Mejora de ATQ de Definitiva
+        content: Al usar la habilidad definitiva, si el número de enemigos es igual o superior a 3, el ATQ aumenta en un 40% durante 1 turno.
+  Arlan:
+    Content:
+      selfCurrentHpPercent:
+        text: PV% propios actuales
+        content: Arlan obtiene una bonificación de daño según el porcentaje de PV que haya perdido hasta el momento. Como máximo puede infligir un {{talentMissingHpDmgBoostMax}}% más de daño.
+  Asta:
+    Content:
+      skillExtraDmgHits:
+        text: Golpes extra de Habilidad
+        content: "Inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo y después inflige daño {{skillExtraDmgHitsMax}} veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo al azar.::BR::E1: Al usar la habilidad básica, inflige daño a un enemigo al azar una vez más."
+      talentBuffStacks:
+        text: Acumulaciones mejora de ATQ del Talento
+        content: "Por cada acumulación de Recarga que tenga Asta, el ATQ de todos los aliados aumenta en un {{talentStacksAtkBuff}}%.::BR::E4: Cuando hay 2 o más acumulaciones de Recarga del talento, la recuperación de energía de Asta aumenta en un 15%."
+      ultSpdBuff:
+        text: Mejora de VEL de Definitiva activada
+        content: La VEL de todos los aliados aumenta en {{ultSpdBuffValue}} pts. durante 2 turnos.
+      fireDmgBoost:
+        text: Mejora Daño de Fuego
+        content: Cuando Asta está en la batalla, el Daño de Fuego que infligen todos los aliados aumenta en un 18%.
+  Aventurine:
+    Content:
+      defToCrBoost:
+        text: Mejora DEF a PC
+        content: 'Si la DEF de Aventurino es superior a 1600, por cada 100 pts. de DEF que superen ese valor, su Prob. CRIT aumenta en un 2%. Aumento máximo: 48%.'
+      fortifiedWagerBuff:
+        text: Mejora Apuesta reforzada
+        content: >-
+          La RES a efecto de un aliado con Apuesta reforzada aumenta en un {{talentResScaling}}%, y cuando ese aliado recibe un ataque, Aventurino obtiene 1 pt. de Apuesta ciega.::BR::E1: El Daño CRIT de los aliados con Apuesta reforzada aumenta en un 20%. Tras usar la habilidad definitiva, proporciona un escudo Apuesta reforzada a todos los aliados. El efecto de escudo es equivalente al 100% del que proporciona la habilidad básica y dura 3 turnos.
+      enemyUnnervedDebuff:
+        text: Enemigo con Sobresalto
+        content: Cuando un objetivo aliado golpea a un enemigo con Sobresalto, el Daño CRIT infligido aumenta en un {{ultCdBoost}}%.
+      fuaHitsOnTarget:
+        text: Golpes de ataque adicional en el objetivo
+        content: >-
+          Tras alcanzar 7 pts. de Apuesta ciega, Aventurino los consume y lanza un ataque adicional de 7 golpes. Cada golpe inflige a un enemigo aleatorio un {{talentDmgScaling}}% de la DEF de Aventurino como Daño Imaginario. Apuesta ciega puede acumular 10 pts. como máximo.::BR::E4: Al activar el ataque adicional del talento, la DEF de Aventurino aumenta primero en un 40% durante 2 turnos. Además, los golpes por acción del ataque adicional de su talento aumentan en 3.
+      e2ResShred:
+        text: E2 Reducción de RES
+        content: Al usar el ATQ básico, reduce la RES a todos los tipos del objetivo en un 12% durante 3 turnos.
+      e4DefBuff:
+        text: E4 Mejora de DEF
+        content: Al activar el ataque adicional del talento, la DEF de Aventurino aumenta primero en un 40% durante 2 turnos.
+      e6ShieldStacks:
+        text: E6 Acumulaciones de escudo
+        content: Por cada aliado que tenga un escudo, el daño que inflige Aventurino aumenta en un 50%, hasta un aumento máximo del 150%.
+  Bailu:
+    Content:
+      healingMaxHpBuff:
+        text: Mejora de PV máximos por curación
+        content: Cuando Bailu cura a un aliado por encima de sus PV máx., los PV máx. del objetivo aumentan en un 10% durante 2 turnos.
+      talentDmgReductionBuff:
+        text: Reducción de daño por Definitiva
+        content: El daño que reciben los personajes con Vigor se reduce en un 10%.
+      e2UltHealingBuff:
+        text: E2 Mejora de curación por Definitiva
+        content: Tras usar la habilidad definitiva, la curación realizada por Bailu aumenta en un 15%.
+      e4SkillHealingDmgBuffStacks:
+        text: E4 Acumulaciones aumento de daño de Habilidad
+        content: Cada curación proporcionada por la habilidad básica de Bailu aumenta el daño que inflige el receptor de la curación en un 10%. Se puede acumular hasta 3 veces y dura 2 turnos.
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: AdE a aumento de daño
+        content: Aumenta el daño que inflige en una cantidad equivalente al 60% de su acierto de efecto. El daño puede aumentar hasta un máximo del 72% mediante este efecto.
+      epiphanyDebuff:
+        text: Afección Desvelación
+        content: En el estado de Desvelación, el daño que reciben los objetivos durante su propio turno aumenta en un {{epiphanyDmgTakenBoost}}%.
+      defDecreaseDebuff:
+        text: Afección reducción DEF
+        content: La DEF de los enemigos se reduce en un {{defShredValue}}%.
+      arcanaStacks:
+        text: Acumulaciones de Arcano
+        content: >-
+          Los enemigos afectados por Arcano reciben un Daño de Viento con el tiempo equivalente al {{dotScaling}}% del ATQ de Cisne Negro al comienzo de cada turno. Cada acumulación de Arcano aumenta este multiplicador de daño en un {{arcanaStackMultiplier}}%. Arcano se puede acumular hasta 50 veces.::BR::Si tiene 3 o más acumulaciones, inflige un Daño de Viento con el tiempo a los objetivos adyacentes. Si tiene 7 o más acumulaciones, el Daño con el tiempo infligido esta vez ignora un 20% de la DEF del objetivo y de los objetivos adyacentes.
+      e1ResReduction:
+        text: E1 Reducción de RES
+        content: Cuando Cisne Negro está activa en la batalla, la RES a Viento, Físico, Fuego o Rayo de los enemigos afectados por Intemperie, Sangrado, Quemadura o Electrocución, respectivamente, se reduce en un 25%.
+      e4EffResPen:
+        text: E4 Reducción de RES a efecto
+        content: En el estado de Desvelación, la RES a efecto de los objetivos enemigos se reduce en un 10%.
   Boothill:
     Content:
       e1DefShred:
@@ -750,6 +855,10 @@ Characters:
         text: Aumento de daño al equipo
       e6Buffs:
         text: E6 Mejoras
+  Clara:
+    Content:
+      e2UltAtkBuff:
+        text: E2 Mejora de ATQ de Definitiva
   DanHeng:
     Content:
       spdBuff:
@@ -768,14 +877,26 @@ Characters:
     Content:
       enemyHpGte50:
         text: Aumento de daño de Habilidad
+  Himeko:
+    Content:
+      e2EnemyHp50DmgBoost:
+        content: Cuando el objetivo tiene un porcentaje de PV igual o inferior al 50%, recibe un 15% más de daño.
   Rappa:
     Content:
       e1DefPen:
         text: E1 PEN DEF
+  Sampo:
+    Content:
+      skillExtraHits:
+        text: Golpes extra de Habilidad
   Sunday:
     Content:
       e1DefPen:
         text: E1 PEN DEF
+  Sushang:
+    Content:
+      skillExtraHits:
+        text: Golpes extra de Habilidad
   TheHerta:
     Content:
       e6Buffs:

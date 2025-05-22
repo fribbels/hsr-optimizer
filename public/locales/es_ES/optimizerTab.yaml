@@ -88,5 +88,8 @@ ExpandedDataPanel:
       CompositeLabels:
         Prefix:
           Break: Ruptura
+        Suffix:
+          Vulnerability: Vulnerabilidad
+          DEF PEN: PEN DEF
       Misc:
         Combo DMG: Daño de combo

@@ -1834,7 +1834,7 @@ interface Resources {
             "content": "When using skill, there is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turns."
           },
           "fuaCdBoost": {
-            "text": "Fua CD boost",
+            "text": "FUA CD boost",
             "content": "Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%."
           },
           "spdBasedBuffs": {
@@ -1854,7 +1854,7 @@ interface Resources {
             "content": "After \"Patron\" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it."
           },
           "e6FuaDmg": {
-            "text": "E6 Fua DMG",
+            "text": "E6 FUA DMG",
             "content": "Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%."
           }
         }
@@ -2268,7 +2268,7 @@ interface Resources {
       "Jade": {
         "Content": {
           "enhancedFollowUp": {
-            "text": "Enhanced FuA",
+            "text": "Enhanced FUA",
             "content": "Jade enhances her Talent's follow-up attack, increasing its DMG multiplier by {{ultFuaScalingBuff}}%."
           },
           "pawnedAssetStacks": {
@@ -3236,12 +3236,12 @@ interface Resources {
         "LongName": "Welt"
       },
       "1005": {
-        "Name": "Kafka",
-        "LongName": "Kafka"
+        "Name": "Kafka (Old)",
+        "LongName": "Kafka (Old)"
       },
       "1006": {
-        "Name": "Silver Wolf",
-        "LongName": "Silver Wolf"
+        "Name": "Silver Wolf (Old)",
+        "LongName": "Silver Wolf (Old)"
       },
       "1008": {
         "Name": "Arlan",
@@ -3328,8 +3328,8 @@ interface Resources {
         "LongName": "Jing Yuan"
       },
       "1205": {
-        "Name": "Blade",
-        "LongName": "Blade"
+        "Name": "Blade (Old)",
+        "LongName": "Blade (Old)"
       },
       "1206": {
         "Name": "Sushang",
@@ -3356,8 +3356,8 @@ interface Resources {
         "LongName": "Bailu"
       },
       "1212": {
-        "Name": "Jingliu",
-        "LongName": "Jingliu"
+        "Name": "Jingliu (Old)",
+        "LongName": "Jingliu (Old)"
       },
       "1213": {
         "Name": "Imbibitor Lunae",
@@ -3499,22 +3499,6 @@ interface Resources {
         "Name": "Hyacine",
         "LongName": "Hyacine"
       },
-      "2005": {
-        "Name": "Kafka",
-        "LongName": "Kafka"
-      },
-      "2006": {
-        "Name": "Silver Wolf",
-        "LongName": "Silver Wolf"
-      },
-      "2205": {
-        "Name": "Blade",
-        "LongName": "Blade"
-      },
-      "2212": {
-        "Name": "Jingliu",
-        "LongName": "Jingliu"
-      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -3546,6 +3530,22 @@ interface Resources {
       "8008": {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
+      },
+      "1212_1": {
+        "Name": "Jingliu (New)",
+        "LongName": "Jingliu (New)"
+      },
+      "1205_1": {
+        "Name": "Blade (New)",
+        "LongName": "Blade (New)"
+      },
+      "1005_1": {
+        "Name": "Kafka (New)",
+        "LongName": "Kafka (New)"
+      },
+      "1006_1": {
+        "Name": "Silver Wolf (New)",
+        "LongName": "Silver Wolf (New)"
       }
     },
     "RelicSets": {

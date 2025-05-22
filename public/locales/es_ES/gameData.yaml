@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: Kafka
-    LongName: Kafka
+    Name: Kafka (Old)
+    LongName: Kafka (Old)
   "1006":
-    Name: Silver Wolf
-    LongName: Silver Wolf
+    Name: Silver Wolf (Old)
+    LongName: Silver Wolf (Old)
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -81,8 +81,8 @@ Characters:
     Name: Jing Yuan
     LongName: Jing Yuan
   "1205":
-    Name: Blade
-    LongName: Blade
+    Name: Blade (Old)
+    LongName: Blade (Old)
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -102,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: Jingliu
-    LongName: Jingliu
+    Name: Jingliu (Old)
+    LongName: Jingliu (Old)
   "1213":
     Name: Imbibitor Lunae
     LongName: Dan Heng - Imbibitor Lunae
@@ -209,18 +209,6 @@ Characters:
   "1409":
     Name: Hyacine
     LongName: Hyacine
-  "2005":
-    Name: Kafka
-    LongName: Kafka
-  "2006":
-    Name: Silver Wolf
-    LongName: Silver Wolf
-  "2205":
-    Name: Blade
-    LongName: Blade
-  "2212":
-    Name: Jingliu
-    LongName: Jingliu
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -245,6 +233,18 @@ Characters:
   "8008":
     Name: Estela
     LongName: Estela (Reminiscencia)
+  "1212_1":
+    Name: Jingliu (New)
+    LongName: Jingliu (New)
+  "1205_1":
+    Name: Blade (New)
+    LongName: Blade (New)
+  "1005_1":
+    Name: Kafka (New)
+    LongName: Kafka (New)
+  "1006_1":
+    Name: Silver Wolf (New)
+    LongName: Silver Wolf (New)
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera

@@ -12,11 +12,11 @@ Characters:
     Name: 瓦尔特
     LongName: 瓦尔特
   "1005":
-    Name: 卡芙卡
-    LongName: 卡芙卡
+    Name: 卡芙卡 (Old)
+    LongName: 卡芙卡 (Old)
   "1006":
-    Name: 银狼
-    LongName: 银狼
+    Name: 银狼 (Old)
+    LongName: 银狼 (Old)
   "1008":
     Name: 阿兰
     LongName: 阿兰
@@ -81,8 +81,8 @@ Characters:
     Name: 景元
     LongName: 景元
   "1205":
-    Name: 刃
-    LongName: 刃
+    Name: 刃 (Old)
+    LongName: 刃 (Old)
   "1206":
     Name: 素裳
     LongName: 素裳
@@ -102,8 +102,8 @@ Characters:
     Name: 白露
     LongName: 白露
   "1212":
-    Name: 镜流
-    LongName: 镜流
+    Name: 镜流 (Old)
+    LongName: 镜流 (Old)
   "1213":
     Name: 丹恒•饮月
     LongName: 丹恒•饮月
@@ -209,18 +209,6 @@ Characters:
   "1409":
     Name: 风堇
     LongName: 风堇
-  "2005":
-    Name: 卡芙卡
-    LongName: 卡芙卡
-  "2006":
-    Name: 银狼
-    LongName: 银狼
-  "2205":
-    Name: 刃
-    LongName: 刃
-  "2212":
-    Name: 镜流
-    LongName: 镜流
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -245,6 +233,18 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (记忆)
+  "1212_1":
+    Name: 镜流 (New)
+    LongName: 镜流 (New)
+  "1205_1":
+    Name: 刃 (New)
+    LongName: 刃 (New)
+  "1005_1":
+    Name: 卡芙卡 (New)
+    LongName: 卡芙卡 (New)
+  "1006_1":
+    Name: 银狼 (New)
+    LongName: 银狼 (New)
 RelicSets:
   "101":
     Name: 云无留迹的过客

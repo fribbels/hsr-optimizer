@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: Kafka
-    LongName: Kafka
+    Name: (Antigo) Kafka
+    LongName: (Antigo) Kafka
   "1006":
-    Name: Loba Prateada
-    LongName: Loba Prateada
+    Name: (Antigo) Loba Prateada
+    LongName: (Antigo) Loba Prateada
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -81,8 +81,8 @@ Characters:
     Name: Jing Yuan
     LongName: Jing Yuan
   "1205":
-    Name: Blade
-    LongName: Blade
+    Name: (Antigo) Blade
+    LongName: (Antigo) Blade
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -102,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: Jingliu
-    LongName: Jingliu
+    Name: (Antigo) Jingliu
+    LongName: (Antigo) Jingliu
   "1213":
     Name: Embebidor Lunae
     LongName: Dan Heng - Embebidor Lunae
@@ -209,18 +209,6 @@ Characters:
   "1409":
     Name: Hyacine
     LongName: Hyacine
-  "2005":
-    Name: Kafka
-    LongName: Kafka
-  "2006":
-    Name: Silver Wolf
-    LongName: Silver Wolf
-  "2205":
-    Name: Blade
-    LongName: Blade
-  "2212":
-    Name: Jingliu
-    LongName: Jingliu
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -245,6 +233,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (A Recordação)
+  "1212_1":
+    Name: (Novo) Jingliu
+    LongName: (Novo) Jingliu
+  "1205_1":
+    Name: (Novo) Blade
+    LongName: (Novo) Blade
+  "1005_1":
+    Name: (Novo) Kafka
+    LongName: (Novo) Kafka
+  "1006_1":
+    Name: (Novo) Loba Prateada
+    LongName: (Novo) Loba Prateada
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante

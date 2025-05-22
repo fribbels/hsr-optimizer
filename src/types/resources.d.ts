@@ -3255,6 +3255,14 @@ interface Resources {
         "Name": "Herta",
         "LongName": "Herta"
       },
+      "1014": {
+        "Name": "Saber",
+        "LongName": "Saber"
+      },
+      "1015": {
+        "Name": "Archer",
+        "LongName": "Archer"
+      },
       "1101": {
         "Name": "Bronya",
         "LongName": "Bronya"
@@ -3483,9 +3491,29 @@ interface Resources {
         "Name": "Castorice",
         "LongName": "Castorice"
       },
+      "1408": {
+        "Name": "Phainon",
+        "LongName": "Phainon"
+      },
       "1409": {
         "Name": "Hyacine",
         "LongName": "Hyacine"
+      },
+      "2005": {
+        "Name": "Kafka",
+        "LongName": "Kafka"
+      },
+      "2006": {
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
+      },
+      "2205": {
+        "Name": "Blade",
+        "LongName": "Blade"
+      },
+      "2212": {
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
       },
       "8001": {
         "Name": "Caelus",
@@ -3644,7 +3672,7 @@ interface Resources {
       "125": {
         "Name": "Warrior Goddess of Sun and Thunder",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has \"Gentle Rain,\" increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked."
+        "Description4pc": "When the wearer or their memosprite provides healing to ally targets other than themselves, the wearer gains \"Gentle Rain,\" which lasts for 2 turns and can only trigger once per turn. While the wearer has \"Gentle Rain,\" SPD increases by 6% and all allies' CRIT DMG increases by 15%. This effect cannot stack."
       },
       "126": {
         "Name": "Wavestrider Captain",
@@ -3730,6 +3758,14 @@ interface Resources {
       "320": {
         "Name": "Giant Tree of Rapt Brooding",
         "Description2pc": "Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
+      },
+      "321": {
+        "Name": "Arcadia of Woven Dreams",
+        "Description2pc": "When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times."
+      },
+      "322": {
+        "Name": "Revelry by the Sea",
+        "Description2pc": "Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%."
       }
     },
     "Lightcones": {
@@ -3958,6 +3994,33 @@ interface Resources {
       "21052": {
         "Name": "Sweat Now, Cry Less"
       },
+      "21053": {
+        "Name": "Journey, Forever Peaceful"
+      },
+      "21054": {
+        "Name": "The Story's Next Page"
+      },
+      "21055": {
+        "Name": "Unto Tomorrow's Morrow"
+      },
+      "21056": {
+        "Name": "Pursuit of the Wind"
+      },
+      "21057": {
+        "Name": "The Flower Remembers"
+      },
+      "21058": {
+        "Name": "A Trail of Bygone Blood"
+      },
+      "21060": {
+        "Name": "A Dream Scented in Wheat"
+      },
+      "21061": {
+        "Name": "Holiday Thermae Escapade"
+      },
+      "21062": {
+        "Name": "See You at the End"
+      },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
       },
@@ -4104,6 +4167,15 @@ interface Resources {
       },
       "23043": {
         "Name": "Lies Dance on the Breeze"
+      },
+      "23044": {
+        "Name": "Thus Burns the Dawn"
+      },
+      "23045": {
+        "Name": "A Thankless Coronation"
+      },
+      "23046": {
+        "Name": "The Hell Where Ideals Burn"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"

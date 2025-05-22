@@ -1,7 +1,7 @@
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CASTORICE, HOOK, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
+import { CASTORICE, HOOK, PHAINON, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
@@ -110,5 +110,32 @@ export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
         key: 'enhancedSkill',
       },
     )
+  }
+}
+
+
+export class PhainonPreprocessor extends AbilityPreprocessorBase {
+  id = PHAINON
+  defaultState = { transformedState: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind } = turnAbility
+
+    if (kind == AbilityKind.ULT) {
+      if (this.state.transformedState == false) {
+        setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, false)
+        this.state.transformedState = true
+      } else {
+        setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, true)
+        this.state.transformedState = false
+      }
+    } else {
+      setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, this.state.transformedState)
+    }
   }
 }

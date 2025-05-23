@@ -58,6 +58,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
 ]
 
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
+  [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
   [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
   [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],

@@ -124,7 +124,7 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
 
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
   // @ts-ignore Some APIs return empty light cone as '0'
-  const lcCenter = (character.form.lightCone && character.form.lightCone != '0')
+  const lcCenter = (character.form.lightCone && character.form.lightCone != '0' && DB.getMetadata().lightCones[character.form.lightCone])
     ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
     : 0
 

@@ -1022,10 +1022,81 @@ Characters:
           La PEN de la RES a todos los tipos del daño de habilidad definitiva que inflige Feixiao aumenta en un 20%. A su vez, el daño de ataque adicional del talento se considera como daño de habilidad definitiva, y su multiplicador de daño aumenta en un 140%.
   Firefly:
     Content:
+      enhancedStateActive:
+        text: Estado potenciado
+        content: Entra en el estado de Combustión completa, su acción se adelanta un 100% y su ATQ básico y su habilidad básica se potencian.
+      enhancedStateSpdBuff:
+        text: Mejora de VEL potenciamiento
+        content: En el estado de Combustión completa, su VEL aumenta en {{ultSpdBuff}} pts.
+      superBreakDmg:
+        text: Ultrarruptura habilitada (forzar rupt. de debilidad)
+        content: >-
+          Si el efecto de Ruptura de SAM es igual o superior al 200%/360% cuando está en el estado de Combustión completa, tras atacar a un enemigo con Ruptura de Debilidad, la Reducción de Firmeza de este ataque se convertirá 1 vez en un 35%/50% de Daño de Ultrarruptura.
+      atkToBeConversion:
+        text: Mejora de ATQ a EdR
+        content: Si el ATQ de SAM es superior a 1800, por cada 10 pts. de ATQ que superen este valor, el efecto de Ruptura de SAM aumenta en un 0.8%.
+      talentDmgReductionBuff:
+        text: Mejora de PVE máx.
+        content: >-
+          Cuantos menos PV tenga, menos daño recibe. Cuando tenga un 20% o menos de PV, alcanza el máximo efecto de reducción de daño, hasta una reducción máxima del {{talentDmgReductionBuff}}%. Mientras esté en el estado de Combustión completa, el efecto de reducción de daño se mantiene al máximo y su RES a efecto aumenta en un {{talentResBuff}}%.
       e1DefShred:
         text: E1 PEN DEF
+        content: La habilidad básica potenciada ignora un 15% de la DEF de los objetivos y no consume pts. de habilidad básica.
+      e4ResBuff:
+        text: E4 Mejora de RES
+        content: En el estado de Combustión completa, la RES a efecto de SAM aumenta en un 50%.
       e6Buffs:
         text: E6 Mejoras
+        content: Cuando SAM está en el estado de Combustión completa, su PEN de la RES a Fuego aumenta en un 20%. Al usar el ATQ básico potenciado o la habilidad básica potenciada, su eficiencia de la Ruptura de Debilidad aumenta en un 50%.
+  Fugue:
+    Content:
+      torridScorch:
+        text: Estado Llama tórrida
+        content: Cuando está en el estado de Llama tórrida, el ATQ básico de Fugue se potencia.
+      foxianPrayer:
+        text: Mejora de EdR de Plegaria raposiana
+        content: >-
+          El efecto de Ruptura del aliado con Plegaria raposiana aumenta en un {{BreakBuff}}%. Además, también puede reducir la Firmeza de los enemigos que no tengan Debilidad de su mismo tipo en un 50% de la Reducción de Firmeza original. Esto no puede acumularse con otros efectos que permiten reducir la Firmeza ignorando los tipos de Debilidad.
+      defReduction:
+        text: Reducción DEF de Habilidad
+        content: >-
+          Cada vez que el aliado con Plegaria raposiana ataca, Fugue tiene una probabilidad base del 100% de reducir la DEF del enemigo atacado en un {{DefShred}}% durante 2 turnos.
+      superBreakDmg:
+        text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+        content: >-
+          Después de que los aliados ataquen a enemigos con Ruptura de Debilidad cuando Fugue está en el campo de batalla, la reducción de Firmeza de este ataque se convierte en un {{SuperBreakMultiplier}}% de Daño de Ultrarruptura.
+      e4BreakDmg:
+        text: E4 Aumento de Daño de Ruptura
+        content: El Daño de Ruptura que infligen los aliados con Plegaria raposiana aumenta en un 20%.
+      e6BreakEfficiency:
+        text: E6 Aumento de eficiencia de ruptura
+        content: >-
+          La eficiencia de la Ruptura de Debilidad de Fugue aumenta en un 50%. Cuando Fugue está en el estado de Llama tórrida, el efecto de Plegaria raposiana aplica a todos los aliados.
+    TeammateContent:
+      be220Buff:
+        text: EdR ≥ 220%
+        content: >-
+          Cuando se rompe la Debilidad de algún enemigo, el efecto de Ruptura de los demás compañeros de equipo aumenta en un 6%. Si el efecto de Ruptura de Fugue es igual o superior al 220%, el aumento del efecto de Ruptura se incrementa en un 12% adicional. Este efecto dura 2 turnos y se puede acumular hasta 2 veces.
+      weaknessBreakBeStacks:
+        text: Acumulaciones de EdR por enemigo roto
+        content: >-
+          Cuando se rompe la Debilidad de algún enemigo, el efecto de Ruptura de los demás compañeros de equipo aumenta en un 6%. Si el efecto de Ruptura de Fugue es igual o superior al 220%, el aumento del efecto de Ruptura se incrementa en un 12% adicional. Este efecto dura 2 turnos y se puede acumular hasta 2 veces.
+  FuXuan:
+    Content:
+      talentActive:
+        text: Reducción daño al equipo
+        content: Mientras Fu Xuan no haya sido derrotada, todos los aliados obtienen Escape del infortunio. En este estado, el daño que reciben todos los aliados se reduce en un {{talentDmgReductionValue}}%.
+      skillActive:
+        text: Habilidad activada
+        content: >-
+          Activa Matriz del Presagio y todos los aliados de Fu Xuan traspasan un 65% del daño que reciben (antes de que un escudo mitigue el daño) a Fu Xuan durante 3 turnos. Mientras están afectados por Matriz del Presagio, todos los aliados obtienen Conocimiento. En este estado, los PV máx. de los aliados aumentan en una cantidad equivalente al {{skillHpBuffValue}}% de los PV máx. de Fu Xuan y su Prob. CRIT aumenta en un {{skillCrBuffValue}}%.
+      e6TeamHpLostPercent:
+        text: E6 PV perdidos del equipo
+        content: Cuando se activa Matriz del Presagio, se hace un recuento de los PV perdidos por todos los aliados en esta batalla. El daño infligido por la habilidad definitiva de Fu Xuan aumenta en un 200% de este recuento de PV perdidos. El recuento de PV perdidos en esta batalla no puede superar el 120% de los PV máx. de Fu Xuan.
+    TeammateContent:
+      teammateHPValue:
+        text: PV en combate de Fu Xuan
+        content: Mientras están afectados por Matriz del Presagio, todos los aliados obtienen Conocimiento. En este estado, los PV máx. de los aliados aumentan en una cantidad equivalente al {{skillHpBuffValue}}% de los PV máx. de Fu Xuan.
   Hanya:
     Content:
       e2SkillSpdBuff:
@@ -1040,6 +1111,10 @@ Characters:
     Content:
       e2EnemyHp50DmgBoost:
         content: Cuando el objetivo tiene un porcentaje de PV igual o inferior al 50%, recibe un 15% más de daño.
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: Estado potenciado
   Lingsha:
     Content:
       e2BeBuff:
@@ -1074,6 +1149,10 @@ Characters:
     Content:
       ultDmgBuff:
         text: Mejora de daño de Definitiva
+  TrailblazerHarmony:
+    Content:
+      superBreakDmg:
+        text: Daño de Ultrarruptura (forzar rupt. de debilidad)
   Welt:
     Content:
       enemySlowed:
@@ -1084,5 +1163,7 @@ Characters:
         text: Mejora de VEL
   Yunli:
     Content:
+      e4ResBuff:
+        text: E4 Mejora de RES
       e6Buffs:
         text: E6 Mejoras

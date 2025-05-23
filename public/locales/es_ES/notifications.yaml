@@ -1,0 +1,18 @@
+GPU:
+  Message: '¡Este navegador no es compatible con WebGPU!'
+  Description:
+    l1: "Por favor usa uno de los siguientes entornos compatibles para habilitar la aceleración por GPU:"
+    l2: "Windows & Mac — Chrome, Opera, Edge"
+    l3: >-
+      Linux — <CustomLink text="A través de una flag"/>
+    l4: "Si estás en uno de los navegadores compatibles y no funciona, verifica que esté actualizado, prueba en otro navegador, o asegúrate que esté configurado para usar tu tarjeta gráfica discreta en vez de la integrada."
+GPUCrash:
+  Message: Error de WebGPU
+  Description:
+    l1: El proceso de aceleración de GPU se interrumpió - puede que los resultados sean inválidos. Por favor intenta de nuevo o reporta el error en el servidor de Discord.
+    l2: Para resolución de problemas, revisa la <CustomLink text="página de documentación."/>
+Changelog:
+  View: Ver historial de cambios
+  Dismiss: Cerrar
+  Message: '¡Nuevas actualizaciones!'
+  Description: Revisa el historial de cambios para ver las últimas actualizaciones del optimizador.

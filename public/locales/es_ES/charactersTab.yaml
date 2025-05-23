@@ -45,9 +45,14 @@ CharacterPreview:
     Title: "Alg. de puntuación:"
     Labels:
       CombatScore: Puntaje de combate
+      NoneScore: Ninguno
+  DetailsSlider:
+    Labels:
+      CombatStats: Atributos de combate
   DMGUpgrades: Mejoras de daño
   BuildAnalysis:
     Rotation:
+      DOTS: "DOTS:"
       BREAKS: "RUPTURAS:"
     CombatResults:
       Primary: "Habilidad principal:"

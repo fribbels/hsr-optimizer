@@ -2,19 +2,49 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
-import { DEFAULT_BASIC, DEFAULT_BREAK, DEFAULT_DOT, DEFAULT_FUA, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_SKILL, DEFAULT_ULT, END_BASIC, END_BREAK, END_DOT, END_FUA, END_SKILL, END_ULT, NULL_TURN_ABILITY_NAME, START_BASIC, START_SKILL, START_ULT, WHOLE_BASIC, WHOLE_SKILL } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  DEFAULT_BASIC,
+  DEFAULT_BREAK,
+  DEFAULT_DOT,
+  DEFAULT_FUA,
+  DEFAULT_MEMO_SKILL,
+  DEFAULT_MEMO_TALENT,
+  DEFAULT_SKILL,
+  DEFAULT_ULT,
+  END_BASIC,
+  END_BREAK,
+  END_DOT,
+  END_FUA,
+  END_SKILL,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_BASIC,
+  START_SKILL,
+  START_ULT,
+  WHOLE_BASIC,
+  WHOLE_SKILL
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  A_GROUNDED_ASCENT,
+  CIPHER,
+  DANCE_DANCE_DANCE,
+  EARTHLY_ESCAPADE,
+  FLOWING_NIGHTGLOW,
+  HUOHUO,
+  LIES_AFLUTTER_IN_THE_WIND,
+  LUOCHA,
+  MULTIPLICATION,
+  NIGHT_OF_FRIGHT,
+  ROBIN,
+  SPARKLE,
+  SUNDAY,
+  TINGYUN
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata } from 'types/metadata'
 
-const NULL = null as unknown as string
-const BASIC = 'BASIC'
-const SKILL = 'SKILL'
-const ULT = 'ULT'
-const FUA = 'FUA'
-const MEMO_SKILL = 'MEMO_SKILL'
-const MEMO_TALENT = 'MEMO_TALENT'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -761,6 +791,72 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.SPD_P]: 0.105 },
       5: { [Constants.Stats.SPD_P]: 0.12 },
     },
+    21053: {},
+    21054: {
+      1: { [Constants.Stats.HP_P]: 0.16 },
+      2: { [Constants.Stats.HP_P]: 0.20 },
+      3: { [Constants.Stats.HP_P]: 0.24 },
+      4: { [Constants.Stats.HP_P]: 0.28 },
+      5: { [Constants.Stats.HP_P]: 0.32 },
+    },
+    21055: {
+      1: {[Constants.Stats.OHB]: 0.12},
+      2: {[Constants.Stats.OHB]: 0.15},
+      3: {[Constants.Stats.OHB]: 0.18},
+      4: {[Constants.Stats.OHB]: 0.21},
+      5: {[Constants.Stats.OHB]: 0.24},
+    },
+    21056: {},
+    21057: {
+      1: { [Constants.Stats.CD]: 0.24 },
+      2: { [Constants.Stats.CD]: 0.28 },
+      3: { [Constants.Stats.CD]: 0.32 },
+      4: { [Constants.Stats.CD]: 0.36 },
+      5: { [Constants.Stats.CD]: 0.40 },
+    },
+    21058: {
+      1: { [Constants.Stats.CR]: 0.12 },
+      2: { [Constants.Stats.CR]: 0.14 },
+      3: { [Constants.Stats.CR]: 0.16 },
+      4: { [Constants.Stats.CR]: 0.18 },
+      5: { [Constants.Stats.CR]: 0.20 },
+    },
+    21060: {
+      1: { [Constants.Stats.CR]: 0.12 },
+      2: { [Constants.Stats.CR]: 0.14 },
+      3: { [Constants.Stats.CR]: 0.16 },
+      4: { [Constants.Stats.CR]: 0.18 },
+      5: { [Constants.Stats.CR]: 0.20 },
+    },
+    21061: {},
+    21062: {
+      1: { [Constants.Stats.CD]: 0.24 },
+      2: { [Constants.Stats.CD]: 0.28 },
+      3: { [Constants.Stats.CD]: 0.32 },
+      4: { [Constants.Stats.CD]: 0.36 },
+      5: { [Constants.Stats.CD]: 0.40 },
+    },
+    23044: {
+      1: { [Constants.Stats.SPD]: 12 },
+      2: { [Constants.Stats.SPD]: 14 },
+      3: { [Constants.Stats.SPD]: 16 },
+      4: { [Constants.Stats.SPD]: 18 },
+      5: { [Constants.Stats.SPD]: 20 },
+    },
+    23045: {
+      1: { [Constants.Stats.CD]: 0.36 },
+      2: { [Constants.Stats.CD]: 0.45 },
+      3: { [Constants.Stats.CD]: 0.54 },
+      4: { [Constants.Stats.CD]: 0.63 },
+      5: { [Constants.Stats.CD]: 0.72 },
+    },
+    23046: {
+      1: { [Constants.Stats.CR]: 0.16 },
+      2: { [Constants.Stats.CR]: 0.20 },
+      3: { [Constants.Stats.CR]: 0.24 },
+      4: { [Constants.Stats.CR]: 0.28 },
+      5: { [Constants.Stats.CR]: 0.32 },
+    },
   }
 }
 
@@ -882,8 +978,6 @@ function getLightConeOverrideCenter(): Record<string, number> {
     24003: 250,
     24004: 270,
 
-    // TODO
-
     23037: 150,
     23036: 180,
     21052: 200,
@@ -897,6 +991,8 @@ function getLightConeOverrideCenter(): Record<string, number> {
     24005: 300,
 
     23043: 370,
+
+    // TODO
   }
 }
 
@@ -1280,6 +1376,21 @@ function getOverrideImageCenter(): Record<string, {
       x: 1215,
       y: 1025,
       z: 1.05,
+    },
+    1408: { // Phainon
+      x: 935,
+      y: 975,
+      z: 1.05,
+    },
+    1014: { // Saber
+      x: 900,
+      y: 950,
+      z: 1.05,
+    },
+    1015: { // Archer
+      x: 1100,
+      y: 1050,
+      z: 1,
     },
   }
 }
@@ -7097,6 +7208,682 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: '1304', // Aventurine
             lightCone: '23023', // Unjust destiny
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1408: { // Phainon
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK_P,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Physical_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          DEFAULT_SKILL,
+          DEFAULT_BASIC,
+          DEFAULT_SKILL,
+          DEFAULT_BASIC,
+          DEFAULT_SKILL,
+          DEFAULT_BASIC,
+          DEFAULT_SKILL,
+          END_ULT,
+        ],
+        comboDot: 0,
+        relicSets: [
+          [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1014: { // Saber
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK_P,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Wind_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_BASIC,
+          WHOLE_SKILL,
+          WHOLE_SKILL,
+
+        ],
+        comboDot: 0,
+        relicSets: [
+          [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: TINGYUN,
+            lightCone: DANCE_DANCE_DANCE,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1015: { // Archer
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 0,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK_P,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Quantum_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+          Stats.ERR,
+        ],
+      },
+      presets: [
+        PresetEffects.fnPioneerSet(4),
+      ],
+      sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_SKILL,
+          DEFAULT_SKILL,
+          END_SKILL,
+          START_ULT,
+          DEFAULT_FUA,
+          DEFAULT_SKILL,
+          DEFAULT_SKILL,
+          END_SKILL,
+          DEFAULT_FUA,
+        ],
+        comboDot: 0,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: SPARKLE,
+            lightCone: EARTHLY_ESCAPADE,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: CIPHER,
+            lightCone: LIES_AFLUTTER_IN_THE_WIND,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: LUOCHA,
+            lightCone: MULTIPLICATION,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    '1005b1': { // Kafka
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0.5,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.ATK_P,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.ATK_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Lightning_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [
+        PresetEffects.PRISONER_SET,
+        PresetEffects.fnAshblazingSet(6),
+        PresetEffects.VALOROUS_SET,
+      ],
+      sortOption: SortOption.DOT,
+      hiddenColumns: [],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.ATK_P,
+            Stats.EHR,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Lightning_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.EHR,
+          Stats.CR,
+          Stats.CD,
+        ],
+        breakpoints: {
+          [Stats.EHR]: 0.67,
+        },
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          DEFAULT_DOT,
+          DEFAULT_SKILL,
+          END_DOT,
+          DEFAULT_FUA,
+          START_SKILL,
+          END_DOT,
+          DEFAULT_FUA,
+          START_SKILL,
+          END_DOT,
+          DEFAULT_FUA,
+        ],
+        comboDot: 16,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.FirmamentFrontlineGlamoth,
+        ],
+        teammates: [
+          {
+            characterId: '1307', // Swan
+            lightCone: '23022', // Reforged
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    '1006b1': { // Silver Wolf
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0.25,
+        [Stats.DEF_P]: 0.25,
+        [Stats.HP]: 0.25,
+        [Stats.HP_P]: 0.25,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 1,
+        [Stats.RES]: 0.25,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+          Stats.CR,
+          Stats.EHR,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Quantum_DMG,
+          Stats.ATK_P,
+          Stats.HP_P,
+          Stats.DEF_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+          Stats.ATK_P,
+          Stats.BE,
+        ],
+      },
+      presets: [
+        PresetEffects.fnPioneerSet(4),
+      ],
+      sortOption: SortOption.ULT,
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
+    },
+    '1205b1': { // Blade
+      stats: {
+        [Stats.ATK]: 0.25,
+        [Stats.ATK_P]: 0.25,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+          Stats.CR,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.HP_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Wind_DMG,
+          Stats.HP_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      presets: [
+        PresetEffects.VALOROUS_SET,
+        PresetEffects.fnSacerdosSet(1),
+      ],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.SKILL, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+          Stats.ATK_P,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_SKILL,
+          DEFAULT_ULT,
+          END_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+          WHOLE_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+        ],
+        comboDot: 0,
+        relicSets: [
+          [Sets.LongevousDisciple, Sets.LongevousDisciple],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
+          Sets.RutilantArena,
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1403', // Tribbie
+            lightCone: '23038', // Flower
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1407', // Castorice
+            lightCone: '23040', // Farewells
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1409', // Hyacine
+            lightCone: '23042', // Rainbows
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    '1212b1': { // Jingliu
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.HP_P,
+        ],
+        [Parts.Feet]: [
+          Stats.HP_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.HP_P,
+          Stats.Ice_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+          Stats.ERR,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.SKILL,
+      hiddenColumns: [SortOption.FUA, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+        ],
+        errRopeEidolon: 0,
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          DEFAULT_ULT,
+          WHOLE_SKILL,
+          WHOLE_SKILL,
+          WHOLE_SKILL,
+          START_SKILL,
+          END_ULT,
+          WHOLE_SKILL,
+        ],
+        comboDot: 0,
+        relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: '1101', // Bronya
+            lightCone: '23003', // But the battle
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1303', // Ruan Mei
+            lightCone: '23019', // Past self
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

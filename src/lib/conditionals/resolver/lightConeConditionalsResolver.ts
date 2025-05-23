@@ -109,7 +109,8 @@ import MemorysCurtainNeverFalls from 'lib/conditionals/lightcone/5star/MemorysCu
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright'
 import NightOnTheMilkyWay from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay'
-import NinjutsuInscriptionDazzlingEvilbreaker from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
+import NinjutsuInscriptionDazzlingEvilbreaker
+  from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
 import OnTheFallOfAnAeon from 'lib/conditionals/lightcone/5star/OnTheFallOfAnAeon'
 import PastSelfInTheMirror from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import PatienceIsAllYouNeed from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
@@ -131,6 +132,18 @@ import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPricel
 import { ElementName, PathName } from 'lib/constants/constants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import TheHellWhereIdealsBurn from "lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn";
+import AThanklessCoronation from "lib/conditionals/lightcone/5star/AThanklessCoronation";
+import ThusBurnsTheDawn from "lib/conditionals/lightcone/5star/ThusBurnsTheDawn";
+import JourneyForeverPeaceful from "lib/conditionals/lightcone/4star/JourneyForeverPeaceful";
+import TheStorysNextPage from "lib/conditionals/lightcone/4star/TheStorysNextPage";
+import UntoTomorrowsMorrow from "lib/conditionals/lightcone/4star/UntoTomorrowsMorrow";
+import PursuitOfTheWind from "lib/conditionals/lightcone/4star/PursuitOfTheWind";
+import TheFlowerRemembers from "lib/conditionals/lightcone/4star/TheFlowerRemembers";
+import ATrailOfBygoneBlood from "lib/conditionals/lightcone/4star/ATrailOfBygoneBlood";
+import ADreamScentedInWheat from "lib/conditionals/lightcone/4star/ADreamScentedInWheat";
+import HolidayThermaeEscapade from "lib/conditionals/lightcone/4star/HolidayThermaeEscapade";
+import SeeYouAtTheEnd from "lib/conditionals/lightcone/4star/SeeYouAtTheEnd";
 
 export type WearerMetadata = { element: ElementName }
 
@@ -190,6 +203,20 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23042: MayRainbowsRemainInTheSky,
 
   24005: MemorysCurtainNeverFalls,
+
+  23044: ThusBurnsTheDawn,
+  23045: AThanklessCoronation,
+  23046: TheHellWhereIdealsBurn,
+
+  21053: JourneyForeverPeaceful,
+  21054: TheStorysNextPage,
+  21055: UntoTomorrowsMorrow,
+  21056: PursuitOfTheWind,
+  21057: TheFlowerRemembers,
+  21058: ATrailOfBygoneBlood,
+  21060: ADreamScentedInWheat,
+  21061: HolidayThermaeEscapade,
+  21062: SeeYouAtTheEnd,
 }
 
 const fourStar: Record<string, LightConeConditionalFunction> = {

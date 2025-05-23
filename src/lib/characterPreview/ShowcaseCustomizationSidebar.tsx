@@ -665,7 +665,7 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1409: ['#a8ffde'], // hyacine
 
     1408: ['#97c2fa'], // phainon
-    1014: ['#798fdc'], // saber
+    1014: ['#3e65f2'], // saber
     1015: ['#ff999a'], // archer
   }
 

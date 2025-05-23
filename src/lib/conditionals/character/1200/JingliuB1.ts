@@ -3,14 +3,15 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
+import i18next from "i18next"
+import { CURRENT_DATA_VERSION } from "lib/constants/constants"
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
+  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
@@ -24,52 +25,67 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1212')
+  } = Source.character('1212b1')
 
   const talentCrBuff = talent(e, 0.50, 0.52)
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 2.00, 2.20)
-  const skillEnhancedScaling = skill(e, 2.50, 2.75)
-  const ultScaling = ult(e, 3.00, 3.24)
 
-  const talentHpDrainAtkBuffMax = talent(e, 1.80, 1.98) + ((e >= 4) ? 0.30 : 0)
+  const basicScaling = basic(e, 0.50, 0.55)
+  const skillScaling = skill(e, 1.50, 1.65)
+  const ultScaling = ult(e, 1.80, 1.98)
+
+  const talentCdScaling = talent(e, 0.44, 0.484)
 
   const defaults = {
     talentEnhancedState: true,
-    talentHpDrainAtkBuff: talentHpDrainAtkBuffMax,
-    e1CdBuff: true,
+    moonlightStacks: 5,
+    e1Buffs: true,
     e2SkillDmgBuff: true,
+    e4MoonlightCdBuff: true,
+    e6ResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
     talentEnhancedState: {
       id: 'talentEnhancedState',
       formItem: 'switch',
-      text: t('Content.talentEnhancedState.text'),
-      content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
+      text: 'Enhanced state',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    talentHpDrainAtkBuff: {
-      id: 'talentHpDrainAtkBuff',
+    moonlightStacks: {
+      id: 'moonlightStacks',
       formItem: 'slider',
-      text: t('Content.talentHpDrainAtkBuff.text'),
-      content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
+      text: 'Moonlight stacks',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: talentHpDrainAtkBuffMax,
-      percent: true,
+      max: 5,
     },
-    e1CdBuff: {
-      id: 'e1CdBuff',
+    e1Buffs: {
+      id: 'e1Buffs',
       formItem: 'switch',
-      text: t('Content.e1CdBuff.text'),
-      content: t('Content.e1CdBuff.content'),
+      text: 'E1 buffs',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
     e2SkillDmgBuff: {
       id: 'e2SkillDmgBuff',
       formItem: 'switch',
-      text: t('Content.e2SkillDmgBuff.text'),
-      content: t('Content.e2SkillDmgBuff.content'),
+      text: 'E2 Skill buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
+    },
+    e4MoonlightCdBuff: {
+      id: 'e4MoonlightCdBuff',
+      formItem: 'switch',
+      text: 'E4 Moonlight CD',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 4,
+    },
+    e6ResPen: {
+      id: 'e6ResPen',
+      formItem: 'switch',
+      text: 'E6 RES PEN',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 6,
     },
   }
 
@@ -82,7 +98,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Skills
       x.CR.buff((r.talentEnhancedState) ? talentCrBuff : 0, SOURCE_TALENT)
-      x.ATK_P.buff((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0, SOURCE_TALENT)
+      x.CD.buff(r.moonlightStacks * talentCdScaling, SOURCE_TALENT)
+      x.CD.buff((e >= 4 && r.e4MoonlightCdBuff) ? r.moonlightStacks * 0.20 : 0, SOURCE_E4)
 
       // Traces
       x.RES.buff((r.talentEnhancedState) ? 0.35 : 0, SOURCE_TRACE)
@@ -90,17 +107,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       r.talentEnhancedState && buffAbilityDmg(x, ULT_DMG_TYPE, 0.20, SOURCE_TRACE)
 
       // Eidolons
-      x.CD.buff((e >= 1 && r.e1CdBuff) ? 0.24 : 0, SOURCE_E1)
-      x.CD.buff((e >= 6 && r.talentEnhancedState) ? 0.50 : 0, SOURCE_E6)
+      x.CD.buff((e >= 1 && r.e1Buffs) ? 0.36 : 0, SOURCE_E1)
+      x.ICE_RES_PEN.buff((e >= 6 && r.e6ResPen) ? 0.20 : 0, SOURCE_E6)
 
       // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.SKILL_HP_SCALING.buff(skillScaling, SOURCE_SKILL)
+      x.SKILL_HP_SCALING.buff((e >= 1 && r.talentEnhancedState && context.enemyCount == 1) ? 0.80 : 0, SOURCE_SKILL)
 
-      x.SKILL_ATK_SCALING.buff((r.talentEnhancedState) ? skillEnhancedScaling : skillScaling, SOURCE_SKILL)
-      x.SKILL_ATK_SCALING.buff((e >= 1 && r.talentEnhancedState && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0, SOURCE_SKILL)
-
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff((e >= 1 && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0, SOURCE_ULT)
+      x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_HP_SCALING.buff((e >= 1 && context.enemyCount == 1) ? 0.80 : 0, SOURCE_ULT)
 
       // BOOST
       buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, SOURCE_E2)
@@ -111,7 +127,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
+    finalizeCalculations: (x: ComputedStatsArray) => { },
     gpuFinalizeCalculations: () => '',
   }
 }

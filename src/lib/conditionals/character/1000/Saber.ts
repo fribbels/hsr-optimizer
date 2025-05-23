@@ -35,7 +35,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
   const defaults = {
     enhancedBasic: true,
     enhancedSkill: true,
-    coreResonanceStacks: 7,
+    coreResonanceStacks: 12,
     talentDmgBuff: true,
     crBuff: true,
     cdBuff: true,
@@ -70,10 +70,10 @@ export default (e: Eidolon): CharacterConditionalsController => {
     coreResonanceStacks: {
       id: 'coreResonanceStacks',
       formItem: 'slider',
-      text: 'Bruise stacks',
+      text: 'Core Resonance stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 7,
+      max: 45,
     },
     crBuff: {
       id: 'crBuff',

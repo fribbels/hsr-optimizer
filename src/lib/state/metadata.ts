@@ -7339,10 +7339,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
-          START_BASIC,
-          END_ULT,
+          START_ULT,
+          END_BASIC,
           WHOLE_SKILL,
           WHOLE_SKILL,
+
         ],
         comboDot: 0,
         relicSets: [

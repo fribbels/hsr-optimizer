@@ -1,7 +1,7 @@
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CASTORICE, HOOK, PHAINON, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
+import { CASTORICE, HOOK, PHAINON, SABER, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
@@ -113,7 +113,6 @@ export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
   }
 }
 
-
 export class PhainonPreprocessor extends AbilityPreprocessorBase {
   id = PHAINON
   defaultState = { transformedState: false }
@@ -136,6 +135,32 @@ export class PhainonPreprocessor extends AbilityPreprocessorBase {
       }
     } else {
       setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, this.state.transformedState)
+    }
+  }
+}
+
+export class SaberPreprocessor extends AbilityPreprocessorBase {
+  id = SABER
+  defaultState = { enhancedSkill: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind } = turnAbility
+
+    if (kind == AbilityKind.SKILL) {
+      if (this.state.enhancedSkill == false) {
+        setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, false)
+        this.state.enhancedSkill = true
+      } else {
+        setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, true)
+        this.state.enhancedSkill = false
+      }
+    } else {
+      setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, this.state.enhancedSkill)
     }
   }
 }

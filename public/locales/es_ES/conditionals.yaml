@@ -1000,10 +1000,26 @@ Characters:
           Al usar su habilidad básica, el Dr. Ratio tiene una probabilidad fija del 40% de lanzar un ataque adicional contra el objetivo e infligir un Daño Imaginario equivalente al {{FuaScaling}}% de su ATQ. Por cada estado negativo que tenga el objetivo, la probabilidad fija de lanzar el ataque adicional aumenta en un 20%. Si el objetivo es derrotado antes de que se lance el ataque adicional, el ataque adicional se dirige contra otro enemigo al azar.::BR::Al infligir daño, si el objetivo tiene 3 o más estados negativos, el Dr. Ratio le inflige un 10% más de daño por cada estado negativo, hasta un aumento máximo del 50%.::BR::E2: Cuando el ataque adicional de su talento golpea a un enemigo, el Dr. Ratio inflige un 20% de su ATQ como Daño Imaginario adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 4 veces cada vez que use su ataque adicional.
   Feixiao:
     Content:
+      weaknessBrokenUlt:
+        text: Definitiva debilidad rota (forzar rupt. de debilidad)
+        content: Sobreescribe la debilidad a la ruptura para que cuente como activada.
+      talentDmgBuff:
+        text: Mejora daño de Talento
+        content: >-
+          Después de que un compañero de equipo de Feixiao lance un ataque contra el enemigo, Feixiao lanza inmediatamente contra el objetivo principal un ataque adicional que inflige un {{FuaMultiplier}}% del ATQ de Feixiao como Daño de Viento. Si no hay un objetivo principal que pueda ser atacado, ataca a un enemigo al azar. Este efecto solo puede activarse 1 vez en cada turno y el contador se reinicia al comienzo del turno de Feixiao. Al lanzar este ataque, el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos.
       skillAtkBuff:
         text: Mejora de ATQ de Habilidad
+        content: Al lanzar la habilidad básica, su ATQ aumenta en un 48% durante 3 turnos.
+      e1OriginalDmgBoost:
+        text: E1 Aumento de daño original
+        content: Tras lanzar Danza de cortes relámpago o Aluvión de hachazos hendedores, el daño de habilidad definitiva que inflige Feixiao aumenta adicionalmente en un 10% del daño original. Puede acumularse hasta 5 veces y dura hasta que termina la acción de la habilidad definitiva.
+      e4Buffs:
+        text: E4 Mejoras
+        content: La Reducción de Firmeza del ataque adicional del talento aumenta en un 100% y, al ser lanzado, su VEL aumenta en un 8% durante 2 turnos.
       e6Buffs:
         text: E6 Mejoras
+        content: >-
+          La PEN de la RES a todos los tipos del daño de habilidad definitiva que inflige Feixiao aumenta en un 20%. A su vez, el daño de ataque adicional del talento se considera como daño de habilidad definitiva, y su multiplicador de daño aumenta en un 140%.
   Firefly:
     Content:
       e1DefShred:

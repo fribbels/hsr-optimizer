@@ -110,6 +110,21 @@ function getChangelogContent() {
     },
     {
       title: '',
+      date: '2025-05-23',
+      content: [
+        `Updated content to v3.4v1`,
+        `Added Phainon showcase`,
+        `phainon.webp`,
+        `Added Saber showcase`,
+        `saber.webp`,
+        `Added Archer showcase`,
+        `archer.webp`,
+        `Added Kafka / Silver Wolf / Blade / Jingliu buffed showcases`,
+        `buffs.webp`,
+      ],
+    },
+    {
+      title: '',
       date: '2025-05-12',
       content: [
         `Updated content to v3.3v6`,

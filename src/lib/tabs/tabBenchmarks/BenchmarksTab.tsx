@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio, Select } from 'antd'
+import { Alert, Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
@@ -94,7 +94,7 @@ export default function BenchmarksTab(): ReactElement {
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Card style={{ width: 900, marginBottom: 30 }}>
+      <Card style={{ width: 900, marginBottom: 8 }}>
         <AntDForm
           form={benchmarkForm}
           initialValues={initialForm}
@@ -103,6 +103,13 @@ export default function BenchmarksTab(): ReactElement {
           <BenchmarkInputs/>
         </AntDForm>
       </Card>
+
+      <Alert
+        message={<>Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / eidolons!</>}
+        type='info'
+        showIcon
+        style={{ marginBottom: 8, width: '100%' }}
+      />
 
       <BenchmarkResults/>
 

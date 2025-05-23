@@ -146,7 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: t('e4CdBuff.text'),
       content: t('e4CdBuff.content'),
-      disabled: e < 6,
+      disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
@@ -256,7 +256,7 @@ if (
   ${wgslTrue(r.spd200HpBuff)}
 ) {
   (*p_state).HyacineSpdActivation = 1.0;
-  (*p_x).HP += 0.20 * (*p_x).BASE_HP;
+  (*p_x).HP += 0.20 * baseHP;
   (*p_m).HP += 0.20 * (*p_m).BASE_HP;
 }
     `)
@@ -309,23 +309,23 @@ if (${wgslFalse(r.spd200HpBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).${this.id};
-let convertibleValue: f32 = min(400, x.SPD - x.UNCONVERTIBLE_SPD_BUFF);
+let convertibleValue: f32 = min(400, floor(x.SPD - x.UNCONVERTIBLE_SPD_BUFF));
 
-if (!(${true}) || convertibleValue <= 0) {
+if (convertibleValue <= 0) {
   return;
 }
 
 let buffFull = max(0, 0.01 * (convertibleValue - 200));
 let buffDelta = buffFull - stateValue;
 
-(*p_state).${this.id} += buffDelta;
+(*p_state).${this.id} = buffFull;
 
 (*p_x).UNCONVERTIBLE_OHB_BUFF += buffDelta;
 (*p_x).OHB += buffDelta;
 
 if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
-  (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta;
-  (*p_x).CD += buffDelta;
+  (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
+  (*p_x).CD += buffDelta * 2;
 }
     `)
         },

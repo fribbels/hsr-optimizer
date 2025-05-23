@@ -100,7 +100,7 @@ export function BenchmarkResults() {
   const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{width: '100%'}}>
       <PercentageTabs dataSource100={rows100} dataSource200={rows200}/>
     </Flex>
   )

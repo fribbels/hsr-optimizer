@@ -4,6 +4,7 @@ import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditional
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { PHAINON } from "lib/simulations/tests/testMetadataConstants"
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
@@ -23,9 +24,10 @@ export default (e: Eidolon): CharacterConditionalsController => {
     SOURCE_TRACE,
     SOURCE_ULT,
     SOURCE_E1,
+    SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1408')
+  } = Source.character(PHAINON)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 3.00, 3.30)
@@ -151,7 +153,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
         x.ATK_P.buff(talentAtkBuffScaling, SOURCE_TALENT)
         x.HP_P.buff(talentHpBuffScaling, SOURCE_TALENT)
 
-        x.FINAL_DMG_BOOST.buff(e >= 2 && r.e2FinalDmg ? 0.20 : 0, SOURCE_E4)
+        x.FINAL_DMG_BOOST.buff(e >= 2 && r.e2FinalDmg ? 0.20 : 0, SOURCE_E2)
 
         x.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_BASIC)
 
@@ -190,7 +192,6 @@ export default (e: Eidolon): CharacterConditionalsController => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-    },
+    gpuFinalizeCalculations: () => '',
   }
 }

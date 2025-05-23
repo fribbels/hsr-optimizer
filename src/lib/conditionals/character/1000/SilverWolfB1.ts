@@ -1,6 +1,10 @@
+import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
+import { CURRENT_DATA_VERSION, ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -27,20 +31,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E6,
   } = Source.character('1006')
 
-  const skillResShredValue = skill(e, 0.10, 0.105)
-  const talentDefShredDebuffValue = talent(e, 0.08, 0.088)
-  const ultDefShredValue = ult(e, 0.45, 0.468)
-
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.96, 2.156)
   const ultScaling = ult(e, 3.80, 4.104)
 
+  const skillResShredValue = skill(e, 0.13, 0.135)
+  const talentDefShredDebuffValue = talent(e, 0.12, 0.132)
+  const ultDefShredValue = ult(e, 0.45, 0.468)
+
   const defaults = {
+    ehrToAtkConversion: true,
     skillWeaknessResShredDebuff: false,
     skillResShredDebuff: true,
     talentDefShredDebuff: true,
     ultDefShredDebuff: true,
     targetDebuffs: 5,
+    e2Vulnerability: true,
   }
 
   const teammateDefaults = {
@@ -49,9 +55,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     talentDefShredDebuff: true,
     ultDefShredDebuff: true,
     targetDebuffs: 5,
+    e2Vulnerability: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
+    ehrToAtkConversion: {
+      id: 'ehrToAtkConversion',
+      formItem: 'switch',
+      text: 'EHR to ATK conversion',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
     skillResShredDebuff: {
       id: 'skillResShredDebuff',
       formItem: 'switch',
@@ -84,6 +97,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: 5,
     },
+    e2Vulnerability: {
+      id: 'e2Vulnerability',
+      formItem: 'switch',
+      text: 'E2 Vulnerability',
+      content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
+      disabled: e < 2
+    },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
@@ -92,6 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     talentDefShredDebuff: content.talentDefShredDebuff,
     ultDefShredDebuff: content.ultDefShredDebuff,
     targetDebuffs: content.targetDebuffs,
+    e2Vulnerability: content.e2Vulnerability,
   }
 
   return {
@@ -125,9 +146,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.RES_PEN.buffTeam((m.skillWeaknessResShredDebuff) ? 0.20 : 0, SOURCE_SKILL)
       x.RES_PEN.buffTeam((m.skillResShredDebuff) ? skillResShredValue : 0, SOURCE_SKILL)
-      x.RES_PEN.buffTeam((m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0, SOURCE_TRACE)
+
       x.DEF_PEN.buffTeam((m.ultDefShredDebuff) ? ultDefShredValue : 0, SOURCE_ULT)
       x.DEF_PEN.buffTeam((m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, SOURCE_TALENT)
+
+      x.VULNERABILITY.buffTeam((e >= 2 && m.e2Vulnerability) ? 0.20 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAdditionalDmgAtkFinalizer(x)
@@ -135,5 +158,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     gpuFinalizeCalculations: () => {
       return `x.ULT_ADDITIONAL_DMG += x.ULT_ADDITIONAL_DMG_SCALING * x.ATK;`
     },
+    dynamicConditionals: [
+      {
+        id: 'SilverWolfConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.EHR],
+        chainsTo: [Stats.ATK],
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.ehrToAtkConversion
+        },
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(Stats.EHR, Stats.ATK, this, x, action, context, SOURCE_TRACE,
+            (convertibleValue) => Math.min(0.50, 0.10 * Math.floor(convertibleValue / 0.10)) * context.baseATK,
+          )
+        },
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return gpuDynamicStatConversion(Stats.EHR, Stats.ATK, this, action, context,
+            `min(0.50, 0.10 * floor(convertibleValue / 0.10)) * baseATK`,
+            `${wgslTrue(r.ehrToAtkConversion)}`,
+          )
+        },
+      }
+    ],
   }
 }

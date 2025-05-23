@@ -32,7 +32,7 @@ import {
   EARTHLY_ESCAPADE,
   FLOWING_NIGHTGLOW,
   HUOHUO,
-  LIES_AFLUTTER_IN_THE_WIND,
+  LIES_DANCE_ON_THE_BREEZE,
   LUOCHA,
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
@@ -58,6 +58,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
 ]
 
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
+  [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
   [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
   [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
@@ -800,11 +801,11 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       5: { [Constants.Stats.HP_P]: 0.32 },
     },
     21055: {
-      1: {[Constants.Stats.OHB]: 0.12},
-      2: {[Constants.Stats.OHB]: 0.15},
-      3: {[Constants.Stats.OHB]: 0.18},
-      4: {[Constants.Stats.OHB]: 0.21},
-      5: {[Constants.Stats.OHB]: 0.24},
+      1: { [Constants.Stats.OHB]: 0.12 },
+      2: { [Constants.Stats.OHB]: 0.15 },
+      3: { [Constants.Stats.OHB]: 0.18 },
+      4: { [Constants.Stats.OHB]: 0.21 },
+      5: { [Constants.Stats.OHB]: 0.24 },
     },
     21056: {},
     21057: {
@@ -993,6 +994,19 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23043: 370,
 
     // TODO
+    23044: 210,
+    23045: 180,
+    23046: 200,
+
+    21053: 220,
+    21054: 170,
+    21055: 230,
+    21056: 220,
+    21057: 330,
+    21058: 170,
+    21060: 200,
+    21061: 180,
+    21062: 165,
   }
 }
 
@@ -1027,7 +1041,17 @@ function getOverrideImageCenter(): Record<string, {
       y: 950,
       z: 1.1,
     },
+    '1005b1': { // KafkaB1
+      x: 1000,
+      y: 950,
+      z: 1.1,
+    },
     1006: { // Silver Wolf
+      x: 1050,
+      y: 950,
+      z: 1,
+    },
+    '1006b1': { // Silver WolfB1
       x: 1050,
       y: 950,
       z: 1,
@@ -1132,6 +1156,11 @@ function getOverrideImageCenter(): Record<string, {
       y: 800,
       z: 1,
     },
+    '1205b1': { // BladeB1
+      x: 990,
+      y: 800,
+      z: 1,
+    },
     1206: { // Sushang
       x: 1075,
       y: 1015,
@@ -1163,6 +1192,11 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.05,
     },
     1212: { // Jingliu
+      x: 1024,
+      y: 930,
+      z: 1,
+    },
+    '1212b1': { // JingliuB1
       x: 1024,
       y: 930,
       z: 1,
@@ -7388,6 +7422,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
 
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -7485,17 +7520,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
-          START_SKILL,
+          START_ULT,
+          DEFAULT_SKILL,
           DEFAULT_SKILL,
           END_SKILL,
-          START_ULT,
           DEFAULT_FUA,
-          DEFAULT_SKILL,
+          START_SKILL,
           DEFAULT_SKILL,
           END_SKILL,
           DEFAULT_FUA,
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -7514,7 +7550,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: CIPHER,
-            lightCone: LIES_AFLUTTER_IN_THE_WIND,
+            lightCone: LIES_DANCE_ON_THE_BREEZE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7527,7 +7563,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    '1005b1': { // Kafka
+    '1005b1': { // KafkaB1
       stats: {
         [Stats.ATK]: 1,
         [Stats.ATK_P]: 1,
@@ -7538,13 +7574,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
-        [Stats.EHR]: 0.5,
+        [Stats.EHR]: 1,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
       },
       parts: {
         [Parts.Body]: [
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -7556,6 +7593,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -7591,7 +7629,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
         ],
         breakpoints: {
-          [Stats.EHR]: 0.67,
+          [Stats.EHR]: 0.75,
         },
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -7608,6 +7646,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_FUA,
         ],
         comboDot: 16,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -7679,10 +7718,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
     },
-    '1205b1': { // Blade
+    '1205b1': { // BladeB1
       stats: {
-        [Stats.ATK]: 0.25,
-        [Stats.ATK_P]: 0.25,
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 1,
@@ -7698,6 +7737,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CD,
           Stats.CR,
+          Stats.HP_P,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -7722,6 +7762,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
+            Stats.HP_P,
           ],
           [Parts.Feet]: [
             Stats.HP_P,
@@ -7740,7 +7781,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
-          Stats.ATK_P,
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -7786,7 +7826,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    '1212b1': { // Jingliu
+    '1212b1': { // JingliuB1
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
@@ -7853,9 +7893,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_ULT,
           WHOLE_SKILL,
           WHOLE_SKILL,
-          WHOLE_SKILL,
           START_SKILL,
           END_ULT,
+          WHOLE_SKILL,
           WHOLE_SKILL,
         ],
         comboDot: 0,
@@ -7865,6 +7905,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
           Sets.RutilantArena,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],

@@ -122,7 +122,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.QUANTUM_RES_PEN.buff((e >= 4 && m.e4QuantumResPen) ? 0.10 : 0, SOURCE_E4)
+      x.QUANTUM_RES_PEN.buffTeam((e >= 4 && m.e4QuantumResPen) ? 0.10 : 0, SOURCE_E4)
     },
     finalizeCalculations: () => {
     },

@@ -3236,12 +3236,12 @@ interface Resources {
         "LongName": "Welt"
       },
       "1005": {
-        "Name": "Kafka (Old)",
-        "LongName": "Kafka (Old)"
+        "Name": "(Old) Kafka",
+        "LongName": "(Old) Kafka"
       },
       "1006": {
-        "Name": "Silver Wolf (Old)",
-        "LongName": "Silver Wolf (Old)"
+        "Name": "(Old) Silver Wolf",
+        "LongName": "(Old) Silver Wolf"
       },
       "1008": {
         "Name": "Arlan",
@@ -3328,8 +3328,8 @@ interface Resources {
         "LongName": "Jing Yuan"
       },
       "1205": {
-        "Name": "Blade (Old)",
-        "LongName": "Blade (Old)"
+        "Name": "(Old) Blade",
+        "LongName": "(Old) Blade"
       },
       "1206": {
         "Name": "Sushang",
@@ -3356,8 +3356,8 @@ interface Resources {
         "LongName": "Bailu"
       },
       "1212": {
-        "Name": "Jingliu (Old)",
-        "LongName": "Jingliu (Old)"
+        "Name": "(Old) Jingliu",
+        "LongName": "(Old) Jingliu"
       },
       "1213": {
         "Name": "Imbibitor Lunae",
@@ -3531,21 +3531,21 @@ interface Resources {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
       },
-      "1212_1": {
-        "Name": "Jingliu (New)",
-        "LongName": "Jingliu (New)"
+      "1212b1": {
+        "Name": "(New) Jingliu",
+        "LongName": "(New) Jingliu"
       },
-      "1205_1": {
-        "Name": "Blade (New)",
-        "LongName": "Blade (New)"
+      "1205b1": {
+        "Name": "(New) Blade",
+        "LongName": "(New) Blade"
       },
-      "1005_1": {
-        "Name": "Kafka (New)",
-        "LongName": "Kafka (New)"
+      "1005b1": {
+        "Name": "(New) Kafka",
+        "LongName": "(New) Kafka"
       },
-      "1006_1": {
-        "Name": "Silver Wolf (New)",
-        "LongName": "Silver Wolf (New)"
+      "1006b1": {
+        "Name": "(New) Silver Wolf",
+        "LongName": "(New) Silver Wolf"
       }
     },
     "RelicSets": {

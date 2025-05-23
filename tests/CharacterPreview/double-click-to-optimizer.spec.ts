@@ -21,7 +21,7 @@ test('Double-clicking character renders Optimizer with character in focus.', asy
   await page.getByRole('menuitem', { name: 'Characters' }).click()
 
   // dbl-click on blade image
-  await page.locator('div').filter({ hasText: /^5Blade$/ }).getByRole('img').dblclick()
+  await page.locator('div').filter({ hasText: /^5\(Old\) Blade$/ }).getByRole('img').dblclick()
   await expect(page.getByRole('main')).toContainText('Blade')
   await expect(page.getByRole('main')).toContainText('Hellscape state')
   await expect(page.getByRole('main')).toContainText('HP% lost total')

@@ -233,16 +233,16 @@ Characters:
   "8008":
     Name: Стелла
     LongName: Стелла (Память)
-  "1212_1":
+  1212b1:
     Name: (New) Цзинлю
     LongName: (New) Цзинлю
-  "1205_1":
+  1205b1:
     Name: (New) Блэйд
     LongName: (New) Блэйд
-  "1005_1":
+  1005b1:
     Name: (New) Кафка
     LongName: (New) Кафка
-  "1006_1":
+  1006b1:
     Name: (New) Серебряный Волк
     LongName: (New) Серебряный Волк
 RelicSets:

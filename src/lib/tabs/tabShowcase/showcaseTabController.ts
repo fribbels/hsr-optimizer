@@ -1,7 +1,12 @@
 import i18next from 'i18next'
 import { CharacterConverter, UnconvertedCharacter } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { AGLAEA, INTO_THE_UNREACHABLE_VEIL, THE_HERTA, TIME_WOVEN_INTO_GOLD } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  AGLAEA,
+  INTO_THE_UNREACHABLE_VEIL,
+  THE_HERTA,
+  TIME_WOVEN_INTO_GOLD
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB, { AppPage, AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { APIResponse, processEnkaData, processMihomoData } from 'lib/tabs/tabShowcase/dataProcessors'
@@ -39,6 +44,10 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    {characterId: char('1408'), lightConeId: lc('23044')},
+    {characterId: char('1014'), lightConeId: lc('23045')},
+    {characterId: char('1015'), lightConeId: lc('23046')},
+
     { characterId: char('1406'), lightConeId: lc('23043') },
     { characterId: char('1409'), lightConeId: lc('23042') },
 

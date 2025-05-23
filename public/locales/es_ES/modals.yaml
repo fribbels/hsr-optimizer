@@ -6,3 +6,4 @@ ScoreFooter:
 CharacterSelect:
   SingleSelect:
     Placeholder: Personaje
+  ClearButton: Restablecer

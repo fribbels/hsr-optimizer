@@ -110,7 +110,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_ATK_SCALING.buff(r.skillEnhances * skillEnhancedExtraScaling, SOURCE_SKILL)
+      x.SKILL_DMG_BOOST.buff(r.skillEnhances * skillEnhancedExtraScaling, SOURCE_SKILL)
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
 

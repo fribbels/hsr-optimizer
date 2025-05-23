@@ -7442,8 +7442,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: TINGYUN,
             lightCone: DANCE_DANCE_DANCE,
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: HUOHUO,

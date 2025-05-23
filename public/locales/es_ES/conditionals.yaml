@@ -763,7 +763,7 @@ Characters:
   Arlan:
     Content:
       selfCurrentHpPercent:
-        text: PV% propios actuales
+        text: '%PV propios actuales'
         content: Arlan obtiene una bonificación de daño según el porcentaje de PV que haya perdido hasta el momento. Como máximo puede infligir un {{talentMissingHpDmgBoostMax}}% más de daño.
   Asta:
     Content:
@@ -839,8 +839,31 @@ Characters:
       e4EffResPen:
         text: E4 Reducción de RES a efecto
         content: En el estado de Desvelación, la RES a efecto de los objetivos enemigos se reduce en un 10%.
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: Panorama infernal
+        content: "Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%."
+      hpPercentLostTotal:
+        text: Total de %PV perdidos
+        content: El daño de Definitiva aumenta con el recuento de PV que ha perdido en esta batalla. El recuento de PV perdidos en esta batalla no puede superar el {{hpPercentLostTotalMax}}% de los PV máx. de Blade.
+      e4MaxHpIncreaseStacks:
+        text: E4 Acumulaciones de PV máx.
+        content: Los PV máx. aumentan en un 20%. Este efecto se puede acumular hasta 2 veces.
   Boothill:
     Content:
+      standoffActive:
+        text: Duelo a muerte activado
+        content: >-
+          Hace que Boothill y un enemigo entren en el estado de Duelo a muerte. El ATQ básico de Boothill se potencia y no puede usar la habilidad básica durante 2 turnos. Esta duración se reduce en 1 al comienzo del turno de Boothill. El objetivo enemigo con Duelo a muerte es afectado con Provocación. Cuando el enemigo/Boothill reciben un ataque uno del otro, el daño recibido aumenta en un {{standoffVulnerabilityBoost}}%/15%.
+      pocketTrickshotStacks:
+        text: Ventajas en el bolsillo
+        content: Cada acumulación de Ventaja en el bolsillo aumenta la Reducción de Firmeza del ATQ básico potenciado en un 50%, hasta un máximo de 3 acumulaciones.
+      beToCritBoost:
+        text: Mejora de EdR a PC / DC
+        content: Aumenta su Prob. CRIT/Daño CRIT en una cantidad equivalente al 10%/50% del efecto de Ruptura. La Prob. CRIT/Daño CRIT puede aumentar hasta un máximo del 30%/150%.
+      talentBreakDmgScaling:
+        text: Daño de rupt. de Talento (forzar rupt. de debilidad)
       e1DefShred:
         text: E1 PEN DEF
   Bronya:

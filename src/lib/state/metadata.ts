@@ -7339,7 +7339,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
-          START_SKILL,
+          START_BASIC,
           END_ULT,
           WHOLE_SKILL,
           WHOLE_SKILL,

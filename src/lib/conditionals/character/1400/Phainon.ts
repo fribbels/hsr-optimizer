@@ -189,7 +189,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buff(m.spdBuff ? 0.15 : 0, SOURCE_TALENT)
+      x.SPD_P.buffTeam(m.spdBuff ? 0.15 : 0, SOURCE_TALENT)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
